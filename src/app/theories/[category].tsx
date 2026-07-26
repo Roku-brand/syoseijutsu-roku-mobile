@@ -68,6 +68,14 @@ export default function TheoryCategoryScreen() {
         {items.map((theory, index) => (
           <View key={theory.tagId} style={styles.timelineItem}>
             <View style={styles.node} />
+            <View style={styles.sequenceRail}>
+              <AppText variant="serif" style={styles.number}>
+                {String(index + 1).padStart(3, '0')}
+              </AppText>
+              <AppText variant="label" style={styles.id}>
+                {theory.tagId}
+              </AppText>
+            </View>
             <Link
               href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
               asChild
@@ -77,15 +85,6 @@ export default function TheoryCategoryScreen() {
                 accessibilityLabel={`${theory.title}を開く`}
                 style={({ pressed }) => [styles.card, pressed && styles.pressed]}
               >
-                <View style={styles.indexColumn}>
-                  <AppText variant="serif" style={styles.number}>
-                    {String(index + 1).padStart(3, '0')}
-                  </AppText>
-                  <View style={styles.indexRule} />
-                  <AppText variant="label" style={styles.id}>
-                    {theory.tagId}
-                  </AppText>
-                </View>
                 <View style={styles.copy}>
                   <View style={styles.cardTopline}>
                     <AppText variant="serif" style={styles.cardTitle}>
@@ -119,19 +118,19 @@ const styles = StyleSheet.create({
   sectionLabel: { fontSize: 24, color: colors.gold },
   rule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.78, marginTop: 9 },
   ruleMark: { color: colors.gold, fontSize: 16, marginTop: 5 },
-  timeline: { position: 'relative', paddingLeft: 34, paddingTop: spacing.md, paddingBottom: spacing.sm },
+  timeline: { position: 'relative', paddingLeft: 62, paddingTop: spacing.md, paddingBottom: spacing.sm },
   timelineLine: {
     position: 'absolute',
     top: spacing.md,
     bottom: 24,
-    left: 10,
+    left: 16,
     width: 1.5,
     backgroundColor: colors.gold,
   },
   timelineItem: { position: 'relative', marginBottom: 14 },
   node: {
     position: 'absolute',
-    left: -34,
+    left: -54,
     top: 40,
     width: 19,
     height: 19,
@@ -141,6 +140,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.paper,
     zIndex: 1,
   },
+  sequenceRail: {
+    position: 'absolute',
+    left: -62,
+    top: 47,
+    width: 54,
+    alignItems: 'center',
+    zIndex: 1,
+  },
   card: {
     minHeight: 150,
     flexDirection: 'row',
@@ -148,15 +155,18 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     backgroundColor: colors.surface,
     borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    padding: spacing.md,
+    borderWidth: 1.5,
+    borderColor: colors.goldLight,
+    padding: spacing.lg,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 1,
   },
   pressed: { opacity: 0.66 },
-  indexColumn: { width: 72, justifyContent: 'center', alignItems: 'flex-start' },
-  number: { color: colors.gold, fontSize: 27, lineHeight: 34 },
-  indexRule: { width: 30, height: 1, backgroundColor: colors.goldLight, marginVertical: spacing.sm },
-  id: { color: colors.gold, fontSize: 10 },
+  number: { color: colors.gold, fontSize: 22, lineHeight: 28 },
+  id: { color: colors.gold, fontSize: 9, marginTop: 3 },
   copy: { flex: 1, justifyContent: 'center' },
   cardTopline: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm },
   cardTitle: { flex: 1, fontSize: 23, lineHeight: 32 },
