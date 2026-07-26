@@ -26,6 +26,10 @@ import {
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
 
+export function generateStaticParams() {
+  return Array.from(techniqueById.keys()).map((id) => ({ id }));
+}
+
 export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const card = techniqueById.get(id);
@@ -119,6 +123,13 @@ export default function CardDetailScreen() {
         </View>
       )}
 
+      {card.explanation && (
+        <>
+          <SectionHeader title="解説" />
+          <Explanation value={card.explanation} />
+        </>
+      )}
+
       <SectionHeader title="実践の視点" />
       <AppText style={styles.intro}>
         この処世術を、そのまま正解として当てはめない。まずは次の順序で、
@@ -155,7 +166,8 @@ export default function CardDetailScreen() {
                   {theory.title}
                 </AppText>
                 <AppText variant="caption" numberOfLines={2}>
-                  {theory.summary}
+                  {theory.summary ??
+                    `${theory.discipline}に属する${theory.conceptType}`}
                 </AppText>
               </View>
               <AppText style={styles.chevron}>›</AppText>
@@ -223,6 +235,41 @@ function NumberedList({ items }: { items: string[] }) {
   );
 }
 
+function Explanation({ value }: { value: string }) {
+  const paragraphs = value
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  return (
+    <View style={styles.explanation}>
+      {paragraphs.map((paragraph, paragraphIndex) => (
+        <AppText
+          key={`${paragraph.slice(0, 24)}-${paragraphIndex}`}
+          style={[
+            styles.explanationText,
+            paragraphIndex === paragraphs.length - 1 &&
+              styles.explanationConclusion,
+          ]}
+        >
+          {paragraph.split(/(\*\*.*?\*\*)/g).map((part, partIndex) =>
+            part.startsWith('**') && part.endsWith('**') ? (
+              <AppText
+                key={`${partIndex}-${part}`}
+                style={styles.explanationStrong}
+              >
+                {part.slice(2, -2)}
+              </AppText>
+            ) : (
+              part
+            ),
+          )}
+        </AppText>
+      ))}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   hero: {
     backgroundColor: colors.ink,
@@ -262,6 +309,21 @@ const styles = StyleSheet.create({
   },
   sectionLabel: { color: colors.gold, marginBottom: spacing.md },
   leadText: { fontSize: 17, lineHeight: 30 },
+  explanation: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    padding: spacing.lg,
+    gap: spacing.lg,
+  },
+  explanationText: { color: colors.inkSoft, fontSize: 16, lineHeight: 29 },
+  explanationStrong: { color: colors.ink, fontWeight: '700' },
+  explanationConclusion: {
+    color: colors.ink,
+    fontFamily: fonts.serif,
+    fontWeight: '700',
+  },
   intro: { color: colors.muted, marginBottom: spacing.lg },
   numberedList: { gap: 12 },
   numberedRow: {

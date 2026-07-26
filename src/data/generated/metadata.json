@@ -1,6 +1,10 @@
 {
-  "importedAt": "2026-07-23T13:01:54.801Z",
-  "source": "https://roku-brand.github.io/syoseizyutsu-roku/",
-  "techniqueCount": 434,
-  "theoryCount": 526
+  "importedAt": "2026-07-26T07:40:36.941Z",
+  "source": "content/*.json",
+  "techniqueDataset": "処世術禄 処世術カード初版（解説付き）",
+  "theoryDataset": "処世術禄 理論・格言ナレッジベース",
+  "techniqueCount": 135,
+  "theoryCount": 386,
+  "categoryCount": 3,
+  "subcategoryCount": 9
 }

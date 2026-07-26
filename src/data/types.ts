@@ -1,9 +1,7 @@
 export type CategoryKey =
-  | 'relationships'
+  | 'interpersonal'
   | 'work'
-  | 'mental'
-  | 'life'
-  | 'challenge';
+  | 'life';
 
 export type TechniqueSource = {
   id: string;
@@ -11,6 +9,10 @@ export type TechniqueSource = {
   theories?: string[];
   theoryTagIds?: string[];
   subtitle?: string;
+  explanation?: string;
+  tags?: string[];
+  status?: string;
+  displayOrder?: number;
 };
 
 export type TechniqueCard = TechniqueSource & {
@@ -22,13 +24,25 @@ export type TechniqueCard = TechniqueSource & {
 
 export type TheoryCard = {
   tagId: string;
+  originalNumber?: number;
   title: string;
-  summary: string;
+  summary?: string | null;
   definition?: string;
   keyPoints?: string[];
   pitfalls?: string[];
   strategies?: string[];
   applicationConditions?: string[];
+  sourceType: string;
+  discipline: string;
+  conceptType: string;
+  sourceName?: string | null;
+  sourceDetail?: string | null;
+  domains?: string[];
+  principles?: string[];
+  relatedIds?: string[];
+  reliability?: string;
+  status?: string;
+  notes?: string | null;
   categoryId: string;
   categoryTitle: string;
 };

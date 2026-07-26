@@ -18,11 +18,9 @@ import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 
 const cardPalette = {
-  relationships: ['#EAE1D1', '#DED8CA'],
+  interpersonal: ['#EAE1D1', '#DED8CA'],
   work: ['#D9DDD5', '#E7E3D8'],
-  mental: ['#DDD7DF', '#E5DED1'],
   life: ['#D6DED9', '#E3DDD0'],
-  challenge: ['#E4D7CB', '#D7D9D0'],
 } as const;
 
 export default function MainReelScreen() {

@@ -47,11 +47,9 @@ const sharedGoals: SearchGoal[] = [
 ];
 
 const goalOrder: Record<CategoryKey, string[]> = {
-  relationships: ['improve', 'communicate', 'protect', 'decide', 'reset'],
+  interpersonal: ['improve', 'communicate', 'protect', 'decide', 'reset'],
   work: ['improve', 'communicate', 'decide', 'protect', 'act'],
-  mental: ['reset', 'protect', 'act', 'decide', 'improve'],
-  life: ['decide', 'improve', 'protect', 'act', 'reset'],
-  challenge: ['act', 'improve', 'decide', 'protect', 'reset'],
+  life: ['decide', 'reset', 'protect', 'act', 'improve'],
 };
 
 export function goalsForCategory(category: CategoryKey) {
@@ -78,7 +76,7 @@ export const practiceGuidance: Record<
   CategoryKey,
   { actions: string[]; cautions: string[] }
 > = {
-  relationships: {
+  interpersonal: {
     actions: [
       '相手との関係と力関係を一度、言葉にする',
       '一度に変えず、小さな反応を見ながら試す',
@@ -100,17 +98,6 @@ export const practiceGuidance: Record<
       '成果だけでなく、再現性と周囲への影響も確認する',
     ],
   },
-  mental: {
-    actions: [
-      '今の感情を評価せず、一語で名づける',
-      '変えられることと、今は変えられないことを分ける',
-      '睡眠・食事・休息など身体の条件から整える',
-    ],
-    cautions: [
-      'このアプリは診断や治療の代わりにはならない',
-      '強い苦痛や生活への支障が続く場合は専門家へ相談する',
-    ],
-  },
   life: {
     actions: [
       '何を得るかと同時に、何を失うかも書き出す',
@@ -120,17 +107,6 @@ export const practiceGuidance: Record<
     cautions: [
       '大きな金銭・法律・医療判断は専門家の確認も取る',
       '他人の正解を、自分の価値観へそのまま移植しない',
-    ],
-  },
-  challenge: {
-    actions: [
-      '最初の一歩を、今日できる大きさまで小さくする',
-      '成功条件と撤退条件を先に決める',
-      '結果ではなく、試した回数と学びを残す',
-    ],
-    cautions: [
-      '勢いだけで、健康・生活基盤・他者の安全を賭けない',
-      '続けること自体を目的にせず、目的との一致を見直す',
     ],
   },
 };

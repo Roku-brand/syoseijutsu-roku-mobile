@@ -12,6 +12,7 @@ import {
 import type { CategoryKey } from '@/data/types';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
+const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
 
 export type Collection = {
   id: string;
@@ -31,7 +32,7 @@ type PersistedState = {
 
 const initialState: PersistedState = {
   onboardingCompleted: false,
-  interests: ['relationships', 'work', 'mental', 'life', 'challenge'],
+  interests: CATEGORY_KEYS,
   savedIds: [],
   historyIds: [],
   notes: {},
@@ -66,7 +67,15 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       .then((stored) => {
         if (!stored) return;
         const parsed = JSON.parse(stored) as Partial<PersistedState>;
-        setState({ ...initialState, ...parsed });
+        const interests = (parsed.interests ?? []).filter(
+          (interest): interest is CategoryKey =>
+            CATEGORY_KEYS.includes(interest as CategoryKey),
+        );
+        setState({
+          ...initialState,
+          ...parsed,
+          interests: interests.length ? interests : initialState.interests,
+        });
       })
       .catch(() => undefined)
       .finally(() => setHydrated(true));

@@ -11,41 +11,29 @@ export const categories = techniquesSource.categories as CatalogCategory[];
 export const theories = theoriesSource as TheoryCard[];
 
 export const categoryOrder: CategoryKey[] = [
-  'relationships',
+  'interpersonal',
   'work',
-  'mental',
   'life',
-  'challenge',
 ];
 
 export const categoryMeta: Record<
   CategoryKey,
   { label: string; mark: string; description: string }
 > = {
-  relationships: {
-    label: '人間関係',
-    mark: '和',
-    description: '信頼・会話・距離感を整える',
+  interpersonal: {
+    label: '対人術',
+    mark: '対',
+    description: '関係を築き、保ち、集団の中で立ち回る',
   },
   work: {
-    label: '仕事',
-    mark: '業',
-    description: '評価・交渉・組織での動きを磨く',
-  },
-  mental: {
-    label: 'メンタル',
-    mark: '心',
-    description: '感情・不安・疲労を扱う',
+    label: '仕事術',
+    mark: '仕',
+    description: '評価・合意・実行を成果へつなげる',
   },
   life: {
-    label: '人生',
+    label: '人生術',
     mark: '生',
-    description: '選択・時間・お金を設計する',
-  },
-  challenge: {
-    label: '挑戦',
-    mark: '挑',
-    description: '始める・続ける・撤退する',
+    description: '判断軸を持ち、不安とつまずきを越える',
   },
 };
 

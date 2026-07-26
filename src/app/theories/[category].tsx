@@ -11,6 +11,12 @@ import {
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
 
+export function generateStaticParams() {
+  return [...new Set(theories.map((theory) => theory.categoryId))].map(
+    (category) => ({ category }),
+  );
+}
+
 export default function TheoryCategoryScreen() {
   const { category } = useLocalSearchParams<{ category: string }>();
   const items = theories.filter((theory) => theory.categoryId === category);
@@ -53,7 +59,8 @@ export default function TheoryCategoryScreen() {
                 {theory.title}
               </AppText>
               <AppText variant="caption" numberOfLines={2}>
-                {theory.summary}
+                {theory.summary ??
+                  `${theory.discipline}に属する${theory.conceptType}`}
               </AppText>
             </View>
           </Pressable>

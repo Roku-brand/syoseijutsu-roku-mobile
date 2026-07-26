@@ -12,6 +12,10 @@ import { colors, radius, spacing } from '@/constants/theme';
 import { categories, categoryMeta } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 
+export function generateStaticParams() {
+  return categories.map(({ key }) => ({ key }));
+}
+
 export default function CategoryDetailScreen() {
   const { key } = useLocalSearchParams<{ key: CategoryKey }>();
   const category = categories.find((item) => item.key === key);

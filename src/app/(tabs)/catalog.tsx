@@ -10,11 +10,12 @@ import {
 } from '@/data/catalog';
 
 const theoryCategories = [
-  { id: 'cognition', title: '認知・感情', mark: '認' },
-  { id: 'behavior', title: '行動・意思決定', mark: '動' },
-  { id: 'social', title: '社会・関係', mark: '社' },
-  { id: 'structure', title: '構造・戦略', mark: '構' },
-  { id: 'wisdom', title: '哲学・経験知', mark: '知' },
+  { id: 'psychology', title: '心理学', mark: '心' },
+  { id: 'behavioral-science', title: '行動科学', mark: '動' },
+  { id: 'organization-management', title: '組織・経営論', mark: '組' },
+  { id: 'strategy', title: '戦略論', mark: '戦' },
+  { id: 'classics-thought', title: '古典・思想', mark: '古' },
+  { id: 'maxims-experience', title: '格言・経験則', mark: '格' },
 ];
 
 export default function CatalogScreen() {
@@ -40,7 +41,7 @@ export default function CatalogScreen() {
         </AppText>
       </View>
 
-      <SectionHeader title="五つの領域" count={categories.length} />
+      <SectionHeader title="三つの処世術" count={categories.length} />
       {categoryOrder.map((key) => {
         const category = categories.find((item) => item.key === key);
         if (!category) return null;
@@ -63,7 +64,7 @@ export default function CatalogScreen() {
 
       <SectionHeader title="理論辞典" count={theories.length} />
       <AppText style={styles.theoryIntro}>
-        理論の理解は、処世術を「信念」から「技術」に変えます。
+        六つの出自から、処世術を支える知識と経験知を辿れます。
       </AppText>
       <View style={styles.theoryGrid}>
         {theoryCategories.map((category) => {
