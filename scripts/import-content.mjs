@@ -114,6 +114,42 @@ const sourceCategoryByName = new Map(
   categoryConfig.map((category) => [category.sourceName, category]),
 );
 
+function createTechniqueTags(card) {
+  const tags = new Set(card.tags ?? []);
+  const add = (...values) => values.forEach((value) => tags.add(value));
+
+  if (card.category === '対人術') {
+    add('人間関係');
+    if (card.subcategory === '関係の構築') add('会話', '恋愛');
+    if (card.subcategory === '関係の管理') add('境界線', 'なめられない人');
+    if (card.subcategory === '集団での立ち回り') add('職場', 'なめられない人');
+  }
+  if (card.category === '仕事術') {
+    add('仕事ができる人');
+    if (card.subcategory === '評価の獲得') add('評価', 'キャリア');
+    if (card.subcategory === '交渉・合意の戦術') add('交渉', '合意形成');
+    if (card.subcategory === '目標達成') add('目標達成', '習慣');
+  }
+  if (card.category === '人生術') {
+    add('人生設計');
+    if (card.subcategory === '不安の解消') add('不安', 'メンタル');
+    if (card.subcategory === '人生のつまずき') add('立ち直り', 'メンタル');
+    if (card.subcategory === '人生の指針') add('自己理解');
+  }
+
+  const text = `${card.title} ${card.body ?? ''}`;
+  if (/初対面|印象|名前|褒め/.test(text)) add('第一印象');
+  if (/信頼|約束|誠実|関心/.test(text)) add('信頼');
+  if (/断る|拒否|境界|搾取/.test(text)) add('境界線', 'なめられない人');
+  if (/恋愛|親密|好意|デート/.test(text)) add('恋愛');
+  if (/上司|評価|成果|実績/.test(text)) add('評価', '仕事ができる人');
+  if (/交渉|合意|譲歩|条件/.test(text)) add('交渉');
+  if (/不安|心配|恐怖|緊張/.test(text)) add('不安');
+  if (/失敗|挫折|喪失|敗北/.test(text)) add('立ち直り');
+
+  return [...tags].slice(0, 5);
+}
+
 const categories = categoryConfig.map((category) => ({
   key: category.key,
   name: category.name,
@@ -133,7 +169,7 @@ const categories = categoryConfig.map((category) => ({
         subtitle: card.body,
         explanation: card.explanation,
         theoryTagIds: card.evidence_ids,
-        tags: card.tags ?? [],
+        tags: createTechniqueTags(card),
         status: card.status,
         displayOrder: card.display_order,
       })),

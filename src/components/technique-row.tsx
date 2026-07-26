@@ -46,6 +46,17 @@ export function TechniqueRow({
               {card.subtitle}
             </AppText>
           )}
+          {!hasSequence && (card.tags?.length ?? 0) > 0 && (
+            <View style={styles.tags}>
+              {card.tags!.slice(0, 2).map((tag) => (
+                <View key={tag} style={styles.tag}>
+                  <AppText variant="caption" style={styles.tagText}>
+                    #{tag}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
         <View style={styles.actions}>
           <IconButton
@@ -98,6 +109,16 @@ const styles = StyleSheet.create({
     lineHeight: 27,
   },
   subtitle: { marginTop: 8, lineHeight: 19 },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: spacing.sm },
+  tag: {
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.pill,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    backgroundColor: colors.paper,
+  },
+  tagText: { color: colors.gold, fontSize: 10, lineHeight: 14 },
   actions: { alignItems: 'center', gap: spacing.md },
   chevron: { color: colors.gold, fontSize: 34, lineHeight: 34, marginRight: -4 },
 });
