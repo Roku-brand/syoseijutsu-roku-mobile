@@ -68,7 +68,7 @@ export function TechniqueRow({
               toggleSaved(card.id);
             }}
           />
-          {hasSequence && <AppText style={styles.chevron}>›</AppText>}
+          <AppText style={styles.chevron}>›</AppText>
         </View>
       </Pressable>
     </Link>
@@ -77,15 +77,21 @@ export function TechniqueRow({
 
 const styles = StyleSheet.create({
   row: {
+    minHeight: 138,
     flexDirection: 'row',
     gap: spacing.md,
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    padding: spacing.md,
-    marginBottom: 12,
+    borderWidth: 1.5,
+    borderColor: colors.goldLight,
+    padding: spacing.lg,
+    marginBottom: 14,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.06,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 1,
   },
   pressed: { opacity: 0.68 },
   copy: { flex: 1 },
@@ -105,8 +111,8 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.serif,
     fontWeight: '600',
-    fontSize: 17,
-    lineHeight: 27,
+    fontSize: 20,
+    lineHeight: 30,
   },
   subtitle: { marginTop: 8, lineHeight: 19 },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: spacing.sm },
@@ -120,5 +126,5 @@ const styles = StyleSheet.create({
   },
   tagText: { color: colors.gold, fontSize: 10, lineHeight: 14 },
   actions: { alignItems: 'center', gap: spacing.md },
-  chevron: { color: colors.gold, fontSize: 34, lineHeight: 34, marginRight: -4 },
+  chevron: { color: colors.gold, fontSize: 30, lineHeight: 34, marginRight: -6 },
 });

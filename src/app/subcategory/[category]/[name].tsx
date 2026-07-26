@@ -84,11 +84,14 @@ export default function SubcategoryScreen() {
         {cards.map((card, index) => (
           <View key={card.id} style={styles.timelineItem}>
             <View style={styles.node} />
+            <View style={styles.sequenceRail}>
+              <AppText variant="label" style={styles.sequenceNumber}>
+                {String(index + 1).padStart(2, '0')} / {String(cards.length).padStart(2, '0')}
+              </AppText>
+            </View>
             <TechniqueRow
               card={card}
               showCategory={false}
-              sequence={index + 1}
-              sequenceTotal={cards.length}
             />
           </View>
         ))}
@@ -126,7 +129,7 @@ const styles = StyleSheet.create({
   breadcrumbArrow: { color: colors.inkSoft, fontSize: 22, lineHeight: 24 },
   sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xl },
   titleRule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.75, marginTop: 12 },
-  timeline: { position: 'relative', paddingLeft: 54, paddingBottom: spacing.sm },
+  timeline: { position: 'relative', paddingLeft: 56, paddingBottom: spacing.sm },
   timelineLine: {
     position: 'absolute',
     top: 4,
@@ -138,8 +141,8 @@ const styles = StyleSheet.create({
   timelineItem: { position: 'relative', marginBottom: 14 },
   node: {
     position: 'absolute',
-    left: -45,
-    top: 74,
+    left: -46,
+    top: 46,
     width: 21,
     height: 21,
     borderRadius: 11,
@@ -148,4 +151,13 @@ const styles = StyleSheet.create({
     borderColor: colors.paper,
     zIndex: 1,
   },
+  sequenceRail: {
+    position: 'absolute',
+    left: -56,
+    top: 76,
+    width: 48,
+    alignItems: 'center',
+    transform: [{ rotate: '-90deg' }],
+  },
+  sequenceNumber: { color: colors.gold, fontSize: 10, letterSpacing: 0.6 },
 });
