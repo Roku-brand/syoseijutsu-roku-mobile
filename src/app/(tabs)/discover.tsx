@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   topicCard: {
-    width: '48%',
+    width: '46%',
     minHeight: 132,
     borderWidth: 1,
     borderColor: colors.line,
