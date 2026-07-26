@@ -12,7 +12,6 @@ import {
   AppText,
   DetailHeader,
   EmptyState,
-  IconButton,
   Pill,
   Screen,
   SectionHeader,
@@ -72,163 +71,191 @@ export default function CardDetailScreen() {
 
   return (
     <Screen>
-      <DetailHeader
-        title={card.id}
-        right={
-          <IconButton
-            label="共有"
-            icon="↗"
-            onPress={() =>
-              void Share.share({
-                title: '処世術禄',
-                message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
-              })
-            }
-          />
-        }
-      />
-
-      <View style={styles.hero}>
-        <View style={styles.heroMeta}>
-          <Pill active>{card.categoryName}</Pill>
-          <Pill>{card.subcategory}</Pill>
+      <DetailHeader />
+      <View style={styles.readingColumn}>
+        <View style={styles.eyebrow}>
+          <AppText variant="caption" style={styles.breadcrumb}>
+            処世術　/　{card.categoryName}　/　{card.subcategory}
+          </AppText>
+          <AppText variant="label" style={styles.cardId}>
+            {card.id}
+          </AppText>
         </View>
-        <AppText style={styles.title}>{card.title}</AppText>
-        <Pressable
-          onPress={() => toggleSaved(card.id)}
-          style={({ pressed }) => [
-            styles.saveButton,
-            isSaved && styles.saveButtonActive,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={[styles.saveIcon, isSaved && styles.saveIconActive]}>
-            {isSaved ? '◆' : '◇'}
-          </AppText>
-          <AppText
-            variant="label"
-            style={[styles.saveText, isSaved && styles.saveTextActive]}
-          >
-            {isSaved ? 'マイOSに保存済み' : 'マイOSに保存'}
-          </AppText>
-        </Pressable>
-      </View>
 
-      {card.subtitle && (
-        <View style={styles.lead}>
-          <AppText variant="label" style={styles.sectionLabel}>
-            要点
-          </AppText>
-          <AppText style={styles.leadText}>{card.subtitle}</AppText>
-        </View>
-      )}
-
-      {(card.tags?.length ?? 0) > 0 && (
-        <>
-          <SectionHeader title="このカードのタグ" />
-          <View style={styles.tags}>
-            {card.tags!.map((tag) => (
-              <View key={tag} style={styles.tag}>
-                <AppText variant="label" style={styles.tagText}>
-                  #{tag}
-                </AppText>
-              </View>
-            ))}
+        <View style={styles.hero}>
+          <View style={styles.heroMeta}>
+            <AppText variant="label" style={styles.categoryLabel}>
+              {card.categoryName}
+            </AppText>
+            <AppText variant="caption" style={styles.metaDivider}>
+              /
+            </AppText>
+            <AppText variant="caption" style={styles.subcategoryLabel}>
+              {card.subcategory}
+            </AppText>
           </View>
-        </>
-      )}
-
-      {card.explanation && (
-        <>
-          <SectionHeader title="解説" />
-          <Explanation value={card.explanation} />
-        </>
-      )}
-
-      <SectionHeader title="実践の視点" />
-      <AppText style={styles.intro}>
-        この処世術を、そのまま正解として当てはめない。まずは次の順序で、
-        今の状況に合うかを確かめます。
-      </AppText>
-      <NumberedList items={guidance.actions} />
-
-      <SectionHeader title="注意点" />
-      <View style={styles.caution}>
-        {guidance.cautions.map((item) => (
-          <View key={item} style={styles.bulletRow}>
-            <AppText style={styles.cautionBullet}>—</AppText>
-            <AppText style={styles.cautionText}>{item}</AppText>
-          </View>
-        ))}
-      </View>
-
-      <SectionHeader title="関連する理論" count={relatedTheories.length} />
-      {relatedTheories.map((theory) =>
-        theory ? (
-          <Link
-            key={theory.tagId}
-            href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
-            asChild
-          >
-            <Pressable style={styles.theory}>
-              <View style={styles.theoryTag}>
-                <AppText variant="label" style={styles.theoryTagText}>
-                  {theory.tagId}
-                </AppText>
-              </View>
-              <View style={styles.theoryCopy}>
-                <AppText variant="serif" style={styles.theoryTitle}>
-                  {theory.title}
-                </AppText>
-                <AppText variant="caption" numberOfLines={2}>
-                  {theory.summary ??
-                    `${theory.discipline}に属する${theory.conceptType}`}
-                </AppText>
-              </View>
-              <AppText style={styles.chevron}>›</AppText>
-            </Pressable>
-          </Link>
-        ) : null,
-      )}
-
-      <SectionHeader title="自分のメモ" />
-      <TextInput
-        accessibilityLabel="この処世術へのメモ"
-        multiline
-        maxLength={500}
-        placeholder="この知恵を、どんな場面で使うか。"
-        placeholderTextColor={colors.muted}
-        value={note}
-        onChangeText={setNote}
-        onBlur={() => saveNote(card.id, note.trim())}
-        style={styles.noteInput}
-        textAlignVertical="top"
-      />
-      <AppText variant="caption" style={styles.noteCaption}>
-        入力内容はこの端末だけに保存されます。
-      </AppText>
-
-      {collections.length > 0 && (
-        <>
-          <SectionHeader title="コレクションに追加" />
-          <View style={styles.collections}>
-            {collections.map((collection) => (
-              <Pill
-                key={collection.id}
-                active={collection.cardIds.includes(card.id)}
-                onPress={() => toggleCollectionCard(collection.id, card.id)}
+          <AppText style={styles.title}>{card.title}</AppText>
+          {card.subtitle && (
+            <AppText style={styles.heroLead}>{card.subtitle}</AppText>
+          )}
+          <View style={styles.heroActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={isSaved ? 'マイOSから削除' : 'マイOSに保存'}
+              onPress={() => toggleSaved(card.id)}
+              style={({ pressed }) => [
+                styles.actionButton,
+                isSaved && styles.actionButtonActive,
+                pressed && styles.pressed,
+              ]}
+            >
+              <AppText style={[styles.actionIcon, isSaved && styles.actionTextActive]}>
+                {isSaved ? '◆' : '◇'}
+              </AppText>
+              <AppText
+                variant="label"
+                style={[styles.actionText, isSaved && styles.actionTextActive]}
               >
-                {collection.name}
-              </Pill>
-            ))}
+                {isSaved ? '保存済み' : 'マイOSに保存'}
+              </AppText>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="共有"
+              onPress={() =>
+                void Share.share({
+                  title: '処世術禄',
+                  message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
+                })
+              }
+              style={({ pressed }) => [
+                styles.actionButton,
+                pressed && styles.pressed,
+              ]}
+            >
+              <AppText style={styles.actionIcon}>↗</AppText>
+              <AppText variant="label" style={styles.actionText}>
+                共有
+              </AppText>
+            </Pressable>
           </View>
-        </>
-      )}
+        </View>
 
-      <SectionHeader title="次に読む" count={related.length} />
-      {related.map((relatedCard) => (
-        <TechniqueRow key={relatedCard.id} card={relatedCard} />
-      ))}
+        {card.explanation && (
+          <>
+            <SectionHeader title="解説" />
+            <Explanation value={card.explanation} />
+          </>
+        )}
+
+        <SectionHeader title="実践の視点" />
+        <AppText style={styles.intro}>
+          この処世術を、そのまま正解として当てはめない。まずは次の順序で、
+          今の状況に合うかを確かめます。
+        </AppText>
+        <NumberedList items={guidance.actions} />
+
+        <SectionHeader title="注意点" />
+        <View style={styles.caution}>
+          {guidance.cautions.map((item) => (
+            <View key={item} style={styles.bulletRow}>
+              <AppText style={styles.cautionBullet}>—</AppText>
+              <AppText style={styles.cautionText}>{item}</AppText>
+            </View>
+          ))}
+        </View>
+
+        {(card.tags?.length ?? 0) > 0 && (
+          <>
+            <SectionHeader title="タグ" />
+            <View style={styles.tags}>
+              {card.tags!.map((tag) => (
+                <View key={tag} style={styles.tag}>
+                  <AppText variant="label" style={styles.tagText}>
+                    #{tag}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          </>
+        )}
+
+        {relatedTheories.length > 0 && (
+          <>
+            <SectionHeader title="理論的背景" count={relatedTheories.length} />
+            {relatedTheories.map((theory) =>
+              theory ? (
+                <Link
+                  key={theory.tagId}
+                  href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
+                  asChild
+                >
+                  <Pressable style={styles.theory}>
+                    <View style={styles.theoryTag}>
+                      <AppText variant="label" style={styles.theoryTagText}>
+                        {theory.tagId}
+                      </AppText>
+                    </View>
+                    <View style={styles.theoryCopy}>
+                      <AppText variant="serif" style={styles.theoryTitle}>
+                        {theory.title}
+                      </AppText>
+                      <AppText variant="caption" numberOfLines={2}>
+                        {theory.summary ??
+                          `${theory.discipline}に属する${theory.conceptType}`}
+                      </AppText>
+                    </View>
+                    <AppText style={styles.chevron}>›</AppText>
+                  </Pressable>
+                </Link>
+              ) : null,
+            )}
+          </>
+        )}
+
+        <SectionHeader title="自分のメモ" />
+        <TextInput
+          accessibilityLabel="この処世術へのメモ"
+          multiline
+          maxLength={500}
+          placeholder="この知恵を、どんな場面で使うか。"
+          placeholderTextColor={colors.muted}
+          value={note}
+          onChangeText={setNote}
+          onBlur={() => saveNote(card.id, note.trim())}
+          style={styles.noteInput}
+          textAlignVertical="top"
+        />
+        <AppText variant="caption" style={styles.noteCaption}>
+          入力内容はこの端末だけに保存されます。
+        </AppText>
+
+        {collections.length > 0 && (
+          <>
+            <SectionHeader title="コレクションに追加" />
+            <View style={styles.collections}>
+              {collections.map((collection) => (
+                <Pill
+                  key={collection.id}
+                  active={collection.cardIds.includes(card.id)}
+                  onPress={() => toggleCollectionCard(collection.id, card.id)}
+                >
+                  {collection.name}
+                </Pill>
+              ))}
+            </View>
+          </>
+        )}
+
+        {related.length > 0 && (
+          <>
+            <SectionHeader title="次に読む" count={related.length} />
+            {related.map((relatedCard) => (
+              <TechniqueRow key={relatedCard.id} card={relatedCard} />
+            ))}
+          </>
+        )}
+      </View>
     </Screen>
   );
 }
@@ -286,44 +313,84 @@ function Explanation({ value }: { value: string }) {
 }
 
 const styles = StyleSheet.create({
-  hero: {
-    backgroundColor: colors.ink,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
+  readingColumn: {
+    width: '100%',
+    maxWidth: 900,
+    alignSelf: 'center',
   },
-  heroMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  eyebrow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    marginTop: spacing.sm,
+    marginBottom: spacing.xl,
+  },
+  breadcrumb: { color: colors.muted, flexShrink: 1 },
+  cardId: {
+    color: colors.gold,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    borderRadius: radius.pill,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    overflow: 'hidden',
+  },
+  hero: {
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    padding: spacing.lg,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.07,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 2,
+  },
+  heroMeta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
+  categoryLabel: { color: colors.gold },
+  metaDivider: { color: colors.goldLight },
+  subcategoryLabel: { color: colors.muted },
   title: {
-    color: colors.paper,
+    color: colors.ink,
     fontFamily: fonts.serif,
     fontWeight: '700',
-    fontSize: 28,
-    lineHeight: 47,
-    marginTop: spacing.xl,
+    fontSize: 34,
+    lineHeight: 49,
+    marginTop: spacing.lg,
   },
-  saveButton: {
-    minHeight: 48,
+  heroLead: {
+    color: colors.inkSoft,
+    fontSize: 17,
+    lineHeight: 29,
+    marginTop: spacing.md,
+    maxWidth: 700,
+  },
+  heroActions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    gap: spacing.sm,
+    marginTop: spacing.lg,
+  },
+  actionButton: {
+    minHeight: 42,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: '#52554C',
+    borderColor: colors.goldLight,
+    backgroundColor: colors.surface,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 10,
-    marginTop: spacing.xl,
+    gap: 8,
+    paddingHorizontal: 15,
   },
-  saveButtonActive: { backgroundColor: colors.paper, borderColor: colors.paper },
-  saveIcon: { color: colors.goldLight, fontSize: 18, lineHeight: 22 },
-  saveIconActive: { color: colors.gold },
-  saveText: { color: colors.paper },
-  saveTextActive: { color: colors.ink },
+  actionButtonActive: { backgroundColor: colors.gold, borderColor: colors.gold },
+  actionIcon: { color: colors.gold, fontSize: 17, lineHeight: 21 },
+  actionText: { color: colors.inkSoft },
+  actionTextActive: { color: colors.white },
   pressed: { opacity: 0.65 },
-  lead: {
-    paddingVertical: spacing.xl,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-  },
-  sectionLabel: { color: colors.gold, marginBottom: spacing.md },
-  leadText: { fontSize: 17, lineHeight: 30 },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   tag: {
     borderWidth: 1,
@@ -336,9 +403,9 @@ const styles = StyleSheet.create({
   tagText: { color: colors.gold, fontSize: 11 },
   explanation: {
     backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.md,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.gold,
+    borderRadius: radius.sm,
     padding: spacing.lg,
     gap: spacing.lg,
   },
