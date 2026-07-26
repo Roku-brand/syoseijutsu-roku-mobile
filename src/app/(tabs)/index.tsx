@@ -1,28 +1,93 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useRef, useState } from 'react';
+import {
+  FlatList,
+  Pressable,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from 'react-native';
 import { AppText } from '@/components/ui';
-import { BookScreen, OrnamentHeading, bookCardShadow } from '@/components/book-ui';
+import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards } from '@/data/catalog';
+import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 
-const today = techniqueCards.find((card) => card.id === 'tech_001') ?? techniqueCards[0];
+const categorySkips: {
+  key: CategoryKey;
+  label: string;
+  mark: string;
+  tint: string;
+}[] = [
+  {
+    key: 'interpersonal',
+    label: '対人術',
+    mark: '対',
+    tint: 'rgba(229, 235, 224, 0.82)',
+  },
+  {
+    key: 'work',
+    label: '仕事術',
+    mark: '仕',
+    tint: 'rgba(243, 235, 220, 0.82)',
+  },
+  {
+    key: 'life',
+    label: '人生術',
+    mark: '生',
+    tint: 'rgba(230, 237, 232, 0.82)',
+  },
+];
 
 export default function MainScreen() {
   const router = useRouter();
+  const { width } = useWindowDimensions();
+  const listRef = useRef<FlatList<TechniqueCard>>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const { savedIds, toggleSaved } = useAppState();
-  const saved = savedIds.includes(today.id);
 
-  const openCategory = (key: 'interpersonal' | 'work') => {
+  const reelWidth = Math.min(Math.max(width - spacing.lg * 2, 280), 680);
+  const activeCard = techniqueCards[activeIndex] ?? techniqueCards[0];
+  const saved = savedIds.includes(activeCard.id);
+
+  const moveTo = (index: number, animated = true) => {
+    const nextIndex = Math.max(0, Math.min(index, techniqueCards.length - 1));
+    setActiveIndex(nextIndex);
+    listRef.current?.scrollToIndex({ index: nextIndex, animated });
     void Haptics.selectionAsync().catch(() => undefined);
-    router.push({ pathname: '/category/[key]', params: { key } });
+  };
+
+  const skipToCategory = (category: CategoryKey) => {
+    const index = techniqueCards.findIndex(
+      (card) => card.categoryKey === category,
+    );
+    if (index >= 0) moveTo(index);
+  };
+
+  const updateActiveCard = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    const nextIndex = Math.round(
+      event.nativeEvent.contentOffset.x / reelWidth,
+    );
+    if (
+      nextIndex !== activeIndex &&
+      nextIndex >= 0 &&
+      nextIndex < techniqueCards.length
+    ) {
+      setActiveIndex(nextIndex);
+      void Haptics.selectionAsync().catch(() => undefined);
+    }
   };
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.todayHeading}>
-        <AppText style={styles.todayHeadingText}>今日の処世術</AppText>
+      <View style={styles.reelHeading}>
+        <AppText style={styles.reelHeadingText}>処世術</AppText>
         <View style={styles.headingOrnament}>
           <View style={styles.headingLine} />
           <View style={styles.headingDiamond} />
@@ -30,35 +95,96 @@ export default function MainScreen() {
         </View>
       </View>
 
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`${today.title}を詳しく読む`}
-        onPress={() =>
-          router.push({ pathname: '/card/[id]', params: { id: today.id } })
-        }
-        style={({ pressed }) => [
-          styles.todayCard,
-          pressed && styles.pressed,
-        ]}
-      >
-        <AppText style={styles.todayTitle}>{today.title}</AppText>
-        <View style={styles.cardOrnament}>
-          <View style={styles.cardLine} />
-          <View style={styles.cardDiamond} />
-          <View style={styles.cardLine} />
-        </View>
-        <AppText style={styles.todaySubtitle}>{today.subtitle}</AppText>
-        <View style={styles.categoryChip}>
-          <AppText style={styles.categoryChipText}>
-            {today.categoryName}・{today.subcategory}
-          </AppText>
-        </View>
-      </Pressable>
+      <View style={[styles.reelControls, { width: reelWidth }]}>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="前の処世術"
+          disabled={activeIndex === 0}
+          onPress={() => moveTo(activeIndex - 1)}
+          hitSlop={10}
+          style={({ pressed }) => [
+            styles.reelArrowButton,
+            activeIndex === 0 && styles.reelArrowDisabled,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AppText style={styles.reelArrow}>‹</AppText>
+        </Pressable>
+        <AppText style={styles.reelPosition}>
+          {String(activeIndex + 1).padStart(3, '0')} / {techniqueCards.length}
+        </AppText>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="次の処世術"
+          disabled={activeIndex === techniqueCards.length - 1}
+          onPress={() => moveTo(activeIndex + 1)}
+          hitSlop={10}
+          style={({ pressed }) => [
+            styles.reelArrowButton,
+            activeIndex === techniqueCards.length - 1 &&
+              styles.reelArrowDisabled,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AppText style={styles.reelArrow}>›</AppText>
+        </Pressable>
+      </View>
+
+      <FlatList
+        ref={listRef}
+        horizontal
+        pagingEnabled
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        data={techniqueCards}
+        keyExtractor={(card) => card.id}
+        getItemLayout={(_, index) => ({
+          index,
+          length: reelWidth,
+          offset: reelWidth * index,
+        })}
+        initialNumToRender={2}
+        windowSize={3}
+        onMomentumScrollEnd={updateActiveCard}
+        onScrollEndDrag={updateActiveCard}
+        style={[styles.reel, { width: reelWidth }]}
+        renderItem={({ item }) => (
+          <View style={[styles.reelItem, { width: reelWidth }]}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${item.title}を詳しく読む`}
+              onPress={() =>
+                router.push({
+                  pathname: '/card/[id]',
+                  params: { id: item.id },
+                })
+              }
+              style={({ pressed }) => [
+                styles.techniqueCard,
+                pressed && styles.pressed,
+              ]}
+            >
+              <AppText style={styles.techniqueTitle}>{item.title}</AppText>
+              <View style={styles.cardOrnament}>
+                <View style={styles.cardLine} />
+                <View style={styles.cardDiamond} />
+                <View style={styles.cardLine} />
+              </View>
+              <AppText style={styles.techniqueSubtitle}>{item.subtitle}</AppText>
+              <View style={styles.categoryChip}>
+                <AppText style={styles.categoryChipText}>
+                  {item.categoryName}・{item.subcategory}
+                </AppText>
+              </View>
+            </Pressable>
+          </View>
+        )}
+      />
 
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={saved ? '蔵書から外す' : '蔵書に保存'}
-        onPress={() => toggleSaved(today.id)}
+        onPress={() => toggleSaved(activeCard.id)}
         style={({ pressed }) => [
           styles.saveButton,
           saved && styles.saveButtonSaved,
@@ -73,28 +199,41 @@ export default function MainScreen() {
         </AppText>
       </Pressable>
 
-      <OrnamentHeading centered>いまのあなたに</OrnamentHeading>
-      <View style={styles.suggestionRow}>
-        <Pressable
-          onPress={() => openCategory('interpersonal')}
-          style={({ pressed }) => [
-            styles.suggestionCard,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={styles.suggestionMark}>対</AppText>
-          <AppText style={styles.suggestionTitle}>対人術</AppText>
-        </Pressable>
-        <Pressable
-          onPress={() => openCategory('work')}
-          style={({ pressed }) => [
-            styles.suggestionCard,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={styles.suggestionMark}>仕</AppText>
-          <AppText style={styles.suggestionTitle}>仕事術</AppText>
-        </Pressable>
+      <View style={styles.categorySkipRow}>
+        {categorySkips.map((category) => {
+          const active = activeCard.categoryKey === category.key;
+          return (
+            <Pressable
+              key={category.key}
+              accessibilityRole="button"
+              accessibilityLabel={`${category.label}の先頭へ移動`}
+              onPress={() => skipToCategory(category.key)}
+              style={({ pressed }) => [
+                styles.categorySkip,
+                { backgroundColor: category.tint },
+                active && styles.categorySkipActive,
+                pressed && styles.pressed,
+              ]}
+            >
+              <View
+                style={[
+                  styles.categorySkipMark,
+                  active && styles.categorySkipMarkActive,
+                ]}
+              >
+                <AppText
+                  style={[
+                    styles.categorySkipMarkText,
+                    active && styles.categorySkipMarkTextActive,
+                  ]}
+                >
+                  {category.mark}
+                </AppText>
+              </View>
+              <AppText style={styles.categorySkipLabel}>{category.label}</AppText>
+            </Pressable>
+          );
+        })}
       </View>
     </BookScreen>
   );
@@ -102,13 +241,13 @@ export default function MainScreen() {
 
 const styles = StyleSheet.create({
   content: { paddingTop: spacing.xl, paddingBottom: spacing.xl },
-  todayHeading: { alignItems: 'center', marginBottom: spacing.lg },
-  todayHeadingText: {
+  reelHeading: { alignItems: 'center', marginBottom: spacing.md },
+  reelHeadingText: {
     fontFamily: fonts.serif,
-    fontSize: 23,
-    lineHeight: 34,
+    fontSize: 27,
+    lineHeight: 38,
     fontWeight: '600',
-    letterSpacing: 2.5,
+    letterSpacing: 4,
   },
   headingOrnament: {
     flexDirection: 'row',
@@ -123,10 +262,40 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
     transform: [{ rotate: '45deg' }],
   },
-  todayCard: {
-    width: '100%',
-    maxWidth: 680,
+  reelControls: {
     alignSelf: 'center',
+    minHeight: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.sm,
+  },
+  reelArrowButton: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  reelArrowDisabled: { opacity: 0.2 },
+  reelArrow: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 34,
+    lineHeight: 38,
+  },
+  reelPosition: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    lineHeight: 18,
+    letterSpacing: 2,
+    fontWeight: '600',
+  },
+  reel: { alignSelf: 'center', flexGrow: 0 },
+  reelItem: { paddingVertical: spacing.sm },
+  techniqueCard: {
+    width: '100%',
     minHeight: 360,
     paddingHorizontal: spacing.xl,
     paddingVertical: 36,
@@ -138,7 +307,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...bookCardShadow,
   },
-  todayTitle: {
+  techniqueTitle: {
     fontFamily: fonts.serif,
     fontSize: 34,
     lineHeight: 56,
@@ -161,7 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
     transform: [{ rotate: '45deg' }],
   },
-  todaySubtitle: {
+  techniqueSubtitle: {
     maxWidth: 520,
     fontFamily: fonts.serif,
     fontSize: 18,
@@ -189,8 +358,8 @@ const styles = StyleSheet.create({
   saveButton: {
     alignSelf: 'center',
     minWidth: 230,
-    minHeight: 58,
-    marginTop: spacing.xl,
+    minHeight: 54,
+    marginTop: spacing.lg,
     paddingHorizontal: spacing.xl,
     flexDirection: 'row',
     alignItems: 'center',
@@ -211,36 +380,52 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   saveTextSaved: { color: colors.goldLight },
-  suggestionRow: { flexDirection: 'row', gap: spacing.md },
-  suggestionCard: {
+  categorySkipRow: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    marginTop: spacing.xl,
+  },
+  categorySkip: {
     flex: 1,
-    minHeight: 150,
+    minHeight: 112,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.52)',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.md,
+    gap: spacing.sm,
   },
-  suggestionMark: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  categorySkipActive: {
+    borderColor: colors.gold,
+    borderWidth: 1.5,
+    ...bookCardShadow,
+  },
+  categorySkipMark: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderWidth: 1,
     borderColor: colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.38)',
+  },
+  categorySkipMarkActive: { backgroundColor: colors.gold },
+  categorySkipMarkText: {
     color: colors.gold,
     fontFamily: fonts.serif,
-    fontSize: 19,
-    lineHeight: 46,
-    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: '700',
   },
-  suggestionTitle: {
+  categorySkipMarkTextActive: { color: colors.surface },
+  categorySkipLabel: {
     fontFamily: fonts.serif,
-    fontSize: 21,
-    lineHeight: 28,
+    fontSize: 15,
+    lineHeight: 22,
     fontWeight: '600',
-    letterSpacing: 2,
+    letterSpacing: 1,
+    textAlign: 'center',
   },
   pressed: { opacity: 0.68, transform: [{ scale: 0.994 }] },
 });
