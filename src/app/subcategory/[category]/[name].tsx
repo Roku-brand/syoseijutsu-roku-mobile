@@ -1,4 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import {
   AppText,
@@ -8,6 +9,7 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
+import { colors, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 
@@ -51,17 +53,99 @@ export default function SubcategoryScreen() {
   return (
     <Screen>
       <DetailHeader title={category.name} />
-      <Pill active>{category.name}</Pill>
-      <AppText variant="title" style={{ marginTop: 20 }}>
-        {subcategory.name}
-      </AppText>
-      <AppText style={{ marginTop: 8, opacity: 0.6 }}>
-        {subcategory.articleTitle}
-      </AppText>
-      <SectionHeader title="処世術" count={cards.length} />
-      {cards.map((card) => (
-        <TechniqueRow key={card.id} card={card} showCategory={false} />
-      ))}
+      <View style={styles.hero}>
+        <Pill active>{category.name}</Pill>
+        <AppText variant="title" style={styles.title}>
+          {subcategory.name}
+        </AppText>
+        <AppText style={styles.description}>{subcategory.articleTitle}</AppText>
+        <View style={styles.breadcrumb}>
+          <AppText variant="label" style={styles.breadcrumbActive}>
+            {category.name}
+          </AppText>
+          <AppText style={styles.breadcrumbArrow}>›</AppText>
+          <AppText variant="label" style={styles.breadcrumbText}>
+            {subcategory.name}
+          </AppText>
+          <AppText style={styles.breadcrumbArrow}>›</AppText>
+          <AppText variant="label" style={styles.breadcrumbText}>
+            01〜{String(cards.length).padStart(2, '0')}
+          </AppText>
+        </View>
+      </View>
+
+      <View style={styles.sectionTitle}>
+        <SectionHeader title={`${cards.length}の処世術`} />
+        <View style={styles.titleRule} />
+      </View>
+
+      <View style={styles.timeline}>
+        <View style={styles.timelineLine} />
+        {cards.map((card, index) => (
+          <View key={card.id} style={styles.timelineItem}>
+            <View style={styles.node} />
+            <TechniqueRow
+              card={card}
+              showCategory={false}
+              sequence={index + 1}
+              sequenceTotal={cards.length}
+            />
+          </View>
+        ))}
+      </View>
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  hero: { marginTop: spacing.xs },
+  title: { marginTop: spacing.md },
+  description: { marginTop: spacing.sm, color: colors.muted, fontSize: 16, lineHeight: 27 },
+  breadcrumb: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    gap: 10,
+    minHeight: 50,
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surface,
+  },
+  breadcrumbActive: {
+    color: colors.paper,
+    backgroundColor: colors.ink,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 7,
+    borderRadius: radius.pill,
+    overflow: 'hidden',
+  },
+  breadcrumbText: { color: colors.gold, flexShrink: 1 },
+  breadcrumbArrow: { color: colors.inkSoft, fontSize: 22, lineHeight: 24 },
+  sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xl },
+  titleRule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.75, marginTop: 12 },
+  timeline: { position: 'relative', paddingLeft: 54, paddingBottom: spacing.sm },
+  timelineLine: {
+    position: 'absolute',
+    top: 4,
+    bottom: 24,
+    left: 20,
+    width: 1.5,
+    backgroundColor: colors.gold,
+  },
+  timelineItem: { position: 'relative', marginBottom: 14 },
+  node: {
+    position: 'absolute',
+    left: -45,
+    top: 74,
+    width: 21,
+    height: 21,
+    borderRadius: 11,
+    backgroundColor: colors.gold,
+    borderWidth: 4,
+    borderColor: colors.paper,
+    zIndex: 1,
+  },
+});
