@@ -5,7 +5,6 @@ import {
   AppText,
   DetailHeader,
   EmptyState,
-  Pill,
   Screen,
   SectionHeader,
 } from '@/components/ui';
@@ -54,7 +53,6 @@ export default function SubcategoryScreen() {
     <Screen>
       <DetailHeader title={category.name} />
       <View style={styles.hero}>
-        <Pill active>{category.name}</Pill>
         <AppText variant="title" style={styles.title}>
           {subcategory.name}
         </AppText>
@@ -99,7 +97,7 @@ export default function SubcategoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { marginTop: spacing.xs },
+  hero: { marginTop: spacing.md },
   title: { marginTop: spacing.md },
   description: { marginTop: spacing.sm, color: colors.muted, fontSize: 16, lineHeight: 27 },
   breadcrumb: {

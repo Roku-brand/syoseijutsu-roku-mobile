@@ -4,7 +4,6 @@ import {
   AppText,
   DetailHeader,
   EmptyState,
-  Pill,
   Screen,
 } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
@@ -46,7 +45,6 @@ export default function TheoryCategoryScreen() {
     <Screen>
       <DetailHeader title="理論辞典" />
       <View style={styles.hero}>
-        <Pill active>理論辞典</Pill>
         <AppText variant="display" style={styles.title}>
           {title}
         </AppText>
@@ -104,7 +102,7 @@ export default function TheoryCategoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { marginTop: spacing.xs },
+  hero: { marginTop: spacing.md },
   title: { marginTop: spacing.lg, fontSize: 46, lineHeight: 59 },
   description: { marginTop: spacing.md, color: colors.inkSoft, fontSize: 17, lineHeight: 28 },
   sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xl },

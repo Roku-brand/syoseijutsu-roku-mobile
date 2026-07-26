@@ -132,9 +132,12 @@ export function DetailHeader({
         accessibilityLabel="前の画面へ戻る"
         onPress={() => router.back()}
         style={styles.detailBack}
-        hitSlop={8}
+        hitSlop={10}
       >
         <AppText style={styles.detailBackIcon}>‹</AppText>
+        <AppText variant="label" style={styles.detailBackText}>
+          戻る
+        </AppText>
       </Pressable>
       <AppText variant="label" style={styles.detailHeaderTitle} numberOfLines={1}>
         {title}
@@ -395,19 +398,30 @@ const styles = StyleSheet.create({
   headerDescription: { color: colors.muted, marginTop: spacing.sm },
   detailHeader: {
     minHeight: 48,
-    flexDirection: 'row',
+    position: 'relative',
     alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: spacing.lg,
   },
   detailBack: {
-    width: 44,
-    height: 44,
-    alignItems: 'flex-start',
+    position: 'absolute',
+    left: 0,
+    minWidth: 82,
+    height: 46,
+    paddingHorizontal: 11,
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
+    gap: 2,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.surface,
   },
-  detailBackIcon: { color: colors.gold, fontSize: 34, lineHeight: 38 },
-  detailHeaderTitle: { flex: 1, textAlign: 'center', color: colors.muted },
-  detailHeaderRight: { minWidth: 44, alignItems: 'flex-end' },
+  detailBackIcon: { color: colors.gold, fontSize: 31, lineHeight: 34, marginTop: -2 },
+  detailBackText: { color: colors.inkSoft, fontSize: 11, lineHeight: 16, letterSpacing: 0.4 },
+  detailHeaderTitle: { alignSelf: 'stretch', textAlign: 'center', color: colors.muted, paddingHorizontal: 94 },
+  detailHeaderRight: { position: 'absolute', right: 0, minWidth: 44, alignItems: 'flex-end' },
   iconButton: {
     width: 44,
     height: 44,
