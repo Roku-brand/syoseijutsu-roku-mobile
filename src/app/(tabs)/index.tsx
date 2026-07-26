@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -60,22 +60,23 @@ export default function MainScreen() {
   const { width } = useWindowDimensions();
   const { savedIds, toggleSaved } = useAppState();
   const reelRef = useRef<FlatList<TechniqueCard>>(null);
+  const [reelCategory, setReelCategory] =
+    useState<CategoryKey>('interpersonal');
   const cardWidth = Math.max(280, Math.min(760, width - spacing.lg * 2));
   const reelCards = useMemo(
     () =>
-      [...techniqueCards].sort(
-        (a, b) =>
-          categoryOrder.indexOf(a.categoryKey) - categoryOrder.indexOf(b.categoryKey) ||
-          a.id.localeCompare(b.id),
-      ),
-    [],
+      techniqueCards
+        .filter((card) => card.categoryKey === reelCategory)
+        .sort((a, b) => a.id.localeCompare(b.id)),
+    [reelCategory],
   );
 
   const jumpTo = (category: CategoryKey) => {
-    const index = reelCards.findIndex((card) => card.categoryKey === category);
-    if (index < 0) return;
     void Haptics.selectionAsync();
-    reelRef.current?.scrollToIndex({ index, animated: true });
+    setReelCategory(category);
+    requestAnimationFrame(() => {
+      reelRef.current?.scrollToOffset({ offset: 0, animated: false });
+    });
   };
 
   return (
@@ -144,13 +145,17 @@ export default function MainScreen() {
                 <Pressable
                   key={key}
                   accessibilityRole="button"
-                  accessibilityLabel={`${categoryMeta[key].label}のカードへ移動`}
+                  accessibilityLabel={`${categoryMeta[key].label}のカードに切り替える`}
+                  accessibilityState={{ selected: reelCategory === key }}
                   onPress={() => jumpTo(key)}
                   style={({ pressed }) => [
                     styles.skipButton,
                     {
                       borderColor: categoryPalette[key].accent,
-                      backgroundColor: categoryPalette[key].tint,
+                      backgroundColor:
+                        reelCategory === key
+                          ? categoryPalette[key].accent
+                          : categoryPalette[key].tint,
                     },
                     pressed && styles.pressed,
                   ]}
@@ -159,7 +164,12 @@ export default function MainScreen() {
                     variant="label"
                     style={[
                       styles.skipText,
-                      { color: categoryPalette[key].accent },
+                      {
+                        color:
+                          reelCategory === key
+                            ? colors.white
+                            : categoryPalette[key].accent,
+                      },
                     ]}
                   >
                     {categoryMeta[key].label}
@@ -171,6 +181,7 @@ export default function MainScreen() {
               ref={reelRef}
               horizontal
               data={reelCards}
+              extraData={reelCategory}
               keyExtractor={(card) => card.id}
               showsHorizontalScrollIndicator={false}
               snapToInterval={cardWidth + 12}
