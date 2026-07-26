@@ -5,7 +5,6 @@ import {
   AppText,
   DetailHeader,
   EmptyState,
-  Pill,
   Screen,
   SectionHeader,
 } from '@/components/ui';
@@ -35,53 +34,88 @@ export default function TheoryDetailScreen() {
   const related = techniqueCards
     .filter((card) => card.theoryTagIds?.includes(theory.tagId))
     .slice(0, 12);
+  const explanation =
+    theory.summary ??
+    theory.definition ??
+    `${theory.discipline}に属する${theory.conceptType}です。`;
 
   return (
     <Screen>
-      <DetailHeader title={theory.tagId} />
-      <Pill active>{theory.categoryTitle}</Pill>
-      <AppText variant="title" style={styles.title}>
-        {theory.title}
-      </AppText>
-      <SectionHeader title="解説" />
-      {theory.summary ? (
-        <AppText style={styles.summary}>{theory.summary}</AppText>
-      ) : (
-        <AppText style={styles.summaryFallback}>
-          {theory.discipline}に属する{theory.conceptType}
+      <DetailHeader />
+      <View style={styles.readingColumn}>
+        <View style={styles.eyebrow}>
+          <AppText variant="caption" style={styles.breadcrumb}>
+            理論辞典　/　{theory.categoryTitle}
+          </AppText>
+          <AppText variant="label" style={styles.tagId}>
+            {theory.tagId}
+          </AppText>
+        </View>
+
+        <AppText variant="title" style={styles.title}>
+          {theory.title}
         </AppText>
-      )}
 
-      <SectionHeader title="出自" />
-      <View style={styles.origin}>
-        <OriginRow label="領域" value={theory.sourceType} />
-        <OriginRow label="専門分野" value={theory.discipline} />
-        <OriginRow label="形式" value={theory.conceptType} />
-        <OriginRow label="出典" value={theory.sourceName} />
-        <OriginRow label="所在・由来" value={theory.sourceDetail} />
-        <OriginRow label="確認状態" value={theory.reliability} />
+        <View style={styles.explanation}>
+          <AppText variant="label" style={styles.explanationLabel}>
+            解説
+          </AppText>
+          <AppText style={styles.summary}>{explanation}</AppText>
+        </View>
+
+        <TheoryList title="要点" items={theory.keyPoints} tone="default" />
+        <TheoryList title="判断原則" items={theory.principles} tone="action" />
+        <TheoryList title="実践のヒント" items={theory.strategies} tone="action" />
+        <TheoryList
+          title="適用条件"
+          items={theory.applicationConditions}
+          tone="default"
+        />
+        <TheoryList title="注意点" items={theory.pitfalls} tone="caution" />
+
+        {!!theory.domains?.length && (
+          <>
+            <SectionHeader title="使える場面" />
+            <View style={styles.chips}>
+              {theory.domains.map((domain) => (
+                <View key={domain} style={styles.chip}>
+                  <AppText variant="caption" style={styles.chipText}>
+                    {domain}
+                  </AppText>
+                </View>
+              ))}
+            </View>
+          </>
+        )}
+
+        {related.length > 0 && (
+          <>
+            <SectionHeader title="関連する処世術" count={related.length} />
+            {related.map((card) => (
+              <TechniqueRow key={card.id} card={card} />
+            ))}
+          </>
+        )}
+
+        <SectionHeader title="出自" />
+        <View style={styles.origin}>
+          <OriginRow label="分類" value={theory.sourceType} />
+          <OriginRow label="専門分野" value={theory.discipline} />
+          <OriginRow label="形式" value={theory.conceptType} />
+          <OriginRow label="出典" value={theory.sourceName} />
+          <OriginRow label="所在・由来" value={theory.sourceDetail} />
+          <OriginRow label="確認状態" value={theory.reliability} />
+        </View>
+
+        {theory.notes && (
+          <>
+            <SectionHeader title="注記" />
+            <View style={styles.note}>
+              <AppText>{theory.notes}</AppText>
+            </View>
+          </>
+        )}
       </View>
-
-      <TheoryList title="判断原則" items={theory.principles} tone="action" />
-      <TheoryList
-        title="使える場面"
-        items={theory.domains}
-        tone="default"
-      />
-
-      {theory.notes && (
-        <>
-          <SectionHeader title="注記" />
-          <View style={styles.note}>
-            <AppText>{theory.notes}</AppText>
-          </View>
-        </>
-      )}
-
-      <SectionHeader title="この理論に関連する処世術" count={related.length} />
-      {related.map((card) => (
-        <TechniqueRow key={card.id} card={card} />
-      ))}
     </Screen>
   );
 }
@@ -138,49 +172,100 @@ function TheoryList({
 }
 
 const styles = StyleSheet.create({
-  title: { marginTop: spacing.lg },
-  summary: { color: colors.inkSoft, fontSize: 17, lineHeight: 30, marginTop: spacing.md },
-  summaryFallback: {
-    color: colors.muted,
-    fontSize: 15,
-    lineHeight: 25,
-    marginTop: spacing.md,
+  readingColumn: {
+    width: '100%',
+    maxWidth: 900,
+    alignSelf: 'center',
   },
+  eyebrow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    marginTop: spacing.sm,
+  },
+  breadcrumb: { color: colors.muted },
+  tagId: {
+    color: colors.gold,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    borderRadius: radius.pill,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    overflow: 'hidden',
+  },
+  title: { marginTop: spacing.xl, fontSize: 38, lineHeight: 52 },
+  explanation: {
+    marginTop: spacing.xl,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.gold,
+    backgroundColor: colors.surface,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.lg,
+  },
+  explanationLabel: {
+    color: colors.gold,
+    marginBottom: spacing.sm,
+  },
+  summary: { color: colors.inkSoft, fontSize: 18, lineHeight: 32 },
   origin: {
-    backgroundColor: colors.ink,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
     padding: spacing.lg,
-    gap: 14,
+    gap: 0,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 1,
   },
   originRow: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: spacing.md,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
   },
   originLabel: {
-    color: colors.goldLight,
-    width: 72,
+    color: colors.gold,
+    width: 86,
     paddingTop: 2,
   },
   originValue: {
-    color: colors.paper,
+    color: colors.inkSoft,
     flex: 1,
   },
+  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  chip: {
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    borderRadius: radius.pill,
+    backgroundColor: colors.white,
+    paddingHorizontal: 13,
+    paddingVertical: 7,
+  },
+  chipText: { color: colors.gold },
   note: {
     backgroundColor: '#EFE3DD',
     borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.line,
     padding: spacing.lg,
   },
   list: {
-    backgroundColor: colors.surface,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
-    borderColor: colors.line,
-    padding: spacing.md,
-    gap: 14,
+    borderColor: colors.goldLight,
+    padding: spacing.lg,
+    gap: spacing.md,
   },
   listCaution: { backgroundColor: '#EFE3DD' },
-  listAction: { backgroundColor: '#E2E8DF' },
+  listAction: { backgroundColor: '#F4F6F1' },
   listRow: { flexDirection: 'row', gap: spacing.md },
   listIndex: { color: colors.gold, width: 26, paddingTop: 2 },
   listText: { flex: 1 },
