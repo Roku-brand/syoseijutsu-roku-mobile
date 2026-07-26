@@ -47,7 +47,7 @@ export function PersistentBottomNav() {
       router.replace(item.href as never);
       return;
     }
-    if (!isCurrent) router.navigate(item.href as never);
+    if (!isCurrent) router.replace(item.href as never);
   };
 
   return (
