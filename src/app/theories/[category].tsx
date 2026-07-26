@@ -1,4 +1,4 @@
-import { Link, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import {
   AppText,
@@ -25,6 +25,7 @@ export function generateStaticParams() {
 }
 
 export default function TheoryCategoryScreen() {
+  const router = useRouter();
   const { category } = useLocalSearchParams<{ category: string }>();
   const items = theories.filter((theory) => theory.categoryId === category);
   const title = items[0]?.categoryTitle;
@@ -69,15 +70,20 @@ export default function TheoryCategoryScreen() {
                 {index + 1}
               </AppText>
             </View>
-            <Link
-              href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
-              asChild
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${theory.title}を開く`}
+              onPress={() =>
+                router.push({
+                  pathname: '/theory/[id]',
+                  params: { id: theory.tagId },
+                })
+              }
+              style={({ pressed }) => [
+                styles.card,
+                pressed && styles.pressed,
+              ]}
             >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`${theory.title}を開く`}
-                style={styles.card}
-              >
                 <View style={styles.copy}>
                   <AppText variant="label" style={styles.cardId}>
                     {theory.tagId}
@@ -92,8 +98,7 @@ export default function TheoryCategoryScreen() {
                   </AppText>
                 </View>
                 <AppText style={styles.chevron}>›</AppText>
-              </Pressable>
-            </Link>
+            </Pressable>
           </View>
         ))}
       </View>

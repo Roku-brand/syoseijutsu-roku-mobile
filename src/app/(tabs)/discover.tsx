@@ -14,13 +14,15 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards } from '@/data/catalog';
 
 const topics = [
-  { label: '第一印象', mark: '印', words: ['第一印象', '初頭', '印象'] },
-  { label: 'なめられない人', mark: '盾', words: ['なめられない', '境界線', '自己主張'] },
-  { label: '仕事ができる人', mark: '仕', words: ['仕事', '評価', '成果'] },
-  { label: '恋愛・人間関係', mark: '縁', words: ['恋愛', '人間関係', '信頼'] },
-  { label: '不安を整える', mark: '心', words: ['不安', '心配', '感情'] },
-  { label: '人生の選択', mark: '路', words: ['人生', '選択', '進路'] },
+  { label: '第一印象', mark: '印', tags: ['第一印象'] },
+  { label: 'なめられない人', mark: '盾', tags: ['なめられない人'] },
+  { label: '仕事ができる人', mark: '仕', tags: ['仕事ができる人'] },
+  { label: '恋愛・人間関係', mark: '縁', tags: ['恋愛', '人間関係'] },
+  { label: '不安を整える', mark: '心', tags: ['不安', 'メンタル'] },
+  { label: '人生の選択', mark: '路', tags: ['人生設計', '自己理解', 'キャリア'] },
 ];
+
+type Topic = (typeof topics)[number];
 
 function searchableText(card: (typeof techniqueCards)[number]) {
   return [
@@ -41,8 +43,9 @@ function searchableText(card: (typeof techniqueCards)[number]) {
 export default function DiscoverScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
 
-  const results = useMemo(() => {
+  const keywordResults = useMemo(() => {
     const terms = query
       .trim()
       .toLocaleLowerCase()
@@ -57,12 +60,26 @@ export default function DiscoverScreen() {
       .slice(0, 30);
   }, [query]);
 
-  const chooseTopic = (words: string[]) => {
+  const topicResults = useMemo(() => {
+    if (!selectedTopic) return [];
+    return techniqueCards.filter((card) =>
+      selectedTopic.tags.some((tag) => card.tags?.includes(tag)),
+    );
+  }, [selectedTopic]);
+
+  const chooseTopic = (topic: Topic) => {
     void Haptics.selectionAsync().catch(() => undefined);
-    setQuery(words.join(' '));
+    setQuery('');
+    setSelectedTopic(topic);
   };
 
   const searching = query.trim().length > 0;
+  const showingResults = searching || selectedTopic !== null;
+  const results = searching ? keywordResults : topicResults;
+  const clearResults = () => {
+    setQuery('');
+    setSelectedTopic(null);
+  };
 
   return (
     <BookScreen>
@@ -72,18 +89,21 @@ export default function DiscoverScreen() {
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
           value={query}
-          onChangeText={setQuery}
+          onChangeText={(value) => {
+            setQuery(value);
+            setSelectedTopic(null);
+          }}
           placeholder="悩み・理論・言葉を探す"
           placeholderTextColor="#99958C"
           accessibilityLabel="悩み・理論・言葉を検索"
           returnKeyType="search"
           style={styles.searchInput}
         />
-        {searching ? (
+        {showingResults ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="検索を消す"
-            onPress={() => setQuery('')}
+            onPress={clearResults}
             hitSlop={10}
           >
             <AppText style={styles.clear}>消す</AppText>
@@ -92,9 +112,11 @@ export default function DiscoverScreen() {
       </View>
       <AppText style={styles.lead}>いま必要な知恵へ、最短でたどり着く。</AppText>
 
-      {searching ? (
+      {showingResults ? (
         <View style={styles.results}>
-          <OrnamentHeading>検索結果　{results.length}</OrnamentHeading>
+          <OrnamentHeading>
+            {selectedTopic?.label ?? '検索結果'}　{results.length}
+          </OrnamentHeading>
           {results.length ? (
             results.map((card) => <TechniqueRow key={card.id} card={card} />)
           ) : (
@@ -115,7 +137,7 @@ export default function DiscoverScreen() {
                 key={topic.label}
                 accessibilityRole="button"
                 accessibilityLabel={`${topic.label}の処世術を探す`}
-                onPress={() => chooseTopic(topic.words)}
+                onPress={() => chooseTopic(topic)}
                 style={({ pressed }) => [
                   styles.topicCard,
                   pressed && styles.pressed,

@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import {
   categoryPalette,
@@ -26,6 +26,7 @@ export function TechniqueRow({
   accentColor?: string;
   tintColor?: string;
 }) {
+  const router = useRouter();
   const { savedIds, toggleSaved } = useAppState();
   const isSaved = savedIds.includes(card.id);
   const hasSequence = sequence !== undefined;
@@ -34,10 +35,18 @@ export function TechniqueRow({
   const resolvedTint = tintColor ?? palette.tint;
 
   return (
-    <Link href={{ pathname: '/card/[id]', params: { id: card.id } }} asChild>
-      <Pressable
-        style={[styles.row, { borderColor: resolvedAccent }]}
-      >
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${card.title}を開く`}
+      onPress={() =>
+        router.push({ pathname: '/card/[id]', params: { id: card.id } })
+      }
+      style={({ pressed }) => [
+        styles.row,
+        { borderColor: resolvedAccent },
+        pressed && styles.pressed,
+      ]}
+    >
         <View style={styles.copy}>
           {hasSequence && (
             <AppText variant="label" style={styles.sequence}>
@@ -79,8 +88,7 @@ export function TechniqueRow({
           />
           <AppText style={styles.chevron}>›</AppText>
         </View>
-      </Pressable>
-    </Link>
+    </Pressable>
   );
 }
 

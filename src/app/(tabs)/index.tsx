@@ -147,6 +147,8 @@ export default function MainScreen() {
         windowSize={3}
         onMomentumScrollEnd={updateActiveCard}
         onScrollEndDrag={updateActiveCard}
+        onScroll={updateActiveCard}
+        scrollEventThrottle={16}
         style={[styles.reel, { width: reelWidth }]}
         renderItem={({ item }) => (
           <View style={[styles.reelItem, { width: reelWidth }]}>

@@ -1,4 +1,4 @@
-import { Link, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Pressable,
@@ -36,6 +36,7 @@ export function generateStaticParams() {
 }
 
 export default function CardDetailScreen() {
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const card = techniqueById.get(id);
   const {
@@ -198,29 +199,37 @@ export default function CardDetailScreen() {
             <SectionHeader title="理論的背景" count={relatedTheories.length} />
             {relatedTheories.map((theory) =>
               theory ? (
-                <Link
+                <Pressable
                   key={theory.tagId}
-                  href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
-                  asChild
+                  accessibilityRole="button"
+                  accessibilityLabel={`${theory.title}を開く`}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/theory/[id]',
+                      params: { id: theory.tagId },
+                    })
+                  }
+                  style={({ pressed }) => [
+                    styles.theory,
+                    pressed && styles.pressed,
+                  ]}
                 >
-                  <Pressable style={styles.theory}>
-                    <View style={styles.theoryTag}>
-                      <AppText variant="label" style={styles.theoryTagText}>
-                        {theory.tagId}
-                      </AppText>
-                    </View>
-                    <View style={styles.theoryCopy}>
-                      <AppText variant="serif" style={styles.theoryTitle}>
-                        {theory.title}
-                      </AppText>
-                      <AppText variant="caption" numberOfLines={2}>
-                        {theory.summary ??
-                          `${theory.discipline}に属する${theory.conceptType}`}
-                      </AppText>
-                    </View>
-                    <AppText style={styles.chevron}>›</AppText>
-                  </Pressable>
-                </Link>
+                  <View style={styles.theoryTag}>
+                    <AppText variant="label" style={styles.theoryTagText}>
+                      {theory.tagId}
+                    </AppText>
+                  </View>
+                  <View style={styles.theoryCopy}>
+                    <AppText variant="serif" style={styles.theoryTitle}>
+                      {theory.title}
+                    </AppText>
+                    <AppText variant="caption" numberOfLines={2}>
+                      {theory.summary ??
+                        `${theory.discipline}に属する${theory.conceptType}`}
+                    </AppText>
+                  </View>
+                  <AppText style={styles.chevron}>›</AppText>
+                </Pressable>
               ) : null,
             )}
           </>
