@@ -15,6 +15,25 @@ export const colors = {
   white: '#FFFFFF',
   danger: '#8E3F39',
   success: '#49624A',
+  navInk: '#172019',
+} as const;
+
+export const categoryPalette = {
+  interpersonal: {
+    accent: '#566A82',
+    tint: '#EEF2F6',
+    soft: '#DDE5ED',
+  },
+  work: {
+    accent: '#A07135',
+    tint: '#F6F0E6',
+    soft: '#EADCC7',
+  },
+  life: {
+    accent: '#5F7868',
+    tint: '#EDF3EE',
+    soft: '#DCE8DF',
+  },
 } as const;
 
 export const fonts = {
@@ -39,6 +58,7 @@ export const spacing = {
   lg: 24,
   xl: 32,
   xxl: 48,
+  section: 64,
 } as const;
 
 export const radius = {

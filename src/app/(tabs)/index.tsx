@@ -11,7 +11,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText, BrandMark, Pill } from '@/components/ui';
-import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
+import {
+  categoryPalette,
+  colors,
+  fonts,
+  radius,
+  spacing,
+} from '@/constants/theme';
 import { categoryMeta, categoryOrder, techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
@@ -90,11 +96,20 @@ export default function MainScreen() {
                 基本原則
               </AppText>
               <AppText variant="title">処世術の五原則</AppText>
+              <AppText style={styles.introLead}>
+                処世術を、道具として正しく使うために。
+              </AppText>
             </View>
 
             <View style={styles.principles}>
               {principles.map((principle) => (
-                <View key={principle.number} style={styles.principle}>
+                <View
+                  key={principle.number}
+                  style={[
+                    styles.principle,
+                    principle.number !== '05' && styles.principleDivider,
+                  ]}
+                >
                   <AppText variant="label" style={styles.principleNumber}>
                     {principle.number}
                   </AppText>
@@ -109,12 +124,11 @@ export default function MainScreen() {
                   </View>
                 </View>
               ))}
-            </View>
-
-            <View style={styles.mantra}>
-              <AppText variant="label" style={styles.mantraText}>
-                語るな（可視化の抑制）／信じるな（万能化の抑制）／同一化するな（人格侵食の抑制）／運用せよ（実践優先）／目的に従え（手段従属）
-              </AppText>
+              <View style={styles.mantra}>
+                <AppText variant="label" style={styles.mantraText}>
+                  語るな ／ 信じるな ／ 同一化するな ／ 運用せよ ／ 目的に従え
+                </AppText>
+              </View>
             </View>
 
             <View style={styles.reelHeading}>
@@ -132,9 +146,22 @@ export default function MainScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={`${categoryMeta[key].label}のカードへ移動`}
                   onPress={() => jumpTo(key)}
-                  style={({ pressed }) => [styles.skipButton, pressed && styles.pressed]}
+                  style={({ pressed }) => [
+                    styles.skipButton,
+                    {
+                      borderColor: categoryPalette[key].accent,
+                      backgroundColor: categoryPalette[key].tint,
+                    },
+                    pressed && styles.pressed,
+                  ]}
                 >
-                  <AppText variant="label" style={styles.skipText}>
+                  <AppText
+                    variant="label"
+                    style={[
+                      styles.skipText,
+                      { color: categoryPalette[key].accent },
+                    ]}
+                  >
                     {categoryMeta[key].label}
                   </AppText>
                 </Pressable>
@@ -152,7 +179,15 @@ export default function MainScreen() {
               renderItem={({ item }) => {
                 const saved = savedIds.includes(item.id);
                 return (
-                  <View style={[styles.reelCard, { width: cardWidth }]}>
+                  <View
+                    style={[
+                      styles.reelCard,
+                      {
+                        width: cardWidth,
+                        borderColor: categoryPalette[item.categoryKey].accent,
+                      },
+                    ]}
+                  >
                     <Pill>{item.categoryName} · {item.subcategory}</Pill>
                     <View>
                       <AppText variant="serif" style={styles.reelTitle}>
@@ -191,7 +226,12 @@ export default function MainScreen() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: colors.paper },
-  content: { paddingBottom: spacing.xl },
+  content: {
+    width: '100%',
+    maxWidth: 1040,
+    alignSelf: 'center',
+    paddingBottom: 120,
+  },
   header: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,
@@ -200,32 +240,46 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   headerLabel: { letterSpacing: 1.8 },
-  intro: { paddingHorizontal: spacing.lg, marginTop: spacing.xl },
+  intro: { paddingHorizontal: spacing.lg, marginTop: spacing.xxl },
   eyebrow: { color: colors.gold, marginBottom: spacing.xs },
-  principles: { marginTop: spacing.lg, paddingHorizontal: spacing.lg, gap: 10 },
+  introLead: { color: colors.muted, marginTop: spacing.sm },
+  principles: {
+    marginTop: spacing.lg,
+    marginHorizontal: spacing.lg,
+    borderRadius: radius.lg,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    paddingHorizontal: spacing.lg,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.07,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 2,
+    overflow: 'hidden',
+  },
   principle: {
     flexDirection: 'row',
-    gap: spacing.md,
-    padding: spacing.md,
-    borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.line,
+    gap: spacing.lg,
+    paddingVertical: spacing.lg,
   },
-  principleNumber: { color: colors.gold, width: 24 },
+  principleDivider: { borderBottomWidth: 1, borderBottomColor: colors.line },
+  principleNumber: { color: colors.gold, width: 30, paddingTop: 2 },
   principleCopy: { flex: 1 },
   principleTitle: { fontSize: 17, lineHeight: 24 },
   principleNote: { marginTop: 2, color: colors.gold },
-  principleBody: { marginTop: spacing.sm, color: colors.inkSoft },
+  principleBody: { marginTop: spacing.sm, color: colors.inkSoft, lineHeight: 26 },
   mantra: {
-    margin: spacing.lg,
-    padding: spacing.md,
-    borderRadius: radius.md,
-    backgroundColor: colors.ink,
+    marginHorizontal: -spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    backgroundColor: colors.paperDeep,
+    borderTopWidth: 1,
+    borderTopColor: colors.goldLight,
   },
-  mantraText: { color: colors.goldLight, textAlign: 'center', lineHeight: 22 },
-  reelHeading: { paddingHorizontal: spacing.lg, marginTop: spacing.sm },
-  skipRow: { flexDirection: 'row', gap: 8, paddingHorizontal: spacing.lg, marginTop: spacing.md },
+  mantraText: { color: colors.gold, textAlign: 'center', lineHeight: 22 },
+  reelHeading: { paddingHorizontal: spacing.lg, marginTop: spacing.section },
+  skipRow: { flexDirection: 'row', gap: 10, paddingHorizontal: spacing.lg, marginTop: spacing.lg },
   skipButton: {
     flex: 1,
     minHeight: 38,
@@ -237,7 +291,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   skipText: { color: colors.inkSoft, fontSize: 10 },
-  reel: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: 12 },
+  reel: { paddingHorizontal: spacing.lg, paddingTop: spacing.lg, gap: spacing.md },
   reelCard: {
     minHeight: 332,
     borderRadius: radius.lg,

@@ -1,6 +1,12 @@
 import { Link } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import {
+  categoryPalette,
+  colors,
+  fonts,
+  radius,
+  spacing,
+} from '@/constants/theme';
 import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { AppText, IconButton } from './ui';
@@ -10,20 +16,27 @@ export function TechniqueRow({
   showCategory = true,
   sequence,
   sequenceTotal,
+  accentColor,
+  tintColor,
 }: {
   card: TechniqueCard;
   showCategory?: boolean;
   sequence?: number;
   sequenceTotal?: number;
+  accentColor?: string;
+  tintColor?: string;
 }) {
   const { savedIds, toggleSaved } = useAppState();
   const isSaved = savedIds.includes(card.id);
   const hasSequence = sequence !== undefined;
+  const palette = categoryPalette[card.categoryKey];
+  const resolvedAccent = accentColor ?? palette.accent;
+  const resolvedTint = tintColor ?? palette.tint;
 
   return (
     <Link href={{ pathname: '/card/[id]', params: { id: card.id } }} asChild>
       <Pressable
-        style={styles.row}
+        style={[styles.row, { borderColor: resolvedAccent }]}
       >
         <View style={styles.copy}>
           {hasSequence && (
@@ -32,7 +45,7 @@ export function TechniqueRow({
             </AppText>
           )}
           {showCategory && (
-            <AppText variant="label" style={styles.meta}>
+            <AppText variant="label" style={[styles.meta, { color: resolvedAccent }]}>
               {card.categoryName} · {card.subcategory}
             </AppText>
           )}
@@ -45,8 +58,8 @@ export function TechniqueRow({
           {!hasSequence && (card.tags?.length ?? 0) > 0 && (
             <View style={styles.tags}>
               {card.tags!.slice(0, 2).map((tag) => (
-                <View key={tag} style={styles.tag}>
-                  <AppText variant="caption" style={styles.tagText}>
+                <View key={tag} style={[styles.tag, { backgroundColor: resolvedTint }]}>
+                  <AppText variant="caption" style={[styles.tagText, { color: resolvedAccent }]}>
                     #{tag}
                   </AppText>
                 </View>
@@ -73,7 +86,7 @@ export function TechniqueRow({
 
 const styles = StyleSheet.create({
   row: {
-    minHeight: 138,
+    minHeight: 148,
     flexDirection: 'row',
     gap: spacing.md,
     alignItems: 'center',
@@ -81,10 +94,10 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     borderWidth: 2,
     borderColor: colors.gold,
-    padding: spacing.lg,
-    marginBottom: 14,
+    padding: spacing.xl,
+    marginBottom: spacing.lg,
     shadowColor: '#2B241A',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.07,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 6 },
     elevation: 3,

@@ -249,12 +249,16 @@ export function ChoiceCard({
   description,
   mark,
   selected = false,
+  accentColor = colors.gold,
+  tintColor = colors.paperDeep,
   onPress,
 }: {
   title: string;
   description?: string;
   mark?: string;
   selected?: boolean;
+  accentColor?: string;
+  tintColor?: string;
   onPress: () => void;
 }) {
   return (
@@ -264,13 +268,26 @@ export function ChoiceCard({
       onPress={onPress}
       style={({ pressed }) => [
         styles.choice,
+        { borderColor: accentColor },
         selected && styles.choiceSelected,
         pressed && styles.pressed,
       ]}
     >
       {mark && (
-        <View style={[styles.choiceMark, selected && styles.choiceMarkSelected]}>
-          <AppText style={[styles.choiceMarkText, selected && styles.choiceMarkTextSelected]}>
+        <View
+          style={[
+            styles.choiceMark,
+            { backgroundColor: tintColor },
+            selected && styles.choiceMarkSelected,
+          ]}
+        >
+          <AppText
+            style={[
+              styles.choiceMarkText,
+              { color: accentColor },
+              selected && styles.choiceMarkTextSelected,
+            ]}
+          >
             {mark}
           </AppText>
         </View>
@@ -285,7 +302,7 @@ export function ChoiceCard({
           </AppText>
         )}
       </View>
-      <AppText style={styles.chevron}>›</AppText>
+      <AppText style={[styles.chevron, { color: accentColor }]}>›</AppText>
     </Pressable>
   );
 }
@@ -342,7 +359,8 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 1040,
     alignSelf: 'center',
-    padding: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
     paddingBottom: 120,
   },
   text: {
@@ -399,7 +417,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.xxl,
     gap: spacing.md,
   },
   headerCopy: { flex: 1 },
@@ -461,23 +479,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: spacing.xl,
-    marginBottom: spacing.md,
+    marginTop: spacing.xxl,
+    marginBottom: spacing.lg,
   },
   sectionTitle: { fontSize: 20, lineHeight: 28 },
   sectionCount: { color: colors.gold },
   sectionAction: { color: colors.gold },
   choice: {
-    minHeight: 84,
+    minHeight: 104,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.line,
-    padding: spacing.md,
-    marginBottom: 12,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
   },
   choiceSelected: { borderColor: colors.gold, backgroundColor: '#F3E9D3' },
   choiceMark: {

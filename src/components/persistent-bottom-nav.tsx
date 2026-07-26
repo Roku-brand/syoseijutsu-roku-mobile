@@ -64,6 +64,7 @@ export function PersistentBottomNav() {
               onPress={() => navigate(item)}
               style={({ pressed }) => [styles.item, pressed && styles.pressed]}
             >
+              {active && <View style={styles.activeIndicator} />}
               <AppText style={[styles.mark, active && styles.markActive]}>{item.mark}</AppText>
               <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>
                 {item.label}
@@ -77,15 +78,30 @@ export function PersistentBottomNav() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { backgroundColor: colors.ink },
+  safeArea: { backgroundColor: colors.navInk },
   bar: {
     height: 62,
     flexDirection: 'row',
-    backgroundColor: colors.ink,
+    backgroundColor: colors.navInk,
     borderTopWidth: 1,
-    borderTopColor: '#3B3E37',
+    borderTopColor: '#3E493F',
   },
-  item: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2 },
+  item: {
+    flex: 1,
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+  },
+  activeIndicator: {
+    position: 'absolute',
+    top: 0,
+    width: 34,
+    height: 3,
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3,
+    backgroundColor: colors.goldLight,
+  },
   pressed: { opacity: 0.65 },
   mark: {
     color: '#9A9C95',
@@ -94,7 +110,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: '700',
   },
-  markActive: { color: colors.goldLight },
+  markActive: { color: colors.goldLight, fontSize: 19 },
   label: { color: '#9A9C95', fontSize: 10, lineHeight: 14, fontWeight: '600' },
   labelActive: { color: colors.goldLight },
 });

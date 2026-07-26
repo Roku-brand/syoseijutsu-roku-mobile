@@ -8,7 +8,7 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
-import { colors, radius, spacing } from '@/constants/theme';
+import { categoryPalette, colors, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 
@@ -48,6 +48,7 @@ export default function SubcategoryScreen() {
     subcategory: subcategory.name,
     articleTitle: subcategory.articleTitle ?? subcategory.name,
   }));
+  const palette = categoryPalette[category.key];
 
   return (
     <Screen>
@@ -58,7 +59,10 @@ export default function SubcategoryScreen() {
         </AppText>
         <AppText style={styles.description}>{subcategory.articleTitle}</AppText>
         <View style={styles.breadcrumb}>
-          <AppText variant="label" style={styles.breadcrumbActive}>
+          <AppText
+            variant="label"
+            style={[styles.breadcrumbActive, { backgroundColor: palette.accent }]}
+          >
             {category.name}
           </AppText>
           <AppText style={styles.breadcrumbArrow}>›</AppText>
@@ -74,20 +78,25 @@ export default function SubcategoryScreen() {
 
       <View style={styles.sectionTitle}>
         <SectionHeader title={`${cards.length}の処世術`} />
-        <View style={styles.titleRule} />
+        <View style={[styles.titleRule, { backgroundColor: palette.accent }]} />
       </View>
 
       <View style={styles.timeline}>
         {cards.map((card, index) => (
           <View key={card.id} style={styles.timelineItem}>
             <View style={styles.sequenceRail}>
-              <AppText variant="label" style={styles.sequenceNumber}>
+              <AppText
+                variant="label"
+                style={[styles.sequenceNumber, { color: palette.accent }]}
+              >
                 {String(index + 1).padStart(2, '0')} / {String(cards.length).padStart(2, '0')}
               </AppText>
             </View>
             <TechniqueRow
               card={card}
               showCategory={false}
+              accentColor={palette.accent}
+              tintColor={palette.tint}
             />
           </View>
         ))}
@@ -97,7 +106,7 @@ export default function SubcategoryScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { marginTop: spacing.md },
+  hero: { marginTop: spacing.lg },
   title: { marginTop: spacing.md },
   description: { marginTop: spacing.sm, color: colors.muted, fontSize: 16, lineHeight: 27 },
   breadcrumb: {
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     gap: 10,
     minHeight: 50,
-    marginTop: spacing.xl,
+    marginTop: spacing.xxl,
     paddingHorizontal: spacing.md,
     borderWidth: 1,
     borderColor: colors.line,
@@ -123,10 +132,10 @@ const styles = StyleSheet.create({
   },
   breadcrumbText: { color: colors.gold, flexShrink: 1 },
   breadcrumbArrow: { color: colors.inkSoft, fontSize: 22, lineHeight: 24 },
-  sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xl },
+  sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.section },
   titleRule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.75, marginTop: 12 },
   timeline: { position: 'relative', paddingBottom: spacing.sm },
-  timelineItem: { position: 'relative' },
+  timelineItem: { position: 'relative', marginBottom: spacing.sm },
   sequenceRail: {
     alignSelf: 'flex-start',
     minWidth: 56,

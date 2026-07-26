@@ -16,7 +16,13 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import {
+  categoryPalette,
+  colors,
+  fonts,
+  radius,
+  spacing,
+} from '@/constants/theme';
 import {
   getRelatedCards,
   techniqueById,
@@ -64,6 +70,7 @@ export default function CardDetailScreen() {
   }
 
   const isSaved = savedIds.includes(card.id);
+  const palette = categoryPalette[card.categoryKey];
   const guidance = practiceGuidance[card.categoryKey];
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
@@ -77,14 +84,20 @@ export default function CardDetailScreen() {
           <AppText variant="caption" style={styles.breadcrumb}>
             処世術　/　{card.categoryName}　/　{card.subcategory}
           </AppText>
-          <AppText variant="label" style={styles.cardId}>
+          <AppText
+            variant="label"
+            style={[styles.cardId, { color: palette.accent, borderColor: palette.accent }]}
+          >
             {card.id}
           </AppText>
         </View>
 
-        <View style={styles.hero}>
+        <View style={[styles.hero, { borderColor: palette.accent }]}>
           <View style={styles.heroMeta}>
-            <AppText variant="label" style={styles.categoryLabel}>
+            <AppText
+              variant="label"
+              style={[styles.categoryLabel, { color: palette.accent }]}
+            >
               {card.categoryName}
             </AppText>
             <AppText variant="caption" style={styles.metaDivider}>
@@ -144,7 +157,7 @@ export default function CardDetailScreen() {
         {card.explanation && (
           <>
             <SectionHeader title="解説" />
-            <Explanation value={card.explanation} />
+            <Explanation value={card.explanation} accentColor={palette.accent} />
           </>
         )}
 
@@ -277,14 +290,20 @@ function NumberedList({ items }: { items: string[] }) {
   );
 }
 
-function Explanation({ value }: { value: string }) {
+function Explanation({
+  value,
+  accentColor,
+}: {
+  value: string;
+  accentColor: string;
+}) {
   const paragraphs = value
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
   return (
-    <View style={styles.explanation}>
+    <View style={[styles.explanation, { borderLeftColor: accentColor }]}>
       {paragraphs.map((paragraph, paragraphIndex) => (
         <AppText
           key={`${paragraph.slice(0, 24)}-${paragraphIndex}`}

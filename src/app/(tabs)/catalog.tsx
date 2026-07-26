@@ -1,7 +1,7 @@
 import { Link, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, ChoiceCard, Header, Screen, SectionHeader } from '@/components/ui';
-import { colors, radius, spacing } from '@/constants/theme';
+import { categoryPalette, colors, radius, spacing } from '@/constants/theme';
 import {
   categories,
   categoryMeta,
@@ -42,6 +42,8 @@ export default function CatalogScreen() {
             title={categoryMeta[key].label}
             description={`${categoryMeta[key].description} · ${count}件`}
             mark={categoryMeta[key].mark}
+            accentColor={categoryPalette[key].accent}
+            tintColor={categoryPalette[key].tint}
             onPress={() =>
               router.push({ pathname: '/category/[key]', params: { key } })
             }
@@ -83,18 +85,18 @@ export default function CatalogScreen() {
 }
 
 const styles = StyleSheet.create({
-  theoryIntro: { color: colors.muted, marginBottom: spacing.lg },
-  theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  theoryIntro: { color: colors.muted, marginBottom: spacing.xl },
+  theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   theoryCard: {
     width: '48%',
-    minHeight: 140,
+    minHeight: 156,
     borderRadius: radius.md,
     borderWidth: 2,
     borderColor: colors.gold,
     backgroundColor: colors.white,
-    padding: spacing.md,
+    padding: spacing.lg,
     shadowColor: '#2B241A',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.07,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 6 },
     elevation: 3,
