@@ -67,7 +67,7 @@ export default function CatalogScreen() {
               }}
               asChild
             >
-              <Pressable style={({ pressed }) => [styles.theoryCard, pressed && styles.pressed]}>
+              <Pressable style={styles.theoryCard}>
                 <AppText style={styles.theoryMark}>{category.mark}</AppText>
                 <AppText variant="serif" style={styles.theoryTitle}>
                   {category.title}
@@ -89,10 +89,15 @@ const styles = StyleSheet.create({
     width: '48%',
     minHeight: 140,
     borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
+    borderWidth: 2,
+    borderColor: colors.gold,
+    backgroundColor: colors.white,
     padding: spacing.md,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.1,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 3,
     justifyContent: 'space-between',
   },
   pressed: { opacity: 0.65 },

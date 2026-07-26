@@ -23,11 +23,7 @@ export function TechniqueRow({
   return (
     <Link href={{ pathname: '/card/[id]', params: { id: card.id } }} asChild>
       <Pressable
-        style={({ pressed }) => [
-          styles.row,
-          hasSequence && styles.timelineRow,
-          pressed && styles.pressed,
-        ]}
+        style={styles.row}
       >
         <View style={styles.copy}>
           {hasSequence && (
@@ -81,17 +77,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: spacing.md,
     alignItems: 'center',
-    backgroundColor: colors.surface,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
-    borderWidth: 1.5,
-    borderColor: colors.goldLight,
+    borderWidth: 2,
+    borderColor: colors.gold,
     padding: spacing.lg,
     marginBottom: 14,
     shadowColor: '#2B241A',
-    shadowOpacity: 0.06,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 1,
+    shadowOpacity: 0.1,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 3,
   },
   pressed: { opacity: 0.68 },
   copy: { flex: 1 },
@@ -99,12 +95,7 @@ const styles = StyleSheet.create({
     minHeight: 164,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.lg,
-    borderColor: '#C69B4C',
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 2,
+    borderColor: colors.gold,
   },
   sequence: { color: colors.gold, marginBottom: spacing.md, letterSpacing: 0.8 },
   meta: { color: colors.gold, marginBottom: 6 },

@@ -49,18 +49,12 @@ const principles = [
   },
 ];
 
-const cardPalette: Record<CategoryKey, string> = {
-  interpersonal: '#EAE1D1',
-  work: '#D9DDD5',
-  life: '#D6DED9',
-};
-
 export default function MainScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
   const { savedIds, toggleSaved } = useAppState();
   const reelRef = useRef<FlatList<TechniqueCard>>(null);
-  const cardWidth = Math.max(280, width - spacing.lg * 2);
+  const cardWidth = Math.max(280, Math.min(760, width - spacing.lg * 2));
   const reelCards = useMemo(
     () =>
       [...techniqueCards].sort(
@@ -158,7 +152,7 @@ export default function MainScreen() {
               renderItem={({ item }) => {
                 const saved = savedIds.includes(item.id);
                 return (
-                  <View style={[styles.reelCard, { width: cardWidth, backgroundColor: cardPalette[item.categoryKey] }]}>
+                  <View style={[styles.reelCard, { width: cardWidth }]}>
                     <Pill>{item.categoryName} · {item.subcategory}</Pill>
                     <View>
                       <AppText variant="serif" style={styles.reelTitle}>
@@ -247,9 +241,16 @@ const styles = StyleSheet.create({
   reelCard: {
     minHeight: 332,
     borderRadius: radius.lg,
+    backgroundColor: colors.white,
+    borderWidth: 2,
+    borderColor: colors.gold,
     padding: spacing.lg,
     justifyContent: 'space-between',
-    ...shadow.card,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.1,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 3,
   },
   reelTitle: { marginTop: spacing.xl, fontSize: 25, lineHeight: 40 },
   reelBody: { marginTop: spacing.md, color: colors.inkSoft },

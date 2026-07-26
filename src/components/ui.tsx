@@ -326,7 +326,13 @@ export function EmptyState({
 const styles = StyleSheet.create({
   flex: { flex: 1 },
   screen: { flex: 1, backgroundColor: colors.paper },
-  screenContent: { padding: spacing.lg, paddingBottom: 120 },
+  screenContent: {
+    width: '100%',
+    maxWidth: 1040,
+    alignSelf: 'center',
+    padding: spacing.lg,
+    paddingBottom: 120,
+  },
   text: {
     color: colors.ink,
     fontFamily: fonts.sans,

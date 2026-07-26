@@ -170,7 +170,7 @@ export default function CardDetailScreen() {
             href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }}
             asChild
           >
-            <Pressable style={({ pressed }) => [styles.theory, pressed && styles.pressed]}>
+            <Pressable style={styles.theory}>
               <View style={styles.theoryTag}>
                 <AppText variant="label" style={styles.theoryTagText}>
                   {theory.tagId}
@@ -386,12 +386,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
-    borderWidth: 1.5,
-    borderColor: colors.goldLight,
+    borderWidth: 2,
+    borderColor: colors.gold,
     padding: spacing.lg,
     marginBottom: 14,
+    shadowColor: '#2B241A',
+    shadowOpacity: 0.1,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 3,
   },
   theoryTag: {
     minWidth: 54,
