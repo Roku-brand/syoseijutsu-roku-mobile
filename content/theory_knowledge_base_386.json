@@ -1,0 +1,7757 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_name": "処世術禄 理論・格言ナレッジベース",
+  "record_count": 386,
+  "design": {
+    "frontend": "具体的な処世術カードを用途別に表示する",
+    "backend": "理論・思想・格言・経験則を出自別に管理する",
+    "linkage": "処世術カード側の evidence_ids から本データの id を複数参照する",
+    "primary_source_types": [
+      "心理学",
+      "行動科学",
+      "組織・経営論",
+      "戦略論",
+      "古典・思想",
+      "格言・経験則・作品"
+    ]
+  },
+  "field_definitions": {
+    "id": "内部参照用の一意ID",
+    "original_number": "統合前一覧の通し番号",
+    "title": "理論名、原文、定着した格言、作品内の台詞",
+    "source_type": "最上位の出自分類",
+    "discipline": "出自を細分化した領域",
+    "concept_type": "理論・効果・技法・格言などの形式",
+    "source_name": "論語、孫子、作品名など",
+    "source_detail": "篇・章・由来など",
+    "summary": "現代語による一文要約。初期値はnull",
+    "domains": "表側で利用する用途タグ",
+    "principles": "抽出された判断原則",
+    "related_ids": "関連するバックエンドカードID",
+    "reliability": "出典・学術的信頼性の確認状態",
+    "status": "seed / reviewed / published",
+    "notes": "重複、通称、注意事項"
+  },
+  "records": [
+    {
+      "id": "kb_001",
+      "original_number": 1,
+      "title": "初頭効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_002",
+      "original_number": 2,
+      "title": "親近効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_003",
+      "original_number": 3,
+      "title": "ハロー効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_004",
+      "original_number": 4,
+      "title": "単純接触効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_005",
+      "original_number": 5,
+      "title": "類似性魅力効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_006",
+      "original_number": 6,
+      "title": "相補性",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_007",
+      "original_number": 7,
+      "title": "好意の返報性",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_008",
+      "original_number": 8,
+      "title": "自己開示の返報性",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_009",
+      "original_number": 9,
+      "title": "社会的浸透理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_010",
+      "original_number": 10,
+      "title": "不確実性低減理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_011",
+      "original_number": 11,
+      "title": "応答性理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_012",
+      "original_number": 12,
+      "title": "知覚されたパートナー応答性",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_013",
+      "original_number": 13,
+      "title": "ラポールの三要素モデル",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_014",
+      "original_number": 14,
+      "title": "ミラーリング効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_015",
+      "original_number": 15,
+      "title": "言語スタイル同調",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_016",
+      "original_number": 16,
+      "title": "呼び名効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": "実務上の通称。学術的な正式名称・効果範囲を要確認。"
+    },
+    {
+      "id": "kb_017",
+      "original_number": 17,
+      "title": "カクテルパーティー効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_018",
+      "original_number": 18,
+      "title": "質問好意効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_019",
+      "original_number": 19,
+      "title": "ベン・フランクリン効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_020",
+      "original_number": 20,
+      "title": "自己検証理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_021",
+      "original_number": 21,
+      "title": "自己拡張理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_022",
+      "original_number": 22,
+      "title": "対人魅力の報酬理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_023",
+      "original_number": 23,
+      "title": "感情伝染",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_024",
+      "original_number": 24,
+      "title": "アクティブ・コンストラクティブ・レスポンディング",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_025",
+      "original_number": 25,
+      "title": "プラットフォール効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_026",
+      "original_number": 26,
+      "title": "ゲイン・ロス効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_027",
+      "original_number": 27,
+      "title": "誤帰属理論",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_028",
+      "original_number": 28,
+      "title": "吊り橋効果",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_029",
+      "original_number": 29,
+      "title": "ピーク・エンドの法則",
+      "source_type": "心理学",
+      "discipline": "社会心理学",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_030",
+      "original_number": 30,
+      "title": "社会的交換理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_031",
+      "original_number": 31,
+      "title": "衡平理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_032",
+      "original_number": 32,
+      "title": "コミューナル関係・交換関係",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_033",
+      "original_number": 33,
+      "title": "相互依存性理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_034",
+      "original_number": 34,
+      "title": "投資モデル",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_035",
+      "original_number": 35,
+      "title": "最小関心原理",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_036",
+      "original_number": 36,
+      "title": "愛着理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_037",
+      "original_number": 37,
+      "title": "親密性平衡モデル",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_038",
+      "original_number": 38,
+      "title": "関係のエスカレーション・モデル",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_039",
+      "original_number": 39,
+      "title": "関係破綻・修復モデル",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_040",
+      "original_number": 40,
+      "title": "修復試行",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_041",
+      "original_number": 41,
+      "title": "ゴットマンの四騎士",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_042",
+      "original_number": 42,
+      "title": "要求・撤退パターン",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_043",
+      "original_number": 43,
+      "title": "ネガティブ感情の相互性",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_044",
+      "original_number": 44,
+      "title": "帰属的葛藤",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_045",
+      "original_number": 45,
+      "title": "基本的帰属の誤り",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_046",
+      "original_number": 46,
+      "title": "行為者・観察者バイアス",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_047",
+      "original_number": 47,
+      "title": "返報性の原理",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_048",
+      "original_number": 48,
+      "title": "間欠強化",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_049",
+      "original_number": 49,
+      "title": "消去バースト",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_050",
+      "original_number": 50,
+      "title": "心理的リアクタンス",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_051",
+      "original_number": 51,
+      "title": "アサーション理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_052",
+      "original_number": 52,
+      "title": "DESC法",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_053",
+      "original_number": 53,
+      "title": "非暴力コミュニケーション",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_054",
+      "original_number": 54,
+      "title": "DEAR MAN",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_055",
+      "original_number": 55,
+      "title": "面子理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_056",
+      "original_number": 56,
+      "title": "フェイスワーク",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_057",
+      "original_number": 57,
+      "title": "許しのプロセスモデル",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_058",
+      "original_number": 58,
+      "title": "社会的アイデンティティ理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_059",
+      "original_number": 59,
+      "title": "自己カテゴリー化理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_060",
+      "original_number": 60,
+      "title": "内集団バイアス",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_061",
+      "original_number": 61,
+      "title": "外集団同質性効果",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_062",
+      "original_number": 62,
+      "title": "最小条件集団パラダイム",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_063",
+      "original_number": 63,
+      "title": "同調効果",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_064",
+      "original_number": 64,
+      "title": "集団思考",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_065",
+      "original_number": 65,
+      "title": "集団極性化",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_066",
+      "original_number": 66,
+      "title": "沈黙の螺旋",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_067",
+      "original_number": 67,
+      "title": "多元的無知",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_068",
+      "original_number": 68,
+      "title": "アビリーンのパラドックス",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_069",
+      "original_number": 69,
+      "title": "少数派影響",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_070",
+      "original_number": 70,
+      "title": "社会的手抜き",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_071",
+      "original_number": 71,
+      "title": "リンゲルマン効果",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_072",
+      "original_number": 72,
+      "title": "傍観者効果",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_073",
+      "original_number": 73,
+      "title": "責任の分散",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_074",
+      "original_number": 74,
+      "title": "期待状態理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_075",
+      "original_number": 75,
+      "title": "地位特性理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_076",
+      "original_number": 76,
+      "title": "地位一般化",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_077",
+      "original_number": 77,
+      "title": "マタイ効果",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_078",
+      "original_number": 78,
+      "title": "累積優位",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_079",
+      "original_number": 79,
+      "title": "権力依存理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_080",
+      "original_number": 80,
+      "title": "フレンチ＝レイヴンの権力基盤",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_081",
+      "original_number": 81,
+      "title": "社会関係資本",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_082",
+      "original_number": 82,
+      "title": "弱い紐帯の強さ",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_083",
+      "original_number": 83,
+      "title": "構造的空隙",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_084",
+      "original_number": 84,
+      "title": "ブローカー理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_085",
+      "original_number": 85,
+      "title": "ネットワーク中心性",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_086",
+      "original_number": 86,
+      "title": "コア・ペリフェリー構造",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_087",
+      "original_number": 87,
+      "title": "トランザクティブ・メモリー",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_088",
+      "original_number": 88,
+      "title": "信用獲得理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_089",
+      "original_number": 89,
+      "title": "特異性信用",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_090",
+      "original_number": 90,
+      "title": "ゴシップ理論",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_091",
+      "original_number": 91,
+      "title": "評判カスケード",
+      "source_type": "組織・経営論",
+      "discipline": "組織行動・組織ネットワーク",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_092",
+      "original_number": 92,
+      "title": "境界線理論",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_093",
+      "original_number": 93,
+      "title": "共依存",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_094",
+      "original_number": 94,
+      "title": "ダブルバインド",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_095",
+      "original_number": 95,
+      "title": "ガスライティング",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_096",
+      "original_number": 96,
+      "title": "DARVO",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_097",
+      "original_number": 97,
+      "title": "グレーロック法",
+      "source_type": "心理学",
+      "discipline": "対人関係心理学",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": "実務上の通称。学術的な正式名称・効果範囲を要確認。"
+    },
+    {
+      "id": "kb_098",
+      "original_number": 98,
+      "title": "フット・イン・ザ・ドア",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_099",
+      "original_number": 99,
+      "title": "ドア・イン・ザ・フェイス",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_100",
+      "original_number": 100,
+      "title": "ローボール・テクニック",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_101",
+      "original_number": 101,
+      "title": "イエス・セット",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": "実務上の通称。学術的な正式名称・効果範囲を要確認。"
+    },
+    {
+      "id": "kb_102",
+      "original_number": 102,
+      "title": "希少性の原理",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_103",
+      "original_number": 103,
+      "title": "権威効果",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_104",
+      "original_number": 104,
+      "title": "社会的証明",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_105",
+      "original_number": 105,
+      "title": "バーナム効果",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_106",
+      "original_number": 106,
+      "title": "情報カスケード",
+      "source_type": "行動科学",
+      "discipline": "説得・社会的影響",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "自己防衛・境界線"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_107",
+      "original_number": 107,
+      "title": "シグナリング理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_108",
+      "original_number": 108,
+      "title": "スクリーニング",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_109",
+      "original_number": 109,
+      "title": "情報の非対称性",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_110",
+      "original_number": 110,
+      "title": "プリンシパル＝エージェント理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_111",
+      "original_number": 111,
+      "title": "印象管理理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_112",
+      "original_number": 112,
+      "title": "自己呈示理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_113",
+      "original_number": 113,
+      "title": "評判形成理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_114",
+      "original_number": 114,
+      "title": "現実的正確性モデル",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_115",
+      "original_number": 115,
+      "title": "自他知識非対称性モデル",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_116",
+      "original_number": 116,
+      "title": "可視性バイアス",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_117",
+      "original_number": 117,
+      "title": "成果帰属問題",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_118",
+      "original_number": 118,
+      "title": "組織市民行動",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_119",
+      "original_number": 119,
+      "title": "能力・好感トレードオフ",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_120",
+      "original_number": 120,
+      "title": "自己宣伝のジレンマ",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_121",
+      "original_number": 121,
+      "title": "ハンブルブラッグ効果",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_122",
+      "original_number": 122,
+      "title": "反射的栄光浴",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_123",
+      "original_number": 123,
+      "title": "ピグマリオン効果",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_124",
+      "original_number": 124,
+      "title": "ゴーレム効果",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_125",
+      "original_number": 125,
+      "title": "リーダー・メンバー交換理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_126",
+      "original_number": 126,
+      "title": "スポンサーシップ理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_127",
+      "original_number": 127,
+      "title": "組織支援理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_128",
+      "original_number": 128,
+      "title": "人・組織適合理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_129",
+      "original_number": 129,
+      "title": "人・職務適合理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_130",
+      "original_number": 130,
+      "title": "ジョブ・クラフティング",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_131",
+      "original_number": 131,
+      "title": "キャリア資本理論",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_132",
+      "original_number": 132,
+      "title": "ピーターの法則",
+      "source_type": "組織・経営論",
+      "discipline": "人的資源管理・キャリア論",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_133",
+      "original_number": 133,
+      "title": "プロスペクト理論",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_134",
+      "original_number": 134,
+      "title": "損失回避",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_135",
+      "original_number": 135,
+      "title": "保有効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_136",
+      "original_number": 136,
+      "title": "現状維持バイアス",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_137",
+      "original_number": 137,
+      "title": "フレーミング効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_138",
+      "original_number": 138,
+      "title": "アンカリング効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_139",
+      "original_number": 139,
+      "title": "対比効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_140",
+      "original_number": 140,
+      "title": "おとり効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_141",
+      "original_number": 141,
+      "title": "妥協効果",
+      "source_type": "行動科学",
+      "discipline": "行動経済学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_142",
+      "original_number": 142,
+      "title": "BATNA",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_143",
+      "original_number": 143,
+      "title": "ZOPA",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_144",
+      "original_number": 144,
+      "title": "留保価格",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_145",
+      "original_number": 145,
+      "title": "固定パイ・バイアス",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_146",
+      "original_number": 146,
+      "title": "反応的価値下げ",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_147",
+      "original_number": 147,
+      "title": "利益立脚型交渉",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_148",
+      "original_number": 148,
+      "title": "原則立脚型交渉",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_149",
+      "original_number": 149,
+      "title": "立場と利益の分離",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_150",
+      "original_number": 150,
+      "title": "ログローリング",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_151",
+      "original_number": 151,
+      "title": "パッケージ交渉",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_152",
+      "original_number": 152,
+      "title": "MESO",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_153",
+      "original_number": 153,
+      "title": "条件付き合意",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_154",
+      "original_number": 154,
+      "title": "客観的基準",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_155",
+      "original_number": 155,
+      "title": "手続的公正",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_156",
+      "original_number": 156,
+      "title": "二重関心理論",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_157",
+      "original_number": 157,
+      "title": "トーマス＝キルマン・モデル",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_158",
+      "original_number": 158,
+      "title": "感情＝社会的情報理論",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_159",
+      "original_number": 159,
+      "title": "面子保存",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_160",
+      "original_number": 160,
+      "title": "デエスカレーション",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_161",
+      "original_number": 161,
+      "title": "調停理論",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_162",
+      "original_number": 162,
+      "title": "囚人のジレンマ",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_163",
+      "original_number": 163,
+      "title": "反復ゲーム",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_164",
+      "original_number": 164,
+      "title": "しっぺ返し戦略",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_165",
+      "original_number": 165,
+      "title": "チキンゲーム",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_166",
+      "original_number": 166,
+      "title": "コミットメント戦略",
+      "source_type": "戦略論",
+      "discipline": "交渉論・ゲーム理論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_167",
+      "original_number": 167,
+      "title": "目標設定理論",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_168",
+      "original_number": 168,
+      "title": "期待理論",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_169",
+      "original_number": 169,
+      "title": "自己効力感",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_170",
+      "original_number": 170,
+      "title": "目標階層理論",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_171",
+      "original_number": 171,
+      "title": "制御理論",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_172",
+      "original_number": 172,
+      "title": "実行意図",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_173",
+      "original_number": 173,
+      "title": "コミットメント装置",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_174",
+      "original_number": 174,
+      "title": "プレコミットメント",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_175",
+      "original_number": 175,
+      "title": "現在バイアス",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_176",
+      "original_number": 176,
+      "title": "双曲割引",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_177",
+      "original_number": 177,
+      "title": "デフォルト効果",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_178",
+      "original_number": 178,
+      "title": "選択アーキテクチャ",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_179",
+      "original_number": 179,
+      "title": "ナッジ",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_180",
+      "original_number": 180,
+      "title": "習慣ループ",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_181",
+      "original_number": 181,
+      "title": "行動摩擦",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_182",
+      "original_number": 182,
+      "title": "誘惑バンドリング",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_183",
+      "original_number": 183,
+      "title": "目標勾配効果",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_184",
+      "original_number": 184,
+      "title": "新鮮なスタート効果",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_185",
+      "original_number": 185,
+      "title": "進捗原理",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_186",
+      "original_number": 186,
+      "title": "小さな勝利",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_187",
+      "original_number": 187,
+      "title": "学習目標・遂行目標",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_188",
+      "original_number": 188,
+      "title": "接近目標・回避目標",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_189",
+      "original_number": 189,
+      "title": "促進焦点・予防焦点",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_190",
+      "original_number": 190,
+      "title": "計画錯誤",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_191",
+      "original_number": 191,
+      "title": "意思決定疲れ",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_192",
+      "original_number": 192,
+      "title": "パーキンソンの法則",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_193",
+      "original_number": 193,
+      "title": "グッドハートの法則",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_194",
+      "original_number": 194,
+      "title": "キャンベルの法則",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "原理・法則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_195",
+      "original_number": 195,
+      "title": "目標代替",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_196",
+      "original_number": 196,
+      "title": "ボトルネック理論",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_197",
+      "original_number": 197,
+      "title": "制約理論",
+      "source_type": "組織・経営論",
+      "discipline": "経営管理・オペレーション",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_198",
+      "original_number": 198,
+      "title": "デリバレート・プラクティス",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_199",
+      "original_number": 199,
+      "title": "検索練習効果",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_200",
+      "original_number": 200,
+      "title": "間隔効果",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_201",
+      "original_number": 201,
+      "title": "望ましい困難",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_202",
+      "original_number": 202,
+      "title": "行動活性化",
+      "source_type": "行動科学",
+      "discipline": "行動変容・学習科学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_203",
+      "original_number": 203,
+      "title": "不確実性不耐性",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_204",
+      "original_number": 204,
+      "title": "心配の回避理論",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_205",
+      "original_number": 205,
+      "title": "メタ認知モデル",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_206",
+      "original_number": 206,
+      "title": "認知的注意症候群",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_207",
+      "original_number": 207,
+      "title": "安全行動",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_208",
+      "original_number": 208,
+      "title": "回避学習",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_209",
+      "original_number": 209,
+      "title": "ネガティブ強化",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_210",
+      "original_number": 210,
+      "title": "曝露療法",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_211",
+      "original_number": 211,
+      "title": "抑制学習モデル",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_212",
+      "original_number": 212,
+      "title": "感情推論",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_213",
+      "original_number": 213,
+      "title": "破局的思考",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_214",
+      "original_number": 214,
+      "title": "確率過大評価",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_215",
+      "original_number": 215,
+      "title": "コスト過大評価",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_216",
+      "original_number": 216,
+      "title": "反すう理論",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_217",
+      "original_number": 217,
+      "title": "具体性訓練",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_218",
+      "original_number": 218,
+      "title": "アイロニック・プロセス理論",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_219",
+      "original_number": 219,
+      "title": "白熊効果",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_220",
+      "original_number": 220,
+      "title": "経験回避",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_221",
+      "original_number": 221,
+      "title": "心理的柔軟性",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_222",
+      "original_number": 222,
+      "title": "アクセプタンス",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_223",
+      "original_number": 223,
+      "title": "認知的脱フュージョン",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_224",
+      "original_number": 224,
+      "title": "脱中心化",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_225",
+      "original_number": 225,
+      "title": "マインドフルネス",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_226",
+      "original_number": 226,
+      "title": "セルフ・ディスタンシング",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_227",
+      "original_number": 227,
+      "title": "感情ラベリング",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_228",
+      "original_number": 228,
+      "title": "ストレス評価理論",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_229",
+      "original_number": 229,
+      "title": "問題焦点型・感情焦点型コーピング",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_230",
+      "original_number": 230,
+      "title": "二次的コントロール",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_231",
+      "original_number": 231,
+      "title": "コントロール幻想",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_232",
+      "original_number": 232,
+      "title": "スポットライト効果",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_233",
+      "original_number": 233,
+      "title": "透明性の錯覚",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_234",
+      "original_number": 234,
+      "title": "感情予測の誤り",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_235",
+      "original_number": 235,
+      "title": "インパクト・バイアス",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_236",
+      "original_number": 236,
+      "title": "フォーカシング・イリュージョン",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_237",
+      "original_number": 237,
+      "title": "防衛的悲観主義",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_238",
+      "original_number": 238,
+      "title": "ストレス接種訓練",
+      "source_type": "心理学",
+      "discipline": "臨床心理学・認知行動療法",
+      "concept_type": "技法・介入",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_239",
+      "original_number": 239,
+      "title": "学習性無力感",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_240",
+      "original_number": 240,
+      "title": "レジリエンス理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_241",
+      "original_number": 241,
+      "title": "回復軌道モデル",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_242",
+      "original_number": 242,
+      "title": "心的外傷後成長",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_243",
+      "original_number": 243,
+      "title": "意味生成モデル",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_244",
+      "original_number": 244,
+      "title": "仮定世界理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_245",
+      "original_number": 245,
+      "title": "シャッタード・アサンプション",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_246",
+      "original_number": 246,
+      "title": "ナラティブ・アイデンティティ",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_247",
+      "original_number": 247,
+      "title": "償還物語",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_248",
+      "original_number": 248,
+      "title": "汚染物語",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_249",
+      "original_number": 249,
+      "title": "アイデンティティ喪失",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_250",
+      "original_number": 250,
+      "title": "役割退出理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_251",
+      "original_number": 251,
+      "title": "アイデンティティ移行",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_252",
+      "original_number": 252,
+      "title": "リミナリティ",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_253",
+      "original_number": 253,
+      "title": "二重過程モデル",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_254",
+      "original_number": 254,
+      "title": "曖昧な喪失",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_255",
+      "original_number": 255,
+      "title": "権利を認められない悲嘆",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_256",
+      "original_number": 256,
+      "title": "可能自己",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_257",
+      "original_number": 257,
+      "title": "自己不一致理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_258",
+      "original_number": 258,
+      "title": "自己複雑性",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_259",
+      "original_number": 259,
+      "title": "自己概念明確性",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_260",
+      "original_number": 260,
+      "title": "アイデンティティに基づく動機づけ",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_261",
+      "original_number": 261,
+      "title": "希望理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_262",
+      "original_number": 262,
+      "title": "学習性楽観主義",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_263",
+      "original_number": 263,
+      "title": "成長マインドセット",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_264",
+      "original_number": 264,
+      "title": "セルフ・コンパッション",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_265",
+      "original_number": 265,
+      "title": "認知的不協和",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_266",
+      "original_number": 266,
+      "title": "社会的比較理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_267",
+      "original_number": 267,
+      "title": "相対的剝奪",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_268",
+      "original_number": 268,
+      "title": "快楽順応",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_269",
+      "original_number": 269,
+      "title": "公正世界仮説",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_270",
+      "original_number": 270,
+      "title": "補償的コントロール理論",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_271",
+      "original_number": 271,
+      "title": "存在的真空",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_272",
+      "original_number": 272,
+      "title": "ロゴセラピー",
+      "source_type": "心理学",
+      "discipline": "自己・発達・ポジティブ心理学",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_273",
+      "original_number": 273,
+      "title": "サンクコスト効果",
+      "source_type": "行動科学",
+      "discipline": "意思決定論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_274",
+      "original_number": 274,
+      "title": "機会費用",
+      "source_type": "行動科学",
+      "discipline": "意思決定論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_275",
+      "original_number": 275,
+      "title": "選択のパラドックス",
+      "source_type": "行動科学",
+      "discipline": "意思決定論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_276",
+      "original_number": 276,
+      "title": "最大化傾向",
+      "source_type": "行動科学",
+      "discipline": "意思決定論",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_277",
+      "original_number": 277,
+      "title": "十分化",
+      "source_type": "行動科学",
+      "discipline": "意思決定論",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_278",
+      "original_number": 278,
+      "title": "オプション価値",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_279",
+      "original_number": 279,
+      "title": "リアル・オプション理論",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_280",
+      "original_number": 280,
+      "title": "分散戦略",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_281",
+      "original_number": 281,
+      "title": "冗長性",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_282",
+      "original_number": 282,
+      "title": "バーベル戦略",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_283",
+      "original_number": 283,
+      "title": "アンチフラジャイル",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_284",
+      "original_number": 284,
+      "title": "OODAループ",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_285",
+      "original_number": 285,
+      "title": "創発戦略",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_286",
+      "original_number": 286,
+      "title": "撤退戦略",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_287",
+      "original_number": 287,
+      "title": "探索と活用",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_288",
+      "original_number": 288,
+      "title": "経路依存性",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_289",
+      "original_number": 289,
+      "title": "ロックイン効果",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "効果・バイアス",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_290",
+      "original_number": 290,
+      "title": "計画された偶発性理論",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_291",
+      "original_number": 291,
+      "title": "キャリア・アダプタビリティ",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "概念・フレームワーク",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_292",
+      "original_number": 292,
+      "title": "クランボルツの社会的学習理論",
+      "source_type": "戦略論",
+      "discipline": "戦略・リスク・キャリア設計",
+      "concept_type": "理論・モデル",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "学術文献要付与",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_293",
+      "original_number": 293,
+      "title": "己の欲せざる所、人に施すこと勿かれ",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "衛霊公篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_294",
+      "original_number": 294,
+      "title": "徳は孤ならず、必ず鄰有り",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "里仁篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_295",
+      "original_number": 295,
+      "title": "三人行えば、必ず我が師有り",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "述而篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_296",
+      "original_number": 296,
+      "title": "情けは人の為ならず",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_297",
+      "original_number": 297,
+      "title": "袖振り合うも多生の縁",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の構築"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_298",
+      "original_number": 298,
+      "title": "過ちて改めざる、是を過ちと謂う",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "衛霊公篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_299",
+      "original_number": 299,
+      "title": "和して同ぜず",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "子路篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_300",
+      "original_number": 300,
+      "title": "親しき仲にも礼儀あり",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_301",
+      "original_number": 301,
+      "title": "雨降って地固まる",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_302",
+      "original_number": 302,
+      "title": "囲師には必ず闕く",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍争篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_303",
+      "original_number": 303,
+      "title": "窮寇には迫ること勿かれ",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍争篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "関係の管理"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_304",
+      "original_number": 304,
+      "title": "巧言令色、鮮なし仁",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "学而篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_305",
+      "original_number": 305,
+      "title": "君子は器ならず",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "為政篇",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_306",
+      "original_number": 306,
+      "title": "能ある鷹は爪を隠す",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_307",
+      "original_number": 307,
+      "title": "出る杭は打たれる",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_308",
+      "original_number": 308,
+      "title": "長い物には巻かれろ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_309",
+      "original_number": 309,
+      "title": "寄らば大樹の陰",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_310",
+      "original_number": 310,
+      "title": "鳥尽きて良弓蔵れ、狡兎死して走狗烹らる",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "史記",
+      "source_detail": "越王勾践世家など",
+      "summary": null,
+      "domains": [
+        "対人術",
+        "集団での立ち回り"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_311",
+      "original_number": 311,
+      "title": "知らざるを知らずと為す、是れ知るなり",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "為政篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_312",
+      "original_number": 312,
+      "title": "桃李もの言わざれども、下自ずから蹊を成す",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "史記",
+      "source_detail": "李将軍列伝",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_313",
+      "original_number": 313,
+      "title": "実るほど頭を垂れる稲穂かな",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_314",
+      "original_number": 314,
+      "title": "一芸は道に通ずる",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_315",
+      "original_number": 315,
+      "title": "鶏口となるも牛後となるなかれ",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "史記",
+      "source_detail": "蘇秦列伝",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "評価の獲得"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_316",
+      "original_number": 316,
+      "title": "百戦百勝は善の善なる者に非ざるなり",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_317",
+      "original_number": 317,
+      "title": "戦わずして人の兵を屈するは、善の善なる者なり",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_318",
+      "original_number": 318,
+      "title": "上兵は謀を伐つ",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_319",
+      "original_number": 319,
+      "title": "次いで交を伐つ",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_320",
+      "original_number": 320,
+      "title": "兵は詭道なり",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "計篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_321",
+      "original_number": 321,
+      "title": "先んずれば人を制し、後るれば人に制せらる",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "史記",
+      "source_detail": "項羽本紀に由来",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_322",
+      "original_number": 322,
+      "title": "負けるが勝ち",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "交渉・合意術"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_323",
+      "original_number": 323,
+      "title": "兵は拙速を聞くも、未だ巧久を睹ざるなり",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "作戦篇",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_324",
+      "original_number": 324,
+      "title": "巧遅は拙速に如かず",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_325",
+      "original_number": 325,
+      "title": "千里の行も足下より始まる",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "老子",
+      "source_detail": "第六十四章",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_326",
+      "original_number": 326,
+      "title": "為せば成る、為さねば成らぬ何事も",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "上杉鷹山",
+      "source_detail": "広く知られる言葉",
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_327",
+      "original_number": 327,
+      "title": "継続は力なり",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_328",
+      "original_number": 328,
+      "title": "急がば回れ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_329",
+      "original_number": 329,
+      "title": "完璧は善の敵",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_330",
+      "original_number": 330,
+      "title": "Done is better than perfect",
+      "source_type": "格言・経験則・作品",
+      "discipline": "現代的経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_331",
+      "original_number": 331,
+      "title": "環境は意志より強い",
+      "source_type": "格言・経験則・作品",
+      "discipline": "現代的経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_332",
+      "original_number": 332,
+      "title": "継続できる規模まで小さくする",
+      "source_type": "格言・経験則・作品",
+      "discipline": "現代的経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "仕事術",
+        "目標達成"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_333",
+      "original_number": 333,
+      "title": "人間万事塞翁が馬",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "淮南子",
+      "source_detail": "人間訓",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_334",
+      "original_number": 334,
+      "title": "禍福は糾える縄の如し",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "中国古典",
+      "source_detail": "成句",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_335",
+      "original_number": 335,
+      "title": "案ずるより産むが易し",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_336",
+      "original_number": 336,
+      "title": "明日は明日の風が吹く",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_337",
+      "original_number": 337,
+      "title": "渡る世間に鬼はなし",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_338",
+      "original_number": 338,
+      "title": "自分の人生を他人のハイライトと比べない",
+      "source_type": "格言・経験則・作品",
+      "discipline": "現代的経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_339",
+      "original_number": 339,
+      "title": "他人の成功には、見えていない代償がある",
+      "source_type": "格言・経験則・作品",
+      "discipline": "現代的経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "不安の解消"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_340",
+      "original_number": 340,
+      "title": "勝兵は先ず勝ちて而る後に戦いを求む",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍形篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_341",
+      "original_number": 341,
+      "title": "先ず勝つべからざるを為す",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍形篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_342",
+      "original_number": 342,
+      "title": "彼を知り己を知れば、百戦して殆うからず",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_343",
+      "original_number": 343,
+      "title": "彼を知らずして己を知れば、一勝一負す",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_344",
+      "original_number": 344,
+      "title": "彼を知らず己を知らざれば、戦う毎に必ず殆うし",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "謀攻篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_345",
+      "original_number": 345,
+      "title": "善く戦う者は、勝ち易きに勝つ者なり",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍形篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_346",
+      "original_number": 346,
+      "title": "善戦者の勝つや、智名も無く、勇功も無し",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "軍形篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_347",
+      "original_number": 347,
+      "title": "水に常形無く、兵に常勢無し",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "虚実篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_348",
+      "original_number": 348,
+      "title": "兵に常勢無く、水に常形無し",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "虚実篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": "347と同一原文系統。正式版では統合候補。"
+    },
+    {
+      "id": "kb_349",
+      "original_number": 349,
+      "title": "智者の慮は、必ず利害に雑う",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "九変篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_350",
+      "original_number": 350,
+      "title": "利に雑えて務め信ぶべく、害に雑えて患い解くべし",
+      "source_type": "古典・思想",
+      "discipline": "軍事戦略思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "孫子",
+      "source_detail": "九変篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_351",
+      "original_number": 351,
+      "title": "狡兎三窟",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "戦国策",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_352",
+      "original_number": 352,
+      "title": "臥薪嘗胆",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "呉越抗争の故事",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_353",
+      "original_number": 353,
+      "title": "捲土重来",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "杜牧",
+      "source_detail": "題烏江亭",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_354",
+      "original_number": 354,
+      "title": "青は藍より出でて藍より青し",
+      "source_type": "古典・思想",
+      "discipline": "古典思想・故事",
+      "concept_type": "古典の章句・故事",
+      "source_name": "荀子",
+      "source_detail": "勧学篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_355",
+      "original_number": 355,
+      "title": "朝に道を聞かば、夕べに死すとも可なり",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "里仁篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_356",
+      "original_number": 356,
+      "title": "四十にして惑わず",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "為政篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_357",
+      "original_number": 357,
+      "title": "五十にして天命を知る",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "為政篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_358",
+      "original_number": 358,
+      "title": "知者は惑わず、仁者は憂えず、勇者は懼れず",
+      "source_type": "古典・思想",
+      "discipline": "儒家思想",
+      "concept_type": "古典の章句・故事",
+      "source_name": "論語",
+      "source_detail": "子罕篇",
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要原典照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_359",
+      "original_number": 359,
+      "title": "一つの籠にすべての卵を盛るな",
+      "source_type": "格言・経験則・作品",
+      "discipline": "ことわざ・定着した格言",
+      "concept_type": "ことわざ・格言",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "定着表現・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_360",
+      "original_number": 360,
+      "title": "安全余裕",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_361",
+      "original_number": 361,
+      "title": "勝つための性質と、勝ち残るための性質は違う",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_362",
+      "original_number": 362,
+      "title": "一つの成功に人生全体を担保として差し出さない",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_363",
+      "original_number": 363,
+      "title": "競争するより、自分にしか蓄積できない知識を持つ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_364",
+      "original_number": 364,
+      "title": "目標には執着し、手段には執着しない",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_365",
+      "original_number": 365,
+      "title": "小さく試し、情報を得てから賭け金を増やす",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_366",
+      "original_number": 366,
+      "title": "正面から勝てないなら、競争の定義を変える",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_367",
+      "original_number": 367,
+      "title": "失った肩書より、持ち運べる能力を残す",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_368",
+      "original_number": 368,
+      "title": "人生の空白期を、失敗ではなく移行期として扱う",
+      "source_type": "格言・経験則・作品",
+      "discipline": "経営・投資・人生設計の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_369",
+      "original_number": 369,
+      "title": "人の夢は!!! 終わらねェ!!!!",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "ONE PIECE",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_370",
+      "original_number": 370,
+      "title": "まっすぐ自分の言葉は曲げねえ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "NARUTO－ナルト－",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_371",
+      "original_number": 371,
+      "title": "何かを変えることのできる人間がいるとすれば、その人はきっと、大事なものを捨てることができる人だ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "進撃の巨人",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_372",
+      "original_number": 372,
+      "title": "何も捨てることができない人には、何も変えることはできないだろう",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "進撃の巨人",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_373",
+      "original_number": 373,
+      "title": "諦めたらそこで試合終了ですよ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "SLAM DUNK",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_374",
+      "original_number": 374,
+      "title": "左手は添えるだけ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "SLAM DUNK",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_375",
+      "original_number": 375,
+      "title": "才能は開花させるもの、センスは磨くもの",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "ハイキュー!!",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_376",
+      "original_number": 376,
+      "title": "負けは弱さの証明ですか？",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "ハイキュー!!",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_377",
+      "original_number": 377,
+      "title": "今日、敗者の君たちよ。明日は何者になる？",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "ハイキュー!!",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_378",
+      "original_number": 378,
+      "title": "心を燃やせ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "漫画・アニメ",
+      "concept_type": "作品内の台詞",
+      "source_name": "鬼滅の刃",
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "要公式本文照合",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_379",
+      "original_number": 379,
+      "title": "嫌われないことより、誰に嫌われるかを選べ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_380",
+      "original_number": 380,
+      "title": "他人の期待を生きても、他人は責任を取らない",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_381",
+      "original_number": 381,
+      "title": "情報収集は、行動しないことの言い訳になる",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_382",
+      "original_number": 382,
+      "title": "モチベーションを待たず、先に始める",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_383",
+      "original_number": 383,
+      "title": "迷ったら、選択肢が増える方を選ぶ",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_384",
+      "original_number": 384,
+      "title": "辞める基準を、始める前に決める",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_385",
+      "original_number": 385,
+      "title": "能力だけでなく、能力が伝わる経路をつくる",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    },
+    {
+      "id": "kb_386",
+      "original_number": 386,
+      "title": "夢を守ることと、方法を変えないことを混同しない",
+      "source_type": "格言・経験則・作品",
+      "discipline": "SNS・ネット文化の経験則",
+      "concept_type": "経験則",
+      "source_name": null,
+      "source_detail": null,
+      "summary": null,
+      "domains": [
+        "人生術",
+        "人生のつまずき・再設計"
+      ],
+      "principles": [],
+      "related_ids": [],
+      "reliability": "経験則・出典要確認",
+      "status": "seed",
+      "notes": null
+    }
+  ]
+}

@@ -11,6 +11,15 @@ import {
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 
+export function generateStaticParams() {
+  return categories.flatMap((category) =>
+    category.subcategories.map((subcategory) => ({
+      category: category.key,
+      name: subcategory.name,
+    })),
+  );
+}
+
 export default function SubcategoryScreen() {
   const { category: categoryKey, name } = useLocalSearchParams<{
     category: CategoryKey;

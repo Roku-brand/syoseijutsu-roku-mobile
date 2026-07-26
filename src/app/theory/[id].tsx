@@ -12,6 +12,10 @@ import {
 import { colors, radius, spacing } from '@/constants/theme';
 import { techniqueCards, theoryById } from '@/data/catalog';
 
+export function generateStaticParams() {
+  return Array.from(theoryById.keys()).map((id) => ({ id }));
+}
+
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const theory = theoryById.get(id);
@@ -39,31 +43,63 @@ export default function TheoryDetailScreen() {
       <AppText variant="title" style={styles.title}>
         {theory.title}
       </AppText>
-      <AppText style={styles.summary}>{theory.summary}</AppText>
+      {theory.summary ? (
+        <AppText style={styles.summary}>{theory.summary}</AppText>
+      ) : (
+        <AppText style={styles.summaryFallback}>
+          {theory.discipline}に属する{theory.conceptType}
+        </AppText>
+      )}
 
-      {theory.definition && (
+      <SectionHeader title="出自" />
+      <View style={styles.origin}>
+        <OriginRow label="領域" value={theory.sourceType} />
+        <OriginRow label="専門分野" value={theory.discipline} />
+        <OriginRow label="形式" value={theory.conceptType} />
+        <OriginRow label="出典" value={theory.sourceName} />
+        <OriginRow label="所在・由来" value={theory.sourceDetail} />
+        <OriginRow label="確認状態" value={theory.reliability} />
+      </View>
+
+      <TheoryList title="判断原則" items={theory.principles} tone="action" />
+      <TheoryList
+        title="使える場面"
+        items={theory.domains}
+        tone="default"
+      />
+
+      {theory.notes && (
         <>
-          <SectionHeader title="定義" />
-          <View style={styles.definition}>
-            <AppText>{theory.definition}</AppText>
+          <SectionHeader title="注記" />
+          <View style={styles.note}>
+            <AppText>{theory.notes}</AppText>
           </View>
         </>
       )}
-
-      <TheoryList title="要点" items={theory.keyPoints} tone="default" />
-      <TheoryList title="落とし穴" items={theory.pitfalls} tone="caution" />
-      <TheoryList title="実践方法" items={theory.strategies} tone="action" />
-      <TheoryList
-        title="使える場面"
-        items={theory.applicationConditions}
-        tone="default"
-      />
 
       <SectionHeader title="この理論に関連する処世術" count={related.length} />
       {related.map((card) => (
         <TechniqueRow key={card.id} card={card} />
       ))}
     </Screen>
+  );
+}
+
+function OriginRow({
+  label,
+  value,
+}: {
+  label: string;
+  value?: string | null;
+}) {
+  if (!value) return null;
+  return (
+    <View style={styles.originRow}>
+      <AppText variant="caption" style={styles.originLabel}>
+        {label}
+      </AppText>
+      <AppText style={styles.originValue}>{value}</AppText>
+    </View>
   );
 }
 
@@ -103,8 +139,34 @@ function TheoryList({
 const styles = StyleSheet.create({
   title: { marginTop: spacing.lg },
   summary: { color: colors.inkSoft, fontSize: 17, lineHeight: 30, marginTop: spacing.md },
-  definition: {
+  summaryFallback: {
+    color: colors.muted,
+    fontSize: 15,
+    lineHeight: 25,
+    marginTop: spacing.md,
+  },
+  origin: {
     backgroundColor: colors.ink,
+    borderRadius: radius.md,
+    padding: spacing.lg,
+    gap: 14,
+  },
+  originRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing.md,
+  },
+  originLabel: {
+    color: colors.goldLight,
+    width: 72,
+    paddingTop: 2,
+  },
+  originValue: {
+    color: colors.paper,
+    flex: 1,
+  },
+  note: {
+    backgroundColor: '#EFE3DD',
     borderRadius: radius.md,
     padding: spacing.lg,
   },

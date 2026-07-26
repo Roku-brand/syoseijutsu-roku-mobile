@@ -155,11 +155,11 @@ export function IconButton({
       {...props}
       accessibilityRole="button"
       accessibilityLabel={label}
-      style={({ pressed }) => [
+      style={(state) => [
         styles.iconButton,
         active && styles.iconButtonActive,
-        pressed && styles.pressed,
-        typeof props.style === 'function' ? props.style({ pressed }) : props.style,
+        state.pressed && styles.pressed,
+        typeof props.style === 'function' ? props.style(state) : props.style,
       ]}
       hitSlop={8}
     >
