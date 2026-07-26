@@ -4,7 +4,6 @@ import {
   AppText,
   DetailHeader,
   EmptyState,
-  Pill,
   Screen,
   SectionHeader,
 } from '@/components/ui';
@@ -60,7 +59,11 @@ export default function CategoryDetailScreen() {
           }}
           asChild
         >
-          <Pressable style={({ pressed }) => [styles.item, pressed && styles.pressed]}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${subcategory.name}を開く`}
+            style={({ pressed }) => [styles.item, pressed && styles.pressed]}
+          >
             <View style={styles.index}>
               <AppText variant="label" style={styles.indexText}>
                 {String(index + 1).padStart(2, '0')}
@@ -72,7 +75,7 @@ export default function CategoryDetailScreen() {
               </AppText>
               <AppText variant="caption">{subcategory.articleTitle}</AppText>
             </View>
-            <Pill>{subcategory.items.length}</Pill>
+            <AppText style={styles.chevron}>›</AppText>
           </Pressable>
         </Link>
       ))}
@@ -102,14 +105,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.md,
     backgroundColor: colors.surface,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-    paddingVertical: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: 12,
   },
   pressed: { opacity: 0.65 },
   index: { width: 38 },
   indexText: { color: colors.gold },
   copy: { flex: 1 },
   itemTitle: { fontSize: 18, lineHeight: 26, marginBottom: 4 },
+  chevron: { color: colors.gold, fontSize: 26, lineHeight: 30 },
   total: { textAlign: 'center', marginTop: spacing.lg },
 });

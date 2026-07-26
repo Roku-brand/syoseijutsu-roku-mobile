@@ -16,7 +16,7 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.goldLight,
         tabBarInactiveTintColor: '#9A9C95',
-        tabBarStyle: styles.tabBar,
+        tabBarStyle: styles.hiddenTabBar,
         tabBarLabelStyle: styles.tabLabel,
         tabBarItemStyle: styles.tabItem,
         tabBarHideOnKeyboard: true,
@@ -41,13 +41,7 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  tabBar: {
-    height: 78,
-    paddingTop: 8,
-    paddingBottom: 10,
-    backgroundColor: colors.ink,
-    borderTopColor: '#3B3E37',
-  },
+  hiddenTabBar: { display: 'none' },
   tabItem: { paddingVertical: 1 },
   tabLabel: { fontFamily: fonts.sans, fontSize: 10, fontWeight: '600' },
   tabIcon: {
