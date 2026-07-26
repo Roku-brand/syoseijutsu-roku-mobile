@@ -43,6 +43,7 @@ export default function TheoryDetailScreen() {
       <AppText variant="title" style={styles.title}>
         {theory.title}
       </AppText>
+      <SectionHeader title="解説" />
       {theory.summary ? (
         <AppText style={styles.summary}>{theory.summary}</AppText>
       ) : (

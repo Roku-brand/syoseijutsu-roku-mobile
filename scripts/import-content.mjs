@@ -75,6 +75,31 @@ const theoryCategoryIds = new Map([
   ['格言・経験則・作品', 'maxims-experience'],
 ]);
 
+const theoryContexts = {
+  '心理学': '人の認知・感情・対人関係の動き',
+  '行動科学': '人が選び、習慣化し、行動を変える仕組み',
+  '組織・経営論': '組織の評価・権力・協働をめぐる力学',
+  '戦略論': '競争・交渉・不確実性の中で資源を配る考え方',
+  '古典・思想': '長い時間を生き抜くための判断と人間観',
+  '格言・経験則・作品': '経験から抽出された、行動を選ぶための視点',
+};
+
+function createTheorySummary(record) {
+  const context = theoryContexts[record.source_type] ?? '現実の判断と行動';
+  const domains = (record.domains ?? []).join('・');
+  const kind = record.concept_type ?? '考え方';
+
+  if (record.source_type === '古典・思想') {
+    return `「${record.title}」は、${context}を示す${kind}です。${domains || '日常の判断'}で、目先の得失だけでなく長い時間軸から状況を見る手がかりになります。`;
+  }
+
+  if (record.source_type === '格言・経験則・作品') {
+    return `「${record.title}」は、${context}を言葉にした${kind}です。${domains || '日常の判断'}で、迷ったときの見方や行動の軸として使えます。`;
+  }
+
+  return `「${record.title}」は、${context}を捉える${kind}です。${domains || '日常の判断'}で起きることを整理し、次に取る行動を考える手がかりになります。`;
+}
+
 async function readJson(filename) {
   const source = await readFile(path.join(CONTENT_DIR, filename), 'utf8');
   return JSON.parse(source);
@@ -139,7 +164,7 @@ const theories = theoryDataset.records.map((record) => {
     tagId: record.id,
     originalNumber: record.original_number,
     title: record.title,
-    summary: record.summary ?? null,
+    summary: record.summary ?? createTheorySummary(record),
     sourceType: record.source_type,
     discipline: record.discipline,
     conceptType: record.concept_type,
