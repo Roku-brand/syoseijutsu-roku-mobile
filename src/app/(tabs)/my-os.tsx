@@ -1,4 +1,5 @@
-import { Link, useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
@@ -7,301 +8,385 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { BookScreen, BookTitle, OrnamentHeading, bookCardShadow } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
-import {
-  AppText,
-  ChoiceCard,
-  EmptyState,
-  Header,
-  Pill,
-  PrimaryButton,
-  Screen,
-  SectionHeader,
-} from '@/components/ui';
+import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import {
-  categoryMeta,
-  categoryOrder,
-  techniqueById,
-} from '@/data/catalog';
+import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
-
-type Section = 'saved' | 'collections' | 'history';
 
 export default function MyOsScreen() {
   const router = useRouter();
   const {
     savedIds,
     historyIds,
-    collections,
-    interests,
-    createCollection,
-    toggleInterest,
+    personalPrinciple,
+    updatePersonalPrinciple,
   } = useAppState();
-  const [section, setSection] = useState<Section>('saved');
-  const [modalVisible, setModalVisible] = useState(false);
-  const [collectionName, setCollectionName] = useState('');
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(personalPrinciple);
+  const [showLibrary, setShowLibrary] = useState(false);
 
   const savedCards = useMemo(
     () => savedIds.map((id) => techniqueById.get(id)).filter(Boolean),
     [savedIds],
   );
-  const historyCards = useMemo(
-    () =>
-      historyIds
-        .map((id) => techniqueById.get(id))
-        .filter(Boolean)
-        .slice(0, 30),
-    [historyIds],
-  );
+  const recentCard =
+    techniqueById.get(historyIds[0] ?? '') ??
+    techniqueById.get(savedIds[0] ?? '') ??
+    techniqueCards[0];
+
+  const openEditor = () => {
+    void Haptics.selectionAsync().catch(() => undefined);
+    setDraft(personalPrinciple);
+    setEditing(true);
+  };
 
   return (
-    <Screen>
-      <Header
-        eyebrow="自分の判断原則"
-        title="マイOS"
-        description="残したい知恵を、自分のための一冊に。"
-        right={
-          <Link href="/settings" asChild>
-            <Pressable style={styles.settingsButton}>
-              <AppText style={styles.settingsIcon}>⚙</AppText>
-            </Pressable>
-          </Link>
+    <BookScreen>
+      <BookTitle title="マイOS" subtitle="自分の判断軸を、少しずつ育てる。" />
+
+      <View style={styles.principleCard}>
+        <View style={styles.principleLabelRow}>
+          <View style={styles.diamond} />
+          <AppText style={styles.principleLabel}>いまの判断原則</AppText>
+        </View>
+        <AppText style={styles.principle}>{personalPrinciple}</AppText>
+        <View style={styles.rule} />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="判断原則を編集"
+          onPress={openEditor}
+          style={({ pressed }) => [
+            styles.editPrinciple,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AppText style={styles.editIcon}>✎</AppText>
+          <AppText style={styles.editText}>原則を整える</AppText>
+          <AppText style={styles.chevron}>›</AppText>
+        </Pressable>
+      </View>
+
+      <View style={styles.osActions}>
+        <Pressable
+          onPress={() => setShowLibrary((current) => !current)}
+          style={({ pressed }) => [
+            styles.osActionCard,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AppText style={styles.actionMark}>冊</AppText>
+          <AppText style={styles.actionTitle}>蔵書</AppText>
+          <AppText style={styles.savedCount}>{savedIds.length}</AppText>
+          <AppText style={styles.actionSubtitle}>保存した処世術</AppText>
+        </Pressable>
+        <Pressable
+          onPress={openEditor}
+          style={({ pressed }) => [
+            styles.osActionCard,
+            pressed && styles.pressed,
+          ]}
+        >
+          <AppText style={styles.actionMark}>記</AppText>
+          <AppText style={styles.actionTitle}>書き留める</AppText>
+          <View style={styles.shortRule} />
+          <AppText style={styles.actionSubtitle}>自分の言葉にする</AppText>
+        </Pressable>
+      </View>
+
+      <OrnamentHeading>最近の振り返り</OrnamentHeading>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${recentCard.title}を開く`}
+        onPress={() =>
+          router.push({ pathname: '/card/[id]', params: { id: recentCard.id } })
         }
-      />
+        style={({ pressed }) => [
+          styles.recentCard,
+          pressed && styles.pressed,
+        ]}
+      >
+        <AppText style={styles.recentTitle}>{recentCard.title}</AppText>
+        <AppText style={styles.recentDate}>
+          {new Intl.DateTimeFormat('ja-JP', {
+            month: 'numeric',
+            day: 'numeric',
+          }).format(new Date())}
+        </AppText>
+        <AppText style={styles.chevron}>›</AppText>
+      </Pressable>
 
-      <View style={styles.stats}>
-        <View style={styles.stat}>
-          <AppText variant="display" style={styles.statNumber}>
-            {savedIds.length}
-          </AppText>
-          <AppText variant="caption">保存した処世術</AppText>
-        </View>
-        <View style={styles.statDivider} />
-        <View style={styles.stat}>
-          <AppText variant="display" style={styles.statNumber}>
-            {collections.length}
-          </AppText>
-          <AppText variant="caption">コレクション</AppText>
-        </View>
-      </View>
-
-      <View style={styles.tabs}>
-        {[
-          ['saved', '保存'],
-          ['collections', 'コレクション'],
-          ['history', '履歴'],
-        ].map(([key, label]) => (
-          <Pill
-            key={key}
-            active={section === key}
-            onPress={() => setSection(key as Section)}
-          >
-            {label}
-          </Pill>
-        ))}
-      </View>
-
-      {section === 'saved' && (
-        <>
-          <SectionHeader title="保存した処世術" count={savedCards.length} />
+      {showLibrary ? (
+        <View style={styles.library}>
+          <OrnamentHeading>蔵書</OrnamentHeading>
           {savedCards.length ? (
             savedCards.map((card) =>
               card ? <TechniqueRow key={card.id} card={card} /> : null,
             )
           ) : (
-            <EmptyState
-              mark="禄"
-              title="まだ何も保存されていません"
-              description="メインの◇を押すと、ここに自分の判断原則が集まります。"
-            />
+            <View style={styles.emptyLibrary}>
+              <AppText style={styles.emptyTitle}>蔵書はまだ空です</AppText>
+              <AppText style={styles.emptyBody}>
+                処世術カードの「蔵書に保存」から知恵を集められます。
+              </AppText>
+            </View>
           )}
-        </>
-      )}
-
-      {section === 'collections' && (
-        <>
-          <SectionHeader title="コレクション" count={collections.length} />
-          {collections.map((collection) => (
-            <ChoiceCard
-              key={collection.id}
-              title={collection.name}
-              description={`${collection.cardIds.length}件の処世術`}
-              mark="冊"
-              onPress={() =>
-                router.push({
-                  pathname: '/collection/[id]',
-                  params: { id: collection.id },
-                })
-              }
-            />
-          ))}
-          <Pressable
-            style={({ pressed }) => [
-              styles.addCollection,
-              pressed && styles.pressed,
-            ]}
-            onPress={() => setModalVisible(true)}
-          >
-            <AppText style={styles.addIcon}>＋</AppText>
-            <AppText variant="label" style={styles.addLabel}>
-              新しいコレクション
-            </AppText>
-          </Pressable>
-        </>
-      )}
-
-      {section === 'history' && (
-        <>
-          <SectionHeader title="最近読んだ処世術" count={historyCards.length} />
-          {historyCards.length ? (
-            historyCards.map((card) =>
-              card ? <TechniqueRow key={card.id} card={card} /> : null,
-            )
-          ) : (
-            <EmptyState
-              mark="時"
-              title="閲覧履歴はまだありません"
-              description="処世術の詳細を読むと、ここから振り返れます。"
-            />
-          )}
-        </>
-      )}
-
-      <SectionHeader title="関心カテゴリ" />
-      <View style={styles.interests}>
-        {categoryOrder.map((category) => (
-          <Pill
-            key={category}
-            active={interests.includes(category)}
-            onPress={() => toggleInterest(category)}
-          >
-            {categoryMeta[category].label}
-          </Pill>
-        ))}
-      </View>
+        </View>
+      ) : null}
 
       <Modal
         transparent
+        visible={editing}
         animationType="fade"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setEditing(false)}
       >
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
-            <AppText variant="serif" style={styles.modalTitle}>
-              コレクションを作る
+            <AppText style={styles.modalTitle}>判断原則を整える</AppText>
+            <AppText style={styles.modalLead}>
+              いまの自分が、迷ったときに戻れる一文を書き留めます。
             </AppText>
             <TextInput
-              accessibilityLabel="コレクション名"
               autoFocus
-              maxLength={30}
-              value={collectionName}
-              onChangeText={setCollectionName}
-              placeholder="例：今の自分に必要"
-              placeholderTextColor={colors.muted}
+              multiline
+              maxLength={100}
+              value={draft}
+              onChangeText={setDraft}
+              accessibilityLabel="判断原則"
               style={styles.input}
             />
             <View style={styles.modalActions}>
+              <Pressable onPress={() => setEditing(false)} style={styles.cancel}>
+                <AppText style={styles.cancelText}>閉じる</AppText>
+              </Pressable>
               <Pressable
                 onPress={() => {
-                  setModalVisible(false);
-                  setCollectionName('');
+                  updatePersonalPrinciple(draft);
+                  setEditing(false);
                 }}
-                style={styles.cancel}
+                style={styles.save}
               >
-                <AppText variant="label">キャンセル</AppText>
+                <AppText style={styles.saveText}>保存する</AppText>
               </Pressable>
-              <View style={styles.createButton}>
-                <PrimaryButton
-                  disabled={!collectionName.trim()}
-                  onPress={() => {
-                    createCollection(collectionName);
-                    setCollectionName('');
-                    setModalVisible(false);
-                  }}
-                >
-                  作成する
-                </PrimaryButton>
-              </View>
             </View>
           </View>
         </View>
       </Modal>
-    </Screen>
+    </BookScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  settingsButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+  principleCard: {
+    minHeight: 270,
+    padding: spacing.xl,
     borderWidth: 1,
     borderColor: colors.line,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  settingsIcon: { fontSize: 19, lineHeight: 23 },
-  stats: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.ink,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
-  },
-  stat: { flex: 1, alignItems: 'center' },
-  statNumber: { color: colors.goldLight, fontSize: 34, lineHeight: 44 },
-  statDivider: { width: 1, height: 48, backgroundColor: '#45483F' },
-  tabs: { flexDirection: 'row', gap: 8, marginTop: spacing.lg },
-  addCollection: {
-    minHeight: 56,
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: colors.gold,
     borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    ...bookCardShadow,
+  },
+  principleLabelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
+    gap: 12,
   },
-  addIcon: { color: colors.gold, fontSize: 21, lineHeight: 24 },
-  addLabel: { color: colors.gold },
-  pressed: { opacity: 0.65 },
-  interests: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  diamond: {
+    width: 9,
+    height: 9,
+    backgroundColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
+  },
+  principleLabel: {
+    fontFamily: fonts.serif,
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+  },
+  principle: {
+    marginTop: spacing.xl,
+    fontFamily: fonts.serif,
+    fontSize: 29,
+    lineHeight: 50,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+  },
+  rule: {
+    height: 1,
+    backgroundColor: colors.line,
+    marginTop: spacing.xl,
+  },
+  editPrinciple: {
+    minHeight: 62,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingTop: spacing.md,
+  },
+  editIcon: { color: colors.gold, fontSize: 23, lineHeight: 28 },
+  editText: {
+    flex: 1,
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '600',
+  },
+  chevron: { color: colors.gold, fontSize: 31, lineHeight: 34 },
+  osActions: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    marginTop: spacing.xl,
+  },
+  osActionCard: {
+    flex: 1,
+    minHeight: 220,
+    padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: 'rgba(255,255,255,0.48)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionMark: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 20,
+    lineHeight: 27,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    borderRadius: 22,
+    width: 44,
+    height: 44,
+    textAlign: 'center',
+    paddingTop: 8,
+  },
+  actionTitle: {
+    marginTop: spacing.md,
+    fontFamily: fonts.serif,
+    fontSize: 19,
+    lineHeight: 26,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+  },
+  savedCount: {
+    marginTop: spacing.sm,
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 42,
+    lineHeight: 50,
+  },
+  shortRule: {
+    width: '72%',
+    height: 1,
+    backgroundColor: colors.line,
+    marginVertical: spacing.lg,
+  },
+  actionSubtitle: {
+    fontFamily: fonts.serif,
+    fontSize: 13,
+    lineHeight: 20,
+    color: colors.inkSoft,
+  },
+  recentCard: {
+    minHeight: 76,
+    paddingHorizontal: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+  },
+  recentTitle: {
+    flex: 1,
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '600',
+  },
+  recentDate: {
+    color: colors.inkSoft,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+  },
+  library: { marginTop: spacing.lg },
+  emptyLibrary: {
+    padding: spacing.xl,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontFamily: fonts.serif,
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+  },
+  emptyBody: {
+    marginTop: spacing.sm,
+    color: colors.muted,
+    textAlign: 'center',
+  },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(16,17,15,0.58)',
+    padding: spacing.lg,
+    backgroundColor: 'rgba(17,18,17,0.58)',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: spacing.lg,
   },
   modalCard: {
     width: '100%',
-    maxWidth: 460,
-    backgroundColor: colors.surface,
+    maxWidth: 520,
+    padding: spacing.xl,
+    borderWidth: 1,
+    borderColor: colors.gold,
     borderRadius: radius.lg,
-    padding: spacing.lg,
+    backgroundColor: colors.surface,
   },
-  modalTitle: { fontSize: 22, lineHeight: 30 },
+  modalTitle: {
+    fontFamily: fonts.serif,
+    fontSize: 23,
+    lineHeight: 32,
+    fontWeight: '600',
+  },
+  modalLead: { marginTop: spacing.sm, color: colors.muted },
   input: {
-    minHeight: 54,
-    borderRadius: radius.md,
+    minHeight: 130,
+    marginTop: spacing.lg,
+    padding: spacing.md,
     borderWidth: 1,
     borderColor: colors.line,
-    marginTop: spacing.lg,
-    paddingHorizontal: spacing.md,
-    color: colors.ink,
-    fontFamily: fonts.sans,
-    fontSize: 16,
+    borderRadius: radius.md,
     backgroundColor: colors.white,
+    color: colors.ink,
+    fontFamily: fonts.serif,
+    fontSize: 18,
+    lineHeight: 30,
+    textAlignVertical: 'top',
   },
-  modalActions: {
-    flexDirection: 'row',
+  modalActions: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.lg },
+  cancel: {
+    minHeight: 50,
+    paddingHorizontal: spacing.lg,
     alignItems: 'center',
-    marginTop: spacing.lg,
-    gap: spacing.md,
+    justifyContent: 'center',
   },
-  cancel: { padding: spacing.md },
-  createButton: { flex: 1 },
+  cancelText: { color: colors.muted, fontWeight: '700' },
+  save: {
+    flex: 1,
+    minHeight: 50,
+    borderRadius: radius.md,
+    backgroundColor: colors.charcoal,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  saveText: { color: colors.goldLight, fontWeight: '700' },
+  pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });

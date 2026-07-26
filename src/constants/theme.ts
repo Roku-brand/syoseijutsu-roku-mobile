@@ -1,21 +1,23 @@
 import { Platform } from 'react-native';
 
 export const colors = {
-  ink: '#151714',
-  inkSoft: '#343832',
-  paper: '#F4F0E7',
-  paperDeep: '#E8E0D1',
-  surface: '#FBF8F1',
+  ink: '#1C2024',
+  inkSoft: '#3F423F',
+  paper: '#F7F2E8',
+  paperDeep: '#EEE6D8',
+  surface: '#FCFAF5',
   surfaceDark: '#242720',
-  gold: '#9A7A3E',
-  goldLight: '#C6AB70',
+  gold: '#A7833D',
+  goldLight: '#D2B66F',
   moss: '#4E5B49',
-  line: '#D8CFBE',
-  muted: '#75786F',
+  line: '#D8CEBD',
+  muted: '#77776F',
   white: '#FFFFFF',
   danger: '#8E3F39',
   success: '#49624A',
-  navInk: '#172019',
+  navInk: '#1D1F1E',
+  sage: '#E7EEDF',
+  charcoal: '#1A1B1A',
 } as const;
 
 export const categoryPalette = {
@@ -70,10 +72,10 @@ export const radius = {
 
 export const shadow = {
   card: {
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.12,
-    shadowRadius: 24,
-    elevation: 6,
+    shadowColor: '#4C4232',
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.11,
+    shadowRadius: 18,
+    elevation: 5,
   },
 };

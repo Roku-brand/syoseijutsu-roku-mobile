@@ -7,10 +7,10 @@ import { colors, fonts } from '@/constants/theme';
 import { AppText } from './ui';
 
 const items = [
-  { key: 'main', label: 'メイン', mark: '禄', href: '/(tabs)' },
-  { key: 'discover', label: '探す', mark: '探', href: '/discover' },
-  { key: 'catalog', label: '体系', mark: '系', href: '/catalog' },
-  { key: 'my-os', label: 'マイOS', mark: '私', href: '/my-os' },
+  { key: 'main', label: '禄', mark: '禄', href: '/(tabs)' },
+  { key: 'discover', label: '探す', mark: '⌕', href: '/discover' },
+  { key: 'catalog', label: '体系', mark: '▱', href: '/catalog' },
+  { key: 'my-os', label: 'マイOS', mark: '○', href: '/my-os' },
 ] as const;
 
 function activeKey(pathname: string) {
@@ -51,7 +51,7 @@ export function PersistentBottomNav() {
   };
 
   return (
-    <SafeAreaView edges={['bottom']} style={styles.safeArea}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.safeArea}>
       <View style={styles.bar}>
         {items.map((item) => {
           const active = selected === item.key;
@@ -78,13 +78,27 @@ export function PersistentBottomNav() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { backgroundColor: colors.navInk },
+  safeArea: {
+    backgroundColor: colors.paper,
+    paddingHorizontal: 14,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
   bar: {
-    height: 62,
+    width: '100%',
+    maxWidth: 820,
+    alignSelf: 'center',
+    height: 76,
     flexDirection: 'row',
     backgroundColor: colors.navInk,
-    borderTopWidth: 1,
-    borderTopColor: '#3E493F',
+    borderWidth: 1,
+    borderColor: '#4B4840',
+    borderRadius: 38,
+    shadowColor: '#000000',
+    shadowOpacity: 0.18,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 8,
   },
   item: {
     flex: 1,
@@ -95,22 +109,21 @@ const styles = StyleSheet.create({
   },
   activeIndicator: {
     position: 'absolute',
-    top: 0,
-    width: 34,
+    bottom: 6,
+    width: 38,
     height: 3,
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
+    borderRadius: 3,
     backgroundColor: colors.goldLight,
   },
   pressed: { opacity: 0.65 },
   mark: {
     color: '#9A9C95',
     fontFamily: fonts.serif,
-    fontSize: 17,
-    lineHeight: 21,
+    fontSize: 21,
+    lineHeight: 25,
     fontWeight: '700',
   },
-  markActive: { color: colors.goldLight, fontSize: 19 },
-  label: { color: '#9A9C95', fontSize: 10, lineHeight: 14, fontWeight: '600' },
+  markActive: { color: colors.goldLight, fontSize: 22 },
+  label: { color: '#C9C6BE', fontSize: 11, lineHeight: 15, fontWeight: '600' },
   labelActive: { color: colors.goldLight },
 });

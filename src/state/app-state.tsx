@@ -28,6 +28,7 @@ type PersistedState = {
   historyIds: string[];
   notes: Record<string, string>;
   collections: Collection[];
+  personalPrinciple: string;
 };
 
 const initialState: PersistedState = {
@@ -37,6 +38,7 @@ const initialState: PersistedState = {
   historyIds: [],
   notes: {},
   collections: [],
+  personalPrinciple: '目的を守り、手段には執着しない。',
 };
 
 type AppStateContextValue = PersistedState & {
@@ -49,6 +51,7 @@ type AppStateContextValue = PersistedState & {
   toggleCollectionCard: (collectionId: string, cardId: string) => void;
   deleteCollection: (collectionId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
+  updatePersonalPrinciple: (principle: string) => void;
   clearPersonalData: () => Promise<void>;
 };
 
@@ -172,6 +175,14 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
+  const updatePersonalPrinciple = useCallback((personalPrinciple: string) => {
+    setState((current) => ({
+      ...current,
+      personalPrinciple:
+        personalPrinciple.trim() || initialState.personalPrinciple,
+    }));
+  }, []);
+
   const clearPersonalData = useCallback(async () => {
     setState({ ...initialState, onboardingCompleted: true });
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -189,6 +200,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleCollectionCard,
       deleteCollection,
       toggleInterest,
+      updatePersonalPrinciple,
       clearPersonalData,
     }),
     [
@@ -202,6 +214,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleCollectionCard,
       deleteCollection,
       toggleInterest,
+      updatePersonalPrinciple,
       clearPersonalData,
     ],
   );
