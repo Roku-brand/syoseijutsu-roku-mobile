@@ -67,13 +67,9 @@ export default function TheoryCategoryScreen() {
         <View style={styles.timelineLine} />
         {items.map((theory, index) => (
           <View key={theory.tagId} style={styles.timelineItem}>
-            <View style={styles.node} />
-            <View style={styles.sequenceRail}>
-              <AppText variant="serif" style={styles.number}>
-                {String(index + 1).padStart(3, '0')}
-              </AppText>
-              <AppText variant="label" style={styles.id}>
-                {theory.tagId}
+            <View style={styles.node}>
+              <AppText variant="label" style={styles.nodeNumber}>
+                {index + 1}
               </AppText>
             </View>
             <Link
@@ -86,6 +82,9 @@ export default function TheoryCategoryScreen() {
                 style={styles.card}
               >
                 <View style={styles.copy}>
+                  <AppText variant="label" style={styles.cardId}>
+                    {theory.tagId}
+                  </AppText>
                   <View style={styles.cardTopline}>
                     <AppText variant="serif" style={styles.cardTitle}>
                       {theory.title}
@@ -130,22 +129,16 @@ const styles = StyleSheet.create({
   timelineItem: { position: 'relative', marginBottom: 14 },
   node: {
     position: 'absolute',
-    left: -53,
-    top: 65,
-    width: 19,
-    height: 19,
-    borderRadius: 10,
+    left: -64,
+    top: 54,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     borderWidth: 2,
     borderColor: colors.gold,
-    backgroundColor: colors.paper,
-    zIndex: 1,
-  },
-  sequenceRail: {
-    position: 'absolute',
-    left: -70,
-    top: 16,
-    width: 54,
+    backgroundColor: colors.white,
     alignItems: 'center',
+    justifyContent: 'center',
     zIndex: 1,
   },
   card: {
@@ -165,8 +158,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   pressed: { opacity: 0.66 },
-  number: { color: colors.gold, fontSize: 18, lineHeight: 24 },
-  id: { color: colors.gold, fontSize: 9, marginTop: 3 },
+  nodeNumber: { color: colors.gold, fontSize: 12, lineHeight: 16 },
+  cardId: { color: colors.gold, fontSize: 10, lineHeight: 14, marginBottom: spacing.sm },
   copy: { flex: 1, justifyContent: 'center' },
   cardTopline: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm },
   cardTitle: { flex: 1, fontSize: 23, lineHeight: 32 },
