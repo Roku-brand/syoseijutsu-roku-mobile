@@ -125,12 +125,21 @@ export function DetailHeader({
   right?: React.ReactNode;
 }) {
   const router = useRouter();
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+      return;
+    }
+
+    router.replace('/');
+  };
+
   return (
     <View style={styles.detailHeader}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="前の画面へ戻る"
-        onPress={() => router.back()}
+        onPress={handleBack}
         style={styles.detailBack}
         hitSlop={10}
       >
