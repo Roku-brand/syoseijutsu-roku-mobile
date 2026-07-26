@@ -80,10 +80,8 @@ export default function SubcategoryScreen() {
       </View>
 
       <View style={styles.timeline}>
-        <View style={styles.timelineLine} />
         {cards.map((card, index) => (
           <View key={card.id} style={styles.timelineItem}>
-            <View style={styles.node} />
             <View style={styles.sequenceRail}>
               <AppText variant="label" style={styles.sequenceNumber}>
                 {String(index + 1).padStart(2, '0')} / {String(cards.length).padStart(2, '0')}
@@ -129,34 +127,13 @@ const styles = StyleSheet.create({
   breadcrumbArrow: { color: colors.inkSoft, fontSize: 22, lineHeight: 24 },
   sectionTitle: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginTop: spacing.xl },
   titleRule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.75, marginTop: 12 },
-  timeline: { position: 'relative', paddingLeft: 70, paddingBottom: spacing.sm },
-  timelineLine: {
-    position: 'absolute',
-    top: 4,
-    bottom: 24,
-    left: 27,
-    width: 1.5,
-    backgroundColor: colors.gold,
-  },
-  timelineItem: { position: 'relative', marginBottom: 14 },
-  node: {
-    position: 'absolute',
-    left: -53,
-    top: 61,
-    width: 21,
-    height: 21,
-    borderRadius: 11,
-    backgroundColor: colors.gold,
-    borderWidth: 4,
-    borderColor: colors.paper,
-    zIndex: 1,
-  },
+  timeline: { position: 'relative', paddingBottom: spacing.sm },
+  timelineItem: { position: 'relative' },
   sequenceRail: {
-    position: 'absolute',
-    left: -70,
-    top: 18,
-    width: 56,
-    alignItems: 'center',
+    alignSelf: 'flex-start',
+    minWidth: 56,
+    marginBottom: spacing.sm,
+    paddingHorizontal: 2,
   },
   sequenceNumber: { color: colors.gold, fontSize: 10, lineHeight: 15, letterSpacing: 0.4 },
 });

@@ -64,7 +64,6 @@ export default function TheoryCategoryScreen() {
       </View>
 
       <View style={styles.timeline}>
-        <View style={styles.timelineLine} />
         {items.map((theory, index) => (
           <View key={theory.tagId} style={styles.timelineItem}>
             <View style={styles.node}>
@@ -89,11 +88,6 @@ export default function TheoryCategoryScreen() {
                     <AppText variant="serif" style={styles.cardTitle}>
                       {theory.title}
                     </AppText>
-                    <View style={styles.discipline}>
-                      <AppText variant="caption" style={styles.disciplineText}>
-                        {theory.discipline}
-                      </AppText>
-                    </View>
                   </View>
                   <AppText style={styles.summary} numberOfLines={3}>
                     {theory.summary}
@@ -117,19 +111,11 @@ const styles = StyleSheet.create({
   sectionLabel: { fontSize: 24, color: colors.gold },
   rule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.78, marginTop: 9 },
   ruleMark: { color: colors.gold, fontSize: 16, marginTop: 5 },
-  timeline: { position: 'relative', paddingLeft: 70, paddingTop: spacing.md, paddingBottom: spacing.sm },
-  timelineLine: {
-    position: 'absolute',
-    top: spacing.md,
-    bottom: 24,
-    left: 27,
-    width: 1.5,
-    backgroundColor: colors.gold,
-  },
+  timeline: { position: 'relative', paddingTop: spacing.md, paddingBottom: spacing.sm },
   timelineItem: { position: 'relative', marginBottom: 14 },
   node: {
     position: 'absolute',
-    left: -64,
+    left: -20,
     top: 54,
     width: 42,
     height: 42,
@@ -161,18 +147,8 @@ const styles = StyleSheet.create({
   nodeNumber: { color: colors.gold, fontSize: 12, lineHeight: 16 },
   cardId: { color: colors.gold, fontSize: 10, lineHeight: 14, marginBottom: spacing.sm },
   copy: { flex: 1, justifyContent: 'center' },
-  cardTopline: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm },
+  cardTopline: { flexDirection: 'row', alignItems: 'flex-start' },
   cardTitle: { flex: 1, fontSize: 23, lineHeight: 32 },
-  discipline: {
-    borderWidth: 1,
-    borderColor: colors.gold,
-    borderRadius: radius.sm,
-    paddingHorizontal: 7,
-    paddingVertical: 4,
-    maxWidth: 112,
-    backgroundColor: colors.surface,
-  },
-  disciplineText: { color: colors.gold, fontSize: 10, lineHeight: 14 },
   summary: { marginTop: spacing.sm, color: colors.muted, fontSize: 14, lineHeight: 22 },
   chevron: { alignSelf: 'center', color: colors.gold, fontSize: 34, lineHeight: 38, marginLeft: -6 },
 });
