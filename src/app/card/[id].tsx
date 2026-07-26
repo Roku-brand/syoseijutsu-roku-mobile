@@ -123,6 +123,21 @@ export default function CardDetailScreen() {
         </View>
       )}
 
+      {(card.tags?.length ?? 0) > 0 && (
+        <>
+          <SectionHeader title="このカードのタグ" />
+          <View style={styles.tags}>
+            {card.tags!.map((tag) => (
+              <View key={tag} style={styles.tag}>
+                <AppText variant="label" style={styles.tagText}>
+                  #{tag}
+                </AppText>
+              </View>
+            ))}
+          </View>
+        </>
+      )}
+
       {card.explanation && (
         <>
           <SectionHeader title="解説" />
@@ -309,6 +324,16 @@ const styles = StyleSheet.create({
   },
   sectionLabel: { color: colors.gold, marginBottom: spacing.md },
   leadText: { fontSize: 17, lineHeight: 30 },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  tag: {
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    backgroundColor: colors.surface,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+  },
+  tagText: { color: colors.gold, fontSize: 11 },
   explanation: {
     backgroundColor: colors.surface,
     borderWidth: 1,
