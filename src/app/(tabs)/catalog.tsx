@@ -28,19 +28,6 @@ export default function CatalogScreen() {
         description="悩みではなく、知識の全体像から処世術を学ぶ。"
       />
 
-      <View style={styles.principle}>
-        <AppText variant="label" style={styles.principleLabel}>
-          基本原則
-        </AppText>
-        <AppText variant="serif" style={styles.principleTitle}>
-          処世術は万能ではない。
-        </AppText>
-        <AppText style={styles.principleBody}>
-          人・場・力関係・時間軸が変われば、同じ術でも結果は反転する。
-          知識を信念にせず、状況に合わせて運用する。
-        </AppText>
-      </View>
-
       <SectionHeader title="三つの処世術" count={categories.length} />
       {categoryOrder.map((key) => {
         const category = categories.find((item) => item.key === key);
@@ -96,19 +83,6 @@ export default function CatalogScreen() {
 }
 
 const styles = StyleSheet.create({
-  principle: {
-    backgroundColor: colors.ink,
-    borderRadius: radius.lg,
-    padding: spacing.lg,
-  },
-  principleLabel: { color: colors.goldLight },
-  principleTitle: {
-    color: colors.paper,
-    fontSize: 23,
-    lineHeight: 34,
-    marginTop: spacing.md,
-  },
-  principleBody: { color: '#C7C7BE', marginTop: spacing.md },
   theoryIntro: { color: colors.muted, marginBottom: spacing.lg },
   theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
   theoryCard: {

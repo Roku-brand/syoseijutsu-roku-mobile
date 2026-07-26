@@ -1,204 +1,278 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import {
   FlatList,
   Pressable,
-  Share,
+  ScrollView,
   StyleSheet,
   View,
-  type LayoutChangeEvent,
-  type ViewToken,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppText, BrandMark, IconButton, Pill } from '@/components/ui';
+import { AppText, BrandMark, Pill } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
-import { categoryMeta, getFeed } from '@/data/catalog';
-import type { TechniqueCard } from '@/data/types';
+import { categoryMeta, categoryOrder, techniqueCards } from '@/data/catalog';
+import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 
-const cardPalette = {
-  interpersonal: ['#EAE1D1', '#DED8CA'],
-  work: ['#D9DDD5', '#E7E3D8'],
-  life: ['#D6DED9', '#E3DDD0'],
-} as const;
+const principles = [
+  {
+    number: '01',
+    title: '処世術は好かれない',
+    note: 'メタ発言抑制',
+    body: '処世術は“使うもの”であって、“語るもの”ではない。',
+  },
+  {
+    number: '02',
+    title: '処世術は万能ではない',
+    note: 'コンテクスト依存性',
+    body: '同じ戦術でも人・場・力関係・時間軸が変われば結果は反転する。',
+  },
+  {
+    number: '03',
+    title: '処世術は人格の代替ではない',
+    note: '行動分離原則',
+    body: '処世術は人格を作るものではない。人格を守るための道具である。',
+  },
+  {
+    number: '04',
+    title: '処世術は知識ではない',
+    note: '実践優先',
+    body: '知っているだけでは意味がない。現場で使えて初めて“術”になる。',
+  },
+  {
+    number: '05',
+    title: '処世術は目的ではない',
+    note: '手段従属',
+    body: '処世術は手段であって目的ではない。目的がないと空回りする。',
+  },
+];
 
-export default function MainReelScreen() {
+const cardPalette: Record<CategoryKey, string> = {
+  interpersonal: '#EAE1D1',
+  work: '#D9DDD5',
+  life: '#D6DED9',
+};
+
+export default function MainScreen() {
   const router = useRouter();
-  const { interests, savedIds, toggleSaved, addHistory } = useAppState();
-  const [height, setHeight] = useState(0);
-  const feed = useMemo(() => getFeed(interests, savedIds), [interests, savedIds]);
-  const currentId = useRef<string | null>(null);
-
-  const onLayout = (event: LayoutChangeEvent) => {
-    setHeight(Math.round(event.nativeEvent.layout.height));
-  };
-
-  const onViewableItemsChanged = useRef(
-    ({ viewableItems }: { viewableItems: ViewToken<TechniqueCard>[] }) => {
-      const card = viewableItems[0]?.item;
-      if (!card || card.id === currentId.current) return;
-      currentId.current = card.id;
-      addHistory(card.id);
-      void Haptics.selectionAsync().catch(() => undefined);
-    },
-  ).current;
-
-  const renderItem = useCallback(
-    ({ item, index }: { item: TechniqueCard; index: number }) => {
-      const saved = savedIds.includes(item.id);
-      const palette = cardPalette[item.categoryKey];
-      return (
-        <View
-          style={[
-            styles.page,
-            { height: height || undefined, backgroundColor: palette[index % 2] },
-          ]}
-        >
-          <View style={styles.topBar}>
-            <BrandMark compact />
-            <View style={styles.topMeta}>
-              <AppText variant="caption" style={styles.counter}>
-                {String(index + 1).padStart(3, '0')} / {feed.length}
-              </AppText>
-            </View>
-          </View>
-
-          <View style={styles.texture} pointerEvents="none">
-            <View style={styles.textureLine} />
-            <View style={[styles.textureLine, styles.textureLineTwo]} />
-            <View style={[styles.textureCircle, styles.textureCircleOne]} />
-            <View style={[styles.textureCircle, styles.textureCircleTwo]} />
-          </View>
-
-          <View style={styles.cardBody}>
-            <Pill>{item.categoryName} · {item.subcategory}</Pill>
-            <AppText style={styles.cardTitle}>{item.title}</AppText>
-            <View style={styles.shortRule} />
-            <AppText variant="caption" style={styles.cardHint}>
-              上下にスワイプして、次の処世術へ
-            </AppText>
-          </View>
-
-          <View style={styles.actions}>
-            <IconButton
-              label={saved ? '保存を解除' : 'マイOSへ保存'}
-              icon={saved ? '◆' : '◇'}
-              active={saved}
-              onPress={() => toggleSaved(item.id)}
-            />
-            <IconButton
-              label="共有"
-              icon="↗"
-              onPress={() =>
-                void Share.share({
-                  title: '処世術禄',
-                  message: `${item.title}\n\n処世術禄｜人生の判断と立ち回りにOSを。`,
-                })
-              }
-            />
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="詳しく読む"
-              onPress={() =>
-                router.push({ pathname: '/card/[id]', params: { id: item.id } })
-              }
-              style={({ pressed }) => [
-                styles.detailButton,
-                pressed && styles.detailPressed,
-              ]}
-            >
-              <AppText variant="label" style={styles.detailText}>
-                詳しく読む
-              </AppText>
-              <AppText style={styles.detailArrow}>›</AppText>
-            </Pressable>
-          </View>
-        </View>
-      );
-    },
-    [feed.length, height, router, savedIds, toggleSaved],
+  const { width } = useWindowDimensions();
+  const { savedIds, toggleSaved } = useAppState();
+  const reelRef = useRef<FlatList<TechniqueCard>>(null);
+  const cardWidth = Math.max(280, width - spacing.lg * 2);
+  const reelCards = useMemo(
+    () =>
+      [...techniqueCards].sort(
+        (a, b) =>
+          categoryOrder.indexOf(a.categoryKey) - categoryOrder.indexOf(b.categoryKey) ||
+          a.id.localeCompare(b.id),
+      ),
+    [],
   );
 
+  const jumpTo = (category: CategoryKey) => {
+    const index = reelCards.findIndex((card) => card.categoryKey === category);
+    if (index < 0) return;
+    void Haptics.selectionAsync();
+    reelRef.current?.scrollToIndex({ index, animated: true });
+  };
+
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <View style={styles.container} onLayout={onLayout}>
-        {height > 0 && (
-          <FlatList
-            data={feed}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            pagingEnabled
-            decelerationRate="fast"
-            showsVerticalScrollIndicator={false}
-            onViewableItemsChanged={onViewableItemsChanged}
-            viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
-            getItemLayout={(_, index) => ({
-              length: height,
-              offset: height * index,
-              index,
-            })}
-            initialNumToRender={3}
-            windowSize={5}
-            removeClippedSubviews
-          />
-        )}
-      </View>
+    <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.content}
+      >
+            <View style={styles.header}>
+              <BrandMark compact />
+              <AppText variant="caption" style={styles.headerLabel}>
+                MAIN OS
+              </AppText>
+            </View>
+
+            <View style={styles.intro}>
+              <AppText variant="label" style={styles.eyebrow}>
+                基本原則
+              </AppText>
+              <AppText variant="title">処世術の五原則</AppText>
+            </View>
+
+            <View style={styles.principles}>
+              {principles.map((principle) => (
+                <View key={principle.number} style={styles.principle}>
+                  <AppText variant="label" style={styles.principleNumber}>
+                    {principle.number}
+                  </AppText>
+                  <View style={styles.principleCopy}>
+                    <AppText variant="serif" style={styles.principleTitle}>
+                      {principle.title}
+                    </AppText>
+                    <AppText variant="caption" style={styles.principleNote}>
+                      {principle.note}
+                    </AppText>
+                    <AppText style={styles.principleBody}>{principle.body}</AppText>
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View style={styles.mantra}>
+              <AppText variant="label" style={styles.mantraText}>
+                語るな（可視化の抑制）／信じるな（万能化の抑制）／同一化するな（人格侵食の抑制）／運用せよ（実践優先）／目的に従え（手段従属）
+              </AppText>
+            </View>
+
+            <View style={styles.reelHeading}>
+              <View>
+                <AppText variant="label" style={styles.eyebrow}>
+                  CARD REEL
+                </AppText>
+                <AppText variant="title">今日の処世術</AppText>
+              </View>
+            </View>
+            <View style={styles.skipRow}>
+              {categoryOrder.map((key) => (
+                <Pressable
+                  key={key}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${categoryMeta[key].label}のカードへ移動`}
+                  onPress={() => jumpTo(key)}
+                  style={({ pressed }) => [styles.skipButton, pressed && styles.pressed]}
+                >
+                  <AppText variant="label" style={styles.skipText}>
+                    {categoryMeta[key].label}
+                  </AppText>
+                </Pressable>
+              ))}
+            </View>
+            <FlatList
+              ref={reelRef}
+              horizontal
+              data={reelCards}
+              keyExtractor={(card) => card.id}
+              showsHorizontalScrollIndicator={false}
+              snapToInterval={cardWidth + 12}
+              decelerationRate="fast"
+              contentContainerStyle={styles.reel}
+              renderItem={({ item }) => {
+                const saved = savedIds.includes(item.id);
+                return (
+                  <View style={[styles.reelCard, { width: cardWidth, backgroundColor: cardPalette[item.categoryKey] }]}>
+                    <Pill>{item.categoryName} · {item.subcategory}</Pill>
+                    <View>
+                      <AppText variant="serif" style={styles.reelTitle}>
+                        {item.title}
+                      </AppText>
+                      <AppText style={styles.reelBody}>{item.subtitle}</AppText>
+                    </View>
+                    <View style={styles.reelActions}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={saved ? '保存を解除' : 'マイOSへ保存'}
+                        onPress={() => toggleSaved(item.id)}
+                        style={({ pressed }) => [styles.saveButton, saved && styles.saveButtonActive, pressed && styles.pressed]}
+                      >
+                        <AppText variant="label" style={[styles.saveText, saved && styles.saveTextActive]}>
+                          {saved ? '保存済み' : '保存'}
+                        </AppText>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`${item.title}を詳しく読む`}
+                        onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                        style={({ pressed }) => [styles.readButton, pressed && styles.pressed]}
+                      >
+                        <AppText variant="label" style={styles.readText}>詳しく読む ›</AppText>
+                      </Pressable>
+                    </View>
+                  </View>
+                );
+              }}
+            />
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.paper },
-  page: { padding: spacing.lg, justifyContent: 'space-between', overflow: 'hidden' },
-  topBar: { flexDirection: 'row', justifyContent: 'space-between', zIndex: 2 },
-  topMeta: { alignItems: 'flex-end', justifyContent: 'center' },
-  counter: { letterSpacing: 1.2, color: colors.inkSoft },
-  texture: { ...StyleSheet.absoluteFill, opacity: 0.35 },
-  textureLine: {
-    position: 'absolute',
-    width: 1,
-    height: '72%',
-    backgroundColor: colors.gold,
-    top: '15%',
-    left: '12%',
-    transform: [{ rotate: '18deg' }],
-  },
-  textureLineTwo: { left: '88%', top: '20%', height: '55%', transform: [{ rotate: '-12deg' }] },
-  textureCircle: {
-    position: 'absolute',
-    borderWidth: 1,
-    borderColor: colors.gold,
-    borderRadius: 999,
-  },
-  textureCircleOne: { width: 250, height: 250, right: -170, top: 80 },
-  textureCircleTwo: { width: 160, height: 160, left: -100, bottom: 70 },
-  cardBody: { alignItems: 'center', paddingHorizontal: spacing.md, zIndex: 2 },
-  cardTitle: {
-    marginTop: spacing.xl,
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontSize: 30,
-    lineHeight: 52,
-    fontWeight: '700',
-    textAlign: 'center',
-    letterSpacing: 0.8,
-  },
-  shortRule: { width: 32, height: 1, backgroundColor: colors.gold, marginTop: 32 },
-  cardHint: { marginTop: spacing.md, color: colors.inkSoft },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 10, zIndex: 2 },
-  detailButton: {
-    flex: 1,
-    minHeight: 48,
-    borderRadius: radius.pill,
-    backgroundColor: colors.ink,
+  safeArea: { flex: 1, backgroundColor: colors.paper },
+  content: { paddingBottom: spacing.xl },
+  header: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerLabel: { letterSpacing: 1.8 },
+  intro: { paddingHorizontal: spacing.lg, marginTop: spacing.xl },
+  eyebrow: { color: colors.gold, marginBottom: spacing.xs },
+  principles: { marginTop: spacing.lg, paddingHorizontal: spacing.lg, gap: 10 },
+  principle: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    padding: spacing.md,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.line,
+  },
+  principleNumber: { color: colors.gold, width: 24 },
+  principleCopy: { flex: 1 },
+  principleTitle: { fontSize: 17, lineHeight: 24 },
+  principleNote: { marginTop: 2, color: colors.gold },
+  principleBody: { marginTop: spacing.sm, color: colors.inkSoft },
+  mantra: {
+    margin: spacing.lg,
+    padding: spacing.md,
+    borderRadius: radius.md,
+    backgroundColor: colors.ink,
+  },
+  mantraText: { color: colors.goldLight, textAlign: 'center', lineHeight: 22 },
+  reelHeading: { paddingHorizontal: spacing.lg, marginTop: spacing.sm },
+  skipRow: { flexDirection: 'row', gap: 8, paddingHorizontal: spacing.lg, marginTop: spacing.md },
+  skipButton: {
+    flex: 1,
+    minHeight: 38,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.line,
+    alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
+    backgroundColor: colors.surface,
+  },
+  skipText: { color: colors.inkSoft, fontSize: 10 },
+  reel: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, gap: 12 },
+  reelCard: {
+    minHeight: 332,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    justifyContent: 'space-between',
     ...shadow.card,
   },
-  detailPressed: { opacity: 0.72, transform: [{ scale: 0.99 }] },
-  detailText: { color: colors.paper },
-  detailArrow: { color: colors.goldLight, fontSize: 22, lineHeight: 26 },
+  reelTitle: { marginTop: spacing.xl, fontSize: 25, lineHeight: 40 },
+  reelBody: { marginTop: spacing.md, color: colors.inkSoft },
+  reelActions: { flexDirection: 'row', gap: 10 },
+  saveButton: {
+    minHeight: 44,
+    borderRadius: radius.pill,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.ink,
+  },
+  saveButtonActive: { backgroundColor: colors.ink },
+  saveText: { color: colors.ink },
+  saveTextActive: { color: colors.paper },
+  readButton: {
+    flex: 1,
+    minHeight: 44,
+    borderRadius: radius.pill,
+    backgroundColor: colors.ink,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  readText: { color: colors.paper },
+  pressed: { opacity: 0.65, transform: [{ scale: 0.99 }] },
 });

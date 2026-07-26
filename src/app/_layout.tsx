@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { colors } from '@/constants/theme';
+import { PersistentBottomNav } from '@/components/persistent-bottom-nav';
 import { AppStateProvider } from '@/state/app-state';
 
 export default function RootLayout() {
@@ -19,6 +20,7 @@ export default function RootLayout() {
               animation: 'fade_from_bottom',
             }}
           />
+          <PersistentBottomNav />
         </View>
       </AppStateProvider>
     </SafeAreaProvider>
