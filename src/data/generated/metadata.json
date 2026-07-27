@@ -1,9 +1,9 @@
 {
-  "importedAt": "2026-07-26T09:51:53.228Z",
+  "importedAt": "2026-07-27T08:00:01.219Z",
   "source": "content/*.json",
-  "techniqueDataset": "処世術禄 処世術カード初版（解説付き）",
+  "techniqueDataset": "処世術禄 処世術カード拡張版225（解説付き）",
   "theoryDataset": "処世術禄 理論・格言ナレッジベース",
-  "techniqueCount": 135,
+  "techniqueCount": 225,
   "theoryCount": 386,
   "categoryCount": 3,
   "subcategoryCount": 9
