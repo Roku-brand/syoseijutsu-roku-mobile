@@ -14,6 +14,12 @@ const OUTPUT_PATH = path.join(
   'shoseijutsu_cards_135_with_explanations.json',
 );
 const THEORY_PATH = path.join(ROOT, 'content', 'theory_knowledge_base_386.json');
+const EXTERNAL_SOURCE_PATH = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : null;
+const EXTERNAL_THEORY_PATH = process.argv[3]
+  ? path.resolve(process.argv[3])
+  : null;
 
 const categoryOrder = new Map([
   ['対人術', 1],
@@ -94,7 +100,7 @@ const groupGuidance = {
       '一度の失敗や違和感だけで人格全体を断定せず、反復するパターンで判断する。',
     close: '人の本質は、うまく語れた瞬間より都合が悪くなった後の行動に表れる。',
   },
-  友人集団でうまく立ち回る人の処世術: {
+  集団でうまく立ち回る人の処世術: {
     body: '集団を深掘りの場ではなく、ノリ・所属感・役割を共有する場として扱う。',
     practice:
       '一対一の関係を別に育てながら、集団では全員が参加できる話題と小さな貢献を増やす。',
@@ -278,28 +284,42 @@ function parseSource(markdown) {
   let section = '';
   let group = '';
   let lastCard;
+  let collectingExplanation = false;
   const cards = [];
 
   for (const rawLine of markdown.split(/\r?\n/)) {
     const line = rawLine.trim();
-    if (!line) continue;
+    if (!line) {
+      if (
+        collectingExplanation &&
+        lastCard?.explanationLines.length &&
+        lastCard.explanationLines.at(-1) !== ''
+      ) {
+        lastCard.explanationLines.push('');
+      }
+      continue;
+    }
 
     if (/^# [^#]/.test(line)) {
+      collectingExplanation = false;
       const value = line.slice(2).trim();
       if (categoryOrder.has(value)) category = value;
       continue;
     }
     if (/^## [^#]/.test(line)) {
+      collectingExplanation = false;
       section = line.slice(3).trim();
       continue;
     }
     if (/^### /.test(line)) {
+      collectingExplanation = false;
       group = line.slice(4).trim();
       continue;
     }
 
     const item = line.match(/^(\d+)[.．]\s*(.+)$/u);
     if (item) {
+      collectingExplanation = false;
       let title = item[2].trim();
       let inlineTheory = '';
       const inlineMatch = title.match(
@@ -315,6 +335,8 @@ function parseSource(markdown) {
         section,
         group,
         title,
+        subtitle: '',
+        explanationLines: [],
         theoryLabels: inlineTheory ? [inlineTheory] : [],
         sourceGroups: [group],
       };
@@ -322,11 +344,31 @@ function parseSource(markdown) {
       continue;
     }
 
+    const subtitleMatch = line.match(
+      /^(?:[-*]\s*)?サブタイトル[：:]\s*(.+)$/u,
+    );
+    if (subtitleMatch && lastCard) {
+      collectingExplanation = false;
+      lastCard.subtitle = subtitleMatch[1].trim();
+      continue;
+    }
+
     const theoryMatch = line.match(
       /^(?:[-*]\s*)?理論カード[：:]\s*(.+)$/u,
     );
     if (theoryMatch && lastCard) {
+      collectingExplanation = false;
       lastCard.theoryLabels.push(theoryMatch[1].trim());
+      continue;
+    }
+
+    if (/^(?:[-*]\s*)?explanation[：:]\s*$/iu.test(line) && lastCard) {
+      collectingExplanation = true;
+      continue;
+    }
+
+    if (collectingExplanation && lastCard) {
+      lastCard.explanationLines.push(line);
     }
   }
 
@@ -337,11 +379,24 @@ function parseSource(markdown) {
     if (existing) {
       existing.theoryLabels.push(...card.theoryLabels);
       existing.sourceGroups.push(...card.sourceGroups);
+      if (!existing.subtitle && card.subtitle) existing.subtitle = card.subtitle;
+      if (
+        existing.explanationLines.length === 0 &&
+        card.explanationLines.length
+      ) {
+        existing.explanationLines = card.explanationLines;
+      }
     } else {
       unique.set(key, card);
     }
   }
-  return [...unique.values()];
+  return [...unique.values()].map((card) => ({
+    ...card,
+    explanation: card.explanationLines
+      .join('\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim(),
+  }));
 }
 
 function resolveExplicitEvidence(labels, theoriesByLength) {
@@ -366,22 +421,47 @@ function createExplanation(title, guidance) {
   ].join('\n\n');
 }
 
+const sourceReadPath = EXTERNAL_SOURCE_PATH ?? SOURCE_PATH;
+const theoryReadPath = EXTERNAL_THEORY_PATH ?? THEORY_PATH;
 const [markdown, theoryDataset] = await Promise.all([
-  readFile(SOURCE_PATH, 'utf8'),
-  readFile(THEORY_PATH, 'utf8').then(JSON.parse),
+  readFile(sourceReadPath, 'utf8'),
+  readFile(theoryReadPath, 'utf8').then(JSON.parse),
 ]);
+const normalizedMarkdown = `${markdown
+  .replace(/\r\n/g, '\n')
+  .replace(/[ \t]+$/gm, '')
+  .trim()}\n`;
+
+if (EXTERNAL_SOURCE_PATH || EXTERNAL_THEORY_PATH) {
+  await Promise.all([
+    EXTERNAL_SOURCE_PATH
+      ? writeFile(SOURCE_PATH, normalizedMarkdown, 'utf8')
+      : Promise.resolve(),
+    EXTERNAL_THEORY_PATH
+      ? writeFile(THEORY_PATH, `${JSON.stringify(theoryDataset, null, 2)}\n`, 'utf8')
+      : Promise.resolve(),
+  ]);
+}
+
+const theoryRecords = (
+  Array.isArray(theoryDataset) ? theoryDataset : theoryDataset.records
+).map((record) => ({
+  id: record.tagId ?? record.id,
+  title: record.title,
+  source_type: record.sourceType ?? record.source_type,
+}));
 
 const theoriesById = new Map(
-  theoryDataset.records.map((record) => [record.id, record]),
+  theoryRecords.map((record) => [record.id, record]),
 );
-const theoriesByLength = theoryDataset.records
+const theoriesByLength = theoryRecords
   .map((record) => ({
     record,
     normalizedTitle: normalize(record.title),
   }))
   .sort((a, b) => b.normalizedTitle.length - a.normalizedTitle.length);
 
-const parsedCards = parseSource(markdown);
+const parsedCards = parseSource(normalizedMarkdown);
 const displayCountBySubcategory = new Map();
 
 const cards = parsedCards.map((sourceCard, index) => {
@@ -436,7 +516,7 @@ const cards = parsedCards.map((sourceCard, index) => {
     category: sourceCard.category,
     subcategory,
     title: sourceCard.title,
-    body: guidance.body,
+    body: sourceCard.subtitle || guidance.body,
     evidence_ids: evidenceIds,
     tags: [...new Set(tags)].slice(0, 6),
     status: 'draft',
@@ -450,7 +530,8 @@ const cards = parsedCards.map((sourceCard, index) => {
           .filter(Boolean),
       ),
     ],
-    explanation: createExplanation(sourceCard.title, guidance),
+    explanation:
+      sourceCard.explanation || createExplanation(sourceCard.title, guidance),
     explanation_structure: [
       '心理・構造',
       '具体的な適用',
@@ -473,7 +554,7 @@ const dataset = {
       'category',
       'subcategory',
     ],
-    backend_link: 'evidence_ids で theory_knowledge_base_386.json を参照',
+    backend_link: 'evidence_ids で理論データを参照',
     note: '原稿の中分類はタグとして保持し、アプリの9分類へ統合する',
     explanation_policy:
       '構造、具体的な運用、誤用への注意、示唆的な結論の4段構成',
@@ -514,7 +595,7 @@ console.log(
     {
       sourceItems: parsedCards.length,
       outputCards: cards.length,
-      duplicateTitlesMerged: 1,
+      duplicateTitlesMerged: 0,
       unresolvedTheoryLabels: unresolvedLabels,
     },
     null,

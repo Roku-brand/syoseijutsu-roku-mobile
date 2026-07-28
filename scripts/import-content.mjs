@@ -190,30 +190,48 @@ if (unmappedTechniqueCards.length) {
   );
 }
 
-const theories = theoryDataset.records.map((record) => {
-  const categoryId = theoryCategoryIds.get(record.source_type);
+const rawTheoryRecords = Array.isArray(theoryDataset)
+  ? theoryDataset
+  : theoryDataset.records;
+
+const theories = rawTheoryRecords.map((record) => {
+  const sourceType = record.sourceType ?? record.source_type;
+  const categoryId =
+    record.categoryId ?? theoryCategoryIds.get(sourceType);
   if (!categoryId) {
-    throw new Error(`Unknown theory source_type: ${record.source_type}`);
+    throw new Error(`Unknown theory source type: ${sourceType}`);
   }
 
+  const legacyRecord = {
+    ...record,
+    source_type: sourceType,
+    concept_type: record.conceptType ?? record.concept_type,
+    domains: record.domains ?? [],
+  };
+
   return {
-    tagId: record.id,
-    originalNumber: record.original_number,
+    tagId: record.tagId ?? record.id,
+    originalNumber: record.originalNumber ?? record.original_number,
     title: record.title,
-    summary: record.summary ?? createTheorySummary(record),
-    sourceType: record.source_type,
+    summary: record.summary ?? createTheorySummary(legacyRecord),
+    definition: record.definition,
+    keyPoints: record.keyPoints ?? [],
+    pitfalls: record.pitfalls ?? [],
+    strategies: record.strategies ?? [],
+    applicationConditions: record.applicationConditions ?? [],
+    sourceType,
     discipline: record.discipline,
-    conceptType: record.concept_type,
-    sourceName: record.source_name,
-    sourceDetail: record.source_detail,
+    conceptType: record.conceptType ?? record.concept_type,
+    sourceName: record.sourceName ?? record.source_name,
+    sourceDetail: record.sourceDetail ?? record.source_detail,
     domains: record.domains ?? [],
     principles: record.principles ?? [],
-    relatedIds: record.related_ids ?? [],
+    relatedIds: record.relatedIds ?? record.related_ids ?? [],
     reliability: record.reliability,
     status: record.status,
     notes: record.notes,
     categoryId,
-    categoryTitle: record.source_type,
+    categoryTitle: record.categoryTitle ?? sourceType,
   };
 });
 
@@ -244,7 +262,9 @@ const metadata = {
   importedAt: new Date().toISOString(),
   source: 'content/*.json',
   techniqueDataset: techniqueDataset.dataset_name,
-  theoryDataset: theoryDataset.dataset_name,
+  theoryDataset:
+    theoryDataset.dataset_name ??
+    `統合理論データベース ${theories.length}件`,
   techniqueCount,
   theoryCount: theories.length,
   categoryCount: categories.length,
