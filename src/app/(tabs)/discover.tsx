@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen, BookTitle, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
@@ -9,6 +9,9 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards, theories, theoryById } from '@/data/catalog';
 import { guidedTopicGroups } from '@/data/guided-topics';
 import type { TheoryCard } from '@/data/types';
+import { useTabVisible } from '@/hooks/use-tab-visible';
+
+type SearchKind = 'all' | 'technique' | 'theory';
 
 function searchableText(card: (typeof techniqueCards)[number]) {
   const linkedTheories = (card.theoryTagIds ?? [])
@@ -56,8 +59,10 @@ function searchableTheoryText(theory: TheoryCard) {
 }
 
 export default function DiscoverScreen() {
+  const isFocused = useTabVisible();
   const router = useRouter();
   const [query, setQuery] = useState('');
+  const [searchKind, setSearchKind] = useState<SearchKind>('all');
 
   const searchTerms = useMemo(
     () =>
@@ -69,28 +74,35 @@ export default function DiscoverScreen() {
     [query],
   );
 
-  const techniqueResults = useMemo(() => {
+  const techniqueMatches = useMemo(() => {
     if (!searchTerms.length) return [];
     return techniqueCards
       .filter((card) => {
         const text = searchableText(card);
         return searchTerms.every((term) => text.includes(term));
-      })
-      .slice(0, 30);
+      });
   }, [searchTerms]);
 
-  const theoryResults = useMemo(() => {
+  const theoryMatches = useMemo(() => {
     if (!searchTerms.length) return [];
     return theories
       .filter((theory) => {
         const text = searchableTheoryText(theory);
         return searchTerms.every((term) => text.includes(term));
-      })
-      .slice(0, 30);
+      });
   }, [searchTerms]);
 
   const searching = searchTerms.length > 0;
-  const resultCount = techniqueResults.length + theoryResults.length;
+  const resultCount = techniqueMatches.length + theoryMatches.length;
+  const showTechniques = searchKind !== 'theory';
+  const showTheories = searchKind !== 'technique';
+  const techniqueResults = showTechniques ? techniqueMatches.slice(0, 50) : [];
+  const theoryResults = showTheories ? theoryMatches.slice(0, 50) : [];
+  const visibleResultCount =
+    (showTechniques ? techniqueMatches.length : 0) +
+    (showTheories ? theoryMatches.length : 0);
+
+  if (!isFocused) return null;
 
   return (
     <BookScreen>
@@ -125,7 +137,43 @@ export default function DiscoverScreen() {
       {searching ? (
         <View style={styles.results}>
           <OrnamentHeading>検索結果　{resultCount}</OrnamentHeading>
-          {resultCount ? (
+          <View
+            accessibilityRole="tablist"
+            style={styles.resultFilters}
+          >
+            {[
+              { key: 'all', label: `すべて ${resultCount}` },
+              {
+                key: 'technique',
+                label: `処世術 ${techniqueMatches.length}`,
+              },
+              { key: 'theory', label: `理論 ${theoryMatches.length}` },
+            ].map((item) => {
+              const active = searchKind === item.key;
+              return (
+                <Pressable
+                  key={item.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: active }}
+                  onPress={() => setSearchKind(item.key as SearchKind)}
+                  style={[
+                    styles.resultFilter,
+                    active && styles.resultFilterActive,
+                  ]}
+                >
+                  <AppText
+                    style={[
+                      styles.resultFilterText,
+                      active && styles.resultFilterTextActive,
+                    ]}
+                  >
+                    {item.label}
+                  </AppText>
+                </Pressable>
+              );
+            })}
+          </View>
+          {visibleResultCount ? (
             <>
               {techniqueResults.length ? (
                 <View style={styles.resultSection}>
@@ -135,6 +183,11 @@ export default function DiscoverScreen() {
                   {techniqueResults.map((card) => (
                     <TechniqueRow key={card.id} card={card} />
                   ))}
+                  {techniqueMatches.length > techniqueResults.length ? (
+                    <AppText style={styles.resultLimit}>
+                      上位50件を表示しています。言葉を追加すると絞り込めます。
+                    </AppText>
+                  ) : null}
                 </View>
               ) : null}
 
@@ -146,6 +199,11 @@ export default function DiscoverScreen() {
                   {theoryResults.map((theory) => (
                     <TheoryArchiveCard key={theory.tagId} theory={theory} />
                   ))}
+                  {theoryMatches.length > theoryResults.length ? (
+                    <AppText style={styles.resultLimit}>
+                      上位50件を表示しています。言葉を追加すると絞り込めます。
+                    </AppText>
+                  ) : null}
                 </View>
               ) : null}
             </>
@@ -166,7 +224,13 @@ export default function DiscoverScreen() {
           {guidedTopicGroups.map((group) => (
             <View key={group.title} style={styles.topicGroup}>
               <AppText style={styles.topicGroupTitle}>{group.title}</AppText>
-              <View style={styles.topicGrid}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={228}
+                decelerationRate="fast"
+                contentContainerStyle={styles.topicGrid}
+              >
                 {group.topics.map((topic) => (
                   <Pressable
                     key={topic.slug}
@@ -190,7 +254,7 @@ export default function DiscoverScreen() {
                     <AppText style={styles.topicArrow}>›</AppText>
                   </Pressable>
                 ))}
-              </View>
+              </ScrollView>
             </View>
           ))}
 
@@ -276,13 +340,13 @@ const styles = StyleSheet.create({
     letterSpacing: 1.4,
   },
   topicGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: spacing.md,
+    paddingRight: spacing.lg,
+    paddingBottom: spacing.sm,
   },
   topicCard: {
-    width: '46%',
-    minHeight: 94,
+    width: 212,
+    minHeight: 88,
     position: 'relative',
     flexDirection: 'row',
     alignItems: 'center',
@@ -290,7 +354,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.55)',
+    backgroundColor: colors.surface,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
   },
@@ -350,6 +414,33 @@ const styles = StyleSheet.create({
   },
   results: { marginTop: spacing.lg },
   resultSection: { marginBottom: spacing.lg },
+  resultFilters: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+    marginBottom: spacing.xl,
+  },
+  resultFilter: {
+    minHeight: 42,
+    paddingHorizontal: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  resultFilterActive: {
+    borderColor: colors.charcoal,
+    backgroundColor: colors.charcoal,
+  },
+  resultFilterText: {
+    color: colors.inkSoft,
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: '700',
+  },
+  resultFilterTextActive: { color: colors.goldLight },
   resultKind: {
     marginBottom: spacing.md,
     color: colors.gold,
@@ -358,6 +449,13 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '700',
     letterSpacing: 0.8,
+  },
+  resultLimit: {
+    marginTop: spacing.sm,
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 22,
+    textAlign: 'center',
   },
   empty: {
     borderWidth: 1,
@@ -378,5 +476,5 @@ const styles = StyleSheet.create({
     color: colors.muted,
     textAlign: 'center',
   },
-  pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
+  pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

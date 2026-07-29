@@ -55,11 +55,6 @@ export function TheoryArchiveCard({
         ) : null}
 
         <View style={styles.footer}>
-          <View style={styles.domain}>
-            <AppText variant="caption" style={styles.domainText}>
-              {theory.categoryTitle}
-            </AppText>
-          </View>
           <AppText style={styles.chevron}>›</AppText>
         </View>
       </View>
@@ -154,18 +149,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     gap: spacing.md,
   },
-  domain: {
-    borderWidth: 1,
-    borderColor: '#526577',
-    borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.45)',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  domainText: { color: '#34495C', fontSize: 10, lineHeight: 14 },
   chevron: {
     color: '#34495C',
     fontSize: 30,

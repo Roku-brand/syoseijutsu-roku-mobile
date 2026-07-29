@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { usePathname, useRouter } from 'expo-router';
 import { useRef } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { AppText } from './ui';
@@ -37,6 +37,8 @@ function activeKey(pathname: string) {
 }
 
 export function PersistentBottomNav() {
+  const { width } = useWindowDimensions();
+  const desktop = width >= 1000;
   const pathname = usePathname();
   const router = useRouter();
   const lastTap = useRef<Record<string, number>>({});
@@ -59,8 +61,11 @@ export function PersistentBottomNav() {
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.safeArea}>
-      <View style={styles.bar}>
+    <SafeAreaView
+      edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
+      style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
+    >
+      <View style={[styles.bar, desktop && styles.barDesktop]}>
         {items.map((item) => {
           const active = selected === item.key;
           return (
@@ -70,9 +75,20 @@ export function PersistentBottomNav() {
               accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
               accessibilityState={{ selected: active }}
               onPress={() => navigate(item)}
-              style={({ pressed }) => [styles.item, pressed && styles.pressed]}
+              style={({ pressed }) => [
+                styles.item,
+                desktop && styles.itemDesktop,
+                pressed && styles.pressed,
+              ]}
             >
-              {active && <View style={styles.activeIndicator} />}
+              {active && (
+                <View
+                  style={[
+                    styles.activeIndicator,
+                    desktop && styles.activeIndicatorDesktop,
+                  ]}
+                />
+              )}
               <AppText style={[styles.mark, active && styles.markActive]}>{item.mark}</AppText>
               <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>
                 {item.label}
@@ -88,25 +104,44 @@ export function PersistentBottomNav() {
 const styles = StyleSheet.create({
   safeArea: {
     backgroundColor: colors.paper,
-    paddingHorizontal: 14,
-    paddingTop: 8,
-    paddingBottom: 8,
+    paddingHorizontal: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   bar: {
     width: '100%',
-    maxWidth: 820,
+    maxWidth: 760,
     alignSelf: 'center',
-    height: 76,
+    height: 70,
     flexDirection: 'row',
     backgroundColor: colors.navInk,
-    borderWidth: 1,
+    borderTopWidth: 1,
     borderColor: '#4B4840',
-    borderRadius: 38,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
     shadowColor: '#000000',
     shadowOpacity: 0.18,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 7 },
     elevation: 8,
+  },
+  safeAreaDesktop: {
+    width: 92,
+    height: '100%',
+    backgroundColor: colors.navInk,
+    borderRightWidth: 1,
+    borderRightColor: '#4B4840',
+  },
+  barDesktop: {
+    width: 92,
+    maxWidth: 92,
+    height: '100%',
+    flexDirection: 'column',
+    borderWidth: 0,
+    borderRadius: 0,
+    shadowOpacity: 0,
+    elevation: 0,
+    paddingVertical: 20,
   },
   item: {
     flex: 1,
@@ -115,6 +150,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
+  itemDesktop: {
+    flex: 0,
+    width: 92,
+    minHeight: 84,
+  },
   activeIndicator: {
     position: 'absolute',
     bottom: 6,
@@ -122,6 +162,14 @@ const styles = StyleSheet.create({
     height: 3,
     borderRadius: 3,
     backgroundColor: colors.goldLight,
+  },
+  activeIndicatorDesktop: {
+    left: 0,
+    bottom: 'auto',
+    width: 4,
+    height: 38,
+    borderTopRightRadius: 4,
+    borderBottomRightRadius: 4,
   },
   pressed: { opacity: 0.65 },
   mark: {

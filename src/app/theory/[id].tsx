@@ -118,7 +118,6 @@ export default function TheoryDetailScreen() {
           <OriginRow label="形式" value={theory.conceptType} />
           <OriginRow label="出典" value={theory.sourceName} />
           <OriginRow label="所在・由来" value={theory.sourceDetail} />
-          <OriginRow label="確認状態" value={theory.reliability} />
         </View>
 
         {theory.notes ? (

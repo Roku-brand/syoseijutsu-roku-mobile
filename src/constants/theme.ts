@@ -63,6 +63,13 @@ export const spacing = {
   section: 64,
 } as const;
 
+export const layout = {
+  bottomNavHeight: 76,
+  bottomNavOuterSpacing: 24,
+  bottomContentInset: 152,
+  readingWidth: 1120,
+} as const;
+
 export const radius = {
   sm: 10,
   md: 16,

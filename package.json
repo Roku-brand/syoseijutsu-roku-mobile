@@ -43,6 +43,7 @@
     "export:web": "expo export --platform web",
     "export:pages": "expo export --platform web",
     "content:import": "node ./scripts/import-content.mjs",
+    "content:audit": "node ./scripts/audit-theories.mjs",
     "content:urahidensho": "node ./scripts/build-urahidensho-content.mjs",
     "assets:generate": "node ./scripts/generate-assets.cjs",
     "store:assets": "node ./scripts/generate-store-assets.mjs"

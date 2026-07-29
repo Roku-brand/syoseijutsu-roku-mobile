@@ -1,15 +1,16 @@
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Modal,
   Pressable,
   ScrollView,
   StyleSheet,
+  useWindowDimensions,
   View,
   type ScrollViewProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
+import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { AppText } from './ui';
 
 export function BookScreen({
@@ -17,6 +18,9 @@ export function BookScreen({
   contentContainerStyle,
   ...props
 }: ScrollViewProps) {
+  const { width } = useWindowDimensions();
+  const compact = width < 700;
+  const desktop = width >= 1000;
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.safe}>
       <ScrollView
@@ -24,7 +28,12 @@ export function BookScreen({
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         style={styles.scroll}
-        contentContainerStyle={[styles.content, contentContainerStyle]}
+        contentContainerStyle={[
+          styles.content,
+          compact && styles.contentCompact,
+          desktop && styles.contentDesktop,
+          contentContainerStyle,
+        ]}
       >
         {children}
       </ScrollView>
@@ -34,20 +43,29 @@ export function BookScreen({
 
 export function BookHeader() {
   const router = useRouter();
+  const pathname = usePathname();
+  const { width } = useWindowDimensions();
+  const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
+  const currentTitle = getCurrentTitle(pathname);
 
   return (
     <>
-      <View style={styles.header}>
+      <View style={[styles.header, compact && styles.headerCompact]}>
         <View style={styles.brandGroup}>
-          <View style={styles.seal}>
+          <View style={[styles.seal, compact && styles.sealCompact]}>
             <AppText style={styles.sealText}>禄</AppText>
           </View>
-          <View style={styles.brandCopy}>
+          <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
             <AppText style={styles.brandName}>処世術禄</AppText>
             <AppText style={styles.brandSubtitle}>賢者の手帳</AppText>
           </View>
         </View>
+        {compact ? (
+          <AppText numberOfLines={1} style={styles.mobileScreenTitle}>
+            {currentTitle}
+          </AppText>
+        ) : null}
 
         <View style={styles.headerActions}>
           <Pressable
@@ -60,7 +78,7 @@ export function BookHeader() {
             ]}
           >
             <PrincipleMark />
-            <AppText style={styles.headerActionLabel}>原則</AppText>
+            {!compact ? <AppText style={styles.headerActionLabel}>原則</AppText> : null}
           </Pressable>
           <Pressable
             accessibilityRole="button"
@@ -72,17 +90,32 @@ export function BookHeader() {
             ]}
           >
             <AppText style={styles.settingsIcon}>⚙</AppText>
-            <AppText style={styles.headerActionLabel}>設定</AppText>
+            {!compact ? <AppText style={styles.headerActionLabel}>設定</AppText> : null}
           </Pressable>
         </View>
       </View>
 
       <PrinciplesModal
         visible={principlesVisible}
+        compact={compact}
         onClose={() => setPrinciplesVisible(false)}
       />
     </>
   );
+}
+
+function getCurrentTitle(pathname: string) {
+  if (pathname.includes('/discover') || pathname.includes('/topic/')) return '探す';
+  if (
+    pathname.includes('/catalog') ||
+    pathname.includes('/category/') ||
+    pathname.includes('/subcategory/') ||
+    pathname.includes('/theory')
+  ) return '体系';
+  if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイOS';
+  if (pathname.includes('/settings')) return '設定';
+  if (pathname.includes('/card/')) return '処世術';
+  return '処世術禄';
 }
 
 function PrincipleMark() {
@@ -137,19 +170,21 @@ const principles = [
 
 function PrinciplesModal({
   visible,
+  compact,
   onClose,
 }: {
   visible: boolean;
+  compact: boolean;
   onClose: () => void;
 }) {
   return (
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={styles.modalRoot}>
+      <View style={[styles.modalRoot, compact && styles.modalRootCompact]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="原則を閉じる"
@@ -158,7 +193,7 @@ function PrinciplesModal({
         />
         <View
           accessibilityViewIsModal
-          style={styles.principlesCard}
+          style={[styles.principlesCard, compact && styles.principlesCardCompact]}
         >
           <View style={styles.modalHeader}>
             <View style={styles.modalTitleGroup}>
@@ -234,10 +269,18 @@ export function BookTitle({
   title: string;
   subtitle?: string;
 }) {
+  const { width } = useWindowDimensions();
+  const compact = width < 700;
   return (
     <View style={styles.titleBlock}>
-      <AppText style={styles.pageTitle}>{title}</AppText>
-      {subtitle ? <AppText style={styles.pageSubtitle}>{subtitle}</AppText> : null}
+      <AppText style={[styles.pageTitle, compact && styles.pageTitleCompact]}>
+        {title}
+      </AppText>
+      {subtitle ? (
+        <AppText style={[styles.pageSubtitle, compact && styles.pageSubtitleCompact]}>
+          {subtitle}
+        </AppText>
+      ) : null}
     </View>
   );
 }
@@ -305,16 +348,21 @@ const styles = StyleSheet.create({
   scroll: { flex: 1, backgroundColor: colors.paper },
   content: {
     width: '100%',
-    maxWidth: 860,
+    maxWidth: layout.readingWidth,
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
-    paddingBottom: 48,
+    paddingBottom: layout.bottomContentInset,
   },
+  contentCompact: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+  },
+  contentDesktop: { paddingBottom: spacing.section },
   header: {
-    minHeight: 92,
+    minHeight: 72,
     paddingHorizontal: spacing.lg,
-    paddingVertical: 14,
+    paddingVertical: 9,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -322,6 +370,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.charcoal,
     borderBottomWidth: 1,
     borderBottomColor: colors.gold,
+  },
+  headerCompact: {
+    minHeight: 58,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
   },
   brandGroup: {
     minWidth: 0,
@@ -331,14 +384,15 @@ const styles = StyleSheet.create({
     gap: 14,
   },
   seal: {
-    width: 54,
-    height: 54,
+    width: 46,
+    height: 46,
     borderRadius: 11,
     borderWidth: 2,
     borderColor: colors.goldLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  sealCompact: { width: 40, height: 40, borderRadius: 9 },
   sealText: {
     color: colors.goldLight,
     fontFamily: fonts.serif,
@@ -347,6 +401,19 @@ const styles = StyleSheet.create({
     lineHeight: 36,
   },
   brandCopy: { minWidth: 0, gap: 1 },
+  brandCopyHidden: { display: 'none' },
+  mobileScreenTitle: {
+    position: 'absolute',
+    left: 70,
+    right: 112,
+    color: colors.surface,
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 22,
+    fontWeight: '600',
+    letterSpacing: 1.6,
+    textAlign: 'center',
+  },
   brandName: {
     color: colors.surface,
     fontFamily: fonts.serif,
@@ -368,8 +435,8 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   headerAction: {
-    width: 52,
-    minHeight: 58,
+    width: 48,
+    minHeight: 44,
     borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
@@ -428,6 +495,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(16,17,16,0.72)',
   },
+  modalRootCompact: {
+    paddingHorizontal: 0,
+    paddingTop: 72,
+    paddingBottom: 0,
+    justifyContent: 'flex-end',
+  },
   principlesCard: {
     width: '100%',
     maxWidth: 680,
@@ -438,6 +511,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.paper,
     overflow: 'hidden',
     ...shadow.card,
+  },
+  principlesCardCompact: {
+    maxHeight: '88%',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
   modalHeader: {
     minHeight: 82,
@@ -575,6 +653,11 @@ const styles = StyleSheet.create({
     letterSpacing: 4,
     color: colors.ink,
   },
+  pageTitleCompact: {
+    fontSize: 30,
+    lineHeight: 42,
+    letterSpacing: 2.5,
+  },
   pageSubtitle: {
     marginTop: spacing.sm,
     fontFamily: fonts.serif,
@@ -584,6 +667,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.inkSoft,
   },
+  pageSubtitleCompact: { fontSize: 13, lineHeight: 21 },
   sectionHeading: {
     flexDirection: 'row',
     alignItems: 'center',

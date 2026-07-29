@@ -1,5 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import {
   BookScreen,
@@ -15,6 +16,7 @@ import {
   categoryOrder,
   theories,
 } from '@/data/catalog';
+import { useTabVisible } from '@/hooks/use-tab-visible';
 
 const theoryCategories = [
   { id: 'psychology', title: '心理学', mark: '心' },
@@ -32,70 +34,139 @@ const shortDescriptions = {
 } as const;
 
 export default function CatalogScreen() {
+  const isFocused = useTabVisible();
   const router = useRouter();
+  const [mode, setMode] = useState<'techniques' | 'theories'>('techniques');
+
+  if (!isFocused) return null;
 
   return (
     <BookScreen>
       <BookTitle title="体系" subtitle="知恵を、使える形で手元に置く。" />
 
-      <OrnamentHeading>処世術</OrnamentHeading>
-      {categoryOrder.map((key) => {
-        const category = categories.find((item) => item.key === key);
-        if (!category) return null;
-        const count = category.subcategories.reduce(
-          (sum, item) => sum + item.items.length,
-          0,
-        );
-        return (
-          <IndexCard
-            key={key}
-            mark={categoryMeta[key].mark}
-            title={categoryMeta[key].label}
-            subtitle={shortDescriptions[key]}
-            count={count}
-            tint={categoryPalette[key].tint}
-            onPress={() => {
-              void Haptics.selectionAsync().catch(() => undefined);
-              router.push({ pathname: '/category/[key]', params: { key } });
-            }}
-          />
-        );
-      })}
-
-      <OrnamentHeading>理論辞典</OrnamentHeading>
-      <AppText style={styles.theoryLead}>
-        処世術を支える、{theories.length}の知識基盤。
-      </AppText>
-      <View style={styles.theoryGrid}>
-        {theoryCategories.map((category) => (
+      <View accessibilityRole="tablist" style={styles.modeTabs}>
+        {[
+          { key: 'techniques', label: '処世術' },
+          { key: 'theories', label: '理論辞典' },
+        ].map((item) => {
+          const active = mode === item.key;
+          return (
           <Pressable
-            key={category.id}
-            accessibilityRole="button"
-            accessibilityLabel={`${category.title}を開く`}
+            key={item.key}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: active }}
             onPress={() => {
               void Haptics.selectionAsync().catch(() => undefined);
-              router.push({
-                pathname: '/theories/[category]',
-                params: { category: category.id },
-              });
+              setMode(item.key as 'techniques' | 'theories');
             }}
-            style={({ pressed }) => [
-              styles.theoryCard,
-              pressed && styles.pressed,
-            ]}
+            style={[styles.modeTab, active && styles.modeTabActive]}
           >
-            <View style={styles.theoryMark}>
-              <AppText style={styles.theoryMarkText}>{category.mark}</AppText>
-            </View>
-            <AppText style={styles.theoryTitle}>{category.title}</AppText>
+            <AppText style={[styles.modeTabText, active && styles.modeTabTextActive]}>
+              {item.label}
+            </AppText>
           </Pressable>
-        ))}
+          );
+        })}
       </View>
+
+      {mode === 'techniques' ? (
+        <View>
+          <OrnamentHeading>三つの術</OrnamentHeading>
+          {categoryOrder.map((key) => {
+            const category = categories.find((item) => item.key === key);
+            if (!category) return null;
+            const count = category.subcategories.reduce(
+              (sum, item) => sum + item.items.length,
+              0,
+            );
+            return (
+              <IndexCard
+                key={key}
+                mark={categoryMeta[key].mark}
+                title={categoryMeta[key].label}
+                subtitle={shortDescriptions[key]}
+                count={count}
+                tint={categoryPalette[key].tint}
+                onPress={() => {
+                  void Haptics.selectionAsync().catch(() => undefined);
+                  router.push({ pathname: '/category/[key]', params: { key } });
+                }}
+              />
+            );
+          })}
+        </View>
+      ) : (
+        <View>
+          <OrnamentHeading>六つの知識基盤</OrnamentHeading>
+          <AppText style={styles.theoryLead}>
+            処世術を支える、{theories.length}の知識基盤。
+          </AppText>
+          <View style={styles.theoryGrid}>
+            {theoryCategories.map((category) => (
+              <Pressable
+                key={category.id}
+                accessibilityRole="button"
+                accessibilityLabel={`${category.title}を開く`}
+                onPress={() => {
+                  void Haptics.selectionAsync().catch(() => undefined);
+                  router.push({
+                    pathname: '/theories/[category]',
+                    params: { category: category.id },
+                  });
+                }}
+                style={({ pressed }) => [
+                  styles.theoryCard,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <View style={styles.theoryMark}>
+                  <AppText style={styles.theoryMarkText}>{category.mark}</AppText>
+                </View>
+                <AppText style={styles.theoryTitle}>{category.title}</AppText>
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
     </BookScreen>
   );
 }
 
 const styles = StyleSheet.create({
+  modeTabs: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: 520,
+    minHeight: 52,
+    padding: 4,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.pill,
+    backgroundColor: colors.paperDeep,
+  },
+  modeTab: {
+    flex: 1,
+    minHeight: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: radius.pill,
+  },
+  modeTabActive: {
+    backgroundColor: colors.charcoal,
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  modeTabText: {
+    color: colors.inkSoft,
+    fontFamily: fonts.serif,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '700',
+  },
+  modeTabTextActive: { color: colors.goldLight },
   theoryLead: {
     marginTop: -spacing.sm,
     marginBottom: spacing.lg,
@@ -148,5 +219,5 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
   },
-  pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
+  pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

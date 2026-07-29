@@ -12,6 +12,7 @@ const tabIcons: Record<string, string> = {
 export default function TabsLayout() {
   return (
     <Tabs
+      detachInactiveScreens
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.goldLight,
@@ -20,6 +21,8 @@ export default function TabsLayout() {
         tabBarLabelStyle: styles.tabLabel,
         tabBarItemStyle: styles.tabItem,
         tabBarHideOnKeyboard: true,
+        lazy: true,
+        freezeOnBlur: true,
         tabBarIcon: ({ color, focused }) => (
           <Text
             style={[
