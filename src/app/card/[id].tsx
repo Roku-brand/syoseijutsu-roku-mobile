@@ -5,9 +5,9 @@ import {
   Share,
   StyleSheet,
   TextInput,
+  useWindowDimensions,
   View,
 } from 'react-native';
-import { TechniqueRow } from '@/components/technique-row';
 import {
   AppText,
   DetailHeader,
@@ -17,7 +17,6 @@ import {
   SectionHeader,
 } from '@/components/ui';
 import {
-  categoryPalette,
   colors,
   fonts,
   radius,
@@ -38,6 +37,8 @@ export function generateStaticParams() {
 export default function CardDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { width } = useWindowDimensions();
+  const isCompact = width < 720;
   const card = techniqueById.get(id);
   const {
     savedIds,
@@ -71,95 +72,204 @@ export default function CardDetailScreen() {
   }
 
   const isSaved = savedIds.includes(card.id);
-  const palette = categoryPalette[card.categoryKey];
   const guidance = practiceGuidance[card.categoryKey];
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
     .filter(Boolean);
 
   return (
-    <Screen>
-      <DetailHeader />
+    <Screen contentContainerStyle={styles.screenContent}>
       <View style={styles.readingColumn}>
+        <View style={styles.brandHeader}>
+          <View style={styles.brandSeal}>
+            <AppText style={styles.brandSealText}>禄</AppText>
+          </View>
+          <View>
+            <AppText style={styles.brandName}>処世術禄</AppText>
+            <AppText style={styles.brandSubtitle}>賢者の手帳</AppText>
+          </View>
+        </View>
+
+        <DetailHeader />
+
         <View style={styles.eyebrow}>
           <AppText variant="caption" style={styles.breadcrumb}>
             処世術　/　{card.categoryName}　/　{card.subcategory}
           </AppText>
-          <AppText
-            variant="label"
-            style={[styles.cardId, { color: palette.accent, borderColor: palette.accent }]}
-          >
-            {card.id}
-          </AppText>
-        </View>
-
-        <View style={[styles.hero, { borderColor: palette.accent }]}>
-          <View style={styles.heroMeta}>
-            <AppText
-              variant="label"
-              style={[styles.categoryLabel, { color: palette.accent }]}
-            >
-              {card.categoryName}
-            </AppText>
-            <AppText variant="caption" style={styles.metaDivider}>
-              /
-            </AppText>
-            <AppText variant="caption" style={styles.subcategoryLabel}>
-              {card.subcategory}
+          <View style={styles.serial}>
+            <View style={styles.serialMark}>
+              <AppText style={styles.serialMarkText}>禄</AppText>
+            </View>
+            <AppText variant="label" style={styles.cardId}>
+              {card.id}
             </AppText>
           </View>
-          <AppText style={styles.title}>{card.title}</AppText>
-          {card.subtitle && (
-            <AppText style={styles.heroLead}>{card.subtitle}</AppText>
-          )}
-          <View style={styles.heroActions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={isSaved ? 'マイOSから削除' : 'マイOSに保存'}
-              onPress={() => toggleSaved(card.id)}
-              style={({ pressed }) => [
-                styles.actionButton,
-                isSaved && styles.actionButtonActive,
-                pressed && styles.pressed,
-              ]}
-            >
-              <AppText style={[styles.actionIcon, isSaved && styles.actionTextActive]}>
-                {isSaved ? '◆' : '◇'}
+        </View>
+
+        <View style={styles.heroShell}>
+          <View style={styles.hero}>
+            <View style={styles.heroMeta}>
+              <AppText variant="label" style={styles.categoryLabel}>
+                {card.categoryName}
               </AppText>
-              <AppText
-                variant="label"
-                style={[styles.actionText, isSaved && styles.actionTextActive]}
+              <View style={styles.metaDivider} />
+              <AppText variant="caption" style={styles.subcategoryLabel}>
+                {card.subcategory}
+              </AppText>
+            </View>
+
+            <View style={styles.heroCopy}>
+              <AppText style={[styles.title, isCompact && styles.titleCompact]}>
+                {card.title}
+              </AppText>
+              <View style={styles.ornament}>
+                <View style={styles.ornamentLine} />
+                <View style={styles.ornamentDiamond} />
+                <View style={styles.ornamentLine} />
+              </View>
+              {card.subtitle && (
+                <AppText style={styles.heroLead}>{card.subtitle}</AppText>
+              )}
+            </View>
+
+            <View style={styles.heroActions}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={isSaved ? '蔵書から削除' : '蔵書に保存'}
+                onPress={() => toggleSaved(card.id)}
+                style={({ pressed }) => [
+                  styles.actionButton,
+                  styles.saveButton,
+                  isSaved && styles.actionButtonActive,
+                  pressed && styles.pressed,
+                ]}
               >
-                {isSaved ? '保存済み' : 'マイOSに保存'}
-              </AppText>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="共有"
-              onPress={() =>
-                void Share.share({
-                  title: '処世術禄',
-                  message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
-                })
-              }
-              style={({ pressed }) => [
-                styles.actionButton,
-                pressed && styles.pressed,
-              ]}
-            >
-              <AppText style={styles.actionIcon}>↗</AppText>
-              <AppText variant="label" style={styles.actionText}>
-                共有
-              </AppText>
-            </Pressable>
+                <AppText
+                  style={[styles.actionIcon, isSaved && styles.actionTextActive]}
+                >
+                  {isSaved ? '◆' : '◇'}
+                </AppText>
+                <AppText
+                  variant="label"
+                  style={[styles.actionText, isSaved && styles.actionTextActive]}
+                >
+                  {isSaved ? '蔵書に保存済み' : '蔵書に保存'}
+                </AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="共有"
+                onPress={() =>
+                  void Share.share({
+                    title: '処世術禄',
+                    message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
+                  })
+                }
+                style={({ pressed }) => [
+                  styles.shareButton,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <AppText style={styles.actionIcon}>↗</AppText>
+                <AppText variant="label" style={styles.actionText}>
+                  共有
+                </AppText>
+              </Pressable>
+            </View>
           </View>
         </View>
 
         {card.explanation && (
           <>
-            <SectionHeader title="解説" />
-            <Explanation value={card.explanation} accentColor={palette.accent} />
+            <EditorialHeading title="解説" />
+            <Explanation value={card.explanation} />
           </>
+        )}
+
+        {(related.length > 0 || relatedTheories.length > 0) && (
+          <View style={[styles.relatedGrid, isCompact && styles.relatedGridCompact]}>
+            {related.length > 0 && (
+              <RelatedPanel
+                title="関連する処世術"
+                mark="縁"
+                compact={isCompact}
+              >
+                {related.slice(0, 3).map((relatedCard) => (
+                  <Pressable
+                    key={relatedCard.id}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${relatedCard.title}を開く`}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/card/[id]',
+                        params: { id: relatedCard.id },
+                      })
+                    }
+                    style={({ pressed }) => [
+                      styles.relatedRow,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <View style={styles.relatedCopy}>
+                      <AppText variant="label" style={styles.relatedId}>
+                        {relatedCard.id}
+                      </AppText>
+                      <AppText
+                        variant="serif"
+                        style={styles.relatedTitle}
+                        numberOfLines={2}
+                      >
+                        {relatedCard.title}
+                      </AppText>
+                    </View>
+                    <AppText style={styles.relatedChevron}>›</AppText>
+                  </Pressable>
+                ))}
+              </RelatedPanel>
+            )}
+
+            {relatedTheories.length > 0 && (
+              <RelatedPanel
+                title="関連する理論"
+                mark="理"
+                compact={isCompact}
+              >
+                {relatedTheories.slice(0, 3).map((theory) =>
+                  theory ? (
+                    <Pressable
+                      key={theory.tagId}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${theory.title}を開く`}
+                      onPress={() =>
+                        router.push({
+                          pathname: '/theory/[id]',
+                          params: { id: theory.tagId },
+                        })
+                      }
+                      style={({ pressed }) => [
+                        styles.relatedRow,
+                        pressed && styles.pressed,
+                      ]}
+                    >
+                      <View style={styles.relatedCopy}>
+                        <AppText variant="label" style={styles.relatedId}>
+                          {theory.tagId}
+                        </AppText>
+                        <AppText
+                          variant="serif"
+                          style={styles.relatedTitle}
+                          numberOfLines={2}
+                        >
+                          {theory.title}
+                        </AppText>
+                      </View>
+                      <AppText style={styles.relatedChevron}>›</AppText>
+                    </Pressable>
+                  ) : null,
+                )}
+              </RelatedPanel>
+            )}
+          </View>
         )}
 
         <SectionHeader title="実践の視点" />
@@ -178,62 +288,6 @@ export default function CardDetailScreen() {
             </View>
           ))}
         </View>
-
-        {(card.tags?.length ?? 0) > 0 && (
-          <>
-            <SectionHeader title="タグ" />
-            <View style={styles.tags}>
-              {card.tags!.map((tag) => (
-                <View key={tag} style={styles.tag}>
-                  <AppText variant="label" style={styles.tagText}>
-                    #{tag}
-                  </AppText>
-                </View>
-              ))}
-            </View>
-          </>
-        )}
-
-        {relatedTheories.length > 0 && (
-          <>
-            <SectionHeader title="理論的背景" count={relatedTheories.length} />
-            {relatedTheories.map((theory) =>
-              theory ? (
-                <Pressable
-                  key={theory.tagId}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${theory.title}を開く`}
-                  onPress={() =>
-                    router.push({
-                      pathname: '/theory/[id]',
-                      params: { id: theory.tagId },
-                    })
-                  }
-                  style={({ pressed }) => [
-                    styles.theory,
-                    pressed && styles.pressed,
-                  ]}
-                >
-                  <View style={styles.theoryTag}>
-                    <AppText variant="label" style={styles.theoryTagText}>
-                      {theory.tagId}
-                    </AppText>
-                  </View>
-                  <View style={styles.theoryCopy}>
-                    <AppText variant="serif" style={styles.theoryTitle}>
-                      {theory.title}
-                    </AppText>
-                    <AppText variant="caption" numberOfLines={2}>
-                      {theory.summary ??
-                        `${theory.discipline}に属する${theory.conceptType}`}
-                    </AppText>
-                  </View>
-                  <AppText style={styles.chevron}>›</AppText>
-                </Pressable>
-              ) : null,
-            )}
-          </>
-        )}
 
         <SectionHeader title="自分のメモ" />
         <TextInput
@@ -269,12 +323,18 @@ export default function CardDetailScreen() {
           </>
         )}
 
-        {related.length > 0 && (
+        {(card.tags?.length ?? 0) > 0 && (
           <>
-            <SectionHeader title="次に読む" count={related.length} />
-            {related.map((relatedCard) => (
-              <TechniqueRow key={relatedCard.id} card={relatedCard} />
-            ))}
+            <EditorialHeading title="関連タグ" />
+            <View style={styles.tags}>
+              {card.tags!.map((tag) => (
+                <View key={tag} style={styles.tag}>
+                  <AppText variant="label" style={styles.tagText}>
+                    #{tag}
+                  </AppText>
+                </View>
+              ))}
+            </View>
           </>
         )}
       </View>
@@ -299,20 +359,14 @@ function NumberedList({ items }: { items: string[] }) {
   );
 }
 
-function Explanation({
-  value,
-  accentColor,
-}: {
-  value: string;
-  accentColor: string;
-}) {
+function Explanation({ value }: { value: string }) {
   const paragraphs = value
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
   return (
-    <View style={[styles.explanation, { borderLeftColor: accentColor }]}>
+    <View style={styles.explanation}>
       {paragraphs.map((paragraph, paragraphIndex) => (
         <AppText
           key={`${paragraph.slice(0, 24)}-${paragraphIndex}`}
@@ -340,70 +394,219 @@ function Explanation({
   );
 }
 
+function EditorialHeading({ title }: { title: string }) {
+  return (
+    <View style={styles.editorialHeading}>
+      <View style={styles.headingDiamond} />
+      <AppText variant="serif" style={styles.editorialHeadingText}>
+        {title}
+      </AppText>
+    </View>
+  );
+}
+
+function RelatedPanel({
+  title,
+  mark,
+  compact,
+  children,
+}: {
+  title: string;
+  mark: string;
+  compact: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <View style={[styles.relatedPanel, compact && styles.relatedPanelCompact]}>
+      <View style={styles.relatedPanelHeader}>
+        <View style={styles.relatedPanelMark}>
+          <AppText style={styles.relatedPanelMarkText}>{mark}</AppText>
+        </View>
+        <AppText variant="serif" style={styles.relatedPanelTitle}>
+          {title}
+        </AppText>
+      </View>
+      {children}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  screenContent: {
+    maxWidth: 1280,
+    paddingTop: spacing.lg,
+  },
   readingColumn: {
     width: '100%',
-    maxWidth: 900,
+    maxWidth: 1180,
     alignSelf: 'center',
+  },
+  brandHeader: {
+    minHeight: 62,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 13,
+    paddingBottom: spacing.md,
+    marginBottom: spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  brandSeal: {
+    width: 42,
+    height: 42,
+    borderRadius: 9,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.surface,
+  },
+  brandSealText: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 21,
+    lineHeight: 28,
+    fontWeight: '700',
+  },
+  brandName: {
+    color: colors.ink,
+    fontFamily: fonts.serif,
+    fontSize: 17,
+    lineHeight: 23,
+    fontWeight: '700',
+    letterSpacing: 2,
+  },
+  brandSubtitle: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 10,
+    lineHeight: 15,
+    letterSpacing: 2,
   },
   eyebrow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: spacing.md,
-    marginTop: spacing.sm,
-    marginBottom: spacing.xl,
+    marginTop: spacing.xs,
+    marginBottom: spacing.lg,
   },
   breadcrumb: { color: colors.muted, flexShrink: 1 },
-  cardId: {
-    color: colors.gold,
+  serial: {
+    minHeight: 34,
+    flexDirection: 'row',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.goldLight,
-    borderRadius: radius.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    borderRadius: 6,
+    backgroundColor: 'rgba(252,250,245,0.76)',
     overflow: 'hidden',
   },
-  hero: {
-    backgroundColor: colors.white,
-    borderRadius: radius.lg,
-    borderWidth: 1.5,
+  serialMark: {
+    width: 32,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRightWidth: 1,
+    borderRightColor: colors.goldLight,
+  },
+  serialMarkText: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  cardId: {
+    color: colors.gold,
+    paddingHorizontal: 12,
+    letterSpacing: 1.2,
+  },
+  heroShell: {
+    borderRadius: 28,
+    borderWidth: 1,
     borderColor: colors.gold,
-    padding: spacing.lg,
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.07,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 7 },
-    elevation: 2,
+    padding: 5,
+    backgroundColor: colors.surface,
+    shadowColor: '#3A3022',
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 9 },
+    elevation: 4,
+  },
+  hero: {
+    backgroundColor: 'rgba(255,255,255,0.74)',
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: colors.line,
+    paddingTop: spacing.lg,
+    paddingHorizontal: spacing.xl,
+    paddingBottom: spacing.md,
   },
   heroMeta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
-  categoryLabel: { color: colors.gold },
-  metaDivider: { color: colors.goldLight },
+  categoryLabel: { color: colors.gold, fontFamily: fonts.serif },
+  metaDivider: {
+    width: 1,
+    height: 14,
+    backgroundColor: colors.goldLight,
+    transform: [{ rotate: '18deg' }],
+  },
   subcategoryLabel: { color: colors.muted },
+  heroCopy: {
+    alignItems: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xl,
+  },
   title: {
     color: colors.ink,
     fontFamily: fonts.serif,
-    fontWeight: '700',
-    fontSize: 34,
-    lineHeight: 49,
+    fontWeight: '600',
+    fontSize: 38,
+    lineHeight: 54,
+    letterSpacing: 1.2,
+    textAlign: 'center',
+  },
+  titleCompact: {
+    fontSize: 27,
+    lineHeight: 40,
+    letterSpacing: 0.4,
+  },
+  ornament: {
+    width: '62%',
+    maxWidth: 560,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
     marginTop: spacing.lg,
+  },
+  ornamentLine: { height: 1, flex: 1, backgroundColor: colors.goldLight },
+  ornamentDiamond: {
+    width: 9,
+    height: 9,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
   },
   heroLead: {
     color: colors.inkSoft,
-    fontSize: 17,
-    lineHeight: 29,
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 27,
+    letterSpacing: 0.7,
     marginTop: spacing.md,
-    maxWidth: 700,
+    textAlign: 'center',
   },
   heroActions: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-end',
     gap: spacing.sm,
-    marginTop: spacing.lg,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
   },
   actionButton: {
-    minHeight: 42,
+    minHeight: 44,
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: colors.goldLight,
@@ -412,37 +615,154 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 18,
+  },
+  saveButton: { minWidth: 174 },
+  shareButton: {
+    minHeight: 44,
+    minWidth: 96,
+    borderRadius: radius.pill,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingHorizontal: 14,
   },
   actionButtonActive: { backgroundColor: colors.gold, borderColor: colors.gold },
   actionIcon: { color: colors.gold, fontSize: 17, lineHeight: 21 },
   actionText: { color: colors.inkSoft },
   actionTextActive: { color: colors.white },
   pressed: { opacity: 0.65 },
-  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  editorialHeading: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 13,
+    marginTop: spacing.xxl,
+    marginBottom: spacing.md,
+  },
+  headingDiamond: {
+    width: 9,
+    height: 9,
+    backgroundColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
+  },
+  editorialHeadingText: {
+    color: colors.ink,
+    fontSize: 22,
+    lineHeight: 31,
+    letterSpacing: 1.2,
+  },
+  tags: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    paddingBottom: spacing.xl,
+  },
   tag: {
     borderWidth: 1,
     borderColor: colors.goldLight,
-    backgroundColor: colors.surface,
+    backgroundColor: 'rgba(255,255,255,0.62)',
     borderRadius: radius.pill,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
   },
-  tagText: { color: colors.gold, fontSize: 11 },
+  tagText: { color: colors.gold, fontSize: 11, letterSpacing: 0.6 },
   explanation: {
-    backgroundColor: colors.surface,
-    borderLeftWidth: 3,
+    backgroundColor: 'rgba(255,255,255,0.46)',
+    borderLeftWidth: 2,
     borderLeftColor: colors.gold,
-    borderRadius: radius.sm,
-    padding: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
     gap: spacing.lg,
   },
-  explanationText: { color: colors.inkSoft, fontSize: 16, lineHeight: 29 },
+  explanationText: {
+    color: colors.inkSoft,
+    fontSize: 16,
+    lineHeight: 31,
+    letterSpacing: 0.25,
+  },
   explanationStrong: { color: colors.ink, fontWeight: '700' },
   explanationConclusion: {
     color: colors.ink,
     fontFamily: fonts.serif,
     fontWeight: '700',
+  },
+  relatedGrid: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    gap: spacing.md,
+    marginTop: spacing.lg,
+  },
+  relatedGridCompact: { flexDirection: 'column' },
+  relatedPanel: {
+    flex: 1,
+    minWidth: 0,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.sm,
+  },
+  relatedPanelCompact: { width: '100%' },
+  relatedPanelHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingBottom: 11,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  relatedPanelMark: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  relatedPanelMarkText: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '700',
+  },
+  relatedPanelTitle: {
+    color: colors.ink,
+    fontSize: 17,
+    lineHeight: 24,
+    letterSpacing: 0.6,
+  },
+  relatedRow: {
+    minHeight: 67,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+    paddingVertical: 10,
+  },
+  relatedCopy: { flex: 1 },
+  relatedId: {
+    color: colors.gold,
+    fontSize: 9,
+    lineHeight: 13,
+    letterSpacing: 0.8,
+    marginBottom: 2,
+  },
+  relatedTitle: {
+    color: colors.inkSoft,
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: '600',
+  },
+  relatedChevron: {
+    color: colors.gold,
+    fontSize: 23,
+    lineHeight: 26,
   },
   intro: { color: colors.muted, marginBottom: spacing.lg },
   numberedList: { gap: 12 },
@@ -476,35 +796,6 @@ const styles = StyleSheet.create({
   bulletRow: { flexDirection: 'row', gap: 10 },
   cautionBullet: { color: colors.danger },
   cautionText: { flex: 1, color: colors.inkSoft },
-  theory: {
-    minHeight: 112,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
-    borderWidth: 2,
-    borderColor: colors.gold,
-    padding: spacing.lg,
-    marginBottom: 14,
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.1,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 3,
-  },
-  theoryTag: {
-    minWidth: 54,
-    height: 36,
-    borderRadius: 10,
-    backgroundColor: colors.ink,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  theoryTagText: { color: colors.goldLight, fontSize: 10 },
-  theoryCopy: { flex: 1 },
-  theoryTitle: { fontSize: 16, lineHeight: 23, marginBottom: 4 },
-  chevron: { color: colors.gold, fontSize: 25, lineHeight: 28 },
   noteInput: {
     minHeight: 140,
     borderRadius: radius.md,
