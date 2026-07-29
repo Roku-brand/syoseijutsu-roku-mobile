@@ -67,8 +67,8 @@ function getReelTitleMetrics(title: string, reelWidth: number) {
   const availableWidth = reelWidth - horizontalPadding * 2 - 8;
   const maximumSize = compact ? 29 : 34;
   const minimumSize = compact ? 14 : 22;
-  const fittedSize = Math.floor(
-    (availableWidth / Math.max(longestLine, 1)) * 0.94,
+  const fittedSize = Math.round(
+    availableWidth / Math.max(longestLine, 1),
   );
   const fontSize = Math.max(
     minimumSize,
@@ -80,7 +80,7 @@ function getReelTitleMetrics(title: string, reelWidth: number) {
     horizontalPadding,
     fontSize,
     lineHeight: Math.round(fontSize * 1.48),
-    letterSpacing: compact ? 0.5 : 1.2,
+    letterSpacing: compact ? 0 : 1.2,
   };
 }
 
