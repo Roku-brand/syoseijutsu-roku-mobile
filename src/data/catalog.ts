@@ -54,6 +54,46 @@ export const techniqueById = new Map(
 );
 export const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
 
+const techniqueNumberById = new Map(
+  techniqueCards.map((card, index) => [card.id, index + 1]),
+);
+
+const theoryPrefixByCategory: Record<string, string> = {
+  psychology: '心',
+  'behavioral-science': '動',
+  'organization-management': '組',
+  strategy: '戦',
+  'classics-thought': '古',
+  'maxims-experience': '格',
+};
+
+const theoryDisplayIdByTagId = (() => {
+  const categoryCounts = new Map<string, number>();
+  return new Map(
+    theories.map((theory) => {
+      const next = (categoryCounts.get(theory.categoryId) ?? 0) + 1;
+      categoryCounts.set(theory.categoryId, next);
+      const prefix = theoryPrefixByCategory[theory.categoryId] ?? '理';
+      return [theory.tagId, `${prefix}－${next}`];
+    }),
+  );
+})();
+
+export function getTechniqueDisplayId(
+  cardOrId: TechniqueCard | string,
+) {
+  const id = typeof cardOrId === 'string' ? cardOrId : cardOrId.id;
+  const number = techniqueNumberById.get(id);
+  return number ? `No.${number}` : 'No.—';
+}
+
+export function getTheoryDisplayId(
+  theoryOrId: TheoryCard | string,
+) {
+  const id = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
+  return theoryDisplayIdByTagId.get(id) ?? '理－—';
+}
+
 export function getRelatedCards(card: TechniqueCard, limit = 6) {
   const theoryIds = new Set(card.theoryTagIds ?? []);
   return techniqueCards

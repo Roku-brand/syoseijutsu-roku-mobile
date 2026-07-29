@@ -13,7 +13,7 @@ import {
 import { AppText } from '@/components/ui';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { techniqueCards } from '@/data/catalog';
+import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 
@@ -247,7 +247,7 @@ export default function MainScreen() {
           <AppText style={styles.reelArrow}>‹</AppText>
         </Pressable>
         <AppText style={styles.reelPosition}>
-          {String(activeIndex + 1).padStart(3, '0')} / {techniqueCards.length}
+          {getTechniqueDisplayId(activeCard)} / {techniqueCards.length}
         </AppText>
         <Pressable
           accessibilityRole="button"
@@ -307,6 +307,9 @@ export default function MainScreen() {
                   pressed && styles.pressed,
                 ]}
               >
+                <AppText variant="label" style={styles.techniqueId}>
+                  {getTechniqueDisplayId(item)}
+                </AppText>
                 <AppText
                   numberOfLines={2}
                   adjustsFontSizeToFit
@@ -481,6 +484,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     color: colors.ink,
+  },
+  techniqueId: {
+    marginBottom: spacing.md,
+    color: colors.gold,
+    fontSize: 11,
+    lineHeight: 16,
+    letterSpacing: 1.3,
   },
   cardOrnament: {
     flexDirection: 'row',

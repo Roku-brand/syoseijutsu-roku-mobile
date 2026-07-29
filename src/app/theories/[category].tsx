@@ -58,11 +58,10 @@ export default function TheoryCategoryScreen() {
       </View>
 
       <View style={styles.cards}>
-        {items.map((theory, index) => (
+        {items.map((theory) => (
           <TheoryArchiveCard
             key={theory.tagId}
             theory={theory}
-            index={index}
           />
         ))}
       </View>

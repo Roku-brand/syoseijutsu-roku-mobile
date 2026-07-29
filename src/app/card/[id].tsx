@@ -24,6 +24,8 @@ import {
 } from '@/constants/theme';
 import {
   getRelatedCards,
+  getTechniqueDisplayId,
+  getTheoryDisplayId,
   techniqueById,
   theoryById,
 } from '@/data/catalog';
@@ -94,7 +96,7 @@ export default function CardDetailScreen() {
               <AppText style={styles.serialMarkText}>禄</AppText>
             </View>
             <AppText variant="label" style={styles.cardId}>
-              {card.id}
+              {getTechniqueDisplayId(card)}
             </AppText>
           </View>
         </View>
@@ -213,7 +215,7 @@ export default function CardDetailScreen() {
                   >
                     <View style={styles.relatedCopy}>
                       <AppText variant="label" style={styles.relatedId}>
-                        {relatedCard.id}
+                        {getTechniqueDisplayId(relatedCard)}
                       </AppText>
                       <AppText
                         variant="serif"
@@ -254,7 +256,7 @@ export default function CardDetailScreen() {
                     >
                       <View style={styles.relatedCopy}>
                         <AppText variant="label" style={styles.relatedId}>
-                          {theory.tagId}
+                          {getTheoryDisplayId(theory)}
                         </AppText>
                         <AppText
                           variant="serif"

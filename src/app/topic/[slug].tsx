@@ -8,7 +8,7 @@ import {
 import { BookScreen } from '@/components/book-ui';
 import { AppText, DetailHeader, EmptyState } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
-import { techniqueCards } from '@/data/catalog';
+import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';
 import {
   guidedTopicBySlug,
   guidedTopics,
@@ -109,7 +109,7 @@ export default function GuidedTopicScreen() {
                   ]}
                 >
                   <AppText variant="label" style={styles.number}>
-                    {String(index + 1).padStart(2, '0')}
+                    {getTechniqueDisplayId(card)}
                   </AppText>
                   <AppText
                     variant="serif"
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
     paddingLeft: spacing.md,
   },
   number: {
-    width: 34,
+    width: 52,
     color: '#A7833D',
     fontSize: 11,
     letterSpacing: 1,

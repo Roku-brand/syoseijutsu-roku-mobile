@@ -7,6 +7,7 @@ import {
   radius,
   spacing,
 } from '@/constants/theme';
+import { getTechniqueDisplayId } from '@/data/catalog';
 import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { AppText, IconButton } from './ui';
@@ -48,14 +49,22 @@ export function TechniqueRow({
       ]}
     >
         <View style={styles.copy}>
+          <View style={styles.metaRow}>
+            <AppText variant="label" style={styles.displayId}>
+              {getTechniqueDisplayId(card)}
+            </AppText>
+            {showCategory && (
+              <AppText
+                variant="label"
+                style={[styles.meta, { color: resolvedAccent }]}
+              >
+                {card.categoryName} · {card.subcategory}
+              </AppText>
+            )}
+          </View>
           {hasSequence && (
             <AppText variant="label" style={styles.sequence}>
               {String(sequence).padStart(2, '0')} / {String(sequenceTotal ?? 0).padStart(2, '0')}
-            </AppText>
-          )}
-          {showCategory && (
-            <AppText variant="label" style={[styles.meta, { color: resolvedAccent }]}>
-              {card.categoryName} · {card.subcategory}
             </AppText>
           )}
           <AppText style={styles.title}>{card.title}</AppText>
@@ -119,7 +128,19 @@ const styles = StyleSheet.create({
     borderColor: colors.gold,
   },
   sequence: { color: colors.gold, marginBottom: spacing.md, letterSpacing: 0.8 },
-  meta: { color: colors.gold, marginBottom: 6 },
+  metaRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: spacing.sm,
+    marginBottom: 6,
+  },
+  displayId: {
+    color: colors.gold,
+    fontSize: 10,
+    letterSpacing: 1,
+  },
+  meta: { color: colors.gold },
   title: {
     fontFamily: fonts.serif,
     fontWeight: '600',

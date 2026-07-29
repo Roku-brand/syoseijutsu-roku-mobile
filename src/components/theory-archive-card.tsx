@@ -1,15 +1,14 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { getTheoryDisplayId } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { AppText } from './ui';
 
 export function TheoryArchiveCard({
   theory,
-  index,
 }: {
   theory: TheoryCard;
-  index?: number;
 }) {
   const router = useRouter();
   const { width } = useWindowDimensions();
@@ -39,13 +38,8 @@ export function TheoryArchiveCard({
       <View style={[styles.copy, compact && styles.copyCompact]}>
         <View style={styles.metaRow}>
           <AppText variant="label" style={styles.id}>
-            {theory.tagId}
+            {getTheoryDisplayId(theory)}
           </AppText>
-          {typeof index === 'number' ? (
-            <AppText style={styles.index}>
-              {String(index + 1).padStart(2, '0')}
-            </AppText>
-          ) : null}
         </View>
 
         <AppText variant="serif" style={styles.title}>
@@ -141,12 +135,6 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   id: { color: '#5F6970', fontSize: 10, letterSpacing: 1.1 },
-  index: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 21,
-  },
   title: {
     marginTop: 5,
     color: colors.ink,

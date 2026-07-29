@@ -9,7 +9,11 @@ import {
   SectionHeader,
 } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { techniqueCards, theoryById } from '@/data/catalog';
+import {
+  getTheoryDisplayId,
+  techniqueCards,
+  theoryById,
+} from '@/data/catalog';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -53,7 +57,7 @@ export default function TheoryDetailScreen() {
           <View style={[styles.archiveCopy, compact && styles.archiveCopyCompact]}>
             <View style={styles.archiveMeta}>
               <AppText variant="label" style={styles.tagId}>
-                {theory.tagId}
+                {getTheoryDisplayId(theory)}
               </AppText>
               <View style={styles.categoryPill}>
                 <AppText variant="caption" style={styles.categoryText}>
