@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -16,6 +16,73 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
+
+type ReelItem = {
+  card: TechniqueCard;
+  reelKey: string;
+};
+
+function splitReelTitle(value: string) {
+  const title = value.replace(/\*\*/g, '').trim();
+  const characters = [...title];
+  if (characters.length <= 15) return title;
+
+  const midpoint = characters.length / 2;
+  const minimum = Math.floor(characters.length * 0.34);
+  const maximum = Math.ceil(characters.length * 0.66);
+  const candidates: { index: number; penalty: number }[] = [];
+
+  characters.forEach((character, index) => {
+    const breakIndex = index + 1;
+    if (breakIndex < minimum || breakIndex > maximum) return;
+
+    if ('、，。！？：・'.includes(character)) {
+      candidates.push({ index: breakIndex, penalty: 0 });
+      return;
+    }
+
+    if ('はがをにへでとも'.includes(character)) {
+      candidates.push({ index: breakIndex, penalty: 2.5 });
+    }
+  });
+
+  const bestBreak =
+    candidates.sort(
+      (a, b) =>
+        Math.abs(a.index - midpoint) +
+        a.penalty -
+        (Math.abs(b.index - midpoint) + b.penalty),
+    )[0]?.index ?? Math.round(midpoint);
+
+  return `${characters.slice(0, bestBreak).join('')}\n${characters
+    .slice(bestBreak)
+    .join('')}`;
+}
+
+function getReelTitleMetrics(title: string, reelWidth: number) {
+  const lines = splitReelTitle(title).split('\n');
+  const longestLine = Math.max(...lines.map((line) => [...line].length));
+  const compact = reelWidth < 420;
+  const horizontalPadding = compact ? spacing.md : spacing.xl;
+  const availableWidth = reelWidth - horizontalPadding * 2 - 8;
+  const maximumSize = compact ? 29 : 34;
+  const minimumSize = compact ? 14 : 22;
+  const fittedSize = Math.floor(
+    (availableWidth / Math.max(longestLine, 1)) * 0.94,
+  );
+  const fontSize = Math.max(
+    minimumSize,
+    Math.min(maximumSize, fittedSize),
+  );
+
+  return {
+    displayTitle: lines.join('\n'),
+    horizontalPadding,
+    fontSize,
+    lineHeight: Math.round(fontSize * 1.48),
+    letterSpacing: compact ? 0.5 : 1.2,
+  };
+}
 
 const categorySkips: {
   key: CategoryKey;
@@ -46,18 +113,57 @@ const categorySkips: {
 export default function MainScreen() {
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const listRef = useRef<FlatList<TechniqueCard>>(null);
+  const listRef = useRef<FlatList<ReelItem>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { savedIds, toggleSaved } = useAppState();
 
   const reelWidth = Math.min(Math.max(width - spacing.lg * 2, 280), 680);
+  const reelItems = useMemo<ReelItem[]>(() => {
+    if (techniqueCards.length <= 1) {
+      return techniqueCards.map((card) => ({
+        card,
+        reelKey: `original-${card.id}`,
+      }));
+    }
+
+    const firstCard = techniqueCards[0];
+    const lastCard = techniqueCards[techniqueCards.length - 1];
+    return [
+      { card: lastCard, reelKey: `loop-before-${lastCard.id}` },
+      ...techniqueCards.map((card) => ({
+        card,
+        reelKey: `original-${card.id}`,
+      })),
+      { card: firstCard, reelKey: `loop-after-${firstCard.id}` },
+    ];
+  }, []);
   const activeCard = techniqueCards[activeIndex] ?? techniqueCards[0];
   const saved = savedIds.includes(activeCard.id);
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, techniqueCards.length - 1));
     setActiveIndex(nextIndex);
-    listRef.current?.scrollToIndex({ index: nextIndex, animated });
+    listRef.current?.scrollToIndex({
+      index: techniqueCards.length > 1 ? nextIndex + 1 : nextIndex,
+      animated,
+    });
+    void Haptics.selectionAsync().catch(() => undefined);
+  };
+
+  const moveBy = (offset: -1 | 1) => {
+    if (techniqueCards.length <= 1) return;
+
+    const rawIndex = activeIndex + offset;
+    const nextIndex =
+      (rawIndex + techniqueCards.length) % techniqueCards.length;
+    const crossedBoundary =
+      rawIndex < 0 || rawIndex >= techniqueCards.length;
+
+    setActiveIndex(nextIndex);
+    listRef.current?.scrollToIndex({
+      index: nextIndex + 1,
+      animated: !crossedBoundary,
+    });
     void Haptics.selectionAsync().catch(() => undefined);
   };
 
@@ -71,14 +177,25 @@ export default function MainScreen() {
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    const nextIndex = Math.round(
+    const physicalIndex = Math.round(
       event.nativeEvent.contentOffset.x / reelWidth,
     );
-    if (
-      nextIndex !== activeIndex &&
-      nextIndex >= 0 &&
-      nextIndex < techniqueCards.length
-    ) {
+
+    if (techniqueCards.length <= 1) return;
+
+    let nextIndex = physicalIndex - 1;
+    if (physicalIndex <= 0) {
+      nextIndex = techniqueCards.length - 1;
+      listRef.current?.scrollToIndex({
+        index: techniqueCards.length,
+        animated: false,
+      });
+    } else if (physicalIndex >= techniqueCards.length + 1) {
+      nextIndex = 0;
+      listRef.current?.scrollToIndex({ index: 1, animated: false });
+    }
+
+    if (nextIndex !== activeIndex) {
       setActiveIndex(nextIndex);
       void Haptics.selectionAsync().catch(() => undefined);
     }
@@ -99,12 +216,10 @@ export default function MainScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="前の処世術"
-          disabled={activeIndex === 0}
-          onPress={() => moveTo(activeIndex - 1)}
+          onPress={() => moveBy(-1)}
           hitSlop={10}
           style={({ pressed }) => [
             styles.reelArrowButton,
-            activeIndex === 0 && styles.reelArrowDisabled,
             pressed && styles.pressed,
           ]}
         >
@@ -116,13 +231,10 @@ export default function MainScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="次の処世術"
-          disabled={activeIndex === techniqueCards.length - 1}
-          onPress={() => moveTo(activeIndex + 1)}
+          onPress={() => moveBy(1)}
           hitSlop={10}
           style={({ pressed }) => [
             styles.reelArrowButton,
-            activeIndex === techniqueCards.length - 1 &&
-              styles.reelArrowDisabled,
             pressed && styles.pressed,
           ]}
         >
@@ -136,8 +248,9 @@ export default function MainScreen() {
         pagingEnabled
         bounces={false}
         showsHorizontalScrollIndicator={false}
-        data={techniqueCards}
-        keyExtractor={(card) => card.id}
+        data={reelItems}
+        keyExtractor={(item) => item.reelKey}
+        initialScrollIndex={techniqueCards.length > 1 ? 1 : 0}
         getItemLayout={(_, index) => ({
           index,
           length: reelWidth,
@@ -146,41 +259,62 @@ export default function MainScreen() {
         initialNumToRender={2}
         windowSize={3}
         onMomentumScrollEnd={updateActiveCard}
-        onScrollEndDrag={updateActiveCard}
-        onScroll={updateActiveCard}
-        scrollEventThrottle={16}
         style={[styles.reel, { width: reelWidth }]}
-        renderItem={({ item }) => (
-          <View style={[styles.reelItem, { width: reelWidth }]}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${item.title}を詳しく読む`}
-              onPress={() =>
-                router.push({
-                  pathname: '/card/[id]',
-                  params: { id: item.id },
-                })
-              }
-              style={({ pressed }) => [
-                styles.techniqueCard,
-                pressed && styles.pressed,
-              ]}
-            >
-              <AppText style={styles.techniqueTitle}>{item.title}</AppText>
-              <View style={styles.cardOrnament}>
-                <View style={styles.cardLine} />
-                <View style={styles.cardDiamond} />
-                <View style={styles.cardLine} />
-              </View>
-              <AppText style={styles.techniqueSubtitle}>{item.subtitle}</AppText>
-              <View style={styles.categoryChip}>
-                <AppText style={styles.categoryChipText}>
-                  {item.categoryName}・{item.subcategory}
+        renderItem={({ item: reelItem }) => {
+          const item = reelItem.card;
+          const titleMetrics = getReelTitleMetrics(item.title, reelWidth);
+          return (
+            <View style={[styles.reelItem, { width: reelWidth }]}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`${item.title}を詳しく読む`}
+                onPress={() =>
+                  router.push({
+                    pathname: '/card/[id]',
+                    params: { id: item.id },
+                  })
+                }
+                style={({ pressed }) => [
+                  styles.techniqueCard,
+                  { paddingHorizontal: titleMetrics.horizontalPadding },
+                  pressed && styles.pressed,
+                ]}
+              >
+                <AppText
+                  numberOfLines={2}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.82}
+                  style={[
+                    styles.techniqueTitle,
+                    {
+                      fontSize: titleMetrics.fontSize,
+                      lineHeight: titleMetrics.lineHeight,
+                      letterSpacing: titleMetrics.letterSpacing,
+                    },
+                  ]}
+                >
+                  {titleMetrics.displayTitle}
                 </AppText>
-              </View>
-            </Pressable>
-          </View>
-        )}
+                <View style={styles.cardOrnament}>
+                  <View style={styles.cardLine} />
+                  <View style={styles.cardDiamond} />
+                  <View style={styles.cardLine} />
+                </View>
+                <AppText
+                  style={styles.techniqueSubtitle}
+                  numberOfLines={2}
+                >
+                  {item.subtitle}
+                </AppText>
+                <View style={styles.categoryChip}>
+                  <AppText style={styles.categoryChipText}>
+                    {item.categoryName}・{item.subcategory}
+                  </AppText>
+                </View>
+              </Pressable>
+            </View>
+          );
+        }}
       />
 
       <Pressable
@@ -279,7 +413,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  reelArrowDisabled: { opacity: 0.2 },
   reelArrow: {
     color: colors.gold,
     fontFamily: fonts.serif,
@@ -299,7 +432,6 @@ const styles = StyleSheet.create({
   techniqueCard: {
     width: '100%',
     minHeight: 360,
-    paddingHorizontal: spacing.xl,
     paddingVertical: 36,
     borderRadius: 30,
     borderWidth: 1.5,
@@ -310,11 +442,9 @@ const styles = StyleSheet.create({
     ...bookCardShadow,
   },
   techniqueTitle: {
+    width: '100%',
     fontFamily: fonts.serif,
-    fontSize: 34,
-    lineHeight: 56,
     fontWeight: '600',
-    letterSpacing: 2,
     textAlign: 'center',
     color: colors.ink,
   },
