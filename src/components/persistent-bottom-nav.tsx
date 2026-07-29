@@ -14,7 +14,9 @@ const items = [
 ] as const;
 
 function activeKey(pathname: string) {
-  if (pathname.includes('/discover')) return 'discover';
+  if (pathname.includes('/discover') || pathname.includes('/topic/')) {
+    return 'discover';
+  }
   if (
     pathname.includes('/catalog') ||
     pathname.includes('/category/') ||

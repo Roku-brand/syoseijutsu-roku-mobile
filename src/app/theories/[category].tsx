@@ -1,12 +1,8 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
-import {
-  AppText,
-  DetailHeader,
-  EmptyState,
-  Screen,
-} from '@/components/ui';
-import { colors, radius, spacing } from '@/constants/theme';
+import { useLocalSearchParams } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
+import { TheoryArchiveCard } from '@/components/theory-archive-card';
+import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
+import { colors, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
 
 const categoryDescriptions: Record<string, string> = {
@@ -25,7 +21,6 @@ export function generateStaticParams() {
 }
 
 export default function TheoryCategoryScreen() {
-  const router = useRouter();
   const { category } = useLocalSearchParams<{ category: string }>();
   const items = theories.filter((theory) => theory.categoryId === category);
   const title = items[0]?.categoryTitle;
@@ -33,17 +28,17 @@ export default function TheoryCategoryScreen() {
   if (!items.length) {
     return (
       <Screen>
-        <DetailHeader />
+        <DetailHeader title="理論辞典" />
         <EmptyState
-          title="理論カテゴリが見つかりません"
-          description="前の画面へ戻ってください。"
+          title="理論カテゴリーが見つかりません"
+          description="前の画面へ戻って、別の理論を選んでください。"
         />
       </Screen>
     );
   }
 
   return (
-    <Screen>
+    <Screen contentContainerStyle={styles.screenContent}>
       <DetailHeader title="理論辞典" />
       <View style={styles.hero}>
         <AppText variant="display" style={styles.title}>
@@ -62,44 +57,13 @@ export default function TheoryCategoryScreen() {
         <AppText style={styles.ruleMark}>✦</AppText>
       </View>
 
-      <View style={styles.timeline}>
+      <View style={styles.cards}>
         {items.map((theory, index) => (
-          <View key={theory.tagId} style={styles.timelineItem}>
-            <View style={styles.node}>
-              <AppText variant="label" style={styles.nodeNumber}>
-                {index + 1}
-              </AppText>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${theory.title}を開く`}
-              onPress={() =>
-                router.push({
-                  pathname: '/theory/[id]',
-                  params: { id: theory.tagId },
-                })
-              }
-              style={({ pressed }) => [
-                styles.card,
-                pressed && styles.pressed,
-              ]}
-            >
-                <View style={styles.copy}>
-                  <AppText variant="label" style={styles.cardId}>
-                    {theory.tagId}
-                  </AppText>
-                  <View style={styles.cardTopline}>
-                    <AppText variant="serif" style={styles.cardTitle}>
-                      {theory.title}
-                    </AppText>
-                  </View>
-                  <AppText style={styles.summary} numberOfLines={3}>
-                    {theory.summary}
-                  </AppText>
-                </View>
-                <AppText style={styles.chevron}>›</AppText>
-            </Pressable>
-          </View>
+          <TheoryArchiveCard
+            key={theory.tagId}
+            theory={theory}
+            index={index}
+          />
         ))}
       </View>
     </Screen>
@@ -107,9 +71,15 @@ export default function TheoryCategoryScreen() {
 }
 
 const styles = StyleSheet.create({
+  screenContent: { maxWidth: 1280 },
   hero: { marginTop: spacing.md },
   title: { marginTop: spacing.lg, fontSize: 46, lineHeight: 59 },
-  description: { marginTop: spacing.md, color: colors.inkSoft, fontSize: 17, lineHeight: 28 },
+  description: {
+    marginTop: spacing.md,
+    color: colors.inkSoft,
+    fontSize: 17,
+    lineHeight: 28,
+  },
   sectionTitle: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -117,46 +87,13 @@ const styles = StyleSheet.create({
     marginTop: spacing.section,
   },
   sectionLabel: { fontSize: 24, color: colors.gold },
-  rule: { height: 1, flex: 1, backgroundColor: colors.gold, opacity: 0.78, marginTop: 9 },
-  ruleMark: { color: colors.gold, fontSize: 16, marginTop: 5 },
-  timeline: { position: 'relative', paddingTop: spacing.lg, paddingBottom: spacing.sm },
-  timelineItem: { position: 'relative', marginBottom: spacing.lg },
-  node: {
-    position: 'absolute',
-    left: -20,
-    top: 54,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    borderWidth: 2,
-    borderColor: colors.gold,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
+  rule: {
+    height: 1,
+    flex: 1,
+    marginTop: 9,
+    backgroundColor: colors.gold,
+    opacity: 0.78,
   },
-  card: {
-    minHeight: 150,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    gap: spacing.md,
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
-    borderWidth: 2,
-    borderColor: colors.gold,
-    padding: spacing.xl,
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.07,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 3,
-  },
-  pressed: { opacity: 0.66 },
-  nodeNumber: { color: colors.gold, fontSize: 12, lineHeight: 16 },
-  cardId: { color: colors.gold, fontSize: 10, lineHeight: 14, marginBottom: spacing.sm },
-  copy: { flex: 1, justifyContent: 'center' },
-  cardTopline: { flexDirection: 'row', alignItems: 'flex-start' },
-  cardTitle: { flex: 1, fontSize: 23, lineHeight: 32 },
-  summary: { marginTop: spacing.sm, color: colors.muted, fontSize: 14, lineHeight: 22 },
-  chevron: { alignSelf: 'center', color: colors.gold, fontSize: 34, lineHeight: 38, marginLeft: -6 },
+  ruleMark: { marginTop: 5, color: colors.gold, fontSize: 16 },
+  cards: { paddingTop: spacing.lg, paddingBottom: spacing.sm },
 });

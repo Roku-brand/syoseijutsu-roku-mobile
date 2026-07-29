@@ -1,87 +1,14 @@
-import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen, BookTitle, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
+import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import {
-  techniqueCards,
-  theories,
-  theoryById,
-} from '@/data/catalog';
+import { techniqueCards, theories, theoryById } from '@/data/catalog';
+import { guidedTopicGroups } from '@/data/guided-topics';
 import type { TheoryCard } from '@/data/types';
-
-type Topic = {
-  label: string;
-  mark: string;
-  tags: string[];
-};
-
-const topicGroups: { title: string; topics: Topic[] }[] = [
-  {
-    title: '対人術',
-    topics: [
-      { label: '印象がいい人', mark: '印', tags: ['印象がいい人'] },
-      { label: '会話がうまい人', mark: '話', tags: ['会話がうまい人'] },
-      { label: '信用を積む人', mark: '信', tags: ['信用を積む人'] },
-      {
-        label: '関係を維持できる人',
-        mark: '維',
-        tags: ['関係を維持できる人'],
-      },
-      { label: '消耗しない人', mark: '守', tags: ['消耗しない人'] },
-      { label: '人を見極める人', mark: '見', tags: ['人を見極める人'] },
-      {
-        label: '集団でうまく立ち回る人',
-        mark: '集',
-        tags: ['集団でうまく立ち回る人'],
-      },
-      { label: '舐められない人', mark: '盾', tags: ['舐められない人'] },
-      { label: '集団を動かす人', mark: '動', tags: ['集団を動かす人'] },
-    ],
-  },
-  {
-    title: '仕事術',
-    topics: [
-      { label: '仕事ができる人', mark: '仕', tags: ['仕事ができる人'] },
-      { label: '出世する人', mark: '昇', tags: ['出世する人'] },
-      { label: '交渉がうまい人', mark: '交', tags: ['交渉がうまい人'] },
-      {
-        label: '合意形成がうまい人',
-        mark: '合',
-        tags: ['合意形成がうまい人'],
-      },
-      { label: '始められる人', mark: '始', tags: ['始められる人'] },
-      { label: '続けられる人', mark: '続', tags: ['続けられる人'] },
-      { label: '成果を出す人', mark: '果', tags: ['成果を出す人'] },
-    ],
-  },
-  {
-    title: '人生術',
-    topics: [
-      {
-        label: '人生を充実させる人',
-        mark: '充',
-        tags: ['人生を充実させる人'],
-      },
-      {
-        label: '人生設計がうまい人',
-        mark: '路',
-        tags: ['人生設計がうまい人'],
-      },
-      { label: '不安に強い人', mark: '心', tags: ['不安に強い人'] },
-      { label: '挫折した人', mark: '再', tags: ['挫折した人'] },
-      { label: '運がいい人', mark: '運', tags: ['運がいい人'] },
-    ],
-  },
-];
 
 function searchableText(card: (typeof techniqueCards)[number]) {
   const linkedTheories = (card.theoryTagIds ?? [])
@@ -128,47 +55,9 @@ function searchableTheoryText(theory: TheoryCard) {
     .toLocaleLowerCase();
 }
 
-function TheorySearchRow({ theory }: { theory: TheoryCard }) {
-  const router = useRouter();
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${theory.title}の理論カードを開く`}
-      onPress={() =>
-        router.push({
-          pathname: '/theory/[id]',
-          params: { id: theory.tagId },
-        })
-      }
-      style={({ pressed }) => [
-        styles.theoryRow,
-        pressed && styles.pressed,
-      ]}
-    >
-      <View style={styles.theoryCopy}>
-        <AppText variant="label" style={styles.theoryMeta}>
-          理論辞典 · {theory.categoryTitle}
-        </AppText>
-        <AppText style={styles.theoryTitle}>{theory.title}</AppText>
-        {theory.summary ? (
-          <AppText
-            variant="caption"
-            style={styles.theorySummary}
-            numberOfLines={3}
-          >
-            {theory.summary}
-          </AppText>
-        ) : null}
-      </View>
-      <AppText style={styles.theoryChevron}>›</AppText>
-    </Pressable>
-  );
-}
-
 export default function DiscoverScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
 
   const searchTerms = useMemo(
     () =>
@@ -180,7 +69,7 @@ export default function DiscoverScreen() {
     [query],
   );
 
-  const keywordTechniqueResults = useMemo(() => {
+  const techniqueResults = useMemo(() => {
     if (!searchTerms.length) return [];
     return techniqueCards
       .filter((card) => {
@@ -190,7 +79,7 @@ export default function DiscoverScreen() {
       .slice(0, 30);
   }, [searchTerms]);
 
-  const keywordTheoryResults = useMemo(() => {
+  const theoryResults = useMemo(() => {
     if (!searchTerms.length) return [];
     return theories
       .filter((theory) => {
@@ -200,28 +89,8 @@ export default function DiscoverScreen() {
       .slice(0, 30);
   }, [searchTerms]);
 
-  const topicResults = useMemo(() => {
-    if (!selectedTopic) return [];
-    return techniqueCards.filter((card) =>
-      selectedTopic.tags.some((tag) => card.tags?.includes(tag)),
-    );
-  }, [selectedTopic]);
-
-  const chooseTopic = (topic: Topic) => {
-    void Haptics.selectionAsync().catch(() => undefined);
-    setQuery('');
-    setSelectedTopic(topic);
-  };
-
-  const searching = query.trim().length > 0;
-  const showingResults = searching || selectedTopic !== null;
-  const techniqueResults = searching ? keywordTechniqueResults : topicResults;
-  const theoryResults = searching ? keywordTheoryResults : [];
+  const searching = searchTerms.length > 0;
   const resultCount = techniqueResults.length + theoryResults.length;
-  const clearResults = () => {
-    setQuery('');
-    setSelectedTopic(null);
-  };
 
   return (
     <BookScreen>
@@ -231,62 +100,60 @@ export default function DiscoverScreen() {
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
           value={query}
-          onChangeText={(value) => {
-            setQuery(value);
-            setSelectedTopic(null);
-          }}
+          onChangeText={setQuery}
           placeholder="悩み・理論・言葉を探す"
           placeholderTextColor="#99958C"
           accessibilityLabel="悩み・理論・言葉を検索"
           returnKeyType="search"
           style={styles.searchInput}
         />
-        {showingResults ? (
+        {searching ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="検索を消す"
-            onPress={clearResults}
+            onPress={() => setQuery('')}
             hitSlop={10}
           >
             <AppText style={styles.clear}>消す</AppText>
           </Pressable>
         ) : null}
       </View>
-      <AppText style={styles.lead}>いま必要な知恵へ、最短でたどり着く。</AppText>
+      <AppText style={styles.lead}>
+        いま必要な知恵へ、最短でたどり着く。
+      </AppText>
 
-      {showingResults ? (
+      {searching ? (
         <View style={styles.results}>
-          <OrnamentHeading>
-            {selectedTopic?.label ?? '検索結果'}　{resultCount}
-          </OrnamentHeading>
+          <OrnamentHeading>検索結果　{resultCount}</OrnamentHeading>
           {resultCount ? (
             <>
               {techniqueResults.length ? (
                 <View style={styles.resultSection}>
-                  {searching ? (
-                    <AppText style={styles.resultKind}>
-                      処世術　{techniqueResults.length}
-                    </AppText>
-                  ) : null}
+                  <AppText style={styles.resultKind}>
+                    処世術　{techniqueResults.length}
+                  </AppText>
                   {techniqueResults.map((card) => (
                     <TechniqueRow key={card.id} card={card} />
                   ))}
                 </View>
               ) : null}
+
               {theoryResults.length ? (
                 <View style={styles.resultSection}>
                   <AppText style={styles.resultKind}>
                     理論カード　{theoryResults.length}
                   </AppText>
                   {theoryResults.map((theory) => (
-                    <TheorySearchRow key={theory.tagId} theory={theory} />
+                    <TheoryArchiveCard key={theory.tagId} theory={theory} />
                   ))}
                 </View>
               ) : null}
             </>
           ) : (
             <View style={styles.empty}>
-              <AppText style={styles.emptyTitle}>該当する知恵がありません</AppText>
+              <AppText style={styles.emptyTitle}>
+                該当する知恵がありません
+              </AppText>
               <AppText style={styles.emptyBody}>
                 言葉を短くするか、別の表現で探してみてください。
               </AppText>
@@ -296,16 +163,21 @@ export default function DiscoverScreen() {
       ) : (
         <>
           <OrnamentHeading>悩みから探す</OrnamentHeading>
-          {topicGroups.map((group) => (
+          {guidedTopicGroups.map((group) => (
             <View key={group.title} style={styles.topicGroup}>
               <AppText style={styles.topicGroupTitle}>{group.title}</AppText>
               <View style={styles.topicGrid}>
                 {group.topics.map((topic) => (
                   <Pressable
-                    key={topic.label}
+                    key={topic.slug}
                     accessibilityRole="button"
-                    accessibilityLabel={`${topic.label}の処世術を探す`}
-                    onPress={() => chooseTopic(topic)}
+                    accessibilityLabel={`${topic.label}の処世術一覧を開く`}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/topic/[slug]',
+                        params: { slug: topic.slug },
+                      })
+                    }
                     style={({ pressed }) => [
                       styles.topicCard,
                       pressed && styles.pressed,
@@ -315,6 +187,7 @@ export default function DiscoverScreen() {
                       <AppText style={styles.topicMarkText}>{topic.mark}</AppText>
                     </View>
                     <AppText style={styles.topicLabel}>{topic.label}</AppText>
+                    <AppText style={styles.topicArrow}>›</AppText>
                   </Pressable>
                 ))}
               </View>
@@ -324,9 +197,13 @@ export default function DiscoverScreen() {
           <OrnamentHeading>知識から探す</OrnamentHeading>
           <View style={styles.knowledgeRow}>
             {[
-              { label: '処世術', mark: '冊', route: '/catalog' },
+              { label: '処世術', mark: '術', route: '/catalog' },
               { label: '理論辞典', mark: '理', route: '/catalog' },
-              { label: '格言・古典', mark: '古', route: '/theories/classics-thought' },
+              {
+                label: '格言・古典',
+                mark: '古',
+                route: '/theories/classics-thought',
+              },
             ].map((item) => (
               <Pressable
                 key={item.label}
@@ -358,13 +235,11 @@ const styles = StyleSheet.create({
     borderColor: colors.gold,
     borderRadius: radius.pill,
     backgroundColor: colors.surface,
-    ...{
-      shadowColor: '#4C4232',
-      shadowOpacity: 0.06,
-      shadowRadius: 12,
-      shadowOffset: { width: 0, height: 5 },
-      elevation: 2,
-    },
+    shadowColor: '#4C4232',
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 2,
   },
   searchIcon: {
     color: colors.gold,
@@ -390,11 +265,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1.2,
     color: colors.inkSoft,
   },
-  topicGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.md,
-  },
   topicGroup: { marginBottom: spacing.xl },
   topicGroupTitle: {
     marginBottom: spacing.md,
@@ -405,22 +275,29 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 1.4,
   },
+  topicGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.md,
+  },
   topicCard: {
     width: '46%',
-    minHeight: 132,
+    minHeight: 94,
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
     backgroundColor: 'rgba(255,255,255,0.55)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.md,
-    padding: spacing.md,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
   },
   topicMark: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: colors.gold,
     alignItems: 'center',
@@ -429,16 +306,21 @@ const styles = StyleSheet.create({
   topicMarkText: {
     color: colors.gold,
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 22,
+    fontSize: 15,
+    lineHeight: 21,
     fontWeight: '700',
   },
   topicLabel: {
+    flex: 1,
     fontFamily: fonts.serif,
-    fontSize: 17,
+    fontSize: 16,
     lineHeight: 24,
     fontWeight: '600',
-    textAlign: 'center',
+  },
+  topicArrow: {
+    color: colors.gold,
+    fontSize: 24,
+    lineHeight: 27,
   },
   knowledgeRow: { flexDirection: 'row', gap: spacing.md },
   knowledgeCard: {
@@ -477,41 +359,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.8,
   },
-  theoryRow: {
-    minHeight: 132,
-    marginBottom: spacing.lg,
-    padding: spacing.xl,
-    borderWidth: 2,
-    borderColor: colors.gold,
-    borderRadius: radius.md,
-    backgroundColor: colors.white,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.07,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 3,
-  },
-  theoryCopy: { flex: 1 },
-  theoryMeta: { marginBottom: 6, color: colors.gold },
-  theoryTitle: {
-    fontFamily: fonts.serif,
-    fontSize: 20,
-    lineHeight: 29,
-    fontWeight: '600',
-  },
-  theorySummary: {
-    marginTop: spacing.sm,
-    color: colors.muted,
-    lineHeight: 20,
-  },
-  theoryChevron: {
-    color: colors.gold,
-    fontSize: 30,
-    lineHeight: 34,
-  },
   empty: {
     borderWidth: 1,
     borderColor: colors.line,
@@ -526,6 +373,10 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     fontWeight: '600',
   },
-  emptyBody: { marginTop: spacing.sm, color: colors.muted, textAlign: 'center' },
+  emptyBody: {
+    marginTop: spacing.sm,
+    color: colors.muted,
+    textAlign: 'center',
+  },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });

@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import {
   AppText,
@@ -8,7 +8,7 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards, theoryById } from '@/data/catalog';
 
 export function generateStaticParams() {
@@ -18,11 +18,13 @@ export function generateStaticParams() {
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const theory = theoryById.get(id);
+  const { width } = useWindowDimensions();
+  const compact = width < 620;
 
   if (!theory) {
     return (
       <Screen>
-        <DetailHeader />
+        <DetailHeader title="理論辞典" />
         <EmptyState
           title="理論が見つかりません"
           description="前の画面へ戻り、別の理論を選んでください。"
@@ -40,32 +42,40 @@ export default function TheoryDetailScreen() {
     `${theory.discipline}に属する${theory.conceptType}です。`;
 
   return (
-    <Screen>
-      <DetailHeader />
+    <Screen contentContainerStyle={styles.screenContent}>
+      <DetailHeader title="理論辞典" />
       <View style={styles.readingColumn}>
-        <View style={styles.eyebrow}>
-          <AppText variant="caption" style={styles.breadcrumb}>
-            理論辞典　/　{theory.categoryTitle}
-          </AppText>
-          <AppText variant="label" style={styles.tagId}>
-            {theory.tagId}
-          </AppText>
-        </View>
-
-        <AppText variant="title" style={styles.title}>
-          {theory.title}
-        </AppText>
-
-        <View style={styles.explanation}>
-          <AppText variant="label" style={styles.explanationLabel}>
-            解説
-          </AppText>
-          <AppText style={styles.summary}>{explanation}</AppText>
+        <View style={[styles.archiveHero, compact && styles.archiveHeroCompact]}>
+          <View style={[styles.archiveSpine, compact && styles.archiveSpineCompact]}>
+            <AppText style={styles.archiveBook}>冊</AppText>
+            <AppText style={styles.archiveLabel}>理{'\n'}論</AppText>
+          </View>
+          <View style={[styles.archiveCopy, compact && styles.archiveCopyCompact]}>
+            <View style={styles.archiveMeta}>
+              <AppText variant="label" style={styles.tagId}>
+                {theory.tagId}
+              </AppText>
+              <View style={styles.categoryPill}>
+                <AppText variant="caption" style={styles.categoryText}>
+                  {theory.categoryTitle}
+                </AppText>
+              </View>
+            </View>
+            <AppText variant="title" style={styles.title}>
+              {theory.title}
+            </AppText>
+            <View style={styles.archiveRule} />
+            <AppText style={styles.summary}>{explanation}</AppText>
+          </View>
         </View>
 
         <TheoryList title="要点" items={theory.keyPoints} tone="default" />
         <TheoryList title="判断原則" items={theory.principles} tone="action" />
-        <TheoryList title="実践のヒント" items={theory.strategies} tone="action" />
+        <TheoryList
+          title="実践のヒント"
+          items={theory.strategies}
+          tone="action"
+        />
         <TheoryList
           title="適用条件"
           items={theory.applicationConditions}
@@ -75,7 +85,7 @@ export default function TheoryDetailScreen() {
 
         {!!theory.domains?.length && (
           <>
-            <SectionHeader title="使える場面" />
+            <SectionHeader title="関連領域" />
             <View style={styles.chips}>
               {theory.domains.map((domain) => (
                 <View key={domain} style={styles.chip}>
@@ -107,14 +117,14 @@ export default function TheoryDetailScreen() {
           <OriginRow label="確認状態" value={theory.reliability} />
         </View>
 
-        {theory.notes && (
+        {theory.notes ? (
           <>
             <SectionHeader title="注記" />
             <View style={styles.note}>
               <AppText>{theory.notes}</AppText>
             </View>
           </>
-        )}
+        ) : null}
       </View>
     </Screen>
   );
@@ -172,55 +182,104 @@ function TheoryList({
 }
 
 const styles = StyleSheet.create({
+  screenContent: { maxWidth: 1180 },
   readingColumn: {
     width: '100%',
-    maxWidth: 900,
+    maxWidth: 980,
     alignSelf: 'center',
   },
-  eyebrow: {
+  archiveHero: {
+    minHeight: 260,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.md,
-    marginTop: spacing.sm,
-  },
-  breadcrumb: { color: colors.muted },
-  tagId: {
-    color: colors.gold,
-    borderWidth: 1,
-    borderColor: colors.goldLight,
-    borderRadius: radius.pill,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    borderWidth: 1.5,
+    borderColor: '#4E6276',
+    borderRadius: radius.lg,
+    backgroundColor: '#EEF0ED',
     overflow: 'hidden',
+    shadowColor: '#263544',
+    shadowOpacity: 0.12,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 9 },
+    elevation: 4,
   },
-  title: { marginTop: spacing.xl, fontSize: 38, lineHeight: 52 },
-  explanation: {
-    marginTop: spacing.xl,
-    borderLeftWidth: 3,
-    borderLeftColor: colors.gold,
-    backgroundColor: colors.surface,
-    borderRadius: radius.sm,
+  archiveHeroCompact: { minHeight: 236 },
+  archiveSpine: {
+    width: 94,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 13,
+    backgroundColor: '#263544',
+    borderRightWidth: 1,
+    borderRightColor: colors.gold,
+  },
+  archiveSpineCompact: { width: 62, gap: 8 },
+  archiveBook: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontSize: 27,
+    lineHeight: 34,
+  },
+  archiveLabel: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 23,
+    fontWeight: '700',
+    textAlign: 'center',
+    letterSpacing: 2,
+  },
+  archiveCopy: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.xl,
+  },
+  archiveCopyCompact: {
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.lg,
   },
-  explanationLabel: {
-    color: colors.gold,
-    marginBottom: spacing.sm,
+  archiveMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
   },
-  summary: { color: colors.inkSoft, fontSize: 18, lineHeight: 32 },
+  tagId: { color: '#5F6970', fontSize: 10, letterSpacing: 1.1 },
+  categoryPill: {
+    borderWidth: 1,
+    borderColor: '#526577',
+    borderRadius: radius.pill,
+    backgroundColor: 'rgba(255,255,255,0.46)',
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+  },
+  categoryText: { color: '#34495C', fontSize: 10, lineHeight: 14 },
+  title: {
+    marginTop: spacing.md,
+    color: colors.ink,
+    fontSize: 36,
+    lineHeight: 49,
+  },
+  archiveRule: {
+    width: 62,
+    height: 1,
+    marginTop: spacing.md,
+    backgroundColor: colors.gold,
+  },
+  summary: {
+    maxWidth: 760,
+    marginTop: spacing.md,
+    color: '#4F585A',
+    fontSize: 17,
+    lineHeight: 30,
+  },
   origin: {
-    backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
-    borderColor: colors.goldLight,
+    borderColor: '#6C7B88',
+    backgroundColor: '#EEF0ED',
     padding: spacing.lg,
-    gap: 0,
-    shadowColor: '#2B241A',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 1,
   },
   originRow: {
     flexDirection: 'row',
@@ -228,45 +287,38 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.line,
+    borderBottomColor: 'rgba(78,98,118,0.18)',
   },
-  originLabel: {
-    color: colors.gold,
-    width: 86,
-    paddingTop: 2,
-  },
-  originValue: {
-    color: colors.inkSoft,
-    flex: 1,
-  },
+  originLabel: { width: 86, paddingTop: 2, color: '#526577' },
+  originValue: { flex: 1, color: colors.inkSoft },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   chip: {
     borderWidth: 1,
-    borderColor: colors.goldLight,
+    borderColor: '#6C7B88',
     borderRadius: radius.pill,
-    backgroundColor: colors.white,
+    backgroundColor: '#EEF0ED',
     paddingHorizontal: 13,
     paddingVertical: 7,
   },
-  chipText: { color: colors.gold },
+  chipText: { color: '#34495C' },
   note: {
-    backgroundColor: '#EFE3DD',
     borderRadius: radius.md,
     borderWidth: 1,
     borderColor: colors.line,
+    backgroundColor: '#EFE3DD',
     padding: spacing.lg,
   },
   list: {
-    backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
-    borderColor: colors.goldLight,
+    borderColor: '#8996A1',
+    backgroundColor: '#F4F5F2',
     padding: spacing.lg,
     gap: spacing.md,
   },
-  listCaution: { backgroundColor: '#EFE3DD' },
-  listAction: { backgroundColor: '#F4F6F1' },
+  listCaution: { backgroundColor: '#EFE3DD', borderColor: colors.line },
+  listAction: { backgroundColor: '#EEF2EE' },
   listRow: { flexDirection: 'row', gap: spacing.md },
-  listIndex: { color: colors.gold, width: 26, paddingTop: 2 },
+  listIndex: { width: 26, paddingTop: 2, color: '#526577' },
   listText: { flex: 1 },
 });
