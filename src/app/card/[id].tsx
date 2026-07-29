@@ -80,16 +80,6 @@ export default function CardDetailScreen() {
   return (
     <Screen contentContainerStyle={styles.screenContent}>
       <View style={styles.readingColumn}>
-        <View style={styles.brandHeader}>
-          <View style={styles.brandSeal}>
-            <AppText style={styles.brandSealText}>禄</AppText>
-          </View>
-          <View>
-            <AppText style={styles.brandName}>処世術禄</AppText>
-            <AppText style={styles.brandSubtitle}>賢者の手帳</AppText>
-          </View>
-        </View>
-
         <DetailHeader />
 
         <View style={styles.eyebrow}>
@@ -440,48 +430,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 1180,
     alignSelf: 'center',
-  },
-  brandHeader: {
-    minHeight: 62,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 13,
-    paddingBottom: spacing.md,
-    marginBottom: spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-  },
-  brandSeal: {
-    width: 42,
-    height: 42,
-    borderRadius: 9,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-  },
-  brandSealText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 21,
-    lineHeight: 28,
-    fontWeight: '700',
-  },
-  brandName: {
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontSize: 17,
-    lineHeight: 23,
-    fontWeight: '700',
-    letterSpacing: 2,
-  },
-  brandSubtitle: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 15,
-    letterSpacing: 2,
   },
   eyebrow: {
     flexDirection: 'row',

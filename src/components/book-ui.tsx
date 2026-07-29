@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
@@ -19,9 +18,7 @@ export function BookScreen({
   ...props
 }: ScrollViewProps) {
   return (
-    <SafeAreaView edges={['top', 'left', 'right']} style={styles.safe}>
-      <StatusBar style="light" />
-      <BookHeader />
+    <SafeAreaView edges={['left', 'right']} style={styles.safe}>
       <ScrollView
         {...props}
         showsVerticalScrollIndicator={false}

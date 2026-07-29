@@ -18,24 +18,70 @@ import {
 } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 
-const topics = [
-  { label: '印象を良くしたい', mark: '印', tags: ['印象がいい人'] },
-  { label: '会話が下手', mark: '話', tags: ['会話がうまい人'] },
-  { label: 'なめられたくない', mark: '盾', tags: ['舐められない人'] },
-  {
-    label: 'したたかな交渉をしたい',
-    mark: '交',
-    tags: ['交渉がうまい人', '合意形成がうまい人'],
-  },
-  {
-    label: '人生を充実させたい',
-    mark: '充',
-    tags: ['人生を充実させる人'],
-  },
-  { label: '不安でたまらない', mark: '心', tags: ['不安に強い人'] },
-];
+type Topic = {
+  label: string;
+  mark: string;
+  tags: string[];
+};
 
-type Topic = (typeof topics)[number];
+const topicGroups: { title: string; topics: Topic[] }[] = [
+  {
+    title: '対人術',
+    topics: [
+      { label: '印象がいい人', mark: '印', tags: ['印象がいい人'] },
+      { label: '会話がうまい人', mark: '話', tags: ['会話がうまい人'] },
+      { label: '信用を積む人', mark: '信', tags: ['信用を積む人'] },
+      {
+        label: '関係を維持できる人',
+        mark: '維',
+        tags: ['関係を維持できる人'],
+      },
+      { label: '消耗しない人', mark: '守', tags: ['消耗しない人'] },
+      { label: '人を見極める人', mark: '見', tags: ['人を見極める人'] },
+      {
+        label: '集団でうまく立ち回る人',
+        mark: '集',
+        tags: ['集団でうまく立ち回る人'],
+      },
+      { label: '舐められない人', mark: '盾', tags: ['舐められない人'] },
+      { label: '集団を動かす人', mark: '動', tags: ['集団を動かす人'] },
+    ],
+  },
+  {
+    title: '仕事術',
+    topics: [
+      { label: '仕事ができる人', mark: '仕', tags: ['仕事ができる人'] },
+      { label: '出世する人', mark: '昇', tags: ['出世する人'] },
+      { label: '交渉がうまい人', mark: '交', tags: ['交渉がうまい人'] },
+      {
+        label: '合意形成がうまい人',
+        mark: '合',
+        tags: ['合意形成がうまい人'],
+      },
+      { label: '始められる人', mark: '始', tags: ['始められる人'] },
+      { label: '続けられる人', mark: '続', tags: ['続けられる人'] },
+      { label: '成果を出す人', mark: '果', tags: ['成果を出す人'] },
+    ],
+  },
+  {
+    title: '人生術',
+    topics: [
+      {
+        label: '人生を充実させる人',
+        mark: '充',
+        tags: ['人生を充実させる人'],
+      },
+      {
+        label: '人生設計がうまい人',
+        mark: '路',
+        tags: ['人生設計がうまい人'],
+      },
+      { label: '不安に強い人', mark: '心', tags: ['不安に強い人'] },
+      { label: '挫折した人', mark: '再', tags: ['挫折した人'] },
+      { label: '運がいい人', mark: '運', tags: ['運がいい人'] },
+    ],
+  },
+];
 
 function searchableText(card: (typeof techniqueCards)[number]) {
   const linkedTheories = (card.theoryTagIds ?? [])
@@ -250,25 +296,30 @@ export default function DiscoverScreen() {
       ) : (
         <>
           <OrnamentHeading>悩みから探す</OrnamentHeading>
-          <View style={styles.topicGrid}>
-            {topics.map((topic) => (
-              <Pressable
-                key={topic.label}
-                accessibilityRole="button"
-                accessibilityLabel={`${topic.label}の処世術を探す`}
-                onPress={() => chooseTopic(topic)}
-                style={({ pressed }) => [
-                  styles.topicCard,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <View style={styles.topicMark}>
-                  <AppText style={styles.topicMarkText}>{topic.mark}</AppText>
-                </View>
-                <AppText style={styles.topicLabel}>{topic.label}</AppText>
-              </Pressable>
-            ))}
-          </View>
+          {topicGroups.map((group) => (
+            <View key={group.title} style={styles.topicGroup}>
+              <AppText style={styles.topicGroupTitle}>{group.title}</AppText>
+              <View style={styles.topicGrid}>
+                {group.topics.map((topic) => (
+                  <Pressable
+                    key={topic.label}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${topic.label}の処世術を探す`}
+                    onPress={() => chooseTopic(topic)}
+                    style={({ pressed }) => [
+                      styles.topicCard,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <View style={styles.topicMark}>
+                      <AppText style={styles.topicMarkText}>{topic.mark}</AppText>
+                    </View>
+                    <AppText style={styles.topicLabel}>{topic.label}</AppText>
+                  </Pressable>
+                ))}
+              </View>
+            </View>
+          ))}
 
           <OrnamentHeading>知識から探す</OrnamentHeading>
           <View style={styles.knowledgeRow}>
@@ -343,6 +394,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: spacing.md,
+  },
+  topicGroup: { marginBottom: spacing.xl },
+  topicGroupTitle: {
+    marginBottom: spacing.md,
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 17,
+    lineHeight: 24,
+    fontWeight: '700',
+    letterSpacing: 1.4,
   },
   topicCard: {
     width: '46%',

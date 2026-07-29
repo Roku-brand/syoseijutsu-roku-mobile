@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -138,7 +138,16 @@ export default function MainScreen() {
     ];
   }, []);
   const activeCard = techniqueCards[activeIndex] ?? techniqueCards[0];
-  const saved = savedIds.includes(activeCard.id);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      listRef.current?.scrollToIndex({
+        index: techniqueCards.length > 1 ? activeIndex + 1 : activeIndex,
+        animated: false,
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, techniqueCards.length - 1));
@@ -201,6 +210,18 @@ export default function MainScreen() {
     }
   };
 
+  const settleOnCard = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    const physicalIndex = Math.round(
+      event.nativeEvent.contentOffset.x / reelWidth,
+    );
+    listRef.current?.scrollToOffset({
+      offset: physicalIndex * reelWidth,
+      animated: true,
+    });
+  };
+
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.reelHeading}>
@@ -246,6 +267,10 @@ export default function MainScreen() {
         ref={listRef}
         horizontal
         pagingEnabled
+        snapToInterval={reelWidth}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        disableIntervalMomentum
         bounces={false}
         showsHorizontalScrollIndicator={false}
         data={reelItems}
@@ -258,10 +283,12 @@ export default function MainScreen() {
         })}
         initialNumToRender={2}
         windowSize={3}
+        onScrollEndDrag={settleOnCard}
         onMomentumScrollEnd={updateActiveCard}
         style={[styles.reel, { width: reelWidth }]}
         renderItem={({ item: reelItem }) => {
           const item = reelItem.card;
+          const itemSaved = savedIds.includes(item.id);
           const titleMetrics = getReelTitleMetrics(item.title, reelWidth);
           return (
             <View style={[styles.reelItem, { width: reelWidth }]}>
@@ -312,28 +339,35 @@ export default function MainScreen() {
                   </AppText>
                 </View>
               </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={
+                  itemSaved
+                    ? `${item.title}を蔵書から外す`
+                    : `${item.title}を蔵書に保存`
+                }
+                onPress={() => toggleSaved(item.id)}
+                style={({ pressed }) => [
+                  styles.saveButton,
+                  itemSaved && styles.saveButtonSaved,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <AppText
+                  style={[styles.bookmark, itemSaved && styles.saveTextSaved]}
+                >
+                  {itemSaved ? '◆' : '▯'}
+                </AppText>
+                <AppText
+                  style={[styles.saveText, itemSaved && styles.saveTextSaved]}
+                >
+                  {itemSaved ? '蔵書に保存済み' : '蔵書に保存'}
+                </AppText>
+              </Pressable>
             </View>
           );
         }}
       />
-
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={saved ? '蔵書から外す' : '蔵書に保存'}
-        onPress={() => toggleSaved(activeCard.id)}
-        style={({ pressed }) => [
-          styles.saveButton,
-          saved && styles.saveButtonSaved,
-          pressed && styles.pressed,
-        ]}
-      >
-        <AppText style={[styles.bookmark, saved && styles.saveTextSaved]}>
-          {saved ? '◆' : '▯'}
-        </AppText>
-        <AppText style={[styles.saveText, saved && styles.saveTextSaved]}>
-          {saved ? '蔵書に保存済み' : '蔵書に保存'}
-        </AppText>
-      </Pressable>
 
       <View style={styles.categorySkipRow}>
         {categorySkips.map((category) => {

@@ -24,7 +24,13 @@ function activeKey(pathname: string) {
   ) {
     return 'catalog';
   }
-  if (pathname.includes('/my-os') || pathname.includes('/collection/')) return 'my-os';
+  if (
+    pathname.includes('/my-os') ||
+    pathname.includes('/collection/') ||
+    pathname.includes('/library')
+  ) {
+    return 'my-os';
+  }
   return 'main';
 }
 

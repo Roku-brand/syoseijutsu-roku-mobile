@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   Modal,
   Pressable,
@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import { BookScreen, BookTitle, OrnamentHeading, bookCardShadow } from '@/components/book-ui';
-import { TechniqueRow } from '@/components/technique-row';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
@@ -25,12 +24,6 @@ export default function MyOsScreen() {
   } = useAppState();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(personalPrinciple);
-  const [showLibrary, setShowLibrary] = useState(false);
-
-  const savedCards = useMemo(
-    () => savedIds.map((id) => techniqueById.get(id)).filter(Boolean),
-    [savedIds],
-  );
   const recentCard =
     techniqueById.get(historyIds[0] ?? '') ??
     techniqueById.get(savedIds[0] ?? '') ??
@@ -70,7 +63,9 @@ export default function MyOsScreen() {
 
       <View style={styles.osActions}>
         <Pressable
-          onPress={() => setShowLibrary((current) => !current)}
+          accessibilityRole="button"
+          accessibilityLabel="蔵書を開く"
+          onPress={() => router.push('/library')}
           style={({ pressed }) => [
             styles.osActionCard,
             pressed && styles.pressed,
@@ -116,24 +111,6 @@ export default function MyOsScreen() {
         </AppText>
         <AppText style={styles.chevron}>›</AppText>
       </Pressable>
-
-      {showLibrary ? (
-        <View style={styles.library}>
-          <OrnamentHeading>蔵書</OrnamentHeading>
-          {savedCards.length ? (
-            savedCards.map((card) =>
-              card ? <TechniqueRow key={card.id} card={card} /> : null,
-            )
-          ) : (
-            <View style={styles.emptyLibrary}>
-              <AppText style={styles.emptyTitle}>蔵書はまだ空です</AppText>
-              <AppText style={styles.emptyBody}>
-                処世術カードの「蔵書に保存」から知恵を集められます。
-              </AppText>
-            </View>
-          )}
-        </View>
-      ) : null}
 
       <Modal
         transparent
@@ -313,26 +290,6 @@ const styles = StyleSheet.create({
     color: colors.inkSoft,
     fontFamily: fonts.serif,
     fontSize: 12,
-  },
-  library: { marginTop: spacing.lg },
-  emptyLibrary: {
-    padding: spacing.xl,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-  },
-  emptyTitle: {
-    fontFamily: fonts.serif,
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-  },
-  emptyBody: {
-    marginTop: spacing.sm,
-    color: colors.muted,
-    textAlign: 'center',
   },
   modalBackdrop: {
     flex: 1,

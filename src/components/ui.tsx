@@ -62,7 +62,7 @@ export function Screen({
   );
 
   return (
-    <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={styles.screen} edges={['left', 'right']}>
       {content}
     </SafeAreaView>
   );
