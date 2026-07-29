@@ -78,7 +78,10 @@ export default function CardDetailScreen() {
     .filter(Boolean);
 
   return (
-    <Screen contentContainerStyle={styles.screenContent}>
+    <Screen
+      style={styles.detailScreen}
+      contentContainerStyle={styles.screenContent}
+    >
       <View style={styles.readingColumn}>
         <DetailHeader />
 
@@ -135,13 +138,21 @@ export default function CardDetailScreen() {
                 ]}
               >
                 <AppText
-                  style={[styles.actionIcon, isSaved && styles.actionTextActive]}
+                  style={[
+                    styles.actionIcon,
+                    styles.saveActionText,
+                    isSaved && styles.actionTextActive,
+                  ]}
                 >
                   {isSaved ? '◆' : '◇'}
                 </AppText>
                 <AppText
                   variant="label"
-                  style={[styles.actionText, isSaved && styles.actionTextActive]}
+                  style={[
+                    styles.actionText,
+                    styles.saveActionText,
+                    isSaved && styles.actionTextActive,
+                  ]}
                 >
                   {isSaved ? '蔵書に保存済み' : '蔵書に保存'}
                 </AppText>
@@ -422,6 +433,9 @@ function RelatedPanel({
 }
 
 const styles = StyleSheet.create({
+  detailScreen: {
+    backgroundColor: '#E9E1D3',
+  },
   screenContent: {
     maxWidth: 1280,
     paddingTop: spacing.lg,
@@ -471,21 +485,21 @@ const styles = StyleSheet.create({
   },
   heroShell: {
     borderRadius: 28,
-    borderWidth: 1,
-    borderColor: colors.gold,
+    borderWidth: 3,
+    borderColor: '#4A3828',
     padding: 5,
-    backgroundColor: colors.surface,
-    shadowColor: '#3A3022',
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 9 },
-    elevation: 4,
+    backgroundColor: '#A7833D',
+    shadowColor: '#2A2119',
+    shadowOpacity: 0.2,
+    shadowRadius: 22,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 6,
   },
   hero: {
-    backgroundColor: 'rgba(255,255,255,0.74)',
+    backgroundColor: '#FFFDF8',
     borderRadius: 22,
-    borderWidth: 1,
-    borderColor: colors.line,
+    borderWidth: 1.5,
+    borderColor: '#5A4634',
     paddingTop: spacing.lg,
     paddingHorizontal: spacing.xl,
     paddingBottom: spacing.md,
@@ -498,7 +512,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.goldLight,
     transform: [{ rotate: '18deg' }],
   },
-  subcategoryLabel: { color: colors.muted },
+  subcategoryLabel: { color: '#4D514D' },
   heroCopy: {
     alignItems: 'center',
     paddingHorizontal: spacing.lg,
@@ -536,7 +550,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
   },
   heroLead: {
-    color: colors.inkSoft,
+    color: '#424844',
     fontFamily: fonts.serif,
     fontSize: 16,
     lineHeight: 27,
@@ -551,21 +565,31 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     paddingTop: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.line,
+    borderTopColor: '#C8BDAA',
   },
   actionButton: {
     minHeight: 44,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.goldLight,
-    backgroundColor: colors.surface,
+    borderColor: '#4A3828',
+    backgroundColor: '#FFFDF8',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
     paddingHorizontal: 18,
   },
-  saveButton: { minWidth: 174 },
+  saveButton: {
+    minWidth: 174,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    backgroundColor: '#273126',
+    shadowColor: '#1B211A',
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 2,
+  },
   shareButton: {
     minHeight: 44,
     minWidth: 96,
@@ -576,9 +600,13 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 14,
   },
-  actionButtonActive: { backgroundColor: colors.gold, borderColor: colors.gold },
+  actionButtonActive: {
+    backgroundColor: '#4D3A24',
+    borderColor: colors.goldLight,
+  },
   actionIcon: { color: colors.gold, fontSize: 17, lineHeight: 21 },
   actionText: { color: colors.inkSoft },
+  saveActionText: { color: '#FFF9EB' },
   actionTextActive: { color: colors.white },
   pressed: { opacity: 0.65 },
   editorialHeading: {
@@ -616,18 +644,27 @@ const styles = StyleSheet.create({
   },
   tagText: { color: colors.gold, fontSize: 11, letterSpacing: 0.6 },
   explanation: {
-    backgroundColor: 'rgba(255,255,255,0.46)',
-    borderLeftWidth: 2,
-    borderLeftColor: colors.gold,
+    backgroundColor: '#EEF1E8',
+    borderWidth: 1.5,
+    borderColor: '#52604C',
+    borderLeftWidth: 5,
+    borderLeftColor: '#31402F',
+    borderRadius: radius.sm,
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
+    paddingVertical: spacing.lg,
     gap: spacing.lg,
+    shadowColor: '#33402F',
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 1,
   },
   explanationText: {
-    color: colors.inkSoft,
+    color: '#303631',
     fontSize: 16,
     lineHeight: 31,
     letterSpacing: 0.25,
+    fontWeight: '500',
   },
   explanationStrong: { color: colors.ink, fontWeight: '700' },
   explanationConclusion: {
@@ -646,9 +683,9 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: '#89745B',
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.5)',
+    backgroundColor: '#FFFDF8',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
@@ -716,9 +753,9 @@ const styles = StyleSheet.create({
   numberedList: { gap: 12 },
   numberedRow: {
     minHeight: 72,
-    backgroundColor: colors.surface,
+    backgroundColor: '#FFFDF8',
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: '#89745B',
     borderRadius: radius.md,
     flexDirection: 'row',
     alignItems: 'center',
@@ -748,8 +785,8 @@ const styles = StyleSheet.create({
     minHeight: 140,
     borderRadius: radius.md,
     borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
+    borderColor: '#89745B',
+    backgroundColor: '#FFFDF8',
     color: colors.ink,
     fontFamily: fonts.sans,
     fontSize: 15,

@@ -125,13 +125,13 @@ const styles = StyleSheet.create({
   },
   pressed: { opacity: 0.65 },
   mark: {
-    color: '#9A9C95',
+    color: '#D7D3CA',
     fontFamily: fonts.serif,
     fontSize: 21,
     lineHeight: 25,
     fontWeight: '700',
   },
   markActive: { color: colors.goldLight, fontSize: 22 },
-  label: { color: '#C9C6BE', fontSize: 11, lineHeight: 15, fontWeight: '600' },
+  label: { color: '#D7D3CA', fontSize: 11, lineHeight: 15, fontWeight: '600' },
   labelActive: { color: colors.goldLight },
 });
