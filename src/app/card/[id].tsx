@@ -31,12 +31,14 @@ import {
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
+import { useAppToast } from '@/components/app-toast';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
 }
 
 export default function CardDetailScreen() {
+  const showToast = useAppToast();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { width } = useWindowDimensions();
@@ -46,10 +48,13 @@ export default function CardDetailScreen() {
     savedIds,
     notes,
     collections,
+    practiceRecords,
     toggleSaved,
     addHistory,
     saveNote,
     toggleCollectionCard,
+    planPractice,
+    completePractice,
   } = useAppState();
   const [note, setNote] = useState(notes[id] ?? '');
 
@@ -74,6 +79,7 @@ export default function CardDetailScreen() {
   }
 
   const isSaved = savedIds.includes(card.id);
+  const practiceRecord = practiceRecords[card.id];
   const guidance = practiceGuidance[card.categoryKey];
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
@@ -131,7 +137,12 @@ export default function CardDetailScreen() {
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={isSaved ? '蔵書から削除' : '蔵書に保存'}
-                onPress={() => toggleSaved(card.id)}
+                onPress={() => {
+                  toggleSaved(card.id);
+                  showToast(
+                    isSaved ? '蔵書から外しました' : '蔵書に保存しました',
+                  );
+                }}
                 style={({ pressed }) => [
                   styles.actionButton,
                   styles.saveButton,
@@ -281,6 +292,53 @@ export default function CardDetailScreen() {
           今の状況に合うかを確かめます。
         </AppText>
         <NumberedList items={guidance.actions} />
+
+        <View style={styles.practiceCard}>
+          <View style={styles.practiceCopy}>
+            <AppText variant="serif" style={styles.practiceTitle}>
+              {practiceRecord?.status === 'tried'
+                ? 'この処世術は実践済みです'
+                : practiceRecord
+                  ? '試す処世術に入っています'
+                  : '知ったことを、現場の一手へ'}
+            </AppText>
+            <AppText style={styles.practiceDescription}>
+              {practiceRecord?.status === 'tried'
+                ? '下のメモに、効いたことと次に変えることを残せます。'
+                : '小さく試し、結果をメモすると自分の判断軸になります。'}
+            </AppText>
+          </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={
+              practiceRecord?.status === 'tried'
+                ? '実践済み'
+                : practiceRecord
+                  ? '試したとして記録'
+                  : 'この処世術を試す'
+            }
+            disabled={practiceRecord?.status === 'tried'}
+            onPress={() =>
+              practiceRecord
+                ? completePractice(card.id)
+                : planPractice(card.id)
+            }
+            style={({ pressed }) => [
+              styles.practiceButton,
+              practiceRecord?.status === 'tried' &&
+                styles.practiceButtonComplete,
+              pressed && styles.pressed,
+            ]}
+          >
+            <AppText style={styles.practiceButtonText}>
+              {practiceRecord?.status === 'tried'
+                ? '✓ 実践済み'
+                : practiceRecord
+                  ? '試したとして記録'
+                  : '今日、試してみる'}
+            </AppText>
+          </Pressable>
+        </View>
 
         <SectionHeader title="注意点" />
         <View style={styles.caution}>
@@ -774,6 +832,45 @@ const styles = StyleSheet.create({
   },
   numberText: { color: colors.gold },
   numberedText: { flex: 1 },
+  practiceCard: {
+    marginTop: spacing.lg,
+    padding: spacing.lg,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: spacing.lg,
+    borderWidth: 1,
+    borderColor: '#52604C',
+    borderRadius: radius.md,
+    backgroundColor: '#EEF1E8',
+  },
+  practiceCopy: { flex: 1, minWidth: 240 },
+  practiceTitle: {
+    color: '#263327',
+    fontSize: 18,
+    lineHeight: 27,
+  },
+  practiceDescription: {
+    marginTop: 5,
+    color: '#535C54',
+    fontSize: 14,
+    lineHeight: 23,
+  },
+  practiceButton: {
+    minHeight: 48,
+    paddingHorizontal: spacing.lg,
+    borderRadius: radius.pill,
+    backgroundColor: '#273126',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  practiceButtonComplete: { backgroundColor: '#667064' },
+  practiceButtonText: {
+    color: '#FFF9EB',
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: '700',
+  },
   caution: {
     backgroundColor: '#EDE2D9',
     borderRadius: radius.md,

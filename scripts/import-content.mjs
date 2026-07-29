@@ -75,6 +75,30 @@ const theoryCategoryIds = new Map([
   ['格言・経験則・作品', 'maxims-experience'],
 ]);
 
+// The source dataset contains one deliberately broad
+// "ポジティブ心理学・人生設計" bucket. Concepts whose academic origin is
+// clearly outside psychology are normalized here so future imports preserve
+// the backend's origin-based taxonomy.
+const theoryOriginOverrides = new Map([
+  ['kb_554', ['行動科学', '意思決定論']],
+  ['kb_555', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_556', ['行動科学', '判断・意思決定論']],
+  ['kb_557', ['行動科学', '行動変容・学習科学']],
+  ['kb_561', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_567', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_568', ['行動科学', '判断・意思決定論']],
+  ['kb_569', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_570', ['行動科学', '判断・意思決定論']],
+  ['kb_571', ['組織・経営論', '人的資源管理・キャリア論']],
+  ['kb_575', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_584', ['組織・経営論', '人的資源管理・キャリア論']],
+  ['kb_585', ['組織・経営論', '人的資源管理・キャリア論']],
+  ['kb_592', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_593', ['組織・経営論', '人的資源管理・キャリア論']],
+  ['kb_594', ['戦略論', '戦略・リスク・キャリア設計']],
+  ['kb_595', ['戦略論', '戦略・リスク・キャリア設計']],
+]);
+
 const theoryContexts = {
   '心理学': '人の認知・感情・対人関係の動き',
   '行動科学': '人が選び、習慣化し、行動を変える仕組み',
@@ -195,9 +219,16 @@ const rawTheoryRecords = Array.isArray(theoryDataset)
   : theoryDataset.records;
 
 const theories = rawTheoryRecords.map((record) => {
-  const sourceType = record.sourceType ?? record.source_type;
+  const tagId = record.tagId ?? record.id;
+  const originOverride = theoryOriginOverrides.get(tagId);
+  const sourceType =
+    originOverride?.[0] ?? record.sourceType ?? record.source_type;
+  const discipline =
+    originOverride?.[1] ?? record.discipline;
   const categoryId =
-    record.categoryId ?? theoryCategoryIds.get(sourceType);
+    originOverride
+      ? theoryCategoryIds.get(sourceType)
+      : record.categoryId ?? theoryCategoryIds.get(sourceType);
   if (!categoryId) {
     throw new Error(`Unknown theory source type: ${sourceType}`);
   }
@@ -210,7 +241,7 @@ const theories = rawTheoryRecords.map((record) => {
   };
 
   return {
-    tagId: record.tagId ?? record.id,
+    tagId,
     originalNumber: record.originalNumber ?? record.original_number,
     title: record.title,
     summary: record.summary ?? createTheorySummary(legacyRecord),
@@ -220,7 +251,7 @@ const theories = rawTheoryRecords.map((record) => {
     strategies: record.strategies ?? [],
     applicationConditions: record.applicationConditions ?? [],
     sourceType,
-    discipline: record.discipline,
+    discipline,
     conceptType: record.conceptType ?? record.concept_type,
     sourceName: record.sourceName ?? record.source_name,
     sourceDetail: record.sourceDetail ?? record.source_detail,
@@ -231,7 +262,7 @@ const theories = rawTheoryRecords.map((record) => {
     status: record.status,
     notes: record.notes,
     categoryId,
-    categoryTitle: record.categoryTitle ?? sourceType,
+    categoryTitle: originOverride ? sourceType : record.categoryTitle ?? sourceType,
   };
 });
 

@@ -21,6 +21,13 @@ export type Collection = {
   createdAt: string;
 };
 
+export type PracticeRecord = {
+  cardId: string;
+  status: 'planned' | 'tried';
+  plannedAt: string;
+  triedAt?: string;
+};
+
 type PersistedState = {
   onboardingCompleted: boolean;
   interests: CategoryKey[];
@@ -28,6 +35,7 @@ type PersistedState = {
   historyIds: string[];
   notes: Record<string, string>;
   collections: Collection[];
+  practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
 };
 
@@ -38,6 +46,7 @@ const initialState: PersistedState = {
   historyIds: [],
   notes: {},
   collections: [],
+  practiceRecords: {},
   personalPrinciple: '目的を守り、手段には執着しない。',
 };
 
@@ -50,6 +59,8 @@ type AppStateContextValue = PersistedState & {
   createCollection: (name: string) => string;
   toggleCollectionCard: (collectionId: string, cardId: string) => void;
   deleteCollection: (collectionId: string) => void;
+  planPractice: (cardId: string) => void;
+  completePractice: (cardId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
   updatePersonalPrinciple: (principle: string) => void;
   clearPersonalData: () => Promise<void>;
@@ -175,6 +186,41 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     });
   }, []);
 
+  const planPractice = useCallback((cardId: string) => {
+    haptic(Haptics.ImpactFeedbackStyle.Medium);
+    setState((current) => ({
+      ...current,
+      practiceRecords: {
+        ...current.practiceRecords,
+        [cardId]: {
+          cardId,
+          status: 'planned',
+          plannedAt:
+            current.practiceRecords[cardId]?.plannedAt ??
+            new Date().toISOString(),
+        },
+      },
+    }));
+  }, []);
+
+  const completePractice = useCallback((cardId: string) => {
+    haptic(Haptics.ImpactFeedbackStyle.Medium);
+    setState((current) => ({
+      ...current,
+      practiceRecords: {
+        ...current.practiceRecords,
+        [cardId]: {
+          cardId,
+          status: 'tried',
+          plannedAt:
+            current.practiceRecords[cardId]?.plannedAt ??
+            new Date().toISOString(),
+          triedAt: new Date().toISOString(),
+        },
+      },
+    }));
+  }, []);
+
   const updatePersonalPrinciple = useCallback((personalPrinciple: string) => {
     setState((current) => ({
       ...current,
@@ -199,6 +245,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       createCollection,
       toggleCollectionCard,
       deleteCollection,
+      planPractice,
+      completePractice,
       toggleInterest,
       updatePersonalPrinciple,
       clearPersonalData,
@@ -213,6 +261,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       createCollection,
       toggleCollectionCard,
       deleteCollection,
+      planPractice,
+      completePractice,
       toggleInterest,
       updatePersonalPrinciple,
       clearPersonalData,

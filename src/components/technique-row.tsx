@@ -11,6 +11,7 @@ import { getTechniqueDisplayId } from '@/data/catalog';
 import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { AppText, IconButton } from './ui';
+import { useAppToast } from './app-toast';
 
 export function TechniqueRow({
   card,
@@ -28,26 +29,24 @@ export function TechniqueRow({
   tintColor?: string;
 }) {
   const router = useRouter();
+  const showToast = useAppToast();
   const { savedIds, toggleSaved } = useAppState();
   const isSaved = savedIds.includes(card.id);
   const hasSequence = sequence !== undefined;
   const palette = categoryPalette[card.categoryKey];
   const resolvedAccent = accentColor ?? palette.accent;
   const resolvedTint = tintColor ?? palette.tint;
+  const openCard = () =>
+    router.push({ pathname: '/card/[id]', params: { id: card.id } });
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${card.title}を開く`}
-      onPress={() =>
-        router.push({ pathname: '/card/[id]', params: { id: card.id } })
-      }
-      style={({ pressed }) => [
-        styles.row,
-        { borderColor: resolvedAccent },
-        pressed && styles.pressed,
-      ]}
-    >
+    <View style={[styles.row, { borderColor: resolvedAccent }]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${card.title}を開く`}
+        onPress={openCard}
+        style={({ pressed }) => [styles.openArea, pressed && styles.pressed]}
+      >
         <View style={styles.copy}>
           <View style={styles.metaRow}>
             <AppText variant="label" style={styles.displayId}>
@@ -85,6 +84,7 @@ export function TechniqueRow({
             </View>
           )}
         </View>
+      </Pressable>
         <View style={styles.actions}>
           <IconButton
             label={isSaved ? '保存を解除' : '保存'}
@@ -93,11 +93,19 @@ export function TechniqueRow({
             onPress={(event) => {
               event.stopPropagation();
               toggleSaved(card.id);
+              showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
             }}
           />
-          <AppText style={styles.chevron}>›</AppText>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${card.title}を開く`}
+            onPress={openCard}
+            hitSlop={10}
+          >
+            <AppText style={styles.chevron}>›</AppText>
+          </Pressable>
         </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -120,6 +128,11 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   pressed: { opacity: 0.68 },
+  openArea: {
+    flex: 1,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+  },
   copy: { flex: 1 },
   timelineRow: {
     minHeight: 164,

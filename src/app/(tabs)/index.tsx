@@ -16,6 +16,8 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
+import { useTabVisible } from '@/hooks/use-tab-visible';
+import { useAppToast } from '@/components/app-toast';
 
 type ReelItem = {
   card: TechniqueCard;
@@ -111,13 +113,30 @@ const categorySkips: {
 ];
 
 export default function MainScreen() {
+  const isFocused = useTabVisible();
   const router = useRouter();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const { savedIds, toggleSaved } = useAppState();
 
-  const reelWidth = Math.min(Math.max(width - spacing.lg * 2, 280), 680);
+  const compactReel = width < 520;
+  const cardHeight = compactReel
+    ? Math.max(330, Math.min(height - 300, 460))
+    : Math.max(380, Math.min(height - 290, 520));
+  const reelPeek = compactReel ? 18 : 30;
+  const reelGap = compactReel ? 10 : 14;
+  const cardWidth = Math.min(
+    Math.max(width - spacing.md * 2 - reelPeek * 2, 276),
+    width >= 1100 ? 760 : 680,
+  );
+  const reelWidth = cardWidth + reelGap;
+  const reelViewportWidth = Math.min(
+    Math.max(width - spacing.md * 2, 280),
+    cardWidth + reelPeek * 2,
+  );
+  const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
   const reelItems = useMemo<ReelItem[]>(() => {
     if (techniqueCards.length <= 1) {
       return techniqueCards.map((card) => ({
@@ -165,13 +184,16 @@ export default function MainScreen() {
     const rawIndex = activeIndex + offset;
     const nextIndex =
       (rawIndex + techniqueCards.length) % techniqueCards.length;
-    const crossedBoundary =
-      rawIndex < 0 || rawIndex >= techniqueCards.length;
-
+    const physicalIndex =
+      rawIndex < 0
+        ? 0
+        : rawIndex >= techniqueCards.length
+          ? techniqueCards.length + 1
+          : nextIndex + 1;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
-      index: nextIndex + 1,
-      animated: !crossedBoundary,
+      index: physicalIndex,
+      animated: true,
     });
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -222,6 +244,8 @@ export default function MainScreen() {
     });
   };
 
+  if (!isFocused) return null;
+
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.reelHeading}>
@@ -233,7 +257,7 @@ export default function MainScreen() {
         </View>
       </View>
 
-      <View style={[styles.reelControls, { width: reelWidth }]}>
+      <View style={[styles.reelControls, { width: reelViewportWidth }]}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="前の処世術"
@@ -285,13 +309,24 @@ export default function MainScreen() {
         windowSize={3}
         onScrollEndDrag={settleOnCard}
         onMomentumScrollEnd={updateActiveCard}
-        style={[styles.reel, { width: reelWidth }]}
+        scrollEventThrottle={16}
+        contentContainerStyle={{ paddingHorizontal: reelSideInset }}
+        style={[styles.reel, { width: reelViewportWidth }]}
         renderItem={({ item: reelItem }) => {
           const item = reelItem.card;
           const itemSaved = savedIds.includes(item.id);
-          const titleMetrics = getReelTitleMetrics(item.title, reelWidth);
+          const titleMetrics = getReelTitleMetrics(item.title, cardWidth);
+          const isAccessible =
+            reelItem.reelKey === `original-${activeCard.id}`;
           return (
-            <View style={[styles.reelItem, { width: reelWidth }]}>
+            <View
+              accessibilityElementsHidden={!isAccessible}
+              importantForAccessibility={
+                isAccessible ? 'yes' : 'no-hide-descendants'
+              }
+              aria-hidden={!isAccessible}
+              style={[styles.reelItem, { width: reelWidth }]}
+            >
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={`${item.title}を詳しく読む`}
@@ -303,7 +338,12 @@ export default function MainScreen() {
                 }
                 style={({ pressed }) => [
                   styles.techniqueCard,
-                  { paddingHorizontal: titleMetrics.horizontalPadding },
+                  {
+                    width: cardWidth,
+                    minHeight: cardHeight,
+                    marginHorizontal: reelGap / 2,
+                    paddingHorizontal: titleMetrics.horizontalPadding,
+                  },
                   pressed && styles.pressed,
                 ]}
               >
@@ -349,7 +389,12 @@ export default function MainScreen() {
                     ? `${item.title}を蔵書から外す`
                     : `${item.title}を蔵書に保存`
                 }
-                onPress={() => toggleSaved(item.id)}
+                onPress={() => {
+                  toggleSaved(item.id);
+                  showToast(
+                    itemSaved ? '蔵書から外しました' : '蔵書に保存しました',
+                  );
+                }}
                 style={({ pressed }) => [
                   styles.saveButton,
                   itemSaved && styles.saveButtonSaved,
@@ -467,7 +512,6 @@ const styles = StyleSheet.create({
   reel: { alignSelf: 'center', flexGrow: 0 },
   reelItem: { paddingVertical: spacing.sm },
   techniqueCard: {
-    width: '100%',
     minHeight: 360,
     paddingVertical: 36,
     borderRadius: 30,
@@ -563,7 +607,7 @@ const styles = StyleSheet.create({
   },
   categorySkip: {
     flex: 1,
-    minHeight: 112,
+    minHeight: 82,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
@@ -603,5 +647,5 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: 'center',
   },
-  pressed: { opacity: 0.68, transform: [{ scale: 0.994 }] },
+  pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

@@ -9,9 +9,10 @@ import {
   type ScrollViewProps,
   type TextProps,
   type ViewProps,
+  type ScrollView as ScrollViewType,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
 
 export function AppText({
   style,
@@ -40,13 +41,16 @@ export function Screen({
   children,
   scroll = true,
   contentContainerStyle,
+  scrollRef,
   ...props
 }: ViewProps &
   ScrollViewProps & {
     scroll?: boolean;
+    scrollRef?: React.RefObject<ScrollViewType | null>;
   }) {
   const content = scroll ? (
     <ScrollView
+      ref={scrollRef}
       {...props}
       style={[styles.flex, props.style]}
       contentContainerStyle={[styles.screenContent, contentContainerStyle]}
@@ -140,7 +144,10 @@ export function DetailHeader({
         accessibilityRole="button"
         accessibilityLabel="前の画面へ戻る"
         onPress={handleBack}
-        style={styles.detailBack}
+        style={({ pressed }) => [
+          styles.detailBack,
+          pressed && styles.detailBackPressed,
+        ]}
         hitSlop={10}
       >
         <AppText style={styles.detailBackIcon}>‹</AppText>
@@ -361,15 +368,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
-    paddingBottom: 120,
+    paddingBottom: layout.bottomContentInset,
   },
   text: {
     color: colors.ink,
     fontFamily: fonts.sans,
-    fontSize: 15,
-    lineHeight: 24,
+    fontSize: 16,
+    lineHeight: 28,
   },
-  caption: { color: colors.muted, fontSize: 12, lineHeight: 18 },
+  caption: { color: '#686A65', fontSize: 12, lineHeight: 19 },
   label: { fontSize: 12, lineHeight: 18, fontWeight: '700', letterSpacing: 1 },
   title: {
     fontFamily: fonts.serif,
@@ -444,6 +451,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.line,
     backgroundColor: colors.surface,
+  },
+  detailBackPressed: {
+    opacity: 0.72,
+    transform: [{ translateX: -2 }, { scale: 0.97 }],
   },
   detailBackIcon: { color: colors.gold, fontSize: 31, lineHeight: 34, marginTop: -2 },
   detailBackText: { color: colors.inkSoft, fontSize: 11, lineHeight: 16, letterSpacing: 0.4 },

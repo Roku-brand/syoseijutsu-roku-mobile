@@ -13708,8 +13708,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "行動科学",
+    "discipline": "意思決定論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -13722,8 +13722,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_555",
@@ -13734,8 +13734,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -13748,8 +13748,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_556",
@@ -13760,8 +13760,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "行動科学",
+    "discipline": "判断・意思決定論",
     "conceptType": "効果・バイアス",
     "domains": [
       "人生術",
@@ -13774,8 +13774,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_557",
@@ -13786,8 +13786,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -13800,8 +13800,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_558",
@@ -13890,8 +13890,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -13904,8 +13904,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_562",
@@ -14046,8 +14046,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "理論・モデル",
     "domains": [
       "人生術",
@@ -14060,8 +14060,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_568",
@@ -14072,8 +14072,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "行動科学",
+    "discipline": "判断・意思決定論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14086,8 +14086,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_569",
@@ -14098,8 +14098,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14112,8 +14112,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_570",
@@ -14124,8 +14124,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "行動科学",
+    "discipline": "判断・意思決定論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14138,8 +14138,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_571",
@@ -14150,8 +14150,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14164,8 +14164,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_572",
@@ -14254,8 +14254,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "効果・バイアス",
     "domains": [
       "人生術",
@@ -14268,8 +14268,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_576",
@@ -14488,8 +14488,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14502,8 +14502,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_585",
@@ -14514,8 +14514,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14528,8 +14528,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_586",
@@ -14696,8 +14696,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14710,8 +14710,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_593",
@@ -14722,8 +14722,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14736,8 +14736,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_594",
@@ -14748,8 +14748,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14762,8 +14762,8 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_595",
@@ -14774,8 +14774,8 @@
     "pitfalls": [],
     "strategies": [],
     "applicationConditions": [],
-    "sourceType": "心理学",
-    "discipline": "ポジティブ心理学・人生設計",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "概念・フレームワーク",
     "domains": [
       "人生術",
@@ -14788,7 +14788,7 @@
     "reliability": "出典・学術的位置づけ要確認",
     "status": "seed",
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   }
 ]

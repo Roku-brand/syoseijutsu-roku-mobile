@@ -13,12 +13,15 @@ import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
+import { useTabVisible } from '@/hooks/use-tab-visible';
 
 export default function MyOsScreen() {
+  const isFocused = useTabVisible();
   const router = useRouter();
   const {
     savedIds,
     historyIds,
+    practiceRecords,
     personalPrinciple,
     updatePersonalPrinciple,
   } = useAppState();
@@ -28,12 +31,24 @@ export default function MyOsScreen() {
     techniqueById.get(historyIds[0] ?? '') ??
     techniqueById.get(savedIds[0] ?? '') ??
     techniqueCards[0];
+  const practiceCards = Object.values(practiceRecords)
+    .sort((a, b) =>
+      (b.triedAt ?? b.plannedAt).localeCompare(a.triedAt ?? a.plannedAt),
+    )
+    .map((record) => ({
+      record,
+      card: techniqueById.get(record.cardId),
+    }))
+    .filter((item) => item.card)
+    .slice(0, 3);
 
   const openEditor = () => {
     void Haptics.selectionAsync().catch(() => undefined);
     setDraft(personalPrinciple);
     setEditing(true);
   };
+
+  if (!isFocused) return null;
 
   return (
     <BookScreen>
@@ -89,6 +104,60 @@ export default function MyOsScreen() {
           <AppText style={styles.actionSubtitle}>自分の言葉にする</AppText>
         </Pressable>
       </View>
+
+      <OrnamentHeading>実践の記録</OrnamentHeading>
+      {practiceCards.length ? (
+        <View style={styles.practiceList}>
+          {practiceCards.map(({ record, card }) =>
+            card ? (
+              <Pressable
+                key={record.cardId}
+                accessibilityRole="button"
+                accessibilityLabel={`${card.title}を開く`}
+                onPress={() =>
+                  router.push({
+                    pathname: '/card/[id]',
+                    params: { id: card.id },
+                  })
+                }
+                style={({ pressed }) => [
+                  styles.practiceRow,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <View
+                  style={[
+                    styles.practiceStatus,
+                    record.status === 'tried' &&
+                      styles.practiceStatusComplete,
+                  ]}
+                >
+                  <AppText style={styles.practiceStatusText}>
+                    {record.status === 'tried' ? '済' : '試'}
+                  </AppText>
+                </View>
+                <View style={styles.practiceRowCopy}>
+                  <AppText style={styles.practiceRowTitle} numberOfLines={2}>
+                    {card.title}
+                  </AppText>
+                  <AppText style={styles.practiceRowMeta}>
+                    {record.status === 'tried'
+                      ? '実践済み・メモを振り返る'
+                      : '次に試す処世術'}
+                  </AppText>
+                </View>
+                <AppText style={styles.chevron}>›</AppText>
+              </Pressable>
+            ) : null,
+          )}
+        </View>
+      ) : (
+        <View style={styles.practiceEmpty}>
+          <AppText style={styles.practiceEmptyText}>
+            カードの「今日、試してみる」から、知恵を行動へ移せます。
+          </AppText>
+        </View>
+      )}
 
       <OrnamentHeading>最近の振り返り</OrnamentHeading>
       <Pressable
@@ -278,6 +347,64 @@ const styles = StyleSheet.create({
     borderColor: colors.line,
     borderRadius: radius.md,
     backgroundColor: colors.surface,
+  },
+  practiceList: { gap: spacing.sm },
+  practiceRow: {
+    minHeight: 82,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderColor: '#89745B',
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+  },
+  practiceStatus: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gold,
+  },
+  practiceStatusComplete: { backgroundColor: colors.moss },
+  practiceStatusText: {
+    color: colors.surface,
+    fontFamily: fonts.serif,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: '700',
+  },
+  practiceRowCopy: { flex: 1 },
+  practiceRowTitle: {
+    fontFamily: fonts.serif,
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: '600',
+  },
+  practiceRowMeta: {
+    marginTop: 3,
+    color: colors.muted,
+    fontSize: 11,
+    lineHeight: 17,
+  },
+  practiceEmpty: {
+    minHeight: 86,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: 'rgba(255,255,255,0.46)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  practiceEmptyText: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 22,
+    textAlign: 'center',
   },
   recentTitle: {
     flex: 1,
