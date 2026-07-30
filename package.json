@@ -44,6 +44,8 @@
     "export:pages": "expo export --platform web",
     "content:import": "node ./scripts/import-content.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",
+    "content:audit-techniques": "node ./scripts/audit-techniques.mjs",
+    "content:refine-techniques": "node ./scripts/refine-technique-explanations.mjs",
     "content:refine-theories": "node ./scripts/refine-theory-summaries.mjs",
     "content:urahidensho": "node ./scripts/build-urahidensho-content.mjs",
     "assets:generate": "node ./scripts/generate-assets.cjs",
