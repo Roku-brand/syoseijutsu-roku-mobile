@@ -23,6 +23,9 @@ const errors = [];
 const warnings = [];
 const ids = new Set();
 const titles = new Map();
+const summaries = new Map();
+const placeholderSummaryPattern =
+  /を支える概念。.*という作用や判断原理を説明する。/;
 
 for (const theory of theories) {
   if (ids.has(theory.tagId)) errors.push(`ID重複: ${theory.tagId}`);
@@ -35,6 +38,18 @@ for (const theory of theories) {
   const sameTitle = titles.get(normalizedTitle) ?? [];
   sameTitle.push(theory);
   titles.set(normalizedTitle, sameTitle);
+
+  const summary = theory.summary?.trim() ?? '';
+  if (!summary) {
+    errors.push(`説明欠落: ${theory.tagId} ${theory.title}`);
+  } else {
+    if (placeholderSummaryPattern.test(summary)) {
+      errors.push(`定型説明が残存: ${theory.tagId} ${theory.title}`);
+    }
+    const sameSummary = summaries.get(summary) ?? [];
+    sameSummary.push(theory);
+    summaries.set(summary, sameSummary);
+  }
 
   const expected = expectedCategories.get(theory.sourceType);
   if (!expected || expected !== theory.categoryId) {
@@ -56,6 +71,14 @@ for (const group of titles.values()) {
   }
 }
 
+for (const group of summaries.values()) {
+  if (group.length > 1) {
+    errors.push(
+      `説明重複: ${group.map((item) => `${item.tagId}:${item.title}`).join(' / ')}`,
+    );
+  }
+}
+
 const counts = theories.reduce((result, theory) => {
   result[theory.categoryId] = (result[theory.categoryId] ?? 0) + 1;
   return result;
@@ -67,5 +90,7 @@ if (errors.length) {
   console.error(errors.join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`構造監査完了: ${theories.length}件、ID・分類・完全重複に問題なし`);
+  console.log(
+    `構造監査完了: ${theories.length}件、ID・分類・説明・完全重複に問題なし`,
+  );
 }
