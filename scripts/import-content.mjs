@@ -171,7 +171,7 @@ function createTechniqueTags(card) {
   if (/不安|心配|恐怖|緊張/.test(text)) add('不安');
   if (/失敗|挫折|喪失|敗北/.test(text)) add('立ち直り');
 
-  return [...tags].slice(0, 5);
+  return [...tags].slice(0, 12);
 }
 
 const categories = categoryConfig.map((category) => ({
