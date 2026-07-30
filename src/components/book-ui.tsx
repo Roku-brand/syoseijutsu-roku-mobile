@@ -5,20 +5,20 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
-  useWindowDimensions,
   View,
   type ScrollViewProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { AppText } from './ui';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function BookScreen({
   children,
   contentContainerStyle,
   ...props
 }: ScrollViewProps) {
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const desktop = width >= 1000;
   return (
@@ -44,7 +44,7 @@ export function BookScreen({
 export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
@@ -269,7 +269,7 @@ export function BookTitle({
   title: string;
   subtitle?: string;
 }) {
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   return (
     <View style={styles.titleBlock}>

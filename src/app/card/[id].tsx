@@ -5,7 +5,6 @@ import {
   Share,
   StyleSheet,
   TextInput,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import {
@@ -32,6 +31,7 @@ import {
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from '@/components/app-toast';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -41,7 +41,7 @@ export default function CardDetailScreen() {
   const showToast = useAppToast();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const isCompact = width < 720;
   const card = techniqueById.get(id);
   const {

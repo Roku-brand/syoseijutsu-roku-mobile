@@ -1,10 +1,11 @@
 import * as Haptics from 'expo-haptics';
 import { usePathname, useRouter } from 'expo-router';
 import { useRef } from 'react';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { AppText } from './ui';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const items = [
   { key: 'main', label: '禄', mark: '禄', href: '/(tabs)' },
@@ -37,7 +38,7 @@ function activeKey(pathname: string) {
 }
 
 export function PersistentBottomNav() {
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
   const pathname = usePathname();
   const router = useRouter();

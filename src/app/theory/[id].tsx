@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router';
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import {
   AppText,
@@ -14,6 +14,7 @@ import {
   techniqueCards,
   theoryById,
 } from '@/data/catalog';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -22,7 +23,7 @@ export function generateStaticParams() {
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const theory = theoryById.get(id);
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const compact = width < 620;
 
   if (!theory) {

@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   Pressable,
   StyleSheet,
-  useWindowDimensions,
   View,
 } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
@@ -13,6 +12,7 @@ import {
   guidedTopicBySlug,
   guidedTopics,
 } from '@/data/guided-topics';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function generateStaticParams() {
   return guidedTopics.map((topic) => ({ slug: topic.slug }));
@@ -20,7 +20,7 @@ export function generateStaticParams() {
 
 export default function GuidedTopicScreen() {
   const router = useRouter();
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const topic = guidedTopicBySlug.get(slug);
   const compact = width < 640;

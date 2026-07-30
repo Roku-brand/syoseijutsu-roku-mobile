@@ -6,7 +6,6 @@ import {
   Pressable,
   StyleSheet,
   View,
-  useWindowDimensions,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
@@ -18,6 +17,7 @@ import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 type ReelItem = {
   card: TechniqueCard;
@@ -115,7 +115,7 @@ const categorySkips: {
 export default function MainScreen() {
   const isFocused = useTabVisible();
   const router = useRouter();
-  const { width, height } = useWindowDimensions();
+  const { width, height } = useHydratedWindowDimensions();
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
