@@ -7,14 +7,15 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { AppText } from './ui';
 
 const ToastContext = createContext<(message: string) => void>(() => undefined);
 
 export function AppToastProvider({ children }: { children: ReactNode }) {
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const [message, setMessage] = useState('');
   const [toastKey, setToastKey] = useState(0);
 

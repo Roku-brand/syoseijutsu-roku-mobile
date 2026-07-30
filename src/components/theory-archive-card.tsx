@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { AppText } from './ui';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function TheoryArchiveCard({
   theory,
@@ -11,7 +12,7 @@ export function TheoryArchiveCard({
   theory: TheoryCard;
 }) {
   const router = useRouter();
-  const { width } = useWindowDimensions();
+  const { width } = useHydratedWindowDimensions();
   const compact = width < 620;
 
   return (
