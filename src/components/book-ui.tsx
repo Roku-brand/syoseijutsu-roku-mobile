@@ -105,13 +105,14 @@ export function BookHeader() {
 }
 
 function getCurrentTitle(pathname: string) {
-  if (pathname.includes('/discover') || pathname.includes('/topic/')) return '探す';
   if (
+    pathname.includes('/discover') ||
+    pathname.includes('/topic/') ||
     pathname.includes('/catalog') ||
     pathname.includes('/category/') ||
     pathname.includes('/subcategory/') ||
     pathname.includes('/theory')
-  ) return '体系';
+  ) return '探す';
   if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイOS';
   if (pathname.includes('/settings')) return '設定';
   if (pathname.includes('/card/')) return '処世術';

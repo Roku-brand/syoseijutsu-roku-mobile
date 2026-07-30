@@ -4,36 +4,30 @@ import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
-import { AppText } from './ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { AppText } from './ui';
 
 const items = [
   { key: 'main', label: '禄', mark: '禄', href: '/(tabs)' },
   { key: 'discover', label: '探す', mark: '⌕', href: '/discover' },
-  { key: 'catalog', label: '体系', mark: '▱', href: '/catalog' },
   { key: 'my-os', label: 'マイOS', mark: '○', href: '/my-os' },
 ] as const;
 
 function activeKey(pathname: string) {
-  if (pathname.includes('/discover') || pathname.includes('/topic/')) {
-    return 'discover';
-  }
   if (
+    pathname.includes('/discover') ||
     pathname.includes('/catalog') ||
     pathname.includes('/category/') ||
     pathname.includes('/subcategory/') ||
+    pathname.includes('/topic/') ||
     pathname.includes('/theory/') ||
     pathname.includes('/theories/')
-  ) {
-    return 'catalog';
-  }
+  ) return 'discover';
   if (
     pathname.includes('/my-os') ||
     pathname.includes('/collection/') ||
     pathname.includes('/library')
-  ) {
-    return 'my-os';
-  }
+  ) return 'my-os';
   return 'main';
 }
 
@@ -53,11 +47,7 @@ export function PersistentBottomNav() {
     const isDoubleTap = isCurrent && now - (lastTap.current[item.key] ?? 0) < 320;
     lastTap.current[item.key] = now;
     void Haptics.selectionAsync().catch(() => undefined);
-
-    if (isDoubleTap) {
-      router.replace(item.href as never);
-      return;
-    }
+    if (isDoubleTap) return router.replace(item.href as never);
     if (!isCurrent) router.replace(item.href as never);
   };
 
@@ -82,14 +72,9 @@ export function PersistentBottomNav() {
                 pressed && styles.pressed,
               ]}
             >
-              {active && (
-                <View
-                  style={[
-                    styles.activeIndicator,
-                    desktop && styles.activeIndicatorDesktop,
-                  ]}
-                />
-              )}
+              {active ? (
+                <View style={[styles.activeIndicator, desktop && styles.activeIndicatorDesktop]} />
+              ) : null}
               <AppText style={[styles.mark, active && styles.markActive]}>{item.mark}</AppText>
               <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>
                 {item.label}
@@ -103,15 +88,10 @@ export function PersistentBottomNav() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: {
-    backgroundColor: colors.paper,
-    paddingHorizontal: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
+  safeArea: { backgroundColor: colors.paper },
   bar: {
     width: '100%',
-    maxWidth: 760,
+    maxWidth: 620,
     alignSelf: 'center',
     height: 70,
     flexDirection: 'row',
@@ -120,7 +100,7 @@ const styles = StyleSheet.create({
     borderColor: '#4B4840',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    shadowColor: '#000000',
+    shadowColor: '#000',
     shadowOpacity: 0.18,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 7 },
@@ -142,20 +122,10 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     shadowOpacity: 0,
     elevation: 0,
-    paddingVertical: 20,
+    paddingVertical: 24,
   },
-  item: {
-    flex: 1,
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 2,
-  },
-  itemDesktop: {
-    flex: 0,
-    width: 92,
-    minHeight: 84,
-  },
+  item: { flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center', gap: 2 },
+  itemDesktop: { flex: 0, width: 92, minHeight: 100 },
   activeIndicator: {
     position: 'absolute',
     bottom: 6,
@@ -173,13 +143,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   pressed: { opacity: 0.65 },
-  mark: {
-    color: '#D7D3CA',
-    fontFamily: fonts.serif,
-    fontSize: 21,
-    lineHeight: 25,
-    fontWeight: '700',
-  },
+  mark: { color: '#D7D3CA', fontFamily: fonts.serif, fontSize: 21, lineHeight: 25, fontWeight: '700' },
   markActive: { color: colors.goldLight, fontSize: 22 },
   label: { color: '#D7D3CA', fontSize: 11, lineHeight: 15, fontWeight: '600' },
   labelActive: { color: colors.goldLight },

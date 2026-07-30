@@ -11,8 +11,9 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
+import { TechniqueRow } from '@/components/technique-row';
 import { categoryPalette, colors, radius, spacing } from '@/constants/theme';
-import { categories, categoryMeta } from '@/data/catalog';
+import { categories, categoryMeta, techniqueCards } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -23,14 +24,28 @@ const themeMarks: Record<CategoryKey, string[]> = {
 };
 
 export function generateStaticParams() {
-  return categories.map(({ key }) => ({ key }));
+  return [{ key: 'all' }, ...categories.map(({ key }) => ({ key }))];
 }
 
 export default function CategoryDetailScreen() {
-  const { key } = useLocalSearchParams<{ key: CategoryKey }>();
+  const { key } = useLocalSearchParams<{ key: CategoryKey | 'all' }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const category = categories.find((item) => item.key === key);
+
+  if (key === 'all') {
+    return (
+      <Screen>
+        <DetailHeader title="探す" />
+        <View style={styles.intro}>
+          <AppText variant="title" style={styles.pageTitle}>すべての処世術</AppText>
+          <AppText style={styles.description}>全{techniqueCards.length}の判断原則を一覧する</AppText>
+        </View>
+        <SectionHeader title={`${techniqueCards.length}の処世術`} />
+        {techniqueCards.map((card) => <TechniqueRow key={card.id} card={card} />)}
+      </Screen>
+    );
+  }
 
   if (!category || !categoryMeta[key]) {
     return (

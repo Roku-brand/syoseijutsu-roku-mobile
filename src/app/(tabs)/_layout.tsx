@@ -37,7 +37,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen name="index" options={{ title: 'メイン' }} />
       <Tabs.Screen name="discover" options={{ title: '探す' }} />
-      <Tabs.Screen name="catalog" options={{ title: '体系' }} />
+      <Tabs.Screen name="catalog" options={{ title: '体系', href: null }} />
       <Tabs.Screen name="my-os" options={{ title: 'マイOS' }} />
     </Tabs>
   );

@@ -54,6 +54,48 @@ const editorialTagSet = new Set([
   "運がいい人",
 ]);
 
+// Every technique must have a clear persona-based destination inside its theme.
+// Keep this tag first so the 12-tag cap never drops the primary classification.
+const forcedPersonaById = {
+  secret_013: "印象がいい人",
+  secret_016: "会話がうまい人",
+  secret_023: "会話がうまい人",
+  secret_025: "会話がうまい人",
+  secret_027: "印象がいい人",
+  secret_029: "信用を積む人",
+  secret_030: "信用を積む人",
+  secret_044: "関係を維持できる人",
+  secret_048: "消耗しない人",
+  secret_051: "消耗しない人",
+  secret_054: "人を見極める人",
+  secret_060: "集団でうまく立ち回る人",
+  secret_064: "集団でうまく立ち回る人",
+  secret_066: "集団でうまく立ち回る人",
+  secret_071: "集団でうまく立ち回る人",
+  secret_077: "舐められない人",
+  secret_081: "集団でうまく立ち回る人",
+  secret_082: "集団でうまく立ち回る人",
+  secret_085: "集団でうまく立ち回る人",
+  secret_091: "集団を動かす人",
+  secret_092: "集団を動かす人",
+  secret_118: "交渉がうまい人",
+  secret_120: "交渉がうまい人",
+  secret_125: "合意形成がうまい人",
+  secret_128: "交渉がうまい人",
+  secret_131: "合意形成がうまい人",
+  secret_132: "交渉がうまい人",
+  secret_143: "合意形成がうまい人",
+  secret_153: "続けられる人",
+  secret_157: "始められる人",
+  secret_163: "成果を出す人",
+  secret_167: "人生を充実させる人",
+  secret_168: "人生を充実させる人",
+  secret_181: "人生設計がうまい人",
+  secret_205: "挫折した人",
+  secret_208: "挫折した人",
+  secret_211: "運がいい人",
+};
+
 const keywordRules = [
   [/初対面|第一印象|印象|表情|視線|声を整える/, ["第一印象", "印象改善"]],
   [/安心感|警戒|安全/, ["安心感", "緊張をほぐす"]],
@@ -121,6 +163,7 @@ for (const card of source.cards) {
   );
   const editorialTags = (card.tags ?? []).filter((tag) => editorialTagSet.has(tag));
   card.tags = unique([
+    forcedPersonaById[card.id],
     ...editorialTags,
     ...(subcategoryTags[card.subcategory] ?? []),
     ...specificTags,

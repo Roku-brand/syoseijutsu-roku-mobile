@@ -7,7 +7,7 @@ import {
 import { BookScreen } from '@/components/book-ui';
 import { AppText, DetailHeader, EmptyState } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
-import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';
+import { techniqueCards } from '@/data/catalog';
 import {
   guidedTopicBySlug,
   guidedTopics,
@@ -21,14 +21,18 @@ export function generateStaticParams() {
 export default function GuidedTopicScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
-  const { slug } = useLocalSearchParams<{ slug: string }>();
+  const { slug, category, subcategory } = useLocalSearchParams<{
+    slug: string;
+    category?: string;
+    subcategory?: string;
+  }>();
   const topic = guidedTopicBySlug.get(slug);
   const compact = width < 640;
 
   if (!topic) {
     return (
       <BookScreen>
-        <DetailHeader title="悩みから探す" />
+        <DetailHeader title="探す" />
         <EmptyState
           title="分類が見つかりません"
           description="前の画面へ戻って、別の分類を選んでください。"
@@ -37,13 +41,18 @@ export default function GuidedTopicScreen() {
     );
   }
 
-  const items = techniqueCards.filter((card) => card.tags?.includes(topic.tag));
+  const items = techniqueCards.filter(
+    (card) =>
+      card.tags?.includes(topic.tag) &&
+      (!category || card.categoryKey === category) &&
+      (!subcategory || card.subcategory === subcategory),
+  );
   const chapterIndex =
     guidedTopics.filter((item) => item.group === topic.group).indexOf(topic) + 1;
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <DetailHeader title="悩みから探す" />
+      <DetailHeader title="探す" />
 
       <View style={styles.chapterShell}>
         <View style={styles.chapterPanel}>
@@ -109,7 +118,7 @@ export default function GuidedTopicScreen() {
                   ]}
                 >
                   <AppText variant="label" style={styles.number}>
-                    {getTechniqueDisplayId(card)}
+                    {index + 1}
                   </AppText>
                   <AppText
                     variant="serif"

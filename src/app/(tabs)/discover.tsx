@@ -1,22 +1,42 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
-import { BookScreen, BookTitle, OrnamentHeading } from '@/components/book-ui';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { BookScreen, BookTitle, IndexCard, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { techniqueCards, theories, theoryById } from '@/data/catalog';
-import { guidedTopicGroups } from '@/data/guided-topics';
+import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
+import {
+  categories,
+  categoryMeta,
+  categoryOrder,
+  techniqueCards,
+  theories,
+  theoryById,
+} from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 
 type SearchKind = 'all' | 'technique' | 'theory';
+type BrowseMode = 'techniques' | 'theories';
+
+const theoryCategories = [
+  { id: 'psychology', title: '心理学', mark: '心' },
+  { id: 'behavioral-science', title: '行動科学', mark: '動' },
+  { id: 'organization-management', title: '組織・経営論', mark: '組' },
+  { id: 'strategy', title: '戦略論', mark: '戦' },
+  { id: 'classics-thought', title: '古典・思想', mark: '古' },
+  { id: 'maxims-experience', title: '格言・経験則', mark: '格' },
+];
+
+const shortDescriptions = {
+  interpersonal: '関係を築き、守り、集団の中で立ち回る',
+  work: '成果と合意をつくり、評価へつなげる',
+  life: '判断軸を持ち、不安とつまずきを越える',
+} as const;
 
 function searchableText(card: (typeof techniqueCards)[number]) {
-  const linkedTheories = (card.theoryTagIds ?? [])
-    .map((id) => theoryById.get(id))
-    .filter(Boolean);
+  const linkedTheories = (card.theoryTagIds ?? []).map((id) => theoryById.get(id)).filter(Boolean);
   return [
     card.title,
     card.subtitle,
@@ -26,15 +46,8 @@ function searchableText(card: (typeof techniqueCards)[number]) {
     card.articleTitle,
     ...(card.tags ?? []),
     ...(card.theories ?? []),
-    ...linkedTheories.flatMap((theory) => [
-      theory?.title,
-      theory?.summary,
-      theory?.discipline,
-    ]),
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .toLocaleLowerCase();
+    ...linkedTheories.flatMap((theory) => [theory?.title, theory?.summary, theory?.discipline]),
+  ].filter(Boolean).join(' ').toLocaleLowerCase();
 }
 
 function searchableTheoryText(theory: TheoryCard) {
@@ -52,10 +65,7 @@ function searchableTheoryText(theory: TheoryCard) {
     ...(theory.principles ?? []),
     ...(theory.keyPoints ?? []),
     ...(theory.strategies ?? []),
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .toLocaleLowerCase();
+  ].filter(Boolean).join(' ').toLocaleLowerCase();
 }
 
 export default function DiscoverScreen() {
@@ -63,90 +73,61 @@ export default function DiscoverScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [searchKind, setSearchKind] = useState<SearchKind>('all');
-
+  const [browseMode, setBrowseMode] = useState<BrowseMode>('techniques');
   const searchTerms = useMemo(
-    () =>
-      query
-        .trim()
-        .toLocaleLowerCase()
-        .split(/\s+/)
-        .filter(Boolean),
+    () => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean),
     [query],
   );
-
   const techniqueMatches = useMemo(() => {
     if (!searchTerms.length) return [];
-    return techniqueCards
-      .filter((card) => {
-        const text = searchableText(card);
-        return searchTerms.every((term) => text.includes(term));
-      });
+    return techniqueCards.filter((card) =>
+      searchTerms.every((term) => searchableText(card).includes(term)),
+    );
   }, [searchTerms]);
-
   const theoryMatches = useMemo(() => {
     if (!searchTerms.length) return [];
-    return theories
-      .filter((theory) => {
-        const text = searchableTheoryText(theory);
-        return searchTerms.every((term) => text.includes(term));
-      });
+    return theories.filter((theory) =>
+      searchTerms.every((term) => searchableTheoryText(theory).includes(term)),
+    );
   }, [searchTerms]);
 
+  if (!isFocused) return null;
   const searching = searchTerms.length > 0;
   const resultCount = techniqueMatches.length + theoryMatches.length;
-  const showTechniques = searchKind !== 'theory';
-  const showTheories = searchKind !== 'technique';
-  const techniqueResults = showTechniques ? techniqueMatches.slice(0, 50) : [];
-  const theoryResults = showTheories ? theoryMatches.slice(0, 50) : [];
+  const techniqueResults = searchKind !== 'theory' ? techniqueMatches.slice(0, 50) : [];
+  const theoryResults = searchKind !== 'technique' ? theoryMatches.slice(0, 50) : [];
   const visibleResultCount =
-    (showTechniques ? techniqueMatches.length : 0) +
-    (showTheories ? theoryMatches.length : 0);
-
-  if (!isFocused) return null;
+    (searchKind !== 'theory' ? techniqueMatches.length : 0) +
+    (searchKind !== 'technique' ? theoryMatches.length : 0);
 
   return (
     <BookScreen>
-      <BookTitle title="探す" />
-
+      <BookTitle title="探す" subtitle="検索と体系を、一つの入口に。" />
       <View style={styles.searchBox}>
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
           value={query}
           onChangeText={setQuery}
-          placeholder="悩み・理論・言葉を探す"
-          placeholderTextColor="#99958C"
-          accessibilityLabel="悩み・理論・言葉を検索"
+          placeholder="悩み・人物像・理論・言葉を探す"
+          placeholderTextColor="#817B70"
+          accessibilityLabel="悩み・人物像・理論・言葉を検索"
           returnKeyType="search"
           style={styles.searchInput}
         />
         {searching ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="検索を消す"
-            onPress={() => setQuery('')}
-            hitSlop={10}
-          >
+          <Pressable accessibilityRole="button" accessibilityLabel="検索を消す" onPress={() => setQuery('')} hitSlop={10}>
             <AppText style={styles.clear}>消す</AppText>
           </Pressable>
         ) : null}
       </View>
-      <AppText style={styles.lead}>
-        いま必要な知恵へ、最短でたどり着く。
-      </AppText>
 
       {searching ? (
         <View style={styles.results}>
           <OrnamentHeading>検索結果　{resultCount}</OrnamentHeading>
-          <View
-            accessibilityRole="tablist"
-            style={styles.resultFilters}
-          >
+          <View accessibilityRole="tablist" style={styles.resultFilters}>
             {[
               { key: 'all', label: `すべて ${resultCount}` },
-              {
-                key: 'technique',
-                label: `処世術 ${techniqueMatches.length}`,
-              },
+              { key: 'technique', label: `処世術 ${techniqueMatches.length}` },
               { key: 'theory', label: `理論 ${theoryMatches.length}` },
             ].map((item) => {
               const active = searchKind === item.key;
@@ -156,19 +137,9 @@ export default function DiscoverScreen() {
                   accessibilityRole="tab"
                   accessibilityState={{ selected: active }}
                   onPress={() => setSearchKind(item.key as SearchKind)}
-                  style={[
-                    styles.resultFilter,
-                    active && styles.resultFilterActive,
-                  ]}
+                  style={[styles.filter, active && styles.filterActive]}
                 >
-                  <AppText
-                    style={[
-                      styles.resultFilterText,
-                      active && styles.resultFilterTextActive,
-                    ]}
-                  >
-                    {item.label}
-                  </AppText>
+                  <AppText style={[styles.filterText, active && styles.filterTextActive]}>{item.label}</AppText>
                 </Pressable>
               );
             })}
@@ -177,111 +148,107 @@ export default function DiscoverScreen() {
             <>
               {techniqueResults.length ? (
                 <View style={styles.resultSection}>
-                  <AppText style={styles.resultKind}>
-                    処世術　{techniqueResults.length}
-                  </AppText>
-                  {techniqueResults.map((card) => (
-                    <TechniqueRow key={card.id} card={card} />
-                  ))}
-                  {techniqueMatches.length > techniqueResults.length ? (
-                    <AppText style={styles.resultLimit}>
-                      上位50件を表示しています。言葉を追加すると絞り込めます。
-                    </AppText>
-                  ) : null}
+                  <AppText style={styles.resultKind}>処世術　{techniqueMatches.length}</AppText>
+                  {techniqueResults.map((card) => <TechniqueRow key={card.id} card={card} />)}
                 </View>
               ) : null}
-
               {theoryResults.length ? (
                 <View style={styles.resultSection}>
-                  <AppText style={styles.resultKind}>
-                    理論カード　{theoryResults.length}
-                  </AppText>
-                  {theoryResults.map((theory) => (
-                    <TheoryArchiveCard key={theory.tagId} theory={theory} />
-                  ))}
-                  {theoryMatches.length > theoryResults.length ? (
-                    <AppText style={styles.resultLimit}>
-                      上位50件を表示しています。言葉を追加すると絞り込めます。
-                    </AppText>
-                  ) : null}
+                  <AppText style={styles.resultKind}>理論　{theoryMatches.length}</AppText>
+                  {theoryResults.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}
                 </View>
               ) : null}
             </>
           ) : (
             <View style={styles.empty}>
-              <AppText style={styles.emptyTitle}>
-                該当する知恵がありません
-              </AppText>
-              <AppText style={styles.emptyBody}>
-                言葉を短くするか、別の表現で探してみてください。
-              </AppText>
+              <AppText style={styles.emptyTitle}>該当する知恵がありません</AppText>
+              <AppText style={styles.emptyBody}>言葉を短くするか、別の表現で探してみてください。</AppText>
             </View>
           )}
         </View>
       ) : (
         <>
-          <OrnamentHeading>悩みから探す</OrnamentHeading>
-          {guidedTopicGroups.map((group) => (
-            <View key={group.title} style={styles.topicGroup}>
-              <AppText style={styles.topicGroupTitle}>{group.title}</AppText>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                snapToInterval={228}
-                decelerationRate="fast"
-                contentContainerStyle={styles.topicGrid}
-              >
-                {group.topics.map((topic) => (
+          <View accessibilityRole="tablist" style={styles.modeTabs}>
+            {[
+              { key: 'techniques', label: '処世術' },
+              { key: 'theories', label: '理論辞典' },
+            ].map((item) => {
+              const active = browseMode === item.key;
+              return (
+                <Pressable
+                  key={item.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: active }}
+                  onPress={() => setBrowseMode(item.key as BrowseMode)}
+                  style={[styles.modeTab, active && styles.modeTabActive]}
+                >
+                  <AppText style={[styles.modeTabText, active && styles.modeTabTextActive]}>{item.label}</AppText>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          {browseMode === 'techniques' ? (
+            <View>
+              <OrnamentHeading>処世術から探す</OrnamentHeading>
+              <View accessibilityRole="tablist" style={styles.allTabs}>
+                <Pressable
+                  accessibilityRole="tab"
+                  accessibilityLabel="すべての処世術を見る"
+                  onPress={() => router.push({ pathname: '/category/[key]', params: { key: 'all' } })}
+                  style={({ pressed }) => [styles.allTab, pressed && styles.pressed]}
+                >
+                  <AppText style={styles.allTabText}>すべて</AppText>
+                  <AppText style={styles.allTabCount}>{techniqueCards.length}</AppText>
+                </Pressable>
+              </View>
+              {categoryOrder.map((key) => {
+                const category = categories.find((item) => item.key === key);
+                if (!category) return null;
+                const count = category.subcategories.reduce((sum, item) => sum + item.items.length, 0);
+                return (
+                  <IndexCard
+                    key={key}
+                    mark={categoryMeta[key].mark}
+                    title={categoryMeta[key].label}
+                    subtitle={shortDescriptions[key]}
+                    count={count}
+                    tint={categoryPalette[key].tint}
+                    onPress={() => router.push({ pathname: '/category/[key]', params: { key } })}
+                  />
+                );
+              })}
+            </View>
+          ) : (
+            <View>
+              <OrnamentHeading>理論から探す</OrnamentHeading>
+              <View accessibilityRole="tablist" style={styles.allTabs}>
+                <Pressable
+                  accessibilityRole="tab"
+                  accessibilityLabel="すべての理論を見る"
+                  onPress={() => router.push({ pathname: '/theories/[category]', params: { category: 'all' } })}
+                  style={({ pressed }) => [styles.allTab, pressed && styles.pressed]}
+                >
+                  <AppText style={styles.allTabText}>すべて</AppText>
+                  <AppText style={styles.allTabCount}>{theories.length}</AppText>
+                </Pressable>
+              </View>
+              <View style={styles.theoryGrid}>
+                {theoryCategories.map((category) => (
                   <Pressable
-                    key={topic.slug}
+                    key={category.id}
                     accessibilityRole="button"
-                    accessibilityLabel={`${topic.label}の処世術一覧を開く`}
-                    onPress={() =>
-                      router.push({
-                        pathname: '/topic/[slug]',
-                        params: { slug: topic.slug },
-                      })
-                    }
-                    style={({ pressed }) => [
-                      styles.topicCard,
-                      pressed && styles.pressed,
-                    ]}
+                    accessibilityLabel={`${category.title}を開く`}
+                    onPress={() => router.push({ pathname: '/theories/[category]', params: { category: category.id } })}
+                    style={({ pressed }) => [styles.theoryCard, pressed && styles.pressed]}
                   >
-                    <View style={styles.topicMark}>
-                      <AppText style={styles.topicMarkText}>{topic.mark}</AppText>
-                    </View>
-                    <AppText style={styles.topicLabel}>{topic.label}</AppText>
-                    <AppText style={styles.topicArrow}>›</AppText>
+                    <View style={styles.theoryMark}><AppText style={styles.theoryMarkText}>{category.mark}</AppText></View>
+                    <AppText style={styles.theoryTitle}>{category.title}</AppText>
                   </Pressable>
                 ))}
-              </ScrollView>
+              </View>
             </View>
-          ))}
-
-          <OrnamentHeading>知識から探す</OrnamentHeading>
-          <View style={styles.knowledgeRow}>
-            {[
-              { label: '処世術', mark: '術', route: '/catalog' },
-              { label: '理論辞典', mark: '理', route: '/catalog' },
-              {
-                label: '格言・古典',
-                mark: '古',
-                route: '/theories/classics-thought',
-              },
-            ].map((item) => (
-              <Pressable
-                key={item.label}
-                onPress={() => router.push(item.route as never)}
-                style={({ pressed }) => [
-                  styles.knowledgeCard,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <AppText style={styles.knowledgeMark}>{item.mark}</AppText>
-                <AppText style={styles.knowledgeLabel}>{item.label}</AppText>
-              </Pressable>
-            ))}
-          </View>
+          )}
         </>
       )}
     </BookScreen>
@@ -300,127 +267,34 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: colors.surface,
     shadowColor: '#4C4232',
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.08,
     shadowRadius: 12,
-    shadowOffset: { width: 0, height: 5 },
     elevation: 2,
-  },
-  searchIcon: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 31,
-    lineHeight: 36,
-  },
-  searchInput: {
-    flex: 1,
-    minHeight: 58,
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    letterSpacing: 1,
-  },
-  clear: { color: colors.gold, fontWeight: '700', fontSize: 12 },
-  lead: {
-    marginTop: spacing.lg,
-    textAlign: 'center',
-    fontFamily: fonts.serif,
-    fontSize: 14,
-    lineHeight: 23,
-    letterSpacing: 1.2,
-    color: colors.inkSoft,
-  },
-  topicGroup: { marginBottom: spacing.xl },
-  topicGroupTitle: {
-    marginBottom: spacing.md,
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '700',
-    letterSpacing: 1.4,
-  },
-  topicGrid: {
-    gap: spacing.md,
-    paddingRight: spacing.lg,
-    paddingBottom: spacing.sm,
-  },
-  topicCard: {
-    width: 212,
-    minHeight: 88,
-    position: 'relative',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md,
-  },
-  topicMark: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 1,
-    borderColor: colors.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  topicMarkText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 15,
-    lineHeight: 21,
-    fontWeight: '700',
-  },
-  topicLabel: {
-    flex: 1,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
-  },
-  topicArrow: {
-    color: colors.gold,
-    fontSize: 24,
-    lineHeight: 27,
-  },
-  knowledgeRow: { flexDirection: 'row', gap: spacing.md },
-  knowledgeCard: {
-    flex: 1,
-    minHeight: 74,
-    paddingHorizontal: spacing.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.55)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
-  },
-  knowledgeMark: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 17,
-    fontWeight: '700',
-  },
-  knowledgeLabel: {
-    fontFamily: fonts.serif,
-    fontSize: 15,
-    lineHeight: 22,
-    fontWeight: '600',
-  },
-  results: { marginTop: spacing.lg },
-  resultSection: { marginBottom: spacing.lg },
-  resultFilters: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
     marginBottom: spacing.xl,
   },
-  resultFilter: {
+  searchIcon: { color: colors.gold, fontFamily: fonts.serif, fontSize: 31, lineHeight: 36 },
+  searchInput: { flex: 1, minHeight: 58, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, letterSpacing: 0.8 },
+  clear: { color: colors.gold, fontWeight: '700', fontSize: 12 },
+  modeTabs: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: 520,
+    minHeight: 52,
+    padding: 4,
+    marginBottom: spacing.xl,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.pill,
+    backgroundColor: colors.paperDeep,
+  },
+  modeTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
+  modeTabActive: { backgroundColor: colors.charcoal },
+  modeTabText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  modeTabTextActive: { color: colors.goldLight },
+  results: { marginTop: 0 },
+  resultFilters: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.xl },
+  filter: {
     minHeight: 42,
     paddingHorizontal: spacing.md,
     borderWidth: 1,
@@ -430,51 +304,57 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  resultFilterActive: {
-    borderColor: colors.charcoal,
-    backgroundColor: colors.charcoal,
-  },
-  resultFilterText: {
-    color: colors.inkSoft,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: '700',
-  },
-  resultFilterTextActive: { color: colors.goldLight },
-  resultKind: {
+  filterActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal },
+  filterText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  filterTextActive: { color: colors.goldLight },
+  resultSection: { marginBottom: spacing.lg },
+  resultKind: { marginBottom: spacing.md, color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
+  empty: { borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, padding: spacing.xl, alignItems: 'center' },
+  emptyTitle: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '600' },
+  emptyBody: { marginTop: spacing.sm, color: colors.muted, textAlign: 'center' },
+  allTabs: {
+    flexDirection: 'row',
     marginBottom: spacing.md,
-    color: colors.gold,
+  },
+  allTab: {
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surface,
+  },
+  allTabText: {
+    color: colors.ink,
     fontFamily: fonts.serif,
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-  },
-  resultLimit: {
-    marginTop: spacing.sm,
-    color: colors.muted,
-    fontSize: 13,
+    fontSize: 15,
     lineHeight: 22,
-    textAlign: 'center',
+    fontWeight: '700',
   },
-  empty: {
+  allTabCount: {
+    color: colors.gold,
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: '700',
+  },
+  theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: spacing.md },
+  theoryCard: {
+    width: '31.5%',
+    minHeight: 130,
+    padding: spacing.md,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
-    backgroundColor: colors.surface,
-    padding: spacing.xl,
+    backgroundColor: 'rgba(255,255,255,0.6)',
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 12,
   },
-  emptyTitle: {
-    fontFamily: fonts.serif,
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-  },
-  emptyBody: {
-    marginTop: spacing.sm,
-    color: colors.muted,
-    textAlign: 'center',
-  },
-  pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
+  theoryMark: { width: 47, height: 47, borderRadius: 24, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  theoryMarkText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '700' },
+  theoryTitle: { minHeight: 42, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
+  pressed: { opacity: 0.82, transform: [{ scale: 0.98 }] },
 });
