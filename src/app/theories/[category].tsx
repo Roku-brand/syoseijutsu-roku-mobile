@@ -22,18 +22,24 @@ const categoryDescriptions: Record<string, string> = {
 };
 
 export function generateStaticParams() {
-  return [...new Set(theories.map((theory) => theory.categoryId))].map(
-    (category) => ({ category }),
-  );
+  return [
+    { category: 'all' },
+    ...[...new Set(theories.map((theory) => theory.categoryId))].map(
+      (category) => ({ category }),
+    ),
+  ];
 }
 
 export default function TheoryCategoryScreen() {
   const { category } = useLocalSearchParams<{ category: string }>();
-  const items = theories.filter((theory) => theory.categoryId === category);
+  const items =
+    category === 'all'
+      ? theories
+      : theories.filter((theory) => theory.categoryId === category);
   const scrollRef = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'source' | 'title'>('source');
-  const title = items[0]?.categoryTitle;
+  const title = category === 'all' ? 'すべての理論' : items[0]?.categoryTitle;
   const filteredItems = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
     const matched = term
