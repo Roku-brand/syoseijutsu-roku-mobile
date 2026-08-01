@@ -24,9 +24,13 @@ export default function MyOsScreen() {
     practiceRecords,
     personalPrinciple,
     updatePersonalPrinciple,
+    personalMemos,
+    addPersonalMemo,
+    removePersonalMemo,
   } = useAppState();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(personalPrinciple);
+  const [memoDraft, setMemoDraft] = useState('');
   const recentCard =
     techniqueById.get(historyIds[0] ?? '') ??
     techniqueById.get(savedIds[0] ?? '') ??
@@ -103,6 +107,63 @@ export default function MyOsScreen() {
           <View style={styles.shortRule} />
           <AppText style={styles.actionSubtitle}>自分の言葉にする</AppText>
         </Pressable>
+      </View>
+
+      <View style={styles.memoCard}>
+        <View style={styles.memoHeading}>
+          <View>
+            <AppText style={styles.memoTitle}>自分の処世術メモ</AppText>
+            <AppText style={styles.memoLead}>今の判断原則とは別に、気づきを箇条書きで残せます。</AppText>
+          </View>
+          <AppText style={styles.memoCount}>{personalMemos.length}</AppText>
+        </View>
+        {personalMemos.length > 0 ? (
+          <View style={styles.memoList}>
+            {personalMemos.map((memo, index) => (
+              <View key={`${memo}-${index}`} style={styles.memoRow}>
+                <View style={styles.memoBullet} />
+                <AppText style={styles.memoText}>{memo}</AppText>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="メモを削除"
+                  onPress={() => removePersonalMemo(index)}
+                  hitSlop={10}
+                  style={styles.memoDelete}
+                >
+                  <AppText style={styles.memoDeleteText}>×</AppText>
+                </Pressable>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <AppText style={styles.memoEmpty}>まだメモはありません。</AppText>
+        )}
+        <View style={styles.memoComposer}>
+          <TextInput
+            value={memoDraft}
+            onChangeText={setMemoDraft}
+            maxLength={140}
+            placeholder="例：迷ったら、その場で返事をしない"
+            placeholderTextColor={colors.muted}
+            accessibilityLabel="自分の処世術メモ"
+            style={styles.memoInput}
+            onSubmitEditing={() => {
+              addPersonalMemo(memoDraft);
+              setMemoDraft('');
+            }}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="メモを追加"
+            onPress={() => {
+              addPersonalMemo(memoDraft);
+              setMemoDraft('');
+            }}
+            style={({ pressed }) => [styles.memoAdd, pressed && styles.pressed]}
+          >
+            <AppText style={styles.memoAddText}>追加</AppText>
+          </Pressable>
+        </View>
       </View>
 
       <OrnamentHeading>実践の記録</OrnamentHeading>
@@ -286,6 +347,30 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     marginTop: spacing.xl,
   },
+  memoCard: {
+    marginTop: spacing.xl,
+    padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    ...bookCardShadow,
+  },
+  memoHeading: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.md },
+  memoTitle: { fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '600', letterSpacing: 1.2 },
+  memoLead: { marginTop: 4, color: colors.muted, fontSize: 12, lineHeight: 19 },
+  memoCount: { color: colors.gold, fontFamily: fonts.serif, fontSize: 24, lineHeight: 28 },
+  memoList: { marginTop: spacing.lg, gap: 2 },
+  memoRow: { minHeight: 46, flexDirection: 'row', alignItems: 'center', gap: 10, borderBottomWidth: 1, borderColor: '#E5DDCF' },
+  memoBullet: { width: 6, height: 6, borderRadius: 3, backgroundColor: colors.gold },
+  memoText: { flex: 1, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23 },
+  memoDelete: { width: 32, height: 32, alignItems: 'center', justifyContent: 'center' },
+  memoDeleteText: { color: colors.muted, fontSize: 22, lineHeight: 26 },
+  memoEmpty: { marginTop: spacing.lg, color: colors.muted, fontSize: 13, lineHeight: 21 },
+  memoComposer: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg },
+  memoInput: { flex: 1, minHeight: 46, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.white, color: colors.ink, fontSize: 14 },
+  memoAdd: { minWidth: 66, minHeight: 46, paddingHorizontal: spacing.md, borderRadius: radius.sm, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
+  memoAddText: { color: colors.goldLight, fontWeight: '700', fontSize: 13 },
   osActionCard: {
     flex: 1,
     minHeight: 220,

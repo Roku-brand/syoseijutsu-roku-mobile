@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import {
@@ -12,9 +12,11 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getTheoryDisplayId,
   techniqueCards,
+  theories,
   theoryById,
 } from '@/data/catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { DetailSwipe } from '@/components/detail-swipe';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -22,6 +24,7 @@ export function generateStaticParams() {
 
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const router = useRouter();
   const theory = theoryById.get(id);
   const { width } = useHydratedWindowDimensions();
   const compact = width < 620;
@@ -45,11 +48,16 @@ export default function TheoryDetailScreen() {
     theory.summary ??
     theory.definition ??
     `${theory.discipline}に属する${theory.conceptType}です。`;
+  const navigateTheory = (offset: -1 | 1) => {
+    const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
+    const next = theories[(currentIndex + offset + theories.length) % theories.length];
+    router.replace({ pathname: '/theory/[id]', params: { id: next.tagId } });
+  };
 
   return (
     <Screen contentContainerStyle={styles.screenContent}>
       <DetailHeader title="理論辞典" />
-      <View style={styles.readingColumn}>
+      <DetailSwipe style={styles.readingColumn} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
         <View style={[styles.archiveHero, compact && styles.archiveHeroCompact]}>
           <View style={[styles.archiveSpine, compact && styles.archiveSpineCompact]}>
             <AppText style={styles.archiveBook}>冊</AppText>
@@ -129,7 +137,7 @@ export default function TheoryDetailScreen() {
             </View>
           </>
         ) : null}
-      </View>
+      </DetailSwipe>
     </Screen>
   );
 }

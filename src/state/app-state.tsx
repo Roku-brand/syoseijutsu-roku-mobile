@@ -37,6 +37,7 @@ type PersistedState = {
   collections: Collection[];
   practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
+  personalMemos: string[];
 };
 
 const initialState: PersistedState = {
@@ -48,6 +49,7 @@ const initialState: PersistedState = {
   collections: [],
   practiceRecords: {},
   personalPrinciple: '目的を守り、手段には執着しない。',
+  personalMemos: [],
 };
 
 type AppStateContextValue = PersistedState & {
@@ -63,6 +65,8 @@ type AppStateContextValue = PersistedState & {
   completePractice: (cardId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
   updatePersonalPrinciple: (principle: string) => void;
+  addPersonalMemo: (memo: string) => void;
+  removePersonalMemo: (index: number) => void;
   clearPersonalData: () => Promise<void>;
 };
 
@@ -229,6 +233,23 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
+  const addPersonalMemo = useCallback((memo: string) => {
+    const value = memo.trim();
+    if (!value) return;
+    haptic(Haptics.ImpactFeedbackStyle.Light);
+    setState((current) => ({
+      ...current,
+      personalMemos: [value, ...current.personalMemos].slice(0, 100),
+    }));
+  }, []);
+
+  const removePersonalMemo = useCallback((index: number) => {
+    setState((current) => ({
+      ...current,
+      personalMemos: current.personalMemos.filter((_, itemIndex) => itemIndex !== index),
+    }));
+  }, []);
+
   const clearPersonalData = useCallback(async () => {
     setState({ ...initialState, onboardingCompleted: true });
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -249,6 +270,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       completePractice,
       toggleInterest,
       updatePersonalPrinciple,
+      addPersonalMemo,
+      removePersonalMemo,
       clearPersonalData,
     }),
     [
@@ -265,6 +288,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       completePractice,
       toggleInterest,
       updatePersonalPrinciple,
+      addPersonalMemo,
+      removePersonalMemo,
       clearPersonalData,
     ],
   );
