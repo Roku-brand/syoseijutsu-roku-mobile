@@ -8,7 +8,7 @@ import {
   Screen,
   SectionHeader,
 } from '@/components/ui';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, radius, spacing } from '@/constants/theme';
 import {
   getTheoryDisplayId,
   techniqueCards,
@@ -59,10 +59,6 @@ export default function TheoryDetailScreen() {
       <DetailHeader title="理論辞典" />
       <DetailSwipe style={styles.readingColumn} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
         <View style={[styles.archiveHero, compact && styles.archiveHeroCompact]}>
-          <View style={[styles.archiveSpine, compact && styles.archiveSpineCompact]}>
-            <AppText style={styles.archiveBook}>冊</AppText>
-            <AppText style={styles.archiveLabel}>理{'\n'}論</AppText>
-          </View>
           <View style={[styles.archiveCopy, compact && styles.archiveCopyCompact]}>
             <View style={styles.archiveMeta}>
               <AppText variant="label" style={styles.tagId}>
@@ -74,9 +70,14 @@ export default function TheoryDetailScreen() {
                 </AppText>
               </View>
             </View>
-            <AppText variant="title" style={styles.title}>
-              {theory.title}
-            </AppText>
+            <View style={styles.titleRow}>
+              <AppText variant="title" style={styles.title}>
+                {theory.title}
+              </AppText>
+              <View style={styles.theoryPill}>
+                <AppText variant="caption" style={styles.theoryPillText}>理論</AppText>
+              </View>
+            </View>
             <View style={styles.archiveRule} />
             <AppText style={styles.summary}>{explanation}</AppText>
           </View>
@@ -215,31 +216,6 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   archiveHeroCompact: { minHeight: 236 },
-  archiveSpine: {
-    width: 94,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 13,
-    backgroundColor: '#263544',
-    borderRightWidth: 1,
-    borderRightColor: colors.gold,
-  },
-  archiveSpineCompact: { width: 62, gap: 8 },
-  archiveBook: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 27,
-    lineHeight: 34,
-  },
-  archiveLabel: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 23,
-    fontWeight: '700',
-    textAlign: 'center',
-    letterSpacing: 2,
-  },
   archiveCopy: {
     flex: 1,
     justifyContent: 'center',
@@ -267,11 +243,32 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   categoryText: { color: '#34495C', fontSize: 10, lineHeight: 14 },
-  title: {
+  titleRow: {
     marginTop: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  title: {
+    flexShrink: 1,
     color: colors.ink,
     fontSize: 36,
     lineHeight: 49,
+  },
+  theoryPill: {
+    borderWidth: 1,
+    borderColor: '#526577',
+    borderRadius: radius.pill,
+    backgroundColor: '#263544',
+    paddingHorizontal: 11,
+    paddingVertical: 4,
+  },
+  theoryPillText: {
+    color: colors.goldLight,
+    fontSize: 10,
+    lineHeight: 14,
+    letterSpacing: 1,
   },
   archiveRule: {
     width: 62,
@@ -280,7 +277,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
   },
   summary: {
-    maxWidth: 760,
+    width: '100%',
     marginTop: spacing.md,
     color: '#4F585A',
     fontSize: 17,
