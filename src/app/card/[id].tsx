@@ -45,6 +45,7 @@ export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { width } = useHydratedWindowDimensions();
   const isCompact = width < 720;
+  const isWide = width >= 960;
   const card = techniqueById.get(id);
   const {
     savedIds,
@@ -96,9 +97,16 @@ export default function CardDetailScreen() {
   return (
     <Screen
       style={styles.detailScreen}
-      contentContainerStyle={styles.screenContent}
+      contentContainerStyle={[
+        styles.screenContent,
+        isCompact && styles.screenContentCompact,
+      ]}
     >
-      <DetailSwipe style={styles.readingColumn} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
+      <DetailSwipe
+        style={styles.readingColumn}
+        onPrevious={() => navigateCard(-1)}
+        onNext={() => navigateCard(1)}
+      >
         <DetailHeader />
 
         <View style={styles.eyebrow}>
@@ -204,7 +212,7 @@ export default function CardDetailScreen() {
         {card.explanation && (
           <>
             <EditorialHeading title="解説" />
-            <Explanation value={card.explanation} />
+            <Explanation value={card.explanation} wide={isWide} />
           </>
         )}
 
@@ -299,7 +307,7 @@ export default function CardDetailScreen() {
           この処世術を、そのまま正解として当てはめない。まずは次の順序で、
           今の状況に合うかを確かめます。
         </AppText>
-        <NumberedList items={guidance.actions} />
+        <NumberedList items={guidance.actions} wide={isWide} />
 
         <View style={styles.practiceCard}>
           <View style={styles.practiceCopy}>
@@ -411,11 +419,14 @@ export default function CardDetailScreen() {
   );
 }
 
-function NumberedList({ items }: { items: string[] }) {
+function NumberedList({ items, wide }: { items: string[]; wide: boolean }) {
   return (
-    <View style={styles.numberedList}>
+    <View style={[styles.numberedList, wide && styles.numberedListWide]}>
       {items.map((item, index) => (
-        <View key={item} style={styles.numberedRow}>
+        <View
+          key={item}
+          style={[styles.numberedRow, wide && styles.numberedRowWide]}
+        >
           <View style={styles.number}>
             <AppText variant="label" style={styles.numberText}>
               {String(index + 1).padStart(2, '0')}
@@ -428,36 +439,44 @@ function NumberedList({ items }: { items: string[] }) {
   );
 }
 
-function Explanation({ value }: { value: string }) {
+function Explanation({ value, wide }: { value: string; wide: boolean }) {
   const paragraphs = value
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
   return (
-    <View style={styles.explanation}>
+    <View style={[styles.explanation, wide && styles.explanationWide]}>
       {paragraphs.map((paragraph, paragraphIndex) => (
-        <AppText
+        <View
           key={`${paragraph.slice(0, 24)}-${paragraphIndex}`}
           style={[
-            styles.explanationText,
-            paragraphIndex === paragraphs.length - 1 &&
-              styles.explanationConclusion,
+            styles.explanationParagraph,
+            wide && styles.explanationParagraphWide,
+            wide && paragraphIndex > 0 && styles.explanationParagraphDivided,
           ]}
         >
-          {paragraph.split(/(\*\*.*?\*\*)/g).map((part, partIndex) =>
-            part.startsWith('**') && part.endsWith('**') ? (
-              <AppText
-                key={`${partIndex}-${part}`}
-                style={styles.explanationStrong}
-              >
-                {part.slice(2, -2)}
-              </AppText>
-            ) : (
-              part
-            ),
-          )}
-        </AppText>
+          <AppText
+            style={[
+              styles.explanationText,
+              paragraphIndex === paragraphs.length - 1 &&
+                styles.explanationConclusion,
+            ]}
+          >
+            {paragraph.split(/(\*\*.*?\*\*)/g).map((part, partIndex) =>
+              part.startsWith('**') && part.endsWith('**') ? (
+                <AppText
+                  key={`${partIndex}-${part}`}
+                  style={styles.explanationStrong}
+                >
+                  {part.slice(2, -2)}
+                </AppText>
+              ) : (
+                part
+              ),
+            )}
+          </AppText>
+        </View>
       ))}
     </View>
   );
@@ -505,12 +524,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9E1D3',
   },
   screenContent: {
-    maxWidth: 1280,
+    maxWidth: 1440,
     paddingTop: spacing.lg,
+  },
+  screenContentCompact: {
+    paddingHorizontal: 12,
+    paddingTop: spacing.md,
   },
   readingColumn: {
     width: '100%',
-    maxWidth: 1180,
+    maxWidth: 1320,
     alignSelf: 'center',
   },
   eyebrow: {
@@ -591,8 +614,8 @@ const styles = StyleSheet.create({
     color: colors.ink,
     fontFamily: fonts.serif,
     fontWeight: '600',
-    fontSize: 38,
-    lineHeight: 54,
+    fontSize: 42,
+    lineHeight: 58,
     letterSpacing: 1.2,
     textAlign: 'center',
   },
@@ -620,8 +643,8 @@ const styles = StyleSheet.create({
   heroLead: {
     color: '#424844',
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 27,
+    fontSize: 17,
+    lineHeight: 29,
     letterSpacing: 0.7,
     marginTop: spacing.md,
     textAlign: 'center',
@@ -727,6 +750,22 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     elevation: 1,
   },
+  explanationWide: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.xl,
+    gap: 0,
+  },
+  explanationParagraph: { minWidth: 0 },
+  explanationParagraphWide: {
+    flex: 1,
+    paddingHorizontal: spacing.lg,
+  },
+  explanationParagraphDivided: {
+    borderLeftWidth: 1,
+    borderLeftColor: '#B7C0B0',
+  },
   explanationText: {
     color: '#303631',
     fontSize: 16,
@@ -819,6 +858,10 @@ const styles = StyleSheet.create({
   },
   intro: { color: colors.muted, marginBottom: spacing.lg },
   numberedList: { gap: 12 },
+  numberedListWide: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
   numberedRow: {
     minHeight: 72,
     backgroundColor: '#FFFDF8',
@@ -829,6 +872,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: spacing.md,
     padding: spacing.md,
+  },
+  numberedRowWide: {
+    flex: 1,
+    minWidth: 0,
+    alignItems: 'flex-start',
+    padding: spacing.lg,
   },
   number: {
     width: 38,
