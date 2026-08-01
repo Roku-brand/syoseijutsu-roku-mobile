@@ -39,6 +39,24 @@ export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
 }
 
+function getDetailTitleMetrics(title: string, viewportWidth: number, compact: boolean) {
+  const characterCount = [...title.replace(/\s/g, '')].length;
+  const longestEstimatedLine = Math.max(Math.ceil(characterCount / 2), 1);
+  const availableWidth = compact
+    ? Math.max(viewportWidth - 82, 230)
+    : Math.min(viewportWidth - 160, 1120);
+  const maximumSize = compact ? 25 : 42;
+  const minimumSize = compact ? 17 : 26;
+  const fittedSize = Math.floor(availableWidth / longestEstimatedLine);
+  const fontSize = Math.max(minimumSize, Math.min(maximumSize, fittedSize));
+
+  return {
+    fontSize,
+    lineHeight: Math.round(fontSize * 1.42),
+    letterSpacing: compact ? 0.15 : 1.2,
+  };
+}
+
 export default function CardDetailScreen() {
   const showToast = useAppToast();
   const router = useRouter();
@@ -93,6 +111,7 @@ export default function CardDetailScreen() {
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
     .filter(Boolean);
+  const titleMetrics = getDetailTitleMetrics(card.title, width, isCompact);
 
   return (
     <Screen
@@ -135,8 +154,17 @@ export default function CardDetailScreen() {
               </AppText>
             </View>
 
-            <View style={styles.heroCopy}>
-              <AppText style={[styles.title, isCompact && styles.titleCompact]}>
+            <View style={[styles.heroCopy, isCompact && styles.heroCopyCompact]}>
+              <AppText
+                numberOfLines={2}
+                adjustsFontSizeToFit
+                minimumFontScale={0.72}
+                style={[
+                  styles.title,
+                  isCompact && styles.titleCompact,
+                  titleMetrics,
+                ]}
+              >
                 {card.title}
               </AppText>
               <View style={styles.ornament}>
@@ -610,6 +638,11 @@ const styles = StyleSheet.create({
     paddingTop: spacing.xl,
     paddingBottom: spacing.xl,
   },
+  heroCopyCompact: {
+    paddingHorizontal: 0,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.lg,
+  },
   title: {
     color: colors.ink,
     fontFamily: fonts.serif,
@@ -620,9 +653,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   titleCompact: {
-    fontSize: 27,
-    lineHeight: 40,
-    letterSpacing: 0.4,
+    width: '100%',
   },
   ornament: {
     width: '62%',
@@ -797,7 +828,12 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     paddingBottom: spacing.sm,
   },
-  relatedPanelCompact: { width: '100%' },
+  relatedPanelCompact: {
+    width: '100%',
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: 'auto',
+  },
   relatedPanelHeader: {
     flexDirection: 'row',
     alignItems: 'center',
