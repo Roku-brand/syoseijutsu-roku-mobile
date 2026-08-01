@@ -1,10 +1,6 @@
 {
-  "importedAt": "2026-07-30T13:27:29.636Z",
-  "source": "content/*.json",
-  "techniqueDataset": "処世術禄 裏秘伝書・したたかさ強化版",
-  "theoryDataset": "統合理論データベース 595件",
-  "techniqueCount": 214,
-  "theoryCount": 595,
-  "categoryCount": 3,
-  "subcategoryCount": 9
+  "importedAt": "2026-08-01T05:37:14.628Z",
+  "source": "shoseijutsuroku_complete_216.md",
+  "techniqueCount": 216,
+  "theoryCount": 595
 }

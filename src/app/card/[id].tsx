@@ -26,12 +26,14 @@ import {
   getTechniqueDisplayId,
   getTheoryDisplayId,
   techniqueById,
+  techniqueCards,
   theoryById,
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from '@/components/app-toast';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { DetailSwipe } from '@/components/detail-swipe';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -65,6 +67,12 @@ export default function CardDetailScreen() {
   useEffect(() => setNote(notes[id] ?? ''), [id, notes]);
 
   const related = useMemo(() => (card ? getRelatedCards(card) : []), [card]);
+  const navigateCard = (offset: -1 | 1) => {
+    const currentIndex = techniqueCards.findIndex((item) => item.id === card?.id);
+    if (currentIndex < 0) return;
+    const next = techniqueCards[(currentIndex + offset + techniqueCards.length) % techniqueCards.length];
+    router.replace({ pathname: '/card/[id]', params: { id: next.id } });
+  };
 
   if (!card) {
     return (
@@ -90,7 +98,7 @@ export default function CardDetailScreen() {
       style={styles.detailScreen}
       contentContainerStyle={styles.screenContent}
     >
-      <View style={styles.readingColumn}>
+      <DetailSwipe style={styles.readingColumn} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
         <DetailHeader />
 
         <View style={styles.eyebrow}>
@@ -398,7 +406,7 @@ export default function CardDetailScreen() {
             </View>
           </>
         )}
-      </View>
+      </DetailSwipe>
     </Screen>
   );
 }

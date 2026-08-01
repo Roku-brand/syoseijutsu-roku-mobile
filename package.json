@@ -43,6 +43,7 @@
     "export:web": "expo export --platform web",
     "export:pages": "expo export --platform web",
     "content:import": "node ./scripts/import-content.mjs",
+    "content:import-complete": "node ./scripts/import-complete-markdown.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",
     "content:audit-techniques": "node ./scripts/audit-techniques.mjs",
     "content:audit-search": "node ./scripts/audit-technique-search.mjs",

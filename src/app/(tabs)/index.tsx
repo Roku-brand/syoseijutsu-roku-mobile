@@ -232,18 +232,6 @@ export default function MainScreen() {
     }
   };
 
-  const settleOnCard = (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
-    const physicalIndex = Math.round(
-      event.nativeEvent.contentOffset.x / reelWidth,
-    );
-    listRef.current?.scrollToOffset({
-      offset: physicalIndex * reelWidth,
-      animated: true,
-    });
-  };
-
   if (!isFocused) return null;
 
   return (
@@ -290,7 +278,6 @@ export default function MainScreen() {
       <FlatList
         ref={listRef}
         horizontal
-        pagingEnabled
         snapToInterval={reelWidth}
         snapToAlignment="start"
         decelerationRate="fast"
@@ -305,9 +292,8 @@ export default function MainScreen() {
           length: reelWidth,
           offset: reelWidth * index,
         })}
-        initialNumToRender={2}
-        windowSize={3}
-        onScrollEndDrag={settleOnCard}
+        initialNumToRender={5}
+        windowSize={7}
         onMomentumScrollEnd={updateActiveCard}
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingHorizontal: reelSideInset }}
