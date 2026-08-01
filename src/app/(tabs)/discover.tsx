@@ -7,6 +7,7 @@ import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, categoryMeta, categoryOrder, getTechniqueDisplayId, techniqueCards, theories } from '@/data/catalog';
+import type { CategoryKey } from '@/data/types';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 
 type BrowseMode = 'personas' | 'theories';
@@ -60,9 +61,32 @@ export default function DiscoverScreen() {
 }
 
 function PersonaBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>('interpersonal');
   return <View>
     <OrnamentHeading>処世術から探す</OrnamentHeading>
-    {categoryOrder.map((key) => {
+    <View accessibilityRole="tablist" style={styles.categoryTabGrid}>
+      {categoryOrder.map((key) => {
+        const category = categories.find((item) => item.key === key);
+        if (!category) return null;
+        const active = activeCategory === key;
+        const count = category.subcategories.reduce((total, persona) => total + persona.items.length, 0);
+        return <Pressable
+          key={key}
+          accessibilityRole="tab"
+          accessibilityState={{ selected: active }}
+          accessibilityLabel={`${categoryMeta[key].label}、${count}件`}
+          onPress={() => setActiveCategory(key)}
+          style={({ pressed }) => [styles.categoryTab, active && styles.categoryTabActive, pressed && styles.pressed]}
+        >
+          <View style={[styles.categoryTabMark, active && styles.categoryTabMarkActive]}>
+            <AppText style={[styles.categoryTabMarkText, active && styles.categoryTabTextActive]}>{categoryMeta[key].mark}</AppText>
+          </View>
+          <AppText style={[styles.categoryTabTitle, active && styles.categoryTabTextActive]}>{categoryMeta[key].label}</AppText>
+          <AppText style={[styles.categoryTabCount, active && styles.categoryTabCountActive]}>{count}件</AppText>
+        </Pressable>;
+      })}
+    </View>
+    {categoryOrder.filter((key) => key === activeCategory).map((key) => {
       const category = categories.find((item) => item.key === key);
       if (!category) return null;
       const palette = categoryPalette[key];
@@ -113,6 +137,7 @@ const styles = StyleSheet.create({
   searchIcon: { color: colors.gold, fontFamily: fonts.serif, fontSize: 28 }, searchInput: { flex: 1, minHeight: 54, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 }, clear: { color: colors.gold, fontWeight: '700', fontSize: 12 }, empty: { color: colors.muted, textAlign: 'center', padding: spacing.xl },
   modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 540, alignSelf: 'center', padding: 4, marginBottom: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.paperDeep }, modeTab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill }, modeTabActive: { backgroundColor: colors.charcoal }, modeText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, fontWeight: '700' }, modeTextActive: { color: colors.goldLight },
   personaSection: { marginTop: spacing.xl }, categoryHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.lg }, categoryMark: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface }, categoryMarkText: { fontFamily: fonts.serif, fontSize: 17, fontWeight: '700' }, categoryCopy: { flex: 1 }, categoryTitle: { fontFamily: fonts.serif, fontSize: 21, lineHeight: 28, fontWeight: '700' }, categoryDescription: { marginTop: 2, color: colors.muted, fontSize: 12, lineHeight: 18 }, categoryCount: { fontFamily: fonts.serif, fontSize: 20, fontWeight: '700' },
+  categoryTabGrid: { flexDirection: 'row', gap: spacing.md, marginBottom: spacing.lg }, categoryTab: { flex: 1, minHeight: 126, padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center', gap: 7 }, categoryTabActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal }, categoryTabMark: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' }, categoryTabMarkActive: { borderColor: colors.goldLight }, categoryTabMarkText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, fontWeight: '700' }, categoryTabTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '700' }, categoryTabCount: { color: colors.muted, fontSize: 11, lineHeight: 16 }, categoryTabTextActive: { color: colors.goldLight }, categoryTabCountActive: { color: '#D7D0C2' },
   themeSection: { marginBottom: spacing.xl }, themeHeading: { flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm, marginBottom: spacing.sm, paddingHorizontal: 2 }, themePath: { color: colors.muted, fontSize: 12, lineHeight: 18 }, themeTitle: { fontSize: 18, lineHeight: 26, fontWeight: '700' },
   personaList: { gap: spacing.md }, personaCard: { overflow: 'hidden', borderWidth: 1, borderRadius: radius.md }, personaHeader: { minHeight: 76, flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.md, paddingVertical: spacing.sm }, personaNumber: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface }, personaNumberText: { fontFamily: fonts.serif, fontSize: 13, fontWeight: '700' }, personaCopy: { flex: 1, flexDirection: 'row', alignItems: 'baseline', gap: spacing.sm }, personaTitle: { flex: 1, fontSize: 18, lineHeight: 26, fontWeight: '700' }, personaCount: { fontSize: 11 }, chevron: { fontSize: 28 },
   techniqueList: { paddingHorizontal: spacing.md, paddingBottom: spacing.md, backgroundColor: 'rgba(255,255,255,0.58)', borderTopWidth: 1, borderTopColor: colors.line }, techniqueItem: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 9, borderBottomWidth: 1, borderBottomColor: 'rgba(112,102,85,0.16)' }, techniqueItemPressed: { backgroundColor: 'rgba(255,255,255,0.72)' }, techniqueBullet: { fontSize: 18, lineHeight: 22 }, techniqueTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21 }, techniqueId: { fontSize: 10, lineHeight: 15, fontWeight: '700' },
