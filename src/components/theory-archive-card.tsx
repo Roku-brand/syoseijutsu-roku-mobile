@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { AppText } from './ui';
@@ -31,11 +31,6 @@ export function TheoryArchiveCard({
         pressed && styles.pressed,
       ]}
     >
-      <View style={[styles.spine, compact && styles.spineCompact]}>
-        <AppText style={styles.bookMark}>冊</AppText>
-        <AppText style={styles.spineLabel}>理{'\n'}論</AppText>
-      </View>
-
       <View style={[styles.copy, compact && styles.copyCompact]}>
         <View style={styles.metaRow}>
           <AppText variant="label" style={styles.id}>
@@ -43,9 +38,14 @@ export function TheoryArchiveCard({
           </AppText>
         </View>
 
-        <AppText variant="serif" style={styles.title}>
-          {theory.title}
-        </AppText>
+        <View style={styles.titleRow}>
+          <AppText variant="serif" style={styles.title}>
+            {theory.title}
+          </AppText>
+          <View style={styles.theoryPill}>
+            <AppText variant="caption" style={styles.theoryPillText}>理論</AppText>
+          </View>
+        </View>
         {theory.summary ? (
           <AppText
             style={styles.summary}
@@ -88,31 +88,6 @@ const styles = StyleSheet.create({
   },
   cardCompact: { minHeight: 164 },
   pressed: { opacity: 0.72, transform: [{ scale: 0.994 }] },
-  spine: {
-    width: 76,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    backgroundColor: '#263544',
-    borderRightWidth: 1,
-    borderRightColor: '#B59652',
-  },
-  spineCompact: { width: 56, gap: 6 },
-  bookMark: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 22,
-    lineHeight: 28,
-  },
-  spineLabel: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: '700',
-    textAlign: 'center',
-    letterSpacing: 2,
-  },
   copy: {
     flex: 1,
     zIndex: 1,
@@ -131,15 +106,36 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   id: { color: '#5F6970', fontSize: 10, letterSpacing: 1.1 },
-  title: {
+  titleRow: {
     marginTop: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  title: {
+    flexShrink: 1,
     color: colors.ink,
     fontSize: 22,
     lineHeight: 31,
     fontWeight: '700',
   },
+  theoryPill: {
+    borderWidth: 1,
+    borderColor: '#526577',
+    borderRadius: radius.pill,
+    backgroundColor: '#263544',
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  theoryPillText: {
+    color: colors.goldLight,
+    fontSize: 10,
+    lineHeight: 14,
+    letterSpacing: 1,
+  },
   summary: {
-    maxWidth: 900,
+    width: '100%',
     marginTop: 7,
     color: '#5E6463',
     fontSize: 14,
