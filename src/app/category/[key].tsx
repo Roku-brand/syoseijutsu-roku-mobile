@@ -3,20 +3,15 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
-import {
-  categories,
-  categoryMeta,
-  getTechniqueDisplayId,
-  techniqueCards,
-} from '@/data/catalog';
-import type { CategoryKey, CatalogCategory } from '@/data/types';
+import { categories, categoryMeta, techniqueCards } from '@/data/catalog';
+import type { CatalogCategory } from '@/data/types';
 
 export function generateStaticParams() {
   return [{ key: 'all' }, ...categories.map(({ key }) => ({ key }))];
 }
 
 export default function CategoryDetailScreen() {
-  const { key, theme } = useLocalSearchParams<{ key: string; theme?: string }>();
+  const { key } = useLocalSearchParams<{ key: string }>();
   const router = useRouter();
 
   if (key === 'all') {
@@ -25,9 +20,7 @@ export default function CategoryDetailScreen() {
         <DetailHeader title="探す" />
         <View style={styles.intro}>
           <AppText variant="title" style={styles.pageTitle}>すべての処世術</AppText>
-          <AppText style={styles.description}>
-            全{techniqueCards.length}の判断原則を一覧する
-          </AppText>
+          <AppText style={styles.description}>全{techniqueCards.length}の判断原則を一覧する</AppText>
         </View>
         <SectionHeader title="処世術" count={techniqueCards.length} />
         {techniqueCards.map((card) => <TechniqueRow key={card.id} card={card} />)}
@@ -48,19 +41,13 @@ export default function CategoryDetailScreen() {
     );
   }
 
-  const categoryKey = category.key as CategoryKey;
-  const meta = categoryMeta[categoryKey];
-  const palette = categoryPalette[categoryKey];
+  const meta = categoryMeta[category.key];
+  const palette = categoryPalette[category.key];
   const count = category.subcategories.reduce(
     (total, persona) => total + persona.items.length,
     0,
   );
   const themes = groupByTheme(category);
-  const activeTheme = themes.find((item) => item.title === theme) ?? themes[0];
-  const activeCount = activeTheme.personas.reduce(
-    (total, persona) => total + persona.items.length,
-    0,
-  );
 
   return (
     <Screen>
@@ -77,112 +64,37 @@ export default function CategoryDetailScreen() {
         <AppText style={[styles.totalCount, { color: palette.accent }]}>{count}件</AppText>
       </View>
 
-      <SectionHeader title="テーマを選ぶ" />
+      <SectionHeader title="テーマを選ぶ" count={themes.length} />
 
-      <View accessibilityRole="tablist" style={styles.themeTabs}>
-        {themes.map((item, index) => {
-          const selected = item.title === activeTheme.title;
-          const itemCount = item.personas.reduce(
-            (total, persona) => total + persona.items.length,
-            0,
-          );
-          return (
-            <Pressable
-              key={item.title}
-              accessibilityRole="tab"
-              accessibilityState={{ selected }}
-              accessibilityLabel={`${item.title}、${itemCount}件`}
-              onPress={() => router.setParams({ theme: item.title })}
-              style={({ pressed }) => [
-                styles.themeTab,
-                selected && { borderColor: palette.accent, backgroundColor: palette.accent },
-                pressed && styles.pressed,
-              ]}
-            >
-              <AppText style={[styles.themeTabIndex, selected && styles.themeTabTextActive]}>
-                {String(index + 1).padStart(2, '0')}
-              </AppText>
-              <AppText variant="serif" style={[styles.themeTabTitle, selected && styles.themeTabTextActive]}>
-                {item.title}
-              </AppText>
-              <AppText style={[styles.themeTabCount, selected && styles.themeTabCountActive]}>
-                {itemCount}件
-              </AppText>
-            </Pressable>
-          );
-        })}
+      <View style={styles.themeTabs}>
+        {themes.map((theme, index) => (
+          <Pressable
+            key={theme.title}
+            accessibilityRole="button"
+            accessibilityLabel={`${theme.title}、${theme.count}件`}
+            onPress={() =>
+              router.push({
+                pathname: '/theme/[category]/[title]',
+                params: { category: category.key, title: theme.title },
+              })
+            }
+            style={({ pressed }) => [
+              styles.themeTab,
+              { borderColor: palette.accent, backgroundColor: palette.tint },
+              pressed && styles.pressed,
+            ]}
+          >
+            <AppText style={[styles.themeTabIndex, { color: palette.accent }]}>
+              {String(index + 1).padStart(2, '0')}
+            </AppText>
+            <AppText variant="serif" style={styles.themeTabTitle}>{theme.title}</AppText>
+            <AppText style={[styles.themeTabCount, { color: palette.accent }]}>
+              {theme.personas.length}の人物像・{theme.count}件
+            </AppText>
+            <AppText style={[styles.chevron, { color: palette.accent }]}>›</AppText>
+          </Pressable>
+        ))}
       </View>
-
-      <SectionHeader title="人物像と処世術" count={activeCount} />
-
-      <View style={styles.themeSection}>
-          <View style={styles.themeHeading}>
-            <AppText style={[styles.themePath, { color: palette.accent }]}>{category.name}　›</AppText>
-            <AppText variant="serif" style={styles.themeTitle}>{activeTheme.title}</AppText>
-          </View>
-
-          <View style={styles.personaList}>
-            {activeTheme.personas.map((persona) => {
-              const personaIndex = category.subcategories.indexOf(persona) + 1;
-              return (
-                <View
-                  key={persona.name}
-                  style={[styles.personaPanel, { borderColor: palette.accent, backgroundColor: palette.tint }]}
-                >
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityLabel={`${persona.name}の一覧を開く`}
-                    onPress={() =>
-                      router.push({
-                        pathname: '/subcategory/[category]/[name]',
-                        params: { category: categoryKey, name: persona.name },
-                      })
-                    }
-                    style={({ pressed }) => [styles.personaHeader, pressed && styles.pressed]}
-                  >
-                    <View style={[styles.personaNumber, { borderColor: palette.accent }]}>
-                      <AppText style={[styles.personaNumberText, { color: palette.accent }]}>
-                        {String(personaIndex).padStart(2, '0')}
-                      </AppText>
-                    </View>
-                    <View style={styles.personaCopy}>
-                      <AppText style={[styles.breadcrumb, { color: palette.accent }]}>
-                        {category.name}　›　{activeTheme.title}　›
-                      </AppText>
-                      <AppText variant="serif" style={styles.personaTitle}>{persona.name}</AppText>
-                    </View>
-                    <AppText style={[styles.personaCount, { color: palette.accent }]}>
-                      {persona.items.length}件
-                    </AppText>
-                  </Pressable>
-
-                  <View style={styles.techniqueList}>
-                    {persona.items.map((item) => (
-                      <Pressable
-                        key={item.id}
-                        accessibilityRole="link"
-                        accessibilityLabel={`${item.title}を開く`}
-                        onPress={() =>
-                          router.push({ pathname: '/card/[id]', params: { id: item.id } })
-                        }
-                        style={({ pressed }) => [
-                          styles.techniqueItem,
-                          pressed && styles.techniqueItemPressed,
-                        ]}
-                      >
-                        <AppText style={[styles.bullet, { color: palette.accent }]}>•</AppText>
-                        <AppText style={styles.techniqueTitle}>{item.title}</AppText>
-                        <AppText style={[styles.techniqueId, { color: palette.accent }]}>
-                          {getTechniqueDisplayId(item.id)}
-                        </AppText>
-                      </Pressable>
-                    ))}
-                  </View>
-                </View>
-              );
-            })}
-          </View>
-        </View>
     </Screen>
   );
 }
@@ -193,7 +105,11 @@ function groupByTheme(category: CatalogCategory) {
     const title = persona.articleTitle ?? 'その他';
     groups.set(title, [...(groups.get(title) ?? []), persona]);
   });
-  return [...groups.entries()].map(([title, personas]) => ({ title, personas }));
+  return [...groups.entries()].map(([title, personas]) => ({
+    title,
+    personas,
+    count: personas.reduce((total, persona) => total + persona.items.length, 0),
+  }));
 }
 
 const styles = StyleSheet.create({
@@ -222,80 +138,20 @@ const styles = StyleSheet.create({
   totalCount: { fontFamily: fonts.serif, fontSize: 20, fontWeight: '700' },
   themeTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   themeTab: {
+    position: 'relative',
     flexGrow: 1,
-    flexBasis: 220,
-    minHeight: 112,
+    flexBasis: 250,
+    minHeight: 146,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
-    padding: spacing.md,
+    gap: 6,
+    padding: spacing.lg,
     borderWidth: 1,
-    borderColor: colors.line,
     borderRadius: radius.md,
-    backgroundColor: colors.surface,
   },
-  themeTabIndex: { color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
-  themeTabTitle: { fontSize: 17, lineHeight: 25, textAlign: 'center', fontWeight: '700' },
-  themeTabCount: { color: colors.muted, fontSize: 11, lineHeight: 17 },
-  themeTabTextActive: { color: colors.white },
-  themeTabCountActive: { color: 'rgba(255,255,255,0.78)' },
-  themeSection: { marginBottom: spacing.xxl },
-  themeHeading: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: spacing.sm,
-    marginBottom: spacing.md,
-  },
-  themePath: { fontSize: 12, lineHeight: 18, fontWeight: '700' },
-  themeTitle: { fontSize: 22, lineHeight: 31, fontWeight: '700' },
-  personaList: { gap: spacing.md },
-  personaPanel: { overflow: 'hidden', borderWidth: 1, borderRadius: radius.md },
-  personaHeader: {
-    minHeight: 84,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-  },
-  personaNumber: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-  },
-  personaNumberText: { fontFamily: fonts.serif, fontSize: 13, fontWeight: '700' },
-  personaCopy: { flex: 1 },
-  breadcrumb: { fontSize: 10, lineHeight: 16, marginBottom: 2 },
-  personaTitle: { fontSize: 19, lineHeight: 28, fontWeight: '700' },
-  personaCount: { fontSize: 11, lineHeight: 17, fontWeight: '700' },
-  techniqueList: {
-    paddingHorizontal: spacing.md,
-    paddingBottom: spacing.sm,
-    backgroundColor: 'rgba(255,255,255,0.68)',
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-  },
-  techniqueItem: {
-    minHeight: 46,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 9,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(112,102,85,0.16)',
-  },
-  techniqueItemPressed: { backgroundColor: 'rgba(255,255,255,0.82)' },
-  bullet: { fontSize: 19, lineHeight: 23 },
-  techniqueTitle: {
-    flex: 1,
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  techniqueId: { fontSize: 10, lineHeight: 15, fontWeight: '700' },
-  pressed: { opacity: 0.76 },
+  themeTabIndex: { fontSize: 11, lineHeight: 16, fontWeight: '700' },
+  themeTabTitle: { fontSize: 19, lineHeight: 28, textAlign: 'center', fontWeight: '700' },
+  themeTabCount: { fontSize: 11, lineHeight: 17 },
+  chevron: { position: 'absolute', right: spacing.md, fontSize: 28, lineHeight: 32 },
+  pressed: { opacity: 0.76, transform: [{ scale: 0.985 }] },
 });
