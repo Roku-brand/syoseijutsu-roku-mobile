@@ -16,7 +16,7 @@ export function generateStaticParams() {
 }
 
 export default function CategoryDetailScreen() {
-  const { key } = useLocalSearchParams<{ key: string }>();
+  const { key, theme } = useLocalSearchParams<{ key: string; theme?: string }>();
   const router = useRouter();
 
   if (key === 'all') {
@@ -56,6 +56,11 @@ export default function CategoryDetailScreen() {
     0,
   );
   const themes = groupByTheme(category);
+  const activeTheme = themes.find((item) => item.title === theme) ?? themes[0];
+  const activeCount = activeTheme.personas.reduce(
+    (total, persona) => total + persona.items.length,
+    0,
+  );
 
   return (
     <Screen>
@@ -72,17 +77,52 @@ export default function CategoryDetailScreen() {
         <AppText style={[styles.totalCount, { color: palette.accent }]}>{count}件</AppText>
       </View>
 
-      <SectionHeader title="テーマと処世術" count={count} />
+      <SectionHeader title="テーマを選ぶ" />
 
-      {themes.map(({ title, personas }) => (
-        <View key={title} style={styles.themeSection}>
+      <View accessibilityRole="tablist" style={styles.themeTabs}>
+        {themes.map((item, index) => {
+          const selected = item.title === activeTheme.title;
+          const itemCount = item.personas.reduce(
+            (total, persona) => total + persona.items.length,
+            0,
+          );
+          return (
+            <Pressable
+              key={item.title}
+              accessibilityRole="tab"
+              accessibilityState={{ selected }}
+              accessibilityLabel={`${item.title}、${itemCount}件`}
+              onPress={() => router.setParams({ theme: item.title })}
+              style={({ pressed }) => [
+                styles.themeTab,
+                selected && { borderColor: palette.accent, backgroundColor: palette.accent },
+                pressed && styles.pressed,
+              ]}
+            >
+              <AppText style={[styles.themeTabIndex, selected && styles.themeTabTextActive]}>
+                {String(index + 1).padStart(2, '0')}
+              </AppText>
+              <AppText variant="serif" style={[styles.themeTabTitle, selected && styles.themeTabTextActive]}>
+                {item.title}
+              </AppText>
+              <AppText style={[styles.themeTabCount, selected && styles.themeTabCountActive]}>
+                {itemCount}件
+              </AppText>
+            </Pressable>
+          );
+        })}
+      </View>
+
+      <SectionHeader title="人物像と処世術" count={activeCount} />
+
+      <View style={styles.themeSection}>
           <View style={styles.themeHeading}>
             <AppText style={[styles.themePath, { color: palette.accent }]}>{category.name}　›</AppText>
-            <AppText variant="serif" style={styles.themeTitle}>{title}</AppText>
+            <AppText variant="serif" style={styles.themeTitle}>{activeTheme.title}</AppText>
           </View>
 
           <View style={styles.personaList}>
-            {personas.map((persona) => {
+            {activeTheme.personas.map((persona) => {
               const personaIndex = category.subcategories.indexOf(persona) + 1;
               return (
                 <View
@@ -107,7 +147,7 @@ export default function CategoryDetailScreen() {
                     </View>
                     <View style={styles.personaCopy}>
                       <AppText style={[styles.breadcrumb, { color: palette.accent }]}>
-                        {category.name}　›　{title}　›
+                        {category.name}　›　{activeTheme.title}　›
                       </AppText>
                       <AppText variant="serif" style={styles.personaTitle}>{persona.name}</AppText>
                     </View>
@@ -143,7 +183,6 @@ export default function CategoryDetailScreen() {
             })}
           </View>
         </View>
-      ))}
     </Screen>
   );
 }
@@ -181,6 +220,25 @@ const styles = StyleSheet.create({
   categoryMarkText: { fontFamily: fonts.serif, fontSize: 23, fontWeight: '700' },
   categoryCopy: { flex: 1 },
   totalCount: { fontFamily: fonts.serif, fontSize: 20, fontWeight: '700' },
+  themeTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
+  themeTab: {
+    flexGrow: 1,
+    flexBasis: 220,
+    minHeight: 112,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    padding: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+  },
+  themeTabIndex: { color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
+  themeTabTitle: { fontSize: 17, lineHeight: 25, textAlign: 'center', fontWeight: '700' },
+  themeTabCount: { color: colors.muted, fontSize: 11, lineHeight: 17 },
+  themeTabTextActive: { color: colors.white },
+  themeTabCountActive: { color: 'rgba(255,255,255,0.78)' },
   themeSection: { marginBottom: spacing.xxl },
   themeHeading: {
     flexDirection: 'row',
