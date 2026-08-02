@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Pressable, Share, StyleSheet, View } from 'react-native';
+import { SymbolView } from 'expo-symbols';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { useAppToast } from '@/components/app-toast';
@@ -107,31 +108,43 @@ export default function CardDetailScreen() {
           <View style={styles.actions}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={isSaved ? '保存を解除' : '保存'}
-              hitSlop={8}
+              accessibilityLabel={isSaved ? '保存を解除' : '蔵書に保存'}
               onPress={() => {
                 toggleSaved(card.id);
                 showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
               }}
-              style={({ pressed }) => pressed && styles.pressed}
+              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
             >
-              <AppText style={[styles.actionIcon, isSaved && styles.actionIconSaved]}>
-                {isSaved ? '★' : '☆'}
-              </AppText>
+              <SymbolView
+                name={{
+                  ios: isSaved ? 'star.fill' : 'star',
+                  android: isSaved ? 'star' : 'star_border',
+                  web: isSaved ? 'star' : 'star_border',
+                }}
+                fallback={<AppText style={[styles.actionFallback, isSaved && styles.actionFallbackSaved]}>{isSaved ? '★' : '☆'}</AppText>}
+                size={31}
+                tintColor={colors.gold}
+                weight="regular"
+              />
             </Pressable>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="共有"
-              hitSlop={8}
               onPress={() =>
                 void Share.share({
                   title: '処世術禄',
                   message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
                 })
               }
-              style={({ pressed }) => pressed && styles.pressed}
+              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
             >
-              <AppText style={styles.shareIcon}>⇧</AppText>
+              <SymbolView
+                name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
+                fallback={<AppText style={styles.actionFallback}>⇧</AppText>}
+                size={30}
+                tintColor="#26372D"
+                weight="regular"
+              />
             </Pressable>
           </View>
         </View>
@@ -168,7 +181,7 @@ export default function CardDetailScreen() {
         )}
 
         <ArticleSection title="今日からできる実践" ruled>
-          <View style={styles.practiceGrid}>
+          <View style={styles.practiceArea}>
             <View style={styles.practiceList}>
               {guidance.actions.map((item) => (
                 <View key={item} style={styles.checkRow}>
@@ -193,8 +206,8 @@ export default function CardDetailScreen() {
         </ArticleSection>
 
         {relatedTheories.length > 0 && (
-          <ArticleSection title="関連する理論カード" mark="▱">
-            <View style={styles.theoryGrid}>
+          <ArticleSection title="関連する理論" mark="▱">
+            <View style={styles.theoryList}>
               {relatedTheories.map((theory) =>
                 theory ? (
                   <Pressable
@@ -208,28 +221,18 @@ export default function CardDetailScreen() {
                       })
                     }
                     style={({ pressed }) => [
-                      styles.theoryCard,
+                      styles.theoryItem,
                       pressed && styles.pressed,
                     ]}
                   >
-                    <View style={styles.theoryTitleRow}>
-                      <AppText style={styles.theoryMark}>♙</AppText>
-                      <AppText
-                        variant="serif"
-                        numberOfLines={2}
-                        style={styles.theoryTitle}
-                      >
-                        {theory.title}
-                      </AppText>
-                      <AppText style={styles.chevron}>›</AppText>
-                    </View>
-                    <AppText numberOfLines={3} style={styles.theorySummary}>
-                      {cleanText(
-                        theory.summary ??
-                          theory.definition ??
-                          `${theory.discipline}の理論`,
-                      )}
+                    <AppText
+                      variant="serif"
+                      numberOfLines={2}
+                      style={styles.theoryTitle}
+                    >
+                      {theory.title}
                     </AppText>
+                    <AppText style={styles.chevron}>›</AppText>
                   </Pressable>
                 ) : null,
               )}
@@ -385,22 +388,19 @@ const styles = StyleSheet.create({
   topTagPrimary: { backgroundColor: '#394439' },
   topTagText: { color: '#3B3B37', fontSize: 11, lineHeight: 16 },
   topTagTextPrimary: { color: '#FFFDF8' },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 17 },
-  actionIcon: { color: '#111512', fontSize: 31, lineHeight: 34 },
-  actionIconSaved: { color: colors.gold },
-  shareIcon: {
-    width: 27,
-    height: 31,
-    color: '#111512',
-    fontSize: 24,
-    lineHeight: 29,
-    textAlign: 'center',
+  actions: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  actionButton: {
+    width: 54,
+    height: 54,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 1.5,
-    borderTopWidth: 0,
-    borderColor: '#111512',
-    borderRadius: 4,
-    overflow: 'visible',
+    borderColor: '#D8D0C3',
+    borderRadius: 17,
+    backgroundColor: '#FDFBF7',
   },
+  actionFallback: { color: '#26372D', fontSize: 31, lineHeight: 35 },
+  actionFallbackSaved: { color: colors.gold },
   pressed: { opacity: 0.55 },
   rule: { height: 1, marginTop: 18, backgroundColor: '#DFD7CA' },
   summaryCard: {
@@ -472,8 +472,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.15,
   },
   explanationStrong: { color: '#111411', fontWeight: '700' },
-  practiceGrid: { flexDirection: 'row', alignItems: 'stretch', gap: 14 },
-  practiceList: { flex: 1.65, gap: 8, paddingVertical: 4 },
+  practiceArea: { gap: 15 },
+  practiceList: { gap: 8, paddingVertical: 4 },
   checkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
   checkMark: {
     width: 18,
@@ -487,9 +487,9 @@ const styles = StyleSheet.create({
   checkText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '800' },
   practiceText: { flex: 1, color: '#20231F', fontSize: 13, lineHeight: 20, fontWeight: '600' },
   cautionCard: {
-    flex: 1,
-    minWidth: 120,
-    padding: 13,
+    width: '100%',
+    paddingHorizontal: 15,
+    paddingVertical: 13,
     borderWidth: 1,
     borderColor: '#D0C4B1',
     borderRadius: 7,
@@ -499,22 +499,22 @@ const styles = StyleSheet.create({
   cautionIcon: { color: colors.gold, fontSize: 18, lineHeight: 20 },
   cautionTitle: { color: '#6A5120', fontSize: 14, lineHeight: 20, fontWeight: '700' },
   cautionText: { color: '#272923', fontSize: 12, lineHeight: 19, fontWeight: '600' },
-  theoryGrid: { flexDirection: 'row', gap: 10 },
-  theoryCard: {
-    flex: 1,
-    minWidth: 0,
-    minHeight: 89,
-    padding: 11,
+  theoryList: { gap: 9 },
+  theoryItem: {
+    width: '100%',
+    minHeight: 58,
+    paddingHorizontal: 15,
+    paddingVertical: 12,
     borderWidth: 1,
     borderColor: '#D9D0C2',
     borderRadius: 7,
     backgroundColor: '#FDFBF7',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
-  theoryTitleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 5 },
-  theoryMark: { color: '#314739', fontSize: 14, lineHeight: 19 },
-  theoryTitle: { flex: 1, color: '#1C211D', fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  theoryTitle: { flex: 1, color: '#1C211D', fontSize: 17, lineHeight: 25, fontWeight: '700' },
   chevron: { color: colors.gold, fontSize: 22, lineHeight: 22 },
-  theorySummary: { marginTop: 7, color: '#4C4D48', fontSize: 9, lineHeight: 14 },
   relatedGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 20, rowGap: 8 },
   relatedItem: { width: '47%', minHeight: 24, flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
   relatedChevron: { color: colors.gold, fontSize: 19, lineHeight: 20 },
