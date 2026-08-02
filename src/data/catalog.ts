@@ -114,6 +114,54 @@ export function getRelatedCards(card: TechniqueCard, limit = 6) {
     .map(({ candidate }) => candidate);
 }
 
+/**
+ * Returns theories that help deepen the current concept.
+ *
+ * The source data does not yet have curated `relatedIds`, so relations are
+ * derived from the strongest signal available: theories that are cited by the
+ * same technique card. Domain, discipline and category are then used only to
+ * make the result useful even for theories not yet attached to a technique.
+ */
+export function getRelatedTheories(theory: TheoryCard, limit = 3) {
+  const explicitIds = new Set(theory.relatedIds ?? []);
+  const currentDomains = new Set(theory.domains ?? []);
+  const coReferencedCounts = new Map<string, number>();
+
+  techniqueCards
+    .filter((card) => card.theoryTagIds?.includes(theory.tagId))
+    .forEach((card) => {
+      (card.theoryTagIds ?? []).forEach((id) => {
+        if (id !== theory.tagId) {
+          coReferencedCounts.set(id, (coReferencedCounts.get(id) ?? 0) + 1);
+        }
+      });
+    });
+
+  return theories
+    .filter((candidate) => candidate.tagId !== theory.tagId)
+    .map((candidate) => {
+      const sharedDomains = (candidate.domains ?? []).filter((domain) =>
+        currentDomains.has(domain),
+      ).length;
+      const score =
+        (explicitIds.has(candidate.tagId) ? 100 : 0) +
+        (coReferencedCounts.get(candidate.tagId) ?? 0) * 20 +
+        sharedDomains * 4 +
+        (candidate.discipline === theory.discipline ? 3 : 0) +
+        (candidate.categoryId === theory.categoryId ? 1 : 0);
+
+      return { candidate, score, sharedDomains };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) =>
+      b.score - a.score ||
+      b.sharedDomains - a.sharedDomains ||
+      a.candidate.title.localeCompare(b.candidate.title, 'ja'),
+    )
+    .slice(0, limit)
+    .map(({ candidate }) => candidate);
+}
+
 export function getFeed(interests: CategoryKey[], savedIds: string[]) {
   const interestSet = new Set(interests);
   const savedTheoryIds = new Set(
