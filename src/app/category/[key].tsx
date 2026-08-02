@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
-import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, ChapterTitle, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, categoryMeta, techniqueCards } from '@/data/catalog';
 import type { CatalogCategory } from '@/data/types';
@@ -18,10 +18,7 @@ export default function CategoryDetailScreen() {
     return (
       <Screen>
         <DetailHeader title="探す" />
-        <View style={styles.intro}>
-          <AppText variant="title" style={styles.pageTitle}>すべての処世術</AppText>
-          <AppText style={styles.description}>全{techniqueCards.length}の判断原則を一覧する</AppText>
-        </View>
+        <ChapterTitle title="すべての処世術" />
         <SectionHeader title="処世術" count={techniqueCards.length} />
         {techniqueCards.map((card) => <TechniqueRow key={card.id} card={card} />)}
       </Screen>
@@ -43,26 +40,13 @@ export default function CategoryDetailScreen() {
 
   const meta = categoryMeta[category.key];
   const palette = categoryPalette[category.key];
-  const count = category.subcategories.reduce(
-    (total, persona) => total + persona.items.length,
-    0,
-  );
   const themes = groupByTheme(category);
 
   return (
     <Screen>
       <DetailHeader title="処世術から探す" />
 
-      <View style={[styles.categoryHero, { borderColor: palette.accent, backgroundColor: palette.tint }]}>
-        <View style={[styles.categoryMark, { borderColor: palette.accent }]}>
-          <AppText style={[styles.categoryMarkText, { color: palette.accent }]}>{meta.mark}</AppText>
-        </View>
-        <View style={styles.categoryCopy}>
-          <AppText variant="title" style={styles.pageTitle}>{meta.label}</AppText>
-          <AppText style={styles.description}>{meta.description}</AppText>
-        </View>
-        <AppText style={[styles.totalCount, { color: palette.accent }]}>{count}件</AppText>
-      </View>
+      <ChapterTitle title={meta.label} />
 
       <SectionHeader title="テーマを選ぶ" count={themes.length} />
 
@@ -113,29 +97,6 @@ function groupByTheme(category: CatalogCategory) {
 }
 
 const styles = StyleSheet.create({
-  intro: { marginBottom: spacing.xl },
-  pageTitle: { color: colors.ink, fontSize: 32, lineHeight: 44 },
-  description: { color: colors.inkSoft, marginTop: spacing.xs, lineHeight: 24 },
-  categoryHero: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    padding: spacing.lg,
-    borderWidth: 1,
-    borderRadius: radius.lg,
-  },
-  categoryMark: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.surface,
-  },
-  categoryMarkText: { fontFamily: fonts.serif, fontSize: 23, fontWeight: '700' },
-  categoryCopy: { flex: 1 },
-  totalCount: { fontFamily: fonts.serif, fontSize: 20, fontWeight: '700' },
   themeTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   themeTab: {
     position: 'relative',
