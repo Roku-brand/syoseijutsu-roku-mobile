@@ -119,6 +119,7 @@ export default function MainScreen() {
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
   const { savedIds, toggleSaved } = useAppState();
 
   const compactReel = width < 520;
@@ -137,6 +138,9 @@ export default function MainScreen() {
     cardWidth + reelPeek * 2,
   );
   const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
+  // Three complete copies make both the visible 216 → 1 transition and the
+  // invisible reset happen between identical cards.  A one-card clone at each
+  // end leaves a hard edge after a fast swipe or a repeated drag.
   const reelItems = useMemo<ReelItem[]>(() => {
     if (techniqueCards.length <= 1) {
       return techniqueCards.map((card) => ({
@@ -145,23 +149,21 @@ export default function MainScreen() {
       }));
     }
 
-    const firstCard = techniqueCards[0];
-    const lastCard = techniqueCards[techniqueCards.length - 1];
-    return [
-      { card: lastCard, reelKey: `loop-before-${lastCard.id}` },
-      ...techniqueCards.map((card) => ({
+    return Array.from({ length: 3 }, (_, loop) =>
+      techniqueCards.map((card) => ({
         card,
-        reelKey: `original-${card.id}`,
+        reelKey: `loop-${loop}-${card.id}`,
       })),
-      { card: firstCard, reelKey: `loop-after-${firstCard.id}` },
-    ];
+    ).flat();
   }, []);
   const activeCard = techniqueCards[activeIndex] ?? techniqueCards[0];
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       listRef.current?.scrollToIndex({
-        index: techniqueCards.length > 1 ? activeIndex + 1 : activeIndex,
+        index: techniqueCards.length > 1
+          ? techniqueCards.length + activeIndex
+          : activeIndex,
         animated: false,
       });
     });
@@ -170,9 +172,12 @@ export default function MainScreen() {
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, techniqueCards.length - 1));
+    activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
-      index: techniqueCards.length > 1 ? nextIndex + 1 : nextIndex,
+      index: techniqueCards.length > 1
+        ? techniqueCards.length + nextIndex
+        : nextIndex,
       animated,
     });
     void Haptics.selectionAsync().catch(() => undefined);
@@ -184,12 +189,8 @@ export default function MainScreen() {
     const rawIndex = activeIndex + offset;
     const nextIndex =
       (rawIndex + techniqueCards.length) % techniqueCards.length;
-    const physicalIndex =
-      rawIndex < 0
-        ? 0
-        : rawIndex >= techniqueCards.length
-          ? techniqueCards.length + 1
-          : nextIndex + 1;
+    const physicalIndex = techniqueCards.length + rawIndex;
+    activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
       index: physicalIndex,
@@ -208,28 +209,37 @@ export default function MainScreen() {
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    const physicalIndex = Math.round(
-      event.nativeEvent.contentOffset.x / reelWidth,
-    );
-
     if (techniqueCards.length <= 1) return;
 
-    let nextIndex = physicalIndex - 1;
-    if (physicalIndex <= 0) {
-      nextIndex = techniqueCards.length - 1;
-      listRef.current?.scrollToIndex({
-        index: techniqueCards.length,
-        animated: false,
-      });
-    } else if (physicalIndex >= techniqueCards.length + 1) {
-      nextIndex = 0;
-      listRef.current?.scrollToIndex({ index: 1, animated: false });
+    const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
+    const nextIndex =
+      ((physicalIndex % techniqueCards.length) + techniqueCards.length) %
+      techniqueCards.length;
+
+    if (nextIndex !== activeIndexRef.current) {
+      activeIndexRef.current = nextIndex;
+      setActiveIndex(nextIndex);
+    }
+  };
+
+  const recenterReel = (
+    event: NativeSyntheticEvent<NativeScrollEvent>,
+  ) => {
+    if (techniqueCards.length <= 1) return;
+
+    const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
+    const cardCount = techniqueCards.length;
+
+    // Keep the user in the middle copy, after momentum has settled. Because
+    // the destination contains the same card in the same visual position, the
+    // jump is not perceptible.
+    if (physicalIndex < cardCount || physicalIndex >= cardCount * 2) {
+      const centeredIndex = cardCount +
+        (((physicalIndex % cardCount) + cardCount) % cardCount);
+      listRef.current?.scrollToIndex({ index: centeredIndex, animated: false });
     }
 
-    if (nextIndex !== activeIndex) {
-      setActiveIndex(nextIndex);
-      void Haptics.selectionAsync().catch(() => undefined);
-    }
+    void Haptics.selectionAsync().catch(() => undefined);
   };
 
   if (!isFocused) return null;
@@ -286,7 +296,7 @@ export default function MainScreen() {
         showsHorizontalScrollIndicator={false}
         data={reelItems}
         keyExtractor={(item) => item.reelKey}
-        initialScrollIndex={techniqueCards.length > 1 ? 1 : 0}
+        initialScrollIndex={techniqueCards.length > 1 ? techniqueCards.length : 0}
         getItemLayout={(_, index) => ({
           index,
           length: reelWidth,
@@ -294,7 +304,8 @@ export default function MainScreen() {
         })}
         initialNumToRender={5}
         windowSize={7}
-        onMomentumScrollEnd={updateActiveCard}
+        onScroll={updateActiveCard}
+        onMomentumScrollEnd={recenterReel}
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingHorizontal: reelSideInset }}
         style={[styles.reel, { width: reelViewportWidth }]}
