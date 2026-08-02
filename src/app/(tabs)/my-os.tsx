@@ -8,7 +8,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { BookScreen, BookTitle, OrnamentHeading, bookCardShadow } from '@/components/book-ui';
+import { BookScreen, OrnamentHeading, bookCardShadow } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
@@ -56,8 +56,6 @@ export default function MyOsScreen() {
 
   return (
     <BookScreen>
-      <BookTitle title="マイOS" subtitle="自分の判断軸を、少しずつ育てる。" />
-
       <View style={styles.principleCard}>
         <View style={styles.principleLabelRow}>
           <View style={styles.diamond} />
