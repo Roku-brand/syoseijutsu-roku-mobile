@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { BookScreen, BookTitle, OrnamentHeading } from '@/components/book-ui';
+import { BookScreen, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -59,7 +59,6 @@ export default function DiscoverScreen() {
 
   return (
     <BookScreen>
-      <BookTitle title="探す" subtitle="処世術と理論を、体系から探す。" />
       <View style={styles.searchBox}>
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
