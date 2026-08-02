@@ -28,6 +28,12 @@ export type PracticeRecord = {
   triedAt?: string;
 };
 
+export type LearningRecord = {
+  caseId: string;
+  choiceId: 'a' | 'b' | 'c';
+  answeredAt: string;
+};
+
 type PersistedState = {
   onboardingCompleted: boolean;
   interests: CategoryKey[];
@@ -39,6 +45,7 @@ type PersistedState = {
   practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
   personalMemos: string[];
+  learningRecords: Record<string, LearningRecord>;
 };
 
 const initialState: PersistedState = {
@@ -52,6 +59,7 @@ const initialState: PersistedState = {
   practiceRecords: {},
   personalPrinciple: '目的を守り、手段には執着しない。',
   personalMemos: [],
+  learningRecords: {},
 };
 
 type AppStateContextValue = PersistedState & {
@@ -70,6 +78,7 @@ type AppStateContextValue = PersistedState & {
   updatePersonalPrinciple: (principle: string) => void;
   addPersonalMemo: (memo: string) => void;
   removePersonalMemo: (index: number) => void;
+  answerLearningCase: (caseId: string, choiceId: LearningRecord['choiceId']) => void;
   clearPersonalData: () => Promise<void>;
 };
 
@@ -263,6 +272,17 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
+  const answerLearningCase = useCallback((caseId: string, choiceId: LearningRecord['choiceId']) => {
+    haptic(Haptics.ImpactFeedbackStyle.Medium);
+    setState((current) => ({
+      ...current,
+      learningRecords: {
+        ...current.learningRecords,
+        [caseId]: { caseId, choiceId, answeredAt: new Date().toISOString() },
+      },
+    }));
+  }, []);
+
   const clearPersonalData = useCallback(async () => {
     setState({ ...initialState, onboardingCompleted: true });
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -286,6 +306,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalPrinciple,
       addPersonalMemo,
       removePersonalMemo,
+      answerLearningCase,
       clearPersonalData,
     }),
     [
@@ -305,6 +326,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalPrinciple,
       addPersonalMemo,
       removePersonalMemo,
+      answerLearningCase,
       clearPersonalData,
     ],
   );
