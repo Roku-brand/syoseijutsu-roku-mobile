@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, ChapterTitle, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
@@ -36,19 +36,11 @@ export default function ThemeScreen() {
   }
 
   const palette = categoryPalette[category.key];
-  const count = personas.reduce((total, persona) => total + persona.items.length, 0);
-
   return (
     <Screen>
       <DetailHeader title="テーマから探す" />
 
-      <View style={[styles.hero, { borderColor: palette.accent, backgroundColor: palette.tint }]}>
-        <AppText style={[styles.breadcrumb, { color: palette.accent }]}>{category.name}　›</AppText>
-        <AppText variant="title" style={styles.title}>{title}</AppText>
-        <AppText style={styles.description}>
-          {personas.length}の人物像から、{count}件の処世術を探す
-        </AppText>
-      </View>
+      <ChapterTitle title={title} />
 
       <SectionHeader title="人物像を選ぶ" count={personas.length} />
 
@@ -96,10 +88,6 @@ export default function ThemeScreen() {
 }
 
 const styles = StyleSheet.create({
-  hero: { padding: spacing.lg, borderWidth: 1, borderRadius: radius.lg },
-  breadcrumb: { fontSize: 11, lineHeight: 17, fontWeight: '700' },
-  title: { marginTop: spacing.xs, color: colors.ink, fontSize: 32, lineHeight: 44 },
-  description: { marginTop: spacing.sm, color: colors.inkSoft, lineHeight: 24 },
   personaTabs: { gap: spacing.md },
   personaTab: {
     minHeight: 112,
