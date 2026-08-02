@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { AppText } from './ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { categories, categoryMeta, theories } from '@/data/catalog';
 
 export function BookScreen({
   children,
@@ -88,11 +89,9 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        {compact ? (
-          <AppText numberOfLines={1} style={styles.mobileScreenTitle}>
-            {currentTitle}
-          </AppText>
-        ) : null}
+        <AppText numberOfLines={2} style={styles.screenTitle}>
+          {currentTitle}
+        </AppText>
 
         <View style={styles.headerActions}>
           <Pressable
@@ -132,13 +131,23 @@ export function BookHeader() {
 }
 
 function getCurrentTitle(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
+  if (segments[0] === 'category') {
+    if (segments[1] === 'all') return 'すべての処世術';
+    const category = categories.find((item) => item.key === segments[1]);
+    return category ? categoryMeta[category.key].label : '探す';
+  }
+  if (segments[0] === 'theme') return segments[2] ?? 'テーマから探す';
+  if (segments[0] === 'theories') {
+    if (segments[1] === 'all') return 'すべての理論';
+    return theories.find((theory) => theory.categoryId === segments[1])?.categoryTitle ?? '理論辞典';
+  }
+  if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
+  if (segments[0] === 'theory') return '理論';
   if (
     pathname.includes('/discover') ||
     pathname.includes('/topic/') ||
-    pathname.includes('/catalog') ||
-    pathname.includes('/category/') ||
-    pathname.includes('/subcategory/') ||
-    pathname.includes('/theory')
+    pathname.includes('/catalog')
   ) return '探す';
   if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイOS';
   if (pathname.includes('/collection/')) return 'コレクション';
@@ -466,16 +475,16 @@ const styles = StyleSheet.create({
   },
   brandCopy: { minWidth: 0, gap: 1 },
   brandCopyHidden: { display: 'none' },
-  mobileScreenTitle: {
+  screenTitle: {
     position: 'absolute',
-    left: 70,
-    right: 112,
+    left: 108,
+    right: 108,
     color: colors.surface,
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 22,
+    fontSize: 15,
+    lineHeight: 21,
     fontWeight: '600',
-    letterSpacing: 1.6,
+    letterSpacing: 1.1,
     textAlign: 'center',
   },
   brandName: {
