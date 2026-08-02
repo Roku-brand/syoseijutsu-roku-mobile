@@ -5,6 +5,7 @@ import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
+  getRelatedTheories,
   getTheoryDisplayId,
   techniqueCards,
   theories,
@@ -36,6 +37,7 @@ export default function TheoryDetailScreen() {
   const related = techniqueCards
     .filter((card) => card.theoryTagIds?.includes(theory.tagId))
     .slice(0, 12);
+  const relatedTheories = getRelatedTheories(theory);
   const explanation =
     theory.summary ??
     theory.definition ??
@@ -103,6 +105,36 @@ export default function TheoryDetailScreen() {
                     style={styles.relatedTitle}
                   >
                     {card.title}
+                  </AppText>
+                  <AppText style={styles.chevron}>›</AppText>
+                </Pressable>
+              ))}
+            </View>
+          </DetailSection>
+        )}
+
+        {relatedTheories.length > 0 && (
+          <DetailSection title="関連する理論" count={relatedTheories.length}>
+            <View style={styles.relatedList}>
+              {relatedTheories.map((relatedTheory) => (
+                <Pressable
+                  key={relatedTheory.tagId}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${relatedTheory.title}を開く`}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/theory/[id]',
+                      params: { id: relatedTheory.tagId },
+                    })
+                  }
+                  style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}
+                >
+                  <AppText
+                    variant="serif"
+                    numberOfLines={2}
+                    style={styles.relatedTitle}
+                  >
+                    {relatedTheory.title}
                   </AppText>
                   <AppText style={styles.chevron}>›</AppText>
                 </Pressable>
