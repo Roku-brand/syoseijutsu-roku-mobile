@@ -1,807 +1,543 @@
-import { usePathname, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { Link } from 'expo-router';
 import {
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
+  Text,
   View,
+  type PressableProps,
   type ScrollViewProps,
+  type TextProps,
+  type ViewProps,
+  type ScrollView as ScrollViewType,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
-import { AppText } from './ui';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
 
-export function BookScreen({
-  children,
-  contentContainerStyle,
+export function AppText({
+  style,
+  variant = 'body',
   ...props
-}: ScrollViewProps) {
-  const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
-  const desktop = width >= 1000;
+}: TextProps & {
+  variant?: 'body' | 'caption' | 'label' | 'title' | 'display' | 'serif';
+}) {
   return (
-    <SafeAreaView edges={['left', 'right']} style={styles.safe}>
-      <ScrollView
-        {...props}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        style={styles.scroll}
-        contentContainerStyle={[
-          styles.content,
-          compact && styles.contentCompact,
-          desktop && styles.contentDesktop,
-          contentContainerStyle,
-        ]}
-      >
-        {children}
-      </ScrollView>
+    <Text
+      {...props}
+      style={[
+        styles.text,
+        variant === 'caption' && styles.caption,
+        variant === 'label' && styles.label,
+        variant === 'title' && styles.title,
+        variant === 'display' && styles.display,
+        variant === 'serif' && styles.serif,
+        style,
+      ]}
+    />
+  );
+}
+
+export function Screen({
+  children,
+  scroll = true,
+  contentContainerStyle,
+  scrollRef,
+  ...props
+}: ViewProps &
+  ScrollViewProps & {
+    scroll?: boolean;
+    scrollRef?: React.RefObject<ScrollViewType | null>;
+  }) {
+  const content = scroll ? (
+    <ScrollView
+      ref={scrollRef}
+      {...props}
+      style={[styles.flex, props.style]}
+      contentContainerStyle={[styles.screenContent, contentContainerStyle]}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      {children}
+    </ScrollView>
+  ) : (
+    <View {...props} style={[styles.flex, props.style]}>
+      {children}
+    </View>
+  );
+
+  return (
+    <SafeAreaView style={styles.screen} edges={['left', 'right']}>
+      {content}
     </SafeAreaView>
   );
 }
 
-export function BookHeader() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
-  const [principlesVisible, setPrinciplesVisible] = useState(false);
-  const currentTitle = getCurrentTitle(pathname);
-  const showBack = shouldShowHeaderBack(pathname);
-  const handleBack = () => {
-    if (router.canGoBack()) {
-      router.back();
-      return;
-    }
-    router.replace('/');
-  };
-
+export function BrandMark({ compact = false }: { compact?: boolean }) {
   return (
-    <>
-      <View style={[styles.header, compact && styles.headerCompact]}>
-        {showBack ? (
-          <View style={styles.brandGroup}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="前の画面へ戻る"
-              onPress={handleBack}
-              hitSlop={8}
-              style={({ pressed }) => [
-                styles.headerBack,
-                compact && styles.headerBackCompact,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <AppText style={styles.headerBackIcon}>‹</AppText>
-              <AppText style={styles.headerBackText}>戻る</AppText>
-            </Pressable>
-          </View>
-        ) : (
-          <View style={styles.brandGroup}>
-            <View style={[styles.seal, compact && styles.sealCompact]}>
-              <AppText style={styles.sealText}>禄</AppText>
-            </View>
-            <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
-              <AppText style={styles.brandName}>処世術禄</AppText>
-              <AppText style={styles.brandSubtitle}>賢者の手帳</AppText>
-            </View>
-          </View>
-        )}
-        {compact ? (
-          <AppText numberOfLines={1} style={styles.mobileScreenTitle}>
-            {currentTitle}
-          </AppText>
-        ) : null}
-
-        <View style={styles.headerActions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="処世術の五大原則を開く"
-            onPress={() => setPrinciplesVisible(true)}
-            style={({ pressed }) => [
-              styles.headerAction,
-              pressed && styles.headerActionPressed,
-            ]}
-          >
-            <PrincipleMark />
-            {!compact ? <AppText style={styles.headerActionLabel}>原則</AppText> : null}
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="設定を開く"
-            onPress={() => router.push('/settings')}
-            style={({ pressed }) => [
-              styles.headerAction,
-              pressed && styles.headerActionPressed,
-            ]}
-          >
-            <AppText style={styles.settingsIcon}>⚙</AppText>
-            {!compact ? <AppText style={styles.headerActionLabel}>設定</AppText> : null}
-          </Pressable>
-        </View>
-      </View>
-
-      <PrinciplesModal
-        visible={principlesVisible}
-        compact={compact}
-        onClose={() => setPrinciplesVisible(false)}
-      />
-    </>
-  );
-}
-
-function getCurrentTitle(pathname: string) {
-  if (
-    pathname.includes('/discover') ||
-    pathname.includes('/topic/') ||
-    pathname.includes('/catalog') ||
-    pathname.includes('/category/') ||
-    pathname.includes('/subcategory/') ||
-    pathname.includes('/theory')
-  ) return '探す';
-  if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイOS';
-  if (pathname.includes('/collection/')) return 'コレクション';
-  if (pathname.includes('/legal/')) return '規約・ポリシー';
-  if (pathname.includes('/settings')) return '設定';
-  if (pathname.includes('/card/')) return '処世術';
-  return '処世術禄';
-}
-
-function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/catalog', '/my-os', '/onboarding'].includes(pathname);
-}
-
-function PrincipleMark() {
-  return (
-    <View style={styles.principleMark} accessibilityElementsHidden>
-      <View style={[styles.principleDot, styles.principleDotTop]} />
-      <View style={[styles.principleDot, styles.principleDotUpperLeft]} />
-      <View style={[styles.principleDot, styles.principleDotUpperRight]} />
-      <View style={[styles.principleDot, styles.principleDotLowerLeft]} />
-      <View style={[styles.principleDot, styles.principleDotLowerRight]} />
-      <View style={styles.principleCenter} />
-    </View>
-  );
-}
-
-const principles = [
-  {
-    number: '01',
-    title: '処世術は好かれない',
-    label: 'メタ発言抑制',
-    description: '処世術は“使うもの”であって、“語るもの”ではない。',
-  },
-  {
-    number: '02',
-    title: '処世術は万能ではない',
-    label: 'コンテクスト依存性',
-    description:
-      '同じ戦術でも、人・場・力関係・時間軸が変われば結果は反転する。',
-  },
-  {
-    number: '03',
-    title: '処世術は人格の代替ではない',
-    label: '行動分離原則',
-    description:
-      '処世術は人格を作るものではない。人格を守るための道具である。',
-  },
-  {
-    number: '04',
-    title: '処世術は知識ではない',
-    label: '実践優先',
-    description:
-      '知っているだけでは意味がない。現場で使えて初めて“術”になる。',
-  },
-  {
-    number: '05',
-    title: '処世術は目的ではない',
-    label: '手段従属',
-    description:
-      '処世術は手段であって目的ではない。目的がないと空回りする。',
-  },
-] as const;
-
-function PrinciplesModal({
-  visible,
-  compact,
-  onClose,
-}: {
-  visible: boolean;
-  compact: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
-      <View style={[styles.modalRoot, compact && styles.modalRootCompact]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="原則を閉じる"
-          onPress={onClose}
-          style={StyleSheet.absoluteFill}
-        />
-        <View
-          accessibilityViewIsModal
-          style={[styles.principlesCard, compact && styles.principlesCardCompact]}
-        >
-          <View style={styles.modalHeader}>
-            <View style={styles.modalTitleGroup}>
-              <PrincipleMark />
-              <View>
-                <AppText style={styles.modalEyebrow}>賢者の手帳</AppText>
-                <AppText style={styles.modalTitle}>処世術の五大原則</AppText>
-              </View>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="原則を閉じる"
-              onPress={onClose}
-              hitSlop={10}
-              style={({ pressed }) => [
-                styles.modalClose,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <AppText style={styles.modalCloseText}>×</AppText>
-            </Pressable>
-          </View>
-
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.principlesContent}
-          >
-            <AppText style={styles.modalLead}>
-              術に使われず、術を使うための五つの戒め。
-            </AppText>
-            {principles.map((principle) => (
-              <View key={principle.number} style={styles.principleRow}>
-                <View style={styles.principleNumber}>
-                  <AppText style={styles.principleNumberText}>
-                    {principle.number}
-                  </AppText>
-                </View>
-                <View style={styles.principleCopy}>
-                  <View style={styles.principleTitleLine}>
-                    <AppText style={styles.principleTitle}>
-                      {principle.title}
-                    </AppText>
-                    <AppText style={styles.principleLabel}>
-                      {principle.label}
-                    </AppText>
-                  </View>
-                  <AppText style={styles.principleDescription}>
-                    {principle.description}
-                  </AppText>
-                </View>
-              </View>
-            ))}
-
-            <View style={styles.principleSummary}>
-              <AppText style={styles.principleSummaryText}>
-                語るな ／ 信じるな ／ 同一化するな
-              </AppText>
-              <AppText style={styles.principleSummaryText}>
-                運用せよ ／ 目的に従え
-              </AppText>
-            </View>
-          </ScrollView>
-        </View>
-      </View>
-    </Modal>
-  );
-}
-
-export function BookTitle({
-  title,
-  subtitle,
-}: {
-  title: string;
-  subtitle?: string;
-}) {
-  const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
-  return (
-    <View style={styles.titleBlock}>
-      <AppText style={[styles.pageTitle, compact && styles.pageTitleCompact]}>
-        {title}
-      </AppText>
-      {subtitle ? (
-        <AppText style={[styles.pageSubtitle, compact && styles.pageSubtitleCompact]}>
-          {subtitle}
+    <View style={[styles.brand, compact && styles.brandCompact]}>
+      <View style={[styles.brandSeal, compact && styles.brandSealCompact]}>
+        <AppText style={[styles.brandSealText, compact && styles.brandSealTextCompact]}>
+          禄
         </AppText>
-      ) : null}
+      </View>
+      {!compact && (
+        <View>
+          <AppText style={styles.brandName}>処世術禄</AppText>
+          <AppText variant="caption" style={styles.brandCaption}>
+            SHŌSEIJUTSU ROKU
+          </AppText>
+        </View>
+      )}
     </View>
   );
 }
 
-export function OrnamentHeading({
-  children,
-  centered = false,
+export function Header({
+  eyebrow,
+  title,
+  description,
+  right,
 }: {
-  children: React.ReactNode;
-  centered?: boolean;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  right?: React.ReactNode;
 }) {
   return (
-    <View style={[styles.sectionHeading, centered && styles.sectionHeadingCentered]}>
-      <View style={styles.diamond} />
-      <AppText style={styles.sectionHeadingText}>{children}</AppText>
+    <View style={styles.header}>
+      <View style={styles.headerCopy}>
+        {eyebrow && (
+          <AppText variant="label" style={styles.eyebrow}>
+            {eyebrow}
+          </AppText>
+        )}
+        <AppText variant="title">{title}</AppText>
+        {description && (
+          <AppText style={styles.headerDescription}>{description}</AppText>
+        )}
+      </View>
+      {right}
     </View>
   );
 }
 
-export function IndexCard({
-  mark,
-  title,
-  subtitle,
-  count,
-  tint = colors.surface,
+export function DetailHeader({
+  title: _title,
+  right,
+}: {
+  title?: string;
+  right?: React.ReactNode;
+}) {
+  if (!right) return null;
+  return <View style={styles.detailHeaderInlineActions}>{right}</View>;
+}
+
+export function IconButton({
+  label,
+  icon,
+  active = false,
+  ...props
+}: PressableProps & { label: string; icon: string; active?: boolean }) {
+  return (
+    <Pressable
+      {...props}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={(state) => [
+        styles.iconButton,
+        active && styles.iconButtonActive,
+        state.pressed && styles.pressed,
+        typeof props.style === 'function' ? props.style(state) : props.style,
+      ]}
+      hitSlop={8}
+    >
+      <AppText style={[styles.iconButtonText, active && styles.iconButtonTextActive]}>
+        {icon}
+      </AppText>
+    </Pressable>
+  );
+}
+
+export function Pill({
+  children,
+  active = false,
   onPress,
 }: {
-  mark: string;
+  children: React.ReactNode;
+  active?: boolean;
+  onPress?: () => void;
+}) {
+  const content = (
+    <View style={[styles.pill, active && styles.pillActive]}>
+      <AppText
+        variant="caption"
+        style={[styles.pillText, active && styles.pillTextActive]}
+      >
+        {children}
+      </AppText>
+    </View>
+  );
+  if (!onPress) return content;
+  return (
+    <Pressable onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
+      {content}
+    </Pressable>
+  );
+}
+
+export function SectionHeader({
+  title,
+  count,
+  actionLabel,
+  actionHref,
+}: {
   title: string;
-  subtitle?: string;
   count?: number;
-  tint?: string;
+  actionLabel?: string;
+  actionHref?: string;
+}) {
+  return (
+    <View style={styles.sectionHeader}>
+      <AppText variant="serif" style={styles.sectionTitle}>
+        {title}
+        {typeof count === 'number' && (
+          <AppText variant="caption" style={styles.sectionCount}>
+            {' '}
+            {count}
+          </AppText>
+        )}
+      </AppText>
+      {actionLabel && actionHref && (
+        <Link href={actionHref as never} asChild>
+          <Pressable>
+            <AppText variant="label" style={styles.sectionAction}>
+              {actionLabel} ›
+            </AppText>
+          </Pressable>
+        </Link>
+      )}
+    </View>
+  );
+}
+
+export function ChoiceCard({
+  title,
+  description,
+  mark,
+  selected = false,
+  accentColor = colors.gold,
+  tintColor = colors.paperDeep,
+  onPress,
+}: {
+  title: string;
+  description?: string;
+  mark?: string;
+  selected?: boolean;
+  accentColor?: string;
+  tintColor?: string;
   onPress: () => void;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={title}
+      accessibilityState={{ selected }}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.indexCard,
-        { backgroundColor: tint },
+        styles.choice,
+        { borderColor: accentColor },
+        selected && styles.choiceSelected,
         pressed && styles.pressed,
       ]}
     >
-      <View style={styles.indexMark}>
-        <AppText style={styles.indexMarkText}>{mark}</AppText>
+      {mark && (
+        <View
+          style={[
+            styles.choiceMark,
+            { backgroundColor: tintColor },
+            selected && styles.choiceMarkSelected,
+          ]}
+        >
+          <AppText
+            style={[
+              styles.choiceMarkText,
+              { color: accentColor },
+              selected && styles.choiceMarkTextSelected,
+            ]}
+          >
+            {mark}
+          </AppText>
+        </View>
+      )}
+      <View style={styles.choiceCopy}>
+        <AppText variant="serif" style={styles.choiceTitle}>
+          {title}
+        </AppText>
+        {description && (
+          <AppText variant="caption" style={styles.choiceDescription}>
+            {description}
+          </AppText>
+        )}
       </View>
-      <View style={styles.indexCopy}>
-        <AppText style={styles.indexTitle}>{title}</AppText>
-        {subtitle ? <AppText style={styles.indexSubtitle}>{subtitle}</AppText> : null}
-      </View>
-      {typeof count === 'number' ? (
-        <AppText style={styles.indexCount}>{count}</AppText>
-      ) : null}
-      <AppText style={styles.indexChevron}>›</AppText>
+      <AppText style={[styles.chevron, { color: accentColor }]}>›</AppText>
     </Pressable>
   );
 }
 
-export const bookCardShadow = shadow.card;
+export function PrimaryButton({
+  children,
+  disabled,
+  ...props
+}: PressableProps & { children: React.ReactNode }) {
+  return (
+    <Pressable
+      {...props}
+      accessibilityRole="button"
+      disabled={disabled}
+      style={({ pressed }) => [
+        styles.primaryButton,
+        disabled && styles.primaryDisabled,
+        pressed && !disabled && styles.primaryPressed,
+      ]}
+    >
+      <AppText variant="label" style={styles.primaryButtonText}>
+        {children}
+      </AppText>
+    </Pressable>
+  );
+}
+
+export function EmptyState({
+  mark = '余',
+  title,
+  description,
+}: {
+  mark?: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <View style={styles.empty}>
+      <View style={styles.emptyMark}>
+        <AppText style={styles.emptyMarkText}>{mark}</AppText>
+      </View>
+      <AppText variant="serif" style={styles.emptyTitle}>
+        {title}
+      </AppText>
+      <AppText style={styles.emptyDescription}>{description}</AppText>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.charcoal },
-  scroll: { flex: 1, backgroundColor: colors.paper },
-  content: {
+  flex: { flex: 1 },
+  screen: { flex: 1, backgroundColor: colors.paper },
+  screenContent: {
     width: '100%',
-    maxWidth: layout.readingWidth,
+    maxWidth: 1040,
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
     paddingBottom: layout.bottomContentInset,
   },
-  contentCompact: {
-    paddingHorizontal: spacing.md,
-    paddingTop: spacing.lg,
-  },
-  contentDesktop: { paddingBottom: spacing.section },
-  header: {
-    minHeight: 72,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 9,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: spacing.sm,
-    backgroundColor: colors.charcoal,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gold,
-  },
-  headerCompact: {
-    minHeight: 58,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-  },
-  brandGroup: {
-    minWidth: 0,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-  },
-  headerBack: {
-    minWidth: 92,
-    minHeight: 38,
-    paddingHorizontal: 13,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    borderWidth: 1,
-    borderColor: colors.goldLight,
-    borderRadius: 8,
-  },
-  headerBackCompact: {
-    minWidth: 80,
-    minHeight: 36,
-    paddingHorizontal: 10,
-  },
-  headerBackIcon: {
-    color: colors.surface,
-    fontSize: 27,
-    lineHeight: 28,
-    marginTop: -2,
-  },
-  headerBackText: {
-    color: colors.surface,
+  text: {
+    color: colors.ink,
     fontFamily: fonts.sans,
-    fontSize: 12,
-    lineHeight: 17,
-    fontWeight: '600',
-  },
-  seal: {
-    width: 46,
-    height: 46,
-    borderRadius: 11,
-    borderWidth: 2,
-    borderColor: colors.goldLight,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  sealCompact: { width: 40, height: 40, borderRadius: 9 },
-  sealText: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontWeight: '700',
-    fontSize: 27,
-    lineHeight: 36,
-  },
-  brandCopy: { minWidth: 0, gap: 1 },
-  brandCopyHidden: { display: 'none' },
-  mobileScreenTitle: {
-    position: 'absolute',
-    left: 70,
-    right: 112,
-    color: colors.surface,
-    fontFamily: fonts.serif,
     fontSize: 16,
-    lineHeight: 22,
-    fontWeight: '600',
-    letterSpacing: 1.6,
-    textAlign: 'center',
+    lineHeight: 28,
   },
-  brandName: {
-    color: colors.surface,
+  caption: { color: '#686A65', fontSize: 12, lineHeight: 19 },
+  label: { fontSize: 12, lineHeight: 18, fontWeight: '700', letterSpacing: 1 },
+  title: {
     fontFamily: fonts.serif,
-    fontSize: 21,
-    lineHeight: 29,
+    fontSize: 28,
+    lineHeight: 40,
     fontWeight: '700',
-    letterSpacing: 3,
   },
-  brandSubtitle: {
-    color: colors.goldLight,
+  display: {
     fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: 3,
+    fontSize: 38,
+    lineHeight: 56,
+    fontWeight: '700',
   },
-  headerActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 3,
-  },
-  headerAction: {
-    width: 48,
-    minHeight: 44,
-    borderRadius: radius.sm,
+  serif: { fontFamily: fonts.serif, fontWeight: '600' },
+  brand: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  brandCompact: { gap: 0 },
+  brandSeal: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: colors.ink,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 2,
-  },
-  headerActionPressed: {
-    backgroundColor: 'rgba(210,182,111,0.14)',
-    opacity: 0.72,
-  },
-  headerActionLabel: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 14,
-    letterSpacing: 1,
-  },
-  settingsIcon: {
-    color: colors.goldLight,
-    fontSize: 23,
-    lineHeight: 28,
-  },
-  principleMark: {
-    width: 27,
-    height: 27,
-    borderRadius: 14,
     borderWidth: 1,
-    borderColor: colors.goldLight,
-    position: 'relative',
-  },
-  principleDot: {
-    position: 'absolute',
-    width: 3,
-    height: 3,
-    borderRadius: 2,
-    backgroundColor: colors.goldLight,
-  },
-  principleDotTop: { top: 3, left: 11 },
-  principleDotUpperLeft: { top: 9, left: 4 },
-  principleDotUpperRight: { top: 9, right: 4 },
-  principleDotLowerLeft: { bottom: 4, left: 7 },
-  principleDotLowerRight: { bottom: 4, right: 7 },
-  principleCenter: {
-    position: 'absolute',
-    left: 11,
-    top: 11,
-    width: 5,
-    height: 5,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
-  modalRoot: {
-    flex: 1,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(16,17,16,0.72)',
-  },
-  modalRootCompact: {
-    paddingHorizontal: 0,
-    paddingTop: 72,
-    paddingBottom: 0,
-    justifyContent: 'flex-end',
-  },
-  principlesCard: {
-    width: '100%',
-    maxWidth: 680,
-    maxHeight: '92%',
-    borderRadius: radius.lg,
-    borderWidth: 1.5,
     borderColor: colors.gold,
-    backgroundColor: colors.paper,
-    overflow: 'hidden',
-    ...shadow.card,
   },
-  principlesCardCompact: {
-    maxHeight: '88%',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  modalHeader: {
-    minHeight: 82,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.charcoal,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gold,
-  },
-  modalTitleGroup: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  modalEyebrow: {
+  brandSealCompact: { width: 38, height: 38, borderRadius: 12 },
+  brandSealText: {
     color: colors.goldLight,
     fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 14,
-    letterSpacing: 2,
+    fontSize: 25,
+    lineHeight: 34,
+    fontWeight: '700',
   },
-  modalTitle: {
-    color: colors.surface,
+  brandSealTextCompact: { fontSize: 19, lineHeight: 26 },
+  brandName: {
     fontFamily: fonts.serif,
+    fontWeight: '700',
     fontSize: 20,
-    lineHeight: 28,
-    fontWeight: '600',
+    lineHeight: 26,
     letterSpacing: 2,
   },
-  modalClose: {
+  brandCaption: { fontSize: 8, letterSpacing: 2.5, lineHeight: 12 },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xxl,
+    gap: spacing.md,
+  },
+  headerCopy: { flex: 1 },
+  eyebrow: { color: colors.gold, marginBottom: spacing.xs },
+  headerDescription: { color: colors.muted, marginTop: spacing.sm },
+  detailHeader: {
+    minHeight: 48,
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.lg,
+  },
+  detailHeaderInlineActions: {
+    minHeight: 36,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+  },
+  detailBack: {
+    position: 'absolute',
+    left: 0,
+    minWidth: 104,
+    height: 48,
+    paddingHorizontal: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: '#CDBA94',
+    backgroundColor: colors.surface,
+    shadowColor: '#4A3828',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 3,
+  },
+  detailBackPressed: {
+    opacity: 0.72,
+    transform: [{ translateX: -2 }, { scale: 0.97 }],
+  },
+  detailBackIcon: { width: 27, height: 27, borderRadius: 14, overflow: 'hidden', textAlign: 'center', color: colors.gold, backgroundColor: '#F4ECDD', fontSize: 25, lineHeight: 26, marginTop: -1 },
+  detailBackText: { color: colors.inkSoft, fontSize: 12, lineHeight: 17, letterSpacing: 0.7 },
+  detailHeaderTitle: { alignSelf: 'stretch', textAlign: 'center', color: colors.muted, paddingHorizontal: 94 },
+  detailHeaderRight: { position: 'absolute', right: 0, minWidth: 44, alignItems: 'flex-end' },
+  iconButton: {
     width: 44,
     height: 44,
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(210,182,111,0.45)',
-  },
-  modalCloseText: {
-    color: colors.goldLight,
-    fontSize: 29,
-    lineHeight: 32,
-    fontWeight: '300',
-  },
-  principlesContent: {
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.xl,
-  },
-  modalLead: {
-    marginBottom: spacing.md,
-    color: colors.inkSoft,
-    fontFamily: fonts.serif,
-    fontSize: 14,
-    lineHeight: 24,
-    letterSpacing: 0.8,
-  },
-  principleRow: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    paddingVertical: spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-  },
-  principleNumber: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.gold,
-    backgroundColor: colors.surface,
-  },
-  principleNumberText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 18,
-    fontWeight: '700',
-    letterSpacing: 1,
-  },
-  principleCopy: { flex: 1 },
-  principleTitleLine: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    flexWrap: 'wrap',
-    gap: 7,
-  },
-  principleTitle: {
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontSize: 17,
-    lineHeight: 25,
-    fontWeight: '600',
-  },
-  principleLabel: {
-    color: colors.gold,
-    fontSize: 10,
-    lineHeight: 16,
-    letterSpacing: 0.5,
-  },
-  principleDescription: {
-    marginTop: 5,
-    color: colors.inkSoft,
-    fontSize: 13,
-    lineHeight: 22,
-  },
-  principleSummary: {
-    marginTop: spacing.sm,
-    padding: spacing.md,
-    alignItems: 'center',
-    borderRadius: radius.md,
-    backgroundColor: colors.sage,
-  },
-  principleSummaryText: {
-    color: colors.moss,
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 23,
-    fontWeight: '600',
-    letterSpacing: 1,
-    textAlign: 'center',
-  },
-  titleBlock: { alignItems: 'center', marginBottom: spacing.xl },
-  pageTitle: {
-    fontFamily: fonts.serif,
-    fontSize: 38,
-    lineHeight: 54,
-    fontWeight: '600',
-    letterSpacing: 4,
-    color: colors.ink,
-  },
-  pageTitleCompact: {
-    fontSize: 30,
-    lineHeight: 42,
-    letterSpacing: 2.5,
-  },
-  pageSubtitle: {
-    marginTop: spacing.sm,
-    fontFamily: fonts.serif,
-    fontSize: 15,
-    lineHeight: 24,
-    letterSpacing: 1.6,
-    textAlign: 'center',
-    color: colors.inkSoft,
-  },
-  pageSubtitleCompact: { fontSize: 13, lineHeight: 21 },
-  sectionHeading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginTop: spacing.xl,
-    marginBottom: spacing.md,
-  },
-  sectionHeadingCentered: { justifyContent: 'center' },
-  diamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
-  sectionHeadingText: {
-    fontFamily: fonts.serif,
-    fontSize: 21,
-    lineHeight: 30,
-    fontWeight: '600',
-    letterSpacing: 1.5,
-  },
-  indexCard: {
-    minHeight: 112,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
+    backgroundColor: 'rgba(255,255,255,0.72)',
     borderWidth: 1,
     borderColor: colors.line,
+  },
+  iconButtonActive: { backgroundColor: colors.ink, borderColor: colors.ink },
+  iconButtonText: { fontSize: 20, lineHeight: 24, color: colors.inkSoft },
+  iconButtonTextActive: { color: colors.goldLight },
+  pressed: { opacity: 0.65 },
+  pill: {
+    minHeight: 28,
+    justifyContent: 'center',
+    paddingHorizontal: 11,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.surface,
+  },
+  pillActive: { backgroundColor: colors.ink, borderColor: colors.ink },
+  pillText: { color: colors.inkSoft },
+  pillTextActive: { color: colors.paper },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: spacing.xxl,
+    marginBottom: spacing.lg,
+  },
+  sectionTitle: { fontSize: 20, lineHeight: 28 },
+  sectionCount: { color: colors.gold },
+  sectionAction: { color: colors.gold },
+  choice: {
+    minHeight: 104,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    backgroundColor: colors.white,
     borderRadius: radius.md,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    padding: spacing.lg,
     marginBottom: spacing.md,
   },
-  indexMark: {
+  choiceSelected: { borderColor: colors.gold, backgroundColor: '#F3E9D3' },
+  choiceMark: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.paperDeep,
+  },
+  choiceMarkSelected: { backgroundColor: colors.ink },
+  choiceMarkText: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: '700',
+  },
+  choiceMarkTextSelected: { color: colors.goldLight },
+  choiceCopy: { flex: 1 },
+  choiceTitle: { fontSize: 17, lineHeight: 24 },
+  choiceDescription: { marginTop: 4 },
+  chevron: { color: colors.gold, fontSize: 26, lineHeight: 30 },
+  primaryButton: {
+    minHeight: 54,
+    borderRadius: radius.md,
+    backgroundColor: colors.ink,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing.lg,
+  },
+  primaryDisabled: { backgroundColor: colors.muted, opacity: 0.45 },
+  primaryPressed: { backgroundColor: colors.inkSoft, transform: [{ scale: 0.99 }] },
+  primaryButtonText: { color: colors.paper, fontSize: 14 },
+  empty: { alignItems: 'center', paddingVertical: 64, paddingHorizontal: spacing.xl },
+  emptyMark: {
     width: 58,
     height: 58,
     borderRadius: 29,
     borderWidth: 1,
-    borderColor: colors.gold,
+    borderColor: colors.line,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: spacing.lg,
   },
-  indexMarkText: {
+  emptyMarkText: {
     fontFamily: fonts.serif,
-    fontSize: 21,
+    color: colors.gold,
+    fontSize: 22,
     lineHeight: 28,
-    color: colors.gold,
-    fontWeight: '700',
   },
-  indexCopy: { flex: 1 },
-  indexTitle: {
-    fontFamily: fonts.serif,
-    fontSize: 20,
-    lineHeight: 29,
-    fontWeight: '600',
-    letterSpacing: 1,
-  },
-  indexSubtitle: {
-    marginTop: 3,
-    fontFamily: fonts.serif,
-    color: colors.inkSoft,
-    fontSize: 13,
-    lineHeight: 20,
-  },
-  indexCount: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 24,
-    lineHeight: 30,
-  },
-  indexChevron: { color: colors.gold, fontSize: 32, lineHeight: 36 },
-  pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
+  emptyTitle: { fontSize: 20, lineHeight: 30, marginBottom: spacing.sm },
+  emptyDescription: { textAlign: 'center', color: colors.muted },
 });
