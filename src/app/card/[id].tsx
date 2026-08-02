@@ -1,102 +1,40 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  Pressable,
-  Share,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
-import {
-  AppText,
-  DetailHeader,
-  EmptyState,
-  Pill,
-  Screen,
-  SectionHeader,
-} from '@/components/ui';
-import {
-  colors,
-  fonts,
-  radius,
-  spacing,
-} from '@/constants/theme';
+import { useEffect, useMemo } from 'react';
+import { Pressable, Share, StyleSheet, View } from 'react-native';
+import { AppText, EmptyState, Screen } from '@/components/ui';
+import { DetailSwipe } from '@/components/detail-swipe';
+import { useAppToast } from '@/components/app-toast';
+import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
-  getTheoryDisplayId,
   techniqueById,
   techniqueCards,
   theoryById,
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
-import { useAppToast } from '@/components/app-toast';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { DetailSwipe } from '@/components/detail-swipe';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
 }
 
-function getDetailTitleMetrics(title: string, viewportWidth: number, compact: boolean) {
-  const characterCount = [...title.replace(/\s/g, '')].length;
-  const longestEstimatedLine = Math.max(Math.ceil(characterCount / 2), 1);
-  const availableWidth = compact
-    ? Math.max(viewportWidth - 82, 230)
-    : Math.min(viewportWidth - 160, 1120);
-  const maximumSize = compact ? 25 : 42;
-  const minimumSize = compact ? 17 : 26;
-  const fittedSize = Math.floor(availableWidth / longestEstimatedLine);
-  const fontSize = Math.max(minimumSize, Math.min(maximumSize, fittedSize));
-
-  return {
-    fontSize,
-    lineHeight: Math.round(fontSize * 1.42),
-    letterSpacing: compact ? 0.15 : 1.2,
-  };
-}
-
 export default function CardDetailScreen() {
-  const showToast = useAppToast();
   const router = useRouter();
+  const showToast = useAppToast();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { width } = useHydratedWindowDimensions();
-  const isCompact = width < 720;
-  const isWide = width >= 960;
   const card = techniqueById.get(id);
-  const {
-    savedIds,
-    notes,
-    collections,
-    practiceRecords,
-    toggleSaved,
-    addHistory,
-    saveNote,
-    toggleCollectionCard,
-    planPractice,
-    completePractice,
-  } = useAppState();
-  const [note, setNote] = useState(notes[id] ?? '');
+  const { savedIds, toggleSaved, addHistory } = useAppState();
 
   useEffect(() => {
     if (id) addHistory(id);
   }, [addHistory, id]);
 
-  useEffect(() => setNote(notes[id] ?? ''), [id, notes]);
-
-  const related = useMemo(() => (card ? getRelatedCards(card) : []), [card]);
-  const navigateCard = (offset: -1 | 1) => {
-    const currentIndex = techniqueCards.findIndex((item) => item.id === card?.id);
-    if (currentIndex < 0) return;
-    const next = techniqueCards[(currentIndex + offset + techniqueCards.length) % techniqueCards.length];
-    router.replace({ pathname: '/card/[id]', params: { id: next.id } });
-  };
+  const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card]);
 
   if (!card) {
     return (
-      <Screen>
-        <DetailHeader />
+      <Screen contentContainerStyle={styles.screenContent}>
         <EmptyState
           title="処世術が見つかりません"
           description="コンテンツが更新された可能性があります。前の画面へ戻ってください。"
@@ -106,439 +44,294 @@ export default function CardDetailScreen() {
   }
 
   const isSaved = savedIds.includes(card.id);
-  const practiceRecord = practiceRecords[card.id];
   const guidance = practiceGuidance[card.categoryKey];
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
-    .filter(Boolean);
-  const titleMetrics = getDetailTitleMetrics(card.title, width, isCompact);
+    .filter(Boolean)
+    .slice(0, 3);
+  const explanation = splitExplanation(card.explanation, card.subtitle);
+  const tags = Array.from(
+    new Set([card.categoryName, card.subcategory, ...(card.tags ?? [])]),
+  );
+
+  const navigateCard = (offset: -1 | 1) => {
+    const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
+    const next =
+      techniqueCards[
+        (currentIndex + offset + techniqueCards.length) % techniqueCards.length
+      ];
+    router.replace({ pathname: '/card/[id]', params: { id: next.id } });
+  };
 
   return (
     <Screen
-      style={styles.detailScreen}
-      contentContainerStyle={[
-        styles.screenContent,
-        isCompact && styles.screenContentCompact,
-      ]}
+      style={styles.screen}
+      contentContainerStyle={styles.screenContent}
     >
       <DetailSwipe
-        style={styles.readingColumn}
+        style={styles.article}
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
-        <DetailHeader />
+        <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
 
-        <View style={styles.eyebrow}>
-          <AppText variant="caption" style={styles.breadcrumb}>
-            処世術　/　{card.categoryName}　/　{card.subcategory}
-          </AppText>
-          <View style={styles.serial}>
-            <View style={styles.serialMark}>
-              <AppText style={styles.serialMarkText}>禄</AppText>
-            </View>
-            <AppText variant="label" style={styles.cardId}>
-              {getTechniqueDisplayId(card)}
-            </AppText>
-          </View>
-        </View>
+        <AppText
+          variant="serif"
+          numberOfLines={2}
+          adjustsFontSizeToFit
+          minimumFontScale={0.7}
+          style={styles.title}
+        >
+          {card.title}
+        </AppText>
 
-        <View style={styles.heroShell}>
-          <View style={styles.hero}>
-            <View style={styles.heroMeta}>
-              <AppText variant="label" style={styles.categoryLabel}>
-                {card.categoryName}
-              </AppText>
-              <View style={styles.metaDivider} />
-              <AppText variant="caption" style={styles.subcategoryLabel}>
-                {card.subcategory}
-              </AppText>
-            </View>
-
-            <View style={[styles.heroCopy, isCompact && styles.heroCopyCompact]}>
-              <AppText
-                numberOfLines={2}
-                adjustsFontSizeToFit
-                minimumFontScale={0.72}
-                style={[
-                  styles.title,
-                  isCompact && styles.titleCompact,
-                  titleMetrics,
-                ]}
+        <View style={styles.metaRow}>
+          <View style={styles.tagRow}>
+            {tags.slice(0, 6).map((tag, index) => (
+              <View
+                key={tag}
+                style={[styles.topTag, index === 0 && styles.topTagPrimary]}
               >
-                {card.title}
-              </AppText>
-              <View style={styles.ornament}>
-                <View style={styles.ornamentLine} />
-                <View style={styles.ornamentDiamond} />
-                <View style={styles.ornamentLine} />
+                <AppText
+                  style={[
+                    styles.topTagText,
+                    index === 0 && styles.topTagTextPrimary,
+                  ]}
+                >
+                  {tag}
+                </AppText>
               </View>
-              {card.subtitle && (
-                <AppText style={styles.heroLead}>{card.subtitle}</AppText>
-              )}
-            </View>
+            ))}
+          </View>
 
-            <View style={styles.heroActions}>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={isSaved ? '蔵書から削除' : '蔵書に保存'}
-                onPress={() => {
-                  toggleSaved(card.id);
-                  showToast(
-                    isSaved ? '蔵書から外しました' : '蔵書に保存しました',
-                  );
-                }}
-                style={({ pressed }) => [
-                  styles.actionButton,
-                  styles.saveButton,
-                  isSaved && styles.actionButtonActive,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <AppText
-                  style={[
-                    styles.actionIcon,
-                    styles.saveActionText,
-                    isSaved && styles.actionTextActive,
-                  ]}
-                >
-                  {isSaved ? '◆' : '◇'}
-                </AppText>
-                <AppText
-                  variant="label"
-                  style={[
-                    styles.actionText,
-                    styles.saveActionText,
-                    isSaved && styles.actionTextActive,
-                  ]}
-                >
-                  {isSaved ? '蔵書に保存済み' : '蔵書に保存'}
-                </AppText>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="共有"
-                onPress={() =>
-                  void Share.share({
-                    title: '処世術禄',
-                    message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
-                  })
-                }
-                style={({ pressed }) => [
-                  styles.shareButton,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <AppText style={styles.actionIcon}>↗</AppText>
-                <AppText variant="label" style={styles.actionText}>
-                  共有
-                </AppText>
-              </Pressable>
-            </View>
+          <View style={styles.actions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={isSaved ? '保存を解除' : '保存'}
+              hitSlop={8}
+              onPress={() => {
+                toggleSaved(card.id);
+                showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
+              }}
+              style={({ pressed }) => pressed && styles.pressed}
+            >
+              <AppText style={[styles.actionIcon, isSaved && styles.actionIconSaved]}>
+                {isSaved ? '★' : '☆'}
+              </AppText>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="共有"
+              hitSlop={8}
+              onPress={() =>
+                void Share.share({
+                  title: '処世術禄',
+                  message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
+                })
+              }
+              style={({ pressed }) => pressed && styles.pressed}
+            >
+              <AppText style={styles.shareIcon}>⇧</AppText>
+            </Pressable>
           </View>
         </View>
 
-        {card.explanation && (
-          <>
-            <EditorialHeading title="解説" />
-            <Explanation value={card.explanation} wide={isWide} />
-          </>
-        )}
+        <View style={styles.rule} />
 
-        {(related.length > 0 || relatedTheories.length > 0) && (
-          <View style={[styles.relatedGrid, isCompact && styles.relatedGridCompact]}>
-            {related.length > 0 && (
-              <RelatedPanel
-                title="関連する処世術"
-                mark="縁"
-                compact={isCompact}
-              >
-                {related.slice(0, 3).map((relatedCard) => (
-                  <Pressable
-                    key={relatedCard.id}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${relatedCard.title}を開く`}
-                    onPress={() =>
-                      router.push({
-                        pathname: '/card/[id]',
-                        params: { id: relatedCard.id },
-                      })
-                    }
-                    style={({ pressed }) => [
-                      styles.relatedRow,
-                      pressed && styles.pressed,
-                    ]}
-                  >
-                    <View style={styles.relatedCopy}>
-                      <AppText variant="label" style={styles.relatedId}>
-                        {getTechniqueDisplayId(relatedCard)}
-                      </AppText>
-                      <AppText
-                        variant="serif"
-                        style={styles.relatedTitle}
-                        numberOfLines={2}
-                      >
-                        {relatedCard.title}
-                      </AppText>
-                    </View>
-                    <AppText style={styles.relatedChevron}>›</AppText>
-                  </Pressable>
-                ))}
-              </RelatedPanel>
-            )}
-
-            {relatedTheories.length > 0 && (
-              <RelatedPanel
-                title="関連する理論"
-                mark="理"
-                compact={isCompact}
-              >
-                {relatedTheories.slice(0, 3).map((theory) =>
-                  theory ? (
-                    <Pressable
-                      key={theory.tagId}
-                      accessibilityRole="button"
-                      accessibilityLabel={`${theory.title}を開く`}
-                      onPress={() =>
-                        router.push({
-                          pathname: '/theory/[id]',
-                          params: { id: theory.tagId },
-                        })
-                      }
-                      style={({ pressed }) => [
-                        styles.relatedRow,
-                        pressed && styles.pressed,
-                      ]}
-                    >
-                      <View style={styles.relatedCopy}>
-                        <AppText variant="label" style={styles.relatedId}>
-                          {getTheoryDisplayId(theory)}
-                        </AppText>
-                        <AppText
-                          variant="serif"
-                          style={styles.relatedTitle}
-                          numberOfLines={2}
-                        >
-                          {theory.title}
-                        </AppText>
-                      </View>
-                      <AppText style={styles.relatedChevron}>›</AppText>
-                    </Pressable>
-                  ) : null,
-                )}
-              </RelatedPanel>
-            )}
-          </View>
-        )}
-
-        <SectionHeader title="実践の視点" />
-        <AppText style={styles.intro}>
-          この処世術を、そのまま正解として当てはめない。まずは次の順序で、
-          今の状況に合うかを確かめます。
-        </AppText>
-        <NumberedList items={guidance.actions} wide={isWide} />
-
-        <View style={styles.practiceCard}>
-          <View style={styles.practiceCopy}>
-            <AppText variant="serif" style={styles.practiceTitle}>
-              {practiceRecord?.status === 'tried'
-                ? 'この処世術は実践済みです'
-                : practiceRecord
-                  ? '試す処世術に入っています'
-                  : '知ったことを、現場の一手へ'}
-            </AppText>
-            <AppText style={styles.practiceDescription}>
-              {practiceRecord?.status === 'tried'
-                ? '下のメモに、効いたことと次に変えることを残せます。'
-                : '小さく試し、結果をメモすると自分の判断軸になります。'}
-            </AppText>
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={
-              practiceRecord?.status === 'tried'
-                ? '実践済み'
-                : practiceRecord
-                  ? '試したとして記録'
-                  : 'この処世術を試す'
-            }
-            disabled={practiceRecord?.status === 'tried'}
-            onPress={() =>
-              practiceRecord
-                ? completePractice(card.id)
-                : planPractice(card.id)
-            }
-            style={({ pressed }) => [
-              styles.practiceButton,
-              practiceRecord?.status === 'tried' &&
-                styles.practiceButtonComplete,
-              pressed && styles.pressed,
-            ]}
-          >
-            <AppText style={styles.practiceButtonText}>
-              {practiceRecord?.status === 'tried'
-                ? '✓ 実践済み'
-                : practiceRecord
-                  ? '試したとして記録'
-                  : '今日、試してみる'}
-            </AppText>
-          </Pressable>
-        </View>
-
-        <SectionHeader title="注意点" />
-        <View style={styles.caution}>
-          {guidance.cautions.map((item) => (
-            <View key={item} style={styles.bulletRow}>
-              <AppText style={styles.cautionBullet}>—</AppText>
-              <AppText style={styles.cautionText}>{item}</AppText>
+        <View style={styles.summaryCard}>
+          <View style={styles.bulbMark}>
+            <View style={styles.bulbGlyph}>
+              <View style={styles.bulbGlass} />
+              <View style={styles.bulbStem} />
             </View>
-          ))}
+          </View>
+          <View style={styles.summaryCopy}>
+            <AppText variant="serif" style={styles.summaryLabel}>
+              一言でいうと
+            </AppText>
+            <AppText variant="serif" style={styles.summaryText}>
+              {explanation.lead}
+            </AppText>
+          </View>
         </View>
 
-        <SectionHeader title="自分のメモ" />
-        <TextInput
-          accessibilityLabel="この処世術へのメモ"
-          multiline
-          maxLength={500}
-          placeholder="この知恵を、どんな場面で使うか。"
-          placeholderTextColor={colors.muted}
-          value={note}
-          onChangeText={setNote}
-          onBlur={() => saveNote(card.id, note.trim())}
-          style={styles.noteInput}
-          textAlignVertical="top"
-        />
-        <AppText variant="caption" style={styles.noteCaption}>
-          入力内容はこの端末だけに保存されます。
-        </AppText>
-
-        {collections.length > 0 && (
-          <>
-            <SectionHeader title="コレクションに追加" />
-            <View style={styles.collections}>
-              {collections.map((collection) => (
-                <Pill
-                  key={collection.id}
-                  active={collection.cardIds.includes(card.id)}
-                  onPress={() => toggleCollectionCard(collection.id, card.id)}
-                >
-                  {collection.name}
-                </Pill>
+        {!!explanation.body.length && (
+          <ArticleSection title="解説">
+            <View style={styles.explanation}>
+              {explanation.body.map((paragraph, index) => (
+                <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>
+                  {paragraph}
+                </RichParagraph>
               ))}
             </View>
-          </>
+          </ArticleSection>
         )}
 
-        {(card.tags?.length ?? 0) > 0 && (
-          <>
-            <EditorialHeading title="関連タグ" />
-            <View style={styles.tags}>
-              {card.tags!.map((tag) => (
-                <View key={tag} style={styles.tag}>
-                  <AppText variant="label" style={styles.tagText}>
-                    #{tag}
-                  </AppText>
+        <ArticleSection title="今日からできる実践" ruled>
+          <View style={styles.practiceGrid}>
+            <View style={styles.practiceList}>
+              {guidance.actions.map((item) => (
+                <View key={item} style={styles.checkRow}>
+                  <View style={styles.checkMark}>
+                    <AppText style={styles.checkText}>✓</AppText>
+                  </View>
+                  <AppText style={styles.practiceText}>{item}</AppText>
                 </View>
               ))}
             </View>
-          </>
+
+            <View style={styles.cautionCard}>
+              <View style={styles.cautionTitleRow}>
+                <AppText style={styles.cautionIcon}>◎</AppText>
+                <AppText variant="serif" style={styles.cautionTitle}>
+                  注意点
+                </AppText>
+              </View>
+              <AppText style={styles.cautionText}>{guidance.cautions[0]}</AppText>
+            </View>
+          </View>
+        </ArticleSection>
+
+        {relatedTheories.length > 0 && (
+          <ArticleSection title="関連する理論カード" mark="▱">
+            <View style={styles.theoryGrid}>
+              {relatedTheories.map((theory) =>
+                theory ? (
+                  <Pressable
+                    key={theory.tagId}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${theory.title}を開く`}
+                    onPress={() =>
+                      router.push({
+                        pathname: '/theory/[id]',
+                        params: { id: theory.tagId },
+                      })
+                    }
+                    style={({ pressed }) => [
+                      styles.theoryCard,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <View style={styles.theoryTitleRow}>
+                      <AppText style={styles.theoryMark}>♙</AppText>
+                      <AppText
+                        variant="serif"
+                        numberOfLines={2}
+                        style={styles.theoryTitle}
+                      >
+                        {theory.title}
+                      </AppText>
+                      <AppText style={styles.chevron}>›</AppText>
+                    </View>
+                    <AppText numberOfLines={3} style={styles.theorySummary}>
+                      {cleanText(
+                        theory.summary ??
+                          theory.definition ??
+                          `${theory.discipline}の理論`,
+                      )}
+                    </AppText>
+                  </Pressable>
+                ) : null,
+              )}
+            </View>
+          </ArticleSection>
+        )}
+
+        {related.length > 0 && (
+          <ArticleSection title="関連する処世術" mark="▱">
+            <View style={styles.relatedGrid}>
+              {related.map((relatedCard) => (
+                <Pressable
+                  key={relatedCard.id}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${relatedCard.title}を開く`}
+                  onPress={() =>
+                    router.push({
+                      pathname: '/card/[id]',
+                      params: { id: relatedCard.id },
+                    })
+                  }
+                  style={({ pressed }) => [
+                    styles.relatedItem,
+                    pressed && styles.pressed,
+                  ]}
+                >
+                  <AppText style={styles.relatedChevron}>›</AppText>
+                  <AppText numberOfLines={2} style={styles.relatedText}>
+                    {getTechniqueDisplayId(relatedCard)} {relatedCard.title}
+                  </AppText>
+                </Pressable>
+              ))}
+            </View>
+          </ArticleSection>
+        )}
+
+        {!!card.tags?.length && (
+          <ArticleSection title="タグ">
+            <View style={styles.bottomTags}>
+              {card.tags.map((tag) => (
+                <View key={tag} style={styles.bottomTag}>
+                  <AppText style={styles.bottomTagText}>{tag}</AppText>
+                </View>
+              ))}
+            </View>
+          </ArticleSection>
         )}
       </DetailSwipe>
     </Screen>
   );
 }
 
-function NumberedList({ items, wide }: { items: string[]; wide: boolean }) {
-  return (
-    <View style={[styles.numberedList, wide && styles.numberedListWide]}>
-      {items.map((item, index) => (
-        <View
-          key={item}
-          style={[styles.numberedRow, wide && styles.numberedRowWide]}
-        >
-          <View style={styles.number}>
-            <AppText variant="label" style={styles.numberText}>
-              {String(index + 1).padStart(2, '0')}
-            </AppText>
-          </View>
-          <AppText style={styles.numberedText}>{item}</AppText>
-        </View>
-      ))}
-    </View>
-  );
-}
-
-function Explanation({ value, wide }: { value: string; wide: boolean }) {
-  const paragraphs = value
+function splitExplanation(value?: string, subtitle?: string) {
+  const paragraphs = (value ?? '')
     .split(/\n\s*\n/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
+  const first = paragraphs[0] ?? '';
+  const firstIsLead = first.startsWith('**') && first.endsWith('**');
 
+  return {
+    lead: cleanText(firstIsLead ? first : subtitle ?? first),
+    body: firstIsLead ? paragraphs.slice(1) : paragraphs,
+  };
+}
+
+function cleanText(value: string) {
+  return value.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+}
+
+function RichParagraph({ children }: { children: string }) {
   return (
-    <View style={[styles.explanation, wide && styles.explanationWide]}>
-      {paragraphs.map((paragraph, paragraphIndex) => (
-        <View
-          key={`${paragraph.slice(0, 24)}-${paragraphIndex}`}
-          style={[
-            styles.explanationParagraph,
-            wide && styles.explanationParagraphWide,
-            wide && paragraphIndex > 0 && styles.explanationParagraphDivided,
-          ]}
-        >
-          <AppText
-            style={[
-              styles.explanationText,
-              paragraphIndex === paragraphs.length - 1 &&
-                styles.explanationConclusion,
-            ]}
-          >
-            {paragraph.split(/(\*\*.*?\*\*)/g).map((part, partIndex) =>
-              part.startsWith('**') && part.endsWith('**') ? (
-                <AppText
-                  key={`${partIndex}-${part}`}
-                  style={styles.explanationStrong}
-                >
-                  {part.slice(2, -2)}
-                </AppText>
-              ) : (
-                part
-              ),
-            )}
+    <AppText style={styles.explanationText}>
+      {children.split(/(\*\*.*?\*\*)/g).map((part, index) =>
+        part.startsWith('**') && part.endsWith('**') ? (
+          <AppText key={`${part}-${index}`} style={styles.explanationStrong}>
+            {part.slice(2, -2)}
           </AppText>
-        </View>
-      ))}
-    </View>
+        ) : (
+          part
+        ),
+      )}
+    </AppText>
   );
 }
 
-function EditorialHeading({ title }: { title: string }) {
-  return (
-    <View style={styles.editorialHeading}>
-      <View style={styles.headingDiamond} />
-      <AppText variant="serif" style={styles.editorialHeadingText}>
-        {title}
-      </AppText>
-    </View>
-  );
-}
-
-function RelatedPanel({
+function ArticleSection({
   title,
   mark,
-  compact,
+  ruled = false,
   children,
 }: {
   title: string;
-  mark: string;
-  compact: boolean;
+  mark?: string;
+  ruled?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <View style={[styles.relatedPanel, compact && styles.relatedPanelCompact]}>
-      <View style={styles.relatedPanelHeader}>
-        <View style={styles.relatedPanelMark}>
-          <AppText style={styles.relatedPanelMarkText}>{mark}</AppText>
-        </View>
-        <AppText variant="serif" style={styles.relatedPanelTitle}>
+    <View style={[styles.section, ruled && styles.sectionRuled]}>
+      <View style={styles.sectionHeading}>
+        {mark ? <AppText style={styles.sectionMark}>{mark}</AppText> : <View style={styles.goldBar} />}
+        <AppText variant="serif" style={styles.sectionTitle}>
           {title}
         </AppText>
       </View>
@@ -548,443 +341,191 @@ function RelatedPanel({
 }
 
 const styles = StyleSheet.create({
-  detailScreen: {
-    backgroundColor: '#E9E1D3',
-  },
+  screen: { backgroundColor: '#FBF8F2' },
   screenContent: {
-    maxWidth: 1440,
-    paddingTop: spacing.lg,
-  },
-  screenContentCompact: {
-    paddingHorizontal: 12,
-    paddingTop: spacing.md,
-  },
-  readingColumn: {
     width: '100%',
-    maxWidth: 1320,
+    maxWidth: 1120,
     alignSelf: 'center',
+    paddingHorizontal: 22,
+    paddingTop: 20,
+    paddingBottom: 132,
   },
-  eyebrow: {
+  article: { width: '100%', maxWidth: 980, alignSelf: 'center' },
+  number: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 15,
+    lineHeight: 21,
+    marginBottom: 7,
+  },
+  title: {
+    width: '100%',
+    color: '#111311',
+    fontFamily: fonts.serif,
+    fontSize: 34,
+    lineHeight: 50,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  metaRow: {
+    marginTop: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: spacing.md,
-    marginTop: spacing.xs,
-    marginBottom: spacing.lg,
-  },
-  breadcrumb: { color: colors.muted, flexShrink: 1 },
-  serial: {
-    minHeight: 34,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.goldLight,
-    borderRadius: 6,
-    backgroundColor: 'rgba(252,250,245,0.76)',
-    overflow: 'hidden',
-  },
-  serialMark: {
-    width: 32,
-    alignSelf: 'stretch',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRightWidth: 1,
-    borderRightColor: colors.goldLight,
-  },
-  serialMarkText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  cardId: {
-    color: colors.gold,
-    paddingHorizontal: 12,
-    letterSpacing: 1.2,
-  },
-  heroShell: {
-    borderRadius: 28,
-    borderWidth: 3,
-    borderColor: '#4A3828',
-    padding: 5,
-    backgroundColor: '#A7833D',
-    shadowColor: '#2A2119',
-    shadowOpacity: 0.2,
-    shadowRadius: 22,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 6,
-  },
-  hero: {
-    backgroundColor: '#FFFDF8',
-    borderRadius: 22,
-    borderWidth: 1.5,
-    borderColor: '#5A4634',
-    paddingTop: spacing.lg,
-    paddingHorizontal: spacing.xl,
-    paddingBottom: spacing.md,
-  },
-  heroMeta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
-  categoryLabel: { color: colors.gold, fontFamily: fonts.serif },
-  metaDivider: {
-    width: 1,
-    height: 14,
-    backgroundColor: colors.goldLight,
-    transform: [{ rotate: '18deg' }],
-  },
-  subcategoryLabel: { color: '#4D514D' },
-  heroCopy: {
-    alignItems: 'center',
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.xl,
-  },
-  heroCopyCompact: {
-    paddingHorizontal: 0,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-  },
-  title: {
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontWeight: '600',
-    fontSize: 42,
-    lineHeight: 58,
-    letterSpacing: 1.2,
-    textAlign: 'center',
-  },
-  titleCompact: {
-    width: '100%',
-  },
-  ornament: {
-    width: '62%',
-    maxWidth: 560,
-    flexDirection: 'row',
-    alignItems: 'center',
     gap: 12,
-    marginTop: spacing.lg,
   },
-  ornamentLine: { height: 1, flex: 1, backgroundColor: colors.goldLight },
-  ornamentDiamond: {
-    width: 9,
-    height: 9,
-    borderWidth: 1,
-    borderColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
+  tagRow: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
+  topTag: {
+    minHeight: 28,
+    justifyContent: 'center',
+    paddingHorizontal: 13,
+    borderRadius: radius.pill,
+    backgroundColor: '#F0ECE4',
   },
-  heroLead: {
-    color: '#424844',
-    fontFamily: fonts.serif,
-    fontSize: 17,
+  topTagPrimary: { backgroundColor: '#394439' },
+  topTagText: { color: '#3B3B37', fontSize: 11, lineHeight: 16 },
+  topTagTextPrimary: { color: '#FFFDF8' },
+  actions: { flexDirection: 'row', alignItems: 'center', gap: 17 },
+  actionIcon: { color: '#111512', fontSize: 31, lineHeight: 34 },
+  actionIconSaved: { color: colors.gold },
+  shareIcon: {
+    width: 27,
+    height: 31,
+    color: '#111512',
+    fontSize: 24,
     lineHeight: 29,
-    letterSpacing: 0.7,
-    marginTop: spacing.md,
     textAlign: 'center',
+    borderWidth: 1.5,
+    borderTopWidth: 0,
+    borderColor: '#111512',
+    borderRadius: 4,
+    overflow: 'visible',
   },
-  heroActions: {
+  pressed: { opacity: 0.55 },
+  rule: { height: 1, marginTop: 18, backgroundColor: '#DFD7CA' },
+  summaryCard: {
+    marginTop: 18,
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
-    gap: spacing.sm,
-    paddingTop: spacing.md,
+    alignItems: 'center',
+    gap: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderColor: '#D7CFC1',
+    borderRadius: 7,
+    backgroundColor: '#FDFBF7',
+  },
+  bulbMark: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#26372D',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bulbGlyph: { width: 18, height: 24, alignItems: 'center' },
+  bulbGlass: {
+    width: 15,
+    height: 15,
+    borderWidth: 1.5,
+    borderColor: '#D6B962',
+    borderRadius: 8,
+  },
+  bulbStem: {
+    width: 7,
+    height: 5,
+    marginTop: 1,
+    borderTopWidth: 1.5,
+    borderBottomWidth: 1.5,
+    borderColor: '#D6B962',
+  },
+  summaryCopy: { flex: 1, minWidth: 0 },
+  summaryLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, marginBottom: 3 },
+  summaryText: { color: '#141714', fontSize: 15, lineHeight: 24, fontWeight: '600' },
+  section: { marginTop: 24 },
+  sectionRuled: {
+    paddingTop: 19,
     borderTopWidth: 1,
-    borderTopColor: '#C8BDAA',
+    borderTopColor: '#DFD7CA',
   },
-  actionButton: {
-    minHeight: 44,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: '#4A3828',
-    backgroundColor: '#FFFDF8',
+  sectionHeading: {
+    minHeight: 25,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingHorizontal: 18,
+    gap: 9,
+    marginBottom: 13,
   },
-  saveButton: {
-    minWidth: 174,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    backgroundColor: '#273126',
-    shadowColor: '#1B211A',
-    shadowOpacity: 0.18,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 2,
-  },
-  shareButton: {
-    minHeight: 44,
-    minWidth: 96,
-    borderRadius: radius.pill,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    paddingHorizontal: 14,
-  },
-  actionButtonActive: {
-    backgroundColor: '#4D3A24',
-    borderColor: colors.goldLight,
-  },
-  actionIcon: { color: colors.gold, fontSize: 17, lineHeight: 21 },
-  actionText: { color: colors.inkSoft },
-  saveActionText: { color: '#FFF9EB' },
-  actionTextActive: { color: colors.white },
-  pressed: { opacity: 0.65 },
-  editorialHeading: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 13,
-    marginTop: spacing.xxl,
-    marginBottom: spacing.md,
-  },
-  headingDiamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
-  editorialHeadingText: {
-    color: colors.ink,
-    fontSize: 22,
-    lineHeight: 31,
-    letterSpacing: 1.2,
-  },
-  tags: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-    paddingBottom: spacing.xl,
-  },
-  tag: {
-    borderWidth: 1,
-    borderColor: colors.goldLight,
-    backgroundColor: 'rgba(255,255,255,0.62)',
-    borderRadius: radius.pill,
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-  },
-  tagText: { color: colors.gold, fontSize: 11, letterSpacing: 0.6 },
-  explanation: {
-    backgroundColor: '#EEF1E8',
-    borderWidth: 1.5,
-    borderColor: '#52604C',
-    borderLeftWidth: 5,
-    borderLeftColor: '#31402F',
-    borderRadius: radius.sm,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.lg,
-    gap: spacing.lg,
-    shadowColor: '#33402F',
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 1,
-  },
-  explanationWide: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.xl,
-    gap: 0,
-  },
-  explanationParagraph: { minWidth: 0 },
-  explanationParagraphWide: {
-    flex: 1,
-    paddingHorizontal: spacing.lg,
-  },
-  explanationParagraphDivided: {
-    borderLeftWidth: 1,
-    borderLeftColor: '#B7C0B0',
-  },
-  explanationText: {
-    color: '#303631',
-    fontSize: 16,
-    lineHeight: 31,
-    letterSpacing: 0.25,
-    fontWeight: '500',
-  },
-  explanationStrong: { color: colors.ink, fontWeight: '700' },
-  explanationConclusion: {
-    color: colors.ink,
-    fontFamily: fonts.serif,
-    fontWeight: '700',
-  },
-  relatedGrid: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    gap: spacing.md,
-    marginTop: spacing.lg,
-  },
-  relatedGridCompact: { flexDirection: 'column' },
-  relatedPanel: {
-    flex: 1,
-    minWidth: 0,
-    borderWidth: 1,
-    borderColor: '#89745B',
-    borderRadius: radius.md,
-    backgroundColor: '#FFFDF8',
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.sm,
-  },
-  relatedPanelCompact: {
-    width: '100%',
-    flexGrow: 0,
-    flexShrink: 0,
-    flexBasis: 'auto',
-  },
-  relatedPanelHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    paddingBottom: 11,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-  },
-  relatedPanelMark: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  relatedPanelMarkText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '700',
-  },
-  relatedPanelTitle: {
-    color: colors.ink,
+  goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
+  sectionMark: { color: '#26372D', fontSize: 18, lineHeight: 23 },
+  sectionTitle: {
+    color: '#24251F',
     fontSize: 17,
-    lineHeight: 24,
-    letterSpacing: 0.6,
+    lineHeight: 25,
+    fontWeight: '700',
+    letterSpacing: 0.4,
   },
-  relatedRow: {
-    minHeight: 67,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-    paddingVertical: 10,
-  },
-  relatedCopy: { flex: 1 },
-  relatedId: {
-    color: colors.gold,
-    fontSize: 9,
-    lineHeight: 13,
-    letterSpacing: 0.8,
-    marginBottom: 2,
-  },
-  relatedTitle: {
-    color: colors.inkSoft,
+  explanation: { gap: 13, paddingHorizontal: 7 },
+  explanationText: {
+    color: '#252925',
     fontSize: 14,
-    lineHeight: 21,
-    fontWeight: '600',
+    lineHeight: 25,
+    letterSpacing: 0.15,
   },
-  relatedChevron: {
-    color: colors.gold,
-    fontSize: 23,
-    lineHeight: 26,
-  },
-  intro: { color: colors.muted, marginBottom: spacing.lg },
-  numberedList: { gap: 12 },
-  numberedListWide: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-  },
-  numberedRow: {
-    minHeight: 72,
-    backgroundColor: '#FFFDF8',
-    borderWidth: 1,
-    borderColor: '#89745B',
-    borderRadius: radius.md,
-    flexDirection: 'row',
+  explanationStrong: { color: '#111411', fontWeight: '700' },
+  practiceGrid: { flexDirection: 'row', alignItems: 'stretch', gap: 14 },
+  practiceList: { flex: 1.65, gap: 8, paddingVertical: 4 },
+  checkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
+  checkMark: {
+    width: 18,
+    height: 18,
+    marginTop: 1,
+    borderRadius: 9,
+    backgroundColor: '#314739',
     alignItems: 'center',
-    gap: spacing.md,
-    padding: spacing.md,
+    justifyContent: 'center',
   },
-  numberedRowWide: {
+  checkText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '800' },
+  practiceText: { flex: 1, color: '#20231F', fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  cautionCard: {
+    flex: 1,
+    minWidth: 120,
+    padding: 13,
+    borderWidth: 1,
+    borderColor: '#D0C4B1',
+    borderRadius: 7,
+    backgroundColor: '#FDFBF7',
+  },
+  cautionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 9 },
+  cautionIcon: { color: colors.gold, fontSize: 18, lineHeight: 20 },
+  cautionTitle: { color: '#6A5120', fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  cautionText: { color: '#272923', fontSize: 12, lineHeight: 19, fontWeight: '600' },
+  theoryGrid: { flexDirection: 'row', gap: 10 },
+  theoryCard: {
     flex: 1,
     minWidth: 0,
-    alignItems: 'flex-start',
-    padding: spacing.lg,
-  },
-  number: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.paperDeep,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  numberText: { color: colors.gold },
-  numberedText: { flex: 1 },
-  practiceCard: {
-    marginTop: spacing.lg,
-    padding: spacing.lg,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: spacing.lg,
+    minHeight: 89,
+    padding: 11,
     borderWidth: 1,
-    borderColor: '#52604C',
-    borderRadius: radius.md,
-    backgroundColor: '#EEF1E8',
+    borderColor: '#D9D0C2',
+    borderRadius: 7,
+    backgroundColor: '#FDFBF7',
   },
-  practiceCopy: { flex: 1, minWidth: 240 },
-  practiceTitle: {
-    color: '#263327',
-    fontSize: 18,
-    lineHeight: 27,
-  },
-  practiceDescription: {
-    marginTop: 5,
-    color: '#535C54',
-    fontSize: 14,
-    lineHeight: 23,
-  },
-  practiceButton: {
-    minHeight: 48,
-    paddingHorizontal: spacing.lg,
+  theoryTitleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 5 },
+  theoryMark: { color: '#314739', fontSize: 14, lineHeight: 19 },
+  theoryTitle: { flex: 1, color: '#1C211D', fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  chevron: { color: colors.gold, fontSize: 22, lineHeight: 22 },
+  theorySummary: { marginTop: 7, color: '#4C4D48', fontSize: 9, lineHeight: 14 },
+  relatedGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 20, rowGap: 8 },
+  relatedItem: { width: '47%', minHeight: 24, flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
+  relatedChevron: { color: colors.gold, fontSize: 19, lineHeight: 20 },
+  relatedText: { flex: 1, color: '#31342F', fontSize: 11, lineHeight: 18 },
+  bottomTags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  bottomTag: {
+    minHeight: 26,
+    justifyContent: 'center',
+    paddingHorizontal: 12,
     borderRadius: radius.pill,
-    backgroundColor: '#273126',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#F0ECE4',
   },
-  practiceButtonComplete: { backgroundColor: '#667064' },
-  practiceButtonText: {
-    color: '#FFF9EB',
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: '700',
-  },
-  caution: {
-    backgroundColor: '#EDE2D9',
-    borderRadius: radius.md,
-    padding: spacing.md,
-    gap: 10,
-  },
-  bulletRow: { flexDirection: 'row', gap: 10 },
-  cautionBullet: { color: colors.danger },
-  cautionText: { flex: 1, color: colors.inkSoft },
-  noteInput: {
-    minHeight: 140,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: '#89745B',
-    backgroundColor: '#FFFDF8',
-    color: colors.ink,
-    fontFamily: fonts.sans,
-    fontSize: 15,
-    lineHeight: 25,
-    padding: spacing.md,
-  },
-  noteCaption: { marginTop: spacing.sm },
-  collections: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  bottomTagText: { color: '#454640', fontSize: 10, lineHeight: 15 },
 });
