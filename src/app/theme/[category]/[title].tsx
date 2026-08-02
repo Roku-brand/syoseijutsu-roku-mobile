@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, ChapterTitle, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
@@ -39,8 +39,6 @@ export default function ThemeScreen() {
   return (
     <Screen>
       <DetailHeader title="テーマから探す" />
-
-      <ChapterTitle title={title} />
 
       <SectionHeader title="人物像を選ぶ" count={personas.length} />
 
