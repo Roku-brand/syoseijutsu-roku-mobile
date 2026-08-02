@@ -8,18 +8,9 @@ import {
   View,
 } from 'react-native';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
-import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
+import { AppText, ChapterTitle, DetailHeader, EmptyState, Screen } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
-
-const categoryDescriptions: Record<string, string> = {
-  psychology: '人の認知・感情・対人関係を理解する',
-  'behavioral-science': '選択・習慣・行動変容の仕組みを読む',
-  'organization-management': '組織・評価・権力・協働の力学を読む',
-  strategy: '競争・交渉・不確実性の中で勝ち筋をつくる',
-  'classics-thought': '古典に残る判断と人間観を現代へ引き寄せる',
-  'maxims-experience': '格言・経験則・作品から判断の軸を得る',
-};
 
 export function generateStaticParams() {
   return [
@@ -82,14 +73,7 @@ export default function TheoryCategoryScreen() {
       contentContainerStyle={styles.screenContent}
     >
       <DetailHeader title="理論辞典" />
-      <View style={styles.hero}>
-        <AppText variant="display" style={styles.title}>
-          {title}
-        </AppText>
-        <AppText style={styles.description}>
-          {categoryDescriptions[category] ?? '処世術を支える知識を読む'}
-        </AppText>
-      </View>
+      <ChapterTitle title={title} />
 
       <View style={styles.tools}>
         <View style={styles.searchBox}>
@@ -182,14 +166,6 @@ export default function TheoryCategoryScreen() {
 
 const styles = StyleSheet.create({
   screenContent: { maxWidth: 1280 },
-  hero: { marginTop: spacing.md },
-  title: { marginTop: spacing.lg, fontSize: 46, lineHeight: 59 },
-  description: {
-    marginTop: spacing.md,
-    color: colors.inkSoft,
-    fontSize: 17,
-    lineHeight: 28,
-  },
   tools: {
     marginTop: spacing.xl,
     padding: spacing.md,
