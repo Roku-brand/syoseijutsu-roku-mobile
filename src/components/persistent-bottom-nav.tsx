@@ -10,6 +10,7 @@ import { AppText } from './ui';
 const items = [
   { key: 'main', label: '禄', mark: '禄', href: '/(tabs)' },
   { key: 'discover', label: '探す', mark: '⌕', href: '/discover' },
+  { key: 'learn', label: '学習', mark: '学', href: '/learn' },
   { key: 'my-os', label: 'マイOS', mark: '○', href: '/my-os' },
 ] as const;
 
@@ -23,6 +24,7 @@ function activeKey(pathname: string) {
     pathname.includes('/theory/') ||
     pathname.includes('/theories/')
   ) return 'discover';
+  if (pathname.includes('/learn')) return 'learn';
   if (
     pathname.includes('/my-os') ||
     pathname.includes('/collection/') ||
