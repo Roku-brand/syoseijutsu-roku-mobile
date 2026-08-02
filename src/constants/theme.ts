@@ -64,9 +64,9 @@ export const spacing = {
 } as const;
 
 export const layout = {
-  bottomNavHeight: 76,
+  bottomNavHeight: 92,
   bottomNavOuterSpacing: 24,
-  bottomContentInset: 152,
+  bottomContentInset: 168,
   readingWidth: 1120,
 } as const;
 
