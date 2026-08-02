@@ -18,14 +18,6 @@ export default function LearnHomeScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.hero}>
-        <AppText style={styles.eyebrow}>GOOD MOVE</AppText>
-        <AppText style={styles.heroTitle}>いい手を選べ。</AppText>
-        <AppText style={styles.heroCopy}>人生、だいたい三択。</AppText>
-        <View style={styles.heroRule} />
-        <AppText style={styles.heroNote}>社会の局面で、あなたならどう動くか。</AppText>
-      </View>
-
       <View style={styles.sectionHeader}>
         <AppText style={styles.sectionLabel}>STAGE SELECT</AppText>
         <AppText style={styles.sectionCount}>{learningCases.length} CASES</AppText>
@@ -73,13 +65,7 @@ export default function LearnHomeScreen() {
 
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: layout.bottomContentInset },
-  hero: { marginHorizontal: spacing.lg, paddingHorizontal: spacing.lg, paddingTop: spacing.xl, paddingBottom: 30, backgroundColor: colors.charcoal, borderRadius: radius.lg, borderWidth: 1, borderColor: '#4D493E', ...shadow.card },
-  eyebrow: { color: colors.goldLight, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 2.1, fontWeight: '700' },
-  heroTitle: { marginTop: 15, color: colors.surface, fontFamily: fonts.serif, fontSize: 33, lineHeight: 47, fontWeight: '700', letterSpacing: 1.2 },
-  heroCopy: { marginTop: 5, color: '#D5D0C4', fontFamily: fonts.serif, fontSize: 17, lineHeight: 28 },
-  heroRule: { width: 38, height: 1, marginTop: 22, backgroundColor: colors.goldLight },
-  heroNote: { marginTop: 14, color: '#B9B7AE', fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
-  sectionHeader: { marginTop: 34, marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
+  sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
   sectionLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.8, fontWeight: '700' },
   sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1 },
   stageList: { marginHorizontal: spacing.lg, gap: 12, marginTop: 14 },
