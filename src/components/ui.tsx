@@ -121,6 +121,17 @@ export function Header({
   );
 }
 
+/** A concise chapter heading for category, theme, and theory archive pages. */
+export function ChapterTitle({ title }: { title: string }) {
+  return (
+    <View style={styles.chapterTitleBand}>
+      <AppText variant="serif" style={styles.chapterTitleText}>
+        {title}
+      </AppText>
+    </View>
+  );
+}
+
 export function DetailHeader({
   title: _title,
   right,
@@ -399,6 +410,21 @@ const styles = StyleSheet.create({
   headerCopy: { flex: 1 },
   eyebrow: { color: colors.gold, marginBottom: spacing.xs },
   headerDescription: { color: colors.muted, marginTop: spacing.sm },
+  chapterTitleBand: {
+    minHeight: 104,
+    paddingHorizontal: spacing.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.charcoal,
+    borderRadius: radius.md,
+  },
+  chapterTitleText: {
+    color: colors.paper,
+    fontSize: 32,
+    lineHeight: 44,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
   detailHeader: {
     minHeight: 48,
     position: 'relative',
