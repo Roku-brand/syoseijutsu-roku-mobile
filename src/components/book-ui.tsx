@@ -242,6 +242,7 @@ function getCurrentTitle(pathname: string) {
     pathname.includes('/catalog')
   ) return '探す';
   if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイOS';
+  if (pathname.includes('/learn')) return '学習';
   if (pathname.includes('/collection/')) return 'コレクション';
   if (pathname.includes('/legal/')) return '規約・ポリシー';
   if (pathname.includes('/settings')) return '設定';
@@ -250,7 +251,7 @@ function getCurrentTitle(pathname: string) {
 }
 
 function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/catalog', '/my-os', '/onboarding'].includes(pathname);
+  return !['/', '/discover', '/learn', '/catalog', '/my-os', '/onboarding'].includes(pathname);
 }
 
 function PrincipleMark() {
