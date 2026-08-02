@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
-import { getLearningCase, learningCases } from '@/data/learning';
+import { getChoiceReview, getLearningCase, learningCases, type LearningCase, type LearningChoice } from '@/data/learning';
 import { techniqueById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 
@@ -19,6 +19,10 @@ export default function LearningCaseScreen() {
 
   const record = learningRecords[item.id];
   const selected = record?.choiceId;
+  const selectedChoice = item.choices.find((choice) => choice.id === selected);
+  const selectedReview = selectedChoice ? getChoiceReview(item, selectedChoice) : null;
+  const goodChoice = item.choices.find((choice) => choice.id === item.goodChoiceId)!;
+  const isBestMove = selected === item.goodChoiceId;
   const next = learningCases.find((candidate) => candidate.stage === item.stage && candidate.number === item.number + 1)
     ?? learningCases.find((candidate) => candidate.stage === item.stage + 1);
 
@@ -50,9 +54,37 @@ export default function LearningCaseScreen() {
         </View>
       ) : (
         <View style={styles.result}>
-          <AppText style={styles.resultLabel}>{selected === item.goodChoiceId ? 'いい手。' : '別の一手もある。'}</AppText>
-          <AppText style={styles.goodMove}>{item.goodMove}</AppText>
-          <AppText style={styles.resultText}>{item.why}</AppText>
+          <View style={[styles.resultStatus, isBestMove ? styles.resultStatusGood : styles.resultStatusAlternative]}>
+            <AppText style={[styles.resultStatusText, isBestMove ? styles.resultStatusTextGood : styles.resultStatusTextAlternative]}>
+              {isBestMove ? 'この局面では、いい手。' : 'この局面では、別の手がよりよい。'}
+            </AppText>
+          </View>
+          <AppText style={styles.selectedLabel}>あなたが選んだ手</AppText>
+          <View style={styles.selectedChoice}>
+            <AppText style={styles.selectedLetter}>{selected?.toUpperCase()}</AppText>
+            <AppText style={styles.selectedText}>{selectedChoice?.label}</AppText>
+          </View>
+          {!isBestMove && selectedReview && <AppText style={styles.selectedReview}>{selectedReview.text}</AppText>}
+
+          <View style={styles.moveBlock}>
+            <AppText style={styles.resultLabel}>{isBestMove ? 'この一手が活きる理由' : 'この局面で活きる一手'}</AppText>
+            <AppText style={styles.goodMove}>{item.goodMove}</AppText>
+            <AppText style={styles.resultText}>
+              {item.why}
+            </AppText>
+          </View>
+
+          <View style={styles.comparison}>
+            <AppText style={styles.comparisonLabel}>ほかの手と比べる</AppText>
+            {item.choices.map((choice) => (
+              <ChoiceComparison
+                key={choice.id}
+                item={item}
+                choice={choice}
+                selected={selected}
+              />
+            ))}
+          </View>
           <View style={styles.caution}>
             <AppText style={styles.cautionLabel}>注意点</AppText>
             <AppText style={styles.cautionText}>{item.caution}</AppText>
@@ -74,6 +106,33 @@ export default function LearningCaseScreen() {
   );
 }
 
+function ChoiceComparison({
+  item,
+  choice,
+  selected,
+}: {
+  item: LearningCase;
+  choice: LearningChoice;
+  selected?: LearningChoice['id'];
+}) {
+  const review = getChoiceReview(item, choice);
+  const isGood = review.isPreferred;
+  const isSelected = choice.id === selected;
+
+  return (
+    <View style={[styles.comparisonRow, isGood && styles.comparisonRowGood]}>
+      <View style={[styles.comparisonBadge, isGood && styles.comparisonBadgeGood]}>
+        <AppText style={[styles.comparisonLetter, isGood && styles.comparisonLetterGood]}>{choice.id.toUpperCase()}</AppText>
+      </View>
+      <View style={styles.comparisonContent}>
+        <AppText style={[styles.comparisonTitle, isGood && styles.comparisonTitleGood]}>{choice.label}</AppText>
+        <AppText style={styles.comparisonText}>{review.text}</AppText>
+      </View>
+      {isSelected && <AppText style={styles.youMark}>選んだ</AppText>}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center', padding: spacing.lg, paddingBottom: layout.bottomContentInset },
   positionRow: { marginTop: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
@@ -88,19 +147,44 @@ const styles = StyleSheet.create({
   choice: { minHeight: 74, marginTop: 10, padding: 16, flexDirection: 'row', alignItems: 'flex-start', gap: 13, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
   choiceLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 25, fontWeight: '700' },
   choiceText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 24, fontWeight: '600' },
-  result: { marginTop: 34, padding: 22, borderWidth: 1, borderColor: '#4C493F', borderRadius: radius.lg, backgroundColor: colors.charcoal, ...shadow.card },
-  resultLabel: { color: colors.goldLight, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.4, fontWeight: '700' },
-  goodMove: { marginTop: 10, color: colors.surface, fontFamily: fonts.serif, fontSize: 25, lineHeight: 37, fontWeight: '700' },
-  resultText: { marginTop: 16, color: '#E0DDD4', fontFamily: fonts.sans, fontSize: 15, lineHeight: 26 },
-  caution: { marginTop: 22, paddingTop: 18, borderTopWidth: 1, borderColor: '#565248' },
-  cautionLabel: { color: colors.goldLight, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
-  cautionText: { marginTop: 7, color: '#D7D3CA', fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
-  related: { marginTop: 23, paddingTop: 18, borderTopWidth: 1, borderColor: '#565248' },
-  relatedLabel: { color: colors.goldLight, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
-  relatedRow: { paddingVertical: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#565248', gap: 10 },
-  relatedTitle: { color: colors.surface, flex: 1, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, fontWeight: '600' },
-  relatedArrow: { color: colors.goldLight, fontSize: 16 },
-  next: { marginTop: 24, minHeight: 50, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.goldLight },
-  nextText: { color: colors.charcoal, fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.6, fontWeight: '800' },
+  result: { marginTop: 34, padding: 20, borderWidth: 1, borderColor: colors.line, borderRadius: radius.lg, backgroundColor: colors.surface, ...shadow.card },
+  resultStatus: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 6, borderRadius: radius.pill },
+  resultStatusGood: { backgroundColor: colors.sage },
+  resultStatusAlternative: { backgroundColor: '#F3E8D5' },
+  resultStatusText: { fontFamily: fonts.sans, fontSize: 11, letterSpacing: 0.55, fontWeight: '800' },
+  resultStatusTextGood: { color: colors.success },
+  resultStatusTextAlternative: { color: '#85652B' },
+  selectedLabel: { marginTop: 20, color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.1, fontWeight: '700' },
+  selectedChoice: { marginTop: 8, padding: 13, flexDirection: 'row', gap: 11, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
+  selectedLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
+  selectedText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 23, fontWeight: '700' },
+  selectedReview: { marginTop: 9, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
+  moveBlock: { marginTop: 23 },
+  resultLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
+  goodMove: { marginTop: 8, color: colors.ink, fontFamily: fonts.serif, fontSize: 23, lineHeight: 34, fontWeight: '700' },
+  resultText: { marginTop: 12, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 14, lineHeight: 24 },
+  comparison: { marginTop: 22, paddingTop: 18, borderTopWidth: 1, borderColor: colors.line },
+  comparisonLabel: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.1, fontWeight: '700' },
+  comparisonRow: { marginTop: 10, padding: 11, flexDirection: 'row', alignItems: 'flex-start', gap: 9, borderRadius: radius.sm, backgroundColor: colors.paper },
+  comparisonRowGood: { borderWidth: 1, borderColor: '#CDB57B', backgroundColor: '#FAF4E5' },
+  comparisonBadge: { width: 23, height: 23, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, backgroundColor: '#E4DDD0' },
+  comparisonBadgeGood: { backgroundColor: colors.gold },
+  comparisonLetter: { color: colors.muted, fontFamily: fonts.sans, fontSize: 11, fontWeight: '800' },
+  comparisonLetterGood: { color: colors.white },
+  comparisonContent: { flex: 1 },
+  comparisonTitle: { color: colors.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '700' },
+  comparisonTitleGood: { color: '#624F28' },
+  comparisonText: { marginTop: 3, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 19 },
+  youMark: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, lineHeight: 18 },
+  caution: { marginTop: 22, paddingTop: 18, borderTopWidth: 1, borderColor: colors.line },
+  cautionLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
+  cautionText: { marginTop: 7, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
+  related: { marginTop: 23, paddingTop: 18, borderTopWidth: 1, borderColor: colors.line },
+  relatedLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
+  relatedRow: { paddingVertical: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: colors.line, gap: 10 },
+  relatedTitle: { color: colors.ink, flex: 1, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, fontWeight: '600' },
+  relatedArrow: { color: colors.gold, fontSize: 16 },
+  next: { marginTop: 24, minHeight: 50, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.ink },
+  nextText: { color: colors.surface, fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.6, fontWeight: '800' },
   pressed: { opacity: 0.65 },
 });
