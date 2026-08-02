@@ -32,6 +32,7 @@ type PersistedState = {
   onboardingCompleted: boolean;
   interests: CategoryKey[];
   savedIds: string[];
+  savedTheoryIds: string[];
   historyIds: string[];
   notes: Record<string, string>;
   collections: Collection[];
@@ -44,6 +45,7 @@ const initialState: PersistedState = {
   onboardingCompleted: false,
   interests: CATEGORY_KEYS,
   savedIds: [],
+  savedTheoryIds: [],
   historyIds: [],
   notes: {},
   collections: [],
@@ -56,6 +58,7 @@ type AppStateContextValue = PersistedState & {
   hydrated: boolean;
   completeOnboarding: (interests: CategoryKey[]) => void;
   toggleSaved: (id: string) => void;
+  toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
   saveNote: (id: string, note: string) => void;
   createCollection: (name: string) => string;
@@ -119,6 +122,16 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       savedIds: current.savedIds.includes(id)
         ? current.savedIds.filter((savedId) => savedId !== id)
         : [id, ...current.savedIds],
+    }));
+  }, []);
+
+  const toggleSavedTheory = useCallback((id: string) => {
+    haptic(Haptics.ImpactFeedbackStyle.Medium);
+    setState((current) => ({
+      ...current,
+      savedTheoryIds: current.savedTheoryIds.includes(id)
+        ? current.savedTheoryIds.filter((savedId) => savedId !== id)
+        : [id, ...current.savedTheoryIds],
     }));
   }, []);
 
@@ -261,6 +274,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       hydrated,
       completeOnboarding,
       toggleSaved,
+      toggleSavedTheory,
       addHistory,
       saveNote,
       createCollection,
@@ -279,6 +293,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       hydrated,
       completeOnboarding,
       toggleSaved,
+      toggleSavedTheory,
       addHistory,
       saveNote,
       createCollection,

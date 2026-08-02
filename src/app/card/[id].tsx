@@ -1,10 +1,8 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
-import { Pressable, Share, StyleSheet, View } from 'react-native';
-import { SymbolView } from 'expo-symbols';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
-import { useAppToast } from '@/components/app-toast';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
@@ -22,10 +20,9 @@ export function generateStaticParams() {
 
 export default function CardDetailScreen() {
   const router = useRouter();
-  const showToast = useAppToast();
   const { id } = useLocalSearchParams<{ id: string }>();
   const card = techniqueById.get(id);
-  const { savedIds, toggleSaved, addHistory } = useAppState();
+  const { addHistory } = useAppState();
 
   useEffect(() => {
     if (id) addHistory(id);
@@ -44,7 +41,6 @@ export default function CardDetailScreen() {
     );
   }
 
-  const isSaved = savedIds.includes(card.id);
   const guidance = practiceGuidance[card.categoryKey];
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
@@ -105,48 +101,6 @@ export default function CardDetailScreen() {
             ))}
           </View>
 
-          <View style={styles.actions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={isSaved ? '保存を解除' : '蔵書に保存'}
-              onPress={() => {
-                toggleSaved(card.id);
-                showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
-              }}
-              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
-            >
-              <SymbolView
-                name={{
-                  ios: isSaved ? 'star.fill' : 'star',
-                  android: isSaved ? 'star' : 'star_border',
-                  web: isSaved ? 'star' : 'star_border',
-                }}
-                fallback={<AppText style={[styles.actionFallback, isSaved && styles.actionFallbackSaved]}>{isSaved ? '★' : '☆'}</AppText>}
-                size={31}
-                tintColor={colors.gold}
-                weight="regular"
-              />
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="共有"
-              onPress={() =>
-                void Share.share({
-                  title: '処世術禄',
-                  message: `${card.title}\n\n${card.subtitle ?? ''}\n\n処世術禄`,
-                })
-              }
-              style={({ pressed }) => [styles.actionButton, pressed && styles.pressed]}
-            >
-              <SymbolView
-                name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
-                fallback={<AppText style={styles.actionFallback}>⇧</AppText>}
-                size={30}
-                tintColor="#26372D"
-                weight="regular"
-              />
-            </Pressable>
-          </View>
         </View>
 
         <View style={styles.rule} />
@@ -388,19 +342,6 @@ const styles = StyleSheet.create({
   topTagPrimary: { backgroundColor: '#394439' },
   topTagText: { color: '#3B3B37', fontSize: 11, lineHeight: 16 },
   topTagTextPrimary: { color: '#FFFDF8' },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  actionButton: {
-    width: 54,
-    height: 54,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1.5,
-    borderColor: '#D8D0C3',
-    borderRadius: 17,
-    backgroundColor: '#FDFBF7',
-  },
-  actionFallback: { color: '#26372D', fontSize: 31, lineHeight: 35 },
-  actionFallbackSaved: { color: colors.gold },
   pressed: { opacity: 0.55 },
   rule: { height: 1, marginTop: 18, backgroundColor: '#DFD7CA' },
   summaryCard: {

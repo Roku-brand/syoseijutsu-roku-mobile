@@ -3,16 +3,26 @@ import { useState } from 'react';
 import {
   Modal,
   Pressable,
+  Share,
   ScrollView,
   StyleSheet,
   View,
   type ScrollViewProps,
 } from 'react-native';
+import { SymbolView } from 'expo-symbols';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { AppText } from './ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { categories, categoryMeta, theories } from '@/data/catalog';
+import {
+  categories,
+  categoryMeta,
+  techniqueById,
+  theories,
+  theoryById,
+} from '@/data/catalog';
+import { useAppState } from '@/state/app-state';
+import { useAppToast } from './app-toast';
 
 export function BookScreen({
   children,
@@ -50,6 +60,7 @@ export function BookHeader() {
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
+  const detail = getDetail(pathname);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -93,32 +104,36 @@ export function BookHeader() {
           {currentTitle}
         </AppText>
 
-        <View style={styles.headerActions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="処世術の五大原則を開く"
-            onPress={() => setPrinciplesVisible(true)}
-            style={({ pressed }) => [
-              styles.headerAction,
-              pressed && styles.headerActionPressed,
-            ]}
-          >
-            <PrincipleMark />
-            {!compact ? <AppText style={styles.headerActionLabel}>原則</AppText> : null}
-          </Pressable>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="設定を開く"
-            onPress={() => router.push('/settings')}
-            style={({ pressed }) => [
-              styles.headerAction,
-              pressed && styles.headerActionPressed,
-            ]}
-          >
-            <AppText style={styles.settingsIcon}>⚙</AppText>
-            {!compact ? <AppText style={styles.headerActionLabel}>設定</AppText> : null}
-          </Pressable>
-        </View>
+        {detail ? (
+          <DetailHeaderActions detail={detail} compact={compact} />
+        ) : (
+          <View style={styles.headerActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="処世術の五大原則を開く"
+              onPress={() => setPrinciplesVisible(true)}
+              style={({ pressed }) => [
+                styles.headerAction,
+                pressed && styles.headerActionPressed,
+              ]}
+            >
+              <PrincipleMark />
+              {!compact ? <AppText style={styles.headerActionLabel}>原則</AppText> : null}
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="設定を開く"
+              onPress={() => router.push('/settings')}
+              style={({ pressed }) => [
+                styles.headerAction,
+                pressed && styles.headerActionPressed,
+              ]}
+            >
+              <AppText style={styles.settingsIcon}>⚙</AppText>
+              {!compact ? <AppText style={styles.headerActionLabel}>設定</AppText> : null}
+            </Pressable>
+          </View>
+        )}
       </View>
 
       <PrinciplesModal
@@ -127,6 +142,83 @@ export function BookHeader() {
         onClose={() => setPrinciplesVisible(false)}
       />
     </>
+  );
+}
+
+type DetailTarget =
+  | { kind: 'card'; id: string; title: string }
+  | { kind: 'theory'; id: string; title: string };
+
+function getDetail(pathname: string): DetailTarget | null {
+  const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
+  const [kind, id] = segments;
+  if (!id) return null;
+  if (kind === 'card') {
+    const card = techniqueById.get(id);
+    return card ? { kind, id, title: card.title } : null;
+  }
+  if (kind === 'theory') {
+    const theory = theoryById.get(id);
+    return theory ? { kind, id, title: theory.title } : null;
+  }
+  return null;
+}
+
+function DetailHeaderActions({
+  detail,
+  compact,
+}: {
+  detail: DetailTarget;
+  compact: boolean;
+}) {
+  const showToast = useAppToast();
+  const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
+  const isSaved = detail.kind === 'card'
+    ? savedIds.includes(detail.id)
+    : savedTheoryIds.includes(detail.id);
+  const toggle = () => {
+    if (detail.kind === 'card') toggleSaved(detail.id);
+    else toggleSavedTheory(detail.id);
+    showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
+  };
+
+  return (
+    <View style={styles.detailActions}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
+        onPress={toggle}
+        style={({ pressed }) => [styles.detailAction, pressed && styles.headerActionPressed]}
+      >
+        <SymbolView
+          name={{
+            ios: isSaved ? 'star.fill' : 'star',
+            android: isSaved ? 'star' : 'star_border',
+            web: isSaved ? 'star' : 'star_border',
+          }}
+          fallback={<AppText style={[styles.detailActionFallback, isSaved && styles.detailActionSaved]}>★</AppText>}
+          size={20}
+          tintColor={isSaved ? colors.goldLight : colors.surface}
+          weight="regular"
+        />
+        {!compact ? <AppText style={[styles.detailActionLabel, isSaved && styles.detailActionLabelSaved]}>{isSaved ? '保存済み' : '保存'}</AppText> : null}
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="共有"
+        onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
+        style={({ pressed }) => [styles.detailAction, pressed && styles.headerActionPressed]}
+      >
+        <SymbolView
+          name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
+          fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
+          size={20}
+          tintColor={colors.surface}
+          weight="regular"
+        />
+        {!compact ? <AppText style={styles.detailActionLabel}>共有</AppText> : null}
+      </Pressable>
+    </View>
   );
 }
 
@@ -143,7 +235,7 @@ function getCurrentTitle(pathname: string) {
     return theories.find((theory) => theory.categoryId === segments[1])?.categoryTitle ?? '理論辞典';
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
-  if (segments[0] === 'theory') return '理論';
+  if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
     pathname.includes('/topic/') ||
@@ -153,7 +245,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/collection/')) return 'コレクション';
   if (pathname.includes('/legal/')) return '規約・ポリシー';
   if (pathname.includes('/settings')) return '設定';
-  if (pathname.includes('/card/')) return '処世術';
+  if (pathname.includes('/card/')) return '処世術カード';
   return '処世術禄';
 }
 
@@ -507,6 +599,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
+  detailActions: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  detailAction: {
+    minWidth: 42,
+    minHeight: 44,
+    paddingHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 1,
+  },
+  detailActionLabel: {
+    color: colors.surface,
+    fontSize: 10,
+    lineHeight: 13,
+    fontWeight: '600',
+  },
+  detailActionLabelSaved: { color: colors.goldLight },
+  detailActionFallback: { color: colors.surface, fontSize: 20, lineHeight: 22 },
+  detailActionSaved: { color: colors.goldLight },
   headerAction: {
     width: 48,
     minHeight: 44,
