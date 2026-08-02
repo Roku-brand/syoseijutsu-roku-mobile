@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
-import { AppText, ChapterTitle, DetailHeader, EmptyState, Screen } from '@/components/ui';
+import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
 
@@ -73,8 +73,6 @@ export default function TheoryCategoryScreen() {
       contentContainerStyle={styles.screenContent}
     >
       <DetailHeader title="理論辞典" />
-      <ChapterTitle title={title} />
-
       <View style={styles.tools}>
         <View style={styles.searchBox}>
           <AppText style={styles.searchIcon}>⌕</AppText>
