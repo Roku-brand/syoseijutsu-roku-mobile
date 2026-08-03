@@ -1,4 +1,4 @@
-import { readFile, readdir, stat } from 'node:fs/promises';
+import { access, readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -16,10 +16,13 @@ async function collectFiles(directory) {
   return result;
 }
 
-const rows = (await readFile(paidFile, 'utf8'))
-  .split('\n')
-  .filter(Boolean)
-  .map((line) => JSON.parse(line));
+const hasPaidSource = await access(paidFile).then(() => true).catch(() => false);
+const rows = hasPaidSource
+  ? (await readFile(paidFile, 'utf8'))
+      .split('\n')
+      .filter(Boolean)
+      .map((line) => JSON.parse(line))
+  : [];
 
 const candidates = new Map();
 function addCandidate(value, label) {
@@ -55,6 +58,18 @@ if (leaks.length > 0) {
   console.error('Paid content leakage detected in public build:');
   leaks.forEach((leak) => console.error(`- ${leak}`));
   process.exit(1);
+}
+
+if (!hasPaidSource) {
+  const [techniques, theories, learning] = await Promise.all([
+    readFile(path.join(root, 'src/data/generated/techniques.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'src/data/generated/theories.json'), 'utf8').then(JSON.parse),
+    readFile(path.join(root, 'src/data/generated/learning.json'), 'utf8').then(JSON.parse),
+  ]);
+  const techniqueCount = techniques.categories.flatMap((category) => category.subcategories).reduce((count, subcategory) => count + subcategory.items.length, 0);
+  if (techniqueCount !== 29 || theories.length !== 20 || learning.length !== 7) {
+    throw new Error(`Unexpected public catalog size: techniques=${techniqueCount}, theories=${theories.length}, learning=${learning.length}`);
+  }
 }
 
 console.log(`Public build audit passed. Checked ${candidates.size} paid text fingerprints across ${files.length} files.`);
