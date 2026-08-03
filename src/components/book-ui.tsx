@@ -24,7 +24,6 @@ import {
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { useAuth } from '@/auth/auth-state';
-import { useAccess } from '@/access/access-state';
 
 export function BookScreen({
   children,
@@ -58,7 +57,6 @@ export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
-  const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
@@ -131,8 +129,8 @@ export function BookHeader() {
             {!minimalHeaderActions ? (
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel={user ? 'アカウントを開く' : '購入済みの方のログインを開く'}
-                onPress={() => router.push(user ? '/auth' : { pathname: '/auth', params: { mode: 'signin' } })}
+                accessibilityLabel="設定を開く"
+                onPress={() => router.push('/settings')}
                 style={({ pressed }) => [
                   styles.headerAction,
                   lightHeader && styles.headerActionLight,
@@ -140,7 +138,6 @@ export function BookHeader() {
                 ]}
               >
                 <AccountMark active={Boolean(user)} light={lightHeader} />
-                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>{isPaid ? 'アカウント' : '購入済み'}</AppText> : null}
               </Pressable>
             ) : null}
           </View>
