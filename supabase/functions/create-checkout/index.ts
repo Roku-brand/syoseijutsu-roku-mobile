@@ -35,7 +35,10 @@ Deno.serve(async (request) => {
   form.set('success_url', `${siteUrl}/upgrade?checkout=success`);
   form.set('cancel_url', `${siteUrl}/upgrade?checkout=cancelled`);
   form.set('client_reference_id', userData.user.id);
-  form.set('customer_email', userData.user.email ?? '');
+  // The Supabase account email is not required to associate a purchase: the
+  // immutable user id below does that. Avoid sending it as `customer_email`,
+  // because Stripe can reject an invalid or legacy auth-profile email before
+  // Checkout opens. Checkout will collect a valid receipt email itself.
   form.set('metadata[user_id]', userData.user.id);
   form.set('metadata[product_id]', PRODUCT_ID);
   form.set('line_items[0][quantity]', '1');
