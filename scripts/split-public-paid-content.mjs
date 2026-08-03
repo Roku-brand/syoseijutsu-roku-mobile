@@ -20,13 +20,22 @@ const techniques = JSON.parse(await readFile(path.join(root, 'src/data/generated
 const theories = JSON.parse(await readFile(path.join(root, 'src/data/generated/theories.json'), 'utf8'));
 const learning = JSON.parse(await readFile(path.join(root, 'src/data/generated/learning.json'), 'utf8').catch(() => '[]'));
 
-// Keep category and subcategory metadata public so locked sections can still be
-// rendered, but remove every paid title and body from their item arrays.
+function sanitizePublicTechnique(item) {
+  const ids = Array.isArray(item.theoryTagIds) ? item.theoryTagIds : [];
+  const names = Array.isArray(item.theories) ? item.theories : [];
+  const keptIndexes = ids.map((id, index) => freeTheoryIds.has(id) ? index : -1).filter((index) => index >= 0);
+  return {
+    ...item,
+    theoryTagIds: keptIndexes.map((index) => ids[index]),
+    theories: keptIndexes.map((index) => names[index]).filter(Boolean),
+  };
+}
+
 const publicCategories = techniques.categories.map((category) => ({
   ...category,
   subcategories: category.subcategories.map((subcategory) => ({
     ...subcategory,
-    items: subcategory.items.filter((item) => freeTechniqueIds.has(item.id)),
+    items: subcategory.items.filter((item) => freeTechniqueIds.has(item.id)).map(sanitizePublicTechnique),
   })),
 }));
 
@@ -39,12 +48,8 @@ for (const category of techniques.categories) {
     }
   }
 }
-for (const theory of theories) {
-  if (!freeTheoryIds.has(theory.tagId)) paidRows.push({ content_type: 'theory', content_id: theory.tagId, payload: theory, sort_order: order++ });
-}
-for (const item of learning) {
-  if (!freeLearningIds.has(item.id)) paidRows.push({ content_type: 'learning', content_id: item.id, payload: item, sort_order: order++ });
-}
+for (const theory of theories) if (!freeTheoryIds.has(theory.tagId)) paidRows.push({ content_type: 'theory', content_id: theory.tagId, payload: theory, sort_order: order++ });
+for (const item of learning) if (!freeLearningIds.has(item.id)) paidRows.push({ content_type: 'learning', content_id: item.id, payload: item, sort_order: order++ });
 
 function csvCell(value) {
   const text = typeof value === 'string' ? value : JSON.stringify(value);
