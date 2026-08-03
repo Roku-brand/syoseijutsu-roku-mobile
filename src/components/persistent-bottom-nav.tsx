@@ -154,8 +154,7 @@ const styles = StyleSheet.create({
   },
   pressed: { opacity: 0.65 },
   rokuMark: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 25, fontWeight: '700' },
-  // Keep the handle attached to the circle at every screen scale. The previous
-  // negative rotation made it detach and look like a stray line on web.
+  // 虫眼鏡の柄は、画面倍率に関係なく円と接続して描画する。
   searchMark: { width: 24, height: 24, position: 'relative' },
   searchCircle: { position: 'absolute', top: 2, left: 2, width: 14, height: 14, borderWidth: 1.8, borderRadius: 9 },
   searchHandle: { position: 'absolute', width: 10, height: 2, borderRadius: 2, top: 15, left: 14, transform: [{ rotate: '45deg' }] },
