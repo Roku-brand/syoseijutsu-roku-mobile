@@ -25,13 +25,6 @@ export default function LearnHomeScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.intro}>
-        <AppText style={styles.introEyebrow}>JUDGMENT TRAINING</AppText>
-        <AppText style={styles.introTitle}>知識ではなく、一手を学ぶ。</AppText>
-        <AppText style={styles.introBody}>心理学や戦略論を知っていても、現実の場面で選べなければ使えない。ケースを読み、選び、理由を振り返ることで判断の型を身につけます。</AppText>
-        <View style={styles.flow}><AppText style={styles.flowText}>状況を読む</AppText><AppText style={styles.flowArrow}>→</AppText><AppText style={styles.flowText}>一手を選ぶ</AppText><AppText style={styles.flowArrow}>→</AppText><AppText style={styles.flowText}>原理を知る</AppText></View>
-      </View>
-
       <View style={styles.sectionHeader}>
         <AppText style={styles.sectionLabel}>STAGE SELECT</AppText>
         <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7} CASES AVAILABLE</AppText>
@@ -90,14 +83,7 @@ export default function LearnHomeScreen() {
 
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: layout.bottomContentInset },
-  intro: { marginHorizontal: spacing.lg, padding: spacing.lg, borderRadius: radius.md, backgroundColor: colors.charcoal },
-  introEyebrow: { color: colors.goldLight, fontSize: 9, letterSpacing: 1.8, fontWeight: '700' },
-  introTitle: { marginTop: 10, color: '#F6F0E5', fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '700' },
-  introBody: { marginTop: 8, color: '#D6CEC0', fontSize: 12, lineHeight: 20 },
-  flow: { marginTop: 15, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 7 },
-  flowText: { color: '#F0DDAE', fontSize: 10, fontWeight: '700' },
-  flowArrow: { color: '#7F7668', fontSize: 10 },
-  sectionHeader: { marginTop: 22, marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
+  sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
   sectionLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.8, fontWeight: '700' },
   sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.8 },
   stageList: { marginHorizontal: spacing.lg, gap: 12, marginTop: 14 },
