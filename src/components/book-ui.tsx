@@ -24,6 +24,7 @@ import {
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { useAuth } from '@/auth/auth-state';
+import { useAccess } from '@/access/access-state';
 
 export function BookScreen({
   children,
@@ -57,6 +58,7 @@ export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
+  const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
@@ -129,8 +131,8 @@ export function BookHeader() {
             {!minimalHeaderActions ? (
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="設定を開く"
-                onPress={() => router.push('/settings')}
+                accessibilityLabel={user ? 'アカウントを開く' : '購入済みの方のログインを開く'}
+                onPress={() => router.push(user ? '/auth' : { pathname: '/auth', params: { mode: 'signin' } })}
                 style={({ pressed }) => [
                   styles.headerAction,
                   lightHeader && styles.headerActionLight,
@@ -138,6 +140,7 @@ export function BookHeader() {
                 ]}
               >
                 <AccountMark active={Boolean(user)} light={lightHeader} />
+                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>{isPaid ? 'アカウント' : '購入済み'}</AppText> : null}
               </Pressable>
             ) : null}
           </View>
@@ -398,3 +401,563 @@ function PrinciplesModal({
                   <AppText style={styles.principleDescription}>
                     {principle.description}
                   </AppText>
+                </View>
+              </View>
+            ))}
+
+            <View style={styles.principleSummary}>
+              <AppText style={styles.principleSummaryText}>
+                語るな ／ 信じるな ／ 同一化するな
+              </AppText>
+              <AppText style={styles.principleSummaryText}>
+                運用せよ ／ 目的に従え
+              </AppText>
+            </View>
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+export function BookTitle({
+  title,
+  subtitle,
+}: {
+  title: string;
+  subtitle?: string;
+}) {
+  const { width } = useHydratedWindowDimensions();
+  const compact = width < 700;
+  return (
+    <View style={styles.titleBlock}>
+      <AppText style={[styles.pageTitle, compact && styles.pageTitleCompact]}>
+        {title}
+      </AppText>
+      {subtitle ? (
+        <AppText style={[styles.pageSubtitle, compact && styles.pageSubtitleCompact]}>
+          {subtitle}
+        </AppText>
+      ) : null}
+    </View>
+  );
+}
+
+export function OrnamentHeading({
+  children,
+  centered = false,
+}: {
+  children: React.ReactNode;
+  centered?: boolean;
+}) {
+  return (
+    <View style={[styles.sectionHeading, centered && styles.sectionHeadingCentered]}>
+      <View style={styles.diamond} />
+      <AppText style={styles.sectionHeadingText}>{children}</AppText>
+    </View>
+  );
+}
+
+export function IndexCard({
+  mark,
+  title,
+  subtitle,
+  count,
+  tint = colors.surface,
+  onPress,
+}: {
+  mark: string;
+  title: string;
+  subtitle?: string;
+  count?: number;
+  tint?: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.indexCard,
+        { backgroundColor: tint },
+        pressed && styles.pressed,
+      ]}
+    >
+      <View style={styles.indexMark}>
+        <AppText style={styles.indexMarkText}>{mark}</AppText>
+      </View>
+      <View style={styles.indexCopy}>
+        <AppText style={styles.indexTitle}>{title}</AppText>
+        {subtitle ? <AppText style={styles.indexSubtitle}>{subtitle}</AppText> : null}
+      </View>
+      {typeof count === 'number' ? (
+        <AppText style={styles.indexCount}>{count}</AppText>
+      ) : null}
+      <AppText style={styles.indexChevron}>›</AppText>
+    </Pressable>
+  );
+}
+
+export const bookCardShadow = shadow.card;
+
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: colors.charcoal },
+  scroll: { flex: 1, backgroundColor: colors.paper },
+  content: {
+    width: '100%',
+    maxWidth: layout.readingWidth,
+    alignSelf: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.xl,
+    paddingBottom: layout.bottomContentInset,
+  },
+  contentCompact: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.lg,
+  },
+  contentDesktop: { paddingBottom: spacing.section },
+  header: {
+    minHeight: 72,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: 9,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.sm,
+    backgroundColor: colors.charcoal,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gold,
+  },
+  headerCompact: {
+    minHeight: 58,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  headerLight: { backgroundColor: colors.paper, borderBottomColor: '#D8CEBD' },
+  brandGroup: {
+    minWidth: 0,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+  },
+  headerBack: {
+    minWidth: 92,
+    minHeight: 38,
+    paddingHorizontal: 13,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    borderRadius: 8,
+  },
+  headerBackCompact: {
+    minWidth: 80,
+    minHeight: 36,
+    paddingHorizontal: 10,
+  },
+  headerBackLight: { borderWidth: 0, justifyContent: 'flex-start', paddingHorizontal: 0 },
+  headerBackIcon: {
+    color: colors.surface,
+    fontSize: 27,
+    lineHeight: 28,
+    marginTop: -2,
+  },
+  headerBackText: {
+    color: colors.surface,
+    fontFamily: fonts.sans,
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: '600',
+  },
+  headerBackIconLight: { color: '#252521' },
+  headerBackTextLight: { color: '#252521' },
+  seal: {
+    width: 46,
+    height: 46,
+    borderRadius: 11,
+    borderWidth: 2,
+    borderColor: colors.goldLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sealCompact: { width: 40, height: 40, borderRadius: 9 },
+  sealText: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontWeight: '700',
+    fontSize: 27,
+    lineHeight: 36,
+  },
+  brandCopy: { minWidth: 0, gap: 1 },
+  brandCopyHidden: { display: 'none' },
+  screenTitle: {
+    position: 'absolute',
+    left: 108,
+    right: 108,
+    color: colors.surface,
+    fontFamily: fonts.serif,
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: '600',
+    letterSpacing: 1.1,
+    textAlign: 'center',
+  },
+  screenTitleLight: { color: '#171713' },
+  upgradeScreenTitle: { left: 96, right: 72, fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
+  brandName: {
+    color: colors.surface,
+    fontFamily: fonts.serif,
+    fontSize: 21,
+    lineHeight: 29,
+    fontWeight: '700',
+    letterSpacing: 3,
+  },
+  brandSubtitle: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    lineHeight: 18,
+    letterSpacing: 3,
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+  },
+  detailActions: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  detailAction: {
+    minWidth: 42,
+    minHeight: 44,
+    paddingHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 1,
+  },
+  detailActionLabel: {
+    color: colors.surface,
+    fontSize: 10,
+    lineHeight: 13,
+    fontWeight: '600',
+  },
+  detailActionLabelSaved: { color: colors.goldLight },
+  detailActionFallback: { color: colors.surface, fontSize: 20, lineHeight: 22 },
+  detailActionSaved: { color: colors.goldLight },
+  headerAction: {
+    width: 48,
+    minHeight: 44,
+    borderRadius: radius.sm,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 2,
+  },
+  headerActionLight: { backgroundColor: 'transparent' },
+  headerActionPressed: {
+    backgroundColor: 'rgba(210,182,111,0.14)',
+    opacity: 0.72,
+  },
+  headerActionLabel: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontSize: 10,
+    lineHeight: 14,
+    letterSpacing: 1,
+  },
+  headerActionLabelLight: { color: colors.gold },
+  accountMark: {
+    width: 25,
+    height: 25,
+    borderWidth: 1.3,
+    borderRadius: 13,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  accountMarkActive: { backgroundColor: 'rgba(210,182,111,0.13)' },
+  accountHead: { width: 7, height: 7, marginTop: 5, borderRadius: 4 },
+  accountShoulders: { width: 14, height: 8, marginTop: 2, borderTopWidth: 1.5, borderTopLeftRadius: 9, borderTopRightRadius: 9 },
+  principleMark: {
+    width: 27,
+    height: 27,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.goldLight,
+    position: 'relative',
+  },
+  principleDot: {
+    position: 'absolute',
+    width: 3,
+    height: 3,
+    borderRadius: 2,
+    backgroundColor: colors.goldLight,
+  },
+  principleDotTop: { top: 3, left: 11 },
+  principleDotUpperLeft: { top: 9, left: 4 },
+  principleDotUpperRight: { top: 9, right: 4 },
+  principleDotLowerLeft: { bottom: 4, left: 7 },
+  principleDotLowerRight: { bottom: 4, right: 7 },
+  principleCenter: {
+    position: 'absolute',
+    left: 11,
+    top: 11,
+    width: 5,
+    height: 5,
+    backgroundColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
+  },
+  modalRoot: {
+    flex: 1,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xl,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(16,17,16,0.72)',
+  },
+  modalRootCompact: {
+    paddingHorizontal: 0,
+    paddingTop: 72,
+    paddingBottom: 0,
+    justifyContent: 'flex-end',
+  },
+  principlesCard: {
+    width: '100%',
+    maxWidth: 680,
+    maxHeight: '92%',
+    borderRadius: radius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    backgroundColor: colors.paper,
+    overflow: 'hidden',
+    ...shadow.card,
+  },
+  principlesCardCompact: {
+    maxHeight: '88%',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+  },
+  modalHeader: {
+    minHeight: 82,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.charcoal,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.gold,
+  },
+  modalTitleGroup: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  modalEyebrow: {
+    color: colors.goldLight,
+    fontFamily: fonts.serif,
+    fontSize: 10,
+    lineHeight: 14,
+    letterSpacing: 2,
+  },
+  modalTitle: {
+    color: colors.surface,
+    fontFamily: fonts.serif,
+    fontSize: 20,
+    lineHeight: 28,
+    fontWeight: '600',
+    letterSpacing: 2,
+  },
+  modalClose: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(210,182,111,0.45)',
+  },
+  modalCloseText: {
+    color: colors.goldLight,
+    fontSize: 29,
+    lineHeight: 32,
+    fontWeight: '300',
+  },
+  principlesContent: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xl,
+  },
+  modalLead: {
+    marginBottom: spacing.md,
+    color: colors.inkSoft,
+    fontFamily: fonts.serif,
+    fontSize: 14,
+    lineHeight: 24,
+    letterSpacing: 0.8,
+  },
+  principleRow: {
+    flexDirection: 'row',
+    gap: spacing.md,
+    paddingVertical: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
+  },
+  principleNumber: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.gold,
+    backgroundColor: colors.surface,
+  },
+  principleNumberText: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: '700',
+    letterSpacing: 1,
+  },
+  principleCopy: { flex: 1 },
+  principleTitleLine: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    flexWrap: 'wrap',
+    gap: 7,
+  },
+  principleTitle: {
+    color: colors.ink,
+    fontFamily: fonts.serif,
+    fontSize: 17,
+    lineHeight: 25,
+    fontWeight: '600',
+  },
+  principleLabel: {
+    color: colors.gold,
+    fontSize: 10,
+    lineHeight: 16,
+    letterSpacing: 0.5,
+  },
+  principleDescription: {
+    marginTop: 5,
+    color: colors.inkSoft,
+    fontSize: 13,
+    lineHeight: 22,
+  },
+  principleSummary: {
+    marginTop: spacing.sm,
+    padding: spacing.md,
+    alignItems: 'center',
+    borderRadius: radius.md,
+    backgroundColor: colors.sage,
+  },
+  principleSummaryText: {
+    color: colors.moss,
+    fontFamily: fonts.serif,
+    fontSize: 13,
+    lineHeight: 23,
+    fontWeight: '600',
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  titleBlock: { alignItems: 'center', marginBottom: spacing.xl },
+  pageTitle: {
+    fontFamily: fonts.serif,
+    fontSize: 38,
+    lineHeight: 54,
+    fontWeight: '600',
+    letterSpacing: 4,
+    color: colors.ink,
+  },
+  pageTitleCompact: {
+    fontSize: 30,
+    lineHeight: 42,
+    letterSpacing: 2.5,
+  },
+  pageSubtitle: {
+    marginTop: spacing.sm,
+    fontFamily: fonts.serif,
+    fontSize: 15,
+    lineHeight: 24,
+    letterSpacing: 1.6,
+    textAlign: 'center',
+    color: colors.inkSoft,
+  },
+  pageSubtitleCompact: { fontSize: 13, lineHeight: 21 },
+  sectionHeading: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    marginTop: spacing.xl,
+    marginBottom: spacing.md,
+  },
+  sectionHeadingCentered: { justifyContent: 'center' },
+  diamond: {
+    width: 9,
+    height: 9,
+    backgroundColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
+  },
+  sectionHeadingText: {
+    fontFamily: fonts.serif,
+    fontSize: 21,
+    lineHeight: 30,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+  },
+  indexCard: {
+    minHeight: 112,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    marginBottom: spacing.md,
+  },
+  indexMark: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indexMarkText: {
+    fontFamily: fonts.serif,
+    fontSize: 21,
+    lineHeight: 28,
+    color: colors.gold,
+    fontWeight: '700',
+  },
+  indexCopy: { flex: 1 },
+  indexTitle: {
+    fontFamily: fonts.serif,
+    fontSize: 20,
+    lineHeight: 29,
+    fontWeight: '600',
+    letterSpacing: 1,
+  },
+  indexSubtitle: {
+    marginTop: 3,
+    fontFamily: fonts.serif,
+    color: colors.inkSoft,
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  indexCount: {
+    color: colors.gold,
+    fontFamily: fonts.serif,
+    fontSize: 24,
+    lineHeight: 30,
+  },
+  indexChevron: { color: colors.gold, fontSize: 32, lineHeight: 36 },
+  pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
+});
