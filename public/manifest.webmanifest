@@ -1,0 +1,21 @@
+{
+  "name": "処世術禄",
+  "short_name": "処世術禄",
+  "description": "学校では教えてくれない、社会を生きるための教科書。",
+  "lang": "ja",
+  "id": "/syoseizyutsu-roku-mobile/",
+  "start_url": "/syoseizyutsu-roku-mobile/",
+  "scope": "/syoseizyutsu-roku-mobile/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#151714",
+  "theme_color": "#151714",
+  "icons": [
+    {
+      "src": "/syoseizyutsu-roku-mobile/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
