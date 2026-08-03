@@ -35,6 +35,9 @@ type UpgradeReelItem = {
 
 type ReelItem = TechniqueReelItem | UpgradeReelItem;
 
+const CIRCULAR_REEL_COPIES = 5;
+const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
+
 function splitReelTitle(value: string) {
   const title = value.replace(/\*\*/g, '').trim();
   const characters = [...title];
@@ -131,6 +134,7 @@ export default function MainScreen() {
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
+  const physicalIndexRef = useRef(0);
   const { savedIds, toggleSaved } = useAppState();
   const { isPaid } = useAccess();
   const visibleTechniqueCards = useMemo(
@@ -166,37 +170,44 @@ export default function MainScreen() {
     })),
     ...(!isPaid ? [{ kind: 'upgrade' as const, reelKey: 'upgrade' }] : []),
   ], [isPaid, visibleTechniqueCards]);
-  // Paid users keep the seamless circular reel. The free edition deliberately
-  // ends at the 21st card, where the next action is the complete edition.
+  // The circular reel contains several complete copies. It is reset to the
+  // centre copy only after a swipe settles, so neither direction has an edge.
   const reelItems = useMemo<ReelItem[]>(() => {
     if (!isPaid || baseReelItems.length <= 1) return baseReelItems;
-    return Array.from({ length: 3 }, (_, loop) =>
+    return Array.from({ length: CIRCULAR_REEL_COPIES }, (_, loop) =>
       baseReelItems.map((item) => ({ ...item, reelKey: `loop-${loop}-${item.reelKey}` })),
     ).flat();
   }, [baseReelItems, isPaid]);
   const activeItem = baseReelItems[activeIndex] ?? baseReelItems[0];
   const activeCard = activeItem?.kind === 'technique' ? activeItem.card : undefined;
+  const getCentralPhysicalIndex = (logicalIndex: number) =>
+    isPaid && baseReelItems.length > 1
+      ? CIRCULAR_REEL_CENTER_COPY * baseReelItems.length + logicalIndex
+      : logicalIndex;
 
   useEffect(() => {
+    const safeActiveIndex = Math.min(activeIndexRef.current, Math.max(baseReelItems.length - 1, 0));
+    activeIndexRef.current = safeActiveIndex;
+    if (safeActiveIndex !== activeIndex) setActiveIndex(safeActiveIndex);
+    const physicalIndex = getCentralPhysicalIndex(safeActiveIndex);
+    physicalIndexRef.current = physicalIndex;
     const frame = requestAnimationFrame(() => {
       listRef.current?.scrollToIndex({
-        index: isPaid && baseReelItems.length > 1
-          ? baseReelItems.length + activeIndex
-          : activeIndex,
+        index: physicalIndex,
         animated: false,
       });
     });
     return () => cancelAnimationFrame(frame);
-  }, [activeIndex, baseReelItems.length, isPaid, reelWidth]);
+  }, [baseReelItems.length, isPaid, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
+    const physicalIndex = getCentralPhysicalIndex(nextIndex);
+    physicalIndexRef.current = physicalIndex;
     listRef.current?.scrollToIndex({
-      index: isPaid && baseReelItems.length > 1
-        ? baseReelItems.length + nextIndex
-        : nextIndex,
+      index: physicalIndex,
       animated,
     });
     void Haptics.selectionAsync().catch(() => undefined);
@@ -205,12 +216,25 @@ export default function MainScreen() {
   const moveBy = (offset: -1 | 1) => {
     if (baseReelItems.length <= 1) return;
 
-    const rawIndex = activeIndex + offset;
+    const cardCount = baseReelItems.length;
+    let currentPhysicalIndex = physicalIndexRef.current;
+    if (
+      isPaid &&
+      (currentPhysicalIndex <= cardCount ||
+        currentPhysicalIndex >= cardCount * (CIRCULAR_REEL_COPIES - 1))
+    ) {
+      currentPhysicalIndex = getCentralPhysicalIndex(activeIndexRef.current);
+      physicalIndexRef.current = currentPhysicalIndex;
+      listRef.current?.scrollToIndex({ index: currentPhysicalIndex, animated: false });
+    }
+
+    const rawIndex = activeIndexRef.current + offset;
     const nextIndex = isPaid
-      ? (rawIndex + baseReelItems.length) % baseReelItems.length
+      ? (rawIndex + cardCount) % cardCount
       : Math.max(0, Math.min(rawIndex, baseReelItems.length - 1));
-    const physicalIndex = isPaid ? baseReelItems.length + rawIndex : nextIndex;
+    const physicalIndex = isPaid ? currentPhysicalIndex + offset : nextIndex;
     activeIndexRef.current = nextIndex;
+    physicalIndexRef.current = physicalIndex;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
       index: physicalIndex,
@@ -241,6 +265,7 @@ export default function MainScreen() {
       activeIndexRef.current = nextIndex;
       setActiveIndex(nextIndex);
     }
+    physicalIndexRef.current = physicalIndex;
   };
 
   const recenterReel = (
@@ -254,9 +279,14 @@ export default function MainScreen() {
     // Keep the user in the middle copy, after momentum has settled. Because
     // the destination contains the same card in the same visual position, the
     // jump is not perceptible.
-    if (physicalIndex < cardCount || physicalIndex >= cardCount * 2) {
-      const centeredIndex = cardCount +
-        (((physicalIndex % cardCount) + cardCount) % cardCount);
+    if (
+      physicalIndex < cardCount * (CIRCULAR_REEL_CENTER_COPY - 1) ||
+      physicalIndex >= cardCount * (CIRCULAR_REEL_CENTER_COPY + 2)
+    ) {
+      const centeredIndex = getCentralPhysicalIndex(
+        ((physicalIndex % cardCount) + cardCount) % cardCount,
+      );
+      physicalIndexRef.current = centeredIndex;
       listRef.current?.scrollToIndex({ index: centeredIndex, animated: false });
     }
 
@@ -317,7 +347,7 @@ export default function MainScreen() {
         showsHorizontalScrollIndicator={false}
         data={reelItems}
         keyExtractor={(item) => item.reelKey}
-        initialScrollIndex={isPaid && baseReelItems.length > 1 ? baseReelItems.length : 0}
+        initialScrollIndex={getCentralPhysicalIndex(0)}
         getItemLayout={(_, index) => ({
           index,
           length: reelWidth,
@@ -327,6 +357,11 @@ export default function MainScreen() {
         windowSize={7}
         onScroll={updateActiveCard}
         onMomentumScrollEnd={recenterReel}
+        onScrollToIndexFailed={({ index }) => {
+          requestAnimationFrame(() => {
+            listRef.current?.scrollToOffset({ offset: reelWidth * index, animated: false });
+          });
+        }}
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingHorizontal: reelSideInset }}
         style={[styles.reel, { width: reelViewportWidth }]}
@@ -367,7 +402,10 @@ export default function MainScreen() {
           const itemSaved = savedIds.includes(item.id);
           const titleMetrics = getReelTitleMetrics(item.title, cardWidth);
           const isAccessible =
-            activeCard?.id === item.id && (isPaid ? reelItem.reelKey === `loop-1-card-${activeCard.id}` : true);
+            activeCard?.id === item.id &&
+            (isPaid
+              ? reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-card-${activeCard.id}`
+              : true);
           return (
             <View
               accessibilityElementsHidden={!isAccessible}
