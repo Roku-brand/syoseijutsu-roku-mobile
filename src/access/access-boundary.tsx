@@ -4,7 +4,8 @@ import { colors, fonts, spacing } from '@/constants/theme';
 import { useAccess } from './access-state';
 
 export function AccessBoundary({ children }: { children: React.ReactNode }) {
-  const { accessState, refreshAccess, continueAsGuest, restorePurchase } = useAccess();
+  const { accessState, refreshAccess, continueAsGuest, restorePurchase, isOwner, previewMode, setPreviewMode } = useAccess();
+  const simulated = isOwner && previewMode !== 'actual';
 
   if (accessState === 'checking') {
     return (
@@ -13,6 +14,11 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
         <AppText style={styles.title}>処世術禄</AppText>
         <AppText style={styles.body}>利用状態を確認しています</AppText>
         <View style={styles.progress}><View style={styles.progressFill} /></View>
+        {simulated ? (
+          <Pressable style={styles.link} onPress={() => void setPreviewMode('actual')}>
+            <AppText style={styles.linkText}>オーナープレビューを終了</AppText>
+          </Pressable>
+        ) : null}
       </View>
     );
   }
@@ -22,15 +28,19 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
       <View style={styles.screen}>
         <AppText style={styles.title}>利用状態を確認できませんでした</AppText>
         <AppText style={styles.body}>通信状態を確認して、もう一度お試しください。購入済みの場合も、再確認すると復元できます。</AppText>
-        <Pressable style={styles.primary} onPress={() => void refreshAccess()}>
-          <AppText style={styles.primaryText}>もう一度確認する</AppText>
+        <Pressable style={styles.primary} onPress={() => simulated ? void setPreviewMode('actual') : void refreshAccess()}>
+          <AppText style={styles.primaryText}>{simulated ? 'オーナープレビューを終了' : 'もう一度確認する'}</AppText>
         </Pressable>
-        <Pressable style={styles.secondary} onPress={() => void restorePurchase()}>
-          <AppText style={styles.secondaryText}>購入を復元する</AppText>
-        </Pressable>
-        <Pressable style={styles.link} onPress={continueAsGuest}>
-          <AppText style={styles.linkText}>無料版を開く</AppText>
-        </Pressable>
+        {!simulated ? (
+          <>
+            <Pressable style={styles.secondary} onPress={() => void restorePurchase()}>
+              <AppText style={styles.secondaryText}>購入を復元する</AppText>
+            </Pressable>
+            <Pressable style={styles.link} onPress={continueAsGuest}>
+              <AppText style={styles.linkText}>無料版を開く</AppText>
+            </Pressable>
+          </>
+        ) : null}
       </View>
     );
   }
