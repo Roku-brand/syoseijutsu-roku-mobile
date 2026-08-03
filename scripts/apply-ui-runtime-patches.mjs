@@ -90,10 +90,3 @@ await patch('src/app/theories/[category].tsx', [
   ["  }, [items, query, sort]);", "  }, [query, sort, visibleItems]);"],
   ["      {filteredItems.length > 5 ? (", "      {!isPaid && totalCount > visibleItems.length ? (\n        <LockedPreview title={`${title}の完全版`} description=\"無料公開外の理論名と本文は、完全版で初めて表示されます。\" count={totalCount - visibleItems.length} source=\"discover_theory\" />\n      ) : null}\n      {filteredItems.length > 5 ? ("],
 ]);
-
-await patch('src/app/(tabs)/my-os.tsx', [
-  ["import { useTabVisible } from '@/hooks/use-tab-visible';", "import { useTabVisible } from '@/hooks/use-tab-visible';\nimport { OwnerPreviewPanel } from '@/components/owner-preview-panel';\nimport { useAuth } from '@/auth/auth-state';\nimport { useAccess } from '@/access/access-state';"],
-  ["  const [memoDraft, setMemoDraft] = useState('');", "  const [memoDraft, setMemoDraft] = useState('');\n  const { user } = useAuth();\n  const { isPaid, restorePurchase } = useAccess();"],
-  ["    <BookScreen>\n      <View style={styles.principleCard}>", "    <BookScreen>\n      <View style={styles.accountStrip}>\n        <AppText style={styles.accountStripLabel}>{user ? (isPaid ? '完全版・購入済み' : '無料版を利用中') : 'ログインせず無料版を利用中'}</AppText>\n        <Pressable onPress={() => router.push('/auth')}><AppText style={styles.accountStripAction}>{user ? 'アカウント' : 'ログイン'}</AppText></Pressable>\n        <Pressable onPress={() => void restorePurchase()}><AppText style={styles.accountStripAction}>購入を復元</AppText></Pressable>\n      </View>\n      <OwnerPreviewPanel />\n      <View style={styles.principleCard}>"],
-  ["const styles = StyleSheet.create({", "const styles = StyleSheet.create({\n  accountStrip: { minHeight: 54, marginBottom: 16, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },\n  accountStripLabel: { flex: 1, color: colors.inkSoft, fontSize: 12, fontWeight: '700' },\n  accountStripAction: { color: colors.gold, fontSize: 12, fontWeight: '700' },"],
-]);
