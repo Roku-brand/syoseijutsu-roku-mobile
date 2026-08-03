@@ -4,13 +4,18 @@ import { supabase } from './supabase';
 export const COMPLETE_EDITION_PRODUCT_ID = 'complete-edition';
 export const COMPLETE_EDITION_PRICE_JPY = 280;
 
-export async function createCompleteEditionCheckout() {
+/**
+ * Uses the access token returned by signup immediately, so Checkout does not
+ * depend on browser session storage or React auth state finishing an update.
+ */
+export async function createCompleteEditionCheckout(accessToken?: string) {
   if (!supabase) throw new Error('購入機能が設定されていません。');
-  const { data: sessionData } = await supabase.auth.getSession();
-  if (!sessionData.session) throw new Error('購入するにはログインしてください。');
+  const token = accessToken ?? (await supabase.auth.getSession()).data.session?.access_token;
+  if (!token) throw new Error('購入するにはログインしてください。');
 
   const { data, error } = await supabase.functions.invoke('create-checkout', {
     body: { productId: COMPLETE_EDITION_PRODUCT_ID },
+    headers: { Authorization: `Bearer ${token}` },
   });
   if (error) throw new Error(error.message || '購入画面を開けませんでした。');
   if (data?.alreadyPaid) return { alreadyPaid: true as const };
