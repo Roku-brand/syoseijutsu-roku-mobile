@@ -23,37 +23,30 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
-
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
-
       - name: Split public and paid content
         run: |
           node scripts/split-public-paid-content.mjs
           cp dist-secure-content/techniques.public.json src/data/generated/techniques.json
           cp dist-secure-content/theories.public.json src/data/generated/theories.json
           cp dist-secure-content/learning.public.json src/data/generated/learning.json
-
+          cp src/data/learning.runtime.ts src/data/learning.ts
       - name: Check types
         run: pnpm typecheck
-
       - name: Export web app
         run: pnpm export:pages
-
       - name: Audit public build for paid content
         run: node scripts/audit-public-build.mjs
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
