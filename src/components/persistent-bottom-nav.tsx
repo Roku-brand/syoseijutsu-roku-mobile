@@ -98,7 +98,9 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 }
 
 const styles = StyleSheet.create({
-  safeArea: { backgroundColor: colors.paper },
+  // ナビ本体と安全領域を同じ面として扱う。iPhone のホームインジケータ
+  // 領域だけが本文色で残らないよう、下端まで濃色でつなげる。
+  safeArea: { backgroundColor: colors.navInk },
   bar: {
     width: '100%',
     maxWidth: 620,
