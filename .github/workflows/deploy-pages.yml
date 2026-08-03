@@ -38,11 +38,21 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Split public and paid content
+        run: |
+          node scripts/split-public-paid-content.mjs
+          cp dist-secure-content/techniques.public.json src/data/generated/techniques.json
+          cp dist-secure-content/theories.public.json src/data/generated/theories.json
+          cp dist-secure-content/learning.public.json src/data/generated/learning.json
+
       - name: Check types
         run: pnpm typecheck
 
       - name: Export web app
         run: pnpm export:pages
+
+      - name: Audit public build for paid content
+        run: node scripts/audit-public-build.mjs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
