@@ -4,14 +4,29 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install
-      - run: npm run typecheck
-      - run: npm run export:pages
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Build free runtime catalog
+        run: |
+          node scripts/split-public-paid-content.mjs
+          cp dist-secure-content/techniques.public.json src/data/generated/techniques.json
+          cp dist-secure-content/theories.public.json src/data/generated/theories.json
+          cp dist-secure-content/learning.public.json src/data/generated/learning.json
+          cp src/data/learning.runtime.ts src/data/learning.ts
+      - run: pnpm typecheck
+      - run: pnpm export:pages
+      - run: node scripts/audit-public-build.mjs
