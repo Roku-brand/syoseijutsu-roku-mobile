@@ -1,0 +1,35 @@
+name: Secure content check
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --no-frozen-lockfile
+      - name: Build free public catalog
+        run: |
+          node scripts/split-public-paid-content.mjs
+          cp dist-secure-content/techniques.public.json src/data/generated/techniques.json
+          cp dist-secure-content/theories.public.json src/data/generated/theories.json
+          cp dist-secure-content/learning.public.json src/data/generated/learning.json
+      - run: pnpm typecheck
+      - run: pnpm export:pages
+      - run: node scripts/audit-public-build.mjs
