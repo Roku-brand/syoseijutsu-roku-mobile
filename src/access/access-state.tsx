@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { useAuth } from '@/auth/auth-state';
 import { fetchVerifiedAccess } from '@/lib/purchase';
+import { hydrateSecureContent, purgeSecureContent } from '@/lib/secure-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -12,6 +13,7 @@ type AccessContextValue = {
   isPaid: boolean;
   isOwner: boolean;
   previewMode: PreviewMode;
+  catalogRevision: number;
   setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<AccessState>;
   continueAsGuest: () => void;
@@ -25,6 +27,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const { loading, user, role } = useAuth();
   const [actualAccessState, setActualAccessState] = useState<AccessState>('checking');
   const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
+  const [catalogRevision, setCatalogRevision] = useState(0);
   const isOwner = role === 'owner';
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
@@ -33,19 +36,28 @@ export function AccessProvider({ children }: PropsWithChildren) {
       return 'checking';
     }
     if (!user) {
+      purgeSecureContent();
+      setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       return 'guest';
     }
+
     setActualAccessState('checking');
     try {
-      if (role === 'owner') {
+      const verified = role === 'owner' ? 'paid' : await fetchVerifiedAccess();
+      if (verified === 'paid') {
+        await hydrateSecureContent();
+        setCatalogRevision((value) => value + 1);
         setActualAccessState('paid');
         return 'paid';
       }
-      const verified = await fetchVerifiedAccess();
+      purgeSecureContent();
+      setCatalogRevision((value) => value + 1);
       setActualAccessState(verified);
       return verified;
     } catch {
+      purgeSecureContent();
+      setCatalogRevision((value) => value + 1);
       setActualAccessState('error');
       return 'error';
     }
@@ -71,7 +83,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
     await AsyncStorage.setItem(PREVIEW_KEY, mode);
   }, [isOwner]);
 
-  const continueAsGuest = useCallback(() => setActualAccessState('guest'), []);
+  const continueAsGuest = useCallback(() => {
+    purgeSecureContent();
+    setCatalogRevision((value) => value + 1);
+    setActualAccessState('guest');
+  }, []);
 
   const restorePurchase = useCallback(async () => {
     const next = await refreshAccess();
@@ -85,11 +101,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
     isPaid: accessState === 'paid',
     isOwner,
     previewMode,
+    catalogRevision,
     setPreviewMode,
     refreshAccess,
     continueAsGuest,
     restorePurchase,
-  }), [accessState, actualAccessState, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
+  }), [accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }
