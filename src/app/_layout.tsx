@@ -9,6 +9,9 @@ import { PersistentBottomNav } from '@/components/persistent-bottom-nav';
 import { AppStateProvider } from '@/state/app-state';
 import { AppToastProvider } from '@/components/app-toast';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { AccessProvider } from '@/access/access-state';
+import { AccessBoundary } from '@/access/access-boundary';
+import { AuthProvider } from '@/auth/auth-state';
 
 export default function RootLayout() {
   const { width } = useHydratedWindowDimensions();
@@ -16,10 +19,7 @@ export default function RootLayout() {
 
   const appContent = (
     <View style={styles.contentColumn}>
-      <SafeAreaView
-        edges={['top', 'left', 'right']}
-        style={styles.headerSafeArea}
-      >
+      <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}>
         <BookHeader />
       </SafeAreaView>
       <Stack
@@ -37,21 +37,25 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <AppStateProvider>
-        <AppToastProvider>
-          <View style={styles.container}>
-            <StatusBar style="light" />
-            {desktop ? (
-              <View style={styles.desktopFrame}>
-                <PersistentBottomNav />
-                {appContent}
-              </View>
-            ) : (
-              appContent
-            )}
-          </View>
-        </AppToastProvider>
-      </AppStateProvider>
+      <AuthProvider>
+        <AccessProvider>
+          <AccessBoundary>
+            <AppStateProvider>
+              <AppToastProvider>
+                <View style={styles.container}>
+                  <StatusBar style="light" />
+                  {desktop ? (
+                    <View style={styles.desktopFrame}>
+                      <PersistentBottomNav />
+                      {appContent}
+                    </View>
+                  ) : appContent}
+                </View>
+              </AppToastProvider>
+            </AppStateProvider>
+          </AccessBoundary>
+        </AccessProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

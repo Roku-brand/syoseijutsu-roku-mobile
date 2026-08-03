@@ -5,12 +5,18 @@ import { AppText } from '@/components/ui';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { learningCases, learningStages } from '@/data/learning';
 import { useAppState } from '@/state/app-state';
+import { useAccess } from '@/access/access-state';
 
 export default function LearnHomeScreen() {
   const router = useRouter();
   const { learningRecords } = useAppState();
+  const { isPaid } = useAccess();
 
   const openStage = (stage: number) => {
+    if (!isPaid && stage > 1) {
+      router.push({ pathname: '/upgrade', params: { source: 'learning' } });
+      return;
+    }
     const cases = learningCases.filter((item) => item.stage === stage);
     const next = cases.find((item) => !learningRecords[item.id]) ?? cases[0];
     router.push(`/learn/${next.id}`);
@@ -20,35 +26,36 @@ export default function LearnHomeScreen() {
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.sectionHeader}>
         <AppText style={styles.sectionLabel}>STAGE SELECT</AppText>
-        <AppText style={styles.sectionCount}>{learningCases.length} CASES</AppText>
+        <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7} FREE CASES</AppText>
       </View>
 
       <View style={styles.stageList}>
         {learningStages.map((stage) => {
           const cases = learningCases.filter((item) => item.stage === stage.number);
-          const completeCount = cases.filter((item) => learningRecords[item.id]).length;
-          const allComplete = completeCount === cases.length;
+          const locked = !isPaid && stage.number > 1;
+          const completeCount = locked ? 0 : cases.filter((item) => learningRecords[item.id]).length;
+          const allComplete = !locked && completeCount === cases.length;
           return (
             <Pressable
               key={stage.number}
               accessibilityRole="button"
-              accessibilityLabel={`ステージ${stage.number}、${stage.title}`}
+              accessibilityLabel={`ステージ${stage.number}、${stage.title}${locked ? '、完全版限定' : ''}`}
               onPress={() => openStage(stage.number)}
-              style={({ pressed }) => [styles.stage, pressed && styles.pressed]}
+              style={({ pressed }) => [styles.stage, locked && styles.stageLocked, pressed && styles.pressed]}
             >
               <View style={styles.stageTopline}>
                 <AppText style={styles.stageNumber}>STAGE {String(stage.number).padStart(2, '0')}</AppText>
                 <AppText style={styles.stageProgress}>
-                  {allComplete ? 'CLEAR' : `${completeCount} / ${cases.length}`}
+                  {locked ? `鍵・全${cases.length}ケース` : allComplete ? 'CLEAR' : `${completeCount} / ${cases.length}`}
                 </AppText>
               </View>
               <AppText style={styles.stageTitle}>{stage.title}</AppText>
               <AppText style={styles.stageIntro}>{stage.intro}</AppText>
               <View style={styles.stageFooter}>
                 <View style={styles.dots}>
-                  {cases.map((item) => <View key={item.id} style={[styles.dot, learningRecords[item.id] && styles.dotComplete]} />)}
+                  {cases.map((item) => <View key={item.id} style={[styles.dot, !locked && learningRecords[item.id] && styles.dotComplete]} />)}
                 </View>
-                <AppText style={styles.play}>{allComplete ? 'REPLAY  →' : 'PLAY  →'}</AppText>
+                <AppText style={styles.play}>{locked ? '完全版で進む  →' : allComplete ? 'REPLAY  →' : 'PLAY  →'}</AppText>
               </View>
             </Pressable>
           );
@@ -57,7 +64,7 @@ export default function LearnHomeScreen() {
 
       <View style={styles.footer}>
         <AppText style={styles.footerMark}>21</AppText>
-        <AppText style={styles.footerText}>選んだ一手は、関連する処世術へつながる。</AppText>
+        <AppText style={styles.footerText}>ステージ1はすべて無料。完全版では、仕事と人生の判断まで学べる。</AppText>
       </View>
     </BookScreen>
   );
@@ -70,6 +77,7 @@ const styles = StyleSheet.create({
   sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1 },
   stageList: { marginHorizontal: spacing.lg, gap: 12, marginTop: 14 },
   stage: { padding: 20, minHeight: 157, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, ...shadow.card },
+  stageLocked: { backgroundColor: '#F2EDE4', borderColor: '#CDBD9E' },
   stageTopline: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   stageNumber: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.45, fontWeight: '700' },
   stageProgress: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 0.7, fontWeight: '700' },
