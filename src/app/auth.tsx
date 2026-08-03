@@ -5,6 +5,7 @@ import { BookScreen } from '@/components/book-ui';
 import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
+import { createCompleteEditionCheckout } from '@/lib/purchase';
 
 export default function AuthScreen() {
   const router = useRouter();
@@ -17,22 +18,39 @@ export default function AuthScreen() {
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  const continueToCheckout = async () => {
+    setMessage('決済画面を開いています…');
+    const result = await createCompleteEditionCheckout();
+    if (result.alreadyPaid) router.replace('/upgrade');
+  };
+
   const submit = async () => {
     setSubmitting(true);
     setMessage('');
     const result = mode === 'signin'
       ? await signInWithEmail(email, password)
       : await signUpWithEmail(email, password);
-    setSubmitting(false);
     if (result.error) {
+      setSubmitting(false);
       setMessage(result.error);
       return;
     }
     if (result.hasSession) {
-      if (purchaseIntent) router.replace('/upgrade?startCheckout=1');
-      else router.back();
+      if (purchaseIntent) {
+        try {
+          await continueToCheckout();
+        } catch (error) {
+          setMessage(error instanceof Error ? error.message : '決済画面を開けませんでした。');
+        } finally {
+          setSubmitting(false);
+        }
+      } else {
+        setSubmitting(false);
+        router.back();
+      }
       return;
     }
+    setSubmitting(false);
     setMessage('確認メールを送信しました。メール内のリンクから登録を完了後、ログインすると決済へ進めます。');
   };
 
