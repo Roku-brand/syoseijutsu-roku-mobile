@@ -173,14 +173,18 @@ export const learningCases: LearningCase[] = rawLearningCases.map((item) => {
   const original = item.goodChoiceId;
   if (target === original) return item;
 
+  const choices = item.choices.map((choice) => {
+    if (choice.id === original) return { ...choice, id: target };
+    if (choice.id === target) return { ...choice, id: original };
+    return choice;
+  });
+
   return {
     ...item,
     goodChoiceId: target,
-    choices: item.choices.map((choice) => {
-      if (choice.id === original) return { ...choice, id: target };
-      if (choice.id === target) return { ...choice, id: original };
-      return choice;
-    }),
+    // The better move is distributed across A/B/C, but the UI must always read
+    // top-to-bottom as A → B → C rather than the shuffled source order.
+    choices: choices.sort((left, right) => left.id.localeCompare(right.id)),
   };
 });
 
