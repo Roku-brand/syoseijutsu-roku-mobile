@@ -1,10 +1,10 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { useAuth } from '@/auth/auth-state';
+import { checkoutConfirmationRedirectUrl, useAuth } from '@/auth/auth-state';
 import { createCompleteEditionCheckout } from '@/lib/purchase';
 
 export default function AuthScreen() {
@@ -17,19 +17,37 @@ export default function AuthScreen() {
   const [mode, setMode] = useState<'signin' | 'signup'>(params.mode === 'signin' ? 'signin' : 'signup');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const checkoutStarted = useRef(false);
 
-  const continueToCheckout = async () => {
+  const continueToCheckout = useCallback(async () => {
+    if (checkoutStarted.current) return;
+    checkoutStarted.current = true;
+    setSubmitting(true);
     setMessage('決済画面を開いています…');
-    const result = await createCompleteEditionCheckout();
-    if (result.alreadyPaid) router.replace('/upgrade');
-  };
+    try {
+      const result = await createCompleteEditionCheckout();
+      if (result.alreadyPaid) router.replace('/upgrade');
+    } catch (error) {
+      checkoutStarted.current = false;
+      setMessage(error instanceof Error ? error.message : '決済画面を開けませんでした。');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [router]);
+
+  // This covers both a normal login and the return from the email-confirmation
+  // link. `checkoutStarted` makes the redirect idempotent if auth state updates
+  // more than once while Supabase exchanges the confirmation token.
+  useEffect(() => {
+    if (purchaseIntent && user) void continueToCheckout();
+  }, [continueToCheckout, purchaseIntent, user]);
 
   const submit = async () => {
     setSubmitting(true);
     setMessage('');
     const result = mode === 'signin'
       ? await signInWithEmail(email, password)
-      : await signUpWithEmail(email, password);
+      : await signUpWithEmail(email, password, purchaseIntent ? { emailRedirectTo: checkoutConfirmationRedirectUrl() } : undefined);
     if (result.error) {
       setSubmitting(false);
       setMessage(result.error);
@@ -37,13 +55,8 @@ export default function AuthScreen() {
     }
     if (result.hasSession) {
       if (purchaseIntent) {
-        try {
-          await continueToCheckout();
-        } catch (error) {
-          setMessage(error instanceof Error ? error.message : '決済画面を開けませんでした。');
-        } finally {
-          setSubmitting(false);
-        }
+        setSubmitting(false);
+        await continueToCheckout();
       } else {
         setSubmitting(false);
         router.back();
@@ -51,7 +64,9 @@ export default function AuthScreen() {
       return;
     }
     setSubmitting(false);
-    setMessage('確認メールを送信しました。メール内のリンクから登録を完了後、ログインすると決済へ進めます。');
+    setMessage(purchaseIntent
+      ? '確認メールを送信しました。メール内のリンクを開くと、このまま決済画面へ進みます。'
+      : '確認メールを送信しました。メール内のリンクから登録を完了してください。');
   };
 
   return (
