@@ -24,9 +24,16 @@ export default function LearnHomeScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
+      <View style={styles.intro}>
+        <AppText style={styles.introEyebrow}>JUDGMENT TRAINING</AppText>
+        <AppText style={styles.introTitle}>知識ではなく、一手を学ぶ。</AppText>
+        <AppText style={styles.introBody}>心理学や戦略論を知っていても、現実の場面で選べなければ使えない。ケースを読み、選び、理由を振り返ることで判断の型を身につけます。</AppText>
+        <View style={styles.flow}><AppText style={styles.flowText}>状況を読む</AppText><AppText style={styles.flowArrow}>→</AppText><AppText style={styles.flowText}>一手を選ぶ</AppText><AppText style={styles.flowArrow}>→</AppText><AppText style={styles.flowText}>原理を知る</AppText></View>
+      </View>
+
       <View style={styles.sectionHeader}>
         <AppText style={styles.sectionLabel}>STAGE SELECT</AppText>
-        <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7} FREE CASES</AppText>
+        <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7} CASES AVAILABLE</AppText>
       </View>
 
       <View style={styles.stageList}>
@@ -45,26 +52,36 @@ export default function LearnHomeScreen() {
             >
               <View style={styles.stageTopline}>
                 <AppText style={styles.stageNumber}>STAGE {String(stage.number).padStart(2, '0')}</AppText>
-                <AppText style={styles.stageProgress}>
-                  {locked ? `鍵・全${cases.length}ケース` : allComplete ? 'CLEAR' : `${completeCount} / ${cases.length}`}
+                <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>
+                  {locked ? `COMPLETE EDITION・${cases.length} CASES` : allComplete ? 'CLEAR' : `${completeCount} / ${cases.length}`}
                 </AppText>
               </View>
               <AppText style={styles.stageTitle}>{stage.title}</AppText>
               <AppText style={styles.stageIntro}>{stage.intro}</AppText>
+              {locked ? <AppText style={styles.lockedReason}>{stage.number === 2 ? '頼まれ方・押され方・交渉の局面を扱います。' : '仕事と人生の選択を、自分の基準で決める局面を扱います。'}</AppText> : null}
               <View style={styles.stageFooter}>
                 <View style={styles.dots}>
                   {cases.map((item) => <View key={item.id} style={[styles.dot, !locked && learningRecords[item.id] && styles.dotComplete]} />)}
                 </View>
-                <AppText style={styles.play}>{locked ? '完全版で進む  →' : allComplete ? 'REPLAY  →' : 'PLAY  →'}</AppText>
+                <AppText style={styles.play}>{locked ? '続きを試す  →' : allComplete ? 'REPLAY  →' : 'PLAY  →'}</AppText>
               </View>
             </Pressable>
           );
         })}
       </View>
 
+      {!isPaid ? (
+        <Pressable style={({ pressed }) => [styles.upgradeCard, pressed && styles.pressed]} onPress={() => router.push({ pathname: '/upgrade', params: { source: 'learning' } })}>
+          <AppText style={styles.upgradeEyebrow}>COMPLETE EDITION / ¥280</AppText>
+          <AppText style={styles.upgradeTitle}>「知っている」を、「選べる」に変える。</AppText>
+          <AppText style={styles.upgradeBody}>全21ケースと、関連する434の処世術・526の理論を解放。判断の理由まで体系的に振り返れます。</AppText>
+          <AppText style={styles.upgradeCta}>知っている側へ進む　→</AppText>
+        </Pressable>
+      ) : null}
+
       <View style={styles.footer}>
-        <AppText style={styles.footerMark}>21</AppText>
-        <AppText style={styles.footerText}>ステージ1はすべて無料。完全版では、仕事と人生の判断まで学べる。</AppText>
+        <AppText style={styles.footerMark}>禄</AppText>
+        <AppText style={styles.footerText}>答えを暗記するのではなく、状況・目的・副作用を比較して、自分で一手を選ぶための学習です。</AppText>
       </View>
     </BookScreen>
   );
@@ -72,22 +89,36 @@ export default function LearnHomeScreen() {
 
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: layout.bottomContentInset },
-  sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
+  intro: { marginHorizontal: spacing.lg, padding: spacing.lg, borderRadius: radius.md, backgroundColor: colors.charcoal },
+  introEyebrow: { color: colors.goldLight, fontSize: 9, letterSpacing: 1.8, fontWeight: '700' },
+  introTitle: { marginTop: 10, color: '#F6F0E5', fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '700' },
+  introBody: { marginTop: 8, color: '#D6CEC0', fontSize: 12, lineHeight: 20 },
+  flow: { marginTop: 15, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 7 },
+  flowText: { color: '#F0DDAE', fontSize: 10, fontWeight: '700' },
+  flowArrow: { color: '#7F7668', fontSize: 10 },
+  sectionHeader: { marginTop: 22, marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
   sectionLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.8, fontWeight: '700' },
-  sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1 },
+  sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.8 },
   stageList: { marginHorizontal: spacing.lg, gap: 12, marginTop: 14 },
   stage: { padding: 20, minHeight: 157, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, ...shadow.card },
-  stageLocked: { backgroundColor: '#F2EDE4', borderColor: '#CDBD9E' },
-  stageTopline: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  stageLocked: { backgroundColor: '#F5EFE4', borderColor: '#BFA876' },
+  stageTopline: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
   stageNumber: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.45, fontWeight: '700' },
-  stageProgress: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 0.7, fontWeight: '700' },
+  stageProgress: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.6, fontWeight: '700' },
+  stageProgressLocked: { color: colors.gold },
   stageTitle: { marginTop: 10, color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 34, fontWeight: '700' },
   stageIntro: { marginTop: 4, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21 },
+  lockedReason: { marginTop: 9, color: colors.muted, fontSize: 11, lineHeight: 18 },
   stageFooter: { marginTop: 'auto', paddingTop: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   dots: { flexDirection: 'row', gap: 5 },
   dot: { width: 6, height: 6, borderRadius: 4, borderWidth: 1, borderColor: '#B7AB93' },
   dotComplete: { backgroundColor: colors.gold, borderColor: colors.gold },
   play: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1, fontWeight: '700' },
+  upgradeCard: { marginHorizontal: spacing.lg, marginTop: 18, padding: 20, borderRadius: radius.md, backgroundColor: colors.charcoal },
+  upgradeEyebrow: { color: colors.goldLight, fontSize: 9, letterSpacing: 1.4, fontWeight: '700' },
+  upgradeTitle: { marginTop: 9, color: '#F7F1E6', fontFamily: fonts.serif, fontSize: 21, lineHeight: 30, fontWeight: '700' },
+  upgradeBody: { marginTop: 7, color: '#D5CDC0', fontSize: 12, lineHeight: 20 },
+  upgradeCta: { marginTop: 15, color: colors.goldLight, fontSize: 12, fontWeight: '700' },
   footer: { marginHorizontal: spacing.lg, marginTop: 28, paddingTop: 18, borderTopWidth: 1, borderColor: colors.line, flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   footerMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 22, lineHeight: 25 },
   footerText: { color: colors.muted, flex: 1, fontFamily: fonts.sans, fontSize: 12, lineHeight: 20 },
