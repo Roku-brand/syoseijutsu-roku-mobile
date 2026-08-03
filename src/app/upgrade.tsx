@@ -118,9 +118,7 @@ export default function UpgradeScreen() {
 
       <AppText variant="serif" style={[styles.sectionTitle, styles.paymentHeading]}>お支払い方法</AppText>
       <View style={styles.paymentBox}>
-        <PaymentRow icon="●" title="Apple Pay" />
-        <PaymentRow icon="▣" title="クレジットカード" note="Visa / Mastercard / JCB / AMEX" />
-        <PaymentRow icon="Link" title="Link" note="ソフトバンク・ワイモバイルまとめて支払い" last />
+        <PaymentRow icon="▣" title="Stripe Checkout" note="利用できる支払方法は決済画面に表示されます" last />
       </View>
 
       <View style={styles.accountNote}>
@@ -135,7 +133,10 @@ export default function UpgradeScreen() {
         <Pressable onPress={() => router.push('/legal/terms')}><AppText style={styles.legalText}>利用規約</AppText></Pressable>
         <AppText style={styles.legalDivider}>・</AppText>
         <Pressable onPress={() => router.push('/legal/privacy')}><AppText style={styles.legalText}>プライバシーポリシー</AppText></Pressable>
+        <AppText style={styles.legalDivider}>・</AppText>
+        <Pressable onPress={() => router.push('/legal/commerce')}><AppText style={styles.legalText}>特商法表記</AppText></Pressable>
       </View>
+      <AppText style={styles.purchaseConsent}>「購入へ進む」を押すことで、利用規約・プライバシーポリシー・特商法表記に同意したものとします。</AppText>
     </BookScreen>
   );
 }
@@ -143,7 +144,7 @@ export default function UpgradeScreen() {
 function PaymentRow({ icon, title, note, last = false }: { icon: string; title: string; note?: string; last?: boolean }) {
   return (
     <View style={[styles.paymentRow, last && styles.paymentRowLast]}>
-      <AppText style={[styles.paymentIcon, icon === 'Link' && styles.linkIcon]}>{icon}</AppText>
+      <AppText style={styles.paymentIcon}>{icon}</AppText>
       <View style={styles.paymentCopy}><AppText style={styles.paymentTitle}>{title}</AppText>{note ? <AppText style={styles.paymentNote}>{note}</AppText> : null}</View>
       <AppText style={styles.paymentArrow}>›</AppText>
     </View>
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
   paymentRow: { minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 15, borderBottomWidth: 1, borderColor: '#E1D8CC' },
   paymentRowLast: { borderBottomWidth: 0 },
   paymentIcon: { width: 48, color: '#111', fontSize: 20, lineHeight: 24, fontWeight: '700', textAlign: 'center' },
-  linkIcon: { fontFamily: 'serif', fontSize: 18 },
   paymentCopy: { flex: 1 },
   paymentTitle: { color: '#252521', fontSize: 15, lineHeight: 21, fontWeight: '600' },
   paymentNote: { marginTop: 2, color: '#66655F', fontSize: 10, lineHeight: 15 },
@@ -196,5 +196,6 @@ const styles = StyleSheet.create({
   legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 28, gap: 10 },
   legalText: { color: '#77746C', fontSize: 10, lineHeight: 16, textDecorationLine: 'underline' },
   legalDivider: { color: '#77746C', fontSize: 10 },
+  purchaseConsent: { marginTop: 9, color: '#77746C', fontSize: 10, lineHeight: 16, textAlign: 'center' },
   disabled: { opacity: 0.55 },
 });
