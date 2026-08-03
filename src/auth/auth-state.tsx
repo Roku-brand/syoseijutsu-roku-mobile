@@ -1,9 +1,11 @@
 import type { Session, User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
+import { Platform } from 'react-native';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 
 export type AccountRole = 'user' | 'owner';
 export type AuthResult = { error: string | null; hasSession: boolean };
+export type SignUpOptions = { emailRedirectTo?: string };
 
 type AuthContextValue = {
   configured: boolean;
@@ -12,7 +14,7 @@ type AuthContextValue = {
   user: User | null;
   role: AccountRole;
   signInWithEmail: (email: string, password: string) => Promise<AuthResult>;
-  signUpWithEmail: (email: string, password: string) => Promise<AuthResult>;
+  signUpWithEmail: (email: string, password: string, options?: SignUpOptions) => Promise<AuthResult>;
   signOut: () => Promise<void>;
   refreshRole: () => Promise<void>;
 };
@@ -65,9 +67,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return { error: error?.message ?? null, hasSession: Boolean(data.session) };
   }, []);
 
-  const signUpWithEmail = useCallback(async (email: string, password: string) => {
+  const signUpWithEmail = useCallback(async (email: string, password: string, options?: SignUpOptions) => {
     if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false };
-    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password });
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password,
+      options: options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo } : undefined,
+    });
     return { error: error?.message ?? null, hasSession: Boolean(data.session) };
   }, []);
 
@@ -89,6 +95,18 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }), [loading, refreshRole, role, session, signInWithEmail, signOut, signUpWithEmail]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+/**
+ * The confirmation link must bring a buyer back to the purchase intent,
+ * instead of the generic home screen. The web URL is allow-listed in
+ * Supabase Auth; native builds use the app's registered deep-link scheme.
+ */
+export function checkoutConfirmationRedirectUrl() {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    return `${window.location.origin}/syoseizyutsu-roku-mobile/auth?intent=checkout`;
+  }
+  return 'shoseijutsuroku://auth?intent=checkout';
 }
 
 export function useAuth() {
