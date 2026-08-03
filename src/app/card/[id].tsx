@@ -13,6 +13,9 @@ import {
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
+import { useAccess } from '@/access/access-state';
+import { canReadTechnique } from '@/access/access-config';
+import { LockedPreview } from '@/components/locked-preview';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -23,12 +26,22 @@ export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const card = techniqueById.get(id);
   const { addHistory } = useAppState();
+  const { accessState } = useAccess();
+  const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
     if (id) addHistory(id);
   }, [addHistory, id]);
 
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card]);
+
+  if (card && !canReadTechnique(effectiveAccess, card.id)) {
+    return (
+      <Screen contentContainerStyle={styles.screenContent}>
+        <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />
+      </Screen>
+    );
+  }
 
   if (!card) {
     return (
@@ -50,6 +63,8 @@ export default function CardDetailScreen() {
   const tags = Array.from(
     new Set([card.categoryName, card.subcategory, ...(card.tags ?? [])]),
   );
+  const titleLength = [...card.title.replace(/\s/g, '')].length;
+  const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;
 
   const navigateCard = (offset: -1 | 1) => {
     const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
@@ -76,8 +91,8 @@ export default function CardDetailScreen() {
           variant="serif"
           numberOfLines={2}
           adjustsFontSizeToFit
-          minimumFontScale={0.7}
-          style={styles.title}
+          minimumFontScale={0.5}
+          style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}
         >
           {card.title}
         </AppText>

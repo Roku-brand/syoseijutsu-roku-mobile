@@ -1,4 +1,5 @@
-const VERSION = 'roku-2026-08-03-1';
+// Bump this on every web release so an installed PWA clears stale bundles.
+const VERSION = 'roku-2026-08-03-2';
 const BASE = '/syoseizyutsu-roku-mobile';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
@@ -50,7 +51,8 @@ self.addEventListener('fetch', (event) => {
         .catch(async () =>
           (await caches.match(request)) ||
           (await caches.match(`${BASE}/index.html`)) ||
-          (await caches.match(`${BASE}/`)),
+          (await caches.match(`${BASE}/`)) ||
+          Response.error(),
         ),
     );
     return;
@@ -66,7 +68,7 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => cached);
+        .catch(() => cached || Response.error());
       return cached || network;
     }),
   );

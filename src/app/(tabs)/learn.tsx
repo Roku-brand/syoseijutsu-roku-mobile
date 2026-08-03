@@ -6,6 +6,7 @@ import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/them
 import { learningCases, learningStages } from '@/data/learning';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
+import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
 export default function LearnHomeScreen() {
   const router = useRouter();
@@ -72,7 +73,7 @@ export default function LearnHomeScreen() {
 
       {!isPaid ? (
         <Pressable style={({ pressed }) => [styles.upgradeCard, pressed && styles.pressed]} onPress={() => router.push({ pathname: '/upgrade', params: { source: 'learning' } })}>
-          <AppText style={styles.upgradeEyebrow}>COMPLETE EDITION / ¥280</AppText>
+          <AppText style={styles.upgradeEyebrow}>COMPLETE EDITION / ¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
           <AppText style={styles.upgradeTitle}>「知っている」を、「選べる」に変える。</AppText>
           <AppText style={styles.upgradeBody}>全21ケースと、関連する434の処世術・526の理論を解放。判断の理由まで体系的に振り返れます。</AppText>
           <AppText style={styles.upgradeCta}>知っている側へ進む　→</AppText>

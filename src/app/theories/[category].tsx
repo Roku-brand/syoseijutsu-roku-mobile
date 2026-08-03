@@ -11,6 +11,9 @@ import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
+import { useAccess } from '@/access/access-state';
+import { FREE_THEORY_ID_SET } from '@/access/access-config';
+import { LockedPreview } from '@/components/locked-preview';
 
 export function generateStaticParams() {
   return [
@@ -23,10 +26,13 @@ export function generateStaticParams() {
 
 export default function TheoryCategoryScreen() {
   const { category } = useLocalSearchParams<{ category: string }>();
+  const { isPaid } = useAccess();
   const items =
     category === 'all'
       ? theories
       : theories.filter((theory) => theory.categoryId === category);
+  const totalCount = items.length;
+  const visibleItems = isPaid ? items : items.filter((theory) => FREE_THEORY_ID_SET.has(theory.tagId));
   const scrollRef = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'source' | 'title'>('source');
@@ -34,7 +40,7 @@ export default function TheoryCategoryScreen() {
   const filteredItems = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
     const matched = term
-      ? items.filter((theory) =>
+      ? visibleItems.filter((theory) =>
           [
             theory.title,
             theory.summary,
@@ -48,12 +54,12 @@ export default function TheoryCategoryScreen() {
             .toLocaleLowerCase()
             .includes(term),
         )
-      : [...items];
+      : [...visibleItems];
     if (sort === 'title') {
       matched.sort((a, b) => a.title.localeCompare(b.title, 'ja'));
     }
     return matched;
-  }, [items, query, sort]);
+  }, [query, sort, visibleItems]);
 
   if (!items.length) {
     return (
@@ -148,6 +154,9 @@ export default function TheoryCategoryScreen() {
           </View>
         ) : null}
       </View>
+      {!isPaid && totalCount > visibleItems.length ? (
+        <LockedPreview title={`${title}の完全版`} description="無料公開外の理論名と本文は、完全版で初めて表示されます。" count={totalCount - visibleItems.length} source="discover_theory" />
+      ) : null}
       {filteredItems.length > 5 ? (
         <Pressable
           accessibilityRole="button"

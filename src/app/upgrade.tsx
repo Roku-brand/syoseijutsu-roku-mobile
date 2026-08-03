@@ -2,38 +2,29 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
+import { EditionCover } from '@/components/locked-preview';
 import { AppText } from '@/components/ui';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout } from '@/lib/purchase';
 
-const strengths = [
-  { mark: '根', title: '心理学・行動科学・戦略論に基づく', body: '経験談だけではなく、人が動く理由と社会の構造から一手を理解する。' },
-  { mark: '系', title: '断片ではなく、状況別の体系', body: '人間関係・集団・仕事・人生を横断し、今の悩みから必要な知識へ進める。' },
-  { mark: '実', title: '理論を行動へ変え、ケースで試す', body: '読むだけで終わらず、選択と振り返りを通じて判断の精度を上げる。' },
+const benefits = [
+  { icon: '⌕', title: '状況から探せる', body: '同じ状況で使える一手を厳選して提案' },
+  { icon: '▤', title: '背景理論まで読める', body: '心理学・行動科学・戦略論を体系的に学べる' },
+  { icon: '♧', title: 'ケースで理解を深められる', body: '実例・ケースで思考と判断力を鍛えられる' },
 ];
-
-const sourceLead: Record<string, string> = {
-  learning: '続きのケースでは、頼まれ方・押され方・人生の選択まで判断を試せます。',
-  discover_technique: 'この先には、同じ状況で使える一手と、その注意点が体系的に収録されています。',
-  discover_theory: 'この先では、心理学の原理と、それを現実でどう使うかまで往復できます。',
-  reel: '気になった一枚を入口に、関連する理論と別の一手まで掘り下げられます。',
-  my_os: '完全版の知識を保存し、自分の判断基準として蓄積できます。',
-};
 
 export default function UpgradeScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ source?: string; checkout?: string }>();
+  const params = useLocalSearchParams<{ checkout?: string }>();
   const { user } = useAuth();
   const { isPaid, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const lead = sourceLead[params.source ?? ''] ?? '表向きの正しさだけでは説明できない、人間社会の原理を一つの体系で学べます。';
 
   useEffect(() => {
     if (params.checkout === 'success') {
-      setMessage('決済を確認しています。反映されない場合は「購入を復元」を押してください。');
+      setMessage('決済を確認しています。反映されない場合は「ログイン」から購入状態を確認してください。');
       void refreshAccess();
     } else if (params.checkout === 'cancelled') {
       setMessage('購入はキャンセルされました。料金は発生していません。');
@@ -61,6 +52,10 @@ export default function UpgradeScreen() {
   };
 
   const restore = async () => {
+    if (!user) {
+      router.push('/auth');
+      return;
+    }
     setSubmitting(true);
     const restored = await restorePurchase();
     setSubmitting(false);
@@ -69,118 +64,131 @@ export default function UpgradeScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.hero}>
-        <AppText style={styles.kicker}>SHOSEIJUTSU ROKU / COMPLETE EDITION</AppText>
-        <AppText style={styles.title}>人間社会には、{`\n`}知っている側だけが使っている原理がある。</AppText>
-        <AppText style={styles.lead}>{lead}</AppText>
-        <View style={styles.methodRow}>
-          <AppText style={styles.method}>状況から探す</AppText><AppText style={styles.arrow}>→</AppText>
-          <AppText style={styles.method}>原理を知る</AppText><AppText style={styles.arrow}>→</AppText>
-          <AppText style={styles.method}>ケースで試す</AppText>
-        </View>
-        <View style={styles.priceRow}>
-          <AppText style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-          <View><AppText style={styles.priceNote}>買い切り</AppText><AppText style={styles.priceSub}>追加課金なし</AppText></View>
+      <View style={styles.productHero}>
+        <EditionCover small />
+        <View style={styles.heroCopy}>
+          <AppText variant="serif" style={styles.productTitle}>処世術禄 完全版</AppText>
+          <View style={styles.priceRow}>
+            <AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
+            <View style={styles.priceNote}><AppText style={styles.priceNoteText}>買い切り・追加課金なし</AppText></View>
+          </View>
+          <AppText style={styles.productMeta}>♧　434の処世術・526の理論・全21ケース</AppText>
         </View>
       </View>
 
-      <View style={styles.metrics}>
-        <Metric value="434" label="状況別の処世術" />
-        <Metric value="526" label="背景にある理論" />
-        <Metric value="21" label="判断ケース" />
-      </View>
-
-      <View style={styles.section}>
-        <AppText style={styles.eyebrow}>WHY ROKU</AppText>
-        <AppText style={styles.sectionTitle}>断片的な心理学を、使える判断体系へ。</AppText>
-        {strengths.map((item) => (
-          <View key={item.mark} style={styles.strengthRow}>
-            <View style={styles.strengthMark}><AppText style={styles.strengthMarkText}>{item.mark}</AppText></View>
-            <View style={styles.strengthCopy}><AppText style={styles.strengthTitle}>{item.title}</AppText><AppText style={styles.strengthBody}>{item.body}</AppText></View>
+      <View style={styles.rule} />
+      <AppText variant="serif" style={styles.sectionTitle}>完全版で解放される内容</AppText>
+      <View style={styles.benefitList}>
+        {benefits.map((benefit) => (
+          <View key={benefit.title} style={styles.benefitRow}>
+            <View style={styles.benefitIcon}><AppText style={styles.benefitIconText}>{benefit.icon}</AppText></View>
+            <View style={styles.benefitCopy}>
+              <AppText style={styles.benefitTitle}>{benefit.title}</AppText>
+              <AppText style={styles.benefitBody}>{benefit.body}</AppText>
+            </View>
           </View>
         ))}
       </View>
 
-      <View style={styles.compare}>
-        <View style={styles.compareColumn}>
-          <AppText style={styles.compareLabel}>無料版</AppText>
-          <AppText style={styles.compareHeadline}>考え方を体験する</AppText>
-          <AppText style={styles.compareBody}>厳選された処世術・理論と、学習ステージ1を利用できます。</AppText>
-        </View>
-        <View style={[styles.compareColumn, styles.comparePaid]}>
-          <AppText style={[styles.compareLabel, styles.gold]}>完全版</AppText>
-          <AppText style={styles.compareHeadline}>自分の状況から探せる</AppText>
-          <AppText style={styles.compareBody}>全分類・全理論・全学習ステージを解放し、知識を横断して使えます。</AppText>
-        </View>
-      </View>
-
-      <View style={styles.promise}>
-        <AppText style={styles.promiseTitle}>人を操るためではなく、社会を見誤らないために。</AppText>
-        <AppText style={styles.promiseBody}>処世術禄は、万能な心理テクニックを断言するサービスではありません。適用場面と注意点を含め、状況に応じて一手を選ぶための知識を提供します。</AppText>
-      </View>
-
       {message ? <AppText style={styles.message}>{message}</AppText> : null}
       {isPaid ? (
-        <Pressable style={styles.primary} onPress={() => router.back()}><AppText style={styles.primaryTitle}>完全版を開く</AppText></Pressable>
+        <Pressable style={styles.primary} onPress={() => router.back()}><AppText style={styles.primaryText}>完全版を開く</AppText></Pressable>
       ) : (
-        <Pressable disabled={submitting} style={[styles.primary, submitting && styles.disabled]} onPress={() => void purchase()}>
-          <AppText style={styles.primaryTitle}>{submitting ? '確認中…' : user ? '知っている側へ進む' : 'ログインして完全版へ進む'}</AppText>
-          <AppText style={styles.primarySub}>¥{COMPLETE_EDITION_PRICE_JPY}・買い切り</AppText>
+        <Pressable
+          accessibilityRole="button"
+          disabled={submitting}
+          onPress={() => void purchase()}
+          style={[styles.primary, submitting && styles.disabled]}
+        >
+          <AppText variant="serif" style={styles.primaryText}>{submitting ? '確認中…' : user ? '購入へ進む' : '会員登録して購入へ進む'}</AppText>
+          <AppText style={styles.primaryArrow}>›</AppText>
         </Pressable>
       )}
-      <Pressable disabled={submitting} style={styles.secondary} onPress={() => void restore()}><AppText style={styles.secondaryText}>購入済みの方はこちら</AppText></Pressable>
-      <Pressable style={styles.freeLink} onPress={() => router.back()}><AppText style={styles.freeLinkText}>無料版を続ける</AppText></Pressable>
+      <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={styles.secondary}>
+        <AppText variant="serif" style={styles.secondaryText}>登録済みの方はログイン</AppText>
+        <AppText style={styles.secondaryArrow}>›</AppText>
+      </Pressable>
+      <AppText style={styles.instantNote}>♢　購入後すぐに完全版へ切り替わります</AppText>
+
+      <AppText variant="serif" style={[styles.sectionTitle, styles.paymentHeading]}>お支払い方法</AppText>
+      <View style={styles.paymentBox}>
+        <PaymentRow icon="●" title="Apple Pay" />
+        <PaymentRow icon="▣" title="クレジットカード" note="Visa / Mastercard / JCB / AMEX" />
+        <PaymentRow icon="Link" title="Link" note="ソフトバンク・ワイモバイルまとめて支払い" last />
+      </View>
+
+      <View style={styles.accountNote}>
+        <View style={styles.accountLock}><AppText style={styles.accountLockText}>♙</AppText></View>
+        <View style={styles.accountCopy}>
+          <AppText style={styles.accountTitle}>有料データはこのアカウントに保存されます</AppText>
+          <AppText style={styles.accountBody}>機種変更後も、同じアカウントでご利用いただけます。</AppText>
+        </View>
+      </View>
+
+      <View style={styles.legalLinks}>
+        <Pressable onPress={() => router.push('/legal/terms')}><AppText style={styles.legalText}>利用規約</AppText></Pressable>
+        <AppText style={styles.legalDivider}>・</AppText>
+        <Pressable onPress={() => router.push('/legal/privacy')}><AppText style={styles.legalText}>プライバシーポリシー</AppText></Pressable>
+      </View>
     </BookScreen>
   );
 }
 
-function Metric({ value, label }: { value: string; label: string }) {
-  return <View style={styles.metric}><AppText style={styles.metricValue}>{value}</AppText><AppText style={styles.metricLabel}>{label}</AppText></View>;
+function PaymentRow({ icon, title, note, last = false }: { icon: string; title: string; note?: string; last?: boolean }) {
+  return (
+    <View style={[styles.paymentRow, last && styles.paymentRowLast]}>
+      <AppText style={[styles.paymentIcon, icon === 'Link' && styles.linkIcon]}>{icon}</AppText>
+      <View style={styles.paymentCopy}><AppText style={styles.paymentTitle}>{title}</AppText>{note ? <AppText style={styles.paymentNote}>{note}</AppText> : null}</View>
+      <AppText style={styles.paymentArrow}>›</AppText>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 720, alignSelf: 'center', padding: spacing.lg, paddingBottom: 120 },
-  hero: { padding: spacing.xl, borderRadius: radius.md, backgroundColor: colors.charcoal },
-  kicker: { color: colors.goldLight, fontSize: 10, letterSpacing: 1.7, fontWeight: '700' },
-  title: { marginTop: 16, color: '#F7F1E6', fontFamily: fonts.serif, fontSize: 29, lineHeight: 43, fontWeight: '700' },
-  lead: { marginTop: 14, color: '#D8D0C2', fontSize: 13, lineHeight: 22 },
-  methodRow: { marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 7 },
-  method: { color: '#F3E1B6', fontSize: 11, fontWeight: '700' },
-  arrow: { color: '#817767', fontSize: 11 },
-  priceRow: { marginTop: 24, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  price: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700' },
-  priceNote: { color: '#F4EEE3', fontSize: 12, fontWeight: '700' },
-  priceSub: { marginTop: 2, color: '#AAA294', fontSize: 10 },
-  metrics: { flexDirection: 'row', gap: 9, marginTop: 12 },
-  metric: { flex: 1, minHeight: 90, padding: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  metricValue: { color: colors.gold, fontFamily: fonts.serif, fontSize: 25, fontWeight: '700' },
-  metricLabel: { marginTop: 7, color: colors.inkSoft, fontSize: 11, lineHeight: 16 },
-  section: { marginTop: 22, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  eyebrow: { color: colors.gold, fontSize: 10, letterSpacing: 1.8, fontWeight: '700' },
-  sectionTitle: { marginTop: 7, fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, fontWeight: '700' },
-  strengthRow: { marginTop: 18, flexDirection: 'row', gap: 13 },
-  strengthMark: { width: 36, height: 36, borderRadius: 18, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
-  strengthMarkText: { color: colors.gold, fontFamily: fonts.serif, fontWeight: '700' },
-  strengthCopy: { flex: 1 },
-  strengthTitle: { color: colors.ink, fontWeight: '700', fontSize: 14, lineHeight: 21 },
-  strengthBody: { marginTop: 4, color: colors.inkSoft, fontSize: 12, lineHeight: 20 },
-  compare: { flexDirection: 'row', gap: 10, marginTop: 16 },
-  compareColumn: { flex: 1, padding: 16, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  comparePaid: { borderColor: colors.gold, backgroundColor: '#F7F0E2' },
-  compareLabel: { fontSize: 11, letterSpacing: 1, fontWeight: '700' },
-  compareHeadline: { marginTop: 8, fontFamily: fonts.serif, fontSize: 16, lineHeight: 23, fontWeight: '700' },
-  compareBody: { marginTop: 7, color: colors.inkSoft, fontSize: 11, lineHeight: 18 },
-  gold: { color: colors.gold },
-  promise: { marginTop: 16, padding: 16, borderLeftWidth: 3, borderColor: colors.gold, backgroundColor: '#F2EADC' },
-  promiseTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 23, fontWeight: '700' },
-  promiseBody: { marginTop: 7, color: colors.inkSoft, fontSize: 12, lineHeight: 20 },
-  message: { marginTop: 16, color: colors.inkSoft, fontSize: 13, lineHeight: 21, textAlign: 'center' },
-  primary: { marginTop: 22, minHeight: 64, paddingVertical: 10, borderRadius: 10, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  primaryTitle: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 18, fontWeight: '700' },
-  primarySub: { marginTop: 3, color: '#D8D0C2', fontSize: 10 },
-  disabled: { opacity: 0.5 },
-  secondary: { marginTop: 10, minHeight: 48, borderRadius: 10, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
-  secondaryText: { color: colors.gold, fontWeight: '700' },
-  freeLink: { marginTop: 10, padding: 10, alignItems: 'center' },
-  freeLinkText: { color: colors.inkSoft, textDecorationLine: 'underline', fontSize: 12 },
+  content: { width: '100%', maxWidth: 580, alignSelf: 'center', paddingHorizontal: 22, paddingTop: 28, paddingBottom: 132 },
+  productHero: { flexDirection: 'row', alignItems: 'center', gap: 20 },
+  heroCopy: { flex: 1, minWidth: 0 },
+  productTitle: { color: '#171713', fontSize: 25, lineHeight: 35, fontWeight: '700' },
+  priceRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 11, marginTop: 6 },
+  price: { color: '#F04A17', fontSize: 43, lineHeight: 50, fontWeight: '700' },
+  priceNote: { borderWidth: 1, borderColor: '#D9D0C3', borderRadius: 6, paddingHorizontal: 10, paddingVertical: 6 },
+  priceNoteText: { color: '#8B6B38', fontSize: 11, fontWeight: '600' },
+  productMeta: { marginTop: 7, color: '#5A5954', fontSize: 12, lineHeight: 19 },
+  rule: { height: 1, marginTop: 26, backgroundColor: '#D6CCBD' },
+  sectionTitle: { marginTop: 22, color: '#AF8438', fontSize: 20, lineHeight: 29, fontWeight: '700' },
+  benefitList: { marginTop: 13, gap: 19 },
+  benefitRow: { flexDirection: 'row', alignItems: 'center', gap: 17 },
+  benefitIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: '#F1ECE3', alignItems: 'center', justifyContent: 'center' },
+  benefitIconText: { color: '#171713', fontSize: 29, lineHeight: 34 },
+  benefitCopy: { flex: 1 },
+  benefitTitle: { color: '#292925', fontFamily: 'Hiragino Sans', fontSize: 17, lineHeight: 25, fontWeight: '700' },
+  benefitBody: { marginTop: 3, color: '#55554F', fontSize: 12, lineHeight: 19 },
+  message: { marginTop: 18, color: '#8B5B22', fontSize: 12, lineHeight: 19, textAlign: 'center' },
+  primary: { position: 'relative', minHeight: 68, marginTop: 28, borderRadius: 8, backgroundColor: '#F04A17', alignItems: 'center', justifyContent: 'center' },
+  primaryText: { color: '#FFFDF8', fontSize: 25, lineHeight: 33, fontWeight: '700' },
+  primaryArrow: { position: 'absolute', right: 24, color: '#FFFDF8', fontSize: 42, lineHeight: 42, fontWeight: '300' },
+  secondary: { position: 'relative', minHeight: 58, marginTop: 16, borderWidth: 1, borderColor: '#B89658', borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  secondaryText: { color: '#8A6A31', fontSize: 17, lineHeight: 25, fontWeight: '700' },
+  secondaryArrow: { position: 'absolute', right: 24, color: '#9B7A3D', fontSize: 35, lineHeight: 35, fontWeight: '300' },
+  instantNote: { marginTop: 14, color: '#74736D', fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  paymentHeading: { marginTop: 28 },
+  paymentBox: { marginTop: 9, paddingHorizontal: 13, borderWidth: 1, borderColor: '#DDD4C7', borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.32)' },
+  paymentRow: { minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 15, borderBottomWidth: 1, borderColor: '#E1D8CC' },
+  paymentRowLast: { borderBottomWidth: 0 },
+  paymentIcon: { width: 48, color: '#111', fontSize: 20, lineHeight: 24, fontWeight: '700', textAlign: 'center' },
+  linkIcon: { fontFamily: 'serif', fontSize: 18 },
+  paymentCopy: { flex: 1 },
+  paymentTitle: { color: '#252521', fontSize: 15, lineHeight: 21, fontWeight: '600' },
+  paymentNote: { marginTop: 2, color: '#66655F', fontSize: 10, lineHeight: 15 },
+  paymentArrow: { color: '#4D4D49', fontSize: 33, lineHeight: 33, fontWeight: '300' },
+  accountNote: { flexDirection: 'row', alignItems: 'center', gap: 13, marginTop: 14, paddingHorizontal: 18, paddingVertical: 15, borderWidth: 1, borderColor: '#E0D7CA', borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.28)' },
+  accountLock: { width: 36, height: 36, borderWidth: 1, borderColor: '#BD9847', borderRadius: 5, alignItems: 'center', justifyContent: 'center' },
+  accountLockText: { color: '#AF8533', fontSize: 18 },
+  accountCopy: { flex: 1 },
+  accountTitle: { color: '#86672E', fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  accountBody: { marginTop: 2, color: '#5C5B55', fontSize: 10, lineHeight: 16 },
+  legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 28, gap: 10 },
+  legalText: { color: '#77746C', fontSize: 10, lineHeight: 16, textDecorationLine: 'underline' },
+  legalDivider: { color: '#77746C', fontSize: 10 },
+  disabled: { opacity: 0.55 },
 });

@@ -5,6 +5,8 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTechniqueDisplayId } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useAccess } from '@/access/access-state';
+import { LockedPreview } from '@/components/locked-preview';
 
 const paperTexture = Platform.OS === 'web'
   ? ({
@@ -34,6 +36,7 @@ export default function PersonaScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 640;
+  const { isPaid } = useAccess();
   const category = categories.find((item) => item.key === categoryKey);
   const persona = category?.subcategories.find((item) => item.name === name);
 
@@ -46,6 +49,12 @@ export default function PersonaScreen() {
           description="前の画面へ戻って、人物像を選び直してください。"
         />
       </Screen>
+    );
+  }
+
+  if (!isPaid && persona.name !== '印象がいい人') {
+    return (
+      <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={persona.items.length} source="discover_technique" /></Screen>
     );
   }
 
@@ -126,6 +135,7 @@ export default function PersonaScreen() {
           </View>
         </View>
       </View>
+
     </Screen>
   );
 }
