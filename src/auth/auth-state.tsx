@@ -4,7 +4,7 @@ import { Platform } from 'react-native';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 
 export type AccountRole = 'user' | 'owner';
-export type AuthResult = { error: string | null; hasSession: boolean };
+export type AuthResult = { error: string | null; hasSession: boolean; session: Session | null };
 export type SignUpOptions = { emailRedirectTo?: string };
 
 type AuthContextValue = {
@@ -62,19 +62,19 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [refreshRole]);
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
-    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false };
+    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false, session: null };
     const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    return { error: error?.message ?? null, hasSession: Boolean(data.session) };
+    return { error: error?.message ?? null, hasSession: Boolean(data.session), session: data.session };
   }, []);
 
   const signUpWithEmail = useCallback(async (email: string, password: string, options?: SignUpOptions) => {
-    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false };
+    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false, session: null };
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo } : undefined,
     });
-    return { error: error?.message ?? null, hasSession: Boolean(data.session) };
+    return { error: error?.message ?? null, hasSession: Boolean(data.session), session: data.session };
   }, []);
 
   const signOut = useCallback(async () => {
