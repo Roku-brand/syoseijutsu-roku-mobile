@@ -20,13 +20,15 @@ const techniques = JSON.parse(await readFile(path.join(root, 'src/data/generated
 const theories = JSON.parse(await readFile(path.join(root, 'src/data/generated/theories.json'), 'utf8'));
 const learning = JSON.parse(await readFile(path.join(root, 'src/data/generated/learning.json'), 'utf8').catch(() => '[]'));
 
+// Keep category and subcategory metadata public so locked sections can still be
+// rendered, but remove every paid title and body from their item arrays.
 const publicCategories = techniques.categories.map((category) => ({
   ...category,
   subcategories: category.subcategories.map((subcategory) => ({
     ...subcategory,
     items: subcategory.items.filter((item) => freeTechniqueIds.has(item.id)),
-  })).filter((subcategory) => subcategory.items.length > 0),
-})).filter((category) => category.subcategories.length > 0);
+  })),
+}));
 
 const paidRows = [];
 let order = 0;
@@ -51,24 +53,29 @@ function csvCell(value) {
 
 const outputDir = path.join(root, 'dist-secure-content');
 await mkdir(outputDir, { recursive: true });
-await writeFile(path.join(outputDir, 'techniques.public.json'), JSON.stringify({ ...techniques, categories: publicCategories }, null, 2));
-await writeFile(path.join(outputDir, 'theories.public.json'), JSON.stringify(theories.filter((item) => freeTheoryIds.has(item.tagId)), null, 2));
-await writeFile(path.join(outputDir, 'learning.public.json'), JSON.stringify(learning.filter((item) => freeLearningIds.has(item.id)), null, 2));
+const publicTechniques = { ...techniques, categories: publicCategories };
+const publicTheories = theories.filter((item) => freeTheoryIds.has(item.tagId));
+const publicLearning = learning.filter((item) => freeLearningIds.has(item.id));
+await writeFile(path.join(outputDir, 'techniques.public.json'), JSON.stringify(publicTechniques, null, 2));
+await writeFile(path.join(outputDir, 'theories.public.json'), JSON.stringify(publicTheories, null, 2));
+await writeFile(path.join(outputDir, 'learning.public.json'), JSON.stringify(publicLearning, null, 2));
 await writeFile(path.join(outputDir, 'paid-content.ndjson'), paidRows.map((row) => JSON.stringify(row)).join('\n'));
-await writeFile(
-  path.join(outputDir, 'paid-content.csv'),
-  [
-    'content_type,content_id,payload,sort_order',
-    ...paidRows.map((row) => [
-      csvCell(row.content_type),
-      csvCell(row.content_id),
-      csvCell(row.payload),
-      String(row.sort_order),
-    ].join(',')),
-  ].join('\n'),
-);
+await writeFile(path.join(outputDir, 'paid-content.csv'), [
+  'content_type,content_id,payload,sort_order',
+  ...paidRows.map((row) => [csvCell(row.content_type), csvCell(row.content_id), csvCell(row.payload), String(row.sort_order)].join(',')),
+].join('\n'));
+await writeFile(path.join(outputDir, 'manifest.json'), JSON.stringify({
+  generatedAt: new Date().toISOString(),
+  public: {
+    techniques: publicCategories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items)).length,
+    theories: publicTheories.length,
+    learning: publicLearning.length,
+  },
+  paid: paidRows.reduce((counts, row) => ({ ...counts, [row.content_type]: (counts[row.content_type] ?? 0) + 1 }), {}),
+}, null, 2));
 
 console.log(`Public techniques: ${publicCategories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items)).length}`);
-console.log(`Public theories: ${theories.filter((item) => freeTheoryIds.has(item.tagId)).length}`);
+console.log(`Public theories: ${publicTheories.length}`);
+console.log(`Public learning: ${publicLearning.length}`);
 console.log(`Paid rows prepared: ${paidRows.length}`);
 console.log(`Output: ${outputDir}`);
