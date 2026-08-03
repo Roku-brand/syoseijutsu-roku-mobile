@@ -1,64 +1,107 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
+import { useAuth } from '@/auth/auth-state';
+import { supabase } from '@/lib/supabase';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
+export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
 
 type AccessContextValue = {
   accessState: AccessState;
+  actualAccessState: AccessState;
   isPaid: boolean;
+  isOwner: boolean;
+  previewMode: PreviewMode;
+  setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<void>;
   continueAsGuest: () => void;
   restorePurchase: () => Promise<boolean>;
 };
 
-const STORAGE_KEY = '@shoseijutsu-roku/access/v1';
+const PREVIEW_KEY = '@shoseijutsu-roku/owner-preview/v1';
 const AccessContext = createContext<AccessContextValue | null>(null);
 
-async function resolveAccess(): Promise<AccessState> {
-  // GitHub Pages is static. Production must replace this with a server-side
-  // session + entitlement check. Until then, only guest/free states are trusted.
-  const stored = await AsyncStorage.getItem(STORAGE_KEY);
-  if (stored === 'free') return 'free';
-  return 'guest';
-}
-
 export function AccessProvider({ children }: PropsWithChildren) {
-  const [accessState, setAccessState] = useState<AccessState>('checking');
+  const { loading, user, role } = useAuth();
+  const [actualAccessState, setActualAccessState] = useState<AccessState>('checking');
+  const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
+  const isOwner = role === 'owner';
 
   const refreshAccess = useCallback(async () => {
-    setAccessState('checking');
-    try {
-      setAccessState(await resolveAccess());
-    } catch {
-      setAccessState('error');
+    if (loading) {
+      setActualAccessState('checking');
+      return;
     }
-  }, []);
+    if (!user) {
+      setActualAccessState('guest');
+      return;
+    }
+    setActualAccessState('checking');
+    try {
+      if (role === 'owner') {
+        setActualAccessState('paid');
+        return;
+      }
+      if (!supabase) {
+        setActualAccessState('free');
+        return;
+      }
+      const { data, error } = await supabase
+        .from('entitlements')
+        .select('status')
+        .eq('user_id', user.id)
+        .eq('product_id', 'complete-edition')
+        .maybeSingle();
+      if (error) throw error;
+      setActualAccessState(data?.status === 'active' ? 'paid' : 'free');
+    } catch {
+      setActualAccessState('error');
+    }
+  }, [loading, role, user]);
 
   useEffect(() => {
     void refreshAccess();
   }, [refreshAccess]);
 
+  useEffect(() => {
+    AsyncStorage.getItem(PREVIEW_KEY).then((stored) => {
+      if (stored && ['actual', 'guest', 'free', 'paid', 'checking', 'error'].includes(stored)) {
+        setPreviewModeState(stored as PreviewMode);
+      }
+    }).catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    if (!isOwner && previewMode !== 'actual') setPreviewModeState('actual');
+  }, [isOwner, previewMode]);
+
+  const setPreviewMode = useCallback(async (mode: PreviewMode) => {
+    if (!isOwner && mode !== 'actual') return;
+    setPreviewModeState(mode);
+    await AsyncStorage.setItem(PREVIEW_KEY, mode);
+  }, [isOwner]);
+
   const continueAsGuest = useCallback(() => {
-    setAccessState('guest');
+    setActualAccessState('guest');
   }, []);
 
   const restorePurchase = useCallback(async () => {
-    // Deliberately does not grant paid access locally. A production entitlement
-    // endpoint must validate the authenticated account before returning paid.
     await refreshAccess();
-    return false;
-  }, [refreshAccess]);
+    return actualAccessState === 'paid' || role === 'owner';
+  }, [actualAccessState, refreshAccess, role]);
 
-  const value = useMemo(
-    () => ({
-      accessState,
-      isPaid: accessState === 'paid',
-      refreshAccess,
-      continueAsGuest,
-      restorePurchase,
-    }),
-    [accessState, continueAsGuest, refreshAccess, restorePurchase],
-  );
+  const accessState = isOwner && previewMode !== 'actual' ? previewMode : actualAccessState;
+  const value = useMemo(() => ({
+    accessState,
+    actualAccessState,
+    isPaid: accessState === 'paid',
+    isOwner,
+    previewMode,
+    setPreviewMode,
+    refreshAccess,
+    continueAsGuest,
+    restorePurchase,
+  }), [accessState, actualAccessState, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }
