@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
+import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
@@ -34,7 +35,7 @@ export default function DiscoverScreen() {
     () => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean),
     [query],
   );
-  const matches = useMemo(
+  const techniqueMatches = useMemo(
     () =>
       !keywords.length
         ? []
@@ -46,6 +47,33 @@ export default function DiscoverScreen() {
               card.categoryName,
               card.subcategory,
               ...(card.tags ?? []),
+            ]
+              .filter(Boolean)
+              .join(' ')
+              .toLocaleLowerCase();
+            return keywords.every((keyword) => source.includes(keyword));
+          }),
+    [keywords],
+  );
+  const theoryMatches = useMemo(
+    () =>
+      !keywords.length
+        ? []
+        : theories.filter((theory) => {
+            const source = [
+              theory.tagId,
+              theory.title,
+              theory.summary,
+              theory.definition,
+              theory.categoryTitle,
+              theory.sourceType,
+              theory.discipline,
+              theory.conceptType,
+              theory.sourceName,
+              theory.sourceDetail,
+              ...(theory.domains ?? []),
+              ...(theory.principles ?? []),
+              ...(theory.keyPoints ?? []),
             ]
               .filter(Boolean)
               .join(' ')
@@ -66,7 +94,7 @@ export default function DiscoverScreen() {
           onChangeText={setQuery}
           placeholder="処世術・人物像・キーワードを探す"
           placeholderTextColor={colors.muted}
-          accessibilityLabel="処世術を検索"
+          accessibilityLabel="処世術・理論カードを検索"
           style={styles.searchInput}
         />
         {query ? (
@@ -78,11 +106,36 @@ export default function DiscoverScreen() {
 
       {keywords.length ? (
         <View>
-          <OrnamentHeading>検索結果　{matches.length}</OrnamentHeading>
-          {matches.length ? (
-            matches.map((card) => <TechniqueRow key={card.id} card={card} />)
+          <OrnamentHeading>
+            検索結果　{techniqueMatches.length + theoryMatches.length}
+          </OrnamentHeading>
+          {techniqueMatches.length || theoryMatches.length ? (
+            <View style={styles.resultGroups}>
+              {techniqueMatches.length ? (
+                <View>
+                  <AppText variant="label" style={styles.resultLabel}>
+                    処世術　{techniqueMatches.length}件
+                  </AppText>
+                  {techniqueMatches.map((card) => (
+                    <TechniqueRow key={card.id} card={card} />
+                  ))}
+                </View>
+              ) : null}
+              {theoryMatches.length ? (
+                <View>
+                  <AppText variant="label" style={styles.resultLabel}>
+                    理論　{theoryMatches.length}件
+                  </AppText>
+                  {theoryMatches.map((theory) => (
+                    <TheoryArchiveCard key={theory.tagId} theory={theory} />
+                  ))}
+                </View>
+              ) : null}
+            </View>
           ) : (
-            <AppText style={styles.empty}>一致する処世術はありません。</AppText>
+            <AppText style={styles.empty}>
+              一致する処世術・理論はありません。
+            </AppText>
           )}
         </View>
       ) : (
@@ -209,6 +262,13 @@ const styles = StyleSheet.create({
   },
   clear: { color: colors.gold, fontWeight: '700', fontSize: 12 },
   empty: { color: colors.muted, textAlign: 'center', padding: spacing.xl },
+  resultGroups: { gap: spacing.xl },
+  resultLabel: {
+    color: colors.gold,
+    marginBottom: spacing.md,
+    fontSize: 11,
+    letterSpacing: 1.2,
+  },
   modeTabs: {
     flexDirection: 'row',
     width: '100%',
