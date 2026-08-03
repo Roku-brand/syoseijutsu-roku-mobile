@@ -111,7 +111,7 @@ export default function UpgradeScreen() {
         </Pressable>
       )}
       <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={styles.secondary}>
-        <AppText variant="serif" style={styles.secondaryText}>登録済みの方はログイン</AppText>
+        <AppText variant="serif" style={styles.secondaryText}>{user ? '購入を復元する' : '購入済みの方はこちら'}</AppText>
         <AppText style={styles.secondaryArrow}>›</AppText>
       </Pressable>
       <AppText style={styles.instantNote}>♢　購入後すぐに完全版へ切り替わります</AppText>

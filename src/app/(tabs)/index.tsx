@@ -12,17 +12,28 @@ import {
 import { AppText } from '@/components/ui';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';
+import { getTechniqueDisplayId, techniqueCards as catalogTechniqueCards } from '@/data/catalog';
+import { FREE_REEL_TECHNIQUE_IDS } from '@/access/access-config';
+import { useAccess } from '@/access/access-state';
 import type { CategoryKey, TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
-type ReelItem = {
+type TechniqueReelItem = {
+  kind: 'technique';
   card: TechniqueCard;
   reelKey: string;
 };
+
+type UpgradeReelItem = {
+  kind: 'upgrade';
+  reelKey: string;
+};
+
+type ReelItem = TechniqueReelItem | UpgradeReelItem;
 
 function splitReelTitle(value: string) {
   const title = value.replace(/\*\*/g, '').trim();
@@ -68,7 +79,7 @@ function getReelTitleMetrics(title: string, reelWidth: number) {
   const horizontalPadding = compact ? spacing.md : spacing.xl;
   const availableWidth = reelWidth - horizontalPadding * 2 - 8;
   const maximumSize = compact ? 29 : 34;
-  const minimumSize = compact ? 14 : 22;
+  const minimumSize = compact ? 10 : 18;
   const fittedSize = Math.round(
     availableWidth / Math.max(longestLine, 1),
   );
@@ -121,6 +132,15 @@ export default function MainScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const { savedIds, toggleSaved } = useAppState();
+  const { isPaid } = useAccess();
+  const visibleTechniqueCards = useMemo(
+    () => isPaid
+      ? catalogTechniqueCards
+      : FREE_REEL_TECHNIQUE_IDS
+          .map((id) => catalogTechniqueCards.find((card) => card.id === id))
+          .filter((card): card is TechniqueCard => Boolean(card)),
+    [isPaid],
+  );
 
   const compactReel = width < 520;
   const cardHeight = compactReel
@@ -138,45 +158,44 @@ export default function MainScreen() {
     cardWidth + reelPeek * 2,
   );
   const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
-  // Three complete copies make both the visible 216 → 1 transition and the
-  // invisible reset happen between identical cards.  A one-card clone at each
-  // end leaves a hard edge after a fast swipe or a repeated drag.
+  const baseReelItems = useMemo<ReelItem[]>(() => [
+    ...visibleTechniqueCards.map((card) => ({
+      kind: 'technique' as const,
+      card,
+      reelKey: `card-${card.id}`,
+    })),
+    ...(!isPaid ? [{ kind: 'upgrade' as const, reelKey: 'upgrade' }] : []),
+  ], [isPaid, visibleTechniqueCards]);
+  // Paid users keep the seamless circular reel. The free edition deliberately
+  // ends at the 21st card, where the next action is the complete edition.
   const reelItems = useMemo<ReelItem[]>(() => {
-    if (techniqueCards.length <= 1) {
-      return techniqueCards.map((card) => ({
-        card,
-        reelKey: `original-${card.id}`,
-      }));
-    }
-
+    if (!isPaid || baseReelItems.length <= 1) return baseReelItems;
     return Array.from({ length: 3 }, (_, loop) =>
-      techniqueCards.map((card) => ({
-        card,
-        reelKey: `loop-${loop}-${card.id}`,
-      })),
+      baseReelItems.map((item) => ({ ...item, reelKey: `loop-${loop}-${item.reelKey}` })),
     ).flat();
-  }, []);
-  const activeCard = techniqueCards[activeIndex] ?? techniqueCards[0];
+  }, [baseReelItems, isPaid]);
+  const activeItem = baseReelItems[activeIndex] ?? baseReelItems[0];
+  const activeCard = activeItem?.kind === 'technique' ? activeItem.card : undefined;
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       listRef.current?.scrollToIndex({
-        index: techniqueCards.length > 1
-          ? techniqueCards.length + activeIndex
+        index: isPaid && baseReelItems.length > 1
+          ? baseReelItems.length + activeIndex
           : activeIndex,
         animated: false,
       });
     });
     return () => cancelAnimationFrame(frame);
-  }, [reelWidth]);
+  }, [activeIndex, baseReelItems.length, isPaid, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
-    const nextIndex = Math.max(0, Math.min(index, techniqueCards.length - 1));
+    const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
-      index: techniqueCards.length > 1
-        ? techniqueCards.length + nextIndex
+      index: isPaid && baseReelItems.length > 1
+        ? baseReelItems.length + nextIndex
         : nextIndex,
       animated,
     });
@@ -184,12 +203,13 @@ export default function MainScreen() {
   };
 
   const moveBy = (offset: -1 | 1) => {
-    if (techniqueCards.length <= 1) return;
+    if (baseReelItems.length <= 1) return;
 
     const rawIndex = activeIndex + offset;
-    const nextIndex =
-      (rawIndex + techniqueCards.length) % techniqueCards.length;
-    const physicalIndex = techniqueCards.length + rawIndex;
+    const nextIndex = isPaid
+      ? (rawIndex + baseReelItems.length) % baseReelItems.length
+      : Math.max(0, Math.min(rawIndex, baseReelItems.length - 1));
+    const physicalIndex = isPaid ? baseReelItems.length + rawIndex : nextIndex;
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     listRef.current?.scrollToIndex({
@@ -200,8 +220,8 @@ export default function MainScreen() {
   };
 
   const skipToCategory = (category: CategoryKey) => {
-    const index = techniqueCards.findIndex(
-      (card) => card.categoryKey === category,
+    const index = baseReelItems.findIndex(
+      (item) => item.kind === 'technique' && item.card.categoryKey === category,
     );
     if (index >= 0) moveTo(index);
   };
@@ -209,12 +229,13 @@ export default function MainScreen() {
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    if (techniqueCards.length <= 1) return;
+    if (baseReelItems.length <= 1) return;
 
     const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
     const nextIndex =
-      ((physicalIndex % techniqueCards.length) + techniqueCards.length) %
-      techniqueCards.length;
+      isPaid
+        ? ((physicalIndex % baseReelItems.length) + baseReelItems.length) % baseReelItems.length
+        : Math.max(0, Math.min(physicalIndex, baseReelItems.length - 1));
 
     if (nextIndex !== activeIndexRef.current) {
       activeIndexRef.current = nextIndex;
@@ -225,10 +246,10 @@ export default function MainScreen() {
   const recenterReel = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    if (techniqueCards.length <= 1) return;
+    if (!isPaid || baseReelItems.length <= 1) return;
 
     const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
-    const cardCount = techniqueCards.length;
+    const cardCount = baseReelItems.length;
 
     // Keep the user in the middle copy, after momentum has settled. Because
     // the destination contains the same card in the same visual position, the
@@ -269,7 +290,7 @@ export default function MainScreen() {
           <AppText style={styles.reelArrow}>‹</AppText>
         </Pressable>
         <AppText style={styles.reelPosition}>
-          {getTechniqueDisplayId(activeCard)} / {techniqueCards.length}
+          {activeCard ? getTechniqueDisplayId(activeCard) : '完全版'} / {baseReelItems.length}
         </AppText>
         <Pressable
           accessibilityRole="button"
@@ -296,7 +317,7 @@ export default function MainScreen() {
         showsHorizontalScrollIndicator={false}
         data={reelItems}
         keyExtractor={(item) => item.reelKey}
-        initialScrollIndex={techniqueCards.length > 1 ? techniqueCards.length : 0}
+        initialScrollIndex={isPaid && baseReelItems.length > 1 ? baseReelItems.length : 0}
         getItemLayout={(_, index) => ({
           index,
           length: reelWidth,
@@ -310,11 +331,43 @@ export default function MainScreen() {
         contentContainerStyle={{ paddingHorizontal: reelSideInset }}
         style={[styles.reel, { width: reelViewportWidth }]}
         renderItem={({ item: reelItem }) => {
+          if (reelItem.kind === 'upgrade') {
+            return (
+              <View style={[styles.reelItem, { width: reelWidth }]}>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="処世術禄 完全版を購入する"
+                  onPress={() => router.push({ pathname: '/upgrade', params: { source: 'reel-card' } })}
+                  style={({ pressed }) => [
+                    styles.upgradeReelCard,
+                    { width: cardWidth, minHeight: cardHeight, marginHorizontal: reelGap / 2 },
+                    pressed && styles.pressed,
+                  ]}
+                >
+                  <AppText variant="label" style={styles.upgradeReelEyebrow}>COMPLETE EDITION</AppText>
+                  <AppText variant="serif" style={styles.upgradeReelTitle}>ここから先は、{`\n`}完全版。</AppText>
+                  <View style={styles.cardOrnament}>
+                    <View style={styles.upgradeCardLine} />
+                    <View style={styles.cardDiamond} />
+                    <View style={styles.upgradeCardLine} />
+                  </View>
+                  <AppText style={styles.upgradeReelBody}>あなたの状況に合う処世術を、{`\n`}すべて解放します。</AppText>
+                  <View style={styles.upgradeStats}>
+                    <AppText style={styles.upgradeStatsText}>434の処世術　526の理論　全21ケース</AppText>
+                  </View>
+                  <View style={styles.upgradeCta}>
+                    <AppText style={styles.upgradeCtaText}>完全版を¥{COMPLETE_EDITION_PRICE_JPY}で解放する　›</AppText>
+                  </View>
+                </Pressable>
+              </View>
+            );
+          }
+
           const item = reelItem.card;
           const itemSaved = savedIds.includes(item.id);
           const titleMetrics = getReelTitleMetrics(item.title, cardWidth);
           const isAccessible =
-            reelItem.reelKey === `original-${activeCard.id}`;
+            activeCard?.id === item.id && (isPaid ? reelItem.reelKey === `loop-1-card-${activeCard.id}` : true);
           return (
             <View
               accessibilityElementsHidden={!isAccessible}
@@ -350,7 +403,7 @@ export default function MainScreen() {
                 <AppText
                   numberOfLines={2}
                   adjustsFontSizeToFit
-                  minimumFontScale={0.82}
+                  minimumFontScale={0.5}
                   style={[
                     styles.techniqueTitle,
                     {
@@ -416,7 +469,7 @@ export default function MainScreen() {
 
       <View style={styles.categorySkipRow}>
         {categorySkips.map((category) => {
-          const active = activeCard.categoryKey === category.key;
+          const active = activeCard?.categoryKey === category.key;
           return (
             <Pressable
               key={category.key}
@@ -519,6 +572,58 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...bookCardShadow,
   },
+  upgradeReelCard: {
+    paddingHorizontal: spacing.xl,
+    paddingVertical: 34,
+    borderRadius: 30,
+    borderWidth: 1.5,
+    borderColor: '#CDA74F',
+    backgroundColor: colors.charcoal,
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...bookCardShadow,
+  },
+  upgradeReelEyebrow: {
+    color: colors.goldLight,
+    fontSize: 10,
+    lineHeight: 15,
+    letterSpacing: 2.1,
+  },
+  upgradeReelTitle: {
+    marginTop: 18,
+    color: '#FFF9EC',
+    fontSize: 29,
+    lineHeight: 43,
+    textAlign: 'center',
+    fontWeight: '700',
+    letterSpacing: 1.4,
+  },
+  upgradeCardLine: { flex: 1, height: 1, backgroundColor: 'rgba(238,214,155,0.6)' },
+  upgradeReelBody: {
+    color: '#E4DDD1',
+    fontFamily: fonts.serif,
+    fontSize: 16,
+    lineHeight: 28,
+    textAlign: 'center',
+    letterSpacing: 0.8,
+  },
+  upgradeStats: {
+    marginTop: 23,
+    paddingVertical: 9,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(238,214,155,0.42)',
+    borderRadius: radius.pill,
+  },
+  upgradeStatsText: { color: colors.goldLight, fontSize: 10, lineHeight: 15, letterSpacing: 0.25 },
+  upgradeCta: {
+    marginTop: 24,
+    paddingHorizontal: 17,
+    paddingVertical: 13,
+    borderRadius: radius.sm,
+    backgroundColor: '#F04A17',
+  },
+  upgradeCtaText: { color: '#FFFDF8', fontSize: 13, lineHeight: 19, fontWeight: '700' },
   techniqueTitle: {
     width: '100%',
     fontFamily: fonts.serif,

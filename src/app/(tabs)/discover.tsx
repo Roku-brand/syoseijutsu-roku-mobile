@@ -14,6 +14,8 @@ import {
   theories,
 } from '@/data/catalog';
 import { useTabVisible } from '@/hooks/use-tab-visible';
+import { useAccess } from '@/access/access-state';
+import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 
 type BrowseMode = 'techniques' | 'theories';
 
@@ -31,6 +33,7 @@ export default function DiscoverScreen() {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<BrowseMode>('techniques');
+  const { isPaid } = useAccess();
   const keywords = useMemo(
     () => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean),
     [query],
@@ -39,7 +42,7 @@ export default function DiscoverScreen() {
     () =>
       !keywords.length
         ? []
-        : techniqueCards.filter((card) => {
+        : techniqueCards.filter((card) => (isPaid || FREE_TECHNIQUE_IDS.has(card.id))).filter((card) => {
             const source = [
               card.title,
               card.subtitle,
@@ -53,13 +56,13 @@ export default function DiscoverScreen() {
               .toLocaleLowerCase();
             return keywords.every((keyword) => source.includes(keyword));
           }),
-    [keywords],
+    [isPaid, keywords],
   );
   const theoryMatches = useMemo(
     () =>
       !keywords.length
         ? []
-        : theories.filter((theory) => {
+        : theories.filter((theory) => (isPaid || FREE_THEORY_ID_SET.has(theory.tagId))).filter((theory) => {
             const source = [
               theory.tagId,
               theory.title,
@@ -80,7 +83,7 @@ export default function DiscoverScreen() {
               .toLocaleLowerCase();
             return keywords.every((keyword) => source.includes(keyword));
           }),
-    [keywords],
+    [isPaid, keywords],
   );
 
   if (!isFocused) return null;

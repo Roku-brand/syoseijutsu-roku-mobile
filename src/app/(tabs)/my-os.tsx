@@ -14,6 +14,9 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
+import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
+import { useAuth } from '@/auth/auth-state';
+import { useAccess } from '@/access/access-state';
 
 export default function MyOsScreen() {
   const isFocused = useTabVisible();
@@ -31,6 +34,8 @@ export default function MyOsScreen() {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(personalPrinciple);
   const [memoDraft, setMemoDraft] = useState('');
+  const { user } = useAuth();
+  const { isPaid, restorePurchase } = useAccess();
   const recentCard =
     techniqueById.get(historyIds[0] ?? '') ??
     techniqueById.get(savedIds[0] ?? '') ??
@@ -56,6 +61,12 @@ export default function MyOsScreen() {
 
   return (
     <BookScreen>
+      <View style={styles.accountStrip}>
+        <AppText style={styles.accountStripLabel}>{user ? (isPaid ? '完全版・購入済み' : '無料版を利用中') : 'ログインせず無料版を利用中'}</AppText>
+        <Pressable onPress={() => router.push('/auth')}><AppText style={styles.accountStripAction}>{user ? 'アカウント' : 'ログイン'}</AppText></Pressable>
+        <Pressable onPress={() => void restorePurchase()}><AppText style={styles.accountStripAction}>購入を復元</AppText></Pressable>
+      </View>
+      <OwnerPreviewPanel />
       <View style={styles.principleCard}>
         <View style={styles.principleLabelRow}>
           <View style={styles.diamond} />
@@ -283,6 +294,9 @@ export default function MyOsScreen() {
 }
 
 const styles = StyleSheet.create({
+  accountStrip: { minHeight: 54, marginBottom: 16, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  accountStripLabel: { flex: 1, color: colors.inkSoft, fontSize: 12, fontWeight: '700' },
+  accountStripAction: { color: colors.gold, fontSize: 12, fontWeight: '700' },
   principleCard: {
     minHeight: 270,
     padding: spacing.xl,

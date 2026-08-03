@@ -23,6 +23,8 @@ import {
 } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
+import { useAuth } from '@/auth/auth-state';
+import { useAccess } from '@/access/access-state';
 
 export function BookScreen({
   children,
@@ -55,6 +57,8 @@ export function BookScreen({
 export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useAuth();
+  const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
@@ -127,16 +131,16 @@ export function BookHeader() {
             {!minimalHeaderActions ? (
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="設定を開く"
-                onPress={() => router.push('/settings')}
+                accessibilityLabel={user ? 'アカウントを開く' : '購入済みの方のログインを開く'}
+                onPress={() => router.push(user ? '/auth' : { pathname: '/auth', params: { mode: 'signin' } })}
                 style={({ pressed }) => [
                   styles.headerAction,
                   lightHeader && styles.headerActionLight,
                   pressed && styles.headerActionPressed,
                 ]}
               >
-                <AppText style={[styles.settingsIcon, lightHeader && styles.settingsIconLight]}>⚙</AppText>
-                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>設定</AppText> : null}
+                <AccountMark active={Boolean(user)} light={lightHeader} />
+                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>{isPaid ? 'アカウント' : '購入済み'}</AppText> : null}
               </Pressable>
             ) : null}
           </View>
@@ -149,6 +153,16 @@ export function BookHeader() {
         onClose={() => setPrinciplesVisible(false)}
       />
     </>
+  );
+}
+
+function AccountMark({ active, light }: { active: boolean; light: boolean }) {
+  const tone = light ? colors.gold : colors.goldLight;
+  return (
+    <View style={[styles.accountMark, { borderColor: tone }, active && styles.accountMarkActive]} accessibilityElementsHidden>
+      <View style={[styles.accountHead, { backgroundColor: tone }]} />
+      <View style={[styles.accountShoulders, { borderColor: tone }]} />
+    </View>
   );
 }
 
@@ -653,12 +667,17 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   headerActionLabelLight: { color: colors.gold },
-  settingsIcon: {
-    color: colors.goldLight,
-    fontSize: 23,
-    lineHeight: 28,
+  accountMark: {
+    width: 25,
+    height: 25,
+    borderWidth: 1.3,
+    borderRadius: 13,
+    alignItems: 'center',
+    overflow: 'hidden',
   },
-  settingsIconLight: { color: colors.gold },
+  accountMarkActive: { backgroundColor: 'rgba(210,182,111,0.13)' },
+  accountHead: { width: 7, height: 7, marginTop: 5, borderRadius: 4 },
+  accountShoulders: { width: 14, height: 8, marginTop: 2, borderTopWidth: 1.5, borderTopLeftRadius: 9, borderTopRightRadius: 9 },
   principleMark: {
     width: 27,
     height: 27,

@@ -13,7 +13,7 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const purchaseIntent = params.intent === 'checkout';
-  const [mode, setMode] = useState<'signin' | 'signup'>(params.mode === 'signup' ? 'signup' : 'signin');
+  const [mode, setMode] = useState<'signin' | 'signup'>(params.mode === 'signin' ? 'signin' : 'signup');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -41,8 +41,8 @@ export default function AuthScreen() {
       <DetailHeader title="アカウント" />
       <View style={styles.card}>
         <AppText style={styles.eyebrow}>ACCOUNT</AppText>
-        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '購入前にアカウントを作成' : '蔵書と購入状態を引き継ぐ'}</AppText>
-        <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。' : '無料体験はログインなしでも利用できます。ログインすると、購入状態と学習記録を同じアカウントで管理できます。'}</AppText>
+        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : '購入済みの方はこちら'}</AppText>
+        <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
 
         {!configured ? (
           <View style={styles.notice}>
@@ -60,8 +60,8 @@ export default function AuthScreen() {
         ) : (
           <>
             <View style={styles.tabs}>
-              <Pressable onPress={() => setMode('signin')} style={[styles.tab, mode === 'signin' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signin' && styles.tabTextActive]}>ログイン</AppText></Pressable>
               <Pressable onPress={() => setMode('signup')} style={[styles.tab, mode === 'signup' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signup' && styles.tabTextActive]}>新規登録</AppText></Pressable>
+              <Pressable onPress={() => setMode('signin')} style={[styles.tab, mode === 'signin' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signin' && styles.tabTextActive]}>ログイン</AppText></Pressable>
             </View>
             <TextInput value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="メールアドレス" placeholderTextColor={colors.muted} style={styles.input} />
             <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder="パスワード（6文字以上）" placeholderTextColor={colors.muted} style={styles.input} />
