@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 
 export type AccountRole = 'user' | 'owner';
+export type AuthResult = { error: string | null; hasSession: boolean };
 
 type AuthContextValue = {
   configured: boolean;
@@ -10,8 +11,8 @@ type AuthContextValue = {
   session: Session | null;
   user: User | null;
   role: AccountRole;
-  signInWithEmail: (email: string, password: string) => Promise<string | null>;
-  signUpWithEmail: (email: string, password: string) => Promise<string | null>;
+  signInWithEmail: (email: string, password: string) => Promise<AuthResult>;
+  signUpWithEmail: (email: string, password: string) => Promise<AuthResult>;
   signOut: () => Promise<void>;
   refreshRole: () => Promise<void>;
 };
@@ -59,15 +60,15 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [refreshRole]);
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
-    if (!supabase) return 'Supabaseが未設定です。';
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
-    return error?.message ?? null;
+    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false };
+    const { data, error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+    return { error: error?.message ?? null, hasSession: Boolean(data.session) };
   }, []);
 
   const signUpWithEmail = useCallback(async (email: string, password: string) => {
-    if (!supabase) return 'Supabaseが未設定です。';
-    const { error } = await supabase.auth.signUp({ email: email.trim(), password });
-    return error?.message ?? null;
+    if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false };
+    const { data, error } = await supabase.auth.signUp({ email: email.trim(), password });
+    return { error: error?.message ?? null, hasSession: Boolean(data.session) };
   }, []);
 
   const signOut = useCallback(async () => {

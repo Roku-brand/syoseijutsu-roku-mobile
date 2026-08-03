@@ -60,6 +60,8 @@ export function BookHeader() {
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
+  const lightHeader = pathname === '/upgrade' || pathname.startsWith('/subcategory/');
+  const minimalHeaderActions = pathname === '/upgrade';
   const detail = getDetail(pathname);
   const handleBack = () => {
     if (router.canGoBack()) {
@@ -71,7 +73,7 @@ export function BookHeader() {
 
   return (
     <>
-      <View style={[styles.header, compact && styles.headerCompact]}>
+      <View style={[styles.header, compact && styles.headerCompact, lightHeader && styles.headerLight]}>
         {showBack ? (
           <View style={styles.brandGroup}>
             <Pressable
@@ -82,11 +84,12 @@ export function BookHeader() {
               style={({ pressed }) => [
                 styles.headerBack,
                 compact && styles.headerBackCompact,
+                lightHeader && styles.headerBackLight,
                 pressed && styles.headerActionPressed,
               ]}
             >
-              <AppText style={styles.headerBackIcon}>‹</AppText>
-              <AppText style={styles.headerBackText}>戻る</AppText>
+              <AppText style={[styles.headerBackIcon, lightHeader && styles.headerBackIconLight]}>‹</AppText>
+              <AppText style={[styles.headerBackText, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
             </Pressable>
           </View>
         ) : (
@@ -100,7 +103,7 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        <AppText numberOfLines={2} style={styles.screenTitle}>
+        <AppText numberOfLines={2} style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
           {currentTitle}
         </AppText>
 
@@ -114,24 +117,28 @@ export function BookHeader() {
               onPress={() => setPrinciplesVisible(true)}
               style={({ pressed }) => [
                 styles.headerAction,
+                lightHeader && styles.headerActionLight,
                 pressed && styles.headerActionPressed,
               ]}
             >
               <PrincipleMark />
-              {!compact ? <AppText style={styles.headerActionLabel}>原則</AppText> : null}
+              {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>原則</AppText> : null}
             </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="設定を開く"
-              onPress={() => router.push('/settings')}
-              style={({ pressed }) => [
-                styles.headerAction,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <AppText style={styles.settingsIcon}>⚙</AppText>
-              {!compact ? <AppText style={styles.headerActionLabel}>設定</AppText> : null}
-            </Pressable>
+            {!minimalHeaderActions ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="設定を開く"
+                onPress={() => router.push('/settings')}
+                style={({ pressed }) => [
+                  styles.headerAction,
+                  lightHeader && styles.headerActionLight,
+                  pressed && styles.headerActionPressed,
+                ]}
+              >
+                <AppText style={[styles.settingsIcon, lightHeader && styles.settingsIconLight]}>⚙</AppText>
+                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>設定</AppText> : null}
+              </Pressable>
+            ) : null}
           </View>
         )}
       </View>
@@ -245,6 +252,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/learn')) return '学習';
   if (pathname.includes('/collection/')) return 'コレクション';
   if (pathname.includes('/legal/')) return '規約・ポリシー';
+  if (pathname.includes('/upgrade')) return '完全版を購入';
   if (pathname.includes('/settings')) return '設定';
   if (pathname.includes('/card/')) return '処世術カード';
   return '処世術禄';
@@ -512,6 +520,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 7,
   },
+  headerLight: { backgroundColor: colors.paper, borderBottomColor: '#D8CEBD' },
   brandGroup: {
     minWidth: 0,
     flex: 1,
@@ -536,6 +545,7 @@ const styles = StyleSheet.create({
     minHeight: 36,
     paddingHorizontal: 10,
   },
+  headerBackLight: { borderWidth: 0, justifyContent: 'flex-start', paddingHorizontal: 0 },
   headerBackIcon: {
     color: colors.surface,
     fontSize: 27,
@@ -549,6 +559,8 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     fontWeight: '600',
   },
+  headerBackIconLight: { color: '#252521' },
+  headerBackTextLight: { color: '#252521' },
   seal: {
     width: 46,
     height: 46,
@@ -580,6 +592,8 @@ const styles = StyleSheet.create({
     letterSpacing: 1.1,
     textAlign: 'center',
   },
+  screenTitleLight: { color: '#171713' },
+  upgradeScreenTitle: { left: 96, right: 72, fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {
     color: colors.surface,
     fontFamily: fonts.serif,
@@ -626,6 +640,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
+  headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',
     opacity: 0.72,
@@ -637,11 +652,13 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     letterSpacing: 1,
   },
+  headerActionLabelLight: { color: colors.gold },
   settingsIcon: {
     color: colors.goldLight,
     fontSize: 23,
     lineHeight: 28,
   },
+  settingsIconLight: { color: colors.gold },
   principleMark: {
     width: 27,
     height: 27,

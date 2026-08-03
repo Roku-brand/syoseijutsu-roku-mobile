@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
@@ -8,23 +8,32 @@ import { useAuth } from '@/auth/auth-state';
 
 export default function AuthScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ intent?: string; mode?: string }>();
   const { configured, user, signInWithEmail, signUpWithEmail, signOut } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const purchaseIntent = params.intent === 'checkout';
+  const [mode, setMode] = useState<'signin' | 'signup'>(params.mode === 'signup' ? 'signup' : 'signin');
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
   const submit = async () => {
     setSubmitting(true);
     setMessage('');
-    const error = mode === 'signin'
+    const result = mode === 'signin'
       ? await signInWithEmail(email, password)
       : await signUpWithEmail(email, password);
     setSubmitting(false);
-    if (error) setMessage(error);
-    else if (mode === 'signup') setMessage('確認メールを送信しました。メール内のリンクから登録を完了してください。');
-    else router.back();
+    if (result.error) {
+      setMessage(result.error);
+      return;
+    }
+    if (result.hasSession) {
+      if (purchaseIntent) router.replace('/upgrade?startCheckout=1');
+      else router.back();
+      return;
+    }
+    setMessage('確認メールを送信しました。メール内のリンクから登録を完了後、ログインすると決済へ進めます。');
   };
 
   return (
@@ -32,8 +41,8 @@ export default function AuthScreen() {
       <DetailHeader title="アカウント" />
       <View style={styles.card}>
         <AppText style={styles.eyebrow}>ACCOUNT</AppText>
-        <AppText style={styles.title}>{user ? 'ログイン済み' : '蔵書と購入状態を引き継ぐ'}</AppText>
-        <AppText style={styles.lead}>無料体験はログインなしでも利用できます。ログインすると、購入状態と学習記録を同じアカウントで管理できます。</AppText>
+        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '購入前にアカウントを作成' : '蔵書と購入状態を引き継ぐ'}</AppText>
+        <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。' : '無料体験はログインなしでも利用できます。ログインすると、購入状態と学習記録を同じアカウントで管理できます。'}</AppText>
 
         {!configured ? (
           <View style={styles.notice}>
@@ -58,7 +67,7 @@ export default function AuthScreen() {
             <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder="パスワード（6文字以上）" placeholderTextColor={colors.muted} style={styles.input} />
             {message ? <AppText style={styles.message}>{message}</AppText> : null}
             <Pressable disabled={submitting || !email || password.length < 6} onPress={() => void submit()} style={[styles.primary, (submitting || !email || password.length < 6) && styles.disabled]}>
-              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'signin' ? 'ログイン' : 'アカウントを作成'}</AppText>
+              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : 'ログイン' : 'アカウントを作成して決済へ進む'}</AppText>
             </Pressable>
           </>
         )}

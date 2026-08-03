@@ -16,24 +16,15 @@ const benefits = [
 
 export default function UpgradeScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ checkout?: string }>();
+  const params = useLocalSearchParams<{ checkout?: string; startCheckout?: string }>();
   const { user } = useAuth();
   const { isPaid, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    if (params.checkout === 'success') {
-      setMessage('決済を確認しています。反映されない場合は「ログイン」から購入状態を確認してください。');
-      void refreshAccess();
-    } else if (params.checkout === 'cancelled') {
-      setMessage('購入はキャンセルされました。料金は発生していません。');
-    }
-  }, [params.checkout, refreshAccess]);
-
   const purchase = async () => {
     if (!user) {
-      router.push('/auth');
+      router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signup' } });
       return;
     }
     setSubmitting(true);
@@ -53,7 +44,7 @@ export default function UpgradeScreen() {
 
   const restore = async () => {
     if (!user) {
-      router.push('/auth');
+      router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signin' } });
       return;
     }
     setSubmitting(true);
@@ -61,6 +52,21 @@ export default function UpgradeScreen() {
     setSubmitting(false);
     setMessage(restored ? '完全版を復元しました。' : 'このアカウントの購入はまだ確認できません。');
   };
+
+  useEffect(() => {
+    if (params.checkout === 'success') {
+      setMessage('決済を確認しています。反映されない場合は「購入を復元」を押してください。');
+      void refreshAccess();
+    } else if (params.checkout === 'cancelled') {
+      setMessage('購入はキャンセルされました。料金は発生していません。');
+    }
+  }, [params.checkout, refreshAccess]);
+
+  useEffect(() => {
+    if (params.startCheckout === '1' && user && !isPaid && !submitting) {
+      void purchase();
+    }
+  }, [isPaid, params.startCheckout, submitting, user]);
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
@@ -100,7 +106,7 @@ export default function UpgradeScreen() {
           onPress={() => void purchase()}
           style={[styles.primary, submitting && styles.disabled]}
         >
-          <AppText variant="serif" style={styles.primaryText}>{submitting ? '確認中…' : user ? '購入へ進む' : '会員登録して購入へ進む'}</AppText>
+          <AppText variant="serif" style={styles.primaryText}>{submitting ? '決済画面を開いています…' : user ? '購入へ進む' : '会員登録して購入へ進む'}</AppText>
           <AppText style={styles.primaryArrow}>›</AppText>
         </Pressable>
       )}
