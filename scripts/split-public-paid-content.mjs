@@ -44,12 +44,29 @@ for (const item of learning) {
   if (!freeLearningIds.has(item.id)) paidRows.push({ content_type: 'learning', content_id: item.id, payload: item, sort_order: order++ });
 }
 
+function csvCell(value) {
+  const text = typeof value === 'string' ? value : JSON.stringify(value);
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
 const outputDir = path.join(root, 'dist-secure-content');
 await mkdir(outputDir, { recursive: true });
 await writeFile(path.join(outputDir, 'techniques.public.json'), JSON.stringify({ ...techniques, categories: publicCategories }, null, 2));
 await writeFile(path.join(outputDir, 'theories.public.json'), JSON.stringify(theories.filter((item) => freeTheoryIds.has(item.tagId)), null, 2));
 await writeFile(path.join(outputDir, 'learning.public.json'), JSON.stringify(learning.filter((item) => freeLearningIds.has(item.id)), null, 2));
 await writeFile(path.join(outputDir, 'paid-content.ndjson'), paidRows.map((row) => JSON.stringify(row)).join('\n'));
+await writeFile(
+  path.join(outputDir, 'paid-content.csv'),
+  [
+    'content_type,content_id,payload,sort_order',
+    ...paidRows.map((row) => [
+      csvCell(row.content_type),
+      csvCell(row.content_id),
+      csvCell(row.payload),
+      String(row.sort_order),
+    ].join(',')),
+  ].join('\n'),
+);
 
 console.log(`Public techniques: ${publicCategories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items)).length}`);
 console.log(`Public theories: ${theories.filter((item) => freeTheoryIds.has(item.tagId)).length}`);
