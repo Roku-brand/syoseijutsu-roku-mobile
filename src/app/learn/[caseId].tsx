@@ -21,7 +21,6 @@ export default function LearningCaseScreen() {
   const selected = record?.choiceId;
   const selectedChoice = item.choices.find((choice) => choice.id === selected);
   const selectedReview = selectedChoice ? getChoiceReview(item, selectedChoice) : null;
-  const goodChoice = item.choices.find((choice) => choice.id === item.goodChoiceId)!;
   const isBestMove = selected === item.goodChoiceId;
   const next = learningCases.find((candidate) => candidate.stage === item.stage && candidate.number === item.number + 1)
     ?? learningCases.find((candidate) => candidate.stage === item.stage + 1);
@@ -55,9 +54,17 @@ export default function LearningCaseScreen() {
       ) : (
         <View style={styles.result}>
           <View style={[styles.resultStatus, isBestMove ? styles.resultStatusGood : styles.resultStatusAlternative]}>
-            <AppText style={[styles.resultStatusText, isBestMove ? styles.resultStatusTextGood : styles.resultStatusTextAlternative]}>
-              {isBestMove ? 'この局面では、いい手。' : 'この局面では、別の手がよりよい。'}
-            </AppText>
+            <View style={[styles.resultMark, isBestMove ? styles.resultMarkGood : styles.resultMarkAlternative]}>
+              <AppText style={[styles.resultMarkText, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextAlternative]}>
+                {isBestMove ? '○' : '×'}
+              </AppText>
+            </View>
+            <View style={styles.resultStatusCopy}>
+              <AppText style={styles.resultStatusLabel}>この局面での評価</AppText>
+              <AppText style={[styles.resultStatusText, isBestMove ? styles.resultStatusTextGood : styles.resultStatusTextAlternative]}>
+                {isBestMove ? 'いい手。' : '今回は、別の手がよりよい。'}
+              </AppText>
+            </View>
           </View>
           <AppText style={styles.selectedLabel}>あなたが選んだ手</AppText>
           <View style={styles.selectedChoice}>
@@ -148,10 +155,18 @@ const styles = StyleSheet.create({
   choiceLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 25, fontWeight: '700' },
   choiceText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 24, fontWeight: '600' },
   result: { marginTop: 34, padding: 20, borderWidth: 1, borderColor: colors.line, borderRadius: radius.lg, backgroundColor: colors.surface, ...shadow.card },
-  resultStatus: { alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 6, borderRadius: radius.pill },
+  resultStatus: { flexDirection: 'row', alignItems: 'center', gap: 11, padding: 12, borderRadius: radius.md },
   resultStatusGood: { backgroundColor: colors.sage },
   resultStatusAlternative: { backgroundColor: '#F3E8D5' },
-  resultStatusText: { fontFamily: fonts.sans, fontSize: 11, letterSpacing: 0.55, fontWeight: '800' },
+  resultMark: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
+  resultMarkGood: { backgroundColor: '#D3E0CD' },
+  resultMarkAlternative: { backgroundColor: '#EBD7B6' },
+  resultMarkText: { fontFamily: fonts.serif, fontSize: 31, lineHeight: 36, fontWeight: '700' },
+  resultMarkTextGood: { color: colors.success },
+  resultMarkTextAlternative: { color: '#85652B' },
+  resultStatusCopy: { flex: 1 },
+  resultStatusLabel: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, lineHeight: 14, letterSpacing: 0.75, fontWeight: '700' },
+  resultStatusText: { marginTop: 2, fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '700' },
   resultStatusTextGood: { color: colors.success },
   resultStatusTextAlternative: { color: '#85652B' },
   selectedLabel: { marginTop: 20, color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.1, fontWeight: '700' },
