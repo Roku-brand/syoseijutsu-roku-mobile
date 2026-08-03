@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="104" fill="#151714"/>
+  <rect x="76" y="76" width="360" height="360" rx="38" fill="none" stroke="#C9A85B" stroke-width="8"/>
+  <text x="256" y="328" text-anchor="middle" font-family="serif" font-size="220" font-weight="700" fill="#E6CF8A">禄</text>
+</svg>
