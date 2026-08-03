@@ -19,13 +19,13 @@ export default function AuthScreen() {
   const [submitting, setSubmitting] = useState(false);
   const checkoutStarted = useRef(false);
 
-  const continueToCheckout = useCallback(async () => {
+  const continueToCheckout = useCallback(async (accessToken?: string) => {
     if (checkoutStarted.current) return;
     checkoutStarted.current = true;
     setSubmitting(true);
     setMessage('決済画面を開いています…');
     try {
-      const result = await createCompleteEditionCheckout();
+      const result = await createCompleteEditionCheckout(accessToken);
       if (result.alreadyPaid) router.replace('/upgrade');
     } catch (error) {
       checkoutStarted.current = false;
@@ -56,7 +56,7 @@ export default function AuthScreen() {
     if (result.hasSession) {
       if (purchaseIntent) {
         setSubmitting(false);
-        await continueToCheckout();
+        await continueToCheckout(result.session?.access_token);
       } else {
         setSubmitting(false);
         router.back();
