@@ -26,6 +26,7 @@ export default function MyOsScreen() {
   const { isPaid } = useAccess();
   const {
     savedIds,
+    savedTheoryIds,
     historyIds,
     personalPrinciple,
     updatePersonalPrinciple,
@@ -64,7 +65,7 @@ export default function MyOsScreen() {
 
       <View style={styles.summaryCard}>
         {[
-          ['保存済み', savedIds.length],
+          ['蔵書', savedIds.length + savedTheoryIds.length],
           ['マイ処世術', personalMemos.length],
           ['閲覧履歴', historyIds.length],
         ].map(([label, value], index) => (
@@ -108,8 +109,8 @@ export default function MyOsScreen() {
         >
           <AppText style={styles.actionMark}>冊</AppText>
           <AppText style={styles.actionTitle}>蔵書</AppText>
-          <AppText style={styles.savedCount}>{savedIds.length}</AppText>
-          <AppText style={styles.actionSubtitle}>保存した処世術</AppText>
+          <AppText style={styles.savedCount}>{savedIds.length + savedTheoryIds.length}</AppText>
+          <AppText style={styles.actionSubtitle}>保存した処世術・理論</AppText>
         </Pressable>
         <Pressable
           accessibilityRole="button"

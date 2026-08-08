@@ -168,6 +168,41 @@ export function BookHeader() {
   );
 }
 
+/** 処世術・理論で共通の、蔵書保存用のひし形マーク。 */
+export function SaveDiamondButton({
+  saved,
+  onPress,
+  label,
+  compact = false,
+}: {
+  saved: boolean;
+  onPress: () => void;
+  label?: string;
+  compact?: boolean;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={saved ? '蔵書から外す' : '蔵書に保存'}
+      accessibilityState={{ selected: saved }}
+      onPress={onPress}
+      hitSlop={compact ? 6 : 8}
+      style={({ pressed }) => [
+        styles.saveDiamondButton,
+        compact && styles.saveDiamondButtonCompact,
+        pressed && styles.saveDiamondButtonPressed,
+      ]}
+    >
+      <View style={[styles.saveDiamond, saved && styles.saveDiamondFilled]} />
+      {label ? (
+        <AppText style={[styles.saveDiamondLabel, saved && styles.saveDiamondLabelSaved]}>
+          {label}
+        </AppText>
+      ) : null}
+    </Pressable>
+  );
+}
+
 function MenuMark({ active, light }: { active: boolean; light: boolean }) {
   const tone = light ? colors.gold : colors.goldLight;
   return (
@@ -218,25 +253,12 @@ function DetailHeaderActions({
 
   return (
     <View style={styles.detailActions}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
+      <SaveDiamondButton
+        saved={isSaved}
         onPress={toggle}
-        style={({ pressed }) => [styles.detailAction, pressed && styles.headerActionPressed]}
-      >
-        <SymbolView
-          name={{
-            ios: isSaved ? 'star.fill' : 'star',
-            android: isSaved ? 'star' : 'star_border',
-            web: isSaved ? 'star' : 'star_border',
-          }}
-          fallback={<AppText style={[styles.detailActionFallback, isSaved && styles.detailActionSaved]}>★</AppText>}
-          size={20}
-          tintColor={colors.gold}
-          weight="regular"
-        />
-        {!compact ? <AppText style={[styles.detailActionLabel, isSaved && styles.detailActionLabelSaved]}>{isSaved ? '保存済み' : '保存'}</AppText> : null}
-      </Pressable>
+        label={compact ? undefined : isSaved ? '保存済み' : '保存'}
+        compact={compact}
+      />
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="共有"
@@ -967,5 +989,25 @@ const styles = StyleSheet.create({
     lineHeight: 30,
   },
   indexChevron: { color: colors.gold, fontSize: 32, lineHeight: 36 },
+  saveDiamondButton: {
+    minHeight: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    paddingHorizontal: 4,
+  },
+  saveDiamondButtonCompact: { width: 30, paddingHorizontal: 0 },
+  saveDiamondButtonPressed: { opacity: 0.78, transform: [{ scale: 0.94 }] },
+  saveDiamond: {
+    width: 15,
+    height: 15,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+    transform: [{ rotate: '45deg' }],
+  },
+  saveDiamondFilled: { backgroundColor: colors.gold },
+  saveDiamondLabel: { color: colors.goldLight, fontSize: 11, lineHeight: 16, fontWeight: '700' },
+  saveDiamondLabelSaved: { color: colors.goldLight },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });
