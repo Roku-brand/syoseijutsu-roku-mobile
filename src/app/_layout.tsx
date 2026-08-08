@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { Stack } from 'expo-router';
+import { Stack, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -14,55 +14,17 @@ import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
 
 export default function RootLayout() {
+  const pathname = usePathname();
   const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
-
+  const isWelcome = pathname === '/welcome';
   const appContent = (
     <View style={styles.contentColumn}>
-      <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}>
-        <BookHeader />
-      </SafeAreaView>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.paper },
-          animation: 'slide_from_right',
-          gestureEnabled: true,
-          fullScreenGestureEnabled: true,
-        }}
-      />
-      {!desktop ? <PersistentBottomNav /> : null}
+      {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper }, animation: 'slide_from_right', gestureEnabled: true, fullScreenGestureEnabled: true }} />
+      {!isWelcome && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-
-  return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <AccessProvider>
-          <AccessBoundary>
-            <AppStateProvider>
-              <AppToastProvider>
-                <View style={styles.container}>
-                  <StatusBar style="dark" />
-                  {desktop ? (
-                    <View style={styles.desktopFrame}>
-                      <PersistentBottomNav />
-                      {appContent}
-                    </View>
-                  ) : appContent}
-                </View>
-              </AppToastProvider>
-            </AppStateProvider>
-          </AccessBoundary>
-        </AccessProvider>
-      </AuthProvider>
-    </SafeAreaProvider>
-  );
+  return <SafeAreaProvider><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><View style={styles.container}><StatusBar style="dark" />{desktop && !isWelcome ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.paper },
-  desktopFrame: { flex: 1, flexDirection: 'row' },
-  contentColumn: { flex: 1, minWidth: 0 },
-  headerSafeArea: { backgroundColor: colors.surface },
-});
+const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: colors.paper }, desktopFrame: { flex: 1, flexDirection: 'row' }, contentColumn: { flex: 1, minWidth: 0 }, headerSafeArea: { backgroundColor: colors.surface } });
