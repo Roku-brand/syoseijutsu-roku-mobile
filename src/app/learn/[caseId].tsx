@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   relatedRow: { paddingVertical: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: colors.line, gap: 10 },
   relatedTitle: { color: colors.ink, flex: 1, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, fontWeight: '600' },
   relatedArrow: { color: colors.gold, fontSize: 16 },
-  next: { marginTop: 24, minHeight: 50, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.ink },
-  nextText: { color: colors.surface, fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.6, fontWeight: '800' },
+  next: { marginTop: 24, minHeight: 54, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, backgroundColor: colors.gold },
+  nextText: { color: '#FFFFFF', fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.6, fontWeight: '800' },
   pressed: { opacity: 0.65 },
 });

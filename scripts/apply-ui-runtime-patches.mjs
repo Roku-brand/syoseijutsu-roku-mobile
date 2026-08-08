@@ -74,12 +74,6 @@ await patch('src/app/card/[id].tsx', [
   ['          minimumFontScale={0.7}\n          style={styles.title}', '          minimumFontScale={0.5}\n          style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}'],
 ]);
 
-await patch('src/app/subcategory/[category]/[name].tsx', [
-  ["import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';", "import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';\nimport { useAccess } from '@/access/access-state';\nimport { LockedPreview } from '@/components/locked-preview';"],
-  ['  const compact = width < 640;', '  const compact = width < 640;\n  const { isPaid } = useAccess();'],
-  ["  const theme = persona.articleTitle ?? 'その他';", "  if (!isPaid && persona.name !== '印象がいい人') {\n    return (\n      <Screen><DetailHeader title=\"人物像から探す\" /><LockedPreview title={persona.name} description=\"この人物像の処世術は完全版に収録されています。\" count={persona.items.length} source=\"discover_technique\" /></Screen>\n    );\n  }\n\n  const theme = persona.articleTitle ?? 'その他';"],
-]);
-
 await patch('src/app/theories/[category].tsx', [
   ["import { theories } from '@/data/catalog';", "import { theories } from '@/data/catalog';\nimport { useAccess } from '@/access/access-state';\nimport { FREE_THEORY_ID_SET } from '@/access/access-config';\nimport { LockedPreview } from '@/components/locked-preview';"],
   ["  const { category } = useLocalSearchParams<{ category: string }>();", "  const { category } = useLocalSearchParams<{ category: string }>();\n  const { isPaid } = useAccess();"],

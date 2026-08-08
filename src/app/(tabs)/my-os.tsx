@@ -15,10 +15,15 @@ import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
+import { useAuth } from '@/auth/auth-state';
+import { useAccess } from '@/access/access-state';
+import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
 export default function MyOsScreen() {
   const isFocused = useTabVisible();
   const router = useRouter();
+  const { user } = useAuth();
+  const { isPaid } = useAccess();
   const {
     savedIds,
     historyIds,
@@ -58,6 +63,28 @@ export default function MyOsScreen() {
   return (
     <BookScreen>
       <OwnerPreviewPanel />
+      <Pressable onPress={() => router.push('/auth')} style={({ pressed }) => [styles.profileCard, pressed && styles.pressed]}>
+        <View style={styles.avatar}><AppText style={styles.avatarText}>人</AppText></View>
+        <View style={styles.profileCopy}>
+          <AppText style={styles.profileName}>{user?.email ?? 'ユーザー'}</AppText>
+          <AppText style={styles.profilePlan}>{isPaid ? '完全版をご利用中' : '無料版'}・あなたの人生に。</AppText>
+        </View>
+        <AppText style={styles.chevron}>›</AppText>
+      </Pressable>
+
+      <View style={styles.summaryCard}>
+        {[
+          ['保存済み', savedIds.length],
+          ['マイ処世術', personalMemos.length],
+          ['閲覧履歴', historyIds.length],
+          ['実践', Object.keys(practiceRecords).length],
+        ].map(([label, value], index) => (
+          <View key={String(label)} style={[styles.summaryItem, index > 0 && styles.summaryDivider]}>
+            <AppText style={styles.summaryLabel}>{label}</AppText>
+            <AppText style={styles.summaryValue}>{value}</AppText>
+          </View>
+        ))}
+      </View>
       <View style={styles.principleCard}>
         <View style={styles.principleLabelRow}>
           <View style={styles.diamond} />
@@ -242,6 +269,13 @@ export default function MyOsScreen() {
         <AppText style={styles.chevron}>›</AppText>
       </Pressable>
 
+      {!isPaid ? (
+        <Pressable onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.upgradeButton, pressed && styles.pressed]}>
+          <AppText style={styles.upgradeButtonText}>完全版にアップグレード　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
+          <AppText style={styles.upgradeButtonArrow}>›</AppText>
+        </Pressable>
+      ) : null}
+
       <Modal
         transparent
         visible={editing}
@@ -285,6 +319,17 @@ export default function MyOsScreen() {
 }
 
 const styles = StyleSheet.create({
+  profileCard: { minHeight: 72, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 13, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
+  avatarText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23 },
+  profileCopy: { flex: 1, minWidth: 0 },
+  profileName: { fontSize: 15, lineHeight: 22, fontWeight: '700' },
+  profilePlan: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 17 },
+  summaryCard: { minHeight: 70, marginTop: spacing.sm, paddingVertical: 10, flexDirection: 'row', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  summaryItem: { flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center' },
+  summaryDivider: { borderLeftWidth: 1, borderLeftColor: colors.line },
+  summaryLabel: { color: colors.muted, fontSize: 10, lineHeight: 15 },
+  summaryValue: { marginTop: 2, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, fontWeight: '700' },
   principleCard: {
     minHeight: 270,
     padding: spacing.xl,
@@ -369,8 +414,8 @@ const styles = StyleSheet.create({
   memoEmpty: { marginTop: spacing.lg, color: colors.muted, fontSize: 13, lineHeight: 21 },
   memoComposer: { flexDirection: 'row', gap: spacing.sm, marginTop: spacing.lg },
   memoInput: { flex: 1, minHeight: 46, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.white, color: colors.ink, fontSize: 14 },
-  memoAdd: { minWidth: 66, minHeight: 46, paddingHorizontal: spacing.md, borderRadius: radius.sm, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  memoAddText: { color: colors.goldLight, fontWeight: '700', fontSize: 13 },
+  memoAdd: { minWidth: 66, minHeight: 46, paddingHorizontal: spacing.md, borderRadius: radius.sm, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  memoAddText: { color: '#FFFFFF', fontWeight: '700', fontSize: 13 },
   osActionCard: {
     flex: 1,
     minHeight: 220,
@@ -552,10 +597,13 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 50,
     borderRadius: radius.md,
-    backgroundColor: colors.charcoal,
+    backgroundColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  saveText: { color: colors.goldLight, fontWeight: '700' },
+  saveText: { color: '#FFFFFF', fontWeight: '700' },
+  upgradeButton: { minHeight: 56, marginTop: spacing.xl, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, backgroundColor: colors.gold },
+  upgradeButtonText: { color: '#FFFFFF', fontSize: 15, lineHeight: 22, fontWeight: '700' },
+  upgradeButtonArrow: { position: 'absolute', right: 18, color: '#FFFFFF', fontSize: 26, lineHeight: 29 },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });

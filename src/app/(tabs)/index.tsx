@@ -9,7 +9,7 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import { AppText } from '@/components/ui';
+import { AppText, SegmentedControl } from '@/components/ui';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTechniqueDisplayId, techniqueCards as catalogTechniqueCards } from '@/data/catalog';
@@ -297,6 +297,17 @@ export default function MainScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
+      <AppText style={styles.catalogCount}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
+      <SegmentedControl
+        value="techniques"
+        options={[
+          { value: 'techniques', label: '処世術' },
+          { value: 'theories', label: '理論' },
+        ] as const}
+        onChange={(value) => {
+          if (value === 'theories') router.push('/theories/all');
+        }}
+      />
       <View style={styles.reelHeading}>
         <AppText style={styles.reelHeadingText}>処世術</AppText>
         <View style={styles.headingOrnament}>
@@ -388,7 +399,7 @@ export default function MainScreen() {
                   </View>
                   <AppText style={styles.upgradeReelBody}>あなたの状況に合う処世術を、{`\n`}すべて解放します。</AppText>
                   <View style={styles.upgradeStats}>
-                    <AppText style={styles.upgradeStatsText}>434の処世術　526の理論　全21ケース</AppText>
+                    <AppText style={styles.upgradeStatsText}>216の処世術　526の理論　全21ケース</AppText>
                   </View>
                   <View style={styles.upgradeCta}>
                     <AppText style={styles.upgradeCtaText}>完全版を¥{COMPLETE_EDITION_PRICE_JPY}で解放する　›</AppText>
@@ -546,8 +557,10 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { paddingTop: spacing.xl, paddingBottom: spacing.xl },
-  reelHeading: { alignItems: 'center', marginBottom: spacing.md },
+  content: { paddingTop: spacing.md, paddingBottom: spacing.xl },
+  catalogCount: { marginBottom: spacing.sm, fontFamily: fonts.serif, fontSize: 14, lineHeight: 22, fontWeight: '700' },
+  catalogDivider: { color: colors.gold },
+  reelHeading: { alignItems: 'center', marginTop: spacing.lg, marginBottom: spacing.sm },
   reelHeadingText: {
     fontFamily: fonts.serif,
     fontSize: 27,
@@ -602,10 +615,10 @@ const styles = StyleSheet.create({
   techniqueCard: {
     minHeight: 360,
     paddingVertical: 36,
-    borderRadius: 30,
+    borderRadius: radius.md,
     borderWidth: 1.5,
     borderColor: colors.gold,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.charcoal,
     alignItems: 'center',
     justifyContent: 'center',
     ...bookCardShadow,
@@ -659,7 +672,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     paddingVertical: 13,
     borderRadius: radius.sm,
-    backgroundColor: '#F04A17',
+    backgroundColor: colors.gold,
   },
   upgradeCtaText: { color: '#FFFDF8', fontSize: 13, lineHeight: 19, fontWeight: '700' },
   techniqueTitle: {
@@ -667,7 +680,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.serif,
     fontWeight: '600',
     textAlign: 'center',
-    color: colors.ink,
+    color: colors.surface,
   },
   techniqueId: {
     marginBottom: spacing.md,
@@ -697,14 +710,16 @@ const styles = StyleSheet.create({
     lineHeight: 34,
     letterSpacing: 1.2,
     textAlign: 'center',
-    color: colors.inkSoft,
+    color: '#F4EEE3',
   },
   categoryChip: {
     marginTop: spacing.xl,
     minHeight: 38,
     paddingHorizontal: spacing.lg,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    borderWidth: 1,
+    borderColor: 'rgba(196,148,50,0.55)',
+    backgroundColor: 'rgba(184,138,42,0.12)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -713,7 +728,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 20,
     letterSpacing: 1.2,
-    color: colors.inkSoft,
+    color: colors.goldLight,
   },
   saveButton: {
     alignSelf: 'center',

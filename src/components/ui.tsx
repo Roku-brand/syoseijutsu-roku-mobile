@@ -121,6 +121,95 @@ export function Header({
   );
 }
 
+export const AppHeader = Header;
+
+export function SurfaceCard({ children, style, ...props }: ViewProps) {
+  return <View {...props} style={[styles.surfaceCard, style]}>{children}</View>;
+}
+
+export function Divider({ style }: { style?: ViewProps['style'] }) {
+  return <View style={[styles.divider, style]} />;
+}
+
+export function GoldIcon({ children }: { children: React.ReactNode }) {
+  return (
+    <View style={styles.goldIcon}>
+      <AppText style={styles.goldIconText}>{children}</AppText>
+    </View>
+  );
+}
+
+export function TagChip({ children }: { children: React.ReactNode }) {
+  return (
+    <View style={styles.tagChip}>
+      <AppText style={styles.tagChipText}>{children}</AppText>
+    </View>
+  );
+}
+
+export function ListGroup({ children, style }: ViewProps) {
+  return <View style={[styles.listGroup, style]}>{children}</View>;
+}
+
+export function ListRow({
+  title,
+  detail,
+  icon,
+  last = false,
+  onPress,
+}: {
+  title: string;
+  detail?: string;
+  icon?: React.ReactNode;
+  last?: boolean;
+  onPress?: () => void;
+}) {
+  const content = (
+    <View style={[styles.listRow, last && styles.listRowLast]}>
+      {icon}
+      <View style={styles.listRowCopy}>
+        <AppText style={styles.listRowTitle}>{title}</AppText>
+        {detail ? <AppText style={styles.listRowDetail}>{detail}</AppText> : null}
+      </View>
+      {onPress ? <AppText style={styles.listChevron}>›</AppText> : null}
+    </View>
+  );
+  return onPress ? (
+    <Pressable accessibilityRole="button" onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
+      {content}
+    </Pressable>
+  ) : content;
+}
+
+export function SegmentedControl<T extends string>({
+  value,
+  options,
+  onChange,
+}: {
+  value: T;
+  options: readonly { value: T; label: string }[];
+  onChange: (value: T) => void;
+}) {
+  return (
+    <View accessibilityRole="tablist" style={styles.segmentedControl}>
+      {options.map((option) => {
+        const selected = option.value === value;
+        return (
+          <Pressable
+            key={option.value}
+            accessibilityRole="tab"
+            accessibilityState={{ selected }}
+            onPress={() => onChange(option.value)}
+            style={[styles.segment, selected && styles.segmentActive]}
+          >
+            <AppText style={[styles.segmentText, selected && styles.segmentTextActive]}>{option.label}</AppText>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
 /** A concise chapter heading for category, theme, and theory archive pages. */
 export function ChapterTitle({ title }: { title: string }) {
   return (
@@ -317,6 +406,18 @@ export function PrimaryButton({
   );
 }
 
+export function SecondaryButton({ children, ...props }: PressableProps & { children: React.ReactNode }) {
+  return (
+    <Pressable
+      {...props}
+      accessibilityRole="button"
+      style={({ pressed }) => [styles.secondaryButton, pressed && styles.pressed]}
+    >
+      <AppText style={styles.secondaryButtonText}>{children}</AppText>
+    </Pressable>
+  );
+}
+
 export function EmptyState({
   mark = '余',
   title,
@@ -410,18 +511,51 @@ const styles = StyleSheet.create({
   headerCopy: { flex: 1 },
   eyebrow: { color: colors.gold, marginBottom: spacing.xs },
   headerDescription: { color: colors.muted, marginTop: spacing.sm },
-  chapterTitleBand: {
-    minHeight: 104,
-    paddingHorizontal: spacing.lg,
+  surfaceCard: {
+    padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+  },
+  divider: { height: 1, backgroundColor: colors.line },
+  goldIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.charcoal,
+  },
+  goldIconText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '700' },
+  tagChip: { minHeight: 28, paddingHorizontal: 11, justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  tagChipText: { color: colors.inkSoft, fontSize: 12, lineHeight: 17 },
+  listGroup: { overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  listRow: { minHeight: 58, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
+  listRowLast: { borderBottomWidth: 0 },
+  listRowCopy: { flex: 1, minWidth: 0 },
+  listRowTitle: { fontSize: 15, lineHeight: 22, fontWeight: '600' },
+  listRowDetail: { marginTop: 2, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  listChevron: { color: colors.gold, fontSize: 25, lineHeight: 28 },
+  segmentedControl: { minHeight: 42, padding: 3, flexDirection: 'row', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  segment: { flex: 1, minHeight: 34, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
+  segmentActive: { backgroundColor: colors.charcoal },
+  segmentText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '600' },
+  segmentTextActive: { color: colors.goldLight },
+  chapterTitleBand: {
+    minHeight: 88,
+    paddingHorizontal: spacing.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.surface,
     borderRadius: radius.md,
   },
   chapterTitleText: {
-    color: colors.paper,
-    fontSize: 32,
-    lineHeight: 44,
+    color: colors.ink,
+    fontSize: 28,
+    lineHeight: 40,
     fontWeight: '700',
     textAlign: 'center',
   },
@@ -539,14 +673,16 @@ const styles = StyleSheet.create({
   primaryButton: {
     minHeight: 54,
     borderRadius: radius.md,
-    backgroundColor: colors.ink,
+    backgroundColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
   },
   primaryDisabled: { backgroundColor: colors.muted, opacity: 0.45 },
-  primaryPressed: { backgroundColor: colors.inkSoft, transform: [{ scale: 0.99 }] },
-  primaryButtonText: { color: colors.paper, fontSize: 14 },
+  primaryPressed: { backgroundColor: colors.goldLight, transform: [{ scale: 0.99 }] },
+  primaryButtonText: { color: '#FFFFFF', fontSize: 14 },
+  secondaryButton: { minHeight: 54, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  secondaryButtonText: { color: colors.gold, fontSize: 14, fontWeight: '700' },
   empty: { alignItems: 'center', paddingVertical: 64, paddingHorizontal: spacing.xl },
   emptyMark: {
     width: 58,

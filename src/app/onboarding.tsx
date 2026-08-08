@@ -4,7 +4,6 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText, BrandMark, PrimaryButton } from '@/components/ui';
 import { colors, spacing } from '@/constants/theme';
-import { techniqueCards, theories } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 
 export default function OnboardingScreen() {
@@ -25,7 +24,7 @@ export default function OnboardingScreen() {
         </AppText>
         <View style={styles.promise}>
           <AppText variant="label" style={styles.promiseLabel}>
-            {techniqueCards.length}の処世術 · {theories.length}の理論
+            216の処世術 · 526の理論
           </AppText>
           <AppText variant="caption">
             広告なし・ログイン不要・個人データの外部送信なし

@@ -68,7 +68,7 @@ export function LockedPreview({
               <AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
               <View style={styles.buyout}><AppText style={styles.buyoutText}>買い切り・追加課金なし</AppText></View>
             </View>
-            <AppText style={styles.productMeta}>♧　434の処世術・526の理論・全21ケース</AppText>
+            <AppText style={styles.productMeta}>♧　216の処世術・526の理論・全21ケース</AppText>
           </View>
         </View>
         <View style={styles.productCta}>
@@ -153,11 +153,11 @@ const styles = StyleSheet.create({
   productCopy: { flex: 1, minWidth: 0 },
   productTitle: { color: '#1B1B18', fontSize: 22, lineHeight: 31, fontWeight: '700' },
   priceLine: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 12, marginTop: 6 },
-  price: { color: '#F04A17', fontSize: 40, lineHeight: 48, fontWeight: '700' },
+  price: { color: colors.gold, fontSize: 40, lineHeight: 48, fontWeight: '700' },
   buyout: { borderWidth: 1, borderColor: '#D8CFC1', borderRadius: 6, paddingHorizontal: 9, paddingVertical: 5 },
   buyoutText: { color: '#876832', fontSize: 10, fontWeight: '600' },
   productMeta: { marginTop: 6, color: '#53524C', fontSize: 11, lineHeight: 17 },
-  productCta: { minHeight: 62, margin: 12, marginTop: 4, paddingHorizontal: 22, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 8, backgroundColor: '#F24A17' },
+  productCta: { minHeight: 58, margin: 12, marginTop: 4, paddingHorizontal: 22, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 16, backgroundColor: colors.gold },
   productCtaText: { color: '#FFFDF8', fontSize: 22, lineHeight: 30, fontWeight: '700' },
   productCtaArrow: { position: 'absolute', right: 22, color: '#FFFDF8', fontSize: 38, lineHeight: 38, fontWeight: '300' },
   reassurance: { minHeight: 46, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14 },
