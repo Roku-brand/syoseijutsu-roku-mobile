@@ -17,7 +17,7 @@ export default function RootLayout() {
   const { width } = useHydratedWindowDimensions();
   const pathname = usePathname();
   const desktop = width >= 1000;
-  const lightHeader = true;
+  const lightHeader = pathname === '/upgrade' || pathname.startsWith('/subcategory/');
 
   const appContent = (
     <View style={styles.contentColumn}>
@@ -45,7 +45,7 @@ export default function RootLayout() {
             <AppStateProvider>
               <AppToastProvider>
                 <View style={styles.container}>
-                  <StatusBar style="dark" />
+                  <StatusBar style={lightHeader ? 'dark' : 'light'} />
                   {desktop ? (
                     <View style={styles.desktopFrame}>
                       <PersistentBottomNav />
@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.paper },
   desktopFrame: { flex: 1, flexDirection: 'row' },
   contentColumn: { flex: 1, minWidth: 0 },
-  headerSafeArea: { backgroundColor: colors.surface },
-  headerSafeAreaLight: { backgroundColor: colors.surface },
+  headerSafeArea: { backgroundColor: colors.charcoal },
+  headerSafeAreaLight: { backgroundColor: colors.paper },
 });
