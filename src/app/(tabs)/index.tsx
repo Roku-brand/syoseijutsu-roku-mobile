@@ -54,6 +54,9 @@ const theoryShortcuts = [
   { label: '心理学', key: 'psychology' },
   { label: '行動科学', key: 'behavioral-science' },
   { label: '組織・経営', key: 'organization-management' },
+  { label: '戦略', key: 'strategy' },
+  { label: '古典', key: 'classics-thought' },
+  { label: '名言', key: 'maxims-experience' },
 ] as const;
 
 function splitReelTitle(value: string) {
@@ -151,8 +154,8 @@ export default function MainScreen() {
   // ホームはヘッダーとタブバーの間で完結させる。小さい端末でも
   // 収まる高さを優先し、カード内だけに情報と保存操作を集約する。
   const cardHeight = compactReel
-    ? Math.max(isPaid ? 184 : 250, Math.min(height - (isPaid ? 522 : 390), 350))
-    : Math.max(isPaid ? 230 : 310, Math.min(height - (isPaid ? 478 : 350), 450));
+    ? Math.max(isPaid ? 174 : 250, Math.min(height - (isPaid ? 556 : 390), 320))
+    : Math.max(isPaid ? 216 : 310, Math.min(height - (isPaid ? 520 : 350), 430));
   const reelPeek = compactReel ? 18 : 30;
   const reelGap = compactReel ? 10 : 14;
   const cardWidth = Math.min(
@@ -483,7 +486,11 @@ export default function MainScreen() {
       ) : (
         <View style={styles.shortcuts}>
           <View style={styles.shortcutSection}>
-            <AppText style={styles.shortcutHeading}>処世術から探す</AppText>
+            <View style={styles.shortcutSectionHeader}>
+              <View style={styles.shortcutSectionRule} />
+              <AppText style={styles.shortcutHeading}>処世術から選ぶ</AppText>
+              <AppText style={styles.shortcutSectionHint}>実践の入口</AppText>
+            </View>
             <View style={styles.techniqueShortcutGrid}>
               {techniqueShortcuts.map((shortcut) => (
                 <Pressable
@@ -493,6 +500,7 @@ export default function MainScreen() {
                   onPress={() => jumpToTechniqueCategory(shortcut.key)}
                   style={({ pressed }) => [styles.techniqueShortcut, pressed && styles.pressed]}
                 >
+                  <AppText style={styles.techniqueShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
                   <AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText>
                   <AppText style={styles.shortcutChevron}>›</AppText>
                 </Pressable>
@@ -500,7 +508,11 @@ export default function MainScreen() {
             </View>
           </View>
           <View style={styles.shortcutSection}>
-            <AppText style={styles.shortcutHeading}>理論から探す</AppText>
+            <View style={styles.shortcutSectionHeader}>
+              <View style={styles.shortcutSectionRule} />
+              <AppText style={styles.shortcutHeading}>理論から選ぶ</AppText>
+              <AppText style={styles.shortcutSectionHint}>知識の入口</AppText>
+            </View>
             <View style={styles.theoryShortcutGrid}>
               {theoryShortcuts.map((shortcut) => (
                 <Pressable
@@ -510,7 +522,9 @@ export default function MainScreen() {
                   onPress={() => jumpToTheoryCategory(shortcut.key)}
                   style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
                 >
+                  <AppText style={styles.theoryShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
                   <AppText numberOfLines={1} style={styles.theoryShortcutText}>{shortcut.label}</AppText>
+                  <AppText style={styles.theoryShortcutArrow}>↗</AppText>
                 </Pressable>
               ))}
             </View>
@@ -673,15 +687,21 @@ const styles = StyleSheet.create({
   unlockTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   unlockBody: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '600' },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
-  shortcuts: { marginTop: 5, gap: 9 },
-  shortcutSection: { gap: 5 },
-  shortcutHeading: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, letterSpacing: 0.8 },
-  techniqueShortcutGrid: { flexDirection: 'row', gap: 7 },
-  techniqueShortcut: { flex: 1, minWidth: 0, height: 34, paddingHorizontal: 9, borderWidth: 1, borderColor: 'rgba(196,148,50,0.48)', borderRadius: radius.sm, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  techniqueShortcutText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '700' },
-  shortcutChevron: { color: colors.gold, fontSize: 18, lineHeight: 20 },
-  theoryShortcutGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  theoryShortcut: { width: '31.9%', height: 29, paddingHorizontal: 6, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.line, backgroundColor: '#F7F4ED', alignItems: 'center', justifyContent: 'center' },
-  theoryShortcutText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600' },
+  shortcuts: { marginTop: 8, gap: 10, paddingHorizontal: 2 },
+  shortcutSection: { gap: 6 },
+  shortcutSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 2 },
+  shortcutSectionRule: { width: 3, height: 15, borderRadius: 2, backgroundColor: colors.gold },
+  shortcutHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, letterSpacing: 1, fontWeight: '700' },
+  shortcutSectionHint: { marginLeft: 'auto', color: colors.muted, fontSize: 9, lineHeight: 14, letterSpacing: 0.8 },
+  techniqueShortcutGrid: { flexDirection: 'row', gap: 8 },
+  techniqueShortcut: { flex: 1, minWidth: 0, height: 47, paddingHorizontal: 8, borderWidth: 1, borderColor: 'rgba(196,148,50,0.72)', borderRadius: radius.md, backgroundColor: colors.charcoal, flexDirection: 'row', alignItems: 'center', gap: 6, ...bookCardShadow },
+  techniqueShortcutMark: { width: 25, height: 25, borderRadius: 13, borderWidth: 1, borderColor: colors.gold, color: colors.goldLight, fontFamily: fonts.serif, fontSize: 13, lineHeight: 23, textAlign: 'center' },
+  techniqueShortcutText: { flex: 1, color: '#FFF9EC', fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '700' },
+  shortcutChevron: { color: colors.goldLight, fontSize: 21, lineHeight: 23 },
+  theoryShortcutGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
+  theoryShortcut: { width: '31.8%', height: 37, paddingHorizontal: 7, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: 5 },
+  theoryShortcutMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  theoryShortcutText: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 11, lineHeight: 15, fontWeight: '600' },
+  theoryShortcutArrow: { color: colors.muted, fontSize: 12, lineHeight: 15 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });
