@@ -12,10 +12,10 @@ import {
 import { AppText, SegmentedControl } from '@/components/ui';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTechniqueDisplayId, techniqueCards as catalogTechniqueCards } from '@/data/catalog';
-import { FREE_REEL_TECHNIQUE_IDS } from '@/access/access-config';
+import { getTechniqueDisplayId, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
+import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
-import type { TechniqueCard } from '@/data/types';
+import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
@@ -33,7 +33,13 @@ type UpgradeReelItem = {
   reelKey: string;
 };
 
-type ReelItem = TechniqueReelItem | UpgradeReelItem;
+type TheoryReelItem = {
+  kind: 'theory';
+  card: TheoryCard;
+  reelKey: string;
+};
+
+type ReelItem = TechniqueReelItem | TheoryReelItem | UpgradeReelItem;
 
 const CIRCULAR_REEL_COPIES = 5;
 const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
@@ -106,6 +112,7 @@ export default function MainScreen() {
   const { width, height } = useHydratedWindowDimensions();
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
+  const [reelType, setReelType] = useState<'techniques' | 'theories'>('techniques');
   const [activeIndex, setActiveIndex] = useState(0);
   const activeIndexRef = useRef(0);
   const physicalIndexRef = useRef(0);
@@ -117,6 +124,14 @@ export default function MainScreen() {
       : FREE_REEL_TECHNIQUE_IDS
           .map((id) => catalogTechniqueCards.find((card) => card.id === id))
           .filter((card): card is TechniqueCard => Boolean(card)),
+    [isPaid],
+  );
+  const visibleTheoryCards = useMemo(
+    () => isPaid
+      ? catalogTheories
+      : FREE_THEORY_IDS
+          .map((id) => catalogTheories.find((card) => card.tagId === id))
+          .filter((card): card is TheoryCard => Boolean(card)),
     [isPaid],
   );
 
@@ -138,26 +153,25 @@ export default function MainScreen() {
     cardWidth + reelPeek * 2,
   );
   const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
-  const baseReelItems = useMemo<ReelItem[]>(() => [
-    ...visibleTechniqueCards.map((card) => ({
-      kind: 'technique' as const,
-      card,
-      reelKey: `card-${card.id}`,
-    })),
-    ...(!isPaid ? [{ kind: 'upgrade' as const, reelKey: 'upgrade' }] : []),
-  ], [isPaid, visibleTechniqueCards]);
+  const baseReelItems = useMemo<ReelItem[]>(() => reelType === 'techniques'
+    ? [
+        ...visibleTechniqueCards.map((card) => ({ kind: 'technique' as const, card, reelKey: `card-${card.id}` })),
+        ...(!isPaid ? [{ kind: 'upgrade' as const, reelKey: 'upgrade' }] : []),
+      ]
+    : visibleTheoryCards.map((card) => ({ kind: 'theory' as const, card, reelKey: `theory-${card.tagId}` })),
+  [isPaid, reelType, visibleTechniqueCards, visibleTheoryCards]);
   // The circular reel contains several complete copies. It is reset to the
   // centre copy only after a swipe settles, so neither direction has an edge.
   const reelItems = useMemo<ReelItem[]>(() => {
-    if (!isPaid || baseReelItems.length <= 1) return baseReelItems;
+    if (baseReelItems.length <= 1) return baseReelItems;
     return Array.from({ length: CIRCULAR_REEL_COPIES }, (_, loop) =>
       baseReelItems.map((item) => ({ ...item, reelKey: `loop-${loop}-${item.reelKey}` })),
     ).flat();
-  }, [baseReelItems, isPaid]);
+  }, [baseReelItems]);
   const activeItem = baseReelItems[activeIndex] ?? baseReelItems[0];
   const activeCard = activeItem?.kind === 'technique' ? activeItem.card : undefined;
   const getCentralPhysicalIndex = (logicalIndex: number) =>
-    isPaid && baseReelItems.length > 1
+    baseReelItems.length > 1
       ? CIRCULAR_REEL_CENTER_COPY * baseReelItems.length + logicalIndex
       : logicalIndex;
 
@@ -174,7 +188,7 @@ export default function MainScreen() {
       });
     });
     return () => cancelAnimationFrame(frame);
-  }, [baseReelItems.length, isPaid, reelWidth]);
+  }, [baseReelItems.length, reelType, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
@@ -196,7 +210,7 @@ export default function MainScreen() {
 
     const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
     const nextIndex =
-      isPaid
+      baseReelItems.length > 1
         ? ((physicalIndex % baseReelItems.length) + baseReelItems.length) % baseReelItems.length
         : Math.max(0, Math.min(physicalIndex, baseReelItems.length - 1));
 
@@ -210,7 +224,7 @@ export default function MainScreen() {
   const recenterReel = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    if (!isPaid || baseReelItems.length <= 1) return;
+    if (baseReelItems.length <= 1) return;
 
     const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
     const cardCount = baseReelItems.length;
@@ -238,14 +252,12 @@ export default function MainScreen() {
     <BookScreen scroll={false} contentContainerStyle={styles.content}>
       <AppText style={styles.catalogCount}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
       <SegmentedControl
-        value="techniques"
+        value={reelType}
         options={[
           { value: 'techniques', label: '処世術' },
           { value: 'theories', label: '理論' },
         ] as const}
-        onChange={(value) => {
-          if (value === 'theories') router.push('/theories/all');
-        }}
+        onChange={setReelType}
       />
       <FlatList
         ref={listRef}
@@ -306,14 +318,28 @@ export default function MainScreen() {
             );
           }
 
+          if (reelItem.kind === 'theory') {
+            const theory = reelItem.card;
+            const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
+            return (
+              <View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }]}>
+                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
+                  <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
+                  <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth).displayTitle}</AppText>
+                  <View style={styles.cardOrnament}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
+                  <View style={styles.categoryChip}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
+                  <AppText numberOfLines={3} style={styles.theorySummary}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
+                  <View style={styles.cardSeal}><View style={styles.cardSealInner} /></View>
+                </Pressable>
+              </View>
+            );
+          }
+
           const item = reelItem.card;
           const itemSaved = savedIds.includes(item.id);
           const titleMetrics = getReelTitleMetrics(item.title, cardWidth);
           const isAccessible =
-            activeCard?.id === item.id &&
-            (isPaid
-              ? reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-card-${activeCard.id}`
-              : true);
+            activeCard?.id === item.id && reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-card-${activeCard.id}`;
           return (
             <View
               accessibilityElementsHidden={!isAccessible}
@@ -435,6 +461,22 @@ const styles = StyleSheet.create({
     backgroundColor: colors.charcoal,
     alignItems: 'stretch',
     ...bookCardShadow,
+  },
+  theoryCard: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: 18,
+    paddingBottom: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  theorySummary: {
+    width: '100%',
+    marginTop: 14,
+    color: '#DED8CC',
+    fontFamily: fonts.serif,
+    fontSize: 13,
+    lineHeight: 21,
+    textAlign: 'center',
   },
   cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 6 },
   upgradeReelCard: {
