@@ -55,7 +55,9 @@ export function PersistentBottomNav() {
 
   return (
     <SafeAreaView
-      edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
+      // 画面下の安全領域はOSのホームインジケーター用であり、ナビ本体の
+      // 下に余白として見せない。バー自体をアプリ領域の最下端まで寄せる。
+      edges={desktop ? ['top', 'bottom', 'left'] : ['left', 'right']}
       style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
     >
       <View style={[styles.bar, desktop && styles.barDesktop]}>
