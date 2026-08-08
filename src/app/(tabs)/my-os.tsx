@@ -34,6 +34,7 @@ export default function MyOsScreen() {
     removePersonalMemo,
   } = useAppState();
   const [editing, setEditing] = useState(false);
+  const [memosOpen, setMemosOpen] = useState(false);
   const [draft, setDraft] = useState(personalPrinciple);
   const [memoDraft, setMemoDraft] = useState('');
   const recentCard =
@@ -111,7 +112,9 @@ export default function MyOsScreen() {
           <AppText style={styles.actionSubtitle}>保存した処世術</AppText>
         </Pressable>
         <Pressable
-          onPress={openEditor}
+          accessibilityRole="button"
+          accessibilityLabel="マイ処世術を開く"
+          onPress={() => setMemosOpen(true)}
           style={({ pressed }) => [
             styles.osActionCard,
             pressed && styles.pressed,
@@ -119,66 +122,9 @@ export default function MyOsScreen() {
         >
           <AppText style={styles.actionMark}>記</AppText>
           <AppText style={styles.actionTitle}>マイ処世術</AppText>
-          <View style={styles.shortRule} />
-          <AppText style={styles.actionSubtitle}>自分の言葉にする</AppText>
+          <AppText style={styles.savedCount}>{personalMemos.length}</AppText>
+          <AppText style={styles.actionSubtitle}>自分の言葉を残す</AppText>
         </Pressable>
-      </View>
-
-      <View style={styles.memoCard}>
-        <View style={styles.memoHeading}>
-          <View>
-            <AppText style={styles.memoTitle}>マイ処世術</AppText>
-            <AppText style={styles.memoLead}>今の判断原則とは別に、気づきを箇条書きで残せます。</AppText>
-          </View>
-          <AppText style={styles.memoCount}>{personalMemos.length}</AppText>
-        </View>
-        {personalMemos.length > 0 ? (
-          <View style={styles.memoList}>
-            {personalMemos.map((memo, index) => (
-              <View key={`${memo}-${index}`} style={styles.memoRow}>
-                <View style={styles.memoBullet} />
-                <AppText style={styles.memoText}>{memo}</AppText>
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel="メモを削除"
-                  onPress={() => removePersonalMemo(index)}
-                  hitSlop={10}
-                  style={styles.memoDelete}
-                >
-                  <AppText style={styles.memoDeleteText}>×</AppText>
-                </Pressable>
-              </View>
-            ))}
-          </View>
-        ) : (
-          <AppText style={styles.memoEmpty}>まだメモはありません。</AppText>
-        )}
-        <View style={styles.memoComposer}>
-          <TextInput
-            value={memoDraft}
-            onChangeText={setMemoDraft}
-            maxLength={140}
-            placeholder="例：迷ったら、その場で返事をしない"
-            placeholderTextColor={colors.muted}
-            accessibilityLabel="自分の処世術メモ"
-            style={styles.memoInput}
-            onSubmitEditing={() => {
-              addPersonalMemo(memoDraft);
-              setMemoDraft('');
-            }}
-          />
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="メモを追加"
-            onPress={() => {
-              addPersonalMemo(memoDraft);
-              setMemoDraft('');
-            }}
-            style={({ pressed }) => [styles.memoAdd, pressed && styles.pressed]}
-          >
-            <AppText style={styles.memoAddText}>追加</AppText>
-          </Pressable>
-        </View>
       </View>
 
       <OrnamentHeading>最近の振り返り</OrnamentHeading>
@@ -245,6 +191,26 @@ export default function MyOsScreen() {
                 <AppText style={styles.saveText}>保存する</AppText>
               </Pressable>
             </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal transparent visible={memosOpen} animationType="fade" onRequestClose={() => setMemosOpen(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalCard}>
+            <AppText style={styles.modalTitle}>マイ処世術</AppText>
+            <AppText style={styles.modalLead}>自分の言葉で、何度でも使える判断を残します。</AppText>
+            {personalMemos.length > 0 ? <View style={styles.memoList}>{personalMemos.map((memo, index) => (
+              <View key={`${memo}-${index}`} style={styles.memoRow}>
+                <View style={styles.memoBullet} />
+                <AppText style={styles.memoText}>{memo}</AppText>
+                <Pressable accessibilityRole="button" accessibilityLabel="メモを削除" onPress={() => removePersonalMemo(index)} hitSlop={10} style={styles.memoDelete}><AppText style={styles.memoDeleteText}>×</AppText></Pressable>
+              </View>
+            ))}</View> : <AppText style={styles.memoEmpty}>まだマイ処世術はありません。</AppText>}
+            <View style={styles.memoComposer}>
+              <TextInput value={memoDraft} onChangeText={setMemoDraft} maxLength={140} placeholder="例：迷ったら、その場で返事をしない" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.memoInput} />
+              <Pressable accessibilityRole="button" accessibilityLabel="マイ処世術を追加" onPress={() => { addPersonalMemo(memoDraft); setMemoDraft(''); }} style={({ pressed }) => [styles.memoAdd, pressed && styles.pressed]}><AppText style={styles.memoAddText}>追加</AppText></Pressable>
+            </View>
+            <Pressable accessibilityRole="button" onPress={() => setMemosOpen(false)} style={({ pressed }) => [styles.closeMemos, pressed && styles.pressed]}><AppText style={styles.closeMemosText}>閉じる</AppText></Pressable>
           </View>
         </View>
       </Modal>
@@ -536,6 +502,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   saveText: { color: '#FFFFFF', fontWeight: '700' },
+  closeMemos: { minHeight: 46, marginTop: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
+  closeMemosText: { color: colors.inkSoft, fontWeight: '700' },
   upgradeButton: { minHeight: 56, marginTop: spacing.xl, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, backgroundColor: colors.gold },
   upgradeButtonText: { color: '#FFFFFF', fontSize: 15, lineHeight: 22, fontWeight: '700' },
   upgradeButtonArrow: { position: 'absolute', right: 18, color: '#FFFFFF', fontSize: 26, lineHeight: 29 },
