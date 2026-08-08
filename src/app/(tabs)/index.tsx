@@ -43,6 +43,7 @@ type ReelItem = TechniqueReelItem | TheoryReelItem | UpgradeReelItem;
 
 const CIRCULAR_REEL_COPIES = 5;
 const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
+let lastReelPosition: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 0 };
 
 const techniqueShortcuts = [
   { label: '対人術', key: 'interpersonal' },
@@ -128,8 +129,8 @@ export default function MainScreen() {
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [reelType, setReelType] = useState<'techniques' | 'theories'>('techniques');
-  const [activeIndex, setActiveIndex] = useState(0);
-  const activeIndexRef = useRef(0);
+  const [activeIndex, setActiveIndex] = useState(lastReelPosition.techniques);
+  const activeIndexRef = useRef(lastReelPosition.techniques);
   const physicalIndexRef = useRef(0);
   const { savedIds, toggleSaved } = useAppState();
   const { isPaid } = useAccess();
@@ -209,6 +210,7 @@ export default function MainScreen() {
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
     activeIndexRef.current = nextIndex;
+    lastReelPosition[reelType] = nextIndex;
     setActiveIndex(nextIndex);
     const physicalIndex = getCentralPhysicalIndex(nextIndex);
     physicalIndexRef.current = physicalIndex;
@@ -217,6 +219,13 @@ export default function MainScreen() {
       animated,
     });
     void Haptics.selectionAsync().catch(() => undefined);
+  };
+
+  const switchReelType = (nextType: 'techniques' | 'theories') => {
+    const nextIndex = lastReelPosition[nextType];
+    setReelType(nextType);
+    activeIndexRef.current = nextIndex;
+    setActiveIndex(nextIndex);
   };
 
   const updateActiveCard = (
@@ -232,6 +241,7 @@ export default function MainScreen() {
 
     if (nextIndex !== activeIndexRef.current) {
       activeIndexRef.current = nextIndex;
+      lastReelPosition[reelType] = nextIndex;
       setActiveIndex(nextIndex);
     }
     physicalIndexRef.current = physicalIndex;
@@ -267,6 +277,7 @@ export default function MainScreen() {
     if (targetIndex < 0) return;
     setReelType('techniques');
     activeIndexRef.current = targetIndex;
+    lastReelPosition.techniques = targetIndex;
     setActiveIndex(targetIndex);
     if (reelType === 'techniques') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
@@ -281,6 +292,7 @@ export default function MainScreen() {
     if (targetIndex < 0) return;
     setReelType('theories');
     activeIndexRef.current = targetIndex;
+    lastReelPosition.theories = targetIndex;
     setActiveIndex(targetIndex);
     if (reelType === 'theories') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
@@ -301,7 +313,7 @@ export default function MainScreen() {
           { value: 'techniques', label: '処世術' },
           { value: 'theories', label: '理論' },
         ] as const}
-        onChange={setReelType}
+        onChange={switchReelType}
       />
       <FlatList
         ref={listRef}
@@ -367,7 +379,7 @@ export default function MainScreen() {
             const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
             return (
               <View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }]}>
-                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
+                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
                   <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth).displayTitle}</AppText>
                   <View style={styles.cardOrnament}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
@@ -407,7 +419,7 @@ export default function MainScreen() {
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={`${item.title}を詳しく読む`}
-                  onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                  onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id, reelIndex: String(activeIndexRef.current) } })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
                   <AppText variant="label" style={styles.techniqueId}>

@@ -78,7 +78,7 @@ export function BookHeader() {
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
-  const minimalHeaderActions = pathname === '/upgrade';
+  const minimalHeaderActions = false;
   const detail = getDetail(pathname);
   const handleBack = () => {
     if (router.canGoBack()) {
@@ -141,26 +141,7 @@ export function BookHeader() {
               <PrincipleMark />
               {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>原則</AppText> : null}
             </Pressable>
-            {!minimalHeaderActions ? pathname === '/settings' ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="アカウントを開く"
-                onPress={() => router.push('/auth')}
-                style={({ pressed }) => [
-                  styles.headerAction,
-                  lightHeader && styles.headerActionLight,
-                  pressed && styles.headerActionPressed,
-                ]}
-              >
-                <SymbolView
-                  name={{ ios: 'person.crop.circle', android: 'account_circle', web: 'account_circle' }}
-                  fallback={<AppText style={styles.accountMarkFallback}>◎</AppText>}
-                  size={30}
-                  tintColor={colors.gold}
-                  weight="regular"
-                />
-              </Pressable>
-            ) : (
+            {!minimalHeaderActions ? (
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="設定を開く"
@@ -302,7 +283,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/upgrade')) return '完全版を購入';
   if (pathname.includes('/settings')) return '設定';
   if (pathname.includes('/card/')) return '処世術カード';
-  return '処世術禄';
+  return 'ホーム';
 }
 
 function shouldShowHeaderBack(pathname: string) {
