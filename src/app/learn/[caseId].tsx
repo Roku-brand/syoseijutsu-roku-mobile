@@ -8,7 +8,7 @@ import { techniqueById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 
 export default function LearningCaseScreen() {
-  const { caseId } = useLocalSearchParams<{ caseId: string }>();
+  const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
   const item = getLearningCase(caseId ?? '');
   const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
@@ -17,7 +17,7 @@ export default function LearningCaseScreen() {
     return <BookScreen contentContainerStyle={styles.content}><AppText>この局面は見つかりません。</AppText></BookScreen>;
   }
 
-  const record = learningRecords[item.id];
+  const record = retry === '1' ? undefined : learningRecords[item.id];
   const selected = record?.choiceId;
   const selectedChoice = item.choices.find((choice) => choice.id === selected);
   const selectedReview = selectedChoice ? getChoiceReview(item, selectedChoice) : null;
