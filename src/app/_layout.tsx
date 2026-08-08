@@ -21,10 +21,18 @@ export default function RootLayout() {
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper }, animation: 'slide_from_right', gestureEnabled: true, fullScreenGestureEnabled: true }} />
+      <View style={styles.navigator}>
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper }, animation: 'slide_from_right', gestureEnabled: true, fullScreenGestureEnabled: true }} />
+      </View>
       {!isWelcome && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
   return <SafeAreaProvider><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><View style={styles.container}><StatusBar style="dark" />{desktop && !isWelcome ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
 }
-const styles = StyleSheet.create({ container: { flex: 1, backgroundColor: colors.paper }, desktopFrame: { flex: 1, flexDirection: 'row' }, contentColumn: { flex: 1, minWidth: 0 }, headerSafeArea: { backgroundColor: colors.surface } });
+const styles = StyleSheet.create({
+  container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  desktopFrame: { flex: 1, minHeight: 0, flexDirection: 'row' },
+  contentColumn: { flex: 1, minWidth: 0, minHeight: 0 },
+  navigator: { flex: 1, minHeight: 0 },
+  headerSafeArea: { flexShrink: 0, backgroundColor: colors.surface },
+});

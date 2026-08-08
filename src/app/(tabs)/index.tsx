@@ -19,7 +19,7 @@ import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useResponsiveLayout, type ViewportDensity } from '@/hooks/use-responsive-layout';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
 type TechniqueReelItem = {
@@ -97,13 +97,13 @@ function splitReelTitle(value: string) {
     .join('')}`;
 }
 
-function getReelTitleMetrics(title: string, reelWidth: number) {
+function getReelTitleMetrics(title: string, reelWidth: number, density: ViewportDensity) {
   const lines = splitReelTitle(title).split('\n');
   const longestLine = Math.max(...lines.map((line) => [...line].length));
   const compact = reelWidth < 420;
   const horizontalPadding = compact ? spacing.md : spacing.xl;
   const availableWidth = reelWidth - horizontalPadding * 2 - 8;
-  const maximumSize = compact ? 29 : 34;
+  const maximumSize = density === 'veryCompact' ? 27 : density === 'compact' ? 30 : compact ? 29 : 34;
   const minimumSize = compact ? 10 : 18;
   const fittedSize = Math.round(
     availableWidth / Math.max(longestLine, 1),
@@ -125,7 +125,7 @@ function getReelTitleMetrics(title: string, reelWidth: number) {
 export default function MainScreen() {
   const isFocused = useTabVisible();
   const router = useRouter();
-  const { width, height } = useHydratedWindowDimensions();
+  const { width, height, density, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [reelType, setReelType] = useState<'techniques' | 'theories'>('techniques');
@@ -152,24 +152,30 @@ export default function MainScreen() {
   );
 
   const compactReel = width < 520;
-  // ホームは縦スクロールなしで完結させつつ、リールカードは
-  // 以前の読みやすいサイズを維持する。ショートカット側を圧縮し、
-  // カード本体の視認性を優先する。
-  const cardHeight = compactReel
-    ? Math.max(250, Math.min(height - 390, 350))
-    : Math.max(310, Math.min(height - 350, 450));
-  const reelPeek = compactReel ? 18 : 30;
-  const reelGap = compactReel ? 10 : 14;
+  const idealCardHeight = isPaid
+    ? density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 312
+    : density === 'veryCompact' ? 240 : density === 'compact' ? 292 : 350;
+  const cardHeight = Math.max(
+    isPaid ? 206 : 216,
+    Math.min(idealCardHeight, height - (isPaid ? 435 : 400)),
+  );
+  const reelPeek = density === 'veryCompact' ? 12 : compactReel ? 18 : 30;
+  const reelGap = density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
+  const safeWidth = width || 390;
   const cardWidth = Math.min(
-    Math.max(width - spacing.md * 2 - reelPeek * 2, 276),
-    width >= 1100 ? 760 : 680,
+    Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
+    safeWidth >= 1100 ? 760 : 680,
   );
   const reelWidth = cardWidth + reelGap;
   const reelViewportWidth = Math.min(
-    Math.max(width - spacing.md * 2, 280),
+    Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2, 1),
     cardWidth + reelPeek * 2,
   );
   const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
+  const cardFrame = { paddingTop: density === 'veryCompact' ? 12 : density === 'compact' ? 17 : 22, paddingBottom: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 18 };
+  const cardOrnament = { marginTop: density === 'veryCompact' ? 8 : density === 'compact' ? 10 : 14, marginBottom: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 20 };
+  const categoryChip = { marginTop: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 20, minHeight: density === 'veryCompact' ? 28 : density === 'compact' ? 31 : 34 };
+  const reelSaveButton = { bottom: density === 'veryCompact' ? 10 : density === 'compact' ? 15 : 22 };
   const baseReelItems = useMemo<ReelItem[]>(() => reelType === 'techniques'
     ? [
         ...visibleTechniqueCards.map((card) => ({ kind: 'technique' as const, card, reelKey: `card-${card.id}` })),
@@ -305,8 +311,8 @@ export default function MainScreen() {
   if (!isFocused) return null;
 
   return (
-    <BookScreen scroll={false} contentContainerStyle={styles.content}>
-      <AppText style={styles.catalogCount}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
+    <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
+      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
       <SegmentedControl
         value={reelType}
         options={[
@@ -343,7 +349,7 @@ export default function MainScreen() {
         }}
         scrollEventThrottle={16}
         contentContainerStyle={{ paddingHorizontal: reelSideInset }}
-        style={[styles.reel, { width: reelViewportWidth }]}
+        style={[styles.reel, { width: reelViewportWidth, marginTop: sectionGap }]}
         renderItem={({ item: reelItem }) => {
           if (reelItem.kind === 'upgrade') {
             return (
@@ -355,12 +361,13 @@ export default function MainScreen() {
                   style={({ pressed }) => [
                     styles.upgradeReelCard,
                     { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 },
+                    cardFrame,
                     pressed && styles.pressed,
                   ]}
                 >
                   <AppText variant="label" style={styles.upgradeReelEyebrow}>COMPLETE EDITION</AppText>
                   <AppText variant="serif" style={styles.upgradeReelTitle}>ここから先は、{`\n`}完全版。</AppText>
-                  <View style={styles.cardOrnament}>
+                  <View style={[styles.cardOrnament, cardOrnament]}>
                     <View style={styles.upgradeCardLine} />
                     <View style={styles.cardDiamond} />
                     <View style={styles.upgradeCardLine} />
@@ -380,14 +387,14 @@ export default function MainScreen() {
             const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
             return (
               <View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }]}>
-                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
+                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
-                  <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth).displayTitle}</AppText>
-                  <View style={styles.cardOrnament}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
-                  <View style={styles.categoryChip}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
-                  <AppText numberOfLines={3} style={styles.theorySummary}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
+                  <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
+                  <View style={[styles.cardOrnament, cardOrnament]}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
+                  <View style={[styles.categoryChip, categoryChip]}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
+                  <AppText numberOfLines={density === 'veryCompact' ? 2 : 3} style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
                 </Pressable>
-                <View style={styles.reelSaveButton}>
+                <View style={[styles.reelSaveButton, reelSaveButton]}>
                   <SaveDiamondButton
                     saved={theorySaved}
                     compact
@@ -403,7 +410,7 @@ export default function MainScreen() {
 
           const item = reelItem.card;
           const itemSaved = savedIds.includes(item.id);
-          const titleMetrics = getReelTitleMetrics(item.title, cardWidth);
+          const titleMetrics = getReelTitleMetrics(item.title, cardWidth, density);
           const isAccessible =
             activeCard?.id === item.id && reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-card-${activeCard.id}`;
           return (
@@ -424,6 +431,7 @@ export default function MainScreen() {
                     marginHorizontal: reelGap / 2,
                     paddingHorizontal: titleMetrics.horizontalPadding,
                   },
+                  cardFrame,
                 ]}
               >
                 <Pressable
@@ -450,18 +458,18 @@ export default function MainScreen() {
                   >
                     {titleMetrics.displayTitle}
                   </AppText>
-                  <View style={styles.cardOrnament}>
+                  <View style={[styles.cardOrnament, cardOrnament]}>
                     <View style={styles.cardLine} />
                     <View style={styles.cardDiamond} />
                     <View style={styles.cardLine} />
                   </View>
-                  <View style={styles.categoryChip}>
+                  <View style={[styles.categoryChip, categoryChip]}>
                     <AppText style={styles.categoryChipText}>
                       〔 {item.categoryName} 〕
                     </AppText>
                   </View>
                 </Pressable>
-                <View style={styles.reelSaveButton}>
+                <View style={[styles.reelSaveButton, reelSaveButton]}>
                   <SaveDiamondButton
                     saved={itemSaved}
                     compact
@@ -476,7 +484,7 @@ export default function MainScreen() {
           );
         }}
       />
-      <View accessibilityRole="tablist" style={styles.pageIndicators}>
+      <View accessibilityRole="tablist" style={[styles.pageIndicators, { marginTop: sectionGap / 2 }]}>
         {Array.from({ length: Math.min(3, Math.max(baseReelItems.length, 1)) }, (_, index) => (
           <View
             key={index}
@@ -491,7 +499,7 @@ export default function MainScreen() {
           accessibilityRole="button"
           accessibilityLabel="処世術禄 完全版を購入する"
           onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
-          style={({ pressed }) => [styles.unlockCard, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.unlockCard, density !== 'normal' && styles.unlockCardCompact, pressed && styles.pressed]}
         >
           <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
@@ -556,7 +564,7 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { flex: 1, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reel: { alignSelf: 'center', flexGrow: 0, marginTop: spacing.sm },
@@ -588,6 +596,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
   },
+  theorySummaryCompact: { marginTop: 10, fontSize: 12, lineHeight: 18 },
   cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 6 },
   upgradeReelCard: {
     paddingHorizontal: spacing.lg,
@@ -708,6 +717,7 @@ const styles = StyleSheet.create({
   pageIndicator: { width: 11, height: 11, borderRadius: 6, backgroundColor: '#D7D4CE' },
   pageIndicatorActive: { backgroundColor: colors.ink },
   unlockCard: { minHeight: 72, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, ...bookCardShadow },
+  unlockCardCompact: { minHeight: 64, marginTop: 5, paddingHorizontal: 12, gap: 10 },
   unlockCrown: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
   unlockCrownText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 23, lineHeight: 27 },
   unlockCopy: { flex: 1, minWidth: 0 },

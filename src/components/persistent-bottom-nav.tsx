@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { AppText } from './ui';
 
 const items = [
@@ -34,8 +34,7 @@ function activeKey(pathname: string) {
 }
 
 export function PersistentBottomNav() {
-  const { width } = useHydratedWindowDimensions();
-  const desktop = width >= 1000;
+  const { desktop, bottomNavHeight, density } = useResponsiveLayout();
   const pathname = usePathname();
   const router = useRouter();
   const lastTap = useRef<Record<string, number>>({});
@@ -55,12 +54,10 @@ export function PersistentBottomNav() {
 
   return (
     <SafeAreaView
-      // 画面下の安全領域はOSのホームインジケーター用であり、ナビ本体の
-      // 下に余白として見せない。バー自体をアプリ領域の最下端まで寄せる。
-      edges={desktop ? ['top', 'bottom', 'left'] : ['left', 'right']}
+      edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
       style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
     >
-      <View style={[styles.bar, desktop && styles.barDesktop]}>
+      <View style={[styles.bar, !desktop && { height: bottomNavHeight, marginTop: density === 'veryCompact' ? 2 : 4 }, desktop && styles.barDesktop]}>
         {items.map((item) => {
           const active = selected === item.key;
           return (
@@ -102,11 +99,10 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 const styles = StyleSheet.create({
   // ナビ本体と安全領域を同じ面として扱う。iPhone のホームインジケータ
   // 領域だけが本文色で残らないよう、下端まで濃色でつなげる。
-  safeArea: { backgroundColor: colors.surface },
+  safeArea: { flexShrink: 0, backgroundColor: colors.surface },
   bar: {
-    width: '100%',
     maxWidth: 620,
-    alignSelf: 'center',
+    alignSelf: 'stretch',
     height: 70,
     flexDirection: 'row',
     backgroundColor: colors.surface,

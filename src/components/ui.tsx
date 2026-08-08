@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.xl,
-    paddingBottom: layout.bottomContentInset,
+    paddingBottom: spacing.section,
   },
   text: {
     color: colors.ink,

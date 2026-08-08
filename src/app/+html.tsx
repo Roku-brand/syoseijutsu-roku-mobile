@@ -23,11 +23,11 @@ export default function Root({ children }: PropsWithChildren) {
         <link rel="apple-touch-icon" href={`${basePath}/pwa-icon.svg`} />
         <ScrollViewStyleReset />
         <style>{`
-          html, body, #root { height: 100%; min-height: 100%; background: #F4F0E7; }
+          html, body, #root { width: 100%; height: 100vh; min-height: 100%; background: #F4F0E7; }
           @supports (height: 100dvh) {
             html, body, #root { height: 100dvh; }
           }
-          body { margin: 0; overflow: hidden; }
+          body { margin: 0; overflow: hidden; overscroll-behavior: none; }
           #roku-launch {
             position: fixed; inset: 0; z-index: 99999; display: grid;
             place-items: center; background: #151714;

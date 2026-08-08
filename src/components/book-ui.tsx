@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
 import { AppText } from './ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import {
   categories,
   categoryMeta,
@@ -32,6 +33,7 @@ export function BookScreen({
   ...props
 }: ScrollViewProps & { scroll?: boolean }) {
   const { width } = useHydratedWindowDimensions();
+  const { density } = useResponsiveLayout();
   const compact = width < 700;
   const desktop = width >= 1000;
   return (
@@ -46,6 +48,8 @@ export function BookScreen({
             styles.content,
             compact && styles.contentCompact,
             desktop && styles.contentDesktop,
+            density === 'compact' && styles.contentHeightCompact,
+            density === 'veryCompact' && styles.contentHeightVeryCompact,
             contentContainerStyle,
           ]}
         >
@@ -58,6 +62,8 @@ export function BookScreen({
             styles.content,
             compact && styles.contentCompact,
             desktop && styles.contentDesktop,
+            density === 'compact' && styles.contentHeightCompact,
+            density === 'veryCompact' && styles.contentHeightVeryCompact,
             contentContainerStyle,
           ]}
         >
@@ -538,21 +544,23 @@ export function IndexCard({
 export const bookCardShadow = shadow.card;
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.paper },
-  scroll: { flex: 1, backgroundColor: colors.paper },
-  fixed: { flex: 1, backgroundColor: colors.paper },
+  safe: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  fixed: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   content: {
     width: '100%',
     maxWidth: layout.readingWidth,
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
-    paddingBottom: layout.bottomContentInset,
+    paddingBottom: spacing.section,
   },
   contentCompact: {
     paddingHorizontal: spacing.md,
     paddingTop: spacing.lg,
   },
+  contentHeightCompact: { paddingTop: spacing.md, paddingBottom: spacing.lg },
+  contentHeightVeryCompact: { paddingTop: spacing.sm, paddingBottom: spacing.md },
   contentDesktop: { paddingBottom: spacing.section },
   header: {
     minHeight: 58,
