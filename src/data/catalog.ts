@@ -38,8 +38,8 @@ function rebuildIndexes() {
   theories.forEach((theory) => theoryById.set(theory.tagId, theory));
 
   const prefixes: Record<string, string> = {
-    psychology: '心', 'behavioral-science': '動', 'organization-management': '組',
-    strategy: '戦', 'classics-thought': '古', 'maxims-experience': '格',
+    psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O',
+    strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q',
   };
   const counts = new Map<string, number>();
   theoryDisplayIdByTagId.clear();
@@ -104,7 +104,7 @@ export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
 
 export function getTheoryDisplayId(theoryOrId: TheoryCard | string) {
   const id = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
-  return theoryDisplayIdByTagId.get(id) ?? '理－—';
+  return theoryDisplayIdByTagId.get(id) ?? '—';
 }
 
 export function getRelatedCards(card: TechniqueCard, limit = 6) {

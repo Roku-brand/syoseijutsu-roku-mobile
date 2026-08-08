@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, DetailHeader, Screen, SectionHeader } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
@@ -37,7 +37,6 @@ export default function SettingsScreen() {
 
       <SectionHeader title="サポート・その他" />
       <View style={styles.group}>
-        <SettingLink icon="support" title="サポート・お問い合わせ" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
         <SettingLink icon="document" title="利用規約" href="/legal/terms" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="brand" title="処世術禄について" href="/legal/about" onNavigate={(href) => router.push(href as never)} last />
@@ -48,7 +47,7 @@ export default function SettingsScreen() {
   );
 }
 
-type SettingIcon = 'person' | 'crown' | 'support' | 'document' | 'shield' | 'brand';
+type SettingIcon = 'person' | 'crown' | 'document' | 'shield' | 'brand';
 
 function SettingLink({ icon, title, detail, href, onPress, onNavigate, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; onNavigate?: (href: string) => void; last?: boolean }) {
   return (
@@ -74,11 +73,10 @@ function SettingIconMark({ type }: { type: SettingIcon }) {
   const names = {
     person: { ios: 'person', android: 'person', web: 'person' },
     crown: { ios: 'crown', android: 'crown', web: 'crown' },
-    support: { ios: 'headphones', android: 'headphones', web: 'headphones' },
     document: { ios: 'document', android: 'description', web: 'description' },
     shield: { ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' },
   } as const;
-  const fallbacks = { person: '♙', crown: '♛', support: '◉', document: '▤', shield: '♢' } as const;
+  const fallbacks = { person: '♙', crown: '♛', document: '▤', shield: '♢' } as const;
   return (
     <View style={styles.iconMark} accessibilityElementsHidden>
       <SymbolView name={names[type]} fallback={<AppText style={styles.iconFallback}>{fallbacks[type]}</AppText>} size={28} tintColor={colors.gold} weight="regular" />

@@ -19,7 +19,7 @@ export default function LearnHomeScreen() {
     }
     const cases = learningCases.filter((item) => item.stage === stage);
     const next = caseId ? cases.find((item) => item.id === caseId) : cases.find((item) => !learningRecords[item.id]) ?? cases[0];
-    if (next) router.push(`/learn/${next.id}`);
+    if (next) router.push({ pathname: '/learn/[caseId]', params: { caseId: next.id, retry: '1' } });
   };
 
   return (

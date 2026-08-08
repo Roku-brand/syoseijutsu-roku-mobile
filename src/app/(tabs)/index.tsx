@@ -442,19 +442,6 @@ export default function MainScreen() {
                     <View style={styles.cardSealInner} />
                   </View>
                 </Pressable>
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={itemSaved ? `${item.title}を蔵書から外す` : `${item.title}を蔵書に保存`}
-                  onPress={() => {
-                    toggleSaved(item.id);
-                    showToast(itemSaved ? '蔵書から外しました' : '蔵書に保存しました');
-                  }}
-                  style={({ pressed }) => [styles.saveButton, itemSaved && styles.saveButtonSaved, pressed && styles.pressed]}
-                >
-                  <AppText style={[styles.bookmark, itemSaved && styles.saveTextSaved]}>
-                    {itemSaved ? '★' : '☆'}
-                  </AppText>
-                </Pressable>
             </View>
             </View>
           );
