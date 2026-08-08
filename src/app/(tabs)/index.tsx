@@ -151,11 +151,12 @@ export default function MainScreen() {
   );
 
   const compactReel = width < 520;
-  // ホームはヘッダーとタブバーの間で完結させる。小さい端末でも
-  // 収まる高さを優先し、カード内だけに情報と保存操作を集約する。
+  // ホームは縦スクロールなしで完結させつつ、リールカードは
+  // 以前の読みやすいサイズを維持する。ショートカット側を圧縮し、
+  // カード本体の視認性を優先する。
   const cardHeight = compactReel
-    ? Math.max(isPaid ? 174 : 250, Math.min(height - (isPaid ? 556 : 390), 320))
-    : Math.max(isPaid ? 216 : 310, Math.min(height - (isPaid ? 520 : 350), 430));
+    ? Math.max(250, Math.min(height - 390, 350))
+    : Math.max(310, Math.min(height - 350, 450));
   const reelPeek = compactReel ? 18 : 30;
   const reelGap = compactReel ? 10 : 14;
   const cardWidth = Math.min(
@@ -546,8 +547,8 @@ const styles = StyleSheet.create({
   reelItem: { paddingVertical: 2 },
   techniqueCard: {
     position: 'relative',
-    paddingTop: 18,
-    paddingBottom: 14,
+    paddingTop: 22,
+    paddingBottom: 18,
     borderRadius: radius.md,
     borderWidth: 1.5,
     borderColor: colors.gold,
@@ -557,14 +558,14 @@ const styles = StyleSheet.create({
   },
   theoryCard: {
     paddingHorizontal: spacing.lg,
-    paddingTop: 18,
-    paddingBottom: 14,
+    paddingTop: 22,
+    paddingBottom: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   theorySummary: {
     width: '100%',
-    marginTop: 14,
+    marginTop: 18,
     color: '#DED8CC',
     fontFamily: fonts.serif,
     fontSize: 13,
@@ -634,8 +635,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '76%',
     gap: 8,
-    marginTop: 8,
-    marginBottom: 18,
+    marginTop: 14,
+    marginBottom: 20,
   },
   cardLine: { flex: 1, height: 1, backgroundColor: colors.goldLight },
   cardDiamond: {
@@ -645,8 +646,8 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
   },
   categoryChip: {
-    marginTop: 18,
-    minHeight: 30,
+    marginTop: 20,
+    minHeight: 34,
     paddingHorizontal: 12,
     borderRadius: radius.pill,
     borderWidth: 1,
@@ -678,7 +679,7 @@ const styles = StyleSheet.create({
   saveButtonSaved: { backgroundColor: colors.gold },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
-  cardSeal: { width: 34, height: 34, marginTop: 16, borderWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }], alignItems: 'center', justifyContent: 'center' },
+  cardSeal: { width: 34, height: 34, marginTop: 20, borderWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }], alignItems: 'center', justifyContent: 'center' },
   cardSealInner: { width: 13, height: 13, borderWidth: 1, borderColor: colors.goldLight },
   pageIndicators: { minHeight: 18, marginTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 },
   pageIndicator: { width: 11, height: 11, borderRadius: 6, backgroundColor: '#D7D4CE' },
