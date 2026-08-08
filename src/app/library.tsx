@@ -25,14 +25,14 @@ export default function LibraryScreen() {
       <DetailHeader title="マイページ" />
       <BookTitle
         title="蔵書"
-        subtitle="手元に残した処世術を、必要なときに読み返す。"
+        subtitle={`保存した処世術と理論 ${savedCards.length + savedTheories.length}件を、必要なときに読み返す。`}
       />
 
       {savedCards.length || savedTheories.length ? (
         <>
           {savedCards.length ? (
             <>
-              <OrnamentHeading>保存した処世術　{savedCards.length}</OrnamentHeading>
+              <OrnamentHeading>処世術　{savedCards.length}</OrnamentHeading>
               {savedCards.map((card) =>
                 card ? <TechniqueRow key={card.id} card={card} /> : null,
               )}
@@ -40,7 +40,7 @@ export default function LibraryScreen() {
           ) : null}
           {savedTheories.length ? (
             <View style={savedCards.length ? styles.theorySection : undefined}>
-              <OrnamentHeading>保存した理論　{savedTheories.length}</OrnamentHeading>
+              <OrnamentHeading>理論　{savedTheories.length}</OrnamentHeading>
               <View style={styles.theoryList}>
                 {savedTheories.map((theory) =>
                   theory ? (
