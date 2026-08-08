@@ -29,15 +29,15 @@
    - `checkout.session.completed`
    - `checkout.session.async_payment_succeeded`
    - `charge.refunded`
-6. `node scripts/split-public-paid-content.mjs`を実行し、`dist-secure-content/paid-content.ndjson`をSupabaseへ投入する。
+6. 完全版の原本を安全なローカル環境で用意してから、`node scripts/split-public-paid-content.mjs`を実行し、`dist-secure-content/paid-content.ndjson`をSupabaseへ投入する。この原本や出力物を公開リポジトリへコミットしない。
 
 ## 販売前の必須残作業
 
-現在のアプリは既存画面との互換性のため、元の完全版JSONをまだリポジトリ内で参照している。販売開始前に以下を完了する。
+販売開始前に以下を完了する。
 
-- 公開ビルドのimport先を`techniques.public.json`、`theories.public.json`、`learning.public.json`へ変更
-- 完全版ログイン時に`paid-content` APIから取得してクライアントカタログへ統合
-- ログアウト時に有料コンテンツのメモリ・AsyncStorage・IndexedDBキャッシュを消去
+- 公開ビルドのimport先が`techniques.public.json`、`theories.public.json`、`learning.public.json`のみであることを確認
+- 完全版ログイン時に`paid-content` APIから取得してクライアントカタログへ統合することを確認
+- ログアウト時に有料コンテンツのメモリを消去することを確認
 - GitHub Pages生成物に有料タイトル・本文が含まれないことを文字列検索で監査
 
 この切替前は決済を本番モードにしないこと。

@@ -20,13 +20,9 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
-      - name: Build free runtime catalog
+      - name: Verify public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
-          node scripts/split-public-paid-content.mjs
-          cp dist-secure-content/techniques.public.json src/data/generated/techniques.json
-          cp dist-secure-content/theories.public.json src/data/generated/theories.json
-          cp dist-secure-content/learning.public.json src/data/generated/learning.json
       - run: pnpm typecheck
       - run: pnpm export:pages
       - run: node scripts/audit-public-build.mjs

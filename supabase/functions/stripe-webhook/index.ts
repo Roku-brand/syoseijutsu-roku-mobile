@@ -44,29 +44,26 @@ Deno.serve(async (request) => {
   const event = JSON.parse(payload);
   const admin = createClient(supabaseUrl, serviceRoleKey);
 
-  const { error: eventError } = await admin.from('payment_events').insert({
-    provider: 'stripe',
-    event_id: event.id,
-    event_type: event.type,
-    payload: event,
-  });
-  if (eventError?.code === '23505') return json({ received: true, duplicate: true });
-  if (eventError) return json({ error: 'event_record_failed' }, 500);
+  const { data: existingEvent, error: existingError } = await admin.from('payment_events')
+    .select('event_id')
+    .eq('provider', 'stripe')
+    .eq('event_id', event.id)
+    .maybeSingle();
+  if (existingError) return json({ error: 'event_lookup_failed' }, 500);
+  if (existingEvent) return json({ received: true, duplicate: true });
 
+  // Apply the entitlement first. Recording the event only after the side effect
+  // succeeds ensures Stripe retries transient database failures safely.
   if (event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded') {
     const session = event.data.object;
     const userId = session.metadata?.user_id ?? session.client_reference_id;
     const productId = session.metadata?.product_id;
     if (userId && productId === 'complete-edition' && session.payment_status === 'paid') {
       const { error } = await admin.from('entitlements').upsert({
-        user_id: userId,
-        product_id: productId,
-        status: 'active',
-        provider: 'stripe',
+        user_id: userId, product_id: productId, status: 'active', provider: 'stripe',
         provider_customer_id: typeof session.customer === 'string' ? session.customer : null,
         provider_payment_id: typeof session.payment_intent === 'string' ? session.payment_intent : session.id,
-        purchased_at: new Date((session.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString(),
-        updated_at: new Date().toISOString(),
+        purchased_at: new Date((session.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString(), updated_at: new Date().toISOString(),
       }, { onConflict: 'user_id,product_id' });
       if (error) return json({ error: 'entitlement_write_failed' }, 500);
     }
@@ -76,12 +73,19 @@ Deno.serve(async (request) => {
     const charge = event.data.object;
     const paymentIntent = typeof charge.payment_intent === 'string' ? charge.payment_intent : null;
     if (paymentIntent) {
-      await admin.from('entitlements')
-        .update({ status: 'refunded', updated_at: new Date().toISOString() })
-        .eq('provider', 'stripe')
-        .eq('provider_payment_id', paymentIntent);
+      const { error } = await admin.from('entitlements').update({ status: 'refunded', updated_at: new Date().toISOString() }).eq('provider', 'stripe').eq('provider_payment_id', paymentIntent);
+      if (error) return json({ error: 'refund_entitlement_write_failed' }, 500);
     }
   }
+
+  const { error: eventError } = await admin.from('payment_events').insert({
+    provider: 'stripe',
+    event_id: event.id,
+    event_type: event.type,
+    payload: event,
+  });
+  if (eventError?.code === '23505') return json({ received: true, duplicate: true });
+  if (eventError) return json({ error: 'event_record_failed' }, 500);
 
   return json({ received: true });
 });

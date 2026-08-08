@@ -1,10 +1,11 @@
-name: Deploy checkout function
+name: Deploy payment functions
 
 on:
   push:
     branches: [main]
     paths:
-      - 'supabase/functions/create-checkout/**'
+      - 'supabase/functions/**'
+      - 'supabase/migrations/**'
       - '.github/workflows/deploy-checkout-function.yml'
   workflow_dispatch:
 
@@ -26,8 +27,11 @@ jobs:
         run: |
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
           test -n "$SUPABASE_URL" || { echo 'Missing repository variable: EXPO_PUBLIC_SUPABASE_URL'; exit 1; }
-      - name: Deploy create-checkout
+      - name: Deploy payment and entitlement functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
           supabase functions deploy create-checkout --project-ref "$project_ref"
+          supabase functions deploy access --project-ref "$project_ref"
+          supabase functions deploy paid-content --project-ref "$project_ref"
+          supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"

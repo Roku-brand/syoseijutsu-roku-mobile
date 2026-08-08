@@ -32,8 +32,11 @@ Deno.serve(async (request) => {
 
   const form = new URLSearchParams();
   form.set('mode', 'payment');
-  form.set('success_url', `${siteUrl}/upgrade?checkout=success`);
-  form.set('cancel_url', `${siteUrl}/upgrade?checkout=cancelled`);
+  // Expo's static export writes `upgrade.html`. GitHub Pages has no rewrite
+  // from `/upgrade` to that file, so Checkout must return to the exported URL.
+  const upgradeUrl = new URL('upgrade.html', `${siteUrl.replace(/\/$/, '')}/`).toString();
+  form.set('success_url', `${upgradeUrl}?checkout=success`);
+  form.set('cancel_url', `${upgradeUrl}?checkout=cancelled`);
   form.set('client_reference_id', userData.user.id);
   // The Supabase account email is not required to associate a purchase: the
   // immutable user id below does that. Avoid sending it as `customer_email`,
