@@ -11,7 +11,7 @@ export default function LearningCaseScreen() {
   const { caseId } = useLocalSearchParams<{ caseId: string }>();
   const router = useRouter();
   const item = getLearningCase(caseId ?? '');
-  const { learningRecords, answerLearningCase } = useAppState();
+  const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
 
   if (!item) {
     return <BookScreen contentContainerStyle={styles.content}><AppText>この局面は見つかりません。</AppText></BookScreen>;
@@ -104,6 +104,9 @@ export default function LearningCaseScreen() {
               return <Pressable key={id} accessibilityRole="link" onPress={() => router.push(`/card/${id}`)} style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}><AppText style={styles.relatedTitle}>{card.title}</AppText><AppText style={styles.relatedArrow}>→</AppText></Pressable>;
             })}
           </View>
+          <Pressable accessibilityRole="button" onPress={() => resetLearningCase(item.id)} style={({ pressed }) => [styles.retry, pressed && styles.pressed]}>
+            <AppText style={styles.retryText}>このケースをもう一度解く</AppText>
+          </Pressable>
           <Pressable accessibilityRole="button" onPress={openNext} style={({ pressed }) => [styles.next, pressed && styles.pressed]}>
             <AppText style={styles.nextText}>{next ? '次の局面へ  →' : 'STAGE SELECTへ  →'}</AppText>
           </Pressable>
@@ -202,5 +205,7 @@ const styles = StyleSheet.create({
   relatedArrow: { color: colors.gold, fontSize: 16 },
   next: { marginTop: 24, minHeight: 54, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, backgroundColor: colors.gold },
   nextText: { color: '#FFFFFF', fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.6, fontWeight: '800' },
+  retry: { marginTop: 12, minHeight: 48, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: colors.surface },
+  retryText: { color: colors.gold, fontFamily: fonts.sans, fontSize: 13, letterSpacing: 0.4, fontWeight: '800' },
   pressed: { opacity: 0.65 },
 });
