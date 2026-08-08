@@ -6,11 +6,13 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { learningCases, learningStages } from '@/data/learning';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 
 export default function LearnHomeScreen() {
   const router = useRouter();
   const { learningRecords } = useAppState();
   const { isPaid } = useAccess();
+  const { density, verticalPadding, sectionGap } = useResponsiveLayout();
 
   const openCase = (stage: number, caseId?: string) => {
     if (!isPaid && stage > 1) {
@@ -23,17 +25,17 @@ export default function LearnHomeScreen() {
   };
 
   return (
-    <BookScreen scroll={false} contentContainerStyle={styles.content}>
-      <View style={styles.intro}>
+    <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
+      <View style={[styles.intro, density !== 'normal' && styles.introCompact]}>
         <AppText style={styles.introTitle}>3つのステージで実践力を磨く</AppText>
         <AppText style={styles.introBody}>全21ケースを通して、知恵をあなたの力に。</AppText>
       </View>
-      <View style={styles.sectionHeader}>
+      <View style={[styles.sectionHeader, density !== 'normal' && styles.sectionHeaderCompact]}>
         <AppText style={styles.sectionLabel}>ステージを選ぶ</AppText>
         <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7}ケース利用可能</AppText>
       </View>
 
-      <View style={styles.stageList}>
+      <View style={[styles.stageList, { gap: sectionGap, marginTop: sectionGap }]}>
         {learningStages.map((stage) => {
           const cases = learningCases.filter((item) => item.stage === stage.number);
           const locked = !isPaid && stage.number > 1;
@@ -42,7 +44,7 @@ export default function LearnHomeScreen() {
           return (
             <View
               key={stage.number}
-              style={[styles.stage, locked && styles.stageLocked]}
+              style={[styles.stage, density !== 'normal' && styles.stageCompact, locked && styles.stageLocked]}
             >
               <Pressable
                 accessibilityRole="button"
@@ -57,12 +59,12 @@ export default function LearnHomeScreen() {
                     <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>{completeCount}/{caseCount} ケース</AppText>
                   </View>
                   <AppText style={styles.stageTitle}>{stage.title}</AppText>
-                  <AppText style={styles.stageIntro}>{stage.intro}</AppText>
+                  <AppText numberOfLines={density === 'veryCompact' ? 1 : 2} style={styles.stageIntro}>{stage.intro}</AppText>
                 </View>
                 <AppText style={styles.chevron}>›</AppText>
               </Pressable>
               {locked ? <AppText style={styles.lockedReason}>{stage.number === 2 ? '頼まれ方・押され方・交渉の局面を扱います。' : '仕事と人生の選択を、自分の基準で決める局面を扱います。'}</AppText> : null}
-              <View style={styles.stageFooter}>
+              <View style={[styles.stageFooter, density !== 'normal' && styles.stageFooterCompact]}>
                 <View style={styles.dots}>
                   {Array.from({ length: caseCount }, (_, index) => {
                     const item = cases[index];
@@ -95,13 +97,16 @@ export default function LearnHomeScreen() {
 const styles = StyleSheet.create({
   content: { flex: 1, width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: spacing.sm },
   intro: { alignItems: 'center', paddingHorizontal: spacing.lg, marginBottom: 10 },
+  introCompact: { marginBottom: 5 },
   introTitle: { fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, fontWeight: '700', textAlign: 'center' },
   introBody: { marginTop: 1, color: colors.muted, fontSize: 12, lineHeight: 18, textAlign: 'center' },
   sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 7 },
+  sectionHeaderCompact: { paddingBottom: 4 },
   sectionLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.8, fontWeight: '700' },
   sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.8 },
   stageList: { flex: 1, marginHorizontal: spacing.lg, gap: 9, marginTop: 10 },
-  stage: { flex: 1, padding: 12, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line },
+  stage: { flex: 1, minHeight: 0, padding: 12, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line },
+  stageCompact: { paddingVertical: 8, paddingHorizontal: 10 },
   stageLocked: { backgroundColor: colors.surface, borderColor: colors.line },
   stageMain: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 11 },
   stageIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
@@ -116,6 +121,7 @@ const styles = StyleSheet.create({
   stageIntro: { marginTop: 1, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17 },
   lockedReason: { display: 'none' },
   stageFooter: { marginTop: 'auto', paddingTop: 8, alignItems: 'center' },
+  stageFooterCompact: { paddingTop: 4 },
   dots: { width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   dot: { width: 17, height: 17, borderRadius: 9, borderWidth: 1, borderColor: colors.gold, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   dotComplete: { backgroundColor: colors.gold, borderColor: colors.gold },
