@@ -10,7 +10,7 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 import { AppText, SegmentedControl } from '@/components/ui';
-import { BookScreen, bookCardShadow } from '@/components/book-ui';
+import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTechniqueDisplayId, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
 import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
@@ -132,7 +132,7 @@ export default function MainScreen() {
   const [activeIndex, setActiveIndex] = useState(lastReelPosition.techniques);
   const activeIndexRef = useRef(lastReelPosition.techniques);
   const physicalIndexRef = useRef(0);
-  const { savedIds, toggleSaved } = useAppState();
+  const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const { isPaid } = useAccess();
   const visibleTechniqueCards = useMemo(
     () => isPaid
@@ -376,6 +376,7 @@ export default function MainScreen() {
 
           if (reelItem.kind === 'theory') {
             const theory = reelItem.card;
+            const theorySaved = savedTheoryIds.includes(theory.tagId);
             const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
             return (
               <View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }]}>
@@ -387,6 +388,16 @@ export default function MainScreen() {
                   <AppText numberOfLines={3} style={styles.theorySummary}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
                   <View style={styles.cardSeal}><View style={styles.cardSealInner} /></View>
                 </Pressable>
+                <View style={styles.reelSaveButton}>
+                  <SaveDiamondButton
+                    saved={theorySaved}
+                    compact
+                    onPress={() => {
+                      toggleSavedTheory(theory.tagId);
+                      showToast(theorySaved ? '蔵書から外しました' : '蔵書に保存しました');
+                    }}
+                  />
+                </View>
               </View>
             );
           }
@@ -454,6 +465,16 @@ export default function MainScreen() {
                     <View style={styles.cardSealInner} />
                   </View>
                 </Pressable>
+                <View style={styles.reelSaveButton}>
+                  <SaveDiamondButton
+                    saved={itemSaved}
+                    compact
+                    onPress={() => {
+                      toggleSaved(item.id);
+                      showToast(itemSaved ? '蔵書から外しました' : '蔵書に保存しました');
+                    }}
+                  />
+                </View>
             </View>
             </View>
           );
@@ -676,6 +697,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(24,24,23,0.88)',
   },
   saveButtonSaved: { backgroundColor: colors.gold },
+  reelSaveButton: { position: 'absolute', top: 12, right: 12, zIndex: 3 },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
   cardSeal: { width: 34, height: 34, marginTop: 20, borderWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }], alignItems: 'center', justifyContent: 'center' },
