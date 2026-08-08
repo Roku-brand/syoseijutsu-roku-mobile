@@ -141,7 +141,26 @@ export function BookHeader() {
               <PrincipleMark />
               {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>原則</AppText> : null}
             </Pressable>
-            {!minimalHeaderActions ? (
+            {!minimalHeaderActions ? pathname === '/settings' ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="アカウントを開く"
+                onPress={() => router.push('/auth')}
+                style={({ pressed }) => [
+                  styles.headerAction,
+                  lightHeader && styles.headerActionLight,
+                  pressed && styles.headerActionPressed,
+                ]}
+              >
+                <SymbolView
+                  name={{ ios: 'person.crop.circle', android: 'account_circle', web: 'account_circle' }}
+                  fallback={<AppText style={styles.accountMarkFallback}>◎</AppText>}
+                  size={30}
+                  tintColor={colors.gold}
+                  weight="regular"
+                />
+              </Pressable>
+            ) : (
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel="設定を開く"
@@ -682,6 +701,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   headerActionLabelLight: { color: colors.gold },
+  accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
   menuMark: { width: 24, height: 22, justifyContent: 'space-around', paddingVertical: 4 },
   menuMarkActive: { opacity: 1 },
   menuLine: { width: 24, height: 1.5, borderRadius: 2, alignSelf: 'flex-end' },
