@@ -386,7 +386,6 @@ export default function MainScreen() {
                   <View style={styles.cardOrnament}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
                   <View style={styles.categoryChip}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
                   <AppText numberOfLines={3} style={styles.theorySummary}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
-                  <View style={styles.cardSeal}><View style={styles.cardSealInner} /></View>
                 </Pressable>
                 <View style={styles.reelSaveButton}>
                   <SaveDiamondButton
@@ -460,9 +459,6 @@ export default function MainScreen() {
                     <AppText style={styles.categoryChipText}>
                       〔 {item.categoryName} 〕
                     </AppText>
-                  </View>
-                  <View style={styles.cardSeal}>
-                    <View style={styles.cardSealInner} />
                   </View>
                 </Pressable>
                 <View style={styles.reelSaveButton}>
@@ -697,11 +693,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(24,24,23,0.88)',
   },
   saveButtonSaved: { backgroundColor: colors.gold },
-  reelSaveButton: { position: 'absolute', top: 12, right: 12, zIndex: 3 },
+  // カード中央下の意匠を、そのまま蔵書保存の操作に置き換える。
+  reelSaveButton: {
+    position: 'absolute',
+    bottom: 22,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    zIndex: 3,
+  },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
-  cardSeal: { width: 34, height: 34, marginTop: 20, borderWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }], alignItems: 'center', justifyContent: 'center' },
-  cardSealInner: { width: 13, height: 13, borderWidth: 1, borderColor: colors.goldLight },
   pageIndicators: { minHeight: 18, marginTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 },
   pageIndicator: { width: 11, height: 11, borderRadius: 6, backgroundColor: '#D7D4CE' },
   pageIndicatorActive: { backgroundColor: colors.ink },
