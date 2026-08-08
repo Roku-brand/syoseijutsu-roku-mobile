@@ -61,7 +61,7 @@ async function patchDiscover() {
 
 await patch('src/app/(tabs)/index.tsx', [
   ['  const minimumSize = compact ? 14 : 22;', '  const minimumSize = compact ? 10 : 18;'],
-  ['                  minimumFontScale={0.82}', '                  minimumFontScale={0.5}'],
+  ['                  minimumFontScale={0.82}', '                  minimumFontScale={0.58}'],
 ]);
 await patchFreeReel();
 await patchDiscover();

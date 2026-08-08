@@ -31,23 +31,23 @@ export default function LearningCaseScreen() {
   };
 
   return (
-    <BookScreen contentContainerStyle={styles.content}>
+    <BookScreen scroll={Boolean(record)} contentContainerStyle={[styles.content, !record && styles.questionContent]}>
       <View style={styles.positionRow}>
         <AppText style={styles.position}>CASE {String(item.number).padStart(2, '0')} / {learningCases.length}</AppText>
         <AppText style={styles.stage}>STAGE {String(item.stage).padStart(2, '0')}</AppText>
       </View>
       <View style={styles.headingRule} />
       <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
-      <AppText style={styles.title}>{item.title}</AppText>
-      <AppText style={styles.situation}>{item.situation}</AppText>
+      <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.76} style={styles.title}>{item.title}</AppText>
+      <AppText numberOfLines={3} style={styles.situation}>{item.situation}</AppText>
 
       {!record ? (
         <View style={styles.answerArea}>
-          <AppText style={styles.question}>{item.question}</AppText>
+          <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.78} style={styles.question}>{item.question}</AppText>
           {item.choices.map((choice) => (
             <Pressable key={choice.id} accessibilityRole="button" onPress={() => answerLearningCase(item.id, choice.id)} style={({ pressed }) => [styles.choice, pressed && styles.pressed]}>
               <AppText style={styles.choiceLetter}>{choice.id.toUpperCase()}</AppText>
-              <AppText style={styles.choiceText}>{choice.label}</AppText>
+              <AppText numberOfLines={2} style={styles.choiceText}>{choice.label}</AppText>
             </Pressable>
           ))}
         </View>
@@ -142,18 +142,19 @@ function ChoiceComparison({
 
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 680, alignSelf: 'center', padding: spacing.lg, paddingBottom: layout.bottomContentInset },
-  positionRow: { marginTop: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  questionContent: { flex: 1, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  positionRow: { marginTop: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   position: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.5, fontWeight: '700' },
   stage: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.1, fontWeight: '700' },
-  headingRule: { marginTop: 15, width: 40, height: 2, backgroundColor: colors.gold },
-  eyebrow: { marginTop: 24, color: colors.muted, fontFamily: fonts.sans, fontSize: 12, letterSpacing: 0.5, fontWeight: '600' },
-  title: { marginTop: 8, color: colors.ink, fontFamily: fonts.serif, fontSize: 31, lineHeight: 45, fontWeight: '700', letterSpacing: 0.6 },
-  situation: { marginTop: 23, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 16, lineHeight: 28 },
-  answerArea: { marginTop: 34 },
-  question: { marginBottom: 12, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  choice: { minHeight: 74, marginTop: 10, padding: 16, flexDirection: 'row', alignItems: 'flex-start', gap: 13, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
-  choiceLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 25, fontWeight: '700' },
-  choiceText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 24, fontWeight: '600' },
+  headingRule: { marginTop: 8, width: 32, height: 2, backgroundColor: colors.gold },
+  eyebrow: { marginTop: 10, color: colors.muted, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 0.5, fontWeight: '600' },
+  title: { marginTop: 4, color: colors.ink, fontFamily: fonts.serif, fontSize: 26, lineHeight: 36, fontWeight: '700', letterSpacing: 0.4 },
+  situation: { marginTop: 8, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 14, lineHeight: 21 },
+  answerArea: { flex: 1, marginTop: 14 },
+  question: { marginBottom: 5, color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '700' },
+  choice: { minHeight: 54, marginTop: 7, paddingHorizontal: 13, paddingVertical: 9, flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
+  choiceLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '700' },
+  choiceText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, fontWeight: '600' },
   result: { marginTop: 34, padding: 20, borderWidth: 1, borderColor: colors.line, borderRadius: radius.lg, backgroundColor: colors.surface, ...shadow.card },
   resultStatus: { flexDirection: 'row', alignItems: 'center', gap: 11, padding: 12, borderRadius: radius.md },
   resultStatusGood: { backgroundColor: colors.sage },
