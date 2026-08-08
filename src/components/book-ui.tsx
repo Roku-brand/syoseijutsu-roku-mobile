@@ -28,27 +28,42 @@ import { useAuth } from '@/auth/auth-state';
 export function BookScreen({
   children,
   contentContainerStyle,
+  scroll = true,
   ...props
-}: ScrollViewProps) {
+}: ScrollViewProps & { scroll?: boolean }) {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const desktop = width >= 1000;
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.safe}>
-      <ScrollView
-        {...props}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        style={styles.scroll}
-        contentContainerStyle={[
-          styles.content,
-          compact && styles.contentCompact,
-          desktop && styles.contentDesktop,
-          contentContainerStyle,
-        ]}
-      >
-        {children}
-      </ScrollView>
+      {scroll ? (
+        <ScrollView
+          {...props}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          style={styles.scroll}
+          contentContainerStyle={[
+            styles.content,
+            compact && styles.contentCompact,
+            desktop && styles.contentDesktop,
+            contentContainerStyle,
+          ]}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <View
+          style={[
+            styles.fixed,
+            styles.content,
+            compact && styles.contentCompact,
+            desktop && styles.contentDesktop,
+            contentContainerStyle,
+          ]}
+        >
+          {children}
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -137,7 +152,7 @@ export function BookHeader() {
                   pressed && styles.headerActionPressed,
                 ]}
               >
-                <AccountMark active={Boolean(user)} light={lightHeader} />
+                <MenuMark active={Boolean(user)} light={lightHeader} />
               </Pressable>
             ) : null}
           </View>
@@ -153,12 +168,13 @@ export function BookHeader() {
   );
 }
 
-function AccountMark({ active, light }: { active: boolean; light: boolean }) {
+function MenuMark({ active, light }: { active: boolean; light: boolean }) {
   const tone = light ? colors.gold : colors.goldLight;
   return (
-    <View style={[styles.accountMark, { borderColor: tone }, active && styles.accountMarkActive]} accessibilityElementsHidden>
-      <View style={[styles.accountHead, { backgroundColor: tone }]} />
-      <View style={[styles.accountShoulders, { borderColor: tone }]} />
+    <View style={[styles.menuMark, active && styles.menuMarkActive]} accessibilityElementsHidden>
+      <View style={[styles.menuLine, { backgroundColor: tone }]} />
+      <View style={[styles.menuLine, { backgroundColor: tone }]} />
+      <View style={[styles.menuLine, { backgroundColor: tone }]} />
     </View>
   );
 }
@@ -502,6 +518,7 @@ export const bookCardShadow = shadow.card;
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.paper },
   scroll: { flex: 1, backgroundColor: colors.paper },
+  fixed: { flex: 1, backgroundColor: colors.paper },
   content: {
     width: '100%',
     maxWidth: layout.readingWidth,
@@ -665,17 +682,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   headerActionLabelLight: { color: colors.gold },
-  accountMark: {
-    width: 25,
-    height: 25,
-    borderWidth: 1.3,
-    borderRadius: 13,
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  accountMarkActive: { backgroundColor: 'rgba(210,182,111,0.13)' },
-  accountHead: { width: 7, height: 7, marginTop: 5, borderRadius: 4 },
-  accountShoulders: { width: 14, height: 8, marginTop: 2, borderTopWidth: 1.5, borderTopLeftRadius: 9, borderTopRightRadius: 9 },
+  menuMark: { width: 24, height: 22, justifyContent: 'space-around', paddingVertical: 4 },
+  menuMarkActive: { opacity: 1 },
+  menuLine: { width: 24, height: 1.5, borderRadius: 2, alignSelf: 'flex-end' },
   principleMark: {
     width: 27,
     height: 27,

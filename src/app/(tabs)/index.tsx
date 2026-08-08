@@ -15,7 +15,7 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTechniqueDisplayId, techniqueCards as catalogTechniqueCards } from '@/data/catalog';
 import { FREE_REEL_TECHNIQUE_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
-import type { CategoryKey, TechniqueCard } from '@/data/types';
+import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
@@ -100,32 +100,6 @@ function getReelTitleMetrics(title: string, reelWidth: number) {
   };
 }
 
-const categorySkips: {
-  key: CategoryKey;
-  label: string;
-  mark: string;
-  tint: string;
-}[] = [
-  {
-    key: 'interpersonal',
-    label: '対人術',
-    mark: '対',
-    tint: 'rgba(229, 235, 224, 0.82)',
-  },
-  {
-    key: 'work',
-    label: '仕事術',
-    mark: '仕',
-    tint: 'rgba(243, 235, 220, 0.82)',
-  },
-  {
-    key: 'life',
-    label: '人生術',
-    mark: '生',
-    tint: 'rgba(230, 237, 232, 0.82)',
-  },
-];
-
 export default function MainScreen() {
   const isFocused = useTabVisible();
   const router = useRouter();
@@ -147,9 +121,11 @@ export default function MainScreen() {
   );
 
   const compactReel = width < 520;
+  // ホームはヘッダーとタブバーの間で完結させる。小さい端末でも
+  // 収まる高さを優先し、カード内だけに情報と保存操作を集約する。
   const cardHeight = compactReel
-    ? Math.max(330, Math.min(height - 300, 460))
-    : Math.max(380, Math.min(height - 290, 520));
+    ? Math.max(250, Math.min(height - 390, 350))
+    : Math.max(310, Math.min(height - 350, 450));
   const reelPeek = compactReel ? 18 : 30;
   const reelGap = compactReel ? 10 : 14;
   const cardWidth = Math.min(
@@ -213,43 +189,6 @@ export default function MainScreen() {
     void Haptics.selectionAsync().catch(() => undefined);
   };
 
-  const moveBy = (offset: -1 | 1) => {
-    if (baseReelItems.length <= 1) return;
-
-    const cardCount = baseReelItems.length;
-    let currentPhysicalIndex = physicalIndexRef.current;
-    if (
-      isPaid &&
-      (currentPhysicalIndex <= cardCount ||
-        currentPhysicalIndex >= cardCount * (CIRCULAR_REEL_COPIES - 1))
-    ) {
-      currentPhysicalIndex = getCentralPhysicalIndex(activeIndexRef.current);
-      physicalIndexRef.current = currentPhysicalIndex;
-      listRef.current?.scrollToIndex({ index: currentPhysicalIndex, animated: false });
-    }
-
-    const rawIndex = activeIndexRef.current + offset;
-    const nextIndex = isPaid
-      ? (rawIndex + cardCount) % cardCount
-      : Math.max(0, Math.min(rawIndex, baseReelItems.length - 1));
-    const physicalIndex = isPaid ? currentPhysicalIndex + offset : nextIndex;
-    activeIndexRef.current = nextIndex;
-    physicalIndexRef.current = physicalIndex;
-    setActiveIndex(nextIndex);
-    listRef.current?.scrollToIndex({
-      index: physicalIndex,
-      animated: true,
-    });
-    void Haptics.selectionAsync().catch(() => undefined);
-  };
-
-  const skipToCategory = (category: CategoryKey) => {
-    const index = baseReelItems.findIndex(
-      (item) => item.kind === 'technique' && item.card.categoryKey === category,
-    );
-    if (index >= 0) moveTo(index);
-  };
-
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
@@ -296,7 +235,7 @@ export default function MainScreen() {
   if (!isFocused) return null;
 
   return (
-    <BookScreen contentContainerStyle={styles.content}>
+    <BookScreen scroll={false} contentContainerStyle={styles.content}>
       <AppText style={styles.catalogCount}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
       <SegmentedControl
         value="techniques"
@@ -308,45 +247,6 @@ export default function MainScreen() {
           if (value === 'theories') router.push('/theories/all');
         }}
       />
-      <View style={styles.reelHeading}>
-        <AppText style={styles.reelHeadingText}>処世術</AppText>
-        <View style={styles.headingOrnament}>
-          <View style={styles.headingLine} />
-          <View style={styles.headingDiamond} />
-          <View style={styles.headingLine} />
-        </View>
-      </View>
-
-      <View style={[styles.reelControls, { width: reelViewportWidth }]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="前の処世術"
-          onPress={() => moveBy(-1)}
-          hitSlop={10}
-          style={({ pressed }) => [
-            styles.reelArrowButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={styles.reelArrow}>‹</AppText>
-        </Pressable>
-        <AppText style={styles.reelPosition}>
-          {activeCard ? getTechniqueDisplayId(activeCard) : '完全版'} / {baseReelItems.length}
-        </AppText>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="次の処世術"
-          onPress={() => moveBy(1)}
-          hitSlop={10}
-          style={({ pressed }) => [
-            styles.reelArrowButton,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={styles.reelArrow}>›</AppText>
-        </Pressable>
-      </View>
-
       <FlatList
         ref={listRef}
         horizontal
@@ -386,7 +286,7 @@ export default function MainScreen() {
                   onPress={() => router.push({ pathname: '/upgrade', params: { source: 'reel-card' } })}
                   style={({ pressed }) => [
                     styles.upgradeReelCard,
-                    { width: cardWidth, minHeight: cardHeight, marginHorizontal: reelGap / 2 },
+                    { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 },
                     pressed && styles.pressed,
                   ]}
                 >
@@ -397,12 +297,9 @@ export default function MainScreen() {
                     <View style={styles.cardDiamond} />
                     <View style={styles.upgradeCardLine} />
                   </View>
-                  <AppText style={styles.upgradeReelBody}>あなたの状況に合う処世術を、{`\n`}すべて解放します。</AppText>
-                  <View style={styles.upgradeStats}>
-                    <AppText style={styles.upgradeStatsText}>216の処世術　526の理論　全21ケース</AppText>
-                  </View>
+                  <AppText style={styles.upgradeReelBody}>すべての処世術と理論を、{`\n`}あなたの手元へ。</AppText>
                   <View style={styles.upgradeCta}>
-                    <AppText style={styles.upgradeCtaText}>完全版を¥{COMPLETE_EDITION_PRICE_JPY}で解放する　›</AppText>
+                    <AppText style={styles.upgradeCtaText}>完全版を¥{COMPLETE_EDITION_PRICE_JPY}で解放　›</AppText>
                   </View>
                 </Pressable>
               </View>
@@ -426,206 +323,123 @@ export default function MainScreen() {
               aria-hidden={!isAccessible}
               style={[styles.reelItem, { width: reelWidth }]}
             >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`${item.title}を詳しく読む`}
-                onPress={() =>
-                  router.push({
-                    pathname: '/card/[id]',
-                    params: { id: item.id },
-                  })
-                }
-                style={({ pressed }) => [
+              <View
+                style={[
                   styles.techniqueCard,
                   {
                     width: cardWidth,
-                    minHeight: cardHeight,
+                    height: cardHeight,
                     marginHorizontal: reelGap / 2,
                     paddingHorizontal: titleMetrics.horizontalPadding,
                   },
-                  pressed && styles.pressed,
                 ]}
               >
-                <AppText variant="label" style={styles.techniqueId}>
-                  {getTechniqueDisplayId(item)}
-                </AppText>
-                <AppText
-                  numberOfLines={2}
-                  adjustsFontSizeToFit
-                  minimumFontScale={0.5}
-                  style={[
-                    styles.techniqueTitle,
-                    {
-                      fontSize: titleMetrics.fontSize,
-                      lineHeight: titleMetrics.lineHeight,
-                      letterSpacing: titleMetrics.letterSpacing,
-                    },
-                  ]}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`${item.title}を詳しく読む`}
+                  onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                  style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
-                  {titleMetrics.displayTitle}
-                </AppText>
-                <View style={styles.cardOrnament}>
-                  <View style={styles.cardLine} />
-                  <View style={styles.cardDiamond} />
-                  <View style={styles.cardLine} />
-                </View>
-                <AppText
-                  style={styles.techniqueSubtitle}
-                  numberOfLines={2}
-                >
-                  {item.subtitle}
-                </AppText>
-                <View style={styles.categoryChip}>
-                  <AppText style={styles.categoryChipText}>
-                    {item.categoryName}・{item.subcategory}
+                  <AppText variant="label" style={styles.techniqueId}>
+                    {getTechniqueDisplayId(item)}
                   </AppText>
-                </View>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={
-                  itemSaved
-                    ? `${item.title}を蔵書から外す`
-                    : `${item.title}を蔵書に保存`
-                }
-                onPress={() => {
-                  toggleSaved(item.id);
-                  showToast(
-                    itemSaved ? '蔵書から外しました' : '蔵書に保存しました',
-                  );
-                }}
-                style={({ pressed }) => [
-                  styles.saveButton,
-                  itemSaved && styles.saveButtonSaved,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <AppText
-                  style={[styles.bookmark, itemSaved && styles.saveTextSaved]}
+                  <AppText
+                    numberOfLines={2}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.58}
+                    style={[
+                      styles.techniqueTitle,
+                      {
+                        fontSize: titleMetrics.fontSize,
+                        lineHeight: titleMetrics.lineHeight,
+                        letterSpacing: titleMetrics.letterSpacing,
+                      },
+                    ]}
+                  >
+                    {titleMetrics.displayTitle}
+                  </AppText>
+                  <View style={styles.cardOrnament}>
+                    <View style={styles.cardLine} />
+                    <View style={styles.cardDiamond} />
+                    <View style={styles.cardLine} />
+                  </View>
+                  <View style={styles.categoryChip}>
+                    <AppText style={styles.categoryChipText}>
+                      〔 {item.categoryName} 〕
+                    </AppText>
+                  </View>
+                  <View style={styles.cardSeal}>
+                    <View style={styles.cardSealInner} />
+                  </View>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={itemSaved ? `${item.title}を蔵書から外す` : `${item.title}を蔵書に保存`}
+                  onPress={() => {
+                    toggleSaved(item.id);
+                    showToast(itemSaved ? '蔵書から外しました' : '蔵書に保存しました');
+                  }}
+                  style={({ pressed }) => [styles.saveButton, itemSaved && styles.saveButtonSaved, pressed && styles.pressed]}
                 >
-                  {itemSaved ? '◆' : '▯'}
-                </AppText>
-                <AppText
-                  style={[styles.saveText, itemSaved && styles.saveTextSaved]}
-                >
-                  {itemSaved ? '蔵書に保存済み' : '蔵書に保存'}
-                </AppText>
-              </Pressable>
+                  <AppText style={[styles.bookmark, itemSaved && styles.saveTextSaved]}>
+                    {itemSaved ? '★' : '☆'}
+                  </AppText>
+                </Pressable>
+            </View>
             </View>
           );
         }}
       />
-
-      <View style={styles.categorySkipRow}>
-        {categorySkips.map((category) => {
-          const active = activeCard?.categoryKey === category.key;
-          return (
-            <Pressable
-              key={category.key}
-              accessibilityRole="button"
-              accessibilityLabel={`${category.label}の先頭へ移動`}
-              onPress={() => skipToCategory(category.key)}
-              style={({ pressed }) => [
-                styles.categorySkip,
-                { backgroundColor: category.tint },
-                active && styles.categorySkipActive,
-                pressed && styles.pressed,
-              ]}
-            >
-              <View
-                style={[
-                  styles.categorySkipMark,
-                  active && styles.categorySkipMarkActive,
-                ]}
-              >
-                <AppText
-                  style={[
-                    styles.categorySkipMarkText,
-                    active && styles.categorySkipMarkTextActive,
-                  ]}
-                >
-                  {category.mark}
-                </AppText>
-              </View>
-              <AppText style={styles.categorySkipLabel}>{category.label}</AppText>
-            </Pressable>
-          );
-        })}
+      <View accessibilityRole="tablist" style={styles.pageIndicators}>
+        {Array.from({ length: Math.min(3, Math.max(baseReelItems.length, 1)) }, (_, index) => (
+          <View
+            key={index}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeIndex % 3 === index }}
+            style={[styles.pageIndicator, activeIndex % 3 === index && styles.pageIndicatorActive]}
+          />
+        ))}
       </View>
+      {!isPaid ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="処世術禄 完全版を購入する"
+          onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
+          style={({ pressed }) => [styles.unlockCard, pressed && styles.pressed]}
+        >
+          <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
+          <View style={styles.unlockCopy}>
+            <AppText style={styles.unlockTitle}>全216件を解放する</AppText>
+            <AppText style={styles.unlockBody}>216の処世術・526の理論をすべて読む</AppText>
+          </View>
+          <AppText style={styles.unlockChevron}>›</AppText>
+        </Pressable>
+      ) : null}
     </BookScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { paddingTop: spacing.md, paddingBottom: spacing.xl },
-  catalogCount: { marginBottom: spacing.sm, fontFamily: fonts.serif, fontSize: 14, lineHeight: 22, fontWeight: '700' },
+  content: { flex: 1, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
-  reelHeading: { alignItems: 'center', marginTop: spacing.lg, marginBottom: spacing.sm },
-  reelHeadingText: {
-    fontFamily: fonts.serif,
-    fontSize: 27,
-    lineHeight: 38,
-    fontWeight: '600',
-    letterSpacing: 4,
-  },
-  headingOrnament: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginTop: 10,
-  },
-  headingLine: { width: 34, height: 1, backgroundColor: colors.goldLight },
-  headingDiamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
-  reelControls: {
-    alignSelf: 'center',
-    minHeight: 42,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.sm,
-  },
-  reelArrowButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  reelArrow: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 34,
-    lineHeight: 38,
-  },
-  reelPosition: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: 2,
-    fontWeight: '600',
-  },
-  reel: { alignSelf: 'center', flexGrow: 0 },
-  reelItem: { paddingVertical: spacing.sm },
+  reel: { alignSelf: 'center', flexGrow: 0, marginTop: spacing.sm },
+  reelItem: { paddingVertical: 2 },
   techniqueCard: {
-    minHeight: 360,
-    paddingVertical: 36,
+    position: 'relative',
+    paddingTop: 18,
+    paddingBottom: 14,
     borderRadius: radius.md,
     borderWidth: 1.5,
     borderColor: colors.gold,
     backgroundColor: colors.charcoal,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
     ...bookCardShadow,
   },
+  cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 6 },
   upgradeReelCard: {
-    paddingHorizontal: spacing.xl,
-    paddingVertical: 34,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: 24,
     borderRadius: 30,
     borderWidth: 1.5,
     borderColor: '#CDA74F',
@@ -641,10 +455,10 @@ const styles = StyleSheet.create({
     letterSpacing: 2.1,
   },
   upgradeReelTitle: {
-    marginTop: 18,
+    marginTop: 12,
     color: '#FFF9EC',
-    fontSize: 29,
-    lineHeight: 43,
+    fontSize: 25,
+    lineHeight: 37,
     textAlign: 'center',
     fontWeight: '700',
     letterSpacing: 1.4,
@@ -653,28 +467,19 @@ const styles = StyleSheet.create({
   upgradeReelBody: {
     color: '#E4DDD1',
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 28,
+    fontSize: 14,
+    lineHeight: 23,
     textAlign: 'center',
     letterSpacing: 0.8,
   },
-  upgradeStats: {
-    marginTop: 23,
-    paddingVertical: 9,
-    paddingHorizontal: 14,
-    borderWidth: 1,
-    borderColor: 'rgba(238,214,155,0.42)',
-    borderRadius: radius.pill,
-  },
-  upgradeStatsText: { color: colors.goldLight, fontSize: 10, lineHeight: 15, letterSpacing: 0.25 },
   upgradeCta: {
-    marginTop: 24,
-    paddingHorizontal: 17,
-    paddingVertical: 13,
+    marginTop: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
     borderRadius: radius.sm,
     backgroundColor: colors.gold,
   },
-  upgradeCtaText: { color: '#FFFDF8', fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  upgradeCtaText: { color: '#FFFDF8', fontSize: 12, lineHeight: 17, fontWeight: '700' },
   techniqueTitle: {
     width: '100%',
     fontFamily: fonts.serif,
@@ -683,7 +488,7 @@ const styles = StyleSheet.create({
     color: colors.surface,
   },
   techniqueId: {
-    marginBottom: spacing.md,
+    marginBottom: 8,
     color: colors.gold,
     fontSize: 11,
     lineHeight: 16,
@@ -694,7 +499,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '76%',
     gap: 8,
-    marginVertical: spacing.xl,
+    marginTop: 8,
+    marginBottom: 18,
   },
   cardLine: { flex: 1, height: 1, backgroundColor: colors.goldLight },
   cardDiamond: {
@@ -703,19 +509,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
     transform: [{ rotate: '45deg' }],
   },
-  techniqueSubtitle: {
-    maxWidth: 520,
-    fontFamily: fonts.serif,
-    fontSize: 18,
-    lineHeight: 34,
-    letterSpacing: 1.2,
-    textAlign: 'center',
-    color: '#F4EEE3',
-  },
   categoryChip: {
-    marginTop: spacing.xl,
-    minHeight: 38,
-    paddingHorizontal: spacing.lg,
+    marginTop: 18,
+    minHeight: 30,
+    paddingHorizontal: 12,
     borderRadius: radius.pill,
     borderWidth: 1,
     borderColor: 'rgba(196,148,50,0.55)',
@@ -726,81 +523,37 @@ const styles = StyleSheet.create({
   categoryChipText: {
     fontFamily: fonts.serif,
     fontSize: 13,
-    lineHeight: 20,
+    lineHeight: 18,
     letterSpacing: 1.2,
     color: colors.goldLight,
   },
   saveButton: {
-    alignSelf: 'center',
-    minWidth: 230,
-    minHeight: 54,
-    marginTop: spacing.lg,
-    paddingHorizontal: spacing.xl,
-    flexDirection: 'row',
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    width: 38,
+    height: 38,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 12,
-    borderRadius: radius.md,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    backgroundColor: colors.surface,
-  },
-  saveButtonSaved: { backgroundColor: colors.charcoal },
-  bookmark: { color: colors.gold, fontSize: 24, lineHeight: 28 },
-  saveText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: 1.5,
-  },
-  saveTextSaved: { color: colors.goldLight },
-  categorySkipRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.xl,
-  },
-  categorySkip: {
-    flex: 1,
-    minHeight: 82,
+    borderRadius: 19,
     borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: radius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: spacing.sm,
+    borderColor: 'rgba(196,148,50,0.7)',
+    backgroundColor: 'rgba(24,24,23,0.88)',
   },
-  categorySkipActive: {
-    borderColor: colors.gold,
-    borderWidth: 1.5,
-    ...bookCardShadow,
-  },
-  categorySkipMark: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: colors.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.38)',
-  },
-  categorySkipMarkActive: { backgroundColor: colors.gold },
-  categorySkipMarkText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: '700',
-  },
-  categorySkipMarkTextActive: { color: colors.surface },
-  categorySkipLabel: {
-    fontFamily: fonts.serif,
-    fontSize: 15,
-    lineHeight: 22,
-    fontWeight: '600',
-    letterSpacing: 1,
-    textAlign: 'center',
-  },
+  saveButtonSaved: { backgroundColor: colors.gold },
+  bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
+  saveTextSaved: { color: colors.surface },
+  cardSeal: { width: 34, height: 34, marginTop: 16, borderWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }], alignItems: 'center', justifyContent: 'center' },
+  cardSealInner: { width: 13, height: 13, borderWidth: 1, borderColor: colors.goldLight },
+  pageIndicators: { minHeight: 18, marginTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 },
+  pageIndicator: { width: 11, height: 11, borderRadius: 6, backgroundColor: '#D7D4CE' },
+  pageIndicatorActive: { backgroundColor: colors.ink },
+  unlockCard: { minHeight: 72, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, ...bookCardShadow },
+  unlockCrown: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  unlockCrownText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 23, lineHeight: 27 },
+  unlockCopy: { flex: 1, minWidth: 0 },
+  unlockTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
+  unlockBody: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '600' },
+  unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

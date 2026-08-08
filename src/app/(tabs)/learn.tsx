@@ -2,11 +2,10 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
-import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
+import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { learningCases, learningStages } from '@/data/learning';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
-import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
 export default function LearnHomeScreen() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function LearnHomeScreen() {
   };
 
   return (
-    <BookScreen contentContainerStyle={styles.content}>
+    <BookScreen scroll={false} contentContainerStyle={styles.content}>
       <View style={styles.intro}>
         <AppText style={styles.introTitle}>3つのステージで実践力を磨く</AppText>
         <AppText style={styles.introBody}>全21ケースを通して、知恵をあなたの力に。</AppText>
@@ -75,59 +74,38 @@ export default function LearnHomeScreen() {
         })}
       </View>
 
-      {!isPaid ? (
-        <Pressable style={({ pressed }) => [styles.upgradeCard, pressed && styles.pressed]} onPress={() => router.push({ pathname: '/upgrade', params: { source: 'learning' } })}>
-          <AppText style={styles.upgradeEyebrow}>COMPLETE EDITION / ¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-          <AppText style={styles.upgradeTitle}>「知っている」を、「選べる」に変える。</AppText>
-          <AppText style={styles.upgradeBody}>全21ケースと、関連する216の処世術・526の理論を解放。判断の理由まで体系的に振り返れます。</AppText>
-          <AppText style={styles.upgradeCta}>完全版にアップグレード　›</AppText>
-        </Pressable>
-      ) : null}
-
-      <View style={styles.footer}>
-        <AppText style={styles.footerMark}>禄</AppText>
-        <AppText style={styles.footerText}>答えを暗記するのではなく、状況・目的・副作用を比較して、自分で一手を選ぶための学習です。</AppText>
-      </View>
     </BookScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: layout.bottomContentInset },
-  intro: { alignItems: 'center', paddingHorizontal: spacing.lg, marginBottom: spacing.lg },
-  introTitle: { fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700', textAlign: 'center' },
-  introBody: { marginTop: 3, color: colors.muted, fontSize: 13, lineHeight: 20, textAlign: 'center' },
-  sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 10 },
+  content: { flex: 1, width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  intro: { alignItems: 'center', paddingHorizontal: spacing.lg, marginBottom: 10 },
+  introTitle: { fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, fontWeight: '700', textAlign: 'center' },
+  introBody: { marginTop: 1, color: colors.muted, fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  sectionHeader: { marginHorizontal: spacing.lg, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', borderBottomWidth: 1, borderColor: colors.line, paddingBottom: 7 },
   sectionLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.8, fontWeight: '700' },
   sectionCount: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.8 },
-  stageList: { marginHorizontal: spacing.lg, gap: 12, marginTop: 14 },
-  stage: { padding: 16, minHeight: 150, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line },
+  stageList: { flex: 1, marginHorizontal: spacing.lg, gap: 9, marginTop: 10 },
+  stage: { flex: 1, padding: 12, backgroundColor: colors.surface, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line },
   stageLocked: { backgroundColor: colors.surface, borderColor: colors.line },
-  stageMain: { flexDirection: 'row', alignItems: 'center', gap: 13 },
-  stageIcon: { width: 52, height: 52, borderRadius: 26, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  stageIconText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
+  stageMain: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  stageIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
+  stageIconText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, fontWeight: '700' },
   stageCopy: { flex: 1, minWidth: 0 },
-  chevron: { color: colors.ink, fontSize: 28, lineHeight: 31 },
+  chevron: { color: colors.ink, fontSize: 24, lineHeight: 27 },
   stageTopline: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
   stageNumber: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.45, fontWeight: '700' },
   stageProgress: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.6, fontWeight: '700' },
   stageProgressLocked: { color: colors.gold },
-  stageTitle: { marginTop: 2, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 28, fontWeight: '700' },
-  stageIntro: { marginTop: 4, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21 },
-  lockedReason: { marginTop: 9, color: colors.muted, fontSize: 11, lineHeight: 18 },
-  stageFooter: { marginTop: 'auto', paddingTop: 14, alignItems: 'center' },
+  stageTitle: { marginTop: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
+  stageIntro: { marginTop: 1, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17 },
+  lockedReason: { display: 'none' },
+  stageFooter: { marginTop: 'auto', paddingTop: 8, alignItems: 'center' },
   dots: { width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  dot: { width: 20, height: 20, borderRadius: 10, borderWidth: 1, borderColor: colors.gold, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  dot: { width: 17, height: 17, borderRadius: 9, borderWidth: 1, borderColor: colors.gold, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   dotComplete: { backgroundColor: colors.gold, borderColor: colors.gold },
-  dotText: { color: colors.gold, fontSize: 9, lineHeight: 12, fontWeight: '700' },
+  dotText: { color: colors.gold, fontSize: 8, lineHeight: 10, fontWeight: '700' },
   dotTextComplete: { color: '#FFFFFF' },
-  upgradeCard: { marginHorizontal: spacing.lg, marginTop: 18, padding: 18, borderRadius: radius.md, backgroundColor: colors.gold },
-  upgradeEyebrow: { color: '#FFFFFF', fontSize: 9, letterSpacing: 1.4, fontWeight: '700' },
-  upgradeTitle: { marginTop: 9, color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  upgradeBody: { marginTop: 7, color: '#FFF9ED', fontSize: 12, lineHeight: 20 },
-  upgradeCta: { marginTop: 15, color: '#FFFFFF', fontSize: 13, fontWeight: '700' },
-  footer: { marginHorizontal: spacing.lg, marginTop: 28, paddingTop: 18, borderTopWidth: 1, borderColor: colors.line, flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
-  footerMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 22, lineHeight: 25 },
-  footerText: { color: colors.muted, flex: 1, fontFamily: fonts.sans, fontSize: 12, lineHeight: 20 },
   pressed: { opacity: 0.68, transform: [{ scale: 0.99 }] },
 });
