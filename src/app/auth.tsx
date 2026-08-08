@@ -84,7 +84,7 @@ export default function AuthScreen() {
       </View>
       <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
       <View style={styles.card}>
-        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : '購入済みの方はこちら'}</AppText>
+        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : 'アカウントを作成・ログイン'}</AppText>
         <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
 
         {!configured ? (
