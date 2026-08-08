@@ -10,8 +10,8 @@ import { AppText } from './ui';
 const items = [
   { key: 'main', label: '禄', icon: 'roku', href: '/(tabs)' },
   { key: 'discover', label: '探す', icon: 'search', href: '/discover' },
-  { key: 'learn', label: '学ぶ', icon: 'book', href: '/learn' },
-  { key: 'my-os', label: 'マイページ', icon: 'circle', href: '/my-os' },
+  { key: 'learn', label: '学習', icon: 'book', href: '/learn' },
+  { key: 'my-os', label: 'マイOS', icon: 'circle', href: '/my-os' },
 ] as const;
 
 function activeKey(pathname: string) {
@@ -90,7 +90,7 @@ export function PersistentBottomNav() {
 }
 
 function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; active: boolean }) {
-  const color = active ? colors.gold : '#343638';
+  const color = active ? colors.goldLight : '#D7D3CA';
   if (type === 'roku') return <AppText style={[styles.rokuMark, { color }]}>禄</AppText>;
   if (type === 'search') return <View style={styles.searchMark}><View style={[styles.searchCircle, { borderColor: color }]} /><View style={[styles.searchHandle, { backgroundColor: color }]} /></View>;
   if (type === 'book') return <View style={styles.bookMark}><View style={[styles.bookPage, styles.bookPageLeft, { backgroundColor: color }]} /><View style={[styles.bookPage, styles.bookPageRight, { backgroundColor: color }]} /></View>;
@@ -100,21 +100,20 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 const styles = StyleSheet.create({
   // ナビ本体と安全領域を同じ面として扱う。iPhone のホームインジケータ
   // 領域だけが本文色で残らないよう、下端まで濃色でつなげる。
-  safeArea: { backgroundColor: 'transparent' },
+  safeArea: { backgroundColor: colors.navInk },
   bar: {
     width: '100%',
     maxWidth: 620,
     alignSelf: 'center',
     height: 70,
     flexDirection: 'row',
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 28,
-    marginHorizontal: 12,
-    marginBottom: 8,
-    shadowColor: '#8B7556',
-    shadowOpacity: 0.12,
+    backgroundColor: colors.navInk,
+    borderTopWidth: 1,
+    borderColor: '#4B4840',
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    shadowColor: '#000',
+    shadowOpacity: 0.18,
     shadowRadius: 16,
     shadowOffset: { width: 0, height: 7 },
     elevation: 8,
@@ -122,9 +121,9 @@ const styles = StyleSheet.create({
   safeAreaDesktop: {
     width: 92,
     height: '100%',
-    backgroundColor: colors.surface,
+    backgroundColor: colors.navInk,
     borderRightWidth: 1,
-    borderRightColor: colors.line,
+    borderRightColor: '#4B4840',
   },
   barDesktop: {
     width: 92,
@@ -136,8 +135,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     elevation: 0,
     paddingVertical: 24,
-    marginHorizontal: 0,
-    marginBottom: 0,
   },
   item: { flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center', gap: 2 },
   itemDesktop: { flex: 0, width: 92, minHeight: 100 },
@@ -147,7 +144,7 @@ const styles = StyleSheet.create({
     width: 38,
     height: 3,
     borderRadius: 3,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.goldLight,
   },
   activeIndicatorDesktop: {
     left: 0,
@@ -168,6 +165,6 @@ const styles = StyleSheet.create({
   bookPageLeft: { borderTopRightRadius: 5, borderBottomRightRadius: 2 },
   bookPageRight: { borderTopLeftRadius: 5, borderBottomLeftRadius: 2 },
   circleMark: { width: 21, height: 21, borderWidth: 1.5, borderRadius: 12 },
-  label: { color: '#343638', fontSize: 11, lineHeight: 15, fontWeight: '600' },
-  labelActive: { color: colors.gold },
+  label: { color: '#D7D3CA', fontSize: 11, lineHeight: 15, fontWeight: '600' },
+  labelActive: { color: colors.goldLight },
 });

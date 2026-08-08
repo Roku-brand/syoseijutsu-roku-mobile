@@ -216,7 +216,7 @@ function DetailHeaderActions({
           }}
           fallback={<AppText style={[styles.detailActionFallback, isSaved && styles.detailActionSaved]}>★</AppText>}
           size={20}
-          tintColor={isSaved ? colors.gold : colors.gold}
+          tintColor={isSaved ? colors.goldLight : colors.surface}
           weight="regular"
         />
         {!compact ? <AppText style={[styles.detailActionLabel, isSaved && styles.detailActionLabelSaved]}>{isSaved ? '保存済み' : '保存'}</AppText> : null}
@@ -231,7 +231,7 @@ function DetailHeaderActions({
           name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
           fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
           size={20}
-          tintColor={colors.gold}
+          tintColor={colors.surface}
           weight="regular"
         />
         {!compact ? <AppText style={styles.detailActionLabel}>共有</AppText> : null}
@@ -499,14 +499,14 @@ export function IndexCard({
 export const bookCardShadow = shadow.card;
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.paper },
+  safe: { flex: 1, backgroundColor: colors.charcoal },
   scroll: { flex: 1, backgroundColor: colors.paper },
   content: {
     width: '100%',
     maxWidth: layout.readingWidth,
     alignSelf: 'center',
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.md,
+    paddingTop: spacing.xl,
     paddingBottom: layout.bottomContentInset,
   },
   contentCompact: {
@@ -515,29 +515,29 @@ const styles = StyleSheet.create({
   },
   contentDesktop: { paddingBottom: spacing.section },
   header: {
-    minHeight: 58,
+    minHeight: 72,
     paddingHorizontal: spacing.lg,
     paddingVertical: 9,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: spacing.sm,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.charcoal,
     borderBottomWidth: 1,
-    borderBottomColor: colors.line,
+    borderBottomColor: colors.gold,
   },
   headerCompact: {
     minHeight: 58,
     paddingHorizontal: 12,
     paddingVertical: 7,
   },
-  headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
+  headerLight: { backgroundColor: colors.paper, borderBottomColor: '#D8CEBD' },
   brandGroup: {
     minWidth: 0,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 14,
   },
   headerBack: {
     minWidth: 92,
@@ -573,40 +573,40 @@ const styles = StyleSheet.create({
   headerBackIconLight: { color: '#252521' },
   headerBackTextLight: { color: '#252521' },
   seal: {
-    width: 32,
-    height: 32,
-    borderRadius: 6,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
+    width: 46,
+    height: 46,
+    borderRadius: 11,
+    borderWidth: 2,
+    borderColor: colors.goldLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sealCompact: { width: 32, height: 32, borderRadius: 6 },
+  sealCompact: { width: 40, height: 40, borderRadius: 9 },
   sealText: {
-    color: colors.gold,
+    color: colors.goldLight,
     fontFamily: fonts.serif,
     fontWeight: '700',
-    fontSize: 21,
-    lineHeight: 27,
+    fontSize: 27,
+    lineHeight: 36,
   },
   brandCopy: { minWidth: 0, gap: 1 },
   brandCopyHidden: { display: 'none' },
   screenTitle: {
     position: 'absolute',
-    left: 84,
-    right: 84,
-    color: colors.ink,
+    left: 108,
+    right: 108,
+    color: colors.surface,
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: '700',
-    letterSpacing: 1.6,
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: '600',
+    letterSpacing: 1.1,
     textAlign: 'center',
   },
-  screenTitleLight: { color: colors.ink },
+  screenTitleLight: { color: '#171713' },
   upgradeScreenTitle: { left: 96, right: 72, fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {
-    color: colors.ink,
+    color: colors.surface,
     fontFamily: fonts.serif,
     fontSize: 21,
     lineHeight: 29,
@@ -614,7 +614,7 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
   },
   brandSubtitle: {
-    color: colors.gold,
+    color: colors.goldLight,
     fontFamily: fonts.serif,
     fontSize: 12,
     lineHeight: 18,
@@ -635,14 +635,14 @@ const styles = StyleSheet.create({
     gap: 1,
   },
   detailActionLabel: {
-    color: colors.gold,
+    color: colors.surface,
     fontSize: 10,
     lineHeight: 13,
     fontWeight: '600',
   },
-  detailActionLabelSaved: { color: colors.gold },
-  detailActionFallback: { color: colors.gold, fontSize: 20, lineHeight: 22 },
-  detailActionSaved: { color: colors.gold },
+  detailActionLabelSaved: { color: colors.goldLight },
+  detailActionFallback: { color: colors.surface, fontSize: 20, lineHeight: 22 },
+  detailActionSaved: { color: colors.goldLight },
   headerAction: {
     width: 48,
     minHeight: 44,
@@ -657,7 +657,7 @@ const styles = StyleSheet.create({
     opacity: 0.72,
   },
   headerActionLabel: {
-    color: colors.gold,
+    color: colors.goldLight,
     fontFamily: fonts.serif,
     fontSize: 10,
     lineHeight: 14,
@@ -680,7 +680,7 @@ const styles = StyleSheet.create({
     height: 27,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: colors.gold,
+    borderColor: colors.goldLight,
     position: 'relative',
   },
   principleDot: {
@@ -688,7 +688,7 @@ const styles = StyleSheet.create({
     width: 3,
     height: 3,
     borderRadius: 2,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.goldLight,
   },
   principleDotTop: { top: 3, left: 11 },
   principleDotUpperLeft: { top: 9, left: 4 },
