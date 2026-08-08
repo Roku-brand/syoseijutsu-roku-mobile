@@ -4,7 +4,10 @@ import { colors, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { AppText } from './ui';
+import { SaveDiamondButton } from './book-ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useAppState } from '@/state/app-state';
+import { useAppToast } from './app-toast';
 
 export function TheoryArchiveCard({
   theory,
@@ -14,23 +17,18 @@ export function TheoryArchiveCard({
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 620;
+  const showToast = useAppToast();
+  const { savedTheoryIds, toggleSavedTheory } = useAppState();
+  const saved = savedTheoryIds.includes(theory.tagId);
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${theory.title}を開く`}
-      onPress={() =>
-        router.push({
-          pathname: '/theory/[id]',
-          params: { id: theory.tagId },
-        })
-      }
-      style={({ pressed }) => [
-        styles.card,
-        compact && styles.cardCompact,
-        pressed && styles.pressed,
-      ]}
-    >
+    <View style={[styles.card, compact && styles.cardCompact]}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${theory.title}を開く`}
+        onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId } })}
+        style={({ pressed }) => [styles.openArea, pressed && styles.pressed]}
+      >
       <View style={[styles.copy, compact && styles.copyCompact]}>
         <View style={styles.metaRow}>
           <AppText variant="label" style={styles.id}>
@@ -60,12 +58,23 @@ export function TheoryArchiveCard({
         </View>
       </View>
 
-      <View style={styles.pageMotif} accessibilityElementsHidden>
-        <View style={styles.pageLine} />
-        <View style={styles.pageLine} />
-        <View style={styles.pageLine} />
+        <View style={styles.pageMotif} accessibilityElementsHidden>
+          <View style={styles.pageLine} />
+          <View style={styles.pageLine} />
+          <View style={styles.pageLine} />
+        </View>
+      </Pressable>
+      <View style={styles.saveButton}>
+        <SaveDiamondButton
+          saved={saved}
+          compact
+          onPress={() => {
+            toggleSavedTheory(theory.tagId);
+            showToast(saved ? '蔵書から外しました' : '蔵書に保存しました');
+          }}
+        />
       </View>
-    </Pressable>
+    </View>
   );
 }
 
@@ -82,6 +91,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   cardCompact: { minHeight: 126 },
+  openArea: { flex: 1 },
   pressed: { opacity: 0.72, transform: [{ scale: 0.994 }] },
   copy: {
     flex: 1,
@@ -151,6 +161,7 @@ const styles = StyleSheet.create({
     marginRight: -4,
   },
   pageMotif: { display: 'none' },
+  saveButton: { position: 'absolute', top: 10, right: 10, zIndex: 2 },
   pageLine: {
     height: 1,
     backgroundColor: 'rgba(52,73,92,0.08)',
