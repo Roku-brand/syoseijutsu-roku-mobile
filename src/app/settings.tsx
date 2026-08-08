@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, DetailHeader, Screen, SectionHeader } from '@/components/ui';
@@ -8,6 +8,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const { user } = useAuth();
   const { isPaid } = useAccess();
   const version = Constants.expoConfig?.version ?? '1.0.0';
@@ -22,12 +23,14 @@ export default function SettingsScreen() {
           title="アカウント"
           detail={user?.email ?? '未登録・ログイン'}
           href={user ? '/auth' : '/auth?mode=signin'}
+          onNavigate={(href) => router.push(href as never)}
         />
         <SettingLink
           icon="crown"
           title={isPaid ? '完全版を購入' : '完全版を購入'}
           detail={isPaid ? '完全版をご利用中' : '¥280・買い切り'}
           href="/upgrade"
+          onNavigate={(href) => router.push(href as never)}
           last
         />
       </View>
@@ -35,9 +38,9 @@ export default function SettingsScreen() {
       <SectionHeader title="サポート・その他" />
       <View style={styles.group}>
         <SettingLink icon="support" title="サポート・お問い合わせ" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
-        <SettingLink icon="document" title="利用規約" href="/legal/terms" />
-        <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" />
-        <SettingLink icon="brand" title="処世術禄について" href="/legal/about" last />
+        <SettingLink icon="document" title="利用規約" href="/legal/terms" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink icon="brand" title="処世術禄について" href="/legal/about" onNavigate={(href) => router.push(href as never)} last />
       </View>
 
       <AppText style={styles.version}>バージョン {version}</AppText>
@@ -47,9 +50,13 @@ export default function SettingsScreen() {
 
 type SettingIcon = 'person' | 'crown' | 'support' | 'document' | 'shield' | 'brand';
 
-function SettingLink({ icon, title, detail, href, onPress, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; last?: boolean }) {
-  const row = (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.row, last && styles.rowLast, pressed && styles.pressed]}>
+function SettingLink({ icon, title, detail, href, onPress, onNavigate, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; onNavigate?: (href: string) => void; last?: boolean }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress ?? (href ? () => onNavigate?.(href) : undefined)}
+      style={({ pressed }) => [styles.row, last && styles.rowLast, pressed && styles.pressed]}
+    >
       <SettingIconMark type={icon} />
       <View style={styles.copy}>
         <AppText style={styles.title}>{title}</AppText>
@@ -58,7 +65,6 @@ function SettingLink({ icon, title, detail, href, onPress, last = false }: { ico
       <AppText style={styles.chevron}>›</AppText>
     </Pressable>
   );
-  return href ? <Link href={href as never} asChild>{row}</Link> : row;
 }
 
 function SettingIconMark({ type }: { type: SettingIcon }) {
@@ -81,15 +87,15 @@ function SettingIconMark({ type }: { type: SettingIcon }) {
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: 28 },
+  content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: 20 },
   group: { overflow: 'hidden', borderWidth: 1, borderColor: '#E7DED1', borderRadius: 20, backgroundColor: 'rgba(255,253,248,0.78)', ...shadow.card },
-  row: { minHeight: 92, paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#E7DED1', gap: 16 },
+  row: { minHeight: 78, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#E7DED1' },
   rowLast: { borderBottomWidth: 0 },
   copy: { flex: 1, minWidth: 0 },
-  title: { fontSize: 18, lineHeight: 26, fontWeight: '600' },
-  detail: { marginTop: 3, color: colors.muted, fontSize: 14, lineHeight: 21 },
-  chevron: { color: colors.gold, fontFamily: fonts.sans, fontSize: 34, lineHeight: 36, fontWeight: '300', marginTop: -2 },
-  iconMark: { width: 48, alignItems: 'center', justifyContent: 'center' },
+  title: { fontSize: 17, lineHeight: 24, fontWeight: '600' },
+  detail: { marginTop: 2, color: colors.muted, fontSize: 13, lineHeight: 19 },
+  chevron: { width: 20, color: colors.gold, fontFamily: fonts.sans, fontSize: 32, lineHeight: 34, fontWeight: '300', textAlign: 'right' },
+  iconMark: { width: 42, height: 42, marginRight: 14, alignItems: 'center', justifyContent: 'center' },
   iconFallback: { color: colors.gold, fontFamily: fonts.serif, fontSize: 26, lineHeight: 30 },
   brandMark: { width: 42, height: 42, borderRadius: 8, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.ink },
   brandMarkText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 24, lineHeight: 30, fontWeight: '700' },
