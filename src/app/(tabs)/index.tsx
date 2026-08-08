@@ -485,50 +485,53 @@ export default function MainScreen() {
         </Pressable>
       ) : (
         <View style={styles.shortcuts}>
-          <View style={styles.shortcutSection}>
-            <View style={styles.shortcutSectionHeader}>
-              <View style={styles.shortcutSectionRule} />
-              <AppText style={styles.shortcutHeading}>処世術から選ぶ</AppText>
-              <AppText style={styles.shortcutSectionHint}>実践の入口</AppText>
+          {reelType === 'techniques' ? (
+            <View style={styles.shortcutSection}>
+              <View style={styles.shortcutSectionHeader}>
+                <View style={styles.shortcutSectionRule} />
+                <AppText style={styles.shortcutHeading}>処世術から選ぶ</AppText>
+                <AppText style={styles.shortcutSectionHint}>実践の入口</AppText>
+              </View>
+              <View style={styles.techniqueShortcutGrid}>
+                {techniqueShortcuts.map((shortcut) => (
+                  <Pressable
+                    key={shortcut.key}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${shortcut.label}の先頭の処世術へ移動`}
+                    onPress={() => jumpToTechniqueCategory(shortcut.key)}
+                    style={({ pressed }) => [styles.techniqueShortcut, pressed && styles.pressed]}
+                  >
+                    <AppText style={styles.techniqueShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
+                    <AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText>
+                    <AppText style={styles.shortcutChevron}>›</AppText>
+                  </Pressable>
+                ))}
+              </View>
             </View>
-            <View style={styles.techniqueShortcutGrid}>
-              {techniqueShortcuts.map((shortcut) => (
-                <Pressable
-                  key={shortcut.key}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${shortcut.label}の先頭の処世術へ移動`}
-                  onPress={() => jumpToTechniqueCategory(shortcut.key)}
-                  style={({ pressed }) => [styles.techniqueShortcut, pressed && styles.pressed]}
-                >
-                  <AppText style={styles.techniqueShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
-                  <AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText>
-                  <AppText style={styles.shortcutChevron}>›</AppText>
-                </Pressable>
-              ))}
+          ) : (
+            <View style={styles.shortcutSection}>
+              <View style={styles.shortcutSectionHeader}>
+                <View style={styles.shortcutSectionRule} />
+                <AppText style={styles.shortcutHeading}>理論から選ぶ</AppText>
+                <AppText style={styles.shortcutSectionHint}>知識の入口</AppText>
+              </View>
+              <View style={styles.theoryShortcutGrid}>
+                {theoryShortcuts.map((shortcut) => (
+                  <Pressable
+                    key={shortcut.key}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
+                    onPress={() => jumpToTheoryCategory(shortcut.key)}
+                    style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
+                  >
+                    <AppText style={styles.theoryShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
+                    <AppText numberOfLines={1} style={styles.theoryShortcutText}>{shortcut.label}</AppText>
+                    <AppText style={styles.theoryShortcutArrow}>↗</AppText>
+                  </Pressable>
+                ))}
+              </View>
             </View>
-          </View>
-          <View style={styles.shortcutSection}>
-            <View style={styles.shortcutSectionHeader}>
-              <View style={styles.shortcutSectionRule} />
-              <AppText style={styles.shortcutHeading}>理論から選ぶ</AppText>
-              <AppText style={styles.shortcutSectionHint}>知識の入口</AppText>
-            </View>
-            <View style={styles.theoryShortcutGrid}>
-              {theoryShortcuts.map((shortcut) => (
-                <Pressable
-                  key={shortcut.key}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
-                  onPress={() => jumpToTheoryCategory(shortcut.key)}
-                  style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
-                >
-                  <AppText style={styles.theoryShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
-                  <AppText numberOfLines={1} style={styles.theoryShortcutText}>{shortcut.label}</AppText>
-                  <AppText style={styles.theoryShortcutArrow}>↗</AppText>
-                </Pressable>
-              ))}
-            </View>
-          </View>
+          )}
         </View>
       )}
     </BookScreen>
