@@ -17,7 +17,9 @@ export default function RootLayout() {
   const pathname = usePathname();
   const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
-  const isWelcome = pathname === '/welcome';
+  // `/onboarding` is retained only for existing links.  While its redirect
+  // resolves, it must not show the regular application chrome.
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
