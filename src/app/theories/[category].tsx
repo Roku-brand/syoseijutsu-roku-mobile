@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: '#F8F8F4',
   },
-  searchIcon: { color: '#34495C', fontSize: 25, lineHeight: 29 },
+  searchIcon: { color: colors.gold, fontSize: 25, lineHeight: 29 },
   searchInput: {
     flex: 1,
     minHeight: 50,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clearText: { color: '#526577', fontSize: 12, fontWeight: '700' },
+  clearText: { color: colors.gold, fontSize: 12, fontWeight: '700' },
   sortRow: { flexDirection: 'row', gap: spacing.sm },
   sortButton: {
     minHeight: 40,
@@ -217,8 +217,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sortButtonActive: { backgroundColor: '#263544', borderColor: '#263544' },
-  sortText: { color: '#526577', fontSize: 12, fontWeight: '700' },
+  sortButtonActive: { backgroundColor: colors.gold, borderColor: colors.gold },
+  sortText: { color: colors.inkSoft, fontSize: 12, fontWeight: '700' },
   sortTextActive: { color: colors.goldLight },
   sectionTitle: {
     flexDirection: 'row',
@@ -260,5 +260,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  toTopText: { color: '#34495C', fontSize: 13, fontWeight: '700' },
+  toTopText: { color: colors.gold, fontSize: 13, fontWeight: '700' },
 });

@@ -6,11 +6,13 @@ import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { checkoutConfirmationRedirectUrl, useAuth } from '@/auth/auth-state';
 import { createCompleteEditionCheckout } from '@/lib/purchase';
+import { useAccess } from '@/access/access-state';
 
 export default function AuthScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ intent?: string; mode?: string }>();
   const { configured, user, signInWithEmail, signUpWithEmail, signOut } = useAuth();
+  const { isPaid } = useAccess();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const purchaseIntent = params.intent === 'checkout';
@@ -70,10 +72,18 @@ export default function AuthScreen() {
   };
 
   return (
-    <BookScreen>
+    <BookScreen contentContainerStyle={styles.content}>
       <DetailHeader title="アカウント" />
+      <AppText style={styles.sectionTitle}>アカウント情報</AppText>
+      <View style={styles.infoCard}>
+        <View style={styles.userIcon}><AppText style={styles.userIconText}>人</AppText></View>
+        <View style={styles.infoCopy}>
+          <AppText style={styles.infoStatus}>{user ? '登録済み' : '未登録'}</AppText>
+          <AppText style={styles.infoPlan}>{isPaid ? '完全版' : '無料版'}</AppText>
+        </View>
+      </View>
+      <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
       <View style={styles.card}>
-        <AppText style={styles.eyebrow}>ACCOUNT</AppText>
         <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : '購入済みの方はこちら'}</AppText>
         <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
 
@@ -110,18 +120,26 @@ export default function AuthScreen() {
 }
 
 const styles = StyleSheet.create({
-  card: { width: '100%', maxWidth: 560, alignSelf: 'center', marginTop: spacing.xl, padding: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  content: { width: '100%', maxWidth: 620, alignSelf: 'center' },
+  sectionTitle: { marginTop: spacing.lg, marginBottom: spacing.sm, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
+  infoCard: { minHeight: 82, padding: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  userIcon: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
+  userIconText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 24 },
+  infoCopy: { flex: 1 },
+  infoStatus: { fontSize: 15, lineHeight: 22, fontWeight: '700' },
+  infoPlan: { marginTop: 2, color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  card: { width: '100%', padding: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
   eyebrow: { color: colors.gold, fontSize: 10, letterSpacing: 2, fontWeight: '700' },
   title: { marginTop: 8, fontFamily: fonts.serif, fontSize: 27, lineHeight: 38, fontWeight: '700' },
   lead: { marginTop: 10, color: colors.muted, fontSize: 13, lineHeight: 22 },
   tabs: { flexDirection: 'row', marginTop: spacing.xl, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.paperDeep },
   tab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
-  tabActive: { backgroundColor: colors.charcoal },
+  tabActive: { backgroundColor: colors.gold },
   tabText: { color: colors.inkSoft, fontWeight: '700' },
-  tabTextActive: { color: colors.goldLight },
+  tabTextActive: { color: '#FFFFFF' },
   input: { minHeight: 52, marginTop: spacing.md, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.white, color: colors.ink, fontSize: 15 },
-  primary: { minHeight: 54, marginTop: spacing.lg, borderRadius: radius.sm, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  primaryText: { color: colors.goldLight, fontWeight: '700' },
+  primary: { minHeight: 54, marginTop: spacing.lg, borderRadius: radius.md, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  primaryText: { color: '#FFFFFF', fontWeight: '700' },
   disabled: { opacity: 0.45 },
   secondary: { minHeight: 48, marginTop: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { color: colors.gold, fontWeight: '700' },

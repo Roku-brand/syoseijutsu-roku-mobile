@@ -151,7 +151,7 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'techniques' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'techniques' && styles.modeTextActive]}>
-                処世術から探す
+                処世術
               </AppText>
             </Pressable>
             <Pressable
@@ -161,12 +161,12 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'theories' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'theories' && styles.modeTextActive]}>
-                理論から探す
+                理論
               </AppText>
             </Pressable>
           </View>
           {mode === 'techniques' ? (
-            <TechniqueBrowser router={router} />
+            <TechniqueBrowser router={router} onSearch={setQuery} />
           ) : (
             <TheoryBrowser router={router} />
           )}
@@ -176,10 +176,10 @@ export default function DiscoverScreen() {
   );
 }
 
-function TechniqueBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
+function TechniqueBrowser({ router, onSearch }: { router: ReturnType<typeof useRouter>; onSearch: (value: string) => void }) {
   return (
     <View>
-      <OrnamentHeading>処世術から探す</OrnamentHeading>
+      <OrnamentHeading>領域から探す</OrnamentHeading>
       <View style={styles.categoryGrid}>
         {categoryOrder.map((key) => {
           const category = categories.find((item) => item.key === key);
@@ -207,6 +207,35 @@ function TechniqueBrowser({ router }: { router: ReturnType<typeof useRouter> }) 
             </Pressable>
           );
         })}
+      </View>
+      <OrnamentHeading>状況から探す</OrnamentHeading>
+      <View style={styles.chipGrid}>
+        {['初対面', '会話', '交渉', '不安', '判断', '習慣'].map((label) => (
+          <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.searchChip, pressed && styles.pressed]}>
+            <AppText style={styles.searchChipText}>{label}</AppText>
+          </Pressable>
+        ))}
+      </View>
+      <OrnamentHeading>目的から探す</OrnamentHeading>
+      <View style={styles.purposeGrid}>
+        {[
+          ['印', '印象を良くする'],
+          ['葉', '消耗しない'],
+          ['盾', '舐められない'],
+          ['星', '自信を整える'],
+        ].map(([mark, label]) => (
+          <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.purposeRow, pressed && styles.pressed]}>
+            <AppText style={styles.purposeMark}>{mark}</AppText><AppText style={styles.purposeText}>{label}</AppText><AppText style={styles.purposeChevron}>›</AppText>
+          </Pressable>
+        ))}
+      </View>
+      <OrnamentHeading>よく見られる検索</OrnamentHeading>
+      <View style={styles.chipGrid}>
+        {['人間関係', '仕事術', 'メンタル'].map((label) => (
+          <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, pressed && styles.pressed]}>
+            <AppText style={styles.searchChipText}>{label}　⌕</AppText>
+          </Pressable>
+        ))}
       </View>
     </View>
   );
@@ -244,7 +273,7 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
 
 const styles = StyleSheet.create({
   searchBox: {
-    minHeight: 62,
+    minHeight: 48,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
@@ -253,12 +282,12 @@ const styles = StyleSheet.create({
     borderColor: colors.gold,
     borderRadius: radius.pill,
     backgroundColor: colors.surface,
-    marginBottom: spacing.xl,
+    marginBottom: spacing.md,
   },
   searchIcon: { color: colors.gold, fontFamily: fonts.serif, fontSize: 28 },
   searchInput: {
     flex: 1,
-    minHeight: 54,
+    minHeight: 46,
     color: colors.ink,
     fontFamily: fonts.serif,
     fontSize: 16,
@@ -282,7 +311,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.pill,
-    backgroundColor: colors.paperDeep,
+    backgroundColor: colors.surface,
   },
   modeTab: {
     flex: 1,
@@ -317,13 +346,12 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    borderWidth: 1,
-    borderColor: colors.gold,
+    backgroundColor: colors.charcoal,
     alignItems: 'center',
     justifyContent: 'center',
   },
   categoryMarkText: {
-    color: colors.gold,
+    color: colors.goldLight,
     fontFamily: fonts.serif,
     fontSize: 18,
     fontWeight: '700',
@@ -342,6 +370,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   categoryCount: { color: colors.gold, fontSize: 11, lineHeight: 17 },
+  chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  searchChip: { flexGrow: 1, flexBasis: '30%', minHeight: 38, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  popularChip: { flexGrow: 1, flexBasis: '28%', minHeight: 38, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  searchChipText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  purposeGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  purposeRow: { flexGrow: 1, flexBasis: '45%', minHeight: 48, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
+  purposeMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  purposeText: { flex: 1, color: colors.ink, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  purposeChevron: { color: colors.gold, fontSize: 20, lineHeight: 22 },
   theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   theoryCard: {
     flexGrow: 1,

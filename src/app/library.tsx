@@ -22,7 +22,7 @@ export default function LibraryScreen() {
 
   return (
     <BookScreen>
-      <DetailHeader title="マイOS" />
+      <DetailHeader title="マイページ" />
       <BookTitle
         title="蔵書"
         subtitle="手元に残した処世術を、必要なときに読み返す。"

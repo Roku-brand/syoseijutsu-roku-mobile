@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { Stack, usePathname } from 'expo-router';
+import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -15,13 +15,11 @@ import { AuthProvider } from '@/auth/auth-state';
 
 export default function RootLayout() {
   const { width } = useHydratedWindowDimensions();
-  const pathname = usePathname();
   const desktop = width >= 1000;
-  const lightHeader = pathname === '/upgrade' || pathname.startsWith('/subcategory/');
 
   const appContent = (
     <View style={styles.contentColumn}>
-      <SafeAreaView edges={['top', 'left', 'right']} style={[styles.headerSafeArea, lightHeader && styles.headerSafeAreaLight]}>
+      <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}>
         <BookHeader />
       </SafeAreaView>
       <Stack
@@ -45,7 +43,7 @@ export default function RootLayout() {
             <AppStateProvider>
               <AppToastProvider>
                 <View style={styles.container}>
-                  <StatusBar style={lightHeader ? 'dark' : 'light'} />
+                  <StatusBar style="dark" />
                   {desktop ? (
                     <View style={styles.desktopFrame}>
                       <PersistentBottomNav />
@@ -66,6 +64,5 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.paper },
   desktopFrame: { flex: 1, flexDirection: 'row' },
   contentColumn: { flex: 1, minWidth: 0 },
-  headerSafeArea: { backgroundColor: colors.charcoal },
-  headerSafeAreaLight: { backgroundColor: colors.paper },
+  headerSafeArea: { backgroundColor: colors.surface },
 });

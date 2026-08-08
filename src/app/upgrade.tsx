@@ -7,11 +7,13 @@ import { AppText } from '@/components/ui';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout } from '@/lib/purchase';
+import { colors, radius, spacing } from '@/constants/theme';
 
 const benefits = [
-  { icon: '⌕', title: '状況から探せる', body: '同じ状況で使える一手を厳選して提案' },
-  { icon: '▤', title: '背景理論まで読める', body: '心理学・行動科学・戦略論を体系的に学べる' },
-  { icon: '♧', title: 'ケースで理解を深められる', body: '実例・ケースで思考と判断力を鍛えられる' },
+  { icon: '網', title: '網羅性', body: '216の処世術を人生・仕事・対人に整理' },
+  { icon: '理', title: '理論性', body: '526の理論から、知恵の背景まで理解' },
+  { icon: '実', title: '実践性', body: '全21ケースで、判断を自分の力に変える' },
+  { icon: '普', title: '普遍性', body: '流行に消費されない知恵を、何度でも使える' },
 ];
 
 export default function UpgradeScreen() {
@@ -76,10 +78,15 @@ export default function UpgradeScreen() {
           <AppText variant="serif" style={styles.productTitle}>処世術禄 完全版</AppText>
           <View style={styles.priceRow}>
             <AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-            <View style={styles.priceNote}><AppText style={styles.priceNoteText}>買い切り・追加課金なし</AppText></View>
+            <AppText style={styles.regularPrice}>通常価格 ¥980</AppText>
+            <View style={styles.discount}><AppText style={styles.discountText}>71%OFF</AppText></View>
           </View>
-          <AppText style={styles.productMeta}>♧　434の処世術・526の理論・全21ケース</AppText>
+          <AppText style={styles.productMeta}>買い切り・追加課金なし</AppText>
         </View>
+      </View>
+
+      <View style={styles.statsRow}>
+        {['216の処世術', '526の理論', '全21ケース'].map((label) => <AppText key={label} style={styles.statText}>{label}</AppText>)}
       </View>
 
       <View style={styles.rule} />
@@ -96,6 +103,14 @@ export default function UpgradeScreen() {
         ))}
       </View>
 
+      <View style={styles.previewCard}>
+        <AppText style={styles.previewLabel}>アプリ画面プレビュー</AppText>
+        <View style={styles.previewBody}>
+          <View style={styles.previewCover}><AppText style={styles.previewCoverText}>禄</AppText></View>
+          <View style={styles.previewLines}><View style={styles.previewLineStrong} /><View style={styles.previewLine} /><View style={styles.previewLineShort} /></View>
+        </View>
+      </View>
+
       {message ? <AppText style={styles.message}>{message}</AppText> : null}
       {isPaid ? (
         <Pressable style={styles.primary} onPress={() => router.back()}><AppText style={styles.primaryText}>完全版を開く</AppText></Pressable>
@@ -106,7 +121,7 @@ export default function UpgradeScreen() {
           onPress={() => void purchase()}
           style={[styles.primary, submitting && styles.disabled]}
         >
-          <AppText variant="serif" style={styles.primaryText}>{submitting ? '決済画面を開いています…' : user ? '購入へ進む' : '会員登録して購入へ進む'}</AppText>
+          <AppText variant="serif" style={styles.primaryText}>{submitting ? '決済画面を開いています…' : `¥${COMPLETE_EDITION_PRICE_JPY}で完全版を購入`}</AppText>
           <AppText style={styles.primaryArrow}>›</AppText>
         </Pressable>
       )}
@@ -115,6 +130,7 @@ export default function UpgradeScreen() {
         <AppText style={styles.secondaryArrow}>›</AppText>
       </Pressable>
       <AppText style={styles.instantNote}>♢　購入後すぐに完全版へ切り替わります</AppText>
+      <AppText style={styles.reassurance}>買い切り　・　追加課金なし　・　広告なし　・　オフライン対応　・　すぐ使える</AppText>
 
       <AppText variant="serif" style={[styles.sectionTitle, styles.paymentHeading]}>お支払い方法</AppText>
       <View style={styles.paymentBox}>
@@ -152,32 +168,45 @@ function PaymentRow({ icon, title, note, last = false }: { icon: string; title: 
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 580, alignSelf: 'center', paddingHorizontal: 22, paddingTop: 28, paddingBottom: 132 },
+  content: { width: '100%', maxWidth: 620, alignSelf: 'center', paddingHorizontal: 20, paddingTop: 22, paddingBottom: 132 },
   productHero: { flexDirection: 'row', alignItems: 'center', gap: 20 },
   heroCopy: { flex: 1, minWidth: 0 },
   productTitle: { color: '#171713', fontSize: 25, lineHeight: 35, fontWeight: '700' },
   priceRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 11, marginTop: 6 },
-  price: { color: '#F04A17', fontSize: 43, lineHeight: 50, fontWeight: '700' },
-  priceNote: { borderWidth: 1, borderColor: '#D9D0C3', borderRadius: 6, paddingHorizontal: 10, paddingVertical: 6 },
-  priceNoteText: { color: '#8B6B38', fontSize: 11, fontWeight: '600' },
+  price: { color: colors.gold, fontSize: 42, lineHeight: 50, fontWeight: '700' },
+  regularPrice: { color: colors.muted, fontSize: 11, lineHeight: 17, textDecorationLine: 'line-through' },
+  discount: { paddingHorizontal: 9, paddingVertical: 5, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm },
+  discountText: { color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
   productMeta: { marginTop: 7, color: '#5A5954', fontSize: 12, lineHeight: 19 },
+  statsRow: { marginTop: spacing.lg, paddingVertical: 12, flexDirection: 'row', justifyContent: 'space-around', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  statText: { color: colors.inkSoft, fontSize: 11, lineHeight: 17, fontWeight: '700' },
   rule: { height: 1, marginTop: 26, backgroundColor: '#D6CCBD' },
   sectionTitle: { marginTop: 22, color: '#AF8438', fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  benefitList: { marginTop: 13, gap: 19 },
-  benefitRow: { flexDirection: 'row', alignItems: 'center', gap: 17 },
-  benefitIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: '#F1ECE3', alignItems: 'center', justifyContent: 'center' },
-  benefitIconText: { color: '#171713', fontSize: 29, lineHeight: 34 },
+  benefitList: { marginTop: 13, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  benefitRow: { minHeight: 72, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 14, borderBottomWidth: 1, borderBottomColor: colors.line },
+  benefitIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
+  benefitIconText: { color: colors.gold, fontFamily: 'serif', fontSize: 16, lineHeight: 22, fontWeight: '700' },
   benefitCopy: { flex: 1 },
   benefitTitle: { color: '#292925', fontFamily: 'Hiragino Sans', fontSize: 17, lineHeight: 25, fontWeight: '700' },
   benefitBody: { marginTop: 3, color: '#55554F', fontSize: 12, lineHeight: 19 },
   message: { marginTop: 18, color: '#8B5B22', fontSize: 12, lineHeight: 19, textAlign: 'center' },
-  primary: { position: 'relative', minHeight: 68, marginTop: 28, borderRadius: 8, backgroundColor: '#F04A17', alignItems: 'center', justifyContent: 'center' },
-  primaryText: { color: '#FFFDF8', fontSize: 25, lineHeight: 33, fontWeight: '700' },
+  previewCard: { marginTop: spacing.xl, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  previewLabel: { color: colors.muted, fontSize: 11, lineHeight: 17, fontWeight: '700' },
+  previewBody: { minHeight: 110, marginTop: spacing.md, padding: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.lg, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
+  previewCover: { width: 72, height: 88, borderRadius: radius.sm, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
+  previewCoverText: { color: colors.goldLight, fontFamily: 'serif', fontSize: 26, lineHeight: 33 },
+  previewLines: { flex: 1, gap: 10 },
+  previewLineStrong: { width: '92%', height: 12, borderRadius: 6, backgroundColor: colors.ink },
+  previewLine: { width: '78%', height: 8, borderRadius: 4, backgroundColor: colors.line },
+  previewLineShort: { width: '55%', height: 8, borderRadius: 4, backgroundColor: colors.line },
+  primary: { position: 'relative', minHeight: 60, marginTop: 24, borderRadius: 16, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  primaryText: { color: '#FFFFFF', fontSize: 18, lineHeight: 27, fontWeight: '700' },
   primaryArrow: { position: 'absolute', right: 24, color: '#FFFDF8', fontSize: 42, lineHeight: 42, fontWeight: '300' },
-  secondary: { position: 'relative', minHeight: 58, marginTop: 16, borderWidth: 1, borderColor: '#B89658', borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  secondary: { position: 'relative', minHeight: 56, marginTop: 12, borderWidth: 1, borderColor: colors.gold, borderRadius: 16, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { color: '#8A6A31', fontSize: 17, lineHeight: 25, fontWeight: '700' },
   secondaryArrow: { position: 'absolute', right: 24, color: '#9B7A3D', fontSize: 35, lineHeight: 35, fontWeight: '300' },
   instantNote: { marginTop: 14, color: '#74736D', fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  reassurance: { marginTop: 10, color: colors.muted, fontSize: 10, lineHeight: 17, textAlign: 'center' },
   paymentHeading: { marginTop: 28 },
   paymentBox: { marginTop: 9, paddingHorizontal: 13, borderWidth: 1, borderColor: '#DDD4C7', borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.32)' },
   paymentRow: { minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 15, borderBottomWidth: 1, borderColor: '#E1D8CC' },
