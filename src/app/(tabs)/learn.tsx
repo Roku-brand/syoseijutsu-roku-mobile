@@ -38,6 +38,7 @@ export default function LearnHomeScreen() {
         {learningStages.map((stage) => {
           const cases = learningCases.filter((item) => item.stage === stage.number);
           const locked = !isPaid && stage.number > 1;
+          const caseCount = cases.length || 7;
           const completeCount = locked ? 0 : cases.filter((item) => learningRecords[item.id]).length;
           return (
             <Pressable
@@ -52,7 +53,7 @@ export default function LearnHomeScreen() {
                 <View style={styles.stageCopy}>
                   <View style={styles.stageTopline}>
                     <AppText style={styles.stageNumber}>Stage {stage.number}</AppText>
-                    <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>{completeCount}/{cases.length} ケース</AppText>
+                    <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>{completeCount}/{caseCount} ケース</AppText>
                   </View>
                   <AppText style={styles.stageTitle}>{stage.title}</AppText>
                   <AppText style={styles.stageIntro}>{stage.intro}</AppText>
@@ -62,7 +63,11 @@ export default function LearnHomeScreen() {
               {locked ? <AppText style={styles.lockedReason}>{stage.number === 2 ? '頼まれ方・押され方・交渉の局面を扱います。' : '仕事と人生の選択を、自分の基準で決める局面を扱います。'}</AppText> : null}
               <View style={styles.stageFooter}>
                 <View style={styles.dots}>
-                  {cases.map((item, index) => <View key={item.id} style={[styles.dot, !locked && learningRecords[item.id] && styles.dotComplete]}><AppText style={[styles.dotText, !locked && learningRecords[item.id] && styles.dotTextComplete]}>{index + 1}</AppText></View>)}
+                  {Array.from({ length: caseCount }, (_, index) => {
+                    const item = cases[index];
+                    const complete = Boolean(item && !locked && learningRecords[item.id]);
+                    return <View key={`${stage.number}-${index}`} style={[styles.dot, complete && styles.dotComplete]}><AppText style={[styles.dotText, complete && styles.dotTextComplete]}>{index + 1}</AppText></View>;
+                  })}
                 </View>
               </View>
             </Pressable>
