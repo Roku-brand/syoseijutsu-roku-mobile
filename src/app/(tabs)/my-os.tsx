@@ -27,7 +27,6 @@ export default function MyOsScreen() {
   const {
     savedIds,
     historyIds,
-    practiceRecords,
     personalPrinciple,
     updatePersonalPrinciple,
     personalMemos,
@@ -41,16 +40,6 @@ export default function MyOsScreen() {
     techniqueById.get(historyIds[0] ?? '') ??
     techniqueById.get(savedIds[0] ?? '') ??
     techniqueCards[0];
-  const practiceCards = Object.values(practiceRecords)
-    .sort((a, b) =>
-      (b.triedAt ?? b.plannedAt).localeCompare(a.triedAt ?? a.plannedAt),
-    )
-    .map((record) => ({
-      record,
-      card: techniqueById.get(record.cardId),
-    }))
-    .filter((item) => item.card)
-    .slice(0, 3);
 
   const openEditor = () => {
     void Haptics.selectionAsync().catch(() => undefined);
@@ -77,7 +66,6 @@ export default function MyOsScreen() {
           ['保存済み', savedIds.length],
           ['マイ処世術', personalMemos.length],
           ['閲覧履歴', historyIds.length],
-          ['実践', Object.keys(practiceRecords).length],
         ].map(([label, value], index) => (
           <View key={String(label)} style={[styles.summaryItem, index > 0 && styles.summaryDivider]}>
             <AppText style={styles.summaryLabel}>{label}</AppText>
@@ -130,7 +118,7 @@ export default function MyOsScreen() {
           ]}
         >
           <AppText style={styles.actionMark}>記</AppText>
-          <AppText style={styles.actionTitle}>書き留める</AppText>
+          <AppText style={styles.actionTitle}>マイ処世術</AppText>
           <View style={styles.shortRule} />
           <AppText style={styles.actionSubtitle}>自分の言葉にする</AppText>
         </Pressable>
@@ -139,7 +127,7 @@ export default function MyOsScreen() {
       <View style={styles.memoCard}>
         <View style={styles.memoHeading}>
           <View>
-            <AppText style={styles.memoTitle}>自分の処世術メモ</AppText>
+            <AppText style={styles.memoTitle}>マイ処世術</AppText>
             <AppText style={styles.memoLead}>今の判断原則とは別に、気づきを箇条書きで残せます。</AppText>
           </View>
           <AppText style={styles.memoCount}>{personalMemos.length}</AppText>
@@ -192,60 +180,6 @@ export default function MyOsScreen() {
           </Pressable>
         </View>
       </View>
-
-      <OrnamentHeading>実践の記録</OrnamentHeading>
-      {practiceCards.length ? (
-        <View style={styles.practiceList}>
-          {practiceCards.map(({ record, card }) =>
-            card ? (
-              <Pressable
-                key={record.cardId}
-                accessibilityRole="button"
-                accessibilityLabel={`${card.title}を開く`}
-                onPress={() =>
-                  router.push({
-                    pathname: '/card/[id]',
-                    params: { id: card.id },
-                  })
-                }
-                style={({ pressed }) => [
-                  styles.practiceRow,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <View
-                  style={[
-                    styles.practiceStatus,
-                    record.status === 'tried' &&
-                      styles.practiceStatusComplete,
-                  ]}
-                >
-                  <AppText style={styles.practiceStatusText}>
-                    {record.status === 'tried' ? '済' : '試'}
-                  </AppText>
-                </View>
-                <View style={styles.practiceRowCopy}>
-                  <AppText style={styles.practiceRowTitle} numberOfLines={2}>
-                    {card.title}
-                  </AppText>
-                  <AppText style={styles.practiceRowMeta}>
-                    {record.status === 'tried'
-                      ? '実践済み・メモを振り返る'
-                      : '次に試す処世術'}
-                  </AppText>
-                </View>
-                <AppText style={styles.chevron}>›</AppText>
-              </Pressable>
-            ) : null,
-          )}
-        </View>
-      ) : (
-        <View style={styles.practiceEmpty}>
-          <AppText style={styles.practiceEmptyText}>
-            カードの「今日、試してみる」から、知恵を行動へ移せます。
-          </AppText>
-        </View>
-      )}
 
       <OrnamentHeading>最近の振り返り</OrnamentHeading>
       <Pressable
