@@ -3,9 +3,9 @@ import { Platform } from 'react-native';
 export const colors = {
   ink: '#1C2024',
   inkSoft: '#3F423F',
-  paper: '#F7F2E8',
-  paperDeep: '#EEE6D8',
-  surface: '#FCFAF5',
+  paper: '#FBF8F3',
+  paperDeep: '#F4EEE4',
+  surface: '#FFFDF9',
   surfaceDark: '#242720',
   gold: '#A7833D',
   goldLight: '#D2B66F',
@@ -15,7 +15,7 @@ export const colors = {
   white: '#FFFFFF',
   danger: '#8E3F39',
   success: '#49624A',
-  navInk: '#1D1F1E',
+  navInk: '#FFFDF9',
   sage: '#E7EEDF',
   charcoal: '#1A1B1A',
 } as const;

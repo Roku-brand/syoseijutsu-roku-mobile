@@ -24,9 +24,13 @@ async function loadLearningCases() {
   const generated = await readFile(generatedPath, 'utf8').catch(() => null);
   if (generated) return JSON.parse(generated);
 
+  const publicGeneratedPath = path.join(root, 'src/data/generated/learning.json');
+  const publicGenerated = await readFile(publicGeneratedPath, 'utf8').catch(() => null);
+  if (publicGenerated) return JSON.parse(publicGenerated);
+
   const source = await readFile(path.join(root, 'src/data/learning.ts'), 'utf8');
   const match = source.match(/const rawLearningCases:\s*LearningCase\[\]\s*=\s*(\[[\s\S]*?\n\]);/);
-  if (!match) throw new Error('Unable to extract rawLearningCases from src/data/learning.ts');
+  if (!match) throw new Error('Unable to extract learning cases from src/data/learning.ts');
   return Function(`"use strict"; return (${match[1]});`)();
 }
 const learning = await loadLearningCases();
