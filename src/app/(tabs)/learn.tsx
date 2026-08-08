@@ -12,14 +12,14 @@ export default function LearnHomeScreen() {
   const { learningRecords } = useAppState();
   const { isPaid } = useAccess();
 
-  const openStage = (stage: number) => {
+  const openCase = (stage: number, caseId?: string) => {
     if (!isPaid && stage > 1) {
       router.push({ pathname: '/upgrade', params: { source: 'learning' } });
       return;
     }
     const cases = learningCases.filter((item) => item.stage === stage);
-    const next = cases.find((item) => !learningRecords[item.id]) ?? cases[0];
-    router.push(`/learn/${next.id}`);
+    const next = caseId ? cases.find((item) => item.id === caseId) : cases.find((item) => !learningRecords[item.id]) ?? cases[0];
+    if (next) router.push(`/learn/${next.id}`);
   };
 
   return (
@@ -40,14 +40,16 @@ export default function LearnHomeScreen() {
           const caseCount = cases.length || 7;
           const completeCount = locked ? 0 : cases.filter((item) => learningRecords[item.id]).length;
           return (
-            <Pressable
+            <View
               key={stage.number}
-              accessibilityRole="button"
-              accessibilityLabel={`ステージ${stage.number}、${stage.title}${locked ? '、完全版限定' : ''}`}
-              onPress={() => openStage(stage.number)}
-              style={({ pressed }) => [styles.stage, locked && styles.stageLocked, pressed && styles.pressed]}
+              style={[styles.stage, locked && styles.stageLocked]}
             >
-              <View style={styles.stageMain}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={`ステージ${stage.number}、${stage.title}${locked ? '、完全版限定' : ''}`}
+                onPress={() => openCase(stage.number)}
+                style={({ pressed }) => [styles.stageMain, pressed && styles.pressed]}
+              >
                 <View style={styles.stageIcon}><AppText style={styles.stageIconText}>{stage.number === 1 ? '芽' : stage.number === 2 ? '力' : '冠'}</AppText></View>
                 <View style={styles.stageCopy}>
                   <View style={styles.stageTopline}>
@@ -58,18 +60,30 @@ export default function LearnHomeScreen() {
                   <AppText style={styles.stageIntro}>{stage.intro}</AppText>
                 </View>
                 <AppText style={styles.chevron}>›</AppText>
-              </View>
+              </Pressable>
               {locked ? <AppText style={styles.lockedReason}>{stage.number === 2 ? '頼まれ方・押され方・交渉の局面を扱います。' : '仕事と人生の選択を、自分の基準で決める局面を扱います。'}</AppText> : null}
               <View style={styles.stageFooter}>
                 <View style={styles.dots}>
                   {Array.from({ length: caseCount }, (_, index) => {
                     const item = cases[index];
                     const complete = Boolean(item && !locked && learningRecords[item.id]);
-                    return <View key={`${stage.number}-${index}`} style={[styles.dot, complete && styles.dotComplete]}><AppText style={[styles.dotText, complete && styles.dotTextComplete]}>{index + 1}</AppText></View>;
+                    return (
+                      <Pressable
+                        key={`${stage.number}-${index}`}
+                        accessibilityRole="button"
+                        accessibilityLabel={`ステージ${stage.number}、ケース${index + 1}${complete ? '、解答済み。もう一度解く' : ''}`}
+                        disabled={locked || !item}
+                        onPress={() => item && openCase(stage.number, item.id)}
+                        style={({ pressed }) => [styles.dot, complete && styles.dotComplete, pressed && styles.dotPressed]}
+                      >
+                        <AppText style={[styles.dotText, complete && styles.dotTextComplete]}>{index + 1}</AppText>
+                      </Pressable>
+                    );
                   })}
                 </View>
+                <AppText style={styles.caseHint}>番号からケースを選ぶ</AppText>
               </View>
-            </Pressable>
+            </View>
           );
         })}
       </View>
@@ -107,5 +121,7 @@ const styles = StyleSheet.create({
   dotComplete: { backgroundColor: colors.gold, borderColor: colors.gold },
   dotText: { color: colors.gold, fontSize: 8, lineHeight: 10, fontWeight: '700' },
   dotTextComplete: { color: '#FFFFFF' },
+  dotPressed: { opacity: 0.55, transform: [{ scale: 0.92 }] },
+  caseHint: { marginTop: 5, color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.5, textAlign: 'center' },
   pressed: { opacity: 0.68, transform: [{ scale: 0.99 }] },
 });

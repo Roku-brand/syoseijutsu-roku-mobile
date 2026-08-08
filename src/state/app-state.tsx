@@ -79,6 +79,7 @@ type AppStateContextValue = PersistedState & {
   addPersonalMemo: (memo: string) => void;
   removePersonalMemo: (index: number) => void;
   answerLearningCase: (caseId: string, choiceId: LearningRecord['choiceId']) => void;
+  resetLearningCase: (caseId: string) => void;
   clearPersonalData: () => Promise<void>;
 };
 
@@ -283,6 +284,14 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
+  const resetLearningCase = useCallback((caseId: string) => {
+    setState((current) => {
+      const learningRecords = { ...current.learningRecords };
+      delete learningRecords[caseId];
+      return { ...current, learningRecords };
+    });
+  }, []);
+
   const clearPersonalData = useCallback(async () => {
     setState({ ...initialState, onboardingCompleted: true });
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -307,6 +316,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       addPersonalMemo,
       removePersonalMemo,
       answerLearningCase,
+      resetLearningCase,
       clearPersonalData,
     }),
     [
