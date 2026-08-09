@@ -14,6 +14,7 @@ type PaidContentRow<T> = {
 
 let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
+const PAID_CONTENT_TIMEOUT_MS = 20_000;
 
 async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]> {
   if (!supabase || !supabaseUrl || !supabasePublishableKey) {
@@ -23,13 +24,24 @@ async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]>
   const session = data.session;
   if (!session) throw new Error('Authentication is required.');
 
-  const response = await fetch(`${supabaseUrl}/functions/v1/paid-content?type=${encodeURIComponent(type)}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${session.access_token}`,
-      apikey: supabasePublishableKey,
-    },
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), PAID_CONTENT_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch(`${supabaseUrl}/functions/v1/paid-content?type=${encodeURIComponent(type)}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+        apikey: supabasePublishableKey,
+      },
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error('完全版データの取得がタイムアウトしました。');
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
   if (!response.ok) throw new Error(`Paid content request failed: ${response.status}`);
   const body = await response.json();
   return Array.isArray(body?.items) ? body.items : [];

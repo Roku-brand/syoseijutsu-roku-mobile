@@ -3,6 +3,17 @@ import { supabase } from './supabase';
 
 export const COMPLETE_EDITION_PRODUCT_ID = 'complete-edition';
 export const COMPLETE_EDITION_PRICE_JPY = 280;
+const ACCESS_CHECK_TIMEOUT_MS = 12_000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error(message)), timeoutMs);
+    promise.then(
+      (value) => { clearTimeout(timeout); resolve(value); },
+      (error) => { clearTimeout(timeout); reject(error); },
+    );
+  });
+}
 
 /**
  * Uses the access token returned by signup immediately, so Checkout does not
@@ -31,9 +42,17 @@ export async function createCompleteEditionCheckout(accessToken?: string) {
 
 export async function fetchVerifiedAccess(): Promise<'guest' | 'free' | 'paid'> {
   if (!supabase) return 'guest';
-  const { data: sessionData } = await supabase.auth.getSession();
+  const { data: sessionData } = await withTimeout(
+    supabase.auth.getSession(),
+    ACCESS_CHECK_TIMEOUT_MS,
+    'ログイン状態の確認がタイムアウトしました。',
+  );
   if (!sessionData.session) return 'guest';
-  const { data, error } = await supabase.functions.invoke('access', { method: 'GET' });
+  const { data, error } = await withTimeout(
+    supabase.functions.invoke('access', { method: 'GET' }),
+    ACCESS_CHECK_TIMEOUT_MS,
+    '利用状態の確認がタイムアウトしました。',
+  );
   if (error) throw error;
   return data?.access === 'paid' ? 'paid' : 'free';
 }

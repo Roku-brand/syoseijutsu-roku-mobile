@@ -46,6 +46,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setLoading(false);
       return;
     }
+    // A stalled storage/network read used to keep AccessBoundary in its
+    // loading screen forever. Continue as a guest after a short grace period;
+    // a later auth event will still restore the session normally.
+    const fallback = setTimeout(() => setLoading(false), 8_000);
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
@@ -54,7 +58,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setSession(nextSession);
       setLoading(false);
     });
-    return () => data.subscription.unsubscribe();
+    return () => {
+      clearTimeout(fallback);
+      data.subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {

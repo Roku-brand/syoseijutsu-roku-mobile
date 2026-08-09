@@ -56,6 +56,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setActualAccessState(verified);
       return verified;
     } catch {
+      // A network request must never leave visitors on the launch screen
+      // indefinitely. The boundary presents a retry and a free-version escape.
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
       setActualAccessState('error');
