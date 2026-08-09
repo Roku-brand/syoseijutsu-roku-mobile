@@ -7,7 +7,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4173/syoseijutsu-roku-mobile',
     trace: 'retain-on-failure',
-    ...devices['Desktop Chrome'],
+    serviceWorkers: 'block',
+    ...devices['Pixel 5'],
   },
   webServer: {
     command: 'pnpm serve:e2e',
