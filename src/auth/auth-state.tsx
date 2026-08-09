@@ -2,6 +2,7 @@ import type { Session, User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
+import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-content';
 
 export type AccountRole = 'user' | 'owner';
 export type AuthResult = { error: string | null; hasSession: boolean; session: Session | null };
@@ -15,6 +16,8 @@ type AuthContextValue = {
   role: AccountRole;
   signInWithEmail: (email: string, password: string) => Promise<AuthResult>;
   signUpWithEmail: (email: string, password: string, options?: SignUpOptions) => Promise<AuthResult>;
+  sendPasswordReset: (email: string) => Promise<string | null>;
+  updatePassword: (password: string) => Promise<string | null>;
   signOut: () => Promise<void>;
   refreshRole: () => Promise<void>;
 };
@@ -103,8 +106,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   const signOut = useCallback(async () => {
+    await clearSecureContentCache();
+    purgeSecureContent();
     if (supabase) await supabase.auth.signOut();
     setRole('user');
+  }, []);
+
+  const sendPasswordReset = useCallback(async (email: string) => {
+    if (!supabase) return 'Supabaseが未設定です。';
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: passwordResetRedirectUrl(),
+    });
+    return error?.message ?? null;
+  }, []);
+
+  const updatePassword = useCallback(async (password: string) => {
+    if (!supabase) return 'Supabaseが未設定です。';
+    const { error } = await supabase.auth.updateUser({ password });
+    return error?.message ?? null;
   }, []);
 
   const value = useMemo(() => ({
@@ -115,9 +134,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     role,
     signInWithEmail,
     signUpWithEmail,
+    sendPasswordReset,
+    updatePassword,
     signOut,
     refreshRole,
-  }), [loading, refreshRole, role, session, signInWithEmail, signOut, signUpWithEmail]);
+  }), [loading, refreshRole, role, sendPasswordReset, session, signInWithEmail, signOut, signUpWithEmail, updatePassword]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
@@ -135,6 +156,13 @@ export function checkoutConfirmationRedirectUrl() {
     return `${window.location.origin}/syoseijutsu-roku-mobile/auth.html?intent=checkout`;
   }
   return 'shoseijutsuroku://auth?intent=checkout';
+}
+
+export function passwordResetRedirectUrl() {
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    return `${window.location.origin}/syoseijutsu-roku-mobile/auth.html?mode=reset`;
+  }
+  return 'shoseijutsuroku://auth?mode=reset';
 }
 
 export function useAuth() {

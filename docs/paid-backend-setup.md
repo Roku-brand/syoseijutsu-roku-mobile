@@ -25,11 +25,14 @@
    - `STRIPE_WEBHOOK_SECRET`
    - `SITE_URL=https://roku-brand.github.io/syoseijutsu-roku-mobile`
 4. Stripe Webhook URLを`https://<project-ref>.supabase.co/functions/v1/stripe-webhook`に設定する。
-5. Stripeイベントは最低限次を購読する。
+5. Supabase AuthのRedirect URLsへ次を登録する。
+   - `https://roku-brand.github.io/syoseijutsu-roku-mobile/auth.html?intent=checkout`
+   - `https://roku-brand.github.io/syoseijutsu-roku-mobile/auth.html?mode=reset`
+6. Stripeイベントは最低限次を購読する。
    - `checkout.session.completed`
    - `checkout.session.async_payment_succeeded`
    - `charge.refunded`
-6. 完全版の原本を安全なローカル環境で用意してから、`node scripts/split-public-paid-content.mjs`を実行し、`dist-secure-content/paid-content.ndjson`をSupabaseへ投入する。この原本や出力物を公開リポジトリへコミットしない。
+7. 完全版の原本を安全なローカル環境で用意してから、`node scripts/split-public-paid-content.mjs`を実行し、`dist-secure-content/paid-content.ndjson`をSupabaseへ投入する。この原本や出力物を公開リポジトリへコミットしない。
 
 ## 販売前の必須残作業
 
@@ -37,7 +40,8 @@
 
 - 公開ビルドのimport先が`techniques.public.json`、`theories.public.json`、`learning.public.json`のみであることを確認
 - 完全版ログイン時に`paid-content` APIから取得してクライアントカタログへ統合することを確認
-- ログアウト時に有料コンテンツのメモリを消去することを確認
+- 購入確認後の完全版データが端末へ保存され、通信失敗時も最後に確認済みの購入状態を維持することを確認
+- ログアウト時と、サーバーが正常に未購入・返金済みを返した時に、有料コンテンツのメモリと端末キャッシュを消去することを確認
 - GitHub Pages生成物に有料タイトル・本文が含まれないことを文字列検索で監査
 
 この切替前は決済を本番モードにしないこと。

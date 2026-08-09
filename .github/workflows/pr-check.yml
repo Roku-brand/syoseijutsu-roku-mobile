@@ -26,3 +26,5 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm export:pages
       - run: node scripts/audit-public-build.mjs
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e

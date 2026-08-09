@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { useAuth } from '@/auth/auth-state';
 import { fetchVerifiedAccess } from '@/lib/purchase';
-import { hydrateSecureContent, purgeSecureContent } from '@/lib/secure-content';
+import { clearSecureContentCache, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -23,6 +23,19 @@ type AccessContextValue = {
 const PREVIEW_KEY = '@shoseijutsu-roku/owner-preview/v1';
 const AccessContext = createContext<AccessContextValue | null>(null);
 
+function storageReadWithin(key: string, timeoutMs = 2_000): Promise<string | null> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(null), timeoutMs);
+    AsyncStorage.getItem(key).then((value) => {
+      clearTimeout(timeout);
+      resolve(value);
+    }).catch(() => {
+      clearTimeout(timeout);
+      resolve(null);
+    });
+  });
+}
+
 export function AccessProvider({ children }: PropsWithChildren) {
   const { loading, user, role } = useAuth();
   // The free catalogue is always safe to show.  Do not make application
@@ -34,9 +47,13 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
+      // Wait for the locally persisted auth session before binding cached paid
+      // content to a user. The guest catalogue is already visible meanwhile.
       return 'guest';
     }
     if (!user) {
+      // Keep the persisted cache intact in case a slow local auth session
+      // resolves later, but never expose it without binding it to that user.
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
@@ -45,27 +62,33 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
     // Keep the free edition usable while access is being verified.  In
     // particular, never put the whole app behind a launch-time spinner.
-    purgeSecureContent();
-    setCatalogRevision((value) => value + 1);
-    setActualAccessState('guest');
     try {
       const verified = role === 'owner' ? 'paid' : await fetchVerifiedAccess();
       if (verified === 'paid') {
         setActualAccessState('paid');
         // Paid content is downloaded after the entitlement is known.  The
         // edition unlock must not wait for a slow network response.
-        void hydrateSecureContent()
-          .then(() => setCatalogRevision((value) => value + 1))
-          .catch(() => undefined);
+        void hydrateSecureContent().then(() => {
+          setCatalogRevision((value) => value + 1);
+        }).catch(async () => {
+          if (await restoreCachedSecureContent(user.id)) setCatalogRevision((value) => value + 1);
+        });
         return 'paid';
       }
+      await clearSecureContentCache();
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
       setActualAccessState(verified);
       return verified;
     } catch {
-      // A failed entitlement request falls back to the free edition.  A later
-      // auth event or explicit purchase restore retries this verification.
+      // A network failure must not revoke a previously verified purchase.
+      // A successful server response of `free` above still clears the cache.
+      const cached = await restoreCachedSecureContent(user.id);
+      if (cached) {
+        setCatalogRevision((value) => value + 1);
+        setActualAccessState('paid');
+        return 'paid';
+      }
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
@@ -76,11 +99,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
 
   useEffect(() => {
-    AsyncStorage.getItem(PREVIEW_KEY).then((stored) => {
+    void storageReadWithin(PREVIEW_KEY).then((stored) => {
       if (stored && ['actual', 'guest', 'free', 'paid', 'checking', 'error'].includes(stored)) {
         setPreviewModeState(stored as PreviewMode);
       }
-    }).catch(() => undefined);
+    });
   }, []);
 
   useEffect(() => {

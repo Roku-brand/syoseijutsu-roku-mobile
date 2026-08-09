@@ -11,12 +11,14 @@ import { useAccess } from '@/access/access-state';
 export default function AuthScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ intent?: string; mode?: string }>();
-  const { configured, user, signInWithEmail, signUpWithEmail, signOut } = useAuth();
+  const { configured, user, signInWithEmail, signUpWithEmail, sendPasswordReset, updatePassword, signOut } = useAuth();
   const { isPaid } = useAccess();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const purchaseIntent = params.intent === 'checkout';
-  const [mode, setMode] = useState<'signin' | 'signup'>(params.mode === 'signin' ? 'signin' : 'signup');
+  const [mode, setMode] = useState<'signin' | 'signup' | 'forgot' | 'reset'>(
+    params.mode === 'reset' ? 'reset' : params.mode === 'signin' ? 'signin' : 'signup',
+  );
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const checkoutStarted = useRef(false);
@@ -47,6 +49,28 @@ export default function AuthScreen() {
   const submit = async () => {
     setSubmitting(true);
     setMessage('');
+    if (mode === 'forgot') {
+      const error = await sendPasswordReset(email);
+      setSubmitting(false);
+      setMessage(error ?? 'パスワード再設定メールを送信しました。メール内のリンクを開いてください。');
+      return;
+    }
+    if (mode === 'reset') {
+      if (!user) {
+        setSubmitting(false);
+        setMessage('再設定リンクを確認できませんでした。メール内のリンクをもう一度開いてください。');
+        return;
+      }
+      const error = await updatePassword(password);
+      setSubmitting(false);
+      if (error) {
+        setMessage(error);
+      } else {
+        setMessage('パスワードを更新しました。');
+        setMode('signin');
+      }
+      return;
+    }
     const result = mode === 'signin'
       ? await signInWithEmail(email, password)
       : await signUpWithEmail(email, password, purchaseIntent ? { emailRedirectTo: checkoutConfirmationRedirectUrl() } : undefined);
@@ -84,15 +108,15 @@ export default function AuthScreen() {
       </View>
       <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
       <View style={styles.card}>
-        <AppText style={styles.title}>{user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : 'アカウントを作成・ログイン'}</AppText>
-        <AppText style={styles.lead}>{purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
+        <AppText style={styles.title}>{mode === 'forgot' ? 'パスワードを再設定' : mode === 'reset' ? '新しいパスワードを設定' : user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : 'アカウントを作成・ログイン'}</AppText>
+        <AppText style={styles.lead}>{mode === 'forgot' ? '登録したメールアドレスへ再設定リンクを送ります。' : mode === 'reset' ? '今後使用する新しいパスワードを入力してください。' : purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
 
         {!configured ? (
           <View style={styles.notice}>
             <AppText style={styles.noticeTitle}>Supabase設定待ち</AppText>
             <AppText style={styles.noticeText}>EXPO_PUBLIC_SUPABASE_URL と EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY を設定するとログインが有効になります。</AppText>
           </View>
-        ) : user ? (
+        ) : user && mode !== 'reset' ? (
           <View style={styles.accountBox}>
             <AppText style={styles.accountLabel}>ログイン中</AppText>
             <AppText style={styles.accountEmail}>{user.email}</AppText>
@@ -102,16 +126,18 @@ export default function AuthScreen() {
           </View>
         ) : (
           <>
-            <View style={styles.tabs}>
+            {mode === 'signin' || mode === 'signup' ? <View style={styles.tabs}>
               <Pressable onPress={() => setMode('signup')} style={[styles.tab, mode === 'signup' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signup' && styles.tabTextActive]}>新規登録</AppText></Pressable>
               <Pressable onPress={() => setMode('signin')} style={[styles.tab, mode === 'signin' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signin' && styles.tabTextActive]}>ログイン</AppText></Pressable>
-            </View>
-            <TextInput value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="メールアドレス" placeholderTextColor={colors.muted} style={styles.input} />
-            <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder="パスワード（6文字以上）" placeholderTextColor={colors.muted} style={styles.input} />
+            </View> : null}
+            {mode !== 'reset' ? <TextInput value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="メールアドレス" placeholderTextColor={colors.muted} style={styles.input} /> : null}
+            {mode !== 'forgot' ? <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder={mode === 'reset' ? '新しいパスワード（6文字以上）' : 'パスワード（6文字以上）'} placeholderTextColor={colors.muted} style={styles.input} /> : null}
             {message ? <AppText style={styles.message}>{message}</AppText> : null}
-            <Pressable disabled={submitting || !email || password.length < 6} onPress={() => void submit()} style={[styles.primary, (submitting || !email || password.length < 6) && styles.disabled]}>
-              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : 'ログイン' : 'アカウントを作成して決済へ進む'}</AppText>
+            <Pressable disabled={submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)} onPress={() => void submit()} style={[styles.primary, (submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)) && styles.disabled]}>
+              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'forgot' ? '再設定メールを送る' : mode === 'reset' ? 'パスワードを更新' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : 'ログイン' : purchaseIntent ? 'アカウントを作成して決済へ進む' : 'アカウントを作成'}</AppText>
             </Pressable>
+            {mode === 'signin' ? <Pressable onPress={() => { setMode('forgot'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>パスワードを忘れた方</AppText></Pressable> : null}
+            {mode === 'forgot' ? <Pressable onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインへ戻る</AppText></Pressable> : null}
           </>
         )}
       </View>
@@ -144,6 +170,8 @@ const styles = StyleSheet.create({
   secondary: { minHeight: 48, marginTop: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center' },
   secondaryText: { color: colors.gold, fontWeight: '700' },
   message: { marginTop: spacing.md, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
+  textLink: { minHeight: 42, marginTop: 6, alignItems: 'center', justifyContent: 'center' },
+  textLinkLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, textDecorationLine: 'underline' },
   notice: { marginTop: spacing.xl, padding: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: '#F5EFE3' },
   noticeTitle: { fontWeight: '700', fontFamily: fonts.serif },
   noticeText: { marginTop: 6, color: colors.muted, fontSize: 12, lineHeight: 19 },

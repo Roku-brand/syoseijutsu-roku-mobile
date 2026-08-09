@@ -32,6 +32,7 @@
     "react-native-worklets": "0.10.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/react": "~19.2.2",
     "sharp": "^0.35.3",
     "typescript": "~6.0.3"
@@ -42,8 +43,11 @@
     "ios": "node ./scripts/apply-ui-runtime-patches.mjs && expo start --ios",
     "web": "node ./scripts/apply-ui-runtime-patches.mjs && expo start --web",
     "typecheck": "node ./scripts/apply-ui-runtime-patches.mjs && tsc --noEmit",
-    "export:web": "node ./scripts/apply-ui-runtime-patches.mjs && expo export --platform web",
-    "export:pages": "node ./scripts/apply-ui-runtime-patches.mjs && expo export --platform web",
+    "pwa:stamp": "node ./scripts/stamp-pwa-cache.mjs",
+    "export:web": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm pwa:stamp && expo export --platform web",
+    "export:pages": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm pwa:stamp && expo export --platform web",
+    "serve:e2e": "node ./scripts/serve-dist.mjs",
+    "test:e2e": "playwright test",
     "content:import": "node ./scripts/import-content.mjs",
     "content:import-complete": "node ./scripts/import-complete-markdown.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",

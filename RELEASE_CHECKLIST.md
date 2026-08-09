@@ -15,6 +15,8 @@
 
 - [x] `pnpm typecheck`
 - [x] `pnpm export:web`
+- [x] 初回導線・無料版ホーム・購入確認・復旧／法務導線のE2EスモークテストをCIへ追加
+- [x] PWAキャッシュ世代をソース内容から自動生成
 - [x] `npx expo-doctor@latest`
 - [x] 初回起動 → 関心カテゴリ設定 → メイン表示
 - [ ] リールの上下スワイプ

@@ -79,8 +79,7 @@ export default function UpgradeScreen() {
             <AppText style={styles.tagline}>学校では教えてくれない、社会を生きるための教科書。</AppText>
             <View style={styles.priceRow}>
               <AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-              <View><AppText style={styles.regular}>通常価格</AppText><AppText style={styles.strike}>¥980</AppText></View>
-              <View style={styles.discount}><AppText style={styles.discountSmall}>リリース記念</AppText><AppText variant="serif" style={styles.discountMain}>71%OFF</AppText></View>
+              <View style={styles.releasePrice}><AppText style={styles.releasePriceText}>リリース記念価格</AppText></View>
             </View>
             <AppText style={styles.buyout}>買い切り・追加課金なし</AppText>
           </View>
@@ -104,7 +103,7 @@ export default function UpgradeScreen() {
         {message ? <AppText style={styles.message} numberOfLines={2}>{message}</AppText> : null}
         <View style={styles.trustRow}><AppText style={styles.trust}>✓ 買い切り</AppText><AppText style={styles.trust}>◇ 追加課金なし</AppText><AppText style={styles.trust}>⚡ すぐ使える</AppText></View>
         <View style={styles.purchaseNotice}>
-          <AppText style={styles.purchaseNoticeText}>完成済みデジタルコンテンツとして提供しています。将来の継続的なアップデート・個別サポートを保証する商品ではありません。</AppText>
+          <AppText style={styles.purchaseNoticeText}>購入条件・返金条件は、購入内容の確認画面と利用規約でご確認いただけます。</AppText>
         </View>
         {isPaid ? <Pressable style={({ pressed }) => [styles.primary, pressed && styles.pressed]} onPress={() => router.replace('/')}><AppText variant="serif" style={styles.primaryText}>完全版を開く</AppText></Pressable> : <Pressable accessibilityRole="button" disabled={submitting} onPress={() => setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, submitting && styles.disabled, pressed && styles.pressed]}><AppText variant="serif" style={styles.crown}>♛</AppText><AppText variant="serif" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={styles.primaryText}>{submitting ? '決済画面を開いています…' : `¥${COMPLETE_EDITION_PRICE_JPY}で完全版を購入`}</AppText><AppText style={styles.primaryArrow}>›</AppText></Pressable>}
         <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={styles.restore}><AppText variant="serif" style={styles.restoreText}>{user ? '購入を復元する' : '購入済みの方はこちら'}</AppText><AppText style={styles.restoreArrow}>›</AppText></Pressable>
@@ -118,7 +117,7 @@ export default function UpgradeScreen() {
             <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>価格</AppText><AppText style={styles.confirmationValue}>¥{COMPLETE_EDITION_PRICE_JPY}（税込）</AppText></View>
             <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>支払方法</AppText><AppText style={styles.confirmationValue}>一回払い・買い切り</AppText></View>
             <AppText style={styles.confirmationNotice}>月額料金・継続課金はありません。購入および完全版の提供開始後の購入者都合による返品・返金には、原則として対応しません。ただし、重複決済、完全版が提供されない場合その他法令上必要な場合を除きます。</AppText>
-            <AppText style={styles.confirmationSupport}>完成済みデジタルコンテンツとして提供します。将来の継続的なアップデート・個別サポートは保証していません。</AppText>
+            <AppText style={styles.confirmationSupport}>購入時点で提供されている完全版を、決済確認後すぐにご利用いただけます。</AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.legalText}>利用規約</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.legalText}>特商法表記</AppText></Pressable></View>
             <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
@@ -162,6 +161,7 @@ const styles = StyleSheet.create({
   hero: { flexDirection: 'row', alignItems: 'center', gap: 13 }, heroCopy: { flex: 1, minWidth: 0 },
   productTitle: { color: colors.ink, fontSize: 22, lineHeight: 29, fontWeight: '700' }, tagline: { marginTop: 2, color: '#3F3B34', fontSize: 10, lineHeight: 15 },
   priceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 3 }, price: { color: '#E21B0C', fontSize: 45, lineHeight: 51, fontWeight: '700' }, regular: { color: colors.inkSoft, fontSize: 10, lineHeight: 13 }, strike: { color: colors.ink, fontSize: 15, lineHeight: 19, textDecorationLine: 'line-through' },
+  releasePrice: { borderWidth: 1, borderColor: '#D52B1E', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 5 }, releasePriceText: { color: '#C41E16', fontSize: 10, lineHeight: 14, fontWeight: '700' },
   discount: { borderWidth: 1, borderColor: '#D52B1E', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 3, alignItems: 'center' }, discountSmall: { color: '#C41E16', fontSize: 8, lineHeight: 11, fontWeight: '700' }, discountMain: { color: '#D71C0C', fontSize: 15, lineHeight: 19, fontWeight: '700' }, buyout: { alignSelf: 'flex-start', marginTop: 1, borderWidth: 1, borderColor: colors.line, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2, color: '#8B6B3A', fontSize: 10, lineHeight: 14 },
   stats: { marginTop: 7, color: '#312E29', fontSize: 11, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
   editionRow: { flexDirection: 'row', alignItems: 'stretch', gap: 8, marginTop: 8 }, freeEdition: { flex: 0.92, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: 9, backgroundColor: 'rgba(255,255,255,0.35)', paddingVertical: 7 }, editionLabel: { borderWidth: 1, borderColor: '#DED6C9', borderRadius: 4, paddingHorizontal: 6, color: '#615B50', fontSize: 9, lineHeight: 12 }, freeCount: { marginTop: 4, color: colors.ink, fontSize: 16, lineHeight: 22, fontWeight: '700' }, compareArrow: { color: colors.gold, alignSelf: 'center', fontSize: 30, lineHeight: 30 }, completeEdition: { flex: 1.25, alignItems: 'center', justifyContent: 'center', borderRadius: 9, backgroundColor: colors.charcoal, paddingVertical: 7 }, completeLabel: { borderWidth: 1, borderColor: colors.gold, borderRadius: 4, paddingHorizontal: 7, color: '#E7C779', fontSize: 9, lineHeight: 12 }, completeCount: { marginTop: 4, color: '#E9C66A', fontSize: 16, lineHeight: 22, fontWeight: '700' },
