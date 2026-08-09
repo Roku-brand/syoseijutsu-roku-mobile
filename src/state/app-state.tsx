@@ -12,6 +12,7 @@ import {
 import type { CategoryKey } from '@/data/types';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
+const STORAGE_HYDRATION_TIMEOUT_MS = 900;
 const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
 
 export type Collection = {
@@ -94,6 +95,13 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    // AsyncStorage can be unavailable or stall in a browser privacy mode.
+    // Release the app with the safe default, while still accepting a late
+    // result when the storage implementation recovers.
+    const fallback = setTimeout(() => {
+      if (active) setHydrated(true);
+    }, STORAGE_HYDRATION_TIMEOUT_MS);
     AsyncStorage.getItem(STORAGE_KEY)
       .then((stored) => {
         if (!stored) return;
@@ -102,6 +110,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           (interest): interest is CategoryKey =>
             CATEGORY_KEYS.includes(interest as CategoryKey),
         );
+        if (!active) return;
         setState({
           ...initialState,
           ...parsed,
@@ -109,7 +118,14 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         });
       })
       .catch(() => undefined)
-      .finally(() => setHydrated(true));
+      .finally(() => {
+        clearTimeout(fallback);
+        if (active) setHydrated(true);
+      });
+    return () => {
+      active = false;
+      clearTimeout(fallback);
+    };
   }, []);
 
   useEffect(() => {
