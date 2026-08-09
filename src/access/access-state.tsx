@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { useAuth } from '@/auth/auth-state';
-import { fetchVerifiedAccess } from '@/lib/purchase';
+import { fetchVerifiedAccess, reconcileCompleteEditionPurchase } from '@/lib/purchase';
 import { clearSecureContentCache, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
@@ -17,7 +17,7 @@ type AccessContextValue = {
   setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<AccessState>;
   continueAsGuest: () => void;
-  restorePurchase: () => Promise<boolean>;
+  restorePurchase: (sessionId?: string) => Promise<boolean>;
 };
 
 const PREVIEW_KEY = '@shoseijutsu-roku/owner-preview/v1';
@@ -122,7 +122,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
     setActualAccessState('guest');
   }, []);
 
-  const restorePurchase = useCallback(async () => {
+  const restorePurchase = useCallback(async (sessionId?: string) => {
+    if (role !== 'owner') {
+      const reconciled = await reconcileCompleteEditionPurchase(sessionId);
+      if (!reconciled) return false;
+    }
     const next = await refreshAccess();
     return next === 'paid' || role === 'owner';
   }, [refreshAccess, role]);

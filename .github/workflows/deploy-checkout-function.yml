@@ -32,6 +32,7 @@ jobs:
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
           supabase functions deploy create-checkout --project-ref "$project_ref"
+          supabase functions deploy restore-purchase --project-ref "$project_ref"
           supabase functions deploy access --project-ref "$project_ref"
           supabase functions deploy paid-content --project-ref "$project_ref"
           supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"

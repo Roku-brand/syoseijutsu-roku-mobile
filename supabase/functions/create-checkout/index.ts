@@ -35,7 +35,7 @@ Deno.serve(async (request) => {
 
   const form = new URLSearchParams();
   form.set('mode', 'payment');
-  form.set('success_url', `${CHECKOUT_RETURN_URL}?checkout=success`);
+  form.set('success_url', `${CHECKOUT_RETURN_URL}?checkout=success&session_id={CHECKOUT_SESSION_ID}`);
   form.set('cancel_url', `${CHECKOUT_RETURN_URL}?checkout=cancelled`);
   form.set('client_reference_id', userData.user.id);
   // The Supabase account email is not required to associate a purchase: the

@@ -56,3 +56,19 @@ export async function fetchVerifiedAccess(): Promise<'guest' | 'free' | 'paid'> 
   if (error) throw error;
   return data?.access === 'paid' ? 'paid' : 'free';
 }
+
+export async function reconcileCompleteEditionPurchase(sessionId?: string): Promise<boolean> {
+  if (!supabase) throw new Error('購入機能が設定されていません。');
+  const token = (await supabase.auth.getSession()).data.session?.access_token;
+  if (!token) throw new Error('購入に使用したアカウントでログインしてください。');
+  const { data, error } = await withTimeout(
+    supabase.functions.invoke('restore-purchase', {
+      body: sessionId ? { sessionId } : {},
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+    ACCESS_CHECK_TIMEOUT_MS,
+    '購入履歴の確認がタイムアウトしました。',
+  );
+  if (error) throw new Error(error.message || '購入履歴を確認できませんでした。');
+  return data?.restored === true;
+}

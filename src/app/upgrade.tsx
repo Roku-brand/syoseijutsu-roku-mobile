@@ -18,7 +18,7 @@ const benefits = [
 
 export default function UpgradeScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ checkout?: string }>();
+  const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
   const { user } = useAuth();
   const { isPaid, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
@@ -52,17 +52,27 @@ export default function UpgradeScreen() {
       return;
     }
     setSubmitting(true);
-    const restored = await restorePurchase();
-    setSubmitting(false);
-    setMessage(restored ? '完全版を復元しました。' : 'このアカウントの購入はまだ確認できません。');
+    setMessage('Stripeの購入履歴を確認しています…');
+    try {
+      const restored = await restorePurchase();
+      setMessage(restored ? '完全版を復元しました。' : 'このアカウントの購入はまだ確認できません。');
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '購入履歴を確認できませんでした。');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   useEffect(() => {
     if (params.checkout === 'success') {
       setMessage('決済を確認しています。反映されない場合は「購入を復元」を押してください。');
-      void refreshAccess();
+      void restorePurchase(params.session_id).then((restored) => {
+        setMessage(restored ? '決済を確認しました。完全版をご利用いただけます。' : '決済の反映を待っています。「購入を復元」を押してください。');
+      }).catch(() => {
+        setMessage('決済の反映を待っています。「購入を復元」を押してください。');
+      });
     } else if (params.checkout === 'cancelled') setMessage('購入はキャンセルされました。料金は発生していません。');
-  }, [params.checkout, refreshAccess]);
+  }, [params.checkout, params.session_id, restorePurchase]);
 
   useEffect(() => {
     if (params.checkout === 'success' && isPaid) setShowWelcome(true);
@@ -107,7 +117,7 @@ export default function UpgradeScreen() {
           <AppText style={styles.purchaseNoticeText}>購入条件・返金条件は、購入内容の確認画面と利用規約でご確認いただけます。</AppText>
         </View>
         {isPaid ? <Pressable style={({ pressed }) => [styles.primary, pressed && styles.pressed]} onPress={() => router.replace('/')}><AppText variant="serif" style={styles.primaryText}>完全版を開く</AppText></Pressable> : <Pressable accessibilityRole="button" disabled={submitting} onPress={() => setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, submitting && styles.disabled, pressed && styles.pressed]}><AppText variant="serif" style={styles.crown}>♛</AppText><AppText variant="serif" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={styles.primaryText}>{submitting ? '決済画面を開いています…' : `¥${COMPLETE_EDITION_PRICE_JPY}で完全版を購入`}</AppText><AppText style={styles.primaryArrow}>›</AppText></Pressable>}
-        <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={styles.restore}><AppText variant="serif" style={styles.restoreText}>{user ? '購入を復元する' : '購入済みの方はこちら'}</AppText><AppText style={styles.restoreArrow}>›</AppText></Pressable>
+        <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={[styles.restore, submitting && styles.disabled]}><AppText variant="serif" style={styles.restoreText}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方はこちら'}</AppText><AppText style={styles.restoreArrow}>›</AppText></Pressable>
         <View style={styles.legalLinks}><Pressable onPress={() => router.push('/legal/terms')}><AppText style={styles.legalText}>利用規約</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => router.push('/legal/commerce')}><AppText style={styles.legalText}>特商法表記</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => router.push('/legal/faq')}><AppText style={styles.legalText}>FAQ</AppText></Pressable></View>
       </View>
       <Modal transparent visible={showCheckoutConfirmation} animationType="fade" onRequestClose={() => setShowCheckoutConfirmation(false)}>

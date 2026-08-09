@@ -27,9 +27,9 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
 });
 
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/?checkout=success');
-  await expect(page).toHaveURL(/\/syoseijutsu-roku-mobile\/\?checkout=success$/);
-  await expect(page.getByText('決済を確認しています。')).toBeVisible();
+  await page.goto('/syoseijutsu-roku-mobile/?checkout=success&session_id=cs_test_example');
+  await expect(page).toHaveURL(/\/syoseijutsu-roku-mobile\/\?checkout=success&session_id=cs_test_example$/);
+  await expect(page.getByRole('button', { name: /購入済みの方はこちら|購入を復元する/ })).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
