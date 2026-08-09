@@ -37,7 +37,7 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/learn');
-  await page.getByRole('button', { name: /ステージ1/ }).click();
+  await page.getByRole('button', { name: 'ステージ1、空気、どうする？' }).click();
   await expect(page.getByText('CASE 01')).toBeVisible();
   await page.getByRole('button', { name: /^A/ }).click();
   await expect(page.getByText('この局面での評価')).toBeVisible();
