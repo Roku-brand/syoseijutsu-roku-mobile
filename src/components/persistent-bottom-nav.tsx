@@ -54,6 +54,7 @@ export function PersistentBottomNav() {
 
   return (
     <SafeAreaView
+      testID="persistent-bottom-navigation"
       edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
       style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
     >

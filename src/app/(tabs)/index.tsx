@@ -558,7 +558,7 @@ export default function MainScreen() {
         >
           <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
-            <AppText style={styles.unlockTitle}>全216件を解放する</AppText>
+            <AppText style={styles.unlockTitle}>全216件を解放する　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
             <AppText style={styles.unlockBody}>216の処世術・595の理論をすべて読む</AppText>
           </View>
           <AppText style={styles.unlockChevron}>›</AppText>

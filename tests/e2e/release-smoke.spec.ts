@@ -16,6 +16,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('216の処世術・595の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('リリース記念価格')).toBeVisible();
   await page.getByRole('button', { name: /¥280で完全版を購入/ }).click();
@@ -27,12 +28,22 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/auth?mode=signin');
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await page.getByText('パスワードを忘れた方').click();
   await expect(page.getByText('パスワードを再設定')).toBeVisible();
   await page.goto('/syoseijutsu-roku-mobile/settings');
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('購入・完全版 FAQ')).toBeVisible();
   await expect(page.getByText('特定商取引法に基づく表記')).toBeVisible();
   await expect(page.getByText('お問い合わせ')).toBeVisible();
+  await page.getByText('購入・完全版 FAQ').click();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
+});
+
+test('ホームの完全版導線に価格を表示する', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/');
+  await page.getByRole('button', { name: /まずは無料で試す/ }).click();
+  await expect(page.getByText('全216件を解放する　¥280')).toBeVisible();
 });
 
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
