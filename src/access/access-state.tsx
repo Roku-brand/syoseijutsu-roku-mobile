@@ -25,15 +25,16 @@ const AccessContext = createContext<AccessContextValue | null>(null);
 
 export function AccessProvider({ children }: PropsWithChildren) {
   const { loading, user, role } = useAuth();
-  const [actualAccessState, setActualAccessState] = useState<AccessState>('checking');
+  // The free catalogue is always safe to show.  Do not make application
+  // startup depend on auth, an entitlement request, or paid-content download.
+  const [actualAccessState, setActualAccessState] = useState<AccessState>('guest');
   const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
   const [catalogRevision, setCatalogRevision] = useState(0);
   const isOwner = role === 'owner';
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
-      setActualAccessState('checking');
-      return 'checking';
+      return 'guest';
     }
     if (!user) {
       purgeSecureContent();
@@ -42,13 +43,20 @@ export function AccessProvider({ children }: PropsWithChildren) {
       return 'guest';
     }
 
-    setActualAccessState('checking');
+    // Keep the free edition usable while access is being verified.  In
+    // particular, never put the whole app behind a launch-time spinner.
+    purgeSecureContent();
+    setCatalogRevision((value) => value + 1);
+    setActualAccessState('guest');
     try {
       const verified = role === 'owner' ? 'paid' : await fetchVerifiedAccess();
       if (verified === 'paid') {
-        await hydrateSecureContent();
-        setCatalogRevision((value) => value + 1);
         setActualAccessState('paid');
+        // Paid content is downloaded after the entitlement is known.  The
+        // edition unlock must not wait for a slow network response.
+        void hydrateSecureContent()
+          .then(() => setCatalogRevision((value) => value + 1))
+          .catch(() => undefined);
         return 'paid';
       }
       purgeSecureContent();
@@ -56,12 +64,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setActualAccessState(verified);
       return verified;
     } catch {
-      // A network request must never leave visitors on the launch screen
-      // indefinitely. The boundary presents a retry and a free-version escape.
+      // A failed entitlement request falls back to the free edition.  A later
+      // auth event or explicit purchase restore retries this verification.
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
-      setActualAccessState('error');
-      return 'error';
+      setActualAccessState('guest');
+      return 'guest';
     }
   }, [loading, role, user]);
 
