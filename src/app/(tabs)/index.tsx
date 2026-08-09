@@ -363,7 +363,7 @@ export default function MainScreen() {
 
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
-      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 526の理論</AppText>
+      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>216の処世術 <AppText style={styles.catalogDivider}>｜</AppText> 595の理論</AppText>
       <SegmentedControl
         value={reelType}
         options={[
@@ -559,7 +559,7 @@ export default function MainScreen() {
           <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
             <AppText style={styles.unlockTitle}>全216件を解放する</AppText>
-            <AppText style={styles.unlockBody}>216の処世術・526の理論をすべて読む</AppText>
+            <AppText style={styles.unlockBody}>216の処世術・595の理論をすべて読む</AppText>
           </View>
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>

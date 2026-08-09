@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { hydratePaidCatalog, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
-import { replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
+import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
 import type { TheoryCard } from '@/data/types';
 import { supabase, supabasePublishableKey, supabaseUrl } from './supabase';
 
@@ -15,6 +16,51 @@ type PaidContentRow<T> = {
 let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
 const PAID_CONTENT_TIMEOUT_MS = 20_000;
+const STORAGE_TIMEOUT_MS = 2_000;
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v1';
+
+type PaidContentSnapshot = {
+  version: 1;
+  userId: string;
+  savedAt: string;
+  techniques: PaidTechniquePayload[];
+  theories: TheoryCard[];
+  learning: LearningCase[];
+};
+
+function settleWithin<T>(promise: Promise<T>, timeoutMs = STORAGE_TIMEOUT_MS): Promise<T | null> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(null), timeoutMs);
+    promise.then((value) => {
+      clearTimeout(timeout);
+      resolve(value);
+    }).catch(() => {
+      clearTimeout(timeout);
+      resolve(null);
+    });
+  });
+}
+
+function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCard[], paidLearning: LearningCase[]) {
+  hydratePaidCatalog(techniques, theories);
+  resetLearningCases();
+  const merged = [...learningCases];
+  for (const item of paidLearning) {
+    if (!merged.some((candidate) => candidate.id === item.id)) merged.push(item);
+  }
+  merged.sort((a, b) => a.number - b.number);
+  replaceLearningCases(merged);
+}
+
+function isSnapshot(value: unknown): value is PaidContentSnapshot {
+  if (!value || typeof value !== 'object') return false;
+  const snapshot = value as Partial<PaidContentSnapshot>;
+  return snapshot.version === 1
+    && typeof snapshot.userId === 'string'
+    && Array.isArray(snapshot.techniques)
+    && Array.isArray(snapshot.theories)
+    && Array.isArray(snapshot.learning);
+}
 
 async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]> {
   if (!supabase || !supabaseUrl || !supabasePublishableKey) {
@@ -64,26 +110,47 @@ export async function hydrateSecureContent() {
       fetchRows<TheoryCard>('theory'),
       fetchRows<LearningCase>('learning'),
     ]);
-    hydratePaidCatalog(
-      techniqueRows.map((row) => row.payload),
-      theoryRows.map((row) => row.payload),
-    );
+    const techniques = techniqueRows.map((row) => row.payload);
+    const theories = theoryRows.map((row) => row.payload);
     const paidLearning = learningRows.map((row) => row.payload);
-    if (paidLearning.length > 0) {
-      const currentFree = (await import('@/data/learning')).learningCases;
-      const merged = [...currentFree];
-      for (const item of paidLearning) {
-        if (!merged.some((candidate) => candidate.id === item.id)) merged.push(item);
-      }
-      merged.sort((a, b) => a.number - b.number);
-      replaceLearningCases(merged);
+    if (techniques.length === 0 || theories.length === 0 || paidLearning.length === 0) {
+      throw new Error('完全版データが不足しているため、端末への保存を中止しました。');
     }
+    applyPaidContent(techniques, theories, paidLearning);
     hydratedUserId = userId;
+    const snapshot: PaidContentSnapshot = {
+      version: 1,
+      userId,
+      savedAt: new Date().toISOString(),
+      techniques,
+      theories,
+      learning: paidLearning,
+    };
+    await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
   })().finally(() => {
     hydrationPromise = null;
   });
 
   return hydrationPromise;
+}
+
+/** Restores the last server-verified paid catalogue without requiring a network request. */
+export async function restoreCachedSecureContent(expectedUserId: string): Promise<boolean> {
+  const stored = await settleWithin(AsyncStorage.getItem(PAID_CONTENT_CACHE_KEY));
+  if (!stored) return false;
+  try {
+    const snapshot: unknown = JSON.parse(stored);
+    if (!isSnapshot(snapshot) || snapshot.userId !== expectedUserId) return false;
+    applyPaidContent(snapshot.techniques, snapshot.theories, snapshot.learning);
+    hydratedUserId = snapshot.userId;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function clearSecureContentCache() {
+  await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
 }
 
 export function purgeSecureContent() {

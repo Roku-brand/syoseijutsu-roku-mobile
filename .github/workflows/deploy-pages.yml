@@ -50,6 +50,12 @@ jobs:
       - name: Audit public build for paid content
         run: node scripts/audit-public-build.mjs
 
+      - name: Install browser for release smoke test
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run release smoke test
+        run: pnpm test:e2e
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

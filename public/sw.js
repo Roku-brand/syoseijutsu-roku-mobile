@@ -1,5 +1,5 @@
-// Bump this on every web release so an installed PWA clears stale bundles.
-const VERSION = 'roku-2026-08-09-4';
+// Automatically replaced by scripts/stamp-pwa-cache.mjs before every web export.
+const VERSION = 'roku-5d1d8f5e8cf2';
 const BASE = '/syoseijutsu-roku-mobile';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;

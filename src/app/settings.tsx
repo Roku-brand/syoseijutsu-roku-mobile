@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, DetailHeader, Screen, SectionHeader } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
@@ -27,7 +27,7 @@ export default function SettingsScreen() {
         />
         <SettingLink
           icon="crown"
-          title={isPaid ? '完全版を購入' : '完全版を購入'}
+          title={isPaid ? '完全版・購入情報' : '完全版を購入'}
           detail={isPaid ? '完全版をご利用中' : '¥280・買い切り'}
           href="/upgrade"
           onNavigate={(href) => router.push(href as never)}
@@ -37,8 +37,11 @@ export default function SettingsScreen() {
 
       <SectionHeader title="サポート・その他" />
       <View style={styles.group}>
+        <SettingLink icon="document" title="購入・完全版 FAQ" href="/legal/faq" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink icon="document" title="特定商取引法に基づく表記" href="/legal/commerce" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="document" title="利用規約" href="/legal/terms" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink icon="contact" title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
         <SettingLink icon="brand" title="処世術禄について" href="/legal/about" onNavigate={(href) => router.push(href as never)} last />
       </View>
 
@@ -47,7 +50,7 @@ export default function SettingsScreen() {
   );
 }
 
-type SettingIcon = 'person' | 'crown' | 'document' | 'shield' | 'brand';
+type SettingIcon = 'person' | 'crown' | 'document' | 'shield' | 'contact' | 'brand';
 
 function SettingLink({ icon, title, detail, href, onPress, onNavigate, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; onNavigate?: (href: string) => void; last?: boolean }) {
   return (
@@ -75,8 +78,9 @@ function SettingIconMark({ type }: { type: SettingIcon }) {
     crown: { ios: 'crown', android: 'crown', web: 'crown' },
     document: { ios: 'document', android: 'description', web: 'description' },
     shield: { ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' },
+    contact: { ios: 'envelope', android: 'mail', web: 'mail' },
   } as const;
-  const fallbacks = { person: '♙', crown: '♛', document: '▤', shield: '♢' } as const;
+  const fallbacks = { person: '♙', crown: '♛', document: '▤', shield: '♢', contact: '✉' } as const;
   return (
     <View style={styles.iconMark} accessibilityElementsHidden>
       <SymbolView name={names[type]} fallback={<AppText style={styles.iconFallback}>{fallbacks[type]}</AppText>} size={28} tintColor={colors.gold} weight="regular" />
