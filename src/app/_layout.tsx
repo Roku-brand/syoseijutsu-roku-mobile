@@ -12,14 +12,19 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { AccessProvider } from '@/access/access-state';
 import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
+import { useAppState } from '@/state/app-state';
+import { useAccess } from '@/access/access-state';
 
-export default function RootLayout() {
+function AppFrame() {
   const pathname = usePathname();
   const { width } = useHydratedWindowDimensions();
+  const { hydrated, onboardingCompleted } = useAppState();
+  const { isPaid } = useAccess();
   const desktop = width >= 1000;
   // `/onboarding` is retained only for existing links.  While its redirect
   // resolves, it must not show the regular application chrome.
-  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
+  const isRootWelcome = pathname === '/' && (!hydrated || (!onboardingCompleted && !isPaid));
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
@@ -29,7 +34,11 @@ export default function RootLayout() {
       {!isWelcome && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-  return <SafeAreaProvider><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><View style={styles.container}><StatusBar style="dark" />{desktop && !isWelcome ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
+  return <View style={styles.container}><StatusBar style="dark" />{desktop && !isWelcome ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View>;
+}
+
+export default function RootLayout() {
+  return <SafeAreaProvider><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><AppFrame /></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
