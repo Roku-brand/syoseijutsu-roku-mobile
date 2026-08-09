@@ -1,11 +1,12 @@
 import { Redirect } from 'expo-router';
-import { LoadingScreen } from '@/components/loading-screen';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 export default function IndexScreen() {
   const { hydrated, onboardingCompleted } = useAppState();
   const { accessState } = useAccess();
-  if (!hydrated || accessState === 'checking') return <LoadingScreen />;
+  // Local preferences are allowed a short bounded hydration window.  Access
+  // verification intentionally does not gate this route.
+  if (!hydrated) return null;
   if (accessState === 'paid') return <Redirect href="/(tabs)" />;
   return <Redirect href={onboardingCompleted ? '/(tabs)' : '/welcome'} />;
 }
