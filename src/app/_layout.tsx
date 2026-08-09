@@ -25,16 +25,26 @@ function AppFrame() {
   // resolves, it must not show the regular application chrome.
   const isRootWelcome = pathname === '/' && (!hydrated || (!onboardingCompleted && !isPaid));
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
+  // Purchase and settings-detail screens are focused tasks.  Keeping the
+  // global navigation there wastes the limited mobile viewport and can cover
+  // the purchase CTA at the bottom of the page.
+  const showPersistentNavigation = !isWelcome && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
       <View style={styles.navigator}>
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper }, animation: 'slide_from_right', gestureEnabled: true, fullScreenGestureEnabled: true }} />
       </View>
-      {!isWelcome && !desktop ? <PersistentBottomNav /> : null}
+      {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-  return <View style={styles.container}><StatusBar style="dark" />{desktop && !isWelcome ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View>;
+  return <View style={styles.container}><StatusBar style="dark" />{desktop && showPersistentNavigation ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View>;
+}
+
+function isFocusedScreen(pathname: string) {
+  return pathname === '/upgrade'
+    || pathname === '/auth'
+    || pathname.startsWith('/legal/');
 }
 
 export default function RootLayout() {
