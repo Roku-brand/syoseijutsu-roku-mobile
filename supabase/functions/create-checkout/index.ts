@@ -3,6 +3,11 @@ import { corsHeaders, json, optionsResponse } from '../_shared/http.ts';
 
 const PRODUCT_ID = 'complete-edition';
 const UNIT_AMOUNT = 280;
+// Stripe Checkout must return to the exported HTML file below the GitHub
+// Pages project path.  Do not derive this from an environment variable: a
+// root-domain value would silently send buyers to `roku-brand.github.io/
+// upgrade.html`, which GitHub Pages correctly returns as a 404.
+const CHECKOUT_RETURN_URL = 'https://roku-brand.github.io/syoseijutsu-roku-mobile/upgrade.html';
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return optionsResponse();
@@ -12,8 +17,7 @@ Deno.serve(async (request) => {
   const anonKey = Deno.env.get('SUPABASE_ANON_KEY');
   const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
   const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY');
-  const siteUrl = Deno.env.get('SITE_URL');
-  if (!supabaseUrl || !anonKey || !serviceRoleKey || !stripeSecretKey || !siteUrl) {
+  if (!supabaseUrl || !anonKey || !serviceRoleKey || !stripeSecretKey) {
     return json({ error: 'server_not_configured' }, 503);
   }
 
@@ -32,11 +36,8 @@ Deno.serve(async (request) => {
 
   const form = new URLSearchParams();
   form.set('mode', 'payment');
-  // Expo's static export writes `upgrade.html`. GitHub Pages has no rewrite
-  // from `/upgrade` to that file, so Checkout must return to the exported URL.
-  const upgradeUrl = new URL('upgrade.html', `${siteUrl.replace(/\/$/, '')}/`).toString();
-  form.set('success_url', `${upgradeUrl}?checkout=success`);
-  form.set('cancel_url', `${upgradeUrl}?checkout=cancelled`);
+  form.set('success_url', `${CHECKOUT_RETURN_URL}?checkout=success`);
+  form.set('cancel_url', `${CHECKOUT_RETURN_URL}?checkout=cancelled`);
   form.set('client_reference_id', userData.user.id);
   // The Supabase account email is not required to associate a purchase: the
   // immutable user id below does that. Avoid sending it as `customer_email`,
