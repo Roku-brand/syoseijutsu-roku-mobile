@@ -20,6 +20,20 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+const AUTH_TIMEOUT_MS = 2_500;
+
+function settleWithin<T>(promise: Promise<T>, timeoutMs: number): Promise<T | null> {
+  return new Promise((resolve) => {
+    const timeout = setTimeout(() => resolve(null), timeoutMs);
+    promise.then((value) => {
+      clearTimeout(timeout);
+      resolve(value);
+    }).catch(() => {
+      clearTimeout(timeout);
+      resolve(null);
+    });
+  });
+}
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(supabaseConfigured);
@@ -32,11 +46,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setRole('user');
       return;
     }
-    const { data, error } = await supabase
+    const result = await settleWithin(Promise.resolve(supabase
       .from('profiles')
       .select('role')
       .eq('user_id', userId)
-      .maybeSingle();
+      .maybeSingle()), AUTH_TIMEOUT_MS);
+    if (!result) {
+      setRole('user');
+      return;
+    }
+    const { data, error } = result;
     if (error) throw error;
     setRole(data?.role === 'owner' ? 'owner' : 'user');
   }, [session?.user.id]);
@@ -46,20 +65,19 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setLoading(false);
       return;
     }
-    // A stalled storage/network read used to keep AccessBoundary in its
-    // loading screen forever. Continue as a guest after a short grace period;
-    // a later auth event will still restore the session normally.
-    const fallback = setTimeout(() => setLoading(false), 8_000);
-    supabase.auth.getSession().then(({ data }) => {
+    // Auth is only an enhancement at launch: the free edition is ready
+    // immediately, and a late session result still upgrades the user.
+    const sessionRequest = supabase.auth.getSession();
+    void sessionRequest.then(({ data }) => {
       setSession(data.session);
       setLoading(false);
     }).catch(() => setLoading(false));
+    void settleWithin(sessionRequest, AUTH_TIMEOUT_MS).then(() => setLoading(false));
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
       setSession(nextSession);
       setLoading(false);
     });
     return () => {
-      clearTimeout(fallback);
       data.subscription.unsubscribe();
     };
   }, []);
