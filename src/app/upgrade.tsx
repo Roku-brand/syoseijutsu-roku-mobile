@@ -81,6 +81,7 @@ export default function UpgradeScreen() {
               <AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
               <View style={styles.releasePrice}><AppText style={styles.releasePriceText}>リリース記念価格</AppText></View>
             </View>
+            <View style={styles.regularPriceRow}><AppText style={styles.regularPriceLabel}>通常価格</AppText><AppText variant="serif" style={styles.regularPrice}>¥980</AppText><AppText style={styles.regularPriceNote}>（税込）</AppText></View>
             <AppText style={styles.buyout}>買い切り・追加課金なし</AppText>
           </View>
         </View>
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
   welcomeButtonText: { color: '#fff', fontFamily: fonts.serif, fontSize: 16, fontWeight: '700' },
   hero: { flexDirection: 'row', alignItems: 'center', gap: 13 }, heroCopy: { flex: 1, minWidth: 0 },
   productTitle: { color: colors.ink, fontSize: 22, lineHeight: 29, fontWeight: '700' }, tagline: { marginTop: 2, color: '#3F3B34', fontSize: 10, lineHeight: 15 },
-  priceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 3 }, price: { color: '#E21B0C', fontSize: 45, lineHeight: 51, fontWeight: '700' }, regular: { color: colors.inkSoft, fontSize: 10, lineHeight: 13 }, strike: { color: colors.ink, fontSize: 15, lineHeight: 19, textDecorationLine: 'line-through' },
+  priceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 3 }, price: { color: '#E21B0C', fontSize: 45, lineHeight: 51, fontWeight: '700' }, regularPriceRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: -2 }, regularPriceLabel: { color: colors.inkSoft, fontSize: 10, lineHeight: 14 }, regularPrice: { color: '#70695F', fontSize: 15, lineHeight: 19, textDecorationLine: 'line-through' }, regularPriceNote: { color: colors.inkSoft, fontSize: 9, lineHeight: 13 },
   releasePrice: { borderWidth: 1, borderColor: '#D52B1E', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 5 }, releasePriceText: { color: '#C41E16', fontSize: 10, lineHeight: 14, fontWeight: '700' },
   discount: { borderWidth: 1, borderColor: '#D52B1E', borderRadius: 8, paddingHorizontal: 6, paddingVertical: 3, alignItems: 'center' }, discountSmall: { color: '#C41E16', fontSize: 8, lineHeight: 11, fontWeight: '700' }, discountMain: { color: '#D71C0C', fontSize: 15, lineHeight: 19, fontWeight: '700' }, buyout: { alignSelf: 'flex-start', marginTop: 1, borderWidth: 1, borderColor: colors.line, borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2, color: '#8B6B3A', fontSize: 10, lineHeight: 14 },
   stats: { marginTop: 7, color: '#312E29', fontSize: 11, lineHeight: 17, fontWeight: '600', textAlign: 'center' },
