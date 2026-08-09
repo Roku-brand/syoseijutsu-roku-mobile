@@ -196,19 +196,28 @@ export default function MainScreen() {
       ? CIRCULAR_REEL_CENTER_COPY * baseReelItems.length + logicalIndex
       : logicalIndex;
 
+  const scrollToPhysicalIndex = (index: number, animated: boolean) => {
+    listRef.current?.scrollToOffset({
+      offset: reelWidth * index,
+      animated,
+    });
+  };
+
   useEffect(() => {
     const safeActiveIndex = Math.min(activeIndexRef.current, Math.max(baseReelItems.length - 1, 0));
     activeIndexRef.current = safeActiveIndex;
     if (safeActiveIndex !== activeIndex) setActiveIndex(safeActiveIndex);
     const physicalIndex = getCentralPhysicalIndex(safeActiveIndex);
     physicalIndexRef.current = physicalIndex;
-    const frame = requestAnimationFrame(() => {
-      listRef.current?.scrollToIndex({
-        index: physicalIndex,
-        animated: false,
-      });
-    });
-    return () => cancelAnimationFrame(frame);
+    const frame = requestAnimationFrame(() => scrollToPhysicalIndex(physicalIndex, false));
+    // React Native Web can finish laying out a virtualized horizontal list
+    // after the first frame. A bounded retry keeps the first card visible and
+    // then moves to the centre copy without gating the screen render.
+    const retry = setTimeout(() => scrollToPhysicalIndex(physicalIndex, false), 80);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(retry);
+    };
   }, [baseReelItems.length, reelType, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
@@ -218,10 +227,7 @@ export default function MainScreen() {
     setActiveIndex(nextIndex);
     const physicalIndex = getCentralPhysicalIndex(nextIndex);
     physicalIndexRef.current = physicalIndex;
-    listRef.current?.scrollToIndex({
-      index: physicalIndex,
-      animated,
-    });
+    scrollToPhysicalIndex(physicalIndex, animated);
     void Haptics.selectionAsync().catch(() => undefined);
   };
 
@@ -270,7 +276,7 @@ export default function MainScreen() {
         ((physicalIndex % cardCount) + cardCount) % cardCount,
       );
       physicalIndexRef.current = centeredIndex;
-      listRef.current?.scrollToIndex({ index: centeredIndex, animated: false });
+      scrollToPhysicalIndex(centeredIndex, false);
     }
 
     void Haptics.selectionAsync().catch(() => undefined);
@@ -286,7 +292,7 @@ export default function MainScreen() {
     if (reelType === 'techniques') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
       physicalIndexRef.current = physicalIndex;
-      listRef.current?.scrollToIndex({ index: physicalIndex, animated: true });
+      scrollToPhysicalIndex(physicalIndex, true);
     }
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -301,7 +307,7 @@ export default function MainScreen() {
     if (reelType === 'theories') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
       physicalIndexRef.current = physicalIndex;
-      listRef.current?.scrollToIndex({ index: physicalIndex, animated: true });
+      scrollToPhysicalIndex(physicalIndex, true);
     }
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -328,7 +334,6 @@ export default function MainScreen() {
         showsHorizontalScrollIndicator={false}
         data={reelItems}
         keyExtractor={(item) => item.reelKey}
-        initialScrollIndex={getCentralPhysicalIndex(0)}
         getItemLayout={(_, index) => ({
           index,
           length: reelWidth,
@@ -338,9 +343,9 @@ export default function MainScreen() {
         windowSize={7}
         onScroll={updateActiveCard}
         onMomentumScrollEnd={recenterReel}
-        onScrollToIndexFailed={({ index }) => {
+        onContentSizeChange={() => {
           requestAnimationFrame(() => {
-            listRef.current?.scrollToOffset({ offset: reelWidth * index, animated: false });
+            scrollToPhysicalIndex(getCentralPhysicalIndex(activeIndexRef.current), false);
           });
         }}
         scrollEventThrottle={16}
