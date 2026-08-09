@@ -22,7 +22,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
   await expect(page.getByText('¥280（税込）')).toBeVisible();
   await expect(page.getByText('一回払い・買い切り')).toBeVisible();
-  await expect(page.getByText('特商法表記')).toBeVisible();
+  await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
