@@ -34,7 +34,7 @@ function activeKey(pathname: string) {
 }
 
 export function PersistentBottomNav() {
-  const { desktop, bottomNavHeight, density } = useResponsiveLayout();
+  const { desktop, bottomNavHeight } = useResponsiveLayout();
   const pathname = usePathname();
   const router = useRouter();
   const lastTap = useRef<Record<string, number>>({});
@@ -58,7 +58,7 @@ export function PersistentBottomNav() {
       edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
       style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
     >
-      <View style={[styles.bar, !desktop && { height: bottomNavHeight, marginTop: density === 'veryCompact' ? 2 : 4 }, desktop && styles.barDesktop]}>
+      <View style={[styles.bar, !desktop && { height: bottomNavHeight }, desktop && styles.barDesktop]}>
         {items.map((item) => {
           const active = selected === item.key;
           return (
@@ -98,8 +98,8 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 }
 
 const styles = StyleSheet.create({
-  // ナビ本体と安全領域を同じ面として扱う。iPhone のホームインジケータ
-  // 領域だけが本文色で残らないよう、下端まで濃色でつなげる。
+  // ナビ本体と安全領域を同じ面として扱う。PWA では下端の安全領域が
+  // 空白に見えないよう、バーを画面幅・物理下端まで連続させる。
   safeArea: { flexShrink: 0, backgroundColor: colors.surface },
   bar: {
     maxWidth: 620,
@@ -109,14 +109,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.line,
-    borderRadius: 27,
-    marginHorizontal: 10,
-    marginTop: 4,
-    shadowColor: '#6F604A',
-    shadowOpacity: 0.07,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: -2 },
-    elevation: 2,
+    borderRadius: 0,
+    marginHorizontal: 0,
+    marginTop: 0,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
   },
   safeAreaDesktop: {
     width: 92,
