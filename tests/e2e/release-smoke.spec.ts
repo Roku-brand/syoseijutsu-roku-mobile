@@ -1,10 +1,20 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  page.on('console', (message) => console.log(`[browser:${message.type()}] ${message.text()}`));
+  page.on('pageerror', (error) => console.log(`[pageerror] ${error.message}`));
+});
+
+async function logPage(page: import('@playwright/test').Page, label: string) {
+  console.log(`[${label}] ${page.url()}\n${(await page.locator('body').innerText()).slice(0, 1800)}`);
+}
+
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('595').first()).toBeVisible();
   await page.getByRole('button', { name: /まずは無料で試す/ }).click();
+  await logPage(page, 'after-free-cta');
   await expect(page.getByText(/216の処世術/).first()).toBeVisible();
   await expect(page.getByText(/595の理論/).first()).toBeVisible();
   await expect(page.getByText('第一印象では、盛り上げるより安心感を与えよ')).toBeVisible();
@@ -16,6 +26,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade.html');
+  await logPage(page, 'upgrade');
   await expect(page.getByText('216の処世術・595の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('リリース記念価格')).toBeVisible();
   await page.getByRole('button', { name: /¥280で完全版を購入/ }).click();
@@ -27,6 +38,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/auth.html?mode=signin');
+  await logPage(page, 'auth');
   await page.getByText('パスワードを忘れた方').click();
   await expect(page.getByText('パスワードを再設定')).toBeVisible();
   await page.goto('/syoseijutsu-roku-mobile/settings.html');
