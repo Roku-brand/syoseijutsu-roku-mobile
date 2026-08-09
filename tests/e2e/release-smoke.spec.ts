@@ -34,3 +34,12 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
   await expect(page.getByText('特定商取引法に基づく表記')).toBeVisible();
   await expect(page.getByText('お問い合わせ')).toBeVisible();
 });
+
+test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/learn');
+  await page.getByRole('button', { name: 'ステージ1、空気、どうする？' }).click();
+  await expect(page.getByText('CASE 01')).toBeVisible();
+  await page.getByRole('button', { name: /^A/ }).click();
+  await expect(page.getByText('この局面での評価')).toBeVisible();
+  await expect(page.getByText('あなたが選んだ手')).toBeVisible();
+});
