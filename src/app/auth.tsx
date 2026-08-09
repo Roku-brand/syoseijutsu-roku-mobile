@@ -6,13 +6,11 @@ import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { checkoutConfirmationRedirectUrl, useAuth } from '@/auth/auth-state';
 import { createCompleteEditionCheckout } from '@/lib/purchase';
-import { useAccess } from '@/access/access-state';
 
 export default function AuthScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ intent?: string; mode?: string }>();
   const { configured, user, signInWithEmail, signUpWithEmail, sendPasswordReset, updatePassword, signOut } = useAuth();
-  const { isPaid } = useAccess();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const purchaseIntent = params.intent === 'checkout';
@@ -98,14 +96,6 @@ export default function AuthScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <DetailHeader title="アカウント" />
-      <AppText style={styles.sectionTitle}>アカウント情報</AppText>
-      <View style={styles.infoCard}>
-        <View style={styles.userIcon}><AppText style={styles.userIconText}>人</AppText></View>
-        <View style={styles.infoCopy}>
-          <AppText style={styles.infoStatus}>{user ? '登録済み' : '未登録'}</AppText>
-          <AppText style={styles.infoPlan}>{isPaid ? '完全版' : '無料版'}</AppText>
-        </View>
-      </View>
       <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
       <View style={styles.card}>
         <AppText style={styles.title}>{mode === 'forgot' ? 'パスワードを再設定' : mode === 'reset' ? '新しいパスワードを設定' : user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : 'アカウントを作成・ログイン'}</AppText>
@@ -148,12 +138,6 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 620, alignSelf: 'center' },
   sectionTitle: { marginTop: spacing.lg, marginBottom: spacing.sm, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  infoCard: { minHeight: 82, padding: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  userIcon: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
-  userIconText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 24 },
-  infoCopy: { flex: 1 },
-  infoStatus: { fontSize: 15, lineHeight: 22, fontWeight: '700' },
-  infoPlan: { marginTop: 2, color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '700' },
   card: { width: '100%', padding: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
   eyebrow: { color: colors.gold, fontSize: 10, letterSpacing: 2, fontWeight: '700' },
   title: { marginTop: 8, fontFamily: fonts.serif, fontSize: 27, lineHeight: 38, fontWeight: '700' },
