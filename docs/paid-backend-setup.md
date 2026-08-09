@@ -23,7 +23,8 @@
 3. Edge Function Secretsへ次を登録する。
    - `STRIPE_SECRET_KEY`
    - `STRIPE_WEBHOOK_SECRET`
-   - `SITE_URL=https://roku-brand.github.io/syoseijutsu-roku-mobile`
+   - 購入完了・キャンセル時の戻り先は、関数内で公開URL
+     `https://roku-brand.github.io/syoseijutsu-roku-mobile/upgrade.html` に固定済みです。
 4. Stripe Webhook URLを`https://<project-ref>.supabase.co/functions/v1/stripe-webhook`に設定する。
 5. Supabase AuthのRedirect URLsへ次を登録する。
    - `https://roku-brand.github.io/syoseijutsu-roku-mobile/auth.html?intent=checkout`
