@@ -57,7 +57,7 @@
       ]
     ],
     "experiments": {
-      "baseUrl": "/syoseizyutsu-roku-mobile",
+      "baseUrl": "/syoseijutsu-roku-mobile",
       "typedRoutes": true,
       "reactCompiler": true
     }
