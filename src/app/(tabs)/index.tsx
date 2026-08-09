@@ -17,7 +17,6 @@ import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config
 import { useAccess } from '@/access/access-state';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
-import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAppToast } from '@/components/app-toast';
 import { useResponsiveLayout, type ViewportDensity } from '@/hooks/use-responsive-layout';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
@@ -123,7 +122,6 @@ function getReelTitleMetrics(title: string, reelWidth: number, density: Viewport
 }
 
 export default function MainScreen() {
-  const isFocused = useTabVisible();
   const router = useRouter();
   const { width, height, density, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
   const showToast = useAppToast();
@@ -307,8 +305,6 @@ export default function MainScreen() {
     }
     void Haptics.selectionAsync().catch(() => undefined);
   };
-
-  if (!isFocused) return null;
 
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>

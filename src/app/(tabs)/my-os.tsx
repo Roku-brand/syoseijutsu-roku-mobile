@@ -13,14 +13,12 @@ import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
-import { useTabVisible } from '@/hooks/use-tab-visible';
 import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 
 export default function MyOsScreen() {
-  const isFocused = useTabVisible();
   const router = useRouter();
   const { user } = useAuth();
   const { isPaid } = useAccess();
@@ -48,8 +46,6 @@ export default function MyOsScreen() {
     setDraft(personalPrinciple);
     setEditing(true);
   };
-
-  if (!isFocused) return null;
 
   return (
     <BookScreen>
