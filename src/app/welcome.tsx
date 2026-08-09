@@ -13,10 +13,10 @@ const previewCard = techniqueCards[0];
 export default function Welcome() {
   const router = useRouter();
   const { accessState } = useAccess();
-  const { interests, completeOnboarding } = useAppState();
+  const { interests, onboardingCompleted, completeOnboarding } = useAppState();
 
   // 購入済みの人が古いリンクなどからここへ来ても、商品説明を再表示しない。
-  if (accessState === 'paid') return <Redirect href="/(tabs)" />;
+  if (accessState === 'paid' || onboardingCompleted) return <Redirect href="/(tabs)" />;
 
   const startFree = () => {
     completeOnboarding(interests);
