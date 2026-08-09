@@ -7,7 +7,7 @@ export default function OnboardingScreen() {
   const { hydrated, onboardingCompleted } = useAppState();
   const { accessState } = useAccess();
 
-  if (!hydrated) return null;
+  if (!hydrated) return <Redirect href="/welcome" />;
   if (accessState === 'paid' || onboardingCompleted) return <Redirect href="/(tabs)" />;
   return <Redirect href="/welcome" />;
 }
