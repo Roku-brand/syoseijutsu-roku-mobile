@@ -13,7 +13,6 @@ import {
   techniqueCards,
   theories,
 } from '@/data/catalog';
-import { useTabVisible } from '@/hooks/use-tab-visible';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 
@@ -29,7 +28,6 @@ const theoryCategories = [
 ];
 
 export default function DiscoverScreen() {
-  const isFocused = useTabVisible();
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<BrowseMode>('techniques');
@@ -85,8 +83,6 @@ export default function DiscoverScreen() {
           }),
     [isPaid, keywords],
   );
-
-  if (!isFocused) return null;
 
   return (
     <BookScreen>
