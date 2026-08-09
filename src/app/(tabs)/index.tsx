@@ -123,7 +123,7 @@ function getReelTitleMetrics(title: string, reelWidth: number, density: Viewport
 
 export default function MainScreen() {
   const router = useRouter();
-  const { width, height, density, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
+  const { width, height, density, desktop, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const [reelType, setReelType] = useState<'techniques' | 'theories'>('techniques');
@@ -151,21 +151,25 @@ export default function MainScreen() {
     [isPaid],
   );
 
-  const compactReel = width < 520;
-  const idealCardHeight = isPaid
-    ? density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 312
-    : density === 'veryCompact' ? 240 : density === 'compact' ? 292 : 350;
+  const compactReel = !desktop && width < 520;
+  const idealCardHeight = desktop
+    ? isPaid ? 360 : 390
+    : isPaid
+      ? density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 312
+      : density === 'veryCompact' ? 240 : density === 'compact' ? 292 : 350;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
-    Math.min(idealCardHeight, height - (isPaid ? 435 : 400)),
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 380 : 350) : (isPaid ? 435 : 400))),
   );
-  const reelPeek = density === 'veryCompact' ? 12 : compactReel ? 18 : 30;
-  const reelGap = density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
+  const reelPeek = desktop ? 30 : density === 'veryCompact' ? 12 : compactReel ? 18 : 30;
+  const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
   const safeWidth = width || 390;
-  const cardWidth = Math.min(
-    Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
-    safeWidth >= 1100 ? 760 : 680,
-  );
+  const cardWidth = desktop
+    ? Math.min(Math.max(safeWidth * 0.46, 420), 520)
+    : Math.min(
+        Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
+        680,
+      );
   const reelWidth = cardWidth + reelGap;
   const reelViewportWidth = Math.min(
     Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2, 1),
