@@ -130,6 +130,8 @@ export default function MainScreen() {
   const [activeIndex, setActiveIndex] = useState(lastReelPosition.techniques);
   const activeIndexRef = useRef(lastReelPosition.techniques);
   const physicalIndexRef = useRef(0);
+  const latestScrollOffsetRef = useRef(0);
+  const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const { isPaid } = useAccess();
   const visibleTechniqueCards = useMemo(
@@ -241,6 +243,7 @@ export default function MainScreen() {
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
+    latestScrollOffsetRef.current = event.nativeEvent.contentOffset.x;
     if (baseReelItems.length <= 1) return;
 
     const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
@@ -257,12 +260,54 @@ export default function MainScreen() {
     physicalIndexRef.current = physicalIndex;
   };
 
+  const clearScrollSettleTimer = () => {
+    if (scrollSettleTimerRef.current) {
+      clearTimeout(scrollSettleTimerRef.current);
+      scrollSettleTimerRef.current = null;
+    }
+  };
+
+  const snapToNearestCard = (offsetX: number, animated = true) => {
+    if (baseReelItems.length <= 1) return;
+
+    const cardCount = baseReelItems.length;
+    const physicalIndex = Math.max(
+      0,
+      Math.min(Math.round(offsetX / reelWidth), reelItems.length - 1),
+    );
+    const logicalIndex = ((physicalIndex % cardCount) + cardCount) % cardCount;
+    const targetOffset = physicalIndex * reelWidth;
+
+    activeIndexRef.current = logicalIndex;
+    lastReelPosition[reelType] = logicalIndex;
+    setActiveIndex(logicalIndex);
+    physicalIndexRef.current = physicalIndex;
+
+    // Native's interval snap handles touch momentum. This explicit correction
+    // also covers mouse/trackpad scrolling on web, where momentum can end
+    // between two CSS snap points.
+    if (Math.abs(offsetX - targetOffset) > 0.5) {
+      scrollToPhysicalIndex(physicalIndex, animated);
+    }
+  };
+
+  const scheduleNearestCardSnap = () => {
+    clearScrollSettleTimer();
+    scrollSettleTimerRef.current = setTimeout(() => {
+      scrollSettleTimerRef.current = null;
+      snapToNearestCard(latestScrollOffsetRef.current);
+    }, 120);
+  };
+
   const recenterReel = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
     if (baseReelItems.length <= 1) return;
 
-    const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
+    clearScrollSettleTimer();
+    const offsetX = event.nativeEvent.contentOffset.x;
+    latestScrollOffsetRef.current = offsetX;
+    const physicalIndex = Math.round(offsetX / reelWidth);
     const cardCount = baseReelItems.length;
 
     // Keep the user in the middle copy, after momentum has settled. Because
@@ -277,10 +322,14 @@ export default function MainScreen() {
       );
       physicalIndexRef.current = centeredIndex;
       scrollToPhysicalIndex(centeredIndex, false);
+    } else {
+      snapToNearestCard(offsetX);
     }
 
     void Haptics.selectionAsync().catch(() => undefined);
   };
+
+  useEffect(() => clearScrollSettleTimer, []);
 
   const jumpToTechniqueCategory = (categoryKey: (typeof techniqueShortcuts)[number]['key']) => {
     const targetIndex = visibleTechniqueCards.findIndex((card) => card.categoryKey === categoryKey);
@@ -341,7 +390,12 @@ export default function MainScreen() {
         })}
         initialNumToRender={5}
         windowSize={7}
-        onScroll={updateActiveCard}
+        onScroll={(event) => {
+          updateActiveCard(event);
+          scheduleNearestCardSnap();
+        }}
+        onScrollBeginDrag={clearScrollSettleTimer}
+        onScrollEndDrag={scheduleNearestCardSnap}
         onMomentumScrollEnd={recenterReel}
         onContentSizeChange={() => {
           requestAnimationFrame(() => {
