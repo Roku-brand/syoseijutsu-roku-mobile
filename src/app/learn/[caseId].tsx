@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
@@ -12,12 +13,19 @@ export default function LearningCaseScreen() {
   const router = useRouter();
   const item = getLearningCase(caseId ?? '');
   const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
+  const [retryPending, setRetryPending] = useState(retry === '1');
+
+  useEffect(() => {
+    setRetryPending(retry === '1');
+  }, [caseId, retry]);
 
   if (!item) {
     return <BookScreen contentContainerStyle={styles.content}><AppText>この局面は見つかりません。</AppText></BookScreen>;
   }
 
-  const record = retry === '1' ? undefined : learningRecords[item.id];
+  // A completed case can be opened again with ?retry=1.  Once the user makes
+  // a new selection, stop masking the saved record so the review appears.
+  const record = retryPending ? undefined : learningRecords[item.id];
   const selected = record?.choiceId;
   const selectedChoice = item.choices.find((choice) => choice.id === selected);
   const selectedReview = selectedChoice ? getChoiceReview(item, selectedChoice) : null;
@@ -45,7 +53,15 @@ export default function LearningCaseScreen() {
         <View style={styles.answerArea}>
           <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.78} style={styles.question}>{item.question}</AppText>
           {item.choices.map((choice) => (
-            <Pressable key={choice.id} accessibilityRole="button" onPress={() => answerLearningCase(item.id, choice.id)} style={({ pressed }) => [styles.choice, pressed && styles.pressed]}>
+            <Pressable
+              key={choice.id}
+              accessibilityRole="button"
+              onPress={() => {
+                answerLearningCase(item.id, choice.id);
+                setRetryPending(false);
+              }}
+              style={({ pressed }) => [styles.choice, pressed && styles.pressed]}
+            >
               <AppText style={styles.choiceLetter}>{choice.id.toUpperCase()}</AppText>
               <AppText numberOfLines={2} style={styles.choiceText}>{choice.label}</AppText>
             </Pressable>
