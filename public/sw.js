@@ -1,6 +1,6 @@
 // Bump this on every web release so an installed PWA clears stale bundles.
-const VERSION = 'roku-2026-08-09-3';
-const BASE = '/syoseizyutsu-roku-mobile';
+const VERSION = 'roku-2026-08-09-4';
+const BASE = '/syoseijutsu-roku-mobile';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 const APP_SHELL = [`${BASE}/`, `${BASE}/index.html`, `${BASE}/manifest.webmanifest`, `${BASE}/pwa-icon.svg`];
