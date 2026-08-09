@@ -129,7 +129,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
  */
 export function checkoutConfirmationRedirectUrl() {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    // GitHub Pages serves Expo's static route as `auth.html`. Using `/auth`\n    // makes the email-confirmation redirect depend on a server-side rewrite,\n    // which Pages does not provide.\n    return `${window.location.origin}/syoseizyutsu-roku-mobile/auth.html?intent=checkout`;
+    // GitHub Pages serves Expo's static route as `auth.html`. Using `/auth`
+    // makes the email-confirmation redirect depend on a server-side rewrite,
+    // which Pages does not provide.
+    return `${window.location.origin}/syoseijutsu-roku-mobile/auth.html?intent=checkout`;
   }
   return 'shoseijutsuroku://auth?intent=checkout';
 }

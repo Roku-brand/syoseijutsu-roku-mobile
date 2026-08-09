@@ -23,7 +23,7 @@
 3. Edge Function Secretsへ次を登録する。
    - `STRIPE_SECRET_KEY`
    - `STRIPE_WEBHOOK_SECRET`
-   - `SITE_URL=https://roku-brand.github.io/syoseizyutsu-roku-mobile`
+   - `SITE_URL=https://roku-brand.github.io/syoseijutsu-roku-mobile`
 4. Stripe Webhook URLを`https://<project-ref>.supabase.co/functions/v1/stripe-webhook`に設定する。
 5. Stripeイベントは最低限次を購読する。
    - `checkout.session.completed`
