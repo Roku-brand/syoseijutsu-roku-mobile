@@ -1,7 +1,7 @@
 import { ScrollViewStyleReset } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 
-const basePath = '/syoseizyutsu-roku-mobile';
+const basePath = '/syoseijutsu-roku-mobile';
 
 export default function Root({ children }: PropsWithChildren) {
   return (
