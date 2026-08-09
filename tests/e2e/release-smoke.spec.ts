@@ -26,6 +26,13 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
+test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/?checkout=success');
+  await expect(page).toHaveURL(/\/syoseijutsu-roku-mobile\/\?checkout=success$/);
+  await expect(page.getByText('決済を確認しています。')).toBeVisible();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
+});
+
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/auth?mode=signin');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);

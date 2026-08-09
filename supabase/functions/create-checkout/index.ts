@@ -3,11 +3,10 @@ import { corsHeaders, json, optionsResponse } from '../_shared/http.ts';
 
 const PRODUCT_ID = 'complete-edition';
 const UNIT_AMOUNT = 280;
-// Stripe Checkout must return to the exported HTML file below the GitHub
-// Pages project path.  Do not derive this from an environment variable: a
-// root-domain value would silently send buyers to `roku-brand.github.io/
-// upgrade.html`, which GitHub Pages correctly returns as a 404.
-const CHECKOUT_RETURN_URL = 'https://roku-brand.github.io/syoseijutsu-roku-mobile/upgrade.html';
+// Return through the app shell instead of a generated route HTML file. The
+// root route is the most reliable GitHub Pages entry point, and forwards the
+// checkout query to the in-app upgrade screen after Expo Router has loaded.
+const CHECKOUT_RETURN_URL = 'https://roku-brand.github.io/syoseijutsu-roku-mobile/';
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return optionsResponse();
