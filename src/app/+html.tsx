@@ -23,11 +23,26 @@ export default function Root({ children }: PropsWithChildren) {
         <link rel="apple-touch-icon" href={`${basePath}/pwa-icon.svg`} />
         <ScrollViewStyleReset />
         <style>{`
-          html, body, #root { width: 100%; height: 100vh; min-height: 100%; background: #F4F0E7; }
-          @supports (height: 100dvh) {
-            html, body, #root { height: 100dvh; }
+          /*
+           * iOS PWA/Safari occasionally reports a shorter dynamic viewport than
+           * the physical display.  A height-only root then ends above the home
+           * indicator, leaving the page background under the bottom navigation.
+           * Anchor the application root to every physical viewport edge instead.
+           */
+          html {
+            width: 100%; height: 100%; min-height: -webkit-fill-available;
+            background: #FFFDF8;
           }
-          body { margin: 0; overflow: hidden; overscroll-behavior: none; }
+          body {
+            width: 100%; height: 100%; min-height: -webkit-fill-available;
+            margin: 0; overflow: hidden; overscroll-behavior: none;
+            background: #FFFDF8;
+          }
+          #root {
+            position: fixed; inset: 0;
+            width: 100%; height: auto; min-height: 0;
+            background: #FFFDF8;
+          }
           #roku-launch {
             position: fixed; inset: 0; z-index: 99999; display: grid;
             place-items: center; background: #151714;
