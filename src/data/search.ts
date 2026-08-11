@@ -1,47 +1,55 @@
 import type { CategoryKey, TechniqueCard } from './types';
+import { getTechniqueSearchText } from './technique-tags';
 
 export type SearchGoal = {
   id: string;
   label: string;
   description: string;
+  mark: string;
   keywords: string[];
 };
 
-const sharedGoals: SearchGoal[] = [
+export const searchGoals: SearchGoal[] = [
   {
     id: 'protect',
     label: '自分を守りたい',
     description: '損失や消耗を増やさない',
+    mark: '盾',
     keywords: ['守', '避け', '距離', '断', '撤退', '境界', 'リスク', '防'],
   },
   {
     id: 'improve',
     label: '状況を改善したい',
     description: '今より少し良い状態へ動かす',
+    mark: '整',
     keywords: ['改善', '高め', '増や', '得る', '築', '回復', '整え', '安定'],
   },
   {
     id: 'decide',
     label: '冷静に判断したい',
     description: '迷いを整理して選ぶ',
+    mark: '軸',
     keywords: ['判断', '選択', '決め', '見極め', '優先', '比較', '基準'],
   },
   {
     id: 'communicate',
     label: 'うまく伝えたい',
     description: '摩擦を抑えて意思を届ける',
+    mark: '伝',
     keywords: ['伝え', '話', '説明', '質問', '聞', '交渉', '会話', '報告'],
   },
   {
     id: 'act',
     label: '行動に移したい',
     description: '小さく始め、前へ進む',
+    mark: '歩',
     keywords: ['始め', '行動', '着手', '続け', '実行', '試', '習慣'],
   },
   {
     id: 'reset',
     label: '気持ちを切り替えたい',
     description: '感情の波から一歩離れる',
+    mark: '凪',
     keywords: ['感情', '不安', '疲', '回復', '後悔', '焦', '休', '切り替え'],
   },
 ];
@@ -54,20 +62,25 @@ const goalOrder: Record<CategoryKey, string[]> = {
 
 export function goalsForCategory(category: CategoryKey) {
   return goalOrder[category]
-    .map((id) => sharedGoals.find((goal) => goal.id === id))
+    .map((id) => searchGoals.find((goal) => goal.id === id))
     .filter((goal): goal is SearchGoal => Boolean(goal));
 }
 
+export function getSearchGoal(id: string) {
+  return searchGoals.find((goal) => goal.id === id);
+}
+
 export function rankByGoal(cards: TechniqueCard[], goalId: string) {
-  const goal = sharedGoals.find((candidate) => candidate.id === goalId);
+  const goal = getSearchGoal(goalId);
   if (!goal) return cards;
 
   return [...cards]
     .map((card, index) => {
-      const text = `${card.title} ${card.subtitle ?? ''} ${card.subcategory}`;
+      const text = getTechniqueSearchText(card);
       const matches = goal.keywords.filter((keyword) => text.includes(keyword)).length;
       return { card, score: matches * 10 - index / 1000 };
     })
+    .filter(({ score }) => score > 0)
     .sort((a, b) => b.score - a.score)
     .map(({ card }) => card);
 }
