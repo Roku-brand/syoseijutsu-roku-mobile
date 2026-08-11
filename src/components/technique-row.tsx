@@ -74,7 +74,7 @@ export function TechniqueRow({
           )}
           {!hasSequence && (card.tags?.length ?? 0) > 0 && (
             <View style={styles.tags}>
-              {card.tags!.slice(0, 2).map((tag) => (
+              {card.tags!.slice(0, 3).map((tag) => (
                 <View key={tag} style={[styles.tag, { backgroundColor: resolvedTint }]}>
                   <AppText variant="caption" style={[styles.tagText, { color: resolvedAccent }]}>
                     #{tag}
