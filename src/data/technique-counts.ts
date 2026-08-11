@@ -4,7 +4,7 @@ import type { CategoryKey } from './types';
  * 完全版216件を、人物像ごとに集計した表紙表示用の公開メタデータ。
  * 本文は含めず、無料版の同梱データが一部だけでも総件数を正しく表示する。
  */
-const PERSONA_TECHNIQUE_COUNTS: Record<CategoryKey, Record<string, number>> = {
+export const PERSONA_TECHNIQUE_COUNTS: Record<CategoryKey, Record<string, number>> = {
   interpersonal: {
     '印象がいい人': 14,
     '会話がうまい人': 13,
@@ -45,6 +45,20 @@ export function getTechniqueCount(category: CategoryKey, persona: string, fallba
 export function getTechniqueCountTotal() {
   return Object.values(PERSONA_TECHNIQUE_COUNTS).reduce(
     (categoryTotal, personas) => categoryTotal + Object.values(personas).reduce((total, count) => total + count, 0),
+    0,
+  );
+}
+
+export function getCategoryTechniqueCount(category: CategoryKey) {
+  return Object.values(PERSONA_TECHNIQUE_COUNTS[category]).reduce(
+    (total, count) => total + count,
+    0,
+  );
+}
+
+export function getThemeTechniqueCount(category: CategoryKey, personas: string[]) {
+  return personas.reduce(
+    (total, persona) => total + getTechniqueCount(category, persona, 0),
     0,
   );
 }
