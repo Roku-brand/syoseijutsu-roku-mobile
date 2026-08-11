@@ -30,17 +30,18 @@ export default function Root({ children }: PropsWithChildren) {
            * Anchor the application root to every physical viewport edge instead.
            */
           html {
-            width: 100%; height: 100%; min-height: -webkit-fill-available;
+            width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
             background: #FFFDF8;
           }
           body {
-            width: 100%; height: 100%; min-height: -webkit-fill-available;
+            width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
             margin: 0; overflow: hidden; overscroll-behavior: none;
             background: #FFFDF8;
           }
-          #root {
+          #root, #root > div {
             position: fixed; inset: 0;
-            width: 100%; height: auto; min-height: 0;
+            width: 100%; height: var(--roku-app-height, 100dvh) !important;
+            min-height: var(--roku-app-height, 100dvh) !important;
             background: #FFFDF8;
           }
           #roku-launch {
@@ -70,6 +71,23 @@ export default function Root({ children }: PropsWithChildren) {
           dangerouslySetInnerHTML={{
             __html: `
               (() => {
+                /*
+                 * iOS standalone PWAs can expose a short visualViewport to
+                 * React Native Web even though the physical display is taller.
+                 * screen.height is stable in that mode.  Keep the native
+                 * root and its first React wrapper at the same physical height
+                 * so the navigation reaches the home-indicator safe area.
+                 */
+                const syncAppHeight = () => {
+                  const standalone = window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
+                  const visualHeight = window.visualViewport?.height || window.innerHeight;
+                  const physicalHeight = standalone ? Math.max(visualHeight, window.screen?.height || 0) : visualHeight;
+                  document.documentElement.style.setProperty('--roku-app-height', physicalHeight + 'px');
+                };
+                syncAppHeight();
+                window.addEventListener('resize', syncAppHeight);
+                window.visualViewport?.addEventListener('resize', syncAppHeight);
+
                 const hideLaunch = () => document.getElementById('roku-launch')?.classList.add('hidden');
                 window.addEventListener('load', () => setTimeout(hideLaunch, 180), { once: true });
                 setTimeout(hideLaunch, 2200);
