@@ -1,6 +1,7 @@
 import techniquesSource from './generated/techniques.json';
 import theoriesSource from './generated/theories.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard } from './types';
+import { getTechniqueTags } from './technique-tags';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
@@ -17,13 +18,20 @@ const theoryDisplayIdByTagId = new Map<string, string>();
 function rebuildIndexes() {
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
-      subcategory.items.map((item) => ({
-        ...item,
-        categoryKey: category.key,
-        categoryName: category.name,
-        subcategory: subcategory.name,
-        articleTitle: subcategory.articleTitle ?? subcategory.name,
-      })),
+      subcategory.items.map((item) => {
+        const articleTitle = subcategory.articleTitle ?? subcategory.name;
+        const context = {
+          ...item,
+          categoryName: category.name,
+          subcategory: subcategory.name,
+          articleTitle,
+        };
+        return {
+          ...context,
+          categoryKey: category.key,
+          tags: getTechniqueTags(context),
+        };
+      }),
     ),
   ));
 
