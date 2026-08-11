@@ -16,9 +16,16 @@ export function useHydratedWindowDimensions() {
     if (Platform.OS !== 'web' || typeof window === 'undefined') return;
     const syncViewport = () => {
       const viewport = window.visualViewport;
+      const standalone = window.matchMedia?.('(display-mode: standalone)').matches
+        || (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
       setVisualViewport({
         width: viewport?.width ?? window.innerWidth,
-        height: viewport?.height ?? window.innerHeight,
+        // In an iOS PWA, visualViewport may exclude a large area below the
+        // app even while the physical screen is available.  The tab bar must
+        // be positioned against the latter, not the shortened viewport.
+        height: standalone
+          ? Math.max(viewport?.height ?? 0, window.innerHeight, window.screen?.height ?? 0)
+          : viewport?.height ?? window.innerHeight,
       });
     };
     syncViewport();
