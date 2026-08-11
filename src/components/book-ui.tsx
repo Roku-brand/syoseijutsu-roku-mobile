@@ -297,6 +297,7 @@ function getCurrentTitle(pathname: string) {
     return theories.find((theory) => theory.categoryId === segments[1])?.categoryTitle ?? '理論辞典';
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
+  if (segments[0] === 'goal') return '目的から探す';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
