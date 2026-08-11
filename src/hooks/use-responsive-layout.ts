@@ -23,6 +23,8 @@ export function useResponsiveLayout() {
     compact: density !== 'normal',
     verticalPadding: density === 'veryCompact' ? 4 : density === 'compact' ? 6 : 8,
     sectionGap: density === 'veryCompact' ? 4 : density === 'compact' ? 6 : 8,
-    bottomNavHeight: density === 'veryCompact' ? 62 : density === 'compact' ? 66 : 70,
+    // A shorter bottom bar keeps the controls at the physical lower edge of
+    // the phone while preserving a comfortable touch target.
+    bottomNavHeight: density === 'veryCompact' ? 54 : density === 'compact' ? 58 : 62,
   };
 }

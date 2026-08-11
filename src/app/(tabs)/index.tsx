@@ -134,7 +134,11 @@ export default function MainScreen() {
   const latestScrollOffsetRef = useRef(0);
   const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
-  const { isPaid, accessInfo } = useAccess();
+  // Paid content arrives after the server has verified the entitlement.  The
+  // catalogue module is intentionally hydrated in place, so this revision is
+  // the signal that makes the reel rebuild from its initial preview cards to
+  // all 595 theory cards.
+  const { isPaid, accessInfo, catalogRevision } = useAccess();
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);
     const lead = group.items[0];
@@ -147,7 +151,7 @@ export default function MainScreen() {
       : FREE_THEORY_IDS
           .map((id) => catalogTheories.find((card) => card.tagId === id))
           .filter((card): card is TheoryCard => Boolean(card)),
-    [isPaid],
+    [isPaid, catalogRevision],
   );
 
   const compactReel = !desktop && width < 520;
