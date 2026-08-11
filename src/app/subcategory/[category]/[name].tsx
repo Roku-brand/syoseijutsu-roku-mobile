@@ -29,10 +29,16 @@ export default function PersonaScreen() {
   }
 
   const theme = persona.articleTitle ?? '人物像';
-  // Each persona contains a bounded set of techniques. Keep the entire list
-  // usable at a glance on phones, rather than making this overview a scroll.
-  const compact = !desktop && (density !== 'normal' || height < 760);
-  const rowHeight = compact ? (density === 'veryCompact' ? 41 : 46) : 54;
+  // Size every persona page from the largest list, not from the current one.
+  // That guarantees the final row is never hidden on a non-scrolling phone view.
+  const largestPersonaItemCount = Math.max(
+    ...categories.flatMap((item) => item.subcategories.map((entry) => entry.items.length)),
+  );
+  const compact = !desktop;
+  const reservedHeight = compact ? 218 : 242;
+  const rowHeight = compact
+    ? Math.max(29, Math.min(44, Math.floor((height - reservedHeight) / largestPersonaItemCount)))
+    : 54;
   const titleSize = compact ? 27 : 32;
   const descriptionSize = compact ? 13 : 15;
 
@@ -54,7 +60,7 @@ export default function PersonaScreen() {
               accessibilityRole="link"
               accessibilityLabel={`${item.title}を開く`}
               onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-              style={({ pressed }) => [styles.row, { minHeight: rowHeight }, compact && styles.rowCompact, index === persona.items.length - 1 && styles.rowLast, pressed && styles.pressed]}
+              style={({ pressed }) => [styles.row, { height: rowHeight, minHeight: rowHeight }, compact && styles.rowCompact, index === persona.items.length - 1 && styles.rowLast, pressed && styles.pressed]}
             >
               <AppText style={[styles.number, compact && styles.numberCompact]}>{String(index + 1).padStart(2, '0')}</AppText>
               <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
   countBadgeCompact: { minHeight: 26, paddingHorizontal: 10 },
   countText: { color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '700' },
   description: { marginTop: spacing.sm, color: colors.inkSoft, fontSize: 15, lineHeight: 25 },
-  listCardCompact: { marginTop: spacing.md },
+  listCardCompact: { marginTop: 10 },
   listCard: { marginTop: spacing.xl, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
   row: { minHeight: 58, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   rowCompact: { paddingHorizontal: spacing.md, gap: spacing.sm },
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
   number: { width: 28, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '700' },
   numberCompact: { width: 24, fontSize: 12, lineHeight: 16 },
   rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '600' },
-  rowTitleCompact: { fontSize: 14, lineHeight: 19 },
+  rowTitleCompact: { fontSize: 13, lineHeight: 17 },
   chevron: { color: colors.gold, fontSize: 24, lineHeight: 27 },
   chevronCompact: { fontSize: 20, lineHeight: 22 },
   pressed: { backgroundColor: colors.paperDeep },
