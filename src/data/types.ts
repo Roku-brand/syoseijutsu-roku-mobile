@@ -37,6 +37,7 @@ export type TheoryCard = {
   conceptType: string;
   sourceName?: string | null;
   sourceDetail?: string | null;
+  provenance?: TheoryProvenance;
   domains?: string[];
   principles?: string[];
   relatedIds?: string[];
@@ -45,6 +46,13 @@ export type TheoryCard = {
   notes?: string | null;
   categoryId: string;
   categoryTitle: string;
+};
+
+export type TheoryProvenance = {
+  status: '確認済み' | '一部確認' | '出典不明';
+  attribution?: string;
+  works?: string[];
+  note?: string;
 };
 
 export type CatalogCategory = {
