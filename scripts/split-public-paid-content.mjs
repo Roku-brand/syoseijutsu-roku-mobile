@@ -2,16 +2,15 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const freeTechniqueIds = new Set([
-  'complete-001','complete-002','complete-003','complete-004','complete-005',
-  'complete-006','complete-007','complete-008','complete-009','complete-010','complete-011','complete-012','complete-013','complete-014',
-  'complete-100','complete-101','complete-102','complete-103','complete-104',
-  'complete-161','complete-162','complete-163','complete-164','complete-165',
-  'complete-183','complete-184','complete-187','complete-188','complete-189',
+  ...Array.from({ length: 27 }, (_, index) => `complete-${String(index + 1).padStart(3, '0')}`),
+  ...Array.from({ length: 13 }, (_, index) => `complete-${String(index + 75).padStart(3, '0')}`),
+  ...Array.from({ length: 5 }, (_, index) => `complete-${String(index + 200).padStart(3, '0')}`),
 ]);
 const freeTheoryIds = new Set([
-  'kb_001','kb_004','kb_005','kb_007','kb_008','kb_009','kb_010','kb_013',
-  'kb_130','kb_131','kb_132','kb_133','kb_134','kb_136',
-  'kb_221','kb_222','kb_223','kb_224','kb_225','kb_228',
+  'kb_003','kb_004','kb_029','kb_045','kb_221','kb_265',
+  'kb_104','kb_134','kb_138','kb_273',
+  'kb_064','kb_082','kb_192','kb_142','kb_284',
+  'kb_299','kb_333','kb_342','kb_329','kb_338',
 ]);
 const freeLearningIds = new Set(Array.from({ length: 7 }, (_, index) => `case-${String(index + 1).padStart(2, '0')}`));
 
