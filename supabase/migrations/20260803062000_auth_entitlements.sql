@@ -20,11 +20,13 @@ create table if not exists public.entitlements (
 alter table public.profiles enable row level security;
 alter table public.entitlements enable row level security;
 
+drop policy if exists "users can read own profile" on public.profiles;
 create policy "users can read own profile"
 on public.profiles for select
 to authenticated
 using (auth.uid() = user_id);
 
+drop policy if exists "users can read own entitlements" on public.entitlements;
 create policy "users can read own entitlements"
 on public.entitlements for select
 to authenticated
