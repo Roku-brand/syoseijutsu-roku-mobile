@@ -13,6 +13,7 @@ import { AppText, SegmentedControl } from '@/components/ui';
 import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
+import { getTechniqueCount } from '@/data/technique-counts';
 import { getTheoryCoverSummary } from '@/data/theory-display';
 import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
@@ -40,7 +41,7 @@ type TheoryReelItem = {
 };
 
 type ReelItem = PersonaReelItem | TheoryReelItem | UpgradeReelItem;
-type Persona = { id: string; title: string; subtitle: string; category: 'interpersonal' | 'work' | 'life'; principleIds: string[] };
+type Persona = { id: string; title: string; subtitle: string; category: 'interpersonal' | 'work' | 'life'; principleIds: string[]; techniqueCount: number };
 
 const CIRCULAR_REEL_COPIES = 5;
 const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
@@ -143,7 +144,14 @@ export default function MainScreen() {
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);
     const lead = group.items[0];
-    return { id: `${category.key}-${group.name}`, title: group.name, subtitle: lead?.title ?? 'なりたい自分から、必要な処世術を選ぶ。', category: category.key, principleIds: ids };
+    return {
+      id: `${category.key}-${group.name}`,
+      title: group.name,
+      subtitle: lead?.title ?? 'なりたい自分から、必要な処世術を選ぶ。',
+      category: category.key,
+      principleIds: ids,
+      techniqueCount: getTechniqueCount(category.key, group.name, ids.length),
+    };
   })), [isPaid]);
   const visiblePersonas = useMemo(() => isPaid ? personas : personas.filter((persona) => persona.principleIds.some((id) => (FREE_REEL_TECHNIQUE_IDS as readonly string[]).includes(id))), [isPaid, personas]);
   const visibleTheoryCards = useMemo(
@@ -540,7 +548,7 @@ export default function MainScreen() {
                   </View>
                   <View style={[styles.categoryChip, categoryChip]}>
                     <AppText style={styles.categoryChipText}>
-                      〔 {persona.principleIds.length}の処世術 〕
+                      〔 {persona.techniqueCount}の処世術 〕
                     </AppText>
                   </View>
                   <AppText numberOfLines={2} style={styles.personaSubtitle}>{persona.subtitle}</AppText>
