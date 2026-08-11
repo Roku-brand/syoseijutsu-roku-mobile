@@ -119,7 +119,7 @@ export default function UpgradeScreen() {
         <View style={styles.purchaseNotice}>
           <AppText style={styles.purchaseNoticeText}>一度のお支払いで購入完了から30日間利用できます。期間終了後は無料版へ戻り、追加課金は発生しません。</AppText>
         </View>
-        {isPaid ? <Pressable style={({ pressed }) => [styles.primary, pressed && styles.pressed]} onPress={() => router.replace('/')}><AppText variant="serif" style={styles.primaryText}>{accessInfo.accessType === 'thirty_day' ? `完全版を利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '完全版を開く'}</AppText></Pressable> : <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, submitting && styles.disabled, pressed && styles.pressed]}><AppText variant="serif" style={styles.crown}>♛</AppText><AppText variant="serif" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={styles.primaryText}>{submitting ? '決済画面を開いています…' : accessStatus === 'expired' ? 'もう一度30日間利用する' : `${COMPLETE_EDITION_PRICE_JPY}円で30日間利用する`}</AppText><AppText style={styles.primaryArrow}>›</AppText></Pressable>}
+        {isPaid ? <Pressable style={({ pressed }) => [styles.primary, pressed && styles.pressed]} onPress={() => router.replace('/')}><AppText variant="serif" style={styles.primaryText}>{accessInfo.accessType === 'thirty_day' ? `完全版を利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '完全版を開く'}</AppText></Pressable> : <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, submitting && styles.disabled, pressed && styles.pressed]}><AppText variant="serif" style={styles.crownSafe}>♛</AppText><AppText variant="serif" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.62} style={styles.primaryTextSafe}>{submitting ? '決済画面を開いています…' : accessStatus === 'expired' ? 'もう一度30日間利用する' : `${COMPLETE_EDITION_PRICE_JPY}円で30日間利用する`}</AppText><AppText style={styles.primaryArrowSafe}>›</AppText></Pressable>}
         {!isPaid ? <AppText style={styles.autoRenewNotice}>自動更新・継続課金なし</AppText> : null}
         <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={[styles.restore, submitting && styles.disabled]}><AppText variant="serif" style={styles.restoreText}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方はこちら'}</AppText><AppText style={styles.restoreArrow}>›</AppText></Pressable>
         <View style={styles.legalLinks}><Pressable onPress={() => router.push('/legal/terms')}><AppText style={styles.legalText}>利用規約</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => router.push('/legal/commerce')}><AppText style={styles.legalText}>特商法表記</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => router.push('/legal/faq')}><AppText style={styles.legalText}>FAQ</AppText></Pressable></View>
@@ -154,6 +154,9 @@ export default function UpgradeScreen() {
 }
 
 const styles = StyleSheet.create({
+  crownSafe: { position: 'absolute', left: 18, color: '#F6D26C', fontSize: 23, lineHeight: 27 },
+  primaryTextSafe: { paddingHorizontal: 42, color: '#FFFDF8', fontSize: 25, lineHeight: 32, fontWeight: '700', textAlign: 'center' },
+  primaryArrowSafe: { position: 'absolute', right: 18, color: '#FFFDF8', fontSize: 39, lineHeight: 39, fontWeight: '300' },
   content: { maxWidth: 620, alignSelf: 'center', paddingHorizontal: 14, paddingTop: 10, paddingBottom: 92 },
   main: { width: '100%' },
   modalBackdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, backgroundColor: 'rgba(20,18,14,0.45)' },
