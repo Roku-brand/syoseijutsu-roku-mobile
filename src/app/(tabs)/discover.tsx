@@ -13,6 +13,8 @@ import {
   techniqueCards,
   theories,
 } from '@/data/catalog';
+import { getTechniqueSearchText } from '@/data/technique-tags';
+import { searchGoals } from '@/data/search';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 
@@ -41,17 +43,7 @@ export default function DiscoverScreen() {
       !keywords.length
         ? []
         : techniqueCards.filter((card) => (isPaid || FREE_TECHNIQUE_IDS.has(card.id))).filter((card) => {
-            const source = [
-              card.title,
-              card.subtitle,
-              card.explanation,
-              card.categoryName,
-              card.subcategory,
-              ...(card.tags ?? []),
-            ]
-              .filter(Boolean)
-              .join(' ')
-              .toLocaleLowerCase();
+            const source = getTechniqueSearchText(card);
             return keywords.every((keyword) => source.includes(keyword));
           }),
     [isPaid, keywords],
@@ -162,7 +154,13 @@ export default function DiscoverScreen() {
             </Pressable>
           </View>
           {mode === 'techniques' ? (
-            <TechniqueBrowser router={router} onSearch={setQuery} />
+            <TechniqueBrowser
+              router={router}
+              onSearch={setQuery}
+              onGoal={(goalId) =>
+                router.push({ pathname: '/goal/[id]', params: { id: goalId } })
+              }
+            />
           ) : (
             <TheoryBrowser router={router} />
           )}
@@ -172,7 +170,15 @@ export default function DiscoverScreen() {
   );
 }
 
-function TechniqueBrowser({ router, onSearch }: { router: ReturnType<typeof useRouter>; onSearch: (value: string) => void }) {
+function TechniqueBrowser({
+  router,
+  onSearch,
+  onGoal,
+}: {
+  router: ReturnType<typeof useRouter>;
+  onSearch: (value: string) => void;
+  onGoal: (goalId: string) => void;
+}) {
   return (
     <View>
       <OrnamentHeading>領域から探す</OrnamentHeading>
@@ -214,14 +220,20 @@ function TechniqueBrowser({ router, onSearch }: { router: ReturnType<typeof useR
       </View>
       <OrnamentHeading>目的から探す</OrnamentHeading>
       <View style={styles.purposeGrid}>
-        {[
-          ['印', '印象を良くする'],
-          ['葉', '消耗しない'],
-          ['盾', '舐められない'],
-          ['星', '自信を整える'],
-        ].map(([mark, label]) => (
-          <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.purposeRow, pressed && styles.pressed]}>
-            <AppText style={styles.purposeMark}>{mark}</AppText><AppText style={styles.purposeText}>{label}</AppText><AppText style={styles.purposeChevron}>›</AppText>
+        {searchGoals.map((goal) => (
+          <Pressable
+            key={goal.id}
+            accessibilityRole="link"
+            accessibilityLabel={`${goal.label}の処世術を探す`}
+            onPress={() => onGoal(goal.id)}
+            style={({ pressed }) => [styles.purposeRow, pressed && styles.pressed]}
+          >
+            <AppText style={styles.purposeMark}>{goal.mark}</AppText>
+            <View style={styles.purposeCopy}>
+              <AppText style={styles.purposeText}>{goal.label}</AppText>
+              <AppText style={styles.purposeDescription}>{goal.description}</AppText>
+            </View>
+            <AppText style={styles.purposeChevron}>›</AppText>
           </Pressable>
         ))}
       </View>
@@ -371,9 +383,11 @@ const styles = StyleSheet.create({
   popularChip: { flexGrow: 1, flexBasis: '28%', minHeight: 38, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   searchChipText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   purposeGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  purposeRow: { flexGrow: 1, flexBasis: '45%', minHeight: 48, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
+  purposeRow: { flexGrow: 1, flexBasis: '45%', minHeight: 68, paddingHorizontal: 13, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
   purposeMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
-  purposeText: { flex: 1, color: colors.ink, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  purposeCopy: { flex: 1, minWidth: 0, gap: 2 },
+  purposeText: { color: colors.ink, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  purposeDescription: { color: colors.muted, fontSize: 10, lineHeight: 15 },
   purposeChevron: { color: colors.gold, fontSize: 20, lineHeight: 22 },
   theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   theoryCard: {
