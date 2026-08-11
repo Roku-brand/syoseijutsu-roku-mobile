@@ -102,9 +102,9 @@ export default function UpgradeScreen() {
         <AppText style={styles.stats}>▤　216の処世術・595の理論・全21ケース</AppText>
 
         <View style={styles.editionRow}>
-          <View style={styles.freeEdition}><AppText style={styles.editionLabel}>無料版</AppText><AppText variant="serif" style={styles.freeCount}>21件まで公開</AppText></View>
+          <View style={styles.freeEdition}><AppText style={styles.editionLabel}>無料版・4人物像</AppText><AppText variant="serif" style={styles.freeCount}>処世術45件・理論20件</AppText></View>
           <AppText style={styles.compareArrow}>›</AppText>
-          <View style={styles.completeEdition}><AppText style={styles.completeLabel}>完全版</AppText><AppText variant="serif" style={styles.completeCount}>216件すべて閲覧可能</AppText></View>
+          <View style={styles.completeEdition}><AppText style={styles.completeLabel}>完全版</AppText><AppText variant="serif" style={styles.completeCount}>処世術216件・理論595件</AppText></View>
         </View>
 
         <View style={styles.strengthHeader}><View style={styles.strengthRule} /><View style={styles.strengthHeadingCopy}><AppText variant="serif" style={styles.strengthTitle}>迷ったとき、すぐ一手が見つかる</AppText><AppText style={styles.strengthSubtitle}>完全版で手に入る4つの強み</AppText></View><View style={styles.strengthRule} /></View>
