@@ -132,10 +132,10 @@ export default function UpgradeScreen() {
             <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>価格</AppText><AppText style={styles.confirmationValue}>¥{COMPLETE_EDITION_PRICE_JPY}（税込）</AppText></View>
             <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>利用期間</AppText><AppText style={styles.confirmationValue}>決済完了から30日間</AppText></View>
             <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
-            <AppText style={styles.confirmationNotice}>一回払いです。期間終了後に自動で課金されることはありません。購入および提供開始後の購入者都合による返品・返金には原則として対応しません。ただし、重複決済、完全版が提供されない場合その他法令上必要な場合を除きます。</AppText>
+            <AppText style={styles.confirmationNotice}>一回払いです。期間終了後に自動で課金されることはありません。通信販売には原則としてクーリング・オフ制度は適用されず、購入および提供開始後の購入者都合による返品・返金には原則として対応しません。ただし、重複決済、完全版が提供されない場合その他法令上必要な場合を除きます。</AppText>
             <AppText style={styles.confirmationSupport}>期間終了後は保存データを残したまま無料版へ戻ります。再利用には、ユーザー自身による再購入が必要です。</AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.legalText}>利用規約</AppText></Pressable><AppText style={styles.legalDivider}>｜</AppText><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.legalText}>特商法表記</AppText></Pressable></View>
-            <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
+            <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText style={styles.confirmationButtonText}>内容を確認してStripe決済へ進む</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
           </View>
         </View>
