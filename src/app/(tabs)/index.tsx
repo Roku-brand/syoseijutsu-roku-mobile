@@ -147,7 +147,20 @@ export default function MainScreen() {
   const visiblePersonas = useMemo(() => isPaid ? personas : personas.filter((persona) => persona.principleIds.some((id) => (FREE_REEL_TECHNIQUE_IDS as readonly string[]).includes(id))), [isPaid, personas]);
   const visibleTheoryCards = useMemo(
     () => isPaid
-      ? catalogTheories
+      ? [...catalogTheories].sort((left, right) => {
+          const categoryOrder = [
+            'psychology',
+            'behavioral-science',
+            'organization-management',
+            'strategy',
+            'classics-thought',
+            'maxims-experience',
+          ];
+          const leftCategory = categoryOrder.indexOf(left.categoryId);
+          const rightCategory = categoryOrder.indexOf(right.categoryId);
+          return (leftCategory === -1 ? categoryOrder.length : leftCategory)
+            - (rightCategory === -1 ? categoryOrder.length : rightCategory);
+        })
       : FREE_THEORY_IDS
           .map((id) => catalogTheories.find((card) => card.tagId === id))
           .filter((card): card is TheoryCard => Boolean(card)),
