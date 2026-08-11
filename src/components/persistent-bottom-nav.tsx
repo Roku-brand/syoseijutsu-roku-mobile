@@ -21,6 +21,7 @@ function activeKey(pathname: string) {
     pathname.includes('/category/') ||
     pathname.includes('/subcategory/') ||
     pathname.includes('/topic/') ||
+    pathname.includes('/goal/') ||
     pathname.includes('/theory/') ||
     pathname.includes('/theories/')
   ) return 'discover';
