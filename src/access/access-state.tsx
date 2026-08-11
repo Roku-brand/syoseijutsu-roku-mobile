@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
+import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
-import { fetchVerifiedAccess, reconcileCompleteEditionPurchase } from '@/lib/purchase';
-import { clearSecureContentCache, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
+import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
+import { hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -10,6 +11,8 @@ export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'e
 type AccessContextValue = {
   accessState: AccessState;
   actualAccessState: AccessState;
+  accessStatus: AccessStatus;
+  accessInfo: VerifiedAccess;
   isPaid: boolean;
   isOwner: boolean;
   previewMode: PreviewMode;
@@ -38,9 +41,10 @@ function storageReadWithin(key: string, timeoutMs = 2_000): Promise<string | nul
 
 export function AccessProvider({ children }: PropsWithChildren) {
   const { loading, user, role } = useAuth();
-  // The free catalogue is always safe to show.  Do not make application
-  // startup depend on auth, an entitlement request, or paid-content download.
-  const [actualAccessState, setActualAccessState] = useState<AccessState>('guest');
+  // Keep entitlement verification explicit so a returning paid user never
+  // flashes through the free edition while the server check is in flight.
+  const [actualAccessState, setActualAccessState] = useState<AccessState>('checking');
+  const [accessInfo, setAccessInfo] = useState<VerifiedAccess>(FREE_ACCESS);
   const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
   const [catalogRevision, setCatalogRevision] = useState(0);
   const isOwner = role === 'owner';
@@ -49,7 +53,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
     if (loading) {
       // Wait for the locally persisted auth session before binding cached paid
       // content to a user. The guest catalogue is already visible meanwhile.
-      return 'guest';
+      setActualAccessState('checking');
+      return 'checking';
     }
     if (!user) {
       // Keep the persisted cache intact in case a slow local auth session
@@ -57,14 +62,16 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
+      setAccessInfo(FREE_ACCESS);
       return 'guest';
     }
 
-    // Keep the free edition usable while access is being verified.  In
-    // particular, never put the whole app behind a launch-time spinner.
     try {
-      const verified = role === 'owner' ? 'paid' : await fetchVerifiedAccess();
-      if (verified === 'paid') {
+      const verified: VerifiedAccess = role === 'owner'
+        ? { ...FREE_ACCESS, status: 'active', accessType: 'legacy_lifetime' }
+        : await fetchVerifiedAccess();
+      setAccessInfo(verified);
+      if (verified.status === 'active') {
         setActualAccessState('paid');
         // Paid content is downloaded after the entitlement is known.  The
         // edition unlock must not wait for a slow network response.
@@ -75,28 +82,39 @@ export function AccessProvider({ children }: PropsWithChildren) {
         });
         return 'paid';
       }
-      await clearSecureContentCache();
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
-      setActualAccessState(verified);
-      return verified;
+      const nextState: AccessState = 'free';
+      setActualAccessState(nextState);
+      return nextState;
     } catch {
-      // A network failure must not revoke a previously verified purchase.
-      // A successful server response of `free` above still clears the cache.
-      const cached = await restoreCachedSecureContent(user.id);
-      if (cached) {
-        setCatalogRevision((value) => value + 1);
-        setActualAccessState('paid');
-        return 'paid';
-      }
+      // A time-limited entitlement cannot be safely extended from a local
+      // cache or device clock. Keep the data stored, but lock it until the
+      // server can verify the current entitlement again.
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
-      setActualAccessState('guest');
-      return 'guest';
+      setActualAccessState('error');
+      return 'error';
     }
   }, [loading, role, user]);
 
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
+
+  useEffect(() => {
+    if (accessInfo.status !== 'active' || accessInfo.accessType !== 'thirty_day' || !accessInfo.accessExpiresAt) return;
+    const trustedNow = accessInfo.serverNow ? new Date(accessInfo.serverNow).getTime() : Date.now();
+    const remaining = new Date(accessInfo.accessExpiresAt).getTime() - trustedNow;
+    const delay = Math.max(1_000, Math.min(remaining + 500, 86_400_000));
+    const timeout = setTimeout(() => { void refreshAccess(); }, delay);
+    return () => clearTimeout(timeout);
+  }, [accessInfo, refreshAccess]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && user) void refreshAccess();
+    });
+    return () => subscription.remove();
+  }, [refreshAccess, user]);
 
   useEffect(() => {
     void storageReadWithin(PREVIEW_KEY).then((stored) => {
@@ -119,13 +137,25 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const continueAsGuest = useCallback(() => {
     purgeSecureContent();
     setCatalogRevision((value) => value + 1);
+    setAccessInfo(FREE_ACCESS);
     setActualAccessState('guest');
   }, []);
 
   const restorePurchase = useCallback(async (sessionId?: string) => {
+    setAccessInfo((current) => ({ ...current, status: 'processing' }));
     if (role !== 'owner') {
-      const reconciled = await reconcileCompleteEditionPurchase(sessionId);
-      if (!reconciled) return false;
+      let reconciled: VerifiedAccess | null;
+      try {
+        reconciled = await reconcileCompleteEditionPurchase(sessionId);
+      } catch (error) {
+        setAccessInfo(FREE_ACCESS);
+        throw error;
+      }
+      if (!reconciled || reconciled.status !== 'active') {
+        setAccessInfo(reconciled ?? FREE_ACCESS);
+        return false;
+      }
+      setAccessInfo(reconciled);
     }
     const next = await refreshAccess();
     return next === 'paid' || role === 'owner';
@@ -135,6 +165,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const value = useMemo(() => ({
     accessState,
     actualAccessState,
+    accessStatus: isOwner && previewMode === 'paid' ? 'active' : accessInfo.status,
+    accessInfo,
     isPaid: accessState === 'paid',
     isOwner,
     previewMode,
@@ -143,7 +175,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
     refreshAccess,
     continueAsGuest,
     restorePurchase,
-  }), [accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
+  }), [accessInfo, accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }

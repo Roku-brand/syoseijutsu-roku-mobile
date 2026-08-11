@@ -6,11 +6,12 @@ import { AppText, DetailHeader, Screen, SectionHeader } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
+import { formatRemainingAccess } from '@/lib/purchase';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { user } = useAuth();
-  const { isPaid } = useAccess();
+  const { isPaid, accessInfo, accessStatus } = useAccess();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
   return (
@@ -27,8 +28,8 @@ export default function SettingsScreen() {
         />
         <SettingLink
           icon="crown"
-          title={isPaid ? '完全版・購入情報' : '完全版を購入'}
-          detail={isPaid ? '完全版をご利用中' : '¥280・買い切り'}
+          title={isPaid ? '完全版・利用情報' : accessStatus === 'expired' ? '完全版・利用期間終了' : '完全版を利用'}
+          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切り版をご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
           href="/upgrade"
           onNavigate={(href) => router.push(href as never)}
           last

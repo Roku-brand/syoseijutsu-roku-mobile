@@ -7,9 +7,7 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
   const { accessState, refreshAccess, continueAsGuest, restorePurchase, isOwner, previewMode, setPreviewMode } = useAccess();
   const simulated = isOwner && previewMode !== 'actual';
 
-  // "checking" and "error" are retained for owner-preview compatibility,
-  // but normal visitors always continue into the free edition.
-  if (simulated && accessState === 'checking') {
+  if (accessState === 'checking') {
     return (
       <View style={styles.screen}>
         <AppText style={styles.mark}>禄</AppText>
@@ -25,7 +23,7 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (simulated && accessState === 'error') {
+  if (accessState === 'error') {
     return (
       <View style={styles.screen}>
         <AppText style={styles.title}>利用状態を確認できませんでした</AppText>

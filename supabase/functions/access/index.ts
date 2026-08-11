@@ -18,13 +18,21 @@ Deno.serve(async (request) => {
   if (!userData.user) return json({ access: 'guest', productId: 'complete-edition' });
 
   const admin = createClient(supabaseUrl, serviceRoleKey);
-  const { data: paid, error } = await admin.rpc('has_complete_edition', {
+  const { data: accessRows, error } = await admin.rpc('get_complete_edition_access', {
     target_user_id: userData.user.id,
   });
   if (error) return json({ error: 'access_check_failed' }, 500);
+  const access = Array.isArray(accessRows) ? accessRows[0] : accessRows;
 
   return json({
-    access: paid ? 'paid' : 'free',
+    access: access?.access_status ?? 'free',
+    accessType: access?.access_type ?? null,
+    accessStartedAt: access?.access_started_at ?? null,
+    accessExpiresAt: access?.access_expires_at ?? null,
+    purchasedAt: access?.purchased_at ?? null,
+    purchaseAmount: access?.purchase_amount ?? null,
+    purchaseCurrency: access?.purchase_currency ?? null,
+    serverNow: access?.server_now ?? new Date().toISOString(),
     productId: 'complete-edition',
     userId: userData.user.id,
   });

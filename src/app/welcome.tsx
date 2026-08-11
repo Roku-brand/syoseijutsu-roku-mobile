@@ -49,17 +49,17 @@ export default function Welcome() {
         </View>
 
         <View style={styles.offer}>
-          <AppText variant="serif" style={styles.offerTitle}>完全版ですべて解放</AppText>
+          <AppText variant="serif" style={styles.offerTitle}>30日間、すべての知恵を。</AppText>
           <View style={styles.offerBody}>
-            <View style={styles.priceBadge}><AppText variant="serif" style={styles.priceType}>買い切り</AppText><AppText variant="serif" style={styles.price}>¥280</AppText><AppText style={styles.tax}>税込</AppText></View>
+            <View style={styles.priceBadge}><AppText variant="serif" style={styles.priceType}>30日間</AppText><AppText variant="serif" style={styles.price}>¥280</AppText><AppText style={styles.tax}>税込</AppText></View>
             <View style={styles.benefits}>
-              {['216の処世術をすべて収録', '595の理論をすべて収録', '買い切り・追加料金なし', '購入後はオフラインでも読める'].map((item) => <AppText key={item} style={styles.benefit}>✓　{item}</AppText>)}
+              {['25の人物像・216の処世術', '595の理論をすべて収録', '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => <AppText key={item} style={styles.benefit}>✓　{item}</AppText>)}
             </View>
           </View>
           <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.primary, pressed && styles.pressed]}>
-            <View style={styles.ctaDiamond} /><AppText variant="serif" style={styles.primaryText}>完全版を手に入れる</AppText><AppText style={styles.ctaArrow}>›</AppText>
+            <View style={styles.ctaDiamond} /><AppText variant="serif" style={styles.primaryText}>280円で30日間利用する</AppText><AppText style={styles.ctaArrow}>›</AppText>
           </Pressable>
-          <AppText style={styles.assurance}>⌑　買い切り・追加料金なし　　すぐにご利用いただけます</AppText>
+          <AppText style={styles.assurance}>⌑　自動更新・継続課金なし　　期間終了後は無料版へ戻ります</AppText>
         </View>
 
         <View style={styles.previewSection}>
@@ -83,7 +83,7 @@ export default function Welcome() {
         <View style={styles.featureRow}>
           {['保存・メモ機能', '探しやすい検索', '体系的に学べる', 'オフライン対応'].map((title, index) => <View key={title} style={styles.feature}><View style={styles.featureIcon}><View style={styles.featureDiamond} /></View><AppText style={styles.featureTitle}>{title}</AppText><AppText style={styles.featureSub}>{['大切な知恵を\nあなたの蔵書に', '目的・状況から\n最適な知恵を発見', '対人・仕事・人生の\n知恵を体系化', 'いつでもどこでも\n快適に読める'][index]}</AppText></View>)}
         </View>
-        <View style={styles.footnote}><AppText style={styles.footnoteItem}>◇　買い切りで安心</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>↓　すぐに利用可能</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>▢　プライバシー重視</AppText></View>
+        <View style={styles.footnote}><AppText style={styles.footnoteItem}>◇　自動更新なし</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>↓　30日間利用可能</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>▢　プライバシー重視</AppText></View>
       </ScrollView>
     </SafeAreaView>
   );

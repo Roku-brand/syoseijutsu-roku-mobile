@@ -17,6 +17,7 @@ type StripePayment = {
   client_reference_id?: string | null;
   payment_intent?: string | null;
   latest_charge?: string | {
+    created?: number;
     paid?: boolean;
     refunded?: boolean;
     amount_refunded?: number;
@@ -97,11 +98,14 @@ Deno.serve(async (request) => {
   if (userError || !userData.user) return json({ error: 'authentication_required' }, 401);
 
   const admin = createClient(supabaseUrl, serviceRoleKey);
-  const { data: alreadyPaid, error: accessError } = await admin.rpc('has_complete_edition', {
+  const { data: accessRows, error: accessError } = await admin.rpc('get_complete_edition_access', {
     target_user_id: userData.user.id,
   });
   if (accessError) return json({ error: 'entitlement_lookup_failed' }, 500);
-  if (alreadyPaid) return json({ restored: true, source: 'entitlement' });
+  const existingAccess = Array.isArray(accessRows) ? accessRows[0] : accessRows;
+  if (existingAccess?.access_status === 'active') {
+    return json({ restored: true, source: 'entitlement', access: existingAccess });
+  }
 
   let requestedSessionId = '';
   try {
@@ -124,17 +128,30 @@ Deno.serve(async (request) => {
       : null;
     if (!payment?.id || !isUnrefundedPaymentIntent(payment, userData.user.id)) return json({ restored: false });
 
-    const { error: entitlementError } = await admin.from('entitlements').upsert({
-      user_id: userData.user.id,
-      product_id: PRODUCT_ID,
-      status: 'active',
-      provider: 'stripe',
-      provider_payment_id: payment.id,
-      purchased_at: new Date((payment.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString(),
-      updated_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,product_id' });
+    const charge = typeof payment.latest_charge === 'object' ? payment.latest_charge : null;
+    const accessType = payment.metadata?.access_type === 'thirty_day' ? 'thirty_day' : 'legacy_lifetime';
+    const completedAt = new Date((charge?.created ?? payment.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString();
+    const { error: entitlementError } = await admin.rpc('grant_complete_edition_access', {
+      target_user_id: userData.user.id,
+      target_access_type: accessType,
+      target_customer_id: null,
+      target_checkout_session_id: session?.id ?? null,
+      target_payment_id: payment.id,
+      target_amount: payment.amount_received ?? payment.amount_total ?? payment.amount,
+      target_currency: payment.currency,
+      target_completed_at: completedAt,
+    });
     if (entitlementError) return json({ error: 'entitlement_write_failed' }, 500);
-    return json({ restored: true, source: session ? 'checkout_session' : 'payment_intent' });
+    const { data: refreshedRows, error: refreshedError } = await admin.rpc('get_complete_edition_access', {
+      target_user_id: userData.user.id,
+    });
+    if (refreshedError) return json({ error: 'entitlement_lookup_failed' }, 500);
+    const refreshedAccess = Array.isArray(refreshedRows) ? refreshedRows[0] : refreshedRows;
+    return json({
+      restored: refreshedAccess?.access_status === 'active',
+      source: session ? 'checkout_session' : 'payment_intent',
+      access: refreshedAccess,
+    });
   } catch (error) {
     console.error('Purchase restoration failed', error);
     return json({ error: 'purchase_restore_failed' }, 502);

@@ -15,7 +15,40 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Verify backend deployment settings
+        run: |
+          test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
+          test -n "$SUPABASE_DB_PASSWORD" || { echo 'Missing repository secret: SUPABASE_DB_PASSWORD'; exit 1; }
+          test -n "$SUPABASE_URL" || { echo 'Missing repository variable: EXPO_PUBLIC_SUPABASE_URL'; exit 1; }
+      - name: Apply entitlement migration
+        run: |
+          project_ref="${SUPABASE_URL#https://}"
+          project_ref="${project_ref%%.supabase.co*}"
+          supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
+          supabase db push --linked
+      - name: Deploy payment and entitlement functions
+        run: |
+          project_ref="${SUPABASE_URL#https://}"
+          project_ref="${project_ref%%.supabase.co*}"
+          supabase functions deploy create-checkout --project-ref "$project_ref"
+          supabase functions deploy restore-purchase --project-ref "$project_ref"
+          supabase functions deploy access --project-ref "$project_ref"
+          supabase functions deploy paid-content --project-ref "$project_ref"
+          supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"
+
   build-and-sync:
+    needs: deploy-backend
     runs-on: ubuntu-latest
     env:
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}

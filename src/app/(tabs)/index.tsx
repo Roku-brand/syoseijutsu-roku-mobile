@@ -19,7 +19,7 @@ import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from '@/components/app-toast';
 import { useResponsiveLayout, type ViewportDensity } from '@/hooks/use-responsive-layout';
-import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
+import { COMPLETE_EDITION_PRICE_JPY, formatRemainingAccess } from '@/lib/purchase';
 
 type PersonaReelItem = {
   kind: 'persona';
@@ -134,7 +134,7 @@ export default function MainScreen() {
   const latestScrollOffsetRef = useRef(0);
   const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
-  const { isPaid } = useAccess();
+  const { isPaid, accessInfo } = useAccess();
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);
     const lead = group.items[0];
@@ -365,6 +365,7 @@ export default function MainScreen() {
 
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
+      {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
       <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>{reelType === 'techniques' ? `${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}` : '216の処世術'} <AppText style={styles.catalogDivider}>｜</AppText> 595の理論</AppText>
       <SegmentedControl
         value={reelType}
@@ -431,7 +432,7 @@ export default function MainScreen() {
                   </View>
                   <AppText style={styles.upgradeReelBody}>すべての処世術と理論を、{`\n`}あなたの手元へ。</AppText>
                   <View style={styles.upgradeCta}>
-                    <AppText style={styles.upgradeCtaText}>完全版を¥{COMPLETE_EDITION_PRICE_JPY}で解放　›</AppText>
+                    <AppText style={styles.upgradeCtaText}>¥{COMPLETE_EDITION_PRICE_JPY}で30日間利用　›</AppText>
                   </View>
                 </Pressable>
               </View>
@@ -550,8 +551,8 @@ export default function MainScreen() {
         >
           <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
-            <AppText style={styles.unlockTitle}>全216件を解放する　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-            <AppText style={styles.unlockBody}>216の処世術・595の理論をすべて読む</AppText>
+            <AppText style={styles.unlockTitle}>完全版を30日間利用　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
+            <AppText style={styles.unlockBody}>自動更新なし・216の処世術と595の理論</AppText>
           </View>
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>
@@ -612,6 +613,9 @@ export default function MainScreen() {
 
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
+  accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
+  accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reel: { alignSelf: 'center', flexGrow: 0, marginTop: spacing.sm },

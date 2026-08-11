@@ -58,13 +58,21 @@ Deno.serve(async (request) => {
     const session = event.data.object;
     const userId = session.metadata?.user_id ?? session.client_reference_id;
     const productId = session.metadata?.product_id;
-    if (userId && productId === 'complete-edition' && session.payment_status === 'paid') {
-      const { error } = await admin.from('entitlements').upsert({
-        user_id: userId, product_id: productId, status: 'active', provider: 'stripe',
-        provider_customer_id: typeof session.customer === 'string' ? session.customer : null,
-        provider_payment_id: typeof session.payment_intent === 'string' ? session.payment_intent : session.id,
-        purchased_at: new Date((session.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString(), updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,product_id' });
+    const paymentIntentId = typeof session.payment_intent === 'string' ? session.payment_intent : null;
+    const accessType = session.metadata?.access_type === 'thirty_day' ? 'thirty_day' : 'legacy_lifetime';
+    if (userId && productId === 'complete-edition' && paymentIntentId && session.payment_status === 'paid') {
+      const { error } = await admin.rpc('grant_complete_edition_access', {
+        target_user_id: userId,
+        target_access_type: accessType,
+        target_customer_id: typeof session.customer === 'string' ? session.customer : null,
+        target_checkout_session_id: session.id,
+        target_payment_id: paymentIntentId,
+        target_amount: session.amount_total,
+        target_currency: session.currency,
+        // The Stripe event timestamp records when Stripe confirmed the
+        // completion event; the browser or device clock is never trusted.
+        target_completed_at: new Date((event.created ?? Math.floor(Date.now() / 1000)) * 1000).toISOString(),
+      });
       if (error) return json({ error: 'entitlement_write_failed' }, 500);
     }
   }
@@ -73,7 +81,9 @@ Deno.serve(async (request) => {
     const charge = event.data.object;
     const paymentIntent = typeof charge.payment_intent === 'string' ? charge.payment_intent : null;
     if (paymentIntent) {
-      const { error } = await admin.from('entitlements').update({ status: 'refunded', updated_at: new Date().toISOString() }).eq('provider', 'stripe').eq('provider_payment_id', paymentIntent);
+      const { error } = await admin.rpc('refund_complete_edition_purchase', {
+        target_payment_id: paymentIntent,
+      });
       if (error) return json({ error: 'refund_entitlement_write_failed' }, 500);
     }
   }

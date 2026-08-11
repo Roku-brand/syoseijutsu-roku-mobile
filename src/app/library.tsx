@@ -7,40 +7,45 @@ import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
+import { useAccess } from '@/access/access-state';
 
 export default function LibraryScreen() {
   const router = useRouter();
   const { savedIds, savedTheoryIds } = useAppState();
+  const { isPaid, catalogRevision } = useAccess();
   const savedCards = useMemo(
     () => savedIds.map((id) => techniqueById.get(id)).filter(Boolean),
-    [savedIds],
+    [catalogRevision, savedIds],
   );
   const savedTheories = useMemo(
     () => savedTheoryIds.map((id) => theoryById.get(id)).filter(Boolean),
-    [savedTheoryIds],
+    [catalogRevision, savedTheoryIds],
   );
+  const lockedTechniqueCount = savedIds.length - savedCards.length;
+  const lockedTheoryCount = savedTheoryIds.length - savedTheories.length;
 
   return (
     <BookScreen>
       <DetailHeader title="マイページ" />
       <BookTitle
         title="蔵書"
-        subtitle={`保存した処世術と理論 ${savedCards.length + savedTheories.length}件を、必要なときに読み返す。`}
+        subtitle={`保存した処世術と理論 ${savedIds.length + savedTheoryIds.length}件を、必要なときに読み返す。`}
       />
 
-      {savedCards.length || savedTheories.length ? (
+      {savedIds.length || savedTheoryIds.length ? (
         <>
-          {savedCards.length ? (
+          {savedIds.length ? (
             <>
-              <OrnamentHeading>処世術　{savedCards.length}</OrnamentHeading>
+              <OrnamentHeading>処世術　{savedIds.length}</OrnamentHeading>
               {savedCards.map((card) =>
                 card ? <TechniqueRow key={card.id} card={card} /> : null,
               )}
+              {Array.from({ length: lockedTechniqueCount }, (_, index) => <LockedSavedRow key={`locked-technique-${index}`} label="保存済みの処世術" isPaid={isPaid} onPress={() => router.push('/upgrade')} />)}
             </>
           ) : null}
-          {savedTheories.length ? (
-            <View style={savedCards.length ? styles.theorySection : undefined}>
-              <OrnamentHeading>理論　{savedTheories.length}</OrnamentHeading>
+          {savedTheoryIds.length ? (
+            <View style={savedIds.length ? styles.theorySection : undefined}>
+              <OrnamentHeading>理論　{savedTheoryIds.length}</OrnamentHeading>
               <View style={styles.theoryList}>
                 {savedTheories.map((theory) =>
                   theory ? (
@@ -63,6 +68,7 @@ export default function LibraryScreen() {
                     </Pressable>
                   ) : null,
                 )}
+                {Array.from({ length: lockedTheoryCount }, (_, index) => <LockedSavedRow key={`locked-theory-${index}`} label="保存済みの理論" isPaid={isPaid} onPress={() => router.push('/upgrade')} />)}
               </View>
             </View>
           ) : null}
@@ -82,6 +88,15 @@ export default function LibraryScreen() {
   );
 }
 
+function LockedSavedRow({ label, isPaid, onPress }: { label: string; isPaid: boolean; onPress: () => void }) {
+  return (
+    <Pressable disabled={isPaid} onPress={onPress} style={styles.lockedRow}>
+      <View style={styles.lockedCopy}><AppText variant="serif" style={styles.lockedTitle}>{label}</AppText><AppText style={styles.lockedLabel}>{isPaid ? '完全版データを確認中' : '完全版限定・再購入すると閲覧できます'}</AppText></View>
+      {!isPaid ? <AppText style={styles.theoryChevron}>›</AppText> : null}
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   theorySection: { marginTop: spacing.xl },
   theoryList: { borderTopWidth: 1, borderTopColor: colors.line },
@@ -97,6 +112,10 @@ const styles = StyleSheet.create({
   },
   theoryTitle: { flex: 1, color: colors.ink, fontSize: 18, lineHeight: 26, fontWeight: '600' },
   theoryChevron: { color: colors.gold, fontSize: 26, lineHeight: 28 },
+  lockedRow: { minHeight: 62, paddingVertical: 11, paddingHorizontal: 2, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
+  lockedCopy: { flex: 1 },
+  lockedTitle: { color: colors.inkSoft, fontSize: 16, lineHeight: 23 },
+  lockedLabel: { marginTop: 2, color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
   pressed: { opacity: 0.58 },
   emptyLibrary: {
     minHeight: 280,
