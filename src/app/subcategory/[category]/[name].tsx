@@ -6,6 +6,8 @@ import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useAccess } from '@/access/access-state';
 import { LockedPreview } from '@/components/locked-preview';
+import { isFreePersona } from '@/access/access-config';
+import { getTechniqueCount } from '@/data/technique-counts';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 
 export function generateStaticParams() {
@@ -24,8 +26,10 @@ export default function PersonaScreen() {
     return <Screen><DetailHeader /><EmptyState title="人物像が見つかりません" description="前の画面へ戻って、人物像を選び直してください。" /></Screen>;
   }
 
-  if (!isPaid && persona.name !== '印象がいい人') {
-    return <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={persona.items.length} source="discover_technique" /></Screen>;
+  const techniqueCount = getTechniqueCount(category.key, persona.name, persona.items.length);
+
+  if (!isPaid && !isFreePersona(persona.name)) {
+    return <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
   }
 
   const theme = persona.articleTitle ?? '人物像';
@@ -49,7 +53,7 @@ export default function PersonaScreen() {
         <AppText style={[styles.breadcrumb, compact && styles.breadcrumbCompact]}>{category.name}　›　{theme}</AppText>
         <View style={[styles.titleRow, compact && styles.titleRowCompact]}>
           <AppText style={[styles.title, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{persona.name}</AppText>
-          <View style={[styles.countBadge, compact && styles.countBadgeCompact]}><AppText style={styles.countText}>{persona.items.length}の処世術</AppText></View>
+          <View style={[styles.countBadge, compact && styles.countBadgeCompact]}><AppText style={styles.countText}>{techniqueCount}の処世術</AppText></View>
         </View>
         <AppText numberOfLines={compact ? 1 : 2} style={[styles.description, { fontSize: descriptionSize, lineHeight: Math.round(descriptionSize * 1.6) }]}>{getPersonaDescription(category.key, persona.name)}</AppText>
 
