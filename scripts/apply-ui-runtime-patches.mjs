@@ -73,14 +73,3 @@ await patch('src/app/card/[id].tsx', [
   ['  const tags = Array.from(\n    new Set([card.categoryName, card.subcategory, ...(card.tags ?? [])]),\n  );', `  const tags = Array.from(\n    new Set([card.categoryName, card.subcategory, ...(card.tags ?? [])]),\n  );\n  const titleLength = [...card.title.replace(/\\s/g, '')].length;\n  const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;`],
   ['          minimumFontScale={0.7}\n          style={styles.title}', '          minimumFontScale={0.5}\n          style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}'],
 ]);
-
-await patch('src/app/theories/[category].tsx', [
-  ["import { theories } from '@/data/catalog';", "import { theories } from '@/data/catalog';\nimport { useAccess } from '@/access/access-state';\nimport { FREE_THEORY_ID_SET } from '@/access/access-config';\nimport { LockedPreview } from '@/components/locked-preview';"],
-  ["  const { category } = useLocalSearchParams<{ category: string }>();", "  const { category } = useLocalSearchParams<{ category: string }>();\n  const { isPaid } = useAccess();"],
-  ["  const scrollRef = useRef<ScrollView>(null);", "  const totalCount = items.length;\n  const visibleItems = isPaid ? items : items.filter((theory) => FREE_THEORY_ID_SET.has(theory.tagId));\n  const scrollRef = useRef<ScrollView>(null);"],
-  ["  const title = category === 'all' ? 'すべての理論' : items[0]?.categoryTitle;", "  const title = category === 'all' ? 'すべての理論' : items[0]?.categoryTitle;"],
-  ["      ? items.filter((theory) =>", "      ? visibleItems.filter((theory) =>"],
-  ["      : [...items];", "      : [...visibleItems];"],
-  ["  }, [items, query, sort]);", "  }, [query, sort, visibleItems]);"],
-  ["      {filteredItems.length > 5 ? (", "      {!isPaid && totalCount > visibleItems.length ? (\n        <LockedPreview title={`${title}の完全版`} description=\"無料公開外の理論名と本文は、完全版で初めて表示されます。\" count={totalCount - visibleItems.length} source=\"discover_theory\" />\n      ) : null}\n      {filteredItems.length > 5 ? ("],
-]);
