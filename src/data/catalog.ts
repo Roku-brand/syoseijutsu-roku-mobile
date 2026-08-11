@@ -2,12 +2,16 @@ import techniquesSource from './generated/techniques.json';
 import theoriesSource from './generated/theories.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard } from './types';
 import { getTechniqueTags } from './technique-tags';
+import { getTheoryProvenance } from './theory-sources';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
 
 export const categories: CatalogCategory[] = structuredClone(publicCategories);
-export const theories: TheoryCard[] = [...publicTheories];
+export const theories: TheoryCard[] = publicTheories.map((theory) => ({
+  ...theory,
+  provenance: getTheoryProvenance(theory),
+}));
 export const techniqueCards: TechniqueCard[] = [];
 export const techniqueById = new Map<string, TechniqueCard>();
 export const theoryById = new Map<string, TheoryCard>();
@@ -86,14 +90,19 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
     }
   }
   for (const theory of paidTheories) {
-    if (!theories.some((candidate) => candidate.tagId === theory.tagId)) theories.push(theory);
+    if (!theories.some((candidate) => candidate.tagId === theory.tagId)) {
+      theories.push({ ...theory, provenance: getTheoryProvenance(theory) });
+    }
   }
   rebuildIndexes();
 }
 
 export function resetCatalog() {
   categories.splice(0, categories.length, ...structuredClone(publicCategories));
-  theories.splice(0, theories.length, ...publicTheories);
+  theories.splice(0, theories.length, ...publicTheories.map((theory) => ({
+    ...theory,
+    provenance: getTheoryProvenance(theory),
+  })));
   rebuildIndexes();
 }
 
