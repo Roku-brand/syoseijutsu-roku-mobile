@@ -13,6 +13,7 @@ import { AppText, SegmentedControl } from '@/components/ui';
 import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
+import { getTheoryCoverSummary } from '@/data/theory-display';
 import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
@@ -467,7 +468,7 @@ export default function MainScreen() {
                   <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
                   <View style={[styles.cardOrnament, cardOrnament]}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
                   <View style={[styles.categoryChip, categoryChip]}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
-                  <AppText numberOfLines={density === 'veryCompact' ? 2 : 3} style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{theory.summary ?? theory.definition ?? '社会を生きるための知恵を、理論から読み解く。'}</AppText>
+                  <AppText numberOfLines={density === 'veryCompact' ? 2 : 3} style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{getTheoryCoverSummary(theory.summary, theory.definition ?? '社会を生きるための知恵を、理論から読み解く。')}</AppText>
                 </Pressable>
                 <View style={[styles.reelSaveButton, reelSaveButton]}>
                   <SaveDiamondButton
