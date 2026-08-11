@@ -53,7 +53,12 @@ export default function Welcome() {
           <View style={styles.offerBody}>
             <View style={styles.priceBadge}><AppText variant="serif" style={styles.priceType}>30日間</AppText><AppText variant="serif" style={styles.price}>¥280</AppText><AppText style={styles.tax}>税込</AppText></View>
             <View style={styles.benefits}>
-              {['25の人物像・216の処世術', '595の理論をすべて収録', '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => <AppText key={item} style={styles.benefit}>✓　{item}</AppText>)}
+              {['25の人物像・216の処世術', '595の理論をすべて収録', '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => (
+                <View key={item} style={styles.benefitRow}>
+                  <AppText style={styles.benefitCheck}>✓</AppText>
+                  <AppText style={styles.benefitText}>{item}</AppText>
+                </View>
+              ))}
             </View>
           </View>
           <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.primary, pressed && styles.pressed]}>
@@ -90,6 +95,9 @@ export default function Welcome() {
 }
 
 const styles = StyleSheet.create({
+  benefitRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
+  benefitCheck: { width: 14, color: colors.ink, fontSize: 14, lineHeight: 20, textAlign: 'center' },
+  benefitText: { flex: 1, minWidth: 0, color: colors.ink, fontSize: 14, lineHeight: 20 },
   safe: { flex: 1, backgroundColor: colors.surfaceDark }, scroll: { backgroundColor: colors.paper }, page: { paddingBottom: 34 }, topBar: { backgroundColor: colors.surfaceDark, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 24, paddingTop: 10, paddingBottom: 16 }, brand: { flexDirection: 'row', gap: 10, alignItems: 'center' }, seal: { width: 52, height: 52, justifyContent: 'center', alignItems: 'center', borderColor: '#D0A03D', borderWidth: 1.3, borderRadius: 11 }, sealText: { color: '#D5A441', fontSize: 35, lineHeight: 42 }, brandName: { color: colors.white, fontSize: 18, letterSpacing: 4 }, brandReading: { marginTop: 1, color: '#D6AF58', fontSize: 9, letterSpacing: 2 },
   hero: { backgroundColor: colors.surfaceDark, paddingHorizontal: 24, paddingBottom: 86, alignItems: 'center' }, heroTitle: { color: colors.white, textAlign: 'center', fontSize: 29, lineHeight: 43, fontWeight: '600', letterSpacing: 1 }, heroCopy: { marginTop: 17, color: '#D9A947', textAlign: 'center', fontSize: 18, lineHeight: 28, fontWeight: '600' }, rule: { flexDirection: 'row', alignItems: 'center', marginTop: 23, gap: 10 }, ruleLine: { width: 116, height: StyleSheet.hairlineWidth, backgroundColor: '#8A6727' }, diamond: { width: 10, height: 10, backgroundColor: '#D5A441', transform: [{ rotate: '45deg' }] }, stats: { marginTop: 25, width: '100%', maxWidth: 385, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }, stat: { flex: 1, alignItems: 'center' }, statLine: { flexDirection: 'row', alignItems: 'baseline', gap: 4 }, statNumber: { color: '#D9A947', fontSize: 37, lineHeight: 45 }, statLabel: { color: '#F7EEE1', fontSize: 18, lineHeight: 28 }, statSub: { marginTop: 3, color: '#D9D1C2', fontSize: 11, textAlign: 'center' }, statDivider: { height: 66, width: StyleSheet.hairlineWidth, backgroundColor: '#AF8540' },
   offer: { alignSelf: 'center', width: '89%', maxWidth: 520, marginTop: -66, padding: 18, paddingBottom: 15, backgroundColor: colors.surface, borderRadius: 23, borderColor: colors.line, borderWidth: 1, ...shadow.card }, offerTitle: { color: colors.ink, fontSize: 22, textAlign: 'center' }, offerBody: { marginTop: 12, flexDirection: 'row', alignItems: 'center', gap: 19 }, priceBadge: { width: 116, height: 116, borderRadius: 58, backgroundColor: colors.surfaceDark, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#D6A844' }, priceType: { color: '#DAB052', fontSize: 14 }, price: { color: '#E0B655', fontSize: 39, lineHeight: 46 }, tax: { color: '#F1E2C4', fontSize: 10 }, benefits: { flex: 1, gap: 7 }, benefit: { color: colors.ink, fontSize: 14, lineHeight: 20 }, primary: { minHeight: 61, marginTop: 16, paddingHorizontal: 20, borderRadius: 13, backgroundColor: '#BC8525', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#7F5D22', shadowOpacity: 0.2, shadowRadius: 5, elevation: 2 }, primaryText: { color: '#FFFDF8', fontSize: 21, letterSpacing: 1 }, ctaDiamond: { position: 'absolute', left: 30, width: 12, height: 12, borderWidth: 1.5, borderColor: '#FFF7DF', transform: [{ rotate: '45deg' }] }, ctaArrow: { position: 'absolute', right: 28, color: '#FFFDF8', fontSize: 34, lineHeight: 37 }, assurance: { marginTop: 12, color: '#59534A', fontSize: 11, textAlign: 'center' },
