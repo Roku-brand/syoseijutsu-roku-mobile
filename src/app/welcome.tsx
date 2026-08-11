@@ -81,12 +81,12 @@ export default function Welcome() {
 
         <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}>
           <View style={styles.freeIcon}><AppText style={styles.freeIconText}>▯</AppText></View>
-          <View style={styles.secondaryCopy}><AppText variant="serif" style={styles.secondaryTitle}>まずは無料で試す（21件まで）</AppText><AppText style={styles.secondarySub}>無料版でも厳選した処世術を体験できます</AppText></View>
+          <View style={styles.secondaryCopy}><AppText variant="serif" style={styles.secondaryTitle}>4つの人物像を体系ごと無料公開</AppText><AppText style={styles.secondarySub}>処世術45件・厳選理論20件を読めます</AppText></View>
           <AppText style={styles.secondaryArrow}>›</AppText>
         </Pressable>
 
         <View style={styles.featureRow}>
-          {['保存・メモ機能', '探しやすい検索', '体系的に学べる', 'オフライン対応'].map((title, index) => <View key={title} style={styles.feature}><View style={styles.featureIcon}><View style={styles.featureDiamond} /></View><AppText style={styles.featureTitle}>{title}</AppText><AppText style={styles.featureSub}>{['大切な知恵を\nあなたの蔵書に', '目的・状況から\n最適な知恵を発見', '対人・仕事・人生の\n知恵を体系化', 'いつでもどこでも\n快適に読める'][index]}</AppText></View>)}
+          {['保存・メモ機能', '探しやすい検索', '体系的に学べる', 'オフライン対応'].map((title, index) => <View key={title} style={styles.feature}><View style={styles.featureIcon}><View style={styles.featureDiamond} /></View><AppText style={styles.featureTitle}>{title}</AppText><AppText style={styles.featureSub}>{['大切な知恵を\nあなたの蔵書に', 'キーワードから\n必要な知恵を発見', '対人・仕事・人生の\n知恵を体系化', 'いつでもどこでも\n快適に読める'][index]}</AppText></View>)}
         </View>
         <View style={styles.footnote}><AppText style={styles.footnoteItem}>◇　自動更新なし</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>↓　30日間利用可能</AppText><View style={styles.footnoteLine} /><AppText style={styles.footnoteItem}>▢　プライバシー重視</AppText></View>
       </ScrollView>
