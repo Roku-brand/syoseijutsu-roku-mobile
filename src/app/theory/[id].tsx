@@ -12,6 +12,7 @@ import {
   theoryById,
 } from '@/data/catalog';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
+import { getTheoryProvenance } from '@/data/theory-sources';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -265,10 +266,15 @@ function getDomainTarget(domain: string): DomainTarget | null {
 }
 
 function TheoryInformation({ theory }: { theory: TheoryCard }) {
+  const provenance = getTheoryProvenance(theory);
   const rows = [
     ['分類', theory.sourceType],
     ['専門分野', theory.discipline],
     ['形式', theory.conceptType],
+    ['出典状態', provenance.status],
+    ['提唱者・研究者', provenance.attribution],
+    ['著作・研究', provenance.works?.join('\n')],
+    ['注記', provenance.note],
   ].filter(([, value]) => Boolean(value));
 
   return (
