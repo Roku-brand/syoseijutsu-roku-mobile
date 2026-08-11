@@ -51,7 +51,7 @@ export default function PersonaScreen() {
           <AppText style={[styles.title, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{persona.name}</AppText>
           <View style={[styles.countBadge, compact && styles.countBadgeCompact]}><AppText style={styles.countText}>{persona.items.length}の処世術</AppText></View>
         </View>
-        <AppText numberOfLines={compact ? 1 : 2} style={[styles.description, { fontSize: descriptionSize, lineHeight: Math.round(descriptionSize * 1.6) }]}>相手に安心感を与え、自然と好かれる人になるための処世術です。</AppText>
+        <AppText numberOfLines={compact ? 1 : 2} style={[styles.description, { fontSize: descriptionSize, lineHeight: Math.round(descriptionSize * 1.6) }]}>{getPersonaDescription(category.key, persona.name)}</AppText>
 
         <View style={[styles.listCard, compact && styles.listCardCompact]}>
           {persona.items.map((item, index) => (
@@ -71,6 +71,12 @@ export default function PersonaScreen() {
       </View>
     </Screen>
   );
+}
+
+function getPersonaDescription(categoryKey: CategoryKey, personaName: string) {
+  if (categoryKey === 'interpersonal') return `${personaName}になるための処世術です。人との関係を整え、自然な立ち回りを身につけます。`;
+  if (categoryKey === 'work') return `${personaName}になるための処世術です。仕事の場で信頼を得て、成果につなげる判断を学びます。`;
+  return `${personaName}になるための処世術です。自分の軸を持ち、人生の判断とつまずきに向き合います。`;
 }
 
 const styles = StyleSheet.create({
