@@ -4,6 +4,10 @@ import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/comp
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
+import { useAccess } from '@/access/access-state';
+import { isFreePersona } from '@/access/access-config';
+import { getTechniqueCount } from '@/data/technique-counts';
+import { AccessBadge } from '@/components/access-badge';
 
 export function generateStaticParams() {
   return categories.flatMap((category) =>
@@ -18,6 +22,7 @@ export default function ThemeScreen() {
     title: string;
   }>();
   const router = useRouter();
+  const { isPaid } = useAccess();
   const category = categories.find((item) => item.key === categoryKey);
   const personas = category?.subcategories.filter(
     (persona) => (persona.articleTitle ?? 'その他') === title,
@@ -45,11 +50,13 @@ export default function ThemeScreen() {
       <View style={styles.personaTabs}>
         {personas.map((persona) => {
           const index = category.subcategories.indexOf(persona) + 1;
+          const count = getTechniqueCount(category.key, persona.name, persona.items.length);
+          const locked = !isPaid && !isFreePersona(persona.name);
           return (
             <Pressable
               key={persona.name}
               accessibilityRole="button"
-              accessibilityLabel={`${persona.name}、${persona.items.length}件`}
+              accessibilityLabel={`${persona.name}、${count}件${locked ? '、完全版限定' : '、無料公開'}`}
               onPress={() =>
                 router.push({
                   pathname: '/subcategory/[category]/[name]',
@@ -73,9 +80,10 @@ export default function ThemeScreen() {
                 </AppText>
                 <AppText variant="serif" style={styles.personaTitle}>{persona.name}</AppText>
                 <AppText style={[styles.personaCount, { color: palette.accent }]}>
-                  構成する処世術　{persona.items.length}件
+                  構成する処世術　{count}件
                 </AppText>
               </View>
+              <AccessBadge locked={locked} compact />
               <AppText style={[styles.chevron, { color: palette.accent }]}>›</AppText>
             </Pressable>
           );
@@ -110,6 +118,6 @@ const styles = StyleSheet.create({
   path: { fontSize: 10, lineHeight: 16, marginBottom: 2 },
   personaTitle: { fontSize: 20, lineHeight: 29, fontWeight: '700' },
   personaCount: { marginTop: 3, fontSize: 11, lineHeight: 17 },
-  chevron: { fontSize: 30, lineHeight: 34 },
+  chevron: { fontSize: 30, lineHeight: 34, marginLeft: -4 },
   pressed: { opacity: 0.76, transform: [{ scale: 0.99 }] },
 });
