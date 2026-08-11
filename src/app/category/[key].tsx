@@ -5,6 +5,10 @@ import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/comp
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, categoryMeta, techniqueCards } from '@/data/catalog';
 import type { CatalogCategory } from '@/data/types';
+import { useAccess } from '@/access/access-state';
+import { isFreePersona } from '@/access/access-config';
+import { getThemeTechniqueCount } from '@/data/technique-counts';
+import { AccessBadge } from '@/components/access-badge';
 
 export function generateStaticParams() {
   return [{ key: 'all' }, ...categories.map(({ key }) => ({ key }))];
@@ -13,6 +17,7 @@ export function generateStaticParams() {
 export default function CategoryDetailScreen() {
   const { key } = useLocalSearchParams<{ key: string }>();
   const router = useRouter();
+  const { isPaid } = useAccess();
 
   if (key === 'all') {
     return (
@@ -48,7 +53,9 @@ export default function CategoryDetailScreen() {
       <SectionHeader title="テーマを選ぶ" count={themes.length} />
 
       <View style={styles.themeTabs}>
-        {themes.map((theme, index) => (
+        {themes.map((theme, index) => {
+          const locked = !isPaid && theme.personas.every((persona) => !isFreePersona(persona.name));
+          return (
           <Pressable
             key={theme.title}
             accessibilityRole="button"
@@ -72,9 +79,11 @@ export default function CategoryDetailScreen() {
             <AppText style={[styles.themeTabCount, { color: palette.accent }]}>
               {theme.personas.length}の人物像・{theme.count}件
             </AppText>
+            {locked ? <View style={styles.themeLock}><AccessBadge locked compact /></View> : null}
             <AppText style={[styles.chevron, { color: palette.accent }]}>›</AppText>
           </Pressable>
-        ))}
+          );
+        })}
       </View>
     </Screen>
   );
@@ -89,7 +98,7 @@ function groupByTheme(category: CatalogCategory) {
   return [...groups.entries()].map(([title, personas]) => ({
     title,
     personas,
-    count: personas.reduce((total, persona) => total + persona.items.length, 0),
+    count: getThemeTechniqueCount(category.key, personas.map((persona) => persona.name)),
   }));
 }
 
@@ -111,5 +120,6 @@ const styles = StyleSheet.create({
   themeTabTitle: { fontSize: 19, lineHeight: 28, textAlign: 'center', fontWeight: '700' },
   themeTabCount: { fontSize: 11, lineHeight: 17 },
   chevron: { position: 'absolute', right: spacing.md, fontSize: 28, lineHeight: 32 },
+  themeLock: { position: 'absolute', top: 10, right: 10 },
   pressed: { opacity: 0.76, transform: [{ scale: 0.985 }] },
 });
