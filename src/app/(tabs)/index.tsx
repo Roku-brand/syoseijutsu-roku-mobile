@@ -184,11 +184,14 @@ export default function MainScreen() {
       // 通常のiPhoneでは、リールを画面の主役として十分な高さにする。
       // これにより下部ショートカットの後ろに目的のない余白が残らず、
       // 画面をスクロールさせずに自然な密度で収まる。
-      ? density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 380
+      ? density === 'veryCompact' ? 228 : density === 'compact' ? 286 : 460
       : density === 'veryCompact' ? 240 : density === 'compact' ? 292 : 350;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 380 : 350) : (isPaid ? 435 : 400))),
+    // Reserve only the controls that are actually below the reel.  On a
+    // normal iPhone this lets the home card use the available screen instead
+    // of leaving a blank band above the persistent navigation.
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 380 : 350) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 30 : density === 'veryCompact' ? 12 : compactReel ? 18 : 30;
   const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
