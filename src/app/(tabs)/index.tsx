@@ -15,7 +15,8 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
 import { getTechniqueCount } from '@/data/technique-counts';
 import { getTheoryCoverSummary } from '@/data/theory-display';
-import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
+import { FREE_THEORY_IDS, isFreePersona } from '@/access/access-config';
+import { AccessBadge } from '@/components/access-badge';
 import { useAccess } from '@/access/access-state';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
@@ -153,7 +154,7 @@ export default function MainScreen() {
       techniqueCount: getTechniqueCount(category.key, group.name, ids.length),
     };
   })), [isPaid]);
-  const visiblePersonas = useMemo(() => isPaid ? personas : personas.filter((persona) => persona.principleIds.some((id) => (FREE_REEL_TECHNIQUE_IDS as readonly string[]).includes(id))), [isPaid, personas]);
+  const visiblePersonas = personas;
   const visibleTheoryCards = useMemo(
     () => isPaid
       ? [...catalogTheories].sort((left, right) => {
@@ -392,7 +393,15 @@ export default function MainScreen() {
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
       {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
-      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>{reelType === 'techniques' ? `${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}` : '216の処世術'} <AppText style={styles.catalogDivider}>｜</AppText> 595の理論</AppText>
+      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>
+        {reelType === 'techniques'
+          ? activeItem?.kind === 'upgrade'
+            ? '完全版のご案内'
+            : `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}`
+          : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}
+        {' '}<AppText style={styles.catalogDivider}>｜</AppText>{' '}
+        {reelType === 'techniques' ? '全216の処世術' : '全595の理論'}
+      </AppText>
       <SegmentedControl
         value={reelType}
         options={[
@@ -493,6 +502,7 @@ export default function MainScreen() {
           }
 
           const persona = reelItem.persona;
+          const personaLocked = !isPaid && !isFreePersona(persona.title);
           const titleMetrics = getReelTitleMetrics(persona.title, cardWidth, density);
           const isAccessible =
             reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-persona-${persona.id}`;
@@ -517,9 +527,12 @@ export default function MainScreen() {
                   cardFrame,
                 ]}
               >
+                <View pointerEvents="none" style={styles.personaAccessBadge}>
+                  <AccessBadge locked={personaLocked} compact />
+                </View>
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={`${persona.title}を詳しく読む`}
+                  accessibilityLabel={`${persona.title}${personaLocked ? '、完全版限定' : '、無料公開'}を詳しく見る`}
                   onPress={() => router.push({ pathname: '/subcategory/[category]/[name]', params: { category: persona.category, name: persona.title } })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
@@ -674,6 +687,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   personaSubtitle: { marginTop: spacing.sm, color: colors.muted, fontSize: 13, lineHeight: 20, textAlign: 'center' },
+  personaAccessBadge: { position: 'absolute', top: 11, right: 11, zIndex: 3 },
   theorySummaryCompact: { marginTop: 10, fontSize: 12, lineHeight: 18 },
   cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 6 },
   upgradeReelCard: {
