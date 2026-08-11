@@ -1,19 +1,33 @@
-export const FREE_REEL_TECHNIQUE_IDS = [
-  'complete-001', 'complete-002', 'complete-003', 'complete-004', 'complete-005',
-  'complete-100', 'complete-101', 'complete-102', 'complete-103', 'complete-104',
-  'complete-161', 'complete-162', 'complete-163', 'complete-164', 'complete-165',
-  'complete-183', 'complete-184', 'complete-187', 'complete-188', 'complete-189',
+const techniqueRange = (from: number, to: number) =>
+  Array.from(
+    { length: to - from + 1 },
+    (_, index) => `complete-${String(from + index).padStart(3, '0')}`,
+  );
+
+export const FREE_PERSONA_NAMES = [
+  '印象がいい人',
+  '会話がうまい人',
+  '軽く扱われない人',
+  '不安に強い人',
 ] as const;
 
-export const FREE_DISCOVER_TECHNIQUE_IDS = Array.from(
-  { length: 14 },
-  (_, index) => `complete-${String(index + 1).padStart(3, '0')}`,
-);
+export const FREE_PERSONA_NAME_SET = new Set<string>(FREE_PERSONA_NAMES);
+
+export const FREE_REEL_TECHNIQUE_IDS = [
+  ...techniqueRange(1, 27),
+  ...techniqueRange(75, 87),
+  ...techniqueRange(200, 204),
+] as const;
+
+export const FREE_DISCOVER_TECHNIQUE_IDS = FREE_REEL_TECHNIQUE_IDS;
 
 export const FREE_THEORY_IDS = [
-  'kb_001', 'kb_004', 'kb_005', 'kb_007', 'kb_008', 'kb_009', 'kb_010', 'kb_013',
-  'kb_130', 'kb_131', 'kb_132', 'kb_133', 'kb_134', 'kb_136',
-  'kb_221', 'kb_222', 'kb_223', 'kb_224', 'kb_225', 'kb_228',
+  'kb_003', 'kb_004', 'kb_029', 'kb_045', 'kb_221', 'kb_265',
+  'kb_104', 'kb_134', 'kb_138', 'kb_273',
+  'kb_064', 'kb_082', 'kb_192',
+  'kb_142', 'kb_284',
+  'kb_299', 'kb_333', 'kb_342',
+  'kb_329', 'kb_338',
 ] as const;
 
 export const FREE_LEARNING_CASE_IDS = Array.from(
@@ -30,6 +44,10 @@ export const FREE_LEARNING_CASE_ID_SET = new Set<string>(FREE_LEARNING_CASE_IDS)
 
 export function canReadTechnique(access: 'guest' | 'free' | 'paid', id: string) {
   return access === 'paid' || FREE_TECHNIQUE_IDS.has(id);
+}
+
+export function isFreePersona(name: string) {
+  return FREE_PERSONA_NAME_SET.has(name);
 }
 
 export function canReadTheory(access: 'guest' | 'free' | 'paid', id: string) {
