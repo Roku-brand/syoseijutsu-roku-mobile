@@ -4,12 +4,13 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.goto('/syoseijutsu-roku-mobile/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('595').first()).toBeVisible();
-  await page.getByRole('button', { name: /まずは無料で試す/ }).click();
+  await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
   await expect(page.getByText(/216の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/595の理論/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 25/).first()).toBeVisible();
+  await expect(page.getByText('無料公開').first()).toBeVisible();
   await expect(page.getByText(/盛り上げるより安心感を与えよ/).first()).toBeVisible();
-  await page.getByRole('tab', { name: '理論' }).click();
-  await expect(page.getByText('初頭効果').first()).toBeVisible();
+  await page.getByRole('tab', { name: /理論/ }).click();
+  await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
   await expect(page.getByText(/216の処世術/).first()).toBeVisible();
 });
@@ -50,8 +51,18 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/');
-  await page.getByRole('button', { name: /まずは無料で試す/ }).click();
+  await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
   await expect(page.getByText('完全版を30日間利用　¥280')).toBeVisible();
+});
+
+test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
+  await expect(page.getByText('13の処世術')).toBeVisible();
+  await expect(page.getByText('深い質問より先に安心感をつくれ')).toBeVisible();
+
+  await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
+  await expect(page.getByText('完全版').first()).toBeVisible();
+  await expect(page.getByLabel(/完全版限定/).first()).toBeVisible();
 });
 
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
