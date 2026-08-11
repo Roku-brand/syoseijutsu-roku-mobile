@@ -16,6 +16,9 @@ import {
 import { getTechniqueSearchText } from '@/data/technique-tags';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
+import { getCategoryTechniqueCount } from '@/data/technique-counts';
+import { getTheoryCategoryCount } from '@/data/theory-counts';
+import { AccessBadge } from '@/components/access-badge';
 
 type BrowseMode = 'techniques' | 'theories';
 
@@ -138,7 +141,7 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'techniques' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'techniques' && styles.modeTextActive]}>
-                処世術
+                処世術　{isPaid ? 216 : 45}
               </AppText>
             </Pressable>
             <Pressable
@@ -148,7 +151,7 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'theories' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'theories' && styles.modeTextActive]}>
-                理論
+                理論　{isPaid ? 595 : 20}
               </AppText>
             </Pressable>
           </View>
@@ -173,6 +176,7 @@ function TechniqueBrowser({
   router: ReturnType<typeof useRouter>;
   onSearch: (value: string) => void;
 }) {
+  const { isPaid } = useAccess();
   return (
     <View>
       <OrnamentHeading>領域から探す</OrnamentHeading>
@@ -180,10 +184,11 @@ function TechniqueBrowser({
         {categoryOrder.map((key) => {
           const category = categories.find((item) => item.key === key);
           if (!category) return null;
-          const count = category.subcategories.reduce(
+          const freeCount = category.subcategories.reduce(
             (total, persona) => total + persona.items.length,
             0,
           );
+          const count = getCategoryTechniqueCount(key);
           return (
             <Pressable
               key={key}
@@ -199,14 +204,15 @@ function TechniqueBrowser({
               </View>
               <AppText style={styles.categoryTitle}>{categoryMeta[key].label}</AppText>
               <AppText style={styles.categoryDescription}>{categoryMeta[key].description}</AppText>
-              <AppText style={styles.categoryCount}>{count}件</AppText>
+              <AppText style={styles.categoryCount}>{isPaid ? `${count}件` : `無料 ${freeCount}件 ／ 全${count}件`}</AppText>
+              {!isPaid && freeCount === 0 ? <View style={styles.browserLock}><AccessBadge locked compact /></View> : null}
             </Pressable>
           );
         })}
       </View>
       <OrnamentHeading>よく見られる検索</OrnamentHeading>
       <View style={styles.chipGrid}>
-        {['人間関係', '仕事術', 'メンタル'].map((label) => (
+        {['人間関係', '会話', '不安'].map((label) => (
           <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, pressed && styles.pressed]}>
             <AppText style={styles.searchChipText}>{label}　⌕</AppText>
           </Pressable>
@@ -217,6 +223,7 @@ function TechniqueBrowser({
 }
 
 function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
+  const { isPaid } = useAccess();
   return (
     <View>
       <OrnamentHeading>理論から探す</OrnamentHeading>
@@ -237,7 +244,9 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
             </View>
             <AppText style={styles.theoryTitle}>{category.title}</AppText>
             <AppText style={styles.theoryCount}>
-              {theories.filter((theory) => theory.categoryId === category.id).length}件
+              {isPaid
+                ? `${getTheoryCategoryCount(category.id)}件`
+                : `無料 ${theories.filter((theory) => theory.categoryId === category.id).length}件 ／ 全${getTheoryCategoryCount(category.id)}件`}
             </AppText>
           </Pressable>
         ))}
@@ -305,6 +314,7 @@ const styles = StyleSheet.create({
   modeTextActive: { color: colors.goldLight },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   categoryCard: {
+    position: 'relative',
     flexGrow: 1,
     flexBasis: 220,
     minHeight: 172,
@@ -345,6 +355,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   categoryCount: { color: colors.gold, fontSize: 11, lineHeight: 17 },
+  browserLock: { position: 'absolute', top: 10, right: 10 },
   chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   popularChip: { flexGrow: 1, flexBasis: '28%', minHeight: 38, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   searchChipText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '600' },
