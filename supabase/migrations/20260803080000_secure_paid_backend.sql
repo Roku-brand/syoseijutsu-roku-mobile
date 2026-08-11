@@ -39,6 +39,7 @@ alter table public.products enable row level security;
 alter table public.payment_events enable row level security;
 alter table public.paid_content enable row level security;
 
+drop policy if exists "anyone can read active products" on public.products;
 create policy "anyone can read active products"
 on public.products for select
 to anon, authenticated
