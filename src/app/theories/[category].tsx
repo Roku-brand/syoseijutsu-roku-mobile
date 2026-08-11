@@ -14,6 +14,7 @@ import { theories } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
+import { getTheoryCategoryCount, getTheoryCategoryLabel } from '@/data/theory-counts';
 
 export function generateStaticParams() {
   return [
@@ -31,12 +32,12 @@ export default function TheoryCategoryScreen() {
     category === 'all'
       ? theories
       : theories.filter((theory) => theory.categoryId === category);
-  const totalCount = items.length;
+  const totalCount = getTheoryCategoryCount(category);
   const visibleItems = isPaid ? items : items.filter((theory) => FREE_THEORY_ID_SET.has(theory.tagId));
   const scrollRef = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'source' | 'title'>('source');
-  const title = category === 'all' ? 'すべての理論' : items[0]?.categoryTitle;
+  const title = getTheoryCategoryLabel(category);
   const filteredItems = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
     const matched = term
@@ -132,7 +133,7 @@ export default function TheoryCategoryScreen() {
 
       <View style={styles.sectionTitle}>
         <AppText variant="serif" style={styles.sectionLabel}>
-          {query ? `${filteredItems.length}件` : `${items.length}の理論`}
+          {query ? `${filteredItems.length}件` : isPaid ? `${totalCount}の理論` : `${visibleItems.length}件を無料公開`}
         </AppText>
         <View style={styles.rule} />
         <AppText style={styles.ruleMark}>✦</AppText>
