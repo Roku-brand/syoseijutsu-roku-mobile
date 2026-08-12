@@ -528,6 +528,10 @@ export default function MainScreen() {
                   cardFrame,
                 ]}
               >
+                <View pointerEvents="none" style={styles.personaCornerTopLeft} />
+                <View pointerEvents="none" style={styles.personaCornerTopRight} />
+                <View pointerEvents="none" style={styles.personaCornerBottomLeft} />
+                <View pointerEvents="none" style={styles.personaCornerBottomRight} />
                 <View pointerEvents="none" style={styles.personaAccessBadge}>
                   <AccessBadge locked={personaLocked} compact />
                 </View>
@@ -659,6 +663,11 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     ...bookCardShadow,
   },
+  // 金箔を抽象化した細い曲線。カードの文字と競合しないよう四隅だけに留める。
+  personaCornerTopLeft: { position: 'absolute', top: 13, left: 13, width: 54, height: 30, borderTopWidth: 1, borderLeftWidth: 1, borderColor: 'rgba(226, 194, 113, 0.54)', borderTopLeftRadius: 24, opacity: 0.72 },
+  personaCornerTopRight: { position: 'absolute', top: 13, right: 13, width: 54, height: 30, borderTopWidth: 1, borderRightWidth: 1, borderColor: 'rgba(226, 194, 113, 0.54)', borderTopRightRadius: 24, opacity: 0.72 },
+  personaCornerBottomLeft: { position: 'absolute', bottom: 13, left: 13, width: 54, height: 30, borderBottomWidth: 1, borderLeftWidth: 1, borderColor: 'rgba(226, 194, 113, 0.38)', borderBottomLeftRadius: 24, opacity: 0.62 },
+  personaCornerBottomRight: { position: 'absolute', bottom: 13, right: 13, width: 54, height: 30, borderBottomWidth: 1, borderRightWidth: 1, borderColor: 'rgba(226, 194, 113, 0.38)', borderBottomRightRadius: 24, opacity: 0.62 },
   theoryCard: {
     paddingHorizontal: spacing.lg,
     paddingTop: 22,
