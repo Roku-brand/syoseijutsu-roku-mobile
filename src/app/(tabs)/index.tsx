@@ -399,15 +399,10 @@ export default function MainScreen() {
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
       {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
-      <AppText style={[styles.catalogCount, { marginBottom: sectionGap }]}>
-        {reelType === 'techniques'
-          ? activeItem?.kind === 'upgrade'
-            ? '完全版のご案内'
-            : `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}`
-          : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}
-        {' '}<AppText style={styles.catalogDivider}>｜</AppText>{' '}
-        {reelType === 'techniques' ? '全216の処世術' : '全595の理論'}
-      </AppText>
+      <View style={styles.reelHeadingRow}>
+        <View><AppText style={styles.reelHeading}>{reelType === 'techniques' ? '処世術' : '理論'}</AppText><View style={styles.reelHeadingUnderline} /></View>
+        <View style={styles.personaCountPill}><AppText style={styles.personaCountIcon}>♙</AppText><AppText style={styles.personaCountText}>{reelType === 'techniques' ? `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}` : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
+      </View>
       <SegmentedControl
         value={reelType}
         options={[
@@ -542,9 +537,7 @@ export default function MainScreen() {
                   onPress={() => router.push({ pathname: '/subcategory/[category]/[name]', params: { category: persona.category, name: persona.title } })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
-                  <AppText variant="label" style={styles.techniqueId}>
-                    {persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}
-                  </AppText>
+                  <AppText variant="label" style={styles.techniqueId}>✦ {persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
                   <AppText
                     numberOfLines={2}
                     adjustsFontSizeToFit
@@ -565,28 +558,14 @@ export default function MainScreen() {
                     <View style={styles.cardDiamond} />
                     <View style={styles.cardLine} />
                   </View>
-                  <View style={[styles.categoryChip, categoryChip]}>
-                    <AppText style={styles.categoryChipText}>
-                      〔 {persona.techniqueCount}の処世術 〕
-                    </AppText>
-                  </View>
                   <AppText numberOfLines={2} style={styles.personaSubtitle}>{persona.subtitle}</AppText>
+                  <View style={styles.personaCta}><AppText style={styles.personaCtaText}>{persona.techniqueCount}つの処世術を見る</AppText><AppText style={styles.personaCtaChevron}>›</AppText></View>
                 </Pressable>
             </View>
             </View>
           );
         }}
       />
-      <View accessibilityRole="tablist" style={[styles.pageIndicators, { marginTop: sectionGap / 2 }]}>
-        {Array.from({ length: Math.min(3, Math.max(baseReelItems.length, 1)) }, (_, index) => (
-          <View
-            key={index}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: activeIndex % 3 === index }}
-            style={[styles.pageIndicator, activeIndex % 3 === index && styles.pageIndicatorActive]}
-          />
-        ))}
-      </View>
       {!isPaid ? (
         <Pressable
           accessibilityRole="button"
@@ -601,14 +580,13 @@ export default function MainScreen() {
           </View>
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>
-      ) : (
-        <View style={styles.shortcuts}>
+      ) : null}
+      <View style={styles.shortcuts}>
           {reelType === 'techniques' ? (
             <View style={styles.shortcutSection}>
               <View style={styles.shortcutSectionHeader}>
                 <View style={styles.shortcutSectionRule} />
-                <AppText style={styles.shortcutHeading}>処世術から選ぶ</AppText>
-                <AppText style={styles.shortcutSectionHint}>実践の入口</AppText>
+                <AppText style={styles.shortcutHeading}>なりたい自分から選ぶ</AppText>
               </View>
               <View style={styles.techniqueShortcutGrid}>
                 {techniqueShortcuts.map((shortcut) => (
@@ -619,8 +597,8 @@ export default function MainScreen() {
                     onPress={() => jumpToTechniqueCategory(shortcut.key)}
                     style={({ pressed }) => [styles.techniqueShortcut, pressed && styles.pressed]}
                   >
-                    <AppText style={styles.techniqueShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
-                    <AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText>
+                    <AppText style={styles.techniqueShortcutMark}>{shortcut.key === 'interpersonal' ? '♟' : shortcut.key === 'work' ? '▣' : '⚑'}</AppText>
+                    <View style={styles.shortcutCopy}><AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText><AppText style={styles.techniqueShortcutSub}>{shortcut.key === 'interpersonal' ? '人間関係を築く' : shortcut.key === 'work' ? '成果と評価を得る' : '自分らしく生きる'}</AppText></View>
                     <AppText style={styles.shortcutChevron}>›</AppText>
                   </Pressable>
                 ))}
@@ -650,14 +628,19 @@ export default function MainScreen() {
               </View>
             </View>
           )}
-        </View>
-      )}
+      </View>
     </BookScreen>
   );
 }
 
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  reelHeadingRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 },
+  reelHeading: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '700', letterSpacing: 1.4 },
+  reelHeadingUnderline: { marginTop: 5, width: 54, height: 2, borderRadius: 2, backgroundColor: colors.gold },
+  personaCountPill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 11, height: 32, borderRadius: 18, borderWidth: 1, borderColor: colors.line, backgroundColor: '#FBF8F1' },
+  personaCountIcon: { color: colors.ink, fontSize: 16, lineHeight: 18 },
+  personaCountText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '700' },
   accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
   accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
   accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
@@ -669,8 +652,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     paddingTop: 22,
     paddingBottom: 18,
-    borderRadius: radius.md,
-    borderWidth: 1.5,
+    borderRadius: 27,
+    borderWidth: 1,
     borderColor: colors.gold,
     backgroundColor: colors.charcoal,
     alignItems: 'stretch',
@@ -692,10 +675,10 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
   },
-  personaSubtitle: { marginTop: spacing.sm, color: colors.muted, fontSize: 13, lineHeight: 20, textAlign: 'center' },
-  personaAccessBadge: { position: 'absolute', top: 11, right: 11, zIndex: 3 },
+  personaSubtitle: { marginTop: 3, color: '#D9D4C8', fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, textAlign: 'center' },
+  personaAccessBadge: { position: 'absolute', top: 14, right: 14, zIndex: 3 },
   theorySummaryCompact: { marginTop: 10, fontSize: 12, lineHeight: 18 },
-  cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 6 },
+  cardReadArea: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%', paddingBottom: 3 },
   upgradeReelCard: {
     paddingHorizontal: spacing.lg,
     paddingVertical: 24,
@@ -747,7 +730,7 @@ const styles = StyleSheet.create({
     color: colors.surface,
   },
   techniqueId: {
-    marginBottom: 8,
+    marginBottom: 14,
     color: colors.gold,
     fontSize: 11,
     lineHeight: 16,
@@ -779,6 +762,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  personaCta: { marginTop: 18, minWidth: '72%', height: 45, paddingHorizontal: 17, borderRadius: 24, borderWidth: 1, borderColor: colors.gold, backgroundColor: 'rgba(84,61,22,0.35)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 11 },
+  personaCtaText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, fontWeight: '700', letterSpacing: .5 },
+  personaCtaChevron: { color: colors.goldLight, fontSize: 25, lineHeight: 26 },
   categoryChipText: {
     fontFamily: fonts.serif,
     fontSize: 13,
@@ -811,9 +797,6 @@ const styles = StyleSheet.create({
   },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
-  pageIndicators: { minHeight: 18, marginTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 },
-  pageIndicator: { width: 11, height: 11, borderRadius: 6, backgroundColor: '#D7D4CE' },
-  pageIndicatorActive: { backgroundColor: colors.ink },
   unlockCard: { minHeight: 72, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, ...bookCardShadow },
   unlockCardCompact: { minHeight: 64, marginTop: 5, paddingHorizontal: 12, gap: 10 },
   unlockCrown: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
@@ -822,17 +805,19 @@ const styles = StyleSheet.create({
   unlockTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   unlockBody: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '600' },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
-  shortcuts: { marginTop: 8, gap: 10, paddingHorizontal: 2 },
+  shortcuts: { marginTop: 12, gap: 10, paddingHorizontal: 2 },
   shortcutSection: { gap: 6 },
   shortcutSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 2 },
   shortcutSectionRule: { width: 3, height: 15, borderRadius: 2, backgroundColor: colors.gold },
   shortcutHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, letterSpacing: 1, fontWeight: '700' },
   shortcutSectionHint: { marginLeft: 'auto', color: colors.muted, fontSize: 9, lineHeight: 14, letterSpacing: 0.8 },
   techniqueShortcutGrid: { flexDirection: 'row', gap: 8 },
-  techniqueShortcut: { flex: 1, minWidth: 0, height: 47, paddingHorizontal: 8, borderWidth: 1, borderColor: 'rgba(196,148,50,0.72)', borderRadius: radius.md, backgroundColor: colors.charcoal, flexDirection: 'row', alignItems: 'center', gap: 6, ...bookCardShadow },
-  techniqueShortcutMark: { width: 25, height: 25, borderRadius: 13, borderWidth: 1, borderColor: colors.gold, color: colors.goldLight, fontFamily: fonts.serif, fontSize: 13, lineHeight: 23, textAlign: 'center' },
-  techniqueShortcutText: { flex: 1, color: '#FFF9EC', fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '700' },
-  shortcutChevron: { color: colors.goldLight, fontSize: 21, lineHeight: 23 },
+  techniqueShortcut: { flex: 1, minWidth: 0, height: 86, paddingHorizontal: 9, borderWidth: 1, borderColor: colors.line, borderRadius: 17, backgroundColor: '#FCF9F3', flexDirection: 'row', alignItems: 'center', gap: 5, ...bookCardShadow },
+  techniqueShortcutMark: { width: 22, color: colors.gold, fontFamily: fonts.serif, fontSize: 21, lineHeight: 25, textAlign: 'center' },
+  shortcutCopy: { flex: 1, minWidth: 0 },
+  techniqueShortcutText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '700' },
+  techniqueShortcutSub: { marginTop: 3, color: colors.muted, fontSize: 8, lineHeight: 12 },
+  shortcutChevron: { color: colors.gold, fontSize: 21, lineHeight: 23 },
   theoryShortcutGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
   theoryShortcut: { width: '31.8%', height: 37, paddingHorizontal: 7, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: 5 },
   theoryShortcutMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 15, fontWeight: '700' },
