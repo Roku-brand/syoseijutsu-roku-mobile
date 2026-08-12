@@ -184,8 +184,8 @@ export default function MainScreen() {
       // 通常のiPhoneでは、リールを画面の主役として十分な高さにする。
       // これにより下部ショートカットの後ろに目的のない余白が残らず、
       // 画面をスクロールさせずに自然な密度で収まる。
-      ? density === 'veryCompact' ? 228 : density === 'compact' ? 286 : 460
-      : density === 'veryCompact' ? 240 : density === 'compact' ? 292 : 350;
+      ? density === 'veryCompact' ? 218 : density === 'compact' ? 258 : 340
+      : density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 330;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
     // Reserve only the controls that are actually below the reel.  On a
