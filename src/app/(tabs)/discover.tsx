@@ -79,7 +79,12 @@ export default function DiscoverScreen() {
   );
 
   return (
-    <BookScreen>
+    <BookScreen contentContainerStyle={styles.discoverContent}>
+      <View style={styles.intro}>
+        <AppText variant="label" style={styles.introEyebrow}>DISCOVER</AppText>
+        <AppText variant="serif" style={styles.introTitle}>知りたいことから探す</AppText>
+        <AppText style={styles.introDescription}>処世術と、その背景にある理論を、領域・分類・キーワードからたどれます。</AppText>
+      </View>
       <View style={styles.searchBox}>
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
@@ -256,6 +261,11 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
 }
 
 const styles = StyleSheet.create({
+  discoverContent: { paddingBottom: spacing.xl * 2 },
+  intro: { maxWidth: 760, width: '100%', alignSelf: 'center', marginBottom: spacing.lg },
+  introEyebrow: { color: colors.gold, letterSpacing: 2, fontSize: 10 },
+  introTitle: { marginTop: 4, color: colors.ink, fontSize: 30, lineHeight: 40, fontWeight: '700' },
+  introDescription: { marginTop: 5, maxWidth: 620, color: colors.muted, fontSize: 13, lineHeight: 21 },
   searchBox: {
     minHeight: 48,
     flexDirection: 'row',
@@ -268,6 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     marginBottom: spacing.md,
   },
+  resultCount: { color: colors.gold, fontWeight: '700' },
   searchIcon: { color: colors.gold, fontFamily: fonts.serif, fontSize: 28 },
   searchInput: {
     flex: 1,

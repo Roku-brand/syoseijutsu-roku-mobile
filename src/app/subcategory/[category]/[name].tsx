@@ -18,7 +18,7 @@ export default function PersonaScreen() {
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
   const router = useRouter();
   const { isPaid } = useAccess();
-  const { height, desktop, density } = useResponsiveLayout();
+  const { width, height, desktop, density } = useResponsiveLayout();
   const category = categories.find((item) => item.key === categoryKey);
   const persona = category?.subcategories.find((item) => item.name === name);
 
@@ -39,12 +39,14 @@ export default function PersonaScreen() {
     ...categories.flatMap((item) => item.subcategories.map((entry) => entry.items.length)),
   );
   const compact = !desktop;
-  const reservedHeight = compact ? 218 : 242;
+  const twoColumn = desktop || width >= 720;
+  const reservedHeight = compact ? 176 : 218;
+  const visibleRows = twoColumn ? Math.ceil(largestPersonaItemCount / 2) : largestPersonaItemCount;
   const rowHeight = compact
-    ? Math.max(29, Math.min(44, Math.floor((height - reservedHeight) / largestPersonaItemCount)))
-    : 54;
-  const titleSize = compact ? 27 : 32;
-  const descriptionSize = compact ? 13 : 15;
+    ? Math.max(25, Math.min(39, Math.floor((height - reservedHeight) / visibleRows)))
+    : 48;
+  const titleSize = compact ? 25 : 32;
+  const descriptionSize = compact ? 12 : 15;
 
   return (
     <Screen scroll={false} contentContainerStyle={styles.content}>
@@ -57,14 +59,14 @@ export default function PersonaScreen() {
         </View>
         <AppText numberOfLines={compact ? 1 : 2} style={[styles.description, { fontSize: descriptionSize, lineHeight: Math.round(descriptionSize * 1.6) }]}>{getPersonaDescription(category.key, persona.name)}</AppText>
 
-        <View style={[styles.listCard, compact && styles.listCardCompact]}>
+        <View style={[styles.listCard, compact && styles.listCardCompact, twoColumn && styles.listCardGrid]}>
           {persona.items.map((item, index) => (
             <Pressable
               key={item.id}
               accessibilityRole="link"
               accessibilityLabel={`${item.title}を開く`}
               onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-              style={({ pressed }) => [styles.row, { height: rowHeight, minHeight: rowHeight }, compact && styles.rowCompact, index === persona.items.length - 1 && styles.rowLast, pressed && styles.pressed]}
+              style={({ pressed }) => [styles.row, { height: rowHeight, minHeight: rowHeight }, compact && styles.rowCompact, twoColumn && styles.rowGrid, index === persona.items.length - 1 && styles.rowLast, pressed && styles.pressed]}
             >
               <AppText style={[styles.number, compact && styles.numberCompact]}>{String(index + 1).padStart(2, '0')}</AppText>
               <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
@@ -98,8 +100,10 @@ const styles = StyleSheet.create({
   description: { marginTop: spacing.sm, color: colors.inkSoft, fontSize: 15, lineHeight: 25 },
   listCardCompact: { marginTop: 10 },
   listCard: { marginTop: spacing.xl, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  listCardGrid: { flexDirection: 'row', flexWrap: 'wrap' },
   row: { minHeight: 58, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   rowCompact: { paddingHorizontal: spacing.md, gap: spacing.sm },
+  rowGrid: { width: '50%', borderRightWidth: 1, borderRightColor: colors.line },
   rowLast: { borderBottomWidth: 0 },
   number: { width: 28, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '700' },
   numberCompact: { width: 24, fontSize: 12, lineHeight: 16 },
