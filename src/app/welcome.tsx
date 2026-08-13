@@ -3,11 +3,12 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { colors, fonts, shadow } from '@/constants/theme';
-import { techniqueCards, theories, getTechniqueDisplayId } from '@/data/catalog';
+import { categories, techniqueCards, theories, getTechniqueDisplayId } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 
 const previewCard = techniqueCards[0];
+const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
 
 /** 初回の導線だけに表示する、処世術禄の販売ファースト画面。 */
 export default function Welcome() {
@@ -53,7 +54,7 @@ export default function Welcome() {
           <View style={styles.offerBody}>
             <View style={styles.priceBadge}><AppText variant="serif" style={styles.priceType}>30日間</AppText><AppText variant="serif" style={styles.price}>¥280</AppText><AppText style={styles.tax}>税込</AppText></View>
             <View style={styles.benefits}>
-              {['25の人物像・216の処世術', '595の理論をすべて収録', '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => (
+              {[`${personaCount}の人物像・${techniqueCards.length}の処世術`, `${theories.length}の理論をすべて収録`, '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => (
                 <View key={item} style={styles.benefitRow}>
                   <AppText style={styles.benefitCheck}>✓</AppText>
                   <AppText style={styles.benefitText}>{item}</AppText>

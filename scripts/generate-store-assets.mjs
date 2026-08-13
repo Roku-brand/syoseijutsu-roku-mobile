@@ -8,6 +8,10 @@ const rawDir = path.join(projectRoot, "store", "screenshots", "raw");
 const appStoreDir = path.join(projectRoot, "store", "app-store", "iphone-6.9");
 const playPhoneDir = path.join(projectRoot, "store", "google-play", "phone");
 const playDir = path.join(projectRoot, "store", "google-play");
+const generatedTechniques = JSON.parse(await fs.readFile(path.join(projectRoot, "src", "data", "generated", "techniques.json"), "utf8"));
+const generatedTheories = JSON.parse(await fs.readFile(path.join(projectRoot, "src", "data", "generated", "theories.json"), "utf8"));
+const techniqueCount = generatedTechniques.categories.flatMap((category) => category.subcategories).reduce((count, subcategory) => count + subcategory.items.length, 0);
+const theoryCount = generatedTheories.length;
 
 const files = [
   "01-main.png",
@@ -74,7 +78,7 @@ const featureGraphic = `
     <text x="72" y="225" fill="#F6F0E3" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="58" font-weight="600">人生の判断と</text>
     <text x="72" y="302" fill="#F6F0E3" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="58" font-weight="600">立ち回りにOSを。</text>
     <line x1="74" y1="354" x2="218" y2="354" stroke="#B8954F" stroke-width="2"/>
-    <text x="72" y="405" fill="#C9C2B4" font-family="'Yu Gothic','Hiragino Sans',sans-serif" font-size="24">216の処世術と595の理論を、一冊に。</text>
+    <text x="72" y="405" fill="#C9C2B4" font-family="'Yu Gothic','Hiragino Sans',sans-serif" font-size="24">${techniqueCount}の処世術と${theoryCount}の理論を、一冊に。</text>
     <text x="843" y="400" fill="#D9BC7A" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="38" text-anchor="middle">処世術禄</text>
   </svg>
 `;

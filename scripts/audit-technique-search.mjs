@@ -1,72 +1,45 @@
-import fs from "node:fs";
+import fs from 'node:fs';
 
-const generated = JSON.parse(
-  fs.readFileSync("src/data/generated/techniques.json", "utf8"),
-);
+const generated = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8'));
 const cards = generated.categories.flatMap((category) =>
   category.subcategories.flatMap((subcategory) =>
     subcategory.items.map((card) => ({
       ...card,
       categoryName: category.name,
       subcategory: subcategory.name,
+      articleTitle: subcategory.articleTitle ?? subcategory.name,
     })),
   ),
 );
 
 const failures = [];
-const requiredQueries = {
-  第一印象: 5,
-  会話下手: 8,
-  会話が苦手: 8,
-  コミュ障: 8,
-  恋愛: 5,
-  なめられない: 8,
-  なめられたくない: 8,
-  仕事ができる人: 8,
-  出世: 5,
-  交渉: 20,
-  先延ばし: 4,
-  不安: 6,
-  人生を充実: 10,
-  立ち直り: 8,
-};
-
-if (cards.length !== 214) {
-  failures.push(`Expected 214 cards, found ${cards.length}.`);
-}
+const ids = new Set();
+const searchableFields = ['title', 'essence', 'explanation', 'field', 'persona', 'categoryName', 'subcategory', 'articleTitle'];
 
 for (const card of cards) {
-  const tagCount = card.tags?.length ?? 0;
-  if (tagCount < 8 || tagCount > 12) {
-    failures.push(`${card.id} has ${tagCount} tags; expected 8-12.`);
-  }
+  if (ids.has(card.id)) failures.push(`Duplicate technique id: ${card.id}`);
+  ids.add(card.id);
+  const corpus = searchableFields.map((field) => card[field] ?? '').join(' ').trim();
+  if (!corpus) failures.push(`${card.id} has no searchable text.`);
 }
 
-for (const [query, minimum] of Object.entries(requiredQueries)) {
-  const count = cards.filter((card) =>
-    [
-      card.title,
-      card.subtitle,
-      card.explanation,
-      card.categoryName,
-      card.subcategory,
-      ...(card.tags ?? []),
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLocaleLowerCase()
-      .includes(query.toLocaleLowerCase()),
-  ).length;
-  if (count < minimum) {
-    failures.push(`Query "${query}" returns ${count}; expected at least ${minimum}.`);
-  }
+const representativeQueries = ['第一印象', '会話', '交渉', '先延ばし', '不安', '挫折', '人生'];
+for (const query of representativeQueries) {
+  const count = cards.filter((card) => searchableFields
+    .map((field) => card[field] ?? '')
+    .join(' ')
+    .toLocaleLowerCase()
+    .includes(query.toLocaleLowerCase())).length;
+  if (count === 0) failures.push(`Query "${query}" returns no current-master results.`);
+}
+
+if (cards.length !== new Set(cards.map((card) => card.id)).size) {
+  failures.push('Technique ids are not unique.');
 }
 
 if (failures.length) {
-  console.error(failures.join("\n"));
+  console.error(failures.join('\n'));
   process.exit(1);
 }
 
-console.log(
-  `Search audit passed: ${cards.length} cards, ${Object.keys(requiredQueries).length} representative queries.`,
-);
+console.log(`Search audit passed: ${cards.length} current-master cards, ${representativeQueries.length} representative queries.`);

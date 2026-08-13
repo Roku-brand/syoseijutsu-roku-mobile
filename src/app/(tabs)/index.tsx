@@ -140,7 +140,7 @@ export default function MainScreen() {
   // Paid content arrives after the server has verified the entitlement.  The
   // catalogue module is intentionally hydrated in place, so this revision is
   // the signal that makes the reel rebuild from its initial preview cards to
-  // all 595 theory cards.
+  // the full current theory catalog.
   const { isPaid, accessInfo, catalogRevision } = useAccess();
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);

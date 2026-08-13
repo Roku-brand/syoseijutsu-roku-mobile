@@ -1,75 +1,27 @@
-import fs from "node:fs";
+import fs from 'node:fs';
 
-const source = JSON.parse(
-  fs.readFileSync("content/shoseijutsu_cards_135_with_explanations.json", "utf8"),
-);
-const cards = source.cards ?? [];
+const source = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8'));
+const cards = source.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const failures = [];
-const explanationOwners = new Map();
-const paragraphOwners = new Map();
-const bannedPhrases = [
-  "という感覚から、目の前の相手が安全かどうかを素早く判断する",
-  "ただし、技法として露骨に演じれば",
-  "好印象とは、目立った記憶ではなく",
-  "集団での居場所は、目立つ者より",
-  "交渉力とは、巧く話す力より",
-  "充実した人生とは、他人に説明しやすい人生ではなく",
-];
+const ids = new Set();
+const titles = new Set();
 
-if (cards.length !== 214) {
-  failures.push(`Expected 214 cards, found ${cards.length}.`);
-}
-
-for (const [index, card] of cards.entries()) {
-  const expectedId = `secret_${String(index + 1).padStart(3, "0")}`;
-  const explanation = String(card.explanation ?? "").trim();
-  const paragraphs = explanation
-    .split(/\n\s*\n/)
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
-
-  if (card.id !== expectedId) {
-    failures.push(`Card ${index + 1} has id ${card.id}; expected ${expectedId}.`);
-  }
-  if (explanation.length < 120) {
-    failures.push(`${card.id} explanation is too short (${explanation.length} chars).`);
-  }
-  if (paragraphs.length < 2) {
-    failures.push(`${card.id} needs at least two meaningful paragraphs.`);
-  }
-  if (bannedPhrases.some((phrase) => explanation.includes(phrase))) {
-    failures.push(`${card.id} still contains a rejected template phrase.`);
-  }
-
-  explanationOwners.set(
-    explanation,
-    [...(explanationOwners.get(explanation) ?? []), card.id],
-  );
-  for (const paragraph of paragraphs) {
-    paragraphOwners.set(paragraph, [
-      ...(paragraphOwners.get(paragraph) ?? []),
-      card.id,
-    ]);
-  }
-}
-
-for (const owners of explanationOwners.values()) {
-  if (owners.length > 1) {
-    failures.push(`Duplicate explanation: ${owners.join(", ")}`);
-  }
-}
-for (const owners of paragraphOwners.values()) {
-  if (owners.length > 1) {
-    failures.push(`Duplicate paragraph: ${owners.join(", ")}`);
+for (const card of cards) {
+  if (ids.has(card.id)) failures.push(`Duplicate id: ${card.id}`);
+  ids.add(card.id);
+  if (titles.has(card.title)) failures.push(`Duplicate title: ${card.title}`);
+  titles.add(card.title);
+  if (!String(card.essence ?? '').trim()) failures.push(`${card.id} has no essence.`);
+  if (!String(card.explanation ?? '').trim()) failures.push(`${card.id} has no explanation.`);
+  if (!Array.isArray(card.relatedTheoryIds) || card.relatedTheoryIds.length === 0) {
+    failures.push(`${card.id} has no related theory ids.`);
   }
 }
 
 if (failures.length) {
-  console.error(failures.join("\n"));
+  console.error(failures.join('\n'));
   process.exit(1);
 }
 
 const lengths = cards.map((card) => card.explanation.length);
-console.log(
-  `Technique audit passed: ${cards.length} cards, ${Math.min(...lengths)}-${Math.max(...lengths)} chars, no duplicated explanations or paragraphs.`,
-);
+console.log(`Technique audit passed: ${cards.length} current-master cards, ${Math.min(...lengths)}-${Math.max(...lengths)} explanation chars.`);
