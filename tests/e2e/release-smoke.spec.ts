@@ -57,8 +57,8 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('10の処世術')).toBeVisible();
-  await expect(page.getByText('深い質問の前に、安全な文脈をつくる')).toBeVisible();
+  await expect(page.getByText('13の処世術')).toBeVisible();
+  await expect(page.getByText('熱量が上がる話題を見つける')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
   await expect(page.getByText('完全版').first()).toBeVisible();
