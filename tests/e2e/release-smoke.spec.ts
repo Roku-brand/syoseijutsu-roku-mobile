@@ -3,22 +3,22 @@ import { expect, test } from '@playwright/test';
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
-  await expect(page.getByText('595').first()).toBeVisible();
+  await expect(page.getByText('266').first()).toBeVisible();
   await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
-  await expect(page.getByText(/216の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 25/).first()).toBeVisible();
+  await expect(page.getByText(/525の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 40/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
-  await expect(page.getByText(/盛り上げるより安心感を与えよ/).first()).toBeVisible();
+  await expect(page.getByText(/第一印象では、能力より安心感を先につくる/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
-  await expect(page.getByText(/216の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/525の処世術/).first()).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('216の処世術・595の理論・全21ケース')).toBeVisible();
+  await expect(page.getByText('525の処世術・266の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -57,8 +57,8 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('13の処世術')).toBeVisible();
-  await expect(page.getByText('深い質問より先に安心感をつくれ')).toBeVisible();
+  await expect(page.getByText('10の処世術')).toBeVisible();
+  await expect(page.getByText('深い質問の前に、安全な文脈をつくる')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
   await expect(page.getByText('完全版').first()).toBeVisible();
