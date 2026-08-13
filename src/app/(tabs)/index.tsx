@@ -534,7 +534,7 @@ export default function MainScreen() {
                 <View pointerEvents="none" style={styles.personaCornerBottomRight} />
                 {!isPaid ? (
                   <View pointerEvents="none" style={styles.personaAccessBadge}>
-                    <AccessBadge locked compact />
+                    <AccessBadge locked={personaLocked} compact />
                   </View>
                 ) : null}
                 <Pressable
