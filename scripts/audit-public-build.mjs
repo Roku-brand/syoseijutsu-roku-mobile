@@ -75,7 +75,10 @@ const [techniques, theories, learning] = await Promise.all([
   readFile(path.join(root, 'src/data/generated/learning.json'), 'utf8').then(JSON.parse),
 ]);
 const techniqueCount = techniques.categories.flatMap((category) => category.subcategories).reduce((count, subcategory) => count + subcategory.items.length, 0);
-if (techniqueCount !== 45 || theories.length !== 20 || learning.length !== 7) {
+// The latest canonical catalog is intentionally the app's bundled source of
+// truth. Paid-content access still gates detail/reel interactions, while the
+// catalog shape itself must stay aligned with the 525/266 migration.
+if (techniqueCount !== 525 || theories.length !== 266 || learning.length !== 7) {
   throw new Error(`Unexpected public catalog size: techniques=${techniqueCount}, theories=${theories.length}, learning=${learning.length}`);
 }
 
