@@ -11,7 +11,7 @@ import { AccessBadge } from '@/components/access-badge';
 
 export function generateStaticParams() {
   return categories.flatMap((category) =>
-    [...new Set(category.subcategories.map((persona) => getPersonaThemeTitle(persona)))]
+    [...new Set(category.subcategories.map((persona) => getPersonaThemeTitle(persona, category.key)))]
       .map((title) => ({ category: category.key, title })),
   );
 }
@@ -24,7 +24,7 @@ export default function ThemeScreen() {
   const router = useRouter();
   const { isPaid } = useAccess();
   const category = categories.find((item) => item.key === categoryKey);
-  const personas = category?.subcategories.filter((persona) => getPersonaThemeTitle(persona) === title);
+  const personas = category?.subcategories.filter((persona) => getPersonaThemeTitle(persona, category.key) === title);
 
   if (!category || !personas?.length) {
     return (

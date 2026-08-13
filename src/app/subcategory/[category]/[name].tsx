@@ -45,22 +45,19 @@ export default function PersonaScreen() {
     return <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
   }
 
-  const twoColumn = width >= 760;
+  const compact = width < 760;
+  const twoColumn = !compact;
   const itemsForDisplay = twoColumn ? orderForVerticalColumns(persona.items) : persona.items;
-  const theme = persona.articleTitle ?? '人物像';
-
   return (
-    <Screen contentContainerStyle={styles.content}>
+    <Screen scroll={false} contentContainerStyle={styles.content}>
       <View style={styles.page}>
         <DetailHeader title="人物像から探す" />
-        <AppText style={styles.breadcrumb}>{category.name}　›　{theme}</AppText>
         <View style={styles.titleRow}>
           <AppText style={styles.title}>{persona.name}</AppText>
           <View style={styles.countBadge}><AppText style={styles.countText}>{techniqueCount}の処世術</AppText></View>
         </View>
-        <AppText style={styles.description}>{getPersonaDescription(category.key, persona.name)}</AppText>
 
-        <View style={[styles.list, twoColumn && styles.listGrid]}>
+        <View style={[styles.list, twoColumn && styles.listGrid, compact && styles.listCompact]}>
           {itemsForDisplay.map((item) => {
             const itemNumber = persona.items.indexOf(item) + 1;
             return (
@@ -69,18 +66,18 @@ export default function PersonaScreen() {
                 accessibilityRole="link"
                 accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
                 onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-                style={({ pressed }) => [styles.techniqueCard, twoColumn && styles.techniqueCardGrid, pressed && styles.pressed]}
+                style={({ pressed }) => [styles.techniqueCard, twoColumn && styles.techniqueCardGrid, compact && styles.techniqueCardCompact, pressed && styles.pressed]}
               >
-                <View style={styles.numberBadge}>
-                  <AppText style={styles.number}>{String(itemNumber).padStart(2, '0')}</AppText>
+                <View style={[styles.numberBadge, compact && styles.numberBadgeCompact]}>
+                  <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
                 </View>
                 <AppText
                   variant="serif"
-                  numberOfLines={twoColumn ? 2 : undefined}
+                  numberOfLines={compact ? 1 : 2}
                   ellipsizeMode="clip"
-                  adjustsFontSizeToFit={twoColumn}
-                  minimumFontScale={0.8}
-                  style={styles.rowTitle}
+                  adjustsFontSizeToFit
+                  minimumFontScale={compact ? 0.62 : 0.8}
+                  style={[styles.rowTitle, compact && styles.rowTitleCompact]}
                 >
                   {item.title}
                 </AppText>
@@ -93,39 +90,36 @@ export default function PersonaScreen() {
   );
 }
 
-function getPersonaDescription(categoryKey: CategoryKey, personaName: string) {
-  if (categoryKey === 'interpersonal') return `${personaName}になるための処世術です。人との関係を整え、自然な立ち回りを身につけます。`;
-  if (categoryKey === 'work') return `${personaName}になるための処世術です。仕事の場で信頼を得て、成果につなげる判断を学びます。`;
-  return `${personaName}になるための処世術です。自分の軸を持ち、人生の判断とつまずきに向き合います。`;
-}
-
 const styles = StyleSheet.create({
-  content: { width: '100%' },
-  page: { width: '100%', maxWidth: 1180, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: spacing.xxl },
-  breadcrumb: { color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '600' },
+  content: { width: '100%', flexGrow: 1 },
+  page: { width: '100%', maxWidth: 1180, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: spacing.lg },
   titleRow: { marginTop: spacing.sm, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
-  title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 42, fontWeight: '700' },
-  countBadge: { minHeight: 32, paddingHorizontal: 13, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
-  countText: { color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '700' },
-  description: { marginTop: spacing.sm, color: colors.inkSoft, fontSize: 15, lineHeight: 25 },
-  list: { width: '100%', marginTop: spacing.xl, flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 36, fontWeight: '700' },
+  countBadge: { minHeight: 28, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  countText: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700' },
+  list: { width: '100%', marginTop: spacing.md, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  listCompact: { marginTop: spacing.sm, gap: 5 },
   listGrid: { justifyContent: 'space-between' },
   techniqueCard: {
     width: '100%',
-    minHeight: 70,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    minHeight: 62,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 13,
+    gap: 11,
     borderWidth: 1,
     borderColor: '#ddc9a9',
     borderRadius: radius.md,
     backgroundColor: '#fffdf9',
   },
   techniqueCardGrid: { width: '49%' },
-  numberBadge: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal, flexShrink: 0 },
-  number: { color: colors.gold, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17, fontWeight: '700', letterSpacing: 0.3 },
-  rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '700' },
+  techniqueCardCompact: { minHeight: 42, paddingHorizontal: 9, paddingVertical: 5, gap: 8 },
+  numberBadge: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal, flexShrink: 0 },
+  numberBadgeCompact: { width: 27, height: 27, borderRadius: 14 },
+  number: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 0.3 },
+  numberCompact: { fontSize: 9, lineHeight: 12 },
+  rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, fontWeight: '700' },
+  rowTitleCompact: { fontSize: 12, lineHeight: 16 },
   pressed: { borderColor: colors.gold, backgroundColor: '#fff8eb' },
 });

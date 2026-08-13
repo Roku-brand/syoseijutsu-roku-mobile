@@ -97,7 +97,7 @@ export default function CategoryDetailScreen() {
 function groupByTheme(category: CatalogCategory) {
   const groups = new Map<string, CatalogCategory['subcategories']>();
   category.subcategories.forEach((persona) => {
-    const title = getPersonaThemeTitle(persona);
+    const title = getPersonaThemeTitle(persona, category.key);
     groups.set(title, [...(groups.get(title) ?? []), persona]);
   });
   return [...groups.entries()].map(([title, personas]) => ({

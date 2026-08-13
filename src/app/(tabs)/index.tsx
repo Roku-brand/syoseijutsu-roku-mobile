@@ -532,9 +532,11 @@ export default function MainScreen() {
                 <View pointerEvents="none" style={styles.personaCornerTopRight} />
                 <View pointerEvents="none" style={styles.personaCornerBottomLeft} />
                 <View pointerEvents="none" style={styles.personaCornerBottomRight} />
-                <View pointerEvents="none" style={styles.personaAccessBadge}>
-                  <AccessBadge locked={personaLocked} compact />
-                </View>
+                {!isPaid ? (
+                  <View pointerEvents="none" style={styles.personaAccessBadge}>
+                    <AccessBadge locked compact />
+                  </View>
+                ) : null}
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={`${persona.title}${personaLocked ? '、完全版限定' : '、無料公開'}を詳しく見る`}

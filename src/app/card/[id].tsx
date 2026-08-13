@@ -68,9 +68,6 @@ export default function CardDetailScreen() {
     .filter(Boolean)
     .slice(0, 3);
   const explanation = splitExplanation(card.explanation, card.subtitle);
-  const tags = Array.from(
-    new Set([card.categoryName, card.subcategory, ...(card.tags ?? [])]),
-  );
   const titleLength = [...card.title.replace(/\s/g, '')].length;
   const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;
 
@@ -104,27 +101,6 @@ export default function CardDetailScreen() {
         >
           {card.title}
         </AppText>
-
-        <View style={styles.metaRow}>
-          <View style={styles.tagRow}>
-            {tags.slice(0, 6).map((tag, index) => (
-              <View
-                key={tag}
-                style={[styles.topTag, index === 0 && styles.topTagPrimary]}
-              >
-                <AppText
-                  style={[
-                    styles.topTagText,
-                    index === 0 && styles.topTagTextPrimary,
-                  ]}
-                >
-                  {tag}
-                </AppText>
-              </View>
-            ))}
-          </View>
-
-        </View>
 
         <View style={styles.rule} />
 

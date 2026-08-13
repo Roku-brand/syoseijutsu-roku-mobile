@@ -114,10 +114,33 @@ export const categoryMeta: Record<CategoryKey, { label: string; mark: string; de
   life: { label: '人生術', mark: '生', description: '判断軸を持ち、不安とつまずきを越える' },
 };
 
-export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number]) {
-  return persona.articleTitle && persona.articleTitle !== persona.name
-    ? persona.articleTitle
-    : 'その他の人物像';
+const personaThemeOverrides: Partial<Record<CategoryKey, Record<string, string>>> = {
+  interpersonal: {
+    '人間関係が長続きする人': '関係の管理',
+    '関係を修復できる人': '関係の管理',
+    '集団に馴染める人': '集団での立ち回り',
+    '集団で立場を築ける人': '集団での立ち回り',
+    '人を動かせる人': '集団での立ち回り',
+    '集団をまとめられる人': '集団での立ち回り',
+  },
+  work: {
+    '交渉がうまい人': '交渉・合意の戦術',
+    '駆け引きがうまい人': '交渉・合意の戦術',
+    '対立を収められる人': '交渉・合意の戦術',
+    '組織でうまく立ち回れる人': '評価の獲得',
+  },
+  life: {
+    '思い込みに流されない人': '内面の管理',
+    '後悔しない人': '人生の指針',
+    '立ち直れる人': '人生のつまずき',
+    '運をつかめる人': '人生の指針',
+    '可能性を広げられる人': '人生の指針',
+  },
+};
+
+export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number], categoryKey?: CategoryKey) {
+  const override = categoryKey ? personaThemeOverrides[categoryKey]?.[persona.name] : undefined;
+  return override ?? (persona.articleTitle && persona.articleTitle !== persona.name ? persona.articleTitle : persona.name);
 }
 
 export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
