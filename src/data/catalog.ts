@@ -32,6 +32,7 @@ function rebuildIndexes() {
         };
         return {
           ...context,
+          theoryTagIds: context.relatedTheoryIds ?? context.theoryTagIds ?? [],
           categoryKey: category.key,
           tags: getTechniqueTags(context),
         };

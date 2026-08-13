@@ -1,7 +1,14 @@
 {
-  "importedAt": "2026-08-08T10:28:25.637Z",
-  "source": "shoseijutsuroku_titles_readability_appeal_revised(1).md",
-  "techniqueCount": 45,
-  "fullTechniqueCount": 216,
-  "theoryCount": 595
+  "source": "shoseijutsuroku_525_theory_remap_with_wisdom_final.json + theories_unified.json",
+  "techniqueCount": 525,
+  "theoryCount": 266,
+  "personaCount": 40,
+  "categoryCounts": {
+    "psychology": 119,
+    "organization-management": 51,
+    "behavioral-science": 39,
+    "strategy": 24,
+    "maxims-experience": 21,
+    "classics-thought": 12
+  }
 }

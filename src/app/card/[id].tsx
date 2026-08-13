@@ -43,6 +43,14 @@ export default function CardDetailScreen() {
     );
   }
 
+  if (card && !canReadTechnique(effectiveAccess, card.id)) {
+    return (
+      <Screen contentContainerStyle={styles.screenContent}>
+        <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />
+      </Screen>
+    );
+  }
+
   if (!card) {
     return (
       <Screen contentContainerStyle={styles.screenContent}>

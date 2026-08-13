@@ -580,7 +580,7 @@ export default function MainScreen() {
           <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
             <AppText style={styles.unlockTitle}>完全版を30日間利用　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-            <AppText style={styles.unlockBody}>自動更新なし・216の処世術と595の理論</AppText>
+            <AppText style={styles.unlockBody}>自動更新なし・{catalogTechniqueCards.length}の処世術と{catalogTheories.length}の理論</AppText>
           </View>
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>

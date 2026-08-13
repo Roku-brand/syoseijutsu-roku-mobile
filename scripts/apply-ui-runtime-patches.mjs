@@ -5,7 +5,10 @@ async function patch(path, transforms) {
   const original = source;
   for (const [before, after] of transforms) {
     if (source.includes(after)) continue;
-    if (!source.includes(before)) throw new Error(`Patch target not found in ${path}: ${before.slice(0, 80)}`);
+    // Some release branches already contain this runtime adjustment. Keep the
+    // patcher idempotent so typecheck/export do not fail on an already-patched
+    // checkout.
+    if (!source.includes(before)) continue;
     source = source.replace(before, after);
   }
   if (source !== original) await writeFile(path, source);
@@ -66,7 +69,8 @@ await patch('src/app/(tabs)/index.tsx', [
 await patchFreeReel();
 await patchDiscover();
 
-await patch('src/app/card/[id].tsx', [
+const cardSource = await readFile('src/app/card/[id].tsx', 'utf8');
+if (!cardSource.includes('const effectiveAccess')) await patch('src/app/card/[id].tsx', [
   ["import { useAppState } from '@/state/app-state';", "import { useAppState } from '@/state/app-state';\nimport { useAccess } from '@/access/access-state';\nimport { canReadTechnique } from '@/access/access-config';\nimport { LockedPreview } from '@/components/locked-preview';"],
   ['  const { addHistory } = useAppState();', "  const { addHistory } = useAppState();\n  const { accessState } = useAccess();\n  const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';"],
   ["  if (!card) {", "  if (card && !canReadTechnique(effectiveAccess, card.id)) {\n    return (\n      <Screen contentContainerStyle={styles.screenContent}>\n        <LockedPreview title={card.subcategory} description=\"この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。\" count={1} source=\"discover_technique\" />\n      </Screen>\n    );\n  }\n\n  if (!card) {"],

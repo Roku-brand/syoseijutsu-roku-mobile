@@ -1,44 +1,21 @@
-const techniqueRange = (from: number, to: number) =>
-  Array.from(
-    { length: to - from + 1 },
-    (_, index) => `complete-${String(from + index).padStart(3, '0')}`,
-  );
+import { categories, techniqueCards, theories } from '@/data/catalog';
 
-export const FREE_PERSONA_NAMES = [
-  '印象がいい人',
-  '会話がうまい人',
-  '軽く扱われない人',
-  '不安に強い人',
-] as const;
-
+const freePersonaNames = categories.flatMap((category) => category.subcategories.slice(0, 2).map((group) => group.name));
+export const FREE_PERSONA_NAMES = freePersonaNames as readonly string[];
 export const FREE_PERSONA_NAME_SET = new Set<string>(FREE_PERSONA_NAMES);
 
-export const FREE_REEL_TECHNIQUE_IDS = [
-  ...techniqueRange(1, 27),
-  ...techniqueRange(75, 87),
-  ...techniqueRange(200, 204),
-] as const;
-
+// Preview selection is derived from the canonical catalog so content IDs can
+// change without leaving the free edition pointing at dead legacy IDs.
+export const FREE_REEL_TECHNIQUE_IDS = techniqueCards.slice(0, 45).map((card) => card.id) as readonly string[];
 export const FREE_DISCOVER_TECHNIQUE_IDS = FREE_REEL_TECHNIQUE_IDS;
-
-export const FREE_THEORY_IDS = [
-  'kb_003', 'kb_004', 'kb_029', 'kb_045', 'kb_221', 'kb_265',
-  'kb_104', 'kb_134', 'kb_138', 'kb_273',
-  'kb_064', 'kb_082', 'kb_192',
-  'kb_142', 'kb_284',
-  'kb_299', 'kb_333', 'kb_342',
-  'kb_329', 'kb_338',
-] as const;
+export const FREE_THEORY_IDS = theories.slice(0, 20).map((theory) => theory.tagId) as readonly string[];
 
 export const FREE_LEARNING_CASE_IDS = Array.from(
   { length: 7 },
   (_, index) => `case-${String(index + 1).padStart(2, '0')}`,
 );
 
-export const FREE_TECHNIQUE_IDS = new Set<string>([
-  ...FREE_REEL_TECHNIQUE_IDS,
-  ...FREE_DISCOVER_TECHNIQUE_IDS,
-]);
+export const FREE_TECHNIQUE_IDS = new Set<string>(FREE_REEL_TECHNIQUE_IDS);
 export const FREE_THEORY_ID_SET = new Set<string>(FREE_THEORY_IDS);
 export const FREE_LEARNING_CASE_ID_SET = new Set<string>(FREE_LEARNING_CASE_IDS);
 

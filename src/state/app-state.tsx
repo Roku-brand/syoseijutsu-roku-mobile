@@ -10,6 +10,7 @@ import {
   type PropsWithChildren,
 } from 'react';
 import type { CategoryKey } from '@/data/types';
+import { theoryById } from '@/data/catalog';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
 const STORAGE_HYDRATION_TIMEOUT_MS = 900;
@@ -111,9 +112,13 @@ export function AppStateProvider({ children }: PropsWithChildren) {
             CATEGORY_KEYS.includes(interest as CategoryKey),
         );
         if (!active) return;
+        const savedTheoryIds = Array.isArray(parsed.savedTheoryIds)
+          ? parsed.savedTheoryIds.filter((id): id is string => typeof id === 'string' && theoryById.has(id))
+          : [];
         setState({
           ...initialState,
           ...parsed,
+          savedTheoryIds,
           interests: interests.length ? interests : initialState.interests,
         });
       })

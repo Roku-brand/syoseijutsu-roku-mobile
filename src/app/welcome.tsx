@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { colors, fonts, shadow } from '@/constants/theme';
-import { techniqueCards, getTechniqueDisplayId } from '@/data/catalog';
+import { techniqueCards, theories, getTechniqueDisplayId } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 
@@ -42,9 +42,9 @@ export default function Welcome() {
           <AppText variant="serif" style={styles.heroCopy}>流れて消える人生の知識を、{`\n`}何度でも使える知恵に。</AppText>
           <View style={styles.rule}><View style={styles.ruleLine} /><View style={styles.diamond} /><View style={styles.ruleLine} /></View>
           <View style={styles.stats}>
-            <View style={styles.stat}><View style={styles.statLine}><AppText variant="serif" style={styles.statNumber}>216</AppText><AppText variant="serif" style={styles.statLabel}>の処世術</AppText></View><AppText style={styles.statSub}>対人・仕事・人生の知恵</AppText></View>
+            <View style={styles.stat}><View style={styles.statLine}><AppText variant="serif" style={styles.statNumber}>{techniqueCards.length}</AppText><AppText variant="serif" style={styles.statLabel}>の処世術</AppText></View><AppText style={styles.statSub}>対人・仕事・人生の知恵</AppText></View>
             <View style={styles.statDivider} />
-            <View style={styles.stat}><View style={styles.statLine}><AppText variant="serif" style={styles.statNumber}>595</AppText><AppText variant="serif" style={styles.statLabel}>の理論</AppText></View><AppText style={styles.statSub}>心理学・行動科学・戦略など</AppText></View>
+            <View style={styles.stat}><View style={styles.statLine}><AppText variant="serif" style={styles.statNumber}>{theories.length}</AppText><AppText variant="serif" style={styles.statLabel}>の理論</AppText></View><AppText style={styles.statSub}>心理学・行動科学・戦略など</AppText></View>
           </View>
         </View>
 

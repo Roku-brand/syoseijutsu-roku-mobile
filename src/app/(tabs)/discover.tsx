@@ -141,7 +141,7 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'techniques' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'techniques' && styles.modeTextActive]}>
-                処世術　{isPaid ? 216 : 45}
+                処世術　{isPaid ? techniqueCards.length : FREE_TECHNIQUE_IDS.size}
               </AppText>
             </Pressable>
             <Pressable
@@ -151,7 +151,7 @@ export default function DiscoverScreen() {
               style={[styles.modeTab, mode === 'theories' && styles.modeTabActive]}
             >
               <AppText style={[styles.modeText, mode === 'theories' && styles.modeTextActive]}>
-                理論　{isPaid ? 595 : 20}
+                理論　{isPaid ? theories.length : FREE_THEORY_ID_SET.size}
               </AppText>
             </Pressable>
           </View>

@@ -8,10 +8,11 @@ import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors, fonts } from '@/constants/theme';
+import { techniqueCards, theories } from '@/data/catalog';
 
 const benefits = [
-  ['▣', '網羅性', '人間関係・仕事・人生まで、216の処世術を悩み別に網羅'],
-  ['◉', '理論性', '心理学・行動科学など595の理論から「なぜ効くか」までわかる'],
+  ['▣', '網羅性', '人間関係・仕事・人生まで、最新の処世術を悩み別に網羅'],
+  ['◉', '理論性', '心理学・行動科学など採用理論から「なぜ効くか」までわかる'],
   ['◎', '実践性', '全21ケースで考え、読むだけで終わらない判断力に変えられる'],
   ['▤', '普遍性', '気になった知恵は蔵書に保存。迷ったとき何度でも読み返せる'],
 ] as const;
@@ -99,7 +100,7 @@ export default function UpgradeScreen() {
           </View>
         </View>
 
-        <AppText style={styles.stats}>▤　216の処世術・595の理論・全21ケース</AppText>
+        <AppText style={styles.stats}>▤　{techniqueCards.length}の処世術・{theories.length}の理論・全21ケース</AppText>
 
         <View style={styles.editionRow}>
           <View style={styles.freeEdition}>
@@ -110,7 +111,7 @@ export default function UpgradeScreen() {
             </View>
           </View>
           <AppText style={styles.compareArrow}>›</AppText>
-          <View style={styles.completeEdition}><AppText style={styles.completeLabel}>完全版</AppText><AppText variant="serif" style={styles.completeCount}>処世術216件・理論595件</AppText></View>
+          <View style={styles.completeEdition}><AppText style={styles.completeLabel}>完全版</AppText><AppText variant="serif" style={styles.completeCount}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
         </View>
 
         <View style={styles.strengthHeader}><View style={styles.strengthRule} /><View style={styles.strengthHeadingCopy}><AppText variant="serif" style={styles.strengthTitle}>迷ったとき、すぐ一手が見つかる</AppText><AppText style={styles.strengthSubtitle}>完全版で手に入る4つの強み</AppText></View><View style={styles.strengthRule} /></View>

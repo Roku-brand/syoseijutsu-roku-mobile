@@ -7,9 +7,11 @@ export type TechniqueSource = {
   id: string;
   title: string;
   theories?: string[];
+  relatedTheoryIds?: string[];
   theoryTagIds?: string[];
   subtitle?: string;
   explanation?: string;
+  essence?: string;
   tags?: string[];
   status?: string;
   displayOrder?: number;
