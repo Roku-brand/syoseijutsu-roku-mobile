@@ -62,7 +62,12 @@ export default function CardDetailScreen() {
     );
   }
 
-  const guidance = practiceGuidance[card.categoryKey];
+  const fallbackGuidance = practiceGuidance[card.categoryKey];
+  const guidance = card.practicalActions ?? {
+    todayActions: fallbackGuidance.actions,
+    examples: [],
+    cautions: fallbackGuidance.cautions,
+  };
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
     .filter(Boolean)
@@ -136,7 +141,7 @@ export default function CardDetailScreen() {
         <ArticleSection title="今日からできる実践" ruled>
           <View style={styles.practiceArea}>
             <View style={styles.practiceList}>
-              {guidance.actions.map((item) => (
+              {guidance.todayActions.map((item) => (
                 <View key={item} style={styles.checkRow}>
                   <View style={styles.checkMark}>
                     <AppText style={styles.checkText}>✓</AppText>
@@ -146,15 +151,32 @@ export default function CardDetailScreen() {
               ))}
             </View>
 
-            <View style={styles.cautionCard}>
-              <View style={styles.cautionTitleRow}>
-                <AppText style={styles.cautionIcon}>◎</AppText>
-                <AppText variant="serif" style={styles.cautionTitle}>
-                  注意点
-                </AppText>
-              </View>
-              <AppText style={styles.cautionText}>{guidance.cautions[0]}</AppText>
+          </View>
+        </ArticleSection>
+
+        {guidance.examples.length > 0 && (
+          <ArticleSection title="具体例">
+            <View style={styles.exampleList}>
+              {guidance.examples.map((item) => (
+                <View key={item} style={styles.exampleCard}>
+                  <AppText style={styles.exampleText}>{item}</AppText>
+                </View>
+              ))}
             </View>
+          </ArticleSection>
+        )}
+
+        <ArticleSection title="注意点">
+          <View style={styles.cautionList}>
+            {guidance.cautions.map((item) => (
+              <View key={item} style={styles.cautionCard}>
+                <View style={styles.cautionTitleRow}>
+                  <AppText style={styles.cautionIcon}>◎</AppText>
+                  <AppText variant="serif" style={styles.cautionTitle}>注意点</AppText>
+                </View>
+                <AppText style={styles.cautionText}>{item}</AppText>
+              </View>
+            ))}
           </View>
         </ArticleSection>
 
@@ -426,6 +448,17 @@ const styles = StyleSheet.create({
   },
   checkText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '800' },
   practiceText: { flex: 1, color: '#20231F', fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  exampleList: { gap: 9 },
+  exampleCard: {
+    paddingHorizontal: 15,
+    paddingVertical: 13,
+    borderLeftWidth: 3,
+    borderLeftColor: '#B28B3A',
+    borderRadius: radius.sm,
+    backgroundColor: '#F3EFE6',
+  },
+  exampleText: { color: '#272923', fontSize: 13, lineHeight: 21 },
+  cautionList: { gap: 9 },
   cautionCard: {
     width: '100%',
     paddingHorizontal: 15,

@@ -15,6 +15,13 @@ export type TechniqueSource = {
   tags?: string[];
   status?: string;
   displayOrder?: number;
+  practicalActions?: TechniquePracticalActions;
+};
+
+export type TechniquePracticalActions = {
+  todayActions: string[];
+  examples: string[];
+  cautions: string[];
 };
 
 export type TechniqueCard = TechniqueSource & {
