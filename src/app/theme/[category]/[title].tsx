@@ -2,7 +2,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
-import { categories } from '@/data/catalog';
+import { categories, getPersonaThemeTitle } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
@@ -11,7 +11,7 @@ import { AccessBadge } from '@/components/access-badge';
 
 export function generateStaticParams() {
   return categories.flatMap((category) =>
-    [...new Set(category.subcategories.map((persona) => persona.articleTitle ?? 'その他'))]
+    [...new Set(category.subcategories.map((persona) => getPersonaThemeTitle(persona)))]
       .map((title) => ({ category: category.key, title })),
   );
 }
@@ -24,9 +24,7 @@ export default function ThemeScreen() {
   const router = useRouter();
   const { isPaid } = useAccess();
   const category = categories.find((item) => item.key === categoryKey);
-  const personas = category?.subcategories.filter(
-    (persona) => (persona.articleTitle ?? 'その他') === title,
-  );
+  const personas = category?.subcategories.filter((persona) => getPersonaThemeTitle(persona) === title);
 
   if (!category || !personas?.length) {
     return (

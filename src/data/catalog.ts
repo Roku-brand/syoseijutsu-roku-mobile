@@ -114,6 +114,12 @@ export const categoryMeta: Record<CategoryKey, { label: string; mark: string; de
   life: { label: '人生術', mark: '生', description: '判断軸を持ち、不安とつまずきを越える' },
 };
 
+export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number]) {
+  return persona.articleTitle && persona.articleTitle !== persona.name
+    ? persona.articleTitle
+    : 'その他の人物像';
+}
+
 export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
   const id = typeof cardOrId === 'string' ? cardOrId : cardOrId.id;
   const number = techniqueNumberById.get(id);

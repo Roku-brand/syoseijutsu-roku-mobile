@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
 import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
-import { categories, categoryMeta, techniqueCards } from '@/data/catalog';
+import { categories, categoryMeta, getPersonaThemeTitle, techniqueCards } from '@/data/catalog';
 import type { CatalogCategory } from '@/data/types';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
@@ -97,7 +97,7 @@ export default function CategoryDetailScreen() {
 function groupByTheme(category: CatalogCategory) {
   const groups = new Map<string, CatalogCategory['subcategories']>();
   category.subcategories.forEach((persona) => {
-    const title = persona.articleTitle ?? 'その他';
+    const title = getPersonaThemeTitle(persona);
     groups.set(title, [...(groups.get(title) ?? []), persona]);
   });
   return [...groups.entries()].map(([title, personas]) => ({
