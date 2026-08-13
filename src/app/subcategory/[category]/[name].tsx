@@ -14,11 +14,24 @@ export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
 }
 
+function orderForVerticalColumns<T>(items: T[]): T[] {
+  const rowsPerColumn = Math.ceil(items.length / 2);
+  const ordered: T[] = [];
+
+  for (let row = 0; row < rowsPerColumn; row += 1) {
+    ordered.push(items[row]);
+    const rightColumnItem = items[rowsPerColumn + row];
+    if (rightColumnItem) ordered.push(rightColumnItem);
+  }
+
+  return ordered;
+}
+
 export default function PersonaScreen() {
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
   const router = useRouter();
   const { isPaid } = useAccess();
-  const { width, height, desktop, density } = useResponsiveLayout();
+  const { width } = useResponsiveLayout();
   const category = categories.find((item) => item.key === categoryKey);
   const persona = category?.subcategories.find((item) => item.name === name);
 
@@ -32,47 +45,48 @@ export default function PersonaScreen() {
     return <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
   }
 
+  const twoColumn = width >= 760;
+  const itemsForDisplay = twoColumn ? orderForVerticalColumns(persona.items) : persona.items;
   const theme = persona.articleTitle ?? '人物像';
-  // Size every persona page from the largest list, not from the current one.
-  // That guarantees the final row is never hidden on a non-scrolling phone view.
-  const largestPersonaItemCount = Math.max(
-    ...categories.flatMap((item) => item.subcategories.map((entry) => entry.items.length)),
-  );
-  const compact = !desktop;
-  const twoColumn = desktop || width >= 720;
-  const reservedHeight = compact ? 176 : 218;
-  const visibleRows = twoColumn ? Math.ceil(largestPersonaItemCount / 2) : largestPersonaItemCount;
-  const rowHeight = compact
-    ? Math.max(25, Math.min(39, Math.floor((height - reservedHeight) / visibleRows)))
-    : 48;
-  const titleSize = compact ? 25 : 32;
-  const descriptionSize = compact ? 12 : 15;
 
   return (
-    <Screen scroll={false} contentContainerStyle={styles.content}>
-      <View style={[styles.page, compact && styles.pageCompact]}>
+    <Screen contentContainerStyle={styles.content}>
+      <View style={styles.page}>
         <DetailHeader title="人物像から探す" />
-        <AppText style={[styles.breadcrumb, compact && styles.breadcrumbCompact]}>{category.name}　›　{theme}</AppText>
-        <View style={[styles.titleRow, compact && styles.titleRowCompact]}>
-          <AppText style={[styles.title, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{persona.name}</AppText>
-          <View style={[styles.countBadge, compact && styles.countBadgeCompact]}><AppText style={styles.countText}>{techniqueCount}の処世術</AppText></View>
+        <AppText style={styles.breadcrumb}>{category.name}　›　{theme}</AppText>
+        <View style={styles.titleRow}>
+          <AppText style={styles.title}>{persona.name}</AppText>
+          <View style={styles.countBadge}><AppText style={styles.countText}>{techniqueCount}の処世術</AppText></View>
         </View>
-        <AppText numberOfLines={compact ? 1 : 2} style={[styles.description, { fontSize: descriptionSize, lineHeight: Math.round(descriptionSize * 1.6) }]}>{getPersonaDescription(category.key, persona.name)}</AppText>
+        <AppText style={styles.description}>{getPersonaDescription(category.key, persona.name)}</AppText>
 
-        <View style={[styles.listCard, compact && styles.listCardCompact, twoColumn && styles.listCardGrid]}>
-          {persona.items.map((item, index) => (
-            <Pressable
-              key={item.id}
-              accessibilityRole="link"
-              accessibilityLabel={`${item.title}を開く`}
-              onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-              style={({ pressed }) => [styles.row, { height: rowHeight, minHeight: rowHeight }, compact && styles.rowCompact, twoColumn && styles.rowGrid, index === persona.items.length - 1 && styles.rowLast, pressed && styles.pressed]}
-            >
-              <AppText style={[styles.number, compact && styles.numberCompact]}>{String(index + 1).padStart(2, '0')}</AppText>
-              <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.72} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
-              <AppText style={[styles.chevron, compact && styles.chevronCompact]}>›</AppText>
-            </Pressable>
-          ))}
+        <View style={[styles.list, twoColumn && styles.listGrid]}>
+          {itemsForDisplay.map((item) => {
+            const itemNumber = persona.items.indexOf(item) + 1;
+            return (
+              <Pressable
+                key={item.id}
+                accessibilityRole="link"
+                accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
+                onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                style={({ pressed }) => [styles.techniqueCard, twoColumn && styles.techniqueCardGrid, pressed && styles.pressed]}
+              >
+                <View style={styles.numberBadge}>
+                  <AppText style={styles.number}>{String(itemNumber).padStart(2, '0')}</AppText>
+                </View>
+                <AppText
+                  variant="serif"
+                  numberOfLines={twoColumn ? 2 : undefined}
+                  ellipsizeMode="clip"
+                  adjustsFontSizeToFit={twoColumn}
+                  minimumFontScale={0.8}
+                  style={styles.rowTitle}
+                >
+                  {item.title}
+                </AppText>
+              </Pressable>
+            );
+          })}
         </View>
       </View>
     </Screen>
@@ -86,30 +100,32 @@ function getPersonaDescription(categoryKey: CategoryKey, personaName: string) {
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', flex: 1 },
-  page: { width: '100%', maxWidth: 760, alignSelf: 'center', flex: 1, paddingTop: spacing.lg },
-  pageCompact: { paddingTop: spacing.sm },
+  content: { width: '100%' },
+  page: { width: '100%', maxWidth: 1180, alignSelf: 'center', paddingTop: spacing.lg, paddingBottom: spacing.xxl },
   breadcrumb: { color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '600' },
-  breadcrumbCompact: { fontSize: 11, lineHeight: 15 },
   titleRow: { marginTop: spacing.sm, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
-  titleRowCompact: { marginTop: 4, gap: spacing.sm },
-  title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 44, fontWeight: '700' },
+  title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 42, fontWeight: '700' },
   countBadge: { minHeight: 32, paddingHorizontal: 13, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
-  countBadgeCompact: { minHeight: 26, paddingHorizontal: 10 },
   countText: { color: colors.gold, fontSize: 12, lineHeight: 18, fontWeight: '700' },
   description: { marginTop: spacing.sm, color: colors.inkSoft, fontSize: 15, lineHeight: 25 },
-  listCardCompact: { marginTop: 10 },
-  listCard: { marginTop: spacing.xl, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  listCardGrid: { flexDirection: 'row', flexWrap: 'wrap' },
-  row: { minHeight: 58, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
-  rowCompact: { paddingHorizontal: spacing.md, gap: spacing.sm },
-  rowGrid: { width: '50%', borderRightWidth: 1, borderRightColor: colors.line },
-  rowLast: { borderBottomWidth: 0 },
-  number: { width: 28, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '700' },
-  numberCompact: { width: 24, fontSize: 12, lineHeight: 16 },
-  rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '600' },
-  rowTitleCompact: { fontSize: 13, lineHeight: 17 },
-  chevron: { color: colors.gold, fontSize: 24, lineHeight: 27 },
-  chevronCompact: { fontSize: 20, lineHeight: 22 },
-  pressed: { backgroundColor: colors.paperDeep },
+  list: { width: '100%', marginTop: spacing.xl, flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  listGrid: { justifyContent: 'space-between' },
+  techniqueCard: {
+    width: '100%',
+    minHeight: 70,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 13,
+    borderWidth: 1,
+    borderColor: '#ddc9a9',
+    borderRadius: radius.md,
+    backgroundColor: '#fffdf9',
+  },
+  techniqueCardGrid: { width: '49%' },
+  numberBadge: { width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal, flexShrink: 0 },
+  number: { color: colors.gold, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17, fontWeight: '700', letterSpacing: 0.3 },
+  rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '700' },
+  pressed: { borderColor: colors.gold, backgroundColor: '#fff8eb' },
 });

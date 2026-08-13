@@ -72,15 +72,20 @@ export default function CategoryDetailScreen() {
               pressed && styles.pressed,
             ]}
           >
-            <AppText style={[styles.themeTabIndex, { color: palette.accent }]}>
-              {String(index + 1).padStart(2, '0')}
-            </AppText>
-            <AppText variant="serif" style={styles.themeTabTitle}>{theme.title}</AppText>
-            <AppText style={[styles.themeTabCount, { color: palette.accent }]}>
-              {theme.personas.length}の人物像・{theme.count}件
-            </AppText>
-            {locked ? <View style={styles.themeLock}><AccessBadge locked compact /></View> : null}
-            <AppText style={[styles.chevron, { color: palette.accent }]}>›</AppText>
+            <View style={styles.themeTabTop}>
+              <AppText style={[styles.themeTabIndex, { color: palette.accent }]}>
+                THEME {String(index + 1).padStart(2, '0')}
+              </AppText>
+              {locked ? <AccessBadge locked compact /> : <AppText style={[styles.themeSelect, { color: palette.accent }]}>選ぶ</AppText>}
+            </View>
+            <View style={styles.themeTabBody}>
+              <AppText variant="serif" style={styles.themeTabTitle}>{theme.title}</AppText>
+            </View>
+            <View style={styles.themeTabFooter}>
+              <AppText style={[styles.themeTabCount, { color: palette.accent }]}>
+                {theme.personas.length}の人物像・{theme.count}件
+              </AppText>
+            </View>
           </Pressable>
           );
         })}
@@ -105,21 +110,20 @@ function groupByTheme(category: CatalogCategory) {
 const styles = StyleSheet.create({
   themeTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   themeTab: {
-    position: 'relative',
     flexGrow: 1,
-    flexBasis: 250,
-    minHeight: 146,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
+    flexBasis: 280,
+    minHeight: 154,
     padding: spacing.lg,
     borderWidth: 1,
     borderRadius: radius.md,
+    justifyContent: 'space-between',
   },
-  themeTabIndex: { fontSize: 11, lineHeight: 16, fontWeight: '700' },
-  themeTabTitle: { fontSize: 19, lineHeight: 28, textAlign: 'center', fontWeight: '700' },
+  themeTabTop: { minHeight: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  themeTabIndex: { fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },
+  themeSelect: { fontSize: 11, lineHeight: 16, fontWeight: '700' },
+  themeTabBody: { flex: 1, justifyContent: 'center', paddingVertical: spacing.sm },
+  themeTabTitle: { fontSize: 20, lineHeight: 29, fontWeight: '700' },
+  themeTabFooter: { minHeight: 18, justifyContent: 'flex-end' },
   themeTabCount: { fontSize: 11, lineHeight: 17 },
-  chevron: { position: 'absolute', right: spacing.md, fontSize: 28, lineHeight: 32 },
-  themeLock: { position: 'absolute', top: 10, right: 10 },
-  pressed: { opacity: 0.76, transform: [{ scale: 0.985 }] },
+  pressed: { opacity: 0.92, transform: [{ translateY: -1 }] },
 });
