@@ -65,6 +65,25 @@ test('無料人物像は体系で読め、完全版人物像は南京錠で区�
   await expect(page.getByLabel(/完全版限定/).first()).toBeVisible();
 });
 
+test('スマホの人物像一覧は全件を最後まで読み進められる', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
+  const cards = page.getByRole('link', { name: /^\d{2} / });
+  await expect(cards).toHaveCount(15);
+  const scrollMetrics = await page.evaluate(() => {
+    const scrollable = [...document.querySelectorAll('div')]
+      .map((element) => ({ element, style: getComputedStyle(element) }))
+      .filter(({ element, style }) =>
+        (style.overflowY === 'auto' || style.overflowY === 'scroll') && element.scrollHeight > element.clientHeight,
+      )
+      .sort((left, right) => right.element.scrollHeight - left.element.scrollHeight)[0];
+    return scrollable ? { clientHeight: scrollable.element.clientHeight, scrollHeight: scrollable.element.scrollHeight } : null;
+  });
+  expect(scrollMetrics).not.toBeNull();
+  expect(scrollMetrics?.scrollHeight).toBeGreaterThan(scrollMetrics?.clientHeight ?? 0);
+  await cards.last().scrollIntoViewIfNeeded();
+  await expect(cards.last()).toBeInViewport();
+});
+
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/learn');
   await page.getByRole('button', { name: 'ステージ1、空気、どうする？' }).click();
