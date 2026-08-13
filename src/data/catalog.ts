@@ -1,11 +1,15 @@
 import techniquesSource from './generated/techniques.json';
 import theoriesSource from './generated/theories.json';
-import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard } from './types';
+import practicalActionsSource from './generated/practical-actions.json';
+import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
+const practicalActionsById = new Map(
+  (practicalActionsSource as Array<TechniquePracticalActions & { id: string; title: string }>).map((item) => [item.id, item]),
+);
 
 export const categories: CatalogCategory[] = structuredClone(publicCategories);
 export const theories: TheoryCard[] = publicTheories.map((theory) => ({
@@ -32,6 +36,7 @@ function rebuildIndexes() {
         };
         return {
           ...context,
+          practicalActions: practicalActionsById.get(context.id),
           theoryTagIds: context.relatedTheoryIds ?? context.theoryTagIds ?? [],
           categoryKey: category.key,
           tags: getTechniqueTags(context),
