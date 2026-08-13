@@ -2,6 +2,9 @@ import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AccessibilityInfo,
+  Animated,
+  Easing,
   FlatList,
   Pressable,
   StyleSheet,
@@ -130,6 +133,9 @@ export default function MainScreen() {
   const { width, height, density, desktop, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
   const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
+  const reelScrollX = useRef(new Animated.Value(0)).current;
+  const reelEntrance = useRef(new Animated.Value(1)).current;
+  const [reduceMotion, setReduceMotion] = useState(false);
   const [reelType, setReelType] = useState<'techniques' | 'theories'>('techniques');
   const [activeIndex, setActiveIndex] = useState(lastReelPosition.techniques);
   const activeIndexRef = useRef(lastReelPosition.techniques);
@@ -193,7 +199,7 @@ export default function MainScreen() {
     // of leaving a blank band above the persistent navigation.
     Math.min(idealCardHeight, height - (desktop ? (isPaid ? 380 : 350) : (isPaid ? 388 : 368))),
   );
-  const reelPeek = desktop ? 30 : density === 'veryCompact' ? 12 : compactReel ? 18 : 30;
+  const reelPeek = desktop ? 34 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
   const safeWidth = width || 390;
   const cardWidth = desktop
@@ -233,6 +239,32 @@ export default function MainScreen() {
       ? CIRCULAR_REEL_CENTER_COPY * baseReelItems.length + logicalIndex
       : logicalIndex;
 
+  useEffect(() => {
+    let active = true;
+    void AccessibilityInfo.isReduceMotionEnabled().then((enabled) => {
+      if (active) setReduceMotion(enabled);
+    });
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
+    return () => {
+      active = false;
+      subscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) {
+      reelEntrance.setValue(1);
+      return;
+    }
+    reelEntrance.setValue(0);
+    Animated.timing(reelEntrance, {
+      toValue: 1,
+      duration: 240,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+  }, [reduceMotion, reelEntrance, reelType]);
+
   const scrollToPhysicalIndex = (index: number, animated: boolean) => {
     listRef.current?.scrollToOffset({
       offset: reelWidth * index,
@@ -266,6 +298,81 @@ export default function MainScreen() {
     physicalIndexRef.current = physicalIndex;
     scrollToPhysicalIndex(physicalIndex, animated);
     void Haptics.selectionAsync().catch(() => undefined);
+  };
+
+  const focusPhysicalItem = (physicalIndex: number, logicalIndex: number) => {
+    activeIndexRef.current = logicalIndex;
+    lastReelPosition[reelType] = logicalIndex;
+    setActiveIndex(logicalIndex);
+    physicalIndexRef.current = physicalIndex;
+    scrollToPhysicalIndex(physicalIndex, !reduceMotion);
+    void Haptics.selectionAsync().catch(() => undefined);
+  };
+
+  const openWhenCentered = (physicalIndex: number, logicalIndex: number, open: () => void) => {
+    if (physicalIndex !== physicalIndexRef.current) {
+      focusPhysicalItem(physicalIndex, logicalIndex);
+      return;
+    }
+    open();
+  };
+
+  const getCurvedReelItemStyle = (physicalIndex: number) => {
+    if (reduceMotion) return undefined;
+
+    const inputRange = [-2, -1, 0, 1, 2].map(
+      (distance) => (physicalIndex + distance) * reelWidth,
+    );
+    const sideScale = desktop ? 0.89 : 0.94;
+    const farScale = desktop ? 0.82 : 0.89;
+    const sideTilt = desktop ? 17 : 11;
+    const farTilt = desktop ? 25 : 17;
+    const sideDrop = desktop ? 13 : 8;
+    const farDrop = desktop ? 24 : 15;
+    // Scaling pulls each neighbour away from the viewport. Offset that loss,
+    // then tuck the inner edge back under the centre card to keep a visible
+    // curved preview on both sides.
+    const sideShift = desktop ? 43 : 26;
+    const farShift = desktop ? 72 : 42;
+
+    return {
+      opacity: reelScrollX.interpolate({
+        inputRange,
+        outputRange: [0.38, desktop ? 0.9 : 0.86, 1, desktop ? 0.9 : 0.86, 0.38],
+        extrapolate: 'clamp',
+      }),
+      transform: [
+        { perspective: desktop ? 1100 : 780 },
+        {
+          translateX: reelScrollX.interpolate({
+            inputRange,
+            outputRange: [-farShift, -sideShift, 0, sideShift, farShift],
+            extrapolate: 'clamp',
+          }),
+        },
+        {
+          translateY: reelScrollX.interpolate({
+            inputRange,
+            outputRange: [farDrop, sideDrop, 0, sideDrop, farDrop],
+            extrapolate: 'clamp',
+          }),
+        },
+        {
+          scale: reelScrollX.interpolate({
+            inputRange,
+            outputRange: [farScale, sideScale, 1, sideScale, farScale],
+            extrapolate: 'clamp',
+          }),
+        },
+        {
+          rotateY: reelScrollX.interpolate({
+            inputRange,
+            outputRange: [`${farTilt}deg`, `${sideTilt}deg`, '0deg', `-${sideTilt}deg`, `-${farTilt}deg`],
+            extrapolate: 'clamp',
+          }),
+        },
+      ],
+    };
   };
 
   const switchReelType = (nextType: 'techniques' | 'theories') => {
@@ -411,47 +518,72 @@ export default function MainScreen() {
         ] as const}
         onChange={switchReelType}
       />
-      <FlatList
-        ref={listRef}
-        horizontal
-        snapToInterval={reelWidth}
-        snapToAlignment="start"
-        decelerationRate="fast"
-        disableIntervalMomentum
-        bounces={false}
-        showsHorizontalScrollIndicator={false}
-        data={reelItems}
-        keyExtractor={(item) => item.reelKey}
-        getItemLayout={(_, index) => ({
-          index,
-          length: reelWidth,
-          offset: reelWidth * index,
-        })}
-        initialNumToRender={5}
-        windowSize={7}
-        onScroll={(event) => {
-          updateActiveCard(event);
-          scheduleNearestCardSnap();
-        }}
-        onScrollBeginDrag={clearScrollSettleTimer}
-        onScrollEndDrag={scheduleNearestCardSnap}
-        onMomentumScrollEnd={recenterReel}
-        onContentSizeChange={() => {
-          requestAnimationFrame(() => {
-            scrollToPhysicalIndex(getCentralPhysicalIndex(activeIndexRef.current), false);
-          });
-        }}
-        scrollEventThrottle={16}
-        contentContainerStyle={{ paddingHorizontal: reelSideInset }}
-        style={[styles.reel, { width: reelViewportWidth, marginTop: sectionGap }]}
-        renderItem={({ item: reelItem }) => {
+      <Animated.View
+        style={[
+          styles.reelStage,
+          { width: reelViewportWidth, marginTop: sectionGap },
+          {
+            opacity: reelEntrance,
+            transform: [{
+              translateY: reelEntrance.interpolate({ inputRange: [0, 1], outputRange: [8, 0] }),
+            }],
+          },
+        ]}
+      >
+        <View pointerEvents="none" style={styles.reelArc} />
+        <FlatList
+          ref={listRef}
+          horizontal
+          snapToInterval={reelWidth}
+          snapToAlignment="start"
+          decelerationRate="fast"
+          disableIntervalMomentum
+          bounces={false}
+          showsHorizontalScrollIndicator={false}
+          data={reelItems}
+          keyExtractor={(item) => item.reelKey}
+          getItemLayout={(_, index) => ({
+            index,
+            length: reelWidth,
+            offset: reelWidth * index,
+          })}
+          initialNumToRender={5}
+          windowSize={7}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: reelScrollX } } }],
+            {
+              useNativeDriver: true,
+              listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+                updateActiveCard(event);
+                scheduleNearestCardSnap();
+              },
+            },
+          )}
+          onScrollBeginDrag={clearScrollSettleTimer}
+          onScrollEndDrag={scheduleNearestCardSnap}
+          onMomentumScrollEnd={recenterReel}
+          onContentSizeChange={() => {
+            requestAnimationFrame(() => {
+              scrollToPhysicalIndex(getCentralPhysicalIndex(activeIndexRef.current), false);
+            });
+          }}
+          scrollEventThrottle={16}
+          contentContainerStyle={{ paddingHorizontal: reelSideInset }}
+          style={[styles.reel, { width: reelViewportWidth }]}
+          renderItem={({ item: reelItem, index: physicalIndex }) => {
+            const logicalIndex = baseReelItems.length > 0
+              ? physicalIndex % baseReelItems.length
+              : 0;
+            const curvedItemStyle = getCurvedReelItemStyle(physicalIndex);
           if (reelItem.kind === 'upgrade') {
             return (
-              <View style={[styles.reelItem, { width: reelWidth }]}>
+              <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel="処世術禄 完全版を購入する"
-                  onPress={() => router.push({ pathname: '/upgrade', params: { source: 'reel-card' } })}
+                  onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
+                    router.push({ pathname: '/upgrade', params: { source: 'reel-card' } });
+                  })}
                   style={({ pressed }) => [
                     styles.upgradeReelCard,
                     { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 },
@@ -471,7 +603,7 @@ export default function MainScreen() {
                     <AppText style={styles.upgradeCtaText}>¥{COMPLETE_EDITION_PRICE_JPY}で30日間利用　›</AppText>
                   </View>
                 </Pressable>
-              </View>
+              </Animated.View>
             );
           }
 
@@ -480,8 +612,10 @@ export default function MainScreen() {
             const theorySaved = savedTheoryIds.includes(theory.tagId);
             const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
             return (
-              <View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }]}>
-                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
+              <Animated.View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
+                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
+                  router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } });
+                })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
                   <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
                   <View style={[styles.cardOrnament, cardOrnament]}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
@@ -498,7 +632,7 @@ export default function MainScreen() {
                     }}
                   />
                 </View>
-              </View>
+              </Animated.View>
             );
           }
 
@@ -508,13 +642,13 @@ export default function MainScreen() {
           const isAccessible =
             reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-persona-${persona.id}`;
           return (
-            <View
+            <Animated.View
               accessibilityElementsHidden={!isAccessible}
               importantForAccessibility={
                 isAccessible ? 'yes' : 'no-hide-descendants'
               }
               aria-hidden={!isAccessible}
-              style={[styles.reelItem, { width: reelWidth }]}
+              style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}
             >
               <View
                 style={[
@@ -540,7 +674,9 @@ export default function MainScreen() {
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={`${persona.title}${personaLocked ? '、完全版限定' : '、無料公開'}を詳しく見る`}
-                  onPress={() => router.push({ pathname: '/subcategory/[category]/[name]', params: { category: persona.category, name: persona.title } })}
+                  onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
+                    router.push({ pathname: '/subcategory/[category]/[name]', params: { category: persona.category, name: persona.title } });
+                  })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
                   <AppText variant="label" style={styles.techniqueId}>✦ {persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
@@ -568,10 +704,11 @@ export default function MainScreen() {
                   <View style={styles.personaCta}><AppText style={styles.personaCtaText}>{persona.techniqueCount}つの処世術を見る</AppText><AppText style={styles.personaCtaChevron}>›</AppText></View>
                 </Pressable>
             </View>
-            </View>
+            </Animated.View>
           );
-        }}
-      />
+          }}
+        />
+      </Animated.View>
       {!isPaid ? (
         <Pressable
           accessibilityRole="button"
@@ -652,8 +789,10 @@ const styles = StyleSheet.create({
   accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
-  reel: { alignSelf: 'center', flexGrow: 0, marginTop: spacing.sm },
-  reelItem: { paddingVertical: 2 },
+  reelStage: { position: 'relative', alignSelf: 'center', flexGrow: 0 },
+  reelArc: { position: 'absolute', zIndex: 0, left: '20%', right: '20%', bottom: -7, height: 24, borderTopWidth: 1, borderColor: 'rgba(180,132,37,0.28)', borderRadius: 999 },
+  reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
+  reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
   techniqueCard: {
     position: 'relative',
     paddingTop: 22,
