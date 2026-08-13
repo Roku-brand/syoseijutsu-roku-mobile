@@ -8,7 +8,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText(/525の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 40/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
-  await expect(page.getByText(/第一印象では、能力より安心感を先につくる/).first()).toBeVisible();
+  await expect(page.getByText(/初対面は、能力を示す前に警戒を下げる/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
@@ -58,7 +58,7 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
   await expect(page.getByText('13の処世術')).toBeVisible();
-  await expect(page.getByText('熱量が上がる話題を見つける')).toBeVisible();
+  await expect(page.getByText('相手の声量や表情が変わる話題を探す')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
   await expect(page.getByText('完全版').first()).toBeVisible();
