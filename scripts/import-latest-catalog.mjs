@@ -12,14 +12,25 @@ const previousGroups = new Map(previous.categories.flatMap((category) => categor
 const previousByField = new Map(previous.categories.map((category) => [category.name, category.subcategories]));
 const categoryById = new Map(unified.map((theory) => [theory.tagId, theory]));
 const usedIds = new Set(remap.usedTheoryMaster.map((theory) => theory.tagId));
+const alwaysAdoptCategoryIds = new Set([
+  'psychology',
+  'behavioral-science',
+  'organization-management',
+  'strategy',
+]);
+const adoptedIds = new Set([
+  ...usedIds,
+  ...unified
+    .filter((theory) => alwaysAdoptCategoryIds.has(theory.categoryId))
+    .map((theory) => theory.tagId),
+]);
 
 if (remap.personas.length !== 40) throw new Error(`Expected 40 personas, found ${remap.personas.length}`);
 const totalCards = remap.personas.reduce((sum, persona) => sum + persona.cards.length, 0);
 if (totalCards !== 525) throw new Error(`Expected 525 cards, found ${totalCards}`);
 if (usedIds.size !== remap.usedTheoryMaster.length) throw new Error('Duplicate used theory IDs');
-for (const theory of remap.usedTheoryMaster) {
-  const canonical = categoryById.get(theory.tagId);
-  if (!canonical) throw new Error(`Missing canonical theory ${theory.tagId}`);
+for (const tagId of adoptedIds) {
+  if (!categoryById.has(tagId)) throw new Error(`Missing canonical theory ${tagId}`);
 }
 
 const categories = ['interpersonal', 'work', 'life'].map((key) => ({
@@ -53,9 +64,9 @@ for (const persona of remap.personas) {
   });
 }
 
-const theories = [...usedIds].map((tagId) => categoryById.get(tagId)).sort((a, b) => a.originalNumber - b.originalNumber);
+const theories = [...adoptedIds].map((tagId) => categoryById.get(tagId)).sort((a, b) => a.originalNumber - b.originalNumber);
 const outputDir = path.join(repoRoot, 'src/data/generated');
 fs.writeFileSync(path.join(outputDir, 'techniques.json'), `${JSON.stringify({ categories }, null, 2)}\n`);
 fs.writeFileSync(path.join(outputDir, 'theories.json'), `${JSON.stringify(theories, null, 2)}\n`);
-fs.writeFileSync(path.join(outputDir, 'metadata.json'), `${JSON.stringify({ source: 'shoseijutsuroku_525_theory_remap_with_wisdom_final.json + theories_unified.json', techniqueCount: totalCards, theoryCount: theories.length, personaCount: remap.personas.length, categoryCounts: Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))].map((id) => [id, theories.filter((theory) => theory.categoryId === id).length])) }, null, 2)}\n`);
+fs.writeFileSync(path.join(outputDir, 'metadata.json'), `${JSON.stringify({ source: 'shoseijutsuroku_525_theory_remap_with_wisdom_final.json + theories_unified.json', techniqueCount: totalCards, theoryCount: theories.length, personaCount: remap.personas.length, adoptedAllSourceCategories: [...alwaysAdoptCategoryIds], categoryCounts: Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))].map((id) => [id, theories.filter((theory) => theory.categoryId === id).length])) }, null, 2)}\n`);
 console.log(JSON.stringify({ personas: remap.personas.length, techniques: totalCards, theories: theories.length }, null, 2));
