@@ -21,6 +21,11 @@ export default function AuthScreen() {
   const [submitting, setSubmitting] = useState(false);
   const checkoutStarted = useRef(false);
 
+  useEffect(() => {
+    if (params.mode === 'reset') setMode('reset');
+    else if (params.mode === 'signin') setMode('signin');
+  }, [params.mode]);
+
   const continueToCheckout = useCallback(async (accessToken?: string) => {
     if (checkoutStarted.current) return;
     checkoutStarted.current = true;
