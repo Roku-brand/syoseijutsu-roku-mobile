@@ -1,13 +1,19 @@
 {
   "source": "shoseijutsuroku_525_theory_remap_with_wisdom_final.json + theories_unified.json",
   "techniqueCount": 525,
-  "theoryCount": 266,
+  "theoryCount": 534,
   "personaCount": 40,
+  "adoptedAllSourceCategories": [
+    "psychology",
+    "behavioral-science",
+    "organization-management",
+    "strategy"
+  ],
   "categoryCounts": {
-    "psychology": 119,
-    "organization-management": 51,
-    "behavioral-science": 39,
-    "strategy": 24,
+    "psychology": 245,
+    "organization-management": 132,
+    "behavioral-science": 75,
+    "strategy": 49,
     "maxims-experience": 21,
     "classics-thought": 12
   }

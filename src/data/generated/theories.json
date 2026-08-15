@@ -110,6 +110,50 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_006",
+    "originalNumber": 6,
+    "title": "相補性",
+    "summary": "互いに異なる性質や役割が補い合うことで、関係が安定したり成果が高まったりする考え方。似ていることだけが相性を決めるわけではない。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_007",
+    "originalNumber": 7,
+    "title": "好意の返報性",
+    "summary": "相手から好意を示されると、自分も好意を返したくなりやすい傾向。好意は待つより、先に示すことで循環が生まれる。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_008",
     "originalNumber": 8,
     "title": "自己開示の返報性",
@@ -220,6 +264,50 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_013",
+    "originalNumber": 13,
+    "title": "ラポールの三要素モデル",
+    "summary": "相互の注意、肯定的な感情、行動の同調がそろうと、自然な信頼関係が生まれるというモデル。会話の内容だけでなく、リズムや雰囲気も重要になる。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_014",
+    "originalNumber": 14,
+    "title": "ミラーリング効果",
+    "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_015",
     "originalNumber": 15,
     "title": "言語スタイル同調",
@@ -308,6 +396,50 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_019",
+    "originalNumber": 19,
+    "title": "ベン・フランクリン効果",
+    "summary": "一度誰かを助けると、その行動と整合させるために相手への好意が高まりやすい傾向。小さな依頼が関係形成のきっかけになることがある。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_020",
+    "originalNumber": 20,
+    "title": "自己検証理論",
+    "summary": "人は肯定的な評価だけでなく、自分が抱く自己像と一致する評価を求めるという理論。相手を理解するには、理想像だけでなく自己認識を見る必要がある。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_021",
     "originalNumber": 21,
     "title": "自己拡張理論",
@@ -330,10 +462,54 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_022",
+    "originalNumber": 22,
+    "title": "対人魅力の報酬理論",
+    "summary": "一緒にいることで快い感情や利益を得られる相手ほど、好意を持たれやすいという理論。相手にとっての心理的報酬が関係を支える。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_023",
     "originalNumber": 23,
     "title": "感情伝染",
     "summary": "表情、声、態度を通じて、ある人の感情が周囲へ無意識に広がる現象。機嫌や不安は個人の内側だけで完結しない。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_024",
+    "originalNumber": 24,
+    "title": "アクティブ・コンストラクティブ・レスポンディング",
+    "summary": "相手の良い報告に、関心と喜びを示しながら積極的に反応する方法。成功を一緒に喜ぶ反応は、単なる励まし以上に関係を強める。",
     "sourceType": "心理学",
     "discipline": "社会心理学",
     "conceptType": "概念・フレームワーク",
@@ -378,6 +554,50 @@
     "originalNumber": 26,
     "title": "ゲイン・ロス効果",
     "summary": "一貫して好意的な評価より、否定的な評価から好意的な評価へ変化した方が強く好まれることがある現象。評価の変化幅が感情を強める。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_027",
+    "originalNumber": 27,
+    "title": "誤帰属理論",
+    "summary": "ある原因で生じた感情や身体反応を、別の対象が原因だと誤って解釈することがあるという理論。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_028",
+    "originalNumber": 28,
+    "title": "吊り橋効果",
+    "summary": "恐怖や緊張による高揚を、目の前の相手への魅力だと誤認する可能性を示す現象。強い感情は、その原因を取り違えやすい。",
     "sourceType": "心理学",
     "discipline": "社会心理学",
     "conceptType": "効果・バイアス",
@@ -550,10 +770,54 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_036",
+    "originalNumber": 36,
+    "title": "愛着理論",
+    "summary": "幼少期から形成される他者への信頼や不安のパターンが、成人後の親密な関係にも影響するという理論。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_037",
     "originalNumber": 37,
     "title": "親密性平衡モデル",
     "summary": "一方が距離を縮めると、相手が距離を取るなど、人は望ましい親密さを保つよう非言語行動を調整するというモデル。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_038",
+    "originalNumber": 38,
+    "title": "関係のエスカレーション・モデル",
+    "summary": "関係が接触、親密化、統合などの段階を経て深まる過程を示すモデル。段階に合わない急な接近は負担になりうる。",
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "理論・モデル",
@@ -579,6 +843,116 @@
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_040",
+    "originalNumber": 40,
+    "title": "修復試行",
+    "summary": "対立が激しくなる前に、謝罪、冗談、言い換えなどで緊張を和らげようとする働きかけ。成功する関係では、衝突の有無より修復の成否が重要になる。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_041",
+    "originalNumber": 41,
+    "title": "ゴットマンの四騎士",
+    "summary": "批判、侮蔑、防御、無視という、関係悪化を強く予測する四つのコミュニケーションパターン。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_042",
+    "originalNumber": 42,
+    "title": "要求・撤退パターン",
+    "summary": "一方が説明や変化を強く求め、もう一方が沈黙や回避で退くことで、双方の行動が悪化していく対立パターン。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_043",
+    "originalNumber": 43,
+    "title": "ネガティブ感情の相互性",
+    "summary": "敵意や不満を示されると、相手も同じ強さで否定的感情を返しやすい現象。感情は応酬によって増幅する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_044",
+    "originalNumber": 44,
+    "title": "帰属的葛藤",
+    "summary": "問題行動の原因を、状況ではなく相手の性格や悪意に帰属することで対立が深まる現象。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -623,6 +997,72 @@
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_047",
+    "originalNumber": 47,
+    "title": "返報性の原理",
+    "summary": "人は何かを受け取ると、同程度のものを返さなければならないと感じやすい原理。親切にも敵意にも働く。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_048",
+    "originalNumber": 48,
+    "title": "間欠強化",
+    "summary": "報酬が予測できない頻度で与えられると、その行動が強く持続しやすくなる現象。不安定な関係から離れにくくなる理由にもなる。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_049",
+    "originalNumber": 49,
+    "title": "消去バースト",
+    "summary": "これまで得られていた反応や報酬がなくなった直後、一時的に行動が激しくなる現象。境界線を引いた直後の反発に屈すると、問題行動を強化してしまう。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -726,6 +1166,28 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_054",
+    "originalNumber": 54,
+    "title": "DEAR MAN",
+    "summary": "状況の描写、感情表明、要求、利益の説明を軸に、集中、自信、交渉を加えて対人要求を伝える技法。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_055",
     "originalNumber": 55,
     "title": "面子理論",
@@ -755,6 +1217,28 @@
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_057",
+    "originalNumber": 57,
+    "title": "許しのプロセスモデル",
+    "summary": "傷つきや怒りを否認せずに整理し、相手への報復動機を弱めていく段階的な過程を示すモデル。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "理論・モデル",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -836,6 +1320,50 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_061",
+    "originalNumber": 61,
+    "title": "外集団同質性効果",
+    "summary": "自分の集団の人々は多様に見える一方、外部集団の人々は皆似ているように見えやすい傾向。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_062",
+    "originalNumber": 62,
+    "title": "最小条件集団パラダイム",
+    "summary": "ほとんど意味のない基準で分けただけでも、人は自分の集団を優遇することを示す実験枠組み。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_063",
     "originalNumber": 63,
     "title": "同調効果",
@@ -880,10 +1408,76 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_065",
+    "originalNumber": 65,
+    "title": "集団極性化",
+    "summary": "話し合いの後、集団の判断が当初の平均よりも極端な方向へ動く現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_066",
     "originalNumber": 66,
     "title": "沈黙の螺旋",
     "summary": "自分の意見が少数派だと感じた人が発言を控え、その沈黙によって多数派がさらに強く見える現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_067",
+    "originalNumber": 67,
+    "title": "多元的無知",
+    "summary": "多くの人が内心では同意していないのに、他者は賛成していると思い込み、表面上合わせ続ける状態。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_068",
+    "originalNumber": 68,
+    "title": "アビリーンのパラドックス",
+    "summary": "誰も本心では望んでいない選択を、他の人が望んでいると誤解して集団で決めてしまう現象。",
     "sourceType": "組織・経営論",
     "discipline": "組織行動・組織ネットワーク",
     "conceptType": "概念・フレームワーク",
@@ -924,6 +1518,116 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_070",
+    "originalNumber": 70,
+    "title": "社会的手抜き",
+    "summary": "集団で作業すると個人の貢献が見えにくくなり、一人で行うときより努力が低下しやすい現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_071",
+    "originalNumber": 71,
+    "title": "リンゲルマン効果",
+    "summary": "集団人数が増えるほど、調整損失や動機低下によって一人当たりの成果が下がる現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_072",
+    "originalNumber": 72,
+    "title": "傍観者効果",
+    "summary": "緊急時に周囲の人数が多いほど、自分が行動する可能性が低下しやすい現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_073",
+    "originalNumber": 73,
+    "title": "責任の分散",
+    "summary": "複数人がいると、責任が他者にもあると感じ、自分の責任感が弱まる現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_074",
+    "originalNumber": 74,
+    "title": "期待状態理論",
+    "summary": "集団内では、能力への期待が発言機会や影響力を生み、その扱いがさらに期待を強化するという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_075",
     "originalNumber": 75,
     "title": "地位特性理論",
@@ -931,6 +1635,72 @@
     "sourceType": "組織・経営論",
     "discipline": "組織行動・組織ネットワーク",
     "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_076",
+    "originalNumber": 76,
+    "title": "地位一般化",
+    "summary": "一つの領域で得た高い地位や評価が、別の領域の能力評価にも広がる現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_077",
+    "originalNumber": 77,
+    "title": "マタイ効果",
+    "summary": "既に資源や評価を持つ者ほど新たな機会を得やすく、優位が累積していく現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_078",
+    "originalNumber": 78,
+    "title": "累積優位",
+    "summary": "小さな初期差が、機会や資源の偏りを通じて時間とともに大きな格差へ拡大する仕組み。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -1056,10 +1826,54 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_084",
+    "originalNumber": 84,
+    "title": "ブローカー理論",
+    "summary": "異なる人や集団の間を仲介する者が、情報の編集、接続、調整によって価値と影響力を得るという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_085",
     "originalNumber": 85,
     "title": "ネットワーク中心性",
     "summary": "人間関係の網の中で、どれほど多く、近く、重要な位置につながっているかを示す概念。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_086",
+    "originalNumber": 86,
+    "title": "コア・ペリフェリー構造",
+    "summary": "密接につながる中心層と、中心への接続が弱い周辺層から集団が構成されるというネットワーク構造。",
     "sourceType": "組織・経営論",
     "discipline": "組織行動・組織ネットワーク",
     "conceptType": "概念・フレームワーク",
@@ -1085,6 +1899,72 @@
     "sourceType": "組織・経営論",
     "discipline": "組織行動・組織ネットワーク",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_088",
+    "originalNumber": 88,
+    "title": "信用獲得理論",
+    "summary": "集団規範への貢献や実績を積むことで、後に独自の行動を取るための信用を得られるという考え方。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_089",
+    "originalNumber": 89,
+    "title": "特異性信用",
+    "summary": "集団に貢献した人が蓄積する、一定の逸脱や独自性を許される信用。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "集団での立ち回り"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_090",
+    "originalNumber": 90,
+    "title": "ゴシップ理論",
+    "summary": "第三者についての情報交換が、評判の共有、規範維持、協力相手の選別に機能するという考え方。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -1129,6 +2009,72 @@
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_093",
+    "originalNumber": 93,
+    "title": "共依存",
+    "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_094",
+    "originalNumber": 94,
+    "title": "ダブルバインド",
+    "summary": "矛盾する要求を同時に受け、どちらに従っても否定され、矛盾を指摘することも許されない状況。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_095",
+    "originalNumber": 95,
+    "title": "ガスライティング",
+    "summary": "事実や記憶を繰り返し否定し、相手に自分の認識を疑わせる心理的操作。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -1232,6 +2178,50 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_100",
+    "originalNumber": 100,
+    "title": "ローボール・テクニック",
+    "summary": "好条件で一度決定させた後に条件を悪化させても、決定の一貫性から受け入れ続けやすくなる技法。",
+    "sourceType": "行動科学",
+    "discipline": "説得・社会的影響",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_101",
+    "originalNumber": 101,
+    "title": "イエス・セット",
+    "summary": "同意しやすい質問を重ねて肯定的な反応の流れをつくり、その後の提案を受け入れやすくする会話技法。",
+    "sourceType": "行動科学",
+    "discipline": "説得・社会的影響",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": "実務上の通称。学術的な正式名称・効果範囲を要確認。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_102",
     "originalNumber": 102,
     "title": "希少性の原理",
@@ -1298,6 +2288,28 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_105",
+    "originalNumber": 105,
+    "title": "バーナム効果",
+    "summary": "誰にでも当てはまる曖昧な説明を、自分だけに当てはまる正確な評価だと感じる傾向。",
+    "sourceType": "行動科学",
+    "discipline": "説得・社会的影響",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "自己防衛・境界線"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_106",
     "originalNumber": 106,
     "title": "情報カスケード",
@@ -1342,6 +2354,28 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_108",
+    "originalNumber": 108,
+    "title": "スクリーニング",
+    "summary": "情報を持たない側が条件や選択肢を設計し、相手のタイプや能力を明らかにする方法。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_109",
     "originalNumber": 109,
     "title": "情報の非対称性",
@@ -1349,6 +2383,28 @@
     "sourceType": "組織・経営論",
     "discipline": "人的資源管理・キャリア論",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_110",
+    "originalNumber": 110,
+    "title": "プリンシパル＝エージェント理論",
+    "summary": "依頼する側と実行する側の目的や情報がずれることで、監督やインセンティブの問題が生じるという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -1518,6 +2574,94 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_118",
+    "originalNumber": 118,
+    "title": "組織市民行動",
+    "summary": "正式な役割や報酬の範囲を超えて、同僚支援や改善提案など組織に貢献する自発的行動。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_119",
+    "originalNumber": 119,
+    "title": "能力・好感トレードオフ",
+    "summary": "能力を強く示すほど冷たく見られ、親しみを強く示すほど能力を低く見られる場合があるという評価上の葛藤。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_120",
+    "originalNumber": 120,
+    "title": "自己宣伝のジレンマ",
+    "summary": "実績を伝えなければ評価されにくい一方、強く語ると自慢や傲慢と受け取られうる葛藤。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_121",
+    "originalNumber": 121,
+    "title": "ハンブルブラッグ効果",
+    "summary": "謙遜や不満を装った自慢は、率直な自慢より不誠実と受け取られやすい現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_122",
     "originalNumber": 122,
     "title": "反射的栄光浴",
@@ -1547,6 +2691,138 @@
     "sourceType": "組織・経営論",
     "discipline": "人的資源管理・キャリア論",
     "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_124",
+    "originalNumber": 124,
+    "title": "ゴーレム効果",
+    "summary": "低い期待を向けられた人が、機会や支援の減少を通じて実際に成果を下げることがある現象。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_125",
+    "originalNumber": 125,
+    "title": "リーダー・メンバー交換理論",
+    "summary": "上司と部下の一対一の関係の質が、情報、機会、支援、評価を左右するという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_126",
+    "originalNumber": 126,
+    "title": "スポンサーシップ理論",
+    "summary": "有力者が本人のいない場で推薦し、機会や昇進につなげる支援関係を説明する考え方。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_127",
+    "originalNumber": 127,
+    "title": "組織支援理論",
+    "summary": "組織が自分の貢献を評価し、生活を気遣っていると感じるほど、帰属意識や貢献意欲が高まるという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_128",
+    "originalNumber": 128,
+    "title": "人・組織適合理論",
+    "summary": "個人の価値観や目標と組織文化が合うほど、満足度や定着が高まりやすいという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_129",
+    "originalNumber": 129,
+    "title": "人・職務適合理論",
+    "summary": "個人の能力や欲求と、仕事が求める能力や提供する条件が合うほど、成果や満足度が高まりやすいという理論。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -1604,6 +2880,50 @@
     "notes": null,
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_132",
+    "originalNumber": 132,
+    "title": "ピーターの法則",
+    "summary": "階層組織では、人は成果を出せた役職から昇進を重ね、やがて能力を発揮できない役職に達しやすいという法則。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_133",
+    "originalNumber": 133,
+    "title": "プロスペクト理論",
+    "summary": "人は絶対的な結果ではなく基準点からの得失で判断し、利益より損失を強く感じるという意思決定理論。",
+    "sourceType": "行動科学",
+    "discipline": "行動経済学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_134",
@@ -1716,6 +3036,72 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_139",
+    "originalNumber": 139,
+    "title": "対比効果",
+    "summary": "対象を直前の対象と比較して評価するため、同じものでも周囲との違いで印象が変わる現象。",
+    "sourceType": "行動科学",
+    "discipline": "行動経済学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_140",
+    "originalNumber": 140,
+    "title": "おとり効果",
+    "summary": "明らかに劣る第三の選択肢を加えることで、特定の選択肢が相対的に魅力的に見える現象。",
+    "sourceType": "行動科学",
+    "discipline": "行動経済学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_141",
+    "originalNumber": 141,
+    "title": "妥協効果",
+    "summary": "極端な選択肢を避け、選択肢の中間にあるものを安全で妥当だと選びやすい傾向。",
+    "sourceType": "行動科学",
+    "discipline": "行動経済学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_142",
     "originalNumber": 142,
     "title": "BATNA",
@@ -1804,6 +3190,28 @@
     "categoryTitle": "戦略論"
   },
   {
+    "tagId": "kb_146",
+    "originalNumber": 146,
+    "title": "反応的価値下げ",
+    "summary": "相手が提案したという理由だけで、その提案の価値を低く評価しやすい傾向。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_147",
     "originalNumber": 147,
     "title": "利益立脚型交渉",
@@ -1830,6 +3238,28 @@
     "originalNumber": 148,
     "title": "原則立脚型交渉",
     "summary": "人と問題を分け、利益に焦点を当て、客観的基準を用いて合意を目指す交渉法。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_149",
+    "originalNumber": 149,
+    "title": "立場と利益の分離",
+    "summary": "相手が主張する要求と、その要求を必要とする理由を分けて考える交渉原則。",
     "sourceType": "戦略論",
     "discipline": "交渉論・ゲーム理論",
     "conceptType": "概念・フレームワーク",
@@ -1914,6 +3344,50 @@
     "categoryTitle": "戦略論"
   },
   {
+    "tagId": "kb_153",
+    "originalNumber": 153,
+    "title": "条件付き合意",
+    "summary": "不確実な将来について、条件が実現した場合の対応をあらかじめ契約に組み込む方法。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_154",
+    "originalNumber": 154,
+    "title": "客観的基準",
+    "summary": "市場価格、法令、専門基準など、当事者の主観から独立した根拠で条件を評価する考え方。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_155",
     "originalNumber": 155,
     "title": "手続的公正",
@@ -1921,6 +3395,28 @@
     "sourceType": "戦略論",
     "discipline": "交渉論・ゲーム理論",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_156",
+    "originalNumber": 156,
+    "title": "二重関心理論",
+    "summary": "対立場面の行動を、自分の利益への関心と相手の利益への関心の二軸で捉える理論。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "理論・モデル",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -2024,6 +3520,28 @@
     "categoryTitle": "戦略論"
   },
   {
+    "tagId": "kb_161",
+    "originalNumber": 161,
+    "title": "調停理論",
+    "summary": "中立的な第三者が対話を支援し、当事者自身による合意形成を促す考え方。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_162",
     "originalNumber": 162,
     "title": "囚人のジレンマ",
@@ -2090,6 +3608,28 @@
     "categoryTitle": "戦略論"
   },
   {
+    "tagId": "kb_165",
+    "originalNumber": 165,
+    "title": "チキンゲーム",
+    "summary": "双方が譲らなければ最悪の結果になる一方、先に譲った側が不利に見える対立構造。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意術"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_166",
     "originalNumber": 166,
     "title": "コミットメント戦略",
@@ -2116,6 +3656,28 @@
     "originalNumber": 167,
     "title": "目標設定理論",
     "summary": "具体的で難度の高い目標と適切なフィードバックが、努力と成果を高めるという理論。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_168",
+    "originalNumber": 168,
+    "title": "期待理論",
+    "summary": "努力が成果につながる期待、成果が報酬につながる期待、報酬の価値によって動機づけが決まるという理論。",
     "sourceType": "行動科学",
     "discipline": "行動変容・学習科学",
     "conceptType": "理論・モデル",
@@ -2178,10 +3740,76 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_171",
+    "originalNumber": 171,
+    "title": "制御理論",
+    "summary": "現在の状態と目標との差を監視し、その差を縮めるよう行動を調整する自己制御の理論。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_172",
     "originalNumber": 172,
     "title": "実行意図",
     "summary": "「いつ、どこで、何をするか」をあらかじめ決めることで、意図を行動へ移しやすくする方法。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_173",
+    "originalNumber": 173,
+    "title": "コミットメント装置",
+    "summary": "将来の自分が誘惑に負けにくいよう、選択肢や罰則を事前に設定する仕組み。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_174",
+    "originalNumber": 174,
+    "title": "プレコミットメント",
+    "summary": "冷静な時点で将来の行動を拘束し、衝動的な変更を防ぐ戦略。",
     "sourceType": "行動科学",
     "discipline": "行動変容・学習科学",
     "conceptType": "概念・フレームワーク",
@@ -2207,6 +3835,28 @@
     "sourceType": "行動科学",
     "discipline": "行動変容・学習科学",
     "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_176",
+    "originalNumber": 176,
+    "title": "双曲割引",
+    "summary": "遠い将来の価値は緩やかに、目前になると急激に割り引いて評価するため、選好が時間とともに逆転する現象。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -2332,6 +3982,50 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_182",
+    "originalNumber": 182,
+    "title": "誘惑バンドリング",
+    "summary": "やるべき行動と楽しみを組み合わせ、先延ばししやすい行動を実行しやすくする方法。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_183",
+    "originalNumber": 183,
+    "title": "目標勾配効果",
+    "summary": "ゴールが近いと感じるほど、努力や行動速度が高まりやすい現象。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_184",
     "originalNumber": 184,
     "title": "新鮮なスタート効果",
@@ -2361,6 +4055,94 @@
     "sourceType": "行動科学",
     "discipline": "行動変容・学習科学",
     "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_186",
+    "originalNumber": 186,
+    "title": "小さな勝利",
+    "summary": "大きな課題を小さな達成に分け、成功経験を積むことで勢いと自己効力感を高める考え方。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_187",
+    "originalNumber": 187,
+    "title": "学習目標・遂行目標",
+    "summary": "能力を伸ばすことを目指す目標と、能力を証明し高評価を得ることを目指す目標の区別。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_188",
+    "originalNumber": 188,
+    "title": "接近目標・回避目標",
+    "summary": "望ましい結果を得るための目標と、望ましくない結果を避けるための目標の区別。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_189",
+    "originalNumber": 189,
+    "title": "促進焦点・予防焦点",
+    "summary": "成長や獲得を重視する動機と、安全や損失回避を重視する動機を区別する理論。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -2418,6 +4200,72 @@
     "notes": null,
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_192",
+    "originalNumber": 192,
+    "title": "パーキンソンの法則",
+    "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
+    "sourceType": "組織・経営論",
+    "discipline": "経営管理・オペレーション",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_193",
+    "originalNumber": 193,
+    "title": "グッドハートの法則",
+    "summary": "指標が目標になると、その指標は本来測ろうとしていたものを正確に表さなくなるという法則。",
+    "sourceType": "組織・経営論",
+    "discipline": "経営管理・オペレーション",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_194",
+    "originalNumber": 194,
+    "title": "キャンベルの法則",
+    "summary": "数値指標が重要な意思決定に使われるほど、操作や歪みが生まれ、指標自体の信頼性が下がるという法則。",
+    "sourceType": "組織・経営論",
+    "discipline": "経営管理・オペレーション",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_195",
@@ -2552,6 +4400,28 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_201",
+    "originalNumber": 201,
+    "title": "望ましい困難",
+    "summary": "学習時に適度な負荷を加えることで、短期的には難しくても長期的な理解と記憶が高まるという考え方。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_202",
     "originalNumber": 202,
     "title": "行動活性化",
@@ -2640,6 +4510,28 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_206",
+    "originalNumber": 206,
+    "title": "認知的注意症候群",
+    "summary": "脅威への注意、心配、反すう、逆効果な対処が組み合わさり、心理的問題を長引かせる状態。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_207",
     "originalNumber": 207,
     "title": "安全行動",
@@ -2666,6 +4558,28 @@
     "originalNumber": 208,
     "title": "回避学習",
     "summary": "不快な状況を避けることで安心が得られ、その安心が回避行動を強化する学習過程。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_209",
+    "originalNumber": 209,
+    "title": "ネガティブ強化",
+    "summary": "不快な刺激が取り除かれることで、その直前の行動が増える仕組み。罰ではなく、逃避や回避を強める強化である。",
     "sourceType": "心理学",
     "discipline": "臨床心理学・認知行動療法",
     "conceptType": "概念・フレームワーク",
@@ -2728,10 +4642,76 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_212",
+    "originalNumber": 212,
+    "title": "感情推論",
+    "summary": "不安や恐怖を感じること自体を、現実に危険がある証拠だと判断する認知の偏り。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_213",
+    "originalNumber": 213,
+    "title": "破局的思考",
+    "summary": "悪い可能性を極端に拡大し、最悪の結果が起き、対処できないと考える思考パターン。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_214",
     "originalNumber": 214,
     "title": "確率過大評価",
     "summary": "望ましくない出来事が起こる可能性を、実際より高く見積もる傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_215",
+    "originalNumber": 215,
+    "title": "コスト過大評価",
+    "summary": "悪い出来事が起きた場合の損害や苦痛を、実際より大きく見積もる傾向。",
     "sourceType": "心理学",
     "discipline": "臨床心理学・認知行動療法",
     "conceptType": "概念・フレームワーク",
@@ -2794,6 +4774,116 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_218",
+    "originalNumber": 218,
+    "title": "アイロニック・プロセス理論",
+    "summary": "考えないように努力するほど、監視過程がその考えを探し続け、かえって頭に浮かびやすくなるという理論。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_219",
+    "originalNumber": 219,
+    "title": "白熊効果",
+    "summary": "特定のことを考えないようにすると、逆にその考えが増える現象。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_220",
+    "originalNumber": 220,
+    "title": "経験回避",
+    "summary": "不快な感情や思考を消そうとして、行動や人生の選択を狭める傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_221",
+    "originalNumber": 221,
+    "title": "心理的柔軟性",
+    "summary": "不快な内的体験があっても、それに支配されず、状況と価値に沿って行動を選べる能力。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_222",
+    "originalNumber": 222,
+    "title": "アクセプタンス",
+    "summary": "不快な感情や思考を無理に消さず、存在を認めたまま必要な行動を取る姿勢。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_223",
     "originalNumber": 223,
     "title": "認知的脱フュージョン",
@@ -2820,6 +4910,50 @@
     "originalNumber": 224,
     "title": "脱中心化",
     "summary": "自分の思考や感情を、自分そのものではなく一時的な心の出来事として観察する視点。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_225",
+    "originalNumber": 225,
+    "title": "マインドフルネス",
+    "summary": "現在の体験に、評価や判断を加えすぎず意図的に注意を向ける実践。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_226",
+    "originalNumber": 226,
+    "title": "セルフ・ディスタンシング",
+    "summary": "自分の問題を第三者の視点から眺め、感情に飲み込まれずに考える方法。",
     "sourceType": "心理学",
     "discipline": "臨床心理学・認知行動療法",
     "conceptType": "概念・フレームワーク",
@@ -2882,6 +5016,28 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_229",
+    "originalNumber": 229,
+    "title": "問題焦点型・感情焦点型コーピング",
+    "summary": "原因を変える対処と、感情反応を整える対処を状況に応じて使い分ける考え方。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_230",
     "originalNumber": 230,
     "title": "二次的コントロール",
@@ -2889,6 +5045,72 @@
     "sourceType": "心理学",
     "discipline": "臨床心理学・認知行動療法",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_231",
+    "originalNumber": 231,
+    "title": "コントロール幻想",
+    "summary": "実際には影響できない偶然の結果にも、自分が制御できると感じやすい傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_232",
+    "originalNumber": 232,
+    "title": "スポットライト効果",
+    "summary": "自分の外見や失敗が、実際以上に他人から注目されていると思い込む傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_233",
+    "originalNumber": 233,
+    "title": "透明性の錯覚",
+    "summary": "自分の感情や意図が、実際以上に相手へ伝わっていると思い込む傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "効果・バイアス",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -2926,6 +5148,204 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_235",
+    "originalNumber": 235,
+    "title": "インパクト・バイアス",
+    "summary": "将来の良い出来事や悪い出来事が、感情に与える影響を過大に見積もる傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_236",
+    "originalNumber": 236,
+    "title": "フォーカシング・イリュージョン",
+    "summary": "一つの要素に注意を集中すると、それが人生全体の幸福を決めるかのように過大評価する傾向。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_237",
+    "originalNumber": 237,
+    "title": "防衛的悲観主義",
+    "summary": "期待を意図的に低く置き、起こりうる問題を具体的に想定して準備へつなげる戦略。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_238",
+    "originalNumber": 238,
+    "title": "ストレス接種訓練",
+    "summary": "ストレスへの理解、対処技能の習得、段階的な練習を通じて、困難への耐性を高める方法。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "技法・介入",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_239",
+    "originalNumber": 239,
+    "title": "学習性無力感",
+    "summary": "努力しても結果を変えられない経験が続くと、変えられる状況でも行動を諦めやすくなる現象。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_240",
+    "originalNumber": 240,
+    "title": "レジリエンス理論",
+    "summary": "逆境に遭っても、個人と環境の資源を使いながら適応し回復していく過程を捉える理論。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_241",
+    "originalNumber": 241,
+    "title": "回復軌道モデル",
+    "summary": "逆境後の反応には、安定維持、回復、慢性化、遅延反応など複数の経過があるとするモデル。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_242",
+    "originalNumber": 242,
+    "title": "心的外傷後成長",
+    "summary": "深刻な困難との格闘を通じて、人間関係、価値観、自己理解などに肯定的変化が生じること。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_243",
+    "originalNumber": 243,
+    "title": "意味生成モデル",
+    "summary": "出来事の意味と自分の信念が食い違うと苦痛が生じ、新しい意味づけによって適応が進むというモデル。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_244",
     "originalNumber": 244,
     "title": "仮定世界理論",
@@ -2933,6 +5353,28 @@
     "sourceType": "心理学",
     "discipline": "自己・発達・ポジティブ心理学",
     "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_245",
+    "originalNumber": 245,
+    "title": "シャッタード・アサンプション",
+    "summary": "大きな喪失や被害によって、世界の安全、公正、自己価値に関する前提が崩れること。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -2970,6 +5412,72 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_247",
+    "originalNumber": 247,
+    "title": "償還物語",
+    "summary": "悪い経験が成長や価値ある結果につながったと意味づける人生物語。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_248",
+    "originalNumber": 248,
+    "title": "汚染物語",
+    "summary": "良い出来事や期待が、その後の悪い経験によって台無しになったと意味づける人生物語。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_249",
+    "originalNumber": 249,
+    "title": "アイデンティティ喪失",
+    "summary": "役割、所属、関係の喪失によって、自分が何者かという感覚が揺らぐ状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_250",
     "originalNumber": 250,
     "title": "役割退出理論",
@@ -2977,6 +5485,138 @@
     "sourceType": "心理学",
     "discipline": "自己・発達・ポジティブ心理学",
     "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_251",
+    "originalNumber": 251,
+    "title": "アイデンティティ移行",
+    "summary": "環境や役割の変化に伴い、過去の自己像を修正し、新しい自分を形成していく過程。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_252",
+    "originalNumber": 252,
+    "title": "リミナリティ",
+    "summary": "以前の役割を離れたが新しい役割にはまだ定着していない、境界的な移行状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_253",
+    "originalNumber": 253,
+    "title": "二重過程モデル",
+    "summary": "喪失への直面と、日常生活の再建の間を行き来しながら悲嘆へ適応するというモデル。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_254",
+    "originalNumber": 254,
+    "title": "曖昧な喪失",
+    "summary": "対象が心理的または物理的に不在なのに、完全な喪失として確定できず区切りをつけにくい状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_255",
+    "originalNumber": 255,
+    "title": "権利を認められない悲嘆",
+    "summary": "周囲や社会から正当な喪失として認められず、十分に悲しむ機会を持てない状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_256",
+    "originalNumber": 256,
+    "title": "可能自己",
+    "summary": "将来自分がなりうる姿、なりたい姿、なりたくない姿についての自己イメージ。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -3018,6 +5658,94 @@
     "originalNumber": 258,
     "title": "自己複雑性",
     "summary": "自分を複数の役割や側面から捉えることで、一領域の失敗が自己全体へ広がりにくくなるという考え方。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_259",
+    "originalNumber": 259,
+    "title": "自己概念明確性",
+    "summary": "自分の性格、価値観、目標についての理解が、明確で一貫し安定している程度。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_260",
+    "originalNumber": 260,
+    "title": "アイデンティティに基づく動機づけ",
+    "summary": "行動が自分らしいと感じられるほど実行しやすく、困難も意味あるものとして捉えやすいという理論。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_261",
+    "originalNumber": 261,
+    "title": "希望理論",
+    "summary": "目標へ向かう道筋を考える力と、その道を進めるという意志の組み合わせとして希望を捉える理論。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_262",
+    "originalNumber": 262,
+    "title": "学習性楽観主義",
+    "summary": "失敗を一時的・限定的・修正可能なものとして説明する思考を学ぶことで、粘り強さを高める考え方。",
     "sourceType": "心理学",
     "discipline": "自己・発達・ポジティブ心理学",
     "conceptType": "概念・フレームワーク",
@@ -3080,6 +5808,28 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_265",
+    "originalNumber": 265,
+    "title": "認知的不協和",
+    "summary": "信念と行動が矛盾すると不快感が生じ、その不快感を減らすために解釈や態度を変える現象。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_266",
     "originalNumber": 266,
     "title": "社会的比較理論",
@@ -3102,10 +5852,120 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_267",
+    "originalNumber": 267,
+    "title": "相対的剝奪",
+    "summary": "絶対的には恵まれていても、比較対象より不利だと感じることで不満や不公平感が生じる状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_268",
     "originalNumber": 268,
     "title": "快楽順応",
     "summary": "良い変化にも悪い変化にも次第に慣れ、幸福感が元の水準へ戻りやすい現象。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_269",
+    "originalNumber": 269,
+    "title": "公正世界仮説",
+    "summary": "世界は基本的に公正で、人は相応の結果を得ると信じる傾向。被害者非難につながることがある。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_270",
+    "originalNumber": 270,
+    "title": "補償的コントロール理論",
+    "summary": "自分で制御できないと感じるほど、秩序ある制度、強い指導者、運命などを信じて安心を得ようとする理論。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_271",
+    "originalNumber": 271,
+    "title": "存在的真空",
+    "summary": "人生の意味や目的を見いだせず、空虚さや退屈を感じる状態。",
+    "sourceType": "心理学",
+    "discipline": "自己・発達・ポジティブ心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_272",
+    "originalNumber": 272,
+    "title": "ロゴセラピー",
+    "summary": "苦痛の除去だけでなく、自分が担う意味や責任を見いだすことで生きる力を回復する心理療法。",
     "sourceType": "心理学",
     "discipline": "自己・発達・ポジティブ心理学",
     "conceptType": "概念・フレームワーク",
@@ -3168,6 +6028,94 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_275",
+    "originalNumber": 275,
+    "title": "選択のパラドックス",
+    "summary": "選択肢が増えすぎると、自由が増す一方で迷い、後悔、満足度低下が生じるという考え方。",
+    "sourceType": "行動科学",
+    "discipline": "意思決定論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_276",
+    "originalNumber": 276,
+    "title": "最大化傾向",
+    "summary": "十分に良い選択ではなく、可能な限り最善の選択を探し続ける傾向。",
+    "sourceType": "行動科学",
+    "discipline": "意思決定論",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_277",
+    "originalNumber": 277,
+    "title": "十分化",
+    "summary": "一定の基準を満たした選択肢を選び、それ以上の探索を止める意思決定方略。",
+    "sourceType": "行動科学",
+    "discipline": "意思決定論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_278",
+    "originalNumber": 278,
+    "title": "オプション価値",
+    "summary": "今すぐ決定せず、将来より多くの情報を得て選べる余地そのものが持つ価値。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_279",
     "originalNumber": 279,
     "title": "リアル・オプション理論",
@@ -3212,10 +6160,252 @@
     "categoryTitle": "戦略論"
   },
   {
+    "tagId": "kb_281",
+    "originalNumber": 281,
+    "title": "冗長性",
+    "summary": "予備の資源、経路、能力を持つことで、一部が失敗しても全体を維持できる性質。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_282",
+    "originalNumber": 282,
+    "title": "バーベル戦略",
+    "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_283",
+    "originalNumber": 283,
+    "title": "アンチフラジャイル",
+    "summary": "変動や失敗を単に耐えるだけでなく、それらを通じて強くなる性質。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_284",
+    "originalNumber": 284,
+    "title": "OODAループ",
+    "summary": "観察、状況判断、意思決定、行動を高速で回し、変化する状況へ適応する意思決定モデル。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_285",
+    "originalNumber": 285,
+    "title": "創発戦略",
+    "summary": "最初から詳細に決めた計画ではなく、現場で得た情報と小さな成功から戦略を形成する考え方。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_286",
+    "originalNumber": 286,
+    "title": "撤退戦略",
+    "summary": "損失が拡大する前に、どの条件で縮小・中止・転換するかをあらかじめ設計する戦略。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_287",
+    "originalNumber": 287,
+    "title": "探索と活用",
+    "summary": "新しい可能性を試す活動と、既に有効な方法を深める活動のバランスを扱う考え方。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_288",
+    "originalNumber": 288,
+    "title": "経路依存性",
+    "summary": "過去の選択や偶然が現在の選択肢を制約し、同じ方向へ進み続けやすくする仕組み。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_289",
+    "originalNumber": 289,
+    "title": "ロックイン効果",
+    "summary": "切り替え費用や習慣、互換性のため、より良い選択肢があっても現在の制度や製品から離れにくくなる現象。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
     "tagId": "kb_290",
     "originalNumber": 290,
     "title": "計画された偶発性理論",
     "summary": "予期せぬ出来事を避けるのではなく、好奇心、柔軟性、行動によってキャリア機会へ変える理論。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_291",
+    "originalNumber": 291,
+    "title": "キャリア・アダプタビリティ",
+    "summary": "将来への関心、自己統制、好奇心、自信を用いて、職業上の変化へ適応する力。",
+    "sourceType": "戦略論",
+    "discipline": "戦略・リスク・キャリア設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき・再設計"
+    ],
+    "principles": [],
+    "relatedIds": [],
+    "reliability": "学術文献要付与",
+    "status": "seed",
+    "notes": null,
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_292",
+    "originalNumber": 292,
+    "title": "クランボルツの社会的学習理論",
+    "summary": "キャリア選択は、生得的特徴、環境、学習経験、課題への取り組み方の相互作用で形成されるという理論。",
     "sourceType": "戦略論",
     "discipline": "戦略・リスク・キャリア設計",
     "conceptType": "理論・モデル",
@@ -3960,6 +7150,30 @@
     "categoryTitle": "格言・経験則・作品"
   },
   {
+    "tagId": "kb_387",
+    "originalNumber": 387,
+    "title": "薄片判断",
+    "summary": "「第一印象は、盛り上げるよりも安心感」を支える概念。警戒を解くことが関係の入口になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "第一印象は、盛り上げるよりも安心感"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_388",
     "originalNumber": 388,
     "title": "非言語コミュニケーション",
@@ -3967,6 +7181,30 @@
     "sourceType": "心理学",
     "discipline": "社会心理学",
     "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "視線・表情・声を整える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_389",
+    "originalNumber": 389,
+    "title": "メラビアンの法則",
+    "summary": "「視線・表情・声を整える」を支える概念。言葉以前の信号が扱いを決めるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "原理・法則",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -4032,6 +7270,102 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_392",
+    "originalNumber": 392,
+    "title": "ネームコーリング効果",
+    "summary": "「名前を呼ばれると「自分を見ている人」として親近感を持つ」を支える概念。固有名は存在を承認する合図になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "名前を呼ばれると「自分を見ている人」として親近感を持つ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_393",
+    "originalNumber": 393,
+    "title": "自己関連づけ効果",
+    "summary": "「名前を呼ばれると「自分を見ている人」として親近感を持つ」を支える概念。固有名は存在を承認する合図になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "名前を呼ばれると「自分を見ている人」として親近感を持つ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_394",
+    "originalNumber": 394,
+    "title": "具体的フィードバック",
+    "summary": "「褒めるときは性格よりも行動を言う」を支える概念。具体性が称賛の信頼度を高めるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "褒めるときは性格よりも行動を言う"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_395",
+    "originalNumber": 395,
+    "title": "特性称賛と過程称賛",
+    "summary": "「褒めるときは性格よりも行動を言う」を支える概念。具体性が称賛の信頼度を高めるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "褒めるときは性格よりも行動を言う"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_396",
     "originalNumber": 396,
     "title": "自己高揚バイアス",
@@ -4056,9 +7390,153 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_397",
+    "originalNumber": 397,
+    "title": "脆弱性の相互性",
+    "summary": "「弱さを見せるときは、許可を取る」を支える概念。受け手の余裕を守ることも配慮であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "弱さを見せるときは、許可を取る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_398",
+    "originalNumber": 398,
+    "title": "同意形成としての許可取り",
+    "summary": "「弱さを見せるときは、許可を取る」を支える概念。受け手の余裕を守ることも配慮であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "弱さを見せるときは、許可を取る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_399",
+    "originalNumber": 399,
+    "title": "印象形成理論",
+    "summary": "「能力で尊敬を取り、隙で親しみをつくる」を支える概念。完璧さだけでは心理的距離が残るという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "能力で尊敬を取り、隙で親しみをつくる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_400",
+    "originalNumber": 400,
+    "title": "情報ギャップ理論",
+    "summary": "「人は、隠されたものに興味を持つ」を支える概念。欠けた情報ほど知りたい欲求を刺激するという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "人は、隠されたものに興味を持つ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_401",
+    "originalNumber": 401,
+    "title": "限界効用逓減",
+    "summary": "「盛り下がるまで居残らず、印象が高いうちに席を立つ」を支える概念。満足の頂点で終えると余韻が残るという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "盛り下がるまで居残らず、印象が高いうちに席を立つ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_402",
     "originalNumber": 402,
     "title": "心理的安全性",
+    "summary": "「深い質問より、安心感が会話を深くする」を支える概念。安全が確保されて初めて本音が出るという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "深い質問より、安心感が会話を深くする"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_403",
+    "originalNumber": 403,
+    "title": "ロジャーズの受容",
     "summary": "「深い質問より、安心感が会話を深くする」を支える概念。安全が確保されて初めて本音が出るという作用や判断原理を説明する。",
     "sourceType": "心理学",
     "discipline": "社会心理学",
@@ -4095,6 +7573,30 @@
     ],
     "principles": [
       "感情を言葉にすると、相手は理解されたと感じる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_405",
+    "originalNumber": 405,
+    "title": "感情焦点型コミュニケーション",
+    "summary": "「事実より感情を聞く」を支える概念。出来事の意味は感情に表れるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "事実より感情を聞く"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -4248,6 +7750,78 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_412",
+    "originalNumber": 412,
+    "title": "アクティブリスニング",
+    "summary": "「次の話題は、相手の最後の言葉からつくる」を支える概念。直前の言葉を拾うと関心が伝わるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "次の話題は、相手の最後の言葉からつくる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_413",
+    "originalNumber": 413,
+    "title": "会話の連鎖",
+    "summary": "「次の話題は、相手の最後の言葉からつくる」を支える概念。直前の言葉を拾うと関心が伝わるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "次の話題は、相手の最後の言葉からつくる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_414",
+    "originalNumber": 414,
+    "title": "連想ネットワーク",
+    "summary": "「会話の入口は、この人＝キーワードの数で増える」を支える概念。記憶した情報が次の対話の接点になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "会話の入口は、この人＝キーワードの数で増える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_415",
     "originalNumber": 415,
     "title": "精緻化リハーサル",
@@ -4263,6 +7837,30 @@
     ],
     "principles": [
       "会話の入口は、この人＝キーワードの数で増える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_416",
+    "originalNumber": 416,
+    "title": "沈黙耐性",
+    "summary": "「沈黙より、それを恐れる態度が気まずさを生む」を支える概念。焦りは沈黙を異常なものに変えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "社会心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の構築"
+    ],
+    "principles": [
+      "沈黙より、それを恐れる態度が気まずさを生む"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -4464,6 +8062,222 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_425",
+    "originalNumber": 425,
+    "title": "順応水準理論",
+    "summary": "「親しくなるほど、日々の礼に注意せよ」を支える概念。慣れは感謝を見えにくくするという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "親しくなるほど、日々の礼に注意せよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_426",
+    "originalNumber": 426,
+    "title": "関係維持行動",
+    "summary": "「親しくなるほど、日々の礼に注意せよ」を支える概念。慣れは感謝を見えにくくするという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "親しくなるほど、日々の礼に注意せよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_427",
+    "originalNumber": 427,
+    "title": "境界設定",
+    "summary": "「関係を守るためにも、自分が譲らないラインを持つ」を支える概念。境界があるから関係は長持ちするという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "関係を守るためにも、自分が譲らないラインを持つ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_428",
+    "originalNumber": 428,
+    "title": "葛藤回避の逆説",
+    "summary": "「恐れるべきは衝突ではなく、関係の歪み」を支える概念。我慢の蓄積は突然の破綻を招くという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "恐れるべきは衝突ではなく、関係の歪み"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_429",
+    "originalNumber": 429,
+    "title": "ホット・コールド共感ギャップ",
+    "summary": "「感情が強い時に結論を出さない」を支える概念。高ぶった感情は判断基準を変えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "感情が強い時に結論を出さない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_430",
+    "originalNumber": 430,
+    "title": "感情ヒューリスティック",
+    "summary": "「感情が強い時に結論を出さない」を支える概念。高ぶった感情は判断基準を変えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "感情が強い時に結論を出さない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_431",
+    "originalNumber": 431,
+    "title": "境界調整",
+    "summary": "「解消か継続かの二択ではなく、距離と頻度で管理する」を支える概念。関係には切断以外の調整手段があるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "解消か継続かの二択ではなく、距離と頻度で管理する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_432",
+    "originalNumber": 432,
+    "title": "接触頻度管理",
+    "summary": "「解消か継続かの二択ではなく、距離と頻度で管理する」を支える概念。関係には切断以外の調整手段があるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "解消か継続かの二択ではなく、距離と頻度で管理する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_433",
+    "originalNumber": 433,
+    "title": "不当な義務感",
+    "summary": "「罪悪感は、引き受けるべき義務の証明ではない」を支える概念。不快感と責任は同じではないという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "罪悪感は、引き受けるべき義務の証明ではない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_434",
     "originalNumber": 434,
     "title": "期待違反理論",
@@ -4527,6 +8341,30 @@
     ],
     "principles": [
       "相手の面子は守り、要求だけを切る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_437",
+    "originalNumber": 437,
+    "title": "強化理論",
+    "summary": "「無条件の譲歩に、相手は好意ではなく弱さとして記憶する」を支える概念。譲歩の反復は要求をさらに強化するという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "無条件の譲歩に、相手は好意ではなく弱さとして記憶する"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -4632,6 +8470,30 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_442",
+    "originalNumber": 442,
+    "title": "顕示選好",
+    "summary": "「人の本性は言葉より行動に表れる」を支える概念。選択には本人の本当の優先順位が出るという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "人の本性は言葉より行動に表れる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_443",
     "originalNumber": 443,
     "title": "行動的一貫性",
@@ -4663,6 +8525,30 @@
     "sourceType": "心理学",
     "discipline": "対人関係心理学",
     "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "反撃できない相手への扱いがいずれ自分へ向けられる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_445",
+    "originalNumber": 445,
+    "title": "権力の脱抑制",
+    "summary": "「反撃できない相手への扱いがいずれ自分へ向けられる」を支える概念。弱者への態度は権力使用の癖を示すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
     "sourceName": null,
     "sourceDetail": null,
     "domains": [
@@ -4719,6 +8605,30 @@
     ],
     "principles": [
       "他人の秘密を持ってくる人は、こちらの秘密も持っていく"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_448",
+    "originalNumber": 448,
+    "title": "境界尊重テスト",
+    "summary": "「距離を減らしたときの反応で、関係を尊重する人かが測れる」を支える概念。境界への反応が尊重の有無を示すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "対人関係心理学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "関係の管理"
+    ],
+    "principles": [
+      "距離を減らしたときの反応で、関係を尊重する人かが測れる"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -4848,6 +8758,486 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_454",
+    "originalNumber": 454,
+    "title": "社会的促進",
+    "summary": "「1対1は深い会話、集団は一体感を楽しむ場」を支える概念。人数が変われば会話の目的も変わるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "1対1は深い会話、集団は一体感を楽しむ場"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_455",
+    "originalNumber": 455,
+    "title": "集団規範",
+    "summary": "「その集団で何が面白いとされ、何が嫌われるかを読む」を支える概念。暗黙の規範を読める者が浮きにくいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "その集団で何が面白いとされ、何が嫌われるかを読む"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_456",
+    "originalNumber": 456,
+    "title": "文化的適合理論",
+    "summary": "「その集団で何が面白いとされ、何が嫌われるかを読む」を支える概念。暗黙の規範を読める者が浮きにくいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "その集団で何が面白いとされ、何が嫌われるかを読む"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_457",
+    "originalNumber": 457,
+    "title": "同調行動",
+    "summary": "「集団では、ノリへ参加する意思があるかを見られる」を支える概念。参加の合図が内集団への所属を示すという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団では、ノリへ参加する意思があるかを見られる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_458",
+    "originalNumber": 458,
+    "title": "内集団シグナル",
+    "summary": "「集団では、ノリへ参加する意思があるかを見られる」を支える概念。参加の合図が内集団への所属を示すという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団では、ノリへ参加する意思があるかを見られる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_459",
+    "originalNumber": 459,
+    "title": "規範的影響",
+    "summary": "「ノリには浮かない程度に参加しながら、無理な同調まではしない」を支える概念。適度な同調が所属と自立を両立させるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "ノリには浮かない程度に参加しながら、無理な同調まではしない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_460",
+    "originalNumber": 460,
+    "title": "個人化",
+    "summary": "「ノリには浮かない程度に参加しながら、無理な同調まではしない」を支える概念。適度な同調が所属と自立を両立させるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "ノリには浮かない程度に参加しながら、無理な同調まではしない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_461",
+    "originalNumber": 461,
+    "title": "情報源効果",
+    "summary": "「何を言うかだけでなく、誰が言うかが重要」を支える概念。発言の重みは地位と信用にも左右されるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "何を言うかだけでなく、誰が言うかが重要"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_462",
+    "originalNumber": 462,
+    "title": "互恵性",
+    "summary": "「目立つだけでなく、集団への価値提供が立場を守る」を支える概念。貢献がある者は排除されにくいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "目立つだけでなく、集団への価値提供が立場を守る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_463",
+    "originalNumber": 463,
+    "title": "タイミング効果",
+    "summary": "「話題が動く瞬間の一言が存在感を残す」を支える概念。転換点での発言は記憶に残りやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "話題が動く瞬間の一言が存在感を残す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_464",
+    "originalNumber": 464,
+    "title": "会話ターン取得",
+    "summary": "「話題が動く瞬間の一言が存在感を残す」を支える概念。転換点での発言は記憶に残りやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "話題が動く瞬間の一言が存在感を残す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_465",
+    "originalNumber": 465,
+    "title": "社会的埋め込み",
+    "summary": "「一対一の関係を複数つくれば孤立しにくくなる」を支える概念。複数の細い線が孤立を防ぐという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "一対一の関係を複数つくれば孤立しにくくなる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_466",
+    "originalNumber": 466,
+    "title": "ネットワーク冗長性",
+    "summary": "「一対一の関係を複数つくれば孤立しにくくなる」を支える概念。複数の細い線が孤立を防ぐという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "一対一の関係を複数つくれば孤立しにくくなる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_467",
+    "originalNumber": 467,
+    "title": "役割限定性",
+    "summary": "「集団で人気者でも、外で親しくされるとは限らない」を支える概念。場の役割と私的な好意は別物であるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団で人気者でも、外で親しくされるとは限らない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_468",
+    "originalNumber": 468,
+    "title": "鳥尽きて良弓蔵れ",
+    "summary": "「集団で人気者でも、外で親しくされるとは限らない」を支える概念。場の役割と私的な好意は別物であるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団で人気者でも、外で親しくされるとは限らない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_469",
+    "originalNumber": 469,
+    "title": "狡兎死して走狗烹らる",
+    "summary": "「集団で人気者でも、外で親しくされるとは限らない」を支える概念。場の役割と私的な好意は別物であるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団で人気者でも、外で親しくされるとは限らない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_470",
+    "originalNumber": 470,
+    "title": "排斥理論",
+    "summary": "「仲間内だけで盛り上がりすぎると、外された人を静かな反対者に変える」を支える概念。排除された者は協力をやめやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "仲間内だけで盛り上がりすぎると、外された人を静かな反対者に変える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_471",
+    "originalNumber": 471,
+    "title": "負の紐帯管理",
+    "summary": "「味方を増やそうとするより、敵を減らした方が孤立を防げる」を支える概念。敵意の少なさが立場の安定をつくるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "味方を増やそうとするより、敵を減らした方が孤立を防げる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_472",
+    "originalNumber": 472,
+    "title": "バランス理論",
+    "summary": "「味方を増やそうとするより、敵を減らした方が孤立を防げる」を支える概念。敵意の少なさが立場の安定をつくるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "味方を増やそうとするより、敵を減らした方が孤立を防げる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_473",
+    "originalNumber": 473,
+    "title": "自己成就予言",
+    "summary": "「自信が、雑な扱いを抑える」を支える概念。人は反撃される可能性を読んで扱いを変えるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "自信が、雑な扱いを抑える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_474",
     "originalNumber": 474,
     "title": "非言語的地位表示",
@@ -4872,6 +9262,54 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_475",
+    "originalNumber": 475,
+    "title": "服従シグナル",
+    "summary": "「不要な笑顔は、好意ではなく弱さの証明」を支える概念。過剰な迎合は境界の弱さに見えるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "不要な笑顔は、好意ではなく弱さの証明"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_476",
+    "originalNumber": 476,
+    "title": "相互抑止",
+    "summary": "「押されたら、押し返せ」を支える概念。一度の抵抗が今後の扱いを決めるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "押されたら、押し返せ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_477",
     "originalNumber": 477,
     "title": "一貫性原理",
@@ -4887,6 +9325,30 @@
     ],
     "principles": [
       "一貫性が人としての軸の強さを示す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_478",
+    "originalNumber": 478,
+    "title": "自己注目理論",
+    "summary": "「すべることを恐れるほど、失敗より自信のなさが印象に残る」を支える概念。失敗回避の焦りが挙動を不自然にするという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "すべることを恐れるほど、失敗より自信のなさが印象に残る"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -4944,6 +9406,54 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_481",
+    "originalNumber": 481,
+    "title": "謙遜規範",
+    "summary": "「褒め言葉は「感謝」で受け止め、「事実」で返す」を支える概念。受け取り方が自己評価の水準を示すという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "褒め言葉は「感謝」で受け止め、「事実」で返す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_482",
+    "originalNumber": 482,
+    "title": "独立的同調",
+    "summary": "「調和することと、周囲と同じ判断をすることは別である」を支える概念。協調と服従を分ける軸が必要になるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "調和することと、周囲と同じ判断をすることは別である"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_483",
     "originalNumber": 483,
     "title": "アジェンダ設定",
@@ -4968,6 +9478,222 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_484",
+    "originalNumber": 484,
+    "title": "同調圧力",
+    "summary": "「場の空気こそ最大の味方」を支える概念。多数派に見える側へ人は流れやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "場の空気こそ最大の味方"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_485",
+    "originalNumber": 485,
+    "title": "共通内集団アイデンティティ",
+    "summary": "「異論は集団のためにとして出した方が通る」を支える概念。共通利益に接続すると反対が通りやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "異論は集団のためにとして出した方が通る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_486",
+    "originalNumber": 486,
+    "title": "公正フレーミング",
+    "summary": "「異論は集団のためにとして出した方が通る」を支える概念。共通利益に接続すると反対が通りやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "異論は集団のためにとして出した方が通る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_487",
+    "originalNumber": 487,
+    "title": "責任の明確化",
+    "summary": "「名指しが責任を生み、仕事が動き出す」を支える概念。責任の所在が曖昧だと誰も動かないという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "名指しが責任を生み、仕事が動き出す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_488",
+    "originalNumber": 488,
+    "title": "漸進主義",
+    "summary": "「集団を変えるときは、全面改革より漸進改革」を支える概念。小さな成功が抵抗と反動を減らすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団を変えるときは、全面改革より漸進改革"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_489",
+    "originalNumber": 489,
+    "title": "戦わずして人の兵を屈するは",
+    "summary": "「集団を変えるときは、全面改革より漸進改革」を支える概念。小さな成功が抵抗と反動を減らすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団を変えるときは、全面改革より漸進改革"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_490",
+    "originalNumber": 490,
+    "title": "善の善なる者なり",
+    "summary": "「集団を変えるときは、全面改革より漸進改革」を支える概念。小さな成功が抵抗と反動を減らすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "組織行動・組織ネットワーク",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "対人術",
+      "立ち回り"
+    ],
+    "principles": [
+      "集団を変えるときは、全面改革より漸進改革"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_491",
+    "originalNumber": 491,
+    "title": "強み理論",
+    "summary": "「自分の3つの武器を見つけよ」を支える概念。強みの集中が能力を市場価値へ変えるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "自分の3つの武器を見つけよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_492",
+    "originalNumber": 492,
+    "title": "善く戦う者は",
+    "summary": "「自分の3つの武器を見つけよ」を支える概念。強みの集中が能力を市場価値へ変えるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "自分の3つの武器を見つけよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_493",
     "originalNumber": 493,
     "title": "認知負荷理論",
@@ -4983,6 +9709,78 @@
     ],
     "principles": [
       "情報整理を徹底せよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_494",
+    "originalNumber": 494,
+    "title": "百戦して殆うからず",
+    "summary": "「情報整理を徹底せよ」を支える概念。整理された情報が判断速度を上げるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "情報整理を徹底せよ"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_495",
+    "originalNumber": 495,
+    "title": "反復開発",
+    "summary": "「完璧な仕事を遅れて出すより、修正できる仕事を早く出す」を支える概念。早い共有が修正可能性を残すという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "完璧な仕事を遅れて出すより、修正できる仕事を早く出す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_496",
+    "originalNumber": 496,
+    "title": "未だ巧久を睹ざるなり",
+    "summary": "「完璧な仕事を遅れて出すより、修正できる仕事を早く出す」を支える概念。早い共有が修正可能性を残すという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "完璧な仕事を遅れて出すより、修正できる仕事を早く出す"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5031,6 +9829,102 @@
     ],
     "principles": [
       "問題だけを運ぶ人には指示が増え、選択肢まで運ぶ人には裁量が増える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_499",
+    "originalNumber": 499,
+    "title": "自己犠牲バイアス",
+    "summary": "「自己犠牲の罠を避ける」を支える概念。献身の常態化は価値を見えなくするという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "自己犠牲の罠を避ける"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_500",
+    "originalNumber": 500,
+    "title": "燃え尽き理論",
+    "summary": "「自己犠牲の罠を避ける」を支える概念。献身の常態化は価値を見えなくするという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "自己犠牲の罠を避ける"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_501",
+    "originalNumber": 501,
+    "title": "アウトカム評価",
+    "summary": "「作業量ではなく、成果と変化を示す」を支える概念。組織は努力より変化を評価しやすいという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "作業量ではなく、成果と変化を示す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_502",
+    "originalNumber": 502,
+    "title": "正常性の不可視性",
+    "summary": "「問題を起こさず終えた仕事ほど、予防した危険と判断を記録しておく」を支える概念。平穏な結果ほど貢献が不可視になるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "問題を起こさず終えた仕事ほど、予防した危険と判断を記録しておく"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5160,6 +10054,30 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_508",
+    "originalNumber": 508,
+    "title": "目標置換",
+    "summary": "「評価基準を知らない努力家は、組織に最も安く使われる」を支える概念。努力の方向は制度が決めているという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "評価基準を知らない努力家は、組織に最も安く使われる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_509",
     "originalNumber": 509,
     "title": "インセンティブ設計",
@@ -5175,6 +10093,102 @@
     ],
     "principles": [
       "評価基準を知らない努力家は、組織に最も安く使われる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_510",
+    "originalNumber": 510,
+    "title": "信頼性理論",
+    "summary": "「目立つ実績よりも「任せても事故らない」を刷り込む」を支える概念。信頼性は派手な成果より委任を増やすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "目立つ実績よりも「任せても事故らない」を刷り込む"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_511",
+    "originalNumber": 511,
+    "title": "ネガティビティ・バイアス",
+    "summary": "「目立つ実績よりも「任せても事故らない」を刷り込む」を支える概念。信頼性は派手な成果より委任を増やすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "目立つ実績よりも「任せても事故らない」を刷り込む"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_512",
+    "originalNumber": 512,
+    "title": "評判ネットワーク",
+    "summary": "「昇進は自分のいない席で誰が名前を推すかで決まる」を支える概念。非公式な推薦者が昇進を動かすという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "昇進は自分のいない席で誰が名前を推すかで決まる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_513",
+    "originalNumber": 513,
+    "title": "代替可能性",
+    "summary": "「何でもやる人には雑務が、その人しかできない仕事を持つ人には仕事と交渉力が集まる」を支える概念。希少性が仕事の質と交渉力を変えるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "何でもやる人には雑務が、その人しかできない仕事を持つ人には仕事と交渉力が集まる"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5256,6 +10270,30 @@
     "categoryTitle": "組織・経営論"
   },
   {
+    "tagId": "kb_517",
+    "originalNumber": 517,
+    "title": "第三者証明",
+    "summary": "「自分で自分を褒めず、数字・比較・他人の反応に価値を証言させる」を支える概念。第三者の証言は自己評価より信じられるという作用や判断原理を説明する。",
+    "sourceType": "組織・経営論",
+    "discipline": "人的資源管理・キャリア論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "評価の獲得"
+    ],
+    "principles": [
+      "自分で自分を褒めず、数字・比較・他人の反応に価値を証言させる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
     "tagId": "kb_518",
     "originalNumber": 518,
     "title": "代替困難性",
@@ -5278,6 +10316,30 @@
     "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_519",
+    "originalNumber": 519,
+    "title": "スラック資源",
+    "summary": "「嘘ではなく、非開示で交渉力の余白を残す」を支える概念。情報差が相手の読みを制限するという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "嘘ではなく、非開示で交渉力の余白を残す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_520",
@@ -5319,6 +10381,126 @@
     ],
     "principles": [
       "選択肢は提示し、決定は相手にさせる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_522",
+    "originalNumber": 522,
+    "title": "統合型交渉",
+    "summary": "「論点を増やせば、一つの奪い合いを複数の交換へ変えられる」を支える概念。論点の追加が双方の得をつくるという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "論点を増やせば、一つの奪い合いを複数の交換へ変えられる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_523",
+    "originalNumber": 523,
+    "title": "沈黙の圧力",
+    "summary": "「沈黙を相手への圧力として使う」を支える概念。沈黙は相手に譲歩案を考えさせるという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "沈黙を相手への圧力として使う"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_524",
+    "originalNumber": 524,
+    "title": "限界点シグナリング",
+    "summary": "「「ここを越えると取引が壊れる」という警告を暗示する」を支える概念。決裂可能性が限界線の信憑性を高めるという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "「ここを越えると取引が壊れる」という警告を暗示する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_525",
+    "originalNumber": 525,
+    "title": "勝者の呪い回避",
+    "summary": "「妥協を演じ、完全勝利を避ける」を支える概念。面子を残すと合意が長続きするという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "妥協を演じ、完全勝利を避ける"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_526",
+    "originalNumber": 526,
+    "title": "戦わずして人の兵を屈する",
+    "summary": "「正面衝突を避けて目的を取れるなら、それが最も安い勝利である」を支える概念。勝利の価値は支払ったコストで決まるという作用や判断原理を説明する。",
+    "sourceType": "戦略論",
+    "discipline": "交渉論・ゲーム理論",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "交渉・合意の戦術"
+    ],
+    "principles": [
+      "正面衝突を避けて目的を取れるなら、それが最も安い勝利である"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5376,6 +10558,54 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_529",
+    "originalNumber": 529,
+    "title": "スモールステップ",
+    "summary": "「最初の一歩を小さくして、着手の抵抗を下げる」を支える概念。着手コストを下げれば行動率が上がるという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "最初の一歩を小さくして、着手の抵抗を下げる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_530",
+    "originalNumber": 530,
+    "title": "活性化エネルギー",
+    "summary": "「最初の一歩を小さくして、着手の抵抗を下げる」を支える概念。着手コストを下げれば行動率が上がるという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "最初の一歩を小さくして、着手の抵抗を下げる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_531",
     "originalNumber": 531,
     "title": "ツァイガルニク効果",
@@ -5415,6 +10645,54 @@
     ],
     "principles": [
       "やる気を待たず、少しだけ始める"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_533",
+    "originalNumber": 533,
+    "title": "習慣の下限設定",
+    "summary": "「最低の日にもできる単位が、習慣の主導権を守る」を支える概念。最低基準が習慣の断絶を防ぐという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "最低の日にもできる単位が、習慣の主導権を守る"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_534",
+    "originalNumber": 534,
+    "title": "連続性原理",
+    "summary": "「最低の日にもできる単位が、習慣の主導権を守る」を支える概念。最低基準が習慣の断絶を防ぐという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "最低の日にもできる単位が、習慣の主導権を守る"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5496,6 +10774,54 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_538",
+    "originalNumber": 538,
+    "title": "自己モニタリング",
+    "summary": "「結果だけでなく実行回数を記録すると、失敗の日にも継続が見える」を支える概念。回数の記録が自己効力感を守るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "結果だけでなく実行回数を記録すると、失敗の日にも継続が見える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_539",
+    "originalNumber": 539,
+    "title": "プロセス目標",
+    "summary": "「結果だけでなく実行回数を記録すると、失敗の日にも継続が見える」を支える概念。回数の記録が自己効力感を守るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "結果だけでなく実行回数を記録すると、失敗の日にも継続が見える"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_540",
     "originalNumber": 540,
     "title": "回復理論",
@@ -5511,6 +10837,78 @@
     ],
     "principles": [
       "休む日をルール化する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_541",
+    "originalNumber": 541,
+    "title": "アイデンティティ・ベース習慣",
+    "summary": "「継続を“アイデンティティ”に接続する」を支える概念。自己像に沿う行動は続けやすいという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "継続を“アイデンティティ”に接続する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_542",
+    "originalNumber": 542,
+    "title": "破滅回避",
+    "summary": "「大勝より先に、致命傷を負わない逃げ道をつくる」を支える概念。破滅回避が挑戦回数を守るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "大勝より先に、致命傷を負わない逃げ道をつくる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_543",
+    "originalNumber": 543,
+    "title": "リーン・スタートアップ",
+    "summary": "「小さく試し、失敗しても再挑戦できる範囲で賭ける」を支える概念。小さな賭けが学習機会を増やすという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "小さく試し、失敗しても再挑戦できる範囲で賭ける"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5544,6 +10942,126 @@
     "categoryTitle": "行動科学"
   },
   {
+    "tagId": "kb_545",
+    "originalNumber": 545,
+    "title": "パレートの法則",
+    "summary": "「努力量ではなく、結果を動かした行動へ資源を寄せる」を支える概念。成果への寄与率で優先順位を決めるという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "原理・法則",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "努力量ではなく、結果を動かした行動へ資源を寄せる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_546",
+    "originalNumber": 546,
+    "title": "レバレッジ",
+    "summary": "「努力量ではなく、結果を動かした行動へ資源を寄せる」を支える概念。成果への寄与率で優先順位を決めるという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "努力量ではなく、結果を動かした行動へ資源を寄せる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_547",
+    "originalNumber": 547,
+    "title": "タイムボックス",
+    "summary": "「期限を絞り、仕事が無駄に膨らむ余地をなくす」を支える概念。時間の上限が不要な作業を削るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "期限を絞り、仕事が無駄に膨らむ余地をなくす"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_548",
+    "originalNumber": 548,
+    "title": "適応的計画",
+    "summary": "「計画に固執せず、現実に合わせて素早く修正する」を支える概念。変化の速い環境では修正速度が勝るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "計画に固執せず、現実に合わせて素早く修正する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_549",
+    "originalNumber": 549,
+    "title": "水に常形無く",
+    "summary": "「計画に固執せず、現実に合わせて素早く修正する」を支える概念。変化の速い環境では修正速度が勝るという作用や判断原理を説明する。",
+    "sourceType": "行動科学",
+    "discipline": "行動変容・学習科学",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "仕事術",
+      "目標達成"
+    ],
+    "principles": [
+      "計画に固執せず、現実に合わせて素早く修正する"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
     "tagId": "kb_550",
     "originalNumber": 550,
     "title": "新奇性効果",
@@ -5559,6 +11077,102 @@
     ],
     "principles": [
       "小さな変化を重ねる者だけが、濃い日常を生きられる。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_551",
+    "originalNumber": 551,
+    "title": "到達錯誤",
+    "summary": "「山頂ばかり見ていては、道端に咲く花を見失う。」を支える概念。達成への集中は現在の幸福を隠すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "山頂ばかり見ていては、道端に咲く花を見失う。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_552",
+    "originalNumber": 552,
+    "title": "セレンディピティ",
+    "summary": "「寄り道にこそ、計画では拾えない人生の断片が宿る。」を支える概念。偶然の経験が人生の物語を豊かにするという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "寄り道にこそ、計画では拾えない人生の断片が宿る。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_553",
+    "originalNumber": 553,
+    "title": "役割多元化",
+    "summary": "「一つの顔に閉じこもるな。人生は、多面化するほど広がる。」を支える概念。複数の役割が自己と世界を広げるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "一つの顔に閉じこもるな。人生は、多面化するほど広がる。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_554",
+    "originalNumber": 554,
+    "title": "後悔最小化",
+    "summary": "「失敗しない人生より、挑戦したと言える人生を選べ。」を支える概念。後悔は結果より挑戦の有無に残りやすいという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "失敗しない人生より、挑戦したと言える人生を選べ。"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5640,6 +11254,54 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_558",
+    "originalNumber": 558,
+    "title": "自己更新",
+    "summary": "「充実した人生は、完成品ではない。更新し続ける営みである。」を支える概念。価値観に応じて充実の形は変わるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "充実した人生は、完成品ではない。更新し続ける営みである。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_559",
+    "originalNumber": 559,
+    "title": "場の理論",
+    "summary": "「人生が止まったなら、環境か、人か、行動を変えよ。」を支える概念。停滞は入力条件を変える合図であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "人生が止まったなら、環境か、人か、行動を変えよ。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_560",
     "originalNumber": 560,
     "title": "目的論",
@@ -5679,6 +11341,54 @@
     ],
     "principles": [
       "できることから考えるな。成し遂げたいことから考えよ。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_562",
+    "originalNumber": 562,
+    "title": "有限性の自覚",
+    "summary": "「人生は一度きりだ。遠慮して生きるな。」を支える概念。過剰な自己制限は将来の後悔を残すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "人生は一度きりだ。遠慮して生きるな。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_563",
+    "originalNumber": 563,
+    "title": "死の顕現性",
+    "summary": "「人生は一度きりだ。遠慮して生きるな。」を支える概念。過剰な自己制限は将来の後悔を残すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "人生は一度きりだ。遠慮して生きるな。"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5736,6 +11446,30 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_566",
+    "originalNumber": 566,
+    "title": "相対的剥奪",
+    "summary": "「他人と比べ続ける者は、自分の人生を生きる時間を失う。」を支える概念。比較は欲望と評価軸を他人に渡すという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "他人と比べ続ける者は、自分の人生を生きる時間を失う。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_567",
     "originalNumber": 567,
     "title": "ポートフォリオ理論",
@@ -5751,6 +11485,78 @@
     ],
     "principles": [
       "一つの成功に、人生全体を賭けない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_568",
+    "originalNumber": 568,
+    "title": "最適化の罠",
+    "summary": "「効率だけで道を選ぶと、経歴は整っても人生の物語は薄くなる」を支える概念。効率は意味や記憶を取りこぼしやすいという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "効率だけで道を選ぶと、経歴は整っても人生の物語は薄くなる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_569",
+    "originalNumber": 569,
+    "title": "可逆性",
+    "summary": "「未来が読めないときは、正解を当てるよりいつでも撤回できる選択肢を買う」を支える概念。可逆性が不確実な未来への保険になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "未来が読めないときは、正解を当てるよりいつでも撤回できる選択肢を買う"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_570",
+    "originalNumber": 570,
+    "title": "ベイズ更新",
+    "summary": "「最初は小さく試し、確信が増えたときだけ賭け金を上げる」を支える概念。段階的投資が失敗の損失を限定するという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "最初は小さく試し、確信が増えたときだけ賭け金を上げる"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5784,6 +11590,102 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_572",
+    "originalNumber": 572,
+    "title": "目標調整理論",
+    "summary": "「夢は状況によって変わるもの」を支える概念。夢の更新は自己否定ではなく適応であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "理論・モデル",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "夢は状況によって変わるもの"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_573",
+    "originalNumber": 573,
+    "title": "二分法的思考",
+    "summary": "「極端な思考は強者の気分を与えるが、最適解とは限らない」を支える概念。二択化は中間の有効策を消してしまうという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "極端な思考は強者の気分を与えるが、最適解とは限らない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_574",
+    "originalNumber": 574,
+    "title": "認知的柔軟性",
+    "summary": "「極端な思考は強者の気分を与えるが、最適解とは限らない」を支える概念。二択化は中間の有効策を消してしまうという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "極端な思考は強者の気分を与えるが、最適解とは限らない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_575",
+    "originalNumber": 575,
+    "title": "複利効果",
+    "summary": "「人生は複利。」を支える概念。小さな差が長期では大差になるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "効果・バイアス",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生の指針"
+    ],
+    "principles": [
+      "人生は複利。"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_576",
     "originalNumber": 576,
     "title": "過度の一般化",
@@ -5799,6 +11701,78 @@
     ],
     "principles": [
       "一時的な停滞を、人生全体に拡大解釈しない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_577",
+    "originalNumber": 577,
+    "title": "認知的オフローディング",
+    "summary": "「頭の中だけで考え続けず、書き出す」を支える概念。書くことで不安を対象として扱えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [
+      "頭の中だけで考え続けず、書き出す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_578",
+    "originalNumber": 578,
+    "title": "筆記開示",
+    "summary": "「頭の中だけで考え続けず、書き出す」を支える概念。書くことで不安を対象として扱えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [
+      "頭の中だけで考え続けず、書き出す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_579",
+    "originalNumber": 579,
+    "title": "統制の二分法",
+    "summary": "「変えられることは動かし、変えられないことは受け入れる」を支える概念。統制可能性の区別が消耗を減らすという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "臨床心理学・認知行動療法",
+    "conceptType": "技法・介入",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "不安の解消"
+    ],
+    "principles": [
+      "変えられることは動かし、変えられないことは受け入れる"
     ],
     "relatedIds": [],
     "reliability": "出典・学術的位置づけ要確認",
@@ -5832,6 +11806,78 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_581",
+    "originalNumber": 581,
+    "title": "意味世界の崩壊",
+    "summary": "「挫折は結果だけでなく、世界観の前提が壊れるから痛い」を支える概念。崩れるのは目標と自己像を結ぶ前提であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "挫折は結果だけでなく、世界観の前提が壊れるから痛い"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_582",
+    "originalNumber": 582,
+    "title": "基本的前提の動揺",
+    "summary": "「挫折は結果だけでなく、世界観の前提が壊れるから痛い」を支える概念。崩れるのは目標と自己像を結ぶ前提であるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "挫折は結果だけでなく、世界観の前提が壊れるから痛い"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_583",
+    "originalNumber": 583,
+    "title": "固定的自己観",
+    "summary": "「一つの敗北を人格の総評にすると、一度の敗北に人生全体まで明け渡す」を支える概念。結果と人格を結びつけると回復が遅れるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "一つの敗北を人格の総評にすると、一度の敗北に人生全体まで明け渡す"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_584",
     "originalNumber": 584,
     "title": "人的資本",
@@ -5856,9 +11902,57 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_585",
+    "originalNumber": 585,
+    "title": "転移可能スキル",
+    "summary": "「失ったのは道であって、そこまで歩いた脚力ではない」を支える概念。経験で得た能力までは失われていないという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "失ったのは道であって、そこまで歩いた脚力ではない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_586",
     "originalNumber": 586,
     "title": "反実仮想",
+    "summary": "「後悔は、選ばなかった人生から失敗・退屈・不安だけを消した偽造映像である」を支える概念。反実仮想は選ばなかった道を美化するという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "後悔は、選ばなかった人生から失敗・退屈・不安だけを消した偽造映像である"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_587",
+    "originalNumber": 587,
+    "title": "選択されなかった道の理想化",
     "summary": "「後悔は、選ばなかった人生から失敗・退屈・不安だけを消した偽造映像である」を支える概念。反実仮想は選ばなかった道を美化するという作用や判断原理を説明する。",
     "sourceType": "心理学",
     "discipline": "ポジティブ心理学・人生設計",
@@ -5952,6 +12046,30 @@
     "categoryTitle": "心理学"
   },
   {
+    "tagId": "kb_591",
+    "originalNumber": 591,
+    "title": "評価の時間的不確実性",
+    "summary": "「何が幸で、何が不幸かは誰にもわからない」を支える概念。出来事の意味は後から変わりうるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "何が幸で、何が不幸かは誰にもわからない"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
     "tagId": "kb_592",
     "originalNumber": 592,
     "title": "確率的機会",
@@ -6003,6 +12121,30 @@
     "tagId": "kb_594",
     "originalNumber": 594,
     "title": "幸運の表面積",
+    "summary": "「運は偶然だけでなく、偶然が落ちる場所と、拾う準備で決まる」を支える概念。準備された者だけが偶然を成果に変えるという作用や判断原理を説明する。",
+    "sourceType": "心理学",
+    "discipline": "ポジティブ心理学・人生設計",
+    "conceptType": "概念・フレームワーク",
+    "sourceName": null,
+    "sourceDetail": null,
+    "domains": [
+      "人生術",
+      "人生のつまずき"
+    ],
+    "principles": [
+      "運は偶然だけでなく、偶然が落ちる場所と、拾う準備で決まる"
+    ],
+    "relatedIds": [],
+    "reliability": "出典・学術的位置づけ要確認",
+    "status": "seed",
+    "notes": "処世術Markdownで使用されていた未登録名称を統合時に追加。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_595",
+    "originalNumber": 595,
+    "title": "準備された心",
     "summary": "「運は偶然だけでなく、偶然が落ちる場所と、拾う準備で決まる」を支える概念。準備された者だけが偶然を成果に変えるという作用や判断原理を説明する。",
     "sourceType": "心理学",
     "discipline": "ポジティブ心理学・人生設計",

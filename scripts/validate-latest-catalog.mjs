@@ -8,6 +8,10 @@ const theoryIds = new Set(theories.map((theory) => theory.tagId));
 const referencedTheoryIds = new Set(cards.flatMap((card) => card.relatedTheoryIds ?? []));
 const duplicateTitles = cards.length - new Set(cards.map((card) => card.title)).size;
 const deadLinks = [...referencedTheoryIds].filter((id) => !theoryIds.has(id));
+const requiredCategoryIds = new Set(['psychology', 'behavioral-science', 'organization-management', 'strategy']);
+const sourceTheoryMaster = JSON.parse(fs.readFileSync('C:/Users/tsuba/Downloads/theories_unified.json', 'utf8'));
+const sourceRequiredIds = new Set(sourceTheoryMaster.filter((theory) => requiredCategoryIds.has(theory.categoryId)).map((theory) => theory.tagId));
+const missingRequiredSourceTheories = [...sourceRequiredIds].filter((id) => !theoryIds.has(id));
 
 const checks = {
   personaCount: personas.length,
@@ -18,9 +22,10 @@ const checks = {
   techniquesWithoutRelatedTheory: cards.filter((card) => !card.relatedTheoryIds?.length).length,
   theoryCount: theories.length,
   deadLinkCount: deadLinks.length,
+  missingRequiredSourceTheories: missingRequiredSourceTheories.length,
   categoryCounts: Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))].map((id) => [id, theories.filter((theory) => theory.categoryId === id).length])),
 };
 console.log(JSON.stringify(checks, null, 2));
-if (checks.personaCount !== 40 || checks.techniqueCount !== 525 || checks.duplicateTitles || checks.missingEssence || checks.missingExplanation || checks.techniquesWithoutRelatedTheory || checks.theoryCount !== 266 || checks.deadLinkCount) {
+if (checks.personaCount !== 40 || checks.techniqueCount !== 525 || checks.duplicateTitles || checks.missingEssence || checks.missingExplanation || checks.techniquesWithoutRelatedTheory || checks.missingRequiredSourceTheories || checks.deadLinkCount) {
   throw new Error('Latest catalog validation failed');
 }
