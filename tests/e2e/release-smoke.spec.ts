@@ -36,10 +36,8 @@ test('決済後のトップURLから購入完了画面へ戻れる', async ({ pa
 });
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/auth?mode=signin');
+  await page.goto('/syoseijutsu-roku-mobile/auth?mode=forgot');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await page.getByRole('button', { name: 'ログイン', exact: true }).click();
-  await page.getByText('パスワードを忘れた方').click();
   await expect(page.getByText('パスワードを再設定')).toBeVisible();
   await page.goto('/syoseijutsu-roku-mobile/settings');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
