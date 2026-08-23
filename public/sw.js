@@ -1,5 +1,5 @@
 // Automatically replaced by scripts/stamp-pwa-cache.mjs before every web export.
-const VERSION = 'roku-8a5133e76feb';
+const VERSION = 'roku-0267458cb80d';
 const BASE = '/syoseijutsu-roku-mobile';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
