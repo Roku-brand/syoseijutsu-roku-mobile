@@ -53,6 +53,7 @@
     "content:validate-latest": "node ./scripts/validate-latest-catalog.mjs",
     "content:import-complete": "node ./scripts/import-complete-markdown.mjs",
     "content:import-persona-markdown": "node ./scripts/import-persona-markdown.mjs",
+    "content:link-persona-theories": "node ./scripts/link-persona-catalog-theories.mjs",
     "content:import-practical": "node ./scripts/import-practical-actions.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",
     "content:audit-techniques": "node ./scripts/audit-techniques.mjs",
