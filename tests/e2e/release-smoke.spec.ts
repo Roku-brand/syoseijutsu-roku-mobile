@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
-  await expect(page.getByText('534').first()).toBeVisible();
+  await expect(page.getByText('541').first()).toBeVisible();
   await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
   await expect(page.getByText(/473の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
@@ -18,7 +18,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('473の処世術・534の理論・全21ケース')).toBeVisible();
+  await expect(page.getByText('473の処世術・541の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
