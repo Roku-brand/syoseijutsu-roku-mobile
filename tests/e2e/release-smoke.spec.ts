@@ -59,7 +59,7 @@ test('無料人物像は体系で読め、完全版人物像は南京錠で区�
   await expect(page.getByText('16の処世術')).toBeVisible();
   await expect(page.getByText('会話は正解よりラリーを続ける')).toBeVisible();
 
-  await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
+  await page.goto('/syoseijutsu-roku-mobile/subcategory/work/頭がいい人');
   await expect(page.getByText('完全版').first()).toBeVisible();
   await expect(page.getByLabel(/完全版限定/).first()).toBeVisible();
 });
