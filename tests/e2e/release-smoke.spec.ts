@@ -62,14 +62,14 @@ test('無料人物像は体系で読め、完全版人物像は南京錠で区�
   await expect(page.getByText('完全版').first()).toBeVisible();
 });
 
-test('人物像一覧は最大20件を順番の分かる学習路として一覧できる', async ({ page }) => {
+test('人物像一覧は最大20件を縦順の2段組として一覧できる', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
   const cards = page.getByRole('link', { name: /^\d{2} / });
   await expect(cards).toHaveCount(15);
-  await expect(page.getByText('まずここから')).toBeVisible();
-  await expect(page.getByText('土台をつくる')).toBeVisible();
-  await expect(page.getByText('場面で使う')).toBeVisible();
-  await expect(page.getByText('自分の型にする')).toBeVisible();
+  await expect(page.getByTestId('technique-column-1').getByRole('link')).toHaveCount(8);
+  await expect(page.getByTestId('technique-column-2').getByRole('link')).toHaveCount(7);
+  await expect(page.getByText('STEP 1')).toHaveCount(0);
   const visibleNumbers = await cards.evaluateAll((elements) => elements.map((element) => element.getAttribute('aria-label')?.slice(0, 2)));
   expect(visibleNumbers).toEqual(Array.from({ length: 15 }, (_, index) => String(index + 1).padStart(2, '0')));
   const scrollMetrics = await page.evaluate(() => {

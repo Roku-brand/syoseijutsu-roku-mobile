@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, fonts, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useAccess } from '@/access/access-state';
@@ -10,31 +10,13 @@ import { isFreePersona } from '@/access/access-config';
 import { getTechniqueCount } from '@/data/technique-counts';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 
-const stageLabels = [
-  { label: 'STEP 1', title: 'まずここから' },
-  { label: 'STEP 2', title: '土台をつくる' },
-  { label: 'STEP 3', title: '場面で使う' },
-  { label: 'STEP 4', title: '自分の型にする' },
-] as const;
-
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
 }
 
-function splitIntoStages<T>(items: T[]): T[][] {
-  const stageCount = Math.min(stageLabels.length, items.length);
-  const baseSize = Math.floor(items.length / stageCount);
-  const remainder = items.length % stageCount;
-  const stages: T[][] = [];
-  let offset = 0;
-
-  for (let index = 0; index < stageCount; index += 1) {
-    const size = baseSize + (index < remainder ? 1 : 0);
-    stages.push(items.slice(offset, offset + size));
-    offset += size;
-  }
-
-  return stages;
+function splitIntoColumns<T>(items: T[]): [T[], T[]] {
+  const breakAt = Math.ceil(items.length / 2);
+  return [items.slice(0, breakAt), items.slice(breakAt)];
 }
 
 export default function PersonaScreen() {
@@ -56,61 +38,55 @@ export default function PersonaScreen() {
   }
 
   const compact = width < 760;
-  const stages = splitIntoStages(persona.items);
-  let itemOffset = 0;
+  const desktopColumns = splitIntoColumns(persona.items);
+  const columns = compact ? [persona.items] : desktopColumns;
+  const rowsPerColumn = compact ? persona.items.length : desktopColumns[0].length;
   return (
-    <Screen scroll={false} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
+    <Screen scroll={compact} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
       <View style={[styles.page, compact && styles.pageCompact]}>
-        <View style={[styles.curriculum, compact && styles.curriculumCompact]}>
-          {stages.map((stage, stageIndex) => {
-            const stageStart = itemOffset + 1;
-            const stageEnd = itemOffset + stage.length;
-            itemOffset = stageEnd;
+        <View style={[styles.listSheet, compact && styles.listSheetCompact]}>
+          {columns.map((column, columnIndex) => {
+            const itemOffset = compact ? 0 : columnIndex * rowsPerColumn;
+            const placeholders = compact ? 0 : rowsPerColumn - column.length;
             return (
-              <View key={stageLabels[stageIndex].label} style={[styles.stage, compact && styles.stageCompact]}>
-                <View style={[styles.stageGuide, compact && styles.stageGuideCompact]}>
-                  <AppText style={[styles.stageEyebrow, compact && styles.stageEyebrowCompact]}>{stageLabels[stageIndex].label}</AppText>
-                  <AppText variant="serif" style={[styles.stageTitle, compact && styles.stageTitleCompact]}>{stageLabels[stageIndex].title}</AppText>
-                  <AppText style={[styles.stageRange, compact && styles.stageRangeCompact]}>
-                    {String(stageStart).padStart(2, '0')}—{String(stageEnd).padStart(2, '0')}
-                  </AppText>
-                </View>
-                <View style={styles.stageTrack}>
-                  {stage.map((item, index) => {
-                    const itemNumber = stageStart + index;
-                    return (
-                      <Pressable
-                        key={item.id}
-                        accessibilityRole="link"
-                        accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
-                        onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-                        style={({ pressed }) => [
-                          styles.techniqueStep,
-                          index > 0 && styles.techniqueStepDivided,
-                          compact && styles.techniqueStepCompact,
-                          pressed && styles.pressed,
-                        ]}
+              <View
+                key={columnIndex}
+                testID={`technique-column-${columnIndex + 1}`}
+                style={[styles.column, compact && styles.columnCompact, columnIndex > 0 && styles.columnDivided]}
+              >
+                {column.map((item, index) => {
+                  const itemNumber = itemOffset + index + 1;
+                  return (
+                    <Pressable
+                      key={item.id}
+                      accessibilityRole="link"
+                      accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
+                      onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                      style={({ pressed }) => [
+                        styles.techniqueRow,
+                        !compact && styles.techniqueRowDesktop,
+                        compact && styles.techniqueRowCompact,
+                        index === rowsPerColumn - 1 && styles.techniqueRowLast,
+                        pressed && styles.pressed,
+                      ]}
+                    >
+                      <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
+                      <AppText
+                        variant="serif"
+                        numberOfLines={compact ? undefined : 2}
+                        ellipsizeMode="clip"
+                        adjustsFontSizeToFit={!compact}
+                        minimumFontScale={0.86}
+                        style={[styles.rowTitle, compact && styles.rowTitleCompact]}
                       >
-                        <View style={[styles.stepHeader, compact && styles.stepHeaderCompact]}>
-                          <View style={[styles.numberBadge, compact && styles.numberBadgeCompact]}>
-                            <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
-                          </View>
-                          {index < stage.length - 1 ? <AppText style={[styles.flowMark, compact && styles.flowMarkCompact]}>→</AppText> : null}
-                        </View>
-                        <AppText
-                          variant="serif"
-                          numberOfLines={compact ? 4 : 3}
-                          ellipsizeMode="clip"
-                          adjustsFontSizeToFit
-                          minimumFontScale={compact ? 0.72 : 0.8}
-                          style={[styles.rowTitle, compact && styles.rowTitleCompact]}
-                        >
-                          {item.title}
-                        </AppText>
-                      </Pressable>
-                    );
-                  })}
-                </View>
+                        {item.title}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
+                {Array.from({ length: placeholders }, (_, index) => (
+                  <View key={`placeholder-${index}`} accessibilityElementsHidden style={[styles.placeholder, index === placeholders - 1 && styles.techniqueRowLast]} />
+                ))}
               </View>
             );
           })}
@@ -122,53 +98,39 @@ export default function PersonaScreen() {
 
 const styles = StyleSheet.create({
   content: { width: '100%', flexGrow: 1 },
-  contentCompact: { paddingBottom: 0 },
-  page: { width: '100%', maxWidth: 1440, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.md },
-  pageCompact: { paddingHorizontal: 5, paddingTop: 5, paddingBottom: 6 },
-  curriculum: { width: '100%', flex: 1, minHeight: 0, gap: 9 },
-  curriculumCompact: { gap: 5 },
-  stage: { flex: 1, minHeight: 0, flexDirection: 'row', gap: 10 },
-  stageCompact: { gap: 5 },
-  stageGuide: {
-    width: 132,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    borderLeftWidth: 4,
-    borderLeftColor: colors.gold,
-    borderRadius: radius.sm,
-    backgroundColor: colors.paperDeep,
-  },
-  stageGuideCompact: { width: 58, paddingHorizontal: 5, paddingVertical: 4, borderLeftWidth: 3, borderRadius: 7 },
-  stageEyebrow: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, lineHeight: 14, fontWeight: '800', letterSpacing: 0.8 },
-  stageEyebrowCompact: { fontSize: 7, lineHeight: 9, letterSpacing: 0.2 },
-  stageTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '700', marginTop: 3 },
-  stageTitleCompact: { fontSize: 9, lineHeight: 11, marginTop: 1 },
-  stageRange: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10, lineHeight: 14, fontWeight: '700', marginTop: 5 },
-  stageRangeCompact: { fontSize: 7, lineHeight: 9, marginTop: 2 },
-  stageTrack: {
+  contentCompact: { paddingBottom: 96 },
+  page: { width: '100%', maxWidth: 1240, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
+  pageCompact: { paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
+  listSheet: {
+    width: '100%',
     flex: 1,
-    minWidth: 0,
     minHeight: 0,
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#ddc9a9',
-    borderRadius: radius.md,
-    backgroundColor: '#fffdf9',
-    overflow: 'hidden',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#d8c6aa',
+    backgroundColor: 'rgba(255, 253, 249, 0.42)',
   },
-  techniqueStep: { flex: 1, minWidth: 0, paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
-  techniqueStepDivided: { borderLeftWidth: 1, borderLeftColor: colors.line },
-  techniqueStepCompact: { paddingHorizontal: 5, paddingVertical: 4 },
-  stepHeader: { height: 26, marginBottom: 7, flexDirection: 'row', alignItems: 'center' },
-  stepHeaderCompact: { height: 15, marginBottom: 2 },
-  numberBadge: { minWidth: 34, height: 24, paddingHorizontal: 8, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal, flexShrink: 0 },
-  numberBadgeCompact: { minWidth: 22, height: 14, paddingHorizontal: 3, borderRadius: 7 },
-  number: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, lineHeight: 13, fontWeight: '800', letterSpacing: 0.6 },
-  numberCompact: { fontSize: 7, lineHeight: 8, letterSpacing: 0.1 },
-  flowMark: { flex: 1, color: '#c6aa79', textAlign: 'right', fontFamily: fonts.sans, fontSize: 14, lineHeight: 18, fontWeight: '700' },
-  flowMarkCompact: { fontSize: 8, lineHeight: 10 },
-  rowTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, fontWeight: '700' },
-  rowTitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: -0.2 },
+  listSheetCompact: { flexDirection: 'column', flexGrow: 0 },
+  column: { flex: 1, minWidth: 0 },
+  columnCompact: { width: '100%', flexGrow: 0 },
+  columnDivided: { borderLeftWidth: 1, borderLeftColor: '#d8c6aa' },
+  techniqueRow: {
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingHorizontal: 22,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  techniqueRowDesktop: { flex: 1, minHeight: 0, paddingVertical: 7 },
+  techniqueRowCompact: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 9, gap: 10 },
+  techniqueRowLast: { borderBottomWidth: 0 },
+  placeholder: { flex: 1, minHeight: 0, borderBottomWidth: 1, borderBottomColor: colors.line },
+  number: { width: 34, color: colors.gold, fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.1 },
+  numberCompact: { width: 30, fontSize: 10, lineHeight: 14 },
+  rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '600' },
+  rowTitleCompact: { fontSize: 15, lineHeight: 22 },
   pressed: { backgroundColor: '#fff4df' },
 });
