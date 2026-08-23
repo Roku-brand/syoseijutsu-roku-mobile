@@ -1,8 +1,8 @@
 {
-  "source": "shoseijutsuroku_525_theory_remap_with_wisdom_final.json + theories_unified.json",
-  "techniqueCount": 525,
+  "source": "shoseijutsuroku_importance_stars_numbered_audited_v1_with_essences_and_explanations.md",
+  "techniqueCount": 473,
   "theoryCount": 534,
-  "personaCount": 40,
+  "personaCount": 26,
   "adoptedAllSourceCategories": [
     "psychology",
     "behavioral-science",

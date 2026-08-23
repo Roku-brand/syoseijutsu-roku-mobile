@@ -74,7 +74,7 @@ export default function CardDetailScreen() {
     .slice(0, 3);
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const isInterpersonal = card.categoryKey === 'interpersonal';
-  const essence = isInterpersonal ? card.essence ?? explanation.lead : explanation.lead;
+  const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
   const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;
 
@@ -98,6 +98,7 @@ export default function CardDetailScreen() {
         onNext={() => navigateCard(1)}
       >
         <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
+        {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
 
         <AppText
           variant="serif"

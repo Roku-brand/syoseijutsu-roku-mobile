@@ -10,6 +10,7 @@ export type TechniqueSource = {
   relatedTheoryIds?: string[];
   theoryTagIds?: string[];
   subtitle?: string;
+  importance?: 1 | 2 | 3;
   explanation?: string;
   essence?: string;
   tags?: string[];

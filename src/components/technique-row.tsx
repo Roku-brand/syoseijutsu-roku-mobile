@@ -66,6 +66,11 @@ export function TechniqueRow({
               {String(sequence).padStart(2, '0')} / {String(sequenceTotal ?? 0).padStart(2, '0')}
             </AppText>
           )}
+          {card.importance ? (
+            <AppText variant="label" style={styles.importance}>
+              {'★'.repeat(card.importance)}
+            </AppText>
+          ) : null}
           <AppText style={styles.title}>{card.title}</AppText>
           {card.subtitle && (
             <AppText variant="caption" style={styles.subtitle} numberOfLines={2}>
@@ -141,6 +146,7 @@ const styles = StyleSheet.create({
     borderColor: colors.gold,
   },
   sequence: { color: colors.gold, marginBottom: spacing.md, letterSpacing: 0.8 },
+  importance: { color: colors.gold, marginBottom: 4, letterSpacing: 1 },
   metaRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',

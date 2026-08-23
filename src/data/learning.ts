@@ -51,8 +51,7 @@ export const optimizedLearningRelatedCardIds: Record<string, string[]> = {
 };
 
 function normalizeLearningCase(item: LearningCase): LearningCase {
-  const optimizedIds = optimizedLearningRelatedCardIds[item.id];
-  return optimizedIds ? { ...item, relatedCardIds: [...optimizedIds] } : item;
+  return item;
 }
 
 export const learningStages: LearningStage[] = [
