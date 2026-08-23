@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
+import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
@@ -14,14 +14,15 @@ export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
 }
 
-function orderForVerticalColumns<T>(items: T[]): T[] {
-  const rowsPerColumn = Math.ceil(items.length / 2);
+function orderForVerticalColumns<T>(items: T[], columns: number): T[] {
+  const rowsPerColumn = Math.ceil(items.length / columns);
   const ordered: T[] = [];
 
   for (let row = 0; row < rowsPerColumn; row += 1) {
-    ordered.push(items[row]);
-    const rightColumnItem = items[rowsPerColumn + row];
-    if (rightColumnItem) ordered.push(rightColumnItem);
+    for (let column = 0; column < columns; column += 1) {
+      const item = items[column * rowsPerColumn + row];
+      if (item) ordered.push(item);
+    }
   }
 
   return ordered;
@@ -36,28 +37,21 @@ export default function PersonaScreen() {
   const persona = category?.subcategories.find((item) => item.name === name);
 
   if (!category || !persona) {
-    return <Screen><DetailHeader /><EmptyState title="人物像が見つかりません" description="前の画面へ戻って、人物像を選び直してください。" /></Screen>;
+    return <Screen><EmptyState title="人物像が見つかりません" description="前の画面へ戻って、人物像を選び直してください。" /></Screen>;
   }
 
   const techniqueCount = getTechniqueCount(category.key, persona.name, persona.items.length);
 
   if (!isPaid && !isFreePersona(persona.name)) {
-    return <Screen><DetailHeader title="人物像から探す" /><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
+    return <Screen><LockedPreview title={persona.name} description="この人物像の処世術は完全版に収録されています。" count={techniqueCount} source="discover_technique" /></Screen>;
   }
 
   const compact = width < 760;
-  const twoColumn = !compact;
-  const itemsForDisplay = twoColumn ? orderForVerticalColumns(persona.items) : persona.items;
+  const itemsForDisplay = orderForVerticalColumns(persona.items, 4);
   return (
-    <Screen scroll={compact} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
+    <Screen scroll={false} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
       <View style={[styles.page, compact && styles.pageCompact]}>
-        <DetailHeader title="人物像から探す" />
-        <View style={styles.titleRow}>
-          <AppText style={styles.title}>{persona.name}</AppText>
-          <View style={styles.countBadge}><AppText style={styles.countText}>{techniqueCount}の処世術</AppText></View>
-        </View>
-
-        <View style={[styles.list, twoColumn && styles.listGrid, compact && styles.listCompact]}>
+        <View style={[styles.list, compact && styles.listCompact]}>
           {itemsForDisplay.map((item) => {
             const itemNumber = persona.items.indexOf(item) + 1;
             return (
@@ -66,14 +60,14 @@ export default function PersonaScreen() {
                 accessibilityRole="link"
                 accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
                 onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-                style={({ pressed }) => [styles.techniqueCard, twoColumn && styles.techniqueCardGrid, compact && styles.techniqueCardCompact, pressed && styles.pressed]}
+                style={({ pressed }) => [styles.techniqueCard, compact && styles.techniqueCardCompact, pressed && styles.pressed]}
               >
                 <View style={[styles.numberBadge, compact && styles.numberBadgeCompact]}>
                   <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
                 </View>
                 <AppText
                   variant="serif"
-                  numberOfLines={2}
+                  numberOfLines={compact ? 3 : 2}
                   ellipsizeMode="clip"
                   adjustsFontSizeToFit
                   minimumFontScale={compact ? 0.78 : 0.8}
@@ -92,21 +86,17 @@ export default function PersonaScreen() {
 
 const styles = StyleSheet.create({
   content: { width: '100%', flexGrow: 1 },
-  contentCompact: { paddingBottom: 92 },
-  page: { width: '100%', maxWidth: 1180, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: spacing.lg },
-  pageCompact: { paddingHorizontal: 12, paddingBottom: 96 },
-  titleRow: { marginTop: spacing.sm, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.md },
-  title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 36, fontWeight: '700' },
-  countBadge: { minHeight: 28, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
-  countText: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700' },
-  list: { width: '100%', marginTop: spacing.md, flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  listCompact: { marginTop: spacing.sm, gap: 6 },
-  listGrid: { justifyContent: 'space-between' },
+  contentCompact: { paddingBottom: 0 },
+  page: { width: '100%', maxWidth: 1180, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
+  pageCompact: { paddingHorizontal: 8, paddingTop: 6, paddingBottom: 8 },
+  list: { width: '100%', flex: 1, minHeight: 0, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', alignContent: 'space-between' },
+  listCompact: { paddingBottom: 4 },
   techniqueCard: {
-    width: '100%',
-    minHeight: 62,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
+    width: '24.1%',
+    height: '18.5%',
+    minHeight: 0,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 11,
@@ -115,13 +105,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: '#fffdf9',
   },
-  techniqueCardGrid: { width: '49%' },
-  techniqueCardCompact: { minHeight: 48, paddingHorizontal: 10, paddingVertical: 7, gap: 8 },
+  techniqueCardCompact: { paddingHorizontal: 4, paddingVertical: 4, gap: 4, borderRadius: 8 },
   numberBadge: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal, flexShrink: 0 },
-  numberBadgeCompact: { width: 28, height: 28, borderRadius: 14 },
+  numberBadgeCompact: { width: 20, height: 20, borderRadius: 10 },
   number: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 0.3 },
-  numberCompact: { fontSize: 9, lineHeight: 12 },
+  numberCompact: { fontSize: 7, lineHeight: 9 },
   rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, fontWeight: '700' },
-  rowTitleCompact: { fontSize: 13, lineHeight: 18 },
+  rowTitleCompact: { fontSize: 10, lineHeight: 13, letterSpacing: -0.2 },
   pressed: { borderColor: colors.gold, backgroundColor: '#fff8eb' },
 });

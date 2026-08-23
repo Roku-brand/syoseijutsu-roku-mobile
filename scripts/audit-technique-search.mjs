@@ -23,7 +23,7 @@ for (const card of cards) {
   if (!corpus) failures.push(`${card.id} has no searchable text.`);
 }
 
-const representativeQueries = ['第一印象', '会話', '交渉', '先延ばし', '不安', '挫折', '人生'];
+const representativeQueries = ['初対面', '会話', '交渉', '先延ばし', '不安', '挫折', '人生'];
 for (const query of representativeQueries) {
   const count = cards.filter((card) => searchableFields
     .map((field) => card[field] ?? '')

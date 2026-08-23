@@ -5,20 +5,20 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('541').first()).toBeVisible();
   await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
-  await expect(page.getByText(/473の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText(/467の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 28/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
   await expect(page.getByText(/初対面は安心感を先に与える/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
-  await expect(page.getByText(/473の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/467の処世術/).first()).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('473の処世術・541の理論・全21ケース')).toBeVisible();
+  await expect(page.getByText('467の処世術・541の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -56,14 +56,13 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('16の処世術')).toBeVisible();
   await expect(page.getByText('会話は正解よりラリーを続ける')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/subcategory/work/頭がいい人');
   await expect(page.getByText('完全版').first()).toBeVisible();
 });
 
-test('スマホの人物像一覧は全件を最後まで読み進められる', async ({ page }) => {
+test('人物像一覧は最大20件のグリッドをスクロールなしで一覧できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
   const cards = page.getByRole('link', { name: /^\d{2} / });
   await expect(cards).toHaveCount(15);
@@ -76,9 +75,7 @@ test('スマホの人物像一覧は全件を最後まで読み進められる',
       .sort((left, right) => right.element.scrollHeight - left.element.scrollHeight)[0];
     return scrollable ? { clientHeight: scrollable.element.clientHeight, scrollHeight: scrollable.element.scrollHeight } : null;
   });
-  expect(scrollMetrics).not.toBeNull();
-  expect(scrollMetrics?.scrollHeight).toBeGreaterThan(scrollMetrics?.clientHeight ?? 0);
-  await cards.last().scrollIntoViewIfNeeded();
+  expect(scrollMetrics).toBeNull();
   await expect(cards.last()).toBeInViewport();
 });
 

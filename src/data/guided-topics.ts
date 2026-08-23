@@ -77,7 +77,7 @@ export const guidedTopics: GuidedTopic[] = [
     label: '集団を動かす人',
     mark: '動',
     group: '対人術',
-    description: '人を巻き込み、集団の方向を変える処世術。',
+    description: '目的・役割・意思決定を整え、チームを前へ進めるリーダーシップ。',
     tag: '集団を動かす人',
   },
   {
