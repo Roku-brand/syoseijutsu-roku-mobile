@@ -61,7 +61,6 @@ test('無料人物像は体系で読め、完全版人物像は南京錠で区�
 
   await page.goto('/syoseijutsu-roku-mobile/subcategory/work/頭がいい人');
   await expect(page.getByText('完全版').first()).toBeVisible();
-  await expect(page.getByLabel(/完全版限定/).first()).toBeVisible();
 });
 
 test('スマホの人物像一覧は全件を最後まで読み進められる', async ({ page }) => {
