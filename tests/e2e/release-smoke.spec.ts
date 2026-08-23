@@ -87,9 +87,12 @@ test('人物像一覧は最大20件を縦順の2段組として一覧できる',
 
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/learn');
-  await page.getByRole('button', { name: 'ステージ1、空気、どうする？' }).click();
+  await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
   await expect(page.getByText('CASE 01')).toBeVisible();
   await page.getByRole('button', { name: /^A/ }).click();
   await expect(page.getByText('この局面での評価')).toBeVisible();
   await expect(page.getByText('あなたが選んだ手')).toBeVisible();
+  await expect(page.getByText('この手を選ぶと、次の問題が起きる。')).toBeVisible();
+  await expect(page.getByText('この手で起きること')).toBeVisible();
+  await expect(page.getByText('相手は聞き役に固定され、会話ではなく自己紹介を採点する時間になる。次の質問も出にくくなる。').first()).toBeVisible();
 });

@@ -54,6 +54,8 @@
     "content:import-complete": "node ./scripts/import-complete-markdown.mjs",
     "content:import-persona-markdown": "node ./scripts/import-persona-markdown.mjs",
     "content:restructure-personas": "node ./scripts/restructure-persona-catalog.mjs",
+    "content:sync-learning": "node ./scripts/sync-learning-content.mjs",
+    "content:audit-learning": "node ./scripts/audit-learning-content.mjs",
     "content:link-persona-theories": "node ./scripts/link-persona-catalog-theories.mjs",
     "content:add-researched-theories": "node ./scripts/add-researched-theories.mjs",
     "content:import-practical": "node ./scripts/import-practical-actions.mjs",

@@ -74,6 +74,9 @@ jobs:
       - name: Prepare public runtime catalog
         run: cp src/data/learning.runtime.ts src/data/learning.ts
 
+      - name: Audit learning curriculum
+        run: pnpm content:audit-learning
+
       - name: Check types
         run: pnpm typecheck
 

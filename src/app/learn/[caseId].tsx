@@ -78,7 +78,7 @@ export default function LearningCaseScreen() {
             <View style={styles.resultStatusCopy}>
               <AppText style={styles.resultStatusLabel}>この局面での評価</AppText>
               <AppText style={[styles.resultStatusText, isBestMove ? styles.resultStatusTextGood : styles.resultStatusTextAlternative]}>
-                {isBestMove ? 'いい手。' : '今回は、別の手がよりよい。'}
+                {isBestMove ? 'いい手。' : 'この手を選ぶと、次の問題が起きる。'}
               </AppText>
             </View>
           </View>
@@ -87,7 +87,12 @@ export default function LearningCaseScreen() {
             <AppText style={styles.selectedLetter}>{selected?.toUpperCase()}</AppText>
             <AppText style={styles.selectedText}>{selectedChoice?.label}</AppText>
           </View>
-          {!isBestMove && selectedReview && <AppText style={styles.selectedReview}>{selectedReview.text}</AppText>}
+          {!isBestMove && selectedReview && (
+            <View style={styles.selectedReviewBlock}>
+              <AppText style={styles.selectedReviewLabel}>この手で起きること</AppText>
+              <AppText style={styles.selectedReview}>{selectedReview.text}</AppText>
+            </View>
+          )}
 
           <View style={styles.moveBlock}>
             <AppText style={styles.resultLabel}>{isBestMove ? 'この一手が活きる理由' : 'この局面で活きる一手'}</AppText>
@@ -193,7 +198,9 @@ const styles = StyleSheet.create({
   selectedChoice: { marginTop: 8, padding: 13, flexDirection: 'row', gap: 11, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
   selectedLetter: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   selectedText: { flex: 1, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 23, fontWeight: '700' },
-  selectedReview: { marginTop: 9, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
+  selectedReviewBlock: { marginTop: 9, padding: 12, borderLeftWidth: 3, borderLeftColor: '#B47A55', backgroundColor: '#FAF0E8' },
+  selectedReviewLabel: { color: '#8D4F30', fontFamily: fonts.sans, fontSize: 10, lineHeight: 14, letterSpacing: 0.8, fontWeight: '800' },
+  selectedReview: { marginTop: 4, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 13, lineHeight: 22 },
   moveBlock: { marginTop: 23 },
   resultLabel: { color: colors.gold, fontFamily: fonts.sans, fontSize: 11, letterSpacing: 1.1, fontWeight: '700' },
   goodMove: { marginTop: 8, color: colors.ink, fontFamily: fonts.serif, fontSize: 23, lineHeight: 34, fontWeight: '700' },

@@ -14,6 +14,7 @@ import { theoryById } from '@/data/catalog';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
 const STORAGE_HYDRATION_TIMEOUT_MS = 900;
+const LEARNING_CURRICULUM_VERSION = 2;
 const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
 
 export type Collection = {
@@ -37,6 +38,7 @@ export type LearningRecord = {
 };
 
 type PersistedState = {
+  learningCurriculumVersion: number;
   onboardingCompleted: boolean;
   interests: CategoryKey[];
   savedIds: string[];
@@ -51,6 +53,7 @@ type PersistedState = {
 };
 
 const initialState: PersistedState = {
+  learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
   onboardingCompleted: false,
   interests: CATEGORY_KEYS,
   savedIds: [],
@@ -115,9 +118,14 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         const savedTheoryIds = Array.isArray(parsed.savedTheoryIds)
           ? parsed.savedTheoryIds.filter((id): id is string => typeof id === 'string' && theoryById.has(id))
           : [];
+        const learningRecords = parsed.learningCurriculumVersion === LEARNING_CURRICULUM_VERSION
+          ? parsed.learningRecords ?? {}
+          : {};
         setState({
           ...initialState,
           ...parsed,
+          learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
+          learningRecords,
           savedTheoryIds,
           interests: interests.length ? interests : initialState.interests,
         });

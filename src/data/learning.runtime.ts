@@ -1,6 +1,6 @@
 import learningSource from './generated/learning.json';
 
-export type LearningChoice = { id: 'a' | 'b' | 'c'; label: string };
+export type LearningChoice = { id: 'a' | 'b' | 'c'; label: string; review: string };
 export type LearningCase = {
   id: string;
   stage: 1 | 2 | 3;
@@ -20,9 +20,9 @@ export type LearningStage = { number: 1 | 2 | 3; title: string; intro: string };
 export type LearningChoiceReview = { isPreferred: boolean; label: string; text: string };
 
 export const learningStages: LearningStage[] = [
-  { number: 1, title: '空気、どうする？', intro: 'まずは、場に飲まれずに動けるか。' },
-  { number: 2, title: 'それ、どう返す？', intro: '頼まれたとき、押されたときの一手。' },
-  { number: 3, title: 'で、自分はどうする？', intro: '最後は、自分の人生を自分で選ぶ。' },
+  { number: 1, title: '人と、どう関わる？', intro: '安心、信頼、境界線を場面で選ぶ。' },
+  { number: 2, title: '仕事を、どう動かす？', intro: '依頼、会議、交渉、リーダーシップを扱う。' },
+  { number: 3, title: '自分を、どう立て直す？', intro: '不安、選択、失敗から次の一手を選ぶ。' },
 ];
 
 const publicLearningCases = learningSource as LearningCase[];
@@ -41,7 +41,7 @@ export function getChoiceReview(item: LearningCase, choice: LearningChoice): Lea
   const isPreferred = choice.id === item.goodChoiceId;
   return {
     isPreferred,
-    label: isPreferred ? 'よりよい一手' : '選べるが、今回は惜しい手',
-    text: isPreferred ? item.why : 'この手にも意図はある。ただ、今回の局面では状況を前に進める力が弱い。',
+    label: isPreferred ? 'よりよい一手' : 'この手で起きること',
+    text: choice.review,
   };
 }
