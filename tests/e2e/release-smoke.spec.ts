@@ -5,20 +5,20 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('534').first()).toBeVisible();
   await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
-  await expect(page.getByText(/525の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 40/).first()).toBeVisible();
+  await expect(page.getByText(/473の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
-  await expect(page.getByText(/初対面は、能力を示す前に警戒を下げる/).first()).toBeVisible();
+  await expect(page.getByText(/初対面は安心感を先に与える/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
-  await expect(page.getByText(/525の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/473の処世術/).first()).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('525の処世術・534の理論・全21ケース')).toBeVisible();
+  await expect(page.getByText('473の処世術・534の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -56,8 +56,8 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('13の処世術')).toBeVisible();
-  await expect(page.getByText('相手の声量や表情が変わる話題を探す')).toBeVisible();
+  await expect(page.getByText('16の処世術')).toBeVisible();
+  await expect(page.getByText('会話は正解よりラリーを続ける')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/theme/work/目標達成');
   await expect(page.getByText('完全版').first()).toBeVisible();
