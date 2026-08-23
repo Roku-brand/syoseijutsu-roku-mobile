@@ -4,13 +4,14 @@ const source = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 
 const cards = source.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const failures = [];
 const ids = new Set();
-const titles = new Set();
+const cardKeys = new Set();
 
 for (const card of cards) {
   if (ids.has(card.id)) failures.push(`Duplicate id: ${card.id}`);
   ids.add(card.id);
-  if (titles.has(card.title)) failures.push(`Duplicate title: ${card.title}`);
-  titles.add(card.title);
+  const cardKey = `${card.field}\u0000${card.persona}\u0000${card.title}`;
+  if (cardKeys.has(cardKey)) failures.push(`Duplicate card within persona: ${card.title}`);
+  cardKeys.add(cardKey);
   if (!String(card.essence ?? '').trim()) failures.push(`${card.id} has no essence.`);
   if (!String(card.explanation ?? '').trim()) failures.push(`${card.id} has no explanation.`);
   if (!Array.isArray(card.relatedTheoryIds) || card.relatedTheoryIds.length === 0) {

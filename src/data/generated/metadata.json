@@ -1,7 +1,7 @@
 {
   "source": "shoseijutsuroku_importance_stars_numbered_audited_v1_with_essences_and_explanations.md",
   "techniqueCount": 473,
-  "theoryCount": 534,
+  "theoryCount": 541,
   "personaCount": 26,
   "adoptedAllSourceCategories": [
     "psychology",
@@ -10,9 +10,9 @@
     "strategy"
   ],
   "categoryCounts": {
-    "psychology": 245,
-    "organization-management": 132,
-    "behavioral-science": 75,
+    "psychology": 249,
+    "organization-management": 133,
+    "behavioral-science": 77,
     "strategy": 49,
     "maxims-experience": 21,
     "classics-thought": 12
