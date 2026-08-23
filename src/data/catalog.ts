@@ -143,7 +143,47 @@ const personaThemeOverrides: Partial<Record<CategoryKey, Record<string, string>>
   },
 };
 
+// The discover screen presents themes before individual personas. Keep each
+// label at the same conceptual layer so a reader can scan by intent, not by
+// mixed labels such as a persona name beside an abstract topic.
+const personaThemeTitles: Record<CategoryKey, Record<string, string>> = {
+  interpersonal: {
+    '印象がいい人': '関係の構築',
+    '会話がうまい人': '関係の構築',
+    '聞き上手な人': '関係の構築',
+    '人たらしの人': '関係の構築',
+    '面白い人': '関係の構築',
+    '信頼される人': '関係の管理',
+    '人を見極められる人': '関係の管理',
+    '人に振り回されない人': '関係の管理',
+    '軽く扱われない人': '関係の管理',
+    '人間関係が安定する人': '関係の管理',
+    '集団に馴染める人': '集団での立ち回り',
+    '人を動かせる人': '集団での立ち回り',
+    'カリスマ性のある人': '集団での立ち回り',
+  },
+  work: {
+    '仕事ができる人': '仕事の進め方',
+    'タスク処理がうまい人': '仕事の進め方',
+    '頭がいい人': '思考・判断',
+    '正しく評価される人': '評価の獲得',
+    '交渉がうまい人': '交渉・合意',
+    '組織でうまく立ち回れる人': '組織での立ち回り',
+  },
+  life: {
+    '充実した人生を過ごせる人': '人生の充実',
+    '人生を楽しめる人': '人生の充実',
+    '自分らしく生きられる人': '人生の指針',
+    '不安に強い人': '不安の解消',
+    '後悔しない人': '選択と可能性',
+    '可能性を広げられる人': '選択と可能性',
+    '立ち直れる人': 'つまずきからの再設計',
+  },
+};
+
 export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number], categoryKey?: CategoryKey) {
+  const standardizedTheme = categoryKey ? personaThemeTitles[categoryKey][persona.name] : undefined;
+  if (standardizedTheme) return standardizedTheme;
   const override = categoryKey ? personaThemeOverrides[categoryKey]?.[persona.name] : undefined;
   return override ?? (persona.articleTitle && persona.articleTitle !== persona.name ? persona.articleTitle : persona.name);
 }

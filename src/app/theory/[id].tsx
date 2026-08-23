@@ -250,9 +250,33 @@ const domainThemeTargets: Record<string, Extract<DomainTarget, { kind: 'theme' }
   '集団での立ち回り': { kind: 'theme', category: 'interpersonal', title: '集団での立ち回り' },
 };
 
+const standardizedDomainThemeTargets: Record<string, Extract<DomainTarget, { kind: 'theme' }>> = {
+  '関係の構築': { kind: 'theme', category: 'interpersonal', title: '関係の構築' },
+  '関係の管理': { kind: 'theme', category: 'interpersonal', title: '関係の管理' },
+  '自己防衛・境界線': { kind: 'theme', category: 'interpersonal', title: '関係の管理' },
+  '集団での立ち回り': { kind: 'theme', category: 'interpersonal', title: '集団での立ち回り' },
+  '仕事の進め方': { kind: 'theme', category: 'work', title: '仕事の進め方' },
+  '目標達成': { kind: 'theme', category: 'work', title: '仕事の進め方' },
+  '思考・判断': { kind: 'theme', category: 'work', title: '思考・判断' },
+  '評価の獲得': { kind: 'theme', category: 'work', title: '評価の獲得' },
+  '交渉・合意術': { kind: 'theme', category: 'work', title: '交渉・合意' },
+  '交渉・合意の戦術': { kind: 'theme', category: 'work', title: '交渉・合意' },
+  '立ち回り': { kind: 'theme', category: 'work', title: '組織での立ち回り' },
+  '人生の充実': { kind: 'theme', category: 'life', title: '人生の充実' },
+  '人生の楽しみ': { kind: 'theme', category: 'life', title: '人生の充実' },
+  '人生の指針': { kind: 'theme', category: 'life', title: '人生の指針' },
+  '不安の解消': { kind: 'theme', category: 'life', title: '不安の解消' },
+  '選択と可能性': { kind: 'theme', category: 'life', title: '選択と可能性' },
+  '人生のつまずき': { kind: 'theme', category: 'life', title: 'つまずきからの再設計' },
+  '人生のつまずき・再設計': { kind: 'theme', category: 'life', title: 'つまずきからの再設計' },
+};
+
 function getDomainTarget(domain: string): DomainTarget | null {
   const categoryCard = techniqueCards.find((card) => card.categoryName === domain);
   if (categoryCard) return { kind: 'category', card: categoryCard };
+
+  const standardizedThemeTarget = standardizedDomainThemeTargets[domain];
+  if (standardizedThemeTarget) return standardizedThemeTarget;
 
   const themeTarget = domainThemeTargets[domain];
   if (themeTarget) return themeTarget;
