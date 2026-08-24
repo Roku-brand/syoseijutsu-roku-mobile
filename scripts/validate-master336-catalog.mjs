@@ -41,6 +41,7 @@ const checks = {
   }).length,
   invalidExplanationParagraphs: cards.filter((card) => (card.explanation ?? '').split(/\n\s*\n/).filter(Boolean).length !== 3).length,
   duplicateExplanations: cards.length - new Set(cards.map((card) => card.explanation)).size,
+  explanationsRepeatingEssence: cards.filter((card) => card.essence && card.explanation?.includes(card.essence)).length,
   invalidTheoryLinks: cards.flatMap((card) => (card.relatedTheoryIds ?? []).filter((id) => !theoryIds.has(id))).length,
   missingTheoryLinks: cards.filter((card) => !card.relatedTheoryIds?.length).length,
   metadataTechniqueCount: metadata.techniqueCount,
@@ -52,7 +53,7 @@ console.log(JSON.stringify(checks, null, 2));
 if (
   checks.categories !== 3 || checks.personas !== 26 || checks.techniques !== 336 ||
   checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.missingExplanations ||
-  checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
+  checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations || checks.explanationsRepeatingEssence ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
   checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_全336項目_本質追加版.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');
