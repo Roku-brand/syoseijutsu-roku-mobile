@@ -27,6 +27,7 @@ jobs:
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
       - run: pnpm content:validate-master336
+      - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning
       - run: pnpm typecheck
       - run: pnpm export:pages

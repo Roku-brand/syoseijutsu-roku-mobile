@@ -17,7 +17,7 @@ let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
 const PAID_CONTENT_TIMEOUT_MS = 20_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v7';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v8';
 
 type PaidContentSnapshot = {
   version: 6;

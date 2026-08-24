@@ -19,6 +19,7 @@ export const theories: TheoryCard[] = publicTheories.map((theory) => ({
 export const techniqueCards: TechniqueCard[] = [];
 export const techniqueById = new Map<string, TechniqueCard>();
 export const theoryById = new Map<string, TheoryCard>();
+const techniqueCardsByTheoryId = new Map<string, TechniqueCard[]>();
 
 const techniqueNumberById = new Map<string, number>();
 const theoryDisplayIdByTagId = new Map<string, string>();
@@ -50,6 +51,15 @@ function rebuildIndexes() {
   techniqueCards.forEach((card, index) => {
     techniqueById.set(card.id, card);
     techniqueNumberById.set(card.id, index + 1);
+  });
+
+  techniqueCardsByTheoryId.clear();
+  techniqueCards.forEach((card) => {
+    (card.theoryTagIds ?? []).forEach((theoryId) => {
+      const cards = techniqueCardsByTheoryId.get(theoryId) ?? [];
+      cards.push(card);
+      techniqueCardsByTheoryId.set(theoryId, cards);
+    });
   });
 
   theoryById.clear();
@@ -228,6 +238,19 @@ export function getRelatedTheories(theory: TheoryCard, limit = 3) {
     const score = (explicitIds.has(candidate.tagId) ? 100 : 0) + (coReferencedCounts.get(candidate.tagId) ?? 0) * 20 + sharedDomains * 4 + (candidate.discipline === theory.discipline ? 3 : 0) + (candidate.categoryId === theory.categoryId ? 1 : 0);
     return { candidate, score, sharedDomains };
   }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || b.sharedDomains - a.sharedDomains || a.candidate.title.localeCompare(b.candidate.title, 'ja')).slice(0, limit).map(({ candidate }) => candidate);
+}
+
+// Theory detail pages use this exact reverse index rather than re-running a
+// loose similarity search. It is therefore the strict inverse of the links
+// displayed on every technique card.
+export function getTechniquesForTheory(theoryOrId: TheoryCard | string, limit = 12) {
+  const theoryId = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
+  return [...(techniqueCardsByTheoryId.get(theoryId) ?? [])]
+    .sort((a, b) => {
+      const primaryDifference = (a.theoryTagIds ?? []).indexOf(theoryId) - (b.theoryTagIds ?? []).indexOf(theoryId);
+      return primaryDifference || a.id.localeCompare(b.id);
+    })
+    .slice(0, limit);
 }
 
 export function getFeed(interests: CategoryKey[], savedIds: string[]) {

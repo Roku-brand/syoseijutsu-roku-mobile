@@ -6,6 +6,7 @@ import { DetailSwipe } from '@/components/detail-swipe';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedTheories,
+  getTechniquesForTheory,
   getTheoryDisplayId,
   techniqueCards,
   theories,
@@ -35,9 +36,7 @@ export default function TheoryDetailScreen() {
     );
   }
 
-  const related = techniqueCards
-    .filter((card) => card.theoryTagIds?.includes(theory.tagId))
-    .slice(0, 12);
+  const related = getTechniquesForTheory(theory);
   const relatedTheories = getRelatedTheories(theory);
   const explanation =
     theory.summary ??

@@ -77,6 +77,9 @@ jobs:
       - name: Validate 336-item master catalog
         run: pnpm content:validate-master336
 
+      - name: Audit curated theory links in both directions
+        run: pnpm content:audit-theory-links
+
       - name: Audit learning curriculum
         run: pnpm content:audit-learning
 
