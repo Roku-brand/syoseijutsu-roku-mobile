@@ -23,6 +23,17 @@ const cards = catalog.categories.flatMap((category) => category.subcategories.fl
 const theoryIds = new Set(theories.map((theory) => theory.tagId));
 const duplicateKeys = cards.length - new Set(cards.map((card) => `${card.field}\u0000${card.persona}\u0000${card.title}`)).size;
 const duplicateIds = cards.length - new Set(cards.map((card) => card.id)).size;
+const explanationParagraphs = cards.flatMap((card) => (card.explanation ?? '').split('\n\n').filter(Boolean));
+const explanationParagraphCounts = new Map();
+for (const paragraph of explanationParagraphs) explanationParagraphCounts.set(paragraph, (explanationParagraphCounts.get(paragraph) ?? 0) + 1);
+const repeatedExplanationParagraphs = [...explanationParagraphCounts.entries()].filter(([, count]) => count > 1);
+const duplicateExplanationParagraphs = repeatedExplanationParagraphs.reduce((sum, [, count]) => sum + count - 1, 0);
+const bannedExplanationFragments = [
+  '表面の振る舞いだけを真似',
+  '相手は余計な推測や警戒',
+  '本来進めたいことまで止まり',
+  '判断として自分の場面へ定着',
+];
 const mismatchedGroups = catalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => {
   const expected = expectedCounts[category.key]?.[persona.name];
   return expected === persona.items.length ? [] : [`${category.name}/${persona.name}: ${persona.items.length} (expected ${expected ?? 'none'})`];
@@ -41,7 +52,9 @@ const checks = {
   }).length,
   invalidExplanationParagraphs: cards.filter((card) => (card.explanation ?? '').split(/\n\s*\n/).filter(Boolean).length !== 3).length,
   duplicateExplanations: cards.length - new Set(cards.map((card) => card.explanation)).size,
-  explanationsRepeatingEssence: cards.filter((card) => card.essence && card.explanation?.includes(card.essence)).length,
+  duplicateExplanationParagraphs,
+  repeatedExplanationParagraphSamples: repeatedExplanationParagraphs.slice(0, 3).map(([paragraph, count]) => ({ count, paragraph: paragraph.slice(0, 80) })),
+  bannedExplanationHits: cards.filter((card) => bannedExplanationFragments.some((fragment) => card.explanation?.includes(fragment))).length,
   invalidTheoryLinks: cards.flatMap((card) => (card.relatedTheoryIds ?? []).filter((id) => !theoryIds.has(id))).length,
   missingTheoryLinks: cards.filter((card) => !card.relatedTheoryIds?.length).length,
   metadataTechniqueCount: metadata.techniqueCount,
@@ -53,7 +66,8 @@ console.log(JSON.stringify(checks, null, 2));
 if (
   checks.categories !== 3 || checks.personas !== 26 || checks.techniques !== 336 ||
   checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.missingExplanations ||
-  checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations || checks.explanationsRepeatingEssence ||
+  checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
+  checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
   checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_全336項目_本質追加版.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');
