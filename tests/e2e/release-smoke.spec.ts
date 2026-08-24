@@ -43,6 +43,15 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
+test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
+  await page.goto('/syoseijutsu-roku-mobile/upgrade');
+  await page.getByText('利用規約', { exact: true }).first().click();
+  await expect(page.getByText(/バージョン3\.2/)).toBeVisible();
+  await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
+  await expect(page.getByText(/購入時点の各文章、項目数および構成が将来にわたり同一のまま維持されることを保証するものではありません/)).toBeVisible();
+  await expect(page.getByText(/商品の主要な利用目的を損なう重大な不利益変更は行わず/)).toBeVisible();
+});
+
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/?checkout=success&session_id=cs_test_example');
   await expect(page).toHaveURL(/\/syoseijutsu-roku-mobile\/\?checkout=success&session_id=cs_test_example$/);
