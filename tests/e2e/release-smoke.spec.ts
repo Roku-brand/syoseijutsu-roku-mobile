@@ -4,21 +4,21 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.goto('/syoseijutsu-roku-mobile/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('541').first()).toBeVisible();
-  await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
-  await expect(page.getByText(/467の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 28/).first()).toBeVisible();
+  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await expect(page.getByText(/336の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
-  await expect(page.getByText(/初対面は安心感を先に与える/).first()).toBeVisible();
+  await expect(page.getByText(/清潔感で足切りを超える/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
   await page.reload();
-  await expect(page.getByText(/467の処世術/).first()).toBeVisible();
+  await expect(page.getByText(/336の処世術/).first()).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('467の処世術・541の理論・全21ケース')).toBeVisible();
+  await expect(page.getByText('336の処世術・541の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -50,28 +50,28 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/');
-  await page.getByRole('button', { name: /4つの人物像を体系ごと無料公開/ }).click();
+  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
   await expect(page.getByText('完全版を30日間利用　¥280')).toBeVisible();
 });
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('会話は正解よりラリーを続ける')).toBeVisible();
+  await expect(page.getByText('会話は内容よりテンポ')).toBeVisible();
 
   await page.goto('/syoseijutsu-roku-mobile/subcategory/work/頭がいい人');
   await expect(page.getByText('完全版').first()).toBeVisible();
 });
 
-test('人物像一覧は最大20件を縦順の2段組として一覧できる', async ({ page }) => {
+test('人物像一覧は縦順の2段組として一覧できる', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
   const cards = page.getByRole('link', { name: /^\d{2} / });
-  await expect(cards).toHaveCount(15);
-  await expect(page.getByTestId('technique-column-1').getByRole('link')).toHaveCount(8);
+  await expect(cards).toHaveCount(14);
+  await expect(page.getByTestId('technique-column-1').getByRole('link')).toHaveCount(7);
   await expect(page.getByTestId('technique-column-2').getByRole('link')).toHaveCount(7);
   await expect(page.getByText('STEP 1')).toHaveCount(0);
   const visibleNumbers = await cards.evaluateAll((elements) => elements.map((element) => element.getAttribute('aria-label')?.slice(0, 2)));
-  expect(visibleNumbers).toEqual(Array.from({ length: 15 }, (_, index) => String(index + 1).padStart(2, '0')));
+  expect(visibleNumbers).toEqual(Array.from({ length: 14 }, (_, index) => String(index + 1).padStart(2, '0')));
   const scrollMetrics = await page.evaluate(() => {
     const scrollable = [...document.querySelectorAll('div')]
       .map((element) => ({ element, style: getComputedStyle(element) }))

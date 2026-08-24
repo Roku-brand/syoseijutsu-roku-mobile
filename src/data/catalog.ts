@@ -126,6 +126,7 @@ const personaThemeOverrides: Partial<Record<CategoryKey, Record<string, string>>
     '集団に馴染める人': '集団での立ち回り',
     '集団で立場を築ける人': '集団での立ち回り',
     '人を動かせる人': '集団での立ち回り',
+    'リーダーシップがある人': '集団での立ち回り',
     '集団をまとめられる人': '集団での立ち回り',
   },
   work: {
@@ -162,6 +163,7 @@ const personaThemeTitles: Record<CategoryKey, Record<string, string>> = {
     '人間関係が安定する人': '関係の管理',
     '集団に馴染める人': '集団での立ち回り',
     '人を動かせる人': '集団での立ち回り',
+    'リーダーシップがある人': '集団での立ち回り',
     'カリスマ性のある人': '集団での立ち回り',
   },
   work: {

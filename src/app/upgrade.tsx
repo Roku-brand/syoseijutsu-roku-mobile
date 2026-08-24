@@ -9,6 +9,7 @@ import { useAuth } from '@/auth/auth-state';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors, fonts } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
+import { FREE_PERSONA_NAMES, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 
 const benefits = [
   ['▣', '網羅性', '人間関係・仕事・人生まで、最新の処世術を悩み別に網羅'],
@@ -104,10 +105,10 @@ export default function UpgradeScreen() {
 
         <View style={styles.editionRow}>
           <View style={styles.freeEdition}>
-            <AppText style={styles.editionLabel}>無料版・4人物像</AppText>
+            <AppText style={styles.editionLabel}>無料版・{FREE_PERSONA_NAMES.length}人物像</AppText>
             <View style={styles.freeCounts}>
-              <AppText variant="serif" style={styles.freeCount}>処世術45件</AppText>
-              <AppText variant="serif" style={styles.freeCount}>理論20件</AppText>
+              <AppText variant="serif" style={styles.freeCount}>処世術{FREE_REEL_TECHNIQUE_IDS.length}件</AppText>
+              <AppText variant="serif" style={styles.freeCount}>理論{FREE_THEORY_IDS.length}件</AppText>
             </View>
           </View>
           <AppText style={styles.compareArrow}>›</AppText>

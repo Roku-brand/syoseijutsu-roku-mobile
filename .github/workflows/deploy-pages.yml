@@ -74,6 +74,9 @@ jobs:
       - name: Prepare public runtime catalog
         run: cp src/data/learning.runtime.ts src/data/learning.ts
 
+      - name: Validate 336-item master catalog
+        run: pnpm content:validate-master336
+
       - name: Audit learning curriculum
         run: pnpm content:audit-learning
 

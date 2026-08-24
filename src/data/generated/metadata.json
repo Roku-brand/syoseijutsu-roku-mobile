@@ -1,8 +1,8 @@
 {
-  "source": "shoseijutsuroku_importance_stars_numbered_audited_v1_with_essences_and_explanations.md",
-  "techniqueCount": 467,
+  "source": "shoseijutsuroku_全336項目_本質追加版.md",
+  "techniqueCount": 336,
   "theoryCount": 541,
-  "personaCount": 28,
+  "personaCount": 26,
   "adoptedAllSourceCategories": [
     "psychology",
     "behavioral-science",
@@ -16,5 +16,6 @@
     "strategy": 49,
     "maxims-experience": 21,
     "classics-thought": 12
-  }
+  },
+  "catalogVersion": "master336"
 }

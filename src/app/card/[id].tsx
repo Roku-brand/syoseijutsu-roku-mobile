@@ -73,7 +73,6 @@ export default function CardDetailScreen() {
     .filter(Boolean)
     .slice(0, 3);
   const explanation = splitExplanation(card.explanation, card.subtitle);
-  const isInterpersonal = card.categoryKey === 'interpersonal';
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
   const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;
@@ -121,7 +120,7 @@ export default function CardDetailScreen() {
           </View>
           <View style={styles.summaryCopy}>
             <AppText variant="serif" style={styles.summaryLabel}>
-              {isInterpersonal ? '本質' : '一言でいうと'}
+            本質
             </AppText>
             <AppText variant="serif" style={styles.summaryText}>
               {essence}
@@ -130,7 +129,7 @@ export default function CardDetailScreen() {
         </View>
 
         {!!explanation.body.length && (
-          <ArticleSection title={isInterpersonal ? "原理と解説" : "解説"}>
+          <ArticleSection title="原理と解説">
             <View style={styles.explanation}>
               {explanation.body.map((paragraph, index) => (
                 <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>

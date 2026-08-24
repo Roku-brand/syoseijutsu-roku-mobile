@@ -4,11 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { colors, fonts, shadow } from '@/constants/theme';
 import { categories, techniqueCards, theories, getTechniqueDisplayId } from '@/data/catalog';
+import { FREE_PERSONA_NAMES, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 
 const previewCard = techniqueCards[0];
 const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
+const freePersonaCount = FREE_PERSONA_NAMES.length;
+const freeTechniqueCount = FREE_REEL_TECHNIQUE_IDS.length;
 
 /** 初回の導線だけに表示する、処世術禄の販売ファースト画面。 */
 export default function Welcome() {
@@ -82,7 +85,7 @@ export default function Welcome() {
 
         <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.secondary, pressed && styles.pressed]}>
           <View style={styles.freeIcon}><AppText style={styles.freeIconText}>▯</AppText></View>
-          <View style={styles.secondaryCopy}><AppText variant="serif" style={styles.secondaryTitle}>4つの人物像を体系ごと無料公開</AppText><AppText style={styles.secondarySub}>処世術45件・厳選理論20件を読めます</AppText></View>
+          <View style={styles.secondaryCopy}><AppText variant="serif" style={styles.secondaryTitle}>{freePersonaCount}つの人物像を無料で体験</AppText><AppText style={styles.secondarySub}>処世術{freeTechniqueCount}件・厳選理論{FREE_THEORY_IDS.length}件を読めます</AppText></View>
           <AppText style={styles.secondaryArrow}>›</AppText>
         </Pressable>
 

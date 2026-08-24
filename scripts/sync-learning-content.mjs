@@ -5,7 +5,7 @@ const root = process.cwd();
 const fullPath = path.join(root, 'src/data/generated/learning.full.json');
 const publicPath = path.join(root, 'src/data/generated/learning.json');
 const techniquesPath = path.join(root, 'src/data/generated/techniques.json');
-const migrationPath = path.join(root, 'supabase/migrations/20260824190000_replace_learning_cases.sql');
+const migrationPath = path.join(root, 'supabase/migrations/20260825091000_refresh_learning_cases_master336.sql');
 
 const cases = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
 const techniques = JSON.parse(fs.readFileSync(techniquesPath, 'utf8'));
