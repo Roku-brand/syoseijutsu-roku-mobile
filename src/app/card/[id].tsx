@@ -112,7 +112,7 @@ export default function CardDetailScreen() {
         <View style={styles.rule} />
 
         <View style={styles.summaryCard}>
-          <View style={styles.bulbMark}>
+          <View style={styles.bulbMark} testID="technique-essence-marker">
             <View style={styles.bulbGlyph}>
               <View style={styles.bulbGlass} />
               <View style={styles.bulbStem} />
@@ -122,8 +122,8 @@ export default function CardDetailScreen() {
             <AppText variant="serif" style={styles.summaryLabel}>
             本質
             </AppText>
-            <AppText variant="serif" style={styles.summaryText}>
-              {essence}
+            <AppText testID="technique-essence" variant="serif" style={styles.summaryText}>
+              {formatEssence(essence)}
             </AppText>
           </View>
         </View>
@@ -280,6 +280,14 @@ function cleanText(value: string) {
   return value.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
 }
 
+function formatEssence(value: string) {
+  return cleanText(value)
+    .split(/(?<=。)/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean)
+    .join('\n');
+}
+
 function RichParagraph({ children }: { children: string }) {
   return (
     <AppText style={styles.explanationText}>
@@ -370,42 +378,44 @@ const styles = StyleSheet.create({
   summaryCard: {
     marginTop: 18,
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
+    alignItems: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 15,
     borderWidth: 1,
     borderColor: '#D7CFC1',
     borderRadius: radius.md,
     backgroundColor: '#FDFBF7',
   },
   bulbMark: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    position: 'absolute',
+    top: 14,
+    right: 16,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     backgroundColor: colors.charcoal,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  bulbGlyph: { width: 18, height: 24, alignItems: 'center' },
+  bulbGlyph: { width: 14, height: 18, alignItems: 'center' },
   bulbGlass: {
-    width: 15,
-    height: 15,
+    width: 12,
+    height: 12,
     borderWidth: 1.5,
     borderColor: '#D6B962',
     borderRadius: 8,
   },
   bulbStem: {
-    width: 7,
-    height: 5,
+    width: 6,
+    height: 4,
     marginTop: 1,
     borderTopWidth: 1.5,
     borderBottomWidth: 1.5,
     borderColor: '#D6B962',
   },
-  summaryCopy: { flex: 1, minWidth: 0 },
-  summaryLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, marginBottom: 3 },
-  summaryText: { color: '#141714', fontSize: 15, lineHeight: 24, fontWeight: '600' },
+  summaryCopy: { width: '100%' },
+  summaryLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
+  summaryText: { color: '#141714', fontSize: 16, lineHeight: 29, fontWeight: '600' },
   section: { marginTop: 24 },
   sectionRuled: {
     paddingTop: 19,

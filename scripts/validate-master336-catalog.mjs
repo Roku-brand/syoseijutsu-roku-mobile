@@ -34,7 +34,13 @@ const checks = {
   duplicateKeys,
   duplicateIds,
   missingEssence: cards.filter((card) => !card.essence?.trim()).length,
-  staleExplanations: cards.filter((card) => card.explanation?.trim()).length,
+  missingExplanations: cards.filter((card) => !card.explanation?.trim()).length,
+  invalidExplanationLengths: cards.filter((card) => {
+    const length = [...(card.explanation ?? '').replace(/\s/g, '')].length;
+    return length < 420 || length > 660;
+  }).length,
+  invalidExplanationParagraphs: cards.filter((card) => (card.explanation ?? '').split(/\n\s*\n/).filter(Boolean).length !== 3).length,
+  duplicateExplanations: cards.length - new Set(cards.map((card) => card.explanation)).size,
   invalidTheoryLinks: cards.flatMap((card) => (card.relatedTheoryIds ?? []).filter((id) => !theoryIds.has(id))).length,
   missingTheoryLinks: cards.filter((card) => !card.relatedTheoryIds?.length).length,
   metadataTechniqueCount: metadata.techniqueCount,
@@ -45,7 +51,8 @@ const checks = {
 console.log(JSON.stringify(checks, null, 2));
 if (
   checks.categories !== 3 || checks.personas !== 26 || checks.techniques !== 336 ||
-  checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.staleExplanations ||
+  checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.missingExplanations ||
+  checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
   checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_全336項目_本質追加版.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');

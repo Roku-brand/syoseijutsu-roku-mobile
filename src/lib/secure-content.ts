@@ -17,10 +17,10 @@ let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
 const PAID_CONTENT_TIMEOUT_MS = 20_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v4';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v5';
 
 type PaidContentSnapshot = {
-  version: 4;
+  version: 5;
   userId: string;
   savedAt: string;
   techniques: PaidTechniquePayload[];
@@ -55,7 +55,7 @@ function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCa
 function isSnapshot(value: unknown): value is PaidContentSnapshot {
   if (!value || typeof value !== 'object') return false;
   const snapshot = value as Partial<PaidContentSnapshot>;
-  return snapshot.version === 4
+  return snapshot.version === 5
     && typeof snapshot.userId === 'string'
     && Array.isArray(snapshot.techniques)
     && Array.isArray(snapshot.theories)
@@ -119,7 +119,7 @@ export async function hydrateSecureContent() {
     applyPaidContent(techniques, theories, paidLearning);
     hydratedUserId = userId;
     const snapshot: PaidContentSnapshot = {
-      version: 4,
+      version: 5,
       userId,
       savedAt: new Date().toISOString(),
       techniques,

@@ -57,6 +57,7 @@
     "content:sync-learning": "node ./scripts/sync-learning-content.mjs",
     "content:audit-learning": "node ./scripts/audit-learning-content.mjs",
     "content:import-master336": "node ./scripts/import-master336-markdown.mjs",
+    "content:write-master336-explanations": "node ./scripts/generate-master336-explanations.mjs",
     "content:validate-master336": "node ./scripts/validate-master336-catalog.mjs",
     "content:link-persona-theories": "node ./scripts/link-persona-catalog-theories.mjs",
     "content:add-researched-theories": "node ./scripts/add-researched-theories.mjs",
