@@ -122,8 +122,15 @@ export default function CardDetailScreen() {
             <AppText variant="serif" style={styles.summaryLabel}>
             本質
             </AppText>
-            <AppText testID="technique-essence" variant="serif" style={styles.summaryText}>
-              {formatEssence(essence)}
+            <AppText
+              testID="technique-essence"
+              variant="serif"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.72}
+              style={styles.summaryText}
+            >
+              {cleanText(essence)}
             </AppText>
           </View>
         </View>
@@ -278,14 +285,6 @@ function splitExplanation(value?: string, subtitle?: string) {
 
 function cleanText(value: string) {
   return value.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
-}
-
-function formatEssence(value: string) {
-  return cleanText(value)
-    .split(/(?<=。)/)
-    .map((sentence) => sentence.trim())
-    .filter(Boolean)
-    .join('\n');
 }
 
 function RichParagraph({ children }: { children: string }) {

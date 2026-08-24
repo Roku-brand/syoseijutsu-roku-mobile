@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('mobile technique detail gives the essence its own readable line width', async ({ page }) => {
+test('mobile technique detail shows a concise essence on one line', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/syoseijutsu-roku-mobile/card/master336-001');
   const essence = page.getByTestId('technique-essence');
@@ -12,7 +12,7 @@ test('mobile technique detail gives the essence its own readable line width', as
   expect(markerBox).not.toBeNull();
   expect(essenceBox?.width).toBeGreaterThan(300);
   expect(markerBox!.y + markerBox!.height).toBeLessThanOrEqual(essenceBox!.y);
-  expect((await essence.innerText()).split(/\n/).filter(Boolean).length).toBeGreaterThan(1);
+  expect((await essence.innerText()).split(/\n/).filter(Boolean)).toHaveLength(1);
 });
 
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {

@@ -45,6 +45,12 @@ const checks = {
   duplicateKeys,
   duplicateIds,
   missingEssence: cards.filter((card) => !card.essence?.trim()).length,
+  invalidEssenceLengths: cards.filter((card) => {
+    const length = [...(card.essence ?? '').replace(/\s/g, '')].length;
+    return length < 9 || length > 26;
+  }).length,
+  invalidEssenceSentences: cards.filter((card) => ((card.essence ?? '').match(/[。！？]/g) ?? []).length !== 1).length,
+  duplicateEssences: cards.length - new Set(cards.map((card) => card.essence)).size,
   missingExplanations: cards.filter((card) => !card.explanation?.trim()).length,
   invalidExplanationLengths: cards.filter((card) => {
     const length = [...(card.explanation ?? '').replace(/\s/g, '')].length;
@@ -65,7 +71,8 @@ const checks = {
 console.log(JSON.stringify(checks, null, 2));
 if (
   checks.categories !== 3 || checks.personas !== 26 || checks.techniques !== 336 ||
-  checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.missingExplanations ||
+  checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.invalidEssenceLengths ||
+  checks.invalidEssenceSentences || checks.duplicateEssences || checks.missingExplanations ||
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
