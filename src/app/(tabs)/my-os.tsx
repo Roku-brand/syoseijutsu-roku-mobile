@@ -51,20 +51,27 @@ export default function MyOsScreen() {
   return (
     <BookScreen>
       <OwnerPreviewPanel />
-      <Pressable onPress={() => router.push('/auth')} style={({ pressed }) => [styles.profileCard, pressed && styles.pressed]}>
+      <View testID="account-membership-card" style={styles.accountCard}>
+      <Pressable onPress={() => router.push('/auth')} style={({ pressed }) => [styles.profileRow, pressed && styles.pressed]}>
         <View style={styles.avatar}><AppText style={styles.avatarText}>人</AppText></View>
         <View style={styles.profileCopy}>
-          <AppText style={styles.profileName}>{user?.email ?? 'ユーザー'}</AppText>
-          <AppText style={styles.profilePlan}>{isPaid ? '完全版をご利用中' : '無料版'}・あなたの人生に。</AppText>
+          <View style={styles.profileNameRow}>
+            <AppText style={styles.profileName}>{user?.email ?? 'ユーザー'}</AppText>
+            <View testID="account-plan-badge" style={styles.planBadge}>
+              <AppText style={styles.planBadgeText}>{isPaid ? '完全版' : accessStatus === 'expired' ? '期限終了' : '無料版'}</AppText>
+            </View>
+          </View>
+          <AppText style={styles.profilePlan}>{isPaid ? 'あなたの蔵書と学びを管理する' : 'あなたの人生に、いつでも一冊の知恵を。'}</AppText>
         </View>
-        <AppText style={styles.chevron}>›</AppText>
+        <AppText style={styles.profileChevron}>›</AppText>
       </Pressable>
 
-      <View style={styles.accessCard}>
+      <View style={styles.accountRule} />
+      <View style={styles.membershipArea}>
         <View style={styles.accessCardHeader}>
-          <View>
-            <AppText style={styles.accessEyebrow}>{isPaid ? '完全版' : accessStatus === 'expired' ? '完全版' : '無料版'}</AppText>
-            <AppText variant="serif" style={styles.accessTitle}>{isPaid ? '利用中' : accessStatus === 'expired' ? '利用期間終了' : '無料版を利用中'}</AppText>
+          <View style={styles.accessCopy}>
+            <AppText style={styles.accessEyebrow}>{isPaid ? 'COMPLETE EDITION' : 'YOUR LIBRARY'}</AppText>
+            <AppText variant="serif" style={styles.accessTitle}>{isPaid ? '完全版を利用中' : accessStatus === 'expired' ? 'もう一度、知恵をひらく' : '知恵の蔵書を、もっと深く'}</AppText>
           </View>
           {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.remainingBadge}><AppText style={styles.remainingText}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
         </View>
@@ -72,14 +79,17 @@ export default function MyOsScreen() {
         {isPaid && accessInfo.accessType === 'thirty_day' && getAccessExpiryNotice(accessInfo.accessExpiresAt) ? <AppText style={styles.expiryNotice}>{getAccessExpiryNotice(accessInfo.accessExpiresAt)}</AppText> : null}
         {isPaid && accessInfo.accessType === 'legacy_lifetime' ? <AppText style={styles.accessExpiry}>旧買い切り版の利用権は、そのまま維持されています。</AppText> : null}
         {accessStatus === 'expired' ? <AppText style={styles.accessExpiry}>30日間アクセスが終了しました。保存データは保持されています。</AppText> : null}
+        {!isPaid && accessStatus !== 'expired' ? <AppText style={styles.accessLead}>全336の処世術と541の理論を、必要なときに蔵書から読み返せます。</AppText> : null}
         <Pressable
+          testID="account-complete-cta"
           accessibilityRole="button"
           onPress={() => isPaid ? setAccessDetailsOpen(true) : router.push('/upgrade')}
           style={({ pressed }) => [styles.accessAction, pressed && styles.pressed]}
         >
-          <AppText style={styles.accessActionText}>{isPaid ? '利用情報を見る' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '完全版を30日間利用する'}</AppText>
-          <AppText style={styles.chevron}>›</AppText>
+          <AppText style={styles.accessActionText}>{isPaid ? '利用情報を見る' : accessStatus === 'expired' ? 'もう一度30日間利用する' : `完全版を30日間利用する　¥${COMPLETE_EDITION_PRICE_JPY}`}</AppText>
+          <AppText style={styles.accessActionChevron}>›</AppText>
         </Pressable>
+      </View>
       </View>
 
       <View style={styles.summaryCard}>
@@ -169,13 +179,6 @@ export default function MyOsScreen() {
         <AppText style={styles.chevron}>›</AppText>
       </Pressable>
 
-      {!isPaid ? (
-        <Pressable onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.upgradeButton, pressed && styles.pressed]}>
-          <AppText style={styles.upgradeButtonText}>{accessStatus === 'expired' ? 'もう一度30日間利用する' : `完全版を30日間利用する　¥${COMPLETE_EDITION_PRICE_JPY}`}</AppText>
-          <AppText style={styles.upgradeButtonArrow}>›</AppText>
-        </Pressable>
-      ) : null}
-
       <Modal
         transparent
         visible={editing}
@@ -254,22 +257,31 @@ export default function MyOsScreen() {
 }
 
 const styles = StyleSheet.create({
-  profileCard: { minHeight: 72, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 13, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
+  accountCard: { overflow: 'hidden', borderWidth: 1, borderColor: '#D8CBB8', borderRadius: radius.lg, backgroundColor: '#F8F4EC', ...bookCardShadow },
+  profileRow: { minHeight: 82, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 13 },
   avatar: { width: 48, height: 48, borderRadius: 24, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
   avatarText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23 },
   profileCopy: { flex: 1, minWidth: 0 },
+  profileNameRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 8 },
   profileName: { fontSize: 15, lineHeight: 22, fontWeight: '700' },
-  profilePlan: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 17 },
-  accessCard: { marginTop: spacing.sm, padding: spacing.md, borderWidth: 1, borderColor: '#C8A65A', borderRadius: radius.md, backgroundColor: '#F6F0E5' },
+  planBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 999, borderWidth: 1, borderColor: '#D7C6AB', backgroundColor: '#FCFAF6' },
+  planBadgeText: { color: '#81622A', fontSize: 10, lineHeight: 14, fontWeight: '700', letterSpacing: 0.4 },
+  profilePlan: { marginTop: 3, color: colors.muted, fontSize: 11, lineHeight: 17 },
+  profileChevron: { color: colors.gold, fontSize: 27, lineHeight: 30, fontWeight: '300' },
+  accountRule: { height: 1, marginHorizontal: spacing.lg, backgroundColor: '#DED3C3' },
+  membershipArea: { padding: spacing.lg, paddingTop: spacing.md },
   accessCardHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
-  accessEyebrow: { color: '#896422', fontSize: 10, lineHeight: 15, fontWeight: '700', letterSpacing: 1.2 },
-  accessTitle: { marginTop: 2, color: colors.ink, fontSize: 19, lineHeight: 26, fontWeight: '700' },
+  accessCopy: { flex: 1, minWidth: 0 },
+  accessEyebrow: { color: '#896422', fontSize: 10, lineHeight: 15, fontWeight: '700', letterSpacing: 1.3 },
+  accessTitle: { marginTop: 3, color: colors.ink, fontSize: 20, lineHeight: 28, fontWeight: '700' },
   remainingBadge: { paddingHorizontal: 11, paddingVertical: 6, borderRadius: 999, backgroundColor: colors.charcoal },
   remainingText: { color: '#E8C976', fontSize: 11, lineHeight: 16, fontWeight: '700' },
   accessExpiry: { marginTop: 8, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
   expiryNotice: { marginTop: 5, color: '#8A6527', fontSize: 11, lineHeight: 17, fontWeight: '700' },
-  accessAction: { minHeight: 42, marginTop: 10, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', borderTopWidth: 1, borderTopColor: '#DDCBA7' },
-  accessActionText: { flex: 1, color: '#7B5B20', fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  accessLead: { marginTop: 12, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
+  accessAction: { minHeight: 48, marginTop: 16, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: radius.sm, backgroundColor: colors.gold },
+  accessActionText: { flex: 1, color: '#FFFDF8', fontSize: 13, lineHeight: 20, fontWeight: '700' },
+  accessActionChevron: { marginLeft: spacing.sm, color: '#FFFDF8', fontSize: 25, lineHeight: 27, fontWeight: '300' },
   accessDetailRow: { marginTop: 14, flexDirection: 'row', justifyContent: 'space-between', gap: 16 },
   accessDetailLabel: { color: colors.muted, fontSize: 12, lineHeight: 19 },
   accessDetailValue: { flex: 1, color: colors.ink, fontSize: 13, lineHeight: 19, fontWeight: '700', textAlign: 'right' },
@@ -552,8 +564,5 @@ const styles = StyleSheet.create({
   saveText: { color: '#FFFFFF', fontWeight: '700' },
   closeMemos: { minHeight: 46, marginTop: spacing.md, borderRadius: radius.md, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
   closeMemosText: { color: colors.inkSoft, fontWeight: '700' },
-  upgradeButton: { minHeight: 56, marginTop: spacing.xl, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderRadius: radius.md, backgroundColor: colors.gold },
-  upgradeButtonText: { color: '#FFFFFF', fontSize: 15, lineHeight: 22, fontWeight: '700' },
-  upgradeButtonArrow: { position: 'absolute', right: 18, color: '#FFFFFF', fontSize: 26, lineHeight: 29 },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });

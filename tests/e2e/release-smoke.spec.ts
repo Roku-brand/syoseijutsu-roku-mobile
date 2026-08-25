@@ -1,5 +1,15 @@
 import { expect, test } from '@playwright/test';
 
+test('my page presents account and membership as one calm card', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/syoseijutsu-roku-mobile/my-os');
+
+  await expect(page.getByTestId('account-membership-card')).toHaveCount(1);
+  await expect(page.getByTestId('account-plan-badge')).toBeVisible();
+  await expect(page.getByTestId('account-complete-cta')).toBeVisible();
+  await expect(page.getByTestId('account-complete-cta')).toContainText('¥280');
+});
+
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/syoseijutsu-roku-mobile/card/master336-001');
