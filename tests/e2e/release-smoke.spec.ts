@@ -1,5 +1,32 @@
 import { expect, test } from '@playwright/test';
 
+test('welcome keeps both entry actions above the fold on desktop and compact mobile', async ({ page }) => {
+  const assertWelcomeFits = async () => {
+    const purchase = page.getByRole('button', { name: /280円で30日間利用する/ });
+    const free = page.getByRole('button', { name: /6つの人物像を無料で体験/ });
+    await expect(purchase).toBeVisible();
+    await expect(free).toBeVisible();
+    const [purchaseBox, freeBox, viewport] = await Promise.all([
+      purchase.boundingBox(),
+      free.boundingBox(),
+      page.evaluate(() => ({ height: window.innerHeight, scrollHeight: document.documentElement.scrollHeight })),
+    ]);
+    expect(purchaseBox).not.toBeNull();
+    expect(freeBox).not.toBeNull();
+    expect(viewport.scrollHeight).toBeLessThanOrEqual(viewport.height);
+    expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(viewport.height);
+    expect(freeBox!.y + freeBox!.height).toBeLessThanOrEqual(viewport.height);
+  };
+
+  await page.setViewportSize({ width: 1920, height: 868 });
+  await page.goto('/welcome');
+  await assertWelcomeFits();
+
+  await page.setViewportSize({ width: 393, height: 667 });
+  await page.reload();
+  await assertWelcomeFits();
+});
+
 test('my page keeps the guest account entry compact', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
