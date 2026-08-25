@@ -10,7 +10,7 @@ import {
   type DeferredInstallPrompt,
 } from '@/lib/pwa-install';
 
-const APP_URL = 'https://roku-brand.github.io/syoseijutsu-roku-mobile/';
+const APP_URL = 'https://shoseijutsuroku.com/';
 type InstallPlatform = 'ios' | 'android' | 'desktop';
 
 export default function InstallAppScreen() {

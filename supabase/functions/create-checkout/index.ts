@@ -7,7 +7,7 @@ const ACCESS_TYPE = 'thirty_day';
 // Return through the app shell instead of a generated route HTML file. The
 // root route is the most reliable GitHub Pages entry point, and forwards the
 // checkout query to the in-app upgrade screen after Expo Router has loaded.
-const CHECKOUT_RETURN_URL = 'https://roku-brand.github.io/syoseijutsu-roku-mobile/';
+const CHECKOUT_RETURN_URL = 'https://shoseijutsuroku.com/';
 
 async function validateConfiguredPrice(secretKey: string, priceId: string) {
   if (!/^price_[A-Za-z0-9]+$/.test(priceId)) return false;

@@ -1,18 +1,18 @@
 {
   "name": "処世術禄",
   "short_name": "処世術禄",
-  "description": "学校では教えてくれない、社会を生きるための教科書。",
+  "description": "人生をうまく生きるための対人術・仕事術・人生術を学べる処世術の辞典。",
   "lang": "ja",
-  "id": "/syoseijutsu-roku-mobile/",
-  "start_url": "/syoseijutsu-roku-mobile/",
-  "scope": "/syoseijutsu-roku-mobile/",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#151714",
   "theme_color": "#151714",
   "icons": [
     {
-      "src": "/syoseijutsu-roku-mobile/pwa-icon.svg",
+      "src": "/pwa-icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

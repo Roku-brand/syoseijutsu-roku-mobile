@@ -1,7 +1,10 @@
 import { ScrollViewStyleReset } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 
-const basePath = '/syoseijutsu-roku-mobile';
+const basePath = '';
+const siteUrl = 'https://shoseijutsuroku.com';
+const siteTitle = '処世術禄｜人生・仕事・人間関係のための処世術';
+const siteDescription = '人生をうまく生きるための対人術・仕事術・人生術を、心理学・行動科学・経験則から学べる処世術の辞典。';
 
 export default function Root({ children }: PropsWithChildren) {
   return (
@@ -13,11 +16,25 @@ export default function Root({ children }: PropsWithChildren) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
         />
+        <title>{siteTitle}</title>
+        <meta name="description" content={siteDescription} />
+        <meta name="robots" content="index,follow,max-image-preview:large" />
         <meta name="theme-color" content="#151714" />
         <meta name="application-name" content="処世術禄" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="処世術禄" />
+        <link rel="canonical" href={`${siteUrl}/`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="処世術禄" />
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={siteDescription} />
+        <meta property="og:url" content={`${siteUrl}/`} />
+        <meta property="og:image" content={`${siteUrl}/og.png`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={siteTitle} />
+        <meta name="twitter:description" content={siteDescription} />
+        <meta name="twitter:image" content={`${siteUrl}/og.png`} />
         <link rel="manifest" href={`${basePath}/manifest.webmanifest`} />
         <link rel="icon" href={`${basePath}/pwa-icon.svg`} />
         <link rel="apple-touch-icon" href={`${basePath}/pwa-icon.svg`} />

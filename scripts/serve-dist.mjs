@@ -4,7 +4,7 @@ import { createServer } from 'node:http';
 import path from 'node:path';
 
 const root = path.resolve('dist');
-const base = '/syoseijutsu-roku-mobile';
+const base = '';
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',

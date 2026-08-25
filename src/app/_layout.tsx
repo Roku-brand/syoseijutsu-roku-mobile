@@ -15,6 +15,7 @@ import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
+import { SeoMeta } from '@/components/seo-meta';
 
 function AppFrame() {
   const pathname = usePathname();
@@ -52,7 +53,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><AppFrame /></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><AppFrame /></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

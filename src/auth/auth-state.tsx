@@ -197,14 +197,14 @@ export function checkoutConfirmationRedirectUrl() {
     // GitHub Pages serves Expo's static route as `auth.html`. Using `/auth`
     // makes the email-confirmation redirect depend on a server-side rewrite,
     // which Pages does not provide.
-    return `${window.location.origin}/syoseijutsu-roku-mobile/auth.html?intent=checkout`;
+    return `${window.location.origin}/auth.html?intent=checkout`;
   }
   return 'shoseijutsuroku://auth?intent=checkout';
 }
 
 export function passwordResetRedirectUrl() {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
-    return `${window.location.origin}/syoseijutsu-roku-mobile/auth.html?mode=reset`;
+    return `${window.location.origin}/auth.html?mode=reset`;
   }
   return 'shoseijutsuroku://auth?mode=reset';
 }

@@ -26,12 +26,12 @@
    - `STRIPE_WEBHOOK_SECRET`
    - `STRIPE_PRICE_ID_30DAY`（商品名「処世術禄 完全版｜30日間アクセス」、JPY 280、`one_time`の本番Price ID。未設定時は同条件の`price_data`へ安全にフォールバック）
    - 購入完了・キャンセル時の戻り先は、関数内で公開URL
-     `https://roku-brand.github.io/syoseijutsu-roku-mobile/` に固定済みです。
+     `https://shoseijutsuroku.com/` に固定済みです。
      `checkout`クエリを受け取ったトップ画面が、アプリ内の購入完了画面へ転送します。
 4. Stripe Webhook URLを`https://<project-ref>.supabase.co/functions/v1/stripe-webhook`に設定する。
 5. Supabase AuthのRedirect URLsへ次を登録する。
-   - `https://roku-brand.github.io/syoseijutsu-roku-mobile/auth.html?intent=checkout`
-   - `https://roku-brand.github.io/syoseijutsu-roku-mobile/auth.html?mode=reset`
+   - `https://shoseijutsuroku.com/auth.html?intent=checkout`
+   - `https://shoseijutsuroku.com/auth.html?mode=reset`
 6. Stripeイベントは最低限次を購読する。
    - `checkout.session.completed`
    - `checkout.session.async_payment_succeeded`

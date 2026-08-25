@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('groups interpersonal personas under consistent theme labels', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/category/interpersonal');
+  await page.goto('/category/interpersonal');
   await expect(page.getByText('関係の構築', { exact: true })).toBeVisible();
   await expect(page.getByText('関係の管理', { exact: true })).toBeVisible();
   await expect(page.getByText('集団での立ち回り', { exact: true })).toBeVisible();

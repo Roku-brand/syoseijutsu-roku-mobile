@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('my page keeps the guest account entry compact', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/my-os');
+  await page.goto('/my-os');
 
   await expect(page.getByTestId('account-membership-card')).toHaveCount(1);
   await expect(page.getByTestId('account-plan-badge')).toBeVisible();
@@ -12,14 +12,14 @@ test('my page keeps the guest account entry compact', async ({ page }) => {
 
 test('profile settings guide guests to log in before editing', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/settings/profile');
+  await page.goto('/settings/profile');
   await expect(page.getByText('ログインしてプロフィールをつくる')).toBeVisible();
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
 test('personal principle editing stays in the compact card header', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/my-os');
+  await page.goto('/my-os');
   const card = page.getByTestId('personal-principle-card');
   const edit = page.getByTestId('personal-principle-edit');
   await expect(card).toBeVisible();
@@ -33,7 +33,7 @@ test('personal principle editing stays in the compact card header', async ({ pag
 
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/card/master336-001');
+  await page.goto('/card/master336-001');
   const essence = page.getByTestId('technique-essence');
   const marker = page.getByTestId('technique-essence-marker');
   await expect(essence).toBeVisible();
@@ -48,7 +48,7 @@ test('mobile technique detail keeps the full essence visible', async ({ page }) 
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/theory/kb_001');
+  await page.goto('/theory/kb_001');
   const meta = page.getByTestId('theory-meta');
   const title = page.getByTestId('theory-title');
   await expect(meta).toBeVisible();
@@ -59,12 +59,12 @@ test('theory metadata sits beside its identifier and content is never ellipsized
 
 test('persona technique rows offer the shared diamond save action', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
+  await page.goto('/subcategory/interpersonal/印象がいい人');
   await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(14);
 });
 
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/');
+  await page.goto('/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('541').first()).toBeVisible();
   await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
@@ -79,7 +79,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/upgrade');
+  await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('336の処世術・541の理論・全21ケース')).toBeVisible();
   await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
@@ -92,7 +92,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
 });
 
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/upgrade');
+  await page.goto('/upgrade');
   await page.getByText('利用規約', { exact: true }).first().click();
   await expect(page.getByText(/バージョン3\.2/)).toBeVisible();
   await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
@@ -101,17 +101,17 @@ test('利用規約にコンテンツ変更の範囲と利用者保護を明示�
 });
 
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/?checkout=success&session_id=cs_test_example');
-  await expect(page).toHaveURL(/\/syoseijutsu-roku-mobile\/\?checkout=success&session_id=cs_test_example$/);
+  await page.goto('/?checkout=success&session_id=cs_test_example');
+  await expect(page).toHaveURL(/\/\?checkout=success&session_id=cs_test_example$/);
   await expect(page.getByRole('button', { name: /購入済みの方はこちら|購入を復元する/ })).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/auth?mode=forgot');
+  await page.goto('/auth?mode=forgot');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('パスワードを再設定')).toBeVisible();
-  await page.goto('/syoseijutsu-roku-mobile/settings');
+  await page.goto('/settings');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('購入・完全版 FAQ')).toBeVisible();
   await expect(page.getByText('特定商取引法に基づく表記')).toBeVisible();
@@ -121,22 +121,22 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 });
 
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/');
+  await page.goto('/');
   await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
   await expect(page.getByText('完全版を30日間利用　¥280')).toBeVisible();
 });
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/会話がうまい人');
+  await page.goto('/subcategory/interpersonal/会話がうまい人');
   await expect(page.getByText('会話は内容よりテンポ')).toBeVisible();
 
-  await page.goto('/syoseijutsu-roku-mobile/subcategory/work/頭がいい人');
+  await page.goto('/subcategory/work/頭がいい人');
   await expect(page.getByText('完全版').first()).toBeVisible();
 });
 
 test('人物像一覧は縦順の2段組として一覧できる', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
-  await page.goto('/syoseijutsu-roku-mobile/subcategory/interpersonal/印象がいい人');
+  await page.goto('/subcategory/interpersonal/印象がいい人');
   const cards = page.getByRole('link', { name: /^\d{2} / });
   await expect(cards).toHaveCount(14);
   await expect(page.getByTestId('technique-column-1').getByRole('link')).toHaveCount(7);
@@ -158,7 +158,7 @@ test('人物像一覧は縦順の2段組として一覧できる', async ({ page
 });
 
 test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
-  await page.goto('/syoseijutsu-roku-mobile/learn');
+  await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
   await expect(page.getByText('CASE 01')).toBeVisible();
   await page.getByRole('button', { name: /^A/ }).click();
