@@ -36,7 +36,7 @@ jobs:
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
           supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
-          supabase db push --linked
+          supabase db push --linked --include-all
       - name: Deploy payment and entitlement functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
