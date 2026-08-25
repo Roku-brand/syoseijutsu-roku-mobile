@@ -59,7 +59,7 @@ export default function LearnHomeScreen() {
                     <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>{completeCount}/{caseCount} ケース</AppText>
                   </View>
                   <AppText style={styles.stageTitle}>{stage.title}</AppText>
-                  <AppText numberOfLines={density === 'veryCompact' ? 1 : 2} style={styles.stageIntro}>{stage.intro}</AppText>
+                  <AppText style={styles.stageIntro}>{stage.intro}</AppText>
                 </View>
                 <AppText style={styles.chevron}>›</AppText>
               </Pressable>

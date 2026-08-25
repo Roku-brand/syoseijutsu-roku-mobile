@@ -46,12 +46,12 @@ export default function LearningCaseScreen() {
       </View>
       <View style={styles.headingRule} />
       <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
-      <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.76} style={styles.title}>{item.title}</AppText>
-      <AppText numberOfLines={3} style={styles.situation}>{item.situation}</AppText>
+      <AppText style={styles.title}>{item.title}</AppText>
+      <AppText style={styles.situation}>{item.situation}</AppText>
 
       {!record ? (
         <View style={styles.answerArea}>
-          <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.78} style={styles.question}>{item.question}</AppText>
+          <AppText style={styles.question}>{item.question}</AppText>
           {item.choices.map((choice) => (
             <Pressable
               key={choice.id}
@@ -63,7 +63,7 @@ export default function LearningCaseScreen() {
               style={({ pressed }) => [styles.choice, pressed && styles.pressed]}
             >
               <AppText style={styles.choiceLetter}>{choice.id.toUpperCase()}</AppText>
-              <AppText numberOfLines={2} style={styles.choiceText}>{choice.label}</AppText>
+              <AppText style={styles.choiceText}>{choice.label}</AppText>
             </Pressable>
           ))}
         </View>

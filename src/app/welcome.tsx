@@ -75,7 +75,7 @@ export default function Welcome() {
           <AppText variant="serif" style={styles.previewHeading}>収録されている処世術の一例</AppText>
           {previewCard ? <View style={styles.previewCard}>
             <AppText style={styles.previewNumber}>{getTechniqueDisplayId(previewCard)}</AppText>
-            <AppText variant="serif" numberOfLines={3} adjustsFontSizeToFit minimumFontScale={0.68} style={styles.previewTitle}>{previewCard.title}</AppText>
+            <AppText variant="serif" style={styles.previewTitle}>{previewCard.title}</AppText>
             <View style={styles.previewRule}><View style={styles.previewRuleLine} /><View style={styles.previewSmallDiamond} /><View style={styles.previewRuleLine} /></View>
             <AppText style={styles.previewTag}>〔 {previewCard.categoryName} 〕</AppText>
             <View style={styles.previewDiamond} />

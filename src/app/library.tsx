@@ -61,7 +61,7 @@ export default function LibraryScreen() {
                       }
                       style={({ pressed }) => [styles.theoryRow, pressed && styles.pressed]}
                     >
-                      <AppText variant="serif" numberOfLines={2} style={styles.theoryTitle}>
+                      <AppText variant="serif" style={styles.theoryTitle}>
                         {theory.title}
                       </AppText>
                       <AppText style={styles.theoryChevron}>›</AppText>

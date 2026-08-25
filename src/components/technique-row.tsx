@@ -73,7 +73,7 @@ export function TechniqueRow({
           ) : null}
           <AppText style={styles.title}>{card.title}</AppText>
           {card.subtitle && (
-            <AppText variant="caption" style={styles.subtitle} numberOfLines={2}>
+            <AppText variant="caption" style={styles.subtitle}>
               {card.subtitle}
             </AppText>
           )}

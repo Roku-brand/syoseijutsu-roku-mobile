@@ -30,26 +30,21 @@ export function TheoryArchiveCard({
         onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId } })}
         style={({ pressed }) => [styles.openArea, pressed && styles.pressed]}
       >
-      <View style={[styles.copy, compact && styles.copyCompact]}>
+        <View style={[styles.copy, compact && styles.copyCompact]}>
         <View style={styles.metaRow}>
           <AppText variant="label" style={styles.id}>
             {getTheoryDisplayId(theory)}
           </AppText>
-        </View>
-
-        <View style={styles.titleRow}>
-          <AppText variant="serif" style={styles.title}>
-            {theory.title}
-          </AppText>
           <View style={styles.theoryPill}>
-            <AppText variant="caption" style={styles.theoryPillText}>理論</AppText>
+            <AppText variant="caption" style={styles.theoryPillText}>
+              {theory.sourceType || theory.categoryTitle}
+            </AppText>
           </View>
         </View>
+
+        <AppText variant="serif" style={styles.title}>{theory.title}</AppText>
         {theory.summary ? (
-          <AppText
-            style={styles.summary}
-            numberOfLines={compact ? 3 : 2}
-          >
+          <AppText style={styles.summary}>
             {getTheoryCoverSummary(theory.summary)}
           </AppText>
         ) : null}
@@ -108,19 +103,13 @@ const styles = StyleSheet.create({
     minHeight: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     gap: spacing.md,
   },
   id: { color: colors.gold, fontSize: 10, letterSpacing: 1.1 },
-  titleRow: {
-    marginTop: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    gap: spacing.sm,
-  },
   title: {
-    flexShrink: 1,
+    marginTop: 6,
     color: colors.ink,
     fontSize: 22,
     lineHeight: 31,

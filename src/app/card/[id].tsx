@@ -75,7 +75,7 @@ export default function CardDetailScreen() {
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
-  const titleFontSize = titleLength <= 18 ? 34 : titleLength <= 24 ? 28 : titleLength <= 32 ? 22 : 16;
+  const titleFontSize = titleLength <= 18 ? 32 : titleLength <= 24 ? 28 : 23;
 
   const navigateCard = (offset: -1 | 1) => {
     const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
@@ -101,9 +101,6 @@ export default function CardDetailScreen() {
 
         <AppText
           variant="serif"
-          numberOfLines={2}
-          adjustsFontSizeToFit
-          minimumFontScale={0.5}
           style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}
         >
           {card.title}
@@ -125,9 +122,6 @@ export default function CardDetailScreen() {
             <AppText
               testID="technique-essence"
               variant="serif"
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              minimumFontScale={0.72}
               style={styles.summaryText}
             >
               {cleanText(essence)}
@@ -209,11 +203,7 @@ export default function CardDetailScreen() {
                       pressed && styles.pressed,
                     ]}
                   >
-                    <AppText
-                      variant="serif"
-                      numberOfLines={2}
-                      style={styles.theoryTitle}
-                    >
+                    <AppText variant="serif" style={styles.theoryTitle}>
                       {theory.title}
                     </AppText>
                     <AppText style={styles.chevron}>›</AppText>
@@ -244,7 +234,7 @@ export default function CardDetailScreen() {
                   ]}
                 >
                   <AppText style={styles.relatedChevron}>›</AppText>
-                  <AppText numberOfLines={2} style={styles.relatedText}>
+                  <AppText style={styles.relatedText}>
                     {getTechniqueDisplayId(relatedCard)} {relatedCard.title}
                   </AppText>
                 </Pressable>

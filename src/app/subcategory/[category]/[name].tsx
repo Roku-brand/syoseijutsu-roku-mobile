@@ -6,9 +6,12 @@ import { categories } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
 import { useAccess } from '@/access/access-state';
 import { LockedPreview } from '@/components/locked-preview';
+import { SaveDiamondButton } from '@/components/book-ui';
 import { isFreePersona } from '@/access/access-config';
 import { getTechniqueCount } from '@/data/technique-counts';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { useAppState } from '@/state/app-state';
+import { useAppToast } from '@/components/app-toast';
 
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
@@ -24,6 +27,8 @@ export default function PersonaScreen() {
   const router = useRouter();
   const { isPaid } = useAccess();
   const { width } = useResponsiveLayout();
+  const { savedIds, toggleSaved } = useAppState();
+  const showToast = useAppToast();
   const category = categories.find((item) => item.key === categoryKey);
   const persona = category?.subcategories.find((item) => item.name === name);
 
@@ -56,32 +61,35 @@ export default function PersonaScreen() {
               >
                 {column.map((item, index) => {
                   const itemNumber = itemOffset + index + 1;
+                  const saved = savedIds.includes(item.id);
                   return (
-                    <Pressable
+                    <View
                       key={item.id}
-                      accessibilityRole="link"
-                      accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
-                      onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-                      style={({ pressed }) => [
+                      style={[
                         styles.techniqueRow,
                         !compact && styles.techniqueRowDesktop,
                         compact && styles.techniqueRowCompact,
                         index === rowsPerColumn - 1 && styles.techniqueRowLast,
-                        pressed && styles.pressed,
                       ]}
                     >
-                      <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
-                      <AppText
-                        variant="serif"
-                        numberOfLines={compact ? undefined : 2}
-                        ellipsizeMode="clip"
-                        adjustsFontSizeToFit={!compact}
-                        minimumFontScale={0.86}
-                        style={[styles.rowTitle, compact && styles.rowTitleCompact]}
+                      <Pressable
+                        accessibilityRole="link"
+                        accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
+                        onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
+                        style={({ pressed }) => [styles.techniqueOpenArea, pressed && styles.pressed]}
                       >
-                        {item.title}
-                      </AppText>
-                    </Pressable>
+                        <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
+                        <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
+                      </Pressable>
+                      <SaveDiamondButton
+                        saved={saved}
+                        compact
+                        onPress={() => {
+                          toggleSaved(item.id);
+                          showToast(saved ? '蔵書から外しました' : '蔵書に保存しました');
+                        }}
+                      />
+                    </View>
                   );
                 })}
                 {Array.from({ length: placeholders }, (_, index) => (
@@ -124,6 +132,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
   },
+  techniqueOpenArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 },
   techniqueRowDesktop: { flex: 1, minHeight: 0, paddingVertical: 7 },
   techniqueRowCompact: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 9, gap: 10 },
   techniqueRowLast: { borderBottomWidth: 0 },

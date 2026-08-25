@@ -617,10 +617,10 @@ export default function MainScreen() {
                   router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } });
                 })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
-                  <AppText numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.58} style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
+                  <AppText style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
                   <View style={[styles.cardOrnament, cardOrnament]}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
                   <View style={[styles.categoryChip, categoryChip]}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
-                  <AppText numberOfLines={density === 'veryCompact' ? 2 : 3} style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{getTheoryCoverSummary(theory.summary, theory.definition ?? '社会を生きるための知恵を、理論から読み解く。')}</AppText>
+                  <AppText style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{getTheoryCoverSummary(theory.summary, theory.definition ?? '社会を生きるための知恵を、理論から読み解く。')}</AppText>
                 </Pressable>
                 <View style={[styles.reelSaveButton, reelSaveButton]}>
                   <SaveDiamondButton
@@ -681,9 +681,6 @@ export default function MainScreen() {
                 >
                   <AppText variant="label" style={styles.techniqueId}>✦ {persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
                   <AppText
-                    numberOfLines={2}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.58}
                     style={[
                       styles.techniqueTitle,
                       {
@@ -700,7 +697,7 @@ export default function MainScreen() {
                     <View style={styles.cardDiamond} />
                     <View style={styles.cardLine} />
                   </View>
-                  <AppText numberOfLines={2} style={styles.personaSubtitle}>{persona.subtitle}</AppText>
+                  <AppText style={styles.personaSubtitle}>{persona.subtitle}</AppText>
                   <View style={styles.personaCta}><AppText style={styles.personaCtaText}>{persona.techniqueCount}つの処世術を見る</AppText><AppText style={styles.personaCtaChevron}>›</AppText></View>
                 </Pressable>
             </View>
@@ -764,7 +761,7 @@ export default function MainScreen() {
                     style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
                   >
                     <AppText style={styles.theoryShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
-                    <AppText numberOfLines={1} style={styles.theoryShortcutText}>{shortcut.label}</AppText>
+                    <AppText style={styles.theoryShortcutText}>{shortcut.label}</AppText>
                     <AppText style={styles.theoryShortcutArrow}>↗</AppText>
                   </Pressable>
                 ))}

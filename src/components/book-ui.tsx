@@ -126,7 +126,7 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        <AppText numberOfLines={2} style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
+        <AppText style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
           {currentTitle}
         </AppText>
 

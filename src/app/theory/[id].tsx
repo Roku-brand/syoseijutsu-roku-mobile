@@ -38,6 +38,8 @@ export default function TheoryDetailScreen() {
 
   const related = getTechniquesForTheory(theory);
   const relatedTheories = getRelatedTheories(theory);
+  const titleLength = [...theory.title.replace(/\s/g, '')].length;
+  const titleFontSize = titleLength <= 12 ? 28 : titleLength <= 18 ? 24 : 21;
   const explanation =
     theory.summary ??
     theory.definition ??
@@ -56,23 +58,21 @@ export default function TheoryDetailScreen() {
         onNext={() => navigateTheory(1)}
       >
         <View style={styles.hero}>
-          <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
-          <View style={styles.titleRow}>
-            <AppText
-              variant="serif"
-              numberOfLines={2}
-              adjustsFontSizeToFit
-              minimumFontScale={0.7}
-              style={styles.title}
-            >
-              {theory.title}
-            </AppText>
+          <View testID="theory-meta" style={styles.metaRow}>
+            <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
             <View style={styles.categoryTag}>
               <AppText style={styles.categoryTagText}>
                 {theory.sourceType || theory.categoryTitle}
               </AppText>
             </View>
           </View>
+          <AppText
+            testID="theory-title"
+            variant="serif"
+            style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.43) }]}
+          >
+            {theory.title}
+          </AppText>
           <AppText style={styles.explanation}>{explanation}</AppText>
         </View>
 
@@ -99,11 +99,7 @@ export default function TheoryDetailScreen() {
                   }
                   style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}
                 >
-                  <AppText
-                    variant="serif"
-                    numberOfLines={2}
-                    style={styles.relatedTitle}
-                  >
+                  <AppText variant="serif" style={styles.relatedTitle}>
                     {card.title}
                   </AppText>
                   <AppText style={styles.chevron}>›</AppText>
@@ -129,11 +125,7 @@ export default function TheoryDetailScreen() {
                   }
                   style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}
                 >
-                  <AppText
-                    variant="serif"
-                    numberOfLines={2}
-                    style={styles.relatedTitle}
-                  >
+                  <AppText variant="serif" style={styles.relatedTitle}>
                     {relatedTheory.title}
                   </AppText>
                   <AppText style={styles.chevron}>›</AppText>
@@ -324,6 +316,12 @@ const styles = StyleSheet.create({
   },
   article: { width: '100%', maxWidth: 980, alignSelf: 'center' },
   hero: { paddingTop: 2 },
+  metaRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: 8,
+  },
   number: {
     color: '#8D887F',
     fontFamily: fonts.serif,
@@ -331,24 +329,16 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     letterSpacing: 0.8,
   },
-  titleRow: {
-    marginTop: 5,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 10,
-  },
   title: {
-    flex: 1,
-    minWidth: 0,
+    marginTop: 8,
     color: '#111311',
     fontFamily: fonts.serif,
-    fontSize: 34,
-    lineHeight: 46,
+    fontSize: 28,
+    lineHeight: 40,
     fontWeight: '700',
     letterSpacing: 0.35,
   },
   categoryTag: {
-    marginTop: 8,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderWidth: 1,
