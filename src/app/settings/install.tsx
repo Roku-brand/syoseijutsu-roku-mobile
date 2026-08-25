@@ -150,9 +150,9 @@ function InstallStep({ number, text, last }: { number: number; text: string; las
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 760, alignSelf: 'center', paddingTop: 8, paddingBottom: 28 },
   promoCard: { overflow: 'hidden', borderWidth: 1, borderColor: '#9E7935', borderRadius: 18, backgroundColor: '#151514', ...shadow.card },
-  promoCardWide: { flexDirection: 'row', alignItems: 'stretch' },
+  promoCardWide: { height: 440, flexDirection: 'row', alignItems: 'stretch' },
   promoImage: { width: '100%', aspectRatio: 1122 / 1402, backgroundColor: '#11110F' },
-  promoImageWide: { width: '47%', alignSelf: 'center' },
+  promoImageWide: { width: '47%', height: 440, alignSelf: 'center' },
   promoCopy: { padding: 16, borderTopWidth: 1, borderTopColor: 'rgba(196,148,50,0.45)' },
   promoCopyWide: { flex: 1, justifyContent: 'center', padding: 22, borderTopWidth: 0, borderLeftWidth: 1, borderLeftColor: 'rgba(196,148,50,0.45)' },
   promoEyebrow: { color: colors.goldLight, fontSize: 10, lineHeight: 16, fontWeight: '700', letterSpacing: 2 },
