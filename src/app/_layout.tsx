@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import '@/lib/pwa-install';
 import { Stack, useLocalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
