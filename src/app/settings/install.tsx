@@ -16,6 +16,8 @@ type InstallPlatform = 'ios' | 'android' | 'desktop';
 export default function InstallAppScreen() {
   const { width } = useHydratedWindowDimensions();
   const wide = width >= 760;
+  const compactPromoWidth = Math.max(0, Math.min(width - 32, 760));
+  const compactPromoHeight = Math.round(compactPromoWidth * 1402 / 1122);
   const [installPrompt, setInstallPrompt] = useState<DeferredInstallPrompt | null>(() => getDeferredInstallPrompt());
   const [platform, setPlatform] = useState<InstallPlatform>('desktop');
   const [installed, setInstalled] = useState(false);
@@ -74,7 +76,7 @@ export default function InstallAppScreen() {
       <View style={[styles.promoCard, wide && styles.promoCardWide]}>
         <Image
           source={require('../../../assets/brand/pwa-install-guide.png')}
-          style={[styles.promoImage, wide && styles.promoImageWide]}
+          style={[styles.promoImage, !wide && { height: compactPromoHeight }, wide && styles.promoImageWide]}
           resizeMode="contain"
           accessibilityLabel="ホーム画面に処世術禄を追加する案内"
         />
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 760, alignSelf: 'center', paddingTop: 8, paddingBottom: 28 },
   promoCard: { overflow: 'hidden', borderWidth: 1, borderColor: '#9E7935', borderRadius: 18, backgroundColor: '#151514', ...shadow.card },
   promoCardWide: { height: 440, flexDirection: 'row', alignItems: 'stretch' },
-  promoImage: { width: '100%', aspectRatio: 1122 / 1402, backgroundColor: '#11110F' },
+  promoImage: { width: '100%', backgroundColor: '#11110F' },
   promoImageWide: { width: '47%', height: 440, alignSelf: 'center' },
   promoCopy: { padding: 16, borderTopWidth: 1, borderTopColor: 'rgba(196,148,50,0.45)' },
   promoCopyWide: { flex: 1, justifyContent: 'center', padding: 22, borderTopWidth: 0, borderLeftWidth: 1, borderLeftColor: 'rgba(196,148,50,0.45)' },
