@@ -10,7 +10,7 @@ import { formatRemainingAccess } from '@/lib/purchase';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
@@ -19,13 +19,27 @@ export default function SettingsScreen() {
       <DetailHeader title="設定" />
       <SectionHeader title="アカウント・購入" />
       <View style={styles.group}>
-        <SettingLink
+        {user ? <>
+          <SettingLink
+            icon="person"
+            title="プロフィール"
+            detail={profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'}
+            href="/settings/profile"
+            onNavigate={(href) => router.push(href as never)}
+          />
+          <SettingLink
+            icon="person"
+            title="ログイン情報・パスワード"
+            href="/auth"
+            onNavigate={(href) => router.push(href as never)}
+          />
+        </> : <SettingLink
           icon="person"
-          title="アカウント"
-          detail={user?.email ?? '未登録・ログイン'}
-          href={user ? '/auth' : '/auth?mode=signin'}
+          title="ログイン / アカウントを作成"
+          detail="蔵書を引き継ぎ、プロフィールを設定できます"
+          href="/auth?mode=signin"
           onNavigate={(href) => router.push(href as never)}
-        />
+        />}
         <SettingLink
           icon="crown"
           title={isPaid ? '完全版・利用情報' : accessStatus === 'expired' ? '完全版・利用期間終了' : '完全版を利用'}

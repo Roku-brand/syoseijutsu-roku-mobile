@@ -1,13 +1,20 @@
 import { expect, test } from '@playwright/test';
 
-test('my page presents account and membership as one calm card', async ({ page }) => {
+test('my page keeps the guest account entry compact', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/syoseijutsu-roku-mobile/my-os');
 
   await expect(page.getByTestId('account-membership-card')).toHaveCount(1);
   await expect(page.getByTestId('account-plan-badge')).toBeVisible();
-  await expect(page.getByTestId('account-complete-cta')).toBeVisible();
-  await expect(page.getByTestId('account-complete-cta')).toContainText('¥280');
+  await expect(page.getByTestId('account-membership-card')).toContainText('ログインしていません');
+  await expect(page.getByTestId('account-complete-cta')).toHaveCount(0);
+});
+
+test('profile settings guide guests to log in before editing', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/syoseijutsu-roku-mobile/settings/profile');
+  await expect(page.getByText('ログインしてプロフィールをつくる')).toBeVisible();
+  await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {

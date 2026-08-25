@@ -7,19 +7,23 @@ import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-conten
 export type AccountRole = 'user' | 'owner';
 export type AuthResult = { error: string | null; hasSession: boolean; session: Session | null };
 export type SignUpOptions = { emailRedirectTo?: string };
+export type AccountProfile = { displayName: string | null; avatarUrl: string | null };
+export type ProfileImageUpload = { uri: string; mimeType?: string | null; fileName?: string | null };
 
 type AuthContextValue = {
   configured: boolean;
   loading: boolean;
   session: Session | null;
   user: User | null;
+  profile: AccountProfile | null;
   role: AccountRole;
   signInWithEmail: (email: string, password: string) => Promise<AuthResult>;
   signUpWithEmail: (email: string, password: string, options?: SignUpOptions) => Promise<AuthResult>;
   sendPasswordReset: (email: string) => Promise<string | null>;
   updatePassword: (password: string) => Promise<string | null>;
+  updateProfile: (displayName: string, image?: ProfileImageUpload | null) => Promise<string | null>;
   signOut: () => Promise<void>;
-  refreshRole: () => Promise<void>;
+  refreshProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -42,25 +46,29 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(supabaseConfigured);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AccountRole>('user');
+  const [profile, setProfile] = useState<AccountProfile | null>(null);
 
-  const refreshRole = useCallback(async () => {
+  const refreshProfile = useCallback(async () => {
     const userId = session?.user.id;
     if (!supabase || !userId) {
       setRole('user');
+      setProfile(null);
       return;
     }
     const result = await settleWithin(Promise.resolve(supabase
       .from('profiles')
-      .select('role')
+      .select('role, display_name, avatar_url')
       .eq('user_id', userId)
       .maybeSingle()), AUTH_TIMEOUT_MS);
     if (!result) {
       setRole('user');
+      setProfile(null);
       return;
     }
     const { data, error } = result;
     if (error) throw error;
     setRole(data?.role === 'owner' ? 'owner' : 'user');
+    setProfile(data ? { displayName: data.display_name ?? null, avatarUrl: data.avatar_url ?? null } : null);
   }, [session?.user.id]);
 
   useEffect(() => {
@@ -86,8 +94,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   useEffect(() => {
-    void refreshRole().catch(() => setRole('user'));
-  }, [refreshRole]);
+    void refreshProfile().catch(() => {
+      setRole('user');
+      setProfile(null);
+    });
+  }, [refreshProfile]);
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
     if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false, session: null };
@@ -110,6 +121,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     purgeSecureContent();
     if (supabase) await supabase.auth.signOut();
     setRole('user');
+    setProfile(null);
   }, []);
 
   const sendPasswordReset = useCallback(async (email: string) => {
@@ -126,19 +138,51 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return error?.message ?? null;
   }, []);
 
+  const updateProfile = useCallback(async (displayName: string, image?: ProfileImageUpload | null) => {
+    if (!supabase || !session?.user) return 'ログイン後にプロフィールを変更できます。';
+    const trimmedName = displayName.trim();
+    if (!trimmedName) return '表示名を入力してください。';
+    if (trimmedName.length > 24) return '表示名は24文字以内にしてください。';
+
+    let avatarUrl = profile?.avatarUrl ?? null;
+    if (image) {
+      const mimeType = image.mimeType && ['image/jpeg', 'image/png', 'image/webp'].includes(image.mimeType)
+        ? image.mimeType
+        : 'image/jpeg';
+      const extension = mimeType === 'image/png' ? 'png' : mimeType === 'image/webp' ? 'webp' : 'jpg';
+      const response = await fetch(image.uri);
+      const bytes = await response.arrayBuffer();
+      if (bytes.byteLength > 2 * 1024 * 1024) return '画像は2MB以下にしてください。';
+      const path = `${session.user.id}/avatar.${extension}`;
+      const upload = await supabase.storage.from('profile-avatars').upload(path, bytes, { upsert: true, contentType: mimeType });
+      if (upload.error) return upload.error.message;
+      const publicUrl = supabase.storage.from('profile-avatars').getPublicUrl(path).data.publicUrl;
+      avatarUrl = `${publicUrl}?v=${Date.now()}`;
+    }
+
+    const { error } = await supabase
+      .from('profiles')
+      .upsert({ user_id: session.user.id, display_name: trimmedName, avatar_url: avatarUrl }, { onConflict: 'user_id' });
+    if (error) return error.message;
+    await refreshProfile();
+    return null;
+  }, [profile?.avatarUrl, refreshProfile, session?.user]);
+
   const value = useMemo(() => ({
     configured: supabaseConfigured,
     loading,
     session,
     user: session?.user ?? null,
+    profile,
     role,
     signInWithEmail,
     signUpWithEmail,
     sendPasswordReset,
     updatePassword,
+    updateProfile,
     signOut,
-    refreshRole,
-  }), [loading, refreshRole, role, sendPasswordReset, session, signInWithEmail, signOut, signUpWithEmail, updatePassword]);
+    refreshProfile,
+  }), [loading, profile, refreshProfile, role, sendPasswordReset, session, signInWithEmail, signOut, signUpWithEmail, updatePassword, updateProfile]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

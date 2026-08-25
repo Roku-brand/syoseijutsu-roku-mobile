@@ -47,6 +47,12 @@
     "plugins": [
       "expo-router",
       [
+        "expo-image-picker",
+        {
+          "photosPermission": "プロフィール画像の設定に写真ライブラリを使用します。"
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#151714",
