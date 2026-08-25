@@ -85,26 +85,24 @@ export default function MyOsScreen() {
           </View>
         ))}
       </View>
-      <View style={styles.principleCard}>
+      <View testID="personal-principle-card" style={styles.principleCard}>
         <View style={styles.principleLabelRow}>
-          <View style={styles.diamond} />
-          <AppText style={styles.principleLabel}>いまの判断原則</AppText>
+          <View style={styles.principleLabelCopy}>
+            <View style={styles.diamond} />
+            <AppText style={styles.principleLabel}>いまの判断原則</AppText>
+          </View>
+          <Pressable
+            testID="personal-principle-edit"
+            accessibilityRole="button"
+            accessibilityLabel="判断原則を編集"
+            onPress={openEditor}
+            style={({ pressed }) => [styles.editPrinciple, pressed && styles.pressed]}
+          >
+            <AppText style={styles.editIcon}>✎</AppText>
+            <AppText style={styles.editText}>編集</AppText>
+          </Pressable>
         </View>
         <AppText style={styles.principle}>{personalPrinciple}</AppText>
-        <View style={styles.rule} />
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="判断原則を編集"
-          onPress={openEditor}
-          style={({ pressed }) => [
-            styles.editPrinciple,
-            pressed && styles.pressed,
-          ]}
-        >
-          <AppText style={styles.editIcon}>✎</AppText>
-          <AppText style={styles.editText}>原則を整える</AppText>
-          <AppText style={styles.chevron}>›</AppText>
-        </Pressable>
       </View>
 
       <View style={styles.osActions}>
@@ -240,8 +238,7 @@ const styles = StyleSheet.create({
   summaryLabel: { color: colors.muted, fontSize: 10, lineHeight: 15 },
   summaryValue: { marginTop: 2, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, fontWeight: '700' },
   principleCard: {
-    minHeight: 270,
-    padding: spacing.xl,
+    padding: spacing.lg,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: radius.md,
@@ -251,7 +248,15 @@ const styles = StyleSheet.create({
   principleLabelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    justifyContent: 'space-between',
+    gap: spacing.md,
+  },
+  principleLabelCopy: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   diamond: {
     width: 9,
@@ -261,38 +266,36 @@ const styles = StyleSheet.create({
   },
   principleLabel: {
     fontFamily: fonts.serif,
-    fontSize: 18,
-    lineHeight: 26,
+    fontSize: 16,
+    lineHeight: 23,
     fontWeight: '600',
     letterSpacing: 1.5,
   },
   principle: {
-    marginTop: spacing.xl,
+    marginTop: spacing.md,
     fontFamily: fonts.serif,
-    fontSize: 29,
-    lineHeight: 50,
+    fontSize: 25,
+    lineHeight: 40,
     fontWeight: '600',
     letterSpacing: 1.5,
   },
-  rule: {
-    height: 1,
-    backgroundColor: colors.line,
-    marginTop: spacing.xl,
-  },
   editPrinciple: {
-    minHeight: 62,
+    minHeight: 36,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    paddingTop: spacing.md,
+    gap: 5,
+    borderWidth: 1,
+    borderColor: '#D7C6AB',
+    borderRadius: radius.pill,
+    backgroundColor: '#FCFAF6',
   },
-  editIcon: { color: colors.gold, fontSize: 23, lineHeight: 28 },
+  editIcon: { color: colors.gold, fontSize: 17, lineHeight: 20 },
   editText: {
-    flex: 1,
     color: colors.gold,
     fontFamily: fonts.serif,
-    fontSize: 16,
-    lineHeight: 23,
+    fontSize: 13,
+    lineHeight: 19,
     fontWeight: '600',
   },
   chevron: { color: colors.gold, fontSize: 31, lineHeight: 34 },

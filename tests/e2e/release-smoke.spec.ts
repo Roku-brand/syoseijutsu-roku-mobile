@@ -17,6 +17,20 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
+test('personal principle editing stays in the compact card header', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/syoseijutsu-roku-mobile/my-os');
+  const card = page.getByTestId('personal-principle-card');
+  const edit = page.getByTestId('personal-principle-edit');
+  await expect(card).toBeVisible();
+  await expect(edit).toBeVisible();
+  const [cardBox, editBox] = await Promise.all([card.boundingBox(), edit.boundingBox()]);
+  expect(cardBox).not.toBeNull();
+  expect(editBox).not.toBeNull();
+  expect(editBox!.y).toBeLessThan(cardBox!.y + 70);
+  expect(editBox!.y + editBox!.height).toBeLessThan(cardBox!.y + cardBox!.height / 2);
+});
+
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/syoseijutsu-roku-mobile/card/master336-001');
