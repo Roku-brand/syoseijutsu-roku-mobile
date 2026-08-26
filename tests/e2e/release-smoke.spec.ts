@@ -108,12 +108,13 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('336の処世術・541の理論・全21ケース')).toBeVisible();
-  await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
+  await expect(page.getByText(/知恵を、使える体系として/)).toBeVisible();
+  await expect(page.getByText('完全版・30日間アクセス')).toBeVisible();
+  await expect(page.getByText('一回払い・自動更新なし')).toBeVisible();
+  await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
   await expect(page.getByText('¥280（税込）')).toBeVisible();
-  await expect(page.getByText('決済完了から30日間')).toBeVisible();
+  await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
@@ -130,7 +131,7 @@ test('利用規約にコンテンツ変更の範囲と利用者保護を明示�
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
   await page.goto('/?checkout=success&session_id=cs_test_example');
   await expect(page).toHaveURL(/\/\?checkout=success&session_id=cs_test_example$/);
-  await expect(page.getByRole('button', { name: /購入済みの方はこちら|購入を復元する/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /購入済みの方はこちら|購入を復元する|購入済みの方は復元する/ })).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
