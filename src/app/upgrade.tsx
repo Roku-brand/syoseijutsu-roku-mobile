@@ -111,6 +111,12 @@ export default function UpgradeScreen() {
               <View style={styles.productRule}><View style={styles.productRuleLine} /><View style={styles.productRuleMark} /><View style={styles.productRuleLine} /></View>
             </View>
           </View>
+          {desktop ? <View style={styles.editionMeta}>
+            <AppText style={styles.editionMetaLabel}>完全版・30日間</AppText>
+            <View style={styles.editionMetaDivider} />
+            <AppText variant="serif" style={styles.editionMetaPrice}>¥280</AppText>
+            <AppText style={styles.editionMetaTax}>税込・一回払い・自動更新なし</AppText>
+          </View> : null}
 
           <View style={[styles.comparisonSection, compact && styles.comparisonSectionCompact]}>
             <View style={styles.comparisonHeading}><View style={styles.headingRule} /><AppText variant="serif" style={[styles.comparisonTitle, compact && styles.comparisonTitleCompact]}>無料版　→　完全版</AppText><View style={styles.headingRule} /></View>
@@ -137,6 +143,7 @@ export default function UpgradeScreen() {
             <AppText style={[styles.paymentType, compact && styles.paymentTypeCompact]}>一回払い・自動更新なし</AppText>
             {message ? <AppText accessibilityRole="alert" style={[styles.message, compact && styles.messageCompact]}>{message}</AppText> : null}
             <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, compact && styles.primaryCompact, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}>
+              <View pointerEvents="none" style={styles.primarySheen} />
               <AppText variant="serif" style={[styles.primaryText, compact && styles.primaryTextCompact]}>{primaryLabel}</AppText>
               {!isPaid ? <AppText style={[styles.primaryArrow, compact && styles.primaryArrowCompact]}>›</AppText> : null}
             </Pressable>
@@ -189,10 +196,10 @@ const styles = StyleSheet.create({
   pageDesktop: { paddingHorizontal: 32, paddingVertical: 20 },
   pageCompact: { paddingHorizontal: 12, paddingVertical: 7 },
   content: { flex: 1, width: '100%', maxWidth: 700, alignSelf: 'center', justifyContent: 'space-between' },
-  contentDesktop: { maxWidth: 900, justifyContent: 'center' },
+  contentDesktop: { maxWidth: 740, justifyContent: 'center' },
   contentCompact: { justifyContent: 'space-between' },
   productBand: { minHeight: 76, padding: 3, borderRadius: 12, backgroundColor: '#171614', shadowColor: '#090806', shadowOpacity: 0.24, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 5 },
-  productBandDesktop: { minHeight: 94, maxWidth: 760, alignSelf: 'center', width: '100%' },
+  productBandDesktop: { minHeight: 94, maxWidth: 740, alignSelf: 'center', width: '100%' },
   productBandCompact: { minHeight: 60, borderRadius: 10 },
   productBandInner: { flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C8983C', borderRadius: 9, paddingHorizontal: 14 },
   productName: { color: '#F0CC7E', fontSize: 27, lineHeight: 36, fontWeight: '700', letterSpacing: 3, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 4 },
@@ -201,6 +208,11 @@ const styles = StyleSheet.create({
   productRule: { width: '82%', marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 6 },
   productRuleLine: { flex: 1, height: 1, backgroundColor: '#B68529' },
   productRuleMark: { width: 7, height: 7, transform: [{ rotate: '45deg' }], backgroundColor: '#D7AB50' },
+  editionMeta: { height: 26, marginTop: 6, flexDirection: 'row', alignItems: 'center', alignSelf: 'center', gap: 8, paddingHorizontal: 13, borderWidth: 1, borderColor: 'rgba(194,145,42,0.45)', borderRadius: 13, backgroundColor: 'rgba(255,253,248,0.62)' },
+  editionMetaLabel: { color: '#5E513D', fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  editionMetaDivider: { width: 1, height: 12, backgroundColor: '#D8C39E' },
+  editionMetaPrice: { color: '#B8780C', fontSize: 17, lineHeight: 21, fontWeight: '700' },
+  editionMetaTax: { color: '#6C6255', fontSize: 10, lineHeight: 14 },
   comparisonSection: { marginTop: 10 },
   comparisonSectionCompact: { marginTop: 7 },
   comparisonHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4 },
@@ -219,7 +231,7 @@ const styles = StyleSheet.create({
   comparisonArrow: { width: '19%', color: '#766F65', fontSize: 22, lineHeight: 26, textAlign: 'center' },
   arrowCompact: { fontSize: 18, lineHeight: 21 },
   valueSection: { marginTop: 10 },
-  valueSectionDesktop: { flexDirection: 'row', marginTop: 16, gap: 26 },
+  valueSectionDesktop: { flexDirection: 'row', marginTop: 14, gap: 20 },
   valueSectionCompact: { marginTop: 8 },
   valuePoint: { minHeight: 46, flexDirection: 'row', alignItems: 'center', paddingVertical: 5 },
   valuePointDesktop: { flex: 1, minHeight: 100, paddingHorizontal: 4, alignItems: 'flex-start' },
@@ -233,7 +245,7 @@ const styles = StyleSheet.create({
   valueBody: { marginTop: 3, color: '#514A40', fontSize: 12.5, lineHeight: 18 },
   valueBodyCompact: { marginTop: 1, fontSize: 10.5, lineHeight: 15 },
   purchaseCard: { marginTop: 10, paddingHorizontal: 16, paddingVertical: 11, borderWidth: 1, borderColor: '#C9932C', borderRadius: 16, backgroundColor: 'rgba(255,253,248,0.92)', shadowColor: '#594523', shadowOpacity: 0.1, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
-  purchaseCardDesktop: { width: '100%', maxWidth: 650, alignSelf: 'center', marginTop: 15, paddingHorizontal: 22, paddingVertical: 15 },
+  purchaseCardDesktop: { width: '100%', maxWidth: 740, alignSelf: 'center', marginTop: 14, paddingHorizontal: 22, paddingVertical: 15 },
   purchaseCardCompact: { marginTop: 8, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12 },
   purchaseLabel: { color: '#29241E', fontSize: 17, lineHeight: 23, fontWeight: '700', textAlign: 'center' },
   purchaseLabelCompact: { fontSize: 15, lineHeight: 19 },
@@ -246,10 +258,11 @@ const styles = StyleSheet.create({
   paymentTypeCompact: { fontSize: 10, lineHeight: 14 },
   message: { marginTop: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 7, backgroundColor: '#F3EADF', color: '#704E2A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
   messageCompact: { fontSize: 9, lineHeight: 12 },
-  primary: { position: 'relative', alignSelf: 'stretch', minHeight: 56, marginTop: 10, paddingHorizontal: 36, borderWidth: 1, borderColor: '#FFE8AD', borderRadius: 12, backgroundColor: '#D09118', alignItems: 'center', justifyContent: 'center', shadowColor: '#76500D', shadowOpacity: 0.42, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 7 },
+  primary: { position: 'relative', alignSelf: 'stretch', minHeight: 56, marginTop: 10, paddingHorizontal: 36, borderWidth: 1, borderColor: '#FFEDB7', borderRadius: 12, overflow: 'hidden', backgroundColor: '#D99B1B', alignItems: 'center', justifyContent: 'center', shadowColor: '#6C4300', shadowOpacity: 0.52, shadowRadius: 12, shadowOffset: { width: 0, height: 5 }, elevation: 8 },
   primaryCompact: { minHeight: 45, marginTop: 7, borderRadius: 10 },
   primaryText: { color: '#FFF9EC', fontSize: 18, lineHeight: 25, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.38)', textShadowRadius: 3 },
   primaryTextCompact: { fontSize: 16, lineHeight: 22 },
+  primarySheen: { position: 'absolute', top: 1, right: 1, left: 1, height: '44%', borderTopLeftRadius: 11, borderTopRightRadius: 11, backgroundColor: 'rgba(255,244,196,0.22)' },
   primaryArrow: { position: 'absolute', right: 14, top: 6, color: '#FFF9EC', fontSize: 30, lineHeight: 34, fontWeight: '300' },
   primaryArrowCompact: { right: 12, top: 4, fontSize: 27, lineHeight: 31 },
   preConfirmation: { marginTop: 4, color: '#6E665A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
