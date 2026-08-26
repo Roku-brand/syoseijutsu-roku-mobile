@@ -3,7 +3,7 @@ name: Deploy web app to GitHub Pages
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -20,19 +20,9 @@ jobs:
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - name: Install import dependencies
-        run: pnpm install --frozen-lockfile
       - uses: supabase/setup-cli@v1
         with:
           version: latest
@@ -47,10 +37,6 @@ jobs:
           project_ref="${project_ref%%.supabase.co*}"
           supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
           supabase db push --linked --include-all
-      - name: Verify content import setting
-        run: test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
-      - name: Import owner-managed content
-        run: pnpm content:import-owner
       - name: Deploy payment and entitlement functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
