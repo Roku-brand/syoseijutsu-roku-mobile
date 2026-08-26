@@ -52,9 +52,9 @@ export default function Welcome() {
               >
                 <View style={styles.planCopy}>
                   <AppText variant="serif" style={[styles.planTitle, isDesktop && styles.planTitleDesktop, isCompact && styles.planTitleCompact]}>無料版</AppText>
-                  <AppText style={[styles.planLead, isCompact && styles.planLeadCompact]}>まずは気軽に、処世の知恵の一部を体験できます。</AppText>
+                  <AppText style={[styles.planLead, isDesktop && styles.planLeadDesktop, isCompact && styles.planLeadCompact]}>まずは気軽に、処世の知恵の一部を体験できます。</AppText>
                 </View>
-                <View style={[styles.planButton, styles.freeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, isCompact && styles.buttonTextCompact]}>無料で始める</AppText></View>
+                <View style={[styles.planButton, styles.freeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, isDesktop && styles.buttonTextDesktop, isCompact && styles.buttonTextCompact]}>無料で始める</AppText></View>
                 <View style={[styles.notePill, isCompact && styles.notePillCompact]}><AppText style={[styles.noteText, isCompact && styles.noteTextCompact]}>登録不要</AppText></View>
               </Pressable>
 
@@ -66,9 +66,9 @@ export default function Welcome() {
               >
                 <View style={styles.planCopy}>
                   <AppText variant="serif" style={[styles.planTitle, styles.completePlanTitle, isDesktop && styles.planTitleDesktop, isCompact && styles.planTitleCompact]}>完全版</AppText>
-                  <AppText style={[styles.planLead, styles.completePlanLead, isCompact && styles.planLeadCompact]}>すべての人物像・処世術・理論にアクセスできます。</AppText>
+                  <AppText style={[styles.planLead, styles.completePlanLead, isDesktop && styles.planLeadDesktop, isCompact && styles.planLeadCompact]}>すべての人物像・処世術・理論にアクセスできます。</AppText>
                 </View>
-                <View style={[styles.planButton, styles.completeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, styles.completeButtonText, isCompact && styles.buttonTextCompact]}>全ての内容を見る</AppText></View>
+                <View style={[styles.planButton, styles.completeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, styles.completeButtonText, isDesktop && styles.buttonTextDesktop, isCompact && styles.buttonTextCompact]}>全ての内容を見る</AppText></View>
                 <View style={[styles.notePill, styles.completeNotePill, isCompact && styles.notePillCompact]}><AppText style={[styles.noteText, styles.completeNoteText, isCompact && styles.noteTextCompact]}>利用条件は内容画面で確認</AppText></View>
               </Pressable>
             </View>
@@ -85,12 +85,12 @@ const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#F5F0E7' },
   backgroundImage: { opacity: 1 },
   content: { flex: 1, width: '100%', alignSelf: 'center', justifyContent: 'space-between' },
-  contentDesktop: { maxWidth: 1320, paddingHorizontal: 34, paddingTop: 24, paddingBottom: 28 },
-  contentMobile: { paddingHorizontal: 17, paddingTop: 12, paddingBottom: 13 },
+  contentDesktop: { maxWidth: 1320, paddingHorizontal: 34, paddingTop: 18, paddingBottom: 28 },
+  contentMobile: { paddingHorizontal: 17, paddingTop: 8, paddingBottom: 13, justifyContent: 'flex-start' },
   contentCompact: { paddingTop: 7, paddingBottom: 8 },
-  hero: { flex: 1, minHeight: 260, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingBottom: 12 },
-  heroDesktop: { minHeight: 390, paddingTop: 0, paddingBottom: 17 },
-  heroCompact: { minHeight: 218, paddingBottom: 7 },
+  hero: { flexGrow: 0, flexShrink: 1, minHeight: 228, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingBottom: 10 },
+  heroDesktop: { minHeight: 340, paddingTop: 0, paddingBottom: 15 },
+  heroCompact: { minHeight: 192, paddingBottom: 5 },
   brand: { alignItems: 'center' },
   brandCompact: { transform: [{ scale: 0.87 }] },
   brandName: { color: '#E5C17A', fontSize: 25, lineHeight: 34, letterSpacing: 7.6, textAlign: 'center', textShadowColor: 'rgba(44,24,5,0.6)', textShadowRadius: 7 },
@@ -104,37 +104,39 @@ const styles = StyleSheet.create({
   heroCopy: { marginTop: 15, color: '#E6C77F', fontSize: 13, lineHeight: 20, letterSpacing: 0.45, textAlign: 'center' },
   heroCopyDesktop: { marginTop: 19, fontSize: 19, lineHeight: 29, letterSpacing: 0.8 },
   heroCopyCompact: { marginTop: 8, fontSize: 11, lineHeight: 16 },
-  choiceSection: { width: '100%', alignSelf: 'center' },
+  choiceSection: { width: '100%', alignSelf: 'center', marginTop: 8 },
   choiceSectionDesktop: { maxWidth: 1040 },
   choiceSectionCompact: { flexShrink: 1 },
   plans: { flexDirection: 'row', gap: 12 },
   plansDesktop: { gap: 86 },
   plan: { flex: 1, minWidth: 0, minHeight: 224, overflow: 'hidden', borderRadius: 17, paddingHorizontal: 16, paddingTop: 22, paddingBottom: 17, justifyContent: 'space-between', shadowColor: '#5A4630', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.1, shadowRadius: 20, elevation: 4 },
   planDesktop: { minHeight: 356, borderRadius: 20, paddingHorizontal: 48, paddingTop: 43, paddingBottom: 36 },
-  planCompact: { minHeight: 168, borderRadius: 13, paddingHorizontal: 10, paddingTop: 13, paddingBottom: 10 },
+  planCompact: { minHeight: 185, borderRadius: 13, paddingHorizontal: 10, paddingTop: 15, paddingBottom: 11 },
   planNarrow: { paddingHorizontal: 8 },
   freePlan: { borderWidth: 1, borderColor: 'rgba(167,139,94,0.32)', backgroundColor: 'rgba(255,253,248,0.88)' },
   completePlan: { borderWidth: 1, borderColor: '#C89A48', backgroundColor: 'rgba(255,252,246,0.88)' },
   planCopy: { alignItems: 'center' },
   planTitle: { color: '#24221D', fontSize: 24, lineHeight: 33, textAlign: 'center' },
   planTitleDesktop: { fontSize: 38, lineHeight: 51 },
-  planTitleCompact: { fontSize: 19, lineHeight: 26 },
+  planTitleCompact: { fontSize: 21, lineHeight: 29 },
   completePlanTitle: { color: '#A87520' },
   planLead: { marginTop: 10, color: '#4D4840', fontSize: 11, lineHeight: 17, textAlign: 'center' },
-  planLeadCompact: { marginTop: 5, fontSize: 9, lineHeight: 13 },
+  planLeadDesktop: { fontSize: 13, lineHeight: 20 },
+  planLeadCompact: { marginTop: 6, fontSize: 10.5, lineHeight: 15 },
   completePlanLead: { color: '#4D4840' },
   planButton: { alignSelf: 'stretch', minHeight: 50, marginTop: 15, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  planButtonCompact: { minHeight: 37, marginTop: 8, borderRadius: 8 },
+  planButtonCompact: { minHeight: 43, marginTop: 9, borderRadius: 8 },
   freeButton: { backgroundColor: '#1B1B19', shadowColor: '#0D0D0C', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.22, shadowRadius: 7, elevation: 3 },
   completeButton: { backgroundColor: '#B67A1C', shadowColor: '#7B4E0B', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
   buttonText: { color: '#FFFCF5', fontSize: 17, lineHeight: 24, fontWeight: '700', textAlign: 'center' },
-  buttonTextCompact: { fontSize: 12, lineHeight: 17 },
+  buttonTextDesktop: { fontSize: 19, lineHeight: 27 },
+  buttonTextCompact: { fontSize: 15, lineHeight: 21 },
   completeButtonText: { color: '#FFF9ED' },
   notePill: { alignSelf: 'center', marginTop: 17, paddingHorizontal: 13, paddingVertical: 4, borderRadius: 999, backgroundColor: 'rgba(98,88,70,0.1)' },
-  notePillCompact: { marginTop: 7, paddingHorizontal: 8, paddingVertical: 2 },
+  notePillCompact: { marginTop: 8, paddingHorizontal: 8, paddingVertical: 2 },
   completeNotePill: { backgroundColor: 'rgba(169,128,50,0.11)' },
   noteText: { color: '#686158', fontSize: 11, lineHeight: 16 },
-  noteTextCompact: { fontSize: 8, lineHeight: 12 },
+  noteTextCompact: { fontSize: 9, lineHeight: 13 },
   completeNoteText: { color: '#795C26' },
   bottomMessage: { marginTop: 26, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20 },
   bottomRule: { width: 76, height: 1, backgroundColor: 'rgba(173,129,51,0.6)' },

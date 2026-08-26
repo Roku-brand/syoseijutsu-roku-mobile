@@ -6,7 +6,7 @@ import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
-import { categories, techniqueCards, theories } from '@/data/catalog';
+import { techniqueCards, theories } from '@/data/catalog';
 
 const valuePoints = [
   ['①', '網羅性を追求', 'テーマごとに必要な処世術を揃える、完結を目指した網羅。'],
@@ -14,7 +14,23 @@ const valuePoints = [
   ['③', '独自の処世術集', '保存・メモ・履歴で積み上げる、知恵のパーソナライズ。'],
 ] as const;
 
-const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
+function ProductCover({ compact = false }: { compact?: boolean }) {
+  return <View style={[styles.cover, compact && styles.coverCompact]}>
+    <View style={styles.coverInner}>
+      <AppText variant="serif" style={[styles.coverTitle, compact && styles.coverTitleCompact]}>処世術{`\n`}禄</AppText>
+      <View style={styles.coverRule} />
+      <AppText style={[styles.coverEdition, compact && styles.coverEditionCompact]}>完全版</AppText>
+    </View>
+  </View>;
+}
+
+function FeatureIcon({ index }: { index: number }) {
+  return <View style={styles.featureIcon} accessibilityElementsHidden>
+    {index === 0 ? <View style={styles.gridIcon}>{[0, 1, 2, 3].map((cell) => <View key={cell} style={styles.gridIconCell} />)}</View> : null}
+    {index === 1 ? <View style={styles.bookIcon}><View style={[styles.bookIconPage, styles.bookIconPageLeft]} /><View style={[styles.bookIconPage, styles.bookIconPageRight]} /></View> : null}
+    {index === 2 ? <View style={styles.memoIcon}><View style={styles.memoIconLine} /><View style={styles.memoIconLine} /><View style={[styles.memoIconLine, styles.memoIconLineShort]} /></View> : null}
+  </View>;
+}
 
 export default function UpgradeScreen() {
   const router = useRouter();
@@ -28,12 +44,6 @@ export default function UpgradeScreen() {
   const [message, setMessage] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
-
-  const comparisonRows = [
-    ['人物像', '6', String(personaCount)],
-    ['処世術', '45', String(techniqueCards.length)],
-    ['理論', '20', String(theories.length)],
-  ] as const;
 
   const purchase = async () => {
     if (!user) {
@@ -105,35 +115,28 @@ export default function UpgradeScreen() {
     <View testID="upgrade-single-screen" style={styles.safe}>
       <View style={[styles.page, desktop && styles.pageDesktop, compact && styles.pageCompact]}>
         <View style={[styles.content, desktop && styles.contentDesktop, compact && styles.contentCompact]}>
-          <View style={[styles.productBand, desktop && styles.productBandDesktop, compact && styles.productBandCompact]}>
-            <View style={styles.productBandInner}>
-              <AppText variant="serif" style={[styles.productName, desktop && styles.productNameDesktop, compact && styles.productNameCompact]}>処世術禄　完全版</AppText>
-              <View style={styles.productRule}><View style={styles.productRuleLine} /><View style={styles.productRuleMark} /><View style={styles.productRuleLine} /></View>
+          <View style={[styles.productIntro, compact && styles.productIntroCompact]}>
+            <ProductCover compact={compact} />
+            <View style={styles.productCopy}>
+              <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
+              <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
+              <View style={styles.productPriceRow}><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
+              <AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText>
             </View>
           </View>
-          {desktop ? <View style={styles.editionMeta}>
-            <AppText style={styles.editionMetaLabel}>完全版・30日間</AppText>
-            <View style={styles.editionMetaDivider} />
-            <AppText variant="serif" style={styles.editionMetaPrice}>¥280</AppText>
-            <AppText style={styles.editionMetaTax}>税込・一回払い・自動更新なし</AppText>
-          </View> : null}
+          <View style={[styles.productScope, compact && styles.productScopeCompact]}><View style={styles.scopeBookMark}><View style={styles.scopeBookPage} /><View style={styles.scopeBookPage} /></View><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21コース</AppText></View>
 
-          <View style={[styles.comparisonSection, compact && styles.comparisonSectionCompact]}>
-            <View style={styles.comparisonHeading}><View style={styles.headingRule} /><AppText variant="serif" style={[styles.comparisonTitle, compact && styles.comparisonTitleCompact]}>無料版　→　完全版</AppText><View style={styles.headingRule} /></View>
-            <View style={styles.comparisonTable}>
-              {comparisonRows.map(([label, free, complete], index) => <View key={label} style={[styles.comparisonRow, index !== comparisonRows.length - 1 && styles.comparisonRowDivider]}>
-                <AppText variant="serif" style={[styles.comparisonLabel, compact && styles.comparisonLabelCompact]}>{label}</AppText>
-                <AppText variant="serif" style={[styles.freeCount, compact && styles.countCompact]}>{free}</AppText>
-                <AppText style={[styles.comparisonArrow, compact && styles.arrowCompact]}>→</AppText>
-                <AppText variant="serif" style={[styles.completeCount, compact && styles.completeCountCompact]}>{complete}</AppText>
-              </View>)}
-            </View>
+          <View style={[styles.editionComparison, compact && styles.editionComparisonCompact]}>
+            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術45件{`\n`}理論20件</AppText></View>
+            <AppText style={[styles.editionArrow, compact && styles.editionArrowCompact]}>›</AppText>
+            <View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount, compact && styles.completeEditionCountCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
           </View>
 
-          <View style={[styles.valueSection, desktop && styles.valueSectionDesktop, compact && styles.valueSectionCompact]}>
-            {valuePoints.map(([number, title, body], index) => <View key={title} style={[styles.valuePoint, desktop && styles.valuePointDesktop, index !== valuePoints.length - 1 && styles.valueDivider, desktop && index !== valuePoints.length - 1 && styles.valueDividerDesktop]}>
-              <AppText style={[styles.valueNumber, compact && styles.valueNumberCompact]}>{number}</AppText>
-              <View style={styles.valueCopy}><AppText variant="serif" style={[styles.valueTitle, compact && styles.valueTitleCompact]}>{title}</AppText><AppText style={[styles.valueBody, compact && styles.valueBodyCompact]}>{body}</AppText></View>
+          <View style={[styles.valueHeading, compact && styles.valueHeadingCompact]}><View style={styles.valueHeadingLine} /><View><AppText variant="serif" style={styles.valueHeadingTitle}>迷ったとき、すぐ一手が見つかる</AppText><AppText style={styles.valueHeadingSub}>完全版で手に入る3つの強み。</AppText></View><View style={styles.valueHeadingLine} /></View>
+          <View style={[styles.featurePanel, compact && styles.featurePanelCompact]}>
+            {valuePoints.map(([number, title, body], index) => <View key={title} style={[styles.featureRow, index !== valuePoints.length - 1 && styles.featureRowDivider, compact && styles.featureRowCompact]}>
+              <FeatureIcon index={index} />
+              <View style={styles.featureCopy}><View style={styles.featureTitleRow}><AppText style={[styles.featureNumber, compact && styles.featureNumberCompact]}>{number}</AppText><AppText variant="serif" style={[styles.featureTitle, compact && styles.featureTitleCompact]}>{title}</AppText></View><AppText style={[styles.featureBody, compact && styles.featureBodyCompact]}>{body}</AppText></View>
             </View>)}
           </View>
 
@@ -198,6 +201,75 @@ const styles = StyleSheet.create({
   content: { flex: 1, width: '100%', maxWidth: 700, alignSelf: 'center', justifyContent: 'space-between' },
   contentDesktop: { maxWidth: 740, justifyContent: 'center' },
   contentCompact: { justifyContent: 'space-between' },
+  productIntro: { width: '100%', maxWidth: 560, minHeight: 126, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 17, paddingHorizontal: 10 },
+  productIntroCompact: { minHeight: 88, gap: 12, paddingHorizontal: 3 },
+  cover: { width: 104, height: 130, padding: 4, borderRadius: 12, backgroundColor: '#151512', shadowColor: '#4E3B19', shadowOpacity: 0.22, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 4 },
+  coverCompact: { width: 70, height: 88, padding: 3, borderRadius: 9 },
+  coverInner: { flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C99932', borderRadius: 8, backgroundColor: '#11110F' },
+  coverTitle: { color: '#E1B957', fontSize: 22, lineHeight: 30, fontWeight: '700', textAlign: 'center', letterSpacing: 1 },
+  coverTitleCompact: { fontSize: 15, lineHeight: 21 },
+  coverRule: { width: '58%', height: 1, marginVertical: 6, backgroundColor: '#BE8C28' },
+  coverEdition: { paddingHorizontal: 7, paddingVertical: 1, borderWidth: 1, borderColor: '#C99932', borderRadius: 4, color: '#E5BE62', fontSize: 9, lineHeight: 13, fontWeight: '700' },
+  coverEditionCompact: { paddingHorizontal: 5, fontSize: 7, lineHeight: 10 },
+  productCopy: { flex: 1, minWidth: 0, alignSelf: 'stretch', justifyContent: 'center' },
+  productTitle: { color: '#27231E', fontSize: 26, lineHeight: 34, fontWeight: '700' },
+  productTitleCompact: { fontSize: 20, lineHeight: 26 },
+  productLead: { marginTop: 2, color: '#635A4D', fontSize: 12, lineHeight: 17 },
+  productLeadCompact: { fontSize: 10, lineHeight: 14 },
+  productPriceRow: { marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  productPrice: { color: '#BB7B0B', fontSize: 44, lineHeight: 51, fontWeight: '700' },
+  productPriceCompact: { fontSize: 31, lineHeight: 36 },
+  durationBadge: { paddingHorizontal: 9, paddingVertical: 4, borderWidth: 1, borderColor: '#C9932C', borderRadius: 8 },
+  durationBadgeText: { color: '#9D6510', fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  productCondition: { alignSelf: 'flex-start', marginTop: 2, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, backgroundColor: '#F5EEDF', color: '#806235', fontSize: 10, lineHeight: 14 },
+  productConditionCompact: { marginTop: 0, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, lineHeight: 11 },
+  productScope: { minHeight: 20, marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
+  productScopeCompact: { minHeight: 16, gap: 6 },
+  scopeBookMark: { width: 14, height: 11, flexDirection: 'row', gap: 2 },
+  scopeBookPage: { flex: 1, borderWidth: 1, borderColor: '#51493E', borderRadius: 1 },
+  scopeText: { color: '#372F25', fontSize: 12, lineHeight: 17, fontWeight: '700' },
+  scopeTextCompact: { fontSize: 9.5, lineHeight: 13 },
+  editionComparison: { minHeight: 91, marginTop: 9, flexDirection: 'row', alignItems: 'center', gap: 14 },
+  editionComparisonCompact: { minHeight: 62, marginTop: 5, gap: 8 },
+  editionOption: { flex: 1, minWidth: 0, minHeight: 91, alignItems: 'center', justifyContent: 'center', borderRadius: 12, paddingHorizontal: 10 },
+  freeEdition: { borderWidth: 1, borderColor: '#DACDB8', backgroundColor: 'rgba(255,253,248,0.82)' },
+  completeEdition: { borderWidth: 1, borderColor: '#2B2922', backgroundColor: '#1A1916' },
+  editionBadge: { marginBottom: 4, paddingHorizontal: 8, paddingVertical: 1, borderWidth: 1, borderColor: '#D2C2A6', borderRadius: 4, color: '#857360', fontSize: 9, lineHeight: 13 },
+  completeEditionBadge: { borderColor: '#C8982F', color: '#E1BA5D' },
+  editionCount: { color: '#302B24', fontSize: 19, lineHeight: 26, fontWeight: '700', textAlign: 'center' },
+  completeEditionCount: { color: '#E0B84F' },
+  editionCountCompact: { fontSize: 14, lineHeight: 19 },
+  completeEditionCountCompact: { fontSize: 11.5, lineHeight: 16 },
+  editionArrow: { color: '#BD8318', fontSize: 33, lineHeight: 37, fontWeight: '300' },
+  editionArrowCompact: { fontSize: 25, lineHeight: 28 },
+  valueHeading: { marginTop: 8, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  valueHeadingCompact: { marginTop: 5, gap: 7 },
+  valueHeadingLine: { flex: 1, height: 1, backgroundColor: '#D6C39F' },
+  valueHeadingTitle: { color: '#A66D16', fontSize: 16, lineHeight: 22, textAlign: 'center' },
+  valueHeadingSub: { marginTop: 0, color: '#857363', fontSize: 8.5, lineHeight: 12, textAlign: 'center' },
+  featurePanel: { marginTop: 6, overflow: 'hidden', borderWidth: 1, borderColor: '#DDD0BC', borderRadius: 13, backgroundColor: 'rgba(255,253,248,0.62)' },
+  featurePanelCompact: { marginTop: 4, borderRadius: 10 },
+  featureRow: { minHeight: 58, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 13, paddingVertical: 7 },
+  featureRowCompact: { minHeight: 45, gap: 8, paddingHorizontal: 9, paddingVertical: 4 },
+  featureRowDivider: { borderBottomWidth: 1, borderBottomColor: '#E2D7C8' },
+  featureIcon: { width: 32, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: '#1A1916' },
+  gridIcon: { width: 15, height: 15, flexDirection: 'row', flexWrap: 'wrap', gap: 2 },
+  gridIconCell: { width: 6.5, height: 6.5, borderWidth: 1, borderColor: '#E1B54C', borderRadius: 1 },
+  bookIcon: { width: 16, height: 15, flexDirection: 'row', gap: 2 },
+  bookIconPage: { width: 7, height: 14, borderWidth: 1, borderColor: '#E1B54C', borderRadius: 1 },
+  bookIconPageLeft: { borderTopRightRadius: 4 },
+  bookIconPageRight: { borderTopLeftRadius: 4 },
+  memoIcon: { width: 15, gap: 3 },
+  memoIconLine: { height: 1, borderRadius: 1, backgroundColor: '#E1B54C' },
+  memoIconLineShort: { width: '62%' },
+  featureCopy: { flex: 1, minWidth: 0 },
+  featureTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  featureNumber: { color: '#B67B16', fontSize: 13, lineHeight: 18, fontWeight: '700' },
+  featureNumberCompact: { fontSize: 11, lineHeight: 15 },
+  featureTitle: { color: '#A36A13', fontSize: 14, lineHeight: 19, fontWeight: '700' },
+  featureTitleCompact: { fontSize: 12, lineHeight: 16 },
+  featureBody: { marginTop: 1, color: '#574F44', fontSize: 10.5, lineHeight: 15 },
+  featureBodyCompact: { fontSize: 8.5, lineHeight: 12 },
   productBand: { minHeight: 76, padding: 3, borderRadius: 12, backgroundColor: '#171614', shadowColor: '#090806', shadowOpacity: 0.24, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 5 },
   productBandDesktop: { minHeight: 94, maxWidth: 740, alignSelf: 'center', width: '100%' },
   productBandCompact: { minHeight: 60, borderRadius: 10 },

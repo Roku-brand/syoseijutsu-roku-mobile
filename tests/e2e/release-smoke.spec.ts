@@ -109,9 +109,10 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
-  await expect(page.getByText('無料版　→　完全版')).toBeVisible();
+  await expect(page.getByText('無料版', { exact: true })).toBeVisible();
+  await expect(page.getByText(/完全版/).first()).toBeVisible();
   await expect(page.getByText('完全版・30日間')).toBeVisible();
-  await expect(page.getByText('一回払い・自動更新なし')).toBeVisible();
+  await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
   await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
