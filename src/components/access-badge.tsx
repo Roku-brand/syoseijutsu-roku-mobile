@@ -20,7 +20,7 @@ export function AccessBadge({ locked, compact = false }: { locked: boolean; comp
       accessibilityLabel={locked ? '完全版限定' : '無料公開'}
       style={[styles.badge, locked ? styles.locked : styles.free, compact && styles.compact]}
     >
-      {locked ? <LockGlyph /> : <View style={styles.freeDiamond} />}
+      {locked ? <LockGlyph /> : <View style={styles.freeDot} />}
       <AppText style={[styles.label, locked ? styles.lockedLabel : styles.freeLabel]}>
         {locked ? '完全版' : '無料公開'}
       </AppText>
@@ -48,5 +48,5 @@ const styles = StyleSheet.create({
   shackle: { position: 'absolute', top: 0, width: 8, height: 8, borderWidth: 1.4, borderColor: '#F0D99D', borderBottomWidth: 0, borderTopLeftRadius: 5, borderTopRightRadius: 5 },
   lockBody: { width: 11, height: 8, borderRadius: 2, backgroundColor: '#F0D99D', alignItems: 'center', justifyContent: 'center' },
   keyhole: { width: 2, height: 3, borderRadius: 1, backgroundColor: colors.charcoal },
-  freeDiamond: { width: 7, height: 7, borderWidth: 1.2, borderColor: '#8B6928', transform: [{ rotate: '45deg' }] },
+  freeDot: { width: 7, height: 7, borderRadius: 4, backgroundColor: '#8B6928' },
 });

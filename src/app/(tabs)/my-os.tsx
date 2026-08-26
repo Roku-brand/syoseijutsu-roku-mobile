@@ -88,7 +88,6 @@ export default function MyOsScreen() {
       <View testID="personal-principle-card" style={styles.principleCard}>
         <View style={styles.principleLabelRow}>
           <View style={styles.principleLabelCopy}>
-            <View style={styles.diamond} />
             <AppText style={styles.principleLabel}>いまの判断原則</AppText>
           </View>
           <Pressable
@@ -257,12 +256,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-  },
-  diamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
   },
   principleLabel: {
     fontFamily: fonts.serif,

@@ -69,7 +69,7 @@ export default function Welcome() {
           <View style={[styles.hero, isDesktop ? styles.desktopHero : styles.mobileHero, densityStyles.hero]}>
             <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, densityStyles.heroTitle]}>人生をうまく生きる方法を、{`\n`}すべての人へ。</AppText>
             <AppText variant="serif" style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, densityStyles.heroCopy]}>流れて消える人生の知識を、{`\n`}何度でも使える知恵に。</AppText>
-            <View style={[styles.rule, densityStyles.rule]}><View style={styles.ruleLine} /><View style={styles.diamond} /><View style={styles.ruleLine} /></View>
+            <View style={[styles.rule, densityStyles.rule]}><View style={styles.ruleLine} /></View>
             <View style={[styles.stats, densityStyles.stats]}>
               <View style={styles.stat}>
                 <View style={styles.statLine}><AppText variant="serif" style={[styles.statNumber, densityStyles.statNumber]}>{techniqueCards.length}</AppText><AppText variant="serif" style={styles.statLabel}>の処世術</AppText></View>
@@ -84,7 +84,7 @@ export default function Welcome() {
           </View>
 
           <View style={[styles.offer, isDesktop ? styles.desktopOffer : styles.mobileOffer, densityStyles.offer]}>
-            <AppText variant="serif" style={[styles.offerTitle, densityStyles.offerTitle]}>30日間、すべての知恵を。</AppText>
+            <AppText variant="serif" style={[styles.offerTitle, densityStyles.offerTitle]}>完全版を30日間。</AppText>
             <View style={[styles.offerBody, densityStyles.offerBody]}>
               <View style={[styles.priceBadge, densityStyles.priceBadge]}>
                 <AppText variant="serif" style={[styles.priceType, densityStyles.priceType]}>30日間</AppText>
@@ -93,22 +93,17 @@ export default function Welcome() {
               </View>
               <View style={[styles.benefits, densityStyles.benefits]}>
                 {[`${personaCount}の人物像・${techniqueCards.length}の処世術`, `${theories.length}の理論をすべて収録`, '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => (
-                  <View key={item} style={styles.benefitRow}>
-                    <AppText style={styles.benefitCheck}>✓</AppText>
-                    <AppText style={[styles.benefitText, densityStyles.benefitText]}>{item}</AppText>
-                  </View>
+                  <View key={item} style={styles.benefitRow}><AppText style={[styles.benefitText, densityStyles.benefitText]}>{item}</AppText></View>
                 ))}
               </View>
             </View>
 
             <View style={styles.actions}>
               <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.primary, densityStyles.primary, pressed && styles.pressed]}>
-                <View style={styles.ctaDiamond} />
                 <AppText variant="serif" style={styles.primaryText}>280円で30日間利用する</AppText>
                 <AppText style={styles.ctaArrow}>›</AppText>
               </Pressable>
               <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.secondary, densityStyles.secondary, pressed && styles.pressed]}>
-                <View style={styles.freeIcon}><AppText style={styles.freeIconText}>□</AppText></View>
                 <View style={styles.secondaryCopy}>
                   <AppText variant="serif" style={[styles.secondaryTitle, densityStyles.secondaryTitle]}>{freePersonaCount}つの人物像を無料で体験</AppText>
                   <AppText style={[styles.secondarySub, densityStyles.secondarySub]}>処世術{freeTechniqueCount}件・厳選理論{FREE_THEORY_IDS.length}件を読めます</AppText>
@@ -153,10 +148,9 @@ const styles = StyleSheet.create({
   heroCopy: { marginTop: 10, color: '#D9A947', textAlign: 'center', fontSize: 15, lineHeight: 23, fontWeight: '600' },
   heroCopyDesktop: { marginTop: 19, fontSize: 19, lineHeight: 29 },
   heroCopyShort: { marginTop: 5, fontSize: 13, lineHeight: 18 },
-  rule: { flexDirection: 'row', alignItems: 'center', marginTop: 16, gap: 9 },
+  rule: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16 },
   ruleShort: { marginTop: 9 },
-  ruleLine: { width: 84, height: StyleSheet.hairlineWidth, backgroundColor: '#8A6727' },
-  diamond: { width: 9, height: 9, backgroundColor: '#D5A441', transform: [{ rotate: '45deg' }] },
+  ruleLine: { width: 177, height: StyleSheet.hairlineWidth, backgroundColor: '#8A6727' },
   stats: { marginTop: 17, width: '100%', maxWidth: 410, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
   statsShort: { marginTop: 10 },
   stat: { flex: 1, alignItems: 'center' },
@@ -184,21 +178,17 @@ const styles = StyleSheet.create({
   tax: { color: '#F1E2C4', fontSize: 10 },
   benefits: { flex: 1, gap: 6 },
   benefitsShort: { gap: 3 },
-  benefitRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 6 },
-  benefitCheck: { width: 14, color: '#A87420', fontSize: 13, lineHeight: 19, textAlign: 'center' },
+  benefitRow: { paddingLeft: 9, borderLeftWidth: 2, borderLeftColor: '#D8C59D' },
   benefitText: { flex: 1, minWidth: 0, color: colors.ink, fontSize: 13, lineHeight: 19 },
   benefitTextShort: { fontSize: 11, lineHeight: 15 },
   actions: { marginTop: 15, gap: 9 },
   primary: { minHeight: 57, paddingHorizontal: 18, borderRadius: 13, backgroundColor: '#BC8525', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#7F5D22', shadowOpacity: 0.2, shadowRadius: 5, elevation: 2 },
   primaryShort: { minHeight: 46, borderRadius: 11 },
   primaryText: { color: '#FFFDF8', fontSize: 19, letterSpacing: 0.6 },
-  ctaDiamond: { position: 'absolute', left: 22, width: 10, height: 10, borderWidth: 1.3, borderColor: '#FFF7DF', transform: [{ rotate: '45deg' }] },
   ctaArrow: { position: 'absolute', right: 21, color: '#FFFDF8', fontSize: 31, lineHeight: 34 },
   secondary: { minHeight: 56, paddingHorizontal: 14, borderRadius: 13, borderWidth: 1, borderColor: '#C69B4F', backgroundColor: '#FFFDF8', flexDirection: 'row', alignItems: 'center' },
   secondaryShort: { minHeight: 45, borderRadius: 11, paddingHorizontal: 11 },
-  freeIcon: { width: 32, height: 32, borderRadius: 16, backgroundColor: colors.surfaceDark, alignItems: 'center', justifyContent: 'center' },
-  freeIconText: { color: '#E0B655', fontSize: 18 },
-  secondaryCopy: { flex: 1, minWidth: 0, marginLeft: 10 },
+  secondaryCopy: { flex: 1, minWidth: 0 },
   secondaryTitle: { color: colors.ink, fontSize: 16 },
   secondaryTitleShort: { fontSize: 14 },
   secondarySub: { color: colors.inkSoft, fontSize: 11, marginTop: 2 },

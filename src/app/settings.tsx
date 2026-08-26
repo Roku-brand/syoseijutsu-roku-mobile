@@ -39,7 +39,7 @@ export default function SettingsScreen() {
           />
         )}
         <SettingLink
-          icon="crown"
+          icon="complete"
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
           href="/upgrade"
@@ -74,7 +74,7 @@ function SettingsSection({ title }: { title: string }) {
   return <AppText variant="serif" style={styles.sectionTitle}>{title}</AppText>;
 }
 
-type SettingIcon = 'person' | 'crown' | 'install' | 'document' | 'shield' | 'contact' | 'brand';
+type SettingIcon = 'person' | 'complete' | 'install' | 'document' | 'shield' | 'contact' | 'brand';
 
 function SettingLink({ icon, title, detail, href, onPress, onNavigate, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; onNavigate?: (href: string) => void; last?: boolean }) {
   return (
@@ -97,13 +97,13 @@ function SettingIconMark({ type }: { type: SettingIcon }) {
   if (type === 'brand') return <View style={styles.brandMark}><AppText style={styles.brandMarkText}>禄</AppText></View>;
   const names = {
     person: { ios: 'person', android: 'person', web: 'person' },
-    crown: { ios: 'crown', android: 'crown', web: 'crown' },
+    complete: { ios: 'books.vertical', android: 'menu_book', web: 'menu_book' },
     install: { ios: 'square.and.arrow.down', android: 'install_mobile', web: 'install_mobile' },
     document: { ios: 'document', android: 'description', web: 'description' },
     shield: { ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' },
     contact: { ios: 'envelope', android: 'mail', web: 'mail' },
   } as const;
-  const fallbacks = { person: '♙', crown: '♛', install: '↓', document: '▤', shield: '◇', contact: '✉' } as const;
+  const fallbacks = { person: '人', complete: '全', install: '追加', document: '文', shield: '保', contact: '問' } as const;
   return (
     <View style={styles.iconMark} accessibilityElementsHidden>
       <SymbolView name={names[type]} fallback={<AppText style={styles.iconFallback}>{fallbacks[type]}</AppText>} size={25} tintColor={colors.gold} weight="regular" />

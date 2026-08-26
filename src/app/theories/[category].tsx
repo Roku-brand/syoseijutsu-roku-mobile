@@ -136,7 +136,6 @@ export default function TheoryCategoryScreen() {
           {query ? `${filteredItems.length}件` : isPaid ? `${totalCount}の理論` : `${visibleItems.length}件を無料公開`}
         </AppText>
         <View style={styles.rule} />
-        <AppText style={styles.ruleMark}>✦</AppText>
       </View>
 
       <View style={styles.cards}>
@@ -235,7 +234,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold,
     opacity: 0.78,
   },
-  ruleMark: { marginTop: 5, color: colors.gold, fontSize: 16 },
   cards: { paddingTop: spacing.lg, paddingBottom: spacing.sm },
   empty: {
     minHeight: 180,

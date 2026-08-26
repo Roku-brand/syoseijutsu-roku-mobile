@@ -122,7 +122,7 @@ export function BookHeader() {
             </View>
             <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
-              <AppText style={styles.brandSubtitle}>賢者の手帳</AppText>
+              <AppText style={styles.brandSubtitle}>判断と実践のカード集</AppText>
             </View>
           </View>
         )}
@@ -400,7 +400,7 @@ function PrinciplesModal({
             <View style={styles.modalTitleGroup}>
               <PrincipleMark />
               <View>
-                <AppText style={styles.modalEyebrow}>賢者の手帳</AppText>
+                <AppText style={styles.modalEyebrow}>処世術禄</AppText>
                 <AppText style={styles.modalTitle}>処世術の五大原則</AppText>
               </View>
             </View>
@@ -495,7 +495,6 @@ export function OrnamentHeading({
 }) {
   return (
     <View style={[styles.sectionHeading, centered && styles.sectionHeadingCentered]}>
-      <View style={styles.diamond} />
       <AppText style={styles.sectionHeadingText}>{children}</AppText>
     </View>
   );
@@ -743,8 +742,8 @@ const styles = StyleSheet.create({
     top: 11,
     width: 5,
     height: 5,
+    borderRadius: 3,
     backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
   },
   modalRoot: {
     flex: 1,
@@ -930,17 +929,10 @@ const styles = StyleSheet.create({
   sectionHeading: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
     marginTop: spacing.xl,
     marginBottom: spacing.md,
   },
   sectionHeadingCentered: { justifyContent: 'center' },
-  diamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
   sectionHeadingText: {
     fontFamily: fonts.serif,
     fontSize: 21,

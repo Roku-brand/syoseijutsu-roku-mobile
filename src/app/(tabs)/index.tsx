@@ -7,6 +7,7 @@ import {
   Easing,
   FlatList,
   Pressable,
+  ScrollView,
   StyleSheet,
   View,
   type NativeScrollEvent,
@@ -234,6 +235,8 @@ export default function MainScreen() {
     ).flat();
   }, [baseReelItems]);
   const activeItem = baseReelItems[activeIndex] ?? baseReelItems[0];
+  const activeTechniqueCategory = activeItem?.kind === 'persona' ? activeItem.persona.category : undefined;
+  const activeTheoryCategory = activeItem?.kind === 'theory' ? activeItem.card.categoryId : undefined;
   const getCentralPhysicalIndex = (logicalIndex: number) =>
     baseReelItems.length > 1
       ? CIRCULAR_REEL_CENTER_COPY * baseReelItems.length + logicalIndex
@@ -508,7 +511,7 @@ export default function MainScreen() {
       {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
       <View style={styles.reelHeadingRow}>
         <View><AppText style={styles.reelHeading}>{reelType === 'techniques' ? '処世術' : '理論'}</AppText><View style={styles.reelHeadingUnderline} /></View>
-        <View style={styles.personaCountPill}><AppText style={styles.personaCountIcon}>♙</AppText><AppText style={styles.personaCountText}>{reelType === 'techniques' ? `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}` : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
+        <View style={styles.personaCountPill}><AppText style={styles.personaCountText}>{reelType === 'techniques' ? `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}` : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
       </View>
       <SegmentedControl
         value={reelType}
@@ -591,16 +594,12 @@ export default function MainScreen() {
                     pressed && styles.pressed,
                   ]}
                 >
-                  <AppText variant="label" style={styles.upgradeReelEyebrow}>COMPLETE EDITION</AppText>
-                  <AppText variant="serif" style={styles.upgradeReelTitle}>ここから先は、{`\n`}完全版。</AppText>
-                  <View style={[styles.cardOrnament, cardOrnament]}>
-                    <View style={styles.upgradeCardLine} />
-                    <View style={styles.cardDiamond} />
-                    <View style={styles.upgradeCardLine} />
-                  </View>
-                  <AppText style={styles.upgradeReelBody}>すべての処世術と理論を、{`\n`}あなたの手元へ。</AppText>
+                  <AppText variant="label" style={styles.upgradeReelEyebrow}>完全版</AppText>
+                  <AppText variant="serif" style={styles.upgradeReelTitle}>全人物像・全カードを{`\n`}30日間利用</AppText>
+                  <View style={[styles.cardRule, cardOrnament]} />
+                  <AppText style={styles.upgradeReelBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論{`\n`}全21ケースを収録</AppText>
                   <View style={styles.upgradeCta}>
-                    <AppText style={styles.upgradeCtaText}>¥{COMPLETE_EDITION_PRICE_JPY}で30日間利用　›</AppText>
+                    <AppText style={styles.upgradeCtaText}>内容を見る　¥{COMPLETE_EDITION_PRICE_JPY}／30日</AppText>
                   </View>
                 </Pressable>
               </Animated.View>
@@ -618,7 +617,7 @@ export default function MainScreen() {
                 })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
                   <AppText style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
-                  <View style={[styles.cardOrnament, cardOrnament]}><View style={styles.cardLine} /><View style={styles.cardDiamond} /><View style={styles.cardLine} /></View>
+                  <View style={[styles.cardRule, cardOrnament]} />
                   <View style={[styles.categoryChip, categoryChip]}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
                   <AppText style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{getTheoryCoverSummary(theory.summary, theory.definition ?? '社会を生きるための知恵を、理論から読み解く。')}</AppText>
                 </Pressable>
@@ -679,7 +678,7 @@ export default function MainScreen() {
                   })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
-                  <AppText variant="label" style={styles.techniqueId}>✦ {persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
+                  <AppText variant="label" style={styles.techniqueId}>{persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
                   <AppText
                     style={[
                       styles.techniqueTitle,
@@ -692,11 +691,7 @@ export default function MainScreen() {
                   >
                     {titleMetrics.displayTitle}
                   </AppText>
-                  <View style={[styles.cardOrnament, cardOrnament]}>
-                    <View style={styles.cardLine} />
-                    <View style={styles.cardDiamond} />
-                    <View style={styles.cardLine} />
-                  </View>
+                  <View style={[styles.cardRule, cardOrnament]} />
                   <AppText style={styles.personaSubtitle}>{persona.subtitle}</AppText>
                   <View style={styles.personaCta}><AppText style={styles.personaCtaText}>{persona.techniqueCount}つの処世術を見る</AppText><AppText style={styles.personaCtaChevron}>›</AppText></View>
                 </Pressable>
@@ -706,69 +701,62 @@ export default function MainScreen() {
           }}
         />
       </Animated.View>
+      <View style={styles.shortcuts}>
+        {reelType === 'techniques' ? (
+          <View style={styles.techniqueShortcutGrid} accessibilityRole="tablist" accessibilityLabel="人物像の領域へ移動">
+            {techniqueShortcuts.map((shortcut) => {
+              const active = activeTechniqueCategory === shortcut.key;
+              return (
+                <Pressable
+                  key={shortcut.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: active }}
+                  aria-selected={active}
+                  accessibilityLabel={`${shortcut.label}の先頭の人物像へ移動`}
+                  onPress={() => jumpToTechniqueCategory(shortcut.key)}
+                  style={({ pressed }) => [styles.shortcutTab, active && styles.shortcutTabActive, pressed && styles.pressed]}
+                >
+                  <AppText style={[styles.shortcutTabText, active && styles.shortcutTabTextActive]}>{shortcut.label}</AppText>
+                </Pressable>
+              );
+            })}
+          </View>
+        ) : (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.theoryShortcutGrid} accessibilityRole="tablist" accessibilityLabel="理論分類へ移動">
+            {theoryShortcuts.map((shortcut) => {
+              const active = activeTheoryCategory === shortcut.key;
+              return (
+                <Pressable
+                  key={shortcut.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: active }}
+                  aria-selected={active}
+                  accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
+                  onPress={() => jumpToTheoryCategory(shortcut.key)}
+                  style={({ pressed }) => [styles.theoryShortcut, active && styles.shortcutTabActive, pressed && styles.pressed]}
+                >
+                  <AppText style={[styles.theoryShortcutText, active && styles.shortcutTabTextActive]}>{shortcut.label}</AppText>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        )}
+      </View>
       {!isPaid ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="処世術禄 完全版を購入する"
+          accessibilityLabel="完全版の内容を見る、280円で30日間"
           onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
           style={({ pressed }) => [styles.unlockCard, density !== 'normal' && styles.unlockCardCompact, pressed && styles.pressed]}
         >
-          <View style={styles.unlockCrown}><AppText style={styles.unlockCrownText}>♛</AppText></View>
           <View style={styles.unlockCopy}>
-            <AppText style={styles.unlockTitle}>完全版を30日間利用　¥{COMPLETE_EDITION_PRICE_JPY}</AppText>
-            <AppText style={styles.unlockBody}>自動更新なし・{catalogTechniqueCards.length}の処世術と{catalogTheories.length}の理論</AppText>
+            <AppText style={styles.unlockTitle}>完全版の内容を見る</AppText>
+            <AppText style={styles.unlockBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論・全21ケース</AppText>
           </View>
+          <View style={styles.unlockPrice}><AppText style={styles.unlockPriceText}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={styles.unlockPeriod}>30日</AppText></View>
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>
       ) : null}
-      <View style={styles.shortcuts}>
-          {reelType === 'techniques' ? (
-            <View style={styles.shortcutSection}>
-              <View style={styles.shortcutSectionHeader}>
-                <View style={styles.shortcutSectionRule} />
-                <AppText style={styles.shortcutHeading}>なりたい自分から選ぶ</AppText>
-              </View>
-              <View style={styles.techniqueShortcutGrid}>
-                {techniqueShortcuts.map((shortcut) => (
-                  <Pressable
-                    key={shortcut.key}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${shortcut.label}の先頭の処世術へ移動`}
-                    onPress={() => jumpToTechniqueCategory(shortcut.key)}
-                    style={({ pressed }) => [styles.techniqueShortcut, pressed && styles.pressed]}
-                  >
-                    <AppText style={styles.techniqueShortcutMark}>{shortcut.key === 'interpersonal' ? '♟' : shortcut.key === 'work' ? '▣' : '⚑'}</AppText>
-                    <View style={styles.shortcutCopy}><AppText style={styles.techniqueShortcutText}>{shortcut.label}</AppText><AppText style={styles.techniqueShortcutSub}>{shortcut.key === 'interpersonal' ? '人間関係を築く' : shortcut.key === 'work' ? '成果と評価を得る' : '自分らしく生きる'}</AppText></View>
-                    <AppText style={styles.shortcutChevron}>›</AppText>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-          ) : (
-            <View style={styles.shortcutSection}>
-              <View style={styles.shortcutSectionHeader}>
-                <View style={styles.shortcutSectionRule} />
-                <AppText style={styles.shortcutHeading}>理論から選ぶ</AppText>
-                <AppText style={styles.shortcutSectionHint}>知識の入口</AppText>
-              </View>
-              <View style={styles.theoryShortcutGrid}>
-                {theoryShortcuts.map((shortcut) => (
-                  <Pressable
-                    key={shortcut.key}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
-                    onPress={() => jumpToTheoryCategory(shortcut.key)}
-                    style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
-                  >
-                    <AppText style={styles.theoryShortcutMark}>{shortcut.label.slice(0, 1)}</AppText>
-                    <AppText style={styles.theoryShortcutText}>{shortcut.label}</AppText>
-                    <AppText style={styles.theoryShortcutArrow}>↗</AppText>
-                  </Pressable>
-                ))}
-              </View>
-            </View>
-          )}
-      </View>
     </BookScreen>
   );
 }
@@ -778,8 +766,7 @@ const styles = StyleSheet.create({
   reelHeadingRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 },
   reelHeading: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '700', letterSpacing: 1.4 },
   reelHeadingUnderline: { marginTop: 5, width: 54, height: 2, borderRadius: 2, backgroundColor: colors.gold },
-  personaCountPill: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 11, height: 32, borderRadius: 18, borderWidth: 1, borderColor: colors.line, backgroundColor: '#FBF8F1' },
-  personaCountIcon: { color: colors.ink, fontSize: 16, lineHeight: 18 },
+  personaCountPill: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 11, height: 32, borderRadius: 18, borderWidth: 1, borderColor: colors.line, backgroundColor: '#FBF8F1' },
   personaCountText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '700' },
   accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
   accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
@@ -852,7 +839,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 1.4,
   },
-  upgradeCardLine: { flex: 1, height: 1, backgroundColor: 'rgba(238,214,155,0.6)' },
   upgradeReelBody: {
     color: '#E4DDD1',
     fontFamily: fonts.serif,
@@ -883,20 +869,13 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     letterSpacing: 1.3,
   },
-  cardOrnament: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '76%',
-    gap: 8,
+  cardRule: {
+    width: 58,
+    height: 1,
+    alignSelf: 'center',
+    backgroundColor: colors.goldLight,
     marginTop: 14,
     marginBottom: 20,
-  },
-  cardLine: { flex: 1, height: 1, backgroundColor: colors.goldLight },
-  cardDiamond: {
-    width: 9,
-    height: 9,
-    backgroundColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
   },
   categoryChip: {
     marginTop: 20,
@@ -944,31 +923,23 @@ const styles = StyleSheet.create({
   },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
-  unlockCard: { minHeight: 72, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, ...bookCardShadow },
-  unlockCardCompact: { minHeight: 64, marginTop: 5, paddingHorizontal: 12, gap: 10 },
-  unlockCrown: { width: 42, height: 42, borderRadius: 21, borderWidth: 1, borderColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
-  unlockCrownText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 23, lineHeight: 27 },
+  unlockCard: { minHeight: 66, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md },
+  unlockCardCompact: { minHeight: 58, marginTop: 5, paddingHorizontal: 12, gap: 9 },
   unlockCopy: { flex: 1, minWidth: 0 },
-  unlockTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
-  unlockBody: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '600' },
+  unlockTitle: { color: colors.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  unlockBody: { marginTop: 2, color: colors.muted, fontSize: 10, lineHeight: 15 },
+  unlockPrice: { alignItems: 'flex-end' },
+  unlockPriceText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 21, fontWeight: '700' },
+  unlockPeriod: { color: colors.muted, fontSize: 9, lineHeight: 13 },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
-  shortcuts: { marginTop: 12, gap: 10, paddingHorizontal: 2 },
-  shortcutSection: { gap: 6 },
-  shortcutSectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 7, paddingHorizontal: 2 },
-  shortcutSectionRule: { width: 3, height: 15, borderRadius: 2, backgroundColor: colors.gold },
-  shortcutHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, letterSpacing: 1, fontWeight: '700' },
-  shortcutSectionHint: { marginLeft: 'auto', color: colors.muted, fontSize: 9, lineHeight: 14, letterSpacing: 0.8 },
-  techniqueShortcutGrid: { flexDirection: 'row', gap: 8 },
-  techniqueShortcut: { flex: 1, minWidth: 0, height: 86, paddingHorizontal: 9, borderWidth: 1, borderColor: colors.line, borderRadius: 17, backgroundColor: '#FCF9F3', flexDirection: 'row', alignItems: 'center', gap: 5, ...bookCardShadow },
-  techniqueShortcutMark: { width: 22, color: colors.gold, fontFamily: fonts.serif, fontSize: 21, lineHeight: 25, textAlign: 'center' },
-  shortcutCopy: { flex: 1, minWidth: 0 },
-  techniqueShortcutText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '700' },
-  techniqueShortcutSub: { marginTop: 3, color: colors.muted, fontSize: 8, lineHeight: 12 },
-  shortcutChevron: { color: colors.gold, fontSize: 21, lineHeight: 23 },
-  theoryShortcutGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-  theoryShortcut: { width: '31.8%', height: 37, paddingHorizontal: 7, borderRadius: radius.sm, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: 5 },
-  theoryShortcutMark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 15, fontWeight: '700' },
-  theoryShortcutText: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 11, lineHeight: 15, fontWeight: '600' },
-  theoryShortcutArrow: { color: colors.muted, fontSize: 12, lineHeight: 15 },
+  shortcuts: { marginTop: 8 },
+  techniqueShortcutGrid: { flexDirection: 'row', gap: 7 },
+  shortcutTab: { flex: 1, minWidth: 0, height: 38, paddingHorizontal: 10, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  shortcutTabActive: { borderColor: colors.ink, backgroundColor: colors.ink },
+  shortcutTabText: { color: colors.inkSoft, fontSize: 12, lineHeight: 17, fontWeight: '700' },
+  shortcutTabTextActive: { color: colors.surface },
+  theoryShortcutGrid: { flexDirection: 'row', gap: 7, paddingRight: 2 },
+  theoryShortcut: { minWidth: 92, height: 38, paddingHorizontal: 12, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  theoryShortcutText: { color: colors.inkSoft, fontSize: 11, lineHeight: 15, fontWeight: '700' },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

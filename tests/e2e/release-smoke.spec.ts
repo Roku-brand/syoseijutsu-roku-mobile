@@ -108,12 +108,13 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText('336の処世術・541の理論・全21ケース')).toBeVisible();
-  await expect(page.getByText('30日間', { exact: true }).first()).toBeVisible();
-  await page.getByRole('button', { name: /280円で30日間利用する/ }).click();
+  await expect(page.getByText('完全版・30日間アクセス')).toBeVisible();
+  await expect(page.getByText('全カード・全21ケース')).toBeVisible();
+  await expect(page.getByText('一回払い・自動更新なし')).toBeVisible();
+  await page.getByRole('button', { name: '購入内容を確認する' }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
   await expect(page.getByText('¥280（税込）')).toBeVisible();
-  await expect(page.getByText('決済完了から30日間')).toBeVisible();
+  await expect(page.getByText('決済完了から30日間').last()).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
@@ -150,7 +151,28 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
-  await expect(page.getByText('完全版を30日間利用　¥280')).toBeVisible();
+  await expect(page.getByText('完全版の内容を見る')).toBeVisible();
+  await expect(page.getByText('¥280', { exact: true })).toBeVisible();
+});
+
+test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
+  const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
+  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
+  await life.click();
+  await expect(life).toHaveAttribute('aria-selected', 'true');
+});
+
+test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await expect(page.getByText('賢者の手帳')).toHaveCount(0);
+  await expect(page.getByText('COMPLETE EDITION')).toHaveCount(0);
+  await expect(page.getByText('♛')).toHaveCount(0);
+  await page.goto('/subcategory/interpersonal/印象がいい人');
+  await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(14);
 });
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {

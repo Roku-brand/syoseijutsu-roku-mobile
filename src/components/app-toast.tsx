@@ -45,7 +45,6 @@ export function AppToastProvider({ children }: { children: ReactNode }) {
             desktop ? styles.toastDesktop : styles.toastMobile,
           ]}
         >
-          <AppText style={styles.mark}>◆</AppText>
           <AppText style={styles.message}>{message}</AppText>
         </View>
       ) : null}
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.sm,
     borderWidth: 1,
     borderColor: colors.gold,
     borderRadius: radius.pill,
@@ -80,7 +78,6 @@ const styles = StyleSheet.create({
   },
   toastMobile: { left: 24, right: 24, bottom: 86 },
   toastDesktop: { left: 116, bottom: 28 },
-  mark: { color: colors.goldLight, fontSize: 11 },
   message: {
     color: colors.surface,
     fontFamily: fonts.serif,

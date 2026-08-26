@@ -137,7 +137,7 @@ function SectionLabel({ title }: { title: string }) {
 }
 
 function Benefit({ label }: { label: string }) {
-  return <View style={styles.benefit}><AppText style={styles.benefitText}>◆ {label}</AppText></View>;
+  return <View style={styles.benefit}><AppText style={styles.benefitText}>{label}</AppText></View>;
 }
 
 function InstallStep({ number, text, last }: { number: number; text: string; last: boolean }) {

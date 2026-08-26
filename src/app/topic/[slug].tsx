@@ -85,8 +85,6 @@ export default function GuidedTopicScreen() {
 
           <View style={styles.ornamentRule}>
             <View style={styles.ruleLine} />
-            <View style={styles.ruleDiamond} />
-            <View style={styles.ruleLine} />
           </View>
 
           <View style={styles.indexHeading}>
@@ -257,13 +255,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 1,
     backgroundColor: colors.line,
-  },
-  ruleDiamond: {
-    width: 10,
-    height: 10,
-    borderWidth: 2,
-    borderColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
   },
   indexHeading: {
     flexDirection: 'row',
