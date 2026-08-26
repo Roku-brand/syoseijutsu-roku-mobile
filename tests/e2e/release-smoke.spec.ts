@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('welcome keeps both entry actions above the fold on desktop and compact mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
-    const purchase = page.getByRole('button', { name: /280円で30日間利用する/ });
-    const free = page.getByRole('button', { name: /6つの人物像を無料で体験/ });
+    const purchase = page.getByRole('button', { name: /内容・購入方法を見る/ });
+    const free = page.getByRole('button', { name: /無料版をはじめる/ });
     await expect(purchase).toBeVisible();
     await expect(free).toBeVisible();
     const [purchaseBox, freeBox, viewport] = await Promise.all([
@@ -94,7 +94,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.goto('/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('541').first()).toBeVisible();
-  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
   await expect(page.getByText(/336の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
@@ -150,14 +150,14 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
   await expect(page.getByText('完全版の内容を見る')).toBeVisible();
   await expect(page.getByText('¥280', { exact: true })).toBeVisible();
 });
 
 test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
   const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
   const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
   await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
@@ -167,7 +167,7 @@ test('ホーム下部の領域ボタンはカルーセル内を移動する', as
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /6つの人物像を無料で体験/ }).click();
+  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
   await expect(page.getByText('賢者の手帳')).toHaveCount(0);
   await expect(page.getByText('COMPLETE EDITION')).toHaveCount(0);
   await expect(page.getByText('♛')).toHaveCount(0);

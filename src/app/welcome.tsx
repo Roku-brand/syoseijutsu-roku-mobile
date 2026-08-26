@@ -2,7 +2,6 @@ import { Redirect, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
-import { colors, shadow } from '@/constants/theme';
 import { categories, techniqueCards, theories } from '@/data/catalog';
 import { FREE_PERSONA_NAMES, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
@@ -12,14 +11,14 @@ const personaCount = categories.reduce((count, category) => count + category.sub
 const freePersonaCount = FREE_PERSONA_NAMES.length;
 const freeTechniqueCount = FREE_REEL_TECHNIQUE_IDS.length;
 
-/** 初回の導線だけに表示する、1画面完結の販売ファースト画面。 */
 export default function Welcome() {
   const router = useRouter();
   const { width, height } = useWindowDimensions();
   const { accessState } = useAccess();
   const { interests, onboardingCompleted, completeOnboarding } = useAppState();
   const isDesktop = width >= 900;
-  const isShort = height < 720;
+  const isCompact = height < 720;
+  const isNarrow = width < 370;
 
   if (accessState === 'paid' || onboardingCompleted) return <Redirect href="/(tabs)" />;
 
@@ -28,90 +27,66 @@ export default function Welcome() {
     router.replace('/(tabs)');
   };
 
-  const densityStyles = isShort ? {
-    hero: styles.heroShort,
-    heroTitle: styles.heroTitleShort,
-    heroCopy: styles.heroCopyShort,
-    rule: styles.ruleShort,
-    stats: styles.statsShort,
-    statNumber: styles.statNumberShort,
-    statSub: styles.statSubShort,
-    offer: styles.offerShort,
-    offerTitle: styles.offerTitleShort,
-    offerBody: styles.offerBodyShort,
-    priceBadge: styles.priceBadgeShort,
-    priceType: styles.priceTypeShort,
-    price: styles.priceShort,
-    benefits: styles.benefitsShort,
-    benefitText: styles.benefitTextShort,
-    primary: styles.primaryShort,
-    secondary: styles.secondaryShort,
-    secondaryTitle: styles.secondaryTitleShort,
-    secondarySub: styles.secondarySubShort,
-    assurance: styles.assuranceShort,
-  } : {};
-
   return (
     <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={styles.safe}>
       <View style={styles.page}>
-        <View style={[styles.topBar, isDesktop && styles.topBarDesktop, isShort && styles.topBarShort]}>
+        <View style={[styles.topBar, isDesktop && styles.topBarDesktop]}>
           <View style={styles.brand}>
-            <View style={[styles.seal, isShort && styles.sealShort]}><AppText variant="serif" style={[styles.sealText, isShort && styles.sealTextShort]}>禄</AppText></View>
+            <View style={styles.seal}><AppText variant="serif" style={styles.sealText}>禄</AppText></View>
             <View>
-              <AppText variant="serif" style={[styles.brandName, isShort && styles.brandNameShort]}>処 世 術 禄</AppText>
+              <AppText variant="serif" style={styles.brandName}>処 世 術 禄</AppText>
               <AppText style={styles.brandReading}>しょせいじゅつろく</AppText>
             </View>
           </View>
           {isDesktop ? <AppText style={styles.topBarNote}>人生・仕事・人間関係のための処世術</AppText> : null}
         </View>
 
-        <View style={[styles.content, isDesktop ? styles.desktopContent : styles.mobileContent, isShort && styles.mobileContentShort]}>
-          <View style={[styles.hero, isDesktop ? styles.desktopHero : styles.mobileHero, densityStyles.hero]}>
-            <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, densityStyles.heroTitle]}>人生をうまく生きる方法を、{`\n`}すべての人へ。</AppText>
-            <AppText variant="serif" style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, densityStyles.heroCopy]}>流れて消える人生の知識を、{`\n`}何度でも使える知恵に。</AppText>
-            <View style={[styles.rule, densityStyles.rule]}><View style={styles.ruleLine} /></View>
-            <View style={[styles.stats, densityStyles.stats]}>
-              <View style={styles.stat}>
-                <View style={styles.statLine}><AppText variant="serif" style={[styles.statNumber, densityStyles.statNumber]}>{techniqueCards.length}</AppText><AppText variant="serif" style={styles.statLabel}>の処世術</AppText></View>
-                <AppText style={[styles.statSub, densityStyles.statSub]}>対人・仕事・人生の知恵</AppText>
-              </View>
+        <View style={[styles.content, isDesktop ? styles.contentDesktop : styles.contentMobile, isCompact && styles.contentCompact]}>
+          <View style={[styles.hero, isDesktop && styles.heroDesktop, isCompact && styles.heroCompact]}>
+            <AppText style={styles.heroEyebrow}>処世術禄</AppText>
+            <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, isCompact && styles.heroTitleCompact]}>
+              人生をうまく生きる方法を、{`\n`}すべての人へ。
+            </AppText>
+            <AppText style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, isCompact && styles.heroCopyCompact]}>
+              流れて消える人生の知識を、何度でも使える知恵に。
+            </AppText>
+            <View style={[styles.stats, isCompact && styles.statsCompact]}>
+              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{personaCount}</AppText><AppText style={styles.statLabel}>人物像</AppText></View>
               <View style={styles.statDivider} />
-              <View style={styles.stat}>
-                <View style={styles.statLine}><AppText variant="serif" style={[styles.statNumber, densityStyles.statNumber]}>{theories.length}</AppText><AppText variant="serif" style={styles.statLabel}>の理論</AppText></View>
-                <AppText style={[styles.statSub, densityStyles.statSub]}>心理学・行動科学・戦略など</AppText>
-              </View>
+              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{techniqueCards.length}</AppText><AppText style={styles.statLabel}>処世術</AppText></View>
+              <View style={styles.statDivider} />
+              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{theories.length}</AppText><AppText style={styles.statLabel}>理論</AppText></View>
             </View>
           </View>
 
-          <View style={[styles.offer, isDesktop ? styles.desktopOffer : styles.mobileOffer, densityStyles.offer]}>
-            <AppText variant="serif" style={[styles.offerTitle, densityStyles.offerTitle]}>完全版を30日間。</AppText>
-            <View style={[styles.offerBody, densityStyles.offerBody]}>
-              <View style={[styles.priceBadge, densityStyles.priceBadge]}>
-                <AppText variant="serif" style={[styles.priceType, densityStyles.priceType]}>30日間</AppText>
-                <AppText variant="serif" style={[styles.price, densityStyles.price]}>¥280</AppText>
-                <AppText style={styles.tax}>税込</AppText>
-              </View>
-              <View style={[styles.benefits, densityStyles.benefits]}>
-                {[`${personaCount}の人物像・${techniqueCards.length}の処世術`, `${theories.length}の理論をすべて収録`, '購入日から30日間利用', '自動更新・継続課金なし'].map((item) => (
-                  <View key={item} style={styles.benefitRow}><AppText style={[styles.benefitText, densityStyles.benefitText]}>{item}</AppText></View>
-                ))}
-              </View>
+          <View style={[styles.choiceSection, isCompact && styles.choiceSectionCompact]}>
+            <View style={styles.choiceHeading}>
+              <AppText variant="serif" style={[styles.choiceTitle, isCompact && styles.choiceTitleCompact]}>始め方を選ぶ</AppText>
+              <AppText style={[styles.choiceCaption, isCompact && styles.choiceCaptionCompact]}>無料版からでも、すぐに読み始められます</AppText>
             </View>
 
-            <View style={styles.actions}>
-              <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.primary, densityStyles.primary, pressed && styles.pressed]}>
-                <AppText variant="serif" style={styles.primaryText}>280円で30日間利用する</AppText>
-                <AppText style={styles.ctaArrow}>›</AppText>
+            <View style={[styles.plans, isDesktop && styles.plansDesktop]}>
+              <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.plan, styles.freePlan, isDesktop && styles.planDesktop, isNarrow && styles.planNarrow, pressed && styles.pressed]}>
+                <AppText style={styles.planEyebrow}>無料版</AppText>
+                <AppText variant="serif" style={[styles.planTitle, isNarrow && styles.planTitleNarrow]}>無料版をはじめる</AppText>
+                <AppText style={[styles.planLead, isNarrow && styles.planLeadNarrow]}>登録なしで、まず読む。</AppText>
+                <View style={styles.planRule} />
+                <AppText style={[styles.planDetail, isNarrow && styles.planDetailNarrow]}>{freePersonaCount}人物像・{freeTechniqueCount}処世術{`\n`}厳選理論 {FREE_THEORY_IDS.length}件</AppText>
+                <View style={[styles.planButton, styles.freeButton]}><AppText style={styles.freeButtonText}>無料版を開く</AppText></View>
               </Pressable>
-              <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.secondary, densityStyles.secondary, pressed && styles.pressed]}>
-                <View style={styles.secondaryCopy}>
-                  <AppText variant="serif" style={[styles.secondaryTitle, densityStyles.secondaryTitle]}>{freePersonaCount}つの人物像を無料で体験</AppText>
-                  <AppText style={[styles.secondarySub, densityStyles.secondarySub]}>処世術{freeTechniqueCount}件・厳選理論{FREE_THEORY_IDS.length}件を読めます</AppText>
+
+              <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.plan, styles.completePlan, isDesktop && styles.planDesktop, isNarrow && styles.planNarrow, pressed && styles.pressed]}>
+                <View style={styles.completePlanTopline}>
+                  <AppText style={styles.completePlanEyebrow}>完全版</AppText>
+                  <AppText style={styles.priceLabel}>¥280 / 30日</AppText>
                 </View>
-                <AppText style={styles.secondaryArrow}>›</AppText>
+                <AppText variant="serif" style={[styles.planTitle, styles.completePlanTitle, isNarrow && styles.planTitleNarrow]}>すべての知恵を読む</AppText>
+                <AppText style={[styles.planLead, styles.completePlanLead, isNarrow && styles.planLeadNarrow]}>自動更新なし・一回払い。</AppText>
+                <View style={[styles.planRule, styles.completePlanRule]} />
+                <AppText style={[styles.planDetail, styles.completePlanDetail, isNarrow && styles.planDetailNarrow]}>全{personaCount}人物像・{techniqueCards.length}処世術{`\n`}{theories.length}理論・全21ケース</AppText>
+                <View style={[styles.planButton, styles.completeButton]}><AppText style={styles.completeButtonText}>内容・購入方法を見る</AppText></View>
               </Pressable>
             </View>
-            <AppText style={[styles.assurance, densityStyles.assurance]}>自動更新・継続課金なし　期間終了後は無料版へ戻ります</AppText>
           </View>
         </View>
       </View>
@@ -120,81 +95,69 @@ export default function Welcome() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.surfaceDark },
-  page: { flex: 1, overflow: 'hidden', backgroundColor: colors.surfaceDark },
-  topBar: { minHeight: 66, paddingHorizontal: 20, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  topBarDesktop: { minHeight: 82, paddingHorizontal: 42 },
-  topBarShort: { minHeight: 50, paddingVertical: 4 },
+  safe: { flex: 1, backgroundColor: '#F3EFE6' },
+  page: { flex: 1, overflow: 'hidden', backgroundColor: '#F3EFE6' },
+  topBar: { minHeight: 60, paddingHorizontal: 18, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#D8D0C2', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  topBarDesktop: { minHeight: 76, paddingHorizontal: 44 },
   brand: { flexDirection: 'row', gap: 10, alignItems: 'center' },
-  seal: { width: 48, height: 48, justifyContent: 'center', alignItems: 'center', borderColor: '#D0A03D', borderWidth: 1.3, borderRadius: 11 },
-  sealShort: { width: 40, height: 40, borderRadius: 9 },
-  sealText: { color: '#D5A441', fontSize: 32, lineHeight: 39 },
-  sealTextShort: { fontSize: 28, lineHeight: 33 },
-  brandName: { color: colors.white, fontSize: 17, letterSpacing: 4 },
-  brandNameShort: { fontSize: 15, letterSpacing: 3 },
-  brandReading: { marginTop: 1, color: '#D6AF58', fontSize: 9, letterSpacing: 2 },
-  topBarNote: { color: '#D9D1C2', fontSize: 13, letterSpacing: 1 },
-  content: { flex: 1 },
-  desktopContent: { alignSelf: 'center', width: '100%', maxWidth: 1360, flexDirection: 'row', gap: 54, paddingHorizontal: 44, paddingTop: 14, paddingBottom: 34, alignItems: 'center' },
-  mobileContent: { paddingHorizontal: 18, paddingBottom: 12, justifyContent: 'space-between' },
-  mobileContentShort: { paddingHorizontal: 15, paddingBottom: 7 },
-  hero: { alignItems: 'center' },
-  desktopHero: { flex: 1, justifyContent: 'center', paddingBottom: 16 },
-  mobileHero: { paddingTop: 4, paddingBottom: 11 },
-  heroShort: { paddingTop: 0, paddingBottom: 6 },
-  heroTitle: { color: colors.white, textAlign: 'center', fontSize: 25, lineHeight: 36, fontWeight: '600', letterSpacing: 0.8 },
-  heroTitleDesktop: { fontSize: 34, lineHeight: 48 },
-  heroTitleShort: { fontSize: 22, lineHeight: 30 },
-  heroCopy: { marginTop: 10, color: '#D9A947', textAlign: 'center', fontSize: 15, lineHeight: 23, fontWeight: '600' },
-  heroCopyDesktop: { marginTop: 19, fontSize: 19, lineHeight: 29 },
-  heroCopyShort: { marginTop: 5, fontSize: 13, lineHeight: 18 },
-  rule: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16 },
-  ruleShort: { marginTop: 9 },
-  ruleLine: { width: 177, height: StyleSheet.hairlineWidth, backgroundColor: '#8A6727' },
-  stats: { marginTop: 17, width: '100%', maxWidth: 410, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
-  statsShort: { marginTop: 10 },
-  stat: { flex: 1, alignItems: 'center' },
-  statLine: { flexDirection: 'row', alignItems: 'baseline', gap: 3 },
-  statNumber: { color: '#D9A947', fontSize: 33, lineHeight: 40 },
-  statNumberShort: { fontSize: 28, lineHeight: 34 },
-  statLabel: { color: '#F7EEE1', fontSize: 16, lineHeight: 24 },
-  statSub: { marginTop: 2, color: '#D9D1C2', fontSize: 10, textAlign: 'center' },
-  statSubShort: { fontSize: 9 },
-  statDivider: { height: 53, width: StyleSheet.hairlineWidth, backgroundColor: '#AF8540' },
-  offer: { width: '100%', backgroundColor: colors.surface, borderColor: colors.line, borderWidth: 1, ...shadow.card },
-  desktopOffer: { width: 510, maxWidth: '44%', padding: 25, borderRadius: 24 },
-  mobileOffer: { padding: 15, borderRadius: 18 },
-  offerShort: { padding: 11, borderRadius: 15 },
-  offerTitle: { color: colors.ink, fontSize: 23, textAlign: 'center' },
-  offerTitleShort: { fontSize: 20 },
-  offerBody: { marginTop: 13, flexDirection: 'row', alignItems: 'center', gap: 17 },
-  offerBodyShort: { marginTop: 8, gap: 12 },
-  priceBadge: { width: 108, height: 108, borderRadius: 54, backgroundColor: colors.surfaceDark, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#D6A844', flexShrink: 0 },
-  priceBadgeShort: { width: 82, height: 82, borderRadius: 41 },
-  priceType: { color: '#DAB052', fontSize: 13 },
-  priceTypeShort: { fontSize: 11 },
-  price: { color: '#E0B655', fontSize: 36, lineHeight: 42 },
-  priceShort: { fontSize: 29, lineHeight: 34 },
-  tax: { color: '#F1E2C4', fontSize: 10 },
-  benefits: { flex: 1, gap: 6 },
-  benefitsShort: { gap: 3 },
-  benefitRow: { paddingLeft: 9, borderLeftWidth: 2, borderLeftColor: '#D8C59D' },
-  benefitText: { flex: 1, minWidth: 0, color: colors.ink, fontSize: 13, lineHeight: 19 },
-  benefitTextShort: { fontSize: 11, lineHeight: 15 },
-  actions: { marginTop: 15, gap: 9 },
-  primary: { minHeight: 57, paddingHorizontal: 18, borderRadius: 13, backgroundColor: '#BC8525', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', shadowColor: '#7F5D22', shadowOpacity: 0.2, shadowRadius: 5, elevation: 2 },
-  primaryShort: { minHeight: 46, borderRadius: 11 },
-  primaryText: { color: '#FFFDF8', fontSize: 19, letterSpacing: 0.6 },
-  ctaArrow: { position: 'absolute', right: 21, color: '#FFFDF8', fontSize: 31, lineHeight: 34 },
-  secondary: { minHeight: 56, paddingHorizontal: 14, borderRadius: 13, borderWidth: 1, borderColor: '#C69B4F', backgroundColor: '#FFFDF8', flexDirection: 'row', alignItems: 'center' },
-  secondaryShort: { minHeight: 45, borderRadius: 11, paddingHorizontal: 11 },
-  secondaryCopy: { flex: 1, minWidth: 0 },
-  secondaryTitle: { color: colors.ink, fontSize: 16 },
-  secondaryTitleShort: { fontSize: 14 },
-  secondarySub: { color: colors.inkSoft, fontSize: 11, marginTop: 2 },
-  secondarySubShort: { fontSize: 10, marginTop: 0 },
-  secondaryArrow: { color: colors.ink, fontSize: 30, lineHeight: 32 },
-  assurance: { marginTop: 10, color: '#59534A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
-  assuranceShort: { marginTop: 6, fontSize: 9, lineHeight: 12 },
-  pressed: { opacity: 0.78, transform: [{ scale: 0.985 }] },
+  seal: { width: 42, height: 42, borderRadius: 11, borderWidth: 1, borderColor: '#B98724', alignItems: 'center', justifyContent: 'center' },
+  sealText: { color: '#A87418', fontSize: 29, lineHeight: 35 },
+  brandName: { color: '#25211B', fontSize: 16, letterSpacing: 3.5 },
+  brandReading: { marginTop: 1, color: '#9A762E', fontSize: 9, letterSpacing: 1.8 },
+  topBarNote: { color: '#5C5346', fontSize: 13, letterSpacing: 0.8 },
+  content: { flex: 1, width: '100%', alignSelf: 'center' },
+  contentDesktop: { maxWidth: 1180, paddingHorizontal: 30, paddingVertical: 28, justifyContent: 'center', gap: 20 },
+  contentMobile: { paddingHorizontal: 14, paddingVertical: 12, justifyContent: 'center', gap: 18 },
+  contentCompact: { paddingTop: 8, paddingBottom: 8, gap: 7 },
+  hero: { overflow: 'hidden', borderRadius: 20, backgroundColor: '#211F1A', borderWidth: 1, borderColor: '#3F382D', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 17 },
+  heroDesktop: { minHeight: 218, paddingVertical: 25, borderRadius: 24 },
+  heroCompact: { paddingVertical: 10, borderRadius: 17 },
+  heroEyebrow: { color: '#C89735', fontSize: 11, letterSpacing: 2.2, fontWeight: '700' },
+  heroTitle: { marginTop: 5, color: '#FFF9EF', textAlign: 'center', fontSize: 23, lineHeight: 31, letterSpacing: 0.4 },
+  heroTitleDesktop: { marginTop: 7, fontSize: 32, lineHeight: 43 },
+  heroTitleCompact: { fontSize: 20, lineHeight: 27 },
+  heroCopy: { marginTop: 7, color: '#E1BD70', fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  heroCopyDesktop: { marginTop: 10, fontSize: 15, lineHeight: 22 },
+  heroCopyCompact: { marginTop: 4, fontSize: 11, lineHeight: 15 },
+  stats: { marginTop: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  statsCompact: { marginTop: 8 },
+  stat: { minWidth: 74, alignItems: 'center' },
+  statNumber: { color: '#E4B653', fontSize: 20, lineHeight: 25 },
+  statLabel: { marginTop: 1, color: '#E6DED1', fontSize: 10 },
+  statDivider: { width: StyleSheet.hairlineWidth, height: 29, marginHorizontal: 7, backgroundColor: '#695C45' },
+  choiceSection: { width: '100%' },
+  choiceSectionCompact: { flexShrink: 1 },
+  choiceHeading: { marginBottom: 9, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 2 },
+  choiceTitle: { color: '#25211B', fontSize: 19, lineHeight: 25 },
+  choiceTitleCompact: { fontSize: 17, lineHeight: 22 },
+  choiceCaption: { color: '#71685D', fontSize: 11, textAlign: 'right' },
+  choiceCaptionCompact: { fontSize: 10 },
+  plans: { flexDirection: 'row', gap: 10 },
+  plansDesktop: { gap: 16 },
+  plan: { flex: 1, minWidth: 0, minHeight: 202, borderRadius: 17, padding: 14, justifyContent: 'space-between' },
+  planDesktop: { minHeight: 226, padding: 21, borderRadius: 19 },
+  planNarrow: { minHeight: 194, padding: 11 },
+  freePlan: { backgroundColor: '#FFFDF8', borderWidth: 1, borderColor: '#D8CDBB' },
+  completePlan: { backgroundColor: '#29251F', borderWidth: 1, borderColor: '#4D4230' },
+  planEyebrow: { color: '#846522', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 1.1 },
+  completePlanTopline: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5 },
+  completePlanEyebrow: { color: '#E0B35B', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 1.1 },
+  priceLabel: { color: '#F3DEB0', fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  planTitle: { marginTop: 4, color: '#25211B', fontSize: 20, lineHeight: 27 },
+  completePlanTitle: { color: '#FFF9EE' },
+  planTitleNarrow: { fontSize: 17, lineHeight: 23 },
+  planLead: { marginTop: 3, color: '#655C51', fontSize: 11, lineHeight: 16 },
+  completePlanLead: { color: '#D8CDB8' },
+  planLeadNarrow: { fontSize: 10, lineHeight: 14 },
+  planRule: { height: StyleSheet.hairlineWidth, marginVertical: 8, backgroundColor: '#DED5C7' },
+  completePlanRule: { backgroundColor: '#665942' },
+  planDetail: { color: '#443D34', fontSize: 11, lineHeight: 17 },
+  completePlanDetail: { color: '#EEE3D1' },
+  planDetailNarrow: { fontSize: 10, lineHeight: 15 },
+  planButton: { minHeight: 42, marginTop: 10, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  freeButton: { backgroundColor: '#EEE6D8' },
+  freeButtonText: { color: '#2D2922', fontSize: 13, fontWeight: '700' },
+  completeButton: { backgroundColor: '#CB9329' },
+  completeButtonText: { color: '#1F1A12', fontSize: 13, fontWeight: '800' },
+  pressed: { opacity: 0.8, transform: [{ scale: 0.985 }] },
 });
