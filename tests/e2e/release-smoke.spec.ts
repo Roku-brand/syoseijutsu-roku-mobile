@@ -108,12 +108,13 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByText(/知恵を、使える体系として/)).toBeVisible();
-  await expect(page.getByText('完全版・30日間アクセス')).toBeVisible();
+  await expect(page.getByText('処世術禄　完全版')).toBeVisible();
+  await expect(page.getByText('無料版　→　完全版')).toBeVisible();
+  await expect(page.getByText('完全版・30日間')).toBeVisible();
   await expect(page.getByText('一回払い・自動更新なし')).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
-  await expect(page.getByText('¥280（税込）')).toBeVisible();
+  await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
@@ -124,9 +125,25 @@ test('スマホの購入画面は初期表示から購入ボタンを押せる',
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
+  await expect(page.getByText('網羅性を追求')).toBeVisible();
+  await expect(page.getByText('利用規約')).toBeVisible();
+  const purchaseBox = await purchaseButton.boundingBox();
+  const legalBox = await page.getByText('利用規約').boundingBox();
+  expect(purchaseBox).not.toBeNull();
+  expect(legalBox).not.toBeNull();
+  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
+  expect(legalBox!.y + legalBox!.height).toBeLessThanOrEqual(667);
+});
+
+test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/upgrade');
+  const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
+  await expect(purchaseButton).toBeVisible();
+  await expect(page.getByText('独自の処世術集')).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
   expect(purchaseBox).not.toBeNull();
-  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
+  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
 });
 
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {

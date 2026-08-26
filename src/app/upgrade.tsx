@@ -1,20 +1,17 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ImageBackground, Modal, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
-import { colors, fonts } from '@/constants/theme';
+import { colors } from '@/constants/theme';
 import { categories, techniqueCards, theories } from '@/data/catalog';
 
-const desktopBackground = require('../../assets/upgrade/upgrade-hero-desktop.png');
-const mobileBackground = require('../../assets/upgrade/upgrade-hero-mobile.png');
-
 const valuePoints = [
-  ['01', '広く、偏りなく学ぶ', '人物像・処世術・ケースを横断して、人生の場面ごとに探せます。'],
-  ['02', '理論までつなげる', '心理学・行動科学・戦略から、なぜ使えるかを理解できます。'],
-  ['03', '自分の知恵として残す', '保存・メモ・履歴で、学んだことを自分だけの蓄積にできます。'],
+  ['①', '網羅性を追求', 'テーマごとに必要な処世術を揃える、完結を目指した網羅。'],
+  ['②', '紐づく理論', '心理学・行動科学・戦略論を根拠とする、理論的な裏づけ。'],
+  ['③', '独自の処世術集', '保存・メモ・履歴で積み上げる、知恵のパーソナライズ。'],
 ] as const;
 
 const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
@@ -22,14 +19,21 @@ const personaCount = categories.reduce((count, category) => count + category.sub
 export default function UpgradeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const desktop = width >= 900;
+  const compact = !desktop && height <= 740;
   const { user } = useAuth();
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
+
+  const comparisonRows = [
+    ['人物像', '6', String(personaCount)],
+    ['処世術', '45', String(techniqueCards.length)],
+    ['理論', '20', String(theories.length)],
+  ] as const;
 
   const purchase = async () => {
     if (!user) {
@@ -98,72 +102,54 @@ export default function UpgradeScreen() {
         : `完全版を購入する　¥${COMPLETE_EDITION_PRICE_JPY}`;
 
   return (
-    <View style={styles.safe}>
-      <ImageBackground source={desktop ? desktopBackground : mobileBackground} resizeMode="cover" style={styles.page} imageStyle={styles.backgroundImage}>
-        <ScrollView contentContainerStyle={[styles.scrollContent, desktop && styles.scrollContentDesktop]} showsVerticalScrollIndicator={false}>
-          <View style={[styles.hero, desktop && styles.heroDesktop]}>
-            <AppText style={styles.eyebrow}>処世術禄　完全版</AppText>
-            <AppText variant="serif" style={[styles.heroTitle, desktop && styles.heroTitleDesktop]}>知恵を、使える体系として{`\n`}手元に。</AppText>
-            <AppText style={[styles.heroLead, desktop && styles.heroLeadDesktop]}>人物像から処世術、理論、ケースまで。{`\n`}現実の判断と行動に活かせる知恵を身につけられます。</AppText>
-            <AppText style={styles.catalogEvidence}>全{personaCount}人物像・全{techniqueCards.length}処世術・全{theories.length}理論・全21ケース</AppText>
-          </View>
-
-          <View style={[styles.valueSection, desktop && styles.valueSectionDesktop]}>
-            {valuePoints.map(([number, title, body], index) => (
-              <View key={title} style={[styles.valuePoint, desktop && styles.valuePointDesktop, index !== valuePoints.length - 1 && styles.valuePointDivider, index !== valuePoints.length - 1 && desktop && styles.valuePointDesktopDivider]}>
-                <AppText style={styles.valueNumber}>{number}</AppText>
-                <AppText variant="serif" style={styles.valueTitle}>{title}</AppText>
-                <AppText style={styles.valueBody}>{body}</AppText>
-              </View>
-            ))}
-          </View>
-
-          <View style={[styles.purchaseCard, desktop && styles.purchaseCardDesktop]}>
-            <View style={styles.priceBlock}>
-              <AppText style={styles.purchaseLabel}>完全版・30日間アクセス</AppText>
-              <View style={styles.priceRow}><AppText variant="serif" style={styles.price}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={styles.tax}>税込</AppText></View>
-              <AppText style={styles.paymentType}>一回払い・自動更新なし</AppText>
+    <View testID="upgrade-single-screen" style={styles.safe}>
+      <View style={[styles.page, desktop && styles.pageDesktop, compact && styles.pageCompact]}>
+        <View style={[styles.content, desktop && styles.contentDesktop, compact && styles.contentCompact]}>
+          <View style={[styles.productBand, desktop && styles.productBandDesktop, compact && styles.productBandCompact]}>
+            <View style={styles.productBandInner}>
+              <AppText variant="serif" style={[styles.productName, desktop && styles.productNameDesktop, compact && styles.productNameCompact]}>処世術禄　完全版</AppText>
+              <View style={styles.productRule}><View style={styles.productRuleLine} /><View style={styles.productRuleMark} /><View style={styles.productRuleLine} /></View>
             </View>
-            <View style={[styles.purchaseDetails, desktop && styles.purchaseDetailsDesktop]}>
-              <AppText style={styles.purchaseDetail}>決済完了から30日間、完全版を利用できます。</AppText>
-              <AppText style={styles.purchaseDetail}>期間終了後も、保存データはそのまま残ります。</AppText>
+          </View>
+
+          <View style={[styles.comparisonSection, compact && styles.comparisonSectionCompact]}>
+            <View style={styles.comparisonHeading}><View style={styles.headingRule} /><AppText variant="serif" style={[styles.comparisonTitle, compact && styles.comparisonTitleCompact]}>無料版　→　完全版</AppText><View style={styles.headingRule} /></View>
+            <View style={styles.comparisonTable}>
+              {comparisonRows.map(([label, free, complete], index) => <View key={label} style={[styles.comparisonRow, index !== comparisonRows.length - 1 && styles.comparisonRowDivider]}>
+                <AppText variant="serif" style={[styles.comparisonLabel, compact && styles.comparisonLabelCompact]}>{label}</AppText>
+                <AppText variant="serif" style={[styles.freeCount, compact && styles.countCompact]}>{free}</AppText>
+                <AppText style={[styles.comparisonArrow, compact && styles.arrowCompact]}>→</AppText>
+                <AppText variant="serif" style={[styles.completeCount, compact && styles.countCompact]}>{complete}</AppText>
+              </View>)}
             </View>
-            {message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}
-            {desktop ? <>
-              <Pressable
-                accessibilityRole="button"
-                disabled={submitting || accessStatus === 'processing'}
-                onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
-                style={({ pressed }) => [styles.primary, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}
-              >
-                <AppText variant="serif" style={styles.primaryText}>{primaryLabel}</AppText>
-                {!isPaid ? <AppText style={styles.primaryArrow}>›</AppText> : null}
-              </Pressable>
-              {!isPaid ? <AppText style={styles.preConfirmation}>決済は次の画面で確定します</AppText> : null}
-            </> : null}
-            {!isPaid ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={({ pressed }) => [styles.restore, pressed && styles.pressed]}><AppText style={styles.restoreText}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
           </View>
 
-          <View style={styles.legalLinks}>
-            <Pressable onPress={() => router.push('/legal/terms')}><AppText style={styles.legalText}>利用規約</AppText></Pressable>
-            <Pressable onPress={() => router.push('/legal/commerce')}><AppText style={styles.legalText}>特商法表記</AppText></Pressable>
-            <Pressable onPress={() => router.push('/legal/faq')}><AppText style={styles.legalText}>FAQ</AppText></Pressable>
+          <View style={[styles.valueSection, desktop && styles.valueSectionDesktop, compact && styles.valueSectionCompact]}>
+            {valuePoints.map(([number, title, body], index) => <View key={title} style={[styles.valuePoint, desktop && styles.valuePointDesktop, index !== valuePoints.length - 1 && styles.valueDivider, desktop && index !== valuePoints.length - 1 && styles.valueDividerDesktop]}>
+              <AppText style={[styles.valueNumber, compact && styles.valueNumberCompact]}>{number}</AppText>
+              <View style={styles.valueCopy}><AppText variant="serif" style={[styles.valueTitle, compact && styles.valueTitleCompact]}>{title}</AppText><AppText style={[styles.valueBody, compact && styles.valueBodyCompact]}>{body}</AppText></View>
+            </View>)}
           </View>
-        </ScrollView>
-      </ImageBackground>
 
-      {!desktop ? <View style={styles.mobilePurchaseDock}>
-        <Pressable
-          accessibilityRole="button"
-          disabled={submitting || accessStatus === 'processing'}
-          onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
-          style={({ pressed }) => [styles.mobilePrimary, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}
-        >
-          <AppText variant="serif" style={styles.mobilePrimaryText}>{primaryLabel}</AppText>
-          {!isPaid ? <AppText style={styles.mobilePrimaryArrow}>›</AppText> : null}
-        </Pressable>
-        {!isPaid ? <AppText style={styles.mobilePreConfirmation}>決済は次の画面で確定します</AppText> : null}
-      </View> : null}
+          <View style={[styles.purchaseCard, desktop && styles.purchaseCardDesktop, compact && styles.purchaseCardCompact]}>
+            <AppText variant="serif" style={[styles.purchaseLabel, compact && styles.purchaseLabelCompact]}>完全版・30日間</AppText>
+            <View style={styles.priceRow}><AppText variant="serif" style={[styles.price, compact && styles.priceCompact]}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={[styles.tax, compact && styles.taxCompact]}>（税込）</AppText></View>
+            <AppText style={[styles.paymentType, compact && styles.paymentTypeCompact]}>一回払い・自動更新なし</AppText>
+            {message ? <AppText accessibilityRole="alert" style={[styles.message, compact && styles.messageCompact]}>{message}</AppText> : null}
+            <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, compact && styles.primaryCompact, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}>
+              <AppText variant="serif" style={[styles.primaryText, compact && styles.primaryTextCompact]}>{primaryLabel}</AppText>
+              {!isPaid ? <AppText style={[styles.primaryArrow, compact && styles.primaryArrowCompact]}>›</AppText> : null}
+            </Pressable>
+            {!isPaid ? <AppText style={[styles.preConfirmation, compact && styles.preConfirmationCompact]}>決済は次の画面で確定します</AppText> : null}
+            <View style={[styles.utilityRow, compact && styles.utilityRowCompact]}>
+              {!isPaid ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
+              <Pressable onPress={() => router.push('/legal/terms')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>利用規約</AppText></Pressable>
+              <Pressable onPress={() => router.push('/legal/commerce')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>特商法表記</AppText></Pressable>
+              <Pressable onPress={() => router.push('/legal/faq')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>FAQ</AppText></Pressable>
+            </View>
+          </View>
+        </View>
+      </View>
 
       <Modal transparent visible={showCheckoutConfirmation} animationType="fade" onRequestClose={() => setShowCheckoutConfirmation(false)}>
         <View style={styles.modalBackdrop}>
@@ -177,7 +163,7 @@ export default function UpgradeScreen() {
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
             <AppText style={styles.confirmationSupport}>カード情報はStripeの決済画面で入力します。返品・返金条件は、利用規約と特商法表記で確認できます。</AppText>
-            <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.legalText}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.legalText}>特商法表記</AppText></Pressable></View>
+            <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
             <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
           </View>
@@ -198,53 +184,79 @@ export default function UpgradeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#F4EEE3' },
-  page: { flex: 1, backgroundColor: '#F4EEE3' },
-  backgroundImage: { width: '100%', height: '100%', opacity: 1 },
-  scrollContent: { width: '100%', maxWidth: 720, alignSelf: 'center', paddingHorizontal: 16, paddingBottom: 112 },
-  scrollContentDesktop: { maxWidth: 1120, paddingHorizontal: 28 },
-  hero: { minHeight: 284, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16, paddingTop: 34, paddingBottom: 38 },
-  heroDesktop: { minHeight: 310, paddingTop: 36, paddingBottom: 45 },
-  eyebrow: { color: '#E4C27D', fontSize: 11, lineHeight: 17, fontWeight: '700', letterSpacing: 2.2 },
-  heroTitle: { marginTop: 10, color: '#FFF9ED', fontSize: 29, lineHeight: 42, textAlign: 'center', letterSpacing: 0.5, textShadowColor: 'rgba(0,0,0,0.55)', textShadowRadius: 8 },
-  heroTitleDesktop: { fontSize: 38, lineHeight: 54, letterSpacing: 1 },
-  heroLead: { marginTop: 13, color: '#EDE3D1', fontSize: 13, lineHeight: 21, textAlign: 'center' },
-  heroLeadDesktop: { fontSize: 15, lineHeight: 24 },
-  catalogEvidence: { marginTop: 16, color: '#E2BD72', fontSize: 10, lineHeight: 16, fontWeight: '700', textAlign: 'center' },
-  valueSection: { marginTop: -15, borderWidth: 1, borderColor: 'rgba(180,146,84,0.32)', borderRadius: 18, backgroundColor: 'rgba(255,253,248,0.92)', overflow: 'hidden' },
-  valueSectionDesktop: { flexDirection: 'row', marginTop: -28, borderRadius: 20 },
-  valuePoint: { paddingHorizontal: 18, paddingVertical: 16 },
-  valuePointDesktop: { flex: 1, minHeight: 166, paddingHorizontal: 25, paddingVertical: 25 },
-  valuePointDivider: { borderBottomWidth: 1, borderBottomColor: 'rgba(183,152,96,0.22)' },
-  valuePointDesktopDivider: { borderBottomWidth: 0, borderRightWidth: 1, borderRightColor: 'rgba(183,152,96,0.22)' },
-  valueNumber: { color: '#B78329', fontSize: 10, lineHeight: 15, fontWeight: '800', letterSpacing: 1.5 },
-  valueTitle: { marginTop: 4, color: '#242019', fontSize: 18, lineHeight: 26, fontWeight: '700' },
-  valueBody: { marginTop: 5, color: '#655E52', fontSize: 12, lineHeight: 19 },
-  purchaseCard: { marginTop: 16, padding: 20, borderWidth: 1, borderColor: 'rgba(183,145,73,0.4)', borderRadius: 18, backgroundColor: 'rgba(255,253,248,0.95)', shadowColor: '#594523', shadowOpacity: 0.11, shadowRadius: 16, shadowOffset: { width: 0, height: 7 }, elevation: 4 },
-  purchaseCardDesktop: { marginTop: 22, paddingHorizontal: 28, paddingVertical: 25 },
-  priceBlock: { alignItems: 'center' },
-  purchaseLabel: { color: '#3D3428', fontSize: 13, lineHeight: 20, fontWeight: '700', letterSpacing: 0.5 },
-  priceRow: { marginTop: 3, flexDirection: 'row', alignItems: 'flex-end', gap: 7 },
-  price: { color: '#242019', fontSize: 50, lineHeight: 58, fontWeight: '700' },
-  tax: { marginBottom: 8, color: '#6D6457', fontSize: 12, lineHeight: 17 },
-  paymentType: { marginTop: 0, color: '#9D6D1C', fontSize: 12, lineHeight: 18, fontWeight: '700' },
-  purchaseDetails: { marginTop: 16, paddingTop: 13, borderTopWidth: 1, borderTopColor: 'rgba(183,152,96,0.28)', gap: 4 },
-  purchaseDetailsDesktop: { maxWidth: 560, alignSelf: 'center' },
-  purchaseDetail: { color: '#5B5449', fontSize: 12, lineHeight: 19, textAlign: 'center' },
-  message: { marginTop: 13, paddingHorizontal: 10, paddingVertical: 8, borderRadius: 9, backgroundColor: '#F3EADF', color: '#704E2A', fontSize: 12, lineHeight: 18, textAlign: 'center' },
-  primary: { position: 'relative', minHeight: 58, marginTop: 18, paddingHorizontal: 42, borderWidth: 1, borderColor: '#F4D283', borderRadius: 13, backgroundColor: '#C4881B', alignItems: 'center', justifyContent: 'center', shadowColor: '#76500D', shadowOpacity: 0.32, shadowRadius: 11, shadowOffset: { width: 0, height: 5 }, elevation: 7 },
-  primaryText: { color: '#FFF9EC', fontSize: 18, lineHeight: 26, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.35)', textShadowRadius: 3 },
-  primaryArrow: { position: 'absolute', right: 17, top: 9, color: '#FFF9EC', fontSize: 34, lineHeight: 38, fontWeight: '300' },
-  preConfirmation: { marginTop: 8, color: '#71695D', fontSize: 11, lineHeight: 16, textAlign: 'center' },
-  mobilePurchaseDock: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 12, borderTopWidth: 1, borderTopColor: 'rgba(185,142,57,0.34)', backgroundColor: 'rgba(255,252,246,0.95)', shadowColor: '#241B0D', shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
-  mobilePrimary: { position: 'relative', minHeight: 54, paddingHorizontal: 38, borderWidth: 1, borderColor: '#F4D283', borderRadius: 13, backgroundColor: '#C4881B', alignItems: 'center', justifyContent: 'center', shadowColor: '#76500D', shadowOpacity: 0.32, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 7 },
-  mobilePrimaryText: { color: '#FFF9EC', fontSize: 16, lineHeight: 23, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.35)', textShadowRadius: 3 },
-  mobilePrimaryArrow: { position: 'absolute', right: 16, top: 8, color: '#FFF9EC', fontSize: 32, lineHeight: 37, fontWeight: '300' },
-  mobilePreConfirmation: { marginTop: 5, color: '#71695D', fontSize: 10, lineHeight: 14, textAlign: 'center' },
-  restore: { minHeight: 34, marginTop: 8, alignItems: 'center', justifyContent: 'center' },
-  restoreText: { color: '#76591F', fontSize: 12, lineHeight: 18, fontWeight: '700', textDecorationLine: 'underline' },
-  legalLinks: { marginTop: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap' },
-  legalText: { color: '#5E5548', fontSize: 11, lineHeight: 17, textDecorationLine: 'underline' },
+  safe: { flex: 1, minHeight: 0, backgroundColor: '#F5F0E8', overflow: 'hidden' },
+  page: { flex: 1, minHeight: 0, paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#F5F0E8' },
+  pageDesktop: { paddingHorizontal: 32, paddingVertical: 20 },
+  pageCompact: { paddingHorizontal: 12, paddingVertical: 7 },
+  content: { flex: 1, width: '100%', maxWidth: 700, alignSelf: 'center', justifyContent: 'space-between' },
+  contentDesktop: { maxWidth: 900, justifyContent: 'center' },
+  contentCompact: { justifyContent: 'space-between' },
+  productBand: { minHeight: 76, padding: 3, borderRadius: 12, backgroundColor: '#171614', shadowColor: '#090806', shadowOpacity: 0.24, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 5 },
+  productBandDesktop: { minHeight: 94, maxWidth: 760, alignSelf: 'center', width: '100%' },
+  productBandCompact: { minHeight: 60, borderRadius: 10 },
+  productBandInner: { flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C8983C', borderRadius: 9, paddingHorizontal: 14 },
+  productName: { color: '#F0CC7E', fontSize: 27, lineHeight: 36, fontWeight: '700', letterSpacing: 3, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.8)', textShadowRadius: 4 },
+  productNameDesktop: { fontSize: 35, lineHeight: 45, letterSpacing: 5 },
+  productNameCompact: { fontSize: 23, lineHeight: 29, letterSpacing: 2.5 },
+  productRule: { width: '82%', marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  productRuleLine: { flex: 1, height: 1, backgroundColor: '#B68529' },
+  productRuleMark: { width: 7, height: 7, transform: [{ rotate: '45deg' }], backgroundColor: '#D7AB50' },
+  comparisonSection: { marginTop: 10 },
+  comparisonSectionCompact: { marginTop: 7 },
+  comparisonHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 4 },
+  headingRule: { flex: 1, height: 1, backgroundColor: '#C39A50' },
+  comparisonTitle: { color: '#27231F', fontSize: 19, lineHeight: 27, fontWeight: '700', letterSpacing: 0.8, textAlign: 'center' },
+  comparisonTitleCompact: { fontSize: 16, lineHeight: 22 },
+  comparisonTable: { marginTop: 8, borderWidth: 1, borderColor: '#D2C2A7', borderRadius: 13, overflow: 'hidden', backgroundColor: 'rgba(255,253,248,0.72)' },
+  comparisonRow: { minHeight: 42, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16 },
+  comparisonRowDivider: { borderBottomWidth: 1, borderBottomColor: '#DDD2C0' },
+  comparisonLabel: { width: '38%', color: '#312C26', fontSize: 18, lineHeight: 25, fontWeight: '700' },
+  comparisonLabelCompact: { fontSize: 15, lineHeight: 20 },
+  freeCount: { width: '18%', color: '#77736C', fontSize: 24, lineHeight: 29, textAlign: 'center' },
+  completeCount: { width: '25%', color: '#B47912', fontSize: 26, lineHeight: 31, textAlign: 'center', fontWeight: '700' },
+  countCompact: { fontSize: 21, lineHeight: 25 },
+  comparisonArrow: { width: '19%', color: '#766F65', fontSize: 22, lineHeight: 26, textAlign: 'center' },
+  arrowCompact: { fontSize: 18, lineHeight: 21 },
+  valueSection: { marginTop: 10 },
+  valueSectionDesktop: { flexDirection: 'row', marginTop: 15, borderWidth: 1, borderColor: '#D6C9B7', borderRadius: 14, backgroundColor: 'rgba(255,253,248,0.56)', overflow: 'hidden' },
+  valueSectionCompact: { marginTop: 8 },
+  valuePoint: { minHeight: 46, flexDirection: 'row', alignItems: 'center', paddingVertical: 5 },
+  valuePointDesktop: { flex: 1, minHeight: 106, paddingHorizontal: 15, alignItems: 'flex-start' },
+  valueDivider: { borderBottomWidth: 1, borderBottomColor: '#DDD4C6' },
+  valueDividerDesktop: { borderBottomWidth: 0, borderRightWidth: 1, borderRightColor: '#DDD4C6' },
+  valueNumber: { width: 34, color: '#B47B17', fontSize: 15, lineHeight: 21, fontWeight: '700', textAlign: 'center' },
+  valueNumberCompact: { width: 28, fontSize: 13, lineHeight: 18 },
+  valueCopy: { flex: 1, minWidth: 0 },
+  valueTitle: { color: '#29241E', fontSize: 17, lineHeight: 23, fontWeight: '700' },
+  valueTitleCompact: { fontSize: 14, lineHeight: 18 },
+  valueBody: { marginTop: 1, color: '#60594F', fontSize: 11, lineHeight: 16 },
+  valueBodyCompact: { marginTop: 0, fontSize: 9.5, lineHeight: 13 },
+  purchaseCard: { marginTop: 10, paddingHorizontal: 16, paddingVertical: 11, borderWidth: 1, borderColor: '#C9932C', borderRadius: 16, backgroundColor: 'rgba(255,253,248,0.92)', shadowColor: '#594523', shadowOpacity: 0.1, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 3 },
+  purchaseCardDesktop: { width: '100%', maxWidth: 650, alignSelf: 'center', marginTop: 15, paddingHorizontal: 22, paddingVertical: 15 },
+  purchaseCardCompact: { marginTop: 8, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 12 },
+  purchaseLabel: { color: '#29241E', fontSize: 17, lineHeight: 23, fontWeight: '700', textAlign: 'center' },
+  purchaseLabelCompact: { fontSize: 15, lineHeight: 19 },
+  priceRow: { marginTop: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: 5 },
+  price: { color: '#1E1B17', fontSize: 38, lineHeight: 45, fontWeight: '700' },
+  priceCompact: { fontSize: 31, lineHeight: 36 },
+  tax: { marginBottom: 6, color: '#5E584F', fontSize: 12, lineHeight: 17 },
+  taxCompact: { marginBottom: 4, fontSize: 10, lineHeight: 14 },
+  paymentType: { color: '#5A5145', fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  paymentTypeCompact: { fontSize: 10, lineHeight: 14 },
+  message: { marginTop: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 7, backgroundColor: '#F3EADF', color: '#704E2A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
+  messageCompact: { fontSize: 9, lineHeight: 12 },
+  primary: { position: 'relative', minHeight: 48, marginTop: 8, paddingHorizontal: 36, borderWidth: 1, borderColor: '#FFE19B', borderRadius: 11, backgroundColor: '#C48716', alignItems: 'center', justifyContent: 'center', shadowColor: '#76500D', shadowOpacity: 0.32, shadowRadius: 8, shadowOffset: { width: 0, height: 4 }, elevation: 6 },
+  primaryCompact: { minHeight: 42, marginTop: 6, borderRadius: 10 },
+  primaryText: { color: '#FFF9EC', fontSize: 17, lineHeight: 24, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.35)', textShadowRadius: 3 },
+  primaryTextCompact: { fontSize: 15, lineHeight: 21 },
+  primaryArrow: { position: 'absolute', right: 14, top: 6, color: '#FFF9EC', fontSize: 30, lineHeight: 34, fontWeight: '300' },
+  primaryArrowCompact: { right: 12, top: 4, fontSize: 27, lineHeight: 31 },
+  preConfirmation: { marginTop: 4, color: '#6E665A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
+  preConfirmationCompact: { marginTop: 3, fontSize: 9, lineHeight: 12 },
+  utilityRow: { minHeight: 18, marginTop: 4, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' },
+  utilityRowCompact: { marginTop: 3, gap: 7 },
+  utilityLink: { color: '#5D513D', fontSize: 9.5, lineHeight: 14, textDecorationLine: 'underline' },
+  utilityLinkCompact: { fontSize: 8, lineHeight: 11 },
   disabled: { opacity: 0.55 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.988 }] },
   modalBackdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20, backgroundColor: 'rgba(14,12,9,0.58)' },
@@ -257,6 +269,7 @@ const styles = StyleSheet.create({
   confirmationNotice: { marginTop: 14, padding: 11, borderRadius: 10, backgroundColor: '#F5EEE2', color: '#564E44', fontSize: 12, lineHeight: 19 },
   confirmationSupport: { marginTop: 10, color: '#756C60', fontSize: 11, lineHeight: 18 },
   confirmationLinks: { marginTop: 12, flexDirection: 'row', justifyContent: 'center', gap: 18 },
+  confirmationLink: { color: '#5E5548', fontSize: 11, lineHeight: 17, textDecorationLine: 'underline' },
   confirmationButton: { minHeight: 53, marginTop: 16, borderWidth: 1, borderColor: '#F4D283', borderRadius: 13, backgroundColor: '#C4881B', alignItems: 'center', justifyContent: 'center' },
   confirmationButtonText: { color: '#FFF9ED', fontSize: 16, lineHeight: 23, fontWeight: '700' },
   cancelButton: { minHeight: 40, marginTop: 4, alignItems: 'center', justifyContent: 'center' },
