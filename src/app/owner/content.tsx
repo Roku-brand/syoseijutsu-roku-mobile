@@ -1,6 +1,6 @@
 import { Redirect, useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
@@ -21,6 +21,8 @@ import {
   type TechniqueSnapshot,
 } from '@/data/owner-content';
 
+const REEL_CARD_HEIGHT = 104;
+
 export default function OwnerContentScreen() {
   const router = useRouter();
   const { loading, user, role } = useAuth();
@@ -34,6 +36,7 @@ export default function OwnerContentScreen() {
   const [saving, setSaving] = useState(false);
   const [preview, setPreview] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
+  const reelRef = useRef<ScrollViewType>(null);
 
   const reload = useCallback(async (preferredId?: string | null) => {
     setLoadingContent(true);
@@ -62,12 +65,29 @@ export default function OwnerContentScreen() {
   }, [query, techniques]);
 
   const selected = techniques.find((technique) => technique.id === selectedId) ?? null;
+  const selectedReelIndex = filtered.findIndex((technique) => technique.id === selectedId);
   const selectedSnapshot = selected ? drafts[selected.id] ?? snapshotFromTechnique(selected) : null;
 
   const selectTechnique = (id: string) => {
     setSelectedId(id);
     setPreview(false);
     void fetchTechniqueRevisions(id).then(setRevisions).catch(() => setRevisions([]));
+  };
+
+  useEffect(() => {
+    if (filtered.length && selectedReelIndex < 0) selectTechnique(filtered[0].id);
+  }, [filtered, selectedReelIndex]);
+
+  useEffect(() => {
+    if (selectedReelIndex < 0) return;
+    reelRef.current?.scrollTo({ y: selectedReelIndex * REEL_CARD_HEIGHT, animated: true });
+  }, [selectedReelIndex]);
+
+  const selectTechniqueAtReelPosition = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!filtered.length) return;
+    const nextIndex = Math.max(0, Math.min(filtered.length - 1, Math.round(event.nativeEvent.contentOffset.y / REEL_CARD_HEIGHT)));
+    const nextTechnique = filtered[nextIndex];
+    if (nextTechnique && nextTechnique.id !== selectedId) selectTechnique(nextTechnique.id);
   };
 
   useEffect(() => {
@@ -162,8 +182,26 @@ export default function OwnerContentScreen() {
       {techniques.length ? (
         <View style={[styles.workspace, width < 900 && styles.workspaceCompact]}>
           <View style={[styles.listPane, width < 900 && styles.listPaneCompact]}>
-            <AppText variant="label" style={styles.paneLabel}>処世術一覧 {techniques.length}</AppText>
+            <View style={styles.reelHeading}>
+              <AppText variant="label" style={styles.paneLabel}>処世術一覧 {techniques.length}</AppText>
+              {selectedReelIndex >= 0 ? <AppText style={styles.reelPosition}>{selectedReelIndex + 1} / {filtered.length}</AppText> : null}
+            </View>
             <TextInput value={query} onChangeText={setQuery} placeholder="タイトル・人物像・IDで検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="処世術を検索" />
+            <AppText style={styles.reelHint}>上下にスクロールして選択</AppText>
+            <ScrollView
+              ref={reelRef}
+              style={styles.reelViewport}
+              contentContainerStyle={styles.reelContent}
+              snapToInterval={REEL_CARD_HEIGHT}
+              snapToAlignment="start"
+              decelerationRate="fast"
+              showsVerticalScrollIndicator={false}
+              nestedScrollEnabled
+              onMomentumScrollEnd={selectTechniqueAtReelPosition}
+              onScrollEndDrag={selectTechniqueAtReelPosition}
+              scrollEventThrottle={16}
+              accessibilityLabel="処世術の縦リール"
+            >
             <View style={styles.resultList}>
               {filtered.map((technique) => (
                 <Pressable key={technique.id} onPress={() => selectTechnique(technique.id)} style={[styles.resultRow, technique.id === selectedId && styles.resultRowSelected]}>
@@ -176,6 +214,7 @@ export default function OwnerContentScreen() {
                 </Pressable>
               ))}
             </View>
+            </ScrollView>
           </View>
 
           {selected && selectedSnapshot ? (
@@ -260,19 +299,27 @@ const styles = StyleSheet.create({
   errorText: { color: '#A63F32', fontSize: 13, lineHeight: 19 },
   workspace: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.lg },
   workspaceCompact: { flexDirection: 'column' },
-  listPane: { width: 340, maxWidth: '34%', padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
-  listPaneCompact: { width: '100%', maxWidth: '100%' },
+  listPane: { width: 360, maxWidth: '38%', height: 690, padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
+  listPaneCompact: { width: '100%', maxWidth: '100%', height: 390 },
   editorPane: { flex: 1, minWidth: 0, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
   editorPaneCompact: { width: '100%' },
   paneLabel: { color: colors.gold, letterSpacing: 1.1, fontSize: 11 },
   searchInput: { minHeight: 44, marginTop: spacing.sm, marginBottom: spacing.sm, paddingHorizontal: 12, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, backgroundColor: colors.paper },
-  resultList: { maxHeight: 640 },
-  resultRow: { minHeight: 74, padding: 10, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
+  reelHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  reelPosition: { color: colors.muted, fontSize: 11, fontWeight: '700' },
+  reelHint: { marginTop: 4, color: colors.muted, fontSize: 11 },
+  reelViewport: { flex: 1, marginTop: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F8F4EC' },
+  reelContent: {},
+  resultList: {},
+  resultRow: { height: REEL_CARD_HEIGHT, padding: 10, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
   resultRowSelected: { borderRadius: radius.sm, backgroundColor: '#F3E9D3' },
   resultCopy: { flex: 1, minWidth: 0 },
   resultId: { color: colors.gold, fontSize: 10, fontWeight: '700' },
+  resultIdSelected: { color: colors.goldLight },
   resultTitle: { marginTop: 2, color: colors.ink, fontSize: 14, lineHeight: 19, fontWeight: '700' },
+  resultTitleSelected: { color: colors.paper },
   resultPersona: { marginTop: 2, color: colors.muted, fontSize: 11 },
+  resultPersonaSelected: { color: '#D9CCB6' },
   draftBadge: { paddingHorizontal: 6, paddingVertical: 3, color: colors.gold, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, fontSize: 10, fontWeight: '700' },
   editorHeader: { flexDirection: 'row', justifyContent: 'space-between', gap: spacing.md, alignItems: 'flex-start', marginBottom: spacing.lg },
   editorHeaderCopy: { flex: 1 },
