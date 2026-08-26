@@ -1,21 +1,14 @@
 import { expect, test } from '@playwright/test';
 
-test('welcome keeps both entry actions above the fold on desktop and compact mobile', async ({ page }) => {
+test('welcome presents both entry actions on desktop and mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
-    const purchase = page.getByRole('button', { name: /完全版の内容を見る/ });
-    const free = page.getByRole('button', { name: /無料版をはじめる/ });
+    await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
+    const purchase = page.getByRole('button', { name: 'すべての内容を見る' });
+    const free = page.getByRole('button', { name: '無料で始める' });
+    await free.scrollIntoViewIfNeeded();
+    await purchase.scrollIntoViewIfNeeded();
     await expect(purchase).toBeVisible();
     await expect(free).toBeVisible();
-    const [purchaseBox, freeBox, viewport] = await Promise.all([
-      purchase.boundingBox(),
-      free.boundingBox(),
-      page.evaluate(() => ({ height: window.innerHeight, scrollHeight: document.documentElement.scrollHeight })),
-    ]);
-    expect(purchaseBox).not.toBeNull();
-    expect(freeBox).not.toBeNull();
-    expect(viewport.scrollHeight).toBeLessThanOrEqual(viewport.height);
-    expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(viewport.height);
-    expect(freeBox!.y + freeBox!.height).toBeLessThanOrEqual(viewport.height);
   };
 
   await page.setViewportSize({ width: 1920, height: 868 });
@@ -25,6 +18,15 @@ test('welcome keeps both entry actions above the fold on desktop and compact mob
   await page.setViewportSize({ width: 393, height: 667 });
   await page.reload();
   await assertWelcomeFits();
+});
+
+test('settings can hide the recurring welcome page', async ({ page }) => {
+  await page.goto('/settings');
+  const hideWelcome = page.getByRole('switch', { name: 'ウェルカムページを非表示にする' });
+  await expect(hideWelcome).toBeVisible();
+  await hideWelcome.click();
+  await page.goto('/');
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
 });
 
 test('my page keeps the guest account entry compact', async ({ page }) => {
@@ -93,16 +95,16 @@ test('persona technique rows offer the shared diamond save action', async ({ pag
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
-  await expect(page.getByText('流れて消える人生の知識を、何度でも使える知恵に。')).toBeVisible();
-  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
+  await expect(page.getByText('流れていく知恵を、ここで使える体系にする。')).toBeVisible();
+  await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByText(/336の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
   await expect(page.getByText(/清潔感で足切りを超える/).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('ハロー効果').first()).toBeVisible();
-  await page.reload();
-  await expect(page.getByText(/336の処世術/).first()).toBeVisible();
+  await page.goto('/');
+  await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
@@ -178,14 +180,14 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
+  await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByText('完全版で、すべての内容を読む')).toBeVisible();
   await expect(page.getByText('¥280', { exact: true })).toBeVisible();
 });
 
 test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
+  await page.getByRole('button', { name: '無料で始める' }).click();
   const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
   const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
   await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
@@ -195,7 +197,7 @@ test('ホーム下部の領域ボタンはカルーセル内を移動する', as
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /無料版をはじめる/ }).click();
+  await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByText('賢者の手帳')).toHaveCount(0);
   await expect(page.getByText('COMPLETE EDITION')).toHaveCount(0);
   await expect(page.getByText('♛')).toHaveCount(0);

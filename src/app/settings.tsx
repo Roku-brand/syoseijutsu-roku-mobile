@@ -1,17 +1,19 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, DetailHeader, Screen } from '@/components/ui';
 import { colors, fonts, radius, shadow } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
+import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
+  const { welcomePageHidden, setWelcomePageHidden } = useAppState();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
   return (
@@ -60,6 +62,20 @@ export default function SettingsScreen() {
 
       <SettingsSection title="サポート・その他" />
       <View style={styles.group}>
+        <View style={styles.row}>
+          <SettingIconMark type="brand" />
+          <View style={styles.copy}>
+            <AppText style={styles.title}>ウェルカムページを非表示にする</AppText>
+            <AppText style={styles.detail}>オンにすると、次回からホームを直接表示します</AppText>
+          </View>
+          <Switch
+            value={welcomePageHidden}
+            onValueChange={setWelcomePageHidden}
+            accessibilityLabel="ウェルカムページを非表示にする"
+            trackColor={{ false: '#D9D0C2', true: '#B88524' }}
+            thumbColor="#FFFDF8"
+          />
+        </View>
         <SettingLink
           icon="install"
           title="ホーム画面に追加"

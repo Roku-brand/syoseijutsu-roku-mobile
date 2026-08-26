@@ -14,21 +14,19 @@ import { AccessProvider } from '@/access/access-state';
 import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
 import { useAppState } from '@/state/app-state';
-import { useAccess } from '@/access/access-state';
 import { SeoMeta } from '@/components/seo-meta';
 
 function AppFrame() {
   const pathname = usePathname();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
-  const { hydrated, onboardingCompleted } = useAppState();
-  const { isPaid } = useAccess();
+  const { hydrated, welcomePageHidden } = useAppState();
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   // `/onboarding` is retained only for existing links.  While its redirect
   // resolves, it must not show the regular application chrome.
-  const isRootWelcome = pathname === '/' && !isCheckoutReturn && (!hydrated || (!onboardingCompleted && !isPaid));
+  const isRootWelcome = pathname === '/' && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover

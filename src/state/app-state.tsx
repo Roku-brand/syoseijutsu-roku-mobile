@@ -40,6 +40,7 @@ export type LearningRecord = {
 type PersistedState = {
   learningCurriculumVersion: number;
   onboardingCompleted: boolean;
+  welcomePageHidden: boolean;
   interests: CategoryKey[];
   savedIds: string[];
   savedTheoryIds: string[];
@@ -55,6 +56,7 @@ type PersistedState = {
 const initialState: PersistedState = {
   learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
   onboardingCompleted: false,
+  welcomePageHidden: false,
   interests: CATEGORY_KEYS,
   savedIds: [],
   savedTheoryIds: [],
@@ -70,6 +72,7 @@ const initialState: PersistedState = {
 type AppStateContextValue = PersistedState & {
   hydrated: boolean;
   completeOnboarding: (interests: CategoryKey[]) => void;
+  setWelcomePageHidden: (hidden: boolean) => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
@@ -152,6 +155,10 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       onboardingCompleted: true,
       interests: interests.length ? interests : initialState.interests,
     }));
+  }, []);
+
+  const setWelcomePageHidden = useCallback((hidden: boolean) => {
+    setState((current) => ({ ...current, welcomePageHidden: hidden }));
   }, []);
 
   const toggleSaved = useCallback((id: string) => {
@@ -331,6 +338,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       ...state,
       hydrated,
       completeOnboarding,
+      setWelcomePageHidden,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
@@ -352,6 +360,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       state,
       hydrated,
       completeOnboarding,
+      setWelcomePageHidden,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
