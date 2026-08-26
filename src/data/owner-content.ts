@@ -1,3 +1,4 @@
+import { techniqueCards } from '@/data/catalog';
 import type { CategoryKey, TechniquePracticalActions } from '@/data/types';
 import { supabase } from '@/lib/supabase';
 
@@ -92,6 +93,46 @@ export async function fetchOwnerTechniques(): Promise<TechniqueContent[]> {
   const { data, error } = await supabase.from('techniques').select('*').order('display_order').order('id');
   if (error) throw error;
   return (data ?? []).map((row) => toTechniqueContent(row as Record<string, unknown>));
+}
+
+/**
+ * Bootstrap the owner-managed table from the bundled catalogue once.
+ * This uses the signed-in owner session, so no service-role key is exposed
+ * in the web app. RLS remains the authority for this operation.
+ */
+export async function seedOwnerTechniquesIfEmpty(): Promise<number> {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data: existing, error: existingError } = await supabase.from('techniques').select('id').limit(1);
+  if (existingError) throw existingError;
+  if (existing?.length) return 0;
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const userId = sessionData.session?.user.id;
+  if (!userId) throw new Error('ログインが必要です。');
+
+  const rows = techniqueCards.map((item, index) => ({
+    id: item.id,
+    persona_id: item.subcategory,
+    category: item.categoryKey,
+    title: item.title ?? '',
+    essence: item.essence ?? item.subtitle ?? '',
+    explanation: item.explanation ?? '',
+    memo: '',
+    importance: item.importance === 3 ? 3 : item.importance === 2 ? 2 : 1,
+    practices: item.practicalActions?.todayActions ?? [],
+    examples: item.practicalActions?.examples ?? [],
+    cautions: item.practicalActions?.cautions ?? [],
+    theory_ids: item.relatedTheoryIds ?? item.theoryTagIds ?? [],
+    status: 'published' as const,
+    display_order: item.displayOrder ?? index + 1,
+    updated_by: userId,
+  }));
+
+  for (let index = 0; index < rows.length; index += 100) {
+    const { error } = await supabase.from('techniques').upsert(rows.slice(index, index + 100), { onConflict: 'id' });
+    if (error) throw error;
+  }
+  return rows.length;
 }
 
 export async function fetchOwnerDrafts(): Promise<TechniqueDraft[]> {

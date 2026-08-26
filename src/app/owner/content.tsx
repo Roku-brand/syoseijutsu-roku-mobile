@@ -9,6 +9,7 @@ import { theories } from '@/data/catalog';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
+  seedOwnerTechniquesIfEmpty,
   fetchTechniqueRevisions,
   normalizeSnapshot,
   publishTechnique,
@@ -38,6 +39,7 @@ export default function OwnerContentScreen() {
     setLoadingContent(true);
     setError(null);
     try {
+      await seedOwnerTechniquesIfEmpty();
       const [nextTechniques, nextDraftRows] = await Promise.all([fetchOwnerTechniques(), fetchOwnerDrafts()]);
       setTechniques(nextTechniques);
       setDrafts(Object.fromEntries(nextDraftRows.map((draft) => [draft.technique_id, draft.snapshot])));
