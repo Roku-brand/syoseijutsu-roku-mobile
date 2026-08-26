@@ -172,6 +172,18 @@ export async function publishTechnique(techniqueId: string, expectedUpdatedAt: s
   return toTechniqueContent((data ?? {}) as Record<string, unknown>);
 }
 
+/** Publishes the current editor state in one database transaction. */
+export async function saveAndPublishTechnique(techniqueId: string, snapshot: TechniqueSnapshot, expectedUpdatedAt: string | null) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.rpc('save_and_publish_technique', {
+    target_technique_id: techniqueId,
+    target_snapshot: normalizeSnapshot(snapshot),
+    expected_updated_at: expectedUpdatedAt,
+  });
+  if (error) throw error;
+  return toTechniqueContent((data ?? {}) as Record<string, unknown>);
+}
+
 export async function fetchTechniqueRevisions(techniqueId: string): Promise<TechniqueRevision[]> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const { data, error } = await supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version,created_at').eq('technique_id', techniqueId).order('created_at', { ascending: false });

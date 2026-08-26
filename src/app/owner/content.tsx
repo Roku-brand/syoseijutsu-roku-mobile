@@ -12,8 +12,8 @@ import {
   seedOwnerTechniquesIfEmpty,
   fetchTechniqueRevisions,
   normalizeSnapshot,
-  publishTechnique,
   restoreTechniqueRevision,
+  saveAndPublishTechnique,
   saveTechniqueDraft,
   snapshotFromTechnique,
   type TechniqueContent,
@@ -33,7 +33,9 @@ export default function OwnerContentScreen() {
   const [query, setQuery] = useState('');
   const [loadingContent, setLoadingContent] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [publishConfirming, setPublishConfirming] = useState(false);
   const [preview, setPreview] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
   const reelRef = useRef<ScrollViewType>(null);
@@ -71,6 +73,7 @@ export default function OwnerContentScreen() {
   const selectTechnique = (id: string) => {
     setSelectedId(id);
     setPreview(false);
+    setPublishConfirming(false);
     void fetchTechniqueRevisions(id).then(setRevisions).catch(() => setRevisions([]));
   };
 
@@ -96,6 +99,7 @@ export default function OwnerContentScreen() {
 
   const updateSnapshot = (patch: Partial<TechniqueSnapshot>) => {
     if (!selected) return;
+    setNotice(null);
     setDrafts((current) => ({ ...current, [selected.id]: normalizeSnapshot({ ...(current[selected.id] ?? snapshotFromTechnique(selected)), ...patch }) }));
   };
 
@@ -107,9 +111,11 @@ export default function OwnerContentScreen() {
     }
     setSaving(true);
     setError(null);
+    setNotice(null);
     try {
       await saveTechniqueDraft(selected.id, selectedSnapshot, selected.updated_at);
       setDrafts((current) => ({ ...current, [selected.id]: selectedSnapshot }));
+      setNotice('下書きを保存しました。公開するまでユーザーには表示されません。');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : '下書きを保存できませんでした。');
     } finally {
@@ -117,23 +123,28 @@ export default function OwnerContentScreen() {
     }
   };
 
-  const publish = async () => {
+  const beginPublish = () => {
     if (!selected || !selectedSnapshot) return;
-    Alert.alert('この内容を公開しますか？', '公開すると、すべてのユーザーに表示されます。', [
-      { text: 'キャンセル', style: 'cancel' },
-      { text: '公開する', style: 'destructive', onPress: () => void publishConfirmed() },
-    ]);
+    if (!selectedSnapshot.title.trim()) {
+      setError('タイトルを入力してください。');
+      return;
+    }
+    setError(null);
+    setNotice(null);
+    setPublishConfirming(true);
   };
 
   const publishConfirmed = async () => {
     if (!selected || !selectedSnapshot) return;
     setSaving(true);
     setError(null);
+    setNotice(null);
     try {
-      await saveTechniqueDraft(selected.id, selectedSnapshot, selected.updated_at);
-      await publishTechnique(selected.id, selected.updated_at);
+      await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
       await reload(selected.id);
       setPreview(false);
+      setPublishConfirming(false);
+      setNotice('公開しました。ホームのコンテンツに反映されています。');
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : '公開できませんでした。';
       setError(message.includes('conflict') || message.includes('40001') ? '別の更新が先に公開されています。最新状態を読み込みました。' : message);
@@ -176,6 +187,7 @@ export default function OwnerContentScreen() {
       </View>
 
       {error ? <View style={styles.error}><AppText style={styles.errorText}>{error}</AppText></View> : null}
+      {notice ? <View style={styles.notice}><AppText style={styles.noticeText}>{notice}</AppText></View> : null}
       {loadingContent ? <AppText style={styles.loading}>コンテンツを読み込んでいます…</AppText> : null}
       {!loadingContent && !techniques.length ? <EmptyState title="管理対象がありません" description="Supabaseのmigrationと移行スクリプトを実行してください。" /> : null}
 
@@ -239,9 +251,19 @@ export default function OwnerContentScreen() {
                   <ListEditor label="具体例" items={selectedSnapshot.examples} onChange={(items) => updateSnapshot({ examples: items })} />
                   <ListEditor label="注意点" items={selectedSnapshot.cautions} onChange={(items) => updateSnapshot({ cautions: items })} />
                   <TheorySelector selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
+                  {publishConfirming ? <View style={styles.publishConfirmation}>
+                    <View style={styles.publishConfirmationCopy}>
+                      <AppText variant="label" style={styles.publishConfirmationLabel}>公開の確認</AppText>
+                      <AppText style={styles.publishConfirmationText}>この編集内容を、すべてのユーザーに公開します。</AppText>
+                    </View>
+                    <View style={styles.publishConfirmationActions}>
+                      <SecondaryButton onPress={() => setPublishConfirming(false)} disabled={saving}>キャンセル</SecondaryButton>
+                      <PrimaryButton onPress={() => void publishConfirmed()} disabled={saving}>{saving ? '公開中…' : '公開を確定'}</PrimaryButton>
+                    </View>
+                  </View> : null}
                   <View style={styles.actions}>
                     <SecondaryButton onPress={() => void save()} disabled={saving}>{saving ? '保存中…' : '下書き保存'}</SecondaryButton>
-                    <PrimaryButton onPress={() => void publish()} disabled={saving}>公開する</PrimaryButton>
+                    <PrimaryButton onPress={beginPublish} disabled={saving || publishConfirming}>公開する</PrimaryButton>
                   </View>
                 </>
               )}
@@ -297,6 +319,8 @@ const styles = StyleSheet.create({
   loading: { color: colors.muted, paddingVertical: spacing.xl },
   error: { padding: spacing.md, marginBottom: spacing.md, borderRadius: radius.sm, backgroundColor: '#FDE9E4' },
   errorText: { color: '#A63F32', fontSize: 13, lineHeight: 19 },
+  notice: { padding: spacing.md, marginBottom: spacing.md, borderRadius: radius.sm, backgroundColor: '#EAF2DF' },
+  noticeText: { color: '#456531', fontSize: 13, lineHeight: 19 },
   workspace: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.lg },
   workspaceCompact: { flexDirection: 'column' },
   listPane: { width: 360, maxWidth: '38%', height: 690, padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
@@ -349,6 +373,11 @@ const styles = StyleSheet.create({
   theoryOption: { minHeight: 38, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm },
   theoryOptionText: { flex: 1, color: colors.inkSoft, fontSize: 12 },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: spacing.sm, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
+  publishConfirmation: { gap: spacing.md, padding: spacing.md, marginTop: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: '#FBF4E3' },
+  publishConfirmationCopy: { gap: 4 },
+  publishConfirmationLabel: { color: colors.gold, fontSize: 11, letterSpacing: 1 },
+  publishConfirmationText: { color: colors.ink, fontSize: 14, lineHeight: 21, fontWeight: '700' },
+  publishConfirmationActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   previewCard: { padding: spacing.lg, marginBottom: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: '#FBF8F2' },
   previewId: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   previewTitle: { marginTop: 5, color: colors.ink, fontSize: 28, lineHeight: 38, fontWeight: '700' },
