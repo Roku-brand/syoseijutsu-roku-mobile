@@ -13,7 +13,7 @@ import {
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from 'react-native';
-import { AppText, SegmentedControl } from '@/components/ui';
+import { AppText } from '@/components/ui';
 import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
@@ -53,9 +53,9 @@ const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
 let lastReelPosition: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 0 };
 
 const techniqueShortcuts = [
-  { label: '対人術', key: 'interpersonal' },
-  { label: '仕事術', key: 'work' },
-  { label: '人生術', key: 'life' },
+  { label: '対人術へ ›', accessibilityLabel: '対人術', key: 'interpersonal' },
+  { label: '仕事術へ ›', accessibilityLabel: '仕事術', key: 'work' },
+  { label: '人生術へ ›', accessibilityLabel: '人生術', key: 'life' },
 ] as const;
 
 const theoryShortcuts = [
@@ -204,7 +204,7 @@ export default function MainScreen() {
   const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
   const safeWidth = width || 390;
   const cardWidth = desktop
-    ? Math.min(Math.max(safeWidth * 0.46, 420), 520)
+    ? Math.min(Math.max(safeWidth * 0.46, 520), 680)
     : Math.min(
         Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
         680,
@@ -509,18 +509,27 @@ export default function MainScreen() {
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
       {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
-      <View style={styles.reelHeadingRow}>
-        <View><AppText style={styles.reelHeading}>{reelType === 'techniques' ? '処世術' : '理論'}</AppText><View style={styles.reelHeadingUnderline} /></View>
-        <View style={styles.personaCountPill}><AppText style={styles.personaCountText}>{reelType === 'techniques' ? `人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}` : `理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
+      <View style={styles.contentModeSwitch} accessibilityRole="tablist" accessibilityLabel="コンテンツの種類を切り替える">
+        {([
+          { value: 'techniques' as const, label: '処世術' },
+          { value: 'theories' as const, label: '理論' },
+        ]).map((option) => {
+          const active = reelType === option.value;
+          return (
+            <Pressable
+              key={option.value}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: active }}
+              aria-selected={active}
+              onPress={() => switchReelType(option.value)}
+              style={({ pressed }) => [styles.contentModeOption, pressed && styles.pressed]}
+            >
+              <AppText style={[styles.contentModeText, desktop && styles.contentModeTextDesktop, !active && styles.contentModeTextInactive]}>{option.label}</AppText>
+              <View style={[styles.contentModeRule, active && styles.contentModeRuleActive]} />
+            </Pressable>
+          );
+        })}
       </View>
-      <SegmentedControl
-        value={reelType}
-        options={[
-          { value: 'techniques', label: '処世術' },
-          { value: 'theories', label: '理論' },
-        ] as const}
-        onChange={switchReelType}
-      />
       <Animated.View
         style={[
           styles.reelStage,
@@ -534,6 +543,28 @@ export default function MainScreen() {
         ]}
       >
         <View pointerEvents="none" style={styles.reelArc} />
+        {baseReelItems.length > 1 ? (
+          <>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="前のカードへ"
+              hitSlop={10}
+              onPress={() => moveTo(activeIndex - 1)}
+              style={({ pressed }) => [styles.reelArrow, styles.reelArrowLeft, pressed && styles.reelArrowPressed]}
+            >
+              <AppText style={styles.reelArrowText}>‹</AppText>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="次のカードへ"
+              hitSlop={10}
+              onPress={() => moveTo(activeIndex + 1)}
+              style={({ pressed }) => [styles.reelArrow, styles.reelArrowRight, pressed && styles.reelArrowPressed]}
+            >
+              <AppText style={styles.reelArrowText}>›</AppText>
+            </Pressable>
+          </>
+        ) : null}
         <FlatList
           ref={listRef}
           horizontal
@@ -615,6 +646,7 @@ export default function MainScreen() {
                 <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
                   router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } });
                 })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
+                  <View style={styles.reelProgress}><AppText style={styles.reelProgressText}>{`理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
                   <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
                   <AppText style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
                   <View style={[styles.cardRule, cardOrnament]} />
@@ -678,6 +710,7 @@ export default function MainScreen() {
                   })}
                   style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
                 >
+                  <View style={styles.reelProgress}><AppText style={styles.reelProgressText}>{`人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}`}</AppText></View>
                   <AppText variant="label" style={styles.techniqueId}>{persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
                   <AppText
                     style={[
@@ -712,11 +745,12 @@ export default function MainScreen() {
                   accessibilityRole="tab"
                   accessibilityState={{ selected: active }}
                   aria-selected={active}
-                  accessibilityLabel={`${shortcut.label}の先頭の人物像へ移動`}
+                  accessibilityLabel={`${shortcut.accessibilityLabel}の先頭の人物像へ移動`}
                   onPress={() => jumpToTechniqueCategory(shortcut.key)}
-                  style={({ pressed }) => [styles.shortcutTab, active && styles.shortcutTabActive, pressed && styles.pressed]}
+                  style={({ pressed }) => [styles.shortcutLink, pressed && styles.pressed]}
                 >
-                  <AppText style={[styles.shortcutTabText, active && styles.shortcutTabTextActive]}>{shortcut.label}</AppText>
+                  <AppText style={[styles.shortcutLinkText, active && styles.shortcutLinkTextActive]}>{shortcut.label}</AppText>
+                  <View style={[styles.shortcutLinkRule, active && styles.shortcutLinkRuleActive]} />
                 </Pressable>
               );
             })}
@@ -733,9 +767,10 @@ export default function MainScreen() {
                   aria-selected={active}
                   accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
                   onPress={() => jumpToTheoryCategory(shortcut.key)}
-                  style={({ pressed }) => [styles.theoryShortcut, active && styles.shortcutTabActive, pressed && styles.pressed]}
+                  style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
                 >
-                  <AppText style={[styles.theoryShortcutText, active && styles.shortcutTabTextActive]}>{shortcut.label}</AppText>
+                  <AppText style={[styles.theoryShortcutText, active && styles.shortcutLinkTextActive]}>{shortcut.label}</AppText>
+                  <View style={[styles.shortcutLinkRule, active && styles.shortcutLinkRuleActive]} />
                 </Pressable>
               );
             })}
@@ -745,13 +780,13 @@ export default function MainScreen() {
       {!isPaid ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="完全版の内容を見る、280円で30日間"
+          accessibilityLabel="完全版で、すべての処世術・理論・ケースを読む。280円で30日間"
           onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
           style={({ pressed }) => [styles.unlockCard, density !== 'normal' && styles.unlockCardCompact, pressed && styles.pressed]}
         >
           <View style={styles.unlockCopy}>
-            <AppText style={styles.unlockTitle}>完全版の内容を見る</AppText>
-            <AppText style={styles.unlockBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論・全21ケース</AppText>
+            <AppText style={styles.unlockTitle}>完全版で、すべての内容を読む</AppText>
+            <AppText style={styles.unlockBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論・全21ケースを30日間</AppText>
           </View>
           <View style={styles.unlockPrice}><AppText style={styles.unlockPriceText}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={styles.unlockPeriod}>30日</AppText></View>
           <AppText style={styles.unlockChevron}>›</AppText>
@@ -763,11 +798,13 @@ export default function MainScreen() {
 
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
-  reelHeadingRow: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 },
-  reelHeading: { color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '700', letterSpacing: 1.4 },
-  reelHeadingUnderline: { marginTop: 5, width: 54, height: 2, borderRadius: 2, backgroundColor: colors.gold },
-  personaCountPill: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 11, height: 32, borderRadius: 18, borderWidth: 1, borderColor: colors.line, backgroundColor: '#FBF8F1' },
-  personaCountText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '700' },
+  contentModeSwitch: { minHeight: 60, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-evenly', marginBottom: 2 },
+  contentModeOption: { minWidth: 104, minHeight: 54, alignItems: 'center', justifyContent: 'flex-start' },
+  contentModeText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 21, lineHeight: 31, fontWeight: '700', letterSpacing: 2.8 },
+  contentModeTextDesktop: { fontSize: 30, lineHeight: 42, letterSpacing: 3.8 },
+  contentModeTextInactive: { opacity: 0.88 },
+  contentModeRule: { width: 0, height: 2, marginTop: 7, backgroundColor: 'transparent' },
+  contentModeRuleActive: { width: 70, backgroundColor: colors.gold },
   accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
   accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
   accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
@@ -777,6 +814,11 @@ const styles = StyleSheet.create({
   reelArc: { position: 'absolute', zIndex: 0, left: '20%', right: '20%', bottom: -7, height: 24, borderTopWidth: 1, borderColor: 'rgba(180,132,37,0.28)', borderRadius: 999 },
   reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
   reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
+  reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 36, height: 44, marginTop: -22, alignItems: 'center', justifyContent: 'center' },
+  reelArrowLeft: { left: -42 },
+  reelArrowRight: { right: -42 },
+  reelArrowText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 42, lineHeight: 43, fontWeight: '300' },
+  reelArrowPressed: { opacity: 0.58, transform: [{ scale: 0.9 }] },
   techniqueCard: {
     position: 'relative',
     paddingTop: 22,
@@ -788,6 +830,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     ...bookCardShadow,
   },
+  reelProgress: { alignSelf: 'center', minHeight: 28, paddingHorizontal: 11, borderWidth: 1, borderColor: 'rgba(196,148,50,0.55)', borderRadius: radius.pill, backgroundColor: 'rgba(24,24,23,0.36)', alignItems: 'center', justifyContent: 'center', marginBottom: 12 },
+  reelProgressText: { color: '#F2E8D2', fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.9 },
   // 金箔を抽象化した細い曲線。カードの文字と競合しないよう四隅だけに留める。
   personaCornerTopLeft: { position: 'absolute', top: 13, left: 13, width: 54, height: 30, borderTopWidth: 1, borderLeftWidth: 1, borderColor: 'rgba(226, 194, 113, 0.54)', borderTopLeftRadius: 24, opacity: 0.72 },
   personaCornerTopRight: { position: 'absolute', top: 13, right: 13, width: 54, height: 30, borderTopWidth: 1, borderRightWidth: 1, borderColor: 'rgba(226, 194, 113, 0.54)', borderTopRightRadius: 24, opacity: 0.72 },
@@ -923,8 +967,8 @@ const styles = StyleSheet.create({
   },
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
-  unlockCard: { minHeight: 66, marginTop: 8, paddingHorizontal: 14, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md },
-  unlockCardCompact: { minHeight: 58, marginTop: 5, paddingHorizontal: 12, gap: 9 },
+  unlockCard: { minHeight: 72, marginTop: 20, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md },
+  unlockCardCompact: { minHeight: 62, marginTop: 14, paddingHorizontal: 12, gap: 9 },
   unlockCopy: { flex: 1, minWidth: 0 },
   unlockTitle: { color: colors.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   unlockBody: { marginTop: 2, color: colors.muted, fontSize: 10, lineHeight: 15 },
@@ -932,14 +976,15 @@ const styles = StyleSheet.create({
   unlockPriceText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 21, fontWeight: '700' },
   unlockPeriod: { color: colors.muted, fontSize: 9, lineHeight: 13 },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
-  shortcuts: { marginTop: 8 },
-  techniqueShortcutGrid: { flexDirection: 'row', gap: 7 },
-  shortcutTab: { flex: 1, minWidth: 0, height: 38, paddingHorizontal: 10, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
-  shortcutTabActive: { borderColor: colors.ink, backgroundColor: colors.ink },
-  shortcutTabText: { color: colors.inkSoft, fontSize: 12, lineHeight: 17, fontWeight: '700' },
-  shortcutTabTextActive: { color: colors.surface },
-  theoryShortcutGrid: { flexDirection: 'row', gap: 7, paddingRight: 2 },
-  theoryShortcut: { minWidth: 92, height: 38, paddingHorizontal: 12, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
-  theoryShortcutText: { color: colors.inkSoft, fontSize: 11, lineHeight: 15, fontWeight: '700' },
+  shortcuts: { marginTop: 15 },
+  techniqueShortcutGrid: { flexDirection: 'row', justifyContent: 'space-around', gap: 8 },
+  shortcutLink: { flex: 1, minWidth: 0, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
+  shortcutLinkText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700', letterSpacing: 0.4, textAlign: 'center' },
+  shortcutLinkTextActive: { color: '#9A6F1B' },
+  shortcutLinkRule: { width: 30, height: 1, marginTop: 6, backgroundColor: 'rgba(184,138,42,0.52)' },
+  shortcutLinkRuleActive: { width: 42, backgroundColor: colors.gold },
+  theoryShortcutGrid: { flexDirection: 'row', gap: 14, paddingHorizontal: 4, paddingRight: 12 },
+  theoryShortcut: { minWidth: 84, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
+  theoryShortcutText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '700' },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
 });

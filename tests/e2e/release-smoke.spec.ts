@@ -179,7 +179,7 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
 test('ホームの完全版導線に価格を表示する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /無料版をはじめる/ }).click();
-  await expect(page.getByText('完全版の内容を見る')).toBeVisible();
+  await expect(page.getByText('完全版で、すべての内容を読む')).toBeVisible();
   await expect(page.getByText('¥280', { exact: true })).toBeVisible();
 });
 
