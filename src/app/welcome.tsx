@@ -31,6 +31,7 @@ export default function Welcome() {
     <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={styles.safe}>
       <View style={styles.page}>
         <View style={[styles.topBar, isDesktop && styles.topBarDesktop]}>
+          <View pointerEvents="none" style={styles.topBarSheen} />
           <View style={styles.brand}>
             <View style={styles.seal}><AppText variant="serif" style={styles.sealText}>禄</AppText></View>
             <View>
@@ -43,19 +44,24 @@ export default function Welcome() {
 
         <View style={[styles.content, isDesktop ? styles.contentDesktop : styles.contentMobile, isCompact && styles.contentCompact]}>
           <View style={[styles.hero, isDesktop && styles.heroDesktop, isCompact && styles.heroCompact]}>
-            <AppText style={styles.heroEyebrow}>処世術禄</AppText>
-            <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, isCompact && styles.heroTitleCompact]}>
-              人生をうまく生きる方法を、{`\n`}すべての人へ。
-            </AppText>
-            <AppText style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, isCompact && styles.heroCopyCompact]}>
-              流れて消える人生の知識を、何度でも使える知恵に。
-            </AppText>
-            <View style={[styles.stats, isCompact && styles.statsCompact]}>
-              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{personaCount}</AppText><AppText style={styles.statLabel}>人物像</AppText></View>
-              <View style={styles.statDivider} />
-              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{techniqueCards.length}</AppText><AppText style={styles.statLabel}>処世術</AppText></View>
-              <View style={styles.statDivider} />
-              <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{theories.length}</AppText><AppText style={styles.statLabel}>理論</AppText></View>
+            <View pointerEvents="none" style={styles.heroSheen} />
+            <View pointerEvents="none" style={styles.heroWarmth} />
+            <View pointerEvents="none" style={styles.heroRim} />
+            <View style={styles.heroContent}>
+              <AppText style={styles.heroEyebrow}>処世術禄</AppText>
+              <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, isCompact && styles.heroTitleCompact]}>
+                人生をうまく生きる方法を、{`\n`}すべての人へ。
+              </AppText>
+              <AppText style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, isCompact && styles.heroCopyCompact]}>
+                流れて消える人生の知識を、何度でも使える知恵に。
+              </AppText>
+              <View style={[styles.stats, isCompact && styles.statsCompact]}>
+                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{personaCount}</AppText><AppText style={styles.statLabel}>人物像</AppText></View>
+                <View style={styles.statDivider} />
+                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{techniqueCards.length}</AppText><AppText style={styles.statLabel}>処世術</AppText></View>
+                <View style={styles.statDivider} />
+                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{theories.length}</AppText><AppText style={styles.statLabel}>理論</AppText></View>
+              </View>
             </View>
           </View>
 
@@ -97,21 +103,26 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F3EFE6' },
   page: { flex: 1, overflow: 'hidden', backgroundColor: '#F3EFE6' },
-  topBar: { minHeight: 60, paddingHorizontal: 18, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#D8D0C2', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  topBar: { minHeight: 60, overflow: 'hidden', position: 'relative', paddingHorizontal: 18, backgroundColor: '#171714', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#5E4A29', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   topBarDesktop: { minHeight: 76, paddingHorizontal: 44 },
-  brand: { flexDirection: 'row', gap: 10, alignItems: 'center' },
-  seal: { width: 42, height: 42, borderRadius: 11, borderWidth: 1, borderColor: '#B98724', alignItems: 'center', justifyContent: 'center' },
-  sealText: { color: '#A87418', fontSize: 29, lineHeight: 35 },
-  brandName: { color: '#25211B', fontSize: 16, letterSpacing: 3.5 },
-  brandReading: { marginTop: 1, color: '#9A762E', fontSize: 9, letterSpacing: 1.8 },
-  topBarNote: { color: '#5C5346', fontSize: 13, letterSpacing: 0.8 },
+  topBarSheen: { position: 'absolute', top: -30, left: '8%', right: '8%', height: 54, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.075)' },
+  brand: { zIndex: 1, flexDirection: 'row', gap: 10, alignItems: 'center' },
+  seal: { width: 42, height: 42, borderRadius: 11, borderWidth: 1, borderColor: '#D9A83E', backgroundColor: 'rgba(52,39,18,0.5)', alignItems: 'center', justifyContent: 'center' },
+  sealText: { color: '#E8B84D', fontSize: 29, lineHeight: 35 },
+  brandName: { color: '#FFF8EA', fontSize: 16, letterSpacing: 3.5 },
+  brandReading: { marginTop: 1, color: '#DDB65E', fontSize: 9, letterSpacing: 1.8 },
+  topBarNote: { zIndex: 1, color: '#E8DDC8', fontSize: 13, letterSpacing: 0.8 },
   content: { flex: 1, width: '100%', alignSelf: 'center' },
   contentDesktop: { maxWidth: 1180, paddingHorizontal: 30, paddingVertical: 28, justifyContent: 'center', gap: 20 },
   contentMobile: { paddingHorizontal: 14, paddingVertical: 12, justifyContent: 'center', gap: 18 },
   contentCompact: { paddingTop: 8, paddingBottom: 8, gap: 7 },
-  hero: { overflow: 'hidden', borderRadius: 20, backgroundColor: '#211F1A', borderWidth: 1, borderColor: '#3F382D', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 17 },
+  hero: { overflow: 'hidden', position: 'relative', borderRadius: 20, backgroundColor: '#161612', borderWidth: 1, borderColor: '#7A5B2B', shadowColor: '#000000', shadowOpacity: 0.23, shadowRadius: 18, shadowOffset: { width: 0, height: 9 }, elevation: 7, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 17 },
   heroDesktop: { minHeight: 218, paddingVertical: 25, borderRadius: 24 },
   heroCompact: { paddingVertical: 10, borderRadius: 17 },
+  heroSheen: { position: 'absolute', top: -105, left: '10%', width: '80%', height: 148, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.1)' },
+  heroWarmth: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 58, backgroundColor: 'rgba(177,128,37,0.07)' },
+  heroRim: { position: 'absolute', top: 1, left: 22, right: 22, height: 1, backgroundColor: 'rgba(255,225,154,0.44)' },
+  heroContent: { zIndex: 1, alignItems: 'center' },
   heroEyebrow: { color: '#C89735', fontSize: 11, letterSpacing: 2.2, fontWeight: '700' },
   heroTitle: { marginTop: 5, color: '#FFF9EF', textAlign: 'center', fontSize: 23, lineHeight: 31, letterSpacing: 0.4 },
   heroTitleDesktop: { marginTop: 7, fontSize: 32, lineHeight: 43 },
