@@ -1,12 +1,14 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
+
+const completeMark = require('../../assets/upgrade/complete-mark.png');
 
 const valuePoints = [
   ['①', '網羅性を追求', 'テーマごとに必要な処世術を揃える、完結を目指した網羅。'],
@@ -15,13 +17,7 @@ const valuePoints = [
 ] as const;
 
 function ProductCover({ compact = false }: { compact?: boolean }) {
-  return <View style={[styles.cover, compact && styles.coverCompact]}>
-    <View style={styles.coverInner}>
-      <AppText variant="serif" style={[styles.coverTitle, compact && styles.coverTitleCompact]}>処世術{`\n`}禄</AppText>
-      <View style={styles.coverRule} />
-      <AppText style={[styles.coverEdition, compact && styles.coverEditionCompact]}>完全版</AppText>
-    </View>
-  </View>;
+  return <Image source={completeMark} accessibilityLabel="処世術禄のマーク" resizeMode="contain" style={[styles.cover, compact && styles.coverCompact]} />;
 }
 
 function FeatureIcon({ index }: { index: number }) {
@@ -113,18 +109,18 @@ export default function UpgradeScreen() {
 
   return (
     <View testID="upgrade-single-screen" style={styles.safe}>
-      <View style={[styles.page, desktop && styles.pageDesktop, compact && styles.pageCompact]}>
+      <ScrollView style={styles.scroll} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <View style={[styles.page, desktop && styles.pageDesktop, compact && styles.pageCompact]}>
         <View style={[styles.content, desktop && styles.contentDesktop, compact && styles.contentCompact]}>
           <View style={[styles.productIntro, compact && styles.productIntroCompact]}>
             <ProductCover compact={compact} />
             <View style={styles.productCopy}>
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
               <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
-              <View style={styles.productPriceRow}><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
-              <AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText>
+              <View style={styles.productPriceRow}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
+              <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21コース</AppText></View>
             </View>
           </View>
-          <View style={[styles.productScope, compact && styles.productScopeCompact]}><View style={styles.scopeBookMark}><View style={styles.scopeBookPage} /><View style={styles.scopeBookPage} /></View><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21コース</AppText></View>
 
           <View style={[styles.editionComparison, compact && styles.editionComparisonCompact]}>
             <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術45件{`\n`}理論20件</AppText></View>
@@ -159,7 +155,8 @@ export default function UpgradeScreen() {
             </View>
           </View>
         </View>
-      </View>
+        </View>
+      </ScrollView>
 
       <Modal transparent visible={showCheckoutConfirmation} animationType="fade" onRequestClose={() => setShowCheckoutConfirmation(false)}>
         <View style={styles.modalBackdrop}>
@@ -194,41 +191,37 @@ export default function UpgradeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, minHeight: 0, backgroundColor: '#F5F0E8', overflow: 'hidden' },
-  page: { flex: 1, minHeight: 0, paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#F5F0E8' },
+  safe: { flex: 1, minHeight: 0, backgroundColor: '#F5F0E8' },
+  scroll: { flex: 1, minHeight: 0 },
+  scrollContent: { flexGrow: 1 },
+  page: { flexGrow: 1, minHeight: '100%', width: '100%', paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#F5F0E8' },
   pageDesktop: { paddingHorizontal: 32, paddingVertical: 20 },
   pageCompact: { paddingHorizontal: 12, paddingVertical: 7 },
   content: { flex: 1, width: '100%', maxWidth: 700, alignSelf: 'center', justifyContent: 'space-between' },
-  contentDesktop: { maxWidth: 740, justifyContent: 'center' },
-  contentCompact: { justifyContent: 'space-between' },
-  productIntro: { width: '100%', maxWidth: 560, minHeight: 126, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 17, paddingHorizontal: 10 },
-  productIntroCompact: { minHeight: 88, gap: 12, paddingHorizontal: 3 },
-  cover: { width: 104, height: 130, padding: 4, borderRadius: 12, backgroundColor: '#151512', shadowColor: '#4E3B19', shadowOpacity: 0.22, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 4 },
-  coverCompact: { width: 70, height: 88, padding: 3, borderRadius: 9 },
-  coverInner: { flex: 1, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C99932', borderRadius: 8, backgroundColor: '#11110F' },
-  coverTitle: { color: '#E1B957', fontSize: 22, lineHeight: 30, fontWeight: '700', textAlign: 'center', letterSpacing: 1 },
-  coverTitleCompact: { fontSize: 15, lineHeight: 21 },
-  coverRule: { width: '58%', height: 1, marginVertical: 6, backgroundColor: '#BE8C28' },
-  coverEdition: { paddingHorizontal: 7, paddingVertical: 1, borderWidth: 1, borderColor: '#C99932', borderRadius: 4, color: '#E5BE62', fontSize: 9, lineHeight: 13, fontWeight: '700' },
-  coverEditionCompact: { paddingHorizontal: 5, fontSize: 7, lineHeight: 10 },
+  contentDesktop: { maxWidth: 740, justifyContent: 'flex-start' },
+  contentCompact: { justifyContent: 'flex-start' },
+  productIntro: { width: '100%', maxWidth: 560, minHeight: 112, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', gap: 17, paddingHorizontal: 10 },
+  productIntroCompact: { minHeight: 82, gap: 12, paddingHorizontal: 3 },
+  cover: { width: 104, height: 104, borderRadius: 52, backgroundColor: '#151512', shadowColor: '#4E3B19', shadowOpacity: 0.3, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 4 },
+  coverCompact: { width: 64, height: 64, borderRadius: 32 },
   productCopy: { flex: 1, minWidth: 0, alignSelf: 'stretch', justifyContent: 'center' },
   productTitle: { color: '#27231E', fontSize: 26, lineHeight: 34, fontWeight: '700' },
   productTitleCompact: { fontSize: 20, lineHeight: 26 },
   productLead: { marginTop: 2, color: '#635A4D', fontSize: 12, lineHeight: 17 },
   productLeadCompact: { fontSize: 10, lineHeight: 14 },
-  productPriceRow: { marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 10 },
+  productPriceRow: { marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  originalPrice: { color: '#8C8273', fontSize: 18, lineHeight: 25, textDecorationLine: 'line-through' },
+  originalPriceCompact: { fontSize: 12, lineHeight: 17 },
   productPrice: { color: '#BB7B0B', fontSize: 44, lineHeight: 51, fontWeight: '700' },
   productPriceCompact: { fontSize: 31, lineHeight: 36 },
   durationBadge: { paddingHorizontal: 9, paddingVertical: 4, borderWidth: 1, borderColor: '#C9932C', borderRadius: 8 },
   durationBadgeText: { color: '#9D6510', fontSize: 11, lineHeight: 15, fontWeight: '700' },
-  productCondition: { alignSelf: 'flex-start', marginTop: 2, paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, backgroundColor: '#F5EEDF', color: '#806235', fontSize: 10, lineHeight: 14 },
-  productConditionCompact: { marginTop: 0, paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, lineHeight: 11 },
-  productScope: { minHeight: 20, marginTop: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
-  productScopeCompact: { minHeight: 16, gap: 6 },
-  scopeBookMark: { width: 14, height: 11, flexDirection: 'row', gap: 2 },
-  scopeBookPage: { flex: 1, borderWidth: 1, borderColor: '#51493E', borderRadius: 1 },
-  scopeText: { color: '#372F25', fontSize: 12, lineHeight: 17, fontWeight: '700' },
-  scopeTextCompact: { fontSize: 9.5, lineHeight: 13 },
+  productConditionRow: { marginTop: 2, flexDirection: 'row', alignItems: 'center', gap: 9, flexWrap: 'wrap' },
+  productConditionRowCompact: { marginTop: 0, gap: 5, flexWrap: 'nowrap' },
+  productCondition: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, backgroundColor: '#F5EEDF', color: '#806235', fontSize: 10, lineHeight: 14 },
+  productConditionCompact: { paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, lineHeight: 11 },
+  scopeText: { flexShrink: 1, color: '#372F25', fontSize: 10.5, lineHeight: 15, fontWeight: '700' },
+  scopeTextCompact: { fontSize: 7.5, lineHeight: 10 },
   editionComparison: { minHeight: 91, marginTop: 9, flexDirection: 'row', alignItems: 'center', gap: 14 },
   editionComparisonCompact: { minHeight: 62, marginTop: 5, gap: 8 },
   editionOption: { flex: 1, minWidth: 0, minHeight: 91, alignItems: 'center', justifyContent: 'center', borderRadius: 12, paddingHorizontal: 10 },
