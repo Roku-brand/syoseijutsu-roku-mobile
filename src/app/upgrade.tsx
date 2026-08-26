@@ -129,16 +129,18 @@ export default function UpgradeScreen() {
               <AppText style={styles.purchaseDetail}>期間終了後も、保存データはそのまま残ります。</AppText>
             </View>
             {message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}
-            <Pressable
-              accessibilityRole="button"
-              disabled={submitting || accessStatus === 'processing'}
-              onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
-              style={({ pressed }) => [styles.primary, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}
-            >
-              <AppText variant="serif" style={styles.primaryText}>{primaryLabel}</AppText>
-              {!isPaid ? <AppText style={styles.primaryArrow}>›</AppText> : null}
-            </Pressable>
-            {!isPaid ? <AppText style={styles.preConfirmation}>決済は次の画面で確定します</AppText> : null}
+            {desktop ? <>
+              <Pressable
+                accessibilityRole="button"
+                disabled={submitting || accessStatus === 'processing'}
+                onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
+                style={({ pressed }) => [styles.primary, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}
+              >
+                <AppText variant="serif" style={styles.primaryText}>{primaryLabel}</AppText>
+                {!isPaid ? <AppText style={styles.primaryArrow}>›</AppText> : null}
+              </Pressable>
+              {!isPaid ? <AppText style={styles.preConfirmation}>決済は次の画面で確定します</AppText> : null}
+            </> : null}
             {!isPaid ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()} style={({ pressed }) => [styles.restore, pressed && styles.pressed]}><AppText style={styles.restoreText}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
           </View>
 
@@ -149,6 +151,19 @@ export default function UpgradeScreen() {
           </View>
         </ScrollView>
       </ImageBackground>
+
+      {!desktop ? <View style={styles.mobilePurchaseDock}>
+        <Pressable
+          accessibilityRole="button"
+          disabled={submitting || accessStatus === 'processing'}
+          onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
+          style={({ pressed }) => [styles.mobilePrimary, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}
+        >
+          <AppText variant="serif" style={styles.mobilePrimaryText}>{primaryLabel}</AppText>
+          {!isPaid ? <AppText style={styles.mobilePrimaryArrow}>›</AppText> : null}
+        </Pressable>
+        {!isPaid ? <AppText style={styles.mobilePreConfirmation}>決済は次の画面で確定します</AppText> : null}
+      </View> : null}
 
       <Modal transparent visible={showCheckoutConfirmation} animationType="fade" onRequestClose={() => setShowCheckoutConfirmation(false)}>
         <View style={styles.modalBackdrop}>
@@ -186,7 +201,7 @@ const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: '#F4EEE3' },
   page: { flex: 1, backgroundColor: '#F4EEE3' },
   backgroundImage: { width: '100%', height: '100%', opacity: 1 },
-  scrollContent: { width: '100%', maxWidth: 720, alignSelf: 'center', paddingHorizontal: 16, paddingBottom: 30 },
+  scrollContent: { width: '100%', maxWidth: 720, alignSelf: 'center', paddingHorizontal: 16, paddingBottom: 112 },
   scrollContentDesktop: { maxWidth: 1120, paddingHorizontal: 28 },
   hero: { minHeight: 284, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 16, paddingTop: 34, paddingBottom: 38 },
   heroDesktop: { minHeight: 310, paddingTop: 36, paddingBottom: 45 },
@@ -221,6 +236,11 @@ const styles = StyleSheet.create({
   primaryText: { color: '#FFF9EC', fontSize: 18, lineHeight: 26, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.35)', textShadowRadius: 3 },
   primaryArrow: { position: 'absolute', right: 17, top: 9, color: '#FFF9EC', fontSize: 34, lineHeight: 38, fontWeight: '300' },
   preConfirmation: { marginTop: 8, color: '#71695D', fontSize: 11, lineHeight: 16, textAlign: 'center' },
+  mobilePurchaseDock: { position: 'absolute', left: 0, right: 0, bottom: 0, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 12, borderTopWidth: 1, borderTopColor: 'rgba(185,142,57,0.34)', backgroundColor: 'rgba(255,252,246,0.95)', shadowColor: '#241B0D', shadowOpacity: 0.22, shadowRadius: 12, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
+  mobilePrimary: { position: 'relative', minHeight: 54, paddingHorizontal: 38, borderWidth: 1, borderColor: '#F4D283', borderRadius: 13, backgroundColor: '#C4881B', alignItems: 'center', justifyContent: 'center', shadowColor: '#76500D', shadowOpacity: 0.32, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 7 },
+  mobilePrimaryText: { color: '#FFF9EC', fontSize: 16, lineHeight: 23, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.35)', textShadowRadius: 3 },
+  mobilePrimaryArrow: { position: 'absolute', right: 16, top: 8, color: '#FFF9EC', fontSize: 32, lineHeight: 37, fontWeight: '300' },
+  mobilePreConfirmation: { marginTop: 5, color: '#71695D', fontSize: 10, lineHeight: 14, textAlign: 'center' },
   restore: { minHeight: 34, marginTop: 8, alignItems: 'center', justifyContent: 'center' },
   restoreText: { color: '#76591F', fontSize: 12, lineHeight: 18, fontWeight: '700', textDecorationLine: 'underline' },
   legalLinks: { marginTop: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18, flexWrap: 'wrap' },

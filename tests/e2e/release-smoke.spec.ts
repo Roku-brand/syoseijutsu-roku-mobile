@@ -119,6 +119,16 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
+test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 667 });
+  await page.goto('/upgrade');
+  const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
+  await expect(purchaseButton).toBeVisible();
+  const purchaseBox = await purchaseButton.boundingBox();
+  expect(purchaseBox).not.toBeNull();
+  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
+});
+
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
   await page.getByText('利用規約', { exact: true }).first().click();
