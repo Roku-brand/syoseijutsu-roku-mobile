@@ -8,8 +8,8 @@ let loaded = false;
  * Loads the public catalogue from Supabase when the owner-content migration
  * is available. The bundled JSON remains a safe offline/bootstrap fallback.
  */
-export async function hydratePublishedContent(): Promise<boolean> {
-  if (!supabase || loaded) return false;
+export async function hydratePublishedContent(force = false): Promise<boolean> {
+  if (!supabase || (loaded && !force)) return false;
   try {
     const { data, error } = await supabase
       .from('techniques')

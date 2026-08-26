@@ -18,6 +18,7 @@ type AccessContextValue = {
   isOwner: boolean;
   previewMode: PreviewMode;
   catalogRevision: number;
+  refreshPublishedContent: () => Promise<boolean>;
   setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<AccessState>;
   continueAsGuest: () => void;
@@ -50,11 +51,13 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const [catalogRevision, setCatalogRevision] = useState(0);
   const isOwner = role === 'owner';
 
-  useEffect(() => {
-    void hydratePublishedContent().then((changed) => {
-      if (changed) setCatalogRevision((value) => value + 1);
-    });
+  const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
+    const changed = await hydratePublishedContent(true);
+    if (changed) setCatalogRevision((value) => value + 1);
+    return changed;
   }, []);
+
+  useEffect(() => { void refreshPublishedContent(); }, [refreshPublishedContent]);
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
@@ -82,10 +85,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
         setActualAccessState('paid');
         // Paid content is downloaded after the entitlement is known.  The
         // edition unlock must not wait for a slow network response.
-        void hydrateSecureContent().then(() => {
-          setCatalogRevision((value) => value + 1);
-        }).catch(async () => {
-          if (await restoreCachedSecureContent(user.id)) setCatalogRevision((value) => value + 1);
+        void hydrateSecureContent().then(refreshPublishedContent).catch(async () => {
+          if (await restoreCachedSecureContent(user.id)) {
+            setCatalogRevision((value) => value + 1);
+            await refreshPublishedContent();
+          }
         });
         return 'paid';
       }
@@ -178,11 +182,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
     isOwner,
     previewMode,
     catalogRevision,
+    refreshPublishedContent,
     setPreviewMode,
     refreshAccess,
     continueAsGuest,
     restorePurchase,
-  }), [accessInfo, accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, restorePurchase, setPreviewMode]);
+  }), [accessInfo, accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, refreshPublishedContent, restorePurchase, setPreviewMode]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }

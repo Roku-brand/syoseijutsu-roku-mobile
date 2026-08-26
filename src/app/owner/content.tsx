@@ -4,6 +4,7 @@ import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeS
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
+import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { theories } from '@/data/catalog';
 import {
@@ -26,6 +27,7 @@ const REEL_CARD_HEIGHT = 104;
 export default function OwnerContentScreen() {
   const router = useRouter();
   const { loading, user, role } = useAuth();
+  const { refreshPublishedContent } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const [techniques, setTechniques] = useState<TechniqueContent[]>([]);
   const [drafts, setDrafts] = useState<Record<string, TechniqueSnapshot>>({});
@@ -141,6 +143,7 @@ export default function OwnerContentScreen() {
     setNotice(null);
     try {
       await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
+      await refreshPublishedContent();
       await reload(selected.id);
       setPreview(false);
       setPublishConfirming(false);
@@ -238,6 +241,20 @@ export default function OwnerContentScreen() {
                 </View>
                 <Pressable onPress={() => setPreview((value) => !value)} style={styles.previewButton}><AppText style={styles.previewButtonText}>{preview ? '編集に戻る' : 'プレビュー'}</AppText></Pressable>
               </View>
+              {publishConfirming ? <View style={styles.publishConfirmation}>
+                <View style={styles.publishConfirmationCopy}>
+                  <AppText variant="label" style={styles.publishConfirmationLabel}>公開の確認</AppText>
+                  <AppText style={styles.publishConfirmationText}>この編集内容を、すべてのユーザーに公開します。</AppText>
+                </View>
+                <View style={styles.publishConfirmationActions}>
+                  <SecondaryButton onPress={() => setPublishConfirming(false)} disabled={saving}>キャンセル</SecondaryButton>
+                  <PrimaryButton onPress={() => void publishConfirmed()} disabled={saving}>{saving ? '公開中…' : '公開を確定'}</PrimaryButton>
+                </View>
+              </View> : null}
+              <View style={[styles.actions, styles.actionsTop]}>
+                <SecondaryButton onPress={() => void save()} disabled={saving}>{saving ? '保存中…' : '下書き保存'}</SecondaryButton>
+                <PrimaryButton onPress={beginPublish} disabled={saving || publishConfirming}>公開する</PrimaryButton>
+              </View>
               {preview ? <TechniquePreview snapshot={selectedSnapshot} id={selected.id} /> : (
                 <>
                   <EditorField label="タイトル" value={selectedSnapshot.title} onChangeText={(value) => updateSnapshot({ title: value })} />
@@ -251,20 +268,6 @@ export default function OwnerContentScreen() {
                   <ListEditor label="具体例" items={selectedSnapshot.examples} onChange={(items) => updateSnapshot({ examples: items })} />
                   <ListEditor label="注意点" items={selectedSnapshot.cautions} onChange={(items) => updateSnapshot({ cautions: items })} />
                   <TheorySelector selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
-                  {publishConfirming ? <View style={styles.publishConfirmation}>
-                    <View style={styles.publishConfirmationCopy}>
-                      <AppText variant="label" style={styles.publishConfirmationLabel}>公開の確認</AppText>
-                      <AppText style={styles.publishConfirmationText}>この編集内容を、すべてのユーザーに公開します。</AppText>
-                    </View>
-                    <View style={styles.publishConfirmationActions}>
-                      <SecondaryButton onPress={() => setPublishConfirming(false)} disabled={saving}>キャンセル</SecondaryButton>
-                      <PrimaryButton onPress={() => void publishConfirmed()} disabled={saving}>{saving ? '公開中…' : '公開を確定'}</PrimaryButton>
-                    </View>
-                  </View> : null}
-                  <View style={styles.actions}>
-                    <SecondaryButton onPress={() => void save()} disabled={saving}>{saving ? '保存中…' : '下書き保存'}</SecondaryButton>
-                    <PrimaryButton onPress={beginPublish} disabled={saving || publishConfirming}>公開する</PrimaryButton>
-                  </View>
                 </>
               )}
               <RevisionHistory revisions={revisions} onRestore={restore} />
@@ -373,6 +376,7 @@ const styles = StyleSheet.create({
   theoryOption: { minHeight: 38, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm },
   theoryOptionText: { flex: 1, color: colors.inkSoft, fontSize: 12 },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: spacing.sm, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
+  actionsTop: { marginTop: 0, marginBottom: spacing.lg },
   publishConfirmation: { gap: spacing.md, padding: spacing.md, marginTop: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: '#FBF4E3' },
   publishConfirmationCopy: { gap: 4 },
   publishConfirmationLabel: { color: colors.gold, fontSize: 11, letterSpacing: 1 },

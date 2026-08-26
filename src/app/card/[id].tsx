@@ -26,14 +26,14 @@ export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const card = techniqueById.get(id);
   const { addHistory } = useAppState();
-  const { accessState } = useAccess();
+  const { accessState, catalogRevision } = useAccess();
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
     if (id) addHistory(id);
   }, [addHistory, id]);
 
-  const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card]);
+  const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
 
   if (card && !canReadTechnique(effectiveAccess, card.id)) {
     return (

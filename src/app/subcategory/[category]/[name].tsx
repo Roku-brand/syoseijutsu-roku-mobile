@@ -25,7 +25,7 @@ function splitIntoColumns<T>(items: T[]): [T[], T[]] {
 export default function PersonaScreen() {
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
   const router = useRouter();
-  const { isPaid } = useAccess();
+  const { isPaid, catalogRevision } = useAccess();
   const { width } = useResponsiveLayout();
   const { savedIds, toggleSaved } = useAppState();
   const showToast = useAppToast();
@@ -48,7 +48,7 @@ export default function PersonaScreen() {
   const rowsPerColumn = compact ? persona.items.length : desktopColumns[0].length;
   return (
     <Screen scroll={compact} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
-      <View style={[styles.page, compact && styles.pageCompact]}>
+      <View key={catalogRevision} style={[styles.page, compact && styles.pageCompact]}>
         <View style={[styles.listSheet, compact && styles.listSheetCompact]}>
           {columns.map((column, columnIndex) => {
             const itemOffset = compact ? 0 : columnIndex * rowsPerColumn;

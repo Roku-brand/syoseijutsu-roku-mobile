@@ -160,7 +160,7 @@ export default function MainScreen() {
       principleIds: ids,
       techniqueCount: getTechniqueCount(category.key, group.name, ids.length),
     };
-  })), [isPaid]);
+  })), [catalogRevision, isPaid]);
   const visiblePersonas = personas;
   const visibleTheoryCards = useMemo(
     () => isPaid
