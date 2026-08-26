@@ -1,15 +1,12 @@
 import { Redirect, useRouter } from 'expo-router';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ImageBackground, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
-import { categories, techniqueCards, theories } from '@/data/catalog';
-import { FREE_PERSONA_NAMES, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 
-const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
-const freePersonaCount = FREE_PERSONA_NAMES.length;
-const freeTechniqueCount = FREE_REEL_TECHNIQUE_IDS.length;
+const desktopBackground = require('../../assets/welcome/welcome-background-desktop.png');
+const mobileBackground = require('../../assets/welcome/welcome-background-mobile.png');
 
 export default function Welcome() {
   const router = useRouter();
@@ -29,146 +26,118 @@ export default function Welcome() {
 
   return (
     <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={styles.safe}>
-      <View style={styles.page}>
-        <View style={[styles.topBar, isDesktop && styles.topBarDesktop]}>
-          <View pointerEvents="none" style={styles.topBarSheen} />
-          <View style={styles.brand}>
-            <View style={styles.seal}><AppText variant="serif" style={styles.sealText}>禄</AppText></View>
-            <View>
-              <AppText variant="serif" style={styles.brandName}>処 世 術 禄</AppText>
-              <AppText style={styles.brandReading}>しょせいじゅつろく</AppText>
-            </View>
-          </View>
-          {isDesktop ? <AppText style={styles.topBarNote}>人生・仕事・人間関係のための処世術</AppText> : null}
-        </View>
-
+      <ImageBackground source={isDesktop ? desktopBackground : mobileBackground} resizeMode="cover" style={styles.page} imageStyle={styles.backgroundImage}>
         <View style={[styles.content, isDesktop ? styles.contentDesktop : styles.contentMobile, isCompact && styles.contentCompact]}>
           <View style={[styles.hero, isDesktop && styles.heroDesktop, isCompact && styles.heroCompact]}>
-            <View pointerEvents="none" style={styles.heroSheen} />
-            <View pointerEvents="none" style={styles.heroWarmth} />
-            <View pointerEvents="none" style={styles.heroRim} />
-            <View style={styles.heroContent}>
-              <AppText style={styles.heroEyebrow}>処世術禄</AppText>
-              <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, isCompact && styles.heroTitleCompact]}>
-                人生をうまく生きる方法を、{`\n`}すべての人へ。
-              </AppText>
-              <AppText style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, isCompact && styles.heroCopyCompact]}>
-                流れて消える人生の知識を、何度でも使える知恵に。
-              </AppText>
-              <View style={[styles.stats, isCompact && styles.statsCompact]}>
-                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{personaCount}</AppText><AppText style={styles.statLabel}>人物像</AppText></View>
-                <View style={styles.statDivider} />
-                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{techniqueCards.length}</AppText><AppText style={styles.statLabel}>処世術</AppText></View>
-                <View style={styles.statDivider} />
-                <View style={styles.stat}><AppText variant="serif" style={styles.statNumber}>{theories.length}</AppText><AppText style={styles.statLabel}>理論</AppText></View>
-              </View>
+            <View style={[styles.brand, isCompact && styles.brandCompact]}>
+              <AppText variant="serif" style={[styles.brandName, isDesktop && styles.brandNameDesktop]}>処 世 術 禄</AppText>
+              <AppText style={[styles.brandReading, isCompact && styles.brandReadingCompact]}>SHO　SEI　JUTSU　ROKU</AppText>
+              <View style={styles.brandRule} />
             </View>
+            <AppText variant="serif" style={[styles.heroTitle, isDesktop && styles.heroTitleDesktop, isCompact && styles.heroTitleCompact]}>
+              人生をうまく生きる方法を、{`\n`}すべての人へ。
+            </AppText>
+            <AppText variant="serif" style={[styles.heroCopy, isDesktop && styles.heroCopyDesktop, isCompact && styles.heroCopyCompact]}>
+              流れて消える人生の知識を、何度でも使える知恵に。
+            </AppText>
           </View>
 
-          <View style={[styles.choiceSection, isCompact && styles.choiceSectionCompact]}>
-            <View style={styles.choiceHeading}>
-              <AppText variant="serif" style={[styles.choiceTitle, isCompact && styles.choiceTitleCompact]}>始め方を選ぶ</AppText>
-              <AppText style={[styles.choiceCaption, isCompact && styles.choiceCaptionCompact]}>無料版からでも、すぐに読み始められます</AppText>
-            </View>
-
+          <View style={[styles.choiceSection, isDesktop && styles.choiceSectionDesktop, isCompact && styles.choiceSectionCompact]}>
             <View style={[styles.plans, isDesktop && styles.plansDesktop]}>
-              <Pressable accessibilityRole="button" onPress={startFree} style={({ pressed }) => [styles.plan, styles.freePlan, isDesktop && styles.planDesktop, isNarrow && styles.planNarrow, pressed && styles.pressed]}>
-                <AppText style={styles.planEyebrow}>無料版</AppText>
-                <AppText variant="serif" style={[styles.planTitle, isNarrow && styles.planTitleNarrow]}>無料版をはじめる</AppText>
-                <AppText style={[styles.planLead, isNarrow && styles.planLeadNarrow]}>登録なしで、まず読む。</AppText>
-                <View style={styles.planRule} />
-                <AppText style={[styles.planDetail, isNarrow && styles.planDetailNarrow]}>{freePersonaCount}人物像・{freeTechniqueCount}処世術{`\n`}厳選理論 {FREE_THEORY_IDS.length}件</AppText>
-                <View style={[styles.planButton, styles.freeButton]}><AppText style={styles.freeButtonText}>無料版を開く</AppText></View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="無料版をはじめる"
+                onPress={startFree}
+                style={({ pressed }) => [styles.plan, styles.freePlan, isDesktop && styles.planDesktop, isCompact && styles.planCompact, isNarrow && styles.planNarrow, pressed && styles.pressed]}
+              >
+                <View style={styles.planCopy}>
+                  <AppText variant="serif" style={[styles.planTitle, isDesktop && styles.planTitleDesktop, isCompact && styles.planTitleCompact]}>無料版</AppText>
+                  <AppText style={[styles.planLead, isCompact && styles.planLeadCompact]}>まずは気軽に、処世の知恵の一部を体験できます。</AppText>
+                </View>
+                <View style={[styles.planButton, styles.freeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, isCompact && styles.buttonTextCompact]}>無料で始める</AppText></View>
+                <View style={[styles.notePill, isCompact && styles.notePillCompact]}><AppText style={[styles.noteText, isCompact && styles.noteTextCompact]}>登録不要</AppText></View>
               </Pressable>
 
-              <Pressable accessibilityRole="button" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.plan, styles.completePlan, isDesktop && styles.planDesktop, isNarrow && styles.planNarrow, pressed && styles.pressed]}>
-                <View style={styles.completePlanTopline}>
-                  <AppText style={styles.completePlanEyebrow}>完全版</AppText>
-                  <AppText style={styles.priceLabel}>¥280 / 30日</AppText>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="完全版の内容を見る"
+                onPress={() => router.push('/upgrade')}
+                style={({ pressed }) => [styles.plan, styles.completePlan, isDesktop && styles.planDesktop, isCompact && styles.planCompact, isNarrow && styles.planNarrow, pressed && styles.pressed]}
+              >
+                <View style={styles.planCopy}>
+                  <AppText variant="serif" style={[styles.planTitle, styles.completePlanTitle, isDesktop && styles.planTitleDesktop, isCompact && styles.planTitleCompact]}>完全版</AppText>
+                  <AppText style={[styles.planLead, styles.completePlanLead, isCompact && styles.planLeadCompact]}>すべての人物像・処世術・理論にアクセスできます。</AppText>
                 </View>
-                <AppText variant="serif" style={[styles.planTitle, styles.completePlanTitle, isNarrow && styles.planTitleNarrow]}>すべての知恵を読む</AppText>
-                <AppText style={[styles.planLead, styles.completePlanLead, isNarrow && styles.planLeadNarrow]}>自動更新なし・一回払い。</AppText>
-                <View style={[styles.planRule, styles.completePlanRule]} />
-                <AppText style={[styles.planDetail, styles.completePlanDetail, isNarrow && styles.planDetailNarrow]}>全{personaCount}人物像・{techniqueCards.length}処世術{`\n`}{theories.length}理論・全21ケース</AppText>
-                <View style={[styles.planButton, styles.completeButton]}><AppText style={styles.completeButtonText}>内容・購入方法を見る</AppText></View>
+                <View style={[styles.planButton, styles.completeButton, isCompact && styles.planButtonCompact]}><AppText variant="serif" style={[styles.buttonText, styles.completeButtonText, isCompact && styles.buttonTextCompact]}>全ての内容を見る</AppText></View>
+                <View style={[styles.notePill, styles.completeNotePill, isCompact && styles.notePillCompact]}><AppText style={[styles.noteText, styles.completeNoteText, isCompact && styles.noteTextCompact]}>利用条件は内容画面で確認</AppText></View>
               </Pressable>
             </View>
+            {!isCompact ? <View style={styles.bottomMessage}><View style={styles.bottomRule} /><AppText variant="serif" style={styles.bottomText}>いつでも、あなたのペースで学べます。</AppText><View style={styles.bottomRule} /></View> : null}
           </View>
         </View>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#F3EFE6' },
-  page: { flex: 1, overflow: 'hidden', backgroundColor: '#F3EFE6' },
-  topBar: { minHeight: 60, overflow: 'hidden', position: 'relative', paddingHorizontal: 18, backgroundColor: '#171714', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#5E4A29', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  topBarDesktop: { minHeight: 76, paddingHorizontal: 44 },
-  topBarSheen: { position: 'absolute', top: -30, left: '8%', right: '8%', height: 54, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.075)' },
-  brand: { zIndex: 1, flexDirection: 'row', gap: 10, alignItems: 'center' },
-  seal: { width: 42, height: 42, borderRadius: 11, borderWidth: 1, borderColor: '#D9A83E', backgroundColor: 'rgba(52,39,18,0.5)', alignItems: 'center', justifyContent: 'center' },
-  sealText: { color: '#E8B84D', fontSize: 29, lineHeight: 35 },
-  brandName: { color: '#FFF8EA', fontSize: 16, letterSpacing: 3.5 },
-  brandReading: { marginTop: 1, color: '#DDB65E', fontSize: 9, letterSpacing: 1.8 },
-  topBarNote: { zIndex: 1, color: '#E8DDC8', fontSize: 13, letterSpacing: 0.8 },
-  content: { flex: 1, width: '100%', alignSelf: 'center' },
-  contentDesktop: { maxWidth: 1180, paddingHorizontal: 30, paddingVertical: 28, justifyContent: 'center', gap: 20 },
-  contentMobile: { paddingHorizontal: 14, paddingVertical: 12, justifyContent: 'center', gap: 18 },
-  contentCompact: { paddingTop: 8, paddingBottom: 8, gap: 7 },
-  hero: { overflow: 'hidden', position: 'relative', borderRadius: 20, backgroundColor: '#161612', borderWidth: 1, borderColor: '#7A5B2B', shadowColor: '#000000', shadowOpacity: 0.23, shadowRadius: 18, shadowOffset: { width: 0, height: 9 }, elevation: 7, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20, paddingVertical: 17 },
-  heroDesktop: { minHeight: 218, paddingVertical: 25, borderRadius: 24 },
-  heroCompact: { paddingVertical: 10, borderRadius: 17 },
-  heroSheen: { position: 'absolute', top: -105, left: '10%', width: '80%', height: 148, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.1)' },
-  heroWarmth: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 58, backgroundColor: 'rgba(177,128,37,0.07)' },
-  heroRim: { position: 'absolute', top: 1, left: 22, right: 22, height: 1, backgroundColor: 'rgba(255,225,154,0.44)' },
-  heroContent: { zIndex: 1, alignItems: 'center' },
-  heroEyebrow: { color: '#C89735', fontSize: 11, letterSpacing: 2.2, fontWeight: '700' },
-  heroTitle: { marginTop: 5, color: '#FFF9EF', textAlign: 'center', fontSize: 23, lineHeight: 31, letterSpacing: 0.4 },
-  heroTitleDesktop: { marginTop: 7, fontSize: 32, lineHeight: 43 },
-  heroTitleCompact: { fontSize: 20, lineHeight: 27 },
-  heroCopy: { marginTop: 7, color: '#E1BD70', fontSize: 12, lineHeight: 18, textAlign: 'center' },
-  heroCopyDesktop: { marginTop: 10, fontSize: 15, lineHeight: 22 },
-  heroCopyCompact: { marginTop: 4, fontSize: 11, lineHeight: 15 },
-  stats: { marginTop: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-  statsCompact: { marginTop: 8 },
-  stat: { minWidth: 74, alignItems: 'center' },
-  statNumber: { color: '#E4B653', fontSize: 20, lineHeight: 25 },
-  statLabel: { marginTop: 1, color: '#E6DED1', fontSize: 10 },
-  statDivider: { width: StyleSheet.hairlineWidth, height: 29, marginHorizontal: 7, backgroundColor: '#695C45' },
-  choiceSection: { width: '100%' },
+  safe: { flex: 1, backgroundColor: '#F5F0E7' },
+  page: { flex: 1, backgroundColor: '#F5F0E7' },
+  backgroundImage: { opacity: 1 },
+  content: { flex: 1, width: '100%', alignSelf: 'center', justifyContent: 'space-between' },
+  contentDesktop: { maxWidth: 1320, paddingHorizontal: 34, paddingTop: 24, paddingBottom: 28 },
+  contentMobile: { paddingHorizontal: 17, paddingTop: 12, paddingBottom: 13 },
+  contentCompact: { paddingTop: 7, paddingBottom: 8 },
+  hero: { flex: 1, minHeight: 260, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingBottom: 12 },
+  heroDesktop: { minHeight: 390, paddingTop: 0, paddingBottom: 17 },
+  heroCompact: { minHeight: 218, paddingBottom: 7 },
+  brand: { alignItems: 'center' },
+  brandCompact: { transform: [{ scale: 0.87 }] },
+  brandName: { color: '#E5C17A', fontSize: 25, lineHeight: 34, letterSpacing: 7.6, textAlign: 'center', textShadowColor: 'rgba(44,24,5,0.6)', textShadowRadius: 7 },
+  brandNameDesktop: { fontSize: 43, lineHeight: 55, letterSpacing: 12.5 },
+  brandReading: { marginTop: 2, color: '#D8B46E', fontSize: 8, lineHeight: 13, fontWeight: '700', letterSpacing: 3.3 },
+  brandReadingCompact: { marginTop: 0 },
+  brandRule: { width: 48, height: 1, marginTop: 15, backgroundColor: '#D5AF63' },
+  heroTitle: { marginTop: 25, color: '#FFF8ED', fontSize: 25, lineHeight: 36, letterSpacing: 0.6, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 8 },
+  heroTitleDesktop: { marginTop: 27, fontSize: 43, lineHeight: 61, letterSpacing: 1.4 },
+  heroTitleCompact: { marginTop: 15, fontSize: 21, lineHeight: 30 },
+  heroCopy: { marginTop: 15, color: '#E6C77F', fontSize: 13, lineHeight: 20, letterSpacing: 0.45, textAlign: 'center' },
+  heroCopyDesktop: { marginTop: 19, fontSize: 19, lineHeight: 29, letterSpacing: 0.8 },
+  heroCopyCompact: { marginTop: 8, fontSize: 11, lineHeight: 16 },
+  choiceSection: { width: '100%', alignSelf: 'center' },
+  choiceSectionDesktop: { maxWidth: 1040 },
   choiceSectionCompact: { flexShrink: 1 },
-  choiceHeading: { marginBottom: 9, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', paddingHorizontal: 2 },
-  choiceTitle: { color: '#25211B', fontSize: 19, lineHeight: 25 },
-  choiceTitleCompact: { fontSize: 17, lineHeight: 22 },
-  choiceCaption: { color: '#71685D', fontSize: 11, textAlign: 'right' },
-  choiceCaptionCompact: { fontSize: 10 },
-  plans: { flexDirection: 'row', gap: 10 },
-  plansDesktop: { gap: 16 },
-  plan: { flex: 1, minWidth: 0, minHeight: 202, borderRadius: 17, padding: 14, justifyContent: 'space-between' },
-  planDesktop: { minHeight: 226, padding: 21, borderRadius: 19 },
-  planNarrow: { minHeight: 194, padding: 11 },
-  freePlan: { backgroundColor: '#FFFDF8', borderWidth: 1, borderColor: '#D8CDBB' },
-  completePlan: { backgroundColor: '#29251F', borderWidth: 1, borderColor: '#4D4230' },
-  planEyebrow: { color: '#846522', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 1.1 },
-  completePlanTopline: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 5 },
-  completePlanEyebrow: { color: '#E0B35B', fontSize: 11, lineHeight: 15, fontWeight: '700', letterSpacing: 1.1 },
-  priceLabel: { color: '#F3DEB0', fontSize: 11, lineHeight: 15, fontWeight: '700' },
-  planTitle: { marginTop: 4, color: '#25211B', fontSize: 20, lineHeight: 27 },
-  completePlanTitle: { color: '#FFF9EE' },
-  planTitleNarrow: { fontSize: 17, lineHeight: 23 },
-  planLead: { marginTop: 3, color: '#655C51', fontSize: 11, lineHeight: 16 },
-  completePlanLead: { color: '#D8CDB8' },
-  planLeadNarrow: { fontSize: 10, lineHeight: 14 },
-  planRule: { height: StyleSheet.hairlineWidth, marginVertical: 8, backgroundColor: '#DED5C7' },
-  completePlanRule: { backgroundColor: '#665942' },
-  planDetail: { color: '#443D34', fontSize: 11, lineHeight: 17 },
-  completePlanDetail: { color: '#EEE3D1' },
-  planDetailNarrow: { fontSize: 10, lineHeight: 15 },
-  planButton: { minHeight: 42, marginTop: 10, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  freeButton: { backgroundColor: '#EEE6D8' },
-  freeButtonText: { color: '#2D2922', fontSize: 13, fontWeight: '700' },
-  completeButton: { backgroundColor: '#CB9329' },
-  completeButtonText: { color: '#1F1A12', fontSize: 13, fontWeight: '800' },
-  pressed: { opacity: 0.8, transform: [{ scale: 0.985 }] },
+  plans: { flexDirection: 'row', gap: 12 },
+  plansDesktop: { gap: 86 },
+  plan: { flex: 1, minWidth: 0, minHeight: 224, overflow: 'hidden', borderRadius: 17, paddingHorizontal: 16, paddingTop: 22, paddingBottom: 17, justifyContent: 'space-between', shadowColor: '#5A4630', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.1, shadowRadius: 20, elevation: 4 },
+  planDesktop: { minHeight: 356, borderRadius: 20, paddingHorizontal: 48, paddingTop: 43, paddingBottom: 36 },
+  planCompact: { minHeight: 168, borderRadius: 13, paddingHorizontal: 10, paddingTop: 13, paddingBottom: 10 },
+  planNarrow: { paddingHorizontal: 8 },
+  freePlan: { borderWidth: 1, borderColor: 'rgba(167,139,94,0.32)', backgroundColor: 'rgba(255,253,248,0.88)' },
+  completePlan: { borderWidth: 1, borderColor: '#C89A48', backgroundColor: 'rgba(255,252,246,0.88)' },
+  planCopy: { alignItems: 'center' },
+  planTitle: { color: '#24221D', fontSize: 24, lineHeight: 33, textAlign: 'center' },
+  planTitleDesktop: { fontSize: 38, lineHeight: 51 },
+  planTitleCompact: { fontSize: 19, lineHeight: 26 },
+  completePlanTitle: { color: '#A87520' },
+  planLead: { marginTop: 10, color: '#4D4840', fontSize: 11, lineHeight: 17, textAlign: 'center' },
+  planLeadCompact: { marginTop: 5, fontSize: 9, lineHeight: 13 },
+  completePlanLead: { color: '#4D4840' },
+  planButton: { alignSelf: 'stretch', minHeight: 50, marginTop: 15, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  planButtonCompact: { minHeight: 37, marginTop: 8, borderRadius: 8 },
+  freeButton: { backgroundColor: '#1B1B19', shadowColor: '#0D0D0C', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.22, shadowRadius: 7, elevation: 3 },
+  completeButton: { backgroundColor: '#B67A1C', shadowColor: '#7B4E0B', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 8, elevation: 3 },
+  buttonText: { color: '#FFFCF5', fontSize: 17, lineHeight: 24, fontWeight: '700', textAlign: 'center' },
+  buttonTextCompact: { fontSize: 12, lineHeight: 17 },
+  completeButtonText: { color: '#FFF9ED' },
+  notePill: { alignSelf: 'center', marginTop: 17, paddingHorizontal: 13, paddingVertical: 4, borderRadius: 999, backgroundColor: 'rgba(98,88,70,0.1)' },
+  notePillCompact: { marginTop: 7, paddingHorizontal: 8, paddingVertical: 2 },
+  completeNotePill: { backgroundColor: 'rgba(169,128,50,0.11)' },
+  noteText: { color: '#686158', fontSize: 11, lineHeight: 16 },
+  noteTextCompact: { fontSize: 8, lineHeight: 12 },
+  completeNoteText: { color: '#795C26' },
+  bottomMessage: { marginTop: 26, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 20 },
+  bottomRule: { width: 76, height: 1, backgroundColor: 'rgba(173,129,51,0.6)' },
+  bottomText: { color: '#5C5140', fontSize: 14, lineHeight: 21, letterSpacing: 0.7 },
+  pressed: { opacity: 0.86, transform: [{ scale: 0.987 }] },
 });

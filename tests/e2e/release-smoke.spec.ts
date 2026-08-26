@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('welcome keeps both entry actions above the fold on desktop and compact mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
-    const purchase = page.getByRole('button', { name: /内容・購入方法を見る/ });
+    const purchase = page.getByRole('button', { name: /完全版の内容を見る/ });
     const free = page.getByRole('button', { name: /無料版をはじめる/ });
     await expect(purchase).toBeVisible();
     await expect(free).toBeVisible();
@@ -93,7 +93,7 @@ test('persona technique rows offer the shared diamond save action', async ({ pag
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
-  await expect(page.getByText('541').first()).toBeVisible();
+  await expect(page.getByText('流れて消える人生の知識を、何度でも使える知恵に。')).toBeVisible();
   await page.getByRole('button', { name: /無料版をはじめる/ }).click();
   await expect(page.getByText(/336の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
