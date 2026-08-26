@@ -67,6 +67,7 @@
     "content:optimize-theory-cards": "node ./scripts/optimize-theory-card-quality.mjs",
     "content:audit-theory-quality": "node ./scripts/audit-theory-card-quality.mjs",
     "content:import-practical": "node ./scripts/import-practical-actions.mjs",
+    "content:import-owner": "node ./scripts/import-owner-content.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",
     "content:audit-techniques": "node ./scripts/audit-techniques.mjs",
     "content:audit-search": "node ./scripts/audit-technique-search.mjs",

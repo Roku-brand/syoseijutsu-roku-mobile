@@ -1,0 +1,175 @@
+import type { CategoryKey, TechniquePracticalActions } from '@/data/types';
+import { supabase } from '@/lib/supabase';
+
+export type TechniqueContent = {
+  id: string;
+  persona_id: string;
+  category: CategoryKey;
+  title: string;
+  essence: string;
+  explanation: string;
+  memo: string;
+  importance: 1 | 2 | 3;
+  practices: string[];
+  examples: string[];
+  cautions: string[];
+  theory_ids: string[];
+  status: 'published' | 'draft';
+  display_order: number;
+  updated_at: string;
+};
+
+export type TechniqueDraft = {
+  technique_id: string;
+  snapshot: TechniqueSnapshot;
+  base_updated_at: string | null;
+  updated_at: string;
+};
+
+export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'theory_ids'>;
+
+export type TechniqueRevision = {
+  revision_id: string;
+  technique_id: string;
+  snapshot: TechniqueSnapshot & Record<string, unknown>;
+  version: number;
+  created_at: string;
+};
+
+export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSnapshot {
+  return {
+    persona_id: technique.persona_id,
+    category: technique.category,
+    title: technique.title,
+    essence: technique.essence ?? '',
+    explanation: technique.explanation ?? '',
+    memo: technique.memo ?? '',
+    importance: normalizeImportance(technique.importance),
+    practices: normalizeList(technique.practices),
+    examples: normalizeList(technique.examples),
+    cautions: normalizeList(technique.cautions),
+    theory_ids: normalizeList(technique.theory_ids),
+  };
+}
+
+export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueSnapshot {
+  return {
+    persona_id: value.persona_id ?? '',
+    category: value.category ?? 'interpersonal',
+    title: value.title ?? '',
+    essence: value.essence ?? '',
+    explanation: value.explanation ?? '',
+    memo: value.memo ?? '',
+    importance: normalizeImportance(value.importance),
+    practices: normalizeList(value.practices),
+    examples: normalizeList(value.examples),
+    cautions: normalizeList(value.cautions),
+    theory_ids: normalizeList(value.theory_ids),
+  };
+}
+
+function normalizeImportance(value: unknown): 1 | 2 | 3 {
+  return value === 3 ? 3 : value === 2 ? 2 : 1;
+}
+
+function normalizeList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+export function toTechniqueContent(row: Record<string, unknown>): TechniqueContent {
+  const snapshot = normalizeSnapshot(row as Partial<TechniqueSnapshot>);
+  return {
+    ...snapshot,
+    id: String(row.id ?? ''),
+    status: row.status === 'draft' ? 'draft' : 'published',
+    display_order: typeof row.display_order === 'number' ? row.display_order : 0,
+    updated_at: typeof row.updated_at === 'string' ? row.updated_at : new Date(0).toISOString(),
+  };
+}
+
+export async function fetchOwnerTechniques(): Promise<TechniqueContent[]> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.from('techniques').select('*').order('display_order').order('id');
+  if (error) throw error;
+  return (data ?? []).map((row) => toTechniqueContent(row as Record<string, unknown>));
+}
+
+export async function fetchOwnerDrafts(): Promise<TechniqueDraft[]> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.from('technique_drafts').select('technique_id,snapshot,base_updated_at,updated_at');
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    technique_id: row.technique_id as string,
+    snapshot: normalizeSnapshot((row.snapshot ?? {}) as Partial<TechniqueSnapshot>),
+    base_updated_at: row.base_updated_at as string | null,
+    updated_at: row.updated_at as string,
+  }));
+}
+
+export async function saveTechniqueDraft(techniqueId: string, snapshot: TechniqueSnapshot, baseUpdatedAt: string | null) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data: sessionData } = await supabase.auth.getSession();
+  const userId = sessionData.session?.user.id;
+  if (!userId) throw new Error('ログインが必要です。');
+  const { error } = await supabase.from('technique_drafts').upsert({
+    technique_id: techniqueId,
+    snapshot: normalizeSnapshot(snapshot),
+    base_updated_at: baseUpdatedAt,
+    updated_by: userId,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: 'technique_id' });
+  if (error) throw error;
+}
+
+export async function publishTechnique(techniqueId: string, expectedUpdatedAt: string | null) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.rpc('publish_technique', {
+    target_technique_id: techniqueId,
+    expected_updated_at: expectedUpdatedAt,
+  });
+  if (error) throw error;
+  return toTechniqueContent((data ?? {}) as Record<string, unknown>);
+}
+
+export async function fetchTechniqueRevisions(techniqueId: string): Promise<TechniqueRevision[]> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version,created_at').eq('technique_id', techniqueId).order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    revision_id: row.revision_id as string,
+    technique_id: row.technique_id as string,
+    snapshot: { ...normalizeSnapshot((row.snapshot ?? {}) as Partial<TechniqueSnapshot>) },
+    version: row.version as number,
+    created_at: row.created_at as string,
+  }));
+}
+
+export async function restoreTechniqueRevision(revisionId: string) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { error } = await supabase.rpc('restore_technique_revision', { target_revision_id: revisionId });
+  if (error) throw error;
+}
+
+export function toTechniquePayload(technique: TechniqueContent) {
+  const actions: TechniquePracticalActions = {
+    todayActions: technique.practices,
+    examples: technique.examples,
+    cautions: technique.cautions,
+  };
+  return {
+    id: technique.id,
+    title: technique.title,
+    essence: technique.essence,
+    explanation: technique.explanation,
+    memo: technique.memo,
+    importance: technique.importance,
+    relatedTheoryIds: technique.theory_ids,
+    categoryKey: technique.category,
+    categoryName: technique.category,
+    subcategory: technique.persona_id,
+    articleTitle: technique.persona_id,
+    practicalActions: actions,
+    status: technique.status,
+    displayOrder: technique.display_order,
+  };
+}

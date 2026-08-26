@@ -4,6 +4,7 @@ import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
 import { hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
+import { hydratePublishedContent } from '@/lib/published-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -48,6 +49,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
   const [catalogRevision, setCatalogRevision] = useState(0);
   const isOwner = role === 'owner';
+
+  useEffect(() => {
+    void hydratePublishedContent().then((changed) => {
+      if (changed) setCatalogRevision((value) => value + 1);
+    });
+  }, []);
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {

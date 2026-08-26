@@ -10,7 +10,7 @@ import { formatRemainingAccess } from '@/lib/purchase';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { user, profile } = useAuth();
+  const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
@@ -44,8 +44,18 @@ export default function SettingsScreen() {
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
           href="/upgrade"
           onNavigate={(href) => router.push(href as never)}
-          last
+          last={role !== 'owner'}
         />
+        {role === 'owner' ? (
+          <SettingLink
+            icon="document"
+            title="コンテンツ管理"
+            detail="処世術の編集・プレビュー・公開・更新履歴"
+            href="/owner/content"
+            onNavigate={(href) => router.push(href as never)}
+            last
+          />
+        ) : null}
       </View>
 
       <SettingsSection title="サポート・その他" />
