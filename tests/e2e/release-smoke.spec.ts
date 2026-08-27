@@ -229,9 +229,9 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
-  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
+  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
   const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
-  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
+  await expect(work).toHaveAttribute('aria-selected', 'true');
   await life.click();
   await expect(life).toHaveAttribute('aria-selected', 'true');
 });
