@@ -106,9 +106,9 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText(/336の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();
-  await expect(page.getByText(/清潔感で足切りを超える/).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: /を詳しく見る/ }).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByText('ハロー効果').first()).toBeVisible();
+  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
   await page.goto('/');
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
 });
