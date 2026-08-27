@@ -2,6 +2,11 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { json } from '../_shared/http.ts';
 
 const encoder = new TextEncoder();
+const SUCCESSFUL_CHECKOUT_EVENTS = new Set([
+  'checkout.session.completed',
+  'checkout.session.async_payment_succeeded',
+]);
+const FAILED_ASYNC_CHECKOUT_EVENT = 'checkout.session.async_payment_failed';
 
 function hex(buffer: ArrayBuffer) {
   return [...new Uint8Array(buffer)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
@@ -53,8 +58,10 @@ Deno.serve(async (request) => {
   if (existingEvent) return json({ received: true, duplicate: true });
 
   // Apply the entitlement first. Recording the event only after the side effect
-  // succeeds ensures Stripe retries transient database failures safely.
-  if (event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded') {
+  // succeeds ensures Stripe retries transient database failures safely. Both
+  // card and redirect methods such as PayPay reach this method-independent
+  // path only after Stripe reports the Checkout Session as paid.
+  if (SUCCESSFUL_CHECKOUT_EVENTS.has(event.type)) {
     const session = event.data.object;
     const userId = session.metadata?.user_id ?? session.client_reference_id;
     const productId = session.metadata?.product_id;
@@ -75,6 +82,13 @@ Deno.serve(async (request) => {
       });
       if (error) return json({ error: 'entitlement_write_failed' }, 500);
     }
+  }
+
+  // A failed asynchronous method must never grant access. Keep a verified
+  // event record for support/auditing, while leaving the existing entitlement
+  // untouched so the customer can retry Checkout safely.
+  if (event.type === FAILED_ASYNC_CHECKOUT_EVENT) {
+    console.info('Stripe asynchronous Checkout payment failed', { eventId: event.id });
   }
 
   if (event.type === 'charge.refunded') {

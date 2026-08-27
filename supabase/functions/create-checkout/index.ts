@@ -4,6 +4,7 @@ import { corsHeaders, json, optionsResponse } from '../_shared/http.ts';
 const PRODUCT_ID = 'complete-edition';
 const UNIT_AMOUNT = 280;
 const ACCESS_TYPE = 'thirty_day';
+const CURRENCY = 'jpy';
 // Return through the app shell instead of a generated route HTML file. The
 // root route is the most reliable GitHub Pages entry point, and forwards the
 // checkout query to the in-app upgrade screen after Expo Router has loaded.
@@ -18,7 +19,7 @@ async function validateConfiguredPrice(secretKey: string, priceId: string) {
   const price = await response.json();
   return price.active === true
     && price.type === 'one_time'
-    && price.currency === 'jpy'
+    && price.currency === CURRENCY
     && price.unit_amount === UNIT_AMOUNT;
 }
 
@@ -64,6 +65,11 @@ Deno.serve(async (request) => {
   form.set('metadata[product_id]', PRODUCT_ID);
   form.set('metadata[access_type]', ACCESS_TYPE);
   form.set('line_items[0][quantity]', '1');
+  // Deliberately do not send payment_method_types. Stripe Checkout then uses
+  // the account's Dashboard payment-method configuration to show every
+  // eligible method for this JPY one-time payment. This keeps card checkout
+  // working while PayPay is pending review, and lets PayPay appear after it is
+  // enabled in Stripe without a code or deployment change.
   const configuredPriceId = Deno.env.get('STRIPE_PRICE_ID_30DAY');
   if (configuredPriceId) {
     if (!(await validateConfiguredPrice(stripeSecretKey, configuredPriceId))) {
@@ -73,7 +79,7 @@ Deno.serve(async (request) => {
   } else {
     // Safe fallback for the first deployment. Configure STRIPE_PRICE_ID_30DAY
     // to use the dedicated, one-time Stripe Price without changing code.
-    form.set('line_items[0][price_data][currency]', 'jpy');
+    form.set('line_items[0][price_data][currency]', CURRENCY);
     form.set('line_items[0][price_data][unit_amount]', String(UNIT_AMOUNT));
     form.set('line_items[0][price_data][product_data][name]', '処世術禄 完全版｜30日間アクセス');
     form.set('line_items[0][price_data][product_data][description]', '購入完了から30日間。自動更新・継続課金なし。');

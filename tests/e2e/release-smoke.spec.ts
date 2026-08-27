@@ -127,7 +127,20 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
+  await expect(page.getByText(/クレジットカード・PayPay対応/)).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
+});
+
+test('PCの購入確認でも対応決済手段を読みやすく表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/upgrade');
+  await page.getByRole('button', { name: /完全版を購入する/ }).click();
+  const support = page.getByText(/クレジットカード・PayPay対応/);
+  await expect(support).toBeVisible();
+  const supportBox = await support.boundingBox();
+  expect(supportBox).not.toBeNull();
+  expect(supportBox!.width).toBeGreaterThan(300);
+  expect(supportBox!.y + supportBox!.height).toBeLessThanOrEqual(900);
 });
 
 test('マイ処世術は専用ページで追加と削除ができる', async ({ page }) => {

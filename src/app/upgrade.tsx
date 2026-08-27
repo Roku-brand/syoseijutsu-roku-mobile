@@ -169,7 +169,7 @@ export default function UpgradeScreen() {
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
-            <AppText style={styles.confirmationSupport}>カード情報はStripeの決済画面で入力します。返品・返金条件は、利用規約と特商法表記で確認できます。</AppText>
+            <AppText style={styles.confirmationSupport}>クレジットカード・PayPay対応です。利用可能な方法はStripeの決済画面に表示されます。返品・返金条件は、利用規約と特商法表記で確認できます。</AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
             <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
