@@ -37,7 +37,7 @@ function rebuildIndexes() {
         };
         return {
           ...context,
-          practicalActions: practicalActionsById.get(context.id),
+          practicalActions: context.practicalActions ?? practicalActionsById.get(context.id),
           theoryTagIds: context.relatedTheoryIds ?? context.theoryTagIds ?? [],
           categoryKey: category.key,
           tags: getTechniqueTags(context),
@@ -90,6 +90,14 @@ export type PaidTechniquePayload = TechniqueSource & {
 export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheories: TheoryCard[]) {
   resetCatalog();
   for (const item of techniques) {
+    // Managed content is authoritative for an existing technique. Remove the
+    // bundled copy first so edits replace it instead of being ignored. This
+    // also moves the card cleanly when its category or persona changes.
+    for (const existingCategory of categories) {
+      for (const existingSubcategory of existingCategory.subcategories) {
+        existingSubcategory.items = existingSubcategory.items.filter((candidate) => candidate.id !== item.id);
+      }
+    }
     let category = categories.find((candidate) => candidate.key === item.categoryKey);
     if (!category) {
       category = { key: item.categoryKey, name: item.categoryName, subcategories: [] };
@@ -100,10 +108,8 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
       subcategory = { name: item.subcategory, articleTitle: item.articleTitle, items: [] };
       category.subcategories.push(subcategory);
     }
-    if (!subcategory.items.some((candidate) => candidate.id === item.id)) {
-      const { categoryKey: _categoryKey, categoryName: _categoryName, subcategory: _subcategory, articleTitle: _articleTitle, ...source } = item;
-      subcategory.items.push(source);
-    }
+    const { categoryKey: _categoryKey, categoryName: _categoryName, subcategory: _subcategory, articleTitle: _articleTitle, ...source } = item;
+    subcategory.items.push(source);
   }
   for (const theory of paidTheories) {
     if (!theories.some((candidate) => candidate.tagId === theory.tagId)) {

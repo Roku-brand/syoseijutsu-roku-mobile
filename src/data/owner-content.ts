@@ -169,7 +169,7 @@ export async function publishTechnique(techniqueId: string, expectedUpdatedAt: s
     expected_updated_at: expectedUpdatedAt,
   });
   if (error) throw error;
-  return toTechniqueContent((data ?? {}) as Record<string, unknown>);
+  return toTechniqueContent(asTechniqueRow(data));
 }
 
 /** Publishes the current editor state in one database transaction. */
@@ -181,7 +181,12 @@ export async function saveAndPublishTechnique(techniqueId: string, snapshot: Tec
     expected_updated_at: expectedUpdatedAt,
   });
   if (error) throw error;
-  return toTechniqueContent((data ?? {}) as Record<string, unknown>);
+  return toTechniqueContent(asTechniqueRow(data));
+}
+
+function asTechniqueRow(data: unknown): Record<string, unknown> {
+  const row = Array.isArray(data) ? data[0] : data;
+  return row && typeof row === 'object' ? row as Record<string, unknown> : {};
 }
 
 export async function fetchTechniqueRevisions(techniqueId: string): Promise<TechniqueRevision[]> {

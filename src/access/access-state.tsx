@@ -73,6 +73,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
+      await refreshPublishedContent();
       return 'guest';
     }
 
@@ -95,6 +96,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       }
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
+      await refreshPublishedContent();
       const nextState: AccessState = 'free';
       setActualAccessState(nextState);
       return nextState;
@@ -104,10 +106,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
       // server can verify the current entitlement again.
       purgeSecureContent();
       setCatalogRevision((value) => value + 1);
+      await refreshPublishedContent();
       setActualAccessState('error');
       return 'error';
     }
-  }, [loading, role, user]);
+  }, [loading, refreshPublishedContent, role, user]);
 
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
 

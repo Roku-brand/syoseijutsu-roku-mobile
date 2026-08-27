@@ -43,7 +43,8 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     hydratePaidCatalog(techniques, [] as TheoryCard[]);
     loaded = true;
     return true;
-  } catch {
+  } catch (error) {
+    console.warn('Published content hydration failed', error);
     return false;
   }
 }

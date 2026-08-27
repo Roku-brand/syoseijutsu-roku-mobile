@@ -6,7 +6,7 @@ import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { theories } from '@/data/catalog';
+import { techniqueById, theories } from '@/data/catalog';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
@@ -143,7 +143,11 @@ export default function OwnerContentScreen() {
     setNotice(null);
     try {
       await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
-      await refreshPublishedContent();
+      const refreshed = await refreshPublishedContent();
+      const reflected = techniqueById.get(selected.id);
+      if (!refreshed || !reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
+        throw new Error('公開は完了しましたが、表示データの更新を確認できませんでした。もう一度読み込んでください。');
+      }
       await reload(selected.id);
       setPreview(false);
       setPublishConfirming(false);
@@ -277,6 +281,20 @@ export default function OwnerContentScreen() {
       ) : null}
     </Screen>
   );
+}
+
+function isSnapshotReflected(card: { title: string; essence?: string; explanation?: string; importance?: number; categoryKey: string; subcategory: string; relatedTheoryIds?: string[]; theoryTagIds?: string[]; practicalActions?: { todayActions?: string[]; examples?: string[]; cautions?: string[] } }, snapshot: TechniqueSnapshot) {
+  const sameList = (left: string[] | undefined, right: string[]) => JSON.stringify(left ?? []) === JSON.stringify(right);
+  return card.title === snapshot.title
+    && (card.essence ?? '') === snapshot.essence
+    && (card.explanation ?? '') === snapshot.explanation
+    && card.importance === snapshot.importance
+    && card.categoryKey === snapshot.category
+    && card.subcategory === snapshot.persona_id
+    && sameList(card.relatedTheoryIds ?? card.theoryTagIds, snapshot.theory_ids)
+    && sameList(card.practicalActions?.todayActions, snapshot.practices)
+    && sameList(card.practicalActions?.examples, snapshot.examples)
+    && sameList(card.practicalActions?.cautions, snapshot.cautions);
 }
 
 function EditorField({ label, value, onChangeText, multiline = false, tall = false }: { label: string; value: string; onChangeText: (value: string) => void; multiline?: boolean; tall?: boolean }) {

@@ -123,6 +123,40 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
+test('公開済みの管理コンテンツは同梱済みカードを置き換える', async ({ page }) => {
+  await page.route('**/rest/v1/techniques*', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([{
+        id: 'master336-001',
+        persona_id: '印象がいい人',
+        category: 'interpersonal',
+        title: '公開反映テスト',
+        essence: '公開した本質が反映される。',
+        explanation: '管理画面で確定した解説です。',
+        memo: '',
+        importance: 3,
+        practices: ['公開後の実践も反映する'],
+        examples: ['公開後の具体例も反映する'],
+        cautions: ['公開後の注意点も反映する'],
+        theory_ids: ['kb_001'],
+        status: 'published',
+        display_order: 1,
+        updated_at: '2026-08-27T00:00:00.000Z',
+      }]),
+    });
+  });
+
+  await page.goto('/card/master336-001');
+  await expect(page.getByText('公開反映テスト')).toBeVisible();
+  await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
+  await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
+
+  await page.goto('/subcategory/interpersonal/印象がいい人');
+  await expect(page.getByText('公開反映テスト')).toBeVisible();
+});
+
 test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 667 });
   await page.goto('/upgrade');

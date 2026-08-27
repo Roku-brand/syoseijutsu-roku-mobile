@@ -22,11 +22,12 @@ export function generateStaticParams() {
 }
 
 export default function CardDetailScreen() {
+  'use no memo';
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const card = techniqueById.get(id);
   const { addHistory } = useAppState();
   const { accessState, catalogRevision } = useAccess();
+  const card = useMemo(() => techniqueById.get(id), [catalogRevision, id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {

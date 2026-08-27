@@ -1,4 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
@@ -23,14 +24,20 @@ function splitIntoColumns<T>(items: T[]): [T[], T[]] {
 }
 
 export default function PersonaScreen() {
+  'use no memo';
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
   const router = useRouter();
   const { isPaid, catalogRevision } = useAccess();
   const { width } = useResponsiveLayout();
   const { savedIds, toggleSaved } = useAppState();
   const showToast = useAppToast();
-  const category = categories.find((item) => item.key === categoryKey);
-  const persona = category?.subcategories.find((item) => item.name === name);
+  const { category, persona } = useMemo(() => {
+    const nextCategory = categories.find((item) => item.key === categoryKey);
+    return {
+      category: nextCategory,
+      persona: nextCategory?.subcategories.find((item) => item.name === name),
+    };
+  }, [catalogRevision, categoryKey, name]);
 
   if (!category || !persona) {
     return <Screen><EmptyState title="人物像が見つかりません" description="前の画面へ戻って、人物像を選び直してください。" /></Screen>;
