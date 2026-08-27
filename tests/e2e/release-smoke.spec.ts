@@ -103,6 +103,8 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
   await expect(page.getByText('流れていく知恵を、ここで使える体系にする。')).toBeVisible();
   await page.getByRole('button', { name: '無料で始める' }).click();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
+  await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/336の処世術/).first()).toBeVisible();
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByText('無料公開').first()).toBeVisible();

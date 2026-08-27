@@ -1,4 +1,4 @@
-import { useLocalSearchParams, usePathname } from 'expo-router';
+import { useLocalSearchParams, usePathname, useSegments } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
@@ -8,15 +8,17 @@ import { useAppState } from '@/state/app-state';
 export function AccessBoundary({ children }: { children: React.ReactNode }) {
   const { accessState, refreshAccess, continueAsGuest, restorePurchase, isOwner, previewMode, setPreviewMode } = useAccess();
   const pathname = usePathname();
+  const segments = useSegments();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const { hydrated, welcomePageHidden } = useAppState();
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   // The welcome page is the entry point for every visitor. It must not be
   // hidden behind a slow auth or entitlement check, which otherwise leaves a
   // loading sheet over the welcome design on first launch.
+  const isTabHome = segments[0] === '(tabs)';
   const isWelcome = pathname === '/welcome'
     || pathname === '/onboarding'
-    || (pathname === '/' && !checkout && (!hydrated || !welcomePageHidden));
+    || (pathname === '/' && !isTabHome && !checkout && (!hydrated || !welcomePageHidden));
   const simulated = isOwner && previewMode !== 'actual';
 
   if (isWelcome) return <>{children}</>;

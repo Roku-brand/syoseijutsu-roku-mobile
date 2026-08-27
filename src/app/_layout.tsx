@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
-import { Stack, useLocalSearchParams, usePathname } from 'expo-router';
+import { Stack, useLocalSearchParams, usePathname, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -18,6 +18,7 @@ import { SeoMeta } from '@/components/seo-meta';
 
 function AppFrame() {
   const pathname = usePathname();
+  const segments = useSegments();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
   const { hydrated, welcomePageHidden } = useAppState();
@@ -26,7 +27,12 @@ function AppFrame() {
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   // `/onboarding` is retained only for existing links.  While its redirect
   // resolves, it must not show the regular application chrome.
-  const isRootWelcome = pathname === '/' && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
+  // Both the root welcome screen and the tab home resolve to `/` on web.
+  // `usePathname()` alone therefore hides the frame after tapping
+  // 「無料で始める」. Keep the welcome exception scoped to the root route,
+  // while allowing the `(tabs)` home to render its header and navigation.
+  const isTabHome = segments[0] === '(tabs)';
+  const isRootWelcome = pathname === '/' && !isTabHome && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover
