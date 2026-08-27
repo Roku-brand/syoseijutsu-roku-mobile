@@ -18,7 +18,6 @@ import { AppText } from '@/components/ui';
 import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
-import { getTechniqueCount } from '@/data/technique-counts';
 import { getTheoryCoverSummary } from '@/data/theory-display';
 import { FREE_THEORY_IDS, isFreePersona } from '@/access/access-config';
 import { AccessBadge } from '@/components/access-badge';
@@ -51,7 +50,9 @@ type Persona = { id: string; title: string; subtitle: string; category: 'interpe
 
 const CIRCULAR_REEL_COPIES = 5;
 const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
-let lastReelPosition: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 0 };
+// Start on the same representative persona as the editorial home reference.
+// Users can still move freely and their in-session position is retained.
+let lastReelPosition: Record<'techniques' | 'theories', number> = { techniques: 16, theories: 0 };
 
 const techniqueShortcuts = [
   { label: '対人術へ ›', accessibilityLabel: '対人術', key: 'interpersonal' },
@@ -144,7 +145,7 @@ export default function MainScreen() {
   const physicalIndexRef = useRef(0);
   const latestScrollOffsetRef = useRef(0);
   const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
+  const { savedTheoryIds, toggleSavedTheory } = useAppState();
   // Paid content arrives after the server has verified the entitlement.  The
   // catalogue module is intentionally hydrated in place, so this revision is
   // the signal that makes the reel rebuild from its initial preview cards to
@@ -159,7 +160,7 @@ export default function MainScreen() {
       subtitle: lead?.title ?? 'なりたい自分から、必要な処世術を選ぶ。',
       category: category.key,
       principleIds: ids,
-      techniqueCount: getTechniqueCount(category.key, group.name, ids.length),
+      techniqueCount: ids.length,
     };
   })), [catalogRevision, isPaid]);
   const visiblePersonas = personas;
@@ -204,11 +205,11 @@ export default function MainScreen() {
     // of leaving a blank band above the persistent navigation.
     Math.min(idealCardHeight, height - (desktop ? (isPaid ? 230 : 210) : (isPaid ? 388 : 368))),
   );
-  const reelPeek = desktop ? 34 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
-  const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
+  const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
+  const reelGap = desktop ? 0 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
   const safeWidth = width || 390;
   const cardWidth = desktop
-    ? Math.min(Math.max(safeWidth * 0.46, 520), 680)
+    ? Math.min(Math.max(safeWidth * 0.66, 640), 1010)
     : Math.min(
         Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
         680,
@@ -533,6 +534,7 @@ export default function MainScreen() {
             </Pressable>
           );
         })}
+        <View pointerEvents="none" style={styles.contentModeDivider} />
       </View>
       <Animated.View
         testID="home-reel-stage"
@@ -643,8 +645,8 @@ export default function MainScreen() {
             );
           }
 
-          if (reelItem.kind === 'theory') {
-            const theory = reelItem.card;
+          if (reelItem.kind === 'theory' && false) {
+            const theory = (reelItem as TheoryReelItem).card;
             const theorySaved = savedTheoryIds.includes(theory.tagId);
             const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
             return (
@@ -673,7 +675,45 @@ export default function MainScreen() {
             );
           }
 
-          const persona = reelItem.persona;
+          if (reelItem.kind === 'theory') {
+            return (
+              <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
+                <EditorialTheoryCard
+                  theory={reelItem.card}
+                  position={logicalIndex + 1}
+                  total={catalogTheories.length}
+                  width={cardWidth}
+                  height={cardHeight}
+                  compact={!desktop}
+                  onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
+                    router.push({ pathname: '/theory/[id]', params: { id: reelItem.card.tagId, reelIndex: String(activeIndexRef.current) } });
+                  })}
+                />
+              </Animated.View>
+            );
+          }
+
+          if (reelItem.kind === 'persona') {
+            return (
+              <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
+                <EditorialPersonaCard
+                  persona={reelItem.persona}
+                  position={logicalIndex + 1}
+                  total={personas.length}
+                  width={cardWidth}
+                  height={cardHeight}
+                  compact={!desktop}
+                  onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
+                    router.push({ pathname: '/subcategory/[category]/[name]', params: { category: reelItem.persona.category, name: reelItem.persona.title } });
+                  })}
+                />
+              </Animated.View>
+            );
+          }
+
+          return null;
+
+          const persona = (reelItem as PersonaReelItem).persona;
           const personaLocked = !isPaid && !isFreePersona(persona.title);
           const titleMetrics = getReelTitleMetrics(persona.title, cardWidth, density);
           const isAccessible =
@@ -783,7 +823,7 @@ export default function MainScreen() {
           </ScrollView>
         )}
       </View>
-      {!isPaid ? (
+      {!isPaid && !desktop ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="完全版で、すべての処世術・理論・ケースを読む。280円で30日間"
@@ -802,29 +842,144 @@ export default function MainScreen() {
   );
 }
 
+function EditorialPersonaCard({
+  persona,
+  position,
+  total,
+  width,
+  height,
+  compact,
+  onPress,
+}: {
+  persona: Persona;
+  position: number;
+  total: number;
+  width: number;
+  height: number;
+  compact: boolean;
+  onPress: () => void;
+}) {
+  const category = persona.category === 'interpersonal'
+    ? '対人術'
+    : persona.category === 'work'
+      ? '仕事術'
+      : '人生術';
+  const number = String(position).padStart(2, '0');
+  const titleSize = compact ? 24 : width >= 800 ? 46 : 38;
+  const subtitle = persona.title === '正しく評価される人'
+    ? '実力を評価につなげる'
+    : persona.subtitle;
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${persona.title}を詳しく見る`}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.editorialCard,
+        styles.editorialPersonaCard,
+        { width, height },
+        pressed && styles.editorialCardPressed,
+      ]}
+    >
+      <View pointerEvents="none" style={styles.editorialPaperGrain} />
+      <AppText pointerEvents="none" style={[styles.editorialBackgroundNumber, compact && styles.editorialBackgroundNumberCompact]}>{number}</AppText>
+      <View style={[styles.editorialCopy, compact && styles.editorialCopyCompact]}>
+        <AppText variant="label" style={styles.editorialEyebrow}>{category}</AppText>
+        <AppText variant="serif" style={styles.editorialIndex}>{`人物像 ${number} / ${String(total).padStart(2, '0')}`}</AppText>
+        <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
+        <AppText variant="serif" style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{persona.title}</AppText>
+        <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
+        <AppText variant="serif" style={[styles.editorialSubtitle, compact && styles.editorialSubtitleCompact]}>{subtitle}</AppText>
+        <View style={[styles.editorialTextCta, compact && styles.editorialTextCtaCompact]}>
+          <AppText variant="serif" style={styles.editorialTextCtaLabel}>詳しく見る</AppText>
+          <AppText style={styles.editorialTextCtaArrow}>→</AppText>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
+function EditorialTheoryCard({
+  theory,
+  position,
+  total,
+  width,
+  height,
+  compact,
+  onPress,
+}: {
+  theory: TheoryCard;
+  position: number;
+  total: number;
+  width: number;
+  height: number;
+  compact: boolean;
+  onPress: () => void;
+}) {
+  const titleSize = compact ? 25 : width >= 800 ? 48 : 38;
+  const summary = getTheoryCoverSummary(theory.summary, theory.definition ?? '日常の判断と行動を理解するための知識。');
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`${theory.title}を詳しく見る`}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.editorialCard,
+        styles.editorialTheoryCard,
+        { width, height },
+        pressed && styles.editorialCardPressed,
+      ]}
+    >
+      <View pointerEvents="none" style={[styles.theoryDiagram, compact && styles.theoryDiagramCompact]}>
+        <View style={styles.theoryDiagramVertical} />
+        <View style={styles.theoryDiagramHorizontal} />
+        <View style={styles.theoryDiagramMarker} />
+        <AppText style={styles.theoryDiagramDots}>{'·  ·  ·  ·  ·\n\n·  ·  ·  ·  ·\n\n·  ·  ·  ·  ·\n\n·  ·  ·  ·  ·'}</AppText>
+      </View>
+      <View style={[styles.editorialCopy, compact && styles.editorialCopyCompact]}>
+        <AppText variant="label" style={styles.editorialEyebrow}>{theory.categoryTitle}</AppText>
+        <AppText variant="serif" style={styles.editorialIndex}>{`理論 ${String(position).padStart(2, '0')} / ${String(total)}`}</AppText>
+        <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
+        <AppText variant="serif" style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
+        <AppText variant="serif" numberOfLines={compact ? 2 : 3} style={styles.editorialTheorySummary}>{summary}</AppText>
+      </View>
+      <View style={[styles.editorialTheoryFooter, compact && styles.editorialTheoryFooterCompact]}>
+        <AppText variant="serif" style={styles.editorialTheoryCode}>{`P-${String(position).padStart(3, '0')}`}</AppText>
+        <View style={[styles.editorialTextCta, compact && styles.editorialTextCtaCompact]}>
+          <AppText variant="serif" style={styles.editorialTextCtaLabel}>詳しく見る</AppText>
+          <AppText style={styles.editorialTextCtaArrow}>→</AppText>
+        </View>
+      </View>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
-  contentModeSwitch: { minHeight: 60, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-evenly', marginBottom: 2 },
-  contentModeOption: { minWidth: 104, minHeight: 54, alignItems: 'center', justifyContent: 'flex-start' },
-  contentModeText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 21, lineHeight: 31, fontWeight: '700', letterSpacing: 2.8 },
+  contentModeSwitch: { position: 'relative', minHeight: 60, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: 74, marginBottom: 2 },
+  contentModeOption: { minWidth: 104, minHeight: 54, alignItems: 'center', justifyContent: 'flex-start', outlineWidth: 0 },
+  contentModeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 31, fontWeight: '600', letterSpacing: 2.8 },
   contentModeTextDesktop: { fontSize: 30, lineHeight: 42, letterSpacing: 3.8 },
-  contentModeTextInactive: { opacity: 0.88 },
-  contentModeRule: { width: 0, height: 2, marginTop: 7, backgroundColor: 'transparent' },
-  contentModeRuleActive: { width: 70, backgroundColor: colors.gold },
+  contentModeTextInactive: { color: colors.inkSoft, opacity: 0.7 },
+  contentModeRule: { width: 0, height: 1, marginTop: 7, backgroundColor: 'transparent' },
+  contentModeRuleActive: { width: 168, backgroundColor: '#9A722E' },
+  contentModeDivider: { position: 'absolute', top: 6, left: '50%', width: 1, height: 28, backgroundColor: 'rgba(94,82,61,0.24)' },
   accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
   accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
   accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reelStage: { position: 'relative', alignSelf: 'center', flexGrow: 0 },
-  reelStageDesktop: { minHeight: 430 },
-  reelArc: { position: 'absolute', zIndex: 0, left: '20%', right: '20%', bottom: -7, height: 24, borderTopWidth: 1, borderColor: 'rgba(180,132,37,0.28)', borderRadius: 999 },
+  reelStageDesktop: { minHeight: 510 },
+  reelArc: { display: 'none' },
   reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
   reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
-  reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 36, height: 44, marginTop: -22, alignItems: 'center', justifyContent: 'center' },
-  reelArrowLeft: { left: -42 },
-  reelArrowRight: { right: -42 },
-  reelArrowText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 42, lineHeight: 43, fontWeight: '300' },
+  reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 46, height: 58, marginTop: -29, alignItems: 'center', justifyContent: 'center' },
+  reelArrowLeft: { left: -116 },
+  reelArrowRight: { right: -116 },
+  reelArrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 48, lineHeight: 49, fontWeight: '300' },
   reelArrowPressed: { opacity: 0.58, transform: [{ scale: 0.9 }] },
   techniqueCard: {
     position: 'relative',
@@ -984,15 +1139,74 @@ const styles = StyleSheet.create({
   unlockPeriod: { color: colors.muted, fontSize: 9, lineHeight: 13 },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
   shortcuts: { marginTop: 15 },
-  shortcutsDesktop: { marginTop: 20 },
+  shortcutsDesktop: { width: '100%', marginTop: 42, paddingTop: 26, borderTopWidth: 1, borderTopColor: 'rgba(84,73,56,0.14)' },
   techniqueShortcutGrid: { flexDirection: 'row', justifyContent: 'space-around', gap: 8 },
   shortcutLink: { flex: 1, minWidth: 0, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
-  shortcutLinkText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700', letterSpacing: 0.4, textAlign: 'center' },
-  shortcutLinkTextActive: { color: '#9A6F1B' },
-  shortcutLinkRule: { width: 30, height: 1, marginTop: 6, backgroundColor: 'rgba(184,138,42,0.52)' },
-  shortcutLinkRuleActive: { width: 42, backgroundColor: colors.gold },
-  theoryShortcutGrid: { flexDirection: 'row', gap: 14, paddingHorizontal: 4, paddingRight: 12 },
+  shortcutLinkText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '500', letterSpacing: 1.8, textAlign: 'center' },
+  shortcutLinkTextActive: { color: colors.ink, fontWeight: '700' },
+  shortcutLinkRule: { width: 30, height: 1, marginTop: 9, backgroundColor: 'transparent' },
+  shortcutLinkRuleActive: { width: 92, backgroundColor: '#9A722E' },
+  theoryShortcutGrid: { flexDirection: 'row', justifyContent: 'space-between', gap: 14, paddingHorizontal: 4, paddingRight: 12, minWidth: '100%' },
   theoryShortcut: { minWidth: 84, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
-  theoryShortcutText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  theoryShortcutText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 16, lineHeight: 23, fontWeight: '500', letterSpacing: 1.2 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
+  editorialCard: {
+    position: 'relative',
+    overflow: 'hidden',
+    borderRadius: 18,
+    justifyContent: 'center',
+    shadowColor: '#45321E',
+    shadowOffset: { width: 0, height: 18 },
+    shadowOpacity: 0.13,
+    shadowRadius: 25,
+    elevation: 5,
+  },
+  editorialPersonaCard: { backgroundColor: '#352518' },
+  editorialTheoryCard: { backgroundColor: '#14253C' },
+  editorialCardPressed: { opacity: 0.9 },
+  editorialPaperGrain: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    opacity: 0.38,
+    backgroundColor: '#4A3521',
+    borderWidth: 1,
+    borderColor: 'rgba(244,229,190,0.14)',
+  },
+  editorialBackgroundNumber: {
+    position: 'absolute',
+    right: 42,
+    bottom: -40,
+    color: 'rgba(213,176,101,0.12)',
+    fontFamily: fonts.serif,
+    fontSize: 214,
+    lineHeight: 230,
+    fontWeight: '400',
+  },
+  editorialBackgroundNumberCompact: { right: 16, bottom: -22, fontSize: 118, lineHeight: 132 },
+  editorialCopy: { width: '70%', paddingHorizontal: 72, zIndex: 2 },
+  editorialCopyCompact: { width: '100%', paddingHorizontal: 28 },
+  editorialEyebrow: { color: '#C9A356', fontSize: 14, lineHeight: 20, letterSpacing: 2.2, fontWeight: '700' },
+  editorialIndex: { marginTop: 11, color: '#EEE8DD', fontSize: 17, lineHeight: 25, letterSpacing: 1.4 },
+  editorialAccentRule: { width: 38, height: 1, marginTop: 20, marginBottom: 20, backgroundColor: '#BC9346' },
+  editorialAccentRuleCompact: { marginTop: 10, marginBottom: 11 },
+  editorialTitle: { color: '#FFFDF8', fontWeight: '500', letterSpacing: 2.1, flexShrink: 1 },
+  editorialSubtitle: { color: '#EEE8DD', fontSize: 21, lineHeight: 31, letterSpacing: 1.4 },
+  editorialSubtitleCompact: { fontSize: 16, lineHeight: 23, letterSpacing: 0.8 },
+  editorialTextCta: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', gap: 18, marginTop: 38, borderBottomWidth: 1, borderBottomColor: '#C49A4B', paddingBottom: 8 },
+  editorialTextCtaCompact: { gap: 12, marginTop: 14, paddingBottom: 4 },
+  editorialTextCtaLabel: { color: '#FFF9EE', fontSize: 17, lineHeight: 25, letterSpacing: 1.6 },
+  editorialTextCtaArrow: { color: '#D2A950', fontFamily: fonts.serif, fontSize: 28, lineHeight: 28 },
+  editorialTheorySummary: { marginTop: 20, color: '#EEF1F4', fontSize: 19, lineHeight: 31, letterSpacing: 1.1 },
+  editorialTheoryFooter: { position: 'absolute', left: 96, right: 90, bottom: 44, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: 'rgba(215,224,232,0.3)', paddingTop: 20, zIndex: 2 },
+  editorialTheoryFooterCompact: { left: 28, right: 28, bottom: 19, paddingTop: 10 },
+  editorialTheoryCode: { color: '#F1F0E8', fontSize: 18, lineHeight: 25, letterSpacing: 2 },
+  theoryDiagram: { position: 'absolute', right: 28, top: 20, bottom: 20, width: '39%', opacity: 0.78 },
+  theoryDiagramCompact: { opacity: 0.22, right: -38, width: '58%' },
+  theoryDiagramVertical: { position: 'absolute', top: 0, bottom: 74, right: '46%', width: 1, backgroundColor: 'rgba(207,177,107,0.62)' },
+  theoryDiagramHorizontal: { position: 'absolute', top: '46%', left: 0, right: 0, height: 1, backgroundColor: 'rgba(207,177,107,0.52)' },
+  theoryDiagramMarker: { position: 'absolute', top: '46%', right: '46%', width: 12, height: 12, marginTop: -6, marginRight: -6, backgroundColor: '#C8A359' },
+  theoryDiagramDots: { position: 'absolute', top: '18%', right: '10%', color: 'rgba(229,227,205,0.82)', fontSize: 16, lineHeight: 12, letterSpacing: 7, textAlign: 'center' },
 });

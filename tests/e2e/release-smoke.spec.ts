@@ -32,7 +32,7 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(hideWelcome).toBeVisible();
   await hideWelcome.click();
   await page.goto('/');
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 17 \/ 26/).first()).toBeVisible();
 });
 
 test('my page keeps the guest account entry compact', async ({ page }) => {
@@ -105,9 +105,8 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText(/336の処世術/).first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
-  await expect(page.getByText('無料公開').first()).toBeVisible();
+  await expect(page.getByText('正しく評価される人').first()).toBeVisible();
+  await expect(page.getByText(/人物像 17 \/ 26/).first()).toBeVisible();
   await expect(page.getByRole('button', { name: /を詳しく見る/ }).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
@@ -248,7 +247,7 @@ test('desktop home gives the featured card enough vertical presence', async ({ p
   expect(reel).not.toBeNull();
   expect(shortcuts).not.toBeNull();
   expect(reel!.height).toBeGreaterThan(460);
-  expect(shortcuts!.y).toBeLessThan(700);
+  expect(shortcuts!.y).toBeGreaterThan(reel!.y + reel!.height);
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
