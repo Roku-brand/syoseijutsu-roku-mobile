@@ -7,6 +7,7 @@ import {
   Easing,
   FlatList,
   Pressable,
+  Platform,
   ScrollView,
   StyleSheet,
   View,
@@ -264,7 +265,7 @@ export default function MainScreen() {
       toValue: 1,
       duration: 240,
       easing: Easing.out(Easing.cubic),
-      useNativeDriver: true,
+      useNativeDriver: Platform.OS !== 'web',
     }).start();
   }, [reduceMotion, reelEntrance, reelType]);
 
@@ -586,7 +587,7 @@ export default function MainScreen() {
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { x: reelScrollX } } }],
             {
-              useNativeDriver: true,
+              useNativeDriver: Platform.OS !== 'web',
               listener: (event: NativeSyntheticEvent<NativeScrollEvent>) => {
                 updateActiveCard(event);
                 scheduleNearestCardSnap();

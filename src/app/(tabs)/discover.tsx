@@ -190,7 +190,8 @@ function TechniqueBrowser({
           const category = categories.find((item) => item.key === key);
           if (!category) return null;
           const freeCount = category.subcategories.reduce(
-            (total, persona) => total + persona.items.length,
+            (total, persona) =>
+              total + persona.items.filter((item) => FREE_TECHNIQUE_IDS.has(item.id)).length,
             0,
           );
           const count = getCategoryTechniqueCount(key);
@@ -251,7 +252,7 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
             <AppText style={styles.theoryCount}>
               {isPaid
                 ? `${getTheoryCategoryCount(category.id)}件`
-                : `無料 ${theories.filter((theory) => theory.categoryId === category.id).length}件 ／ 全${getTheoryCategoryCount(category.id)}件`}
+                : `無料 ${theories.filter((theory) => theory.categoryId === category.id && FREE_THEORY_ID_SET.has(theory.tagId)).length}件 ／ 全${getTheoryCategoryCount(category.id)}件`}
             </AppText>
           </Pressable>
         ))}

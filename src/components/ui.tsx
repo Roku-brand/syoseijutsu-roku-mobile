@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
+  useWindowDimensions,
   type PressableProps,
   type ScrollViewProps,
   type TextProps,
@@ -47,13 +48,15 @@ export function Screen({
   ScrollViewProps & {
     scroll?: boolean;
     scrollRef?: React.RefObject<ScrollViewType | null>;
-  }) {
+}) {
+  const { width } = useWindowDimensions();
+  const compact = width < 700;
   const content = scroll ? (
     <ScrollView
       ref={scrollRef}
       {...props}
       style={[styles.flex, props.style]}
-      contentContainerStyle={[styles.screenContent, contentContainerStyle]}
+      contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact, contentContainerStyle]}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >
@@ -451,6 +454,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.xl,
     paddingBottom: spacing.section,
   },
+  screenContentCompact: { paddingBottom: layout.bottomContentInset },
   text: {
     color: colors.ink,
     fontFamily: fonts.sans,

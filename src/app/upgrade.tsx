@@ -117,7 +117,7 @@ export default function UpgradeScreen() {
             <View style={styles.productCopy}>
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
               <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
-              <View style={styles.productPriceRow}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
+              <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>期間限定割引</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
               <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21コース</AppText></View>
             </View>
           </View>
@@ -210,8 +210,11 @@ const styles = StyleSheet.create({
   productLead: { marginTop: 2, color: '#635A4D', fontSize: 12, lineHeight: 17 },
   productLeadCompact: { fontSize: 10, lineHeight: 14 },
   productPriceRow: { marginTop: 3, flexDirection: 'row', alignItems: 'center', gap: 9 },
+  originalPriceGroup: { alignItems: 'center' },
   originalPrice: { color: '#8C8273', fontSize: 18, lineHeight: 25, textDecorationLine: 'line-through' },
   originalPriceCompact: { fontSize: 12, lineHeight: 17 },
+  originalPriceNote: { marginTop: -1, color: '#9A6B22', fontSize: 8, lineHeight: 11, fontWeight: '700' },
+  originalPriceNoteCompact: { fontSize: 7, lineHeight: 9 },
   productPrice: { color: '#BB7B0B', fontSize: 44, lineHeight: 51, fontWeight: '700' },
   productPriceCompact: { fontSize: 31, lineHeight: 36 },
   durationBadge: { paddingHorizontal: 9, paddingVertical: 4, borderWidth: 1, borderColor: '#C9932C', borderRadius: 8 },

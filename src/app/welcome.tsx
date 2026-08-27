@@ -24,12 +24,8 @@ const desktopNotes: Array<{ text: string; tone: NoteTone; position: string }> = 
 const mobileNotes: Array<{ text: string; tone: NoteTone; position: string }> = [
   { text: '友達が多い人の\n特徴5選', tone: 'ink', position: 'noteMobileOne' },
   { text: '知ってる。\nでも行動できない…', tone: 'speech', position: 'noteMobileTwo' },
-  { text: '自分の話ばかり\nしない', tone: 'paper', position: 'noteMobileThree' },
-  { text: 'ピークエンド\nの法則', tone: 'paper', position: 'noteMobileFour' },
-  { text: '結局どう使えば\nいいの？？', tone: 'speech', position: 'noteMobileFive' },
-  { text: '現状維持バイアス', tone: 'ink', position: 'noteMobileSix' },
-  { text: '単純接触効果', tone: 'ink', position: 'noteMobileSeven' },
-  { text: 'プレモーテム', tone: 'paper', position: 'noteMobileEight' },
+  { text: '結局どう使えば\nいいの？？', tone: 'speech', position: 'noteMobileThree' },
+  { text: 'プレモーテム', tone: 'paper', position: 'noteMobileFour' },
 ];
 
 export default function Welcome() {
@@ -143,10 +139,6 @@ function noteStyle(position: string) {
     case 'noteMobileTwo': return styles.noteMobileTwo;
     case 'noteMobileThree': return styles.noteMobileThree;
     case 'noteMobileFour': return styles.noteMobileFour;
-    case 'noteMobileFive': return styles.noteMobileFive;
-    case 'noteMobileSix': return styles.noteMobileSix;
-    case 'noteMobileSeven': return styles.noteMobileSeven;
-    case 'noteMobileEight': return styles.noteMobileEight;
     default: return undefined;
   }
 }
@@ -231,14 +223,10 @@ const styles = StyleSheet.create({
   noteDesktopSeven: { right: '11%', top: '57%', transform: [{ rotate: '-3deg' }] },
   noteDesktopEight: { right: '3%', top: '43%', transform: [{ rotate: '8deg' }] },
   noteDesktopNine: { right: '3%', top: '70%', transform: [{ rotate: '-5deg' }] },
-  noteMobileOne: { left: 18, top: 88, transform: [{ rotate: '-9deg' }] },
-  noteMobileTwo: { right: 17, top: 96, transform: [{ rotate: '4deg' }] },
-  noteMobileThree: { left: 16, top: 202, transform: [{ rotate: '-8deg' }] },
-  noteMobileFour: { right: 14, top: 230, transform: [{ rotate: '7deg' }] },
-  noteMobileFive: { left: 16, top: 373, transform: [{ rotate: '-4deg' }] },
-  noteMobileSix: { left: 20, bottom: 62, transform: [{ rotate: '-8deg' }] },
-  noteMobileSeven: { right: 16, top: 385, transform: [{ rotate: '5deg' }] },
-  noteMobileEight: { right: 19, bottom: 105, transform: [{ rotate: '6deg' }] },
+  noteMobileOne: { left: 14, top: 120, transform: [{ rotate: '-9deg' }] },
+  noteMobileTwo: { right: 14, top: 120, transform: [{ rotate: '4deg' }] },
+  noteMobileThree: { left: 14, bottom: 15, transform: [{ rotate: '-4deg' }] },
+  noteMobileFour: { right: 14, bottom: 15, transform: [{ rotate: '6deg' }] },
   overview: { width: '100%', paddingHorizontal: 17, paddingTop: 33, paddingBottom: 34, backgroundColor: 'rgba(250,246,238,0.84)' },
   overviewDesktop: { paddingHorizontal: 44, paddingTop: 33, paddingBottom: 26 },
   overviewCompact: { paddingHorizontal: 12, paddingTop: 27 },
@@ -257,7 +245,7 @@ const styles = StyleSheet.create({
   statNumber: { color: '#11120F', fontSize: 36, lineHeight: 47 },
   statUnit: { color: '#11120F', fontSize: 14, lineHeight: 21 },
   statLabel: { marginTop: 5, color: '#23231F', fontSize: 17, lineHeight: 24 },
-  statDescription: { marginTop: 9, color: '#423D34', fontSize: 9, lineHeight: 14, textAlign: 'center' },
+  statDescription: { marginTop: 9, color: '#423D34', fontSize: 10.5, lineHeight: 15, textAlign: 'center' },
   stepsWrap: { width: '100%', marginTop: 34 },
   stepsWrapCompact: { marginTop: 28 },
   stepsHeading: { color: '#292720', fontSize: 17, lineHeight: 25, textAlign: 'center', letterSpacing: 0.8 },
@@ -266,7 +254,7 @@ const styles = StyleSheet.create({
   stepIcon: { width: 50, height: 50, borderRadius: 25, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C5A66E', backgroundColor: '#FBF6EC' },
   stepIconText: { color: '#1F201C', fontSize: 25, lineHeight: 30 },
   stepTitle: { marginTop: 7, color: '#2B2923', fontSize: 14, lineHeight: 20 },
-  stepDescription: { marginTop: 5, color: '#433D33', fontSize: 8, lineHeight: 12, textAlign: 'center' },
+  stepDescription: { marginTop: 5, color: '#433D33', fontSize: 9.5, lineHeight: 14, textAlign: 'center' },
   stepArrow: { position: 'absolute', top: 13, right: -3, color: '#9E7C43', fontSize: 24, lineHeight: 28 },
   systemMessage: { marginTop: 29, color: '#24221D', fontSize: 21, lineHeight: 31, textAlign: 'center', letterSpacing: 0.7 },
   systemMessageDesktop: { marginTop: 26, fontSize: 27, lineHeight: 37, letterSpacing: 1.2 },

@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
+import { AccessBadge } from '@/components/access-badge';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { learningCases, learningStages } from '@/data/learning';
@@ -55,7 +56,10 @@ export default function LearnHomeScreen() {
                 <View style={styles.stageIcon}><AppText style={styles.stageIconText}>{stage.number === 1 ? '芽' : stage.number === 2 ? '力' : '冠'}</AppText></View>
                 <View style={styles.stageCopy}>
                   <View style={styles.stageTopline}>
-                    <AppText style={styles.stageNumber}>Stage {stage.number}</AppText>
+                    <View style={styles.stageIdentity}>
+                      <AppText style={styles.stageNumber}>Stage {stage.number}</AppText>
+                      {locked ? <AccessBadge locked compact /> : null}
+                    </View>
                     <AppText style={[styles.stageProgress, locked && styles.stageProgressLocked]}>{completeCount}/{caseCount} ケース</AppText>
                   </View>
                   <AppText style={styles.stageTitle}>{stage.title}</AppText>
@@ -63,7 +67,6 @@ export default function LearnHomeScreen() {
                 </View>
                 <AppText style={styles.chevron}>›</AppText>
               </Pressable>
-              {locked ? <AppText style={styles.lockedReason}>{stage.number === 2 ? '頼まれ方・押され方・交渉の局面を扱います。' : '仕事と人生の選択を、自分の基準で決める局面を扱います。'}</AppText> : null}
               <View style={[styles.stageFooter, density !== 'normal' && styles.stageFooterCompact]}>
                 <View style={styles.dots}>
                   {Array.from({ length: caseCount }, (_, index) => {
@@ -83,7 +86,7 @@ export default function LearnHomeScreen() {
                     );
                   })}
                 </View>
-                <AppText style={styles.caseHint}>番号からケースを選ぶ</AppText>
+                <AppText style={[styles.caseHint, locked && styles.caseHintLocked]}>{locked ? '完全版で全ケースを開放' : '番号からケースを選ぶ'}</AppText>
               </View>
             </View>
           );
@@ -114,12 +117,12 @@ const styles = StyleSheet.create({
   stageCopy: { flex: 1, minWidth: 0 },
   chevron: { color: colors.ink, fontSize: 24, lineHeight: 27 },
   stageTopline: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  stageIdentity: { flexDirection: 'row', alignItems: 'center', gap: 7, minWidth: 0 },
   stageNumber: { color: colors.gold, fontFamily: fonts.sans, fontSize: 10, letterSpacing: 1.45, fontWeight: '700' },
   stageProgress: { color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.6, fontWeight: '700' },
   stageProgressLocked: { color: colors.gold },
   stageTitle: { marginTop: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   stageIntro: { marginTop: 1, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 17 },
-  lockedReason: { display: 'none' },
   stageFooter: { marginTop: 'auto', paddingTop: 8, alignItems: 'center' },
   stageFooterCompact: { paddingTop: 4 },
   dots: { width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
@@ -129,5 +132,6 @@ const styles = StyleSheet.create({
   dotTextComplete: { color: '#FFFFFF' },
   dotPressed: { opacity: 0.55, transform: [{ scale: 0.92 }] },
   caseHint: { marginTop: 5, color: colors.muted, fontFamily: fonts.sans, fontSize: 9, letterSpacing: 0.5, textAlign: 'center' },
+  caseHintLocked: { color: colors.gold, fontWeight: '700' },
   pressed: { opacity: 0.68, transform: [{ scale: 0.99 }] },
 });
