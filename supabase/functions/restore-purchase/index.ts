@@ -16,6 +16,7 @@ type StripePayment = {
   created?: number;
   client_reference_id?: string | null;
   payment_intent?: string | null;
+  customer_details?: { email?: string | null } | null;
   latest_charge?: string | {
     created?: number;
     paid?: boolean;
@@ -39,6 +40,34 @@ function isMatchingPayment(payment: StripePayment, userId: string) {
 function isUnrefundedPaymentIntent(payment: StripePayment, userId: string) {
   const charge = typeof payment.latest_charge === 'object' ? payment.latest_charge : null;
   return isMatchingPayment(payment, userId)
+    && charge?.paid === true
+    && charge.refunded !== true
+    && (charge.amount_refunded ?? 0) === 0;
+}
+
+function normalizedEmail(value: string | null | undefined) {
+  return value?.trim().toLocaleLowerCase('en-US') ?? '';
+}
+
+function isGuestCheckoutClaim(session: StripePayment, email: string | null | undefined, emailConfirmedAt: string | null | undefined) {
+  const amount = session.amount_total ?? session.amount_received ?? session.amount;
+  return Boolean(emailConfirmedAt)
+    && session.metadata?.purchase_flow === 'guest_claim'
+    && session.metadata?.product_id === PRODUCT_ID
+    && session.payment_status === 'paid'
+    && amount === UNIT_AMOUNT
+    && session.currency === CURRENCY
+    && normalizedEmail(session.customer_details?.email) === normalizedEmail(email);
+}
+
+function isUnrefundedGuestPaymentIntent(payment: StripePayment) {
+  const charge = typeof payment.latest_charge === 'object' ? payment.latest_charge : null;
+  const amount = payment.amount_received ?? payment.amount_total ?? payment.amount;
+  return payment.metadata?.purchase_flow === 'guest_claim'
+    && payment.metadata?.product_id === PRODUCT_ID
+    && payment.status === 'succeeded'
+    && amount === UNIT_AMOUNT
+    && payment.currency === CURRENCY
     && charge?.paid === true
     && charge.refunded !== true
     && (charge.amount_refunded ?? 0) === 0;
@@ -119,14 +148,19 @@ Deno.serve(async (request) => {
     const session = requestedSessionId
       ? await retrieveCheckoutSession(stripeSecretKey, requestedSessionId)
       : null;
-    if (session && !isMatchingPayment(session, userData.user.id)) return json({ restored: false });
+    const guestClaim = session
+      ? isGuestCheckoutClaim(session, userData.user.email, userData.user.email_confirmed_at)
+      : false;
+    if (session && !guestClaim && !isMatchingPayment(session, userData.user.id)) return json({ restored: false });
     const candidates = session ? [] : await searchPaymentIntents(stripeSecretKey, userData.user.id);
     const candidate = session ?? candidates.find((item) => isMatchingPayment(item, userData.user.id));
     const paymentIntentId = session?.payment_intent ?? candidate?.id;
     const payment = paymentIntentId
       ? await retrievePaymentIntent(stripeSecretKey, paymentIntentId)
       : null;
-    if (!payment?.id || !isUnrefundedPaymentIntent(payment, userData.user.id)) return json({ restored: false });
+    if (!payment?.id || !(guestClaim
+      ? isUnrefundedGuestPaymentIntent(payment)
+      : isUnrefundedPaymentIntent(payment, userData.user.id))) return json({ restored: false });
 
     const charge = typeof payment.latest_charge === 'object' ? payment.latest_charge : null;
     const accessType = payment.metadata?.access_type === 'thirty_day' ? 'thirty_day' : 'legacy_lifetime';
@@ -149,7 +183,7 @@ Deno.serve(async (request) => {
     const refreshedAccess = Array.isArray(refreshedRows) ? refreshedRows[0] : refreshedRows;
     return json({
       restored: refreshedAccess?.access_status === 'active',
-      source: session ? 'checkout_session' : 'payment_intent',
+      source: guestClaim ? 'guest_checkout_claim' : session ? 'checkout_session' : 'payment_intent',
       access: refreshedAccess,
     });
   } catch (error) {

@@ -92,17 +92,17 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
 }
 
 /**
- * Uses the access token returned by signup immediately, so Checkout does not
- * depend on browser session storage or React auth state finishing an update.
+ * Uses the access token returned by signup immediately when present, but also
+ * supports guest Checkout. A guest purchase is safely claimed later only by a
+ * confirmed account with the same Stripe Checkout receipt email.
  */
 export async function createCompleteEditionCheckout(accessToken?: string) {
   if (!supabase) throw new Error('購入機能が設定されていません。');
   const token = accessToken ?? (await supabase.auth.getSession()).data.session?.access_token;
-  if (!token) throw new Error('購入するにはログインしてください。');
 
   const { data, error } = await supabase.functions.invoke('create-checkout', {
     body: { productId: COMPLETE_EDITION_PRODUCT_ID },
-    headers: { Authorization: `Bearer ${token}` },
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   });
   if (error) throw new Error(error.message || '購入画面を開けませんでした。');
   if (data?.alreadyPaid) return { alreadyPaid: true as const };

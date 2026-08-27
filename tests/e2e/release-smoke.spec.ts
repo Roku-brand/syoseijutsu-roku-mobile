@@ -128,6 +128,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText(/クレジットカード・PayPay対応/)).toBeVisible();
+  await expect(page.getByText(/ログインなしで決済できます/)).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
@@ -237,8 +238,16 @@ test('利用規約にコンテンツ変更の範囲と利用者保護を明示�
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
   await page.goto('/?checkout=success&session_id=cs_test_example');
   await expect(page).toHaveURL(/\/\?checkout=success&session_id=cs_test_example$/);
-  await expect(page.getByRole('button', { name: /購入済みの方はこちら|購入を復元する|購入済みの方は復元する/ })).toBeVisible();
+  await expect(page.getByText(/決済に使用したメールアドレスでログインすると、完全版を有効にできます/)).toBeVisible();
+  await expect(page.getByRole('button', { name: '決済に使ったメールアドレスでログインして完全版を有効にする' })).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
+});
+
+test('購入済みゲストは同じメールアドレスで安全に引き換えられる', async ({ page }) => {
+  await page.goto('/auth?intent=claim&session_id=cs_test_example&mode=signin');
+  await expect(page.getByText('完全版を有効にする', { exact: true })).toBeVisible();
+  await expect(page.getByText(/決済に使用したメールアドレスでアカウントを作成またはログイン/)).toBeVisible();
+  await expect(page.getByText('ログインして完全版を有効にする', { exact: true })).toBeVisible();
 });
 
 test('アカウント復旧と設定のサポート導線を表示できる', async ({ page }) => {

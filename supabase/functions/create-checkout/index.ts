@@ -40,28 +40,42 @@ Deno.serve(async (request) => {
     global: { headers: { Authorization: authHeader } },
   });
   const { data: userData, error: userError } = await authClient.auth.getUser();
-  if (userError || !userData.user) return json({ error: 'authentication_required' }, 401);
+  // Checkout must be reachable before registration for Stripe's public
+  // website verification. A guest purchase is deliberately not granted here:
+  // it is claimed only after the buyer signs in with the verified Checkout
+  // email in restore-purchase.
+  const user = userError ? null : userData.user;
 
   const admin = createClient(supabaseUrl, serviceRoleKey);
-  const { data: accessRows, error: accessError } = await admin.rpc('get_complete_edition_access', {
-    target_user_id: userData.user.id,
-  });
-  if (accessError) return json({ error: 'access_check_failed' }, 500);
-  const currentAccess = Array.isArray(accessRows) ? accessRows[0] : accessRows;
-  if (currentAccess?.access_status === 'active') {
-    return json({ alreadyPaid: true, access: currentAccess });
+  let currentAccess: Record<string, unknown> | null = null;
+  if (user) {
+    const { data: accessRows, error: accessError } = await admin.rpc('get_complete_edition_access', {
+      target_user_id: user.id,
+    });
+    if (accessError) return json({ error: 'access_check_failed' }, 500);
+    currentAccess = Array.isArray(accessRows) ? accessRows[0] : accessRows;
+    if (currentAccess?.access_status === 'active') {
+      return json({ alreadyPaid: true, access: currentAccess });
+    }
   }
 
   const form = new URLSearchParams();
   form.set('mode', 'payment');
   form.set('success_url', `${CHECKOUT_RETURN_URL}?checkout=success&session_id={CHECKOUT_SESSION_ID}`);
   form.set('cancel_url', `${CHECKOUT_RETURN_URL}?checkout=cancelled`);
-  form.set('client_reference_id', userData.user.id);
-  // The Supabase account email is not required to associate a purchase: the
-  // immutable user id below does that. Avoid sending it as `customer_email`,
-  // because Stripe can reject an invalid or legacy auth-profile email before
-  // Checkout opens. Checkout will collect a valid receipt email itself.
-  form.set('metadata[user_id]', userData.user.id);
+  if (user) {
+    form.set('client_reference_id', user.id);
+    // The Supabase account email is not required to associate a purchase: the
+    // immutable user id below does that. Avoid sending it as `customer_email`,
+    // because Stripe can reject an invalid or legacy auth-profile email before
+    // Checkout opens. Checkout will collect a valid receipt email itself.
+    form.set('metadata[user_id]', user.id);
+  } else {
+    // Stripe collects a receipt email. The claim endpoint later verifies that
+    // email against a confirmed Supabase account before granting access.
+    form.set('customer_creation', 'always');
+    form.set('metadata[purchase_flow]', 'guest_claim');
+  }
   form.set('metadata[product_id]', PRODUCT_ID);
   form.set('metadata[access_type]', ACCESS_TYPE);
   form.set('line_items[0][quantity]', '1');
@@ -84,7 +98,8 @@ Deno.serve(async (request) => {
     form.set('line_items[0][price_data][product_data][name]', '処世術禄 完全版｜30日間アクセス');
     form.set('line_items[0][price_data][product_data][description]', '購入完了から30日間。自動更新・継続課金なし。');
   }
-  form.set('payment_intent_data[metadata][user_id]', userData.user.id);
+  if (user) form.set('payment_intent_data[metadata][user_id]', user.id);
+  else form.set('payment_intent_data[metadata][purchase_flow]', 'guest_claim');
   form.set('payment_intent_data[metadata][product_id]', PRODUCT_ID);
   form.set('payment_intent_data[metadata][access_type]', ACCESS_TYPE);
 
@@ -95,7 +110,9 @@ Deno.serve(async (request) => {
       'Content-Type': 'application/x-www-form-urlencoded',
       // Repeated taps and concurrent requests within Stripe's idempotency
       // window resolve to the same Checkout Session.
-      'Idempotency-Key': `complete-edition-30day-v1-${userData.user.id}-${currentAccess?.access_expires_at ?? 'first'}`,
+      'Idempotency-Key': user
+        ? `complete-edition-30day-v1-${user.id}-${currentAccess?.access_expires_at ?? 'first'}`
+        : `complete-edition-30day-guest-v1-${crypto.randomUUID()}`,
     },
     body: form,
   });

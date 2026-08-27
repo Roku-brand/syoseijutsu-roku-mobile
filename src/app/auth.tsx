@@ -4,22 +4,25 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText, DetailHeader } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { checkoutConfirmationRedirectUrl, useAuth } from '@/auth/auth-state';
-import { createCompleteEditionCheckout } from '@/lib/purchase';
+import { checkoutConfirmationRedirectUrl, purchaseClaimRedirectUrl, useAuth } from '@/auth/auth-state';
+import { createCompleteEditionCheckout, reconcileCompleteEditionPurchase } from '@/lib/purchase';
 
 export default function AuthScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ intent?: string; mode?: string }>();
+  const params = useLocalSearchParams<{ intent?: string; mode?: string; session_id?: string }>();
   const { configured, user, signInWithEmail, signUpWithEmail, sendPasswordReset, updatePassword, signOut } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const purchaseIntent = params.intent === 'checkout';
+  const claimSessionId = typeof params.session_id === 'string' ? params.session_id : '';
+  const claimIntent = params.intent === 'claim' && /^cs_(test_|live_)?[A-Za-z0-9]+$/.test(claimSessionId);
   const [mode, setMode] = useState<'signin' | 'signup' | 'forgot' | 'reset'>(
     params.mode === 'reset' ? 'reset' : params.mode === 'signin' ? 'signin' : 'signup',
   );
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const checkoutStarted = useRef(false);
+  const claimStarted = useRef(false);
 
   useEffect(() => {
     if (params.mode === 'reset') setMode('reset');
@@ -44,12 +47,37 @@ export default function AuthScreen() {
     }
   }, [router]);
 
+  const continueToClaim = useCallback(async () => {
+    if (!claimIntent || claimStarted.current) return;
+    claimStarted.current = true;
+    setSubmitting(true);
+    setMessage('購入情報を確認し、完全版を有効にしています…');
+    try {
+      const access = await reconcileCompleteEditionPurchase(claimSessionId);
+      if (access?.status === 'active') {
+        router.replace({ pathname: '/upgrade', params: { checkout: 'success', session_id: claimSessionId } });
+      } else {
+        claimStarted.current = false;
+        setMessage('購入を確認できませんでした。決済に使用したメールアドレスでログインしているか確認してください。');
+      }
+    } catch (error) {
+      claimStarted.current = false;
+      setMessage(error instanceof Error ? error.message : '購入情報を確認できませんでした。');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [claimIntent, claimSessionId, router]);
+
   // This covers both a normal login and the return from the email-confirmation
   // link. `checkoutStarted` makes the redirect idempotent if auth state updates
   // more than once while Supabase exchanges the confirmation token.
   useEffect(() => {
     if (purchaseIntent && user) void continueToCheckout();
   }, [continueToCheckout, purchaseIntent, user]);
+
+  useEffect(() => {
+    if (claimIntent && user) void continueToClaim();
+  }, [claimIntent, continueToClaim, user]);
 
   const submit = async () => {
     setSubmitting(true);
@@ -78,7 +106,9 @@ export default function AuthScreen() {
     }
     const result = mode === 'signin'
       ? await signInWithEmail(email, password)
-      : await signUpWithEmail(email, password, purchaseIntent ? { emailRedirectTo: checkoutConfirmationRedirectUrl() } : undefined);
+      : await signUpWithEmail(email, password, purchaseIntent
+        ? { emailRedirectTo: checkoutConfirmationRedirectUrl() }
+        : claimIntent ? { emailRedirectTo: purchaseClaimRedirectUrl(claimSessionId) } : undefined);
     if (result.error) {
       setSubmitting(false);
       setMessage(result.error);
@@ -88,6 +118,9 @@ export default function AuthScreen() {
       if (purchaseIntent) {
         setSubmitting(false);
         await continueToCheckout(result.session?.access_token);
+      } else if (claimIntent) {
+        setSubmitting(false);
+        await continueToClaim();
       } else {
         setSubmitting(false);
         router.back();
@@ -97,7 +130,9 @@ export default function AuthScreen() {
     setSubmitting(false);
     setMessage(purchaseIntent
       ? '確認メールを送信しました。メール内のリンクを開くと、このまま決済画面へ進みます。'
-      : '確認メールを送信しました。メール内のリンクから登録を完了してください。');
+      : claimIntent
+        ? '確認メールを送信しました。メール内のリンクを開くと、購入確認を続けます。'
+        : '確認メールを送信しました。メール内のリンクから登録を完了してください。');
   };
 
   return (
@@ -105,8 +140,8 @@ export default function AuthScreen() {
       <DetailHeader title="アカウント" />
       <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
       <View style={styles.card}>
-        <AppText style={styles.title}>{mode === 'forgot' ? 'パスワードを再設定' : mode === 'reset' ? '新しいパスワードを設定' : user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : 'アカウントを作成・ログイン'}</AppText>
-        <AppText style={styles.lead}>{mode === 'forgot' ? '登録したメールアドレスへ再設定リンクを送ります。' : mode === 'reset' ? '今後使用する新しいパスワードを入力してください。' : purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
+        <AppText style={styles.title}>{mode === 'forgot' ? 'パスワードを再設定' : mode === 'reset' ? '新しいパスワードを設定' : user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : claimIntent ? '完全版を有効にする' : 'アカウントを作成・ログイン'}</AppText>
+        <AppText style={styles.lead}>{mode === 'forgot' ? '登録したメールアドレスへ再設定リンクを送ります。' : mode === 'reset' ? '今後使用する新しいパスワードを入力してください。' : purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : claimIntent ? '決済に使用したメールアドレスでアカウントを作成またはログインすると、完全版を安全に有効化できます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
 
         {!configured ? (
           <View style={styles.notice}>
@@ -131,7 +166,7 @@ export default function AuthScreen() {
             {mode !== 'forgot' ? <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder={mode === 'reset' ? '新しいパスワード（6文字以上）' : 'パスワード（6文字以上）'} placeholderTextColor={colors.muted} style={styles.input} /> : null}
             {message ? <AppText style={styles.message}>{message}</AppText> : null}
             <Pressable disabled={submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)} onPress={() => void submit()} style={[styles.primary, (submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)) && styles.disabled]}>
-              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'forgot' ? '再設定メールを送る' : mode === 'reset' ? 'パスワードを更新' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : 'ログイン' : purchaseIntent ? 'アカウントを作成して決済へ進む' : 'アカウントを作成'}</AppText>
+              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'forgot' ? '再設定メールを送る' : mode === 'reset' ? 'パスワードを更新' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : claimIntent ? 'ログインして完全版を有効にする' : 'ログイン' : purchaseIntent ? 'アカウントを作成して決済へ進む' : claimIntent ? 'アカウントを作成して完全版を有効にする' : 'アカウントを作成'}</AppText>
             </Pressable>
             {mode === 'signin' ? <Pressable onPress={() => { setMode('forgot'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>パスワードを忘れた方</AppText></Pressable> : null}
             {mode === 'forgot' ? <Pressable onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインへ戻る</AppText></Pressable> : null}

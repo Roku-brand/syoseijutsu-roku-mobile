@@ -4,6 +4,7 @@
 
 - 商品価格をサーバー側で280円に固定
 - Stripe Checkout Session作成（Dashboard管理のカード・PayPay対応）
+- ログイン不要のCheckoutと、購入時メールアドレスでの安全な権限引き換え
 - Stripe署名検証付きWebhook
 - 決済完了時の期限付き`entitlements`付与（決済成功から30×24時間）
 - 旧買い切り購入者の`legacy_lifetime`権利維持
@@ -20,6 +21,7 @@
    - `create-checkout`
    - `access`
    - `stripe-webhook`（JWT検証を無効化。Stripe署名を関数内で検証する）
+   - `restore-purchase`
    - `paid-content`
 3. Edge Function Secretsへ次を登録する。
    - `STRIPE_SECRET_KEY`
@@ -31,6 +33,7 @@
 4. Stripe Webhook URLを`https://<project-ref>.supabase.co/functions/v1/stripe-webhook`に設定する。
 5. Supabase AuthのRedirect URLsへ次を登録する。
    - `https://shoseijutsuroku.com/auth.html?intent=checkout`
+   - `https://shoseijutsuroku.com/auth.html?intent=claim`
    - `https://shoseijutsuroku.com/auth.html?mode=reset`
 6. Stripe Dashboardの**決済手段**でカードを有効のままにし、**PayPay**を有効化して加盟店審査を申請する。Checkout Sessionでは`payment_method_types`を指定していないため、StripeがJPY・一回払いとして適格なカード／PayPayを自動表示する。PayPayが審査中または未有効でもカードCheckoutは継続して利用でき、承認後はコード変更なしで表示対象になる。
 7. Stripeイベントは最低限次を購読する。
@@ -45,6 +48,7 @@
 - StripeテストモードでPayPayを有効にできる場合は、JPY 280のCheckoutを開き、PayPayを選んでStripe公式のテスト手順で決済する。成功時は`checkout.session.completed`または`checkout.session.async_payment_succeeded`から、カードと同じ`grant_complete_edition_access`を実行する。
 - 同じWebhookイベントは`payment_events(provider, event_id)`で、同じCheckout Session／Payment Intentは`access_purchases`の一意制約でそれぞれ重複を拒否する。Webhook再送、ブラウザの再読み込み、成功イベントの重複配信では30日間を加算しない。
 - Checkoutからの取消しと`checkout.session.async_payment_failed`では権限を付与しない。購入完了ページの「購入を復元する」はStripe側の成功済みPayment Intentを再検証してから同じ権限付与関数を呼ぶため、Webhook到達が遅れた場合だけを安全に補完する。
+- 未ログインの購入では、Stripe Checkoutで取得したメールアドレスと一致する**確認済み**Supabaseアカウントからのみ、購入完了URLのSession IDを使って完全版を引き換えられる。Webhookはこのゲスト購入に即時の権限を付与しないため、Session IDだけを知る第三者に権限は渡らない。
 
 ## 販売前の必須残作業
 

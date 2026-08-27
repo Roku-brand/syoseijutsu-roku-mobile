@@ -42,10 +42,6 @@ export default function UpgradeScreen() {
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
 
   const purchase = async () => {
-    if (!user) {
-      router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signup' } });
-      return;
-    }
     setSubmitting(true);
     setMessage('');
     try {
@@ -84,6 +80,10 @@ export default function UpgradeScreen() {
 
   useEffect(() => {
     if (params.checkout === 'success') {
+      if (!user) {
+        setMessage('決済を確認しました。決済に使用したメールアドレスでログインすると、完全版を有効にできます。');
+        return;
+      }
       setMessage('決済を確認しています。完了までこの画面を閉じずにお待ちください。');
       void restorePurchase(params.session_id).then((restored) => {
         setMessage(restored ? '決済を確認しました。完全版をご利用いただけます。' : '決済の反映を待っています。しばらくしてから「購入を復元」を押してください。');
@@ -93,7 +93,7 @@ export default function UpgradeScreen() {
     } else if (params.checkout === 'cancelled') {
       setMessage('購入はキャンセルされました。完全版の利用権は付与されていません。');
     }
-  }, [params.checkout, params.session_id, restorePurchase]);
+  }, [params.checkout, params.session_id, restorePurchase, user]);
 
   useEffect(() => {
     if (params.checkout === 'success' && isPaid) setShowWelcome(true);
@@ -141,6 +141,7 @@ export default function UpgradeScreen() {
             <View style={styles.priceRow}><AppText variant="serif" style={[styles.price, compact && styles.priceCompact]}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={[styles.tax, compact && styles.taxCompact]}>（税込）</AppText></View>
             <AppText style={[styles.paymentType, compact && styles.paymentTypeCompact]}>一回払い・自動更新なし</AppText>
             {message ? <AppText accessibilityRole="alert" style={[styles.message, compact && styles.messageCompact]}>{message}</AppText> : null}
+            {params.checkout === 'success' && !user && params.session_id ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => router.push({ pathname: '/auth', params: { intent: 'claim', session_id: params.session_id, mode: 'signin' } })} style={styles.claimButton}><AppText style={styles.claimButtonText}>決済に使ったメールアドレスでログインして完全版を有効にする</AppText></Pressable> : null}
             <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, compact && styles.primaryCompact, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}>
               <View pointerEvents="none" style={styles.primarySheen} />
               <AppText variant="serif" style={[styles.primaryText, compact && styles.primaryTextCompact]}>{primaryLabel}</AppText>
@@ -169,7 +170,7 @@ export default function UpgradeScreen() {
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
-            <AppText style={styles.confirmationSupport}>クレジットカード・PayPay対応です。利用可能な方法はStripeの決済画面に表示されます。返品・返金条件は、利用規約と特商法表記で確認できます。</AppText>
+            <AppText style={styles.confirmationSupport}>クレジットカード・PayPay対応です。ログインなしで決済できます。決済後、購入時のメールアドレスでアカウントを作成またはログインすると完全版が有効になります。利用可能な方法はStripeの決済画面に表示されます。</AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
             <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
@@ -326,6 +327,8 @@ const styles = StyleSheet.create({
   paymentTypeCompact: { fontSize: 10, lineHeight: 14 },
   message: { marginTop: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 7, backgroundColor: '#F3EADF', color: '#704E2A', fontSize: 10, lineHeight: 14, textAlign: 'center' },
   messageCompact: { fontSize: 9, lineHeight: 12 },
+  claimButton: { minHeight: 42, marginTop: 7, paddingHorizontal: 12, borderWidth: 1, borderColor: '#B47B17', borderRadius: 10, backgroundColor: '#FFF9EF', alignItems: 'center', justifyContent: 'center' },
+  claimButtonText: { color: '#6D4710', fontSize: 11, lineHeight: 16, fontWeight: '700', textAlign: 'center' },
   primary: { position: 'relative', alignSelf: 'stretch', minHeight: 56, marginTop: 10, paddingHorizontal: 36, borderWidth: 1, borderColor: '#FFEDB7', borderRadius: 12, overflow: 'hidden', backgroundColor: '#D99B1B', alignItems: 'center', justifyContent: 'center', shadowColor: '#6C4300', shadowOpacity: 0.52, shadowRadius: 12, shadowOffset: { width: 0, height: 5 }, elevation: 8 },
   primaryCompact: { minHeight: 45, marginTop: 7, borderRadius: 10 },
   primaryText: { color: '#FFF9EC', fontSize: 18, lineHeight: 25, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(61,37,0,0.38)', textShadowRadius: 3 },

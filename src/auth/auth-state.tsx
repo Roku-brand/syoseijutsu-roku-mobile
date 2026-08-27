@@ -202,6 +202,14 @@ export function checkoutConfirmationRedirectUrl() {
   return 'shoseijutsuroku://auth?intent=checkout';
 }
 
+export function purchaseClaimRedirectUrl(sessionId: string) {
+  const query = new URLSearchParams({ intent: 'claim', session_id: sessionId });
+  if (Platform.OS === 'web' && typeof window !== 'undefined') {
+    return `${window.location.origin}/auth.html?${query}`;
+  }
+  return `shoseijutsuroku://auth?${query}`;
+}
+
 export function passwordResetRedirectUrl() {
   if (Platform.OS === 'web' && typeof window !== 'undefined') {
     return `${window.location.origin}/auth.html?mode=reset`;

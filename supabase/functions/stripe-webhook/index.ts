@@ -82,6 +82,9 @@ Deno.serve(async (request) => {
       });
       if (error) return json({ error: 'entitlement_write_failed' }, 500);
     }
+    // Guest Checkout sessions intentionally have no user_id. They are recorded
+    // below, but access is granted only when the buyer later proves control of
+    // the Checkout receipt email through restore-purchase.
   }
 
   // A failed asynchronous method must never grant access. Keep a verified
