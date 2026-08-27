@@ -122,7 +122,7 @@ export default function MyOsScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="マイ処世術を開く"
-          onPress={() => setMemosOpen(true)}
+          onPress={() => router.push('/my-techniques')}
           style={({ pressed }) => [
             styles.osActionCard,
             pressed && styles.pressed,

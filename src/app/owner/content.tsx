@@ -65,8 +65,10 @@ export default function OwnerContentScreen() {
 
   const filtered = useMemo(() => {
     const keywords = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
-    if (!keywords.length) return techniques;
-    return techniques.filter((technique) => keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
+    const matched = !keywords.length
+      ? techniques
+      : techniques.filter((technique) => keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
+    return [...matched].sort((left, right) => techniqueNumber(left.id) - techniqueNumber(right.id) || left.id.localeCompare(right.id, 'en'));
   }, [query, techniques]);
 
   const selected = techniques.find((technique) => technique.id === selectedId) ?? null;
@@ -283,6 +285,11 @@ export default function OwnerContentScreen() {
       ) : null}
     </Screen>
   );
+}
+
+function techniqueNumber(id: string) {
+  const matched = id.match(/(\d+)(?!.*\d)/);
+  return matched ? Number(matched[1]) : Number.MAX_SAFE_INTEGER;
 }
 
 function isSnapshotReflected(card: { title: string; essence?: string; explanation?: string; importance?: number; categoryKey: string; subcategory: string; relatedTheoryIds?: string[]; theoryTagIds?: string[]; practicalActions?: { todayActions?: string[]; examples?: string[]; cautions?: string[] } }, snapshot: TechniqueSnapshot) {

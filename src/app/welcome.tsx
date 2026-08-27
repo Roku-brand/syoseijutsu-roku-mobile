@@ -57,6 +57,14 @@ export default function Welcome() {
       >
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           <View style={[styles.hero, { minHeight: heroHeight }, desktop && styles.heroDesktop]}>
+            <View style={[styles.quickEntry, desktop && styles.quickEntryDesktop, compact && styles.quickEntryCompact]}>
+              <Pressable accessibilityRole="button" accessibilityLabel="無料版をすぐ始める" onPress={startFree} style={({ pressed }) => [styles.quickEntryButton, pressed && styles.pressed]}>
+                <AppText style={styles.quickEntryText}>無料版をはじめる</AppText>
+              </Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel="完全版の内容を見る" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.quickEntryButton, styles.quickEntryButtonComplete, pressed && styles.pressed]}>
+                <AppText style={[styles.quickEntryText, styles.quickEntryTextComplete]}>完全版を見る</AppText>
+              </Pressable>
+            </View>
             {(desktop ? desktopNotes : mobileNotes).map((note, index) => (
               <FloatingNote key={`${note.text}-${index}`} text={note.text} tone={note.tone} style={noteStyle(note.position)} />
             ))}
@@ -190,28 +198,35 @@ const styles = StyleSheet.create({
   scrollContent: { flexGrow: 1 },
   hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingTop: 26, paddingBottom: 34 },
   heroDesktop: { paddingTop: 18, paddingBottom: 54 },
+  quickEntry: { position: 'absolute', top: 13, zIndex: 4, flexDirection: 'row', gap: 7, padding: 4, borderWidth: 1, borderColor: 'rgba(239,216,169,0.34)', borderRadius: 999, backgroundColor: 'rgba(8,9,8,0.50)' },
+  quickEntryDesktop: { top: 16, gap: 9, padding: 5 },
+  quickEntryCompact: { top: 9, transform: [{ scale: 0.9 }] },
+  quickEntryButton: { minHeight: 28, paddingHorizontal: 11, borderRadius: 999, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(244,228,190,0.46)' },
+  quickEntryButtonComplete: { borderColor: '#C99331', backgroundColor: 'rgba(181,120,24,0.24)' },
+  quickEntryText: { color: '#F6ECDB', fontSize: 10, lineHeight: 14, letterSpacing: 0.7, fontWeight: '700' },
+  quickEntryTextComplete: { color: '#F2CF84' },
   heroCopy: { width: '100%', maxWidth: 690, alignItems: 'center', zIndex: 2 },
   heroCopyDesktop: { maxWidth: 800 },
   heroCopyCompact: { transform: [{ scale: 0.92 }] },
   brand: { alignItems: 'center' },
-  brandName: { color: '#E7C174', fontSize: 31, lineHeight: 42, letterSpacing: 8, textShadowColor: 'rgba(92,57,10,0.7)', textShadowRadius: 8 },
+  brandName: { color: '#E9C879', fontSize: 31, lineHeight: 42, letterSpacing: 8, fontWeight: '500' },
   brandNameDesktop: { fontSize: 43, lineHeight: 57, letterSpacing: 12 },
   brandNameCompact: { fontSize: 26, lineHeight: 36, letterSpacing: 6.4 },
   brandReading: { marginTop: 3, color: '#E7C174', fontSize: 8, lineHeight: 13, letterSpacing: 3.5, fontWeight: '800' },
   brandReadingDesktop: { marginTop: 5, fontSize: 10, lineHeight: 16, letterSpacing: 5.4 },
   brandRule: { width: 50, height: 1, marginTop: 21, backgroundColor: '#C88F27' },
-  heroTitle: { marginTop: 38, color: '#FFF8EB', fontSize: 31, lineHeight: 46, letterSpacing: 1.2, textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.75)', textShadowRadius: 10 },
-  heroTitleDesktop: { marginTop: 40, fontSize: 49, lineHeight: 68, letterSpacing: 2.3 },
+  heroTitle: { marginTop: 38, color: '#F6F0E4', fontSize: 31, lineHeight: 46, letterSpacing: 1.8, textAlign: 'center', fontWeight: '400' },
+  heroTitleDesktop: { marginTop: 40, fontSize: 49, lineHeight: 68, letterSpacing: 3 },
   heroTitleCompact: { marginTop: 31, fontSize: 27, lineHeight: 40 },
   heroUnderline: { width: 124, height: 3, marginTop: 9, borderRadius: 9, backgroundColor: '#BD8119', transform: [{ rotate: '-2deg' }] },
-  heroLead: { marginTop: 27, color: '#FAF2E5', fontSize: 17, lineHeight: 27, letterSpacing: 0.9, textAlign: 'center' },
-  heroLeadDesktop: { marginTop: 28, fontSize: 21, lineHeight: 33, letterSpacing: 1.4 },
+  heroLead: { marginTop: 27, color: '#DAD2C4', fontSize: 16, lineHeight: 27, letterSpacing: 1.25, textAlign: 'center', fontWeight: '500' },
+  heroLeadDesktop: { marginTop: 28, fontSize: 20, lineHeight: 33, letterSpacing: 1.8 },
   heroLeadCompact: { marginTop: 22, fontSize: 15, lineHeight: 23 },
-  heroStatement: { marginTop: 31, paddingHorizontal: 20, paddingVertical: 13, borderWidth: 1, borderColor: '#C58B25', borderRadius: 5, backgroundColor: 'rgba(6,7,7,0.35)' },
+  heroStatement: { marginTop: 31, paddingHorizontal: 20, paddingVertical: 13, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#B68A3C', backgroundColor: 'rgba(6,7,7,0.18)' },
   heroStatementDesktop: { marginTop: 30, paddingHorizontal: 28, paddingVertical: 15 },
   heroStatementCompact: { marginTop: 25, paddingHorizontal: 16, paddingVertical: 10 },
-  heroStatementText: { color: '#FFF9EE', fontSize: 23, lineHeight: 34, letterSpacing: 0.7, textAlign: 'center' },
-  heroStatementTextDesktop: { fontSize: 34, lineHeight: 46, letterSpacing: 1.5 },
+  heroStatementText: { color: '#FFF8EC', fontSize: 22, lineHeight: 34, letterSpacing: 1.45, textAlign: 'center', fontWeight: '400' },
+  heroStatementTextDesktop: { fontSize: 33, lineHeight: 46, letterSpacing: 2.2 },
   note: { position: 'absolute', zIndex: 1, minWidth: 92, maxWidth: 190, paddingHorizontal: 14, paddingVertical: 10, alignItems: 'center', justifyContent: 'center' },
   notePaper: { borderRadius: 3, backgroundColor: '#F7EEDB', shadowColor: '#000', shadowOpacity: 0.25, shadowRadius: 9, shadowOffset: { width: 0, height: 5 }, elevation: 4 },
   noteInk: { borderRadius: 4, backgroundColor: 'rgba(27,28,27,0.94)', borderWidth: 1, borderColor: 'rgba(196,143,37,0.48)', shadowColor: '#000', shadowOpacity: 0.34, shadowRadius: 8, shadowOffset: { width: 0, height: 5 }, elevation: 4 },

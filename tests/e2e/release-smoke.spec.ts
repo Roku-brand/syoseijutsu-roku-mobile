@@ -130,6 +130,28 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('特商法表記').first()).toBeVisible();
 });
 
+test('マイ処世術は専用ページで追加と削除ができる', async ({ page }) => {
+  await page.goto('/my-os');
+  await page.getByRole('button', { name: 'マイ処世術を開く' }).click();
+  await expect(page).toHaveURL(/\/my-techniques/);
+  await page.getByRole('textbox', { name: 'マイ処世術' }).fill('焦ったら、一度だけ深呼吸する');
+  await page.getByRole('button', { name: 'マイ処世術を追加' }).click();
+  await expect(page.getByText('焦ったら、一度だけ深呼吸する')).toBeVisible();
+  await page.getByRole('button', { name: '1番目のマイ処世術を削除' }).click();
+  await expect(page.getByText('まだマイ処世術はありません。')).toBeVisible();
+});
+
+test('探すは検索欄から始まり、目的語タグを表示する', async ({ page }) => {
+  await page.goto('/discover');
+  await expect(page.getByText('DISCOVER')).toHaveCount(0);
+  await expect(page.getByText('知りたいことから探す')).toHaveCount(0);
+  for (const label of ['友達', '出世', '進路', '転職', '自己肯定感', 'リーダーシップ']) {
+    await expect(page.getByRole('button', { name: `${label}で検索` })).toBeVisible();
+  }
+  await page.getByRole('button', { name: '友達で検索' }).click();
+  await expect(page.getByLabel('処世術・理論カードを検索')).toHaveValue('友達');
+});
+
 test('公開済みの管理コンテンツは同梱済みカードを置き換える', async ({ page }) => {
   await page.route('**/rest/v1/techniques*', async (route) => {
     await route.fulfill({

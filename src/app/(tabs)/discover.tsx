@@ -22,6 +22,21 @@ import { AccessBadge } from '@/components/access-badge';
 
 type BrowseMode = 'techniques' | 'theories';
 
+const searchAliases: Record<string, string[]> = {
+  '友達': ['友達', '人間関係', '関係'],
+  '出世': ['出世', '評価', '昇進', 'キャリア'],
+  '進路': ['進路', '選択', 'キャリア', '方向性'],
+  '転職': ['転職', 'キャリア', '仕事'],
+  '自己肯定感': ['自己肯定感', '自信', '自己評価'],
+  'リーダーシップ': ['リーダーシップ', 'リーダー', '集団'],
+  '習慣': ['習慣', '継続', '行動'],
+  '交渉': ['交渉', '合意', '説得'],
+};
+
+function matchesKeyword(source: string, keyword: string) {
+  return (searchAliases[keyword] ?? [keyword]).some((term) => source.includes(term));
+}
+
 const theoryCategories = [
   { id: 'psychology', title: '心理学', mark: '心' },
   { id: 'behavioral-science', title: '行動科学', mark: '行' },
@@ -46,7 +61,7 @@ export default function DiscoverScreen() {
         ? []
         : techniqueCards.filter((card) => (isPaid || FREE_TECHNIQUE_IDS.has(card.id))).filter((card) => {
             const source = getTechniqueSearchText(card);
-            return keywords.every((keyword) => source.includes(keyword));
+            return keywords.every((keyword) => matchesKeyword(source, keyword));
           }),
     [isPaid, keywords],
   );
@@ -73,18 +88,13 @@ export default function DiscoverScreen() {
               .filter(Boolean)
               .join(' ')
               .toLocaleLowerCase();
-            return keywords.every((keyword) => source.includes(keyword));
+            return keywords.every((keyword) => matchesKeyword(source, keyword));
           }),
     [isPaid, keywords],
   );
 
   return (
     <BookScreen contentContainerStyle={styles.discoverContent}>
-      <View style={styles.intro}>
-        <AppText variant="label" style={styles.introEyebrow}>DISCOVER</AppText>
-        <AppText variant="serif" style={styles.introTitle}>知りたいことから探す</AppText>
-        <AppText style={styles.introDescription}>処世術と、その背景にある理論を、領域・分類・キーワードからたどれます。</AppText>
-      </View>
       <View style={styles.searchBox}>
         <AppText style={styles.searchIcon}>⌕</AppText>
         <TextInput
@@ -218,8 +228,8 @@ function TechniqueBrowser({
       </View>
       <OrnamentHeading>よく見られる検索</OrnamentHeading>
       <View style={styles.chipGrid}>
-        {['人間関係', '会話', '不安'].map((label) => (
-          <Pressable key={label} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, pressed && styles.pressed]}>
+        {['友達', '出世', '進路', '会話', '人間関係', '転職', '恋愛', '不安', '自己肯定感', 'リーダーシップ', '習慣', '交渉'].map((label) => (
+          <Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label}で検索`} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, pressed && styles.pressed]}>
             <AppText style={styles.searchChipText}>{label}　⌕</AppText>
           </Pressable>
         ))}
@@ -263,10 +273,6 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
 
 const styles = StyleSheet.create({
   discoverContent: { paddingBottom: spacing.xl * 2 },
-  intro: { maxWidth: 760, width: '100%', alignSelf: 'center', marginBottom: spacing.lg },
-  introEyebrow: { color: colors.gold, letterSpacing: 2, fontSize: 10 },
-  introTitle: { marginTop: 4, color: colors.ink, fontSize: 30, lineHeight: 40, fontWeight: '700' },
-  introDescription: { marginTop: 5, maxWidth: 620, color: colors.muted, fontSize: 13, lineHeight: 21 },
   searchBox: {
     minHeight: 48,
     flexDirection: 'row',

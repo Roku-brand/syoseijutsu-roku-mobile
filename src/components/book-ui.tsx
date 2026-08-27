@@ -304,6 +304,7 @@ function getCurrentTitle(pathname: string) {
     pathname.includes('/topic/') ||
     pathname.includes('/catalog')
   ) return '探す';
+  if (pathname.includes('/my-techniques')) return 'マイ処世術';
   if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイページ';
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';
@@ -713,9 +714,9 @@ const styles = StyleSheet.create({
   },
   headerActionLabelLight: { color: colors.gold },
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
-  menuMark: { width: 24, height: 22, justifyContent: 'space-around', paddingVertical: 4 },
+  menuMark: { width: 30, height: 27, justifyContent: 'space-between', paddingVertical: 1 },
   menuMarkActive: { opacity: 1 },
-  menuLine: { width: 24, height: 1.5, borderRadius: 2, alignSelf: 'flex-end' },
+  menuLine: { width: 28, height: 1.5, borderRadius: 2, alignSelf: 'flex-end' },
   principleMark: {
     width: 27,
     height: 27,
