@@ -235,6 +235,20 @@ test('ホーム下部の領域ボタンはカルーセル内を移動する', as
   await expect(life).toHaveAttribute('aria-selected', 'true');
 });
 
+test('desktop home gives the featured card enough vertical presence', async ({ page }) => {
+  await page.setViewportSize({ width: 1920, height: 868 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  const [reel, shortcuts] = await Promise.all([
+    page.getByTestId('home-reel-stage').boundingBox(),
+    page.getByTestId('home-shortcuts').boundingBox(),
+  ]);
+  expect(reel).not.toBeNull();
+  expect(shortcuts).not.toBeNull();
+  expect(reel!.height).toBeGreaterThan(460);
+  expect(shortcuts!.y).toBeLessThan(700);
+});
+
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();

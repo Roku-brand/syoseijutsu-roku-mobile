@@ -186,8 +186,11 @@ export default function MainScreen() {
   );
 
   const compactReel = !desktop && width < 520;
+  // The desktop home is a single focused composition. Keeping the reel at
+  // phone height leaves an accidental-looking band of empty paper below it.
+  // Reserve space for shortcuts, then let the featured card carry the page.
   const idealCardHeight = desktop
-    ? isPaid ? 360 : 390
+    ? isPaid ? 500 : 520
     : isPaid
       // 通常のiPhoneでは、リールを画面の主役として十分な高さにする。
       // これにより下部ショートカットの後ろに目的のない余白が残らず、
@@ -199,7 +202,7 @@ export default function MainScreen() {
     // Reserve only the controls that are actually below the reel.  On a
     // normal iPhone this lets the home card use the available screen instead
     // of leaving a blank band above the persistent navigation.
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 380 : 350) : (isPaid ? 388 : 368))),
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 230 : 210) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 34 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   const reelGap = desktop ? 14 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
@@ -532,8 +535,10 @@ export default function MainScreen() {
         })}
       </View>
       <Animated.View
+        testID="home-reel-stage"
         style={[
           styles.reelStage,
+          desktop && styles.reelStageDesktop,
           { width: reelViewportWidth, marginTop: sectionGap },
           {
             opacity: reelEntrance,
@@ -735,7 +740,7 @@ export default function MainScreen() {
           }}
         />
       </Animated.View>
-      <View style={styles.shortcuts}>
+      <View testID="home-shortcuts" style={[styles.shortcuts, desktop && styles.shortcutsDesktop]}>
         {reelType === 'techniques' ? (
           <View style={styles.techniqueShortcutGrid} accessibilityRole="tablist" accessibilityLabel="人物像の領域へ移動">
             {techniqueShortcuts.map((shortcut) => {
@@ -812,6 +817,7 @@ const styles = StyleSheet.create({
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reelStage: { position: 'relative', alignSelf: 'center', flexGrow: 0 },
+  reelStageDesktop: { minHeight: 430 },
   reelArc: { position: 'absolute', zIndex: 0, left: '20%', right: '20%', bottom: -7, height: 24, borderTopWidth: 1, borderColor: 'rgba(180,132,37,0.28)', borderRadius: 999 },
   reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
   reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
@@ -978,6 +984,7 @@ const styles = StyleSheet.create({
   unlockPeriod: { color: colors.muted, fontSize: 9, lineHeight: 13 },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
   shortcuts: { marginTop: 15 },
+  shortcutsDesktop: { marginTop: 20 },
   techniqueShortcutGrid: { flexDirection: 'row', justifyContent: 'space-around', gap: 8 },
   shortcutLink: { flex: 1, minWidth: 0, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
   shortcutLinkText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700', letterSpacing: 0.4, textAlign: 'center' },
