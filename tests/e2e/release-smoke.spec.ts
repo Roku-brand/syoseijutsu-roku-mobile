@@ -13,7 +13,13 @@ test('welcome presents both entry actions on desktop and mobile', async ({ page 
 
   await page.setViewportSize({ width: 1920, height: 868 });
   await page.goto('/welcome');
+  await expect(page.getByText('利用状態を確認しています')).toHaveCount(0);
   await assertWelcomeFits();
+  const stats = await page.getByTestId('welcome-stats').boundingBox();
+  const steps = await page.getByTestId('welcome-steps').boundingBox();
+  expect(stats?.width).toBeGreaterThan(700);
+  expect(steps?.width).toBeGreaterThan(300);
+  expect(steps?.width).toBeLessThan(420);
 
   await page.setViewportSize({ width: 393, height: 667 });
   await page.reload();

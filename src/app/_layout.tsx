@@ -51,7 +51,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><AuthProvider><AccessProvider><AccessBoundary><AppStateProvider><AppToastProvider><AppFrame /></AppToastProvider></AppStateProvider></AccessBoundary></AccessProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AccessBoundary><AppToastProvider><AppFrame /></AppToastProvider></AccessBoundary></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

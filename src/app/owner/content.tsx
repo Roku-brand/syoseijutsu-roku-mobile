@@ -6,7 +6,7 @@ import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { techniqueById, theories } from '@/data/catalog';
+import { techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
@@ -17,6 +17,7 @@ import {
   saveAndPublishTechnique,
   saveTechniqueDraft,
   snapshotFromTechnique,
+  toTechniquePayload,
   type TechniqueContent,
   type TechniqueRevision,
   type TechniqueSnapshot,
@@ -142,10 +143,11 @@ export default function OwnerContentScreen() {
     setError(null);
     setNotice(null);
     try {
-      await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
-      const refreshed = await refreshPublishedContent();
+      const published = await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
+      upsertManagedTechnique(toTechniquePayload(published));
+      await refreshPublishedContent();
       const reflected = techniqueById.get(selected.id);
-      if (!refreshed || !reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
+      if (!reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
         throw new Error('公開は完了しましたが、表示データの更新を確認できませんでした。もう一度読み込んでください。');
       }
       await reload(selected.id);

@@ -53,7 +53,10 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
     const changed = await hydratePublishedContent(true);
-    if (changed) setCatalogRevision((value) => value + 1);
+    // A publish RPC can already have applied its returned row locally. Always
+    // notify catalogue consumers so that immediate reflection does not depend
+    // on a follow-up public read succeeding in the same moment.
+    setCatalogRevision((value) => value + 1);
     return changed;
   }, []);
 

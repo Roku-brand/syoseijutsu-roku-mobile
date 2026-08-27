@@ -90,26 +90,7 @@ export type PaidTechniquePayload = TechniqueSource & {
 export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheories: TheoryCard[]) {
   resetCatalog();
   for (const item of techniques) {
-    // Managed content is authoritative for an existing technique. Remove the
-    // bundled copy first so edits replace it instead of being ignored. This
-    // also moves the card cleanly when its category or persona changes.
-    for (const existingCategory of categories) {
-      for (const existingSubcategory of existingCategory.subcategories) {
-        existingSubcategory.items = existingSubcategory.items.filter((candidate) => candidate.id !== item.id);
-      }
-    }
-    let category = categories.find((candidate) => candidate.key === item.categoryKey);
-    if (!category) {
-      category = { key: item.categoryKey, name: item.categoryName, subcategories: [] };
-      categories.push(category);
-    }
-    let subcategory = category.subcategories.find((candidate) => candidate.name === item.subcategory);
-    if (!subcategory) {
-      subcategory = { name: item.subcategory, articleTitle: item.articleTitle, items: [] };
-      category.subcategories.push(subcategory);
-    }
-    const { categoryKey: _categoryKey, categoryName: _categoryName, subcategory: _subcategory, articleTitle: _articleTitle, ...source } = item;
-    subcategory.items.push(source);
+    placeManagedTechnique(item);
   }
   for (const theory of paidTheories) {
     if (!theories.some((candidate) => candidate.tagId === theory.tagId)) {
@@ -117,6 +98,36 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
     }
   }
   rebuildIndexes();
+}
+
+/** Applies the row just returned by the owner publish RPC without waiting for
+ * a second network round-trip. */
+export function upsertManagedTechnique(item: PaidTechniquePayload) {
+  placeManagedTechnique(item);
+  rebuildIndexes();
+}
+
+function placeManagedTechnique(item: PaidTechniquePayload) {
+  // Managed content is authoritative for an existing technique. Remove the
+  // bundled copy first so edits replace it instead of being ignored. This
+  // also moves the card cleanly when its category or persona changes.
+  for (const existingCategory of categories) {
+    for (const existingSubcategory of existingCategory.subcategories) {
+      existingSubcategory.items = existingSubcategory.items.filter((candidate) => candidate.id !== item.id);
+    }
+  }
+  let category = categories.find((candidate) => candidate.key === item.categoryKey);
+  if (!category) {
+    category = { key: item.categoryKey, name: item.categoryName, subcategories: [] };
+    categories.push(category);
+  }
+  let subcategory = category.subcategories.find((candidate) => candidate.name === item.subcategory);
+  if (!subcategory) {
+    subcategory = { name: item.subcategory, articleTitle: item.articleTitle, items: [] };
+    category.subcategories.push(subcategory);
+  }
+  const { categoryKey: _categoryKey, categoryName: _categoryName, subcategory: _subcategory, articleTitle: _articleTitle, ...source } = item;
+  subcategory.items.push(source);
 }
 
 export function resetCatalog() {

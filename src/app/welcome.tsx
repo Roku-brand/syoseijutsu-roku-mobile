@@ -1,8 +1,9 @@
 import { useRouter } from 'expo-router';
-import { ImageBackground, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { ImageBackground, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { useAppState } from '@/state/app-state';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const desktopBackground = require('../../assets/welcome/welcome-background-desktop.png');
 const mobileBackground = require('../../assets/welcome/welcome-background-mobile.png');
@@ -30,9 +31,12 @@ const mobileNotes: Array<{ text: string; tone: NoteTone; position: string }> = [
 
 export default function Welcome() {
   const router = useRouter();
-  const { width, height } = useWindowDimensions();
+  // Match the static-rendered first frame, then use the real viewport after
+  // hydration. This prevents desktop/mobile markup from mismatching during
+  // web hydration and briefly breaking the welcome composition.
+  const { width, height, hydrated } = useHydratedWindowDimensions();
   const { interests, completeOnboarding } = useAppState();
-  const desktop = width >= 900;
+  const desktop = hydrated && width >= 900;
   const compact = !desktop && width < 370;
   const heroHeight = desktop
     ? Math.max(460, Math.min(560, height * 0.53))
@@ -75,7 +79,7 @@ export default function Welcome() {
             <AppText variant="serif" style={[styles.overviewHeading, desktop && styles.overviewHeadingDesktop]}>このアプリで得られること</AppText>
             <View style={[styles.overviewBody, desktop && styles.overviewBodyDesktop]}>
               <View style={styles.statsArea}>
-                <View style={[styles.stats, desktop && styles.statsDesktop]}>
+                <View testID="welcome-stats" style={[styles.stats, desktop && styles.statsDesktop]}>
                   <Stat icon="◎" number="26" label="人物像" description="理想の人物像から\n自分のあり方を理解できる" />
                   <Stat icon="▣" number="336" label="処世術" description="今日から使える具体的な知恵で\n行動を変えられる" />
                   <Stat icon="◈" number="541" label="理論" description="心理学・行動科学・組織論などの\n学術知見に基づいて理解が深まる" last />
@@ -100,7 +104,7 @@ export default function Welcome() {
                   />
                 </View>
               </View>
-              {desktop ? <WelcomeSteps /> : null}
+              {desktop ? <WelcomeSteps desktop /> : null}
             </View>
           </View>
         </ScrollView>
@@ -151,14 +155,14 @@ function Stat({ icon, number, label, description, last = false }: { icon: string
   </View>;
 }
 
-function WelcomeSteps({ compact = false }: { compact?: boolean }) {
+function WelcomeSteps({ compact = false, desktop = false }: { compact?: boolean; desktop?: boolean }) {
   const steps = [
     ['◎', '人物像', '理想の人物像を知り、\n目指す方向性を定める'],
     ['◉', '処世術', '具体的な知恵を\nインプットし、実践の\nヒントを得る'],
     ['▣', '理論', 'なぜ効果があるのかを\n学び、本質を理解する'],
     ['✓', '実践', '日常で使い、振り返ることで\n習慣として定着する'],
   ];
-  return <View style={[styles.stepsWrap, compact && styles.stepsWrapCompact]}>
+  return <View testID="welcome-steps" style={[styles.stepsWrap, compact && styles.stepsWrapCompact, desktop && styles.stepsWrapDesktop]}>
     <AppText variant="serif" style={styles.stepsHeading}>知識を、使える力に変える4ステップ</AppText>
     <View style={styles.steps}>{steps.map(([icon, title, description], index) => <View key={title} style={styles.stepItem}>
       <View style={styles.stepIcon}><AppText style={styles.stepIconText}>{icon}</AppText></View>
@@ -248,6 +252,7 @@ const styles = StyleSheet.create({
   statDescription: { marginTop: 9, color: '#423D34', fontSize: 10.5, lineHeight: 15, textAlign: 'center' },
   stepsWrap: { width: '100%', marginTop: 34 },
   stepsWrapCompact: { marginTop: 28 },
+  stepsWrapDesktop: { width: 360, flexShrink: 0, marginTop: 0 },
   stepsHeading: { color: '#292720', fontSize: 17, lineHeight: 25, textAlign: 'center', letterSpacing: 0.8 },
   steps: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 18 },
   stepItem: { flex: 1, minWidth: 0, alignItems: 'center', position: 'relative', paddingHorizontal: 2 },
