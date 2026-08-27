@@ -259,7 +259,7 @@ test('ホーム下部の領域ボタンはカルーセル内を移動する', as
 });
 
 test('desktop home gives the featured card enough vertical presence', async ({ page }) => {
-  await page.setViewportSize({ width: 1920, height: 868 });
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
   const [reel, shortcuts] = await Promise.all([
@@ -270,6 +270,22 @@ test('desktop home gives the featured card enough vertical presence', async ({ p
   expect(shortcuts).not.toBeNull();
   expect(reel!.height).toBeGreaterThan(460);
   expect(shortcuts!.y).toBeGreaterThan(reel!.y + reel!.height);
+  expect(shortcuts!.y + shortcuts!.height).toBeLessThanOrEqual(900);
+
+  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
+  await expect(work).toHaveAttribute('aria-selected', 'true');
+  await page.getByRole('button', { name: '次のカードへ' }).click();
+  await expect(work).toHaveAttribute('aria-selected', 'true');
+
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
+  const theoryIndexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '名言'];
+  for (const label of theoryIndexes) {
+    const index = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
+    await expect(index).toBeVisible();
+    const box = await index.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y + box!.height).toBeLessThanOrEqual(900);
+  }
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

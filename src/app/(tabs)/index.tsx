@@ -131,6 +131,40 @@ function getReelTitleMetrics(title: string, reelWidth: number, density: Viewport
   };
 }
 
+/** 表紙用の要約は、本文を変えずに意味の切れ目だけで改行する。 */
+function formatTheoryCoverSummary(value: string) {
+  const text = value.trim();
+  if (text.length < 34 || text.includes('\n')) return text;
+
+  const midpoint = text.length / 2;
+  const separators = ['ために', 'ことで', 'うえで', 'ながら', 'から', 'ので', '、'];
+  const candidates = separators
+    .flatMap((separator) => {
+      const matches: number[] = [];
+      let start = 0;
+      while (start < text.length) {
+        const found = text.indexOf(separator, start);
+        if (found === -1) break;
+        matches.push(found + separator.length);
+        start = found + separator.length;
+      }
+      return matches;
+    })
+    .filter((index) => index > text.length * 0.32 && index < text.length * 0.68)
+    .sort((left, right) => Math.abs(left - midpoint) - Math.abs(right - midpoint));
+
+  const breakAt = candidates[0];
+  return breakAt ? `${text.slice(0, breakAt)}\n${text.slice(breakAt)}` : text;
+}
+
+function getEditorialTheoryTitleSize(title: string, width: number, compact: boolean) {
+  const characters = Math.max([...title].length, 1);
+  const availableWidth = compact ? width - 56 : width * 0.7 - 152;
+  const maximum = compact ? 24 : 42;
+  const minimum = compact ? 20 : 31;
+  return Math.max(minimum, Math.min(maximum, Math.floor(availableWidth / characters)));
+}
+
 export default function MainScreen() {
   const router = useRouter();
   const { width, height, density, desktop, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
@@ -191,7 +225,7 @@ export default function MainScreen() {
   // phone height leaves an accidental-looking band of empty paper below it.
   // Reserve space for shortcuts, then let the featured card carry the page.
   const idealCardHeight = desktop
-    ? isPaid ? 500 : 520
+    ? isPaid ? 470 : 480
     : isPaid
       // 通常のiPhoneでは、リールを画面の主役として十分な高さにする。
       // これにより下部ショートカットの後ろに目的のない余白が残らず、
@@ -203,13 +237,13 @@ export default function MainScreen() {
     // Reserve only the controls that are actually below the reel.  On a
     // normal iPhone this lets the home card use the available screen instead
     // of leaving a blank band above the persistent navigation.
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 230 : 210) : (isPaid ? 388 : 368))),
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 198) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   const reelGap = desktop ? 0 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
   const safeWidth = width || 390;
   const cardWidth = desktop
-    ? Math.min(Math.max(safeWidth * 0.66, 640), 1010)
+    ? Math.min(Math.max(safeWidth * 0.61, 620), 940)
     : Math.min(
         Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
         680,
@@ -306,6 +340,32 @@ export default function MainScreen() {
     physicalIndexRef.current = physicalIndex;
     scrollToPhysicalIndex(physicalIndex, animated);
     void Haptics.selectionAsync().catch(() => undefined);
+  };
+
+  const moveWithinActiveCategory = (direction: -1 | 1) => {
+    const current = baseReelItems[activeIndexRef.current];
+    if (!current || current.kind === 'upgrade') {
+      moveTo(activeIndexRef.current + direction);
+      return;
+    }
+
+    const categoryId = current.kind === 'persona'
+      ? current.persona.category
+      : current.card.categoryId;
+    const categoryIndexes = baseReelItems.reduce<number[]>((indexes, item, index) => {
+      const matches = item.kind === 'persona'
+        ? item.persona.category === categoryId
+        : item.kind === 'theory'
+          ? item.card.categoryId === categoryId
+          : false;
+      if (matches) indexes.push(index);
+      return indexes;
+    }, []);
+    if (categoryIndexes.length < 2) return;
+
+    const currentPosition = Math.max(categoryIndexes.indexOf(activeIndexRef.current), 0);
+    const nextPosition = (currentPosition + direction + categoryIndexes.length) % categoryIndexes.length;
+    moveTo(categoryIndexes[nextPosition]);
   };
 
   const focusPhysicalItem = (physicalIndex: number, logicalIndex: number) => {
@@ -541,7 +601,7 @@ export default function MainScreen() {
         style={[
           styles.reelStage,
           desktop && styles.reelStageDesktop,
-          { width: reelViewportWidth, marginTop: sectionGap },
+          { width: reelViewportWidth, marginTop: desktop ? 2 : sectionGap },
           {
             opacity: reelEntrance,
             transform: [{
@@ -557,7 +617,7 @@ export default function MainScreen() {
               accessibilityRole="button"
               accessibilityLabel="前のカードへ"
               hitSlop={10}
-              onPress={() => moveTo(activeIndex - 1)}
+              onPress={() => moveWithinActiveCategory(-1)}
               style={({ pressed }) => [styles.reelArrow, styles.reelArrowLeft, pressed && styles.reelArrowPressed]}
             >
               <AppText style={styles.reelArrowText}>‹</AppText>
@@ -566,7 +626,7 @@ export default function MainScreen() {
               accessibilityRole="button"
               accessibilityLabel="次のカードへ"
               hitSlop={10}
-              onPress={() => moveTo(activeIndex + 1)}
+              onPress={() => moveWithinActiveCategory(1)}
               style={({ pressed }) => [styles.reelArrow, styles.reelArrowRight, pressed && styles.reelArrowPressed]}
             >
               <AppText style={styles.reelArrowText}>›</AppText>
@@ -801,6 +861,26 @@ export default function MainScreen() {
               );
             })}
           </View>
+        ) : desktop ? (
+          <View style={[styles.theoryShortcutGrid, styles.theoryShortcutGridDesktop]} accessibilityRole="tablist" accessibilityLabel="理論分類へ移動">
+            {theoryShortcuts.map((shortcut) => {
+              const active = activeTheoryCategory === shortcut.key;
+              return (
+                <Pressable
+                  key={shortcut.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: active }}
+                  aria-selected={active}
+                  accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
+                  onPress={() => jumpToTheoryCategory(shortcut.key)}
+                  style={({ pressed }) => [styles.theoryShortcut, styles.theoryShortcutDesktop, pressed && styles.pressed]}
+                >
+                  <AppText style={[styles.theoryShortcutText, active && styles.shortcutLinkTextActive]}>{shortcut.label}</AppText>
+                  <View style={[styles.shortcutLinkRule, active && styles.shortcutLinkRuleActive]} />
+                </Pressable>
+              );
+            })}
+          </View>
         ) : (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.theoryShortcutGrid} accessibilityRole="tablist" accessibilityLabel="理論分類へ移動">
             {theoryShortcuts.map((shortcut) => {
@@ -865,7 +945,7 @@ function EditorialPersonaCard({
       ? '仕事術'
       : '人生術';
   const number = String(position).padStart(2, '0');
-  const titleSize = compact ? 24 : width >= 800 ? 46 : 38;
+  const titleSize = compact ? 24 : width >= 800 ? 42 : 36;
   const subtitle = persona.title === '正しく評価される人'
     ? '実力を評価につなげる'
     : persona.subtitle;
@@ -917,8 +997,8 @@ function EditorialTheoryCard({
   compact: boolean;
   onPress: () => void;
 }) {
-  const titleSize = compact ? 25 : width >= 800 ? 48 : 38;
-  const summary = getTheoryCoverSummary(theory.summary, theory.definition ?? '日常の判断と行動を理解するための知識。');
+  const titleSize = getEditorialTheoryTitleSize(theory.title, width, compact);
+  const summary = formatTheoryCoverSummary(getTheoryCoverSummary(theory.summary, theory.definition ?? '日常の判断と行動を理解するための知識。'));
 
   return (
     <Pressable
@@ -942,7 +1022,7 @@ function EditorialTheoryCard({
         <AppText variant="label" style={styles.editorialEyebrow}>{theory.categoryTitle}</AppText>
         <AppText variant="serif" style={styles.editorialIndex}>{`理論 ${String(position).padStart(2, '0')} / ${String(total)}`}</AppText>
         <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
-        <AppText variant="serif" style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
+        <AppText variant="serif" numberOfLines={compact ? 2 : 1} style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
         <AppText variant="serif" numberOfLines={compact ? 2 : 3} style={styles.editorialTheorySummary}>{summary}</AppText>
       </View>
       <View style={[styles.editorialTheoryFooter, compact && styles.editorialTheoryFooterCompact]}>
@@ -958,28 +1038,28 @@ function EditorialTheoryCard({
 
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
-  contentModeSwitch: { position: 'relative', minHeight: 60, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: 74, marginBottom: 2 },
-  contentModeOption: { minWidth: 104, minHeight: 54, alignItems: 'center', justifyContent: 'flex-start', outlineWidth: 0 },
+  contentModeSwitch: { position: 'relative', minHeight: 50, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: 74, marginBottom: 0 },
+  contentModeOption: { minWidth: 104, minHeight: 46, alignItems: 'center', justifyContent: 'flex-start', outlineWidth: 0 },
   contentModeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 31, fontWeight: '600', letterSpacing: 2.8 },
-  contentModeTextDesktop: { fontSize: 30, lineHeight: 42, letterSpacing: 3.8 },
+  contentModeTextDesktop: { fontSize: 29, lineHeight: 39, letterSpacing: 3.6 },
   contentModeTextInactive: { color: colors.inkSoft, opacity: 0.7 },
-  contentModeRule: { width: 0, height: 1, marginTop: 7, backgroundColor: 'transparent' },
-  contentModeRuleActive: { width: 168, backgroundColor: '#9A722E' },
-  contentModeDivider: { position: 'absolute', top: 6, left: '50%', width: 1, height: 28, backgroundColor: 'rgba(94,82,61,0.24)' },
+  contentModeRule: { width: 0, height: 1, marginTop: 5, backgroundColor: 'transparent' },
+  contentModeRuleActive: { width: 154, backgroundColor: '#9A722E' },
+  contentModeDivider: { position: 'absolute', top: 4, left: '50%', width: 1, height: 25, backgroundColor: 'rgba(94,82,61,0.24)' },
   accessBadge: { position: 'absolute', right: 0, top: 0, zIndex: 2, paddingHorizontal: 10, paddingVertical: 4, flexDirection: 'row', gap: 7, borderWidth: 1, borderColor: '#C7A55B', borderRadius: 999, backgroundColor: '#F4EEE2' },
   accessBadgeLabel: { color: '#7D5A1D', fontSize: 9, lineHeight: 14, fontWeight: '700' },
   accessBadgeRemaining: { color: colors.ink, fontSize: 9, lineHeight: 14, fontWeight: '700' },
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reelStage: { position: 'relative', alignSelf: 'center', flexGrow: 0 },
-  reelStageDesktop: { minHeight: 510 },
+  reelStageDesktop: { minHeight: 474 },
   reelArc: { display: 'none' },
   reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
   reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
-  reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 46, height: 58, marginTop: -29, alignItems: 'center', justifyContent: 'center' },
-  reelArrowLeft: { left: -116 },
-  reelArrowRight: { right: -116 },
-  reelArrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 48, lineHeight: 49, fontWeight: '300' },
+  reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 40, height: 50, marginTop: -25, alignItems: 'center', justifyContent: 'center' },
+  reelArrowLeft: { left: -88 },
+  reelArrowRight: { right: -88 },
+  reelArrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 42, lineHeight: 44, fontWeight: '300' },
   reelArrowPressed: { opacity: 0.58, transform: [{ scale: 0.9 }] },
   techniqueCard: {
     position: 'relative',
@@ -1139,16 +1219,18 @@ const styles = StyleSheet.create({
   unlockPeriod: { color: colors.muted, fontSize: 9, lineHeight: 13 },
   unlockChevron: { color: colors.ink, fontSize: 30, lineHeight: 34 },
   shortcuts: { marginTop: 15 },
-  shortcutsDesktop: { width: '100%', marginTop: 42, paddingTop: 26, borderTopWidth: 1, borderTopColor: 'rgba(84,73,56,0.14)' },
+  shortcutsDesktop: { width: '100%', marginTop: 20, paddingTop: 17, borderTopWidth: 1, borderTopColor: 'rgba(84,73,56,0.14)' },
   techniqueShortcutGrid: { flexDirection: 'row', justifyContent: 'space-around', gap: 8 },
-  shortcutLink: { flex: 1, minWidth: 0, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
-  shortcutLinkText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '500', letterSpacing: 1.8, textAlign: 'center' },
+  shortcutLink: { flex: 1, minWidth: 0, minHeight: 34, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
+  shortcutLinkText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '500', letterSpacing: 1.5, textAlign: 'center' },
   shortcutLinkTextActive: { color: colors.ink, fontWeight: '700' },
-  shortcutLinkRule: { width: 30, height: 1, marginTop: 9, backgroundColor: 'transparent' },
-  shortcutLinkRuleActive: { width: 92, backgroundColor: '#9A722E' },
+  shortcutLinkRule: { width: 22, height: 1, marginTop: 6, backgroundColor: 'transparent' },
+  shortcutLinkRuleActive: { width: 48, backgroundColor: '#9A722E' },
   theoryShortcutGrid: { flexDirection: 'row', justifyContent: 'space-between', gap: 14, paddingHorizontal: 4, paddingRight: 12, minWidth: '100%' },
+  theoryShortcutGridDesktop: { width: '100%', gap: 0, paddingHorizontal: 0, paddingRight: 0 },
   theoryShortcut: { minWidth: 84, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
-  theoryShortcutText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 16, lineHeight: 23, fontWeight: '500', letterSpacing: 1.2 },
+  theoryShortcutDesktop: { flex: 1, minWidth: 0, minHeight: 34 },
+  theoryShortcutText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '500', letterSpacing: 1.05, textAlign: 'center' },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
   editorialCard: {
     position: 'relative',
@@ -1186,27 +1268,28 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   editorialBackgroundNumberCompact: { right: 16, bottom: -22, fontSize: 118, lineHeight: 132 },
-  editorialCopy: { width: '70%', paddingHorizontal: 72, zIndex: 2 },
+  editorialCopy: { width: '70%', paddingHorizontal: 76, zIndex: 2 },
   editorialCopyCompact: { width: '100%', paddingHorizontal: 28 },
   editorialEyebrow: { color: '#C9A356', fontSize: 14, lineHeight: 20, letterSpacing: 2.2, fontWeight: '700' },
   editorialIndex: { marginTop: 11, color: '#EEE8DD', fontSize: 17, lineHeight: 25, letterSpacing: 1.4 },
   editorialAccentRule: { width: 38, height: 1, marginTop: 20, marginBottom: 20, backgroundColor: '#BC9346' },
   editorialAccentRuleCompact: { marginTop: 10, marginBottom: 11 },
   editorialTitle: { color: '#FFFDF8', fontWeight: '500', letterSpacing: 2.1, flexShrink: 1 },
+  editorialTheoryTitle: { letterSpacing: 1.8 },
   editorialSubtitle: { color: '#EEE8DD', fontSize: 21, lineHeight: 31, letterSpacing: 1.4 },
   editorialSubtitleCompact: { fontSize: 16, lineHeight: 23, letterSpacing: 0.8 },
   editorialTextCta: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-start', gap: 18, marginTop: 38, borderBottomWidth: 1, borderBottomColor: '#C49A4B', paddingBottom: 8 },
   editorialTextCtaCompact: { gap: 12, marginTop: 14, paddingBottom: 4 },
   editorialTextCtaLabel: { color: '#FFF9EE', fontSize: 17, lineHeight: 25, letterSpacing: 1.6 },
   editorialTextCtaArrow: { color: '#D2A950', fontFamily: fonts.serif, fontSize: 28, lineHeight: 28 },
-  editorialTheorySummary: { marginTop: 20, color: '#EEF1F4', fontSize: 19, lineHeight: 31, letterSpacing: 1.1 },
-  editorialTheoryFooter: { position: 'absolute', left: 96, right: 90, bottom: 44, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: 'rgba(215,224,232,0.3)', paddingTop: 20, zIndex: 2 },
-  editorialTheoryFooterCompact: { left: 28, right: 28, bottom: 19, paddingTop: 10 },
+  editorialTheorySummary: { maxWidth: '100%', marginTop: 18, color: '#EEF1F4', fontSize: 17, lineHeight: 28, letterSpacing: 0.7 },
+  editorialTheoryFooter: { position: 'absolute', left: 76, right: 76, bottom: 52, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: 'rgba(215,224,232,0.26)', paddingTop: 17, zIndex: 2 },
+  editorialTheoryFooterCompact: { left: 28, right: 28, bottom: 22, paddingTop: 10 },
   editorialTheoryCode: { color: '#F1F0E8', fontSize: 18, lineHeight: 25, letterSpacing: 2 },
-  theoryDiagram: { position: 'absolute', right: 28, top: 20, bottom: 20, width: '39%', opacity: 0.78 },
-  theoryDiagramCompact: { opacity: 0.22, right: -38, width: '58%' },
-  theoryDiagramVertical: { position: 'absolute', top: 0, bottom: 74, right: '46%', width: 1, backgroundColor: 'rgba(207,177,107,0.62)' },
-  theoryDiagramHorizontal: { position: 'absolute', top: '46%', left: 0, right: 0, height: 1, backgroundColor: 'rgba(207,177,107,0.52)' },
-  theoryDiagramMarker: { position: 'absolute', top: '46%', right: '46%', width: 12, height: 12, marginTop: -6, marginRight: -6, backgroundColor: '#C8A359' },
-  theoryDiagramDots: { position: 'absolute', top: '18%', right: '10%', color: 'rgba(229,227,205,0.82)', fontSize: 16, lineHeight: 12, letterSpacing: 7, textAlign: 'center' },
+  theoryDiagram: { position: 'absolute', right: 30, top: 28, bottom: 28, width: '37%', opacity: 0.42 },
+  theoryDiagramCompact: { opacity: 0.18, right: -38, width: '58%' },
+  theoryDiagramVertical: { position: 'absolute', top: 0, bottom: 72, right: '46%', width: 1, backgroundColor: 'rgba(188,163,105,0.38)' },
+  theoryDiagramHorizontal: { position: 'absolute', top: '46%', left: 0, right: 0, height: 1, backgroundColor: 'rgba(188,163,105,0.32)' },
+  theoryDiagramMarker: { position: 'absolute', top: '46%', right: '46%', width: 9, height: 9, marginTop: -4.5, marginRight: -4.5, backgroundColor: 'rgba(196,157,78,0.72)' },
+  theoryDiagramDots: { position: 'absolute', top: '18%', right: '10%', color: 'rgba(229,227,205,0.46)', fontSize: 14, lineHeight: 11, letterSpacing: 7, textAlign: 'center' },
 });
