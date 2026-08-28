@@ -244,9 +244,17 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
     <View>
       <OrnamentHeading>理論から探す</OrnamentHeading>
       <View style={styles.theoryGrid}>
-        {theoryCategories.map((category) => (
+        {theoryCategories.map((category) => {
+          const count = getTheoryCategoryCount(category.id);
+          const freeCount = theories.filter(
+            (theory) => theory.categoryId === category.id && FREE_THEORY_ID_SET.has(theory.tagId),
+          ).length;
+          const locked = !isPaid && freeCount < count;
+          return (
           <Pressable
             key={category.id}
+            accessibilityRole="button"
+            accessibilityLabel={`${category.title}、${count}件${locked ? '、完全版限定' : ''}`}
             onPress={() =>
               router.push({
                 pathname: '/theories/[category]',
@@ -261,11 +269,17 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
             <AppText style={styles.theoryTitle}>{category.title}</AppText>
             <AppText style={styles.theoryCount}>
               {isPaid
-                ? `${getTheoryCategoryCount(category.id)}件`
-                : `無料 ${theories.filter((theory) => theory.categoryId === category.id && FREE_THEORY_ID_SET.has(theory.tagId)).length}件 ／ 全${getTheoryCategoryCount(category.id)}件`}
+                ? `${count}件`
+                : `無料 ${freeCount}件 ／ 全${count}件`}
             </AppText>
+            {locked ? (
+              <View testID="discover-theory-locked-badge" style={styles.browserLock}>
+                <AccessBadge locked compact />
+              </View>
+            ) : null}
           </Pressable>
-        ))}
+          );
+        })}
       </View>
     </View>
   );
@@ -379,6 +393,7 @@ const styles = StyleSheet.create({
   searchChipText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   theoryCard: {
+    position: 'relative',
     flexGrow: 1,
     flexBasis: 220,
     minHeight: 132,

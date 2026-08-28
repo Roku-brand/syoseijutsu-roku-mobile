@@ -32,7 +32,7 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(hideWelcome).toBeVisible();
   await hideWelcome.click();
   await page.goto('/');
-  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
 });
 
 test('my page keeps the guest account entry compact', async ({ page }) => {
@@ -117,8 +117,8 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText('集団に馴染める人').first()).toBeVisible();
-  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText('印象がいい人').first()).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
   await expect(page.getByRole('button', { name: /を詳しく見る/ }).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
@@ -313,6 +313,35 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
   await expect(page.getByText('¥280', { exact: true })).toBeVisible();
 });
 
+test('スマホの理論ショートカット6件と無料版ロック表示を確認できる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  await expect(page.getByTestId('home-editorial-persona-card-active').getByTestId('home-persona-access-badge')).toBeVisible();
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
+
+  const indexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言'];
+  await expect(page.getByRole('tab', { name: /の先頭の理論へ移動/ })).toHaveCount(6);
+  for (const label of indexes) {
+    const shortcut = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
+    await expect(shortcut).toBeVisible();
+    await expect(page.getByText(`${label}へ ›`, { exact: true })).toBeVisible();
+    const box = await shortcut.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y + box!.height).toBeLessThanOrEqual(844);
+  }
+});
+
+test('短いPC画面でも無料版ホームの購入導線が見切れない', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 667 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  const cta = await page.getByTestId('home-purchase-cta').boundingBox();
+  expect(cta).not.toBeNull();
+  expect(cta!.y).toBeGreaterThanOrEqual(0);
+  expect(cta!.y + cta!.height).toBeLessThanOrEqual(667);
+});
+
 test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
@@ -331,7 +360,7 @@ test('desktop home keeps the editorial card, reel controls, and category index a
     page.getByTestId('home-reel-stage').boundingBox(),
     page.getByTestId('home-shortcuts').boundingBox(),
   ]);
-  const card = await page.getByRole('button', { name: '集団に馴染める人を詳しく見る' }).boundingBox();
+  const card = await page.getByTestId('home-editorial-persona-card-active').boundingBox();
   expect(reel).not.toBeNull();
   expect(shortcuts).not.toBeNull();
   expect(card).not.toBeNull();
@@ -343,11 +372,11 @@ test('desktop home keeps the editorial card, reel controls, and category index a
 
   const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
   await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: '集団に馴染める人を詳しく見る' })).toBeVisible();
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+  await expect(page.getByTestId('home-editorial-persona-card-active')).toHaveAttribute('aria-label', '印象がいい人を詳しく見る');
   await page.getByRole('button', { name: '次のカードへ' }).click();
   await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByRole('button', { name: 'リーダーシップがある人を詳しく見る' })).toBeVisible();
+  await expect(page.getByTestId('home-editorial-persona-card-active')).toHaveAttribute('aria-label', '会話がうまい人を詳しく見る');
 
   const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
   await work.click();

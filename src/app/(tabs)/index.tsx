@@ -53,7 +53,7 @@ const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
 // The editorial home always opens each mode on the reference card.  Keeping
 // these positions explicit also prevents a prior mode's index leaking into the
 // other reel after a quick tab switch.
-const REEL_INITIAL_INDEX: Record<'techniques' | 'theories', number> = { techniques: 10, theories: 5 };
+const REEL_INITIAL_INDEX: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 5 };
 
 const techniqueShortcuts = [
   { label: '対人術へ ›', accessibilityLabel: '対人術', key: 'interpersonal' },
@@ -62,12 +62,12 @@ const techniqueShortcuts = [
 ] as const;
 
 const theoryShortcuts = [
-  { label: '心理学', key: 'psychology' },
-  { label: '行動科学', key: 'behavioral-science' },
-  { label: '組織・経営', key: 'organization-management' },
-  { label: '戦略', key: 'strategy' },
-  { label: '古典', key: 'classics-thought' },
-  { label: '格言', key: 'maxims-experience' },
+  { label: '心理学へ ›', accessibilityLabel: '心理学', key: 'psychology' },
+  { label: '行動科学へ ›', accessibilityLabel: '行動科学', key: 'behavioral-science' },
+  { label: '組織・経営へ ›', accessibilityLabel: '組織・経営', key: 'organization-management' },
+  { label: '戦略へ ›', accessibilityLabel: '戦略', key: 'strategy' },
+  { label: '古典へ ›', accessibilityLabel: '古典', key: 'classics-thought' },
+  { label: '格言へ ›', accessibilityLabel: '格言', key: 'maxims-experience' },
 ] as const;
 
 function splitReelTitle(value: string) {
@@ -245,7 +245,7 @@ export default function MainScreen() {
     // Reserve only the controls that are actually below the reel.  On a
     // normal iPhone this lets the home card use the available screen instead
     // of leaving a blank band above the persistent navigation.
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 198) : (isPaid ? 388 : 368))),
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 350) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   // Keep a real strip of paper between cards. The gap is part of the item
@@ -622,6 +622,7 @@ export default function MainScreen() {
         style={[
           styles.reelStage,
           desktop && styles.reelStageDesktop,
+          desktop && { minHeight: cardHeight + 4 },
           { width: reelViewportWidth, marginTop: desktop ? reelTopOffset : sectionGap + reelTopOffset },
           {
             opacity: reelEntrance,
@@ -699,6 +700,7 @@ export default function MainScreen() {
               ? physicalIndex % baseReelItems.length
               : 0;
             const curvedItemStyle = getCurvedReelItemStyle(physicalIndex);
+            const isCentered = physicalIndex === getCentralPhysicalIndex(activeIndex);
           if (reelItem.kind === 'upgrade') {
             return (
               <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
@@ -759,7 +761,12 @@ export default function MainScreen() {
 
           if (reelItem.kind === 'theory') {
             return (
-              <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
+              <Animated.View
+                accessibilityElementsHidden={!isCentered}
+                importantForAccessibility={isCentered ? 'yes' : 'no-hide-descendants'}
+                aria-hidden={!isCentered}
+                style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}
+              >
                 <EditorialTheoryCard
                   theory={reelItem.card}
                   position={logicalIndex + 1}
@@ -777,7 +784,12 @@ export default function MainScreen() {
 
           if (reelItem.kind === 'persona') {
             return (
-              <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
+              <Animated.View
+                accessibilityElementsHidden={!isCentered}
+                importantForAccessibility={isCentered ? 'yes' : 'no-hide-descendants'}
+                aria-hidden={!isCentered}
+                style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}
+              >
                 <EditorialPersonaCard
                   persona={reelItem.persona}
                   position={logicalIndex + 1}
@@ -787,6 +799,7 @@ export default function MainScreen() {
                   compact={!desktop}
                   showAccessBadge={!isPaid}
                   locked={!isPaid && !isFreePersona(reelItem.persona.title)}
+                  active={isCentered}
                   onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
                     router.push({ pathname: '/subcategory/[category]/[name]', params: { category: reelItem.persona.category, name: reelItem.persona.title } });
                   })}
@@ -895,7 +908,7 @@ export default function MainScreen() {
                   accessibilityRole="tab"
                   accessibilityState={{ selected: active }}
                   aria-selected={active}
-                  accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
+                  accessibilityLabel={`${shortcut.accessibilityLabel}の先頭の理論へ移動`}
                   onPress={() => jumpToTheoryCategory(shortcut.key)}
                   style={({ pressed }) => [styles.theoryShortcut, styles.theoryShortcutDesktop, pressed && styles.pressed]}
                 >
@@ -906,7 +919,7 @@ export default function MainScreen() {
             })}
           </View>
         ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.theoryShortcutGrid} accessibilityRole="tablist" accessibilityLabel="理論分類へ移動">
+          <View style={[styles.theoryShortcutGrid, styles.theoryShortcutGridMobile]} accessibilityRole="tablist" accessibilityLabel="理論分類へ移動">
             {theoryShortcuts.map((shortcut) => {
               const active = activeTheoryCategory === shortcut.key;
               return (
@@ -915,16 +928,16 @@ export default function MainScreen() {
                   accessibilityRole="tab"
                   accessibilityState={{ selected: active }}
                   aria-selected={active}
-                  accessibilityLabel={`${shortcut.label}の先頭の理論へ移動`}
+                  accessibilityLabel={`${shortcut.accessibilityLabel}の先頭の理論へ移動`}
                   onPress={() => jumpToTheoryCategory(shortcut.key)}
-                  style={({ pressed }) => [styles.theoryShortcut, pressed && styles.pressed]}
+                  style={({ pressed }) => [styles.theoryShortcut, styles.theoryShortcutMobile, pressed && styles.pressed]}
                 >
                   <AppText style={[styles.theoryShortcutText, active && styles.shortcutLinkTextActive]}>{shortcut.label}</AppText>
                   <View style={[styles.shortcutLinkRule, active && styles.shortcutLinkRuleActive]} />
                 </Pressable>
               );
             })}
-          </ScrollView>
+          </View>
         )}
       </View>
       {!isPaid ? (
@@ -956,6 +969,7 @@ function EditorialPersonaCard({
   compact,
   showAccessBadge,
   locked,
+  active,
   onPress,
 }: {
   persona: Persona;
@@ -966,6 +980,7 @@ function EditorialPersonaCard({
   compact: boolean;
   showAccessBadge: boolean;
   locked: boolean;
+  active: boolean;
   onPress: () => void;
 }) {
   const category = persona.category === 'interpersonal'
@@ -981,7 +996,7 @@ function EditorialPersonaCard({
 
   return (
     <Pressable
-      testID="home-editorial-persona-card"
+      testID={active ? 'home-editorial-persona-card-active' : 'home-editorial-persona-card'}
       accessibilityRole="button"
       accessibilityLabel={`${persona.title}を詳しく見る`}
       onPress={onPress}
@@ -1271,8 +1286,10 @@ const styles = StyleSheet.create({
   shortcutLinkRuleActive: { width: 48, backgroundColor: '#9A722E' },
   theoryShortcutGrid: { flexDirection: 'row', justifyContent: 'space-between', gap: 14, paddingHorizontal: 4, paddingRight: 12, minWidth: '100%' },
   theoryShortcutGridDesktop: { width: '100%', gap: 0, paddingHorizontal: 0, paddingRight: 0 },
+  theoryShortcutGridMobile: { flexWrap: 'wrap', rowGap: 4, columnGap: 0, paddingHorizontal: 0, paddingRight: 0 },
   theoryShortcut: { minWidth: 84, minHeight: 38, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center' },
   theoryShortcutDesktop: { flex: 1, minWidth: 0, minHeight: 34 },
+  theoryShortcutMobile: { flexBasis: '33.333%', minWidth: '33.333%', minHeight: 34 },
   theoryShortcutText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '500', letterSpacing: 1.05, textAlign: 'center' },
   pressed: { opacity: 0.82, transform: [{ scale: 0.975 }] },
   editorialCard: {
