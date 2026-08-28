@@ -45,11 +45,16 @@ const checks = {
   duplicateKeys,
   duplicateIds,
   missingEssence: cards.filter((card) => !card.essence?.trim()).length,
+  // The integrated master source allows a compact two-sentence essence when
+  // the principle needs a necessary condition and its consequence together.
   invalidEssenceLengths: cards.filter((card) => {
     const length = [...(card.essence ?? '').replace(/\s/g, '')].length;
-    return length < 9 || length > 26;
+    return length < 9 || length > 60;
   }).length,
-  invalidEssenceSentences: cards.filter((card) => ((card.essence ?? '').match(/[。！？]/g) ?? []).length !== 1).length,
+  invalidEssenceSentences: cards.filter((card) => {
+    const sentenceCount = ((card.essence ?? '').match(/[。！？]/g) ?? []).length;
+    return sentenceCount < 1 || sentenceCount > 2;
+  }).length,
   duplicateEssences: cards.length - new Set(cards.map((card) => card.essence)).size,
   missingExplanations: cards.filter((card) => !card.explanation?.trim()).length,
   invalidExplanationLengths: cards.filter((card) => {
@@ -76,5 +81,5 @@ if (
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
-  checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_titles_explanations_336_rewritten.md' || checks.mismatchedGroups.length
+  checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_解説_実践2つ_注意点1つ_統合版_master336_001-336.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');

@@ -22,6 +22,8 @@ function finishItem() {
   if (!item) return;
   item.essence = item.essence.trim();
   item.explanation = item.explanation.trim();
+  item.todayActions = item.todayActions.map((value) => value.trim()).filter(Boolean);
+  item.cautions = item.cautions.map((value) => value.trim()).filter(Boolean);
   if (!item.essence || !item.explanation) throw new Error(`Missing card content: ${item.id}`);
   if (sourceItems.has(item.id)) throw new Error(`Duplicate technique ID: ${item.id}`);
   sourceItems.set(item.id, item);
@@ -35,13 +37,13 @@ for (const line of markdown.split('\n')) {
     finishItem();
     continue;
   }
-  if ((match = line.match(/^###\s+(.+)$/))) {
+  if ((match = line.match(/^#{3,4}\s+(master336-\d{3})\uff5c(.+)$/))) {
     finishItem();
+    item = { id: match[1], title: match[2].trim(), essence: '', explanation: '', todayActions: [], cautions: [] };
     continue;
   }
-  if ((match = line.match(/^####\s+(master336-\d{3})\uff5c(.+)$/))) {
+  if ((match = line.match(/^###\s+(.+)$/))) {
     finishItem();
-    item = { id: match[1], title: match[2].trim(), essence: '', explanation: '' };
     continue;
   }
   if (!item) continue;
@@ -53,8 +55,21 @@ for (const line of markdown.split('\n')) {
     section = 'explanation';
     continue;
   }
+  if (line.includes('今日からできる実践')) {
+    section = 'todayActions';
+    continue;
+  }
+  if (line.includes('注意点')) {
+    section = 'cautions';
+    continue;
+  }
   if (/^\*\*.+\*\*$/.test(line)) {
     section = undefined;
+    continue;
+  }
+  if (section === 'todayActions' || section === 'cautions') {
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    if (bullet) item[section].push(bullet[1]);
     continue;
   }
   if (section) item[section] += `${item[section] && line ? '\n' : ''}${line}`;
@@ -85,6 +100,11 @@ metadata.personaCount = categories.reduce((count, entry) => count + entry.subcat
 metadata.catalogVersion = 'master336';
 
 await writeFile(techniquesPath, `${JSON.stringify({ categories }, null, 2)}\n`, 'utf8');
+await writeFile(
+  path.join(generatedDir, 'practical-actions.json'),
+  `${JSON.stringify([...sourceItems.values()].map(({ id, title, todayActions, cautions }) => ({ id, title, todayActions, examples: [], cautions })), null, 2)}\n`,
+  'utf8',
+);
 await writeFile(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
 
 console.log(JSON.stringify({ source: path.basename(sourcePath), categories: categories.length, personas: metadata.personaCount, techniques: cards.length, explanationsImported: cards.length }, null, 2));
