@@ -179,8 +179,10 @@ test('ウェルカムのヘッダーに無料版・完全版の導線とホー�
   await page.goto('/welcome');
   await expect(page.getByTestId('welcome-entry-header')).toBeVisible();
   await expect(page.getByLabel('処世術禄のホームアイコン')).toBeVisible();
-  await expect(page.getByRole('button', { name: '無料版をすぐ始める' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '完全版の内容を見る' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '無料ではじめる' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '完全版を購入する' })).toBeVisible();
+  await expect(page.getByText('登録不要・すぐに使えます')).toBeVisible();
+  await expect(page.getByText('全コンテンツ・30日間アクセス')).toBeVisible();
   await expect(page.getByText('処 世 術 禄', { exact: true })).toHaveCount(0);
 });
 

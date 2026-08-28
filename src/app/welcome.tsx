@@ -135,14 +135,22 @@ function WelcomeHeader({
     </View>
     <View style={styles.entryDivider} />
     <View style={styles.entryActions}>
-      <Pressable accessibilityRole="button" accessibilityLabel="無料版をすぐ始める" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, pressed && styles.pressed]}>
+      <Pressable accessibilityRole="button" accessibilityLabel="無料ではじめる" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, pressed && styles.pressed]}>
         <EntryMark type="free" />
-        <View style={styles.entryActionCopy}><AppText style={styles.entryActionKicker}>FREE EDITION</AppText><AppText variant="serif" style={styles.entryActionTitle}>無料版をはじめる</AppText></View>
+        <View style={styles.entryActionCopy}>
+          <AppText style={styles.entryActionKicker}>FREE EDITION</AppText>
+          <AppText variant="serif" style={styles.entryActionTitle}>無料ではじめる</AppText>
+          <AppText style={styles.entryActionNote}>登録不要・すぐに使えます</AppText>
+        </View>
         <AppText style={styles.entryChevron}>›</AppText>
       </Pressable>
-      <Pressable accessibilityRole="button" accessibilityLabel="完全版の内容を見る" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, styles.entryActionComplete, pressed && styles.pressed]}>
+      <Pressable accessibilityRole="button" accessibilityLabel="完全版を購入する" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, styles.entryActionComplete, pressed && styles.pressed]}>
         <EntryMark type="complete" />
-        <View style={styles.entryActionCopy}><AppText style={[styles.entryActionKicker, styles.entryActionKickerComplete]}>COMPLETE EDITION</AppText><AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版を見る</AppText></View>
+        <View style={styles.entryActionCopy}>
+          <AppText style={[styles.entryActionKicker, styles.entryActionKickerComplete]}>COMPLETE EDITION</AppText>
+          <AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版を購入する</AppText>
+          <AppText style={[styles.entryActionNote, styles.entryActionNoteComplete]}>全コンテンツ・30日間アクセス</AppText>
+        </View>
         <AppText style={[styles.entryChevron, styles.entryChevronComplete]}>›</AppText>
       </Pressable>
     </View>
@@ -235,7 +243,7 @@ const styles = StyleSheet.create({
   entryBrandReadingDesktop: { marginTop: 2, fontSize: 9, lineHeight: 14, letterSpacing: 4.4 },
   entryDivider: { width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(226,198,130,0.24)' },
   entryActions: { flex: 1, flexDirection: 'row', gap: 12, alignItems: 'center', justifyContent: 'flex-end' },
-  entryAction: { flex: 1, minWidth: 0, minHeight: 46, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: '#B48734', borderRadius: 14, backgroundColor: 'rgba(13,14,13,0.66)' },
+  entryAction: { flex: 1, minWidth: 0, minHeight: 58, paddingHorizontal: 12, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: '#B48734', borderRadius: 14, backgroundColor: 'rgba(13,14,13,0.66)' },
   entryActionComplete: { borderColor: '#D7AF58', backgroundColor: '#F2DEAC' },
   entryMark: { width: 23, height: 23, position: 'relative', flexShrink: 0 },
   entryMarkComplete: { width: 25, height: 23 },
@@ -250,6 +258,8 @@ const styles = StyleSheet.create({
   entryActionKickerComplete: { color: '#6D552A' },
   entryActionTitle: { marginTop: 1, color: '#F7EFDE', fontSize: 14, lineHeight: 18, fontWeight: '600', letterSpacing: 0.6 },
   entryActionTitleComplete: { color: '#231C12' },
+  entryActionNote: { marginTop: 1, color: '#D6CCB8', fontSize: 8, lineHeight: 11, letterSpacing: 0.2 },
+  entryActionNoteComplete: { color: '#655333' },
   entryChevron: { color: '#D5AD58', fontSize: 27, lineHeight: 30, fontWeight: '300' },
   entryChevronComplete: { color: '#5B431B' },
   hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 18, paddingTop: 72, paddingBottom: 34 },
