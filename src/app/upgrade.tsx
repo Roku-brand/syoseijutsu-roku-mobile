@@ -63,7 +63,10 @@ export default function UpgradeScreen() {
 
   const restore = async () => {
     if (!user) {
-      router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signin' } });
+      // Do not turn a restore tap into a new purchase flow. After login the
+      // user can retry restoration for account-linked purchases; legacy guest
+      // purchases continue through the session-specific claim flow below.
+      router.push({ pathname: '/auth', params: { mode: 'signin' } });
       return;
     }
     setSubmitting(true);

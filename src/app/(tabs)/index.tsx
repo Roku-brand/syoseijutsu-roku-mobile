@@ -785,6 +785,8 @@ export default function MainScreen() {
                   width={cardWidth}
                   height={cardHeight}
                   compact={!desktop}
+                  showAccessBadge={!isPaid}
+                  locked={!isPaid && !isFreePersona(reelItem.persona.title)}
                   onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
                     router.push({ pathname: '/subcategory/[category]/[name]', params: { category: reelItem.persona.category, name: reelItem.persona.title } });
                   })}
@@ -925,12 +927,13 @@ export default function MainScreen() {
           </ScrollView>
         )}
       </View>
-      {!isPaid && !desktop ? (
+      {!isPaid ? (
         <Pressable
+          testID="home-purchase-cta"
           accessibilityRole="button"
           accessibilityLabel="完全版で、すべての処世術・理論・ケースを読む。280円で30日間"
           onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
-          style={({ pressed }) => [styles.unlockCard, density !== 'normal' && styles.unlockCardCompact, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.unlockCard, desktop && styles.unlockCardDesktop, density !== 'normal' && styles.unlockCardCompact, pressed && styles.pressed]}
         >
           <View style={styles.unlockCopy}>
             <AppText style={styles.unlockTitle}>完全版で、すべての内容を読む</AppText>
@@ -951,6 +954,8 @@ function EditorialPersonaCard({
   width,
   height,
   compact,
+  showAccessBadge,
+  locked,
   onPress,
 }: {
   persona: Persona;
@@ -959,6 +964,8 @@ function EditorialPersonaCard({
   width: number;
   height: number;
   compact: boolean;
+  showAccessBadge: boolean;
+  locked: boolean;
   onPress: () => void;
 }) {
   const category = persona.category === 'interpersonal'
@@ -986,6 +993,11 @@ function EditorialPersonaCard({
       ]}
     >
       <View pointerEvents="none" style={styles.editorialPaperGrain} />
+      {showAccessBadge ? (
+        <View testID="home-persona-access-badge" pointerEvents="none" style={styles.editorialAccessBadge}>
+          <AccessBadge locked={locked} compact />
+        </View>
+      ) : null}
       <AppText pointerEvents="none" style={[styles.editorialBackgroundNumber, compact && styles.editorialBackgroundNumberCompact]}>{number}</AppText>
       <View pointerEvents="none" style={[styles.editorialCenteredIndex, compact && styles.editorialCenteredIndexCompact]}>
         <AppText variant="serif" style={styles.editorialIndex}>{`人物像 ${number} / ${String(total).padStart(2, '0')}`}</AppText>
@@ -1240,6 +1252,7 @@ const styles = StyleSheet.create({
   bookmark: { color: colors.goldLight, fontSize: 20, lineHeight: 24 },
   saveTextSaved: { color: colors.surface },
   unlockCard: { minHeight: 72, marginTop: 20, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md },
+  unlockCardDesktop: { minHeight: 68, marginTop: 14, paddingHorizontal: 20, borderColor: colors.gold },
   unlockCardCompact: { minHeight: 62, marginTop: 14, paddingHorizontal: 12, gap: 9 },
   unlockCopy: { flex: 1, minWidth: 0 },
   unlockTitle: { color: colors.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
@@ -1276,6 +1289,7 @@ const styles = StyleSheet.create({
   editorialPersonaCard: { backgroundColor: '#352518' },
   editorialTheoryCard: { backgroundColor: '#14253C' },
   editorialCardPressed: { opacity: 0.9 },
+  editorialAccessBadge: { position: 'absolute', top: 16, right: 16, zIndex: 4 },
   editorialPaperGrain: {
     position: 'absolute',
     top: 0,

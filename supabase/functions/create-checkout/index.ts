@@ -91,6 +91,12 @@ Deno.serve(async (request) => {
   form.set('payment_intent_data[metadata][product_id]', PRODUCT_ID);
   form.set('payment_intent_data[metadata][access_type]', ACCESS_TYPE);
 
+  // Keep repeated taps within a short window idempotent, while allowing a
+  // customer whose previous 30-day access expired to start a fresh Checkout
+  // Session instead of receiving the old session forever.
+  const idempotencySuffix = currentAccess?.access_status === 'expired'
+    ? String(Math.floor(Date.now() / 10_000))
+    : String(currentAccess?.access_expires_at ?? 'first');
   const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
@@ -98,7 +104,7 @@ Deno.serve(async (request) => {
       'Content-Type': 'application/x-www-form-urlencoded',
       // Repeated taps and concurrent requests within Stripe's idempotency
       // window resolve to the same Checkout Session.
-      'Idempotency-Key': `complete-edition-30day-v1-${user.id}-${currentAccess?.access_expires_at ?? 'first'}`,
+      'Idempotency-Key': `complete-edition-30day-v1-${user.id}-${idempotencySuffix}`,
     },
     body: form,
   });
