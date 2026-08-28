@@ -229,7 +229,7 @@ export default function AuthScreen() {
                 </Pressable>
                 {mode === 'signin' ? <Pressable accessibilityRole="button" onPress={() => { setMode('forgot'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>パスワードを忘れた方</AppText></Pressable> : null}
                 {mode === 'forgot' ? <Pressable accessibilityRole="button" onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインへ戻る</AppText></Pressable> : null}
-                {mode === 'signin' && !purchaseIntent && !claimIntent ? (
+                {mode === 'signin' && !claimIntent ? (
                   <>
                     <View style={styles.orRow}><View style={styles.orLine} /><AppText style={styles.orText}>または</AppText><View style={styles.orLine} /></View>
                     <AppText style={styles.newAccountLead}>はじめて利用する方</AppText>
@@ -239,7 +239,7 @@ export default function AuthScreen() {
                     </Pressable>
                   </>
                 ) : null}
-                {mode === 'signup' && !purchaseIntent && !claimIntent ? <Pressable accessibilityRole="button" onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインはこちら</AppText></Pressable> : null}
+                {mode === 'signup' && !claimIntent ? <Pressable accessibilityRole="button" onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインはこちら</AppText></Pressable> : null}
               </View>
             )}
             <SecurityNote includeGuestNote={!purchaseIntent && !claimIntent} />

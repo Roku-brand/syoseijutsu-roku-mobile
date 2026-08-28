@@ -42,6 +42,10 @@ export default function UpgradeScreen() {
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
 
   const purchase = async () => {
+    if (!user) {
+      router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signin' } });
+      return;
+    }
     setSubmitting(true);
     setMessage('');
     try {
@@ -147,7 +151,7 @@ export default function UpgradeScreen() {
               <AppText variant="serif" style={[styles.primaryText, compact && styles.primaryTextCompact]}>{primaryLabel}</AppText>
               {!isPaid ? <AppText style={[styles.primaryArrow, compact && styles.primaryArrowCompact]}>›</AppText> : null}
             </Pressable>
-            {!isPaid ? <AppText style={[styles.preConfirmation, compact && styles.preConfirmationCompact]}>決済は次の画面で確定します</AppText> : null}
+            {!isPaid ? <AppText style={[styles.preConfirmation, compact && styles.preConfirmationCompact]}>{user ? '決済は次の画面で確定します' : 'アカウント作成またはログイン後に、決済へ進みます'}</AppText> : null}
             <View style={[styles.utilityRow, compact && styles.utilityRowCompact]}>
               {!isPaid ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
               <Pressable onPress={() => router.push('/legal/terms')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>利用規約</AppText></Pressable>
@@ -170,9 +174,12 @@ export default function UpgradeScreen() {
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
-            <AppText style={styles.confirmationSupport}>クレジットカード・PayPay対応です。ログインなしで決済できます。決済後、購入時のメールアドレスでアカウントを作成またはログインすると完全版が有効になります。利用可能な方法はStripeの決済画面に表示されます。</AppText>
+            <AppText style={styles.confirmationSupport}>{user
+              ? 'クレジットカード・PayPay対応です。このアカウントに購入情報と30日間の利用権を紐づけます。利用可能な方法はStripeの決済画面に表示されます。'
+              : '決済前にアカウントを作成またはログインします。購入情報と30日間の利用権は、そのアカウントに安全に紐づきます。クレジットカード・PayPayはStripeの決済画面で選べます。'}
+            </AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
-            <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>Stripe決済へ進む</AppText></Pressable>
+            <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>{user ? 'Stripe決済へ進む' : 'アカウント作成・ログインへ'}</AppText></Pressable>
             <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
           </View>
         </View>

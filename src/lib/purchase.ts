@@ -92,9 +92,9 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
 }
 
 /**
- * Uses the access token returned by signup immediately when present, but also
- * supports guest Checkout. A guest purchase is safely claimed later only by a
- * confirmed account with the same Stripe Checkout receipt email.
+ * Uses the access token returned by sign-up immediately when present. New
+ * Checkout Sessions require an authenticated account; legacy guest purchases
+ * remain recoverable through the separate email-verified restore flow.
  */
 export async function createCompleteEditionCheckout(accessToken?: string) {
   if (!supabase) throw new Error('購入機能が設定されていません。');

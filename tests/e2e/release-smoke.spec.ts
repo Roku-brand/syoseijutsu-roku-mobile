@@ -139,16 +139,21 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
-  await expect(page.getByText(/クレジットカード・PayPay対応/)).toBeVisible();
-  await expect(page.getByText(/ログインなしで決済できます/)).toBeVisible();
+  await expect(page.getByText(/決済前にアカウントを作成またはログインします/)).toBeVisible();
+  await expect(page.getByText(/クレジットカード・PayPayはStripeの決済画面で選べます/)).toBeVisible();
   await expect(page.getByText('特商法表記').first()).toBeVisible();
+  await page.getByText('アカウント作成・ログインへ', { exact: true }).click();
+  await expect(page).toHaveURL(/\/auth\?intent=checkout&mode=signin/);
+  await expect(page.getByText('完全版を購入するための登録')).toBeVisible();
+  await page.getByRole('button', { name: /新規登録はこちら/ }).click();
+  await expect(page.getByRole('button', { name: 'アカウントを作成して決済へ進む' })).toBeVisible();
 });
 
 test('PCの購入確認でも対応決済手段を読みやすく表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/upgrade');
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
-  const support = page.getByText(/クレジットカード・PayPay対応/);
+  const support = page.getByText(/決済前にアカウントを作成またはログインします/);
   await expect(support).toBeVisible();
   const supportBox = await support.boundingBox();
   expect(supportBox).not.toBeNull();
