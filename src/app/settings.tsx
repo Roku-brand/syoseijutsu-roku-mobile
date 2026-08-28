@@ -8,7 +8,6 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
-import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -47,24 +46,30 @@ export default function SettingsScreen() {
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
           href="/upgrade"
           onNavigate={(href) => router.push(href as never)}
-          last={role !== 'owner'}
+          last
         />
-        {role === 'owner' ? (
-          <SettingLink
-            icon="document"
-            title="コンテンツ管理"
-            detail="処世術の編集・プレビュー・公開・更新履歴"
-            href="/owner/content"
-            onNavigate={(href) => router.push(href as never)}
-            last
-          />
-        ) : null}
       </View>
 
       {role === 'owner' ? (
         <>
           <SettingsSection title="オーナー機能" />
-          <OwnerPreviewPanel />
+          <View style={styles.group}>
+            <SettingLink
+              icon="document"
+              title="コンテンツ管理"
+              detail="処世術の編集・プレビュー・公開・更新履歴"
+              href="/owner/content"
+              onNavigate={(href) => router.push(href as never)}
+            />
+            <SettingLink
+              icon="brand"
+              title="オーナープレビュー"
+              detail="無料版・完全版・未ログインの表示を確認"
+              href="/owner/preview"
+              onNavigate={(href) => router.push(href as never)}
+              last
+            />
+          </View>
         </>
       ) : null}
 
