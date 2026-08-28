@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo, useRef, useState } from 'react';
 import {
   Pressable,
@@ -13,7 +13,6 @@ import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
-import { LockedPreview } from '@/components/locked-preview';
 import { getTheoryCategoryCount, getTheoryCategoryLabel } from '@/data/theory-counts';
 
 export function generateStaticParams() {
@@ -27,6 +26,7 @@ export function generateStaticParams() {
 
 export default function TheoryCategoryScreen() {
   const { category } = useLocalSearchParams<{ category: string }>();
+  const router = useRouter();
   const { isPaid } = useAccess();
   const items =
     category === 'all'
@@ -155,7 +155,24 @@ export default function TheoryCategoryScreen() {
         ) : null}
       </View>
       {!isPaid && totalCount > visibleItems.length ? (
-        <LockedPreview title={`${title}の完全版`} description="無料公開外の理論名と本文は、完全版で初めて表示されます。" count={totalCount - visibleItems.length} source="discover_theory" />
+        <View testID="theory-category-upgrade-panel" style={styles.upgradePanel}>
+          <View style={styles.upgradeCopy}>
+            <AppText variant="serif" style={styles.upgradeTitle}>{title}の完全版</AppText>
+            <AppText style={styles.upgradeDescription}>
+              {visibleItems.length > 0
+                ? `無料公開の${visibleItems.length}件に加えて、残り${totalCount - visibleItems.length}件を閲覧できます。`
+                : `全${totalCount}件を完全版で閲覧できます。`}
+            </AppText>
+          </View>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${title}の完全版を見る`}
+            onPress={() => router.push({ pathname: '/upgrade', params: { source: 'discover_theory' } })}
+            style={({ pressed }) => [styles.upgradeButton, pressed && styles.pressed]}
+          >
+            <AppText style={styles.upgradeButtonText}>完全版を見る ›</AppText>
+          </Pressable>
+        </View>
       ) : null}
       {filteredItems.length > 5 ? (
         <Pressable
@@ -247,6 +264,13 @@ const styles = StyleSheet.create({
   },
   emptyTitle: { fontSize: 17, fontWeight: '700' },
   emptyText: { marginTop: spacing.sm, color: colors.muted, textAlign: 'center' },
+  upgradePanel: { marginTop: spacing.lg, padding: spacing.lg, gap: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: '#211F1A' },
+  upgradeCopy: { gap: 5 },
+  upgradeTitle: { color: '#F0D99D', fontSize: 20, lineHeight: 29, fontWeight: '700' },
+  upgradeDescription: { color: '#E8E1D4', fontSize: 13, lineHeight: 21 },
+  upgradeButton: { alignSelf: 'flex-start', minHeight: 42, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: '#C9AB68', borderRadius: radius.pill, justifyContent: 'center' },
+  upgradeButtonText: { color: '#F0D99D', fontSize: 13, fontWeight: '700' },
+  pressed: { opacity: 0.82 },
   toTop: {
     alignSelf: 'center',
     minHeight: 48,

@@ -7,6 +7,7 @@ import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
+import { FREE_THEORY_IDS } from '@/access/access-config';
 
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 
@@ -124,13 +125,13 @@ export default function UpgradeScreen() {
             <View style={styles.productCopy}>
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
               <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
-              <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>期間限定割引</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
+              <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>通常価格</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
               <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21コース</AppText></View>
             </View>
           </View>
 
           <View style={[styles.editionComparison, compact && styles.editionComparisonCompact]}>
-            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術45件{`\n`}理論20件</AppText></View>
+            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術45件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View>
             <AppText style={[styles.editionArrow, compact && styles.editionArrowCompact]}>›</AppText>
             <View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount, compact && styles.completeEditionCountCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
           </View>

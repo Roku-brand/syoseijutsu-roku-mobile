@@ -249,12 +249,13 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
           const freeCount = theories.filter(
             (theory) => theory.categoryId === category.id && FREE_THEORY_ID_SET.has(theory.tagId),
           ).length;
-          const locked = !isPaid && freeCount < count;
+          const partial = !isPaid && freeCount > 0 && freeCount < count;
+          const locked = !isPaid && freeCount === 0;
           return (
           <Pressable
             key={category.id}
             accessibilityRole="button"
-            accessibilityLabel={`${category.title}、${count}件${locked ? '、完全版限定' : ''}`}
+            accessibilityLabel={`${category.title}、無料${freeCount}件、全${count}件${locked ? '、完全版限定' : partial ? '、一部無料' : ''}`}
             onPress={() =>
               router.push({
                 pathname: '/theories/[category]',
@@ -275,6 +276,10 @@ function TheoryBrowser({ router }: { router: ReturnType<typeof useRouter> }) {
             {locked ? (
               <View testID="discover-theory-locked-badge" style={styles.browserLock}>
                 <AccessBadge locked compact />
+              </View>
+            ) : partial ? (
+              <View testID="discover-theory-partial-badge" style={styles.browserLock}>
+                <AppText style={styles.partialBadgeText}>一部無料</AppText>
               </View>
             ) : null}
           </Pressable>
@@ -388,6 +393,7 @@ const styles = StyleSheet.create({
   },
   categoryCount: { color: colors.gold, fontSize: 11, lineHeight: 17 },
   browserLock: { position: 'absolute', top: 10, right: 10 },
+  partialBadgeText: { color: colors.goldLight, fontSize: 10, lineHeight: 15, fontWeight: '700', paddingHorizontal: 8, paddingVertical: 4, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: '#211F1A' },
   chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   popularChip: { flexGrow: 1, flexBasis: '28%', minHeight: 38, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   searchChipText: { color: colors.inkSoft, fontSize: 13, lineHeight: 19, fontWeight: '600' },

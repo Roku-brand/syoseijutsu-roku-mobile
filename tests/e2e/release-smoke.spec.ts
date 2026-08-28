@@ -264,6 +264,8 @@ test('PCの購入画面は初期表示で購入条件まで確認できる', asy
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
   await expect(page.getByText('独自の処世術集')).toBeVisible();
+  await expect(page.getByText('通常価格', { exact: true })).toBeVisible();
+  await expect(page.getByText(/理論\s*45件/)).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
@@ -389,7 +391,7 @@ test('desktop home keeps the editorial card, reel controls, and category index a
   await page.getByRole('button', { name: '無料で始める' }).click();
 
   await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page.getByText(/理論 06 \/ 541/).first()).toBeVisible();
+  await expect(page.getByText(/理論 06 \/ 45/).first()).toBeVisible();
   await expect(page.getByRole('button', { name: '相補性を詳しく見る' })).toBeVisible();
   await expect(page.getByText('P-006', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '相補性を詳しく見る' }).click();
@@ -406,6 +408,32 @@ test('desktop home keeps the editorial card, reel controls, and category index a
     expect(box).not.toBeNull();
     expect(box!.y + box!.height).toBeLessThanOrEqual(900);
   }
+});
+
+test('無料理論の分類は一部無料として閲覧でき、残りだけ購入へ案内する', async ({ page }) => {
+  await page.goto('/discover');
+  await page.getByRole('tab', { name: /理論/ }).click();
+  await expect(page.getByText('理論　45', { exact: true })).toBeVisible();
+
+  const psychology = page.getByRole('button', { name: /心理学、無料20件、全249件、一部無料/ });
+  await expect(psychology).toBeVisible();
+  await expect(page.getByTestId('discover-theory-partial-badge')).toHaveCount(6);
+  await expect(page.getByTestId('discover-theory-locked-badge')).toHaveCount(0);
+
+  await psychology.click();
+  await expect(page).toHaveURL(/\/theories\/psychology/);
+  await expect(page.getByText('20件を無料公開', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('theory-category-upgrade-panel')).toBeVisible();
+  await expect(page.getByRole('button', { name: '心理学の完全版を見る' })).toBeVisible();
+});
+
+test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {
+  await page.goto('/my-os');
+  const account = page.getByTestId('account-membership-card');
+  await expect(account).toHaveAttribute('aria-label', 'ログイン / アカウントを作成');
+  await expect(account).toContainText('ログイン / アカウントを作成');
+  await account.click();
+  await expect(page).toHaveURL(/\/auth\?mode=signin/);
 });
 
 test('ホームの全人物像カードは処世術ではなく指定スローガンを表示し、リール移動後も同期する', async ({ page }) => {

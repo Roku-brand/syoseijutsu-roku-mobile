@@ -8,7 +8,26 @@ export const FREE_PERSONA_NAME_SET = new Set<string>(FREE_PERSONA_NAMES);
 // change without leaving the free edition pointing at dead legacy IDs.
 export const FREE_REEL_TECHNIQUE_IDS = techniqueCards.slice(0, 45).map((card) => card.id) as readonly string[];
 export const FREE_DISCOVER_TECHNIQUE_IDS = FREE_REEL_TECHNIQUE_IDS;
-export const FREE_THEORY_IDS = theories.slice(0, 20).map((theory) => theory.tagId) as readonly string[];
+const FREE_THEORY_CATEGORY_IDS = [
+  'behavioral-science',
+  'organization-management',
+  'strategy',
+  'classics-thought',
+  'maxims-experience',
+] as const;
+
+export const FREE_THEORY_IDS = [
+  ...theories
+    .filter((theory) => theory.categoryId === 'psychology')
+    .slice(0, 20)
+    .map((theory) => theory.tagId),
+  ...FREE_THEORY_CATEGORY_IDS.flatMap((categoryId) =>
+    theories
+      .filter((theory) => theory.categoryId === categoryId)
+      .slice(0, 5)
+      .map((theory) => theory.tagId),
+  ),
+] as readonly string[];
 
 export const FREE_LEARNING_CASE_IDS = Array.from(
   { length: 7 },

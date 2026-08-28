@@ -729,7 +729,7 @@ export default function MainScreen() {
                 <EditorialTheoryCard
                   theory={reelItem.card}
                   position={logicalIndex + 1}
-                  total={catalogTheories.length}
+                  total={visibleTheoryCards.length}
                   width={cardWidth}
                   height={cardHeight}
                   compact={!desktop}
