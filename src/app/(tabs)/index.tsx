@@ -233,13 +233,13 @@ export default function MainScreen() {
   // phone height leaves an accidental-looking band of empty paper below it.
   // Reserve space for shortcuts, then let the featured card carry the page.
   const idealCardHeight = desktop
-    ? 494
+    ? 448
     : isPaid
       // 通常のiPhoneでは、リールを画面の主役として十分な高さにする。
       // これにより下部ショートカットの後ろに目的のない余白が残らず、
       // 画面をスクロールさせずに自然な密度で収まる。
-      ? density === 'veryCompact' ? 218 : density === 'compact' ? 258 : 340
-      : density === 'veryCompact' ? 228 : density === 'compact' ? 266 : 330;
+      ? density === 'veryCompact' ? 210 : density === 'compact' ? 242 : 312
+      : density === 'veryCompact' ? 218 : density === 'compact' ? 250 : 304;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
     // Reserve only the controls that are actually below the reel.  On a
@@ -248,10 +248,12 @@ export default function MainScreen() {
     Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 198) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
-  const reelGap = desktop ? 0 : density === 'veryCompact' ? 8 : compactReel ? 10 : 14;
+  // Keep a real strip of paper between cards. The gap is part of the item
+  // width so snapping and the active-card index remain in lockstep.
+  const reelGap = desktop ? 30 : density === 'veryCompact' ? 12 : compactReel ? 16 : 20;
   const safeWidth = width || 390;
   const cardWidth = desktop
-    ? Math.min(Math.max(safeWidth * 0.5, 620), 820)
+    ? Math.min(Math.max(safeWidth * 0.46, 580), 760)
     : Math.min(
         Math.max(safeWidth - (narrow ? spacing.sm : spacing.md) * 2 - reelPeek * 2, narrow ? 238 : 276),
         680,
@@ -262,6 +264,9 @@ export default function MainScreen() {
     cardWidth + reelPeek * 2,
   );
   const reelSideInset = Math.max(reelPeek - reelGap / 2, 0);
+  // A normal-height phone has room below the composition.  Give that room
+  // back to the reel so the card is not visually pinned to the header.
+  const reelTopOffset = desktop ? 2 : density === 'veryCompact' ? 6 : density === 'compact' ? 16 : 54;
   const cardFrame = { paddingTop: density === 'veryCompact' ? 12 : density === 'compact' ? 17 : 22, paddingBottom: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 18 };
   const cardOrnament = { marginTop: density === 'veryCompact' ? 8 : density === 'compact' ? 10 : 14, marginBottom: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 20 };
   const categoryChip = { marginTop: density === 'veryCompact' ? 10 : density === 'compact' ? 14 : 20, minHeight: density === 'veryCompact' ? 28 : density === 'compact' ? 31 : 34 };
@@ -403,11 +408,10 @@ export default function MainScreen() {
     const farTilt = desktop ? 25 : 17;
     const sideDrop = desktop ? 13 : 8;
     const farDrop = desktop ? 24 : 15;
-    // Scaling pulls each neighbour away from the viewport. Offset that loss,
-    // then tuck the inner edge back under the centre card to keep a visible
-    // curved preview on both sides.
-    const sideShift = desktop ? 43 : 26;
-    const farShift = desktop ? 72 : 42;
+    // Leave the neighbours in their own lanes: moving them toward the centre
+    // made the corner decoration sit on top of the active card.
+    const sideShift = desktop ? 22 : 0;
+    const farShift = desktop ? 48 : 0;
 
     return {
       opacity: reelScrollX.interpolate({
@@ -556,13 +560,18 @@ export default function MainScreen() {
   const jumpToTechniqueCategory = (categoryKey: (typeof techniqueShortcuts)[number]['key']) => {
     const targetIndex = visiblePersonas.findIndex((persona) => persona.category === categoryKey);
     if (targetIndex < 0) return;
+    clearScrollSettleTimer();
     setReelType('techniques');
     activeIndexRef.current = targetIndex;
     setActiveIndex(targetIndex);
     if (reelType === 'techniques') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
       physicalIndexRef.current = physicalIndex;
-      scrollToPhysicalIndex(physicalIndex, true);
+      latestScrollOffsetRef.current = physicalIndex * reelWidth;
+      // A direct category jump must win over an in-flight arrow animation.
+      // Scrolling without animation prevents old intermediate offsets from
+      // restoring the previous category after the selection has changed.
+      scrollToPhysicalIndex(physicalIndex, false);
     }
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -570,13 +579,15 @@ export default function MainScreen() {
   const jumpToTheoryCategory = (categoryId: (typeof theoryShortcuts)[number]['key']) => {
     const targetIndex = visibleTheoryCards.findIndex((card) => card.categoryId === categoryId);
     if (targetIndex < 0) return;
+    clearScrollSettleTimer();
     setReelType('theories');
     activeIndexRef.current = targetIndex;
     setActiveIndex(targetIndex);
     if (reelType === 'theories') {
       const physicalIndex = getCentralPhysicalIndex(targetIndex);
       physicalIndexRef.current = physicalIndex;
-      scrollToPhysicalIndex(physicalIndex, true);
+      latestScrollOffsetRef.current = physicalIndex * reelWidth;
+      scrollToPhysicalIndex(physicalIndex, false);
     }
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -611,7 +622,7 @@ export default function MainScreen() {
         style={[
           styles.reelStage,
           desktop && styles.reelStageDesktop,
-          { width: reelViewportWidth, marginTop: desktop ? 2 : sectionGap },
+          { width: reelViewportWidth, marginTop: desktop ? reelTopOffset : sectionGap + reelTopOffset },
           {
             opacity: reelEntrance,
             transform: [{
@@ -1071,13 +1082,13 @@ const styles = StyleSheet.create({
   catalogCount: { marginBottom: 6, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, fontWeight: '700' },
   catalogDivider: { color: colors.gold },
   reelStage: { position: 'relative', alignSelf: 'center', flexGrow: 0 },
-  reelStageDesktop: { minHeight: 498 },
+  reelStageDesktop: { minHeight: 460 },
   reelArc: { display: 'none' },
   reel: { alignSelf: 'center', flexGrow: 0, zIndex: 1 },
   reelItem: { paddingVertical: 2, transformOrigin: 'center center' },
   reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 40, height: 50, marginTop: -25, alignItems: 'center', justifyContent: 'center' },
-  reelArrowLeft: { left: -68 },
-  reelArrowRight: { right: -68 },
+  reelArrowLeft: { left: -62 },
+  reelArrowRight: { right: -62 },
   reelArrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 42, lineHeight: 44, fontWeight: '300' },
   reelArrowPressed: { opacity: 0.58, transform: [{ scale: 0.9 }] },
   techniqueCard: {

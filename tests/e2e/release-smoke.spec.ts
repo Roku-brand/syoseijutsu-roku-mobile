@@ -308,9 +308,13 @@ test('desktop home keeps the editorial card, reel controls, and category index a
     page.getByTestId('home-reel-stage').boundingBox(),
     page.getByTestId('home-shortcuts').boundingBox(),
   ]);
+  const card = await page.getByRole('button', { name: '集団に馴染める人を詳しく見る' }).boundingBox();
   expect(reel).not.toBeNull();
   expect(shortcuts).not.toBeNull();
-  expect(reel!.height).toBeGreaterThan(490);
+  expect(card).not.toBeNull();
+  expect(card!.width).toBeLessThan(700);
+  expect(card!.height).toBeLessThan(470);
+  expect(reel!.height).toBeGreaterThan(450);
   expect(shortcuts!.y).toBeGreaterThan(reel!.y + reel!.height);
   expect(shortcuts!.y + shortcuts!.height).toBeLessThanOrEqual(900);
 
