@@ -32,7 +32,7 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(hideWelcome).toBeVisible();
   await hideWelcome.click();
   await page.goto('/');
-  await expect(page.getByText(/人物像 17 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
 });
 
 test('my page keeps the guest account entry compact', async ({ page }) => {
@@ -105,8 +105,8 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText('正しく評価される人').first()).toBeVisible();
-  await expect(page.getByText(/人物像 17 \/ 26/).first()).toBeVisible();
+  await expect(page.getByText('集団に馴染める人').first()).toBeVisible();
+  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
   await expect(page.getByRole('button', { name: /を詳しく見る/ }).first()).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
@@ -273,14 +273,14 @@ test('ホームの完全版導線に価格を表示する', async ({ page }) => 
 test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
-  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
+  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
   const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
-  await expect(work).toHaveAttribute('aria-selected', 'true');
+  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
   await life.click();
   await expect(life).toHaveAttribute('aria-selected', 'true');
 });
 
-test('desktop home gives the featured card enough vertical presence', async ({ page }) => {
+test('desktop home keeps the editorial card, reel controls, and category index aligned', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
@@ -290,15 +290,37 @@ test('desktop home gives the featured card enough vertical presence', async ({ p
   ]);
   expect(reel).not.toBeNull();
   expect(shortcuts).not.toBeNull();
-  expect(reel!.height).toBeGreaterThan(460);
+  expect(reel!.height).toBeGreaterThan(490);
   expect(shortcuts!.y).toBeGreaterThan(reel!.y + reel!.height);
   expect(shortcuts!.y + shortcuts!.height).toBeLessThanOrEqual(900);
 
-  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
-  await expect(work).toHaveAttribute('aria-selected', 'true');
+  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
+  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByText(/人物像 11 \/ 26/).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: '集団に馴染める人を詳しく見る' })).toBeVisible();
   await page.getByRole('button', { name: '次のカードへ' }).click();
-  await expect(work).toHaveAttribute('aria-selected', 'true');
+  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('button', { name: 'リーダーシップがある人を詳しく見る' })).toBeVisible();
 
+  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
+  await work.click();
+  await expect(work).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('button', { name: '仕事ができる人を詳しく見る' })).toBeVisible();
+  await page.getByRole('button', { name: '仕事ができる人を詳しく見る' }).click();
+  await expect(page).toHaveURL(/\/subcategory\/work\//);
+
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
+  await expect(page.getByText(/理論 06 \/ 541/).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: '相補性を詳しく見る' })).toBeVisible();
+  await expect(page.getByText('P-006', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '相補性を詳しく見る' }).click();
+  await expect(page).toHaveURL(/\/theory\/kb_006/);
+
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
   await page.getByRole('tab', { name: '理論', exact: true }).click();
   const theoryIndexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '名言'];
   for (const label of theoryIndexes) {
