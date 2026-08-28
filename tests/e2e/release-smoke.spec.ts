@@ -408,6 +408,70 @@ test('desktop home keeps the editorial card, reel controls, and category index a
   }
 });
 
+test('ホームの全人物像カードは処世術ではなく指定スローガンを表示し、リール移動後も同期する', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  await expect(page.getByTestId('book-header-app-icon')).toBeVisible();
+
+  const groups = [
+    {
+      category: '対人術',
+      entries: [
+        ['印象がいい人', '好印象をつくる方法'],
+        ['会話がうまい人', '会話を続け、深める方法'],
+        ['聞き上手な人', '相手の話を引き出す方法'],
+        ['信頼される人', '信頼を積み上げる方法'],
+        ['人たらしの人', '人を惹きつける極意'],
+        ['面白い人', '人を楽しませる方法'],
+        ['人を見極められる人', '人の本質を見抜く方法'],
+        ['人に振り回されない人', '人との境界線を守る方法'],
+        ['軽く扱われない人', '対等に扱われる方法'],
+        ['人間関係が安定する人', '関係を長く続ける方法'],
+        ['集団に馴染める人', '集団に居場所をつくる方法'],
+        ['リーダーシップがある人', '人をまとめ、動かす方法'],
+        ['カリスマ性のある人', '人を惹きつける存在のつくり方'],
+      ],
+    },
+    {
+      category: '仕事術',
+      entries: [
+        ['仕事ができる人', '成果を出し続ける仕事術'],
+        ['タスク処理がうまい人', '仕事を滞らせない処理術'],
+        ['頭がいい人', '物事を深く理解する思考法'],
+        ['正しく評価される人', '実力を評価につなげる方法'],
+        ['交渉がうまい人', '交渉を有利に進める方法'],
+        ['組織でうまく立ち回れる人', '組織を賢く生き抜く処世術'],
+      ],
+    },
+    {
+      category: '人生術',
+      entries: [
+        ['充実した人生を過ごせる人', '人生を豊かにする方法'],
+        ['自分らしく生きられる人', '自分の軸で生きる方法'],
+        ['人生を楽しめる人', '人生を楽しみ尽くす方法'],
+        ['不安に強い人', '不安とうまく付き合う方法'],
+        ['後悔しない人', '後悔を減らす選び方'],
+        ['立ち直れる人', '逆境から立ち直る方法'],
+        ['可能性を広げられる人', '人生の可能性を広げる方法'],
+      ],
+    },
+  ] as const;
+
+  const activeCard = page.getByTestId('home-editorial-persona-card-active');
+  for (const group of groups) {
+    await page.getByRole('tab', { name: `${group.category}の先頭の人物像へ移動` }).click();
+    for (const [title, slogan] of group.entries) {
+      await expect(activeCard).toHaveAttribute('aria-label', `${title}を詳しく見る`);
+      await expect(activeCard.getByTestId('home-persona-slogan')).toHaveText(slogan);
+      await expect(activeCard).not.toContainText('つの処世術を見る');
+      if (title !== group.entries[group.entries.length - 1][0]) {
+        await page.getByRole('button', { name: '次のカードへ' }).click();
+      }
+    }
+  }
+});
+
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();

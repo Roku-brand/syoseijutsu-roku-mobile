@@ -2,6 +2,7 @@ import { usePathname, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Modal,
+  Image,
   Pressable,
   Share,
   ScrollView,
@@ -25,6 +26,8 @@ import {
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { useAuth } from '@/auth/auth-state';
+
+const appIcon = require('../../assets/brand/icon.png');
 
 export function BookScreen({
   children,
@@ -118,9 +121,12 @@ export function BookHeader() {
           </View>
         ) : (
           <View style={styles.brandGroup}>
-            <View style={[styles.seal, compact && styles.sealCompact]}>
-              <AppText style={styles.sealText}>禄</AppText>
-            </View>
+            <Image
+              testID="book-header-app-icon"
+              accessibilityLabel="処世術禄のアプリアイコン"
+              source={appIcon}
+              style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
+            />
             <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
               <AppText style={styles.brandSubtitle}>判断と実践のカード集</AppText>
@@ -635,23 +641,13 @@ const styles = StyleSheet.create({
   },
   headerBackIconLight: { color: colors.gold },
   headerBackTextLight: { color: colors.ink },
-  seal: {
+  headerAppIcon: {
     width: 34,
     height: 34,
     borderRadius: 7,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
+    resizeMode: 'cover',
   },
-  sealCompact: { width: 34, height: 34, borderRadius: 7 },
-  sealText: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontWeight: '700',
-    fontSize: 22,
-    lineHeight: 29,
-  },
+  headerAppIconCompact: { width: 34, height: 34, borderRadius: 7 },
   brandCopy: { minWidth: 0, gap: 1 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {

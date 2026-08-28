@@ -15,17 +15,15 @@ import {
   type NativeSyntheticEvent,
 } from 'react-native';
 import { AppText } from '@/components/ui';
-import { BookScreen, SaveDiamondButton, bookCardShadow } from '@/components/book-ui';
+import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
 import { getTheoryCoverSummary } from '@/data/theory-display';
 import { FREE_THEORY_IDS, isFreePersona } from '@/access/access-config';
 import { AccessBadge } from '@/components/access-badge';
 import { useAccess } from '@/access/access-state';
-import type { TechniqueCard, TheoryCard } from '@/data/types';
-import { useAppState } from '@/state/app-state';
-import { useAppToast } from '@/components/app-toast';
-import { useResponsiveLayout, type ViewportDensity } from '@/hooks/use-responsive-layout';
+import type { TheoryCard } from '@/data/types';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { COMPLETE_EDITION_PRICE_JPY, formatRemainingAccess } from '@/lib/purchase';
 
 type PersonaReelItem = {
@@ -46,7 +44,7 @@ type TheoryReelItem = {
 };
 
 type ReelItem = PersonaReelItem | TheoryReelItem | UpgradeReelItem;
-type Persona = { id: string; title: string; subtitle: string; category: 'interpersonal' | 'work' | 'life'; principleIds: string[]; techniqueCount: number };
+type Persona = { id: string; title: string; slogan: string; category: 'interpersonal' | 'work' | 'life'; principleIds: string[]; techniqueCount: number };
 
 const CIRCULAR_REEL_COPIES = 5;
 const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
@@ -54,6 +52,35 @@ const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
 // these positions explicit also prevents a prior mode's index leaking into the
 // other reel after a quick tab switch.
 const REEL_INITIAL_INDEX: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 5 };
+
+const PERSONA_SLOGANS: Record<string, string> = {
+  '印象がいい人': '好印象をつくる方法',
+  '会話がうまい人': '会話を続け、深める方法',
+  '聞き上手な人': '相手の話を引き出す方法',
+  '信頼される人': '信頼を積み上げる方法',
+  '人たらしの人': '人を惹きつける極意',
+  '面白い人': '人を楽しませる方法',
+  '人を見極められる人': '人の本質を見抜く方法',
+  '人に振り回されない人': '人との境界線を守る方法',
+  '軽く扱われない人': '対等に扱われる方法',
+  '人間関係が安定する人': '関係を長く続ける方法',
+  '集団に馴染める人': '集団に居場所をつくる方法',
+  'リーダーシップがある人': '人をまとめ、動かす方法',
+  'カリスマ性のある人': '人を惹きつける存在のつくり方',
+  '仕事ができる人': '成果を出し続ける仕事術',
+  'タスク処理がうまい人': '仕事を滞らせない処理術',
+  '頭がいい人': '物事を深く理解する思考法',
+  '正しく評価される人': '実力を評価につなげる方法',
+  '交渉がうまい人': '交渉を有利に進める方法',
+  '組織でうまく立ち回れる人': '組織を賢く生き抜く処世術',
+  '充実した人生を過ごせる人': '人生を豊かにする方法',
+  '自分らしく生きられる人': '自分の軸で生きる方法',
+  '人生を楽しめる人': '人生を楽しみ尽くす方法',
+  '不安に強い人': '不安とうまく付き合う方法',
+  '後悔しない人': '後悔を減らす選び方',
+  '立ち直れる人': '逆境から立ち直る方法',
+  '可能性を広げられる人': '人生の可能性を広げる方法',
+};
 
 const techniqueShortcuts = [
   { label: '対人術へ ›', accessibilityLabel: '対人術', key: 'interpersonal' },
@@ -69,68 +96,6 @@ const theoryShortcuts = [
   { label: '古典へ ›', accessibilityLabel: '古典', key: 'classics-thought' },
   { label: '格言へ ›', accessibilityLabel: '格言', key: 'maxims-experience' },
 ] as const;
-
-function splitReelTitle(value: string) {
-  const title = value.replace(/\*\*/g, '').trim();
-  const characters = [...title];
-  if (characters.length <= 15) return title;
-
-  const midpoint = characters.length / 2;
-  const minimum = Math.floor(characters.length * 0.34);
-  const maximum = Math.ceil(characters.length * 0.66);
-  const candidates: { index: number; penalty: number }[] = [];
-
-  characters.forEach((character, index) => {
-    const breakIndex = index + 1;
-    if (breakIndex < minimum || breakIndex > maximum) return;
-
-    if ('、，。！？：・'.includes(character)) {
-      candidates.push({ index: breakIndex, penalty: 0 });
-      return;
-    }
-
-    if ('はがをにへでとも'.includes(character)) {
-      candidates.push({ index: breakIndex, penalty: 2.5 });
-    }
-  });
-
-  const bestBreak =
-    candidates.sort(
-      (a, b) =>
-        Math.abs(a.index - midpoint) +
-        a.penalty -
-        (Math.abs(b.index - midpoint) + b.penalty),
-    )[0]?.index ?? Math.round(midpoint);
-
-  return `${characters.slice(0, bestBreak).join('')}\n${characters
-    .slice(bestBreak)
-    .join('')}`;
-}
-
-function getReelTitleMetrics(title: string, reelWidth: number, density: ViewportDensity) {
-  const lines = splitReelTitle(title).split('\n');
-  const longestLine = Math.max(...lines.map((line) => [...line].length));
-  const compact = reelWidth < 420;
-  const horizontalPadding = compact ? spacing.md : spacing.xl;
-  const availableWidth = reelWidth - horizontalPadding * 2 - 8;
-  const maximumSize = density === 'veryCompact' ? 27 : density === 'compact' ? 30 : compact ? 29 : 34;
-  const minimumSize = compact ? 10 : 18;
-  const fittedSize = Math.round(
-    availableWidth / Math.max(longestLine, 1),
-  );
-  const fontSize = Math.max(
-    minimumSize,
-    Math.min(maximumSize, fittedSize),
-  );
-
-  return {
-    displayTitle: lines.join('\n'),
-    horizontalPadding,
-    fontSize,
-    lineHeight: Math.round(fontSize * 1.48),
-    letterSpacing: compact ? 0 : 1.2,
-  };
-}
 
 /** 表紙用の要約は、本文を変えずに意味の切れ目だけで改行する。 */
 function formatTheoryCoverSummary(value: string) {
@@ -176,7 +141,6 @@ function getEditorialTheoryCode(theory: TheoryCard) {
 export default function MainScreen() {
   const router = useRouter();
   const { width, height, density, desktop, narrow, verticalPadding, sectionGap } = useResponsiveLayout();
-  const showToast = useAppToast();
   const listRef = useRef<FlatList<ReelItem>>(null);
   const reelScrollX = useRef(new Animated.Value(0)).current;
   const reelEntrance = useRef(new Animated.Value(1)).current;
@@ -187,7 +151,6 @@ export default function MainScreen() {
   const physicalIndexRef = useRef(0);
   const latestScrollOffsetRef = useRef(0);
   const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { savedTheoryIds, toggleSavedTheory } = useAppState();
   // Paid content arrives after the server has verified the entitlement.  The
   // catalogue module is intentionally hydrated in place, so this revision is
   // the signal that makes the reel rebuild from its initial preview cards to
@@ -195,11 +158,10 @@ export default function MainScreen() {
   const { isPaid, accessInfo, catalogRevision } = useAccess();
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);
-    const lead = group.items[0];
     return {
       id: `${category.key}-${group.name}`,
       title: group.name,
-      subtitle: lead?.title ?? 'なりたい自分から、必要な処世術を選ぶ。',
+      slogan: PERSONA_SLOGANS[group.name] ?? 'なりたい自分から、必要な処世術を選ぶ。',
       category: category.key,
       principleIds: ids,
       techniqueCount: ids.length,
@@ -321,6 +283,7 @@ export default function MainScreen() {
   }, [reduceMotion, reelEntrance, reelType]);
 
   const scrollToPhysicalIndex = (index: number, animated: boolean) => {
+    if (!Number.isFinite(index) || reelWidth <= 0) return;
     listRef.current?.scrollToOffset({
       offset: reelWidth * index,
       animated,
@@ -333,6 +296,8 @@ export default function MainScreen() {
     if (safeActiveIndex !== activeIndex) setActiveIndex(safeActiveIndex);
     const physicalIndex = getCentralPhysicalIndex(safeActiveIndex);
     physicalIndexRef.current = physicalIndex;
+    latestScrollOffsetRef.current = physicalIndex * reelWidth;
+    reelScrollX.setValue(latestScrollOffsetRef.current);
     const frame = requestAnimationFrame(() => scrollToPhysicalIndex(physicalIndex, false));
     // React Native Web can finish laying out a virtualized horizontal list
     // after the first frame. A bounded retry keeps the first card visible and
@@ -342,7 +307,7 @@ export default function MainScreen() {
       cancelAnimationFrame(frame);
       clearTimeout(retry);
     };
-  }, [baseReelItems.length, reelType, reelWidth]);
+  }, [baseReelItems.length, reelScrollX, reelType, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
     const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
@@ -350,6 +315,7 @@ export default function MainScreen() {
     setActiveIndex(nextIndex);
     const physicalIndex = getCentralPhysicalIndex(nextIndex);
     physicalIndexRef.current = physicalIndex;
+    latestScrollOffsetRef.current = physicalIndex * reelWidth;
     scrollToPhysicalIndex(physicalIndex, animated);
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -384,6 +350,7 @@ export default function MainScreen() {
     activeIndexRef.current = logicalIndex;
     setActiveIndex(logicalIndex);
     physicalIndexRef.current = physicalIndex;
+    latestScrollOffsetRef.current = physicalIndex * reelWidth;
     scrollToPhysicalIndex(physicalIndex, !reduceMotion);
     void Haptics.selectionAsync().catch(() => undefined);
   };
@@ -508,6 +475,7 @@ export default function MainScreen() {
     activeIndexRef.current = logicalIndex;
     setActiveIndex(logicalIndex);
     physicalIndexRef.current = physicalIndex;
+    latestScrollOffsetRef.current = targetOffset;
 
     // Native's interval snap handles touch momentum. This explicit correction
     // also covers mouse/trackpad scrolling on web, where momentum can end
@@ -547,6 +515,7 @@ export default function MainScreen() {
         ((physicalIndex % cardCount) + cardCount) % cardCount,
       );
       physicalIndexRef.current = centeredIndex;
+      latestScrollOffsetRef.current = centeredIndex * reelWidth;
       scrollToPhysicalIndex(centeredIndex, false);
     } else {
       snapToNearestCard(offsetX);
@@ -687,11 +656,6 @@ export default function MainScreen() {
           onScrollBeginDrag={clearScrollSettleTimer}
           onScrollEndDrag={scheduleNearestCardSnap}
           onMomentumScrollEnd={recenterReel}
-          onContentSizeChange={() => {
-            requestAnimationFrame(() => {
-              scrollToPhysicalIndex(getCentralPhysicalIndex(activeIndexRef.current), false);
-            });
-          }}
           scrollEventThrottle={16}
           contentContainerStyle={{ paddingHorizontal: reelSideInset }}
           style={[styles.reel, { width: reelViewportWidth }]}
@@ -725,36 +689,6 @@ export default function MainScreen() {
                     <AppText style={styles.upgradeCtaText}>内容を見る　¥{COMPLETE_EDITION_PRICE_JPY}／30日</AppText>
                   </View>
                 </Pressable>
-              </Animated.View>
-            );
-          }
-
-          if (reelItem.kind === 'theory' && false) {
-            const theory = (reelItem as TheoryReelItem).card;
-            const theorySaved = savedTheoryIds.includes(theory.tagId);
-            const isAccessible = reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-theory-${theory.tagId}`;
-            return (
-              <Animated.View accessibilityElementsHidden={!isAccessible} importantForAccessibility={isAccessible ? 'yes' : 'no-hide-descendants'} aria-hidden={!isAccessible} style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
-                <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を詳しく読む`} onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
-                  router.push({ pathname: '/theory/[id]', params: { id: theory.tagId, reelIndex: String(activeIndexRef.current) } });
-                })} style={({ pressed }) => [styles.techniqueCard, styles.theoryCard, cardFrame, { width: cardWidth, height: cardHeight, marginHorizontal: reelGap / 2 }, pressed && styles.pressed]}>
-                  <View style={styles.reelProgress}><AppText style={styles.reelProgressText}>{`理論 ${String(activeIndex + 1).padStart(2, '0')} / ${String(baseReelItems.length).padStart(2, '0')}`}</AppText></View>
-                  <AppText variant="label" style={styles.techniqueId}>{getTheoryDisplayId(theory)}</AppText>
-                  <AppText style={[styles.techniqueTitle, { fontSize: getReelTitleMetrics(theory.title, cardWidth, density).fontSize, lineHeight: getReelTitleMetrics(theory.title, cardWidth, density).lineHeight }]}>{getReelTitleMetrics(theory.title, cardWidth, density).displayTitle}</AppText>
-                  <View style={[styles.cardRule, cardOrnament]} />
-                  <View style={[styles.categoryChip, categoryChip]}><AppText style={styles.categoryChipText}>〔 {theory.categoryTitle} 〕</AppText></View>
-                  <AppText style={[styles.theorySummary, density !== 'normal' && styles.theorySummaryCompact]}>{getTheoryCoverSummary(theory.summary, theory.definition ?? '社会を生きるための知恵を、理論から読み解く。')}</AppText>
-                </Pressable>
-                <View style={[styles.reelSaveButton, reelSaveButton]}>
-                  <SaveDiamondButton
-                    saved={theorySaved}
-                    compact
-                    onPress={() => {
-                      toggleSavedTheory(theory.tagId);
-                      showToast(theorySaved ? '蔵書から外しました' : '蔵書に保存しました');
-                    }}
-                  />
-                </View>
               </Animated.View>
             );
           }
@@ -809,71 +743,6 @@ export default function MainScreen() {
           }
 
           return null;
-
-          const persona = (reelItem as PersonaReelItem).persona;
-          const personaLocked = !isPaid && !isFreePersona(persona.title);
-          const titleMetrics = getReelTitleMetrics(persona.title, cardWidth, density);
-          const isAccessible =
-            reelItem.reelKey === `loop-${CIRCULAR_REEL_CENTER_COPY}-persona-${persona.id}`;
-          return (
-            <Animated.View
-              accessibilityElementsHidden={!isAccessible}
-              importantForAccessibility={
-                isAccessible ? 'yes' : 'no-hide-descendants'
-              }
-              aria-hidden={!isAccessible}
-              style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}
-            >
-              <View
-                style={[
-                  styles.techniqueCard,
-                  {
-                    width: cardWidth,
-                    height: cardHeight,
-                    marginHorizontal: reelGap / 2,
-                    paddingHorizontal: titleMetrics.horizontalPadding,
-                  },
-                  cardFrame,
-                ]}
-              >
-                <View pointerEvents="none" style={styles.personaCornerTopLeft} />
-                <View pointerEvents="none" style={styles.personaCornerTopRight} />
-                <View pointerEvents="none" style={styles.personaCornerBottomLeft} />
-                <View pointerEvents="none" style={styles.personaCornerBottomRight} />
-                {!isPaid ? (
-                  <View pointerEvents="none" style={styles.personaAccessBadge}>
-                    <AccessBadge locked={personaLocked} compact />
-                  </View>
-                ) : null}
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={`${persona.title}${personaLocked ? '、完全版限定' : '、無料公開'}を詳しく見る`}
-                  onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
-                    router.push({ pathname: '/subcategory/[category]/[name]', params: { category: persona.category, name: persona.title } });
-                  })}
-                  style={({ pressed }) => [styles.cardReadArea, pressed && styles.pressed]}
-                >
-                  <View style={styles.reelProgress}><AppText style={styles.reelProgressText}>{`人物像 ${String(activeIndex + 1).padStart(2, '0')} / ${String(personas.length).padStart(2, '0')}`}</AppText></View>
-                  <AppText variant="label" style={styles.techniqueId}>{persona.category === 'interpersonal' ? '対人術' : persona.category === 'work' ? '仕事術' : '人生術'}</AppText>
-                  <AppText
-                    style={[
-                      styles.techniqueTitle,
-                      {
-                        fontSize: titleMetrics.fontSize,
-                        lineHeight: titleMetrics.lineHeight,
-                        letterSpacing: titleMetrics.letterSpacing,
-                      },
-                    ]}
-                  >
-                    {titleMetrics.displayTitle}
-                  </AppText>
-                  <View style={[styles.cardRule, cardOrnament]} />
-                  <AppText style={styles.personaSubtitle}>{persona.subtitle}</AppText>
-                  <View style={styles.personaCta}><AppText style={styles.personaCtaText}>{persona.techniqueCount}つの処世術を見る</AppText><AppText style={styles.personaCtaChevron}>›</AppText></View>
-                </Pressable>
-            </View>
-            </Animated.View>
-          );
           }}
         />
       </Animated.View>
@@ -990,9 +859,6 @@ function EditorialPersonaCard({
       : '人生術';
   const number = String(position).padStart(2, '0');
   const titleSize = compact ? 24 : width >= 800 ? 42 : 36;
-  const subtitle = persona.title === '正しく評価される人'
-    ? '実力を評価につなげる'
-    : persona.subtitle;
 
   return (
     <Pressable
@@ -1022,7 +888,7 @@ function EditorialPersonaCard({
         <AppText variant="label" style={styles.editorialEyebrow}>{category}</AppText>
         <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
         <AppText variant="serif" style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{persona.title}</AppText>
-        <AppText variant="serif" style={[styles.editorialSubtitle, compact && styles.editorialSubtitleCompact]}>{subtitle}</AppText>
+        <AppText testID="home-persona-slogan" variant="serif" style={[styles.editorialSubtitle, compact && styles.editorialSubtitleCompact]}>{persona.slogan}</AppText>
         <View style={[styles.editorialTextCta, compact && styles.editorialTextCtaCompact]}>
           <AppText variant="serif" style={styles.editorialTextCtaLabel}>詳しく見る</AppText>
           <AppText style={styles.editorialTextCtaArrow}>→</AppText>
