@@ -159,6 +159,7 @@ export function BookHeader() {
                 ]}
               >
                 <MenuMark active={Boolean(user)} light={lightHeader} />
+                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>設定</AppText> : null}
               </Pressable>
             ) : null}
           </View>
@@ -305,7 +306,8 @@ function getCurrentTitle(pathname: string) {
     pathname.includes('/catalog')
   ) return '探す';
   if (pathname.includes('/my-techniques')) return 'マイ処世術';
-  if (pathname.includes('/my-os') || pathname.includes('/library')) return 'マイページ';
+  if (pathname.includes('/library')) return '蔵書';
+  if (pathname.includes('/my-os')) return 'マイページ';
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';
   if (pathname.includes('/collection/')) return 'コレクション';
@@ -714,9 +716,9 @@ const styles = StyleSheet.create({
   },
   headerActionLabelLight: { color: colors.gold },
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
-  menuMark: { width: 30, height: 27, justifyContent: 'space-between', paddingVertical: 1 },
+  menuMark: { width: 28, height: 27, justifyContent: 'space-between', paddingVertical: 2 },
   menuMarkActive: { opacity: 1 },
-  menuLine: { width: 28, height: 1.5, borderRadius: 2, alignSelf: 'flex-end' },
+  menuLine: { width: 28, height: 1.25, borderRadius: 2, alignSelf: 'center' },
   principleMark: {
     width: 27,
     height: 27,

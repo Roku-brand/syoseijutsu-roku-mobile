@@ -52,18 +52,12 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('personal principle editing stays in the compact card header', async ({ page }) => {
+test('マイページから蔵書とマイ処世術へ迷わず移動できる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
-  const card = page.getByTestId('personal-principle-card');
-  const edit = page.getByTestId('personal-principle-edit');
-  await expect(card).toBeVisible();
-  await expect(edit).toBeVisible();
-  const [cardBox, editBox] = await Promise.all([card.boundingBox(), edit.boundingBox()]);
-  expect(cardBox).not.toBeNull();
-  expect(editBox).not.toBeNull();
-  expect(editBox!.y).toBeLessThan(cardBox!.y + 70);
-  expect(editBox!.y + editBox!.height).toBeLessThan(cardBox!.y + cardBox!.height / 2);
+  await expect(page.getByTestId('personal-principle-card')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '蔵書を開く' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'マイ処世術を開く' })).toBeVisible();
 });
 
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
@@ -144,15 +138,31 @@ test('PCの購入確認でも対応決済手段を読みやすく表示する', 
   expect(supportBox!.y + supportBox!.height).toBeLessThanOrEqual(900);
 });
 
-test('マイ処世術は専用ページで追加と削除ができる', async ({ page }) => {
+test('マイ処世術は専用ページで作成・フォルダー整理・削除ができる', async ({ page }) => {
   await page.goto('/my-os');
   await page.getByRole('button', { name: 'マイ処世術を開く' }).click();
   await expect(page).toHaveURL(/\/my-techniques/);
+  await expect(page.getByText('いまの自分の指針')).toHaveCount(0);
+  await page.getByRole('button', { name: 'フォルダーを追加' }).click();
+  await page.getByRole('textbox', { name: 'フォルダー名' }).fill('仕事');
+  await page.getByRole('button', { name: 'フォルダーを作成する' }).click();
+  await page.getByRole('button', { name: 'マイ処世術を新規作成' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('焦ったら、一度だけ深呼吸する');
+  await page.getByRole('radio', { name: '仕事' }).click();
   await page.getByRole('button', { name: 'マイ処世術を追加' }).click();
   await expect(page.getByText('焦ったら、一度だけ深呼吸する')).toBeVisible();
+  await expect(page.getByText('▱ 仕事')).toBeVisible();
   await page.getByRole('button', { name: '1番目のマイ処世術を削除' }).click();
-  await expect(page.getByText('まだマイ処世術はありません。')).toBeVisible();
+  await expect(page.getByText('このフォルダーはまだ空です。')).toBeVisible();
+});
+
+test('ウェルカムのヘッダーに無料版・完全版の導線とホームアイコンを置く', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/welcome');
+  await expect(page.getByTestId('welcome-entry-header')).toBeVisible();
+  await expect(page.getByLabel('処世術禄のホームアイコン')).toBeVisible();
+  await expect(page.getByRole('button', { name: '無料版をすぐ始める' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '完全版の内容を見る' })).toBeVisible();
 });
 
 test('探すは検索欄から始まり、目的語タグを表示する', async ({ page }) => {

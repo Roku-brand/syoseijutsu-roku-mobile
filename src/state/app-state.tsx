@@ -37,6 +37,19 @@ export type LearningRecord = {
   answeredAt: string;
 };
 
+export type PersonalMemoFolder = {
+  id: string;
+  name: string;
+  createdAt: string;
+};
+
+export type PersonalMemo = {
+  id: string;
+  text: string;
+  folderId: string | null;
+  createdAt: string;
+};
+
 type PersistedState = {
   learningCurriculumVersion: number;
   onboardingCompleted: boolean;
@@ -49,7 +62,8 @@ type PersistedState = {
   collections: Collection[];
   practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
-  personalMemos: string[];
+  personalMemos: PersonalMemo[];
+  personalMemoFolders: PersonalMemoFolder[];
   learningRecords: Record<string, LearningRecord>;
 };
 
@@ -66,6 +80,7 @@ const initialState: PersistedState = {
   practiceRecords: {},
   personalPrinciple: '目的を守り、手段には執着しない。',
   personalMemos: [],
+  personalMemoFolders: [],
   learningRecords: {},
 };
 
@@ -84,8 +99,11 @@ type AppStateContextValue = PersistedState & {
   completePractice: (cardId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
   updatePersonalPrinciple: (principle: string) => void;
-  addPersonalMemo: (memo: string) => void;
-  removePersonalMemo: (index: number) => void;
+  addPersonalMemo: (memo: string, folderId?: string | null) => void;
+  removePersonalMemo: (id: string) => void;
+  createPersonalMemoFolder: (name: string) => string | null;
+  deletePersonalMemoFolder: (id: string) => void;
+  movePersonalMemo: (memoId: string, folderId: string | null) => void;
   answerLearningCase: (caseId: string, choiceId: LearningRecord['choiceId']) => void;
   resetLearningCase: (caseId: string) => void;
   clearPersonalData: () => Promise<void>;
@@ -124,12 +142,52 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         const learningRecords = parsed.learningCurriculumVersion === LEARNING_CURRICULUM_VERSION
           ? parsed.learningRecords ?? {}
           : {};
+        const personalMemos = Array.isArray(parsed.personalMemos)
+          ? (parsed.personalMemos as unknown[])
+            .map((memo, index): PersonalMemo | null => {
+              if (typeof memo === 'string') {
+                const text = memo.trim();
+                return text ? {
+                  id: `legacy-memo-${index}-${text.slice(0, 12)}`,
+                  text,
+                  folderId: null,
+                  createdAt: new Date(0).toISOString(),
+                } : null;
+              }
+              if (!memo || typeof memo !== 'object') return null;
+              const value = memo as Partial<PersonalMemo>;
+              const text = typeof value.text === 'string' ? value.text.trim() : '';
+              return text ? {
+                id: typeof value.id === 'string' && value.id ? value.id : `memo-${index}-${text.slice(0, 12)}`,
+                text,
+                folderId: typeof value.folderId === 'string' ? value.folderId : null,
+                createdAt: typeof value.createdAt === 'string' ? value.createdAt : new Date(0).toISOString(),
+              } : null;
+            })
+            .filter((memo): memo is PersonalMemo => memo !== null)
+          : [];
+        const personalMemoFolders = Array.isArray(parsed.personalMemoFolders)
+          ? parsed.personalMemoFolders
+            .filter((folder): folder is PersonalMemoFolder => Boolean(
+              folder
+              && typeof folder === 'object'
+              && typeof (folder as PersonalMemoFolder).id === 'string'
+              && typeof (folder as PersonalMemoFolder).name === 'string',
+            ))
+            .map((folder) => ({
+              id: folder.id,
+              name: folder.name.trim() || '無題のフォルダー',
+              createdAt: typeof folder.createdAt === 'string' ? folder.createdAt : new Date(0).toISOString(),
+            }))
+          : [];
         setState({
           ...initialState,
           ...parsed,
           learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
           learningRecords,
           savedTheoryIds,
+          personalMemos,
+          personalMemoFolders,
           interests: interests.length ? interests : initialState.interests,
         });
       })
@@ -292,20 +350,54 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
-  const addPersonalMemo = useCallback((memo: string) => {
+  const addPersonalMemo = useCallback((memo: string, folderId: string | null = null) => {
     const value = memo.trim();
     if (!value) return;
     haptic(Haptics.ImpactFeedbackStyle.Light);
     setState((current) => ({
       ...current,
-      personalMemos: [value, ...current.personalMemos].slice(0, 100),
+      personalMemos: [{
+        id: `memo-${Date.now()}`,
+        text: value,
+        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
+        createdAt: new Date().toISOString(),
+      }, ...current.personalMemos].slice(0, 100),
     }));
   }, []);
 
-  const removePersonalMemo = useCallback((index: number) => {
+  const removePersonalMemo = useCallback((id: string) => {
     setState((current) => ({
       ...current,
-      personalMemos: current.personalMemos.filter((_, itemIndex) => itemIndex !== index),
+      personalMemos: current.personalMemos.filter((memo) => memo.id !== id),
+    }));
+  }, []);
+
+  const createPersonalMemoFolder = useCallback((name: string) => {
+    const value = name.trim().slice(0, 32);
+    if (!value) return null;
+    const id = `memo-folder-${Date.now()}`;
+    setState((current) => ({
+      ...current,
+      personalMemoFolders: [...current.personalMemoFolders, { id, name: value, createdAt: new Date().toISOString() }],
+    }));
+    return id;
+  }, []);
+
+  const deletePersonalMemoFolder = useCallback((id: string) => {
+    setState((current) => ({
+      ...current,
+      personalMemoFolders: current.personalMemoFolders.filter((folder) => folder.id !== id),
+      personalMemos: current.personalMemos.map((memo) => memo.folderId === id ? { ...memo, folderId: null } : memo),
+    }));
+  }, []);
+
+  const movePersonalMemo = useCallback((memoId: string, folderId: string | null) => {
+    setState((current) => ({
+      ...current,
+      personalMemos: current.personalMemos.map((memo) => memo.id === memoId ? {
+        ...memo,
+        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
+      } : memo),
     }));
   }, []);
 
@@ -352,6 +444,9 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalPrinciple,
       addPersonalMemo,
       removePersonalMemo,
+      createPersonalMemoFolder,
+      deletePersonalMemoFolder,
+      movePersonalMemo,
       answerLearningCase,
       resetLearningCase,
       clearPersonalData,
@@ -374,6 +469,9 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalPrinciple,
       addPersonalMemo,
       removePersonalMemo,
+      createPersonalMemoFolder,
+      deletePersonalMemoFolder,
+      movePersonalMemo,
       answerLearningCase,
       clearPersonalData,
     ],

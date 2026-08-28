@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { BookScreen, BookTitle, OrnamentHeading } from '@/components/book-ui';
+import { BookScreen, OrnamentHeading } from '@/components/book-ui';
 import { TechniqueRow } from '@/components/technique-row';
-import { AppText, DetailHeader } from '@/components/ui';
+import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
@@ -26,12 +26,6 @@ export default function LibraryScreen() {
 
   return (
     <BookScreen>
-      <DetailHeader title="マイページ" />
-      <BookTitle
-        title="蔵書"
-        subtitle={`保存した処世術と理論 ${savedIds.length + savedTheoryIds.length}件を、必要なときに読み返す。`}
-      />
-
       {savedIds.length || savedTheoryIds.length ? (
         <>
           {savedIds.length ? (

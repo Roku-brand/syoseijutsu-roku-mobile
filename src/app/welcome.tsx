@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { ImageBackground, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { useAppState } from '@/state/app-state';
@@ -7,6 +7,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 
 const desktopBackground = require('../../assets/welcome/welcome-background-desktop.png');
 const mobileBackground = require('../../assets/welcome/welcome-background-mobile.png');
+const appIcon = require('../../assets/brand/icon.png');
 
 type NoteTone = 'paper' | 'ink' | 'speech';
 
@@ -56,15 +57,8 @@ export default function Welcome() {
         imageStyle={styles.backgroundImage}
       >
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+          <WelcomeHeader desktop={desktop} compact={compact} onStartFree={startFree} onOpenComplete={() => router.push('/upgrade')} />
           <View style={[styles.hero, { minHeight: heroHeight }, desktop && styles.heroDesktop]}>
-            <View style={[styles.quickEntry, desktop && styles.quickEntryDesktop, compact && styles.quickEntryCompact]}>
-              <Pressable accessibilityRole="button" accessibilityLabel="無料版をすぐ始める" onPress={startFree} style={({ pressed }) => [styles.quickEntryButton, pressed && styles.pressed]}>
-                <AppText style={styles.quickEntryText}>無料版をはじめる</AppText>
-              </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel="完全版の内容を見る" onPress={() => router.push('/upgrade')} style={({ pressed }) => [styles.quickEntryButton, styles.quickEntryButtonComplete, pressed && styles.pressed]}>
-                <AppText style={[styles.quickEntryText, styles.quickEntryTextComplete]}>完全版を見る</AppText>
-              </Pressable>
-            </View>
             {(desktop ? desktopNotes : mobileNotes).map((note, index) => (
               <FloatingNote key={`${note.text}-${index}`} text={note.text} tone={note.tone} style={noteStyle(note.position)} />
             ))}
@@ -119,6 +113,41 @@ export default function Welcome() {
       </ImageBackground>
     </SafeAreaView>
   );
+}
+
+function WelcomeHeader({
+  desktop,
+  compact,
+  onStartFree,
+  onOpenComplete,
+}: {
+  desktop: boolean;
+  compact: boolean;
+  onStartFree: () => void;
+  onOpenComplete: () => void;
+}) {
+  return <View testID="welcome-entry-header" style={[styles.entryHeader, desktop && styles.entryHeaderDesktop, compact && styles.entryHeaderCompact]}>
+    <View style={styles.entryBrand}>
+      <Image source={appIcon} accessibilityLabel="処世術禄のホームアイコン" style={[styles.entryIcon, desktop && styles.entryIconDesktop]} />
+      <View style={styles.entryBrandCopy}>
+        <AppText variant="serif" style={[styles.entryBrandName, desktop && styles.entryBrandNameDesktop]}>処世術禄</AppText>
+        <AppText style={[styles.entryBrandReading, desktop && styles.entryBrandReadingDesktop]}>SHO SEI JUTSU ROKU</AppText>
+      </View>
+    </View>
+    <View style={styles.entryDivider} />
+    <View style={styles.entryActions}>
+      <Pressable accessibilityRole="button" accessibilityLabel="無料版をすぐ始める" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, pressed && styles.pressed]}>
+        <AppText style={styles.entryActionIcon}>▣</AppText>
+        <View style={styles.entryActionCopy}><AppText variant="serif" style={styles.entryActionTitle}>無料版</AppText><AppText style={styles.entryActionSub}>基本の知恵を学ぶ</AppText></View>
+        <AppText style={styles.entryChevron}>›</AppText>
+      </Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="完全版の内容を見る" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, styles.entryActionComplete, pressed && styles.pressed]}>
+        <AppText style={[styles.entryActionIcon, styles.entryActionIconComplete]}>♔</AppText>
+        <View style={styles.entryActionCopy}><AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版</AppText><AppText style={[styles.entryActionSub, styles.entryActionSubComplete]}>すべての知恵を解き放つ</AppText></View>
+        <AppText style={[styles.entryChevron, styles.entryChevronComplete]}>›</AppText>
+      </Pressable>
+    </View>
+  </View>;
 }
 
 function Brand({ compact, desktop }: { compact: boolean; desktop: boolean }) {
@@ -196,15 +225,32 @@ const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#F7F0E5' },
   backgroundImage: { opacity: 1 },
   scrollContent: { flexGrow: 1 },
+  entryHeader: { minHeight: 82, paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'column', gap: 8, backgroundColor: 'rgba(9,10,9,0.97)', borderBottomWidth: 1, borderBottomColor: '#B8872D' },
+  entryHeaderDesktop: { minHeight: 126, paddingHorizontal: 52, paddingVertical: 22, flexDirection: 'row', alignItems: 'center', gap: 36 },
+  entryHeaderCompact: { minHeight: 74, paddingHorizontal: 12, gap: 6 },
+  entryBrand: { flexDirection: 'row', alignItems: 'center', gap: 9 },
+  entryIcon: { width: 38, height: 38, borderRadius: 19 },
+  entryIconDesktop: { width: 66, height: 66, borderRadius: 33 },
+  entryBrandCopy: { minWidth: 0 },
+  entryBrandName: { color: '#F1D185', fontSize: 20, lineHeight: 27, fontWeight: '600', letterSpacing: 3 },
+  entryBrandNameDesktop: { fontSize: 35, lineHeight: 46, letterSpacing: 6 },
+  entryBrandReading: { marginTop: 1, color: '#DFBD70', fontSize: 7, lineHeight: 11, fontWeight: '700', letterSpacing: 2.6 },
+  entryBrandReadingDesktop: { marginTop: 2, fontSize: 9, lineHeight: 14, letterSpacing: 4.4 },
+  entryDivider: { width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(226,198,130,0.24)' },
+  entryActions: { flex: 1, flexDirection: 'row', gap: 7, alignItems: 'center', justifyContent: 'flex-end' },
+  entryAction: { flex: 1, minWidth: 0, minHeight: 40, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 7, borderWidth: 1, borderColor: '#B48734', borderRadius: 999, backgroundColor: 'rgba(13,14,13,0.75)' },
+  entryActionComplete: { borderColor: '#D7AF58', backgroundColor: '#F2DEAC' },
+  entryActionIcon: { color: '#D5AD58', fontSize: 19, lineHeight: 23 },
+  entryActionIconComplete: { color: '#5B431B' },
+  entryActionCopy: { flex: 1, minWidth: 0 },
+  entryActionTitle: { color: '#F7EFDE', fontSize: 14, lineHeight: 18, fontWeight: '600', letterSpacing: 0.6 },
+  entryActionTitleComplete: { color: '#231C12' },
+  entryActionSub: { marginTop: 1, color: '#D1C2A6', fontSize: 8.5, lineHeight: 12, fontWeight: '600' },
+  entryActionSubComplete: { color: '#5B4D35' },
+  entryChevron: { color: '#D5AD58', fontSize: 27, lineHeight: 30, fontWeight: '300' },
+  entryChevronComplete: { color: '#5B431B' },
   hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingTop: 26, paddingBottom: 34 },
   heroDesktop: { paddingTop: 18, paddingBottom: 54 },
-  quickEntry: { position: 'absolute', top: 13, zIndex: 4, flexDirection: 'row', gap: 7, padding: 4, borderWidth: 1, borderColor: 'rgba(239,216,169,0.34)', borderRadius: 999, backgroundColor: 'rgba(8,9,8,0.50)' },
-  quickEntryDesktop: { top: 16, gap: 9, padding: 5 },
-  quickEntryCompact: { top: 9, transform: [{ scale: 0.9 }] },
-  quickEntryButton: { minHeight: 28, paddingHorizontal: 11, borderRadius: 999, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(244,228,190,0.46)' },
-  quickEntryButtonComplete: { borderColor: '#C99331', backgroundColor: 'rgba(181,120,24,0.24)' },
-  quickEntryText: { color: '#F6ECDB', fontSize: 10, lineHeight: 14, letterSpacing: 0.7, fontWeight: '700' },
-  quickEntryTextComplete: { color: '#F2CF84' },
   heroCopy: { width: '100%', maxWidth: 690, alignItems: 'center', zIndex: 2 },
   heroCopyDesktop: { maxWidth: 800 },
   heroCopyCompact: { transform: [{ scale: 0.92 }] },
