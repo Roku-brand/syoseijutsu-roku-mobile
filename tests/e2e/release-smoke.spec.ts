@@ -346,7 +346,7 @@ test('desktop home keeps the editorial card, reel controls, and category index a
   await page.goto('/');
   await page.getByRole('button', { name: '無料で始める' }).click();
   await page.getByRole('tab', { name: '理論', exact: true }).click();
-  const theoryIndexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '名言'];
+  const theoryIndexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言'];
   for (const label of theoryIndexes) {
     const index = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
     await expect(index).toBeVisible();

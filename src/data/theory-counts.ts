@@ -6,7 +6,7 @@ export const THEORY_CATEGORY_LABELS: Record<string, string> = {
   'organization-management': '組織・経営論',
   strategy: '戦略',
   'classics-thought': '古典・思想',
-  'maxims-experience': '格言・経験則・作品',
+  'maxims-experience': '格言',
 };
 
 export function getTheoryCategoryCount(category: string) {

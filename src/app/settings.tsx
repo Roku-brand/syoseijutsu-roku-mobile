@@ -8,6 +8,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
+import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -59,6 +60,13 @@ export default function SettingsScreen() {
           />
         ) : null}
       </View>
+
+      {role === 'owner' ? (
+        <>
+          <SettingsSection title="オーナー機能" />
+          <OwnerPreviewPanel />
+        </>
+      ) : null}
 
       <SettingsSection title="サポート・その他" />
       <View style={styles.group}>

@@ -43,7 +43,7 @@ const theoryCategories = [
   { id: 'organization-management', title: '組織・経営', mark: '組' },
   { id: 'strategy', title: '戦略論', mark: '戦' },
   { id: 'classics-thought', title: '古典・思想', mark: '古' },
-  { id: 'maxims-experience', title: '名言・経験則', mark: '言' },
+  { id: 'maxims-experience', title: '格言', mark: '格' },
 ];
 
 export default function DiscoverScreen() {
@@ -384,9 +384,9 @@ const styles = StyleSheet.create({
     minHeight: 132,
     padding: spacing.md,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.gold,
     borderRadius: radius.md,
-    backgroundColor: colors.surface,
+    backgroundColor: colors.charcoal,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
@@ -396,22 +396,24 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 23,
     borderWidth: 1,
-    borderColor: colors.gold,
+    borderColor: '#C6A669',
+    backgroundColor: '#171611',
     alignItems: 'center',
     justifyContent: 'center',
   },
   theoryMarkText: {
-    color: colors.gold,
+    color: colors.goldLight,
     fontFamily: fonts.serif,
     fontSize: 17,
     fontWeight: '700',
   },
   theoryTitle: {
+    color: colors.paper,
     fontFamily: fonts.serif,
     fontSize: 14,
     fontWeight: '700',
     textAlign: 'center',
   },
-  theoryCount: { color: colors.muted, fontSize: 11 },
+  theoryCount: { color: '#D8CFBE', fontSize: 11 },
   pressed: { opacity: 0.78, transform: [{ scale: 0.985 }] },
 });

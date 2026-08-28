@@ -7,7 +7,6 @@ import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, techniqueCards } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
-import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { formatRemainingAccess } from '@/lib/purchase';
@@ -37,7 +36,6 @@ export default function MyOsScreen() {
   };
 
   return <BookScreen>
-    <OwnerPreviewPanel />
     <Pressable testID="account-membership-card" onPress={() => router.push(profileDestination as never)} style={({ pressed }) => [styles.accountCard, pressed && styles.pressed]}>
       <View style={styles.avatar}>{profile?.avatarUrl ? <Image source={{ uri: profile.avatarUrl }} style={styles.avatarImage} accessibilityLabel="プロフィール画像" /> : <AppText style={styles.avatarText}>{profileName.slice(0, 1)}</AppText>}</View>
       <View style={styles.profileCopy}><View style={styles.profileNameRow}><AppText style={styles.profileName}>{user ? profileName : 'ログインしていません'}</AppText><View testID="account-plan-badge" style={styles.planBadge}><AppText style={styles.planBadgeText}>{profileBadge}</AppText></View></View><AppText style={styles.profilePlan}>{profileDescription}</AppText></View>

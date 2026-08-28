@@ -82,7 +82,7 @@ export function TechniqueRow({
               {card.tags!.slice(0, 3).map((tag) => (
                 <View key={tag} style={[styles.tag, { backgroundColor: resolvedTint }]}>
                   <AppText variant="caption" style={[styles.tagText, { color: resolvedAccent }]}>
-                    #{tag}
+                    {tag}
                   </AppText>
                 </View>
               ))}
@@ -167,16 +167,16 @@ const styles = StyleSheet.create({
     lineHeight: 30,
   },
   subtitle: { marginTop: 8, lineHeight: 19 },
-  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: spacing.sm },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: spacing.md },
   tag: {
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: 'rgba(151, 116, 51, 0.32)',
     borderRadius: radius.pill,
-    paddingHorizontal: 7,
-    paddingVertical: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
     backgroundColor: colors.paper,
   },
-  tagText: { color: colors.gold, fontSize: 10, lineHeight: 14 },
+  tagText: { color: colors.gold, fontSize: 10, lineHeight: 14, fontWeight: '600', letterSpacing: 0.25 },
   actions: { alignItems: 'center', gap: spacing.md },
   chevron: { color: colors.gold, fontSize: 30, lineHeight: 34, marginRight: -6 },
 });

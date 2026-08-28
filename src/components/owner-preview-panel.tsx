@@ -47,7 +47,7 @@ export function OwnerPreviewPanel() {
 }
 
 const styles = StyleSheet.create({
-  card: { marginTop: spacing.xl, padding: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: '#F5EFE3' },
+  card: { padding: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: '#F5EFE3' },
   headingRow: { flexDirection: 'row', gap: spacing.md, alignItems: 'center' },
   mark: { width: 42, height: 42, paddingTop: 8, textAlign: 'center', borderRadius: 21, backgroundColor: colors.charcoal, color: colors.goldLight, fontFamily: fonts.serif, fontSize: 18 },
   copy: { flex: 1 },

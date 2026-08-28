@@ -67,7 +67,7 @@ const theoryShortcuts = [
   { label: '組織・経営', key: 'organization-management' },
   { label: '戦略', key: 'strategy' },
   { label: '古典', key: 'classics-thought' },
-  { label: '名言', key: 'maxims-experience' },
+  { label: '格言', key: 'maxims-experience' },
 ] as const;
 
 function splitReelTitle(value: string) {
