@@ -150,6 +150,8 @@ export default function MainScreen() {
   const activeIndexRef = useRef(REEL_INITIAL_INDEX.techniques);
   const physicalIndexRef = useRef(0);
   const latestScrollOffsetRef = useRef(0);
+  const programmaticTargetIndexRef = useRef<number | null>(null);
+  const programmaticTargetExpiresAtRef = useRef(0);
   const scrollSettleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Paid content arrives after the server has verified the entitlement.  The
   // catalogue module is intentionally hydrated in place, so this revision is
@@ -284,6 +286,10 @@ export default function MainScreen() {
 
   const scrollToPhysicalIndex = (index: number, animated: boolean) => {
     if (!Number.isFinite(index) || reelWidth <= 0) return;
+    // Keep delayed scroll events from an earlier animated movement from
+    // overwriting the card selected by a newer arrow/category action.
+    programmaticTargetIndexRef.current = index;
+    programmaticTargetExpiresAtRef.current = Date.now() + (animated ? 1200 : 300);
     listRef.current?.scrollToOffset({
       offset: reelWidth * index,
       animated,
@@ -438,10 +444,25 @@ export default function MainScreen() {
   const updateActiveCard = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
-    latestScrollOffsetRef.current = event.nativeEvent.contentOffset.x;
+    const offsetX = event.nativeEvent.contentOffset.x;
+    latestScrollOffsetRef.current = offsetX;
     if (baseReelItems.length <= 1) return;
 
-    const physicalIndex = Math.round(event.nativeEvent.contentOffset.x / reelWidth);
+    const pendingPhysicalIndex = programmaticTargetIndexRef.current;
+    if (pendingPhysicalIndex !== null) {
+      const targetOffset = pendingPhysicalIndex * reelWidth;
+      if (Math.abs(offsetX - targetOffset) <= 0.5) {
+        programmaticTargetIndexRef.current = null;
+        programmaticTargetExpiresAtRef.current = 0;
+      } else if (Date.now() < programmaticTargetExpiresAtRef.current) {
+        physicalIndexRef.current = pendingPhysicalIndex;
+        return;
+      } else {
+        programmaticTargetIndexRef.current = null;
+      }
+    }
+
+    const physicalIndex = Math.round(offsetX / reelWidth);
     const nextIndex =
       baseReelItems.length > 1
         ? ((physicalIndex % baseReelItems.length) + baseReelItems.length) % baseReelItems.length
@@ -653,7 +674,11 @@ export default function MainScreen() {
               },
             },
           )}
-          onScrollBeginDrag={clearScrollSettleTimer}
+          onScrollBeginDrag={() => {
+            clearScrollSettleTimer();
+            programmaticTargetIndexRef.current = null;
+            programmaticTargetExpiresAtRef.current = 0;
+          }}
           onScrollEndDrag={scheduleNearestCardSnap}
           onMomentumScrollEnd={recenterReel}
           scrollEventThrottle={16}
