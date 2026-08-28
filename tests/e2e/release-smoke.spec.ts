@@ -62,6 +62,22 @@ test('マイページに判断原則・数値付きの蔵書とマイ処世術�
   await expect(page.getByRole('button', { name: 'すべての履歴を見る' })).toBeVisible();
 });
 
+test('account login screen keeps login and registration paths distinct', async ({ page }) => {
+  await page.goto('/auth?mode=signin');
+  await expect(page.getByText('アカウント作成・ログイン', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'ログイン' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '新規登録はこちら' })).toBeVisible();
+  await expect(page.getByText('購入情報はアカウントに紐づけて安全に管理されます。')).toBeVisible();
+});
+
+test('persona detail presents its dynamic total at the header and list end', async ({ page }) => {
+  await page.goto('/subcategory/interpersonal/%E5%8D%B0%E8%B1%A1%E3%81%8C%E3%81%84%E3%81%84%E4%BA%BA');
+  await expect(page.getByText('14の処世術', { exact: true })).toBeVisible();
+  const end = page.getByTestId('persona-list-end');
+  await end.scrollIntoViewIfNeeded();
+  await expect(end).toHaveText('14 / 14');
+});
+
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/card/master336-001');

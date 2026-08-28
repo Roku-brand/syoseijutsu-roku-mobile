@@ -86,6 +86,7 @@ export function BookHeader() {
   const lightHeader = true;
   const minimalHeaderActions = false;
   const detail = getDetail(pathname);
+  const headerSubtitle = getHeaderSubtitle(pathname);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -96,7 +97,7 @@ export function BookHeader() {
 
   return (
     <>
-      <View style={[styles.header, compact && styles.headerCompact, lightHeader && styles.headerLight]}>
+      <View style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, lightHeader && styles.headerLight]}>
         {showBack ? (
           <View style={styles.brandGroup}>
             <Pressable
@@ -126,9 +127,10 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        <AppText style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
-          {currentTitle}
-        </AppText>
+        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
+          <AppText style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitleText]}>{currentTitle}</AppText>
+          {headerSubtitle ? <AppText style={styles.screenSubtitle}>{headerSubtitle}</AppText> : null}
+        </View>
 
         {detail ? (
           <DetailHeaderActions detail={detail} compact={compact} />
@@ -317,6 +319,14 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/settings')) return '設定';
   if (pathname.includes('/card/')) return '処世術カード';
   return 'ホーム';
+}
+
+function getHeaderSubtitle(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
+  if (segments[0] !== 'subcategory' || !segments[1] || !segments[2]) return null;
+  const category = categories.find((item) => item.key === segments[1]);
+  const persona = category?.subcategories.find((item) => item.name === segments[2]);
+  return persona ? `${persona.items.length}の処世術` : null;
 }
 
 function shouldShowHeaderBack(pathname: string) {
@@ -583,6 +593,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 7,
   },
+  headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,
@@ -643,10 +654,15 @@ const styles = StyleSheet.create({
   },
   brandCopy: { minWidth: 0, gap: 1 },
   brandCopyHidden: { display: 'none' },
-  screenTitle: {
+  screenTitleGroup: {
     position: 'absolute',
     left: 88,
     right: 88,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  screenTitleGroupWithSubtitle: { gap: 2 },
+  screenTitle: {
     color: colors.ink,
     fontFamily: fonts.serif,
     fontSize: 17,
@@ -656,7 +672,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   screenTitleLight: { color: colors.ink },
-  upgradeScreenTitle: { left: 96, right: 72, fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
+  screenSubtitle: { color: '#A77A25', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
+  upgradeScreenTitle: { left: 96, right: 72 },
+  upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,

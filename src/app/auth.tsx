@@ -1,23 +1,30 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { SymbolView } from 'expo-symbols';
 import { BookScreen } from '@/components/book-ui';
-import { AppText, DetailHeader } from '@/components/ui';
+import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { checkoutConfirmationRedirectUrl, purchaseClaimRedirectUrl, useAuth } from '@/auth/auth-state';
 import { createCompleteEditionCheckout, reconcileCompleteEditionPurchase } from '@/lib/purchase';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+
+type AuthMode = 'signin' | 'signup' | 'forgot' | 'reset';
 
 export default function AuthScreen() {
   const router = useRouter();
+  const { width } = useResponsiveLayout();
+  const compact = width < 700;
   const params = useLocalSearchParams<{ intent?: string; mode?: string; session_id?: string }>();
   const { configured, user, signInWithEmail, signUpWithEmail, sendPasswordReset, updatePassword, signOut } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const purchaseIntent = params.intent === 'checkout';
   const claimSessionId = typeof params.session_id === 'string' ? params.session_id : '';
   const claimIntent = params.intent === 'claim' && /^cs_(test_|live_)?[A-Za-z0-9]+$/.test(claimSessionId);
-  const [mode, setMode] = useState<'signin' | 'signup' | 'forgot' | 'reset'>(
-    params.mode === 'reset' ? 'reset' : params.mode === 'signin' ? 'signin' : 'signup',
+  const [mode, setMode] = useState<AuthMode>(
+    params.mode === 'reset' ? 'reset' : params.mode === 'signup' ? 'signup' : 'signin',
   );
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -68,9 +75,6 @@ export default function AuthScreen() {
     }
   }, [claimIntent, claimSessionId, router]);
 
-  // This covers both a normal login and the return from the email-confirmation
-  // link. `checkoutStarted` makes the redirect idempotent if auth state updates
-  // more than once while Supabase exchanges the confirmation token.
   useEffect(() => {
     if (purchaseIntent && user) void continueToCheckout();
   }, [continueToCheckout, purchaseIntent, user]);
@@ -96,9 +100,8 @@ export default function AuthScreen() {
       }
       const error = await updatePassword(password);
       setSubmitting(false);
-      if (error) {
-        setMessage(error);
-      } else {
+      if (error) setMessage(error);
+      else {
         setMessage('パスワードを更新しました。');
         setMode('signin');
       }
@@ -135,41 +138,111 @@ export default function AuthScreen() {
         : '確認メールを送信しました。メール内のリンクから登録を完了してください。');
   };
 
+  const title = mode === 'forgot'
+    ? 'パスワードを再設定'
+    : mode === 'reset'
+      ? '新しいパスワードを設定'
+      : purchaseIntent
+        ? '完全版を購入するための登録'
+        : claimIntent
+          ? '完全版を有効にする'
+          : 'アカウント作成・ログイン';
+  const lead = mode === 'forgot'
+    ? '登録したメールアドレスへ再設定リンクを送ります。'
+    : mode === 'reset'
+      ? '今後使用する新しいパスワードを入力してください。'
+      : purchaseIntent
+        ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。'
+        : claimIntent
+          ? '決済に使用したメールアドレスでアカウントを作成またはログインすると、完全版を安全に有効化できます。'
+          : '購入情報や保存した処世術・マイ処世術を、アカウントに紐づけて管理できます。';
+  const submitLabel = submitting
+    ? '確認中…'
+    : mode === 'forgot'
+      ? '再設定メールを送る'
+      : mode === 'reset'
+        ? 'パスワードを更新'
+        : mode === 'signin'
+          ? purchaseIntent ? 'ログインして決済へ進む' : claimIntent ? 'ログインして完全版を有効にする' : 'ログイン'
+          : purchaseIntent ? 'アカウントを作成して決済へ進む' : claimIntent ? 'アカウントを作成して完全版を有効にする' : 'アカウントを作成';
+  const disabled = submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6);
+
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <DetailHeader title="アカウント" />
-      <AppText style={styles.sectionTitle}>アカウントの作成・ログイン</AppText>
-      <View style={styles.card}>
-        <AppText style={styles.title}>{mode === 'forgot' ? 'パスワードを再設定' : mode === 'reset' ? '新しいパスワードを設定' : user ? 'ログイン済み' : purchaseIntent ? '完全版を購入するための登録' : claimIntent ? '完全版を有効にする' : 'アカウントを作成・ログイン'}</AppText>
-        <AppText style={styles.lead}>{mode === 'forgot' ? '登録したメールアドレスへ再設定リンクを送ります。' : mode === 'reset' ? '今後使用する新しいパスワードを入力してください。' : purchaseIntent ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。登録後はそのまま決済画面へ進みます。' : claimIntent ? '決済に使用したメールアドレスでアカウントを作成またはログインすると、完全版を安全に有効化できます。' : '無料版は登録なしで利用できます。完全版を購入済みの方は、こちらからログインして復元できます。'}</AppText>
-
-        {!configured ? (
-          <View style={styles.notice}>
-            <AppText style={styles.noticeTitle}>Supabase設定待ち</AppText>
-            <AppText style={styles.noticeText}>EXPO_PUBLIC_SUPABASE_URL と EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY を設定するとログインが有効になります。</AppText>
-          </View>
-        ) : user && mode !== 'reset' ? (
-          <View style={styles.accountBox}>
-            <AppText style={styles.accountLabel}>ログイン中</AppText>
-            <AppText style={styles.accountEmail}>{user.email}</AppText>
-            <Pressable style={styles.secondary} onPress={() => void signOut()}>
-              <AppText style={styles.secondaryText}>ログアウト</AppText>
-            </Pressable>
-          </View>
+      <View style={styles.panel}>
+        {user && mode !== 'reset' ? (
+          <LoggedInAccount email={user.email ?? ''} onSignOut={() => void signOut()} />
         ) : (
           <>
-            {mode === 'signin' || mode === 'signup' ? <View style={styles.tabs}>
-              <Pressable onPress={() => setMode('signup')} style={[styles.tab, mode === 'signup' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signup' && styles.tabTextActive]}>新規登録</AppText></Pressable>
-              <Pressable onPress={() => setMode('signin')} style={[styles.tab, mode === 'signin' && styles.tabActive]}><AppText style={[styles.tabText, mode === 'signin' && styles.tabTextActive]}>ログイン</AppText></Pressable>
-            </View> : null}
-            {mode !== 'reset' ? <TextInput value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" placeholder="メールアドレス" placeholderTextColor={colors.muted} style={styles.input} /> : null}
-            {mode !== 'forgot' ? <TextInput value={password} onChangeText={setPassword} secureTextEntry placeholder={mode === 'reset' ? '新しいパスワード（6文字以上）' : 'パスワード（6文字以上）'} placeholderTextColor={colors.muted} style={styles.input} /> : null}
-            {message ? <AppText style={styles.message}>{message}</AppText> : null}
-            <Pressable disabled={submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)} onPress={() => void submit()} style={[styles.primary, (submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6)) && styles.disabled]}>
-              <AppText style={styles.primaryText}>{submitting ? '確認中…' : mode === 'forgot' ? '再設定メールを送る' : mode === 'reset' ? 'パスワードを更新' : mode === 'signin' ? purchaseIntent ? 'ログインして決済へ進む' : claimIntent ? 'ログインして完全版を有効にする' : 'ログイン' : purchaseIntent ? 'アカウントを作成して決済へ進む' : claimIntent ? 'アカウントを作成して完全版を有効にする' : 'アカウントを作成'}</AppText>
-            </Pressable>
-            {mode === 'signin' ? <Pressable onPress={() => { setMode('forgot'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>パスワードを忘れた方</AppText></Pressable> : null}
-            {mode === 'forgot' ? <Pressable onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインへ戻る</AppText></Pressable> : null}
+            <View style={styles.intro}>
+              <AppText variant="serif" style={[styles.title, compact && styles.titleCompact]}>{title}</AppText>
+              <View style={styles.shortRule} />
+              <AppText style={styles.lead}>{lead}</AppText>
+            </View>
+
+            {!configured ? (
+              <View style={styles.notice}>
+                <AppText style={styles.noticeTitle}>Supabase設定待ち</AppText>
+                <AppText style={styles.noticeText}>ログイン機能を利用するための設定がまだ完了していません。</AppText>
+              </View>
+            ) : (
+              <View style={styles.form}>
+                {mode !== 'reset' ? (
+                  <Field label="メールアドレス" icon="envelope">
+                    <TextInput
+                      value={email}
+                      onChangeText={setEmail}
+                      autoCapitalize="none"
+                      keyboardType="email-address"
+                      placeholder="例）tsubasa@example.com"
+                      placeholderTextColor={colors.muted}
+                      accessibilityLabel="メールアドレス"
+                      style={styles.input}
+                    />
+                  </Field>
+                ) : null}
+                {mode !== 'forgot' ? (
+                  <Field label="パスワード" icon="lock">
+                    <TextInput
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={!showPassword}
+                      placeholder={mode === 'reset' ? '新しいパスワード（6文字以上）' : 'パスワードを入力'}
+                      placeholderTextColor={colors.muted}
+                      accessibilityLabel="パスワード"
+                      style={styles.input}
+                    />
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={showPassword ? 'パスワードを隠す' : 'パスワードを表示する'}
+                      onPress={() => setShowPassword((value) => !value)}
+                      hitSlop={8}
+                      style={styles.eyeButton}
+                    >
+                      <SymbolView name={{ ios: showPassword ? 'eye.slash' : 'eye', android: showPassword ? 'visibility_off' : 'visibility', web: showPassword ? 'visibility_off' : 'visibility' }} fallback={<AppText style={styles.fieldFallback}>◉</AppText>} size={20} tintColor={colors.inkSoft} weight="regular" />
+                    </Pressable>
+                  </Field>
+                ) : null}
+                {message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}
+                <Pressable accessibilityRole="button" disabled={disabled} onPress={() => void submit()} style={({ pressed }) => [styles.primary, disabled && styles.disabled, pressed && !disabled && styles.pressed]}>
+                  <AppText variant="serif" style={styles.primaryText}>{submitLabel}</AppText>
+                </Pressable>
+                {mode === 'signin' ? <Pressable accessibilityRole="button" onPress={() => { setMode('forgot'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>パスワードを忘れた方</AppText></Pressable> : null}
+                {mode === 'forgot' ? <Pressable accessibilityRole="button" onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインへ戻る</AppText></Pressable> : null}
+                {mode === 'signin' && !purchaseIntent && !claimIntent ? (
+                  <>
+                    <View style={styles.orRow}><View style={styles.orLine} /><AppText style={styles.orText}>または</AppText><View style={styles.orLine} /></View>
+                    <AppText style={styles.newAccountLead}>はじめて利用する方</AppText>
+                    <Pressable accessibilityRole="button" onPress={() => { setMode('signup'); setMessage(''); }} style={({ pressed }) => [styles.signupButton, pressed && styles.pressed]}>
+                      <AppText variant="serif" style={styles.signupButtonText}>新規登録はこちら</AppText>
+                      <AppText style={styles.signupChevron}>›</AppText>
+                    </Pressable>
+                  </>
+                ) : null}
+                {mode === 'signup' && !purchaseIntent && !claimIntent ? <Pressable accessibilityRole="button" onPress={() => { setMode('signin'); setMessage(''); }} style={styles.textLink}><AppText style={styles.textLinkLabel}>ログインはこちら</AppText></Pressable> : null}
+              </View>
+            )}
+            <SecurityNote includeGuestNote={!purchaseIntent && !claimIntent} />
           </>
         )}
       </View>
@@ -177,31 +250,95 @@ export default function AuthScreen() {
   );
 }
 
+function Field({ label, icon, children }: { label: string; icon: 'envelope' | 'lock'; children: React.ReactNode }) {
+  const names = icon === 'envelope'
+    ? ({ ios: 'envelope', android: 'mail', web: 'mail' } as const)
+    : ({ ios: 'lock', android: 'lock', web: 'lock' } as const);
+  return (
+    <View style={styles.field}>
+      <AppText style={styles.fieldLabel}>{label}</AppText>
+      <View style={styles.inputFrame}>
+        <SymbolView name={names} fallback={<AppText style={styles.fieldFallback}>{icon === 'envelope' ? '✉' : '♧'}</AppText>} size={20} tintColor={colors.inkSoft} weight="regular" />
+        {children}
+      </View>
+    </View>
+  );
+}
+
+function SecurityNote({ includeGuestNote }: { includeGuestNote: boolean }) {
+  return (
+    <View style={styles.securityNote}>
+      <SymbolView name={{ ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' }} fallback={<AppText style={styles.securityFallback}>◇</AppText>} size={20} tintColor={colors.ink} weight="regular" />
+      <View style={styles.securityCopy}>
+        <AppText style={styles.securityText}>購入情報はアカウントに紐づけて安全に管理されます。</AppText>
+        {includeGuestNote ? <AppText style={styles.securitySubtext}>無料版は登録なしでもご利用いただけます。</AppText> : null}
+      </View>
+    </View>
+  );
+}
+
+function LoggedInAccount({ email, onSignOut }: { email: string; onSignOut: () => void }) {
+  const initial = email.trim().slice(0, 1).toUpperCase() || '禄';
+  return (
+    <View style={styles.loggedIn}>
+      <View style={styles.accountInitial}><AppText style={styles.accountInitialText}>{initial}</AppText></View>
+      <AppText style={styles.loggedInLabel}>ログイン中</AppText>
+      <AppText variant="serif" style={styles.accountEmail}>{email}</AppText>
+      <View style={styles.shortRule} />
+      <AppText style={styles.loggedInLead}>購入情報や保存した処世術・マイ処世術は、このアカウントに紐づいています。</AppText>
+      <Pressable accessibilityRole="button" onPress={onSignOut} style={({ pressed }) => [styles.primary, styles.logoutButton, pressed && styles.pressed]}>
+        <AppText variant="serif" style={styles.primaryText}>ログアウト</AppText>
+      </Pressable>
+      <SecurityNote includeGuestNote={false} />
+    </View>
+  );
+}
+
+const brass = '#A77A25';
+const softLine = '#DDD7CE';
+
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 620, alignSelf: 'center' },
-  sectionTitle: { marginTop: spacing.lg, marginBottom: spacing.sm, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  card: { width: '100%', padding: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
-  eyebrow: { color: colors.gold, fontSize: 10, letterSpacing: 2, fontWeight: '700' },
-  title: { marginTop: 8, fontFamily: fonts.serif, fontSize: 27, lineHeight: 38, fontWeight: '700' },
-  lead: { marginTop: 10, color: colors.muted, fontSize: 13, lineHeight: 22 },
-  tabs: { flexDirection: 'row', marginTop: spacing.xl, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.paperDeep },
-  tab: { flex: 1, minHeight: 42, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
-  tabActive: { backgroundColor: colors.gold },
-  tabText: { color: colors.inkSoft, fontWeight: '700' },
-  tabTextActive: { color: '#FFFFFF' },
-  input: { minHeight: 52, marginTop: spacing.md, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.white, color: colors.ink, fontSize: 15 },
-  primary: { minHeight: 54, marginTop: spacing.lg, borderRadius: radius.md, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
-  primaryText: { color: '#FFFFFF', fontWeight: '700' },
-  disabled: { opacity: 0.45 },
-  secondary: { minHeight: 48, marginTop: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center' },
-  secondaryText: { color: colors.gold, fontWeight: '700' },
-  message: { marginTop: spacing.md, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
-  textLink: { minHeight: 42, marginTop: 6, alignItems: 'center', justifyContent: 'center' },
-  textLinkLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, textDecorationLine: 'underline' },
-  notice: { marginTop: spacing.xl, padding: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: '#F5EFE3' },
-  noticeTitle: { fontWeight: '700', fontFamily: fonts.serif },
+  content: { width: '100%', maxWidth: 620, alignSelf: 'center', paddingTop: spacing.xxl, paddingBottom: spacing.section },
+  panel: { width: '100%', minHeight: 600, paddingHorizontal: 28, paddingVertical: 34, borderWidth: 1, borderColor: softLine, backgroundColor: 'rgba(255,253,248,0.42)' },
+  intro: { alignItems: 'center' },
+  title: { color: colors.ink, fontSize: 28, lineHeight: 40, fontWeight: '600', letterSpacing: 1.2, textAlign: 'center' },
+  titleCompact: { fontSize: 24, lineHeight: 34, letterSpacing: 0.8 },
+  shortRule: { width: 48, height: 1, marginTop: 20, backgroundColor: brass },
+  lead: { maxWidth: 420, marginTop: 23, color: colors.inkSoft, fontSize: 14, lineHeight: 25, textAlign: 'center' },
+  form: { width: '100%', maxWidth: 466, alignSelf: 'center', marginTop: 30 },
+  field: { marginTop: 18 },
+  fieldLabel: { marginBottom: 8, color: colors.ink, fontSize: 12, lineHeight: 18, fontWeight: '700', letterSpacing: 0.8 },
+  inputFrame: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 15, borderWidth: 1, borderColor: softLine, borderRadius: radius.sm, backgroundColor: colors.surface },
+  input: { flex: 1, minWidth: 0, minHeight: 54, color: colors.ink, fontFamily: fonts.sans, fontSize: 15, lineHeight: 22 },
+  fieldFallback: { color: colors.inkSoft, fontSize: 16, lineHeight: 20 },
+  eyeButton: { width: 30, minHeight: 42, alignItems: 'center', justifyContent: 'center' },
+  primary: { minHeight: 56, marginTop: 24, borderRadius: radius.sm, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
+  primaryText: { color: colors.paper, fontSize: 18, lineHeight: 26, fontWeight: '600', letterSpacing: 1.5 },
+  disabled: { backgroundColor: '#4A4A47' },
+  pressed: { opacity: 0.78 },
+  message: { marginTop: 14, color: colors.inkSoft, fontSize: 12, lineHeight: 19, textAlign: 'center' },
+  textLink: { minHeight: 38, marginTop: 7, alignItems: 'center', justifyContent: 'center' },
+  textLinkLabel: { color: brass, fontSize: 12, lineHeight: 18, textDecorationLine: 'underline' },
+  orRow: { flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 14 },
+  orLine: { flex: 1, height: 1, backgroundColor: softLine },
+  orText: { color: colors.inkSoft, fontSize: 12, lineHeight: 18, letterSpacing: 1 },
+  newAccountLead: { marginTop: 14, color: colors.inkSoft, fontSize: 13, lineHeight: 20, textAlign: 'center' },
+  signupButton: { minHeight: 54, marginTop: 12, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18, borderWidth: 1, borderColor: brass, borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.55)' },
+  signupButtonText: { color: brass, fontSize: 17, lineHeight: 24, fontWeight: '600', letterSpacing: 0.8 },
+  signupChevron: { color: brass, fontSize: 28, lineHeight: 30, marginTop: -2 },
+  notice: { maxWidth: 466, marginTop: 30, alignSelf: 'center', padding: spacing.lg, borderWidth: 1, borderColor: softLine, borderRadius: radius.sm, backgroundColor: '#F5EFE3' },
+  noticeTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   noticeText: { marginTop: 6, color: colors.muted, fontSize: 12, lineHeight: 19 },
-  accountBox: { marginTop: spacing.xl },
-  accountLabel: { color: colors.gold, fontSize: 11, fontWeight: '700' },
-  accountEmail: { marginTop: 6, fontSize: 16, fontWeight: '700' },
+  securityNote: { maxWidth: 466, marginTop: 34, alignSelf: 'center', flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  securityFallback: { color: colors.ink, fontSize: 18, lineHeight: 22 },
+  securityCopy: { flex: 1 },
+  securityText: { color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
+  securitySubtext: { marginTop: 5, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
+  loggedIn: { width: '100%', maxWidth: 466, minHeight: 500, alignSelf: 'center', alignItems: 'center', paddingTop: 62 },
+  accountInitial: { width: 110, height: 110, borderRadius: 55, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: brass, backgroundColor: 'rgba(255,253,248,0.5)' },
+  accountInitialText: { color: brass, fontFamily: fonts.serif, fontSize: 49, lineHeight: 58, fontWeight: '600' },
+  loggedInLabel: { marginTop: 26, color: brass, fontSize: 15, lineHeight: 22, fontWeight: '700', letterSpacing: 1.6 },
+  accountEmail: { marginTop: 19, color: colors.ink, fontSize: 23, lineHeight: 33, fontWeight: '600', textAlign: 'center' },
+  loggedInLead: { maxWidth: 390, marginTop: 25, color: colors.inkSoft, fontSize: 14, lineHeight: 25, textAlign: 'center' },
+  logoutButton: { width: '100%', marginTop: 54 },
 });

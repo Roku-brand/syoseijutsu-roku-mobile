@@ -106,6 +106,11 @@ export default function PersonaScreen() {
             );
           })}
         </View>
+        <View testID="persona-list-end" style={[styles.endMarker, compact && styles.endMarkerCompact]}>
+          <View style={styles.endLine} />
+          <AppText style={styles.endCount}>{techniqueCount} / {techniqueCount}</AppText>
+          <View style={styles.endLine} />
+        </View>
       </View>
     </Screen>
   );
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
   content: { width: '100%', flexGrow: 1 },
   contentCompact: { paddingBottom: 96 },
   page: { width: '100%', maxWidth: 1240, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
-  pageCompact: { paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
+  pageCompact: { flexGrow: 0, paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
   listSheet: {
     width: '100%',
     flex: 1,
@@ -123,13 +128,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#d8c6aa',
+    borderColor: '#DED8CF',
     backgroundColor: 'rgba(255, 253, 249, 0.42)',
   },
   listSheetCompact: { flexDirection: 'column', flexGrow: 0 },
   column: { flex: 1, minWidth: 0 },
   columnCompact: { width: '100%', flexGrow: 0 },
-  columnDivided: { borderLeftWidth: 1, borderLeftColor: '#d8c6aa' },
+  columnDivided: { borderLeftWidth: 1, borderLeftColor: '#DED8CF' },
   techniqueRow: {
     minWidth: 0,
     flexDirection: 'row',
@@ -137,16 +142,20 @@ const styles = StyleSheet.create({
     gap: 14,
     paddingHorizontal: 22,
     borderBottomWidth: 1,
-    borderBottomColor: colors.line,
+    borderBottomColor: '#E2DDD5',
   },
   techniqueOpenArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 },
   techniqueRowDesktop: { flex: 1, minHeight: 0, paddingVertical: 7 },
   techniqueRowCompact: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 9, gap: 10 },
   techniqueRowLast: { borderBottomWidth: 0 },
-  placeholder: { flex: 1, minHeight: 0, borderBottomWidth: 1, borderBottomColor: colors.line },
-  number: { width: 34, color: colors.gold, fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.1 },
+  placeholder: { flex: 1, minHeight: 0, borderBottomWidth: 1, borderBottomColor: '#E2DDD5' },
+  number: { width: 34, color: '#A77A25', fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.1 },
   numberCompact: { width: 30, fontSize: 10, lineHeight: 14 },
   rowTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '600' },
-  rowTitleCompact: { fontSize: 15, lineHeight: 22 },
+  rowTitleCompact: { fontSize: 14, lineHeight: 20 },
+  endMarker: { minHeight: 48, paddingTop: 22, flexDirection: 'row', alignItems: 'center', gap: 24 },
+  endMarkerCompact: { minHeight: 42, paddingTop: 18, gap: 16 },
+  endLine: { flex: 1, height: 1, backgroundColor: '#D7D0C6' },
+  endCount: { color: '#A77A25', fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, fontWeight: '700', letterSpacing: 1.2 },
   pressed: { backgroundColor: '#fff4df' },
 });
