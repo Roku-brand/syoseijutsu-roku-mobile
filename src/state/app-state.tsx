@@ -54,6 +54,8 @@ type PersistedState = {
   learningCurriculumVersion: number;
   onboardingCompleted: boolean;
   welcomePageHidden: boolean;
+  homeWelcomeSeen: boolean;
+  homeWelcomePending: boolean;
   interests: CategoryKey[];
   savedIds: string[];
   savedTheoryIds: string[];
@@ -71,6 +73,8 @@ const initialState: PersistedState = {
   learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
   onboardingCompleted: false,
   welcomePageHidden: false,
+  homeWelcomeSeen: false,
+  homeWelcomePending: false,
   interests: CATEGORY_KEYS,
   savedIds: [],
   savedTheoryIds: [],
@@ -88,6 +92,7 @@ type AppStateContextValue = PersistedState & {
   hydrated: boolean;
   completeOnboarding: (interests: CategoryKey[]) => void;
   setWelcomePageHidden: (hidden: boolean) => void;
+  dismissHomeWelcome: () => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
@@ -212,11 +217,20 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       ...current,
       onboardingCompleted: true,
       interests: interests.length ? interests : initialState.interests,
+      homeWelcomePending: !current.homeWelcomeSeen,
     }));
   }, []);
 
   const setWelcomePageHidden = useCallback((hidden: boolean) => {
     setState((current) => ({ ...current, welcomePageHidden: hidden }));
+  }, []);
+
+  const dismissHomeWelcome = useCallback(() => {
+    setState((current) => ({
+      ...current,
+      homeWelcomeSeen: true,
+      homeWelcomePending: false,
+    }));
   }, []);
 
   const toggleSaved = useCallback((id: string) => {
@@ -431,6 +445,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       hydrated,
       completeOnboarding,
       setWelcomePageHidden,
+      dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
@@ -456,6 +471,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       hydrated,
       completeOnboarding,
       setWelcomePageHidden,
+      dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,

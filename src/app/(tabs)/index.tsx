@@ -6,6 +6,7 @@ import {
   Animated,
   Easing,
   FlatList,
+  Modal,
   Pressable,
   Platform,
   ScrollView,
@@ -22,6 +23,7 @@ import { getTheoryCoverSummary } from '@/data/theory-display';
 import { FREE_THEORY_IDS, isFreePersona } from '@/access/access-config';
 import { AccessBadge } from '@/components/access-badge';
 import { useAccess } from '@/access/access-state';
+import { useAppState } from '@/state/app-state';
 import type { TheoryCard } from '@/data/types';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { COMPLETE_EDITION_PRICE_JPY, formatRemainingAccess } from '@/lib/purchase';
@@ -158,6 +160,7 @@ export default function MainScreen() {
   // the signal that makes the reel rebuild from its initial preview cards to
   // the full current theory catalog.
   const { isPaid, accessInfo, catalogRevision } = useAccess();
+  const { homeWelcomePending, dismissHomeWelcome } = useAppState();
   const personas = useMemo<Persona[]>(() => categories.flatMap((category) => category.subcategories.map((group) => {
     const ids = group.items.map((item) => item.id);
     return {
@@ -582,6 +585,11 @@ export default function MainScreen() {
     void Haptics.selectionAsync().catch(() => undefined);
   };
 
+  const startFromPersonas = () => {
+    dismissHomeWelcome();
+    jumpToTechniqueCategory('interpersonal');
+  };
+
   return (
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
       {isPaid && accessInfo.accessType === 'thirty_day' ? <View style={styles.accessBadge}><AppText style={styles.accessBadgeLabel}>完全版</AppText><AppText style={styles.accessBadgeRemaining}>{formatRemainingAccess(accessInfo.accessExpiresAt)}</AppText></View> : null}
@@ -850,6 +858,45 @@ export default function MainScreen() {
           <AppText style={styles.unlockChevron}>›</AppText>
         </Pressable>
       ) : null}
+      <Modal
+        transparent
+        visible={homeWelcomePending}
+        animationType={reduceMotion ? 'none' : 'fade'}
+        onRequestClose={dismissHomeWelcome}
+      >
+        <View style={styles.homeWelcomeBackdrop}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="歓迎案内を閉じる"
+            onPress={dismissHomeWelcome}
+            style={styles.homeWelcomeBackdropDismiss}
+          />
+          <View testID="home-welcome-modal" accessibilityViewIsModal style={styles.homeWelcomeModal}>
+            <View pointerEvents="none" style={styles.homeWelcomeBorder} />
+            <View pointerEvents="none" style={styles.homeWelcomeMark}><AppText variant="serif" style={styles.homeWelcomeMarkText}>禄</AppText></View>
+            <AppText variant="label" style={styles.homeWelcomeEyebrow}>はじめに</AppText>
+            <AppText variant="serif" style={styles.homeWelcomeTitle}>処世術禄へようこそ</AppText>
+            <View style={styles.homeWelcomeRule} />
+            <AppText variant="serif" style={styles.homeWelcomeBody}>人物像から、今日使える一手を見つける。</AppText>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="人物像から始める"
+              onPress={startFromPersonas}
+              style={({ pressed }) => [styles.homeWelcomePrimary, pressed && styles.homeWelcomePrimaryPressed]}
+            >
+              <AppText variant="serif" style={styles.homeWelcomePrimaryText}>人物像から始める　›</AppText>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="あとで見る"
+              onPress={dismissHomeWelcome}
+              style={({ pressed }) => [styles.homeWelcomeSecondary, pressed && styles.pressed]}
+            >
+              <AppText style={styles.homeWelcomeSecondaryText}>あとで見る</AppText>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </BookScreen>
   );
 }
@@ -986,6 +1033,21 @@ function EditorialTheoryCard({
 
 const styles = StyleSheet.create({
   content: { flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.sm },
+  homeWelcomeBackdrop: { flex: 1, padding: spacing.xl, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(27, 23, 17, 0.56)' },
+  homeWelcomeBackdropDismiss: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
+  homeWelcomeModal: { width: '100%', maxWidth: 510, paddingHorizontal: 34, paddingTop: 32, paddingBottom: 26, alignItems: 'center', overflow: 'hidden', borderWidth: 1, borderColor: '#D5BB7A', borderRadius: radius.lg, backgroundColor: '#FFF9ED', shadowColor: '#100C08', shadowOffset: { width: 0, height: 18 }, shadowOpacity: 0.3, shadowRadius: 32, elevation: 12 },
+  homeWelcomeBorder: { position: 'absolute', top: 10, right: 10, bottom: 10, left: 10, borderWidth: 1, borderColor: 'rgba(184,138,42,0.38)', borderRadius: radius.md },
+  homeWelcomeMark: { width: 52, height: 52, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: 26, backgroundColor: '#FFFCF5' },
+  homeWelcomeMarkText: { color: colors.gold, fontSize: 24, lineHeight: 29, fontWeight: '700' },
+  homeWelcomeEyebrow: { marginTop: 16, color: '#876229', fontSize: 10, lineHeight: 15, fontWeight: '700', letterSpacing: 2.2 },
+  homeWelcomeTitle: { marginTop: 8, color: '#2B2117', fontSize: 27, lineHeight: 39, fontWeight: '700', letterSpacing: 1.4, textAlign: 'center' },
+  homeWelcomeRule: { width: 42, height: 1, marginTop: 14, backgroundColor: colors.gold },
+  homeWelcomeBody: { marginTop: 17, color: '#5D5041', fontSize: 16, lineHeight: 28, textAlign: 'center', letterSpacing: 0.7 },
+  homeWelcomePrimary: { alignSelf: 'stretch', minHeight: 54, marginTop: 26, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: '#9F7428', borderRadius: radius.sm, backgroundColor: '#B88A2A', alignItems: 'center', justifyContent: 'center' },
+  homeWelcomePrimaryPressed: { opacity: 0.88, transform: [{ scale: 0.985 }] },
+  homeWelcomePrimaryText: { color: '#FFF9EC', fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 0.9 },
+  homeWelcomeSecondary: { minHeight: 42, marginTop: 8, paddingHorizontal: spacing.lg, alignItems: 'center', justifyContent: 'center' },
+  homeWelcomeSecondaryText: { color: '#756653', fontSize: 13, lineHeight: 19, fontWeight: '700' },
   contentModeSwitch: { position: 'relative', minHeight: 50, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'center', gap: 74, marginBottom: 0 },
   contentModeOption: { minWidth: 104, minHeight: 46, alignItems: 'center', justifyContent: 'flex-start', outlineWidth: 0 },
   contentModeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 31, fontWeight: '600', letterSpacing: 2.8 },
