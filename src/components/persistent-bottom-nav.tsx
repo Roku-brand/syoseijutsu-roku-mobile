@@ -29,7 +29,9 @@ function activeKey(pathname: string) {
   if (
     pathname.includes('/my-os') ||
     pathname.includes('/collection/') ||
-    pathname.includes('/library')
+    pathname.includes('/library') ||
+    pathname.includes('/history') ||
+    pathname.includes('/my-techniques')
   ) return 'my-os';
   return 'main';
 }

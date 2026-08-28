@@ -307,6 +307,7 @@ function getCurrentTitle(pathname: string) {
   ) return '探す';
   if (pathname.includes('/my-techniques')) return 'マイ処世術';
   if (pathname.includes('/library')) return '蔵書';
+  if (pathname.includes('/history')) return '履歴';
   if (pathname.includes('/my-os')) return 'マイページ';
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';

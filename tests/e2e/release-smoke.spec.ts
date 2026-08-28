@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('welcome presents both entry actions on desktop and mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
-    await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
+    await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
     const purchase = page.getByRole('button', { name: 'すべての内容を見る' });
     const free = page.getByRole('button', { name: '無料で始める' });
     await free.scrollIntoViewIfNeeded();
@@ -52,12 +52,14 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('マイページから蔵書とマイ処世術へ迷わず移動できる', async ({ page }) => {
+test('マイページに判断原則・数値付きの蔵書とマイ処世術・最新履歴を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
-  await expect(page.getByTestId('personal-principle-card')).toHaveCount(0);
+  await expect(page.getByTestId('personal-principle-card')).toBeVisible();
+  await expect(page.getByTestId('personal-principle-edit')).toBeVisible();
   await expect(page.getByRole('button', { name: '蔵書を開く' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'マイ処世術を開く' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'すべての履歴を見る' })).toBeVisible();
 });
 
 test('mobile technique detail keeps the full essence visible', async ({ page }) => {
@@ -94,8 +96,8 @@ test('persona technique rows offer the shared diamond save action', async ({ pag
 
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
-  await expect(page.getByText('流れていく知恵を、ここで使える体系にする。')).toBeVisible();
+  await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
+  await expect(page.getByText(/流れていく知恵を、/)).toBeVisible();
   await page.getByRole('button', { name: '無料で始める' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
@@ -105,7 +107,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
   await page.goto('/');
-  await expect(page.getByText('人生をうまく生きる方法を、')).toBeVisible();
+  await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
@@ -163,6 +165,14 @@ test('ウェルカムのヘッダーに無料版・完全版の導線とホー�
   await expect(page.getByLabel('処世術禄のホームアイコン')).toBeVisible();
   await expect(page.getByRole('button', { name: '無料版をすぐ始める' })).toBeVisible();
   await expect(page.getByRole('button', { name: '完全版の内容を見る' })).toBeVisible();
+  await expect(page.getByText('処 世 術 禄', { exact: true })).toHaveCount(0);
+});
+
+test('履歴はマイページで最新を示し、全件は独立ページで読める', async ({ page }) => {
+  await page.goto('/my-os');
+  await page.getByRole('button', { name: 'すべての履歴を見る' }).click();
+  await expect(page).toHaveURL(/\/history/);
+  await expect(page.getByText('まだ閲覧履歴はありません')).toBeVisible();
 });
 
 test('探すは検索欄から始まり、目的語タグを表示する', async ({ page }) => {

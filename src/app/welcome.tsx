@@ -63,16 +63,15 @@ export default function Welcome() {
               <FloatingNote key={`${note.text}-${index}`} text={note.text} tone={note.tone} style={noteStyle(note.position)} />
             ))}
             <View style={[styles.heroCopy, desktop && styles.heroCopyDesktop, compact && styles.heroCopyCompact]}>
-              <Brand compact={compact} desktop={desktop} />
               <AppText variant="serif" style={[styles.heroTitle, desktop && styles.heroTitleDesktop, compact && styles.heroTitleCompact]}>
-                人生をうまく生きる方法を、{`\n`}すべての人へ。
+                {desktop ? `人生をうまく生きる方法を、\nすべての人へ。` : `人生をうまく生きる\n方法を、すべての人へ。`}
               </AppText>
               <View style={styles.heroUnderline} />
               <AppText variant="serif" style={[styles.heroLead, desktop && styles.heroLeadDesktop, compact && styles.heroLeadCompact]}>
-                流れていく知恵を、ここで使える体系にする。
+                {desktop ? '流れていく知恵を、ここで使える体系にする。' : '流れていく知恵を、\nここで使える体系にする。'}
               </AppText>
               <View style={[styles.heroStatement, desktop && styles.heroStatementDesktop, compact && styles.heroStatementCompact]}>
-                <AppText variant="serif" style={[styles.heroStatementText, desktop && styles.heroStatementTextDesktop]}>聞いたことがある、で終わらせない。</AppText>
+                <AppText variant="serif" style={[styles.heroStatementText, desktop && styles.heroStatementTextDesktop]}>{desktop ? '聞いたことがある、で終わらせない。' : '聞いたことがある、\nで終わらせない。'}</AppText>
               </View>
             </View>
           </View>
@@ -137,24 +136,22 @@ function WelcomeHeader({
     <View style={styles.entryDivider} />
     <View style={styles.entryActions}>
       <Pressable accessibilityRole="button" accessibilityLabel="無料版をすぐ始める" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, pressed && styles.pressed]}>
-        <AppText style={styles.entryActionIcon}>▣</AppText>
-        <View style={styles.entryActionCopy}><AppText variant="serif" style={styles.entryActionTitle}>無料版</AppText><AppText style={styles.entryActionSub}>基本の知恵を学ぶ</AppText></View>
+        <EntryMark type="free" />
+        <View style={styles.entryActionCopy}><AppText style={styles.entryActionKicker}>FREE EDITION</AppText><AppText variant="serif" style={styles.entryActionTitle}>無料版をはじめる</AppText></View>
         <AppText style={styles.entryChevron}>›</AppText>
       </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel="完全版の内容を見る" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, styles.entryActionComplete, pressed && styles.pressed]}>
-        <AppText style={[styles.entryActionIcon, styles.entryActionIconComplete]}>♔</AppText>
-        <View style={styles.entryActionCopy}><AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版</AppText><AppText style={[styles.entryActionSub, styles.entryActionSubComplete]}>すべての知恵を解き放つ</AppText></View>
+        <EntryMark type="complete" />
+        <View style={styles.entryActionCopy}><AppText style={[styles.entryActionKicker, styles.entryActionKickerComplete]}>COMPLETE EDITION</AppText><AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版を見る</AppText></View>
         <AppText style={[styles.entryChevron, styles.entryChevronComplete]}>›</AppText>
       </Pressable>
     </View>
   </View>;
 }
 
-function Brand({ compact, desktop }: { compact: boolean; desktop: boolean }) {
-  return <View style={styles.brand}>
-    <AppText variant="serif" style={[styles.brandName, desktop && styles.brandNameDesktop, compact && styles.brandNameCompact]}>処 世 術 禄</AppText>
-    <AppText style={[styles.brandReading, desktop && styles.brandReadingDesktop]}>SHO SEI JUTSU ROKU</AppText>
-    <View style={styles.brandRule} />
+function EntryMark({ type }: { type: 'free' | 'complete' }) {
+  return <View style={[styles.entryMark, type === 'complete' && styles.entryMarkComplete]}>
+    {type === 'free' ? <><View style={styles.entryBookLeft} /><View style={styles.entryBookRight} /></> : <><View style={styles.entryCrownBase} /><View style={styles.entryCrownPeakOne} /><View style={styles.entryCrownPeakTwo} /><View style={styles.entryCrownPeakThree} /></>}
   </View>;
 }
 
@@ -237,33 +234,32 @@ const styles = StyleSheet.create({
   entryBrandReading: { marginTop: 1, color: '#DFBD70', fontSize: 7, lineHeight: 11, fontWeight: '700', letterSpacing: 2.6 },
   entryBrandReadingDesktop: { marginTop: 2, fontSize: 9, lineHeight: 14, letterSpacing: 4.4 },
   entryDivider: { width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(226,198,130,0.24)' },
-  entryActions: { flex: 1, flexDirection: 'row', gap: 7, alignItems: 'center', justifyContent: 'flex-end' },
-  entryAction: { flex: 1, minWidth: 0, minHeight: 40, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 7, borderWidth: 1, borderColor: '#B48734', borderRadius: 999, backgroundColor: 'rgba(13,14,13,0.75)' },
+  entryActions: { flex: 1, flexDirection: 'row', gap: 12, alignItems: 'center', justifyContent: 'flex-end' },
+  entryAction: { flex: 1, minWidth: 0, minHeight: 46, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: '#B48734', borderRadius: 14, backgroundColor: 'rgba(13,14,13,0.66)' },
   entryActionComplete: { borderColor: '#D7AF58', backgroundColor: '#F2DEAC' },
-  entryActionIcon: { color: '#D5AD58', fontSize: 19, lineHeight: 23 },
-  entryActionIconComplete: { color: '#5B431B' },
+  entryMark: { width: 23, height: 23, position: 'relative', flexShrink: 0 },
+  entryMarkComplete: { width: 25, height: 23 },
+  entryBookLeft: { position: 'absolute', left: 2, top: 3, width: 10, height: 16, borderWidth: 1.25, borderColor: '#D5AD58', borderTopLeftRadius: 2, borderBottomLeftRadius: 2 },
+  entryBookRight: { position: 'absolute', right: 2, top: 3, width: 10, height: 16, borderWidth: 1.25, borderColor: '#D5AD58', borderTopRightRadius: 2, borderBottomRightRadius: 2 },
+  entryCrownBase: { position: 'absolute', left: 2, right: 2, bottom: 3, height: 5, borderWidth: 1.25, borderColor: '#5B431B', borderRadius: 1 },
+  entryCrownPeakOne: { position: 'absolute', left: 3, top: 5, width: 1.5, height: 10, backgroundColor: '#5B431B', transform: [{ rotate: '-28deg' }] },
+  entryCrownPeakTwo: { position: 'absolute', left: 12, top: 2, width: 1.5, height: 13, backgroundColor: '#5B431B' },
+  entryCrownPeakThree: { position: 'absolute', right: 3, top: 5, width: 1.5, height: 10, backgroundColor: '#5B431B', transform: [{ rotate: '28deg' }] },
   entryActionCopy: { flex: 1, minWidth: 0 },
-  entryActionTitle: { color: '#F7EFDE', fontSize: 14, lineHeight: 18, fontWeight: '600', letterSpacing: 0.6 },
+  entryActionKicker: { color: '#C9A663', fontSize: 7, lineHeight: 10, letterSpacing: 1.3, fontWeight: '800' },
+  entryActionKickerComplete: { color: '#6D552A' },
+  entryActionTitle: { marginTop: 1, color: '#F7EFDE', fontSize: 14, lineHeight: 18, fontWeight: '600', letterSpacing: 0.6 },
   entryActionTitleComplete: { color: '#231C12' },
-  entryActionSub: { marginTop: 1, color: '#D1C2A6', fontSize: 8.5, lineHeight: 12, fontWeight: '600' },
-  entryActionSubComplete: { color: '#5B4D35' },
   entryChevron: { color: '#D5AD58', fontSize: 27, lineHeight: 30, fontWeight: '300' },
   entryChevronComplete: { color: '#5B431B' },
-  hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 18, paddingTop: 26, paddingBottom: 34 },
-  heroDesktop: { paddingTop: 18, paddingBottom: 54 },
+  hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 18, paddingTop: 72, paddingBottom: 34 },
+  heroDesktop: { paddingTop: 72, paddingBottom: 54 },
   heroCopy: { width: '100%', maxWidth: 690, alignItems: 'center', zIndex: 2 },
   heroCopyDesktop: { maxWidth: 800 },
   heroCopyCompact: { transform: [{ scale: 0.92 }] },
-  brand: { alignItems: 'center' },
-  brandName: { color: '#E9C879', fontSize: 31, lineHeight: 42, letterSpacing: 8, fontWeight: '500' },
-  brandNameDesktop: { fontSize: 43, lineHeight: 57, letterSpacing: 12 },
-  brandNameCompact: { fontSize: 26, lineHeight: 36, letterSpacing: 6.4 },
-  brandReading: { marginTop: 3, color: '#E7C174', fontSize: 8, lineHeight: 13, letterSpacing: 3.5, fontWeight: '800' },
-  brandReadingDesktop: { marginTop: 5, fontSize: 10, lineHeight: 16, letterSpacing: 5.4 },
-  brandRule: { width: 50, height: 1, marginTop: 21, backgroundColor: '#C88F27' },
-  heroTitle: { marginTop: 38, color: '#F6F0E4', fontSize: 31, lineHeight: 46, letterSpacing: 1.8, textAlign: 'center', fontWeight: '400' },
-  heroTitleDesktop: { marginTop: 40, fontSize: 49, lineHeight: 68, letterSpacing: 3 },
-  heroTitleCompact: { marginTop: 31, fontSize: 27, lineHeight: 40 },
+  heroTitle: { color: '#F6F0E4', fontSize: 29, lineHeight: 44, letterSpacing: 1.4, textAlign: 'center', fontWeight: '400' },
+  heroTitleDesktop: { fontSize: 49, lineHeight: 68, letterSpacing: 3 },
+  heroTitleCompact: { fontSize: 27, lineHeight: 40 },
   heroUnderline: { width: 124, height: 3, marginTop: 9, borderRadius: 9, backgroundColor: '#BD8119', transform: [{ rotate: '-2deg' }] },
   heroLead: { marginTop: 27, color: '#DAD2C4', fontSize: 16, lineHeight: 27, letterSpacing: 1.25, textAlign: 'center', fontWeight: '500' },
   heroLeadDesktop: { marginTop: 28, fontSize: 20, lineHeight: 33, letterSpacing: 1.8 },
@@ -288,8 +284,8 @@ const styles = StyleSheet.create({
   noteDesktopSeven: { right: '11%', top: '57%', transform: [{ rotate: '-3deg' }] },
   noteDesktopEight: { right: '3%', top: '43%', transform: [{ rotate: '8deg' }] },
   noteDesktopNine: { right: '3%', top: '70%', transform: [{ rotate: '-5deg' }] },
-  noteMobileOne: { left: 14, top: 120, transform: [{ rotate: '-9deg' }] },
-  noteMobileTwo: { right: 14, top: 120, transform: [{ rotate: '4deg' }] },
+  noteMobileOne: { left: 14, top: 14, transform: [{ rotate: '-9deg' }] },
+  noteMobileTwo: { right: 14, top: 18, transform: [{ rotate: '4deg' }] },
   noteMobileThree: { left: 14, bottom: 15, transform: [{ rotate: '-4deg' }] },
   noteMobileFour: { right: 14, bottom: 15, transform: [{ rotate: '6deg' }] },
   overview: { width: '100%', paddingHorizontal: 17, paddingTop: 33, paddingBottom: 34, backgroundColor: 'rgba(250,246,238,0.84)' },
