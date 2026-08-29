@@ -460,7 +460,7 @@ test('無料理論の分類は一部無料として閲覧でき、残りだけ�
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByText('理論　45', { exact: true })).toBeVisible();
 
-  const psychology = page.getByRole('button', { name: /心理学、無料20件、全249件、一部無料/ });
+  const psychology = page.getByRole('button', { name: /心理学、無料20件、全237件、一部無料/ });
   await expect(psychology).toBeVisible();
   await expect(page.getByTestId('discover-theory-partial-badge')).toHaveCount(6);
   await expect(page.getByTestId('discover-theory-locked-badge')).toHaveCount(0);

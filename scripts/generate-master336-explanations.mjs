@@ -4,6 +4,47 @@ import path from 'node:path';
 const file = path.join(process.cwd(), 'src/data/generated/techniques.json');
 const catalog = JSON.parse(fs.readFileSync(file, 'utf8'));
 
+function loadMasterSource(sourcePath) {
+  if (!sourcePath || !fs.existsSync(sourcePath)) return new Map();
+  const markdown = fs.readFileSync(sourcePath, 'utf8').replace(/^\uFEFF/u, '').replace(/\r/g, '');
+  const records = new Map();
+  let record;
+  let section;
+  const finish = () => {
+    if (!record) return;
+    const paragraphs = record.lines.join('\n').split(/\n\s*\n/).map((value) => value.trim()).filter(Boolean);
+    records.set(record.id, { paragraphs });
+    record = undefined;
+    section = undefined;
+  };
+  for (const line of markdown.split('\n')) {
+    const heading = line.match(/^#{3,4}\s+(master336-\d{3})｜(.+)$/u);
+    if (heading) {
+      finish();
+      record = { id: heading[1], title: heading[2].trim(), lines: [] };
+      continue;
+    }
+    if (!record) continue;
+    if (line === '**解説**') {
+      section = 'explanation';
+      continue;
+    }
+    if (line.startsWith('**') && line.endsWith('**')) {
+      section = undefined;
+      continue;
+    }
+    if (section === 'explanation') record.lines.push(line);
+  }
+  finish();
+  return records;
+}
+
+const masterSource = loadMasterSource(process.env.MASTER336_SOURCE_PATH);
+const masterSourceParagraphCounts = new Map();
+for (const { paragraphs } of masterSource.values()) {
+  for (const paragraph of paragraphs) masterSourceParagraphCounts.set(paragraph, (masterSourceParagraphCounts.get(paragraph) ?? 0) + 1);
+}
+
 const manualExplanations = {
   'master336-001': `第一印象では、魅力を加点してもらう前に、「不快ではないか」「近くにいて安心できるか」という最低限の基準を無意識に見られている。そこで大きく効くのが清潔感だ。高価な服や整った顔立ちは必要ない。髪、肌、口元、爪、服のシワや汚れ、匂いなど、「自分の状態をきちんと管理している」と伝わることの方が重要になる。\n\n清潔感が欠けていると、本来の性格や能力を知ってもらう前に、「だらしなさそう」「近づきにくい」といった印象が先に立つ。しかも第一印象は、その後の評価にも影響するため、会話が上手くても親切でも、それを正当に見てもらいにくくなる。つまり清潔感は、それ自体で強烈な魅力を生むというより、あなたの他の魅力が評価されるための入場券に近い。\n\n逆にいえば、ここで目立つ必要はない。髪型を整え、服のサイズ感を合わせ、口臭や体臭に気を配るだけでも十分に差はつく。「この人なら安心して近づける」と思わせる状態をつくって初めて、話し方や人柄、個性といった次の評価に進んでもらえる。第一印象では、加点を狙う前に、まず減点されない土台を整えることが重要である。`,
   'master336-002': `人は会話の内容を理解する前から、相手の表情、目線、姿勢、声の大きさを手がかりにしている。そこに落ち着きがあると、言葉の細部まで知らなくても「この人は慌てずに話せる」「こちらも構えなくてよさそうだ」と受け取られやすい。逆に、視線が定まらない、声量が極端に揺れる、体が忙しなく動くと、緊張そのものが相手へ伝わる。\n\n大事なのは、堂々と見せようとして演技を強めることではない。面接、営業、初対面の食事のような場面では、相手はあなたの内心を直接は読めないため、外に出るリズムから安定性を推測する。言葉が少し詰まっても、姿勢を整え、相手の顔を見て、急いで取り繕わなければ、印象は必要以上に崩れない。\n\n会う直前に深呼吸を一度し、足裏を床につけ、最初の一文だけはゆっくり話す。視線は見つめ続けるのではなく、話すときに向け、考えるときに少し外す程度でよい。非言語を整える目的は自信を誇示することではなく、相手が内容に集中できる状態をつくることにある。`,
@@ -17,6 +58,10 @@ const manualClosing = {
   'master336-003': '相手に合わせて笑うのではなく、自分が受け取ったことを表情に戻す。この順番を守ると、愛想が不自然になりにくい。',
   'master336-004': '話題が途切れたら、無理に埋めずに飲み物や周囲の状況へ軽く触れるだけでもよい。相手の緊張を増やさないことが、会話を次へつなげる。',
   'master336-005': '相手を見極める必要がある場面でも、結論を急がず、会話の最中は理解に徹する。その方が、後から判断する材料も増える。',
+};
+
+const searchTermAdditions = {
+  'master336-193': '先延ばしを減らすには、やる気を待つのではなく、最初の一動作だけを予定へ置く。',
 };
 
 const personaGuidance = {
@@ -202,21 +247,144 @@ function pick(values, index, offset = 0) {
   return values[(index * 7 + offset) % values.length];
 }
 
+const fieldMiddleTemplates = {
+  interpersonal: [
+    (title, essence) => `「${title}」を使うときは、相手の言葉・表情・次の行動のどれか一つを観察し、歓迎されているか負担になっているかを早合点しない。${essence}反応が鈍ければ強めず、一段戻る判断まで含めて技術になる。`,
+    (title, essence) => `関係が浅い場面では、「${title}」の量より相手が返しやすい余白が重要である。${essence}相手から返ってくる小さな合図を確かめながら、距離と温度を一段ずつ調整する。`,
+    (title, essence) => `「${title}」は、相手を自分の期待どおりに動かすためではなく、二人の間に選択肢を増やすために使う。${essence}相手の都合や気分が違う日にも、押しつけずに別の関わり方へ切り替えられることが大切だ。`,
+    (title, essence) => `実際の対人場面では、「${title}」の前後で相手が話しやすくなったか、身構えたか、次も関わろうとしたかを見る。${essence}自分の意図ではなく、相手に残った負担と安心の両方を材料にして微調整する。`,
+    (title, essence) => `「${title}」を意識するほど、相手の反応を自分への評価として受け取りすぎないことも必要になる。${essence}相手の性格、状況、関係の段階によって効き方は変わるため、同じ型を全員へ当てはめずに使う。`,
+    (title, essence) => `このカードの実践では、「${title}」を一度成功させることより、相手が自分のペースを保てるかを確かめる。${essence}好意や配慮が返ってこないときは、追加で働きかける前に相手の境界と自分の余力を見直す。`,
+  ],
+  work: [
+    (title, essence) => `「${title}」を仕事に落とすなら、目的・期限・関係者の負担のうち一つを先に確認する。${essence}目先の速さだけでなく、次の人が迷わず動けるか、修正が可能な形で残るかまでを成果として見る。`,
+    (title, essence) => `実務では、「${title}」を自分の頑張りの証明にせず、仕事の流れを安定させる手段として扱う。${essence}途中で前提が変わったら、抱え込まず、影響と選択肢を早めに共有する方が損失を小さくできる。`,
+    (title, essence) => `「${title}」が必要になる場面では、作業を始める前に完成条件と判断者を言葉にする。${essence}一回の成功に頼らず、誰が担当しても再利用できる手順や記録へ変えられると、成果の価値は長く残る。`,
+    (title, essence) => `仕事で「${title}」を試すときは、重要度と緊急度を分け、どこに時間を使うかを先に決める。${essence}すべてへ同じ力を配るのではなく、結果を動かす一点へ資源を寄せ、不要な作業は減らしていく。`,
+    (title, essence) => `「${title}」は、相手を急かしたり自分を大きく見せたりする技術ではない。${essence}関係者が何を知れば判断できるか、何を任せれば前へ進めるかを考え、必要な情報を必要な順番で渡す。`,
+    (title, essence) => `実践の成否は、作業量ではなく、次の判断が簡単になったかで確かめる。「${title}」を使った後に、手戻り、待ち時間、認識のずれのどれが減ったかを一つ記録すると、やり方を改善しやすい。`,
+  ],
+  life: [
+    (title, essence) => `「${title}」を人生の判断に使うときは、時間・体力・お金・人間関係のどれに影響するかを先に見る。${essence}目先の気分だけでなく、後から選び直せる余地を残せるかまで考えると、極端な選択を避けやすい。`,
+    (title, essence) => `「${title}」は、理想の自分を一度で完成させる方法ではない。${essence}今日の生活で無理なく試せる最小単位へ分け、続けたときに何が増え、何が削られるかを現実の手触りで確かめる。`,
+    (title, essence) => `迷いの中で「${title}」を考えるなら、得たいものだけでなく、失っても引き受けられるものを書き出す。${essence}他人の正解や一時的な不安だけで決めず、自分の価値観と回復できる範囲を基準にする。`,
+    (title, essence) => `人生の場面で「${title}」を試すときは、結果がすぐ出るかより、次の選択肢が残るかを確認する。${essence}うまくいかない場合にも、経験・技能・関係のどれかが残る大きさへ調整すると、再挑戦しやすい。`,
+    (title, essence) => `「${title}」を続けるには、気合いよりも生活の中に置く場所を決めることが役立つ。${essence}できない日を失敗として切り捨てず、再開しやすい最低単位を持つことで、判断を長い時間軸へ戻せる。`,
+    (title, essence) => `この原則を自分へ向けるときも、「${title}」を万能な正解にしない。${essence}環境や体調が変われば最適な方法も変わるため、今の自分に合うかを定期的に確かめ、必要なら選び直す。`,
+  ],
+};
+
+const fieldEndingTemplates = {
+  interpersonal: [
+    (title) => `まずは「${title}」が必要だった最近の場面を一つ選び、次回に言う一言、取る距離、返す反応のどれかを先に決める。相手の反応が違えば、成功か失敗かを急いで決めず、関わり方を一段調整する。`,
+    (title) => `一週間だけ「${title}」を小さく試し、相手の反応だけでなく、自分が無理をしていないかも記録する。好意が一方通行になったり、境界を越えそうになったりしたら、続けるより止める判断を優先する。`,
+    (title) => `次に「${title}」を実践するときは、相手へ何を与えたいのかを一言で決めてから動く。好かれることを目的にすると過剰になりやすいため、相手が自分のペースで選べる余白を残せたかで振り返る。`,
+    (title) => `「${title}」を使った後は、会話が続いたかだけで評価しない。相手が安心して話せたか、自分も自然にいられたか、次回へ無理なくつながるかの三点を見れば、表面的な反応に振り回されにくい。`,
+    (title) => `この技術を身につける目標は、誰にでも同じ印象を与えることではない。「${title}」が合う相手と場面を見分け、合わないときは別の接し方や距離へ切り替えられる自分をつくることである。`,
+    (title) => `「${title}」を一回で習慣にしようとせず、次に似た場面が来たら、いつもの反応を一つだけ変えてみる。相手の同意や負担を確かめながら続けることが、長い関係では最も確かな実践になる。`,
+  ],
+  work: [
+    (title) => `まずは「${title}」が必要な仕事を一件選び、目的、期限、完了条件のどれかを一つ明確にしてから始める。終わった後は、成果だけでなく手戻りや待ち時間がどう変わったかを短く残す。`,
+    (title) => `一週間だけ「${title}」を試し、作業時間ではなく、判断の速さと周囲の迷いがどう変わったかを見る。うまくいかなければ、能力不足と決めず、前提、順番、共有相手のどこを直すかを選ぶ。`,
+    (title) => `次の依頼で「${title}」を使うときは、最初に確認したいことを一つ質問し、途中で共有する時点を決めておく。完成まで抱え込まず、早い段階で方向を合わせることが品質を守る。`,
+    (title) => `「${title}」の実践後は、努力量を自分で採点するのではなく、誰の判断や行動が楽になったかを確認する。価値が伝わりにくい仕事ほど、目的と変化を短く記録しておくと再現しやすい。`,
+    (title) => `この技術を万能な効率化にしないことも重要である。「${title}」によって守りたい品質、関係、余白を先に決め、速さのために安全や信頼を削っていないかを定期的に見直す。`,
+    (title) => `「${title}」を一度の成功で終わらせず、次に同じ種類の仕事が来たときも使える一行の手順へ残す。自分だけの勘にせず、必要なら周囲と共有することで、成果が個人の偶然から仕組みへ変わる。`,
+  ],
+  life: [
+    (title) => `まずは「${title}」が必要だった選択を一つ取り上げ、得るもの、失うもの、後から戻せるかを三行で書く。すぐに大きく変えず、低いコストで試せる一歩がないかを探す。`,
+    (title) => `一週間だけ「${title}」を生活の一場面へ置き、気分の良し悪しではなく、時間、体力、関係、選択肢のどれに変化があったかを見る。合わなければ方法を変えてよく、原則に自分を合わせる必要はない。`,
+    (title) => `次に迷ったときは、「${title}」を誰かに説明するための正解ではなく、自分が引き受けられる基準として使う。決めた後も新しい情報が出たら、目的を守りながら方法を選び直せる。`,
+    (title) => `「${title}」を実践した日は、結果が出たかより、未来の自分へ何を残せたかを一つ記録する。経験、技能、健康、つながりのどれかが残る行動なら、短期の失敗だけで価値を判断しなくてよい。`,
+    (title) => `この技術を自分へ厳しく適用しすぎないことも大切である。「${title}」ができない日にも生活を保つ最低限の行動を残し、再開できる余白を守ることが、長期では最も現実的な強さになる。`,
+    (title) => `「${title}」を一度の決断で完成させようとせず、今日の小さな行動へ変換する。続けた結果が自分の価値観とずれていたら、失敗ではなく情報として受け取り、次の選択を更新する。`,
+  ],
+};
+
+const fieldReflectionTemplates = {
+  interpersonal: [
+    (title) => `「${title}」が相手の安心を増やしたのか、それとも自分の不安を埋めるための行動だったのかを分けて振り返る。`,
+    (title) => `相手が期待どおりに返さなくても、そこで追いかけずに止まれたなら、「${title}」は関係を守る方向に働いている。`,
+    (title) => `うまくいった場面の共通点を、相手の性格ではなく距離、タイミング、言葉の強さのどこにあったかで見直す。`,
+    (title) => `関係を近づけることだけを成果にせず、相手も自分も自然に断れる状態が残ったかを「${title}」の基準にする。`,
+    (title) => `同じ方法が通じない相手に出会ったときは、自分の技術不足と決めず、相性や状況の違いを含めて次の方法を選ぶ。`,
+    (title) => `「${title}」を続けるほど、相手の反応を読む力と、自分の境界を守る力を同時に育てることが重要になる。`,
+  ],
+  work: [
+    (title) => `「${title}」を使った結果、誰の判断が早くなり、どの手戻りが減ったかを残せば、次回に再利用できる知恵になる。`,
+    (title) => `うまくいかなかった場合も、前提の確認不足、共有の遅れ、優先順位のずれのどれだったかを一つに絞って直す。`,
+    (title) => `個人の頑張りで終わらせず、「${title}」をチームの手順へ移せる部分がないかを考えると、成果の再現性が上がる。`,
+    (title) => `速さや件数だけが増えて品質が落ちていないか、関係者が安心して次の仕事へ進めたかも合わせて確認する。`,
+    (title) => `前提や担当者が変われば正しいやり方も変わるため、「${title}」を固定した型ではなく判断の道具として持っておく。`,
+    (title) => `一度の成功を自分の才能にせず、何を確認し、どこで修正したから進んだのかを言葉にすると、次の仕事が軽くなる。`,
+  ],
+  life: [
+    (title) => `「${title}」を選んだ後に、自分の時間、体力、関係のどれが回復し、どれに負担が出たかを落ち着いて確認する。`,
+    (title) => `思った結果にならなくても、何を知れたか、次に何を変えられるかが残っていれば、その選択は無駄ではない。`,
+    (title) => `他人から見た正しさより、自分がその選択の代償を説明できるかを、継続して「${title}」を使う判断基準にする。`,
+    (title) => `できた日だけを基準にせず、疲れた日や迷った日にどこまで守れたかを見ると、無理のない方法へ近づける。`,
+    (title) => `環境が変わったら一度決めた方法を更新してよい。「${title}」の目的を残しながら、手段は柔らかく選び直す。`,
+    (title) => `未来を一度で確定しようとせず、「${title}」によって次の一歩の自由度が増えたかを長い時間軸で確かめる。`,
+  ],
+};
+
+function firstEssenceSentence(essence) {
+  return essence.match(/[^。！？]+[。！？]?/u)?.[0]?.trim() ?? essence;
+}
+
+function makeSpecificMiddle(item, field, index) {
+  const templates = fieldMiddleTemplates[field];
+  if (!templates) throw new Error(`Missing field middle templates: ${field}`);
+  const fieldTail = {
+    interpersonal: '相手の反応を自分への評価と短絡せず、場面と関係の段階に合わせて調整する。',
+    work: '一回の結果だけで能力を判断せず、次の人が再利用できる形へ残せるかも確かめる。',
+    life: '一時の気分だけで結論を出さず、今の自分が無理なく続けられる大きさへ調整する。',
+  }[field];
+  return `${pick(templates, index)(item.title, '')} ${fieldTail}`;
+}
+
+function makeSpecificEnding(item, field, index) {
+  const templates = fieldEndingTemplates[field];
+  const reflections = fieldReflectionTemplates[field];
+  if (!templates) throw new Error(`Missing field ending templates: ${field}`);
+  const fieldTail = {
+    interpersonal: '相手の反応だけでなく、自分が無理をしていないか、関係に余白が残っているかも振り返る。',
+    work: '成果だけでなく、手戻り、待ち時間、認識のずれのどれが変わったかを短く記録する。',
+    life: '得たものだけでなく、失ったものと次に選び直せる余地も一緒に見ておく。',
+  }[field];
+  const nextStepTail = {
+    interpersonal: '合わなければ、距離や言葉の強さを一段戻してよい。相手が望んでいないと分かったら、止めることも成功に含める。',
+    work: '負荷が増すなら、範囲や期限を改めて調整する。品質や信頼を損なうなら、効率より先にやり方を戻す。',
+    life: '続けにくければ、目標を小さくし直してよい。生活を圧迫するなら、原則より先に負担を減らす。',
+  }[field];
+  return `${pick(templates, index, 3)(item.title)} ${fieldTail} ${pick(reflections, index, 5)(item.title)} ${nextStepTail}`;
+}
+
 function makeExplanation(item, field, persona, index) {
   if (manualExplanations[item.id]) return `${manualExplanations[item.id]}${manualClosing[item.id] ?? ''}`;
   const guide = personaGuidance[persona];
   if (!guide) throw new Error(`Missing persona guidance: ${persona}`);
+  const source = masterSource.get(item.id);
+  if (source?.paragraphs.length >= 2) {
+    const first = source.paragraphs[0];
+    const sourceMiddle = source.paragraphs[1];
+    const middle = masterSourceParagraphCounts.get(sourceMiddle) > 1
+      ? makeSpecificMiddle(item, field, index)
+      : sourceMiddle;
+    const ending = makeSpecificEnding(item, field, index);
+    const explanation = `${first}\n\n${middle}\n\n${ending}`;
+    const length = [...explanation.replace(/\s/g, '')].length;
+    if (length < 420 || length > 660) throw new Error(`Source-based explanation length out of range (${length}): ${item.id}`);
+    return explanation;
+  }
   const essenceSentences = item.essence.match(/[^。！？]+[。！？]?/g)?.map((sentence) => sentence.trim()).filter(Boolean) ?? [];
   const firstInsight = essenceSentences[0] ?? '';
   const remainingInsight = essenceSentences.slice(1).join('');
   const first = `${guide.bridge} ${firstInsight}`;
-  const middle = `${guide.scene} ${remainingInsight || `この場面で「${item.title}」を判断基準にすると、いつもの反応を自動的に返す前に、別の選択肢を持てる。`}`;
-  let ending = `${pick(practiceOpeners, index)(item.title)}${guide.practice} ${guide.encourage}`;
+  const middle = `${makeSpecificMiddle(item, field, index)} ${remainingInsight}`.trim();
+  let ending = makeSpecificEnding(item, field, index);
+  if (searchTermAdditions[item.id]) ending += ` ${searchTermAdditions[item.id]}`;
   let explanation = `${first}\n\n${middle}\n\n${ending}`;
-  if ([...explanation.replace(/\s/g, '')].length < 420) {
-    ending += ` ${pick(growthClosings, index, 3)(item.title)}`;
-    explanation = `${first}\n\n${middle}\n\n${ending}`;
-  }
   const length = [...explanation.replace(/\s/g, '')].length;
   if (length < 420 || length > 660) throw new Error(`Explanation length out of range (${length}): ${item.id}`);
   return explanation;

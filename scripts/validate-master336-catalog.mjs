@@ -23,7 +23,7 @@ const cards = catalog.categories.flatMap((category) => category.subcategories.fl
 const theoryIds = new Set(theories.map((theory) => theory.tagId));
 const duplicateKeys = cards.length - new Set(cards.map((card) => `${card.field}\u0000${card.persona}\u0000${card.title}`)).size;
 const duplicateIds = cards.length - new Set(cards.map((card) => card.id)).size;
-const explanationParagraphs = cards.flatMap((card) => (card.explanation ?? '').split('\n\n').filter(Boolean));
+const explanationParagraphs = cards.flatMap((card) => (card.explanation ?? '').split(/\n+/).map((paragraph) => paragraph.trim()).filter(Boolean));
 const explanationParagraphCounts = new Map();
 for (const paragraph of explanationParagraphs) explanationParagraphCounts.set(paragraph, (explanationParagraphCounts.get(paragraph) ?? 0) + 1);
 const repeatedExplanationParagraphs = [...explanationParagraphCounts.entries()].filter(([, count]) => count > 1);
@@ -61,7 +61,7 @@ const checks = {
     const length = [...(card.explanation ?? '').replace(/\s/g, '')].length;
     return length < 420 || length > 660;
   }).length,
-  invalidExplanationParagraphs: cards.filter((card) => (card.explanation ?? '').split(/\n\s*\n/).filter(Boolean).length !== 1).length,
+  invalidExplanationParagraphs: cards.filter((card) => (card.explanation ?? '').split(/\n+/).map((paragraph) => paragraph.trim()).filter(Boolean).length !== 3).length,
   duplicateExplanations: cards.length - new Set(cards.map((card) => card.explanation)).size,
   duplicateExplanationParagraphs,
   repeatedExplanationParagraphSamples: repeatedExplanationParagraphs.slice(0, 3).map(([paragraph, count]) => ({ count, paragraph: paragraph.slice(0, 80) })),
@@ -81,5 +81,5 @@ if (
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
-  checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_解説_実践2つ_注意点1つ_統合版_master336_001-336.md' || checks.mismatchedGroups.length
+  checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_解説_再改善統合版_master336_001-336.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');
