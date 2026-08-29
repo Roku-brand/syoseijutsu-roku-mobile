@@ -60,7 +60,7 @@
 - TypeScript: `pnpm typecheck` 成功。
 - Production build: `pnpm export:pages` 成功。1080静的ルートをexportし、Pages fallbackとSEO assetを生成。
 - 公開build監査: `node scripts/audit-public-build.mjs` 成功。1116ファイルを確認。
-- E2E: `pnpm test:e2e --reporter=dot`、45/45成功。
+- E2E: `pnpm test:e2e --reporter=line`、45/45成功。同期済み理論データのタイトルを固定値で期待していた既存テストは、現行UIの構造（非空・2行以内・作者名非表示）を検証する形へ整理した。
 - Lint: `package.json` に `lint` scriptがなく、`pnpm lint` は実行不能。今回、UI整理の範囲を越えてLint基盤を新設していない。
 - `git diff --check`: 成功。
 - 既存Chrome実査では、PC・スマホの主要画面、直接URL、戻る導線、ロック表示、理論・処世術詳細、購買遷移、プライバシー直リンクを確認した。
