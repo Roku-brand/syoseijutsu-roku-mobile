@@ -12,16 +12,23 @@ import { COMPLETE_LEARNING_CASE_COUNT } from '@/access/access-config';
 export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
+  const [activeCaseId, setActiveCaseId] = useState<string | null>(null);
   // Keep the data used by the first render stable while paid content may be
   // hydrated into the shared catalogue in the background.
   const [caseList] = useState<LearningCase[]>(() => [...learningCases]);
-  const item = caseList.find((candidate) => candidate.id === (caseId ?? ''));
   const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
-  const [retryPending, setRetryPending] = useState(retry === '1');
+  const [retryPending, setRetryPending] = useState(false);
 
   useEffect(() => {
+    setActiveCaseId(caseId ?? null);
     setRetryPending(retry === '1');
   }, [caseId, retry]);
+
+  const item = activeCaseId ? caseList.find((candidate) => candidate.id === activeCaseId) : undefined;
+
+  if (!activeCaseId) {
+    return null;
+  }
 
   if (!item) {
     return <BookScreen contentContainerStyle={styles.content}><AppText>この局面は見つかりません。</AppText></BookScreen>;
