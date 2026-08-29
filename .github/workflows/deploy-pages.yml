@@ -53,6 +53,7 @@ jobs:
     env:
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
       EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -70,6 +71,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      - name: Verify content sync setting
+        run: test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
+
+      - name: Sync published technique content
+        run: node scripts/import-owner-content.mjs
 
       - name: Prepare public runtime catalog
         run: cp src/data/learning.runtime.ts src/data/learning.ts
