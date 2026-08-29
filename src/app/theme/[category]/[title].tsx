@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getPersonaThemeTitle } from '@/data/catalog';
 import type { CategoryKey } from '@/data/types';
@@ -29,7 +29,6 @@ export default function ThemeScreen() {
   if (!category || !personas?.length) {
     return (
       <Screen>
-        <DetailHeader />
         <EmptyState
           title="テーマが見つかりません"
           description="前の画面へ戻って、テーマを選び直してください。"
@@ -41,7 +40,6 @@ export default function ThemeScreen() {
   const palette = categoryPalette[category.key];
   return (
     <Screen>
-      <DetailHeader title="テーマから探す" />
 
       <SectionHeader title="人物像を選ぶ" count={personas.length} />
 

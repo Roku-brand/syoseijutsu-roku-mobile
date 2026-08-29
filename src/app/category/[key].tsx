@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { TechniqueRow } from '@/components/technique-row';
-import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, EmptyState, Screen, SectionHeader } from '@/components/ui';
 import { categoryPalette, colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, categoryMeta, getPersonaThemeTitle, techniqueCards } from '@/data/catalog';
 import type { CatalogCategory } from '@/data/types';
@@ -22,7 +22,6 @@ export default function CategoryDetailScreen() {
   if (key === 'all') {
     return (
       <Screen>
-        <DetailHeader title="探す" />
         <SectionHeader title="処世術" count={techniqueCards.length} />
         {techniqueCards.map((card) => <TechniqueRow key={card.id} card={card} />)}
       </Screen>
@@ -33,7 +32,6 @@ export default function CategoryDetailScreen() {
   if (!category) {
     return (
       <Screen>
-        <DetailHeader />
         <EmptyState
           title="カテゴリが見つかりません"
           description="前の画面へ戻って、別のカテゴリを選んでください。"
@@ -48,8 +46,6 @@ export default function CategoryDetailScreen() {
 
   return (
     <Screen>
-      <DetailHeader title="処世術から探す" />
-
       <SectionHeader title="テーマを選ぶ" count={themes.length} />
 
       <View style={styles.themeTabs}>

@@ -3,12 +3,14 @@ import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { normalizeDisplayText } from '@/data/theory-display';
+import { categories, techniqueCards, theories } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const desktopBackground = require('../../assets/welcome/welcome-background-desktop.png');
 const mobileBackground = require('../../assets/welcome/welcome-background-mobile.png');
 const appIcon = require('../../assets/brand/icon.png');
+const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
 
 type NoteTone = 'paper' | 'ink' | 'speech';
 
@@ -82,9 +84,9 @@ export default function Welcome() {
             <View style={[styles.overviewBody, desktop && styles.overviewBodyDesktop]}>
               <View style={styles.statsArea}>
                 <View testID="welcome-stats" style={[styles.stats, desktop && styles.statsDesktop]}>
-                  <Stat icon="◎" number="26" label="人物像" description="理想の人物像から自分のあり方を理解できる" compact={compact} />
-                  <Stat icon="▣" number="336" label="処世術" description="今日から使える具体的な知恵で行動を変えられる" compact={compact} />
-                  <Stat icon="◈" number="630" label="理論" description="心理学・行動科学・組織論などの学術知見に基づいて理解が深まる" compact={compact} last />
+                  <Stat icon="◎" number={String(personaCount)} label="人物像" description="理想の人物像から自分のあり方を理解できる" compact={compact} />
+                  <Stat icon="▣" number={String(techniqueCards.length)} label="処世術" description="今日から使える具体的な知恵で行動を変えられる" compact={compact} />
+                  <Stat icon="◈" number={String(theories.length)} label="理論" description="心理学・行動科学・組織論などの学術知見に基づいて理解が深まる" compact={compact} last />
                 </View>
                 {!desktop ? <WelcomeSteps compact={compact} /> : null}
                 <AppText variant="serif" style={[styles.systemMessage, desktop && styles.systemMessageDesktop]}>体系的に学び、人生に活かすことができる。</AppText>

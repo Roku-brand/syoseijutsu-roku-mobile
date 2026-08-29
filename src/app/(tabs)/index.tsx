@@ -25,6 +25,7 @@ import { AccessBadge } from '@/components/access-badge';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import type { TheoryCard } from '@/data/types';
+import { learningCases } from '@/data/learning';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { COMPLETE_EDITION_PRICE_JPY, formatRemainingAccess } from '@/lib/purchase';
 
@@ -744,7 +745,7 @@ export default function MainScreen() {
                   <AppText variant="label" style={styles.upgradeReelEyebrow}>完全版</AppText>
                   <AppText variant="serif" style={styles.upgradeReelTitle}>全人物像・全カードを{`\n`}30日間利用</AppText>
                   <View style={[styles.cardRule, cardOrnament]} />
-                  <AppText style={styles.upgradeReelBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論{`\n`}全21ケースを収録</AppText>
+                  <AppText style={styles.upgradeReelBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論{`\n`}全{learningCases.length}ケースを収録</AppText>
                   <View style={styles.upgradeCta}>
                     <AppText style={styles.upgradeCtaText}>内容を見る　¥{COMPLETE_EDITION_PRICE_JPY}／30日</AppText>
                   </View>
@@ -880,7 +881,7 @@ export default function MainScreen() {
         >
           <View style={styles.unlockCopy}>
             <AppText style={styles.unlockTitle}>完全版で、すべての内容を読む</AppText>
-            <AppText style={styles.unlockBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論・全21ケースを30日間</AppText>
+            <AppText style={styles.unlockBody}>{catalogTechniqueCards.length}の処世術・{catalogTheories.length}の理論・全{learningCases.length}ケースを30日間</AppText>
           </View>
           <View style={styles.unlockPrice}><AppText style={styles.unlockPriceText}>¥{COMPLETE_EDITION_PRICE_JPY}</AppText><AppText style={styles.unlockPeriod}>30日</AppText></View>
           <AppText style={styles.unlockChevron}>›</AppText>

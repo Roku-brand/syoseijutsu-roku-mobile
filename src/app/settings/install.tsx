@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Image, Platform, Pressable, Share, StyleSheet, View } from 'react-native';
-import { AppText, DetailHeader, Screen } from '@/components/ui';
+import { AppText, Screen } from '@/components/ui';
 import { colors, fonts, radius, shadow } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import {
@@ -71,8 +71,6 @@ export default function InstallAppScreen() {
 
   return (
     <Screen contentContainerStyle={styles.content}>
-      <DetailHeader title="ホーム画面に追加" />
-
       <View style={[styles.promoCard, wide && styles.promoCardWide]}>
         <Image
           source={require('../../../assets/brand/pwa-install-guide.png')}

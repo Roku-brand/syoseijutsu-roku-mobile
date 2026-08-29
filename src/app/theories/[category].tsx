@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
-import { AppText, DetailHeader, EmptyState, Screen } from '@/components/ui';
+import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
@@ -65,7 +65,6 @@ export default function TheoryCategoryScreen() {
   if (!items.length) {
     return (
       <Screen>
-        <DetailHeader title="理論辞典" />
         <EmptyState
           title="理論カテゴリーが見つかりません"
           description="前の画面へ戻って、別の理論を選んでください。"
@@ -79,7 +78,6 @@ export default function TheoryCategoryScreen() {
       scrollRef={scrollRef}
       contentContainerStyle={styles.screenContent}
     >
-      <DetailHeader title="理論辞典" />
       <View style={styles.tools}>
         <View style={styles.searchBox}>
           <AppText style={styles.searchIcon}>⌕</AppText>

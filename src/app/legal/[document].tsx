@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, DetailHeader, EmptyState, Screen, SectionHeader } from '@/components/ui';
+import { AppText, EmptyState, Screen, SectionHeader } from '@/components/ui';
 
 const documents = {
   about: {
@@ -284,7 +284,6 @@ export default function LegalDocumentScreen() {
   if (!content) {
     return (
       <Screen>
-        <DetailHeader />
         <EmptyState
           title="文書が見つかりません"
           description="前の画面へ戻ってください。"
@@ -295,7 +294,6 @@ export default function LegalDocumentScreen() {
 
   return (
     <Screen>
-      <DetailHeader title={content.title} />
       <AppText variant="title">{content.title}</AppText>
       <AppText style={{ marginTop: 16, opacity: 0.68 }}>{content.lead}</AppText>
       {content.sections.map((section) => (

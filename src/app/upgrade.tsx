@@ -1,13 +1,15 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
-import { FREE_THEORY_IDS } from '@/access/access-config';
+import { learningCases } from '@/data/learning';
+import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 
@@ -32,9 +34,9 @@ function FeatureIcon({ index }: { index: number }) {
 export default function UpgradeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
-  const { width, height } = useWindowDimensions();
-  const desktop = width >= 900;
-  const compact = !desktop && height <= 740;
+  const { width, height, hydrated } = useHydratedWindowDimensions();
+  const desktop = hydrated && width >= 900;
+  const compact = hydrated && !desktop && height <= 740;
   const { user } = useAuth();
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
@@ -126,12 +128,12 @@ export default function UpgradeScreen() {
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
               <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
               <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>通常価格</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
-              <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全21ケース</AppText></View>
+              <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全{learningCases.length}ケース</AppText></View>
             </View>
           </View>
 
           <View style={[styles.editionComparison, compact && styles.editionComparisonCompact]}>
-            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術45件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View>
+            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術{FREE_REEL_TECHNIQUE_IDS.length}件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View>
             <AppText style={[styles.editionArrow, compact && styles.editionArrowCompact]}>›</AppText>
             <View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount, compact && styles.completeEditionCountCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
           </View>

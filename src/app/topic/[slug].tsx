@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
-import { AppText, DetailHeader, EmptyState } from '@/components/ui';
+import { AppText, EmptyState } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
 import { techniqueCards } from '@/data/catalog';
 import {
@@ -32,7 +32,6 @@ export default function GuidedTopicScreen() {
   if (!topic) {
     return (
       <BookScreen>
-        <DetailHeader title="探す" />
         <EmptyState
           title="分類が見つかりません"
           description="前の画面へ戻って、別の分類を選んでください。"
@@ -52,7 +51,6 @@ export default function GuidedTopicScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <DetailHeader title="探す" />
 
       <View style={styles.chapterShell}>
         <View style={styles.chapterPanel}>

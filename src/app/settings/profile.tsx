@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAuth, type ProfileImageUpload } from '@/auth/auth-state';
-import { AppText, DetailHeader, Screen } from '@/components/ui';
+import { AppText, Screen } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 
 function suggestedName(email?: string | null) {
@@ -53,7 +53,6 @@ export default function ProfileSettingsScreen() {
 
   return (
     <Screen contentContainerStyle={styles.content}>
-      <DetailHeader title="プロフィール" />
       {!user ? (
         <View style={styles.card}>
           <AppText variant="serif" style={styles.title}>ログインしてプロフィールをつくる</AppText>

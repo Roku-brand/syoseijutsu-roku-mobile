@@ -7,6 +7,7 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { learningCases, learningStages } from '@/data/learning';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
+import { FREE_LEARNING_CASE_IDS } from '@/access/access-config';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 
 export default function LearnHomeScreen() {
@@ -29,18 +30,18 @@ export default function LearnHomeScreen() {
     <BookScreen scroll={false} contentContainerStyle={[styles.content, { paddingTop: verticalPadding, paddingBottom: verticalPadding }]}>
       <View style={[styles.intro, density !== 'normal' && styles.introCompact]}>
         <AppText style={styles.introTitle}>3つのステージで実践力を磨く</AppText>
-        <AppText style={styles.introBody}>全21ケースを通して、知恵をあなたの力に。</AppText>
+        <AppText style={styles.introBody}>全{learningCases.length}ケースを通して、知恵をあなたの力に。</AppText>
       </View>
       <View style={[styles.sectionHeader, density !== 'normal' && styles.sectionHeaderCompact]}>
         <AppText style={styles.sectionLabel}>ステージを選ぶ</AppText>
-        <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : 7}ケース利用可能</AppText>
+        <AppText style={styles.sectionCount}>{isPaid ? learningCases.length : FREE_LEARNING_CASE_IDS.length}ケース利用可能</AppText>
       </View>
 
       <View style={[styles.stageList, { gap: sectionGap, marginTop: sectionGap }]}>
         {learningStages.map((stage) => {
           const cases = learningCases.filter((item) => item.stage === stage.number);
           const locked = !isPaid && stage.number > 1;
-          const caseCount = cases.length || 7;
+          const caseCount = cases.length;
           const completeCount = locked ? 0 : cases.filter((item) => learningRecords[item.id]).length;
           return (
             <View
