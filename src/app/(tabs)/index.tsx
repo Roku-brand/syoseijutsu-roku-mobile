@@ -380,6 +380,14 @@ export default function MainScreen() {
   };
 
   const openWhenCentered = (physicalIndex: number, logicalIndex: number, open: () => void) => {
+    // The active card can be rendered before the browser has finished applying
+    // the initial/programmatic scroll offset.  It is already the selected
+    // logical item in that case, so do not require a second click just because
+    // the physical copy has not caught up yet.
+    if (logicalIndex === activeIndexRef.current) {
+      open();
+      return;
+    }
     if (physicalIndex !== physicalIndexRef.current) {
       focusPhysicalItem(physicalIndex, logicalIndex);
       return;
