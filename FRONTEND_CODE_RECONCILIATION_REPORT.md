@@ -61,16 +61,21 @@
 ## 検証結果
 
 - TypeScript: `pnpm typecheck` 成功。
-- Production build: `pnpm export:pages` 成功。1080静的ルートをexportし、Pages fallbackとSEO assetを生成。
-- 公開build監査: `node scripts/audit-public-build.mjs` 成功。1116ファイルを確認。
-- E2E: `pnpm test:e2e --reporter=line`、45/45成功。同期済み理論データのタイトルを固定値で期待していた既存テストは、現行UIの構造（非空・2行以内・作者名非表示）を検証する形へ整理した。
+- Production build: `pnpm export:pages` 成功。学習ケースの静的直リンクを含む静的ルート、Pages fallback、SEO assetを生成。
+- 公開build監査: `node scripts/audit-public-build.mjs` 成功。1123ファイルを確認。
+- E2E: `pnpm test:e2e --workers=1 --reporter=line`、45/45成功。同期済み理論データのタイトルを固定値で期待していた既存テストは、現行UIの構造（非空・2行以内・作者名非表示）を検証する形へ整理した。
 - Lint: `package.json` に `lint` scriptがなく、`pnpm lint` は実行不能。今回、UI整理の範囲を越えてLint基盤を新設していない。
 - `git diff --check`: 成功。
 - 既存Chrome実査では、PC・スマホの主要画面、直接URL、戻る導線、ロック表示、理論・処世術詳細、購買遷移、プライバシー直リンクを確認した。
 
 ## 本番確認結果
 
-デプロイ後に同じPC・スマホ寸法で、Welcome、無料版開始、購買ページ、ホーム、探す、学ぶ、マイページ、カテゴリ、テーマ、人物像一覧、処世術1件、理論 `kb_070`、学習ケース1件、`/legal/privacy` を再確認する。特に `kb_070` から「役割と期待を明示する」へ遷移できることを確認対象とする。
+既存のGitHub Actions run `33276316273`（commit `686fb83`）が成功し、Pagesへ公開された。1440×900と390×844のChrome新規タブで、Welcome、無料版開始、購買ページ、ホーム、探す、学ぶ、マイページ、カテゴリ、テーマ、人物像一覧、処世術詳細（`master336-001`）、理論詳細（`kb_070`）、学習ケース（`case-01`）、`/legal/privacy` を再確認した。
+
+- Welcomeの「完全版を購入する」→ `/upgrade`、「無料ではじめる」→ `/` を確認。
+- `kb_070` の「役割と期待を明示する」→ `/card/master336-154`、そこからブラウザの戻る操作で `/theory/kb_070` に戻れることを確認。
+- `case-01` の直接URLと更新後表示で `CASE 01 / 21` と本文を確認し、React #418・hydration errorは発生しなかった。
+- 新規タブの主要ルートでconsole errorは0件。既存セッションがオーナー・完全版のため、無料版のロック表示は既存E2E（45/45）で確認した。
 
 ## 残課題とリスク
 
