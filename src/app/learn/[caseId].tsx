@@ -7,6 +7,7 @@ import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/them
 import { getChoiceReview, getLearningCase, learningCases, type LearningCase, type LearningChoice } from '@/data/learning';
 import { techniqueById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
+import { COMPLETE_LEARNING_CASE_COUNT } from '@/access/access-config';
 
 export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
@@ -41,7 +42,7 @@ export default function LearningCaseScreen() {
   return (
     <BookScreen scroll={Boolean(record)} contentContainerStyle={[styles.content, !record && styles.questionContent]}>
       <View style={styles.positionRow}>
-        <AppText style={styles.position}>CASE {String(item.number).padStart(2, '0')} / {learningCases.length}</AppText>
+        <AppText style={styles.position}>CASE {String(item.number).padStart(2, '0')} / {COMPLETE_LEARNING_CASE_COUNT}</AppText>
         <AppText style={styles.stage}>STAGE {String(item.stage).padStart(2, '0')}</AppText>
       </View>
       <View style={styles.headingRule} />
