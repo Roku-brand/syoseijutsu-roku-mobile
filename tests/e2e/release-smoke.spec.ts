@@ -545,6 +545,50 @@ test('ホームの全人物像カードは処世術ではなく指定スロー�
   }
 });
 
+test('ホームの人物像リールは分類の境界を越えて連続し、末尾から先頭へ戻る', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+
+  const activeCard = page.getByTestId('home-editorial-persona-card-active');
+  const next = page.getByRole('button', { name: '次のカードへ' });
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+
+  for (let index = 0; index < 13; index += 1) {
+    await next.click();
+  }
+  await expect(activeCard).toHaveAttribute('aria-label', '仕事ができる人を詳しく見る');
+  await expect(page.getByText(/人物像 14 \/ 26/).first()).toBeVisible();
+
+  for (let index = 0; index < 12; index += 1) {
+    await next.click();
+  }
+  await expect(page.getByText(/人物像 26 \/ 26/).first()).toBeVisible();
+  await next.click();
+  await expect(page.getByText('完全版で、すべての内容を読む')).toBeVisible();
+  await next.click();
+  await expect(activeCard).toHaveAttribute('aria-label', '印象がいい人を詳しく見る');
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+});
+
+test('スマホの理論リール移動後も本文エリアを横にずらさない', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+  const theoryTab = page.getByRole('tab', { name: '理論', exact: true });
+  await theoryTab.click();
+  await expect(page.getByText(/理論 06 \/ 45/).first()).toBeVisible();
+  const before = await theoryTab.boundingBox();
+  await page.getByRole('button', { name: '次のカードへ' }).click();
+  await expect(page.getByText(/理論 07 \/ 45/).first()).toBeVisible();
+  const after = await theoryTab.boundingBox();
+  const noHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
+  expect(before).not.toBeNull();
+  expect(after).not.toBeNull();
+  expect(Math.abs(after!.x - before!.x)).toBeLessThanOrEqual(2);
+  expect(noHorizontalOverflow).toBe(true);
+});
+
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);

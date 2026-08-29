@@ -6,12 +6,6 @@ const failures = [];
 const ids = new Set();
 const cardKeys = new Set();
 
-for (const category of source.categories) {
-  for (const persona of category.subcategories) {
-    if (persona.items.length > 20) failures.push(`${category.name} / ${persona.name} exceeds the 20-card limit.`);
-  }
-}
-
 for (const card of cards) {
   if (ids.has(card.id)) failures.push(`Duplicate id: ${card.id}`);
   ids.add(card.id);

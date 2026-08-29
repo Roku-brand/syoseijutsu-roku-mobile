@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   content: { width: '100%', flexGrow: 1 },
   contentCompact: { paddingBottom: 96 },
   page: { width: '100%', maxWidth: 1240, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
-  pageCompact: { flexGrow: 0, paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
+  pageCompact: { flex: 0, flexGrow: 0, paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
   listSheet: {
     width: '100%',
     flex: 1,
@@ -131,9 +131,9 @@ const styles = StyleSheet.create({
     borderColor: '#DED8CF',
     backgroundColor: 'rgba(255, 253, 249, 0.42)',
   },
-  listSheetCompact: { flexDirection: 'column', flexGrow: 0 },
+  listSheetCompact: { flex: 0, flexDirection: 'column', flexGrow: 0 },
   column: { flex: 1, minWidth: 0 },
-  columnCompact: { width: '100%', flexGrow: 0 },
+  columnCompact: { width: '100%', flex: 0, flexGrow: 0 },
   columnDivided: { borderLeftWidth: 1, borderLeftColor: '#DED8CF' },
   techniqueRow: {
     minWidth: 0,

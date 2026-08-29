@@ -49,7 +49,6 @@ splitPersona('仕事術', '交渉がうまい人');
   const { persona } = getPersona('仕事術', 'タスク処理がうまい人');
   const removed = new Set(['中断した場所を残しておく', '疲れる前提で予定を組む']);
   persona.items = persona.items.filter((item) => !removed.has(item.title)).map((item, order) => ({ ...item, displayOrder: order + 1 }));
-  if (persona.items.length !== 20) throw new Error('Task-processing persona must have 20 cards after removal.');
 }
 {
   const { persona } = getPersona('対人術', '人を動かせる人');
@@ -57,12 +56,10 @@ splitPersona('仕事術', '交渉がうまい人');
   persona.items = leadershipCards.map(([title, essence, explanation, importance], index) => ({ id: `leadership-${String(index + 1).padStart(2, '0')}`, field: '対人術', persona: '人を動かせる人', title, essence, explanation, importance, relatedTheoryIds: [], subtitle: essence, displayOrder: index + 1, status: 'published' }));
 }
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
-const overLimit = catalog.categories.flatMap((category) => category.subcategories).filter((persona) => persona.items.length > 20).map((persona) => `${persona.name}: ${persona.items.length}`);
-if (overLimit.length) throw new Error(`Persona card limit exceeded: ${overLimit.join(', ')}`);
 if (new Set(cards.map((card) => card.id)).size !== cards.length) throw new Error('Technique ids must remain unique.');
 await writeFile(techniquesPath, `${JSON.stringify(catalog, null, 2)}\n`, 'utf8');
 const metadata = JSON.parse(await readFile(metadataPath, 'utf8'));
 metadata.techniqueCount = cards.length;
 metadata.personaCount = catalog.categories.reduce((total, category) => total + category.subcategories.length, 0);
 await writeFile(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`, 'utf8');
-console.log(JSON.stringify({ techniques: cards.length, personas: metadata.personaCount, maxPerPersona: 20 }, null, 2));
+console.log(JSON.stringify({ techniques: cards.length, personas: metadata.personaCount }, null, 2));

@@ -127,10 +127,12 @@ function formatTheoryCoverSummary(value: string) {
 
 function getEditorialTheoryTitleSize(title: string, width: number, compact: boolean) {
   const characters = Math.max([...title].length, 1);
-  const availableWidth = compact ? width - 56 : width * 0.7 - 152;
+  const availableWidth = compact ? width * 0.7 : width * 0.52;
   const maximum = compact ? 24 : 42;
-  const minimum = compact ? 20 : 31;
-  return Math.max(minimum, Math.min(maximum, Math.floor(availableWidth / characters)));
+  const minimum = compact ? 13 : 18;
+  const targetLines = compact ? 5 : 4;
+  const estimatedSize = Math.floor((availableWidth * targetLines) / (characters * 0.9));
+  return Math.max(minimum, Math.min(maximum, estimatedSize));
 }
 
 function getEditorialTheoryCode(theory: TheoryCard) {
@@ -207,12 +209,21 @@ export default function MainScreen() {
       // 画面をスクロールさせずに自然な密度で収まる。
       ? density === 'veryCompact' ? 210 : density === 'compact' ? 242 : 312
       : density === 'veryCompact' ? 218 : density === 'compact' ? 250 : 304;
+  const theoryTitleLength = reelType === 'theories'
+    ? Math.max(...visibleTheoryCards.map((card) => [...card.title].length), 0)
+    : 0;
+  const theorySummaryLength = reelType === 'theories'
+    ? Math.max(...visibleTheoryCards.map((card) => getTheoryCoverSummary(card.summary, card.definition ?? '').length), 0)
+    : 0;
+  const theoryCardExtraHeight = reelType === 'theories'
+    ? Math.min(128, Math.max(0, theoryTitleLength - 28) * 2 + Math.max(0, theorySummaryLength - 36) * 3)
+    : 0;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
     // Reserve only the controls that are actually below the reel.  On a
     // normal iPhone this lets the home card use the available screen instead
     // of leaving a blank band above the persistent navigation.
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 350) : (isPaid ? 388 : 368))),
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 350) : (isPaid ? 388 : 368))) + theoryCardExtraHeight,
   );
   const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   // Keep a real strip of paper between cards. The gap is part of the item
@@ -319,40 +330,26 @@ export default function MainScreen() {
   }, [baseReelItems.length, reelScrollX, reelType, reelWidth]);
 
   const moveTo = (index: number, animated = true) => {
-    const nextIndex = Math.max(0, Math.min(index, baseReelItems.length - 1));
+    if (baseReelItems.length === 0) return;
+    const nextIndex = ((index % baseReelItems.length) + baseReelItems.length) % baseReelItems.length;
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
-    const physicalIndex = getCentralPhysicalIndex(nextIndex);
+    const centralPhysicalIndex = getCentralPhysicalIndex(nextIndex);
+    const physicalCandidates = [
+      centralPhysicalIndex - baseReelItems.length * 2,
+      centralPhysicalIndex - baseReelItems.length,
+      centralPhysicalIndex,
+      centralPhysicalIndex + baseReelItems.length,
+      centralPhysicalIndex + baseReelItems.length * 2,
+    ].filter((candidate) => candidate >= 0 && candidate < reelItems.length);
+    const currentPhysicalIndex = physicalIndexRef.current;
+    const physicalIndex = physicalCandidates.reduce((closest, candidate) =>
+      Math.abs(candidate - currentPhysicalIndex) < Math.abs(closest - currentPhysicalIndex) ? candidate : closest,
+    );
     physicalIndexRef.current = physicalIndex;
     latestScrollOffsetRef.current = physicalIndex * reelWidth;
     scrollToPhysicalIndex(physicalIndex, animated);
     void Haptics.selectionAsync().catch(() => undefined);
-  };
-
-  const moveWithinActiveCategory = (direction: -1 | 1) => {
-    const current = baseReelItems[activeIndexRef.current];
-    if (!current || current.kind === 'upgrade') {
-      moveTo(activeIndexRef.current + direction);
-      return;
-    }
-
-    const categoryId = current.kind === 'persona'
-      ? current.persona.category
-      : current.card.categoryId;
-    const categoryIndexes = baseReelItems.reduce<number[]>((indexes, item, index) => {
-      const matches = item.kind === 'persona'
-        ? item.persona.category === categoryId
-        : item.kind === 'theory'
-          ? item.card.categoryId === categoryId
-          : false;
-      if (matches) indexes.push(index);
-      return indexes;
-    }, []);
-    if (categoryIndexes.length < 2) return;
-
-    const currentPosition = Math.max(categoryIndexes.indexOf(activeIndexRef.current), 0);
-    const nextPosition = (currentPosition + direction + categoryIndexes.length) % categoryIndexes.length;
-    moveTo(categoryIndexes[nextPosition]);
   };
 
   const focusPhysicalItem = (physicalIndex: number, logicalIndex: number) => {
@@ -637,8 +634,8 @@ export default function MainScreen() {
               accessibilityRole="button"
               accessibilityLabel="前のカードへ"
               hitSlop={10}
-              onPress={() => moveWithinActiveCategory(-1)}
-              style={({ pressed }) => [styles.reelArrow, styles.reelArrowLeft, pressed && styles.reelArrowPressed]}
+              onPress={() => moveTo(activeIndexRef.current - 1)}
+              style={({ pressed }) => [styles.reelArrow, styles.reelArrowLeft, !desktop && styles.reelArrowLeftCompact, pressed && styles.reelArrowPressed]}
             >
               <AppText style={styles.reelArrowText}>‹</AppText>
             </Pressable>
@@ -646,8 +643,8 @@ export default function MainScreen() {
               accessibilityRole="button"
               accessibilityLabel="次のカードへ"
               hitSlop={10}
-              onPress={() => moveWithinActiveCategory(1)}
-              style={({ pressed }) => [styles.reelArrow, styles.reelArrowRight, pressed && styles.reelArrowPressed]}
+              onPress={() => moveTo(activeIndexRef.current + 1)}
+              style={({ pressed }) => [styles.reelArrow, styles.reelArrowRight, !desktop && styles.reelArrowRightCompact, pressed && styles.reelArrowPressed]}
             >
               <AppText style={styles.reelArrowText}>›</AppText>
             </Pressable>
@@ -697,7 +694,11 @@ export default function MainScreen() {
               ? physicalIndex % baseReelItems.length
               : 0;
             const curvedItemStyle = getCurvedReelItemStyle(physicalIndex);
-            const isCentered = physicalIndex === getCentralPhysicalIndex(activeIndex);
+            // Arrow navigation may intentionally use the nearest repeated copy
+            // at a category/catalogue boundary. The physical target, rather
+            // than only the logical centre-copy index, is the card actually
+            // visible in the middle of the viewport.
+            const isCentered = physicalIndex === physicalIndexRef.current;
           if (reelItem.kind === 'upgrade') {
             return (
               <Animated.View style={[styles.reelItem, { width: reelWidth }, curvedItemStyle]}>
@@ -1018,8 +1019,8 @@ function EditorialTheoryCard({
         <AppText variant="label" style={styles.editorialEyebrow}>{theory.categoryTitle}</AppText>
         <AppText variant="serif" style={styles.editorialTheoryCode}>{code}</AppText>
         <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
-        <AppText variant="serif" numberOfLines={compact ? 2 : 1} style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
-        <AppText variant="serif" numberOfLines={compact ? 2 : 3} style={styles.editorialTheorySummary}>{summary}</AppText>
+        <AppText variant="serif" style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
+        <AppText variant="serif" style={styles.editorialTheorySummary}>{summary}</AppText>
       </View>
       <View style={[styles.editorialTheoryFooter, compact && styles.editorialTheoryFooterCompact]}>
         <View style={[styles.editorialTextCta, styles.editorialTheoryCta, compact && styles.editorialTextCtaCompact]}>
@@ -1069,6 +1070,8 @@ const styles = StyleSheet.create({
   reelArrow: { position: 'absolute', top: '50%', zIndex: 4, width: 40, height: 50, marginTop: -25, alignItems: 'center', justifyContent: 'center' },
   reelArrowLeft: { left: -62 },
   reelArrowRight: { right: -62 },
+  reelArrowLeftCompact: { left: 0 },
+  reelArrowRightCompact: { right: 0 },
   reelArrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 42, lineHeight: 44, fontWeight: '300' },
   reelArrowPressed: { opacity: 0.58, transform: [{ scale: 0.9 }] },
   techniqueCard: {

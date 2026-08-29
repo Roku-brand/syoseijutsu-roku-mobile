@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, DetailHeader, Screen } from '@/components/ui';
 import { colors, fonts, radius, shadow } from '@/constants/theme';
@@ -13,7 +13,7 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
-  const { welcomePageHidden, setWelcomePageHidden } = useAppState();
+  const { welcomePageHidden, setWelcomePageHidden, clearPersonalData } = useAppState();
   const version = Constants.expoConfig?.version ?? '1.0.0';
 
   return (
@@ -100,6 +100,19 @@ export default function SettingsScreen() {
         <SettingLink icon="document" title="特定商取引法に基づく表記" href="/legal/commerce" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="document" title="利用規約" href="/legal/terms" onNavigate={(href) => router.push(href as never)} />
         <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink
+          icon="document"
+          title="端末内データをすべて消去"
+          detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
+          onPress={() => Alert.alert(
+            '端末内データをすべて消去',
+            'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
+            [
+              { text: 'キャンセル', style: 'cancel' },
+              { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
+            ],
+          )}
+        />
         <SettingLink icon="contact" title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
         <SettingLink icon="brand" title="処世術禄について" href="/legal/about" onNavigate={(href) => router.push(href as never)} last />
       </View>

@@ -77,6 +77,7 @@ export default function LearnHomeScreen() {
                         key={`${stage.number}-${index}`}
                         accessibilityRole="button"
                         accessibilityLabel={`ステージ${stage.number}、ケース${index + 1}${complete ? '、解答済み。もう一度解く' : ''}`}
+                        hitSlop={14}
                         disabled={locked || !item}
                         onPress={() => item && openCase(stage.number, item.id)}
                         style={({ pressed }) => [styles.dot, complete && styles.dotComplete, pressed && styles.dotPressed]}

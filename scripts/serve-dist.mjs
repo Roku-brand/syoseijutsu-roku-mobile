@@ -26,12 +26,17 @@ const server = createServer(async (request, response) => {
   }
   const info = await stat(filePath).catch(() => null);
   if (!info?.isFile()) {
-    const htmlPath = `${filePath}.html`;
-    const htmlInfo = await stat(htmlPath).catch(() => null);
-    if (htmlInfo?.isFile()) filePath = htmlPath;
+    const indexPath = path.join(filePath, 'index.html');
+    const indexInfo = await stat(indexPath).catch(() => null);
+    if (info?.isDirectory() && indexInfo?.isFile()) filePath = indexPath;
     else {
-      response.writeHead(404).end('Not found');
-      return;
+      const htmlPath = `${filePath}.html`;
+      const htmlInfo = await stat(htmlPath).catch(() => null);
+      if (htmlInfo?.isFile()) filePath = htmlPath;
+      else {
+        response.writeHead(404).end('Not found');
+        return;
+      }
     }
   }
   response.writeHead(200, { 'Content-Type': contentTypes[path.extname(filePath)] ?? 'application/octet-stream' });
