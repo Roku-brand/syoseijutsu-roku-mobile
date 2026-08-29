@@ -83,7 +83,7 @@ export default function Welcome() {
                 <View testID="welcome-stats" style={[styles.stats, desktop && styles.statsDesktop]}>
                   <Stat icon="◎" number="26" label="人物像" description="理想の人物像から\n自分のあり方を理解できる" />
                   <Stat icon="▣" number="336" label="処世術" description="今日から使える具体的な知恵で\n行動を変えられる" />
-                  <Stat icon="◈" number="541" label="理論" description="心理学・行動科学・組織論などの\n学術知見に基づいて理解が深まる" last />
+                    <Stat icon="◈" number="630" label="理論" description="心理学・行動科学・組織論などの\n学術知見に基づいて理解が深まる" last />
                 </View>
                 {!desktop ? <WelcomeSteps compact={compact} /> : null}
                 <AppText variant="serif" style={[styles.systemMessage, desktop && styles.systemMessageDesktop]}>体系的に学び、人生に活かすことができる。</AppText>
