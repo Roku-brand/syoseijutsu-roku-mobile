@@ -130,6 +130,59 @@ const patternRules = [
   [/学び|能力|スキル/, ['kb_571', 'kb_584', 'kb_585']],
 ];
 
+// Maxims are not ordinary keyword matches: for the life-practice cards they
+// often provide the most direct statement of the decision rule. Keep these
+// semantic anchors separate from the general theory heuristics so that a
+// useful maxim is not discarded merely because its wording differs from the
+// technique title. The newer quotation set is intentionally scoped to life
+// practice; the older cross-domain maxims are allowed to support work and
+// interpersonal cards as well.
+const maximRules = [
+  { pattern: /親切|助け|恩|貢献|人との縁|人脈|信頼|人を大切|他者|社会の役/, theoryIds: ['kb_296', 'kb_658', 'kb_674'] },
+  { pattern: /親し|馴れ|礼儀|境界|距離|雑に扱|軽く扱|大切な人/, theoryIds: ['kb_300', 'kb_666'] },
+  { pattern: /対立|衝突|困難|挫折|失敗|修復|立ち直|関係を長/, theoryIds: ['kb_301', 'kb_683', 'kb_697'] },
+  { pattern: /着手|始め|完璧|完成|公開|小さく試|先送り|期限|決断/, theoryIds: ['kb_324', 'kb_329', 'kb_330', 'kb_648'] },
+  { pattern: /継続|続け|習慣|積み重|毎日|長く|蓄積|複利/, theoryIds: ['kb_327', 'kb_640', 'kb_669'] },
+  { pattern: /不安|心配|怖|恐れ|立ち止|動け|小さく試/, theoryIds: ['kb_335', 'kb_650', 'kb_661', 'kb_662'] },
+  { pattern: /未来|不安|心配|休|今を|過去|後悔|焦/, theoryIds: ['kb_336', 'kb_641', 'kb_651', 'kb_693'] },
+  { pattern: /人生の柱|一つの目標|一点|分散|複数|賭け|リスク|選択肢/, theoryIds: ['kb_359'] },
+  { field: '人生術', pattern: /時間|期限|今しか|先送り|人生の終わり|後悔|大切なこと/, theoryIds: ['kb_635', 'kb_682'] },
+  { field: '人生術', pattern: /経験|振り返|無駄|意味|失敗|過去|道/, theoryIds: ['kb_633', 'kb_638', 'kb_643', 'kb_667'] },
+  { field: '人生術', pattern: /他人|比較|羨|正解|自分|価値観|期待|自分ら/, theoryIds: ['kb_338', 'kb_634', 'kb_644', 'kb_654'] },
+  { field: '人生術', pattern: /失敗|挫折|一つ|人生全体|大きな出来事|拡大|喪失/, theoryIds: ['kb_637', 'kb_639', 'kb_675', 'kb_683'] },
+  { field: '人生術', pattern: /継続|努力|習慣|自己管理|才能|能力|改善|成長|強み/, theoryIds: ['kb_640', 'kb_646', 'kb_684'] },
+  { field: '人生術', pattern: /休|健康|忙|余白|充実|時間/, theoryIds: ['kb_641', 'kb_671'] },
+  { field: '人生術', pattern: /自己開示|弱み|傷つ|本音|演じ|自然体|挑戦/, theoryIds: ['kb_642', 'kb_659', 'kb_660'] },
+  { field: '人生術', pattern: /結果|今でき|行動|集中|評価|目標|仕事/, theoryIds: ['kb_645', 'kb_656'] },
+  { field: '人生術', pattern: /考えすぎ|決断|期限|迷|完璧|選択|納得/, theoryIds: ['kb_647', 'kb_695'] },
+  { field: '人生術', pattern: /困難|問題|工夫|知恵|限界|仕事/, theoryIds: ['kb_649', 'kb_655'] },
+  { field: '人生術', pattern: /違う|異|強み|希少|比較|得意|適性|戦う場所/, theoryIds: ['kb_652', 'kb_653', 'kb_684'] },
+  { field: '人生術', pattern: /環境|場所|停滞|相性|キャラクター|肩書|変える/, theoryIds: ['kb_331', 'kb_653', 'kb_694'] },
+  { field: '人生術', pattern: /努力|縛|過去|道|選択|先送り|進路/, theoryIds: ['kb_665', 'kb_657'] },
+  { field: '人生術', pattern: /好き|関心|熱意|好奇心|趣味|本音|面白|楽しい/, theoryIds: ['kb_668', 'kb_672', 'kb_689'] },
+  { field: '人生術', pattern: /可能性|安全|挑戦|未来|縮|選択肢|機会/, theoryIds: ['kb_650', 'kb_670', 'kb_673'] },
+  { field: '人生術', pattern: /失敗|試行|成功|挑戦|本気|学び|経験/, theoryIds: ['kb_636', 'kb_663', 'kb_688', 'kb_669'] },
+  { field: '人生術', pattern: /欲|本気|恥|挑戦|目標/, theoryIds: ['kb_672', 'kb_673'] },
+  { field: '人生術', pattern: /居場所|合わせ|自然体|本当の自分|認め|自己価値|期待/, theoryIds: ['kb_659', 'kb_660'] },
+  { field: '人生術', pattern: /喪失|失|残|回復|立ち直|欠|感謝/, theoryIds: ['kb_675', 'kb_696'] },
+  { field: '人生術', pattern: /記憶|影響|忘れ|貢献|人との/, theoryIds: ['kb_676', 'kb_674'] },
+  { field: '人生術', pattern: /険|逃|困難|成長|諦め|大切なもの/, theoryIds: ['kb_677', 'kb_678', 'kb_681'] },
+  { field: '人生術', pattern: /ルール|仲間|形式|規則|組織/, theoryIds: ['kb_679'] },
+  { field: '人生術', pattern: /自分を信じ|自己価値|諦め|可能性|能力|比較/, theoryIds: ['kb_680', 'kb_691', 'kb_692'] },
+  { field: '人生術', pattern: /今|機会|時間|先送り|集中|未来/, theoryIds: ['kb_682', 'kb_651'] },
+  { field: '人生術', pattern: /敗|明日|未来|変|挫折|立ち直/, theoryIds: ['kb_686'] },
+  { field: '人生術', pattern: /逃|後悔|問題|先送り|不安/, theoryIds: ['kb_687'] },
+  { field: '人生術', pattern: /自分|恐れ|迷|不安|障害/, theoryIds: ['kb_690'] },
+  { field: '人生術', pattern: /手放|執着|変|選択|代償|コスト/, theoryIds: ['kb_694', 'kb_698'] },
+  { field: '人生術', pattern: /痛|苦|教訓|失敗|挫折|学び/, theoryIds: ['kb_697', 'kb_643'] },
+  { field: '人生術', pattern: /代償|コスト|選択|努力|時間/, theoryIds: ['kb_698'] },
+  { field: '人生術', pattern: /過程|経過|結果|学び|人生|寄り道|余白|体験/, theoryIds: ['kb_699', 'kb_700'] },
+  { field: '人生術', pattern: /人生|生き|困難|覚悟/, theoryIds: ['kb_701', 'kb_702'] },
+  { field: '人生術', pattern: /なんとなく|目的|意思|時間|生き/, theoryIds: ['kb_703'] },
+  { field: '人生術', pattern: /トラウマ|過去|傷|回復|支配/, theoryIds: ['kb_704'] },
+  { field: '人生術', pattern: /焦|急|行動|落ち着|テンポ|余白/, theoryIds: ['kb_705'] },
+];
+
 function parseTechniqueSource(filePath) {
   if (!fs.existsSync(filePath)) return null;
   const text = fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '').replace(/\r/g, '');
@@ -227,6 +280,25 @@ for (const card of cards) {
     if (!pattern.test(text)) continue;
     for (const theoryId of theoryIds) addCandidate(card.id, theoryId, 2.2, '本文の作用点に対応する概念');
   }
+  for (const rule of maximRules) {
+    if (rule.field && rule.field !== card.field) continue;
+    if (rule.persona && rule.persona !== card.persona) continue;
+    // A maxim rule must be signalled by the technique title itself. This
+    // keeps broad explanatory words such as 「人生」「過去」「失敗」 from
+    // attaching the same quotation to an entire section.
+    if (!rule.pattern.test(card.title)) continue;
+    for (const theoryId of rule.theoryIds) {
+      const theory = theoryById.get(theoryId);
+      if (!theory) continue;
+      // A semantic rule is only an invitation to inspect a maxim. Require a
+      // second, title/summary-level affinity signal before retaining it, so a
+      // generic word such as 「失敗」 cannot attach every failure quotation to
+      // every resilience card.
+      const affinity = cosine(grams(card.title), grams(`${theory.title} ${theory.summary}`));
+      if (affinity < 0.08) continue;
+      addCandidate(card.id, theoryId, 2.8 + affinity * 7, '格言の個別意味監査で採用');
+    }
+  }
   if (legacyCards.length) {
     const rankedLegacy = legacyCards.filter((legacy) => legacy.field === card.field && legacy.persona === card.persona).map((legacy) => ({
       legacy,
@@ -252,7 +324,7 @@ for (const card of cards) {
     .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   if (!ranked.length) throw new Error(`No candidates for ${card.id}`);
   const top = ranked[0].score;
-  let selected = ranked.filter((entry) => entry.evidence.has('既存の手動紐づけ') || entry.evidence.has('過去の個別監査で採用') || entry.evidence.has('古典・格言の個別監査で採用') || (entry.score >= Math.max(1.25, top * 0.58) && entry.score >= 1.7));
+  let selected = ranked.filter((entry) => entry.evidence.has('既存の手動紐づけ') || entry.evidence.has('過去の個別監査で採用') || entry.evidence.has('古典・格言の個別監査で採用') || entry.evidence.has('格言の個別意味監査で採用') || (entry.score >= Math.max(1.25, top * 0.58) && entry.score >= 1.7));
   if (!selected.length) selected = [ranked[0]];
   initialLinks.set(card.id, selected.map((entry) => entry.id));
 }
@@ -309,6 +381,9 @@ for (const count of techniqueCounts) {
 }
 
 function relationReason(card, theory) {
+  if (theory.sourceType === '格言・経験則・作品') {
+    return `格言「${theory.title}」が示す判断軸が、この処世術の本質・実践条件・注意点を直接補強するため。`;
+  }
   const text = `${card.title} ${card.essence} ${card.explanation}`;
   const matched = patternRules.find(([pattern]) => pattern.test(text));
   const focus = matched ? matched[0].source.replaceAll('|', '・') : '処世術の本文';
