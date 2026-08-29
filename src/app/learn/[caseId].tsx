@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, layout, radius, shadow, spacing } from '@/constants/theme';
-import { getChoiceReview, getLearningCase, learningCases, type LearningCase, type LearningChoice } from '@/data/learning';
+import { getChoiceReview, learningCases, type LearningCase, type LearningChoice } from '@/data/learning';
 import { techniqueById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { COMPLETE_LEARNING_CASE_COUNT } from '@/access/access-config';
@@ -12,7 +12,10 @@ import { COMPLETE_LEARNING_CASE_COUNT } from '@/access/access-config';
 export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
-  const item = getLearningCase(caseId ?? '');
+  // Keep the data used by the first render stable while paid content may be
+  // hydrated into the shared catalogue in the background.
+  const [caseList] = useState<LearningCase[]>(() => [...learningCases]);
+  const item = caseList.find((candidate) => candidate.id === (caseId ?? ''));
   const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
   const [retryPending, setRetryPending] = useState(retry === '1');
 
@@ -31,8 +34,8 @@ export default function LearningCaseScreen() {
   const selectedChoice = item.choices.find((choice) => choice.id === selected);
   const selectedReview = selectedChoice ? getChoiceReview(item, selectedChoice) : null;
   const isBestMove = selected === item.goodChoiceId;
-  const next = learningCases.find((candidate) => candidate.stage === item.stage && candidate.number === item.number + 1)
-    ?? learningCases.find((candidate) => candidate.stage === item.stage + 1);
+  const next = caseList.find((candidate) => candidate.stage === item.stage && candidate.number === item.number + 1)
+    ?? caseList.find((candidate) => candidate.stage === item.stage + 1);
 
   const openNext = () => {
     if (next) router.replace(`/learn/${next.id}`);
