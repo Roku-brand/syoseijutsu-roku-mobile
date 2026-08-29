@@ -5,7 +5,7 @@ export const THEORY_CATEGORY_LABELS: Record<string, string> = {
   'behavioral-science': '行動科学',
   'organization-management': '組織・経営論',
   strategy: '戦略',
-  'classics-thought': '古典・思想',
+  'classics-thought': '古典',
   'maxims-experience': '格言',
 };
 

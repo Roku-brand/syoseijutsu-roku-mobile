@@ -28,10 +28,12 @@ test('welcome presents both entry actions on desktop and mobile', async ({ page 
   expect(stats?.width).toBeGreaterThan(700);
   expect(steps?.width).toBeGreaterThan(300);
   expect(steps?.width).toBeLessThan(420);
+  expect(await page.getByTestId('welcome-stats').innerText()).not.toContain('\\n');
 
   await page.setViewportSize({ width: 393, height: 667 });
   await page.reload();
   await assertWelcomeFits();
+  expect(await page.getByTestId('welcome-stats').innerText()).not.toContain('\\n');
 });
 
 test('settings can hide the recurring welcome page', async ({ page }) => {
@@ -393,6 +395,18 @@ test('スマホの理論ショートカット6件と無料版ロック表示を�
   }
 });
 
+test('理論カテゴリの表示名を格言・組織経営論・古典へ統一する', async ({ page }) => {
+  for (const [category, label, oldLabel] of [
+    ['maxims-experience', '格言', '格言・経験則・作品'],
+    ['organization-management', '組織・経営論', '組織・経営'],
+    ['classics-thought', '古典', '古典・思想'],
+  ] as const) {
+    await page.goto('/theories/' + category);
+    await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
+    await expect(page.getByText(oldLabel, { exact: true })).toHaveCount(0);
+  }
+});
+
 test('理論カードは人物像カードと同じ大きさで、格言の作者名を省き、タイトルを2行以内に収める', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
@@ -426,6 +440,8 @@ test('理論カードは人物像カードと同じ大きさで、格言の作�
   expect(titleInfo.lineCount).toBeLessThanOrEqual(2);
   expect(titleInfo.text).toContain('点と点は');
   expect(titleInfo.text).not.toContain('—');
+  await expect(theoryCard).toContainText('格言');
+  await expect(theoryCard).not.toContainText('格言・経験則・作品');
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 
   for (const label of ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言']) {

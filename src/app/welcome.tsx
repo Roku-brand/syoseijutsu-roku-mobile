@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
+import { normalizeDisplayText } from '@/data/theory-display';
 import { useAppState } from '@/state/app-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -81,9 +82,9 @@ export default function Welcome() {
             <View style={[styles.overviewBody, desktop && styles.overviewBodyDesktop]}>
               <View style={styles.statsArea}>
                 <View testID="welcome-stats" style={[styles.stats, desktop && styles.statsDesktop]}>
-                  <Stat icon="◎" number="26" label="人物像" description="理想の人物像から\n自分のあり方を理解できる" />
-                  <Stat icon="▣" number="336" label="処世術" description="今日から使える具体的な知恵で\n行動を変えられる" />
-                    <Stat icon="◈" number="630" label="理論" description="心理学・行動科学・組織論などの\n学術知見に基づいて理解が深まる" last />
+                  <Stat icon="◎" number="26" label="人物像" description="理想の人物像から自分のあり方を理解できる" compact={compact} />
+                  <Stat icon="▣" number="336" label="処世術" description="今日から使える具体的な知恵で行動を変えられる" compact={compact} />
+                  <Stat icon="◈" number="630" label="理論" description="心理学・行動科学・組織論などの学術知見に基づいて理解が深まる" compact={compact} last />
                 </View>
                 {!desktop ? <WelcomeSteps compact={compact} /> : null}
                 <AppText variant="serif" style={[styles.systemMessage, desktop && styles.systemMessageDesktop]}>体系的に学び、人生に活かすことができる。</AppText>
@@ -166,7 +167,7 @@ function EntryMark({ type }: { type: 'free' | 'complete' }) {
 function FloatingNote({ text, tone, style }: { text: string; tone: NoteTone; style?: object }) {
   const toneStyle = tone === 'paper' ? styles.notePaper : tone === 'ink' ? styles.noteInk : styles.noteSpeech;
   return <View pointerEvents="none" style={[styles.note, toneStyle, style]}>
-    <AppText style={[styles.noteText, tone === 'ink' && styles.noteTextInk]}>{text}</AppText>
+    <AppText style={[styles.noteText, tone === 'ink' && styles.noteTextInk]}>{normalizeDisplayText(text)}</AppText>
   </View>;
 }
 
@@ -189,11 +190,11 @@ function noteStyle(position: string) {
   }
 }
 
-function Stat({ icon, number, label, description, last = false }: { icon: string; number: string; label: string; description: string; last?: boolean }) {
+function Stat({ icon, number, label, description, compact = false, last = false }: { icon: string; number: string; label: string; description: string; compact?: boolean; last?: boolean }) {
   return <View style={[styles.stat, last && styles.statLast]}>
     <View style={styles.statTop}><View style={styles.statIcon}><AppText style={styles.statIconText}>{icon}</AppText></View><AppText variant="serif" style={styles.statNumber}>{number}</AppText><AppText variant="serif" style={styles.statUnit}>の</AppText></View>
     <AppText variant="serif" style={styles.statLabel}>{label}</AppText>
-    <AppText style={styles.statDescription}>{description}</AppText>
+    <AppText style={[styles.statDescription, compact && styles.statDescriptionCompact]}>{normalizeDisplayText(description)}</AppText>
   </View>;
 }
 
@@ -202,14 +203,14 @@ function WelcomeSteps({ compact = false, desktop = false }: { compact?: boolean;
     ['◎', '人物像', '理想の人物像を知り、\n目指す方向性を定める'],
     ['◉', '処世術', '具体的な知恵を\nインプットし、実践の\nヒントを得る'],
     ['▣', '理論', 'なぜ効果があるのかを\n学び、本質を理解する'],
-    ['✓', '実践', '日常で使い、振り返ることで\n習慣として定着する'],
+    ['✓', '実践', '日常で使い、\n振り返ることで\n習慣として定着する'],
   ];
   return <View testID="welcome-steps" style={[styles.stepsWrap, compact && styles.stepsWrapCompact, desktop && styles.stepsWrapDesktop]}>
     <AppText variant="serif" style={styles.stepsHeading}>知識を、使える力に変える4ステップ</AppText>
     <View style={styles.steps}>{steps.map(([icon, title, description], index) => <View key={title} style={styles.stepItem}>
       <View style={styles.stepIcon}><AppText style={styles.stepIconText}>{icon}</AppText></View>
       <AppText variant="serif" style={styles.stepTitle}>{title}</AppText>
-      <AppText style={styles.stepDescription}>{description}</AppText>
+      <AppText style={[styles.stepDescription, compact && styles.stepDescriptionCompact]}>{normalizeDisplayText(description)}</AppText>
       {index < steps.length - 1 ? <AppText style={styles.stepArrow}>›</AppText> : null}
     </View>)}</View>
   </View>;
@@ -319,7 +320,8 @@ const styles = StyleSheet.create({
   statDescription: { marginTop: 9, color: '#423D34', fontSize: 10.5, lineHeight: 15, textAlign: 'center' },
   stepsWrap: { width: '100%', marginTop: 34 },
   stepsWrapCompact: { marginTop: 28 },
-  stepsWrapDesktop: { width: 360, flexShrink: 0, marginTop: 0 },
+  statDescriptionCompact: { fontSize: 9.2, lineHeight: 13 },
+  stepsWrapDesktop: { width: 400, flexShrink: 0, marginTop: 0 },
   stepsHeading: { color: '#292720', fontSize: 17, lineHeight: 25, textAlign: 'center', letterSpacing: 0.8 },
   steps: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginTop: 18 },
   stepItem: { flex: 1, minWidth: 0, alignItems: 'center', position: 'relative', paddingHorizontal: 2 },
@@ -327,6 +329,7 @@ const styles = StyleSheet.create({
   stepIconText: { color: '#1F201C', fontSize: 25, lineHeight: 30 },
   stepTitle: { marginTop: 7, color: '#2B2923', fontSize: 14, lineHeight: 20 },
   stepDescription: { marginTop: 5, color: '#433D33', fontSize: 9.5, lineHeight: 14, textAlign: 'center' },
+  stepDescriptionCompact: { fontSize: 8.5, lineHeight: 12 },
   stepArrow: { position: 'absolute', top: 13, right: -3, color: '#9E7C43', fontSize: 24, lineHeight: 28 },
   systemMessage: { marginTop: 29, color: '#24221D', fontSize: 21, lineHeight: 31, textAlign: 'center', letterSpacing: 0.7 },
   systemMessageDesktop: { marginTop: 26, fontSize: 27, lineHeight: 37, letterSpacing: 1.2 },

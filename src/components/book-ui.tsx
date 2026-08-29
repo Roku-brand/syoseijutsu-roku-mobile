@@ -26,6 +26,7 @@ import {
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { useAuth } from '@/auth/auth-state';
+import { getTheoryCategoryLabel } from '@/data/theory-counts';
 
 const appIcon = require('../../assets/brand/icon.png');
 
@@ -303,7 +304,7 @@ function getCurrentTitle(pathname: string) {
   if (segments[0] === 'theme') return segments[2] ?? 'テーマから探す';
   if (segments[0] === 'theories') {
     if (segments[1] === 'all') return 'すべての理論';
-    return theories.find((theory) => theory.categoryId === segments[1])?.categoryTitle ?? '理論辞典';
+    return getTheoryCategoryLabel(segments[1]);
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'goal') return '目的から探す';

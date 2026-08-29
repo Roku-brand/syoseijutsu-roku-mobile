@@ -19,7 +19,7 @@ import { AppText } from '@/components/ui';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { categories, getTheoryDisplayId, techniqueCards as catalogTechniqueCards, theories as catalogTheories } from '@/data/catalog';
-import { getTheoryCoverSummary } from '@/data/theory-display';
+import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import { FREE_THEORY_IDS, isFreePersona } from '@/access/access-config';
 import { AccessBadge } from '@/components/access-badge';
 import { useAccess } from '@/access/access-state';
@@ -101,7 +101,7 @@ const theoryShortcuts = [
 
 /** 表紙用の要約は、本文を変えずに意味の切れ目だけで改行する。 */
 function formatTheoryCoverSummary(value: string) {
-  const text = value.trim();
+  const text = normalizeDisplayText(value).replace(/\n+/g, ' ').replace(/[ \t]{2,}/g, ' ').trim();
   if (text.length < 34 || text.includes('\n')) return text;
 
   const midpoint = text.length / 2;
@@ -127,8 +127,8 @@ function formatTheoryCoverSummary(value: string) {
 
 function getEditorialTheoryTitle(theory: TheoryCard) {
   const title = theory.categoryId === 'maxims-experience'
-    ? theory.title.replace(/\s+[—–-]\s+.*$/u, '').trim()
-    : theory.title.trim();
+    ? normalizeDisplayText(theory.title).replace(/\s+[—–-]\s+.*$/u, '').trim()
+    : normalizeDisplayText(theory.title).replace(/\n+/g, ' ').trim();
   const characters = [...title];
   if (characters.length <= 24) return title;
 
@@ -155,7 +155,10 @@ function getEditorialTheoryTitleSize(title: string, width: number, compact: bool
   const availableWidth = compact ? Math.max(width - 24, 1) : Math.max(width - 48, 1);
   const maximum = compact ? 24 : 42;
   const minimum = compact ? 10 : 18;
-  const estimatedSize = Math.floor((availableWidth * 0.98) / longestLine);
+  const letterSpacing = compact ? 0.2 : 1.8;
+  // 文字間隔を含めて見積もらないと、句読点で意図的に改行した後に
+  // さらに文中で折り返されることがある。
+  const estimatedSize = Math.floor((availableWidth * 0.94) / longestLine - letterSpacing);
   return Math.max(minimum, Math.min(maximum, estimatedSize));
 }
 
@@ -1035,7 +1038,7 @@ function EditorialTheoryCard({
         <View style={[styles.editorialCenteredRule, compact && styles.editorialCenteredRuleCompact]} />
       </View>
       <View style={[styles.editorialTheoryCopy, compact && styles.editorialTheoryCopyCompact]}>
-        <AppText variant="label" style={styles.editorialEyebrow}>{theory.categoryTitle}</AppText>
+        <AppText variant="label" style={styles.editorialEyebrow}>{getTheoryCategoryLabel(theory)}</AppText>
         <AppText variant="serif" style={styles.editorialTheoryCode}>{code}</AppText>
         <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
         <AppText testID={active ? 'home-theory-title-active' : 'home-theory-title'} variant="serif" style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3), letterSpacing: titleSize <= 12 ? 0.2 : 1.8 }]}>{title}</AppText>

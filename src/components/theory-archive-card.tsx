@@ -8,7 +8,7 @@ import { SaveDiamondButton } from './book-ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
-import { getTheoryCoverSummary } from '@/data/theory-display';
+import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
 
 export function TheoryArchiveCard({
   theory,
@@ -37,7 +37,7 @@ export function TheoryArchiveCard({
           </AppText>
           <View style={styles.theoryPill}>
             <AppText variant="caption" style={styles.theoryPillText}>
-              {theory.sourceType || theory.categoryTitle}
+              {getTheoryCategoryLabel(theory)}
             </AppText>
           </View>
         </View>

@@ -14,6 +14,7 @@ import {
 } from '@/data/catalog';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { getTheoryProvenance } from '@/data/theory-sources';
+import { getTheoryCategoryLabel, normalizeDisplayText } from '@/data/theory-display';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -40,10 +41,11 @@ export default function TheoryDetailScreen() {
   const relatedTheories = getRelatedTheories(theory);
   const titleLength = [...theory.title.replace(/\s/g, '')].length;
   const titleFontSize = titleLength <= 12 ? 28 : titleLength <= 18 ? 24 : 21;
-  const explanation =
+  const explanation = normalizeDisplayText(
     theory.summary ??
     theory.definition ??
-    `${theory.discipline}に属する${theory.conceptType}です。`;
+    `${theory.discipline}に属する${theory.conceptType}です。`,
+  );
   const navigateTheory = (offset: -1 | 1) => {
     const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
     const next = theories[(currentIndex + offset + theories.length) % theories.length];
@@ -62,7 +64,7 @@ export default function TheoryDetailScreen() {
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
             <View style={styles.categoryTag}>
               <AppText style={styles.categoryTagText}>
-                {theory.sourceType || theory.categoryTitle}
+                {getTheoryCategoryLabel(theory)}
               </AppText>
             </View>
           </View>
@@ -71,7 +73,7 @@ export default function TheoryDetailScreen() {
             variant="serif"
             style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.43) }]}
           >
-            {theory.title}
+            {normalizeDisplayText(theory.title)}
           </AppText>
           <AppText style={styles.explanation}>{explanation}</AppText>
         </View>
