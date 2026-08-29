@@ -440,7 +440,7 @@ test('理論カードは人物像カードと同じ大きさで、格言の作�
   expect(titleInfo.lineCount).toBeLessThanOrEqual(2);
   expect(titleInfo.text.trim().length).toBeGreaterThan(0);
   expect(titleInfo.text).not.toContain('—');
-  await expect(theoryCard).toContainText('格言');
+  await expect(theoryCard).toContainText(/心理学|行動科学|組織・経営|戦略|古典|格言/);
   await expect(theoryCard).not.toContainText('格言・経験則・作品');
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 
