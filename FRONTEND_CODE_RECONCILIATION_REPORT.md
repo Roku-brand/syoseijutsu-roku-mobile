@@ -35,6 +35,7 @@
 - `src/app/(tabs)/index.tsx`: ホームの完全版案内に表示するケース数を学習データから導出。
 - `src/app/learn/[caseId].tsx`: 学習ケース詳細の総数表示を、公開runtimeの部分データ同期で揺れない共通の完全版件数へ統一。
 - `src/app/learn/[caseId].tsx`: 初回描画で使うケース一覧をスナップショット化し、遅延する完全版データ同期がSSR hydration中の本文を差し替えないようにした。
+- `src/app/learn/[caseId].tsx`: 全学習ケースを静的出力の対象にする `generateStaticParams` を追加し、学習ケース直リンクがPagesの404フォールバックへ落ちないようにした。
 - `src/app/category/[key].tsx`、`src/app/legal/[document].tsx`、`src/app/settings.tsx`、`src/app/settings/install.tsx`、`src/app/settings/profile.tsx`、`src/app/theme/[category]/[title].tsx`、`src/app/theories/[category].tsx`、`src/app/topic/[slug].tsx`: 表示されない冗長な `DetailHeader` 呼び出しとimportを削除。
 
 ## 削除したコード

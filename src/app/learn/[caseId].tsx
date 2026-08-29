@@ -9,6 +9,10 @@ import { techniqueById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { COMPLETE_LEARNING_CASE_COUNT } from '@/access/access-config';
 
+export function generateStaticParams() {
+  return learningCases.map(({ id: caseId }) => ({ caseId }));
+}
+
 export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
