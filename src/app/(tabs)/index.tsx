@@ -53,7 +53,7 @@ const CIRCULAR_REEL_CENTER_COPY = Math.floor(CIRCULAR_REEL_COPIES / 2);
 // The editorial home always opens each mode on the reference card.  Keeping
 // these positions explicit also prevents a prior mode's index leaking into the
 // other reel after a quick tab switch.
-const REEL_INITIAL_INDEX: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 5 };
+const REEL_INITIAL_INDEX: Record<'techniques' | 'theories', number> = { techniques: 0, theories: 0 };
 
 const PERSONA_SLOGANS: Record<string, string> = {
   '印象がいい人': '好印象をつくる方法',
@@ -125,13 +125,37 @@ function formatTheoryCoverSummary(value: string) {
   return breakAt ? `${text.slice(0, breakAt)}\n${text.slice(breakAt)}` : text;
 }
 
+function getEditorialTheoryTitle(theory: TheoryCard) {
+  const title = theory.categoryId === 'maxims-experience'
+    ? theory.title.replace(/\s+[—–-]\s+.*$/u, '').trim()
+    : theory.title.trim();
+  const characters = [...title];
+  if (characters.length <= 24) return title;
+
+  const midpoint = Math.ceil(characters.length / 2);
+  const candidates = ['。', '？', '！', '、', ' ']
+    .flatMap((separator) => {
+      const matches: number[] = [];
+      characters.forEach((character, index) => {
+        if (character === separator && index > 0 && index < characters.length - 1) matches.push(index + 1);
+      });
+      return matches;
+    })
+    .filter((index) => index > characters.length * 0.36 && index < characters.length * 0.64)
+    .sort((left, right) => Math.abs(left - midpoint) - Math.abs(right - midpoint));
+  const breakAt = candidates[0] ?? midpoint;
+  return `${characters.slice(0, breakAt).join('').trim()}\n${characters.slice(breakAt).join('').trim()}`;
+}
+
 function getEditorialTheoryTitleSize(title: string, width: number, compact: boolean) {
-  const characters = Math.max([...title].length, 1);
-  const availableWidth = compact ? width * 0.7 : width * 0.52;
+  const longestLine = Math.max(...title.split('\n').map((line) => [...line].length), 1);
+  // The copy intentionally uses the whole card width. The diagram is a
+  // background motif, so long titles may pass over its cross without being
+  // squeezed into an unreadable narrow column.
+  const availableWidth = compact ? Math.max(width - 24, 1) : Math.max(width - 48, 1);
   const maximum = compact ? 24 : 42;
-  const minimum = compact ? 13 : 18;
-  const targetLines = compact ? 5 : 4;
-  const estimatedSize = Math.floor((availableWidth * targetLines) / (characters * 0.9));
+  const minimum = compact ? 10 : 18;
+  const estimatedSize = Math.floor((availableWidth * 0.98) / longestLine);
   return Math.max(minimum, Math.min(maximum, estimatedSize));
 }
 
@@ -209,21 +233,12 @@ export default function MainScreen() {
       // 画面をスクロールさせずに自然な密度で収まる。
       ? density === 'veryCompact' ? 210 : density === 'compact' ? 242 : 312
       : density === 'veryCompact' ? 218 : density === 'compact' ? 250 : 304;
-  const theoryTitleLength = reelType === 'theories'
-    ? Math.max(...visibleTheoryCards.map((card) => [...card.title].length), 0)
-    : 0;
-  const theorySummaryLength = reelType === 'theories'
-    ? Math.max(...visibleTheoryCards.map((card) => getTheoryCoverSummary(card.summary, card.definition ?? '').length), 0)
-    : 0;
-  const theoryCardExtraHeight = reelType === 'theories'
-    ? Math.min(128, Math.max(0, theoryTitleLength - 28) * 2 + Math.max(0, theorySummaryLength - 36) * 3)
-    : 0;
   const cardHeight = Math.max(
     isPaid ? 206 : 216,
     // Reserve only the controls that are actually below the reel.  On a
     // normal iPhone this lets the home card use the available screen instead
     // of leaving a blank band above the persistent navigation.
-    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 350) : (isPaid ? 388 : 368))) + theoryCardExtraHeight,
+    Math.min(idealCardHeight, height - (desktop ? (isPaid ? 214 : 350) : (isPaid ? 388 : 368))),
   );
   const reelPeek = desktop ? 0 : density === 'veryCompact' ? 14 : compactReel ? 22 : 34;
   // Keep a real strip of paper between cards. The gap is part of the item
@@ -742,6 +757,7 @@ export default function MainScreen() {
                   width={cardWidth}
                   height={cardHeight}
                   compact={!desktop}
+                  active={isCentered}
                   onPress={() => openWhenCentered(physicalIndex, logicalIndex, () => {
                     router.push({ pathname: '/theory/[id]', params: { id: reelItem.card.tagId, reelIndex: String(activeIndexRef.current) } });
                   })}
@@ -978,6 +994,7 @@ function EditorialTheoryCard({
   width,
   height,
   compact,
+  active,
   onPress,
 }: {
   theory: TheoryCard;
@@ -986,17 +1003,19 @@ function EditorialTheoryCard({
   width: number;
   height: number;
   compact: boolean;
+  active: boolean;
   onPress: () => void;
 }) {
-  const titleSize = getEditorialTheoryTitleSize(theory.title, width, compact);
+  const title = getEditorialTheoryTitle(theory);
+  const titleSize = getEditorialTheoryTitleSize(title, width, compact);
   const summary = formatTheoryCoverSummary(getTheoryCoverSummary(theory.summary, theory.definition ?? '日常の判断と行動を理解するための知識。'));
   const code = getEditorialTheoryCode(theory);
 
   return (
     <Pressable
-      testID="home-editorial-theory-card"
+      testID={active ? 'home-editorial-theory-card-active' : 'home-editorial-theory-card'}
       accessibilityRole="button"
-      accessibilityLabel={`${theory.title}を詳しく見る`}
+      accessibilityLabel={`${title.replace(/\n/g, '')}を詳しく見る`}
       onPress={onPress}
       style={({ pressed }) => [
         styles.editorialCard,
@@ -1019,8 +1038,8 @@ function EditorialTheoryCard({
         <AppText variant="label" style={styles.editorialEyebrow}>{theory.categoryTitle}</AppText>
         <AppText variant="serif" style={styles.editorialTheoryCode}>{code}</AppText>
         <View style={[styles.editorialAccentRule, compact && styles.editorialAccentRuleCompact]} />
-        <AppText variant="serif" style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]}>{theory.title}</AppText>
-        <AppText variant="serif" style={styles.editorialTheorySummary}>{summary}</AppText>
+        <AppText testID={active ? 'home-theory-title-active' : 'home-theory-title'} variant="serif" style={[styles.editorialTitle, styles.editorialTheoryTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3), letterSpacing: titleSize <= 12 ? 0.2 : 1.8 }]}>{title}</AppText>
+        <AppText variant="serif" style={[styles.editorialTheorySummary, compact && styles.editorialTheorySummaryCompact]}>{summary}</AppText>
       </View>
       <View style={[styles.editorialTheoryFooter, compact && styles.editorialTheoryFooterCompact]}>
         <View style={[styles.editorialTextCta, styles.editorialTheoryCta, compact && styles.editorialTextCtaCompact]}>
@@ -1291,8 +1310,8 @@ const styles = StyleSheet.create({
   editorialCenteredRuleCompact: { width: 30, marginTop: 6 },
   editorialPersonaCopy: { position: 'absolute', top: 130, left: 62, right: 58, zIndex: 2 },
   editorialPersonaCopyCompact: { top: 66, left: 28, right: 22 },
-  editorialTheoryCopy: { position: 'absolute', top: 122, left: 62, width: '52%', zIndex: 2 },
-  editorialTheoryCopyCompact: { top: 66, left: 28, width: '70%' },
+  editorialTheoryCopy: { position: 'absolute', top: 122, left: 24, right: 24, zIndex: 2 },
+  editorialTheoryCopyCompact: { top: 66, left: 12, right: 12 },
   editorialEyebrow: { color: '#C9A356', fontSize: 14, lineHeight: 20, letterSpacing: 2.2, fontWeight: '700' },
   editorialIndex: { color: '#EEE8DD', fontSize: 17, lineHeight: 25, letterSpacing: 1.4 },
   editorialAccentRule: { width: 38, height: 1, marginTop: 18, marginBottom: 20, backgroundColor: '#BC9346' },
@@ -1305,9 +1324,10 @@ const styles = StyleSheet.create({
   editorialTextCtaCompact: { gap: 12, marginTop: 14, paddingBottom: 4 },
   editorialTextCtaLabel: { color: '#FFF9EE', fontSize: 17, lineHeight: 25, letterSpacing: 1.6 },
   editorialTextCtaArrow: { color: '#D2A950', fontFamily: fonts.serif, fontSize: 28, lineHeight: 28 },
-  editorialTheorySummary: { maxWidth: '100%', marginTop: 18, color: '#EEF1F4', fontSize: 17, lineHeight: 28, letterSpacing: 0.7 },
-  editorialTheoryFooter: { position: 'absolute', right: 50, bottom: 45, alignItems: 'flex-end', zIndex: 2 },
-  editorialTheoryFooterCompact: { right: 22, bottom: 20 },
+  editorialTheorySummary: { maxWidth: '100%', marginTop: 14, color: '#EEF1F4', fontSize: 17, lineHeight: 28, letterSpacing: 0.7 },
+  editorialTheorySummaryCompact: { marginTop: 10, fontSize: 14, lineHeight: 21, letterSpacing: 0.3 },
+  editorialTheoryFooter: { position: 'absolute', left: 24, right: 24, bottom: 28, alignItems: 'flex-end', zIndex: 2 },
+  editorialTheoryFooterCompact: { left: 12, right: 12, bottom: 16 },
   editorialTheoryCta: { alignSelf: 'flex-end', marginTop: 0 },
   editorialTheoryCode: { marginTop: 10, color: '#F1F0E8', fontSize: 18, lineHeight: 25, letterSpacing: 2 },
   theoryDiagram: { position: 'absolute', right: 30, top: 28, bottom: 28, width: '37%', opacity: 0.42 },

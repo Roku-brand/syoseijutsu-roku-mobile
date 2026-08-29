@@ -150,7 +150,7 @@ export default function UpgradeScreen() {
             <AppText style={[styles.paymentType, compact && styles.paymentTypeCompact]}>一回払い・自動更新なし</AppText>
             {message ? <AppText accessibilityRole="alert" style={[styles.message, compact && styles.messageCompact]}>{message}</AppText> : null}
             {params.checkout === 'success' && !user && params.session_id ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => router.push({ pathname: '/auth', params: { intent: 'claim', session_id: params.session_id, mode: 'signin' } })} style={styles.claimButton}><AppText style={styles.claimButtonText}>決済に使ったメールアドレスでログインして完全版を有効にする</AppText></Pressable> : null}
-            <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, compact && styles.primaryCompact, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}>
+            <Pressable accessibilityRole="button" disabled={submitting || accessStatus === 'processing'} onPress={() => isPaid ? router.replace('/(tabs)') : setShowCheckoutConfirmation(true)} style={({ pressed }) => [styles.primary, compact && styles.primaryCompact, (submitting || accessStatus === 'processing') && styles.disabled, pressed && styles.pressed]}>
               <View pointerEvents="none" style={styles.primarySheen} />
               <AppText variant="serif" style={[styles.primaryText, compact && styles.primaryTextCompact]}>{primaryLabel}</AppText>
               {!isPaid ? <AppText style={[styles.primaryArrow, compact && styles.primaryArrowCompact]}>›</AppText> : null}
@@ -194,7 +194,7 @@ export default function UpgradeScreen() {
           <View style={styles.welcomeCard}>
             <AppText variant="serif" style={styles.welcomeTitle}>購入ありがとうございます</AppText>
             <AppText style={styles.welcomeBody}>完全版が利用可能になりました。{accessInfo.accessExpiresAt ? `${`\n\n`}利用期限${`\n`}${formatAccessDateTime(accessInfo.accessExpiresAt)}まで` : ''}</AppText>
-            <Pressable onPress={() => { setShowWelcome(false); router.replace('/'); }} style={({ pressed }) => [styles.welcomeButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.welcomeButtonText}>完全版を使い始める</AppText></Pressable>
+            <Pressable onPress={() => { setShowWelcome(false); router.replace('/(tabs)'); }} style={({ pressed }) => [styles.welcomeButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.welcomeButtonText}>完全版を使い始める</AppText></Pressable>
           </View>
         </View>
       </Modal>

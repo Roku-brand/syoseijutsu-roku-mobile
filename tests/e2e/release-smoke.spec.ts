@@ -236,6 +236,20 @@ test('ウェルカムのヘッダーに無料版・完全版の導線とホー�
   await expect(page.getByText('処 世 術 禄', { exact: true })).toHaveCount(0);
 });
 
+test('ウェルカムの無料版と完全版の入口は、それぞれ正しい画面へ進む', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/welcome');
+  await page.getByRole('button', { name: '無料ではじめる' }).click();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
+  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+
+  await page.goto('/welcome');
+  await page.getByRole('button', { name: '完全版を購入する' }).click();
+  await expect(page).toHaveURL(/\/upgrade$/);
+  await expect(page.getByText('完全版・30日間', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
+});
+
 test('履歴はマイページで最新を示し、全件は独立ページで読める', async ({ page }) => {
   await page.goto('/my-os');
   await page.getByRole('button', { name: 'すべての履歴を見る' }).click();
@@ -379,6 +393,50 @@ test('スマホの理論ショートカット6件と無料版ロック表示を�
   }
 });
 
+test('理論カードは人物像カードと同じ大きさで、格言の作者名を省き、タイトルを2行以内に収める', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+  const personaBox = await page.getByTestId('home-editorial-persona-card-active').boundingBox();
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
+  await page.getByRole('tab', { name: '格言の先頭の理論へ移動' }).click();
+  const nextTheory = page.getByRole('button', { name: '次のカードへ' });
+  for (let index = 0; index < 3; index += 1) {
+    await nextTheory.click();
+    await page.waitForTimeout(250);
+  }
+
+  const theoryCard = page.getByTestId('home-editorial-theory-card-active');
+  const theoryTitle = page.getByTestId('home-theory-title-active');
+  await expect(theoryCard).toBeVisible();
+  await expect(theoryTitle).toBeVisible();
+  const [theoryBox, titleInfo, viewportInfo] = await Promise.all([
+    theoryCard.boundingBox(),
+    theoryTitle.evaluate((element) => {
+      const range = document.createRange();
+      range.selectNodeContents(element);
+      return { lineCount: Array.from(range.getClientRects()).filter((rect) => rect.width > 0).length, text: element.textContent ?? '' };
+    }),
+    page.evaluate(() => ({ width: window.innerWidth, scrollWidth: document.documentElement.scrollWidth })),
+  ]);
+  expect(personaBox).not.toBeNull();
+  expect(theoryBox).not.toBeNull();
+  expect(Math.abs(theoryBox!.width - personaBox!.width)).toBeLessThanOrEqual(1);
+  expect(Math.abs(theoryBox!.height - personaBox!.height)).toBeLessThanOrEqual(1);
+  expect(titleInfo.lineCount).toBeLessThanOrEqual(2);
+  expect(titleInfo.text).toContain('点と点は');
+  expect(titleInfo.text).not.toContain('—');
+  expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
+
+  for (const label of ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言']) {
+    const shortcut = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
+    await expect(shortcut).toBeVisible();
+    const box = await shortcut.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.y + box!.height).toBeLessThanOrEqual(844);
+  }
+});
+
 test('短いPC画面でも無料版ホームの購入導線が見切れない', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 667 });
   await page.goto('/');
@@ -436,11 +494,11 @@ test('desktop home keeps the editorial card, reel controls, and category index a
   await startFreeHome(page);
 
   await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page.getByText(/理論 06 \/ 45/).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: '相補性を詳しく見る' })).toBeVisible();
-  await expect(page.getByText('P-006', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '相補性を詳しく見る' }).click();
-  await expect(page).toHaveURL(/\/theory\/kb_006/);
+  await expect(page.getByText(/理論 01 \/ 45/).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: '初頭効果を詳しく見る' })).toBeVisible();
+  await expect(page.getByTestId('home-editorial-theory-card-active').getByText('P-001', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '初頭効果を詳しく見る' }).click();
+  await expect(page).toHaveURL(/\/theory\/kb_001/);
 
   await page.goto('/');
   await startFreeHome(page);
@@ -577,10 +635,10 @@ test('スマホの理論リール移動後も本文エリアを横にずらさ�
   await startFreeHome(page);
   const theoryTab = page.getByRole('tab', { name: '理論', exact: true });
   await theoryTab.click();
-  await expect(page.getByText(/理論 06 \/ 45/).first()).toBeVisible();
+  await expect(page.getByText(/理論 01 \/ 45/).first()).toBeVisible();
   const before = await theoryTab.boundingBox();
   await page.getByRole('button', { name: '次のカードへ' }).click();
-  await expect(page.getByText(/理論 07 \/ 45/).first()).toBeVisible();
+  await expect(page.getByText(/理論 02 \/ 45/).first()).toBeVisible();
   const after = await theoryTab.boundingBox();
   const noHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
   expect(before).not.toBeNull();
