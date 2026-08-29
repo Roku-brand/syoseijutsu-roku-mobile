@@ -73,7 +73,8 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Verify content sync setting
-        run: test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
+        run: |
+          test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
       - name: Sync published technique content
         run: node scripts/import-owner-content.mjs
