@@ -7,8 +7,7 @@ import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
-import { learningCases } from '@/data/learning';
-import { FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
+import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const completeMark = require('../../assets/upgrade/complete-mark.png');
@@ -128,7 +127,7 @@ export default function UpgradeScreen() {
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
               <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
               <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>通常価格</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
-              <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全{learningCases.length}ケース</AppText></View>
+              <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全{COMPLETE_LEARNING_CASE_COUNT}ケース</AppText></View>
             </View>
           </View>
 

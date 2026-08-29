@@ -29,9 +29,9 @@
 
 - `src/components/ui.tsx`: 未使用の旧UI exportと専用スタイルを削除。`Screen` の幅判定を `useHydratedWindowDimensions` に統一。
 - `src/components/loading-screen.tsx`: 参照元がない孤立コンポーネントを削除。
-- `src/app/upgrade.tsx`: raw寸法参照をhydratedフックへ統一し、学習ケース数・無料処世術数を正本データ／アクセス設定から導出。
+- `src/app/upgrade.tsx`: raw寸法参照をhydratedフックへ統一し、無料処世術数をアクセス設定から導出。完全版の21ケース表示は共通のアクセス設定定数へ集約。
 - `src/app/welcome.tsx`: 人物像・処世術・理論の表示件数をカタログから導出。表示値は従来と同じ26/336/630。
-- `src/app/(tabs)/learn.tsx`: 総ケース数、無料利用可能ケース数を正本・アクセス設定から導出し、Stage内件数の不要な `|| 7` fallbackを削除。
+- `src/app/(tabs)/learn.tsx`: 完全版総ケース数と無料利用可能ケース数を共通設定へ集約し、公開runtimeに完全版データがまだ展開されていない場合の既存Stage表示fallbackは維持。
 - `src/app/(tabs)/index.tsx`: ホームの完全版案内に表示するケース数を学習データから導出。
 - `src/app/category/[key].tsx`、`src/app/legal/[document].tsx`、`src/app/settings.tsx`、`src/app/settings/install.tsx`、`src/app/settings/profile.tsx`、`src/app/theme/[category]/[title].tsx`、`src/app/theories/[category].tsx`、`src/app/topic/[slug].tsx`: 表示されない冗長な `DetailHeader` 呼び出しとimportを削除。
 
@@ -49,7 +49,7 @@
 
 ## UIへの影響
 
-意図した見た目・挙動の変更はない。件数表示は従来と同じ値を正本から導出するようにした。`Screen` と購買画面の寸法判定は初期描画時のサーバー／クライアント差異を抑える内部整理で、hydration後のPC・スマホレイアウトは従来の表示を維持する。
+意図した見た目・挙動の変更はない。件数表示は従来と同じ値を共通設定または正本データから参照するようにした。`Screen` と購買画面の寸法判定は初期描画時のサーバー／クライアント差異を抑える内部整理で、hydration後のPC・スマホレイアウトは従来の表示を維持する。
 
 ## UIに影響しない変更
 

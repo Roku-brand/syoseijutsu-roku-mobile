@@ -33,6 +33,7 @@ export const FREE_LEARNING_CASE_IDS = Array.from(
   { length: 7 },
   (_, index) => `case-${String(index + 1).padStart(2, '0')}`,
 );
+export const COMPLETE_LEARNING_CASE_COUNT = 21;
 
 export const FREE_TECHNIQUE_IDS = new Set<string>(FREE_REEL_TECHNIQUE_IDS);
 export const FREE_THEORY_ID_SET = new Set<string>(FREE_THEORY_IDS);
