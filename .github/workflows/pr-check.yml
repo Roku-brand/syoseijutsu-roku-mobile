@@ -26,6 +26,7 @@ jobs:
       - name: Verify public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
+          pnpm content:build-public
       - run: pnpm content:validate-master336
       - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning

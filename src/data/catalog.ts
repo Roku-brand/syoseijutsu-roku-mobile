@@ -1,6 +1,6 @@
-import techniquesSource from './generated/techniques.json';
-import theoriesSource from './generated/theories.json';
-import practicalActionsSource from './generated/practical-actions.json';
+import techniquesSource from './generated/techniques.public.json';
+import theoriesSource from './generated/theories.public.json';
+import practicalActionsSource from './generated/practical-actions.public.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
@@ -93,9 +93,10 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
     placeManagedTechnique(item);
   }
   for (const theory of paidTheories) {
-    if (!theories.some((candidate) => candidate.tagId === theory.tagId)) {
-      theories.push({ ...theory, provenance: getTheoryProvenance(theory) });
-    }
+    const next = { ...theory, provenance: getTheoryProvenance(theory) };
+    const existingIndex = theories.findIndex((candidate) => candidate.tagId === theory.tagId);
+    if (existingIndex === -1) theories.push(next);
+    else theories[existingIndex] = next;
   }
   rebuildIndexes();
 }

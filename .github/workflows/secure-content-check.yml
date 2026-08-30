@@ -27,6 +27,7 @@ jobs:
       - name: Verify public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
+          pnpm content:build-public
       - run: pnpm typecheck
       - run: pnpm export:pages
       - run: node scripts/audit-public-build.mjs

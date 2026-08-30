@@ -1,14 +1,14 @@
-import { access, readFile, readdir, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
+const generated = path.join(root, 'src', 'data', 'generated');
 const distDir = path.join(root, 'dist');
-const paidFile = path.join(root, 'dist-secure-content', 'paid-content.ndjson');
-const forbiddenSourceFiles = [
-  'content/shoseijutsu_cards_135_with_explanations.json',
-  'content/shoseijutsu_urahidensho.md',
-  'content/theory_knowledge_base_386.json',
-];
+
+async function readJson(name) {
+  return JSON.parse(await readFile(path.join(generated, name), 'utf8'));
+}
 
 async function collectFiles(directory) {
   const result = [];
@@ -16,70 +16,138 @@ async function collectFiles(directory) {
     const filePath = path.join(directory, name);
     const info = await stat(filePath);
     if (info.isDirectory()) result.push(...await collectFiles(filePath));
-    else result.push(filePath);
+    else if (/\.(html|js|json|map|txt|css)$/i.test(filePath)) result.push(filePath);
   }
   return result;
 }
 
-const hasPaidSource = await access(paidFile).then(() => true).catch(() => false);
-for (const relativePath of forbiddenSourceFiles) {
-  const exists = await access(path.join(root, relativePath)).then(() => true).catch(() => false);
-  if (exists) throw new Error(`Paid source must not exist in the public app checkout: ${relativePath}`);
-}
-const rows = hasPaidSource
-  ? (await readFile(paidFile, 'utf8'))
-      .split('\n')
-      .filter(Boolean)
-      .map((line) => JSON.parse(line))
-  : [];
-
-const candidates = new Map();
-function addCandidate(value, label) {
-  if (typeof value !== 'string') return;
-  const normalized = value.trim();
-  if (normalized.length < 18) return;
-  candidates.set(normalized, label);
+function decodeBundleText(text) {
+  return text
+    .replace(/\\u([0-9a-f]{4})/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
+    .replace(/\\x([0-9a-f]{2})/gi, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
 }
 
-for (const row of rows) {
-  const payload = row.payload ?? {};
-  addCandidate(payload.title, `${row.content_type}:${row.content_id}:title`);
-  addCandidate(payload.subtitle, `${row.content_type}:${row.content_id}:subtitle`);
-  addCandidate(payload.explanation, `${row.content_type}:${row.content_id}:explanation`);
-  addCandidate(payload.summary, `${row.content_type}:${row.content_id}:summary`);
-  addCandidate(payload.situation, `${row.content_type}:${row.content_id}:situation`);
-  addCandidate(payload.why, `${row.content_type}:${row.content_id}:why`);
+function fingerprint(text) {
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  if (normalized.length < 24) return null;
+  if (normalized.length <= 80) return normalized;
+  const start = Math.max(0, Math.floor((normalized.length - 64) / 2));
+  return normalized.slice(start, start + 64);
+}
+
+function collectTextFingerprints(value, label, fingerprints) {
+  if (typeof value === 'string') {
+    const valueFingerprint = fingerprint(value);
+    if (valueFingerprint) fingerprints.set(valueFingerprint, label);
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectTextFingerprints(item, `${label}[${index}]`, fingerprints));
+    return;
+  }
+  if (value && typeof value === 'object') {
+    Object.entries(value).forEach(([key, item]) => collectTextFingerprints(item, `${label}.${key}`, fingerprints));
+  }
+}
+
+function escapeRegex(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const [techniques, theories, learning, publicTechniques, publicTheories, publicLearning, metadata] = await Promise.all([
+  readJson('techniques.json'),
+  readJson('theories.json'),
+  readJson('learning.full.json'),
+  readJson('techniques.public.json'),
+  readJson('theories.public.json'),
+  readJson('learning.public.json'),
+  readJson('metadata.json'),
+]);
+const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+const fingerprints = new Map();
+const titleCandidates = [];
+
+for (const technique of allTechniques) {
+  if (!freeTechniqueIds.has(technique.id)) {
+    collectTextFingerprints(technique, `technique:${technique.id}`, fingerprints);
+    titleCandidates.push({ id: technique.id, title: technique.title, label: `technique:${technique.id}:title` });
+  }
+}
+for (const theory of theories) {
+  if (!freeTheoryIds.has(theory.tagId)) {
+    collectTextFingerprints(theory, `theory:${theory.tagId}`, fingerprints);
+    titleCandidates.push({ id: theory.tagId, title: theory.title, label: `theory:${theory.tagId}:title` });
+  }
+}
+for (const item of learning) {
+  if (!freeLearningIds.has(item.id)) {
+    collectTextFingerprints(item, `learning:${item.id}`, fingerprints);
+    titleCandidates.push({ id: item.id, title: item.title, label: `learning:${item.id}:title` });
+  }
+}
+
+if (fingerprints.size === 0) throw new Error('No paid-content fingerprints were generated.');
+
+const publicTechniqueItems = publicTechniques.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
+if (publicTechniqueItems.length !== allTechniques.length || publicTheories.length !== theories.length) {
+  throw new Error(`Public catalog shape is incomplete: techniques=${publicTechniqueItems.length}/${allTechniques.length}, theories=${publicTheories.length}/${theories.length}`);
+}
+if (publicTechniqueItems.filter((item) => item.status === 'locked').length !== allTechniques.length - freeTechniqueIds.size) {
+  throw new Error('Public technique catalog does not contain the expected locked shells.');
+}
+if (publicTheories.filter((item) => item.title === '完全版の理論' && !item.summary).length !== theories.length - freeTheoryIds.size) {
+  throw new Error('Public theory catalog does not contain the expected locked shells.');
+}
+if (publicLearning.length !== freeLearningIds.size) throw new Error(`Public learning catalog contains ${publicLearning.length} cases; expected ${freeLearningIds.size}.`);
+
+const actualCategoryCounts = Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))]
+  .map((categoryId) => [categoryId, theories.filter((theory) => theory.categoryId === categoryId).length]));
+if (JSON.stringify(metadata.categoryCounts) !== JSON.stringify(actualCategoryCounts)) {
+  throw new Error(`Metadata category counts are stale: ${JSON.stringify(metadata.categoryCounts)} !== ${JSON.stringify(actualCategoryCounts)}`);
 }
 
 const files = await collectFiles(distDir);
-const text = (await Promise.all(files
-  .filter((file) => /\.(html|js|json|map|txt|css)$/i.test(file))
-  .map((file) => readFile(file, 'utf8').catch(() => '')))).join('\n');
-
+const bundleFiles = await Promise.all(files.map(async (filePath) => ({
+  filePath,
+  text: decodeBundleText(await readFile(filePath, 'utf8').catch(() => '')),
+})));
+const candidates = [...fingerprints.entries()];
 const leaks = [];
-for (const [candidate, label] of candidates) {
-  if (text.includes(candidate)) leaks.push(label);
+for (let index = 0; index < candidates.length; index += 120) {
+  const batch = candidates.slice(index, index + 120);
+  const pattern = new RegExp(batch.map(([value]) => escapeRegex(value)).join('|'), 'g');
+  for (const file of bundleFiles) {
+    const match = pattern.exec(file.text);
+    if (!match) continue;
+    const label = fingerprints.get(match[0]) ?? 'unknown paid content';
+    leaks.push(`${label} in ${path.relative(root, file.filePath)}`);
+    if (leaks.length >= 25) break;
+  }
   if (leaks.length >= 25) break;
 }
 
-if (leaks.length > 0) {
+const usableTitleCandidates = titleCandidates.filter((candidate) =>
+  typeof candidate.title === 'string' && candidate.title.trim().length >= 4,
+);
+for (let index = 0; index < usableTitleCandidates.length; index += 80) {
+  const batch = usableTitleCandidates.slice(index, index + 80);
+  const pattern = new RegExp(batch.map((candidate) =>
+    `${escapeRegex(candidate.id)}[\\s\\S]{0,1000}${escapeRegex(candidate.title)}`,
+  ).join('|'), 'g');
+  for (const file of bundleFiles) {
+    const match = pattern.exec(file.text);
+    if (!match) continue;
+    const candidate = batch.find((item) => match[0].includes(item.id) && match[0].includes(item.title));
+    leaks.push(`${candidate?.label ?? 'unknown paid title'} in ${path.relative(root, file.filePath)}`);
+    if (leaks.length >= 25) break;
+  }
+  if (leaks.length >= 25) break;
+}
+
+if (leaks.length) {
   console.error('Paid content leakage detected in public build:');
   leaks.forEach((leak) => console.error(`- ${leak}`));
   process.exit(1);
 }
 
-const [techniques, theories, learning] = await Promise.all([
-  readFile(path.join(root, 'src/data/generated/techniques.json'), 'utf8').then(JSON.parse),
-  readFile(path.join(root, 'src/data/generated/theories.json'), 'utf8').then(JSON.parse),
-  readFile(path.join(root, 'src/data/generated/learning.json'), 'utf8').then(JSON.parse),
-]);
-const metadata = await readFile(path.join(root, 'src/data/generated/metadata.json'), 'utf8').then(JSON.parse);
-const techniqueCount = techniques.categories.flatMap((category) => category.subcategories).reduce((count, subcategory) => count + subcategory.items.length, 0);
-// The latest canonical catalog is intentionally the app's bundled source of
-// truth. Paid-content access still gates detail/reel interactions, while the
-// catalog shape itself must stay aligned with the generated metadata.
-if (techniqueCount !== metadata.techniqueCount || theories.length !== metadata.theoryCount || learning.length !== 7) {
-  throw new Error(`Unexpected public catalog size: techniques=${techniqueCount}, theories=${theories.length}, learning=${learning.length}`);
-}
-
-console.log(`Public build audit passed. Checked ${candidates.size} paid text fingerprints across ${files.length} files.`);
+console.log(`Public build audit passed. Checked ${fingerprints.size} paid text fingerprints across ${files.length} files.`);

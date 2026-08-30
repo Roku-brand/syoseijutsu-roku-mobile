@@ -611,7 +611,7 @@ const styles = StyleSheet.create({
   },
   headerBack: {
     minWidth: 74,
-    minHeight: 36,
+    minHeight: 44,
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
@@ -623,7 +623,7 @@ const styles = StyleSheet.create({
   },
   headerBackCompact: {
     minWidth: 80,
-    minHeight: 36,
+    minHeight: 44,
     paddingHorizontal: 10,
   },
   headerBackLight: { borderWidth: 1, justifyContent: 'center', paddingHorizontal: 10 },

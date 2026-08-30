@@ -10,12 +10,12 @@
     "strategy"
   ],
   "categoryCounts": {
-    "psychology": 249,
-    "organization-management": 133,
-    "behavioral-science": 77,
-    "strategy": 49,
-    "maxims-experience": 21,
-    "classics-thought": 12
+    "psychology": 237,
+    "behavioral-science": 74,
+    "organization-management": 123,
+    "strategy": 61,
+    "classics-thought": 59,
+    "maxims-experience": 76
   },
   "catalogVersion": "master336"
 }

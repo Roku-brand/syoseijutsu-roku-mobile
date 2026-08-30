@@ -6,6 +6,8 @@ node_modules/
 # Expo
 .expo/
 dist/
+dist-secure-content/
+test-results/
 web-build/
 expo-env.d.ts
 

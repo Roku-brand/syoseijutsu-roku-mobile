@@ -1,18 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-
-const freeTechniqueIds = new Set([
-  ...Array.from({ length: 27 }, (_, index) => `complete-${String(index + 1).padStart(3, '0')}`),
-  ...Array.from({ length: 13 }, (_, index) => `complete-${String(index + 75).padStart(3, '0')}`),
-  ...Array.from({ length: 5 }, (_, index) => `complete-${String(index + 200).padStart(3, '0')}`),
-]);
-const freeTheoryIds = new Set([
-  'kb_003','kb_004','kb_029','kb_045','kb_221','kb_265',
-  'kb_104','kb_134','kb_138','kb_273',
-  'kb_064','kb_082','kb_192','kb_142','kb_284',
-  'kb_299','kb_333','kb_342','kb_329','kb_338',
-]);
-const freeLearningIds = new Set(Array.from({ length: 7 }, (_, index) => `case-${String(index + 1).padStart(2, '0')}`));
+import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
 const techniques = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.json'), 'utf8'));
@@ -33,6 +21,7 @@ async function loadLearningCases() {
   return Function(`"use strict"; return (${match[1]});`)();
 }
 const learning = await loadLearningCases();
+const { freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 
 function sanitizePublicTechnique(item) {
   const ids = Array.isArray(item.theoryTagIds) ? item.theoryTagIds : [];

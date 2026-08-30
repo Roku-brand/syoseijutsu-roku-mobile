@@ -158,10 +158,10 @@ export default function UpgradeScreen() {
             </Pressable>
             {!isPaid ? <AppText style={[styles.preConfirmation, compact && styles.preConfirmationCompact]}>{user ? '決済は次の画面で確定します' : 'アカウント作成またはログイン後に、決済へ進みます'}</AppText> : null}
             <View style={[styles.utilityRow, compact && styles.utilityRowCompact]}>
-              {!isPaid ? <Pressable accessibilityRole="button" disabled={submitting} onPress={() => void restore()}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
-              <Pressable onPress={() => router.push('/legal/terms')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>利用規約</AppText></Pressable>
-              <Pressable onPress={() => router.push('/legal/commerce')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>特商法表記</AppText></Pressable>
-              <Pressable onPress={() => router.push('/legal/faq')}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>FAQ</AppText></Pressable>
+              {!isPaid ? <Pressable accessibilityRole="button" accessibilityLabel="購入履歴を復元する" disabled={submitting} onPress={() => void restore()} style={styles.utilityButton}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>{submitting ? '購入履歴を確認中…' : user ? '購入を復元する' : '購入済みの方は復元する'}</AppText></Pressable> : null}
+              <Pressable accessibilityRole="button" accessibilityLabel="利用規約を開く" onPress={() => router.push('/legal/terms')} style={styles.utilityButton}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>利用規約</AppText></Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel="特商法表記を開く" onPress={() => router.push('/legal/commerce')} style={styles.utilityButton}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>特商法表記</AppText></Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel="よくある質問を開く" onPress={() => router.push('/legal/faq')} style={styles.utilityButton}><AppText style={[styles.utilityLink, compact && styles.utilityLinkCompact]}>FAQ</AppText></Pressable>
             </View>
           </View>
         </View>
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   originalPrice: { color: '#8C8273', fontSize: 18, lineHeight: 25, textDecorationLine: 'line-through' },
   originalPriceCompact: { fontSize: 12, lineHeight: 17 },
   originalPriceNote: { marginTop: -1, color: '#9A6B22', fontSize: 8, lineHeight: 11, fontWeight: '700' },
-  originalPriceNoteCompact: { fontSize: 7, lineHeight: 9 },
+  originalPriceNoteCompact: { fontSize: 10, lineHeight: 14 },
   productPrice: { color: '#BB7B0B', fontSize: 44, lineHeight: 51, fontWeight: '700' },
   productPriceCompact: { fontSize: 31, lineHeight: 36 },
   durationBadge: { paddingHorizontal: 9, paddingVertical: 4, borderWidth: 1, borderColor: '#C9932C', borderRadius: 8 },
@@ -235,9 +235,9 @@ const styles = StyleSheet.create({
   productConditionRow: { marginTop: 2, flexDirection: 'row', alignItems: 'center', gap: 9, flexWrap: 'wrap' },
   productConditionRowCompact: { marginTop: 0, gap: 5, flexWrap: 'nowrap' },
   productCondition: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6, backgroundColor: '#F5EEDF', color: '#806235', fontSize: 10, lineHeight: 14 },
-  productConditionCompact: { paddingHorizontal: 6, paddingVertical: 2, fontSize: 8, lineHeight: 11 },
+  productConditionCompact: { paddingHorizontal: 6, paddingVertical: 3, fontSize: 10, lineHeight: 14 },
   scopeText: { flexShrink: 1, color: '#372F25', fontSize: 10.5, lineHeight: 15, fontWeight: '700' },
-  scopeTextCompact: { fontSize: 7.5, lineHeight: 10 },
+  scopeTextCompact: { fontSize: 10, lineHeight: 14 },
   editionComparison: { minHeight: 91, marginTop: 9, flexDirection: 'row', alignItems: 'center', gap: 14 },
   editionComparisonCompact: { minHeight: 62, marginTop: 5, gap: 8 },
   editionOption: { flex: 1, minWidth: 0, minHeight: 91, alignItems: 'center', justifyContent: 'center', borderRadius: 12, paddingHorizontal: 10 },
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   valueHeadingCompact: { marginTop: 5, gap: 7 },
   valueHeadingLine: { flex: 1, height: 1, backgroundColor: '#D6C39F' },
   valueHeadingTitle: { color: '#A66D16', fontSize: 16, lineHeight: 22, textAlign: 'center' },
-  valueHeadingSub: { marginTop: 0, color: '#857363', fontSize: 8.5, lineHeight: 12, textAlign: 'center' },
+  valueHeadingSub: { marginTop: 0, color: '#857363', fontSize: 10, lineHeight: 15, textAlign: 'center' },
   featurePanel: { marginTop: 6, overflow: 'hidden', borderWidth: 1, borderColor: '#DDD0BC', borderRadius: 13, backgroundColor: 'rgba(255,253,248,0.62)' },
   featurePanelCompact: { marginTop: 4, borderRadius: 10 },
   featureRow: { minHeight: 58, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 13, paddingVertical: 7 },
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
   featureTitle: { color: '#A36A13', fontSize: 14, lineHeight: 19, fontWeight: '700' },
   featureTitleCompact: { fontSize: 12, lineHeight: 16 },
   featureBody: { marginTop: 1, color: '#574F44', fontSize: 10.5, lineHeight: 15 },
-  featureBodyCompact: { fontSize: 8.5, lineHeight: 12 },
+  featureBodyCompact: { fontSize: 10, lineHeight: 15 },
   productBand: { minHeight: 76, padding: 3, borderRadius: 12, backgroundColor: '#171614', shadowColor: '#090806', shadowOpacity: 0.24, shadowRadius: 9, shadowOffset: { width: 0, height: 4 }, elevation: 5 },
   productBandDesktop: { minHeight: 94, maxWidth: 740, alignSelf: 'center', width: '100%' },
   productBandCompact: { minHeight: 60, borderRadius: 10 },
@@ -352,8 +352,9 @@ const styles = StyleSheet.create({
   preConfirmationCompact: { marginTop: 3, fontSize: 9, lineHeight: 12 },
   utilityRow: { minHeight: 18, marginTop: 9, paddingTop: 5, borderTopWidth: 1, borderTopColor: 'rgba(210,194,167,0.62)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, flexWrap: 'wrap' },
   utilityRowCompact: { minHeight: 13, marginTop: 5, paddingTop: 3, gap: 7 },
+  utilityButton: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 },
   utilityLink: { color: '#5D513D', fontSize: 9.5, lineHeight: 14, textDecorationLine: 'underline' },
-  utilityLinkCompact: { fontSize: 8, lineHeight: 11 },
+  utilityLinkCompact: { fontSize: 10, lineHeight: 14 },
   disabled: { opacity: 0.55 },
   pressed: { opacity: 0.82, transform: [{ scale: 0.988 }] },
   modalBackdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20, backgroundColor: 'rgba(14,12,9,0.58)' },

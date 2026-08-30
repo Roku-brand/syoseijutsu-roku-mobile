@@ -1,0 +1,4412 @@
+[
+  {
+    "tagId": "kb_001",
+    "title": "初頭効果",
+    "summary": "最初に得た情報が、その後の印象や評価の基準として強く残る傾向。第一印象は後から修正しにくいため、関係の入口ほど重要になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_002",
+    "title": "親近効果",
+    "summary": "最後に得た情報ほど記憶や判断に残りやすい傾向。会話や体験は、終わり方によって全体の印象が変わる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_003",
+    "title": "ハロー効果",
+    "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_004",
+    "title": "単純接触効果",
+    "summary": "接する回数が増えるほど、対象への親しみや好意が高まりやすくなる傾向。ただし、もともとの不快感が強い場合には逆効果になりうる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_005",
+    "title": "類似性魅力効果",
+    "summary": "価値観、経歴、趣味などの共通点が多い相手ほど、親しみや信頼を感じやすい傾向。共通点は関係を始める足場になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_006",
+    "title": "相補性",
+    "summary": "互いに異なる性質や役割が補い合うことで、関係が安定したり成果が高まったりする考え方。似ていることだけが相性を決めるわけではない。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_007",
+    "title": "好意の返報性",
+    "summary": "相手から好意を示されると、自分も好意を返したくなりやすい傾向。好意は待つより、先に示すことで循環が生まれる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_008",
+    "title": "自己開示の返報性",
+    "summary": "自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。親密さは一方的ではなく段階的に深まる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_009",
+    "title": "社会的浸透理論",
+    "summary": "人間関係は、会話の範囲と深さが少しずつ広がることで親密になるという理論。急激な踏み込みより、相互的な自己開示が重要になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_010",
+    "title": "不確実性低減理論",
+    "summary": "人は初対面の相手について予測できない状態を不快に感じ、質問や観察を通じて不確実性を減らそうとするという理論。安心感は予測可能性から生まれる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_011",
+    "title": "応答性理論",
+    "summary": "相手の話や感情に適切に反応することが、信頼や親密さを生むという考え方。理解された感覚は、単なる相づちより内容に即した反応から生まれる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_012",
+    "title": "知覚されたパートナー応答性",
+    "summary": "相手が自分を理解し、尊重し、気遣ってくれていると感じる程度。関係の満足度は、実際の行動だけでなく、そう受け取られているかで決まる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_013",
+    "title": "ラポールの三要素モデル",
+    "summary": "相互の注意、肯定的な感情、行動の同調がそろうと、自然な信頼関係が生まれるというモデル。会話の内容だけでなく、リズムや雰囲気も重要になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_014",
+    "title": "ミラーリング効果",
+    "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_015",
+    "title": "言語スタイル同調",
+    "summary": "語彙、文の長さ、話す速さなどが似てくるほど、会話の一体感や関係の調和が高まりやすい現象。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_016",
+    "title": "呼び名効果",
+    "summary": "相手の名前や望む呼び方を適切に使うことで、注意や親近感を引き出しやすくなる実務的な考え方。過剰に繰り返すと不自然になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_017",
+    "title": "カクテルパーティー効果",
+    "summary": "多くの音や情報の中でも、自分の名前や関心の高い情報には注意が向きやすい現象。人は自分に関係する情報を優先して拾う。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_018",
+    "title": "質問好意効果",
+    "summary": "相手に関心を持って質問し、話をよく聞く人は好意的に評価されやすい傾向。質問の量より、答えを受け止めて深めることが重要になる。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_019",
+    "title": "ベン・フランクリン効果",
+    "summary": "一度誰かを助けると、その行動と整合させるために相手への好意が高まりやすい傾向。小さな依頼が関係形成のきっかけになることがある。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_020",
+    "title": "自己検証理論",
+    "summary": "人は肯定的な評価だけでなく、自分が抱く自己像と一致する評価を求めるという理論。相手を理解するには、理想像だけでなく自己認識を見る必要がある。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_021",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_022",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_023",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_024",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_025",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_026",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_027",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_028",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_029",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_030",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_031",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_032",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_033",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_034",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_035",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_036",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_037",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_038",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_039",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_040",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_041",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_042",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_043",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_044",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_045",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_046",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_047",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_048",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_049",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_050",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_051",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_052",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_053",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_054",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_055",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_056",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_057",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_092",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_093",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_094",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_095",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_096",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_097",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_203",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_204",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_205",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_206",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_207",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_208",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_209",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_210",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_211",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_212",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_213",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_214",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_215",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_216",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_217",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_218",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_219",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_220",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_221",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_222",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_223",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_224",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_225",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_226",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_227",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_228",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_229",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_230",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_231",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_232",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_233",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_234",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_235",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_236",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_237",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_238",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_239",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_240",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_241",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_242",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_243",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_244",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_245",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_246",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_247",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_248",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_249",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_250",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_251",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_252",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_253",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_254",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_255",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_256",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_257",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_258",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_259",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_260",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_261",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_262",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_263",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_264",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_265",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_266",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_267",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_268",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_269",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_270",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_271",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_272",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_387",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_388",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_389",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_390",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_391",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_392",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_393",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_394",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_395",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_396",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_397",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_398",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_399",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_400",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_403",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_404",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_405",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_406",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_407",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_408",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_409",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_410",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_411",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_412",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_413",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_414",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_415",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_416",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_417",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_418",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_419",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_420",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_421",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_422",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_424",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_425",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_426",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_427",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_428",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_429",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_430",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_431",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_432",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_433",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_434",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_435",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_436",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_437",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_438",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_439",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_440",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_441",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_443",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_444",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_445",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_446",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_447",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_448",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_450",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_452",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_550",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_551",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_552",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_556",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_557",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_558",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_559",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_560",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_562",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_563",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_564",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_565",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_566",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_572",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_573",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_574",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_576",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_577",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_578",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_579",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_580",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_581",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_582",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_583",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_586",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_587",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_588",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_589",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_590",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_591",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_596",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_597",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_600",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_601",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_602",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_540",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_477",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_478",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_479",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_493",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_499",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_511",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_158",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_520",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学"
+  },
+  {
+    "tagId": "kb_401",
+    "title": "限界効用逓減",
+    "summary": "同じ種類の利益や満足を追加で得るほど、その一単位から得られる価値が小さくなりやすいという原理。量を増やし続けても、満足が同じ割合で増えるとは限らない。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_442",
+    "title": "顕示選好",
+    "summary": "人の本当の選好は、言葉による自己申告だけでなく、制約の中で実際に何を選んだかから推測できるという考え。行動はコストを伴うため、優先順位の手掛かりになる。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_449",
+    "title": "ベースレート思考",
+    "summary": "目立つ個別事例だけでなく、その出来事が一般にどの程度起こるかという基礎確率を判断に取り入れる考え方。一度の好印象や失敗より、同様の行動の頻度を重視する。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_570",
+    "title": "ベイズ更新",
+    "summary": "新しい証拠を得るたびに、それまでの見込みである事前確率を修正し、判断を更新する考え。印象を固定せず、証拠の信頼度と起こりやすさを考慮する。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_098",
+    "title": "フット・イン・ザ・ドア",
+    "summary": "小さな依頼を受け入れてもらった後に、より大きな依頼をすると承諾されやすくなる技法。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_099",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_100",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_101",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_102",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_103",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_104",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_105",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_106",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_133",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_134",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_135",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_136",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_137",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_138",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_139",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_140",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_141",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_167",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_168",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_169",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_170",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_171",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_172",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_173",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_174",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_175",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_176",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_177",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_178",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_179",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_180",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_181",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_182",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_183",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_184",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_185",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_186",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_187",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_188",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_189",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_190",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_191",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_198",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_199",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_200",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_201",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_202",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_273",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_274",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_275",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_276",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_277",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_528",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_529",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_530",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_531",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_532",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_533",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_534",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_535",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_536",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_537",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_538",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_539",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_541",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_547",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_514",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_517",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_521",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学"
+  },
+  {
+    "tagId": "kb_402",
+    "title": "心理的安全性",
+    "summary": "対人上のリスクを取って質問、異論、失敗を表明しても、侮辱や不利益を受けないと集団成員が共有して感じる状態。単なる仲の良さではなく、率直に学び合える条件を指す。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_423",
+    "title": "サービス・リカバリー・パラドックス",
+    "summary": "失敗後の対応が非常に優れていると、失敗がなかった場合より満足や忠誠が高くなることがあるという現象。ただし常に起こるわけではなく、重大な失敗や反復する失敗には当てはまりにくい。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_571",
+    "title": "人的資本論",
+    "summary": "教育、訓練、経験、健康などを、将来の生産性や所得を高める投資として捉える理論。能力形成には費用と時間がかかるため、投資先と回収可能性を考える。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_584",
+    "title": "人的資本",
+    "summary": "個人が持つ知識、技能、経験、健康など、環境が変わっても成果を生み得る資源。肩書や所属とは異なり、本人に蓄積され、将来の仕事や選択肢へ持ち運べる。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_585",
+    "title": "転移可能スキル",
+    "summary": "特定の職場や職種だけでなく、別の環境でも応用できる技能。問題解決、文章化、交渉、学習、調整などは、役割を失った後も新しい場への移行を支える。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_593",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_598",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_058",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_059",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_060",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_061",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_062",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_063",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_064",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_065",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_066",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_067",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_068",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_069",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_070",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_071",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_072",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_073",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_074",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_075",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_076",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_077",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_078",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_079",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_080",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_081",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_082",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_083",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_084",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_085",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_086",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_087",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_088",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_089",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_090",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_091",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_107",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_108",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_109",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_110",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_111",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_112",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_113",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_114",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_115",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_116",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_117",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_118",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_119",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_120",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_121",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_122",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_123",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_124",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_125",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_126",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_127",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_128",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_129",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_130",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_131",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_132",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_192",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_193",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_194",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_195",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_196",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_197",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_453",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_454",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_455",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_456",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_457",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_458",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_459",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_460",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_461",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_462",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_463",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_464",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_465",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_466",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_467",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_470",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_471",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_472",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_473",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_474",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_475",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_480",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_481",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_482",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_483",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_484",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_485",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_486",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_487",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_491",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_497",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_498",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_500",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_501",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_502",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_506",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_507",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_508",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_509",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_510",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_512",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_513",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_516",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_518",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_155",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_290",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_291",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_292",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_519",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_527",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論"
+  },
+  {
+    "tagId": "kb_553",
+    "title": "役割多元化",
+    "summary": "仕事、家族、友人、学習者など複数の役割に自己を分散させ、一つの役割だけで自己価値を決めないこと。ある領域の失敗が自己全体へ波及するのを抑える。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_554",
+    "title": "後悔最小化",
+    "summary": "将来の自分が何を最も後悔するかを想像し、短期の損得だけでなく長期の納得を判断基準にする方法。未来の感情予測も誤るため、唯一の基準ではなく補助線として使う。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_555",
+    "title": "リスク・オブ・ルイン",
+    "summary": "損失が一時的な不調ではなく、資金・健康・信用などを回復不能な水準まで壊す危険。期待値が高い選択でも、破滅確率があるなら賭け金を制限する必要がある。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_561",
+    "title": "バックキャスティング",
+    "summary": "望ましい将来の状態を先に描き、そこから現在へ逆算して必要な中間条件と行動を決める計画法。現在の延長予測では届かない大きな変化の設計に向く。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_567",
+    "title": "ポートフォリオ理論",
+    "summary": "値動きや失敗要因の異なる資産を組み合わせ、全体の期待収益に対するリスクを管理する理論。人生設計では、収入源、技能、役割への依存を分散する比喩として応用される。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_568",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_569",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_575",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_592",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_594",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_595",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_599",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_542",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_543",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_544",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_545",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_546",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_548",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_476",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_488",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_495",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_515",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_142",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_143",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_144",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_145",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_146",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_147",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_148",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_149",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_150",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_151",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_152",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_153",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_154",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_156",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_157",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_159",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_160",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_161",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_162",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_163",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_164",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_165",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_166",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_278",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_279",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_280",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_281",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_282",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_283",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_284",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_285",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_286",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_287",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_288",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_289",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_522",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_523",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_524",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_525",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論"
+  },
+  {
+    "tagId": "kb_549",
+    "title": "水に常形無く",
+    "summary": "『孫子』虚実篇の、水に一定の形がないように戦いにも固定した態勢はない、という比喩。過去の成功法を絶対視せず、相手と地形に応じて形を変える適応を説く。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_468",
+    "title": "鳥尽きて良弓蔵れ",
+    "summary": "獲物の鳥がいなくなれば優れた弓もしまわれる、という中国の故事。組織では、役割を果たした功労者でも必要性がなくなれば地位を失い得るため、役割以外の価値と選択肢が要る。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_469",
+    "title": "狡兎死して走狗烹らる",
+    "summary": "狡猾な兎を捕り終えると猟犬が煮られる、という故事。共通の敵や課題で結ばれた関係は、目的達成後に利害が変わるため、永続的な忠誠を前提にしてはならない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_490",
+    "title": "善の善なる者なり",
+    "summary": "『孫子』の「戦わずして人の兵を屈するは、善の善なる者なり」の結句。勝敗の数ではなく、資源を損なわず目的を達成することを最上とする評価基準を表す。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_496",
+    "title": "未だ巧久を睹ざるなり",
+    "summary": "『孫子』作戦篇の「兵は拙速を聞くも、未だ巧久を睹ざるなり」の一部。戦いを巧妙に長引かせて利益を得た例はないとして、消耗する長期戦を戒める。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_503",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_504",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_505",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_296",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_298",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_299",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_300",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_301",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_304",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_311",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_312",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_315",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_324",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_326",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_327",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_329",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_333",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_334",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_335",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_336",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_351",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_352",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_353",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_359",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_603",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_604",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_605",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_606",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_607",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_608",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_609",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_610",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_611",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_612",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_613",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_614",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_615",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_616",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_617",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_618",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_619",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_620",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_621",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_622",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_623",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_624",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_625",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_626",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_627",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_628",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_629",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_630",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_631",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_632",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想"
+  },
+  {
+    "tagId": "kb_330",
+    "title": "『Done is better than perfect』",
+    "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_331",
+    "title": "『環境は意志より強い』",
+    "summary": "行動を変えるには意志力へ頼るより、望ましい行動が自然に起きる環境を設計する方が強いという原則。",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_338",
+    "title": "『自分の人生を他人のハイライトと比べない』",
+    "summary": "他人の最も良く見える瞬間と、自分の不安や失敗を含む日常全体を比較しても、公正な判断にはならない。",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_633",
+    "title": "『点と点は、振り返って初めてつながる』 — スティーブ・ジョブズ",
+    "summary": "今は無駄に見える経験も、後から意味を持つことがあるという人生観。",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_634",
+    "title": "『時間は限られている。他人の人生を生きるな』 — スティーブ・ジョブズ",
+    "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_635",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_636",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_637",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_638",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_639",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_640",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_641",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_642",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_643",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_644",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_645",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_646",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_647",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_648",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_649",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_650",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_651",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_652",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_653",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_654",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_655",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_656",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_657",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_658",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_659",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_660",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_661",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_662",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_663",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_664",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_665",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_666",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_667",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_668",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_669",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_670",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_671",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_672",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_673",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_674",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_675",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_676",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_677",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_678",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_679",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_680",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_681",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_682",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_683",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_684",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_685",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_686",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_687",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_688",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_689",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_690",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_691",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_692",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_693",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_694",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_695",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_696",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_697",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_698",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_699",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_700",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_701",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_702",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_703",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_704",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  },
+  {
+    "tagId": "kb_705",
+    "title": "完全版の理論",
+    "summary": "",
+    "categoryId": "maxims-experience",
+    "categoryTitle": "格言・経験則・作品"
+  }
+]

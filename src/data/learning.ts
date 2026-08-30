@@ -1,4 +1,4 @@
-import learningSource from './generated/learning.json';
+import learningSource from './generated/learning.public.json';
 
 export type LearningChoice = { id: 'a' | 'b' | 'c'; label: string; review: string };
 export type LearningCase = {

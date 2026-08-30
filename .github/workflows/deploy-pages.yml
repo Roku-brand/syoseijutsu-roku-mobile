@@ -80,7 +80,14 @@ jobs:
         run: node scripts/import-owner-content.mjs
 
       - name: Prepare public runtime catalog
-        run: cp src/data/learning.runtime.ts src/data/learning.ts
+        run: |
+          cp src/data/learning.runtime.ts src/data/learning.ts
+          pnpm content:build-public
+
+      - name: Prepare and securely sync complete-edition content
+        run: |
+          pnpm content:split-secure
+          pnpm content:sync-paid
 
       - name: Validate 336-item master catalog
         run: pnpm content:validate-master336

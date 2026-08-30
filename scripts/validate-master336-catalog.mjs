@@ -28,6 +28,9 @@ const explanationParagraphCounts = new Map();
 for (const paragraph of explanationParagraphs) explanationParagraphCounts.set(paragraph, (explanationParagraphCounts.get(paragraph) ?? 0) + 1);
 const repeatedExplanationParagraphs = [...explanationParagraphCounts.entries()].filter(([, count]) => count > 1);
 const duplicateExplanationParagraphs = repeatedExplanationParagraphs.reduce((sum, [, count]) => sum + count - 1, 0);
+const actualCategoryCounts = Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))]
+  .map((categoryId) => [categoryId, theories.filter((theory) => theory.categoryId === categoryId).length]));
+const metadataCategoryCountsMatch = JSON.stringify(metadata.categoryCounts) === JSON.stringify(actualCategoryCounts);
 const bannedExplanationFragments = [
   '表面の振る舞いだけを真似',
   '相手は余計な推測や警戒',
@@ -70,6 +73,8 @@ const checks = {
   missingTheoryLinks: cards.filter((card) => !card.relatedTheoryIds?.length).length,
   metadataTechniqueCount: metadata.techniqueCount,
   metadataPersonaCount: metadata.personaCount,
+  metadataCategoryCountsMatch,
+  actualCategoryCounts,
   source: metadata.source,
   mismatchedGroups,
 };
@@ -81,5 +86,6 @@ if (
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
   checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
-  checks.metadataPersonaCount !== 26 || checks.source !== 'shoseijutsuroku_解説_再改善統合版_master336_001-336.md' || checks.mismatchedGroups.length
+  checks.metadataPersonaCount !== 26 || !checks.metadataCategoryCountsMatch ||
+  checks.source !== 'shoseijutsuroku_解説_再改善統合版_master336_001-336.md' || checks.mismatchedGroups.length
 ) throw new Error('336-item master catalog validation failed.');

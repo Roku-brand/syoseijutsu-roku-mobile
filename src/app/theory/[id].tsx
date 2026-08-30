@@ -14,6 +14,9 @@ import {
 import type { TheoryCard } from '@/data/types';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import { getTheoryCategoryLabel, normalizeDisplayText } from '@/data/theory-display';
+import { useAccess } from '@/access/access-state';
+import { canReadTheory } from '@/access/access-config';
+import { LockedPreview } from '@/components/locked-preview';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -23,6 +26,7 @@ export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const theory = theoryById.get(id);
+  const { accessState } = useAccess();
   const [informationOpen, setInformationOpen] = useState(false);
 
   if (!theory) {
@@ -34,6 +38,11 @@ export default function TheoryDetailScreen() {
         />
       </Screen>
     );
+  }
+
+  const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
+  if (!canReadTheory(effectiveAccess, theory.tagId)) {
+    return <LockedPreview source="discover_theory" />;
   }
 
   const related = getTechniquesForTheory(theory);
