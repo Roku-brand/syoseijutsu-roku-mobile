@@ -274,6 +274,17 @@ test('履歴はマイページで最新を示し、全件は独立ページで�
   await expect(page.getByText('まだ閲覧履歴はありません')).toBeVisible();
 });
 
+test('理論の閲覧もマイページと履歴一覧へ蓄積される', async ({ page }) => {
+  await page.goto('/theory/kb_001');
+  await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
+  await page.goto('/my-os');
+  await expect(page.getByText('最近の履歴', { exact: true })).toBeVisible();
+  await expect(page.getByText('初頭効果', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'すべての履歴を見る' }).click();
+  await expect(page).toHaveURL(/\/history/);
+  await expect(page.getByRole('button', { name: '初頭効果を開く' })).toBeVisible();
+});
+
 test('探すは検索欄から始まり、目的語タグを表示する', async ({ page }) => {
   await page.goto('/discover');
   await expect(page.getByText('DISCOVER')).toHaveCount(0);

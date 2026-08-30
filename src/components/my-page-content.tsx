@@ -36,7 +36,12 @@ export default function MyPageContent() {
   const libraryCount = savedIds.length + savedTheoryIds.length;
   const recentSaved = useMemo(() => buildRecentSaved(savedIds, savedTheoryIds), [savedIds, savedTheoryIds]);
   const recentHistory = useMemo(
-    () => historyIds.slice(0, 4).map((id) => techniqueById.get(id)).filter(Boolean),
+    () => historyIds.slice(0, 4).map((id) => {
+      const card = techniqueById.get(id);
+      if (card) return { kind: '処世術' as const, id: card.id, title: card.title, meta: `${card.categoryName}・${card.subcategory}` };
+      const theory = theoryById.get(id);
+      return theory ? { kind: '理論' as const, id: theory.tagId, title: theory.title, meta: theory.categoryTitle } : null;
+    }).filter((item): item is SavedPreview => Boolean(item)),
     [historyIds],
   );
 
@@ -106,15 +111,17 @@ export default function MyPageContent() {
         </PreviewColumn>
 
         <PreviewColumn title="最近の履歴" actionLabel="すべての履歴を見る" onAction={() => router.push('/history')}>
-          {recentHistory.length ? recentHistory.map((card) => card ? (
+          {recentHistory.length ? recentHistory.map((item) => (
             <PreviewRow
-              key={card.id}
-              label="処世術"
-              title={card.title}
-              meta={`${card.categoryName}・${card.subcategory}`}
-              onPress={() => router.push({ pathname: '/card/[id]', params: { id: card.id } })}
+              key={`${item.kind}-${item.id}`}
+              label={item.kind}
+              title={item.title}
+              meta={item.meta}
+              onPress={() => item.kind === '処世術'
+                ? router.push({ pathname: '/card/[id]', params: { id: item.id } })
+                : router.push({ pathname: '/theory/[id]', params: { id: item.id } })}
             />
-          ) : null) : <QuietEmpty>まだ履歴はありません</QuietEmpty>}
+          )) : <QuietEmpty>まだ履歴はありません</QuietEmpty>}
         </PreviewColumn>
       </View>
 

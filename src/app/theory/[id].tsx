@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
@@ -17,6 +17,7 @@ import { getTheoryCategoryLabel, normalizeDisplayText } from '@/data/theory-disp
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
+import { useAppState } from '@/state/app-state';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -27,7 +28,13 @@ export default function TheoryDetailScreen() {
   const router = useRouter();
   const theory = theoryById.get(id);
   const { accessState } = useAccess();
+  const { addHistory } = useAppState();
   const [informationOpen, setInformationOpen] = useState(false);
+  const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
+
+  useEffect(() => {
+    if (theory && canReadTheory(effectiveAccess, theory.tagId)) addHistory(theory.tagId);
+  }, [addHistory, effectiveAccess, theory]);
 
   if (!theory) {
     return (
@@ -40,7 +47,6 @@ export default function TheoryDetailScreen() {
     );
   }
 
-  const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
   if (!canReadTheory(effectiveAccess, theory.tagId)) {
     return <LockedPreview source="discover_theory" />;
   }
