@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createTheoryCard } from './theory-card-schema.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sourcePath = process.argv[2];
@@ -72,29 +73,16 @@ const imported = sourceItems.map((sourceItem, index) => {
   const existing = currentByNormalizedTitle.get(normalizeTitle(sourceItem.title));
   const base = existing ?? {
     tagId: `kb_${String(nextTagNumber++).padStart(3, '0')}`,
-    originalNumber: maxTagNumber + index + 1,
     summary: '',
-    sourceType: sourceItem.categoryInfo.title,
-    discipline: sourceItem.categoryInfo.title,
-    conceptType: '概念・フレームワーク',
-    sourceName: null,
-    sourceDetail: null,
-    domains: [],
-    principles: [],
-    relatedIds: [],
-    reliability: '学術的位置づけ要確認',
-    status: 'seed',
-    notes: '添付の6分類・630タイトル一覧から追加。',
   };
   if (usedTagIds.has(base.tagId)) throw new Error(`Duplicate mapped theory id: ${base.tagId}`);
   usedTagIds.add(base.tagId);
-  return {
-    ...base,
+  return createTheoryCard(base, {
     title: sourceItem.title,
     summary: sourceItem.summary || base.summary || `${sourceItem.title}に関する考え方・概念。`,
     categoryId: sourceItem.categoryInfo.id,
     categoryTitle: sourceItem.categoryInfo.title,
-  };
+  });
 });
 
 await writeFile(generatedPath, `${JSON.stringify(imported, null, 2)}\n`, 'utf8');

@@ -106,8 +106,6 @@ function theoryVector(theory) {
   return mergeVectors([
     [theory.title, 10],
     [theory.summary, 5],
-    [(theory.principles ?? []).join(' '), 4],
-    [(theory.domains ?? []).join(' '), 3],
   ]);
 }
 
@@ -142,9 +140,7 @@ const theoryIdByTitle = new Map(theories.map((theory) => [theory.title, theory.t
 
 for (const card of cards) {
   const vector = techniqueVector(card);
-  const targetDomains = personaDomains.get(`${card.field}/${card.persona}`) ?? [];
-  const isCompatible = (theory) => targetDomains.some((domain) => (theory.domains ?? []).includes(domain));
-  const compatibleTheories = theories.filter(isCompatible);
+  const compatibleTheories = theories;
   const legacyRanked = legacyCards
     .filter((legacy) => legacy.field === card.field)
     .map((legacy) => {
@@ -160,24 +156,21 @@ for (const card of cards) {
   for (const { legacy, score } of legacyRanked) {
     for (const id of legacy.relatedTheoryIds ?? []) {
       const theory = theoryById.get(id);
-      if (!theory || !isCompatible(theory)) continue;
+      if (!theory) continue;
       scores.set(id, (scores.get(id) ?? 0) + score);
     }
   }
   for (const theory of compatibleTheories) {
     const direct = cosine(vector, theoryVectors.get(theory.tagId));
     const title = cosine(grams(card.title, 1), grams(theory.title, 1));
-    const principle = cosine(grams(`${card.title} ${card.essence}`, 1), grams((theory.principles ?? []).join(' '), 1));
-    scores.set(theory.tagId, (scores.get(theory.tagId) ?? 0) + direct * 0.85 + title * 0.4 + principle * 0.65);
+    scores.set(theory.tagId, (scores.get(theory.tagId) ?? 0) + direct * 0.85 + title * 0.4);
   }
   const keyText = `${card.title} ${card.essence}`;
   for (const [pattern, ids] of theoryRules) {
     if (!pattern.test(keyText)) continue;
     for (const id of ids) {
       const theory = theoryById.get(id);
-      const crossFieldCognition = card.field === '仕事術' && card.persona === '頭がいい人' && ['kb_570', 'kb_573', 'kb_574', 'kb_576'].includes(id);
-      const crossFieldCommitment = card.field === '人生術' && card.persona === '人生を楽しめる人' && ['kb_173', 'kb_174', 'kb_547'].includes(id);
-      if (theory && ((theory.domains ?? []).includes(card.field) || crossFieldCognition || crossFieldCommitment)) {
+      if (theory) {
         scores.set(id, (scores.get(id) ?? 0) + 1.75);
       }
     }
@@ -187,7 +180,8 @@ for (const card of cards) {
     .map(([id, score]) => ({ id, score, theory: theoryById.get(id) }))
     .filter((entry) => entry.theory)
     .sort((left, right) => right.score - left.score);
-  const selected = ranked.slice(0, 3);
+  const threshold = ranked[0]?.score ?? 0;
+  const selected = ranked.filter((entry) => entry.score >= Math.max(0.45, threshold * 0.6));
   const curatedTitles = leadershipTheoryTitles.get(card.title);
   if (card.persona === '人を動かせる人' && curatedTitles) {
     const curatedIds = curatedTitles.map((title) => theoryIdByTitle.get(title));
@@ -203,7 +197,7 @@ for (const card of cards) {
     title: card.title,
     confidence: Number(selected[0].score.toFixed(4)),
     theories: selected.map((entry) => ({ id: entry.id, title: entry.theory.title, score: Number(entry.score.toFixed(4)) })),
-    nearestLegacy: legacyRanked.slice(0, 3).map(({ legacy, score }) => ({
+    nearestLegacy: legacyRanked.map(({ legacy, score }) => ({
       id: legacy.id,
       title: legacy.title,
       score: Number(score.toFixed(4)),

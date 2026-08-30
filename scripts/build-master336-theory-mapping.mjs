@@ -61,9 +61,6 @@ const techniqueVector = (card) => weightedVector([
 const theoryVector = (theory) => weightedVector([
   [theory.title, 12],
   [theory.summary, 7],
-  [(theory.principles ?? []).join(' '), 4],
-  [(theory.domains ?? []).join(' '), 2],
-  [theory.discipline, 1],
 ]);
 
 const domainRules = new Map([
@@ -264,15 +261,13 @@ function addCandidate(cardId, theoryId, score, evidence) {
 for (const card of cards) {
   const seed = seedCards.find((candidate) => candidate.id === card.id);
   for (const theoryId of seed?.relatedTheoryIds ?? []) addCandidate(card.id, theoryId, 4, '既存の手動紐づけ');
-  const targetDomains = domainRules.get(`${card.field}/${card.persona}`) ?? [];
   // Use the card's explicit thesis, not generic explanatory words such as
   // "違和感" or "相手" that recur in many unrelated paragraphs.
   const text = `${card.title} ${card.essence}`;
   for (const theory of theories) {
-    const domainMatch = targetDomains.some((domain) => (theory.domains ?? []).includes(domain));
     const direct = cosine(cardVectors.get(card.id), theoryVectors.get(theory.tagId));
     const titleScore = cosine(grams(card.title), grams(theory.title));
-    if (domainMatch && (titleScore >= 0.34 || (direct >= 0.65 && titleScore >= 0.15))) {
+    if (titleScore >= 0.34 || (direct >= 0.65 && titleScore >= 0.15)) {
       addCandidate(card.id, theory.tagId, direct * 1.9 + titleScore * 2.3, '本文と理論カードの意味近接');
     }
   }
@@ -337,9 +332,7 @@ for (const theory of theories) {
   const candidates = cards.map((card) => {
     const direct = cosine(cardVectors.get(card.id), theoryVectors.get(theory.tagId));
     const titleScore = cosine(grams(card.title), grams(theory.title));
-    const targetDomains = domainRules.get(`${card.field}/${card.persona}`) ?? [];
-    const domainMatch = targetDomains.some((domain) => (theory.domains ?? []).includes(domain));
-    return { card, direct, titleScore, domainMatch, score: direct * 1.8 + titleScore * 2.8 + (domainMatch ? 0.08 : 0) };
+    return { card, direct, titleScore, score: direct * 1.8 + titleScore * 2.8 };
   }).filter((entry) => entry.titleScore >= 0.34 || (entry.direct >= 0.65 && entry.titleScore >= 0.15)).sort((a, b) => b.score - a.score);
   for (const candidate of candidates) {
     if (candidate.score < 0.75) break;
@@ -381,7 +374,7 @@ for (const count of techniqueCounts) {
 }
 
 function relationReason(card, theory) {
-  if (theory.sourceType === '格言・経験則・作品') {
+  if (theory.categoryId === 'maxims-experience') {
     return `格言「${theory.title}」が示す判断軸が、この処世術の本質・実践条件・注意点を直接補強するため。`;
   }
   const text = `${card.title} ${card.essence} ${card.explanation}`;

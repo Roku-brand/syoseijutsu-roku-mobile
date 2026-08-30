@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createTheoryCard } from './theory-card-schema.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
@@ -10,7 +11,7 @@ const categoryConfig = [
   {
     key: 'interpersonal',
     name: '対人術',
-    sourceName: '対人術',
+    sourceCategoryName: '対人術',
     subcategories: [
       {
         name: '関係の構築',
@@ -29,7 +30,7 @@ const categoryConfig = [
   {
     key: 'work',
     name: '仕事術',
-    sourceName: '仕事術',
+    sourceCategoryName: '仕事術',
     subcategories: [
       {
         name: '評価の獲得',
@@ -48,7 +49,7 @@ const categoryConfig = [
   {
     key: 'life',
     name: '人生術',
-    sourceName: '人生術',
+    sourceCategoryName: '人生術',
     subcategories: [
       {
         name: '人生の指針',
@@ -110,18 +111,17 @@ const theoryContexts = {
 
 function createTheorySummary(record) {
   const context = theoryContexts[record.source_type] ?? '現実の判断と行動';
-  const domains = (record.domains ?? []).join('・');
   const kind = record.concept_type ?? '考え方';
 
   if (record.source_type === '古典・思想') {
-    return `「${record.title}」は、${context}を示す${kind}です。${domains || '日常の判断'}で、目先の得失だけでなく長い時間軸から状況を見る手がかりになります。`;
+    return `「${record.title}」は、${context}を示す${kind}です。目先の得失だけでなく、長い時間軸から状況を見る手がかりになります。`;
   }
 
   if (record.source_type === '格言・経験則・作品') {
-    return `「${record.title}」は、${context}を言葉にした${kind}です。${domains || '日常の判断'}で、迷ったときの見方や行動の軸として使えます。`;
+    return `「${record.title}」は、${context}を言葉にした${kind}です。迷ったときの見方や行動の軸として使えます。`;
   }
 
-  return `「${record.title}」は、${context}を捉える${kind}です。${domains || '日常の判断'}で起きることを整理し、次に取る行動を考える手がかりになります。`;
+  return `「${record.title}」は、${context}を捉える${kind}です。起きていることを整理し、次に取る行動を考える手がかりになります。`;
 }
 
 async function readJson(filename) {
@@ -135,7 +135,7 @@ const [techniqueDataset, theoryDataset] = await Promise.all([
 ]);
 
 const sourceCategoryByName = new Map(
-  categoryConfig.map((category) => [category.sourceName, category]),
+  categoryConfig.map((category) => [category.sourceCategoryName, category]),
 );
 
 function createTechniqueTags(card) {
@@ -183,7 +183,7 @@ const categories = categoryConfig.map((category) => ({
     items: techniqueDataset.cards
       .filter(
         (card) =>
-          card.category === category.sourceName &&
+          card.category === category.sourceCategoryName &&
           card.subcategory === subcategory.name,
       )
       .sort((a, b) => a.display_order - b.display_order)
@@ -221,49 +221,26 @@ const rawTheoryRecords = Array.isArray(theoryDataset)
 const theories = rawTheoryRecords.map((record) => {
   const tagId = record.tagId ?? record.id;
   const originOverride = theoryOriginOverrides.get(tagId);
-  const sourceType =
-    originOverride?.[0] ?? record.sourceType ?? record.source_type;
-  const discipline =
-    originOverride?.[1] ?? record.discipline;
+  const sourceCategory = originOverride?.[0] ?? record.source_type;
   const categoryId =
     originOverride
-      ? theoryCategoryIds.get(sourceType)
-      : record.categoryId ?? theoryCategoryIds.get(sourceType);
+      ? theoryCategoryIds.get(sourceCategory)
+      : record.categoryId ?? theoryCategoryIds.get(sourceCategory);
   if (!categoryId) {
-    throw new Error(`Unknown theory source type: ${sourceType}`);
+    throw new Error(`Unknown theory source category: ${sourceCategory}`);
   }
 
   const legacyRecord = {
     ...record,
-    source_type: sourceType,
-    concept_type: record.conceptType ?? record.concept_type,
-    domains: record.domains ?? [],
+    source_type: sourceCategory,
   };
 
-  return {
+  return createTheoryCard(record, {
     tagId,
-    originalNumber: record.originalNumber ?? record.original_number,
-    title: record.title,
     summary: record.summary ?? createTheorySummary(legacyRecord),
-    definition: record.definition,
-    keyPoints: record.keyPoints ?? [],
-    pitfalls: record.pitfalls ?? [],
-    strategies: record.strategies ?? [],
-    applicationConditions: record.applicationConditions ?? [],
-    sourceType,
-    discipline,
-    conceptType: record.conceptType ?? record.concept_type,
-    sourceName: record.sourceName ?? record.source_name,
-    sourceDetail: record.sourceDetail ?? record.source_detail,
-    domains: record.domains ?? [],
-    principles: record.principles ?? [],
-    relatedIds: record.relatedIds ?? record.related_ids ?? [],
-    reliability: record.reliability,
-    status: record.status,
-    notes: record.notes,
     categoryId,
-    categoryTitle: originOverride ? sourceType : record.categoryTitle ?? sourceType,
-  };
+    categoryTitle: originOverride ? sourceCategory : record.categoryTitle ?? sourceCategory,
+  });
 });
 
 const theoryIds = new Set(theories.map((theory) => theory.tagId));

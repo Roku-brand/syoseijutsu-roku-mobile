@@ -74,16 +74,7 @@ export default function DiscoverScreen() {
               theory.tagId,
               theory.title,
               theory.summary,
-              theory.definition,
               theory.categoryTitle,
-              theory.sourceType,
-              theory.discipline,
-              theory.conceptType,
-              theory.sourceName,
-              theory.sourceDetail,
-              ...(theory.domains ?? []),
-              ...(theory.principles ?? []),
-              ...(theory.keyPoints ?? []),
             ]
               .filter(Boolean)
               .join(' ')

@@ -34,16 +34,9 @@ const unknownProvenance: TheoryProvenance = {
 };
 
 export function getTheoryProvenance(
-  theory: Pick<TheoryCard, 'title' | 'provenance' | 'sourceName' | 'sourceDetail'>,
+  theory: Pick<TheoryCard, 'title' | 'provenance'>,
 ): TheoryProvenance {
   if (theory.provenance) return theory.provenance;
   if (provenanceByTitle[theory.title]) return provenanceByTitle[theory.title];
-  if (theory.sourceName || theory.sourceDetail) {
-    return {
-      status: '一部確認',
-      attribution: theory.sourceName ?? undefined,
-      works: theory.sourceDetail ? [theory.sourceDetail] : undefined,
-    };
-  }
   return unknownProvenance;
 }

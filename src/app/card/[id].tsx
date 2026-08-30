@@ -7,6 +7,7 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
+  getTheoryDisplayId,
   techniqueById,
   techniqueCards,
   theoryById,
@@ -71,8 +72,7 @@ export default function CardDetailScreen() {
   };
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
-    .filter(Boolean)
-    .slice(0, 3);
+    .filter((theory): theory is NonNullable<typeof theory> => Boolean(theory));
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
@@ -183,7 +183,7 @@ export default function CardDetailScreen() {
 
         {relatedTheories.length > 0 && (
           <ArticleSection title="関連する理論" mark="▱">
-            <View style={styles.theoryList}>
+            <View testID="related-theories" style={styles.theoryList}>
               {relatedTheories.map((theory) =>
                 theory ? (
                   <Pressable
@@ -201,9 +201,10 @@ export default function CardDetailScreen() {
                       pressed && styles.pressed,
                     ]}
                   >
-                    <AppText variant="serif" style={styles.theoryTitle}>
-                      {theory.title}
-                    </AppText>
+                    <View style={styles.theoryCopy}>
+                      <AppText style={styles.theoryId}>{getTheoryDisplayId(theory)}</AppText>
+                      <AppText variant="serif" style={styles.theoryTitle}>{theory.title}</AppText>
+                    </View>
                     <AppText style={styles.chevron}>›</AppText>
                   </Pressable>
                 ) : null,
@@ -484,7 +485,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
-  theoryTitle: { flex: 1, color: '#1C211D', fontSize: 17, lineHeight: 25, fontWeight: '700' },
+  theoryCopy: { flex: 1, minWidth: 0 },
+  theoryId: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },
+  theoryTitle: { color: '#1C211D', fontSize: 17, lineHeight: 25, fontWeight: '700' },
   chevron: { color: colors.gold, fontSize: 22, lineHeight: 22 },
   relatedGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 20, rowGap: 8 },
   relatedItem: { width: '47%', minHeight: 24, flexDirection: 'row', alignItems: 'flex-start', gap: 7 },

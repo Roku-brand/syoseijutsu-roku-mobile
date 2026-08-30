@@ -64,7 +64,7 @@ for (const persona of remap.personas) {
   });
 }
 
-const theories = [...adoptedIds].map((tagId) => categoryById.get(tagId)).sort((a, b) => a.originalNumber - b.originalNumber);
+const theories = [...adoptedIds].map((tagId) => categoryById.get(tagId));
 const outputDir = path.join(repoRoot, 'src/data/generated');
 fs.writeFileSync(path.join(outputDir, 'techniques.json'), `${JSON.stringify({ categories }, null, 2)}\n`);
 fs.writeFileSync(path.join(outputDir, 'theories.json'), `${JSON.stringify(theories, null, 2)}\n`);

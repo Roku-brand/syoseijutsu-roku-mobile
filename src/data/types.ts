@@ -34,28 +34,13 @@ export type TechniqueCard = TechniqueSource & {
 
 export type TheoryCard = {
   tagId: string;
-  originalNumber?: number;
   title: string;
-  summary?: string | null;
-  definition?: string;
-  keyPoints?: string[];
-  pitfalls?: string[];
-  strategies?: string[];
-  applicationConditions?: string[];
-  sourceType: string;
-  discipline: string;
-  conceptType: string;
-  sourceName?: string | null;
-  sourceDetail?: string | null;
-  provenance?: TheoryProvenance;
-  domains?: string[];
-  principles?: string[];
-  relatedIds?: string[];
-  reliability?: string;
-  status?: string;
-  notes?: string | null;
+  /** 理論を説明する唯一の本文。UIでは「概要」と表示する。 */
+  summary: string;
   categoryId: string;
   categoryTitle: string;
+  /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
+  provenance?: TheoryProvenance;
 };
 
 export type TheoryProvenance = {

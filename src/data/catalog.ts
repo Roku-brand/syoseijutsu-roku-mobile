@@ -241,9 +241,7 @@ export function getRelatedCards(card: TechniqueCard, limit = 6) {
   }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, limit).map(({ candidate }) => candidate);
 }
 
-export function getRelatedTheories(theory: TheoryCard, limit = 3) {
-  const explicitIds = new Set(theory.relatedIds ?? []);
-  const currentDomains = new Set(theory.domains ?? []);
+export function getRelatedTheories(theory: TheoryCard) {
   const coReferencedCounts = new Map<string, number>();
   techniqueCards.filter((card) => card.theoryTagIds?.includes(theory.tagId)).forEach((card) => {
     (card.theoryTagIds ?? []).forEach((id) => {
@@ -251,23 +249,20 @@ export function getRelatedTheories(theory: TheoryCard, limit = 3) {
     });
   });
   return theories.filter((candidate) => candidate.tagId !== theory.tagId).map((candidate) => {
-    const sharedDomains = (candidate.domains ?? []).filter((domain) => currentDomains.has(domain)).length;
-    const score = (explicitIds.has(candidate.tagId) ? 100 : 0) + (coReferencedCounts.get(candidate.tagId) ?? 0) * 20 + sharedDomains * 4 + (candidate.discipline === theory.discipline ? 3 : 0) + (candidate.categoryId === theory.categoryId ? 1 : 0);
-    return { candidate, score, sharedDomains };
-  }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || b.sharedDomains - a.sharedDomains || a.candidate.title.localeCompare(b.candidate.title, 'ja')).slice(0, limit).map(({ candidate }) => candidate);
+    return { candidate, score: coReferencedCounts.get(candidate.tagId) ?? 0 };
+  }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || a.candidate.title.localeCompare(b.candidate.title, 'ja')).map(({ candidate }) => candidate);
 }
 
 // Theory detail pages use this exact reverse index rather than re-running a
 // loose similarity search. It is therefore the strict inverse of the links
 // displayed on every technique card.
-export function getTechniquesForTheory(theoryOrId: TheoryCard | string, limit = 12) {
+export function getTechniquesForTheory(theoryOrId: TheoryCard | string) {
   const theoryId = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
   return [...(techniqueCardsByTheoryId.get(theoryId) ?? [])]
     .sort((a, b) => {
       const primaryDifference = (a.theoryTagIds ?? []).indexOf(theoryId) - (b.theoryTagIds ?? []).indexOf(theoryId);
       return primaryDifference || a.id.localeCompare(b.id);
-    })
-    .slice(0, limit);
+    });
 }
 
 export function getFeed(interests: CategoryKey[], savedIds: string[]) {

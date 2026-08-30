@@ -1020,7 +1020,7 @@ function EditorialTheoryCard({
 }) {
   const title = getEditorialTheoryTitle(theory);
   const titleSize = getEditorialTheoryTitleSize(title, width, compact);
-  const summary = formatTheoryCoverSummary(getTheoryCoverSummary(theory.summary, theory.definition ?? '日常の判断と行動を理解するための知識。'));
+  const summary = formatTheoryCoverSummary(getTheoryCoverSummary(theory.summary));
   const code = getEditorialTheoryCode(theory);
 
   return (

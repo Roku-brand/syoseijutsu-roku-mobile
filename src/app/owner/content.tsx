@@ -6,7 +6,7 @@ import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
+import { getTheoryDisplayId, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
@@ -320,8 +320,87 @@ function ListEditor({ label, items, onChange }: { label: string; items: string[]
 }
 
 function TheorySelector({ selectedIds, onChange }: { selectedIds: string[]; onChange: (ids: string[]) => void }) {
-  const available = theories.filter((theory) => !selectedIds.includes(theory.tagId)).slice(0, 8);
-  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>関連する理論カード</AppText><View style={styles.theoryChips}>{selectedIds.map((id) => { const theory = theories.find((item) => item.tagId === id); return <Pressable key={id} onPress={() => onChange(selectedIds.filter((item) => item !== id))} style={styles.theoryChip}><AppText numberOfLines={1} style={styles.theoryChipText}>{theory?.title ?? id} ×</AppText></Pressable>; })}</View>{available.length ? <View style={styles.theoryOptions}>{available.map((theory) => <Pressable key={theory.tagId} onPress={() => onChange([...selectedIds, theory.tagId])} style={styles.theoryOption}><AppText numberOfLines={1} style={styles.theoryOptionText}>{theory.title}</AppText><AppText style={styles.addText}>追加</AppText></Pressable>)}</View> : null}</View>;
+  const [adding, setAdding] = useState(false);
+  const [query, setQuery] = useState('');
+  const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
+  const results = useMemo(
+    () => searchTheories(query).filter((theory) => !selectedSet.has(theory.tagId)),
+    [query, selectedSet],
+  );
+  const move = (index: number, offset: -1 | 1) => {
+    const targetIndex = index + offset;
+    if (targetIndex < 0 || targetIndex >= selectedIds.length) return;
+    const next = [...selectedIds];
+    [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
+    onChange(next);
+  };
+
+  return (
+    <View style={styles.field}>
+      <View style={styles.theoryHeader}>
+        <AppText variant="label" style={styles.fieldLabel}>関連する理論　{selectedIds.length}件</AppText>
+        <Pressable onPress={() => setAdding((open) => !open)} style={styles.addButton} accessibilityRole="button" accessibilityLabel="理論を追加">
+          <AppText style={styles.addText}>{adding ? '閉じる' : '＋ 理論を追加'}</AppText>
+        </Pressable>
+      </View>
+
+      {selectedIds.length ? <View style={styles.selectedTheoryList}>
+        {selectedIds.map((id, index) => {
+          const theory = theories.find((item) => item.tagId === id);
+          return (
+            <View key={`${id}-${index}`} style={styles.selectedTheoryRow}>
+              <View style={styles.selectedTheoryCopy}>
+                <AppText style={styles.selectedTheoryId}>{theory ? getTheoryDisplayId(theory) : '—'}</AppText>
+                <AppText numberOfLines={2} style={styles.selectedTheoryTitle}>{theory?.title ?? `未登録の理論 (${id})`}</AppText>
+              </View>
+              <View style={styles.selectedTheoryActions}>
+                <Pressable disabled={index === 0} onPress={() => move(index, -1)} style={[styles.orderButton, index === 0 && styles.orderButtonDisabled]} accessibilityRole="button" accessibilityLabel={`${theory?.title ?? id}を上へ移動`}><AppText style={styles.orderButtonText}>↑</AppText></Pressable>
+                <Pressable disabled={index === selectedIds.length - 1} onPress={() => move(index, 1)} style={[styles.orderButton, index === selectedIds.length - 1 && styles.orderButtonDisabled]} accessibilityRole="button" accessibilityLabel={`${theory?.title ?? id}を下へ移動`}><AppText style={styles.orderButtonText}>↓</AppText></Pressable>
+                <Pressable onPress={() => onChange(selectedIds.filter((_, itemIndex) => itemIndex !== index))} style={styles.removeButton} accessibilityRole="button" accessibilityLabel={`${theory?.title ?? id}を削除`}><AppText style={styles.removeText}>削除</AppText></Pressable>
+              </View>
+            </View>
+          );
+        })}
+      </View> : <AppText style={styles.noRelatedTheories}>関連する理論はありません。</AppText>}
+
+      {adding ? <View style={styles.theorySearchPanel}>
+        <TextInput value={query} onChangeText={setQuery} placeholder="ID・tagId・タイトル・概要で検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="追加する理論を検索" />
+        {query.trim() ? <View style={styles.theoryOptions}>
+          {results.map((theory) => <View key={theory.tagId} style={styles.theorySearchResult}>
+            <AppText style={styles.theorySearchId}>{getTheoryDisplayId(theory)}</AppText>
+            <AppText style={styles.theorySearchTitle}>{theory.title}</AppText>
+            <AppText numberOfLines={3} style={styles.theorySearchSummary}>{theory.summary}</AppText>
+            <Pressable onPress={() => onChange([...selectedIds, theory.tagId])} style={styles.theoryAddButton} accessibilityRole="button" accessibilityLabel={`${theory.title}を追加`}><AppText style={styles.addText}>追加</AppText></Pressable>
+          </View>)}
+          {!results.length ? <AppText style={styles.noRelatedTheories}>一致する未選択の理論はありません。</AppText> : null}
+        </View> : <AppText style={styles.theorySearchHint}>全{theories.length}件から検索できます。</AppText>}
+      </View> : null}
+    </View>
+  );
+}
+
+function searchTheories(query: string) {
+  const normalizedQuery = normalizeTheorySearchText(query);
+  if (!normalizedQuery) return [];
+  return theories.map((theory) => {
+    const displayId = getTheoryDisplayId(theory);
+    const normalizedDisplayId = normalizeTheorySearchText(displayId);
+    const title = normalizeTheorySearchText(theory.title);
+    const tagId = normalizeTheorySearchText(theory.tagId);
+    const summary = normalizeTheorySearchText(theory.summary);
+    const rank = normalizedDisplayId === normalizedQuery || tagId === normalizedQuery ? 0
+      : title === normalizedQuery ? 1
+        : title.startsWith(normalizedQuery) ? 2
+          : title.includes(normalizedQuery) ? 3
+            : summary.includes(normalizedQuery) ? 4
+              : tagId.includes(normalizedQuery) ? 5
+                : Number.POSITIVE_INFINITY;
+    return { theory, rank };
+  }).filter(({ rank }) => Number.isFinite(rank)).sort((left, right) => left.rank - right.rank || left.theory.title.localeCompare(right.theory.title, 'ja')).map(({ theory }) => theory);
+}
+
+function normalizeTheorySearchText(value: string) {
+  return value.trim().toLocaleLowerCase().replace(/[‐‑‒–—―ー－]/g, '-').replace(/\s+/g, '');
 }
 
 function TechniquePreview({ snapshot, id }: { snapshot: TechniqueSnapshot; id: string }) {
@@ -396,12 +475,25 @@ const styles = StyleSheet.create({
   removeText: { color: '#A63F32', fontSize: 12, fontWeight: '700' },
   addButton: { alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   addText: { color: colors.gold, fontSize: 12, fontWeight: '700' },
-  theoryChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 },
-  theoryChip: { maxWidth: '100%', paddingHorizontal: 10, paddingVertical: 8, borderRadius: radius.pill, backgroundColor: colors.charcoal },
-  theoryChipText: { color: colors.goldLight, fontSize: 12, fontWeight: '700' },
-  theoryOptions: { gap: 6 },
-  theoryOption: { minHeight: 38, paddingHorizontal: 10, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm },
-  theoryOptionText: { flex: 1, color: colors.inkSoft, fontSize: 12 },
+  theoryHeader: { minHeight: 34, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  selectedTheoryList: { borderTopWidth: 1, borderTopColor: colors.line },
+  selectedTheoryRow: { minHeight: 62, paddingVertical: 9, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
+  selectedTheoryCopy: { flex: 1, minWidth: 0 },
+  selectedTheoryId: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },
+  selectedTheoryTitle: { color: colors.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
+  selectedTheoryActions: { flexDirection: 'row', alignItems: 'center', gap: 2 },
+  orderButton: { minWidth: 30, minHeight: 34, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm },
+  orderButtonDisabled: { opacity: 0.3 },
+  orderButtonText: { color: colors.gold, fontSize: 17, lineHeight: 21, fontWeight: '700' },
+  noRelatedTheories: { paddingVertical: 10, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  theorySearchPanel: { marginTop: spacing.sm, padding: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F8F4EC' },
+  theorySearchHint: { paddingTop: 8, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  theoryOptions: { marginTop: spacing.sm, gap: 8 },
+  theorySearchResult: { padding: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.paper },
+  theorySearchId: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },
+  theorySearchTitle: { marginTop: 2, color: colors.ink, fontSize: 15, lineHeight: 21, fontWeight: '700' },
+  theorySearchSummary: { marginTop: 5, color: colors.inkSoft, fontSize: 12, lineHeight: 18 },
+  theoryAddButton: { alignSelf: 'flex-start', marginTop: 9, paddingHorizontal: 12, paddingVertical: 7, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: spacing.sm, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
   actionsTop: { marginTop: 0, marginBottom: spacing.lg },
   publishConfirmation: { gap: spacing.md, padding: spacing.md, marginTop: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: '#FBF4E3' },

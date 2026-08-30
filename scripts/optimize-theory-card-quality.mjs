@@ -30,8 +30,7 @@ function cleanSummary(summary) {
 }
 
 function contextSentence(record) {
-  const domain = (record.domains ?? []).filter(Boolean).slice(0, 2).join('・') || record.discipline || '日常の判断';
-  return `「${record.title}」という視点は、${domain}の場面で、観察する対象と実際に選ぶ行動を切り分けるために使う。`;
+  return `「${record.title}」という視点は、${record.categoryTitle}の場面で、観察する対象と実際に選ぶ行動を切り分けるために使う。`;
 }
 
 function isOptimizedRange(record) {

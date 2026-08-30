@@ -15,20 +15,20 @@ export function normalizeDisplayText(value?: string | null): string {
     .trim();
 }
 
-export function getTheoryCategoryLabel(theory: { categoryId: string; categoryTitle?: string | null; sourceType?: string | null }): string {
+export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; categoryTitle: string }, 'categoryId' | 'categoryTitle'>): string {
   const displayLabels: Record<string, string> = {
     'maxims-experience': '格言',
     'organization-management': '組織・経営論',
     'classics-thought': '古典',
   };
   if (displayLabels[theory.categoryId]) return displayLabels[theory.categoryId];
-  return normalizeDisplayText(theory.categoryTitle || theory.sourceType);
+  return normalizeDisplayText(theory.categoryTitle);
 }
 
 /** 表紙・一覧用に、理論の意味を説明する最初の1文だけを返す。 */
-export function getTheoryCoverSummary(summary?: string | null, fallback?: string): string {
+export function getTheoryCoverSummary(summary: string): string {
   const text = normalizeDisplayText(summary).replace(/\n+/g, ' ').replace(/[ \t]{2,}/g, ' ').trim();
-  if (!text) return fallback ?? '';
+  if (!text) return '';
   const sentenceEnd = text.search(/[。！？!?]/);
   return sentenceEnd === -1 ? text : text.slice(0, sentenceEnd + 1);
 }

@@ -43,12 +43,9 @@ export default function TheoryCategoryScreen() {
     const matched = term
       ? visibleItems.filter((theory) =>
           [
+            theory.tagId,
             theory.title,
             theory.summary,
-            theory.definition,
-            theory.discipline,
-            ...(theory.domains ?? []),
-            ...(theory.principles ?? []),
           ]
             .filter(Boolean)
             .join(' ')

@@ -47,7 +47,6 @@ for (const row of rows) {
   addCandidate(payload.subtitle, `${row.content_type}:${row.content_id}:subtitle`);
   addCandidate(payload.explanation, `${row.content_type}:${row.content_id}:explanation`);
   addCandidate(payload.summary, `${row.content_type}:${row.content_id}:summary`);
-  addCandidate(payload.definition, `${row.content_type}:${row.content_id}:definition`);
   addCandidate(payload.situation, `${row.content_type}:${row.content_id}:situation`);
   addCandidate(payload.why, `${row.content_type}:${row.content_id}:why`);
 }

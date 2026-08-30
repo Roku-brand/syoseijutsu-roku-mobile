@@ -448,7 +448,7 @@ const theoryRecords = (
 ).map((record) => ({
   id: record.tagId ?? record.id,
   title: record.title,
-  source_type: record.sourceType ?? record.source_type,
+  category_title: record.categoryTitle ?? record.source_type,
 }));
 
 const theoriesById = new Map(
@@ -523,10 +523,10 @@ const cards = parsedCards.map((sourceCard, index) => {
     display_order: withinSubcategory,
     category_order: categoryOrder.get(sourceCard.category),
     subcategory_order: subcategoryOrder.get(key),
-    evidence_source_types: [
+    evidence_category_titles: [
       ...new Set(
         evidenceIds
-          .map((id) => theoriesById.get(id)?.source_type)
+          .map((id) => theoriesById.get(id)?.category_title)
           .filter(Boolean),
       ),
     ],

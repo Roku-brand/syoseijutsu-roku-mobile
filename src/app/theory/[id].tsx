@@ -8,11 +8,10 @@ import {
   getRelatedTheories,
   getTechniquesForTheory,
   getTheoryDisplayId,
-  techniqueCards,
   theories,
   theoryById,
 } from '@/data/catalog';
-import type { TechniqueCard, TheoryCard } from '@/data/types';
+import type { TheoryCard } from '@/data/types';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import { getTheoryCategoryLabel, normalizeDisplayText } from '@/data/theory-display';
 
@@ -41,11 +40,7 @@ export default function TheoryDetailScreen() {
   const relatedTheories = getRelatedTheories(theory);
   const titleLength = [...theory.title.replace(/\s/g, '')].length;
   const titleFontSize = titleLength <= 12 ? 28 : titleLength <= 18 ? 24 : 21;
-  const explanation = normalizeDisplayText(
-    theory.summary ??
-    theory.definition ??
-    `${theory.discipline}に属する${theory.conceptType}です。`,
-  );
+  const summary = normalizeDisplayText(theory.summary);
   const navigateTheory = (offset: -1 | 1) => {
     const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
     const next = theories[(currentIndex + offset + theories.length) % theories.length];
@@ -75,18 +70,9 @@ export default function TheoryDetailScreen() {
           >
             {normalizeDisplayText(theory.title)}
           </AppText>
-          <AppText style={styles.explanation}>{explanation}</AppText>
+          <AppText variant="label" style={styles.summaryLabel}>概要</AppText>
+          <AppText style={styles.explanation}>{summary}</AppText>
         </View>
-
-        {!!theory.domains?.length && (
-          <DetailSection title="関連領域">
-            <View style={styles.chips}>
-              {theory.domains.map((domain) => (
-                <DomainChip key={domain} domain={domain} router={router} />
-              ))}
-            </View>
-          </DetailSection>
-        )}
 
         {related.length > 0 && (
           <DetailSection title="関連する処世術" count={related.length}>
@@ -179,115 +165,9 @@ function DetailSection({
   );
 }
 
-function DomainChip({
-  domain,
-  router,
-}: {
-  domain: string;
-  router: ReturnType<typeof useRouter>;
-}) {
-  const target = getDomainTarget(domain);
-  const content = (
-    <View style={styles.chip}>
-      <AppText style={styles.chipText}>{domain}</AppText>
-    </View>
-  );
-
-  if (!target) return content;
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${domain}の処世術を開く`}
-      onPress={() => {
-        if (target.kind === 'category') {
-          router.push({ pathname: '/category/[key]', params: { key: target.card.categoryKey } });
-          return;
-        }
-        if (target.kind === 'subcategory') {
-          router.push({
-            pathname: '/subcategory/[category]/[name]',
-            params: { category: target.card.categoryKey, name: target.card.subcategory },
-          });
-          return;
-        }
-        router.push({
-          pathname: '/theme/[category]/[title]',
-          params: { category: target.category, title: target.title },
-        });
-      }}
-      style={({ pressed }) => pressed && styles.pressed}
-    >
-      {content}
-    </Pressable>
-  );
-}
-
-type DomainTarget =
-  | { kind: 'category'; card: TechniqueCard }
-  | { kind: 'subcategory'; card: TechniqueCard }
-  | { kind: 'theme'; category: 'interpersonal' | 'work' | 'life'; title: string };
-
-const domainThemeTargets: Record<string, Extract<DomainTarget, { kind: 'theme' }>> = {
-  '不安の解消': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-  '交渉・合意の戦術': { kind: 'theme', category: 'work', title: '合意を導く' },
-  '交渉・合意術': { kind: 'theme', category: 'work', title: '合意を導く' },
-  '人生のつまずき': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-  '人生のつまずき・再設計': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-  '人生の指針': { kind: 'theme', category: 'life', title: '自分の軸を持つ' },
-  '目標達成': { kind: 'theme', category: 'work', title: '仕事を進める' },
-  '立ち回り': { kind: 'theme', category: 'interpersonal', title: '集団で力を発揮する' },
-  '自己防衛・境界線': { kind: 'theme', category: 'interpersonal', title: '距離を整える' },
-  '評価の獲得': { kind: 'theme', category: 'work', title: '評価を高める' },
-  '関係の構築': { kind: 'theme', category: 'interpersonal', title: '関係を育てる' },
-  '関係の管理': { kind: 'theme', category: 'interpersonal', title: '距離を整える' },
-  '集団での立ち回り': { kind: 'theme', category: 'interpersonal', title: '集団で力を発揮する' },
-};
-
-const standardizedDomainThemeTargets: Record<string, Extract<DomainTarget, { kind: 'theme' }>> = {
-  '関係の構築': { kind: 'theme', category: 'interpersonal', title: '関係を育てる' },
-  '関係の管理': { kind: 'theme', category: 'interpersonal', title: '距離を整える' },
-  '自己防衛・境界線': { kind: 'theme', category: 'interpersonal', title: '距離を整える' },
-  '集団での立ち回り': { kind: 'theme', category: 'interpersonal', title: '集団で力を発揮する' },
-  '仕事の進め方': { kind: 'theme', category: 'work', title: '仕事を進める' },
-  '目標達成': { kind: 'theme', category: 'work', title: '仕事を進める' },
-  '思考・判断': { kind: 'theme', category: 'work', title: '仕事を進める' },
-  '評価の獲得': { kind: 'theme', category: 'work', title: '評価を高める' },
-  '交渉・合意術': { kind: 'theme', category: 'work', title: '合意を導く' },
-  '交渉・合意の戦術': { kind: 'theme', category: 'work', title: '合意を導く' },
-  '立ち回り': { kind: 'theme', category: 'work', title: '評価を高める' },
-  '人生の充実': { kind: 'theme', category: 'life', title: '日々を整える' },
-  '人生の楽しみ': { kind: 'theme', category: 'life', title: '日々を整える' },
-  '人生の指針': { kind: 'theme', category: 'life', title: '自分の軸を持つ' },
-  '不安の解消': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-  '選択と可能性': { kind: 'theme', category: 'life', title: '自分の軸を持つ' },
-  '人生のつまずき': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-  '人生のつまずき・再設計': { kind: 'theme', category: 'life', title: '立ち直る力を育てる' },
-};
-
-function getDomainTarget(domain: string): DomainTarget | null {
-  const categoryCard = techniqueCards.find((card) => card.categoryName === domain);
-  if (categoryCard) return { kind: 'category', card: categoryCard };
-
-  const standardizedThemeTarget = standardizedDomainThemeTargets[domain];
-  if (standardizedThemeTarget) return standardizedThemeTarget;
-
-  const themeTarget = domainThemeTargets[domain];
-  if (themeTarget) return themeTarget;
-
-  const compactDomain = domain.replace('の戦術', '術').replace('の処世術', '');
-  const subcategoryCard = techniqueCards.find((card) =>
-    card.subcategory === domain ||
-    card.subcategory.replace('の戦術', '術').replace('の処世術', '') === compactDomain,
-  );
-  return subcategoryCard ? { kind: 'subcategory', card: subcategoryCard } : null;
-}
-
 function TheoryInformation({ theory }: { theory: TheoryCard }) {
   const provenance = getTheoryProvenance(theory);
   const rows = [
-    ['分類', theory.sourceType],
-    ['専門分野', theory.discipline],
-    ['形式', theory.conceptType],
     ['出典状態', provenance.status],
     ['提唱者・研究者', provenance.attribution],
     ['著作・研究', provenance.works?.join('\n')],
@@ -361,6 +241,7 @@ const styles = StyleSheet.create({
     lineHeight: 31,
     letterSpacing: 0.15,
   },
+  summaryLabel: { marginTop: 26, color: colors.gold, fontSize: 11, lineHeight: 16, letterSpacing: 1.2 },
   section: { marginTop: 36 },
   sectionHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   sectionTitle: { color: '#24251F', fontSize: 18, lineHeight: 26, fontWeight: '700' },
@@ -374,17 +255,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAE3D7',
   },
   countText: { color: '#625846', fontSize: 11, lineHeight: 14, fontWeight: '700' },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: {
-    minHeight: 32,
-    justifyContent: 'center',
-    paddingHorizontal: 13,
-    borderWidth: 1,
-    borderColor: '#D4CABC',
-    borderRadius: radius.pill,
-    backgroundColor: '#FDFBF7',
-  },
-  chipText: { color: '#4B4943', fontSize: 12, lineHeight: 17, fontWeight: '600' },
   relatedList: { borderTopWidth: 1, borderTopColor: '#DFD7CA' },
   relatedRow: {
     minHeight: 62,

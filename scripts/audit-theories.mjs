@@ -18,12 +18,16 @@ const expectedCategories = new Map([
 const errors = [];
 const ids = new Set();
 const referencedIds = new Set(cards.flatMap((card) => card.relatedTheoryIds ?? []));
+const allowedTheoryKeys = new Set(['tagId', 'title', 'summary', 'categoryId', 'categoryTitle', 'provenance']);
 
 for (const theory of theories) {
   if (ids.has(theory.tagId)) errors.push(`Duplicate id: ${theory.tagId}`);
   ids.add(theory.tagId);
   if (!theory.title?.trim()) errors.push(`Missing title: ${theory.tagId}`);
   if (!theory.summary?.trim()) errors.push(`Missing summary: ${theory.tagId}`);
+  for (const key of Object.keys(theory)) {
+    if (!allowedTheoryKeys.has(key)) errors.push(`Unexpected theory field: ${theory.tagId}.${key}`);
+  }
   if (expectedCategories.get(theory.categoryTitle) !== theory.categoryId) {
     errors.push(`Category mismatch: ${theory.tagId} (${theory.categoryTitle} / ${theory.categoryId})`);
   }
@@ -31,6 +35,11 @@ for (const theory of theories) {
 
 for (const id of referencedIds) {
   if (!ids.has(id)) errors.push(`Dead related theory link: ${id}`);
+}
+
+for (const card of cards) {
+  const links = card.relatedTheoryIds ?? [];
+  if (new Set(links).size !== links.length) errors.push(`Duplicate theory link: ${card.id}`);
 }
 
 if (errors.length) {
@@ -43,4 +52,4 @@ const counts = theories.reduce((result, theory) => {
   return result;
 }, {});
 console.log('Theory category counts', counts);
-console.log(`Theory audit passed: ${theories.length} master cards, ${referencedIds.size} referenced by ${cards.length} techniques, 0 dead links.`);
+console.log(`Theory audit passed: ${theories.length} compact cards, ${referencedIds.size} referenced by ${cards.length} techniques, 0 dead or duplicate links.`);
