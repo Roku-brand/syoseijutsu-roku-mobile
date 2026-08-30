@@ -42,7 +42,7 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(hideWelcome).toBeVisible();
   await hideWelcome.click();
   await page.goto('/');
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
 });
 
 test('my page keeps the guest profile entry compact', async ({ page }) => {
@@ -142,26 +142,27 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await startFreeHome(page);
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText('印象がいい人').first()).toBeVisible();
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: /を詳しく見る/ }).first()).toBeVisible();
+  await expect(page.getByText(/おはようございます|こんにちは|こんばんは/).first()).toBeVisible();
+  await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
+  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
+  await expect(page.getByTestId('home-curated-reel').getByText(/今日の一枚/)).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
   await page.goto('/');
   await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
 });
 
-test('ウェルカムから初回ホームへ入ると人物像へ導く歓迎ポップアップを一度だけ表示する', async ({ page }) => {
+test('ウェルカムから初回ホームへ入ると今日の一枚へ導く歓迎ポップアップを一度だけ表示する', async ({ page }) => {
   await page.goto('/welcome');
   await page.getByRole('button', { name: '無料で始める' }).click();
 
   const welcomeModal = page.getByTestId('home-welcome-modal');
   await expect(welcomeModal).toBeVisible();
   await expect(welcomeModal).toContainText('処世術禄へようこそ');
-  await expect(welcomeModal).toContainText('人物像から、今日使える一手を見つける。');
-  await welcomeModal.getByRole('button', { name: '人物像から始める' }).click();
+  await expect(welcomeModal).toContainText('判断に迷う日に、静かな手がかりを。');
+  await welcomeModal.getByRole('button', { name: '今日の一枚を見る' }).click();
   await expect(welcomeModal).toHaveCount(0);
-  await expect(page.getByTestId('home-editorial-persona-card-active')).toHaveAttribute('aria-label', '印象がいい人を詳しく見る');
+  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
 
   await page.goto('/welcome');
   await page.getByRole('button', { name: '無料で始める' }).click();
@@ -174,7 +175,7 @@ test('初回歓迎ポップアップはスマホ画面内に収まり、あと�
   await page.getByRole('button', { name: '無料で始める' }).click();
 
   const welcomeModal = page.getByTestId('home-welcome-modal');
-  const primary = welcomeModal.getByRole('button', { name: '人物像から始める' });
+  const primary = welcomeModal.getByRole('button', { name: '今日の一枚を見る' });
   await expect(welcomeModal).toBeVisible();
   await expect(primary).toBeVisible();
   const [modalBox, primaryBox] = await Promise.all([welcomeModal.boundingBox(), primary.boundingBox()]);
@@ -258,7 +259,7 @@ test('ウェルカムの無料版と完全版の入口は、それぞれ正し�
   await page.goto('/welcome');
   await page.getByRole('button', { name: '無料ではじめる' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
+  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
 
   await page.goto('/welcome');
   await page.getByRole('button', { name: '完全版を購入する' }).click();
@@ -325,9 +326,11 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await expect(page.getByTestId('discover-persona-rail')).toBeVisible();
 
   await page.getByRole('tab', { name: '理論　630' }).click();
-  await expect(page.getByText('6カテゴリ → 630理論', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '心理学、237理論を開く' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '格言、76理論を開く' })).toBeVisible();
+  await expect(page.getByText('理論のカテゴリから絞り込む', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '心理学で理論を絞り込む' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '格言で理論を絞り込む' })).toBeVisible();
+  await expect(page.getByTestId('discover-theory-rail')).toBeVisible();
+  await expect(page.getByRole('link', { name: '630理論を一覧で見る' })).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -431,30 +434,19 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
-test('ホームの完全版導線に価格を表示する', async ({ page }) => {
-  await page.goto('/');
-  await startFreeHome(page);
-  await expect(page.getByText('完全版で、すべての内容を読む')).toBeVisible();
-  await expect(page.getByText('¥280', { exact: true })).toBeVisible();
-});
-
-test('スマホの理論ショートカット6件と無料版ロック表示を確認できる', async ({ page }) => {
+test('ホームは厳選4件を処世術と理論で切り替え、スマホでも横にはみ出さない', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('home-editorial-persona-card-active').getByTestId('home-persona-access-badge')).toBeVisible();
+  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
+  await expect(page.getByLabel(/^厳選 [1-4]$/)).toHaveCount(4);
+  await expect(page.getByTestId('home-curated-reel').getByText(/今日の一枚/)).toBeVisible();
   await page.getByRole('tab', { name: '理論', exact: true }).click();
-
-  const indexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言'];
-  await expect(page.getByRole('tab', { name: /の先頭の理論へ移動/ })).toHaveCount(6);
-  for (const label of indexes) {
-    const shortcut = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
-    await expect(shortcut).toBeVisible();
-    await expect(page.getByText(`${label}へ ›`, { exact: true })).toBeVisible();
-    const box = await shortcut.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(844);
-  }
+  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
+  await page.getByLabel('次の厳選').click();
+  await expect(page.getByText(/今日の厳選/)).toBeVisible();
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
 test('理論カテゴリの表示名を格言・組織経営論・古典へ統一する', async ({ page }) => {
@@ -469,143 +461,55 @@ test('理論カテゴリの表示名を格言・組織経営論・古典へ統�
   }
 });
 
-test('理論カードは人物像カードと同じ大きさで、格言の作者名を省き、タイトルを2行以内に収める', async ({ page }) => {
+test('探す理論リールはカテゴリで切り替え、矢印で横に送れる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  await startFreeHome(page);
-  const personaBox = await page.getByTestId('home-editorial-persona-card-active').boundingBox();
-  await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await page.getByRole('tab', { name: '格言の先頭の理論へ移動' }).click();
-  const nextTheory = page.getByRole('button', { name: '次のカードへ' });
-  for (let index = 0; index < 3; index += 1) {
-    await nextTheory.click();
-    await page.waitForTimeout(250);
-  }
-
-  const theoryCard = page.getByTestId('home-editorial-theory-card-active');
-  const theoryTitle = page.getByTestId('home-theory-title-active');
-  await expect(theoryCard).toBeVisible();
-  await expect(theoryTitle).toBeVisible();
-  const [theoryBox, titleInfo, viewportInfo] = await Promise.all([
-    theoryCard.boundingBox(),
-    theoryTitle.evaluate((element) => {
-      const range = document.createRange();
-      range.selectNodeContents(element);
-      return { lineCount: Array.from(range.getClientRects()).filter((rect) => rect.width > 0).length, text: element.textContent ?? '' };
-    }),
-    page.evaluate(() => ({ width: window.innerWidth, scrollWidth: document.documentElement.scrollWidth })),
-  ]);
-  expect(personaBox).not.toBeNull();
-  expect(theoryBox).not.toBeNull();
-  expect(Math.abs(theoryBox!.width - personaBox!.width)).toBeLessThanOrEqual(1);
-  expect(Math.abs(theoryBox!.height - personaBox!.height)).toBeLessThanOrEqual(1);
-  expect(titleInfo.lineCount).toBeLessThanOrEqual(2);
-  expect(titleInfo.text.trim().length).toBeGreaterThan(0);
-  expect(titleInfo.text).not.toContain('—');
-  await expect(theoryCard).toContainText(/心理学|行動科学|組織・経営|戦略|古典|格言/);
-  await expect(theoryCard).not.toContainText('格言・経験則・作品');
+  await page.goto('/discover');
+  await page.getByRole('tab', { name: /理論/ }).click();
+  await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
+  await expect(page.getByText('（行動科学）', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(5);
+  const viewportInfo = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 
-  for (const label of ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言']) {
-    const shortcut = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
-    await expect(shortcut).toBeVisible();
-    const box = await shortcut.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(844);
-  }
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.reload();
+  await page.getByRole('tab', { name: /理論/ }).click();
+  const rail = page.getByTestId('discover-theory-rail');
+  const before = await rail.evaluate((element) => element.scrollLeft);
+  await page.getByRole('button', { name: '次の理論へ' }).click();
+  await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(before);
 });
 
-test('短いPC画面でも無料版ホームの購入導線が見切れない', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 667 });
-  await page.goto('/');
-  await startFreeHome(page);
-  const cta = await page.getByTestId('home-purchase-cta').boundingBox();
-  expect(cta).not.toBeNull();
-  expect(cta!.y).toBeGreaterThanOrEqual(0);
-  expect(cta!.y + cta!.height).toBeLessThanOrEqual(667);
-});
-
-test('ホーム下部の領域ボタンはカルーセル内を移動する', async ({ page }) => {
-  await page.goto('/');
-  await startFreeHome(page);
-  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
-  const life = page.getByRole('tab', { name: '人生術の先頭の人物像へ移動' });
-  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
-  await life.click();
-  await expect(life).toHaveAttribute('aria-selected', 'true');
-});
-
-test('desktop home keeps the editorial card, reel controls, and category index aligned', async ({ page }) => {
+test('PCホームは挨拶・切替・厳選リールだけを上品に収める', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
-  const [reel, shortcuts] = await Promise.all([
-    page.getByTestId('home-reel-stage').boundingBox(),
-    page.getByTestId('home-shortcuts').boundingBox(),
-  ]);
-  const card = await page.getByTestId('home-editorial-persona-card-active').boundingBox();
+  const reel = await page.getByTestId('home-curated-reel').boundingBox();
   expect(reel).not.toBeNull();
-  expect(shortcuts).not.toBeNull();
-  expect(card).not.toBeNull();
-  expect(card!.width).toBeLessThan(700);
-  expect(card!.height).toBeLessThan(470);
-  expect(reel!.height).toBeGreaterThan(450);
-  expect(shortcuts!.y).toBeGreaterThan(reel!.y + reel!.height);
-  expect(shortcuts!.y + shortcuts!.height).toBeLessThanOrEqual(900);
-
-  const interpersonal = page.getByRole('tab', { name: '対人術の先頭の人物像へ移動' });
-  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
-  await expect(page.getByTestId('home-editorial-persona-card-active')).toHaveAttribute('aria-label', '印象がいい人を詳しく見る');
-  await page.getByRole('button', { name: '次のカードへ' }).click();
-  await expect(interpersonal).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByTestId('home-editorial-persona-card-active')).toHaveAttribute('aria-label', '会話がうまい人を詳しく見る');
-
-  const work = page.getByRole('tab', { name: '仕事術の先頭の人物像へ移動' });
-  await work.click();
-  await expect(work).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByRole('button', { name: '仕事ができる人を詳しく見る' })).toBeVisible();
-  await page.getByRole('button', { name: '仕事ができる人を詳しく見る' }).click();
-  await expect(page).toHaveURL(/\/subcategory\/work\//);
-
-  await page.goto('/');
-  await startFreeHome(page);
-
+  expect(reel!.width).toBeGreaterThan(850);
+  expect(reel!.height).toBeGreaterThan(300);
+  await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
+  await expect(page.getByLabel('次の厳選')).toBeVisible();
   await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page.getByText(/理論 01 \/ 45/).first()).toBeVisible();
-  await expect(page.getByRole('button', { name: '初頭効果を詳しく見る' })).toBeVisible();
-  await expect(page.getByTestId('home-editorial-theory-card-active').getByText('P-001', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '初頭効果を詳しく見る' }).click();
-  await expect(page).toHaveURL(/\/theory\/kb_001/);
-
-  await page.goto('/');
-  await startFreeHome(page);
-  await page.getByRole('tab', { name: '理論', exact: true }).click();
-  const theoryIndexes = ['心理学', '行動科学', '組織・経営', '戦略', '古典', '格言'];
-  for (const label of theoryIndexes) {
-    const index = page.getByRole('tab', { name: `${label}の先頭の理論へ移動` });
-    await expect(index).toBeVisible();
-    const box = await index.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(900);
-  }
+  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('無料理論の分類は一部無料として閲覧でき、残りだけ購入へ案内する', async ({ page }) => {
-  await page.goto('/discover');
-  await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByText('理論　630', { exact: true })).toBeVisible();
-
-  const psychology = page.getByRole('button', { name: '心理学、237理論を開く' });
-  await expect(psychology).toBeVisible();
-  await expect(page.getByTestId('discover-theory-partial-badge')).toHaveCount(6);
-  await expect(page.getByTestId('discover-theory-locked-badge')).toHaveCount(0);
-
-  await psychology.click();
-  await expect(page).toHaveURL(/\/theories\/psychology/);
-  await expect(page.getByText('20件を無料公開', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('theory-category-upgrade-panel')).toBeVisible();
-  await expect(page.getByRole('button', { name: '心理学の完全版を見る' })).toBeVisible();
+test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件を静かに示す', async ({ page }) => {
+  await page.goto('/theories');
+  await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
+  await expect(page.getByText('45件を無料公開', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('theory-index-list').getByRole('button')).toHaveCount(45);
+  await page.getByLabel('理論名・キーワードから検索').fill('初頭');
+  await expect(page.getByTestId('theory-index-list').getByRole('button')).toHaveCount(1);
+  await expect(page).toHaveURL(/q=%E5%88%9D%E9%A0%AD.*category=all.*sort=source.*page=1/);
+  await page.getByRole('tab', { name: 'あいうえお順' }).click();
+  await expect(page).toHaveURL(/sort=alpha/);
+  await page.getByLabel('理論名・キーワードから検索').fill('存在しない理論名');
+  await expect(page.getByText('該当する理論が見つかりませんでした。')).toBeVisible();
+  await page.getByRole('button', { name: '理論一覧の条件を解除' }).click();
+  await expect(page.getByText('45件を無料公開', { exact: true })).toBeVisible();
 });
 
 test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {
@@ -617,112 +521,14 @@ test('ゲストのマイページからログイン導線を直接開ける', as
   await expect(page).toHaveURL(/\/auth\?mode=signin/);
 });
 
-test('ホームの全人物像カードは処世術ではなく指定スローガンを表示し、リール移動後も同期する', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test('ホームの厳選は前後操作で同じ一枚へ戻れる', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('book-header-app-icon')).toBeVisible();
-
-  const groups = [
-    {
-      category: '対人術',
-      entries: [
-        ['印象がいい人', '好印象をつくる方法'],
-        ['会話がうまい人', '会話を続け、深める方法'],
-        ['聞き上手な人', '相手の話を引き出す方法'],
-        ['信頼される人', '信頼を積み上げる方法'],
-        ['人たらしの人', '人を惹きつける極意'],
-        ['面白い人', '人を楽しませる方法'],
-        ['人を見極められる人', '人の本質を見抜く方法'],
-        ['人に振り回されない人', '人との境界線を守る方法'],
-        ['軽く扱われない人', '対等に扱われる方法'],
-        ['人間関係が安定する人', '関係を長く続ける方法'],
-        ['集団に馴染める人', '集団に居場所をつくる方法'],
-        ['リーダーシップがある人', '人をまとめ、動かす方法'],
-        ['カリスマ性のある人', '人を惹きつける存在のつくり方'],
-      ],
-    },
-    {
-      category: '仕事術',
-      entries: [
-        ['仕事ができる人', '成果を出し続ける仕事術'],
-        ['タスク処理がうまい人', '仕事を滞らせない処理術'],
-        ['頭がいい人', '物事を深く理解する思考法'],
-        ['正しく評価される人', '実力を評価につなげる方法'],
-        ['交渉がうまい人', '交渉を有利に進める方法'],
-        ['組織でうまく立ち回れる人', '組織を賢く生き抜く処世術'],
-      ],
-    },
-    {
-      category: '人生術',
-      entries: [
-        ['充実した人生を過ごせる人', '人生を豊かにする方法'],
-        ['自分らしく生きられる人', '自分の軸で生きる方法'],
-        ['人生を楽しめる人', '人生を楽しみ尽くす方法'],
-        ['不安に強い人', '不安とうまく付き合う方法'],
-        ['後悔しない人', '後悔を減らす選び方'],
-        ['立ち直れる人', '逆境から立ち直る方法'],
-        ['可能性を広げられる人', '人生の可能性を広げる方法'],
-      ],
-    },
-  ] as const;
-
-  const activeCard = page.getByTestId('home-editorial-persona-card-active');
-  for (const group of groups) {
-    await page.getByRole('tab', { name: `${group.category}の先頭の人物像へ移動` }).click();
-    for (const [title, slogan] of group.entries) {
-      await expect(activeCard).toHaveAttribute('aria-label', `${title}を詳しく見る`);
-      await expect(activeCard.getByTestId('home-persona-slogan')).toHaveText(slogan);
-      await expect(activeCard).not.toContainText('つの処世術を見る');
-      if (title !== group.entries[group.entries.length - 1][0]) {
-        await page.getByRole('button', { name: '次のカードへ' }).click();
-      }
-    }
-  }
-});
-
-test('ホームの人物像リールは分類の境界を越えて連続し、末尾から先頭へ戻る', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  await startFreeHome(page);
-
-  const activeCard = page.getByTestId('home-editorial-persona-card-active');
-  const next = page.getByRole('button', { name: '次のカードへ' });
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
-
-  for (let index = 0; index < 13; index += 1) {
-    await next.click();
-  }
-  await expect(activeCard).toHaveAttribute('aria-label', '仕事ができる人を詳しく見る');
-  await expect(page.getByText(/人物像 14 \/ 26/).first()).toBeVisible();
-
-  for (let index = 0; index < 12; index += 1) {
-    await next.click();
-  }
-  await expect(page.getByText(/人物像 26 \/ 26/).first()).toBeVisible();
-  await next.click();
-  await expect(page.getByText('完全版で、すべての内容を読む')).toBeVisible();
-  await next.click();
-  await expect(activeCard).toHaveAttribute('aria-label', '印象がいい人を詳しく見る');
-  await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
-});
-
-test('スマホの理論リール移動後も本文エリアを横にずらさない', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/');
-  await startFreeHome(page);
-  const theoryTab = page.getByRole('tab', { name: '理論', exact: true });
-  await theoryTab.click();
-  await expect(page.getByText(/理論 01 \/ 45/).first()).toBeVisible();
-  const before = await theoryTab.boundingBox();
-  await page.getByRole('button', { name: '次のカードへ' }).click();
-  await expect(page.getByText(/理論 02 \/ 45/).first()).toBeVisible();
-  const after = await theoryTab.boundingBox();
-  const noHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
-  expect(before).not.toBeNull();
-  expect(after).not.toBeNull();
-  expect(Math.abs(after!.x - before!.x)).toBeLessThanOrEqual(2);
-  expect(noHorizontalOverflow).toBe(true);
+  const before = (await page.getByTestId('home-curated-reel').innerText()).replace(/\s+/g, '');
+  await page.getByLabel('次の厳選').click();
+  await page.getByLabel('前の厳選').click();
+  const after = (await page.getByTestId('home-curated-reel').innerText()).replace(/\s+/g, '');
+  expect(after).toBe(before);
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

@@ -11,6 +11,8 @@ import {
 } from 'react';
 import type { CategoryKey } from '@/data/types';
 import { theoryById } from '@/data/catalog';
+import { recordContentEvent } from '@/lib/content-events';
+import type { ContentActivity, HomeImpressions } from '@/lib/home-recommendations';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
 const STORAGE_HYDRATION_TIMEOUT_MS = 900;
@@ -60,6 +62,8 @@ type PersistedState = {
   savedIds: string[];
   savedTheoryIds: string[];
   historyIds: string[];
+  contentActivity: ContentActivity;
+  homeImpressions: HomeImpressions;
   notes: Record<string, string>;
   collections: Collection[];
   practiceRecords: Record<string, PracticeRecord>;
@@ -79,6 +83,8 @@ const initialState: PersistedState = {
   savedIds: [],
   savedTheoryIds: [],
   historyIds: [],
+  contentActivity: {},
+  homeImpressions: {},
   notes: {},
   collections: [],
   practiceRecords: {},
@@ -96,6 +102,7 @@ type AppStateContextValue = PersistedState & {
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
+  recordHomeImpressions: (ids: string[]) => void;
   saveNote: (id: string, note: string) => void;
   createCollection: (name: string) => string;
   toggleCollectionCard: (collectionId: string, cardId: string) => void;
@@ -185,6 +192,12 @@ export function AppStateProvider({ children }: PropsWithChildren) {
               createdAt: typeof folder.createdAt === 'string' ? folder.createdAt : new Date(0).toISOString(),
             }))
           : [];
+        const contentActivity = parsed.contentActivity && typeof parsed.contentActivity === 'object'
+          ? parsed.contentActivity
+          : {};
+        const homeImpressions = parsed.homeImpressions && typeof parsed.homeImpressions === 'object'
+          ? parsed.homeImpressions
+          : {};
         setState({
           ...initialState,
           ...parsed,
@@ -193,6 +206,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           savedTheoryIds,
           personalMemos,
           personalMemoFolders,
+          contentActivity,
+          homeImpressions,
           interests: interests.length ? interests : initialState.interests,
         });
       })
@@ -235,31 +250,53 @@ export function AppStateProvider({ children }: PropsWithChildren) {
 
   const toggleSaved = useCallback((id: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
+    if (!state.savedIds.includes(id)) void recordContentEvent('technique', id, 'save').catch(() => undefined);
     setState((current) => ({
       ...current,
       savedIds: current.savedIds.includes(id)
         ? current.savedIds.filter((savedId) => savedId !== id)
         : [id, ...current.savedIds],
     }));
-  }, []);
+  }, [state.savedIds]);
 
   const toggleSavedTheory = useCallback((id: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
+    if (!state.savedTheoryIds.includes(id)) void recordContentEvent('theory', id, 'save').catch(() => undefined);
     setState((current) => ({
       ...current,
       savedTheoryIds: current.savedTheoryIds.includes(id)
         ? current.savedTheoryIds.filter((savedId) => savedId !== id)
         : [id, ...current.savedTheoryIds],
     }));
-  }, []);
+  }, [state.savedTheoryIds]);
 
   const addHistory = useCallback((id: string) => {
+    const now = new Date();
+    const today = now.toISOString().slice(0, 10);
     setState((current) => ({
       ...current,
       historyIds: [id, ...current.historyIds.filter((item) => item !== id)].slice(
         0,
         100,
       ),
+      contentActivity: {
+        ...current.contentActivity,
+        [id]: {
+          lastViewedAt: now.toISOString(),
+          viewedDays: [today, ...(current.contentActivity[id]?.viewedDays ?? []).filter((day) => day !== today)].slice(0, 30),
+        },
+      },
+    }));
+  }, []);
+
+  const recordHomeImpressions = useCallback((ids: string[]) => {
+    const today = new Date().toISOString().slice(0, 10);
+    setState((current) => ({
+      ...current,
+      homeImpressions: ids.reduce<HomeImpressions>((next, id) => ({
+        ...next,
+        [id]: [today, ...(next[id] ?? []).filter((day) => day !== today)].slice(0, 14),
+      }), { ...current.homeImpressions }),
     }));
   }, []);
 
@@ -449,6 +486,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleSaved,
       toggleSavedTheory,
       addHistory,
+      recordHomeImpressions,
       saveNote,
       createCollection,
       toggleCollectionCard,
@@ -475,6 +513,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleSaved,
       toggleSavedTheory,
       addHistory,
+      recordHomeImpressions,
       saveNote,
       createCollection,
       toggleCollectionCard,

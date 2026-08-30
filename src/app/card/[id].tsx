@@ -17,6 +17,7 @@ import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { canReadTechnique } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
+import { recordContentEvent } from '@/lib/content-events';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -32,8 +33,11 @@ export default function CardDetailScreen() {
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
-    if (id) addHistory(id);
-  }, [addHistory, id]);
+    if (card && canReadTechnique(effectiveAccess, card.id)) {
+      addHistory(card.id);
+      void recordContentEvent('technique', card.id, 'view').catch(() => undefined);
+    }
+  }, [addHistory, card, effectiveAccess]);
 
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
 

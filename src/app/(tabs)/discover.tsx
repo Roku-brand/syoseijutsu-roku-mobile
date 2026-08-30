@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
+import { TheoryBrowseCard, TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
@@ -12,8 +13,6 @@ import { getTechniqueSearchText } from '@/data/technique-tags';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { getTechniqueCountTotal } from '@/data/technique-counts';
-import { getTheoryCategoryCount } from '@/data/theory-counts';
-import { AccessBadge } from '@/components/access-badge';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 type BrowseMode = 'techniques' | 'theories';
@@ -30,15 +29,7 @@ const searchAliases: Record<string, string[]> = {
 };
 
 const popularSearches = ['友達', '出世', '進路', '会話', '人間関係', '転職', '恋愛', '自己肯定感', '不安', '習慣', 'リーダーシップ', '交渉'];
-
-const theoryCategories = [
-  { id: 'psychology', title: '心理学', mark: '心' },
-  { id: 'behavioral-science', title: '行動科学', mark: '行' },
-  { id: 'organization-management', title: '組織・経営論', mark: '組' },
-  { id: 'strategy', title: '戦略論', mark: '戦' },
-  { id: 'classics-thought', title: '古典', mark: '古' },
-  { id: 'maxims-experience', title: '格言', mark: '格' },
-] as const;
+const popularTheorySearches = ['初頭効果', 'ピーク・エンドの法則', 'ハビットループ', '認知的不協和', '損失回避の法則', '80対20の法則'];
 
 function matchesKeyword(source: string, keyword: string) {
   return (searchAliases[keyword] ?? [keyword]).some((term) => source.includes(term));
@@ -51,6 +42,7 @@ export default function DiscoverScreen() {
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<BrowseMode>('techniques');
   const [selectedCategory, setSelectedCategory] = useState<PersonaFilterKey>('all');
+  const [selectedTheoryCategory, setSelectedTheoryCategory] = useState<TheoryFilterKey>('all');
   const { isPaid } = useAccess();
   const keywords = useMemo(() => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), [query]);
   const techniqueMatches = useMemo(
@@ -100,7 +92,7 @@ export default function DiscoverScreen() {
           onSelectCategory={setSelectedCategory}
           onSearch={setQuery}
         />
-      ) : <TheoryBrowser router={router} compact={compact} />}
+      ) : <TheoryBrowser router={router} compact={compact} selectedCategory={selectedTheoryCategory} onSelectCategory={setSelectedTheoryCategory} onSearch={setQuery} />}
     </BookScreen>
   );
 }
@@ -224,32 +216,76 @@ function TechniqueBrowser({ router, compact, selectedCategory, onSelectCategory,
   );
 }
 
-function TheoryBrowser({ router, compact }: { router: ReturnType<typeof useRouter>; compact: boolean }) {
+function TheoryBrowser({ router, compact, selectedCategory, onSelectCategory, onSearch }: {
+  router: ReturnType<typeof useRouter>;
+  compact: boolean;
+  selectedCategory: TheoryFilterKey;
+  onSelectCategory: (category: TheoryFilterKey) => void;
+  onSearch: (value: string) => void;
+}) {
   const { isPaid } = useAccess();
+  const railRef = useRef<ScrollView>(null);
+  const [rail, setRail] = useState({ x: 0, viewport: 0, content: 0 });
+  const visibleTheories = theories
+    .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
+    .filter((theory) => selectedCategory === 'all' || theory.categoryId === selectedCategory)
+    .slice(0, 24);
+  const atStart = rail.x <= 2;
+  const atEnd = rail.content <= rail.viewport + 2 || rail.x >= rail.content - rail.viewport - 2;
+
+  useEffect(() => {
+    railRef.current?.scrollTo({ x: 0, animated: false });
+    setRail((current) => ({ ...current, x: 0 }));
+  }, [selectedCategory]);
+
+  const moveRail = (direction: -1 | 1) => {
+    const step = Math.max(320, rail.viewport * 0.82);
+    const next = Math.max(0, Math.min(rail.content - rail.viewport, rail.x + direction * step));
+    railRef.current?.scrollTo({ x: next, animated: true });
+  };
+
   return (
     <View>
-      <SectionHeading title="理論から探す" note={`${theoryCategories.length}カテゴリ → ${theories.length}理論`} />
-      <View testID="discover-theory-grid" style={styles.theoryGrid}>
-        {theoryCategories.map((category) => {
-          const count = getTheoryCategoryCount(category.id);
-          const freeCount = theories.filter((theory) => theory.categoryId === category.id && FREE_THEORY_ID_SET.has(theory.tagId)).length;
-          const partial = !isPaid && freeCount > 0 && freeCount < count;
-          const locked = !isPaid && freeCount === 0;
-          return (
-            <Pressable
-              key={category.id}
-              accessibilityRole="button"
-              accessibilityLabel={`${category.title}、${count}理論を開く`}
-              onPress={() => router.push({ pathname: '/theories/[category]', params: { category: category.id } })}
-              style={({ pressed }) => [styles.theoryCard, compact && styles.theoryCardCompact, pressed && styles.theoryCardPressed]}
-            >
-              <View style={styles.theoryMark}><AppText style={styles.theoryMarkText}>{category.mark}</AppText></View>
-              <AppText style={styles.theoryTitle}>{category.title}</AppText>
-              <View style={styles.theoryFooter}><AppText style={styles.theoryCount}>{count}理論</AppText><AppText style={styles.theoryArrow}>›</AppText></View>
-              {locked ? <View testID="discover-theory-locked-badge" style={styles.browserLock}><AccessBadge locked compact /></View> : partial ? <View testID="discover-theory-partial-badge" style={styles.browserLock}><AppText style={styles.partialBadgeText}>一部無料</AppText></View> : null}
-            </Pressable>
-          );
-        })}
+      <View style={styles.theoryFilterHeading}>
+        <AppText style={styles.filterLabel}>理論のカテゴリから絞り込む</AppText>
+      </View>
+      <TheoryFilterBar selected={selectedCategory} onSelect={onSelectCategory} />
+
+      <View style={styles.personaHeadingRow}>
+        <SectionHeading title="理論から探す" note={`（${theoryFilterOptions.find((option) => option.key === selectedCategory)?.label ?? 'すべて'}）`} inline />
+        <Pressable accessibilityRole="link" accessibilityLabel={`${theories.length}理論を一覧で見る`} onPress={() => router.push('/theories')} style={({ pressed }) => [styles.allPersonasLink, pressed && styles.pressed]}>
+          <AppText style={styles.allPersonasText}>{theories.length}理論を一覧で見る　›</AppText>
+        </Pressable>
+      </View>
+
+      {visibleTheories.length ? (
+        <View style={styles.personaRailFrame}>
+          {!compact ? <Pressable accessibilityRole="button" accessibilityLabel="前の理論へ" disabled={atStart} onPress={() => moveRail(-1)} style={({ pressed }) => [styles.railArrow, styles.railArrowPrevious, styles.theoryRailArrow, atStart && styles.railArrowDisabled, pressed && styles.pressed]}><AppText style={styles.railArrowText}>‹</AppText></Pressable> : null}
+          <ScrollView
+            ref={railRef}
+            horizontal
+            testID="discover-theory-rail"
+            accessibilityLabel="理論の横スクロール一覧"
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            onScroll={(event) => setRail((current) => ({ ...current, x: event.nativeEvent.contentOffset.x }))}
+            onLayout={(event) => setRail((current) => ({ ...current, viewport: event.nativeEvent.layout.width }))}
+            onContentSizeChange={(content) => setRail((current) => ({ ...current, content }))}
+            contentContainerStyle={[styles.personaRail, !compact && styles.personaRailDesktop]}
+          >
+            {visibleTheories.map((theory) => <TheoryBrowseCard key={theory.tagId} theory={theory} compact={compact} />)}
+          </ScrollView>
+          {!compact ? <Pressable accessibilityRole="button" accessibilityLabel="次の理論へ" disabled={atEnd} onPress={() => moveRail(1)} style={({ pressed }) => [styles.railArrow, styles.railArrowNext, styles.theoryRailArrow, atEnd && styles.railArrowDisabled, pressed && styles.pressed]}><AppText style={styles.railArrowText}>›</AppText></Pressable> : null}
+        </View>
+      ) : <View style={styles.emptyResult}><AppText style={styles.emptyResultText}>このカテゴリで閲覧できる理論はありません</AppText></View>}
+
+      <SectionHeading title="よく見られる検索" />
+      <View style={styles.chipGrid}>
+        {popularTheorySearches.map((label) => (
+          <Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label}で検索`} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, compact && styles.popularChipCompact, pressed && styles.pressed]}>
+            <AppText style={styles.chipSearchIcon}>⌕</AppText><AppText style={styles.searchChipText}>{label}</AppText>
+          </Pressable>
+        ))}
       </View>
     </View>
   );
@@ -284,6 +320,7 @@ const styles = StyleSheet.create({
   filterIntroduction: { maxWidth: 740, width: '100%', alignSelf: 'center', marginTop: spacing.lg, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   filterLine: { flex: 1, height: 1, backgroundColor: colors.line },
   filterLabel: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, letterSpacing: 0.8, textAlign: 'center' },
+  theoryFilterHeading: { marginTop: spacing.lg, marginBottom: 12, alignItems: 'center' },
   personaHeadingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
   allPersonasLink: { minHeight: 40, marginTop: spacing.xl, marginBottom: spacing.md, justifyContent: 'center' },
   allPersonasText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, fontWeight: '600' },
@@ -295,22 +332,11 @@ const styles = StyleSheet.create({
   railArrowNext: { right: -8 },
   railArrowDisabled: { opacity: 0.28 },
   railArrowText: { marginTop: -2, color: colors.ink, fontFamily: fonts.serif, fontSize: 31, lineHeight: 34 },
+  theoryRailArrow: { top: 138 },
   chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   popularChip: { flexGrow: 1, flexBasis: '22%', minHeight: 42, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.62)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
   popularChipCompact: { flexBasis: '45%' },
   searchChipText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   chipSearchIcon: { color: colors.inkSoft, fontSize: 16, lineHeight: 18 },
-  theoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
-  theoryCard: { position: 'relative', flexGrow: 1, flexBasis: 280, minHeight: 178, padding: spacing.lg, borderWidth: 1, borderColor: '#A77A25', borderRadius: radius.md, backgroundColor: '#1B1A17', alignItems: 'center', justifyContent: 'center' },
-  theoryCardCompact: { flexBasis: '46%', minHeight: 164, paddingHorizontal: 10 },
-  theoryCardPressed: { opacity: 0.88, transform: [{ translateY: -1 }] },
-  theoryMark: { width: 50, height: 50, borderRadius: 25, borderWidth: 1, borderColor: '#C5A45D', backgroundColor: '#121210', alignItems: 'center', justifyContent: 'center' },
-  theoryMarkText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, fontWeight: '600' },
-  theoryTitle: { minHeight: 42, marginTop: 10, color: colors.paper, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', textAlign: 'center' },
-  theoryFooter: { width: '100%', marginTop: 5, paddingTop: 8, borderTopWidth: 1, borderTopColor: 'rgba(196,148,50,0.28)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  theoryCount: { color: '#D7CCB8', fontSize: 11, lineHeight: 17 },
-  theoryArrow: { color: colors.goldLight, fontSize: 22, lineHeight: 22 },
-  browserLock: { position: 'absolute', top: 10, right: 10 },
-  partialBadgeText: { color: colors.goldLight, fontSize: 9, lineHeight: 14, fontWeight: '700', paddingHorizontal: 7, paddingVertical: 3, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: '#211F1A' },
   pressed: { opacity: 0.74 },
 });

@@ -303,6 +303,7 @@ function getCurrentTitle(pathname: string) {
   }
   if (segments[0] === 'theme') return segments[2] ?? 'テーマから探す';
   if (segments[0] === 'theories') {
+    if (!segments[1]) return '理論一覧';
     if (segments[1] === 'all') return 'すべての理論';
     return getTheoryCategoryLabel(segments[1]);
   }

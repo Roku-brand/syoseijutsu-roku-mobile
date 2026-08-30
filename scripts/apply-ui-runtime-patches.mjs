@@ -18,6 +18,11 @@ async function patchFreeReel() {
   const path = 'src/app/(tabs)/index.tsx';
   let source = await readFile(path, 'utf8');
   const original = source;
+  // The current home uses the canonical catalog and access sets directly.
+  // Keep this legacy release patch only for older MainScreen implementations.
+  if (!source.includes("import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';")) {
+    return;
+  }
   if (!source.includes("techniqueCards as catalogTechniqueCards")) {
     source = source.replace(
       "import { getTechniqueDisplayId, techniqueCards } from '@/data/catalog';",

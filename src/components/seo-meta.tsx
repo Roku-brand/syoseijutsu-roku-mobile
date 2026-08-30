@@ -24,6 +24,7 @@ const noindexPrefixes = ['/auth', '/upgrade', '/settings', '/library', '/my-os',
 function getMeta(pathname: string): [string, string, boolean] {
   if (pathname === '/') return [defaultTitle, defaultDescription, true];
   if (pathname === '/personas') return ['26人物像一覧｜処世術禄', '対人術・仕事術・人生術の3領域、26人物像から処世術を選べます。', true];
+  if (pathname === '/theories') return ['630理論一覧｜処世術禄', '心理学・行動科学・組織経営・戦略・古典・格言から理論を検索できます。', true];
   const personaName = decodeURIComponent(pathname.split('/').pop() ?? '');
   if (pathname.startsWith('/subcategory/') && personaTitles[personaName]) return [...personaTitles[personaName], true];
   if (pathname === '/category/interpersonal') return ['対人術｜処世術禄', '関係を築き、会話し、集団の中で自然に立ち回るための処世術を学べます。', true];

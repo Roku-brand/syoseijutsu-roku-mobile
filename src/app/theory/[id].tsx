@@ -18,6 +18,7 @@ import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
 import { useAppState } from '@/state/app-state';
+import { recordContentEvent } from '@/lib/content-events';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -33,7 +34,10 @@ export default function TheoryDetailScreen() {
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
-    if (theory && canReadTheory(effectiveAccess, theory.tagId)) addHistory(theory.tagId);
+    if (theory && canReadTheory(effectiveAccess, theory.tagId)) {
+      addHistory(theory.tagId);
+      void recordContentEvent('theory', theory.tagId, 'view').catch(() => undefined);
+    }
   }, [addHistory, effectiveAccess, theory]);
 
   if (!theory) {
