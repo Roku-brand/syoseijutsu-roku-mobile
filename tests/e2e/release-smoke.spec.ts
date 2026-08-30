@@ -45,13 +45,13 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(page.getByText(/人物像 01 \/ 26/).first()).toBeVisible();
 });
 
-test('my page keeps the guest account entry compact', async ({ page }) => {
+test('my page keeps the guest profile entry compact', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
 
   await expect(page.getByTestId('account-membership-card')).toHaveCount(1);
-  await expect(page.getByTestId('account-plan-badge')).toBeVisible();
-  await expect(page.getByTestId('account-membership-card')).toContainText('ログインしていません');
+  await expect(page.getByTestId('account-membership-card')).toContainText('プロフィールを設定');
+  await expect(page.getByTestId('account-membership-card')).toHaveAttribute('aria-label', 'ログインしてプロフィールを設定');
   await expect(page.getByTestId('account-complete-cta')).toHaveCount(0);
 });
 
@@ -62,13 +62,17 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('マイページに判断原則・数値付きの蔵書とマイ処世術・最新履歴を表示する', async ({ page }) => {
+test('マイページに判断原則・3つの蓄積先・最近の蓄積を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
   await expect(page.getByTestId('personal-principle-card')).toBeVisible();
   await expect(page.getByTestId('personal-principle-edit')).toBeVisible();
   await expect(page.getByRole('button', { name: '蔵書を開く' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'マイ処世術を開く' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '履歴を開く' })).toBeVisible();
+  await expect(page.getByText('最近保存したもの', { exact: true })).toBeVisible();
+  await expect(page.getByText('最近の履歴', { exact: true })).toBeVisible();
+  await expect(page.getByText('まだ保存したものはありません', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'すべての履歴を見る' })).toBeVisible();
 });
 
@@ -231,7 +235,7 @@ test('マイ処世術は専用ページで作成・フォルダー整理・削�
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('焦ったら、一度だけ深呼吸する');
   await page.getByRole('radio', { name: '仕事' }).click();
   await page.getByRole('button', { name: 'マイ処世術を追加' }).click();
-  await expect(page.getByText('焦ったら、一度だけ深呼吸する')).toBeVisible();
+  await expect(page.getByText('焦ったら、一度だけ深呼吸する').last()).toBeVisible();
   await expect(page.getByText('▱ 仕事')).toBeVisible();
   await page.getByRole('button', { name: '1番目のマイ処世術を削除' }).click();
   await expect(page.getByText('このフォルダーはまだ空です。')).toBeVisible();
@@ -278,7 +282,26 @@ test('探すは検索欄から始まり、目的語タグを表示する', async
     await expect(page.getByRole('button', { name: `${label}で検索` })).toBeVisible();
   }
   await page.getByRole('button', { name: '友達で検索' }).click();
-  await expect(page.getByLabel('処世術・理論カードを検索')).toHaveValue('友達');
+  await expect(page.getByLabel('処世術・人物像・理論・キーワードを検索')).toHaveValue('友達');
+});
+
+test('探すは正本件数を示し、領域から人物像、理論カテゴリへ遷移できる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/discover');
+
+  await expect(page.getByRole('tab', { name: '処世術　336' })).toBeVisible();
+  await expect(page.getByText('3領域 → 26人物像 → 336処世術', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '対人術、13人物像、171処世術' })).toBeVisible();
+  await page.getByRole('button', { name: '仕事術、6人物像、78処世術' }).click();
+  await expect(page.getByText('（仕事術）', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: /仕事ができる人、.*処世術を開く/ })).toBeVisible();
+
+  await page.getByRole('tab', { name: '理論　630' }).click();
+  await expect(page.getByText('6カテゴリ → 630理論', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '心理学、237理論を開く' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '格言、76理論を開く' })).toBeVisible();
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
 test('公開済みの管理コンテンツは同梱済みカードを置き換える', async ({ page }) => {
@@ -543,9 +566,9 @@ test('desktop home keeps the editorial card, reel controls, and category index a
 test('無料理論の分類は一部無料として閲覧でき、残りだけ購入へ案内する', async ({ page }) => {
   await page.goto('/discover');
   await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByText('理論　45', { exact: true })).toBeVisible();
+  await expect(page.getByText('理論　630', { exact: true })).toBeVisible();
 
-  const psychology = page.getByRole('button', { name: /心理学、無料20件、全237件、一部無料/ });
+  const psychology = page.getByRole('button', { name: '心理学、237理論を開く' });
   await expect(psychology).toBeVisible();
   await expect(page.getByTestId('discover-theory-partial-badge')).toHaveCount(6);
   await expect(page.getByTestId('discover-theory-locked-badge')).toHaveCount(0);
@@ -560,8 +583,8 @@ test('無料理論の分類は一部無料として閲覧でき、残りだけ�
 test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {
   await page.goto('/my-os');
   const account = page.getByTestId('account-membership-card');
-  await expect(account).toHaveAttribute('aria-label', 'ログイン / アカウントを作成');
-  await expect(account).toContainText('ログイン / アカウントを作成');
+  await expect(account).toHaveAttribute('aria-label', 'ログインしてプロフィールを設定');
+  await expect(account).toContainText('プロフィールを設定');
   await account.click();
   await expect(page).toHaveURL(/\/auth\?mode=signin/);
 });
