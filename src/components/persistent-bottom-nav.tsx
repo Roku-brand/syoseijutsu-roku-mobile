@@ -17,6 +17,7 @@ const items = [
 function activeKey(pathname: string) {
   if (
     pathname.includes('/discover') ||
+    pathname.includes('/personas') ||
     pathname.includes('/catalog') ||
     pathname.includes('/category/') ||
     pathname.includes('/subcategory/') ||

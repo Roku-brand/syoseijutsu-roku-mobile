@@ -1,17 +1,17 @@
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
+import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { categories, categoryMeta, categoryOrder, techniqueCards, theories } from '@/data/catalog';
-import type { CategoryKey } from '@/data/types';
+import { techniqueCards, theories } from '@/data/catalog';
 import { getTechniqueSearchText } from '@/data/technique-tags';
 import { useAccess } from '@/access/access-state';
-import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET, isFreePersona } from '@/access/access-config';
-import { getCategoryTechniqueCount, getTechniqueCountTotal } from '@/data/technique-counts';
+import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
+import { getTechniqueCountTotal } from '@/data/technique-counts';
 import { getTheoryCategoryCount } from '@/data/theory-counts';
 import { AccessBadge } from '@/components/access-badge';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -50,8 +50,7 @@ export default function DiscoverScreen() {
   const compact = width < 700;
   const [query, setQuery] = useState('');
   const [mode, setMode] = useState<BrowseMode>('techniques');
-  const [selectedCategory, setSelectedCategory] = useState<CategoryKey>('interpersonal');
-  const [showAllPersonas, setShowAllPersonas] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<PersonaFilterKey>('all');
   const { isPaid } = useAccess();
   const keywords = useMemo(() => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), [query]);
   const techniqueMatches = useMemo(
@@ -69,7 +68,6 @@ export default function DiscoverScreen() {
       }),
     [isPaid, keywords],
   );
-  const personaCount = categories.reduce((total, category) => total + category.subcategories.length, 0);
   const techniqueCount = getTechniqueCountTotal();
 
   return (
@@ -99,11 +97,7 @@ export default function DiscoverScreen() {
           router={router}
           compact={compact}
           selectedCategory={selectedCategory}
-          showAllPersonas={showAllPersonas}
-          personaCount={personaCount}
-          techniqueCount={techniqueCount}
-          onSelectCategory={(category) => { setSelectedCategory(category); setShowAllPersonas(false); }}
-          onShowAllPersonas={() => setShowAllPersonas(true)}
+          onSelectCategory={setSelectedCategory}
           onSearch={setQuery}
         />
       ) : <TheoryBrowser router={router} compact={compact} />}
@@ -133,80 +127,89 @@ function SearchResults({ mode, techniqueMatches, theoryMatches }: { mode: Browse
   );
 }
 
-function TechniqueBrowser({ router, compact, selectedCategory, showAllPersonas, personaCount, techniqueCount, onSelectCategory, onShowAllPersonas, onSearch }: {
+function TechniqueBrowser({ router, compact, selectedCategory, onSelectCategory, onSearch }: {
   router: ReturnType<typeof useRouter>;
   compact: boolean;
-  selectedCategory: CategoryKey;
-  showAllPersonas: boolean;
-  personaCount: number;
-  techniqueCount: number;
-  onSelectCategory: (category: CategoryKey) => void;
-  onShowAllPersonas: () => void;
+  selectedCategory: PersonaFilterKey;
+  onSelectCategory: (category: PersonaFilterKey) => void;
   onSearch: (value: string) => void;
 }) {
-  const { isPaid } = useAccess();
-  const selected = categories.find((category) => category.key === selectedCategory) ?? categories[0];
-  const personas = showAllPersonas
-    ? categories.flatMap((category) => category.subcategories.map((persona) => ({ category, persona })))
-    : selected.subcategories.map((persona) => ({ category: selected, persona }));
+  const railRef = useRef<ScrollView>(null);
+  const personaCount = getPersonaCount();
+  const [rail, setRail] = useState({ x: 0, viewport: 0, content: 0 });
+  const personas = getPersonaEntries(selectedCategory);
+  const atStart = rail.x <= 2;
+  const atEnd = rail.content <= rail.viewport + 2 || rail.x >= rail.content - rail.viewport - 2;
+
+  useEffect(() => {
+    railRef.current?.scrollTo({ x: 0, animated: false });
+    setRail((current) => ({ ...current, x: 0 }));
+  }, [selectedCategory]);
+
+  const moveRail = (direction: -1 | 1) => {
+    const step = Math.max(320, rail.viewport * 0.82);
+    const next = Math.max(0, Math.min(rail.content - rail.viewport, rail.x + direction * step));
+    railRef.current?.scrollTo({ x: next, animated: true });
+  };
+
+  const onRailScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    setRail((current) => ({ ...current, x: event.nativeEvent.contentOffset.x }));
+  };
 
   return (
     <View>
-      <SectionHeading title="体系から探す" note={`${categoryOrder.length}領域 → ${personaCount}人物像 → ${techniqueCount}処世術`} />
-      <View testID="discover-category-grid" style={styles.categoryGrid}>
-        {categoryOrder.map((key) => {
-          const category = categories.find((item) => item.key === key);
-          if (!category) return null;
-          const selectedCard = !showAllPersonas && selectedCategory === key;
-          const count = getCategoryTechniqueCount(key);
-          return (
-            <Pressable
-              key={key}
-              testID={`discover-category-${key}`}
-              accessibilityRole="button"
-              accessibilityState={{ selected: selectedCard }}
-              accessibilityLabel={`${categoryMeta[key].label}、${category.subcategories.length}人物像、${count}処世術`}
-              onPress={() => onSelectCategory(key)}
-              style={({ pressed }) => [styles.categoryCard, compact && styles.categoryCardCompact, selectedCard && styles.categoryCardSelected, pressed && styles.pressed]}
-            >
-              <View style={styles.categoryTopLine}>
-                <View style={styles.categoryMark}><AppText style={styles.categoryMarkText}>{categoryMeta[key].mark}</AppText></View>
-                {selectedCard ? <View accessibilityLabel="選択中" style={styles.selectedMark}><AppText style={styles.selectedMarkText}>✓</AppText></View> : null}
-              </View>
-              <AppText style={styles.categoryTitle}>{categoryMeta[key].label}</AppText>
-              <AppText style={styles.categoryDescription}>{categoryMeta[key].description}</AppText>
-              <AppText style={styles.categoryCount}>{category.subcategories.length}人物像 ／ {count}処世術</AppText>
-            </Pressable>
-          );
-        })}
+      <View style={styles.filterIntroduction}>
+        <View style={styles.filterLine} />
+        <AppText style={styles.filterLabel}>処世術のカテゴリから絞り込む</AppText>
+        <View style={styles.filterLine} />
       </View>
+      <PersonaFilterBar selected={selectedCategory} onSelect={onSelectCategory} />
 
       <View style={styles.personaHeadingRow}>
-        <SectionHeading title="人物像から探す" note={showAllPersonas ? '（すべて）' : `（${categoryMeta[selectedCategory].label}）`} inline />
-        <Pressable accessibilityRole="button" accessibilityLabel={`${personaCount}人物像を一覧で見る`} onPress={onShowAllPersonas} style={({ pressed }) => [styles.allPersonasLink, pressed && styles.pressed]}>
+        <SectionHeading title="人物像から探す" note={`（${getPersonaFilterLabel(selectedCategory)}）`} inline />
+        <Pressable accessibilityRole="link" accessibilityLabel={`${personaCount}人物像を一覧で見る`} onPress={() => router.push('/personas')} style={({ pressed }) => [styles.allPersonasLink, pressed && styles.pressed]}>
           <AppText style={styles.allPersonasText}>{personaCount}人物像を一覧で見る　›</AppText>
         </Pressable>
       </View>
-      <View testID="discover-persona-grid" style={styles.personaGrid}>
-        {personas.map(({ category, persona }) => {
-          const locked = !isPaid && !isFreePersona(persona.name);
-          return (
-            <Pressable
-              key={`${category.key}-${persona.name}`}
-              accessibilityRole="button"
-              accessibilityLabel={`${persona.name}、${persona.items.length}処世術を開く`}
-              onPress={() => router.push({ pathname: '/subcategory/[category]/[name]', params: { category: category.key, name: persona.name } })}
-              style={({ pressed }) => [styles.personaCard, compact && styles.personaCardCompact, pressed && styles.pressed]}
-            >
-              <View style={styles.personaIcon}><View style={styles.personaHead} /><View style={styles.personaShoulders} /></View>
-              <AppText numberOfLines={2} style={styles.personaTitle}>{persona.name}</AppText>
-              <View style={styles.personaFooter}>
-                <AppText style={styles.personaCount}>{persona.items.length}処世術</AppText>
-                {locked ? <AccessBadge locked compact /> : <AppText style={styles.personaArrow}>›</AppText>}
-              </View>
-            </Pressable>
-          );
-        })}
+      <View style={styles.personaRailFrame}>
+        {!compact ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="前の人物像へ"
+            accessibilityState={{ disabled: atStart }}
+            disabled={atStart}
+            onPress={() => moveRail(-1)}
+            style={({ pressed }) => [styles.railArrow, styles.railArrowPrevious, atStart && styles.railArrowDisabled, pressed && styles.pressed]}
+          >
+            <AppText style={styles.railArrowText}>‹</AppText>
+          </Pressable>
+        ) : null}
+        <ScrollView
+          ref={railRef}
+          horizontal
+          testID="discover-persona-rail"
+          accessibilityLabel="人物像の横スクロール一覧"
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          onScroll={onRailScroll}
+          onLayout={(event) => setRail((current) => ({ ...current, viewport: event.nativeEvent.layout.width }))}
+          onContentSizeChange={(content) => setRail((current) => ({ ...current, content }))}
+          contentContainerStyle={[styles.personaRail, !compact && styles.personaRailDesktop]}
+        >
+          {personas.map((entry) => <PersonaCard key={`${entry.category.key}-${entry.persona.name}`} entry={entry} variant="rail" compact={compact} />)}
+        </ScrollView>
+        {!compact ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="次の人物像へ"
+            accessibilityState={{ disabled: atEnd }}
+            disabled={atEnd}
+            onPress={() => moveRail(1)}
+            style={({ pressed }) => [styles.railArrow, styles.railArrowNext, atEnd && styles.railArrowDisabled, pressed && styles.pressed]}
+          >
+            <AppText style={styles.railArrowText}>›</AppText>
+          </Pressable>
+        ) : null}
       </View>
 
       <SectionHeading title="よく見られる検索" />
@@ -266,8 +269,8 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, minWidth: 0, minHeight: 54, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
   searchInputCompact: { minHeight: 50, fontSize: 13 },
   clear: { color: colors.gold, fontSize: 11, fontWeight: '700' },
-  modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 560, alignSelf: 'center', marginTop: spacing.md, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
-  modeTab: { flex: 1, minHeight: 46, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
+  modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 660, alignSelf: 'center', marginTop: spacing.md, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  modeTab: { flex: 1, minHeight: 52, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
   modeTabActive: { backgroundColor: colors.charcoal },
   modeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, fontWeight: '600' },
   modeTextActive: { color: colors.goldLight },
@@ -278,31 +281,20 @@ const styles = StyleSheet.create({
   sectionHeadingInline: { flex: 1, minWidth: 0, marginBottom: spacing.md },
   sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 30, fontWeight: '600', letterSpacing: 1.2 },
   sectionNote: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
-  categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
-  categoryCard: { position: 'relative', flex: 1, flexBasis: 260, minHeight: 188, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
-  categoryCardCompact: { flexBasis: '100%', width: '100%', minHeight: 164 },
-  categoryCardSelected: { borderColor: colors.gold, backgroundColor: colors.surface },
-  categoryTopLine: { position: 'relative', width: '100%', alignItems: 'center' },
-  categoryMark: { width: 52, height: 52, borderRadius: 26, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  categoryMarkText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 20, lineHeight: 26, fontWeight: '600' },
-  selectedMark: { position: 'absolute', right: 0, top: -3, width: 21, height: 21, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.gold },
-  selectedMarkText: { color: colors.surface, fontSize: 11, lineHeight: 14, fontWeight: '700' },
-  categoryTitle: { marginTop: 10, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, fontWeight: '600', letterSpacing: 1.2 },
-  categoryDescription: { marginTop: 4, color: colors.muted, fontSize: 11, lineHeight: 18, textAlign: 'center' },
-  categoryCount: { marginTop: 10, color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
+  filterIntroduction: { maxWidth: 740, width: '100%', alignSelf: 'center', marginTop: spacing.lg, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
+  filterLine: { flex: 1, height: 1, backgroundColor: colors.line },
+  filterLabel: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, letterSpacing: 0.8, textAlign: 'center' },
   personaHeadingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
   allPersonasLink: { minHeight: 40, marginTop: spacing.xl, marginBottom: spacing.md, justifyContent: 'center' },
   allPersonasText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, fontWeight: '600' },
-  personaGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  personaCard: { flexGrow: 1, flexBasis: 172, minWidth: 0, minHeight: 150, padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.64)', alignItems: 'center', justifyContent: 'center' },
-  personaCardCompact: { flexBasis: '47%', minHeight: 142, paddingHorizontal: 9 },
-  personaIcon: { width: 43, height: 43, borderRadius: 22, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
-  personaHead: { width: 10, height: 10, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 5, marginBottom: 4 },
-  personaShoulders: { width: 20, height: 10, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
-  personaTitle: { minHeight: 43, marginTop: 8, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
-  personaFooter: { width: '100%', minHeight: 22, marginTop: 2, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
-  personaCount: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
-  personaArrow: { color: colors.gold, fontSize: 22, lineHeight: 22 },
+  personaRailFrame: { position: 'relative', marginHorizontal: -2 },
+  personaRail: { gap: 12, paddingHorizontal: 2, paddingBottom: 3 },
+  personaRailDesktop: { paddingHorizontal: 24 },
+  railArrow: { position: 'absolute', top: 66, zIndex: 2, width: 44, height: 44, borderWidth: 1, borderColor: colors.line, borderRadius: 22, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
+  railArrowPrevious: { left: -8 },
+  railArrowNext: { right: -8 },
+  railArrowDisabled: { opacity: 0.28 },
+  railArrowText: { marginTop: -2, color: colors.ink, fontFamily: fonts.serif, fontSize: 31, lineHeight: 34 },
   chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
   popularChip: { flexGrow: 1, flexBasis: '22%', minHeight: 42, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.62)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
   popularChipCompact: { flexBasis: '45%' },

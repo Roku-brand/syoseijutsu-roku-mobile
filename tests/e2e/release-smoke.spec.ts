@@ -296,16 +296,33 @@ test('探すは検索欄から始まり、目的語タグを表示する', async
   await expect(page.getByLabel('処世術・人物像・理論・キーワードを検索')).toHaveValue('友達');
 });
 
-test('探すは正本件数を示し、領域から人物像、理論カテゴリへ遷移できる', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+test('探すは人物像を横に流し、独立一覧と理論カテゴリへ遷移できる', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/discover');
 
   await expect(page.getByRole('tab', { name: '処世術　336' })).toBeVisible();
-  await expect(page.getByText('3領域 → 26人物像 → 336処世術', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '対人術、13人物像、171処世術' })).toBeVisible();
-  await page.getByRole('button', { name: '仕事術、6人物像、78処世術' }).click();
+  await expect(page.getByText('処世術のカテゴリから絞り込む', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'すべてで絞り込む' })).toBeVisible();
+  await expect(page.getByText('（すべて）', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('discover-persona-rail')).toBeVisible();
+  await expect(page.getByRole('button', { name: '前の人物像へ' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: '次の人物像へ' })).toBeEnabled();
+  await page.getByRole('button', { name: '次の人物像へ' }).click();
+  await expect.poll(() => page.getByTestId('discover-persona-rail').evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
+  await page.getByRole('button', { name: '仕事術で絞り込む' }).click();
   await expect(page.getByText('（仕事術）', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: /仕事ができる人、.*処世術を開く/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /仕事ができる人、仕事術、.*処世術を開く/ })).toBeVisible();
+
+  await page.getByRole('link', { name: '26人物像を一覧で見る' }).click();
+  await expect(page).toHaveURL(/\/personas$/);
+  await expect(page.getByText('3領域・26人物像から選ぶ', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('personas-grid').getByRole('button')).toHaveCount(26);
+  await page.getByRole('button', { name: '人生術で絞り込む' }).click();
+  await expect(page.getByTestId('personas-grid').getByRole('button')).toHaveCount(7);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/discover');
+  await expect(page.getByTestId('discover-persona-rail')).toBeVisible();
 
   await page.getByRole('tab', { name: '理論　630' }).click();
   await expect(page.getByText('6カテゴリ → 630理論', { exact: true })).toBeVisible();
