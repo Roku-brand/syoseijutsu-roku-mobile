@@ -194,7 +194,7 @@ export default function AuthScreen() {
                       onChangeText={setEmail}
                       autoCapitalize="none"
                       keyboardType="email-address"
-                      placeholder="例）tsubasa@example.com"
+                      placeholder="例）user@example.com"
                       placeholderTextColor={colors.muted}
                       accessibilityLabel="メールアドレス"
                       style={styles.input}
