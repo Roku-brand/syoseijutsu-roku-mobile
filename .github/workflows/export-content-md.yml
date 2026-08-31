@@ -1,0 +1,143 @@
+name: Export latest content MD
+
+on:
+  push:
+    branches:
+      - export-content-md-20260831
+    paths:
+      - .github/workflows/export-content-md.yml
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Markdown
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          SOURCE_COMMIT = "6cf69653f694aa089afad373b86a625723bea617"
+          SOURCE_TIME_JST = "2026-08-31 20:50:44 JST"
+
+          techniques_path = Path("src/data/generated/techniques.json")
+          theories_path = Path("src/data/generated/theories.json")
+          techniques_raw = json.loads(techniques_path.read_text(encoding="utf-8"))
+          theories = json.loads(theories_path.read_text(encoding="utf-8"))
+
+          techniques = []
+          for category in techniques_raw.get("categories", []):
+              for subcategory in category.get("subcategories", []):
+                  for item in subcategory.get("items", []):
+                      techniques.append(item)
+
+          def id_num(value: str):
+              try:
+                  return int(value.rsplit("-", 1)[-1] if value.startswith("master336-") else value.rsplit("_", 1)[-1])
+              except Exception:
+                  return 10**9
+
+          techniques.sort(key=lambda x: id_num(x.get("id", "")))
+          theories.sort(key=lambda x: id_num(x.get("tagId", "")))
+          theory_by_id = {x["tagId"]: x for x in theories}
+
+          relations = []
+          dangling = []
+          unlinked = []
+          for t in techniques:
+              ids = t.get("relatedTheoryIds") or []
+              if not ids:
+                  unlinked.append(t.get("id", ""))
+              for theory_id in ids:
+                  theory = theory_by_id.get(theory_id)
+                  if theory is None:
+                      dangling.append((t.get("id", ""), theory_id))
+                  else:
+                      relations.append((t, theory))
+
+          def cell(value):
+              s = "" if value is None else str(value)
+              s = s.replace("\r\n", " ").replace("\n", " ").replace("\r", " ")
+              s = " ".join(s.split())
+              return s.replace("|", "\\|")
+
+          lines = []
+          lines.append("# 処世術禄 最新コンテンツ整理一覧")
+          lines.append("")
+          lines.append(f"- 基準コミット: `{SOURCE_COMMIT}`")
+          lines.append(f"- 基準日時: {SOURCE_TIME_JST}")
+          lines.append(f"- 処世術: **{len(techniques)}件**")
+          lines.append(f"- 理論: **{len(theories)}件**")
+          lines.append(f"- 処世術→理論の紐づき: **{len(relations)}件**")
+          lines.append(f"- 理論紐づきなしの処世術: **{len(unlinked)}件**")
+          lines.append(f"- 存在しない理論IDへの参照: **{len(dangling)}件**")
+          lines.append("")
+          lines.append("> 注記: このファイルは上記コミットに同期済みの `src/data/generated/techniques.json` と `src/data/generated/theories.json` を正本として自動生成したスナップショットです。基準日時より後にオーナー管理画面からSupabaseへ公開し、まだリポジトリへ同期していない変更がある場合、その差分は含まれません。理論の「本質」欄には現行データの `summary` を掲載しています。")
+          lines.append("")
+
+          lines.append("## 1. 処世術一覧")
+          lines.append("")
+          lines.append("| ID | タイトル | 本質 |")
+          lines.append("|---|---|---|")
+          for t in techniques:
+              lines.append(f"| {cell(t.get('id'))} | {cell(t.get('title'))} | {cell(t.get('essence'))} |")
+          lines.append("")
+
+          lines.append("## 2. 理論一覧")
+          lines.append("")
+          lines.append("| ID | タイトル | 本質 |")
+          lines.append("|---|---|---|")
+          for theory in theories:
+              lines.append(f"| {cell(theory.get('tagId'))} | {cell(theory.get('title'))} | {cell(theory.get('summary'))} |")
+          lines.append("")
+
+          lines.append("## 3. 処世術と理論の紐づき対応表")
+          lines.append("")
+          lines.append("| 処世術ID | 処世術タイトル | 理論ID | 理論タイトル |")
+          lines.append("|---|---|---|---|")
+          for t, theory in relations:
+              lines.append(f"| {cell(t.get('id'))} | {cell(t.get('title'))} | {cell(theory.get('tagId'))} | {cell(theory.get('title'))} |")
+          lines.append("")
+
+          if dangling:
+              lines.append("## 4. 参照切れ")
+              lines.append("")
+              lines.append("| 処世術ID | 存在しない理論ID |")
+              lines.append("|---|---|")
+              for tid, rid in dangling:
+                  lines.append(f"| {cell(tid)} | {cell(rid)} |")
+              lines.append("")
+
+          out = Path("shoseijutsuroku_latest_content_map_2026-08-31.md")
+          out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+          print(json.dumps({
+              "techniques": len(techniques),
+              "theories": len(theories),
+              "relations": len(relations),
+              "unlinked": len(unlinked),
+              "dangling": len(dangling),
+              "output": str(out),
+          }, ensure_ascii=False))
+
+          if len(techniques) != 336:
+              raise SystemExit(f"unexpected technique count: {len(techniques)}")
+          if len(theories) != 630:
+              raise SystemExit(f"unexpected theory count: {len(theories)}")
+          if dangling:
+              raise SystemExit(f"dangling relations found: {dangling[:10]}")
+          PY
+
+      - name: Upload Markdown artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shoseijutsuroku-latest-content-map
+          path: shoseijutsuroku_latest_content_map_2026-08-31.md
+          if-no-files-found: error
+          retention-days: 1
