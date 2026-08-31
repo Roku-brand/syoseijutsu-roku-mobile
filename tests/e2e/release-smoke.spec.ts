@@ -42,7 +42,7 @@ test('settings can hide the recurring welcome page', async ({ page }) => {
   await expect(hideWelcome).toBeVisible();
   await hideWelcome.click();
   await page.goto('/');
-  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 });
 
 test('my page keeps the guest profile entry compact', async ({ page }) => {
@@ -143,27 +143,65 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/おはようございます|こんにちは|こんばんは/).first()).toBeVisible();
   await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
-  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
-  await expect(page.getByTestId('home-curated-reel').getByText(/今日の一枚/)).toBeVisible();
-  await expect(page.getByTestId('home-upgrade-cta')).toBeVisible();
-  await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-brand-slide-1')).toContainText('今日の一枚｜処世術');
+  await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
+  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   await page.goto('/');
   await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
 });
 
-test('ホームの厳選リールはカード脇の矢印で横にスライドする', async ({ page }) => {
+test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/welcome');
   await startFreeHome(page);
 
-  const rail = page.getByTestId('home-curated-viewport');
-  const next = page.getByRole('button', { name: '次の厳選' });
+  const rail = page.getByTestId('home-brand-viewport');
+  const next = page.getByRole('button', { name: '次のスライド' });
   await expect(rail).toBeVisible();
   await expect(next).toBeVisible();
   expect(await rail.evaluate((element) => element.scrollLeft)).toBe(0);
   await next.click();
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
+});
+
+test('ホームの各CTAは正式コンテンツと既存画面へ遷移する', async ({ page }) => {
+  await page.goto('/welcome');
+  await startFreeHome(page);
+
+  await page.getByTestId('home-brand-technique-cta').click();
+  await expect(page).toHaveURL(/\/card\/master336-014$/);
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '2枚目を表示' }).click();
+  await page.getByTestId('home-brand-persona-cta').click();
+  await expect(page).toHaveURL(/\/subcategory\/interpersonal\/%E5%8D%B0%E8%B1%A1%E3%81%8C%E3%81%84%E3%81%84%E4%BA%BA$/);
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '3枚目を表示' }).click();
+  await page.getByTestId('home-brand-theory-cta').click();
+  await expect(page).toHaveURL(/\/theory\/kb_014$/);
+  await expect(page.getByText('ミラーリング効果', { exact: true }).first()).toBeVisible();
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '4枚目を表示' }).click();
+  await page.getByTestId('home-brand-map-theory-1').click();
+  await expect(page).toHaveURL(/\/theory\/kb_014$/);
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '5枚目を表示' }).click();
+  await page.getByTestId('home-brand-system-cta').click();
+  await expect(page).toHaveURL(/\/personas$/);
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '6枚目を表示' }).click();
+  await page.getByTestId('home-brand-premium-cta').click();
+  await expect(page).toHaveURL(/\/upgrade\?source=home_carousel$/);
 });
 
 test('ウェルカムから初回ホームへ入ると今日の一枚へ導く歓迎ポップアップを一度だけ表示する', async ({ page }) => {
@@ -176,7 +214,7 @@ test('ウェルカムから初回ホームへ入ると今日の一枚へ導く�
   await expect(welcomeModal).toContainText('判断に迷う日に、静かな手がかりを。');
   await welcomeModal.getByRole('button', { name: '今日の一枚を見る' }).click();
   await expect(welcomeModal).toHaveCount(0);
-  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 
   await page.goto('/welcome');
   await page.getByRole('button', { name: '無料で始める' }).click();
@@ -273,7 +311,7 @@ test('ウェルカムの無料版と完全版の入口は、それぞれ正し�
   await page.goto('/welcome');
   await page.getByRole('button', { name: '無料ではじめる' }).click();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
-  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 
   await page.goto('/welcome');
   await page.getByRole('button', { name: '完全版を購入する' }).click();
@@ -448,17 +486,16 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
-test('ホームは厳選4件を処世術と理論で切り替え、スマホでも横にはみ出さない', async ({ page }) => {
+test('ホームは7つのブランドスライドをスマホでも横にはみ出さず表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('home-curated-reel')).toBeVisible();
-  await expect(page.getByLabel(/^厳選 [1-4]$/)).toHaveCount(4);
-  await expect(page.getByTestId('home-curated-reel').getByText(/今日の一枚/)).toBeVisible();
-  await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
-  await page.getByLabel('次の厳選').click();
-  await expect(page.getByTestId('home-curated-slide-2').getByText(/今日の厳選/)).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
+  await page.getByRole('tab', { name: '4枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('相手のテンポに寄せる');
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('ミラーリング効果');
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('カメレオン効果');
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -494,18 +531,18 @@ test('探す理論リールはカテゴリで切り替え、矢印で横に送�
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(before);
 });
 
-test('PCホームは挨拶・切替・厳選リールだけを上品に収める', async ({ page }) => {
+test('PCホームは挨拶と7枚のブランドリールを上品に収める', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
-  const reel = await page.getByTestId('home-curated-reel').boundingBox();
+  const reel = await page.getByTestId('home-brand-carousel').boundingBox();
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
   await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
-  await expect(page.getByLabel('次の厳選')).toBeVisible();
-  await page.getByRole('tab', { name: '理論', exact: true }).click();
-  await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
+  await expect(page.getByLabel('次のスライド')).toBeVisible();
+  await page.getByRole('tab', { name: '3枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-3')).toContainText('ミラーリング効果');
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -535,14 +572,14 @@ test('ゲストのマイページからログイン導線を直接開ける', as
   await expect(page).toHaveURL(/\/auth\?mode=signin/);
 });
 
-test('ホームの厳選は前後操作で同じ一枚へ戻れる', async ({ page }) => {
+test('ホームのブランドリールは前後操作で同じ一枚へ戻れる', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
-  const before = (await page.getByTestId('home-curated-reel').innerText()).replace(/\s+/g, '');
-  await page.getByLabel('次の厳選').click();
-  await page.getByLabel('前の厳選').click();
-  const after = (await page.getByTestId('home-curated-reel').innerText()).replace(/\s+/g, '');
-  expect(after).toBe(before);
+  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  await page.getByLabel('次のスライド').click();
+  await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  await page.getByLabel('前のスライド').click();
+  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

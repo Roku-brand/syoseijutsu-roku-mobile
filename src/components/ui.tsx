@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Link, type Href } from 'expo-router';
 import {
   Pressable,
   ScrollView,
@@ -148,7 +148,7 @@ export function SectionHeader({
   title: string;
   count?: number;
   actionLabel?: string;
-  actionHref?: string;
+  actionHref?: Href;
 }) {
   return (
     <View style={styles.sectionHeader}>
@@ -162,7 +162,7 @@ export function SectionHeader({
         )}
       </AppText>
       {actionLabel && actionHref && (
-        <Link href={actionHref as never} asChild>
+        <Link href={actionHref} asChild>
           <Pressable>
             <AppText variant="label" style={styles.sectionAction}>
               {actionLabel} ›

@@ -54,18 +54,21 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-const [techniques, theories, learning, publicTechniques, publicTheories, publicLearning, metadata] = await Promise.all([
+const [techniques, theories, learning, publicTechniques, publicTheories, publicLearning, homeBrandContent, metadata] = await Promise.all([
   readJson('techniques.json'),
   readJson('theories.json'),
   readJson('learning.full.json'),
   readJson('techniques.public.json'),
   readJson('theories.public.json'),
   readJson('learning.public.json'),
+  readJson('home-brand-content.json'),
   readJson('metadata.json'),
 ]);
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 const fingerprints = new Map();
 const titleCandidates = [];
+const publicPreviewTheoryIds = new Set(homeBrandContent.techniqueTheoryMap.theories.map((theory) => theory.tagId));
+const publicPreviewTexts = new Set(homeBrandContent.techniqueTheoryMap.theories.map((theory) => theory.title));
 
 for (const technique of allTechniques) {
   if (!freeTechniqueIds.has(technique.id)) {
@@ -76,7 +79,9 @@ for (const technique of allTechniques) {
 for (const theory of theories) {
   if (!freeTheoryIds.has(theory.tagId)) {
     collectTextFingerprints(theory, `theory:${theory.tagId}`, fingerprints);
-    titleCandidates.push({ id: theory.tagId, title: theory.title, label: `theory:${theory.tagId}:title` });
+    if (!publicPreviewTheoryIds.has(theory.tagId)) {
+      titleCandidates.push({ id: theory.tagId, title: theory.title, label: `theory:${theory.tagId}:title` });
+    }
   }
 }
 for (const item of learning) {
@@ -87,6 +92,14 @@ for (const item of learning) {
 }
 
 if (fingerprints.size === 0) throw new Error('No paid-content fingerprints were generated.');
+
+for (const preview of homeBrandContent.techniqueTheoryMap.theories) {
+  const canonical = theories.find((theory) => theory.tagId === preview.tagId);
+  if (!canonical || canonical.title !== preview.title || canonical.categoryId !== preview.categoryId) {
+    throw new Error(`Home theory preview is not canonical: ${preview.tagId}`);
+  }
+}
+for (const text of publicPreviewTexts) fingerprints.delete(fingerprint(text));
 
 const publicTechniqueItems = publicTechniques.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
 if (publicTechniqueItems.length !== allTechniques.length || publicTheories.length !== theories.length) {

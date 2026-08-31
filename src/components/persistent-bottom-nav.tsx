@@ -1,41 +1,24 @@
 import * as Haptics from 'expo-haptics';
-import { usePathname, useRouter } from 'expo-router';
+import { usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { APP_ROUTES, getMainSection, type MainSection } from '@/navigation/app-routes';
 import { AppText } from './ui';
 
 const items = [
-  { key: 'main', label: 'ホーム', icon: 'roku', href: '/(tabs)' },
-  { key: 'discover', label: '探す', icon: 'search', href: '/discover' },
-  { key: 'learn', label: '学ぶ', icon: 'book', href: '/learn' },
-  { key: 'my-os', label: 'マイページ', icon: 'circle', href: '/my-os' },
-] as const;
-
-function activeKey(pathname: string) {
-  if (
-    pathname.includes('/discover') ||
-    pathname.includes('/personas') ||
-    pathname.includes('/catalog') ||
-    pathname.includes('/category/') ||
-    pathname.includes('/subcategory/') ||
-    pathname.includes('/topic/') ||
-    pathname.includes('/goal/') ||
-    pathname.includes('/theory/') ||
-    pathname.includes('/theories/')
-  ) return 'discover';
-  if (pathname.includes('/learn')) return 'learn';
-  if (
-    pathname.includes('/my-os') ||
-    pathname.includes('/collection/') ||
-    pathname.includes('/library') ||
-    pathname.includes('/history') ||
-    pathname.includes('/my-techniques')
-  ) return 'my-os';
-  return 'main';
-}
+  { key: 'main', label: 'ホーム', icon: 'roku', href: APP_ROUTES.home },
+  { key: 'discover', label: '探す', icon: 'search', href: APP_ROUTES.discover },
+  { key: 'learn', label: '学ぶ', icon: 'book', href: APP_ROUTES.learn },
+  { key: 'my-os', label: 'マイページ', icon: 'circle', href: APP_ROUTES.myPage },
+] as const satisfies ReadonlyArray<{
+  key: MainSection;
+  label: string;
+  icon: 'roku' | 'search' | 'book' | 'circle';
+  href: Href;
+}>;
 
 export function PersistentBottomNav() {
   const { desktop, bottomNavHeight } = useResponsiveLayout();
@@ -44,7 +27,7 @@ export function PersistentBottomNav() {
   const lastTap = useRef<Record<string, number>>({});
 
   if (pathname === '/onboarding') return null;
-  const selected = activeKey(pathname);
+  const selected = getMainSection(pathname);
 
   const navigate = (item: (typeof items)[number]) => {
     const now = Date.now();
@@ -52,8 +35,8 @@ export function PersistentBottomNav() {
     const isDoubleTap = isCurrent && now - (lastTap.current[item.key] ?? 0) < 320;
     lastTap.current[item.key] = now;
     void Haptics.selectionAsync().catch(() => undefined);
-    if (isDoubleTap) return router.replace(item.href as never);
-    if (!isCurrent) router.replace(item.href as never);
+    if (isDoubleTap) return router.replace(item.href);
+    if (!isCurrent) router.replace(item.href);
   };
 
   return (

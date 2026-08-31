@@ -15,6 +15,44 @@ const [techniques, theories, learning, practicalActions, metadata] = await Promi
 
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 
+const HOME_TECHNIQUE_ID = 'master336-014';
+const HOME_PERSONA_NAME = '印象がいい人';
+const HOME_THEORY_ID = 'kb_014';
+const HOME_MAP_TECHNIQUE_ID = 'master336-007';
+const techniqueById = new Map(allTechniques.map((item) => [item.id, item]));
+const theoryById = new Map(theories.map((item) => [item.tagId, item]));
+const mapTechnique = techniqueById.get(HOME_MAP_TECHNIQUE_ID);
+const homeTheory = theoryById.get(HOME_THEORY_ID);
+
+if (!mapTechnique || (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds ?? []).length < 3) {
+  throw new Error(`Home theory map requires at least three canonical links: ${HOME_MAP_TECHNIQUE_ID}`);
+}
+if (!homeTheory) throw new Error(`Unknown canonical home theory: ${HOME_THEORY_ID}`);
+if (!freeTheoryIds.has(HOME_THEORY_ID)) {
+  throw new Error(`Home theory must be readable in the public edition: ${HOME_THEORY_ID}`);
+}
+
+const homeBrandContent = {
+  todayTechniqueCandidateIds: [HOME_TECHNIQUE_ID],
+  personaCandidateNames: [HOME_PERSONA_NAME],
+  theoryCandidateIds: [HOME_THEORY_ID],
+  theorySnapshots: [homeTheory],
+  techniqueTheoryMap: {
+    techniqueId: mapTechnique.id,
+    title: mapTechnique.title,
+    theories: (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds).map((id) => {
+      const theory = theoryById.get(id);
+      if (!theory) throw new Error(`Unknown canonical theory in home map: ${id}`);
+      return {
+        tagId: theory.tagId,
+        title: theory.title,
+        categoryId: theory.categoryId,
+        categoryTitle: theory.categoryTitle,
+      };
+    }),
+  },
+};
+
 const publicTechniques = {
   ...techniques,
   categories: techniques.categories.map((category) => ({
@@ -41,6 +79,7 @@ await Promise.all([
   writeJson('theories.public.json', publicTheories),
   writeJson('learning.public.json', learning.filter((item) => freeLearningIds.has(item.id))),
   writeJson('practical-actions.public.json', practicalActions.filter((item) => freeTechniqueIds.has(item.id))),
+  writeJson('home-brand-content.json', homeBrandContent),
   writeJson('metadata.json', metadata),
 ]);
 

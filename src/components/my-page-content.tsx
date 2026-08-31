@@ -11,6 +11,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { useAccess } from '@/access/access-state';
 import { isLockedTheoryShell } from '@/data/theory-display';
+import { APP_ROUTES, signInRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 
 type SavedPreview = {
   kind: '処世術' | '理論';
@@ -35,7 +36,7 @@ export default function MyPageContent() {
   } = useAppState();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(personalPrinciple);
-  const profileDestination = user ? '/settings/profile' : '/auth?mode=signin';
+  const profileDestination = user ? APP_ROUTES.profile : signInRoute();
   const libraryCount = savedIds.length + savedTheoryIds.length;
   const recentSaved = useMemo(() => buildRecentSaved(savedIds, savedTheoryIds), [catalogRevision, savedIds, savedTheoryIds]);
   const recentHistory = useMemo(
@@ -69,7 +70,7 @@ export default function MyPageContent() {
           testID="account-membership-card"
           accessibilityRole="button"
           accessibilityLabel={user ? 'プロフィールを設定' : 'ログインしてプロフィールを設定'}
-          onPress={() => router.push(profileDestination as never)}
+          onPress={() => router.push(profileDestination)}
           style={({ pressed }) => [styles.profileButton, pressed && styles.pressed]}
         >
           <ProfileMark />
@@ -95,13 +96,13 @@ export default function MyPageContent() {
       </View>
 
       <View style={[styles.destinationGrid, compact && styles.stack]}>
-        <DestinationCard mark="冊" title="蔵書" count={libraryCount} detail="保存した処世術・理論" onPress={() => router.push('/library')} />
-        <DestinationCard mark="記" title="マイ処世術" count={personalMemos.length} detail="自分の言葉でつくった処世術" onPress={() => router.push('/my-techniques')} />
-        <DestinationCard mark="履" title="履歴" count={historyIds.length} detail="これまでに見た処世術・理論" onPress={() => router.push('/history')} />
+        <DestinationCard mark="冊" title="蔵書" count={libraryCount} detail="保存した処世術・理論" onPress={() => router.push(APP_ROUTES.library)} />
+        <DestinationCard mark="記" title="マイ処世術" count={personalMemos.length} detail="自分の言葉でつくった処世術" onPress={() => router.push(APP_ROUTES.myTechniques)} />
+        <DestinationCard mark="履" title="履歴" count={historyIds.length} detail="これまでに見た処世術・理論" onPress={() => router.push(APP_ROUTES.history)} />
       </View>
 
       <View style={[styles.recentGrid, compact && styles.stack]}>
-        <PreviewColumn title="最近保存したもの" actionLabel="すべての蔵書を見る" onAction={() => router.push('/library')}>
+        <PreviewColumn title="最近保存したもの" actionLabel="すべての蔵書を見る" onAction={() => router.push(APP_ROUTES.library)}>
           {recentSaved.length ? recentSaved.map((item) => (
             <PreviewRow
               key={`${item.kind}-${item.id}`}
@@ -109,19 +110,19 @@ export default function MyPageContent() {
               title={item.title}
               meta={item.meta}
               onPress={() => item.kind === '処世術'
-                ? router.push({ pathname: '/card/[id]', params: { id: item.id } })
-                : router.push({ pathname: '/theory/[id]', params: { id: item.id } })}
+                ? router.push(techniqueRoute(item.id))
+                : router.push(theoryRoute(item.id))}
             />
           )) : <QuietEmpty>{pendingSavedTheory ? '完全版データを確認中' : 'まだ保存したものはありません'}</QuietEmpty>}
         </PreviewColumn>
 
-        <PreviewColumn title="マイ処世術" actionLabel="すべてのマイ処世術を見る" onAction={() => router.push('/my-techniques')}>
+        <PreviewColumn title="マイ処世術" actionLabel="すべてのマイ処世術を見る" onAction={() => router.push(APP_ROUTES.myTechniques)}>
           {personalMemos.length ? personalMemos.slice(0, 3).map((memo) => (
-            <MemoPreview key={memo.id} memo={memo} onPress={() => router.push('/my-techniques')} />
+            <MemoPreview key={memo.id} memo={memo} onPress={() => router.push(APP_ROUTES.myTechniques)} />
           )) : <QuietEmpty>まだマイ処世術はありません</QuietEmpty>}
         </PreviewColumn>
 
-        <PreviewColumn title="最近の履歴" actionLabel="すべての履歴を見る" onAction={() => router.push('/history')}>
+        <PreviewColumn title="最近の履歴" actionLabel="すべての履歴を見る" onAction={() => router.push(APP_ROUTES.history)}>
           {recentHistory.length ? recentHistory.map((item) => (
             <PreviewRow
               key={`${item.kind}-${item.id}`}
@@ -129,8 +130,8 @@ export default function MyPageContent() {
               title={item.title}
               meta={item.meta}
               onPress={() => item.kind === '処世術'
-                ? router.push({ pathname: '/card/[id]', params: { id: item.id } })
-                : router.push({ pathname: '/theory/[id]', params: { id: item.id } })}
+                ? router.push(techniqueRoute(item.id))
+                : router.push(theoryRoute(item.id))}
             />
           )) : <QuietEmpty>{pendingHistoryTheory ? '完全版データを確認中' : 'まだ履歴はありません'}</QuietEmpty>}
         </PreviewColumn>

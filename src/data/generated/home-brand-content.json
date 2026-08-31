@@ -1,0 +1,50 @@
+{
+  "todayTechniqueCandidateIds": [
+    "master336-014"
+  ],
+  "personaCandidateNames": [
+    "印象がいい人"
+  ],
+  "theoryCandidateIds": [
+    "kb_014"
+  ],
+  "theorySnapshots": [
+    {
+      "tagId": "kb_014",
+      "title": "ミラーリング効果",
+      "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
+    }
+  ],
+  "techniqueTheoryMap": {
+    "techniqueId": "master336-007",
+    "title": "相手のテンポに寄せる",
+    "theories": [
+      {
+        "tagId": "kb_014",
+        "title": "ミラーリング効果",
+        "categoryId": "psychology",
+        "categoryTitle": "心理学"
+      },
+      {
+        "tagId": "kb_015",
+        "title": "言語スタイル同調",
+        "categoryId": "psychology",
+        "categoryTitle": "心理学"
+      },
+      {
+        "tagId": "kb_390",
+        "title": "行動同調",
+        "categoryId": "psychology",
+        "categoryTitle": "心理学"
+      },
+      {
+        "tagId": "kb_391",
+        "title": "カメレオン効果",
+        "categoryId": "psychology",
+        "categoryTitle": "心理学"
+      }
+    ]
+  }
+}

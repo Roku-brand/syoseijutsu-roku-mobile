@@ -1,5 +1,5 @@
 import Constants from 'expo-constants';
-import { useRouter } from 'expo-router';
+import { useRouter, type Href } from 'expo-router';
 import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, Screen } from '@/components/ui';
@@ -8,9 +8,9 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
+import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 
 export default function SettingsScreen() {
-  const router = useRouter();
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const { welcomePageHidden, setWelcomePageHidden, clearPersonalData } = useAppState();
@@ -25,25 +25,22 @@ export default function SettingsScreen() {
             icon="person"
             title="プロフィール"
             detail={profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'}
-            href="/settings/profile"
-            onNavigate={(href) => router.push(href as never)}
+            href={APP_ROUTES.profile}
           />
-          <SettingLink icon="person" title="ログイン情報・パスワード" href="/auth" onNavigate={(href) => router.push(href as never)} />
+          <SettingLink icon="person" title="ログイン情報・パスワード" href={APP_ROUTES.auth} />
         </> : (
           <SettingLink
             icon="person"
             title="ログイン / アカウントを作成"
             detail="蔵書を引き継ぎ、プロフィールを設定できます"
-            href="/auth?mode=signin"
-            onNavigate={(href) => router.push(href as never)}
+            href={signInRoute()}
           />
         )}
         <SettingLink
           icon="complete"
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
-          href="/upgrade"
-          onNavigate={(href) => router.push(href as never)}
+          href={APP_ROUTES.upgrade}
           last
         />
       </View>
@@ -56,15 +53,13 @@ export default function SettingsScreen() {
               icon="document"
               title="コンテンツ管理"
               detail="処世術の編集・プレビュー・公開・更新履歴"
-              href="/owner/content"
-              onNavigate={(href) => router.push(href as never)}
+              href={APP_ROUTES.ownerContent}
             />
             <SettingLink
               icon="brand"
               title="オーナープレビュー"
               detail="無料版・完全版・未ログインの表示を確認"
-              href="/owner/preview"
-              onNavigate={(href) => router.push(href as never)}
+              href={APP_ROUTES.ownerPreview}
               last
             />
           </View>
@@ -91,13 +86,12 @@ export default function SettingsScreen() {
           icon="install"
           title="ホーム画面に追加"
           detail="アプリのように、すぐ開けるようにする"
-          href="/settings/install"
-          onNavigate={(href) => router.push(href as never)}
+          href={APP_ROUTES.install}
         />
-        <SettingLink icon="document" title="購入・完全版 FAQ" href="/legal/faq" onNavigate={(href) => router.push(href as never)} />
-        <SettingLink icon="document" title="特定商取引法に基づく表記" href="/legal/commerce" onNavigate={(href) => router.push(href as never)} />
-        <SettingLink icon="document" title="利用規約" href="/legal/terms" onNavigate={(href) => router.push(href as never)} />
-        <SettingLink icon="shield" title="プライバシーポリシー" href="/legal/privacy" onNavigate={(href) => router.push(href as never)} />
+        <SettingLink icon="document" title="購入・完全版 FAQ" href={APP_ROUTES.faq} />
+        <SettingLink icon="document" title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} />
+        <SettingLink icon="document" title="利用規約" href={APP_ROUTES.terms} />
+        <SettingLink icon="shield" title="プライバシーポリシー" href={APP_ROUTES.privacy} />
         <SettingLink
           icon="document"
           title="端末内データをすべて消去"
@@ -112,7 +106,7 @@ export default function SettingsScreen() {
           )}
         />
         <SettingLink icon="contact" title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
-        <SettingLink icon="brand" title="処世術禄について" href="/legal/about" onNavigate={(href) => router.push(href as never)} last />
+        <SettingLink icon="brand" title="処世術禄について" href={APP_ROUTES.about} last />
       </View>
 
       <AppText style={styles.version}>バージョン {version}</AppText>
@@ -126,11 +120,12 @@ function SettingsSection({ title }: { title: string }) {
 
 type SettingIcon = 'person' | 'complete' | 'install' | 'document' | 'shield' | 'contact' | 'brand';
 
-function SettingLink({ icon, title, detail, href, onPress, onNavigate, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: string; onPress?: () => void; onNavigate?: (href: string) => void; last?: boolean }) {
+function SettingLink({ icon, title, detail, href, onPress, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: Href; onPress?: () => void; last?: boolean }) {
+  const router = useRouter();
   return (
     <Pressable
       accessibilityRole="button"
-      onPress={onPress ?? (href ? () => onNavigate?.(href) : undefined)}
+      onPress={onPress ?? (href ? () => router.push(href) : undefined)}
       style={({ pressed }) => [styles.row, last && styles.rowLast, pressed && styles.pressed]}
     >
       <SettingIconMark type={icon} />
