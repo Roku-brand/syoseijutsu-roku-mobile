@@ -199,7 +199,7 @@ export default function HomeScreen() {
       {curated.length ? (
         <>
           <View testID="home-curated-reel" style={styles.curatedReelFrame}>
-            {isDesktop ? <Pressable accessibilityRole="button" accessibilityLabel="前の厳選" onPress={goPrevious} style={[styles.reelSideArrow, styles.reelSideArrowPrevious]}><Text style={styles.arrowText}>‹</Text></Pressable> : null}
+            <Pressable accessibilityRole="button" accessibilityLabel="前の厳選" onPress={goPrevious} style={[styles.reelSideArrow, styles.reelSideArrowPrevious, !isDesktop && styles.reelSideArrowCompact, !isDesktop && styles.reelSideArrowPreviousCompact]}><Text style={styles.arrowText}>‹</Text></Pressable>
             <ScrollView
               ref={curatedRailRef}
               horizontal
@@ -232,7 +232,7 @@ export default function HomeScreen() {
                 );
               }) : null}
             </ScrollView>
-            {isDesktop ? <Pressable accessibilityRole="button" accessibilityLabel="次の厳選" onPress={goNext} style={[styles.reelSideArrow, styles.reelSideArrowNext]}><Text style={styles.arrowText}>›</Text></Pressable> : null}
+            <Pressable accessibilityRole="button" accessibilityLabel="次の厳選" onPress={goNext} style={[styles.reelSideArrow, styles.reelSideArrowNext, !isDesktop && styles.reelSideArrowCompact, !isDesktop && styles.reelSideArrowNextCompact]}><Text style={styles.arrowText}>›</Text></Pressable>
           </View>
           <View style={styles.reelControls}>
             <View style={styles.dots}>
@@ -328,6 +328,9 @@ const styles = StyleSheet.create({
   reelSideArrow: { alignItems: 'center', backgroundColor: palette.paper, borderColor: palette.line, borderRadius: 24, borderWidth: 1, height: 48, justifyContent: 'center', position: 'absolute', top: '50%', transform: [{ translateY: -24 }], width: 48, zIndex: 3, ...bookCardShadow },
   reelSideArrowPrevious: { left: -58 },
   reelSideArrowNext: { right: -58 },
+  reelSideArrowCompact: { backgroundColor: 'rgba(255,253,248,0.94)', height: 38, top: '50%', transform: [{ translateY: -19 }], width: 38 },
+  reelSideArrowPreviousCompact: { left: 7 },
+  reelSideArrowNextCompact: { right: 7 },
   arrowText: { color: palette.ink, fontFamily: typography.serif, fontSize: 31, lineHeight: 36 },
   dots: { alignItems: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 10 },
   dot: { backgroundColor: '#ded6c8', borderRadius: 999, height: 8, width: 8 },
