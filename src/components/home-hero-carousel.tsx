@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta } from '@/data/catalog';
@@ -18,6 +18,34 @@ const personaImage = require('../../assets/home/persona-washi-portrait.webp');
 const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');
 const completeMark = require('../../assets/upgrade/complete-mark.png');
+
+const HOME_REEL_ID = 'brand';
+const HOME_REEL_SLIDE_COUNT = 7;
+const homeReelPositions = new Map<string, number>();
+
+function readHomeReelPosition(reelId: string) {
+  const cached = homeReelPositions.get(reelId);
+  if (typeof cached === 'number') return cached;
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return 0;
+  try {
+    const value = window.sessionStorage.getItem(`shoseijutsu-roku:home-reel:${reelId}`);
+    const index = value ? Number(JSON.parse(value).index) : 0;
+    return Number.isInteger(index) ? Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, index)) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+function writeHomeReelPosition(reelId: string, index: number) {
+  homeReelPositions.set(reelId, index);
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return;
+  try {
+    window.sessionStorage.setItem(`shoseijutsu-roku:home-reel:${reelId}`, JSON.stringify({ index }));
+  } catch {
+    // A private browser may reject sessionStorage. The in-memory position is
+    // still enough for an in-app detail round trip.
+  }
+}
 
 export type HomeHeroSlideType =
   | 'todayTechnique'
@@ -160,6 +188,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, techniqueTitle, theories,
           <Pressable
             accessibilityRole="link"
             accessibilityLabel={`${techniqueTitle}を開く`}
+            testID="home-brand-map-technique-cta"
             onPress={() => router.push(techniqueRoute(techniqueId))}
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
@@ -251,10 +280,11 @@ export function RokumaruSlide({ desktop }: { desktop: boolean }) {
 }
 
 export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(() => readHomeReelPosition(HOME_REEL_ID));
   const [viewportWidth, setViewportWidth] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
   const railRef = useRef<ScrollView>(null);
+  const activeIndexRef = useRef(activeIndex);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
 
@@ -264,21 +294,42 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
     return () => subscription.remove();
   }, []);
 
-  const moveTo = (index: number) => {
-    const nextIndex = (index + 7) % 7;
+  const commitIndex = useCallback((index: number) => {
+    const nextIndex = Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, index));
+    activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
-    railRef.current?.scrollTo({ x: nextIndex * viewportWidth, animated: !reduceMotion });
-  };
+    writeHomeReelPosition(HOME_REEL_ID, nextIndex);
+    return nextIndex;
+  }, []);
+
+  const moveTo = useCallback((index: number, animated = true) => {
+    const nextIndex = commitIndex(index);
+    railRef.current?.scrollTo({ x: nextIndex * viewportWidth, animated: animated && !reduceMotion });
+  }, [commitIndex, reduceMotion, viewportWidth]);
+
+  const settleAtOffset = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!viewportWidth) return;
+    commitIndex(Math.round(event.nativeEvent.contentOffset.x / viewportWidth));
+  }, [commitIndex, viewportWidth]);
+
+  useEffect(() => {
+    writeHomeReelPosition(HOME_REEL_ID, activeIndexRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!viewportWidth) return;
+    railRef.current?.scrollTo({ x: activeIndexRef.current * viewportWidth, animated: false });
+  }, [viewportWidth]);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') moveTo(activeIndex - 1);
-      if (event.key === 'ArrowRight') moveTo(activeIndex + 1);
+      if (event.key === 'ArrowLeft') moveTo(activeIndexRef.current - 1);
+      if (event.key === 'ArrowRight') moveTo(activeIndexRef.current + 1);
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [activeIndex, reduceMotion, viewportWidth]);
+  }, [moveTo]);
 
   if (!content.technique || !content.persona || !content.theory) return null;
 
@@ -294,22 +345,51 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 
   return (
     <View testID="home-brand-carousel" style={styles.carousel}>
-      <View style={styles.viewport} onLayout={(event) => setViewportWidth(event.nativeEvent.layout.width)}>
-        <ScrollView
-          ref={railRef}
-          horizontal
-          pagingEnabled
-          testID="home-brand-viewport"
-          accessibilityLabel="処世術禄の魅力を7つの切り口で紹介"
-          showsHorizontalScrollIndicator={false}
-          onMomentumScrollEnd={(event) => {
-            if (viewportWidth) setActiveIndex(Math.max(0, Math.min(6, Math.round(event.nativeEvent.contentOffset.x / viewportWidth))));
+      <View style={[styles.carouselRow, !desktop && styles.carouselRowMobile]}>
+        <Pressable
+          disabled={activeIndex === 0}
+          accessibilityRole="button"
+          accessibilityLabel="前のスライド"
+          accessibilityState={{ disabled: activeIndex === 0 }}
+          onPress={() => moveTo(activeIndexRef.current - 1)}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, activeIndex === 0 && styles.arrowDisabled, pressed && activeIndex > 0 && styles.pressed]}
+        ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>‹</Text></Pressable>
+        <View
+          style={styles.viewport}
+          onLayout={(event) => {
+            const nextWidth = event.nativeEvent.layout.width;
+            setViewportWidth((current) => Math.abs(current - nextWidth) > 0.5 ? nextWidth : current);
           }}
         >
-          {viewportWidth ? slides.map((slide) => <View key={slide.type} style={{ width: viewportWidth }}>{slide.node}</View>) : null}
-        </ScrollView>
-        <Pressable accessibilityRole="button" accessibilityLabel="前のスライド" onPress={() => moveTo(activeIndex - 1)} style={({ pressed }) => [styles.arrow, styles.arrowPrevious, !desktop && styles.arrowMobile, pressed && styles.pressed]}><Text style={styles.arrowText}>‹</Text></Pressable>
-        <Pressable accessibilityRole="button" accessibilityLabel="次のスライド" onPress={() => moveTo(activeIndex + 1)} style={({ pressed }) => [styles.arrow, styles.arrowNext, !desktop && styles.arrowMobile, pressed && styles.pressed]}><Text style={styles.arrowText}>›</Text></Pressable>
+          <ScrollView
+            ref={railRef}
+            horizontal
+            pagingEnabled
+            disableIntervalMomentum
+            decelerationRate="fast"
+            snapToAlignment="start"
+            snapToInterval={viewportWidth || undefined}
+            testID="home-brand-viewport"
+            accessibilityLabel="処世術禄の魅力を7つの切り口で紹介"
+            showsHorizontalScrollIndicator={false}
+            scrollEventThrottle={16}
+            onMomentumScrollEnd={settleAtOffset}
+            onScrollEndDrag={settleAtOffset}
+            onContentSizeChange={() => {
+              if (viewportWidth) railRef.current?.scrollTo({ x: activeIndexRef.current * viewportWidth, animated: false });
+            }}
+          >
+            {viewportWidth ? slides.map((slide) => <View key={slide.type} style={{ width: viewportWidth }}>{slide.node}</View>) : null}
+          </ScrollView>
+        </View>
+        <Pressable
+          disabled={activeIndex === slides.length - 1}
+          accessibilityRole="button"
+          accessibilityLabel="次のスライド"
+          accessibilityState={{ disabled: activeIndex === slides.length - 1 }}
+          onPress={() => moveTo(activeIndexRef.current + 1)}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, activeIndex === slides.length - 1 && styles.arrowDisabled, pressed && activeIndex < slides.length - 1 && styles.pressed]}
+        ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>›</Text></Pressable>
       </View>
       <View accessibilityRole="tablist" style={styles.dots}>
         {slides.map((slide, index) => (
@@ -330,7 +410,9 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 
 const styles = StyleSheet.create({
   carousel: { width: '100%' },
-  viewport: { overflow: 'hidden', position: 'relative' },
+  carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 12 },
+  carouselRowMobile: { gap: 6 },
+  viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
   slide: { backgroundColor: '#FCF8EF', borderColor: '#D8C9AE', borderRadius: 20, borderWidth: 1, minHeight: 410, overflow: 'hidden', position: 'relative', ...bookCardShadow },
   slideMobile: { borderRadius: 17, minHeight: 520 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
@@ -344,7 +426,7 @@ const styles = StyleSheet.create({
   techniqueShade: { backgroundColor: 'rgba(6,5,4,0.42)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 410, width: '58%' },
-  techniqueCopyMobile: { paddingHorizontal: 54 },
+  techniqueCopyMobile: { paddingHorizontal: 30 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
   darkTitleMobile: { fontSize: 31, lineHeight: 46, maxWidth: 280 },
@@ -373,7 +455,7 @@ const styles = StyleSheet.create({
   theoryRuleDiamond: { backgroundColor: '#C69A46', height: 7, transform: [{ rotate: '45deg' }], width: 7 },
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },
   mapContent: { minHeight: 410, paddingHorizontal: 36, paddingVertical: 27 },
-  mapContentMobile: { minHeight: 520, paddingHorizontal: 54, paddingVertical: 25 },
+  mapContentMobile: { minHeight: 520, paddingHorizontal: 24, paddingVertical: 25 },
   mapHeading: { color: '#9D6E1B', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1.6, textAlign: 'center' },
   mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 15 },
   mapLayoutMobile: { flexDirection: 'column', justifyContent: 'flex-start', marginTop: 19 },
@@ -436,11 +518,11 @@ const styles = StyleSheet.create({
   rokumaruMessage: { color: '#4E473E', fontFamily: fonts.serif, fontSize: 18, lineHeight: 31, marginTop: 7 },
   rokumaru: { bottom: -14, height: 390, position: 'absolute', right: 22, width: 390 },
   rokumaruMobile: { bottom: -22, height: 295, right: -24, width: 295 },
-  arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.96)', borderColor: '#D3C4A9', borderRadius: 23, borderWidth: 1, height: 46, justifyContent: 'center', position: 'absolute', top: '50%', transform: [{ translateY: -23 }], width: 46, zIndex: 5, ...bookCardShadow },
-  arrowMobile: { borderRadius: 19, height: 38, transform: [{ translateY: -19 }], width: 38 },
-  arrowPrevious: { left: 10 },
-  arrowNext: { right: 10 },
+  arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.96)', borderColor: '#D3C4A9', borderRadius: 23, borderWidth: 1, flexShrink: 0, height: 46, justifyContent: 'center', width: 46, ...bookCardShadow },
+  arrowMobile: { borderRadius: 17, height: 34, width: 34 },
+  arrowDisabled: { opacity: 0.28 },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
+  arrowTextMobile: { fontSize: 25, lineHeight: 28 },
   dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 8 },
   dotTouch: { alignItems: 'center', height: 34, justifyContent: 'center', width: 25 },
   dotTouchActive: { width: 35 },

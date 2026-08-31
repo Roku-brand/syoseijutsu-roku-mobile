@@ -62,11 +62,14 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('マイページに判断原則・3つの蓄積先・最近の蓄積を表示する', async ({ page }) => {
+test('マイページに座右の銘・3つの蓄積先・最近の蓄積を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
   await expect(page.getByTestId('personal-principle-card')).toBeVisible();
+  await expect(page.getByText('いまの座右の銘', { exact: true })).toBeVisible();
+  await expect(page.getByText('志は高く、腰は低く。', { exact: true })).toBeVisible();
   await expect(page.getByTestId('personal-principle-edit')).toBeVisible();
+  await expect(page.getByTestId('personal-principle-edit')).toHaveAttribute('aria-label', '座右の銘を編集');
   await expect(page.getByRole('button', { name: '蔵書を開く' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'マイ処世術を開く' })).toBeVisible();
   await expect(page.getByRole('button', { name: '履歴を開く' })).toBeVisible();
@@ -126,6 +129,22 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   await expect(title).toBeVisible();
   await expect(meta).toContainText('P－1');
   await expect(title).not.toContainText('…');
+});
+
+test('理論詳細は概要・処世術・理論・情報の順で、概要を2文に分ける', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/theory/kb_001');
+  const summary = page.getByTestId('theory-summary');
+  await expect(summary).toBeVisible();
+  expect(await summary.innerText()).toContain('最初に得た情報が、その後の印象や評価の基準として強く残る傾向。\n第一印象は後から修正しにくいため、関係の入口ほど重要になる。');
+  const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
+  expect(article.indexOf('概要')).toBeLessThan(article.indexOf('関連する処世術'));
+  expect(article.indexOf('関連する処世術')).toBeLessThan(article.indexOf('関連する理論'));
+  expect(article.indexOf('関連する理論')).toBeLessThan(article.indexOf('理論情報'));
+  await expect(page.getByTestId('theory-information')).toContainText('出典状態');
+  await expect(page.getByTestId('theory-information')).toContainText('提唱者');
+  await expect(page.getByTestId('theory-information')).toContainText('著作・研究');
+  await expect(page.getByTestId('theory-information')).toContainText('注記');
 });
 
 test('persona technique rows offer the shared diamond save action', async ({ page }) => {
@@ -579,6 +598,56 @@ test('ホームのブランドリールは前後操作で同じ一枚へ戻れ�
   await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   await page.getByLabel('前のスライド').click();
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+});
+
+test('ホームのブランドリールは端で止まり、矢印を連打してもカード単位に揃う', async ({ page }) => {
+  await page.goto('/');
+  await startFreeHome(page);
+  await expect(page.getByLabel('前のスライド')).toHaveAttribute('aria-disabled', 'true');
+  for (let index = 0; index < 10; index += 1) await page.getByLabel('次のスライド').click({ force: true });
+  await expect(page.getByRole('tab', { name: '7枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByLabel('次のスライド')).toHaveAttribute('aria-disabled', 'true');
+  const viewport = page.getByTestId('home-brand-viewport');
+  await expect.poll(async () => {
+    const metrics = await viewport.evaluate((element) => ({ left: element.scrollLeft, width: element.clientWidth }));
+    return Math.abs(metrics.left - metrics.width * 6);
+  }).toBeLessThan(2);
+});
+
+test('ホームのカードから詳細へ移動して戻ると、選択位置を初期表示から復元する', async ({ page }) => {
+  await page.goto('/');
+  await startFreeHome(page);
+  await page.getByRole('tab', { name: '4枚目を表示' }).click();
+  await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  await page.getByTestId('home-brand-map-technique-cta').click();
+  await expect(page).toHaveURL(/\/card\//);
+  await page.getByRole('button', { name: '前の画面へ戻る' }).click();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  const viewport = page.getByTestId('home-brand-viewport');
+  await expect.poll(async () => {
+    const metrics = await viewport.evaluate((element) => ({ left: element.scrollLeft, width: element.clientWidth }));
+    return Math.abs(metrics.left - metrics.width * 3);
+  }).toBeLessThan(2);
+});
+
+test('ホームのブランドリールはPC・タブレット・スマホでカードが途中で切れない', async ({ page }) => {
+  await page.goto('/');
+  await startFreeHome(page);
+  for (const viewportSize of [{ width: 1440, height: 900 }, { width: 768, height: 1024 }, { width: 390, height: 844 }]) {
+    await page.setViewportSize(viewportSize);
+    const viewport = page.getByTestId('home-brand-viewport');
+    const slide = page.getByTestId('home-brand-slide-1');
+    await expect(viewport).toBeVisible();
+    await expect(slide).toBeVisible();
+    const [viewportBox, slideBox] = await Promise.all([viewport.boundingBox(), slide.boundingBox()]);
+    expect(viewportBox).not.toBeNull();
+    expect(slideBox).not.toBeNull();
+    expect(Math.abs(slideBox!.x - viewportBox!.x)).toBeLessThan(2);
+    expect(Math.abs(slideBox!.width - viewportBox!.width)).toBeLessThan(2);
+    const pageWidth = await page.evaluate(() => ({ inner: innerWidth, scroll: document.documentElement.scrollWidth }));
+    expect(pageWidth.scroll).toBeLessThanOrEqual(pageWidth.inner);
+  }
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

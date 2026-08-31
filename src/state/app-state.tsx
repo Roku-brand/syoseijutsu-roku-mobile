@@ -83,7 +83,7 @@ const initialState: PersistedState = {
   notes: {},
   collections: [],
   practiceRecords: {},
-  personalPrinciple: '目的を守り、手段には執着しない。',
+  personalPrinciple: '志は高く、腰は低く。',
   personalMemos: [],
   personalMemoFolders: [],
   learningRecords: {},

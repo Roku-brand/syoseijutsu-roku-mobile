@@ -1,24 +1,20 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { AppText, EmptyState, Screen } from '@/components/ui';
-import { DetailSwipe } from '@/components/detail-swipe';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
-import {
-  getRelatedTheories,
-  getTechniquesForTheory,
-  getTheoryDisplayId,
-  theories,
-  theoryById,
-} from '@/data/catalog';
-import type { TheoryCard } from '@/data/types';
-import { getTheoryProvenance } from '@/data/theory-sources';
-import { getTheoryCategoryLabel, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
-import { useAccess } from '@/access/access-state';
+
 import { canReadTheory } from '@/access/access-config';
+import { useAccess } from '@/access/access-state';
+import { DetailSwipe } from '@/components/detail-swipe';
 import { LockedPreview } from '@/components/locked-preview';
-import { useAppState } from '@/state/app-state';
+import { AppText, EmptyState, Screen } from '@/components/ui';
+import { colors, fonts, radius } from '@/constants/theme';
+import { getRelatedTheories, getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
+import { getTheoryCategoryLabel, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
+import { getTheoryProvenance } from '@/data/theory-sources';
+import type { TheoryCard } from '@/data/types';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { recordContentEvent } from '@/lib/content-events';
+import { useAppState } from '@/state/app-state';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -27,10 +23,11 @@ export function generateStaticParams() {
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { width } = useHydratedWindowDimensions();
+  const compact = width > 0 && width < 700;
   const { accessState, catalogRevision, refreshAccess, secureContentStatus } = useAccess();
   const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
-  const [informationOpen, setInformationOpen] = useState(false);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
@@ -41,19 +38,10 @@ export default function TheoryDetailScreen() {
   }, [addHistory, effectiveAccess, theory]);
 
   if (!theory) {
-    return (
-      <Screen contentContainerStyle={styles.screenContent}>
-        <EmptyState
-          title="理論が見つかりません"
-          description="前の画面へ戻り、別の理論を選んでください。"
-        />
-      </Screen>
-    );
+    return <Screen contentContainerStyle={styles.screenContent}><EmptyState title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
   }
 
-  if (!canReadTheory(effectiveAccess, theory.tagId)) {
-    return <LockedPreview source="discover_theory" />;
-  }
+  if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" />;
 
   if (isLockedTheoryShell(theory)) {
     const failed = secureContentStatus === 'error';
@@ -62,17 +50,10 @@ export default function TheoryDetailScreen() {
         <EmptyState
           mark="理"
           title={failed ? '理論を読み込めませんでした' : '理論を読み込んでいます'}
-          description={failed
-            ? '完全版データを確認できませんでした。通信を確認して、もう一度お試しください。'
-            : '完全版の理論を確認しています。しばらくお待ちください。'}
+          description={failed ? '完全版データを確認できませんでした。通信を確認して、もう一度お試しください。' : '完全版の理論を確認しています。しばらくお待ちください。'}
         />
         {failed ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="理論データを再読み込み"
-            onPress={() => void refreshAccess()}
-            style={({ pressed }) => [styles.retryButton, pressed && styles.pressed]}
-          >
+          <Pressable accessibilityRole="button" accessibilityLabel="理論データを再読み込み" onPress={() => void refreshAccess()} style={({ pressed }) => [styles.retryButton, pressed && styles.pressed]}>
             <AppText style={styles.retryButtonText}>もう一度読み込む</AppText>
           </Pressable>
         ) : null}
@@ -83,8 +64,10 @@ export default function TheoryDetailScreen() {
   const related = getTechniquesForTheory(theory);
   const relatedTheories = getRelatedTheories(theory);
   const titleLength = [...theory.title.replace(/\s/g, '')].length;
-  const titleFontSize = titleLength <= 12 ? 28 : titleLength <= 18 ? 24 : 21;
-  const summary = normalizeDisplayText(theory.summary);
+  const titleFontSize = compact
+    ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
+    : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
+  const summary = formatTheorySummary(theory.summary);
   const navigateTheory = (offset: -1 | 1) => {
     const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
     const next = theories[(currentIndex + offset + theories.length) % theories.length];
@@ -92,138 +75,88 @@ export default function TheoryDetailScreen() {
   };
 
   return (
-    <Screen style={styles.screen} contentContainerStyle={styles.screenContent}>
-      <DetailSwipe
-        style={styles.article}
-        onPrevious={() => navigateTheory(-1)}
-        onNext={() => navigateTheory(1)}
-      >
-        <View style={styles.hero}>
+    <Screen style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
+      <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
+        <View style={styles.titleRegion}>
           <View testID="theory-meta" style={styles.metaRow}>
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
-            <View style={styles.categoryTag}>
-              <AppText style={styles.categoryTagText}>
-                {getTheoryCategoryLabel(theory)}
-              </AppText>
-            </View>
+            <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryCategoryLabel(theory)}</AppText></View>
           </View>
-          <AppText
-            testID="theory-title"
-            variant="serif"
-            style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.43) }]}
-          >
+          <AppText testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
             {normalizeDisplayText(theory.title)}
           </AppText>
-          <AppText variant="label" style={styles.summaryLabel}>概要</AppText>
-          <AppText style={styles.explanation}>{summary}</AppText>
         </View>
 
-        {related.length > 0 && (
-          <DetailSection title="関連する処世術" count={related.length}>
-            <View style={styles.relatedList}>
-              {related.map((card) => (
-                <Pressable
-                  key={card.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${card.title}を開く`}
-                  onPress={() =>
-                    router.push({ pathname: '/card/[id]', params: { id: card.id } })
-                  }
-                  style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}
-                >
-                  <AppText variant="serif" style={styles.relatedTitle}>
-                    {card.title}
-                  </AppText>
-                  <AppText style={styles.chevron}>›</AppText>
-                </Pressable>
-              ))}
-            </View>
-          </DetailSection>
-        )}
+        <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact]}>
+          <View style={styles.summaryHeadingRow}><AppText variant="serif" style={styles.summaryTitle}>概要</AppText><View style={styles.summaryRule} /></View>
+          <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
+        </View>
 
-        {relatedTheories.length > 0 && (
-          <DetailSection title="関連する理論" count={relatedTheories.length}>
-            <View style={styles.relatedList}>
-              {relatedTheories.map((relatedTheory) => (
-                <Pressable
-                  key={relatedTheory.tagId}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${relatedTheory.title}を開く`}
-                  onPress={() =>
-                    router.push({
-                      pathname: '/theory/[id]',
-                      params: { id: relatedTheory.tagId },
-                    })
-                  }
-                  style={({ pressed }) => [styles.relatedRow, pressed && styles.pressed]}
-                >
-                  <AppText variant="serif" style={styles.relatedTitle}>
-                    {relatedTheory.title}
-                  </AppText>
-                  <AppText style={styles.chevron}>›</AppText>
-                </Pressable>
-              ))}
-            </View>
-          </DetailSection>
-        )}
+        <DetailSection title="関連する処世術" count={related.length}>
+          <View testID="theory-related-techniques" style={styles.relatedList}>
+            {related.map((card) => (
+              <RelatedRow key={card.id} title={card.title} supportingText={card.essence ?? card.subtitle} accessibilityLabel={`${card.title}を開く`} onPress={() => router.push({ pathname: '/card/[id]', params: { id: card.id } })} />
+            ))}
+          </View>
+        </DetailSection>
 
-        <View style={styles.informationSection}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={informationOpen ? '理論情報を閉じる' : '理論情報を開く'}
-            accessibilityState={{ expanded: informationOpen }}
-            onPress={() => setInformationOpen((open) => !open)}
-            style={({ pressed }) => [styles.informationToggle, pressed && styles.pressed]}
-          >
-            <AppText variant="serif" style={styles.informationTitle}>理論情報</AppText>
-            <AppText style={styles.informationSymbol}>{informationOpen ? '−' : '＋'}</AppText>
-          </Pressable>
-          {informationOpen ? <TheoryInformation theory={theory} /> : null}
+        <DetailSection title="関連する理論" count={relatedTheories.length}>
+          <View testID="theory-related-theories" style={styles.relatedList}>
+            {relatedTheories.map((relatedTheory) => (
+              <RelatedRow key={relatedTheory.tagId} title={relatedTheory.title} supportingText={relatedTheory.summary} accessibilityLabel={`${relatedTheory.title}を開く`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: relatedTheory.tagId } })} />
+            ))}
+          </View>
+        </DetailSection>
+
+        <View testID="theory-information" style={styles.informationSection}>
+          <AppText variant="serif" style={styles.informationTitle}>理論情報</AppText>
+          <TheoryInformation theory={theory} compact={compact} />
         </View>
       </DetailSwipe>
     </Screen>
   );
 }
 
-function DetailSection({
-  title,
-  count,
-  children,
-}: {
-  title: string;
-  count?: number;
-  children: React.ReactNode;
-}) {
+function formatTheorySummary(value: string) {
+  const normalized = normalizeDisplayText(value);
+  if (!normalized || normalized.includes('\n')) return normalized;
+  const sentenceEnd = normalized.search(/[。！？!?]/);
+  if (sentenceEnd === -1 || sentenceEnd >= normalized.length - 1) return normalized;
+  return `${normalized.slice(0, sentenceEnd + 1)}\n${normalized.slice(sentenceEnd + 1).trimStart()}`;
+}
+
+function DetailSection({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
+  return <View style={styles.section}><View style={styles.sectionHeading}><AppText variant="serif" style={styles.sectionTitle}>{title}</AppText><View style={styles.countBadge}><AppText style={styles.countText}>{count}</AppText></View></View>{children}</View>;
+}
+
+function RelatedRow({ title, supportingText, accessibilityLabel, onPress }: { title: string; supportingText?: string; accessibilityLabel: string; onPress: () => void }) {
+  const supporting = normalizeDisplayText(supportingText).replace(/\n+/g, ' ');
   return (
-    <View style={styles.section}>
-      <View style={styles.sectionHeading}>
-        <AppText variant="serif" style={styles.sectionTitle}>{title}</AppText>
-        {typeof count === 'number' ? (
-          <View style={styles.countBadge}>
-            <AppText style={styles.countText}>{count}</AppText>
-          </View>
-        ) : null}
+    <Pressable accessibilityRole="link" accessibilityLabel={accessibilityLabel} onPress={onPress} style={({ pressed }) => [styles.relatedRow, pressed && styles.relatedRowPressed]}>
+      <View accessibilityElementsHidden style={styles.relatedDiamond} />
+      <View style={styles.relatedCopy}>
+        <AppText variant="serif" style={styles.relatedTitle}>{normalizeDisplayText(title)}</AppText>
+        {supporting ? <AppText style={styles.relatedSupporting}>{supporting}</AppText> : null}
       </View>
-      {children}
-    </View>
+      <AppText style={styles.chevron}>›</AppText>
+    </Pressable>
   );
 }
 
-function TheoryInformation({ theory }: { theory: TheoryCard }) {
+function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
   const provenance = getTheoryProvenance(theory);
   const rows = [
     ['出典状態', provenance.status],
-    ['提唱者・研究者', provenance.attribution],
+    ['提唱者', provenance.attribution],
     ['著作・研究', provenance.works?.join('\n')],
     ['注記', provenance.note],
-  ].filter(([, value]) => Boolean(value));
-
+  ];
   return (
     <View style={styles.informationBody}>
-      {rows.map(([label, value]) => (
-        <View key={label} style={styles.informationRow}>
-          <AppText style={styles.informationLabel}>{label}</AppText>
-          <AppText style={styles.informationValue}>{value}</AppText>
+      {rows.map(([label, value], index) => (
+        <View key={label} style={[styles.informationRow, compact && styles.informationRowCompact, index === rows.length - 1 && styles.informationRowLast]}>
+          <AppText style={[styles.informationLabel, compact && styles.informationLabelCompact]}>{label}</AppText>
+          <AppText style={styles.informationValue}>{value || '—'}</AppText>
         </View>
       ))}
     </View>
@@ -231,107 +164,46 @@ function TheoryInformation({ theory }: { theory: TheoryCard }) {
 }
 
 const styles = StyleSheet.create({
-  screen: { backgroundColor: '#FBF8F2' },
-  screenContent: {
-    width: '100%',
-    maxWidth: 1120,
-    alignSelf: 'center',
-    paddingHorizontal: 18,
-    paddingTop: 20,
-    paddingBottom: 132,
-  },
-  article: { width: '100%', maxWidth: 980, alignSelf: 'center' },
-  hero: { paddingTop: 2 },
-  metaRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'center',
-    gap: 8,
-  },
-  number: {
-    color: '#8D887F',
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: 0.8,
-  },
-  title: {
-    marginTop: 8,
-    color: '#111311',
-    fontFamily: fonts.serif,
-    fontSize: 28,
-    lineHeight: 40,
-    fontWeight: '700',
-    letterSpacing: 0.35,
-  },
-  categoryTag: {
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderWidth: 1,
-    borderColor: '#CFC4B4',
-    borderRadius: radius.pill,
-    backgroundColor: '#F2EEE6',
-  },
-  categoryTagText: {
-    color: '#504B43',
-    fontSize: 11,
-    lineHeight: 16,
-    fontWeight: '600',
-  },
-  explanation: {
-    marginTop: 29,
-    color: '#252925',
-    fontSize: 17,
-    lineHeight: 31,
-    letterSpacing: 0.15,
-  },
-  summaryLabel: { marginTop: 26, color: colors.gold, fontSize: 11, lineHeight: 16, letterSpacing: 1.2 },
-  section: { marginTop: 36 },
-  sectionHeading: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
-  sectionTitle: { color: '#24251F', fontSize: 18, lineHeight: 26, fontWeight: '700' },
-  countBadge: {
-    minWidth: 22,
-    height: 22,
-    paddingHorizontal: 7,
-    borderRadius: 11,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#EAE3D7',
-  },
-  countText: { color: '#625846', fontSize: 11, lineHeight: 14, fontWeight: '700' },
-  relatedList: { borderTopWidth: 1, borderTopColor: '#DFD7CA' },
-  relatedRow: {
-    minHeight: 62,
-    paddingVertical: 13,
-    paddingHorizontal: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: '#DFD7CA',
-  },
-  relatedTitle: { flex: 1, color: '#1D211E', fontSize: 18, lineHeight: 26, fontWeight: '600' },
-  chevron: { color: colors.gold, fontSize: 26, lineHeight: 28 },
-  informationSection: { marginTop: 40, borderTopWidth: 1, borderTopColor: '#DFD7CA' },
-  informationToggle: {
-    minHeight: 58,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  informationTitle: { color: '#24251F', fontSize: 18, lineHeight: 26, fontWeight: '700' },
-  informationSymbol: { color: '#5E594F', fontSize: 22, lineHeight: 28 },
-  informationBody: { paddingBottom: 12, borderTopWidth: 1, borderTopColor: '#E5DED3' },
-  informationRow: {
-    flexDirection: 'row',
-    gap: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5DED3',
-  },
-  informationLabel: { width: 82, color: '#746E64', fontSize: 12, lineHeight: 19 },
-  informationValue: { flex: 1, color: '#292B27', fontSize: 14, lineHeight: 21 },
-  pressed: { opacity: 0.56 },
+  screen: { backgroundColor: colors.paper },
+  screenContent: { width: '100%', maxWidth: 1240, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 24, paddingBottom: 132 },
+  screenContentCompact: { paddingHorizontal: 16, paddingTop: 18 },
+  article: { width: '100%', maxWidth: 1060, alignSelf: 'center' },
+  titleRegion: { paddingHorizontal: 18, paddingTop: 2 },
+  metaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
+  number: { color: '#575248', fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, letterSpacing: 1.4 },
+  categoryTag: { paddingHorizontal: 13, paddingVertical: 5, borderWidth: 1, borderColor: '#D4C19D', borderRadius: radius.pill, backgroundColor: '#F5EFE4' },
+  categoryTagText: { color: '#4B4439', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
+  title: { marginTop: 10, color: '#11120F', fontFamily: fonts.serif, fontWeight: '700', letterSpacing: 1.2 },
+  summaryBlock: { marginTop: 18, paddingHorizontal: 30, paddingVertical: 22, borderWidth: 1, borderColor: '#C99A42', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.72)' },
+  summaryBlockCompact: { paddingHorizontal: 18, paddingVertical: 18 },
+  summaryHeadingRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  summaryTitle: { color: '#9C6E1D', fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 1.2 },
+  summaryRule: { width: 48, height: 1, backgroundColor: '#C99A42' },
+  summaryText: { marginTop: 12, color: '#22231F', fontFamily: fonts.serif, fontSize: 17, lineHeight: 31, letterSpacing: 0.25 },
+  summaryTextCompact: { fontSize: 15, lineHeight: 28 },
+  section: { marginTop: 30 },
+  sectionHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10, paddingHorizontal: 16 },
+  sectionTitle: { color: '#24231E', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.6 },
+  countBadge: { minWidth: 25, height: 25, paddingHorizontal: 7, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE4D2' },
+  countText: { color: '#A27526', fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, fontWeight: '700' },
+  relatedList: { borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.62)', overflow: 'hidden' },
+  relatedRow: { minHeight: 76, paddingVertical: 13, paddingLeft: 24, paddingRight: 18, flexDirection: 'row', alignItems: 'center', gap: 15, borderBottomWidth: 1, borderBottomColor: '#E4D8C7' },
+  relatedRowPressed: { backgroundColor: '#F4EBDD' },
+  relatedDiamond: { width: 8, height: 8, borderWidth: 1, borderColor: '#B8872D', transform: [{ rotate: '45deg' }] },
+  relatedCopy: { flex: 1, minWidth: 0 },
+  relatedTitle: { color: '#1B1D19', fontSize: 17, lineHeight: 25, fontWeight: '700', letterSpacing: 0.25 },
+  relatedSupporting: { marginTop: 3, color: '#625E56', fontSize: 12, lineHeight: 20 },
+  chevron: { color: colors.gold, fontFamily: fonts.serif, fontSize: 28, lineHeight: 30, marginLeft: 4 },
+  informationSection: { marginTop: 34 },
+  informationTitle: { marginBottom: 10, paddingHorizontal: 16, color: '#A37420', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.7 },
+  informationBody: { borderWidth: 1, borderColor: '#D3B77F', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.62)', overflow: 'hidden' },
+  informationRow: { minHeight: 58, flexDirection: 'row', alignItems: 'stretch', borderBottomWidth: 1, borderBottomColor: '#E3D5BF' },
+  informationRowCompact: { flexDirection: 'column' },
+  informationRowLast: { borderBottomWidth: 0 },
+  informationLabel: { width: 170, paddingHorizontal: 22, paddingVertical: 17, borderRightWidth: 1, borderRightColor: '#E3D5BF', color: '#302D27', fontFamily: fonts.serif, fontSize: 13, lineHeight: 21, fontWeight: '700' },
+  informationLabelCompact: { width: '100%', paddingHorizontal: 16, paddingVertical: 10, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: '#EEE4D4', color: '#8E661E' },
+  informationValue: { flex: 1, paddingHorizontal: 20, paddingVertical: 17, color: '#292A26', fontSize: 13, lineHeight: 22 },
+  pressed: { opacity: 0.58 },
   retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   retryButtonText: { color: colors.gold, fontSize: 13, lineHeight: 19, fontWeight: '700' },
 });

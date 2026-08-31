@@ -80,13 +80,13 @@ export default function MyPageContent() {
 
       <View testID="personal-principle-card" style={[styles.principleCard, compact && styles.principleCardCompact]}>
         <View style={styles.principleCopy}>
-          <AppText style={styles.principleLabel}>いまの判断原則</AppText>
+          <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
           <AppText style={[styles.principle, compact && styles.principleCompact]}>{personalPrinciple}</AppText>
         </View>
         <Pressable
           testID="personal-principle-edit"
           accessibilityRole="button"
-          accessibilityLabel="判断原則を編集"
+          accessibilityLabel="座右の銘を編集"
           onPress={openEditor}
           style={({ pressed }) => [styles.editPrinciple, pressed && styles.pressed]}
         >
@@ -140,9 +140,9 @@ export default function MyPageContent() {
       <Modal transparent visible={editing} animationType="fade" onRequestClose={() => setEditing(false)}>
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
-            <AppText style={styles.modalTitle}>判断原則を整える</AppText>
-            <AppText style={styles.modalLead}>迷ったときに戻れる一文を書き留めます。</AppText>
-            <TextInput autoFocus multiline maxLength={100} value={draft} onChangeText={setDraft} accessibilityLabel="判断原則" style={styles.input} />
+            <AppText style={styles.modalTitle}>座右の銘を編集</AppText>
+            <AppText style={styles.modalLead}>自分が大切にしたい言葉を、一文で書き留めます。</AppText>
+            <TextInput autoFocus multiline maxLength={100} value={draft} onChangeText={setDraft} accessibilityLabel="座右の銘" style={styles.input} />
             <View style={styles.modalActions}>
               <Pressable accessibilityRole="button" onPress={() => setEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
               <Pressable accessibilityRole="button" onPress={() => { updatePersonalPrinciple(draft); setEditing(false); }} style={styles.save}><AppText style={styles.saveText}>保存する</AppText></Pressable>
