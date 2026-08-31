@@ -572,14 +572,65 @@ test('人物像一覧は縦順の2段組として一覧できる', async ({ page
   await expect(cards.last()).toBeInViewport();
 });
 
-test('学ぶの選択肢を押すと結果へ進む', async ({ page }) => {
+test('学ぶトップは3ステージの実進捗と禄丸を表示し、無料版ロックを維持する', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/learn');
+  await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
+  await expect(page.getByTestId('learning-stage-list').getByRole('button')).toHaveCount(3);
+  await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
+  await expect(page.getByTestId('learning-stage-2')).toContainText('完全版');
+  await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
+
+  await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();
+  await expect(page).toHaveURL(/\/upgrade\?source=learning/);
+});
+
+test('学ぶの改善が必要な選択は理由・関連知識・次ケースへつながる', async ({ page }) => {
   await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
-  await expect(page.getByText('CASE 01')).toBeVisible();
+  await expect(page.getByText('CASE 01 / 21')).toBeVisible();
+  await expect(page.getByTestId('learning-question-card')).toBeVisible();
+  await expect(page.getByTestId('learning-question-card').getByTestId('rokumaru-guide')).toBeVisible();
   await page.getByRole('button', { name: /^A/ }).click();
-  await expect(page.getByText('この局面での評価')).toBeVisible();
-  await expect(page.getByText('あなたが選んだ手')).toBeVisible();
-  await expect(page.getByText('この手を選ぶと、次の問題が起きる。')).toBeVisible();
-  await expect(page.getByText('この手で起きること')).toBeVisible();
+  await expect(page.getByText('この場面での評価')).toBeVisible();
+  await expect(page.getByText('あなたの選択')).toBeVisible();
+  await expect(page.getByText('この選択だと、次の問題が起きる。')).toBeVisible();
+  await expect(page.getByText('この選択による問題')).toBeVisible();
   await expect(page.getByText('相手は聞き役に固定され、会話ではなく自己紹介を採点する時間になる。次の質問も出にくくなる。').first()).toBeVisible();
+  await expect(page.getByTestId('rokumaru-encourage')).toBeVisible();
+  await expect(page.getByRole('link', { name: /関連する処世術、初対面は面白さより安心感を開く/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /関連する理論、不確実性低減理論を開く/ })).toBeVisible();
+
+  await page.getByRole('button', { name: /次のケースへ/ }).click();
+  await expect(page).toHaveURL(/\/learn\/case-02/);
+  await expect(page.getByText('CASE 02 / 21')).toBeVisible();
+});
+
+test('学ぶの良い判断は正解表情と解説を示し、進捗へ保存する', async ({ page }) => {
+  await page.goto('/learn/case-01?retry=1');
+  await page.getByRole('button', { name: /^B/ }).click();
+  await expect(page.getByText('いい選択です。')).toBeVisible();
+  await expect(page.getByText('この手が活きる理由')).toBeVisible();
+  await expect(page.getByText('安心できる小さな往復から始める。')).toBeVisible();
+  await expect(page.getByTestId('rokumaru-happy')).toBeVisible();
+
+  await page.getByRole('button', { name: /解説を閉じる/ }).click();
+  await expect(page).toHaveURL(/\/learn$/);
+  await expect(page.getByTestId('learning-stage-1')).toContainText('1 / 7');
+});
+
+test('学ぶはスマホで縦積みになり横にはみ出さない', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/learn');
+  await expect(page.getByTestId('learning-stage-1')).toBeVisible();
+  await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
+
+  await page.getByTestId('learning-stage-1').click();
+  await expect(page.getByTestId('learning-question-card')).toBeVisible();
+  await expect(page.getByRole('button', { name: /^A/ })).toBeVisible();
+  await page.getByRole('button', { name: /^B/ }).click();
+  await expect(page.getByTestId('learning-result-card')).toBeVisible();
+  await expect(page.getByTestId('rokumaru-happy')).toBeVisible();
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
