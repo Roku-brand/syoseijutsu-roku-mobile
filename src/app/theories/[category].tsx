@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
+import { SearchMark } from '@/components/search-mark';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, radius, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
@@ -80,7 +81,7 @@ export default function TheoryCategoryScreen() {
     >
       <View style={styles.tools}>
         <View style={styles.searchBox}>
-          <AppText style={styles.searchIcon}>⌕</AppText>
+          <SearchMark />
           <TextInput
             value={query}
             onChangeText={setQuery}
@@ -208,10 +209,12 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: '#F8F8F4',
   },
-  searchIcon: { color: colors.gold, fontSize: 25, lineHeight: 29 },
   searchInput: {
     flex: 1,
     minHeight: 50,
+    minWidth: 0,
+    padding: 0,
+    margin: 0,
     color: colors.ink,
     fontSize: 15,
   },

@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
+import { SearchMark } from '@/components/search-mark';
 import { TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -98,7 +99,7 @@ export default function TheoryIndexScreen() {
 
       <View style={styles.tools}>
         <View style={styles.searchBox}>
-          <AppText style={styles.searchIcon}>⌕</AppText>
+          <SearchMark />
           <TextInput
             value={query}
             onChangeText={(value) => { setQuery(value); setPage(1); }}
@@ -176,8 +177,7 @@ const styles = StyleSheet.create({
   subtitle: { marginTop: 3, color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
   tools: { marginTop: spacing.xl, gap: spacing.md },
   searchBox: { minHeight: 54, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.75)' },
-  searchIcon: { color: colors.gold, fontSize: 22, lineHeight: 26 },
-  searchInput: { flex: 1, minWidth: 0, minHeight: 52, color: colors.ink, fontFamily: fonts.serif, fontSize: 14 },
+  searchInput: { flex: 1, minWidth: 0, minHeight: 52, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 14 },
   clearText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   sortRow: { flexDirection: 'row', gap: spacing.sm },
   sortButton: { minHeight: 38, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },

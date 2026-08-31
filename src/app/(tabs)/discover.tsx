@@ -6,6 +6,7 @@ import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard,
 import { TheoryBrowseCard, TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
+import { SearchMark } from '@/components/search-mark';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
@@ -97,10 +98,6 @@ export default function DiscoverScreen() {
       ) : <TheoryBrowser router={router} compact={compact} selectedCategory={selectedTheoryCategory} onSelectCategory={setSelectedTheoryCategory} onSearch={setQuery} />}
     </BookScreen>
   );
-}
-
-function SearchMark() {
-  return <View accessibilityElementsHidden style={styles.searchMark}><View style={styles.searchLens} /><View style={styles.searchHandle} /></View>;
 }
 
 function ModeTab({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
@@ -210,7 +207,7 @@ function TechniqueBrowser({ router, compact, selectedCategory, onSelectCategory,
       <View style={styles.chipGrid}>
         {popularSearches.map((label) => (
           <Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label}で検索`} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, compact && styles.popularChipCompact, pressed && styles.pressed]}>
-            <AppText style={styles.searchChipText}>{label}</AppText><AppText style={styles.chipSearchIcon}>⌕</AppText>
+            <AppText style={styles.searchChipText}>{label}</AppText><SearchMark size={16} color={colors.inkSoft} />
           </Pressable>
         ))}
       </View>
@@ -288,7 +285,7 @@ function TheoryBrowser({ router, compact, selectedCategory, onSelectCategory, on
       <View style={styles.chipGrid}>
         {popularTheorySearches.map((label) => (
           <Pressable key={label} accessibilityRole="button" accessibilityLabel={`${label}で検索`} onPress={() => onSearch(label)} style={({ pressed }) => [styles.popularChip, compact && styles.popularChipCompact, pressed && styles.pressed]}>
-            <AppText style={styles.chipSearchIcon}>⌕</AppText><AppText style={styles.searchChipText}>{label}</AppText>
+          <SearchMark size={16} color={colors.inkSoft} /><AppText style={styles.searchChipText}>{label}</AppText>
           </Pressable>
         ))}
       </View>
@@ -304,10 +301,7 @@ const styles = StyleSheet.create({
   discoverContent: { paddingBottom: spacing.xl * 2 },
   searchBox: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: spacing.md, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.78)' },
   searchBoxCompact: { minHeight: 52, paddingHorizontal: spacing.md, gap: 10 },
-  searchMark: { position: 'relative', width: 21, height: 23 },
-  searchLens: { width: 15, height: 15, borderWidth: 1.5, borderColor: colors.gold, borderRadius: 8 },
-  searchHandle: { position: 'absolute', width: 8, height: 1.5, left: 12, top: 15, borderRadius: 1, backgroundColor: colors.gold, transform: [{ rotate: '-48deg' }] },
-  searchInput: { flex: 1, minWidth: 0, minHeight: 54, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
+  searchInput: { flex: 1, minWidth: 0, minHeight: 54, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
   searchInputCompact: { minHeight: 50, fontSize: 13 },
   clear: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 660, alignSelf: 'center', marginTop: spacing.md, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
@@ -325,8 +319,8 @@ const styles = StyleSheet.create({
   filterIntroduction: { maxWidth: 740, width: '100%', alignSelf: 'center', marginTop: spacing.lg, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   filterLine: { flex: 1, height: 1, backgroundColor: colors.line },
   filterLabel: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, letterSpacing: 0.8, textAlign: 'center' },
-  personaHeadingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
-  allPersonasLink: { minHeight: 40, marginTop: spacing.xl, marginBottom: spacing.md, justifyContent: 'center' },
+  personaHeadingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md, flexWrap: 'wrap' },
+  allPersonasLink: { minHeight: 40, flexShrink: 0, marginTop: spacing.xl, marginBottom: spacing.md, justifyContent: 'center' },
   allPersonasText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, fontWeight: '600' },
   personaRailFrame: { position: 'relative', marginHorizontal: -2 },
   personaRail: { gap: 12, paddingHorizontal: 2, paddingBottom: 3 },
@@ -338,9 +332,8 @@ const styles = StyleSheet.create({
   railArrowText: { marginTop: -2, color: colors.ink, fontFamily: fonts.serif, fontSize: 31, lineHeight: 34 },
   theoryRailArrow: { top: 138 },
   chipGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
-  popularChip: { flexGrow: 1, flexBasis: '22%', minHeight: 42, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.62)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
-  popularChipCompact: { flexBasis: '45%' },
+  popularChip: { flexGrow: 1, flexBasis: '22%', minWidth: 0, minHeight: 42, paddingHorizontal: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.62)', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9 },
+  popularChipCompact: { flexBasis: '45%', flexGrow: 0 },
   searchChipText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
-  chipSearchIcon: { color: colors.inkSoft, fontSize: 16, lineHeight: 18 },
   pressed: { opacity: 0.74 },
 });
