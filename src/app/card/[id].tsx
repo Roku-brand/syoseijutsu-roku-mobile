@@ -183,7 +183,6 @@ export default function CardDetailScreen() {
           <View style={styles.cautionList}>
             {guidance.cautions.map((item) => (
               <View key={item} style={styles.cautionCard}>
-                <View style={styles.cautionTitleRow}><AppText variant="serif" style={styles.cautionTitle}>注意点</AppText></View>
                 <AppText style={styles.cautionText}>{item}</AppText>
               </View>
             ))}
@@ -428,8 +427,6 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: '#FDFBF7',
   },
-  cautionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 9 },
-  cautionTitle: { color: '#6A5120', fontSize: 14, lineHeight: 20, fontWeight: '700' },
   cautionText: { color: '#272923', fontSize: 12, lineHeight: 19, fontWeight: '600' },
   bottomTags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   bottomTag: {

@@ -23,6 +23,11 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
 
   if (isWelcome) return <>{children}</>;
 
+  // Owner tools must remain usable while simulating a public access state.
+  // Otherwise selecting 「確認中」/「認証エラー」 replaces the owner
+  // preview itself with the public gate and leaves no way to switch modes.
+  if (isOwner && pathname.startsWith('/owner')) return <>{children}</>;
+
   if (accessState === 'checking') {
     return (
       <View style={styles.screen}>

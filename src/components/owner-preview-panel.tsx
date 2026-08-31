@@ -42,6 +42,18 @@ export function OwnerPreviewPanel() {
           );
         })}
       </View>
+      {previewMode === 'checking' ? (
+        <View testID="owner-preview-checking" style={styles.statusPreview}>
+          <AppText style={styles.statusTitle}>利用状態を確認しています</AppText>
+          <AppText style={styles.statusBody}>一般利用者には確認中の画面が表示されます。</AppText>
+        </View>
+      ) : null}
+      {previewMode === 'error' ? (
+        <View testID="owner-preview-error" style={styles.statusPreview}>
+          <AppText style={styles.statusTitle}>利用状態を確認できませんでした</AppText>
+          <AppText style={styles.statusBody}>一般利用者には認証エラー画面が表示されます。</AppText>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -60,4 +72,7 @@ const styles = StyleSheet.create({
   radioActive: { backgroundColor: colors.goldLight, borderColor: colors.goldLight },
   modeText: { color: colors.inkSoft, fontSize: 12, fontWeight: '700' },
   modeTextActive: { color: colors.goldLight },
+  statusPreview: { marginTop: spacing.lg, padding: spacing.md, borderRadius: radius.md, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line },
+  statusTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 16, fontWeight: '700' },
+  statusBody: { marginTop: 4, color: colors.muted, fontSize: 12, lineHeight: 18 },
 });

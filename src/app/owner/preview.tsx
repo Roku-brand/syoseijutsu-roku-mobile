@@ -1,12 +1,10 @@
-import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { OwnerPreviewPanel } from '@/components/owner-preview-panel';
-import { colors, fonts, spacing } from '@/constants/theme';
+import { colors, spacing } from '@/constants/theme';
 import { useAccess } from '@/access/access-state';
 
 export default function OwnerPreviewScreen() {
-  const router = useRouter();
   const { isOwner } = useAccess();
 
   if (!isOwner) {
@@ -25,14 +23,6 @@ export default function OwnerPreviewScreen() {
           <AppText variant="serif" style={styles.title}>オーナープレビュー</AppText>
           <AppText style={styles.description}>一般利用者に見える状態を切り替えて確認します。</AppText>
         </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="設定へ戻る"
-          onPress={() => router.back()}
-          style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
-        >
-          <AppText style={styles.backButtonText}>設定へ戻る</AppText>
-        </Pressable>
       </View>
       <View testID="owner-preview-page">
         <OwnerPreviewPanel />
@@ -48,7 +38,4 @@ const styles = StyleSheet.create({
   eyebrow: { color: colors.gold, letterSpacing: 1.5, fontSize: 11, fontWeight: '700' },
   title: { marginTop: 5, color: colors.ink, fontSize: 28, lineHeight: 38, fontWeight: '700' },
   description: { marginTop: 5, color: colors.muted, fontSize: 13, lineHeight: 21 },
-  backButton: { marginTop: 2, paddingHorizontal: 12, paddingVertical: 9, borderWidth: 1, borderColor: colors.line, borderRadius: 999 },
-  backButtonText: { color: colors.gold, fontFamily: fonts.sans, fontSize: 12, fontWeight: '700' },
-  pressed: { opacity: 0.78 },
 });

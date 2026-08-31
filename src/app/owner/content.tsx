@@ -1,4 +1,4 @@
-import { Redirect, useRouter } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
@@ -28,7 +28,6 @@ import {
 const REEL_CARD_HEIGHT = 104;
 
 export default function OwnerContentScreen() {
-  const router = useRouter();
   const { loading, user, role } = useAuth();
   const { refreshPublishedContent, catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
@@ -197,7 +196,6 @@ export default function OwnerContentScreen() {
           <AppText variant="serif" style={styles.title}>コンテンツ管理</AppText>
           <AppText style={styles.description}>処世術を検索して、下書き・プレビュー・公開を行います。</AppText>
         </View>
-        <Pressable onPress={() => router.back()} style={styles.backButton}><AppText style={styles.backButtonText}>設定へ戻る</AppText></Pressable>
       </View>
 
       {error ? <View style={styles.error}><AppText style={styles.errorText}>{error}</AppText></View> : null}
