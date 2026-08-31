@@ -459,7 +459,7 @@ test('ホームは厳選4件を処世術と理論で切り替え、スマホで�
   await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
   await page.getByLabel('次の厳選').click();
-  await expect(page.getByText(/今日の厳選/)).toBeVisible();
+  await expect(page.getByTestId('home-curated-slide-2').getByText(/今日の厳選/)).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
