@@ -1,7 +1,7 @@
 import { usePathname } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
-import { categories, techniqueById, theoryById, theories } from '@/data/catalog';
+import { categories, techniqueById, theoryById } from '@/data/catalog';
 import { guidedTopicBySlug } from '@/data/guided-topics';
 import { isLockedTheoryShell } from '@/data/theory-display';
 
@@ -41,7 +41,11 @@ const fixed: Record<string, [string, string, boolean]> = {
 const clean = (value = '') => value.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
 const truncate = (value: string, max = 155) => [...clean(value)].length <= max ? clean(value) : `${[...clean(value)].slice(0, max - 1).join('')}…`;
 const decode = (value: string) => { try { return decodeURIComponent(value); } catch { return value; } };
-const encodePath = (value: string) => value.split('/').map((part) => encodeURIComponent(decode(part))).join('/');
+const encodePath = (value: string) => {
+  const [pathname, query] = value.split('?');
+  const encodedPathname = pathname.split('/').map((part) => encodeURIComponent(decode(part))).join('/');
+  return query ? `${encodedPathname}?${new URLSearchParams(query).toString()}` : encodedPathname;
+};
 const canonical = (path: string) => `${siteUrl}${path === '/' ? '/' : encodePath(path)}`;
 const crumb = (name: string, path: string) => ({ name, path });
 
@@ -53,11 +57,6 @@ function getMeta(rawPathname: string): PageMeta {
     const [label, description, indexable] = fixed[pathname];
     return { ...fallback, title: `${label}｜${brand}`, description, indexable, crumbs: [crumb('ホーム', '/'), crumb(label, pathname)] };
   }
-  const categoryMatch = pathname.match(/^\/category\/(interpersonal|work|life)$/);
-  if (categoryMatch) {
-    const [label, description] = categoryCopy[categoryMatch[1]];
-    return { ...fallback, title: `${label}の処世術一覧｜${brand}`, description, indexable: true, crumbs: [crumb('ホーム', '/'), crumb(label, pathname)] };
-  }
   const personaMatch = pathname.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
   if (personaMatch) {
     const category = categories.find((item) => item.key === personaMatch[1]);
@@ -65,27 +64,20 @@ function getMeta(rawPathname: string): PageMeta {
     const visible = persona?.items.filter((item) => item.status !== 'locked' && item.title !== '完全版の処世術') ?? [];
     if (!persona || visible.length === 0) return fallback;
     const label = categoryCopy[personaMatch[1]][0];
-    return { ...fallback, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description: `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`, indexable: true, crumbs: [crumb('ホーム', '/'), crumb(label, `/category/${personaMatch[1]}`), crumb(persona.name, pathname)] };
+    return { ...fallback, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description: `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`, indexable: true, crumbs: [crumb('探す', '/discover'), crumb(label, `/personas?category=${personaMatch[1]}`), crumb(persona.name, pathname)] };
   }
   const cardMatch = pathname.match(/^\/card\/([^/]+)$/);
   if (cardMatch) {
     const item = techniqueById.get(cardMatch[1]);
     if (!item || item.status === 'locked' || item.title === '完全版の処世術') return fallback;
     const description = truncate(`${item.essence ?? item.subtitle ?? item.explanation ?? ''} ${item.subcategory}に役立つ原理、実践、注意点、関連理論を解説します。`);
-    return { ...fallback, title: `${item.title}｜${item.subcategory}の処世術｜${brand}`, description, indexable: true, type: 'article', pageType: 'CreativeWork', entity: { headline: item.title, description, about: [item.categoryName, item.subcategory, ...(item.tags ?? [])] }, crumbs: [crumb('ホーム', '/'), crumb(item.categoryName, `/category/${item.categoryKey}`), crumb(item.subcategory, `/subcategory/${item.categoryKey}/${item.subcategory}`), crumb(item.title, pathname)] };
+    return { ...fallback, title: `${item.title}｜${item.subcategory}の処世術｜${brand}`, description, indexable: true, type: 'article', pageType: 'CreativeWork', entity: { headline: item.title, description, about: [item.categoryName, item.subcategory, ...(item.tags ?? [])] }, crumbs: [crumb('探す', '/discover'), crumb(item.categoryName, `/personas?category=${item.categoryKey}`), crumb(item.subcategory, `/subcategory/${item.categoryKey}/${item.subcategory}`), crumb(item.title, pathname)] };
   }
   const theoryMatch = pathname.match(/^\/theory\/([^/]+)$/);
   if (theoryMatch) {
     const item = theoryById.get(theoryMatch[1]);
     if (!item || isLockedTheoryShell(item)) return fallback;
-    return { ...fallback, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', entity: { headline: item.title, description: item.summary, about: [item.categoryTitle] }, crumbs: [crumb('ホーム', '/'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories/${item.categoryId}`), crumb(item.title, pathname)] };
-  }
-  const theoryCategoryMatch = pathname.match(/^\/theories\/([^/]+)$/);
-  if (theoryCategoryMatch) {
-    const first = theories.find((item) => item.categoryId === theoryCategoryMatch[1] && !isLockedTheoryShell(item));
-    if (!first) return fallback;
-    const description = `${first.categoryTitle}の理論と、人生・仕事・人間関係で実践できる処世術とのつながりを紹介します。`;
-    return { ...fallback, title: `${first.categoryTitle}の理論一覧｜${brand}`, description, indexable: true, crumbs: [crumb('ホーム', '/'), crumb('理論', '/theories'), crumb(first.categoryTitle, pathname)] };
+    return { ...fallback, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', entity: { headline: item.title, description: item.summary, about: [item.categoryTitle] }, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, pathname)] };
   }
   const topicMatch = pathname.match(/^\/topic\/([^/]+)$/);
   if (topicMatch) {

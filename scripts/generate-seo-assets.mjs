@@ -25,14 +25,6 @@ const categoryCopy = {
   work: ['仕事術', '評価・合意形成・実行・キャリアを成果へつなげる、仕事の処世術を体系から探せます。'],
   life: ['人生術', '意思決定の軸を持ち、不安やつまずきを越えて人生を整える処世術を体系から探せます。'],
 };
-const theoryCategoryCopy = {
-  psychology: ['心理学', '心理学の理論と、印象・会話・信頼など日常で使える処世術とのつながりを紹介します。'],
-  'behavioral-science': ['行動科学', '行動科学の理論と、意思決定や習慣を実践へ変える処世術とのつながりを紹介します。'],
-  'organization-management': ['組織・経営', '組織・経営の理論と、仕事・交渉・リーダーシップに使える処世術とのつながりを紹介します。'],
-  strategy: ['戦略', '戦略の理論と、選択・交渉・キャリアを前へ進める処世術とのつながりを紹介します。'],
-  'classics-thought': ['古典・思想', '古典・思想の知恵と、人生や人間関係に生かせる処世術とのつながりを紹介します。'],
-  'maxims-experience': ['格言・経験則', '格言・経験則を、人生・仕事・人間関係で再現できる処世術として読み解きます。'],
-};
 const topicCopy = {
   'good-impression': ['印象がいい人になる方法', '第一印象、親しみやすさ、感じのよさを整える処世術を、関連する理論とともに学べます。'],
   'good-conversation': ['会話がうまい人になる方法', '会話を始め、深め、心地よく終えるための処世術を、場面に沿って学べます。'],
@@ -61,7 +53,11 @@ const clean = (value = '') => String(value).replace(/\*\*/g, '').replace(/\s+/g,
 const truncate = (value, max = 155) => [...clean(value)].length <= max ? clean(value) : `${[...clean(value)].slice(0, max - 1).join('')}…`;
 const escape = (value = '') => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 const decode = (value) => { try { return decodeURIComponent(value); } catch { return value; } };
-const encodeRoute = (route) => route.split('/').map((part) => encodeURIComponent(decode(part))).join('/');
+const encodeRoute = (route) => {
+  const [pathname, query] = route.split('?');
+  const encodedPathname = pathname.split('/').map((part) => encodeURIComponent(decode(part))).join('/');
+  return query ? `${encodedPathname}?${new URLSearchParams(query).toString()}` : encodedPathname;
+};
 const canonical = (route) => `${siteUrl}${route === '/' ? '/' : encodeRoute(route)}`;
 const crumb = (name, route) => ({ name, route });
 const baseMeta = (route) => ({ route, title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', pageType: 'WebPage', crumbs: [crumb('ホーム', '/')] });
@@ -81,11 +77,6 @@ function metaFor(rawRoute) {
     '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。'],
   };
   if (fixed[route]) return { ...base, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: true, crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0], route)] };
-  const categoryMatch = route.match(/^\/category\/(interpersonal|work|life)$/);
-  if (categoryMatch) {
-    const [label, description] = categoryCopy[categoryMatch[1]];
-    return { ...base, title: `${label}の処世術一覧｜${brand}`, description, indexable: true, crumbs: [crumb('ホーム', '/'), crumb(label, route)] };
-  }
   const personaMatch = route.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
   if (personaMatch) {
     const category = categories.find((item) => item.key === personaMatch[1]);
@@ -93,24 +84,19 @@ function metaFor(rawRoute) {
     const visible = persona?.items.filter(isPublicTechnique) ?? [];
     if (!persona || visible.length === 0) return base;
     const label = categoryCopy[personaMatch[1]][0];
-    return { ...base, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description: `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`, indexable: true, persona, crumbs: [crumb('ホーム', '/'), crumb(label, `/category/${personaMatch[1]}`), crumb(persona.name, route)] };
+    return { ...base, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description: `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`, indexable: true, persona, crumbs: [crumb('探す', '/discover'), crumb(label, `/personas?category=${personaMatch[1]}`), crumb(persona.name, route)] };
   }
   const cardMatch = route.match(/^\/card\/([^/]+)$/);
   if (cardMatch) {
     const item = techniqueById.get(cardMatch[1]);
     if (!isPublicTechnique(item)) return base;
-    return { ...base, title: `${item.title}｜${item.persona}の処世術｜${brand}`, description: truncate(`${item.essence ?? item.subtitle ?? item.explanation} ${item.persona}に役立つ原理、実践、注意点、関連理論を解説します。`), indexable: true, type: 'article', pageType: 'CreativeWork', item, crumbs: [crumb('ホーム', '/'), crumb(item.categoryName, `/category/${item.categoryKey}`), crumb(item.persona, `/subcategory/${item.categoryKey}/${item.persona}`), crumb(item.title, route)] };
+    return { ...base, title: `${item.title}｜${item.persona}の処世術｜${brand}`, description: truncate(`${item.essence ?? item.subtitle ?? item.explanation} ${item.persona}に役立つ原理、実践、注意点、関連理論を解説します。`), indexable: true, type: 'article', pageType: 'CreativeWork', item, crumbs: [crumb('探す', '/discover'), crumb(item.categoryName, `/personas?category=${item.categoryKey}`), crumb(item.persona, `/subcategory/${item.categoryKey}/${item.persona}`), crumb(item.title, route)] };
   }
   const theoryMatch = route.match(/^\/theory\/([^/]+)$/);
   if (theoryMatch) {
     const item = theoryById.get(theoryMatch[1]);
     if (!isPublicTheory(item)) return base;
-    return { ...base, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', item, crumbs: [crumb('ホーム', '/'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories/${item.categoryId}`), crumb(item.title, route)] };
-  }
-  const theoryCategory = route.match(/^\/theories\/([^/]+)$/);
-  if (theoryCategory && theoryCategoryCopy[theoryCategory[1]] && theories.some((item) => item.categoryId === theoryCategory[1] && isPublicTheory(item))) {
-    const [label, description] = theoryCategoryCopy[theoryCategory[1]];
-    return { ...base, title: `${label}の理論一覧｜${brand}`, description, indexable: true, crumbs: [crumb('ホーム', '/'), crumb('理論', '/theories'), crumb(label, route)] };
+    return { ...base, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', item, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, route)] };
   }
   const topic = route.match(/^\/topic\/([^/]+)$/);
   if (topic && topicCopy[topic[1]]) {
@@ -153,7 +139,7 @@ function staticContent(meta) {
     body = `<section><h2>概要</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>この理論に関連する処世術</h2><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>` : ''}`;
   } else if (meta.persona) {
     body += `<section><h2>この人物像を形づくる処世術</h2><ul>${meta.persona.items.filter(isPublicTechnique).map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
-  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/category/interpersonal">対人術</a></li><li><a href="/category/work">仕事術</a></li><li><a href="/category/life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/learn">場面から学ぶ</a></li></ul></section>';
+  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/personas?category=interpersonal">対人術</a></li><li><a href="/personas?category=work">仕事術</a></li><li><a href="/personas?category=life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/learn">場面から学ぶ</a></li></ul></section>';
   const heading = meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
   return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(heading)}</h1>${body}</article></main></noscript>`;
 }

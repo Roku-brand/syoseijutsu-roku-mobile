@@ -57,8 +57,8 @@ export default function PersonaScreen() {
     <Screen scroll={compact} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
       <View key={catalogRevision} style={[styles.page, compact && styles.pageCompact]}>
         <SeoBreadcrumbs items={[
-          { label: 'ホーム', href: '/' },
-          { label: category.name, href: `/category/${category.key}` },
+          { label: '探す', href: '/discover' },
+          { label: category.name, href: { pathname: '/personas', params: { category: category.key } } },
           { label: persona.name },
         ]} />
         <AppText accessibilityRole="header" aria-level={1} variant="serif" style={[styles.pageTitle, compact && styles.pageTitleCompact]}>{persona.articleTitle ?? persona.name}</AppText>
@@ -95,14 +95,16 @@ export default function PersonaScreen() {
                           <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
                         </Pressable>
                       </Link>
-                      <SaveDiamondButton
-                        saved={saved}
-                        compact
-                        onPress={() => {
-                          toggleSaved(item.id);
-                          showToast(saved ? '蔵書から外しました' : '蔵書に保存しました');
-                        }}
-                      />
+                      <View style={styles.saveAction}>
+                        <SaveDiamondButton
+                          saved={saved}
+                          compact
+                          onPress={() => {
+                            toggleSaved(item.id);
+                            showToast(saved ? '蔵書から外しました' : '蔵書に保存しました');
+                          }}
+                        />
+                      </View>
                     </View>
                   );
                 })}
@@ -154,6 +156,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E2DDD5',
   },
   techniqueOpenArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 },
+  saveAction: { marginLeft: 'auto', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center' },
   techniqueRowDesktop: { flex: 1, minHeight: 0, paddingVertical: 7 },
   techniqueRowCompact: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 9, gap: 10 },
   techniqueRowLast: { borderBottomWidth: 0 },

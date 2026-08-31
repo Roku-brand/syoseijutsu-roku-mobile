@@ -1,4 +1,4 @@
-import { Link, type Href, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -16,6 +16,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
+import { RelatedContentSection } from '@/components/related-content-list';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -79,9 +80,9 @@ export default function TheoryDetailScreen() {
     <Screen style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
       <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
         <SeoBreadcrumbs items={[
-          { label: 'ホーム', href: '/' },
+          { label: '探す', href: '/discover' },
           { label: '理論', href: '/theories' },
-          { label: getTheoryCategoryLabel(theory), href: `/theories/${theory.categoryId}` },
+          { label: getTheoryCategoryLabel(theory), href: { pathname: '/theories', params: { category: theory.categoryId } } },
           { label: normalizeDisplayText(theory.title) },
         ]} />
         <View style={styles.titleRegion}>
@@ -99,21 +100,17 @@ export default function TheoryDetailScreen() {
           <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
         </View>
 
-        <DetailSection title="関連する処世術" count={related.length}>
-          <View testID="theory-related-techniques" style={styles.relatedList}>
-            {related.map((card) => (
-              <RelatedRow key={card.id} title={card.title} supportingText={card.essence ?? card.subtitle} accessibilityLabel={`${card.title}を開く`} href={{ pathname: '/card/[id]', params: { id: card.id } }} />
-            ))}
-          </View>
-        </DetailSection>
+        <RelatedContentSection
+          title="関連する処世術"
+          testID="theory-related-techniques"
+          items={related.map((card) => ({ key: card.id, title: card.title, supportingText: card.essence ?? card.subtitle, href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+        />
 
-        <DetailSection title="関連する理論" count={relatedTheories.length}>
-          <View testID="theory-related-theories" style={styles.relatedList}>
-            {relatedTheories.map((relatedTheory) => (
-              <RelatedRow key={relatedTheory.tagId} title={relatedTheory.title} supportingText={relatedTheory.summary} accessibilityLabel={`${relatedTheory.title}を開く`} href={{ pathname: '/theory/[id]', params: { id: relatedTheory.tagId } }} />
-            ))}
-          </View>
-        </DetailSection>
+        <RelatedContentSection
+          title="関連する理論"
+          testID="theory-related-theories"
+          items={relatedTheories.map((relatedTheory) => ({ key: relatedTheory.tagId, title: relatedTheory.title, supportingText: relatedTheory.summary, href: { pathname: '/theory/[id]', params: { id: relatedTheory.tagId } } }))}
+        />
 
         <View testID="theory-information" style={styles.informationSection}>
           <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>理論情報</AppText>
@@ -130,26 +127,6 @@ function formatTheorySummary(value: string) {
   const sentenceEnd = normalized.search(/[。！？!?]/);
   if (sentenceEnd === -1 || sentenceEnd >= normalized.length - 1) return normalized;
   return `${normalized.slice(0, sentenceEnd + 1)}\n${normalized.slice(sentenceEnd + 1).trimStart()}`;
-}
-
-function DetailSection({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
-  return <View style={styles.section}><View style={styles.sectionHeading}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.sectionTitle}>{title}</AppText><View style={styles.countBadge}><AppText style={styles.countText}>{count}</AppText></View></View>{children}</View>;
-}
-
-function RelatedRow({ title, supportingText, accessibilityLabel, href }: { title: string; supportingText?: string; accessibilityLabel: string; href: Href }) {
-  const supporting = normalizeDisplayText(supportingText).replace(/\n+/g, ' ');
-  return (
-    <Link href={href} asChild>
-      <Pressable accessibilityRole="link" accessibilityLabel={accessibilityLabel} style={({ pressed }) => [styles.relatedRow, pressed && styles.relatedRowPressed]}>
-        <View accessibilityElementsHidden style={styles.relatedDiamond} />
-        <View style={styles.relatedCopy}>
-          <AppText variant="serif" style={styles.relatedTitle}>{normalizeDisplayText(title)}</AppText>
-          {supporting ? <AppText style={styles.relatedSupporting}>{supporting}</AppText> : null}
-        </View>
-        <AppText style={styles.chevron}>›</AppText>
-      </Pressable>
-    </Link>
-  );
 }
 
 function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
@@ -190,19 +167,6 @@ const styles = StyleSheet.create({
   summaryRule: { width: 48, height: 1, backgroundColor: '#C99A42' },
   summaryText: { marginTop: 12, color: '#22231F', fontFamily: fonts.serif, fontSize: 17, lineHeight: 31, letterSpacing: 0.25 },
   summaryTextCompact: { fontSize: 15, lineHeight: 28 },
-  section: { marginTop: 30 },
-  sectionHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 10, paddingHorizontal: 16 },
-  sectionTitle: { color: '#24231E', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.6 },
-  countBadge: { minWidth: 25, height: 25, paddingHorizontal: 7, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE4D2' },
-  countText: { color: '#A27526', fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, fontWeight: '700' },
-  relatedList: { borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.62)', overflow: 'hidden' },
-  relatedRow: { minHeight: 76, paddingVertical: 13, paddingLeft: 24, paddingRight: 18, flexDirection: 'row', alignItems: 'center', gap: 15, borderBottomWidth: 1, borderBottomColor: '#E4D8C7' },
-  relatedRowPressed: { backgroundColor: '#F4EBDD' },
-  relatedDiamond: { width: 8, height: 8, borderWidth: 1, borderColor: '#B8872D', transform: [{ rotate: '45deg' }] },
-  relatedCopy: { flex: 1, minWidth: 0 },
-  relatedTitle: { color: '#1B1D19', fontSize: 17, lineHeight: 25, fontWeight: '700', letterSpacing: 0.25 },
-  relatedSupporting: { marginTop: 3, color: '#625E56', fontSize: 12, lineHeight: 20 },
-  chevron: { color: colors.gold, fontFamily: fonts.serif, fontSize: 28, lineHeight: 30, marginLeft: 4 },
   informationSection: { marginTop: 34 },
   informationTitle: { marginBottom: 10, paddingHorizontal: 16, color: '#A37420', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.7 },
   informationBody: { borderWidth: 1, borderColor: '#D3B77F', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.62)', overflow: 'hidden' },

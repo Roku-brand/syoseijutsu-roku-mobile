@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
@@ -38,10 +38,14 @@ export default function TheoryIndexScreen() {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const { isPaid, accessState, catalogRevision } = useAccess();
-  const [query, setQuery] = useState(typeof params.q === 'string' ? params.q : '');
-  const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(params.category));
-  const [sort, setSort] = useState<SortKey>(params.sort === 'alpha' ? 'alpha' : 'source');
-  const [page, setPage] = useState(Math.max(1, Number(params.page) || 1));
+  const browserSearch = Platform.OS === 'web' && typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search)
+    : undefined;
+  const [query, setQuery] = useState(browserSearch?.get('q') ?? (typeof params.q === 'string' ? params.q : ''));
+  const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(browserSearch?.get('category') ?? params.category));
+  const [sort, setSort] = useState<SortKey>((browserSearch?.get('sort') ?? params.sort) === 'alpha' ? 'alpha' : 'source');
+  const [page, setPage] = useState(Math.max(1, Number(browserSearch?.get('page') ?? params.page) || 1));
+  const [urlReady] = useState(Platform.OS !== 'web' || typeof window !== 'undefined');
 
   const visibleCatalog = useMemo(
     () => theories
@@ -77,11 +81,12 @@ export default function TheoryIndexScreen() {
   }, [page, safePage]);
 
   useEffect(() => {
+    if (!urlReady) return;
     const timer = setTimeout(() => {
       router.setParams({ q: query || '', category, sort, page: String(safePage) });
     }, 250);
     return () => clearTimeout(timer);
-  }, [category, query, router, safePage, sort]);
+  }, [category, query, router, safePage, sort, urlReady]);
 
   const resetFilters = () => {
     setQuery('');
@@ -171,7 +176,7 @@ function TheoryListSkeleton() {
 }
 
 const styles = StyleSheet.create({
-  content: { paddingBottom: spacing.xl * 2 },
+  content: { maxWidth: 1260, paddingBottom: spacing.xl * 2 },
   intro: { alignItems: 'center', paddingVertical: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.line },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 2 },
   titleCompact: { fontSize: 25, lineHeight: 36 },
@@ -188,14 +193,14 @@ const styles = StyleSheet.create({
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '600' },
   totalNote: { color: colors.gold, fontSize: 11 },
-  list: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  row: { position: 'relative', flexGrow: 1, flexBasis: '48%', minHeight: 142, padding: spacing.lg, paddingRight: 40, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.7)' },
-  rowCompact: { flexBasis: '100%' },
+  list: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', gap: 12 },
+  row: { position: 'relative', width: '48%', maxWidth: '49.4%', flexGrow: 1, flexShrink: 0, flexBasis: '48%', minHeight: 176, padding: 20, paddingRight: 46, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.78)' },
+  rowCompact: { width: '100%', maxWidth: '100%', flexBasis: '100%', minHeight: 156 },
   rowMeta: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: spacing.sm },
   rowCode: { color: colors.gold, fontSize: 10, lineHeight: 16, fontWeight: '700' },
   rowCategory: { color: colors.muted, fontSize: 10, lineHeight: 16 },
-  rowTitle: { marginTop: 6, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '700' },
-  rowSummary: { marginTop: 5, color: colors.inkSoft, fontSize: 11, lineHeight: 18 },
+  rowTitle: { marginTop: 7, color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '700' },
+  rowSummary: { marginTop: 7, color: colors.inkSoft, fontSize: 12, lineHeight: 20 },
   rowArrow: { position: 'absolute', right: 17, top: '50%', marginTop: -15, color: colors.gold, fontSize: 27, lineHeight: 30 },
   empty: { minHeight: 200, padding: spacing.xl, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md },
   emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24, textAlign: 'center' },

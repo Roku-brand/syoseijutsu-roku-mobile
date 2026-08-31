@@ -28,12 +28,11 @@ const DISCOVER_PREFIXES = [
   '/discover',
   '/personas',
   '/catalog',
-  '/category/',
   '/subcategory/',
   '/topic/',
   '/goal/',
   '/theory/',
-  '/theories/',
+  '/theories',
 ] as const;
 
 const MY_PAGE_PREFIXES = [

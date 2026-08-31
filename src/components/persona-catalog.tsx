@@ -53,6 +53,7 @@ export function PersonaFilterBar({ selected, onSelect }: {
             accessibilityRole="button"
             accessibilityLabel={`${option.label}で絞り込む`}
             accessibilityState={{ selected: active }}
+            aria-selected={active}
             onPress={() => onSelect(option.key)}
             style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
           >
@@ -105,21 +106,21 @@ export function PersonaCard({ entry, variant, compact, showCategory = false }: {
 
 const styles = StyleSheet.create({
   filterRow: { minWidth: '100%', justifyContent: 'center', gap: 14, paddingHorizontal: 2, paddingVertical: 2 },
-  filterButton: { width: 150, minHeight: 40, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
+  filterButton: { width: 190, minHeight: 44, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600', letterSpacing: 0.6 },
   filterTextActive: { color: colors.goldLight },
-  personaCard: { position: 'relative', minWidth: 0, minHeight: 184, paddingTop: 24, paddingHorizontal: 13, paddingBottom: 14, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.7)', alignItems: 'center', justifyContent: 'flex-start' },
-  personaCardRail: { width: 190, height: 184, flexShrink: 0 },
-  personaCardRailCompact: { width: 164, height: 176, minHeight: 176, paddingHorizontal: 10 },
-  personaCardGrid: { width: 214, height: 204, flexGrow: 0, flexShrink: 0 },
+  personaCard: { position: 'relative', minWidth: 0, minHeight: 196, paddingTop: 28, paddingHorizontal: 16, paddingBottom: 16, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', alignItems: 'center', justifyContent: 'flex-start' },
+  personaCardRail: { width: 214, height: 196, flexShrink: 0 },
+  personaCardRailCompact: { width: 168, height: 182, minHeight: 182, paddingTop: 22, paddingHorizontal: 10 },
+  personaCardGrid: { width: 224, height: 210, flexGrow: 1, flexShrink: 0 },
   personaCardGridCompact: { width: '48%', flexBasis: '48%', maxWidth: '48%', height: 194, minHeight: 194, paddingHorizontal: 9 },
-  personaIcon: { width: 46, height: 46, borderRadius: 23, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
+  personaIcon: { width: 50, height: 50, borderRadius: 25, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
   personaHead: { width: 10, height: 10, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 5, marginBottom: 4 },
   personaShoulders: { width: 21, height: 11, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 11, borderTopRightRadius: 11 },
   personaCategory: { marginTop: 10, color: colors.gold, fontSize: 9, lineHeight: 14, fontWeight: '700', letterSpacing: 0.8 },
-  personaTitle: { minHeight: 42, marginTop: 10, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
-  personaFooter: { width: '100%', minHeight: 24, marginTop: 'auto', paddingTop: 7, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  personaTitle: { minHeight: 46, marginTop: 11, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', textAlign: 'center' },
+  personaFooter: { width: '100%', minHeight: 26, marginTop: 'auto', paddingTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   personaTechniqueCount: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
   personaArrow: { color: colors.gold, fontSize: 21, lineHeight: 21 },
   accessBadge: { position: 'absolute', right: 9, top: 9, transform: [{ scale: 0.86 }] },

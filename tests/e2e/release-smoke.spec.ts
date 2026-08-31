@@ -114,10 +114,10 @@ test('無料版の関連理論には実データだけを紐づいた順に表�
   await page.goto('/card/master336-007');
   const relatedTheories = page.getByTestId('related-theories');
   await expect(relatedTheories).toBeVisible();
-  await expect(relatedTheories.getByText('P－14', { exact: true })).toBeVisible();
-  await expect(relatedTheories.getByText('P－15', { exact: true })).toBeVisible();
+  await expect(relatedTheories.getByText('ミラーリング効果', { exact: true })).toBeVisible();
+  await expect(relatedTheories.getByText('言語スタイル同調', { exact: true })).toBeVisible();
   await expect(relatedTheories).not.toContainText('完全版の理論');
-  expect((await relatedTheories.innerText()).indexOf('P－14')).toBeLessThan((await relatedTheories.innerText()).indexOf('P－15'));
+  expect((await relatedTheories.innerText()).indexOf('ミラーリング効果')).toBeLessThan((await relatedTheories.innerText()).indexOf('言語スタイル同調'));
 });
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {
@@ -518,16 +518,64 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('理論カテゴリの表示名を格言・組織経営論・古典へ統一する', async ({ page }) => {
-  for (const [category, label, oldLabel] of [
-    ['maxims-experience', '格言', '格言・経験則・作品'],
-    ['organization-management', '組織・経営論', '組織・経営'],
-    ['classics-thought', '古典', '古典・思想'],
+test('理論カテゴリは一つの理論一覧で絞り込む', async ({ page }) => {
+  for (const [category, label] of [
+    ['maxims-experience', '格言'],
+    ['organization-management', '組織・経営'],
+    ['classics-thought', '古典・思想'],
   ] as const) {
-    await page.goto('/theories/' + category);
-    await expect(page.getByText(label, { exact: true }).first()).toBeVisible();
-    await expect(page.getByText(oldLabel, { exact: true })).toHaveCount(0);
+    await page.goto(`/theories?category=${category}`);
+    await expect(page.getByRole('button', { name: `${label}で理論を絞り込む` })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByTestId('theory-index-list')).toBeVisible();
   }
+});
+
+test('詳細ページの階層リンクは探す配下の統合一覧へ戻る', async ({ page }) => {
+  await page.goto('/card/master336-001');
+  await expect(page.getByRole('link', { name: '探すへ移動' })).toHaveAttribute('href', '/discover');
+  await expect(page.getByRole('link', { name: '対人術へ移動' })).toHaveAttribute('href', '/personas?category=interpersonal');
+
+  await page.goto('/theory/kb_001');
+  await expect(page.getByRole('link', { name: '探すへ移動' })).toHaveAttribute('href', '/discover');
+  await expect(page.getByRole('link', { name: '心理学へ移動' })).toHaveAttribute('href', '/theories?category=psychology');
+});
+
+test('旧カテゴリ個別ページは削除されている', async ({ page }) => {
+  const categoryResponse = await page.goto('/category/interpersonal');
+  expect(categoryResponse?.status()).toBe(404);
+  const theoryResponse = await page.goto('/theories/behavioral-science');
+  expect(theoryResponse?.status()).toBe(404);
+});
+
+test('主ナビはPCとタブレットで幅を失わない', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/discover');
+  const desktopItem = page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^ホーム/ });
+  await expect(desktopItem).toBeVisible();
+  const desktopBox = await desktopItem.boundingBox();
+  expect(desktopBox).not.toBeNull();
+  expect(desktopBox!.width).toBeGreaterThanOrEqual(112);
+
+  await page.setViewportSize({ width: 768, height: 1024 });
+  const tabletItem = page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^ホーム/ });
+  await expect(tabletItem).toBeVisible();
+  const tabletBox = await tabletItem.boundingBox();
+  expect(tabletBox).not.toBeNull();
+  expect(tabletBox!.width).toBeGreaterThanOrEqual(190);
+});
+
+test('人物像ページの保存操作は各行の右端に揃う', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto('/subcategory/interpersonal/印象がいい人');
+  const firstRow = page.getByTestId('technique-column-1').getByRole('button', { name: '蔵書に保存' }).first();
+  const secondRow = page.getByTestId('technique-column-1').getByRole('button', { name: '蔵書に保存' }).nth(1);
+  await expect(firstRow).toBeVisible();
+  await expect(secondRow).toBeVisible();
+  const [first, second] = await Promise.all([firstRow.boundingBox(), secondRow.boundingBox()]);
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(Math.abs(first!.x - second!.x)).toBeLessThan(2);
+  expect(first!.x).toBeGreaterThan(560);
 });
 
 test('探す理論リールはカテゴリで切り替え、矢印で横に送れる', async ({ page }) => {

@@ -55,7 +55,7 @@ export function PersistentBottomNav() {
                 accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
                 accessibilityState={{ selected: active }}
                 onPress={() => navigate(item)}
-                style={({ pressed }) => [styles.item, desktop && styles.itemDesktop, pressed && styles.pressed]}
+                style={desktop ? styles.itemDesktop : styles.item}
               >
                 {active ? <View style={[styles.activeIndicator, desktop && styles.activeIndicatorDesktop]} /> : null}
                 <NavIcon type={item.icon} active={active} />
@@ -80,9 +80,11 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 const styles = StyleSheet.create({
   // ナビ本体と安全領域を同じ面として扱う。PWA では下端の安全領域が
   // 空白に見えないよう、バーを画面幅・物理下端まで連続させる。
-  safeArea: { flexShrink: 0, backgroundColor: colors.surface },
+  safeArea: { width: '100%', minWidth: 0, flexShrink: 0, backgroundColor: colors.surface },
   bar: {
-    maxWidth: 620,
+    width: '100%',
+    maxWidth: '100%',
+    minWidth: 0,
     alignSelf: 'stretch',
     height: 62,
     flexDirection: 'row',
@@ -97,15 +99,21 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   safeAreaDesktop: {
-    width: 92,
+    width: 114,
+    minWidth: 114,
+    maxWidth: 114,
+    flexBasis: 114,
+    flexGrow: 0,
+    flexShrink: 0,
     height: '100%',
     backgroundColor: colors.surface,
     borderRightWidth: 1,
     borderRightColor: colors.line,
   },
   barDesktop: {
-    width: 92,
-    maxWidth: 92,
+    width: 114,
+    minWidth: 114,
+    maxWidth: 114,
     height: '100%',
     flexDirection: 'column',
     borderWidth: 0,
@@ -117,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   item: { flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center', gap: 1 },
-  itemDesktop: { flex: 0, width: 92, minHeight: 100 },
+  itemDesktop: { flex: 0, position: 'relative', width: 114, minWidth: 114, maxWidth: 114, minHeight: 100, alignItems: 'center', justifyContent: 'center', gap: 1 },
   activeIndicator: {
     position: 'absolute',
     bottom: 3,

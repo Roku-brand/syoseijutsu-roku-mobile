@@ -1,13 +1,12 @@
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
-  getTheoryDisplayId,
   techniqueById,
   techniqueCards,
   theoryById,
@@ -20,6 +19,7 @@ import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
+import { RelatedContentSection } from '@/components/related-content-list';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -99,8 +99,8 @@ export default function CardDetailScreen() {
         onNext={() => navigateCard(1)}
       >
         <SeoBreadcrumbs items={[
-          { label: 'ホーム', href: '/' },
-          { label: card.categoryName, href: `/category/${card.categoryKey}` },
+          { label: '探す', href: '/discover' },
+          { label: card.categoryName, href: { pathname: '/personas', params: { category: card.categoryKey } } },
           { label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]', params: { category: card.categoryKey, name: card.subcategory } } },
           { label: card.title },
         ]} />
@@ -190,50 +190,17 @@ export default function CardDetailScreen() {
           </View>
         </ArticleSection>
 
-        {relatedTheories.length > 0 && (
-          <ArticleSection title="関連する理論" mark="▱">
-            <View testID="related-theories" style={styles.theoryList}>
-              {relatedTheories.map((theory) =>
-                theory ? (
-                  <Link key={theory.tagId} href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
-                    <Pressable
-                      accessibilityRole="link"
-                      accessibilityLabel={`${theory.title}を開く`}
-                      style={({ pressed }) => [styles.theoryItem, pressed && styles.pressed]}
-                    >
-                      <View style={styles.theoryCopy}>
-                        <AppText style={styles.theoryId}>{getTheoryDisplayId(theory)}</AppText>
-                        <AppText variant="serif" style={styles.theoryTitle}>{theory.title}</AppText>
-                      </View>
-                      <AppText style={styles.chevron}>›</AppText>
-                    </Pressable>
-                  </Link>
-                ) : null,
-              )}
-            </View>
-          </ArticleSection>
-        )}
+        <RelatedContentSection
+          title="関連する理論"
+          testID="related-theories"
+          items={relatedTheories.map((theory) => ({ key: theory.tagId, title: theory.title, supportingText: theory.summary, href: { pathname: '/theory/[id]', params: { id: theory.tagId } } }))}
+        />
 
-        {related.length > 0 && (
-          <ArticleSection title="関連する処世術" mark="▱">
-            <View style={styles.relatedGrid}>
-              {related.map((relatedCard) => (
-                <Link key={relatedCard.id} href={{ pathname: '/card/[id]', params: { id: relatedCard.id } }} asChild>
-                  <Pressable
-                    accessibilityRole="link"
-                    accessibilityLabel={`${relatedCard.title}を開く`}
-                    style={({ pressed }) => [styles.relatedItem, pressed && styles.pressed]}
-                  >
-                    <AppText style={styles.relatedChevron}>›</AppText>
-                    <AppText style={styles.relatedText}>
-                      {getTechniqueDisplayId(relatedCard)} {relatedCard.title}
-                    </AppText>
-                  </Pressable>
-                </Link>
-              ))}
-            </View>
-          </ArticleSection>
-        )}
+        <RelatedContentSection
+          title="関連する処世術"
+          testID="related-techniques"
+          items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, supportingText: relatedCard.essence ?? relatedCard.subtitle, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
+        />
 
         {!!card.tags?.length && (
           <ArticleSection title="タグ">
@@ -464,28 +431,6 @@ const styles = StyleSheet.create({
   cautionTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginBottom: 9 },
   cautionTitle: { color: '#6A5120', fontSize: 14, lineHeight: 20, fontWeight: '700' },
   cautionText: { color: '#272923', fontSize: 12, lineHeight: 19, fontWeight: '600' },
-  theoryList: { gap: 9 },
-  theoryItem: {
-    width: '100%',
-    minHeight: 58,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderWidth: 1,
-    borderColor: '#D9D0C2',
-    borderRadius: radius.md,
-    backgroundColor: '#FDFBF7',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  theoryCopy: { flex: 1, minWidth: 0 },
-  theoryId: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },
-  theoryTitle: { color: '#1C211D', fontSize: 17, lineHeight: 25, fontWeight: '700' },
-  chevron: { color: colors.gold, fontSize: 22, lineHeight: 22 },
-  relatedGrid: { flexDirection: 'row', flexWrap: 'wrap', columnGap: 20, rowGap: 8 },
-  relatedItem: { width: '47%', minHeight: 24, flexDirection: 'row', alignItems: 'flex-start', gap: 7 },
-  relatedChevron: { color: colors.gold, fontSize: 19, lineHeight: 20 },
-  relatedText: { flex: 1, color: '#31342F', fontSize: 11, lineHeight: 18 },
   bottomTags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   bottomTag: {
     minHeight: 26,

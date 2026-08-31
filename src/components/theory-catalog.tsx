@@ -35,6 +35,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
             accessibilityRole="button"
             accessibilityLabel={`${option.label}で理論を絞り込む`}
             accessibilityState={{ selected: active }}
+            aria-selected={active}
             onPress={() => onSelect(option.key)}
             style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
           >
@@ -74,7 +75,7 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 
 const styles = StyleSheet.create({
   filterRow: { minWidth: '100%', gap: 12, paddingHorizontal: 2, paddingVertical: 2 },
-  filterButton: { minWidth: 114, minHeight: 40, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
+  filterButton: { width: 136, minWidth: 136, minHeight: 44, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { borderColor: '#10263F', backgroundColor: '#10263F' },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   filterTextActive: { color: colors.goldLight },

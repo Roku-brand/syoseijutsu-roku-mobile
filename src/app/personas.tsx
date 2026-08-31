@@ -1,5 +1,6 @@
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
 import { AppText } from '@/components/ui';
@@ -8,11 +9,25 @@ import { categoryOrder } from '@/data/catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export default function PersonasScreen() {
+  const params = useLocalSearchParams<{ category?: string }>();
+  const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const [filter, setFilter] = useState<PersonaFilterKey>('all');
+  const browserCategory = Platform.OS === 'web' && typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('category') ?? undefined
+    : undefined;
+  const requestedCategory = browserCategory ?? params.category;
+  const initialFilter = categoryOrder.includes(requestedCategory as (typeof categoryOrder)[number])
+    ? requestedCategory as PersonaFilterKey
+    : 'all';
+  const [filter, setFilter] = useState<PersonaFilterKey>(initialFilter);
   const personas = getPersonaEntries(filter);
   const personaCount = getPersonaCount();
+
+  const selectFilter = (next: PersonaFilterKey) => {
+    setFilter(next);
+    router.setParams({ category: next === 'all' ? undefined : next });
+  };
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
@@ -23,7 +38,7 @@ export default function PersonasScreen() {
 
       <View style={styles.filterSection}>
         <AppText style={styles.filterHeading}>領域から絞り込む</AppText>
-        <PersonaFilterBar selected={filter} onSelect={setFilter} />
+        <PersonaFilterBar selected={filter} onSelect={selectFilter} />
       </View>
 
       <View style={styles.listHeading}>
