@@ -79,6 +79,9 @@ jobs:
       - name: Sync published technique content
         run: node scripts/import-owner-content.mjs
 
+      - name: Recover owner-curated theory links
+        run: node scripts/recover-owner-theory-links.mjs
+
       - name: Prepare public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts

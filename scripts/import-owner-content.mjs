@@ -45,7 +45,10 @@ if (beforeError) throw beforeError;
 console.log(`Existing techniques before import: ${beforeCount ?? 0}`);
 for (let index = 0; index < rows.length; index += 100) {
   const batch = rows.slice(index, index + 100);
-  const { error } = await supabase.from('techniques').upsert(batch, { onConflict: 'id' });
+  // The owner table is authoritative after the initial seed. Never replace
+  // hand-curated rows from the bundled catalogue on every Pages deploy.
+  // Insert only cards that are missing from a fresh project.
+  const { error } = await supabase.from('techniques').upsert(batch, { onConflict: 'id', ignoreDuplicates: true });
   if (error) throw error;
   console.log(`imported ${Math.min(index + batch.length, rows.length)}/${rows.length}`);
 }
