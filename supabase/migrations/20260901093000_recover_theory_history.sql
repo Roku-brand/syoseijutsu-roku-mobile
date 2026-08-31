@@ -25,14 +25,18 @@ where t.id = d.technique_id
   and (d.snapshot ? 'relatedTheoryIds' or jsonb_array_length(t.theory_ids) > 0);
 
 update public.techniques t
-set theory_ids = latest.snapshot->'theory_ids'
-from lateral (
-  select r.snapshot
+set theory_ids = (
+  select r.snapshot->'theory_ids'
   from public.technique_revisions r
   where r.technique_id = t.id
     and jsonb_typeof(r.snapshot->'theory_ids') = 'array'
     and jsonb_array_length(r.snapshot->'theory_ids') > 0
   order by r.version desc, r.created_at desc
   limit 1
-) latest
-where jsonb_array_length(t.theory_ids) = 0;
+where jsonb_array_length(t.theory_ids) = 0
+  and exists (
+    select 1 from public.technique_revisions r
+    where r.technique_id = t.id
+      and jsonb_typeof(r.snapshot->'theory_ids') = 'array'
+      and jsonb_array_length(r.snapshot->'theory_ids') > 0
+  );
