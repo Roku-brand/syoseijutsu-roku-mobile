@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hydratePaidCatalog, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
+import { hydratePaidCatalog, resetCatalog, theories as catalogTheories, type PaidTechniquePayload } from '@/data/catalog';
 import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
+import { isLockedTheoryShell } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
-import { supabase, supabasePublishableKey, supabaseUrl } from './supabase';
+import { supabase } from './supabase';
 
 type PaidContentType = 'technique' | 'theory' | 'learning';
 type PaidContentRow<T> = {
@@ -15,12 +16,12 @@ type PaidContentRow<T> = {
 
 let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
-const PAID_CONTENT_TIMEOUT_MS = 20_000;
+const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v8';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v9';
 
 type PaidContentSnapshot = {
-  version: 6;
+  version: 7;
   userId: string;
   savedAt: string;
   techniques: PaidTechniquePayload[];
@@ -55,46 +56,39 @@ function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCa
 function isSnapshot(value: unknown): value is PaidContentSnapshot {
   if (!value || typeof value !== 'object') return false;
   const snapshot = value as Partial<PaidContentSnapshot>;
-  return snapshot.version === 6
+  return snapshot.version === 7
     && typeof snapshot.userId === 'string'
     && Array.isArray(snapshot.techniques)
     && Array.isArray(snapshot.theories)
     && Array.isArray(snapshot.learning);
 }
 
-async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]> {
-  if (!supabase || !supabaseUrl || !supabasePublishableKey) {
-    throw new Error('Supabase is not configured.');
-  }
-  const { data } = await supabase.auth.getSession();
-  const session = data.session;
-  if (!session) throw new Error('Authentication is required.');
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), PAID_CONTENT_TIMEOUT_MS);
-  let response: Response;
-  try {
-    response = await fetch(`${supabaseUrl}/functions/v1/paid-content?type=${encodeURIComponent(type)}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${session.access_token}`,
-        apikey: supabasePublishableKey,
-      },
-      signal: controller.signal,
+function within<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => reject(new Error(message)), timeoutMs);
+    promise.then((value) => {
+      clearTimeout(timeout);
+      resolve(value);
+    }).catch((error) => {
+      clearTimeout(timeout);
+      reject(error);
     });
-  } catch (error) {
-    if (controller.signal.aborted) throw new Error('完全版データの取得がタイムアウトしました。');
-    throw error;
-  } finally {
-    clearTimeout(timeout);
-  }
-  if (!response.ok) throw new Error(`Paid content request failed: ${response.status}`);
-  const body = await response.json();
-  return Array.isArray(body?.items) ? body.items : [];
+  });
+}
+
+async function fetchPaidContentBundle(): Promise<PaidContentRow<unknown>[]> {
+  if (!supabase) throw new Error('Supabase is not configured.');
+  const { data, error } = await within(
+    supabase.functions.invoke('paid-content', { method: 'GET' }),
+    PAID_CONTENT_TIMEOUT_MS,
+    '完全版データの取得がタイムアウトしました。',
+  );
+  if (error) throw new Error(error.message || '完全版データを取得できませんでした。');
+  return Array.isArray(data?.items) ? data.items as PaidContentRow<unknown>[] : [];
 }
 
 export async function hydrateSecureContent() {
-  if (!supabase) return;
+  if (!supabase) throw new Error('Supabase is not configured.');
   const { data } = await supabase.auth.getSession();
   const userId = data.session?.user.id ?? null;
   if (!userId) {
@@ -105,21 +99,24 @@ export async function hydrateSecureContent() {
   if (hydrationPromise) return hydrationPromise;
 
   hydrationPromise = (async () => {
-    const [techniqueRows, theoryRows, learningRows] = await Promise.all([
-      fetchRows<PaidTechniquePayload>('technique'),
-      fetchRows<TheoryCard>('theory'),
-      fetchRows<LearningCase>('learning'),
-    ]);
-    const techniques = techniqueRows.map((row) => row.payload);
-    const theories = theoryRows.map((row) => row.payload);
-    const paidLearning = learningRows.map((row) => row.payload);
-    if (techniques.length === 0 || theories.length === 0 || paidLearning.length === 0) {
+    const rows = await fetchPaidContentBundle();
+    const techniques = rows
+      .filter((row) => row.content_type === 'technique')
+      .map((row) => row.payload as PaidTechniquePayload);
+    const theories = rows
+      .filter((row) => row.content_type === 'theory')
+      .map((row) => row.payload as TheoryCard);
+    const paidLearning = rows
+      .filter((row) => row.content_type === 'learning')
+      .map((row) => row.payload as LearningCase);
+    const expectedPaidTheoryCount = catalogTheories.filter(isLockedTheoryShell).length;
+    if (techniques.length === 0 || theories.length !== expectedPaidTheoryCount || paidLearning.length === 0) {
       throw new Error('完全版データが不足しているため、端末への保存を中止しました。');
     }
     applyPaidContent(techniques, theories, paidLearning);
     hydratedUserId = userId;
     const snapshot: PaidContentSnapshot = {
-      version: 6,
+      version: 7,
       userId,
       savedAt: new Date().toISOString(),
       techniques,
