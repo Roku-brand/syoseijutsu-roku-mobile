@@ -182,8 +182,7 @@ test('ホームの各CTAは正式コンテンツと既存画面へ遷移する',
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
   await page.getByTestId('home-brand-theory-cta').click();
-  await expect(page).toHaveURL(/\/theory\/kb_014$/);
-  await expect(page.getByText('ミラーリング効果', { exact: true }).first()).toBeVisible();
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_theory$/);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
@@ -542,7 +541,7 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
   await expect(page.getByLabel('次のスライド')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
-  await expect(page.getByTestId('home-brand-slide-3')).toContainText('ミラーリング効果');
+  await expect(page.getByTestId('home-brand-slide-3')).toContainText('ピーク・エンドの法則');
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });

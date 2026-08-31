@@ -17,7 +17,7 @@ const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = sele
 
 const HOME_TECHNIQUE_ID = 'master336-014';
 const HOME_PERSONA_NAME = '印象がいい人';
-const HOME_THEORY_ID = 'kb_014';
+const HOME_THEORY_ID = 'kb_029';
 const HOME_MAP_TECHNIQUE_ID = 'master336-007';
 const techniqueById = new Map(allTechniques.map((item) => [item.id, item]));
 const theoryById = new Map(theories.map((item) => [item.tagId, item]));
@@ -28,9 +28,6 @@ if (!mapTechnique || (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds
   throw new Error(`Home theory map requires at least three canonical links: ${HOME_MAP_TECHNIQUE_ID}`);
 }
 if (!homeTheory) throw new Error(`Unknown canonical home theory: ${HOME_THEORY_ID}`);
-if (!freeTheoryIds.has(HOME_THEORY_ID)) {
-  throw new Error(`Home theory must be readable in the public edition: ${HOME_THEORY_ID}`);
-}
 
 const homeBrandContent = {
   todayTechniqueCandidateIds: [HOME_TECHNIQUE_ID],

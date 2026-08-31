@@ -67,8 +67,12 @@ const [techniques, theories, learning, publicTechniques, publicTheories, publicL
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 const fingerprints = new Map();
 const titleCandidates = [];
-const publicPreviewTheoryIds = new Set(homeBrandContent.techniqueTheoryMap.theories.map((theory) => theory.tagId));
-const publicPreviewTexts = new Set(homeBrandContent.techniqueTheoryMap.theories.map((theory) => theory.title));
+const publicPreviewTheories = [
+  ...homeBrandContent.theorySnapshots,
+  ...homeBrandContent.techniqueTheoryMap.theories,
+];
+const publicPreviewTheoryIds = new Set(publicPreviewTheories.map((theory) => theory.tagId));
+const publicPreviewTexts = new Set(publicPreviewTheories.flatMap((theory) => [theory.title, theory.summary].filter(Boolean)));
 
 for (const technique of allTechniques) {
   if (!freeTechniqueIds.has(technique.id)) {
@@ -97,6 +101,16 @@ for (const preview of homeBrandContent.techniqueTheoryMap.theories) {
   const canonical = theories.find((theory) => theory.tagId === preview.tagId);
   if (!canonical || canonical.title !== preview.title || canonical.categoryId !== preview.categoryId) {
     throw new Error(`Home theory preview is not canonical: ${preview.tagId}`);
+  }
+}
+for (const preview of homeBrandContent.theorySnapshots) {
+  const canonical = theories.find((theory) => theory.tagId === preview.tagId);
+  if (!canonical
+    || canonical.title !== preview.title
+    || canonical.summary !== preview.summary
+    || canonical.categoryId !== preview.categoryId
+    || canonical.categoryTitle !== preview.categoryTitle) {
+    throw new Error(`Home theory card is not canonical: ${preview.tagId}`);
   }
 }
 for (const text of publicPreviewTexts) fingerprints.delete(fingerprint(text));
