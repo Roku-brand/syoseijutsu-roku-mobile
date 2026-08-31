@@ -146,10 +146,25 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
   await expect(page.getByTestId('home-curated-reel')).toBeVisible();
   await expect(page.getByTestId('home-curated-reel').getByText(/今日の一枚/)).toBeVisible();
+  await expect(page.getByTestId('home-upgrade-cta')).toBeVisible();
   await page.getByRole('tab', { name: /理論/ }).click();
   await expect(page.getByTestId('home-curated-reel')).toContainText(/心理学|行動科学|組織・経営論|戦略|古典|格言/);
   await page.goto('/');
   await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
+});
+
+test('ホームの厳選リールはカード脇の矢印で横にスライドする', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/welcome');
+  await startFreeHome(page);
+
+  const rail = page.getByTestId('home-curated-viewport');
+  const next = page.getByRole('button', { name: '次の厳選' });
+  await expect(rail).toBeVisible();
+  await expect(next).toBeVisible();
+  expect(await rail.evaluate((element) => element.scrollLeft)).toBe(0);
+  await next.click();
+  await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
 });
 
 test('ウェルカムから初回ホームへ入ると今日の一枚へ導く歓迎ポップアップを一度だけ表示する', async ({ page }) => {

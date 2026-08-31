@@ -1,12 +1,14 @@
 import { Redirect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
+import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { getTheoryDisplayId, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
+import { isLockedTheoryShell } from '@/data/theory-display';
+import type { TheoryCard } from '@/data/types';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
@@ -28,7 +30,7 @@ const REEL_CARD_HEIGHT = 104;
 export default function OwnerContentScreen() {
   const router = useRouter();
   const { loading, user, role } = useAuth();
-  const { refreshPublishedContent } = useAccess();
+  const { refreshPublishedContent, catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const [techniques, setTechniques] = useState<TechniqueContent[]>([]);
   const [drafts, setDrafts] = useState<Record<string, TechniqueSnapshot>>({});
@@ -74,6 +76,7 @@ export default function OwnerContentScreen() {
   const selected = techniques.find((technique) => technique.id === selectedId) ?? null;
   const selectedReelIndex = filtered.findIndex((technique) => technique.id === selectedId);
   const selectedSnapshot = selected ? drafts[selected.id] ?? snapshotFromTechnique(selected) : null;
+  const theoryOptions = useMemo(() => theories.filter((theory) => !isLockedTheoryShell(theory)), [catalogRevision]);
 
   const selectTechnique = (id: string) => {
     setSelectedId(id);
@@ -275,7 +278,7 @@ export default function OwnerContentScreen() {
                   <ListEditor label="今日からできる実践" items={selectedSnapshot.practices} onChange={(items) => updateSnapshot({ practices: items })} />
                   <ListEditor label="具体例" items={selectedSnapshot.examples} onChange={(items) => updateSnapshot({ examples: items })} />
                   <ListEditor label="注意点" items={selectedSnapshot.cautions} onChange={(items) => updateSnapshot({ cautions: items })} />
-                  <TheorySelector selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
+                  <TheorySelector theoryOptions={theoryOptions} selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
                 </>
               )}
               <RevisionHistory revisions={revisions} onRestore={restore} />
@@ -319,13 +322,13 @@ function ListEditor({ label, items, onChange }: { label: string; items: string[]
   return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText>{items.map((item, index) => <View key={`${index}-${item.slice(0, 8)}`} style={styles.listInputRow}><TextInput value={item} onChangeText={(value) => update(index, value)} multiline style={[styles.input, styles.listInput]} /><Pressable onPress={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} style={styles.removeButton}><AppText style={styles.removeText}>削除</AppText></Pressable></View>)}<Pressable onPress={() => onChange([...items, ''])} style={styles.addButton}><AppText style={styles.addText}>＋ 追加</AppText></Pressable></View>;
 }
 
-function TheorySelector({ selectedIds, onChange }: { selectedIds: string[]; onChange: (ids: string[]) => void }) {
+function TheorySelector({ theoryOptions, selectedIds, onChange }: { theoryOptions: TheoryCard[]; selectedIds: string[]; onChange: (ids: string[]) => void }) {
   const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState('');
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
   const results = useMemo(
-    () => searchTheories(query).filter((theory) => !selectedSet.has(theory.tagId)),
-    [query, selectedSet],
+    () => searchTheories(query, theoryOptions).filter((theory) => !selectedSet.has(theory.tagId)),
+    [query, selectedSet, theoryOptions],
   );
   const move = (index: number, offset: -1 | 1) => {
     const targetIndex = index + offset;
@@ -346,7 +349,7 @@ function TheorySelector({ selectedIds, onChange }: { selectedIds: string[]; onCh
 
       {selectedIds.length ? <View style={styles.selectedTheoryList}>
         {selectedIds.map((id, index) => {
-          const theory = theories.find((item) => item.tagId === id);
+          const theory = theoryOptions.find((item) => item.tagId === id);
           return (
             <View key={`${id}-${index}`} style={styles.selectedTheoryRow}>
               <View style={styles.selectedTheoryCopy}>
@@ -365,24 +368,38 @@ function TheorySelector({ selectedIds, onChange }: { selectedIds: string[]; onCh
 
       {adding ? <View style={styles.theorySearchPanel}>
         <TextInput value={query} onChangeText={setQuery} placeholder="ID・tagId・タイトル・概要で検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="追加する理論を検索" />
-        {query.trim() ? <View style={styles.theoryOptions}>
-          {results.map((theory) => <View key={theory.tagId} style={styles.theorySearchResult}>
-            <AppText style={styles.theorySearchId}>{getTheoryDisplayId(theory)}</AppText>
-            <AppText style={styles.theorySearchTitle}>{theory.title}</AppText>
-            <AppText numberOfLines={3} style={styles.theorySearchSummary}>{theory.summary}</AppText>
-            <Pressable onPress={() => onChange([...selectedIds, theory.tagId])} style={styles.theoryAddButton} accessibilityRole="button" accessibilityLabel={`${theory.title}を追加`}><AppText style={styles.addText}>追加</AppText></Pressable>
-          </View>)}
-          {!results.length ? <AppText style={styles.noRelatedTheories}>一致する未選択の理論はありません。</AppText> : null}
-        </View> : <AppText style={styles.theorySearchHint}>全{theories.length}件から検索できます。</AppText>}
+        {theoryOptions.length ? <>
+          <View style={styles.theoryCandidateHeader}>
+            <AppText style={styles.theorySearchHint}>{query.trim() ? `検索結果 ${results.length}件` : `追加候補 ${results.length}件`}</AppText>
+            {!query.trim() ? <AppText style={styles.theorySearchHint}>横に流して選べます</AppText> : null}
+          </View>
+          {results.length ? <FlatList
+            horizontal
+            data={results}
+            keyExtractor={(theory) => theory.tagId}
+            testID="owner-related-theory-reel"
+            accessibilityLabel="追加する関連理論の横スクロール一覧"
+            showsHorizontalScrollIndicator={false}
+            initialNumToRender={8}
+            windowSize={5}
+            contentContainerStyle={styles.theoryCandidateRail}
+            renderItem={({ item: theory }) => <View style={styles.theoryCandidateCard}>
+              <AppText style={styles.theorySearchId}>{getTheoryDisplayId(theory)}</AppText>
+              <AppText numberOfLines={2} style={styles.theorySearchTitle}>{theory.title}</AppText>
+              <AppText numberOfLines={3} style={styles.theorySearchSummary}>{theory.summary}</AppText>
+              <Pressable onPress={() => onChange([...selectedIds, theory.tagId])} style={styles.theoryAddButton} accessibilityRole="button" accessibilityLabel={`${theory.title}を追加`}><AppText style={styles.addText}>追加</AppText></Pressable>
+            </View>}
+          /> : <AppText style={styles.noRelatedTheories}>一致する未選択の理論はありません。</AppText>}
+        </> : <AppText style={styles.noRelatedTheories}>理論候補を同期中です。</AppText>}
       </View> : null}
     </View>
   );
 }
 
-function searchTheories(query: string) {
+function searchTheories(query: string, source: TheoryCard[]) {
   const normalizedQuery = normalizeTheorySearchText(query);
-  if (!normalizedQuery) return [];
-  return theories.map((theory) => {
+  if (!normalizedQuery) return source;
+  return source.map((theory) => {
     const displayId = getTheoryDisplayId(theory);
     const normalizedDisplayId = normalizeTheorySearchText(displayId);
     const title = normalizeTheorySearchText(theory.title);
@@ -488,6 +505,9 @@ const styles = StyleSheet.create({
   noRelatedTheories: { paddingVertical: 10, color: colors.muted, fontSize: 12, lineHeight: 18 },
   theorySearchPanel: { marginTop: spacing.sm, padding: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F8F4EC' },
   theorySearchHint: { paddingTop: 8, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  theoryCandidateHeader: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', gap: spacing.sm },
+  theoryCandidateRail: { gap: 10, paddingBottom: 3, paddingTop: spacing.sm, paddingRight: spacing.md },
+  theoryCandidateCard: { width: 232, minHeight: 188, padding: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.paper },
   theoryOptions: { marginTop: spacing.sm, gap: 8 },
   theorySearchResult: { padding: spacing.sm, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.paper },
   theorySearchId: { color: colors.gold, fontSize: 11, lineHeight: 16, fontWeight: '700', letterSpacing: 0.5 },

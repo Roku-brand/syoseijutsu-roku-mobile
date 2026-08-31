@@ -1,5 +1,6 @@
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { techniqueCards, theories } from '@/data/catalog';
+import { isLockedTheoryShell } from '@/data/theory-display';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import type { TrendingContent } from './content-events';
 
@@ -103,7 +104,9 @@ export function selectHomeTechniques(input: SelectionInput): TechniqueCard[] {
 
 export function selectHomeTheories(input: SelectionInput): TheoryCard[] {
   const trendingIds = new Set(input.trending.filter((item) => item.contentType === 'theory').map((item) => item.contentId));
-  const candidates = theories.filter((theory) => input.isPaid || FREE_THEORY_ID_SET.has(theory.tagId));
+  const candidates = theories
+    .filter((theory) => !isLockedTheoryShell(theory))
+    .filter((theory) => input.isPaid || FREE_THEORY_ID_SET.has(theory.tagId));
   const restored = todaysSelection(candidates, (theory) => theory.tagId, input);
   if (restored) return restored;
   return stableDailyOrder(diversify(

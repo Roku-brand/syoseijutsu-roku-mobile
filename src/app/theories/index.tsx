@@ -8,7 +8,7 @@ import { TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/co
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
-import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
+import { getTheoryCategoryLabel, getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -43,7 +43,9 @@ export default function TheoryIndexScreen() {
   const [page, setPage] = useState(Math.max(1, Number(params.page) || 1));
 
   const visibleCatalog = useMemo(
-    () => isPaid ? theories : theories.filter((theory) => FREE_THEORY_ID_SET.has(theory.tagId)),
+    () => theories
+      .filter((theory) => !isLockedTheoryShell(theory))
+      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId)),
     [catalogRevision, isPaid],
   );
   const filtered = useMemo(() => {

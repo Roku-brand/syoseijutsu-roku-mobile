@@ -32,3 +32,11 @@ export function getTheoryCoverSummary(summary: string): string {
   const sentenceEnd = text.search(/[。！？!?]/);
   return sentenceEnd === -1 ? text : text.slice(0, sentenceEnd + 1);
 }
+
+/**
+ * 無料版バンドルには、完全版本文を含めないための空シェルが存在する。
+ * これは理論カードとして提示せず、完全版カタログの同期完了を待つ。
+ */
+export function isLockedTheoryShell(theory: Pick<{ title: string; summary: string }, 'title' | 'summary'>): boolean {
+  return normalizeDisplayText(theory.title) === '完全版の理論' && !normalizeDisplayText(theory.summary);
+}

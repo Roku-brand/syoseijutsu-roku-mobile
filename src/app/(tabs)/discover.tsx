@@ -9,6 +9,7 @@ import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueCards, theories } from '@/data/catalog';
+import { isLockedTheoryShell } from '@/data/theory-display';
 import { getTechniqueSearchText } from '@/data/technique-tags';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
@@ -53,6 +54,7 @@ export default function DiscoverScreen() {
   );
   const theoryMatches = useMemo(
     () => !keywords.length ? [] : theories
+      .filter((theory) => !isLockedTheoryShell(theory))
       .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
       .filter((theory) => {
         const source = [theory.tagId, theory.title, theory.summary, theory.categoryTitle].filter(Boolean).join(' ').toLocaleLowerCase();
@@ -227,6 +229,7 @@ function TheoryBrowser({ router, compact, selectedCategory, onSelectCategory, on
   const railRef = useRef<ScrollView>(null);
   const [rail, setRail] = useState({ x: 0, viewport: 0, content: 0 });
   const visibleTheories = theories
+    .filter((theory) => !isLockedTheoryShell(theory))
     .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
     .filter((theory) => selectedCategory === 'all' || theory.categoryId === selectedCategory)
     .slice(0, 24);
@@ -246,8 +249,10 @@ function TheoryBrowser({ router, compact, selectedCategory, onSelectCategory, on
 
   return (
     <View>
-      <View style={styles.theoryFilterHeading}>
+      <View style={styles.filterIntroduction}>
+        <View style={styles.filterLine} />
         <AppText style={styles.filterLabel}>理論のカテゴリから絞り込む</AppText>
+        <View style={styles.filterLine} />
       </View>
       <TheoryFilterBar selected={selectedCategory} onSelect={onSelectCategory} />
 
@@ -320,7 +325,6 @@ const styles = StyleSheet.create({
   filterIntroduction: { maxWidth: 740, width: '100%', alignSelf: 'center', marginTop: spacing.lg, marginBottom: 12, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   filterLine: { flex: 1, height: 1, backgroundColor: colors.line },
   filterLabel: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, letterSpacing: 0.8, textAlign: 'center' },
-  theoryFilterHeading: { marginTop: spacing.lg, marginBottom: 12, alignItems: 'center' },
   personaHeadingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md },
   allPersonasLink: { minHeight: 40, marginTop: spacing.xl, marginBottom: spacing.md, justifyContent: 'center' },
   allPersonasText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, fontWeight: '600' },

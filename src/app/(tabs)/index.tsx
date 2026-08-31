@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BookScreen, SaveDiamondButton, bookCardShadow } from '../../components/book-ui';
-import { DetailSwipe } from '../../components/detail-swipe';
 import { useAccess } from '../../access/access-state';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import {
@@ -12,7 +11,7 @@ import {
   categoryMeta,
 } from '../../data/catalog';
 import type { TechniqueCard, TheoryCard } from '../../data/types';
-import { getTheoryCategoryLabel, getTheoryCoverSummary } from '../../data/theory-display';
+import { getTheoryCategoryLabel, getTheoryCoverSummary, isLockedTheoryShell } from '../../data/theory-display';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { loadTrendingContent, TrendingContent } from '../../lib/content-events';
 import { selectHomeTechniques, selectHomeTheories } from '../../lib/home-recommendations';
@@ -67,6 +66,8 @@ export default function HomeScreen() {
   const [trendingLoading, setTrendingLoading] = useState(true);
   const [curatedTechniques, setCuratedTechniques] = useState<TechniqueCard[]>([]);
   const [curatedTheories, setCuratedTheories] = useState<TheoryCard[]>([]);
+  const curatedRailRef = useRef<ScrollView>(null);
+  const [curatedRailWidth, setCuratedRailWidth] = useState(0);
   const recommendationKeyRef = useRef('');
   const impressionKeyRef = useRef('');
 
@@ -115,7 +116,10 @@ export default function HomeScreen() {
 
   const curated = mode === 'techniques' ? curatedTechniques : curatedTheories;
 
-  useEffect(() => setActiveIndex(0), [mode]);
+  useEffect(() => {
+    setActiveIndex(0);
+    curatedRailRef.current?.scrollTo({ x: 0, animated: false });
+  }, [mode]);
 
   useEffect(() => {
     if (!curated.length) return;
@@ -140,7 +144,7 @@ export default function HomeScreen() {
         }
       } else {
         const card = theoryLookup.get(item.contentId);
-        if (card && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))) {
+        if (card && !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))) {
           result.push({ type: 'theory', card });
         }
       }
@@ -148,12 +152,16 @@ export default function HomeScreen() {
     return result.slice(0, 4);
   }, [accessState, catalogRevision, trending]);
 
-  const active = curated[activeIndex];
   const isTheory = mode === 'theories';
-  const activeId = active ? contentCardId(active) : '';
   const railCardWidth = isDesktop ? Math.max(214, Math.min(276, (width - 230) / 4)) : 276;
-  const goPrevious = () => curated.length && setActiveIndex((index) => (index - 1 + curated.length) % curated.length);
-  const goNext = () => curated.length && setActiveIndex((index) => (index + 1) % curated.length);
+  const moveCuratedRail = (index: number) => {
+    if (!curated.length) return;
+    const nextIndex = (index + curated.length) % curated.length;
+    setActiveIndex(nextIndex);
+    curatedRailRef.current?.scrollTo({ x: nextIndex * curatedRailWidth, animated: true });
+  };
+  const goPrevious = () => moveCuratedRail(activeIndex - 1);
+  const goNext = () => moveCuratedRail(activeIndex + 1);
 
   return (
     <BookScreen>
@@ -172,43 +180,66 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {active ? (
+      {!isPaid && accessState !== 'checking' ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="完全版を購入する"
+          testID="home-upgrade-cta"
+          onPress={() => router.push({ pathname: '/upgrade', params: { source: 'home' } })}
+          style={styles.upgradeCta}
+        >
+          <View style={styles.upgradeCtaCopy}>
+            <Text style={styles.upgradeCtaLabel}>完全版</Text>
+            <Text style={styles.upgradeCtaText}>全336処世術・630理論を、いつでも手元に。</Text>
+          </View>
+          <Text style={styles.upgradeCtaAction}>購入する　›</Text>
+        </Pressable>
+      ) : null}
+
+      {curated.length ? (
         <>
-          <DetailSwipe testID="home-curated-reel" onPrevious={goPrevious} onNext={goNext} style={styles.swipeFrame}>
-            <Pressable accessibilityRole="link" onPress={() => router.push(isTheory ? `/theory/${activeId}` : `/card/${activeId}`)} style={[styles.hero, isTheory && styles.heroTheory, !isDesktop && styles.heroMobile]}>
-              {activeIndex === 0 ? (
-                <>
-                  <Image source={HERO_IMAGE} resizeMode="cover" accessibilityLabel="雨上がりの静かな町家" style={styles.heroImage} />
-                  <View style={styles.heroImageShade} />
-                </>
-              ) : null}
-              <View style={[styles.heroCopy, isDesktop && activeIndex === 0 && styles.heroCopyDesktop]}>
-                <Text style={styles.heroKicker}>
-                  {activeIndex === 0 ? '✦  今日の一枚' : `今日の厳選  ${activeIndex + 1} / ${curated.length}`}
-                  {'  |  '}
-                  {isTheory ? getTheoryCategoryLabel(active as TheoryCard) : categoryMeta[(active as TechniqueCard).categoryKey].label}
-                </Text>
-                <Text numberOfLines={isDesktop ? 2 : 3} style={[styles.heroTitle, !isDesktop && styles.heroTitleMobile]}>{active.title}</Text>
-                <Text numberOfLines={isDesktop ? 3 : 4} style={styles.heroBody}>
-                  {isTheory ? getTheoryCoverSummary((active as TheoryCard).summary) : (active as TechniqueCard).essence}
-                </Text>
-                <View style={styles.heroFooter}>
-                  <View style={styles.heroButton}>
-                    <Text style={styles.heroButtonText}>{isTheory ? '詳しく見る' : '読む'}　→</Text>
-                  </View>
-                  <SaveDiamondButton compact saved={isTheory ? savedTheoryIds.includes(activeId) : savedIds.includes(activeId)} onPress={() => isTheory ? toggleSavedTheory(activeId) : toggleSaved(activeId)} />
-                </View>
-              </View>
-            </Pressable>
-          </DetailSwipe>
+          <View testID="home-curated-reel" style={styles.curatedReelFrame}>
+            {isDesktop ? <Pressable accessibilityRole="button" accessibilityLabel="前の厳選" onPress={goPrevious} style={[styles.reelSideArrow, styles.reelSideArrowPrevious]}><Text style={styles.arrowText}>‹</Text></Pressable> : null}
+            <ScrollView
+              ref={curatedRailRef}
+              horizontal
+              pagingEnabled
+              testID="home-curated-viewport"
+              accessibilityLabel="厳選した知恵の横スクロール一覧"
+              showsHorizontalScrollIndicator={false}
+              onLayout={(event) => setCuratedRailWidth(event.nativeEvent.layout.width)}
+              onMomentumScrollEnd={(event) => {
+                if (curatedRailWidth) setActiveIndex(Math.max(0, Math.min(curated.length - 1, Math.round(event.nativeEvent.contentOffset.x / curatedRailWidth))));
+              }}
+              style={styles.curatedViewport}
+            >
+              {curatedRailWidth ? curated.map((card, index) => {
+                const cardIsTheory = mode === 'theories';
+                const cardId = contentCardId(card);
+                return (
+                  <Pressable key={cardId} testID={`home-curated-slide-${index + 1}`} accessibilityRole="link" onPress={() => router.push(cardIsTheory ? `/theory/${cardId}` : `/card/${cardId}`)} style={[styles.hero, cardIsTheory && styles.heroTheory, !isDesktop && styles.heroMobile, { width: curatedRailWidth }]}>
+                    {index === 0 ? <><Image source={HERO_IMAGE} resizeMode="cover" accessibilityLabel="雨上がりの静かな町家" style={styles.heroImage} /><View style={styles.heroImageShade} /></> : null}
+                    <View style={[styles.heroCopy, isDesktop && index === 0 && styles.heroCopyDesktop]}>
+                      <Text style={styles.heroKicker}>{index === 0 ? '✦  今日の一枚' : `今日の厳選  ${index + 1} / ${curated.length}`}{'  |  '}{cardIsTheory ? getTheoryCategoryLabel(card as TheoryCard) : categoryMeta[(card as TechniqueCard).categoryKey].label}</Text>
+                      <Text numberOfLines={isDesktop ? 2 : 3} style={[styles.heroTitle, !isDesktop && styles.heroTitleMobile]}>{card.title}</Text>
+                      <Text numberOfLines={isDesktop ? 3 : 4} style={styles.heroBody}>{cardIsTheory ? getTheoryCoverSummary((card as TheoryCard).summary) : (card as TechniqueCard).essence}</Text>
+                      <View style={styles.heroFooter}>
+                        <View style={styles.heroButton}><Text style={styles.heroButtonText}>{cardIsTheory ? '詳しく見る' : '読む'}　→</Text></View>
+                        <SaveDiamondButton compact saved={cardIsTheory ? savedTheoryIds.includes(cardId) : savedIds.includes(cardId)} onPress={() => cardIsTheory ? toggleSavedTheory(cardId) : toggleSaved(cardId)} />
+                      </View>
+                    </View>
+                  </Pressable>
+                );
+              }) : null}
+            </ScrollView>
+            {isDesktop ? <Pressable accessibilityRole="button" accessibilityLabel="次の厳選" onPress={goNext} style={[styles.reelSideArrow, styles.reelSideArrowNext]}><Text style={styles.arrowText}>›</Text></Pressable> : null}
+          </View>
           <View style={styles.reelControls}>
-            <Pressable accessibilityLabel="前の厳選" onPress={goPrevious} style={styles.arrowButton}><Text style={styles.arrowText}>‹</Text></Pressable>
             <View style={styles.dots}>
               {curated.map((card, index) => (
-                <Pressable key={contentCardId(card)} accessibilityLabel={`厳選 ${index + 1}`} onPress={() => setActiveIndex(index)} style={[styles.dot, index === activeIndex && styles.dotActive]} />
+                <Pressable key={contentCardId(card)} accessibilityLabel={`厳選 ${index + 1}`} onPress={() => moveCuratedRail(index)} style={[styles.dot, index === activeIndex && styles.dotActive]} />
               ))}
             </View>
-            <Pressable accessibilityLabel="次の厳選" onPress={goNext} style={styles.arrowButton}><Text style={styles.arrowText}>›</Text></Pressable>
           </View>
         </>
       ) : (
@@ -272,7 +303,13 @@ const styles = StyleSheet.create({
   modeTabText: { color: palette.ink, fontFamily: typography.serif, fontSize: 14 },
   modeTabTextActive: { color: palette.gold },
   modeTabTheoryTextActive: { color: '#f3d17d' },
-  swipeFrame: { overflow: 'visible' },
+  upgradeCta: { alignItems: 'center', backgroundColor: '#17140f', borderColor: '#9f742d', borderRadius: 14, borderWidth: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 18, paddingHorizontal: 20, paddingVertical: 14 },
+  upgradeCtaCopy: { flex: 1, minWidth: 0 },
+  upgradeCtaLabel: { color: '#dbb65e', fontFamily: typography.serif, fontSize: 11, letterSpacing: 1.3 },
+  upgradeCtaText: { color: '#fffaf0', fontFamily: typography.serif, fontSize: 14, letterSpacing: 0.7, marginTop: 4 },
+  upgradeCtaAction: { color: '#e1ba62', fontFamily: typography.serif, fontSize: 13, marginLeft: 14 },
+  curatedReelFrame: { overflow: 'visible', position: 'relative' },
+  curatedViewport: { minHeight: 364, overflow: 'hidden' },
   hero: { backgroundColor: '#15130f', borderColor: '#302819', borderRadius: 20, borderWidth: 1, minHeight: 364, overflow: 'hidden', position: 'relative', ...bookCardShadow },
   heroTheory: { backgroundColor: '#071a31', borderColor: '#263b52' },
   heroMobile: { minHeight: 416 },
@@ -288,7 +325,9 @@ const styles = StyleSheet.create({
   heroButton: { borderColor: '#b9903f', borderRadius: 999, borderWidth: 1, paddingHorizontal: 27, paddingVertical: 12 },
   heroButtonText: { color: '#ddb85e', fontFamily: typography.serif, fontSize: 14, letterSpacing: 1 },
   reelControls: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 12 },
-  arrowButton: { alignItems: 'center', height: 40, justifyContent: 'center', width: 44 },
+  reelSideArrow: { alignItems: 'center', backgroundColor: palette.paper, borderColor: palette.line, borderRadius: 24, borderWidth: 1, height: 48, justifyContent: 'center', position: 'absolute', top: '50%', transform: [{ translateY: -24 }], width: 48, zIndex: 3, ...bookCardShadow },
+  reelSideArrowPrevious: { left: -58 },
+  reelSideArrowNext: { right: -58 },
   arrowText: { color: palette.ink, fontFamily: typography.serif, fontSize: 31, lineHeight: 36 },
   dots: { alignItems: 'center', flexDirection: 'row', gap: 9, paddingHorizontal: 10 },
   dot: { backgroundColor: '#ded6c8', borderRadius: 999, height: 8, width: 8 },

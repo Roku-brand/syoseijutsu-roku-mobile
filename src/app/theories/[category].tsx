@@ -14,6 +14,7 @@ import { theories } from '@/data/catalog';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { getTheoryCategoryCount, getTheoryCategoryLabel } from '@/data/theory-counts';
+import { isLockedTheoryShell } from '@/data/theory-display';
 
 export function generateStaticParams() {
   return [
@@ -33,7 +34,9 @@ export default function TheoryCategoryScreen() {
       ? theories
       : theories.filter((theory) => theory.categoryId === category);
   const totalCount = getTheoryCategoryCount(category);
-  const visibleItems = isPaid ? items : items.filter((theory) => FREE_THEORY_ID_SET.has(theory.tagId));
+  const visibleItems = items
+    .filter((theory) => !isLockedTheoryShell(theory))
+    .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId));
   const scrollRef = useRef<ScrollView>(null);
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<'source' | 'title'>('source');
