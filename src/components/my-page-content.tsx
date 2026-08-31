@@ -9,6 +9,8 @@ import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState, type PersonalMemo } from '@/state/app-state';
 import { useAuth } from '@/auth/auth-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { useAccess } from '@/access/access-state';
+import { isLockedTheoryShell } from '@/data/theory-display';
 
 type SavedPreview = {
   kind: '処世術' | '理論';
@@ -22,6 +24,7 @@ export default function MyPageContent() {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 760;
   const { user } = useAuth();
+  const { catalogRevision, isPaid } = useAccess();
   const {
     savedIds,
     savedTheoryIds,
@@ -34,16 +37,24 @@ export default function MyPageContent() {
   const [draft, setDraft] = useState(personalPrinciple);
   const profileDestination = user ? '/settings/profile' : '/auth?mode=signin';
   const libraryCount = savedIds.length + savedTheoryIds.length;
-  const recentSaved = useMemo(() => buildRecentSaved(savedIds, savedTheoryIds), [savedIds, savedTheoryIds]);
+  const recentSaved = useMemo(() => buildRecentSaved(savedIds, savedTheoryIds), [catalogRevision, savedIds, savedTheoryIds]);
   const recentHistory = useMemo(
     () => historyIds.slice(0, 4).map((id) => {
       const card = techniqueById.get(id);
       if (card) return { kind: '処世術' as const, id: card.id, title: card.title, meta: `${card.categoryName}・${card.subcategory}` };
       const theory = theoryById.get(id);
-      return theory ? { kind: '理論' as const, id: theory.tagId, title: theory.title, meta: theory.categoryTitle } : null;
+      return theory && !isLockedTheoryShell(theory) ? { kind: '理論' as const, id: theory.tagId, title: theory.title, meta: theory.categoryTitle } : null;
     }).filter((item): item is SavedPreview => Boolean(item)),
-    [historyIds],
+    [catalogRevision, historyIds],
   );
+  const pendingSavedTheory = isPaid && savedTheoryIds.some((id) => {
+    const theory = theoryById.get(id);
+    return Boolean(theory && isLockedTheoryShell(theory));
+  });
+  const pendingHistoryTheory = isPaid && historyIds.some((id) => {
+    const theory = theoryById.get(id);
+    return Boolean(theory && isLockedTheoryShell(theory));
+  });
 
   const openEditor = () => {
     void Haptics.selectionAsync().catch(() => undefined);
@@ -101,7 +112,7 @@ export default function MyPageContent() {
                 ? router.push({ pathname: '/card/[id]', params: { id: item.id } })
                 : router.push({ pathname: '/theory/[id]', params: { id: item.id } })}
             />
-          )) : <QuietEmpty>まだ保存したものはありません</QuietEmpty>}
+          )) : <QuietEmpty>{pendingSavedTheory ? '完全版データを確認中' : 'まだ保存したものはありません'}</QuietEmpty>}
         </PreviewColumn>
 
         <PreviewColumn title="マイ処世術" actionLabel="すべてのマイ処世術を見る" onAction={() => router.push('/my-techniques')}>
@@ -121,7 +132,7 @@ export default function MyPageContent() {
                 ? router.push({ pathname: '/card/[id]', params: { id: item.id } })
                 : router.push({ pathname: '/theory/[id]', params: { id: item.id } })}
             />
-          )) : <QuietEmpty>まだ履歴はありません</QuietEmpty>}
+          )) : <QuietEmpty>{pendingHistoryTheory ? '完全版データを確認中' : 'まだ履歴はありません'}</QuietEmpty>}
         </PreviewColumn>
       </View>
 
@@ -150,7 +161,7 @@ function buildRecentSaved(savedIds: string[], savedTheoryIds: string[]) {
     if (card) rows.push({ kind: '処世術', id: card.id, title: card.title, meta: `${card.categoryName}・${card.subcategory}` });
     if (rows.length >= 3) break;
     const theory = theoryById.get(savedTheoryIds[index]);
-    if (theory) rows.push({ kind: '理論', id: theory.tagId, title: theory.title, meta: theory.categoryTitle });
+    if (theory && !isLockedTheoryShell(theory)) rows.push({ kind: '理論', id: theory.tagId, title: theory.title, meta: theory.categoryTitle });
   }
   return rows;
 }

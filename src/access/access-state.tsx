@@ -3,11 +3,12 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
-import { hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
+import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 import { hydratePublishedContent } from '@/lib/published-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
+export type SecureContentStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 type AccessContextValue = {
   accessState: AccessState;
@@ -18,6 +19,7 @@ type AccessContextValue = {
   isOwner: boolean;
   previewMode: PreviewMode;
   catalogRevision: number;
+  secureContentStatus: SecureContentStatus;
   refreshPublishedContent: () => Promise<boolean>;
   setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<AccessState>;
@@ -49,6 +51,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const [accessInfo, setAccessInfo] = useState<VerifiedAccess>(FREE_ACCESS);
   const [previewMode, setPreviewModeState] = useState<PreviewMode>('actual');
   const [catalogRevision, setCatalogRevision] = useState(0);
+  const [secureContentStatus, setSecureContentStatus] = useState<SecureContentStatus>('idle');
   const isOwner = role === 'owner';
 
   const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
@@ -62,6 +65,30 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   useEffect(() => { void refreshPublishedContent(); }, [refreshPublishedContent]);
 
+  const synchronizeSecureContent = useCallback(async (userId: string) => {
+    if (hasHydratedSecureContent(userId)) {
+      setSecureContentStatus('ready');
+      return;
+    }
+    setSecureContentStatus('loading');
+    try {
+      await hydrateSecureContent();
+      setSecureContentStatus('ready');
+      await refreshPublishedContent();
+    } catch {
+      if (await restoreCachedSecureContent(userId)) {
+        setSecureContentStatus('ready');
+        setCatalogRevision((value) => value + 1);
+        await refreshPublishedContent();
+        return;
+      }
+      // Never expose the intentionally blank public-catalogue shell as a
+      // usable theory title. Theory surfaces show a quiet retry state instead.
+      setSecureContentStatus('error');
+      setCatalogRevision((value) => value + 1);
+    }
+  }, [refreshPublishedContent]);
+
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
       // Wait for the locally persisted auth session before binding cached paid
@@ -73,6 +100,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       // Keep the persisted cache intact in case a slow local auth session
       // resolves later, but never expose it without binding it to that user.
       purgeSecureContent();
+      setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
@@ -87,17 +115,13 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setAccessInfo(verified);
       if (verified.status === 'active') {
         setActualAccessState('paid');
-        // Paid content is downloaded after the entitlement is known.  The
-        // edition unlock must not wait for a slow network response.
-        void hydrateSecureContent().then(refreshPublishedContent).catch(async () => {
-          if (await restoreCachedSecureContent(user.id)) {
-            setCatalogRevision((value) => value + 1);
-            await refreshPublishedContent();
-          }
-        });
+        // The edition unlock remains responsive, while theory surfaces wait
+        // for verified title data instead of exposing a public shell.
+        void synchronizeSecureContent(user.id);
         return 'paid';
       }
       purgeSecureContent();
+      setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
       await refreshPublishedContent();
       const nextState: AccessState = 'free';
@@ -108,12 +132,13 @@ export function AccessProvider({ children }: PropsWithChildren) {
       // cache or device clock. Keep the data stored, but lock it until the
       // server can verify the current entitlement again.
       purgeSecureContent();
+      setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
       await refreshPublishedContent();
       setActualAccessState('error');
       return 'error';
     }
-  }, [loading, refreshPublishedContent, role, user]);
+  }, [loading, refreshPublishedContent, role, synchronizeSecureContent, user]);
 
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
 
@@ -153,6 +178,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   const continueAsGuest = useCallback(() => {
     purgeSecureContent();
+    setSecureContentStatus('idle');
     setCatalogRevision((value) => value + 1);
     setAccessInfo(FREE_ACCESS);
     setActualAccessState('guest');
@@ -188,12 +214,13 @@ export function AccessProvider({ children }: PropsWithChildren) {
     isOwner,
     previewMode,
     catalogRevision,
+    secureContentStatus,
     refreshPublishedContent,
     setPreviewMode,
     refreshAccess,
     continueAsGuest,
     restorePurchase,
-  }), [accessInfo, accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, refreshPublishedContent, restorePurchase, setPreviewMode]);
+  }), [accessInfo, accessState, actualAccessState, catalogRevision, continueAsGuest, isOwner, previewMode, refreshAccess, refreshPublishedContent, restorePurchase, secureContentStatus, setPreviewMode]);
 
   return <AccessContext.Provider value={value}>{children}</AccessContext.Provider>;
 }

@@ -8,6 +8,7 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
+import { isLockedTheoryShell } from '@/data/theory-display';
 
 export default function LibraryScreen() {
   const router = useRouter();
@@ -18,7 +19,12 @@ export default function LibraryScreen() {
     [catalogRevision, savedIds],
   );
   const savedTheories = useMemo(
-    () => savedTheoryIds.map((id) => theoryById.get(id)).filter(Boolean),
+    () => savedTheoryIds
+      .map((id) => theoryById.get(id))
+      .filter((theory): theory is NonNullable<typeof theory> => {
+        if (!theory) return false;
+        return !isLockedTheoryShell(theory);
+      }),
     [catalogRevision, savedTheoryIds],
   );
   const lockedTechniqueCount = savedIds.length - savedCards.length;

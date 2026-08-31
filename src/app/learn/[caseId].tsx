@@ -13,7 +13,7 @@ import {
   techniqueById,
   theoryById,
 } from '@/data/catalog';
-import { getTheoryCategoryLabel } from '@/data/theory-display';
+import { getTheoryCategoryLabel, isLockedTheoryShell } from '@/data/theory-display';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import {
@@ -76,7 +76,7 @@ export default function LearningCaseScreen() {
     .map((id) => theoryById.get(id))
     .find((candidate) => candidate
       && candidate.summary
-      && candidate.title !== '完全版の理論'
+      && !isLockedTheoryShell(candidate)
       && (isPaid || FREE_THEORY_ID_SET.has(candidate.tagId)));
 
   const openNext = () => {

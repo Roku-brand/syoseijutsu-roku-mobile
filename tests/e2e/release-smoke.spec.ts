@@ -107,15 +107,14 @@ test('mobile technique detail keeps the full essence visible', async ({ page }) 
   expect(await essence.innerText()).not.toContain('…');
 });
 
-test('処世術の関連理論は4件以上でも紐づいた順に全件表示する', async ({ page }) => {
+test('無料版の関連理論には実データだけを紐づいた順に表示する', async ({ page }) => {
   await page.goto('/card/master336-007');
   const relatedTheories = page.getByTestId('related-theories');
   await expect(relatedTheories).toBeVisible();
   await expect(relatedTheories.getByText('P－14', { exact: true })).toBeVisible();
   await expect(relatedTheories.getByText('P－15', { exact: true })).toBeVisible();
-  await expect(relatedTheories.getByText('P－137', { exact: true })).toBeVisible();
-  await expect(relatedTheories.getByText('P－138', { exact: true })).toBeVisible();
-  expect((await relatedTheories.innerText()).indexOf('P－14')).toBeLessThan((await relatedTheories.innerText()).indexOf('P－138'));
+  await expect(relatedTheories).not.toContainText('完全版の理論');
+  expect((await relatedTheories.innerText()).indexOf('P－14')).toBeLessThan((await relatedTheories.innerText()).indexOf('P－15'));
 });
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {

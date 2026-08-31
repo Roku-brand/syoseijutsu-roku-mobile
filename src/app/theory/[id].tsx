@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
@@ -13,7 +13,7 @@ import {
 } from '@/data/catalog';
 import type { TheoryCard } from '@/data/types';
 import { getTheoryProvenance } from '@/data/theory-sources';
-import { getTheoryCategoryLabel, normalizeDisplayText } from '@/data/theory-display';
+import { getTheoryCategoryLabel, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
@@ -27,8 +27,8 @@ export function generateStaticParams() {
 export default function TheoryDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const theory = theoryById.get(id);
-  const { accessState } = useAccess();
+  const { accessState, catalogRevision, refreshAccess, secureContentStatus } = useAccess();
+  const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
   const [informationOpen, setInformationOpen] = useState(false);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
@@ -53,6 +53,31 @@ export default function TheoryDetailScreen() {
 
   if (!canReadTheory(effectiveAccess, theory.tagId)) {
     return <LockedPreview source="discover_theory" />;
+  }
+
+  if (isLockedTheoryShell(theory)) {
+    const failed = secureContentStatus === 'error';
+    return (
+      <Screen contentContainerStyle={styles.screenContent}>
+        <EmptyState
+          mark="理"
+          title={failed ? '理論を読み込めませんでした' : '理論を読み込んでいます'}
+          description={failed
+            ? '完全版データを確認できませんでした。通信を確認して、もう一度お試しください。'
+            : '完全版の理論を確認しています。しばらくお待ちください。'}
+        />
+        {failed ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="理論データを再読み込み"
+            onPress={() => void refreshAccess()}
+            style={({ pressed }) => [styles.retryButton, pressed && styles.pressed]}
+          >
+            <AppText style={styles.retryButtonText}>もう一度読み込む</AppText>
+          </Pressable>
+        ) : null}
+      </Screen>
+    );
   }
 
   const related = getTechniquesForTheory(theory);
@@ -307,4 +332,6 @@ const styles = StyleSheet.create({
   informationLabel: { width: 82, color: '#746E64', fontSize: 12, lineHeight: 19 },
   informationValue: { flex: 1, color: '#292B27', fontSize: 14, lineHeight: 21 },
   pressed: { opacity: 0.56 },
+  retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
+  retryButtonText: { color: colors.gold, fontSize: 13, lineHeight: 19, fontWeight: '700' },
 });

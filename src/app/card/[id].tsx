@@ -18,6 +18,7 @@ import { useAccess } from '@/access/access-state';
 import { canReadTechnique } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
+import { isLockedTheoryShell } from '@/data/theory-display';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -76,7 +77,10 @@ export default function CardDetailScreen() {
   };
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
-    .filter((theory): theory is NonNullable<typeof theory> => Boolean(theory));
+    .filter((theory): theory is NonNullable<typeof theory> => {
+      if (!theory) return false;
+      return !isLockedTheoryShell(theory);
+    });
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;

@@ -153,6 +153,11 @@ export async function clearSecureContentCache() {
   await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
 }
 
+/** Whether the in-memory catalogue belongs to the currently verified user. */
+export function hasHydratedSecureContent(userId: string | null | undefined): boolean {
+  return Boolean(userId) && hydratedUserId === userId;
+}
+
 export function purgeSecureContent() {
   hydratedUserId = null;
   hydrationPromise = null;

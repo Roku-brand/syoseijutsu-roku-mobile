@@ -1,5 +1,5 @@
 import { usePathname, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Modal,
   Image,
@@ -27,6 +27,8 @@ import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { useAuth } from '@/auth/auth-state';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
+import { isLockedTheoryShell } from '@/data/theory-display';
+import { useAccess } from '@/access/access-state';
 
 const appIcon = require('../../assets/brand/icon.png');
 
@@ -82,6 +84,7 @@ export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAuth();
+  const { catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
@@ -89,7 +92,7 @@ export function BookHeader() {
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
   const minimalHeaderActions = false;
-  const detail = getDetail(pathname);
+  const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const handleBack = () => {
     if (router.canGoBack()) {
@@ -244,7 +247,7 @@ function getDetail(pathname: string): DetailTarget | null {
   }
   if (kind === 'theory') {
     const theory = theoryById.get(id);
-    return theory ? { kind, id, title: theory.title } : null;
+    return theory ? { kind, id, title: isLockedTheoryShell(theory) ? '理論を読み込み中' : theory.title } : null;
   }
   return null;
 }

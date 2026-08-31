@@ -44,13 +44,13 @@ export default function DiscoverScreen() {
   const [mode, setMode] = useState<BrowseMode>('techniques');
   const [selectedCategory, setSelectedCategory] = useState<PersonaFilterKey>('all');
   const [selectedTheoryCategory, setSelectedTheoryCategory] = useState<TheoryFilterKey>('all');
-  const { isPaid } = useAccess();
+  const { isPaid, catalogRevision } = useAccess();
   const keywords = useMemo(() => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), [query]);
   const techniqueMatches = useMemo(
     () => !keywords.length ? [] : techniqueCards
       .filter((card) => isPaid || FREE_TECHNIQUE_IDS.has(card.id))
       .filter((card) => keywords.every((keyword) => matchesKeyword(getTechniqueSearchText(card), keyword))),
-    [isPaid, keywords],
+    [catalogRevision, isPaid, keywords],
   );
   const theoryMatches = useMemo(
     () => !keywords.length ? [] : theories
@@ -60,7 +60,7 @@ export default function DiscoverScreen() {
         const source = [theory.tagId, theory.title, theory.summary, theory.categoryTitle].filter(Boolean).join(' ').toLocaleLowerCase();
         return keywords.every((keyword) => matchesKeyword(source, keyword));
       }),
-    [isPaid, keywords],
+    [catalogRevision, isPaid, keywords],
   );
   const techniqueCount = getTechniqueCountTotal();
 

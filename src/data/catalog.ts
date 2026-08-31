@@ -4,6 +4,7 @@ import practicalActionsSource from './generated/practical-actions.public.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
+import { isLockedTheoryShell } from './theory-display';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
@@ -249,7 +250,7 @@ export function getRelatedTheories(theory: TheoryCard) {
       if (id !== theory.tagId) coReferencedCounts.set(id, (coReferencedCounts.get(id) ?? 0) + 1);
     });
   });
-  return theories.filter((candidate) => candidate.tagId !== theory.tagId).map((candidate) => {
+  return theories.filter((candidate) => candidate.tagId !== theory.tagId && !isLockedTheoryShell(candidate)).map((candidate) => {
     return { candidate, score: coReferencedCounts.get(candidate.tagId) ?? 0 };
   }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || a.candidate.title.localeCompare(b.candidate.title, 'ja')).map(({ candidate }) => candidate);
 }
