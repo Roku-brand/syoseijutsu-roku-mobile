@@ -37,6 +37,14 @@ export type TechniqueRevision = {
   created_at: string;
 };
 
+export type TechniqueChangeLog = {
+  log_id: string;
+  technique_id: string;
+  event_type: 'draft_saved' | 'published';
+  snapshot: TechniqueSnapshot & Record<string, unknown>;
+  created_at: string;
+};
+
 export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSnapshot {
   return {
     persona_id: technique.persona_id,
@@ -201,6 +209,19 @@ export async function fetchTechniqueRevisions(techniqueId: string): Promise<Tech
     technique_id: row.technique_id as string,
     snapshot: { ...normalizeSnapshot((row.snapshot ?? {}) as Partial<TechniqueSnapshot>) },
     version: row.version as number,
+    created_at: row.created_at as string,
+  }));
+}
+
+export async function fetchTechniqueChangeLogs(techniqueId: string): Promise<TechniqueChangeLog[]> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.from('technique_change_log').select('log_id,technique_id,event_type,snapshot,created_at').eq('technique_id', techniqueId).order('created_at', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    log_id: row.log_id as string,
+    technique_id: row.technique_id as string,
+    event_type: row.event_type === 'published' ? 'published' : 'draft_saved',
+    snapshot: normalizeSnapshot((row.snapshot ?? {}) as Partial<TechniqueSnapshot>) as TechniqueSnapshot & Record<string, unknown>,
     created_at: row.created_at as string,
   }));
 }

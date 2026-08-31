@@ -14,6 +14,7 @@ import {
   fetchOwnerTechniques,
   seedOwnerTechniquesIfEmpty,
   fetchTechniqueRevisions,
+  fetchTechniqueChangeLogs,
   normalizeSnapshot,
   restoreTechniqueRevision,
   saveAndPublishTechnique,
@@ -22,6 +23,7 @@ import {
   toTechniquePayload,
   type TechniqueContent,
   type TechniqueRevision,
+  type TechniqueChangeLog,
   type TechniqueSnapshot,
 } from '@/data/owner-content';
 
@@ -43,6 +45,7 @@ export default function OwnerContentScreen() {
   const [restoreConfirming, setRestoreConfirming] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
+  const [changeLogs, setChangeLogs] = useState<TechniqueChangeLog[]>([]);
   const reelRef = useRef<ScrollViewType>(null);
 
   const reload = useCallback(async (preferredId?: string | null) => {
@@ -102,7 +105,10 @@ export default function OwnerContentScreen() {
   };
 
   useEffect(() => {
-    if (selectedId) void fetchTechniqueRevisions(selectedId).then(setRevisions).catch(() => setRevisions([]));
+    if (selectedId) {
+      void fetchTechniqueRevisions(selectedId).then(setRevisions).catch(() => setRevisions([]));
+      void fetchTechniqueChangeLogs(selectedId).then(setChangeLogs).catch(() => setChangeLogs([]));
+    }
   }, [selectedId]);
 
   const updateSnapshot = (patch: Partial<TechniqueSnapshot>) => {
@@ -156,6 +162,7 @@ export default function OwnerContentScreen() {
       upsertManagedTechnique(toTechniquePayload(published));
       const latestRevisions = await fetchTechniqueRevisions(selected.id);
       setRevisions(latestRevisions);
+      setChangeLogs(await fetchTechniqueChangeLogs(selected.id));
       const reflected = techniqueById.get(selected.id);
       if (!reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
         throw new Error('公開は完了しましたが、表示データの更新を確認できませんでした。もう一度読み込んでください。');
@@ -183,6 +190,7 @@ export default function OwnerContentScreen() {
       await reload(revision.technique_id);
       const latestRevisions = await fetchTechniqueRevisions(revision.technique_id);
       setRevisions(latestRevisions);
+      setChangeLogs(await fetchTechniqueChangeLogs(revision.technique_id));
       setRestoreConfirming(null);
       setNotice(`バージョン ${revision.version} を下書きに戻しました。内容を確認して公開してください。`);
       setError(null);
@@ -288,6 +296,7 @@ export default function OwnerContentScreen() {
                 </>
               )}
               <RevisionHistory revisions={revisions} theoryOptions={theoryOptions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
+              <ChangeLogHistory logs={changeLogs} theoryOptions={theoryOptions} />
             </View>
           ) : null}
         </View>
@@ -445,6 +454,14 @@ function RevisionHistory({ revisions, theoryOptions, restoringRevisionId, onRest
   }) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
 }
 
+function ChangeLogHistory({ logs, theoryOptions }: { logs: TechniqueChangeLog[]; theoryOptions: TheoryCard[] }) {
+  return <View style={styles.changeLog}><AppText variant="label" style={styles.paneLabel}>変更ログ {logs.length}</AppText>{logs.length ? logs.map((log) => {
+    const theoryIds = log.snapshot.theory_ids ?? [];
+    const theoryNames = theoryIds.map((id) => theoryOptions.find((theory) => theory.tagId === id)?.title ?? id);
+    return <View key={log.log_id} style={styles.changeLogRow}><View style={styles.changeLogCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(log.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.changeType}>{log.event_type === 'published' ? '公開' : '下書き保存'}</AppText></View><AppText style={styles.historyDetail}>{log.snapshot.title || 'タイトル未入力'} · 関連する理論 {theoryIds.length}件</AppText><AppText numberOfLines={2} style={styles.changeLogDetail}>{theoryNames.length ? `理論: ${theoryNames.join('、')}` : '理論: なし'} ／ 本質・解説・実践・具体例・注意点を含む完全スナップショット</AppText></View></View>;
+  }) : <AppText style={styles.noHistory}>保存・公開した変更がここに記録されます。</AppText>}</View>;
+}
+
 const styles = StyleSheet.create({
   screenContent: { width: '100%', maxWidth: 1320, alignSelf: 'center', paddingBottom: spacing.xl * 2 },
   topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.md, marginBottom: spacing.lg },
@@ -557,4 +574,9 @@ const styles = StyleSheet.create({
   cancelRestoreButton: { paddingHorizontal: 8, paddingVertical: 8 },
   cancelRestoreText: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   noHistory: { marginTop: 8, color: colors.muted, fontSize: 12 },
+  changeLog: { marginTop: spacing.lg, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
+  changeLogRow: { paddingVertical: 9, borderBottomWidth: 1, borderBottomColor: colors.line },
+  changeLogCopy: { minWidth: 0 },
+  changeType: { paddingHorizontal: 6, paddingVertical: 2, color: colors.gold, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, fontSize: 10, fontWeight: '700' },
+  changeLogDetail: { marginTop: 4, color: colors.muted, fontSize: 10, lineHeight: 16 },
 });

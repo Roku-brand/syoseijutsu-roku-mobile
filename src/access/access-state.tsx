@@ -5,6 +5,7 @@ import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
 import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 import { hydratePublishedContent } from '@/lib/published-content';
+import { supabase } from '@/lib/supabase';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -164,8 +165,20 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, [refreshAccess, refreshPublishedContent, user]);
 
   useEffect(() => {
-    const interval = setInterval(() => { void refreshPublishedContent(); }, 60_000);
+    const interval = setInterval(() => { void refreshPublishedContent(); }, 15_000);
     return () => clearInterval(interval);
+  }, [refreshPublishedContent]);
+
+  useEffect(() => {
+    const client = supabase;
+    if (!client) return;
+    const channel = client
+      .channel('published-techniques-refresh')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'techniques' }, () => {
+        void refreshPublishedContent();
+      })
+      .subscribe();
+    return () => { void client.removeChannel(channel); };
   }, [refreshPublishedContent]);
 
   useEffect(() => {
