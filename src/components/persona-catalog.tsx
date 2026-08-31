@@ -74,19 +74,19 @@ export function PersonaCard({ entry, variant, compact, showCategory = false }: {
   const { isPaid } = useAccess();
   const { category, persona } = entry;
   const locked = !isPaid && !isFreePersona(persona.name);
+  const cardStyle = StyleSheet.flatten([
+    styles.personaCard,
+    variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
+    compact && variant === 'rail' && styles.personaCardRailCompact,
+    compact && variant === 'grid' && styles.personaCardGridCompact,
+  ]);
 
   return (
     <Link href={{ pathname: '/subcategory/[category]/[name]', params: { category: category.key, name: persona.name } }} asChild>
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={`${persona.name}、${categoryMeta[category.key].label}、${persona.items.length}処世術を開く`}
-        style={({ pressed }) => [
-          styles.personaCard,
-          variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
-          compact && variant === 'rail' && styles.personaCardRailCompact,
-          compact && variant === 'grid' && styles.personaCardGridCompact,
-          pressed && styles.pressed,
-        ]}
+        style={cardStyle}
       >
         <View accessibilityElementsHidden style={styles.personaIcon}>
           <View style={styles.personaHead} />
@@ -110,16 +110,16 @@ const styles = StyleSheet.create({
   filterButtonActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600', letterSpacing: 0.6 },
   filterTextActive: { color: colors.goldLight },
-  personaCard: { position: 'relative', minWidth: 0, minHeight: 196, paddingTop: 28, paddingHorizontal: 16, paddingBottom: 16, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', alignItems: 'center', justifyContent: 'flex-start' },
-  personaCardRail: { width: 214, height: 196, flexShrink: 0 },
-  personaCardRailCompact: { width: 168, height: 182, minHeight: 182, paddingTop: 22, paddingHorizontal: 10 },
+  personaCard: { position: 'relative', minWidth: 0, minHeight: 210, paddingTop: 30, paddingHorizontal: 18, paddingBottom: 17, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', alignItems: 'center', justifyContent: 'flex-start' },
+  personaCardRail: { width: 238, height: 230, flexShrink: 0 },
+  personaCardRailCompact: { width: 174, height: 196, minHeight: 196, paddingTop: 23, paddingHorizontal: 11 },
   personaCardGrid: { width: 224, height: 210, flexGrow: 1, flexShrink: 0 },
   personaCardGridCompact: { width: '48%', flexBasis: '48%', maxWidth: '48%', height: 194, minHeight: 194, paddingHorizontal: 9 },
-  personaIcon: { width: 50, height: 50, borderRadius: 25, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
-  personaHead: { width: 10, height: 10, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 5, marginBottom: 4 },
-  personaShoulders: { width: 21, height: 11, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 11, borderTopRightRadius: 11 },
+  personaIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
+  personaHead: { width: 11, height: 11, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 6, marginBottom: 5 },
+  personaShoulders: { width: 23, height: 12, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 12, borderTopRightRadius: 12 },
   personaCategory: { marginTop: 10, color: colors.gold, fontSize: 9, lineHeight: 14, fontWeight: '700', letterSpacing: 0.8 },
-  personaTitle: { minHeight: 46, marginTop: 11, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', textAlign: 'center' },
+  personaTitle: { minHeight: 48, marginTop: 12, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', textAlign: 'center' },
   personaFooter: { width: '100%', minHeight: 26, marginTop: 'auto', paddingTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   personaTechniqueCount: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
   personaArrow: { color: colors.gold, fontSize: 21, lineHeight: 21 },

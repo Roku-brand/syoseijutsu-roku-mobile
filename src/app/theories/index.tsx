@@ -159,9 +159,10 @@ export default function TheoryIndexScreen() {
 }
 
 function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
+  const rowStyle = StyleSheet.flatten([styles.row, compact && styles.rowCompact]);
   return (
     <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
-      <Pressable accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.pressed]}>
+      <Pressable accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={rowStyle}>
         <View style={styles.rowMeta}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText><AppText style={styles.rowCategory}>{getTheoryCategoryLabel(theory)}</AppText></View>
         <AppText numberOfLines={2} style={styles.rowTitle}>{normalizeDisplayText(theory.title)}</AppText>
         <AppText numberOfLines={2} style={styles.rowSummary}>{getTheoryCoverSummary(theory.summary)}</AppText>
@@ -182,11 +183,11 @@ const styles = StyleSheet.create({
   titleCompact: { fontSize: 25, lineHeight: 36 },
   subtitle: { marginTop: 3, color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
   tools: { marginTop: spacing.xl, gap: spacing.md },
-  searchBox: { minHeight: 54, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.75)' },
-  searchInput: { flex: 1, minWidth: 0, minHeight: 52, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 14 },
+  searchBox: { minHeight: 68, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.75)' },
+  searchInput: { flex: 1, minWidth: 0, minHeight: 66, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 14 },
   clearText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   sortRow: { flexDirection: 'row', gap: spacing.sm },
-  sortButton: { minHeight: 38, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
+  sortButton: { minHeight: 48, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
   sortButtonActive: { borderColor: '#10263F', backgroundColor: '#10263F' },
   sortText: { color: colors.inkSoft, fontSize: 11, fontWeight: '700' },
   sortTextActive: { color: colors.goldLight },

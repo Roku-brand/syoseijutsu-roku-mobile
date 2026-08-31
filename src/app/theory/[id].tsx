@@ -151,9 +151,9 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
 
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.paper },
-  screenContent: { width: '100%', maxWidth: 1240, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 24, paddingBottom: 132 },
+  screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 24, paddingBottom: 132 },
   screenContentCompact: { paddingHorizontal: 16, paddingTop: 18 },
-  article: { width: '100%', maxWidth: 1060, alignSelf: 'center' },
+  article: { width: '100%', maxWidth: 1326, alignSelf: 'center' },
   titleRegion: { paddingHorizontal: 18, paddingTop: 2 },
   metaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
   number: { color: '#575248', fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, letterSpacing: 1.4 },

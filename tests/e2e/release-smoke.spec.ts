@@ -147,6 +147,36 @@ test('理論詳細は概要・処世術・理論・情報の順で、概要を2�
   await expect(page.getByTestId('theory-information')).toContainText('注記');
 });
 
+test('理論詳細の関連項目は横幅いっぱいの読みやすいボックスになる', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/theory/kb_001');
+  const techniqueRow = page.getByTestId('theory-related-techniques').getByRole('link').first();
+  const theoryRow = page.getByTestId('theory-related-theories').getByRole('link').first();
+  await expect(techniqueRow).toBeVisible();
+  await expect(theoryRow).toBeVisible();
+  const [techniqueBox, theoryBox] = await Promise.all([techniqueRow.boundingBox(), theoryRow.boundingBox()]);
+  expect(techniqueBox).not.toBeNull();
+  expect(theoryBox).not.toBeNull();
+  expect(techniqueBox!.width).toBeGreaterThan(1100);
+  expect(techniqueBox!.height).toBeGreaterThanOrEqual(94);
+  expect(Math.abs(techniqueBox!.width - theoryBox!.width)).toBeLessThan(2);
+});
+
+test('処世術詳細の関連理論と関連処世術も同じボックスで揃う', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/card/master336-001');
+  const theoryRow = page.getByTestId('related-theories').getByRole('link').first();
+  const techniqueRow = page.getByTestId('related-techniques').getByRole('link').first();
+  await expect(theoryRow).toBeVisible();
+  await expect(techniqueRow).toBeVisible();
+  const [theoryBox, techniqueBox] = await Promise.all([theoryRow.boundingBox(), techniqueRow.boundingBox()]);
+  expect(theoryBox).not.toBeNull();
+  expect(techniqueBox).not.toBeNull();
+  expect(theoryBox!.width).toBeGreaterThan(1000);
+  expect(theoryBox!.height).toBeGreaterThanOrEqual(94);
+  expect(Math.abs(theoryBox!.width - techniqueBox!.width)).toBeLessThan(2);
+});
+
 test('persona technique rows offer the shared diamond save action', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
@@ -405,6 +435,17 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
+test('探すの人物像カードは参考レイアウトの寸法を保つ', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/discover');
+  const firstCard = page.getByTestId('discover-persona-rail').getByRole('link').first();
+  await expect(firstCard).toBeVisible();
+  const box = await firstCard.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box!.width).toBeGreaterThanOrEqual(236);
+  expect(box!.height).toBeGreaterThanOrEqual(228);
+});
+
 test('公開済みの管理コンテンツは同梱済みカードを置き換える', async ({ page }) => {
   await page.route('**/rest/v1/techniques*', async (route) => {
     await route.fulfill({
@@ -528,6 +569,20 @@ test('理論カテゴリは一つの理論一覧で絞り込む', async ({ page 
     await expect(page.getByRole('button', { name: `${label}で理論を絞り込む` })).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByTestId('theory-index-list')).toBeVisible();
   }
+});
+
+test('理論一覧はPCで均等な2列カードを保つ', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/theories');
+  const rows = page.getByTestId('theory-index-list').getByRole('link');
+  await expect(rows).toHaveCount(45);
+  const [first, second] = await Promise.all([rows.nth(0).boundingBox(), rows.nth(1).boundingBox()]);
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(first!.width).toBeGreaterThan(550);
+  expect(first!.height).toBeGreaterThanOrEqual(174);
+  expect(Math.abs(first!.width - second!.width)).toBeLessThan(2);
+  expect(second!.x).toBeGreaterThan(first!.x + first!.width);
 });
 
 test('詳細ページの階層リンクは探す配下の統合一覧へ戻る', async ({ page }) => {

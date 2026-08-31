@@ -280,13 +280,13 @@ const styles = StyleSheet.create({
   screen: { backgroundColor: '#FBF8F2' },
   screenContent: {
     width: '100%',
-    maxWidth: 1120,
+    maxWidth: 1420,
     alignSelf: 'center',
     paddingHorizontal: 22,
     paddingTop: 20,
     paddingBottom: 132,
   },
-  article: { width: '100%', maxWidth: 980, alignSelf: 'center' },
+  article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
   number: {
     color: colors.gold,
     fontFamily: fonts.serif,
