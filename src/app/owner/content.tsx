@@ -154,7 +154,8 @@ export default function OwnerContentScreen() {
       // A just-published row must win over a stale read returned by a
       // concurrently cached/public catalogue request.
       upsertManagedTechnique(toTechniquePayload(published));
-      void fetchTechniqueRevisions(selected.id).then(setRevisions).catch(() => undefined);
+      const latestRevisions = await fetchTechniqueRevisions(selected.id);
+      setRevisions(latestRevisions);
       const reflected = techniqueById.get(selected.id);
       if (!reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
         throw new Error('公開は完了しましたが、表示データの更新を確認できませんでした。もう一度読み込んでください。');
@@ -286,7 +287,7 @@ export default function OwnerContentScreen() {
                   <TheorySelector theoryOptions={theoryOptions} selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
                 </>
               )}
-              <RevisionHistory revisions={revisions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
+              <RevisionHistory revisions={revisions} theoryOptions={theoryOptions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
             </View>
           ) : null}
         </View>
@@ -434,8 +435,14 @@ function PreviewList({ title, items }: { title: string; items: string[] }) {
   return <View style={styles.previewList}><AppText variant="label" style={styles.previewLabel}>{title}</AppText>{items.map((item, index) => <AppText key={`${index}-${item}`} style={styles.previewItem}>・{item}</AppText>)}</View>;
 }
 
-function RevisionHistory({ revisions, restoringRevisionId, onRestore, onCancelRestore, onConfirmRestore }: { revisions: TechniqueRevision[]; restoringRevisionId: string | null; onRestore: (revision: TechniqueRevision) => void; onCancelRestore: () => void; onConfirmRestore: (revision: TechniqueRevision) => void }) {
-  return <View style={styles.history}><AppText variant="label" style={styles.paneLabel}>更新履歴 {revisions.length}</AppText>{revisions.length ? revisions.map((revision) => <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText></View>{restoringRevisionId === revision.revision_id ? <View style={styles.restoreActions}><Pressable onPress={onCancelRestore} style={styles.cancelRestoreButton}><AppText style={styles.cancelRestoreText}>キャンセル</AppText></Pressable><Pressable onPress={() => onConfirmRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>下書きに戻す</AppText></Pressable></View> : <Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable>}</View>) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
+function RevisionHistory({ revisions, theoryOptions, restoringRevisionId, onRestore, onCancelRestore, onConfirmRestore }: { revisions: TechniqueRevision[]; theoryOptions: TheoryCard[]; restoringRevisionId: string | null; onRestore: (revision: TechniqueRevision) => void; onCancelRestore: () => void; onConfirmRestore: (revision: TechniqueRevision) => void }) {
+  return <View style={styles.history}><AppText variant="label" style={styles.paneLabel}>更新履歴 {revisions.length}</AppText>{revisions.length ? revisions.map((revision, index) => {
+    const relatedTheories = revision.snapshot.theory_ids.map((id) => {
+      const theory = theoryOptions.find((candidate) => candidate.tagId === id);
+      return theory ? `${getTheoryDisplayId(theory)} ${theory.title}` : id;
+    });
+    return <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText>{index === 0 ? <AppText style={styles.latestBadge}>最新</AppText> : null}</View><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText><AppText style={styles.historyTheoryLabel}>関連する理論</AppText><AppText numberOfLines={3} style={styles.historyTheories}>{relatedTheories.length ? relatedTheories.join('、') : 'なし'}</AppText></View>{restoringRevisionId === revision.revision_id ? <View style={styles.restoreActions}><Pressable onPress={onCancelRestore} style={styles.cancelRestoreButton}><AppText style={styles.cancelRestoreText}>キャンセル</AppText></Pressable><Pressable onPress={() => onConfirmRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>下書きに戻す</AppText></Pressable></View> : <Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable>}</View>;
+  }) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -538,8 +545,12 @@ const styles = StyleSheet.create({
   history: { marginTop: spacing.xl, paddingTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
   historyRow: { minHeight: 58, paddingVertical: 9, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
   historyCopy: { flex: 1 },
+  historyMeta: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   historyDate: { color: colors.ink, fontSize: 12, fontWeight: '700' },
+  latestBadge: { paddingHorizontal: 6, paddingVertical: 2, color: colors.gold, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, fontSize: 10, fontWeight: '700' },
   historyDetail: { marginTop: 2, color: colors.muted, fontSize: 11 },
+  historyTheoryLabel: { marginTop: 6, color: colors.gold, fontSize: 10, fontWeight: '700' },
+  historyTheories: { marginTop: 2, color: colors.inkSoft, fontSize: 11, lineHeight: 17 },
   restoreButton: { paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   restoreText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   restoreActions: { flexDirection: 'row', alignItems: 'center', gap: 7 },

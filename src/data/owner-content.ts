@@ -54,6 +54,7 @@ export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSna
 }
 
 export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueSnapshot {
+  const raw = value as Partial<TechniqueSnapshot> & { relatedTheoryIds?: unknown };
   return {
     persona_id: value.persona_id ?? '',
     category: value.category ?? 'interpersonal',
@@ -65,7 +66,9 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     practices: normalizeList(value.practices),
     examples: normalizeList(value.examples),
     cautions: normalizeList(value.cautions),
-    theory_ids: normalizeList(value.theory_ids),
+    // Older drafts/revisions used the catalogue-facing name. Accept both so
+    // every historical entry keeps its related-theory links when displayed.
+    theory_ids: normalizeList(raw.theory_ids ?? raw.relatedTheoryIds),
   };
 }
 
@@ -191,7 +194,7 @@ function asTechniqueRow(data: unknown): Record<string, unknown> {
 
 export async function fetchTechniqueRevisions(techniqueId: string): Promise<TechniqueRevision[]> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { data, error } = await supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version,created_at').eq('technique_id', techniqueId).order('created_at', { ascending: false });
+  const { data, error } = await supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version,created_at').eq('technique_id', techniqueId).order('version', { ascending: false }).order('created_at', { ascending: false });
   if (error) throw error;
   return (data ?? []).map((row) => ({
     revision_id: row.revision_id as string,
