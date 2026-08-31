@@ -3,7 +3,7 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
-const inputs = ['src', 'app.json', 'package.json', 'public/manifest.webmanifest', 'public/pwa-icon.svg'];
+const inputs = ['src', 'app.json', 'package.json', 'public/manifest.webmanifest', 'public/pwa-icon.svg', 'public/pwa-icon-192.png', 'public/pwa-icon-512.png'];
 const files = [];
 
 async function collect(relativePath) {

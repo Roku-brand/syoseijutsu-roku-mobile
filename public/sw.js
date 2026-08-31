@@ -1,9 +1,9 @@
 // Automatically replaced by scripts/stamp-pwa-cache.mjs before every web export.
-const VERSION = 'roku-dfe129543d2a';
+const VERSION = 'roku-2c01e0996f5b';
 const BASE = '';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
-const APP_SHELL = [`${BASE}/`, `${BASE}/index.html`, `${BASE}/manifest.webmanifest`, `${BASE}/pwa-icon.svg`];
+const APP_SHELL = [`${BASE}/`, `${BASE}/index.html`, `${BASE}/manifest.webmanifest`, `${BASE}/pwa-icon.svg`, `${BASE}/pwa-icon-192.png`];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

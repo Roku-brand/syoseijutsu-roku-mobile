@@ -39,7 +39,7 @@ export default function LearnHomeScreen() {
           <AppText style={styles.sparkSmall}>✧</AppText>
           <View style={styles.ornamentLine} />
         </View>
-        <AppText style={[styles.introTitle, !desktop && styles.introTitleMobile]}>処世術を習得しよう！</AppText>
+        <AppText accessibilityRole="header" aria-level={1} style={[styles.introTitle, !desktop && styles.introTitleMobile]}>処世術を習得しよう！</AppText>
         <AppText style={styles.introBody}>3つのステージで、判断を少しずつ自分の力に。</AppText>
       </View>
 
@@ -77,7 +77,7 @@ export default function LearnHomeScreen() {
                   <AppText style={styles.stageNumber}>Stage {stage.number}</AppText>
                   {locked ? <AccessBadge locked compact /> : null}
                 </View>
-                <AppText style={[styles.stageTitle, !desktop && styles.stageTitleMobile]}>{stage.title}</AppText>
+                <AppText accessibilityRole="header" aria-level={2} style={[styles.stageTitle, !desktop && styles.stageTitleMobile]}>{stage.title}</AppText>
                 <AppText style={styles.stageIntro}>{stage.intro}</AppText>
               </View>
 

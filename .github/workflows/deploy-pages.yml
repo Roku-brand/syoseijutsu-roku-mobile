@@ -104,6 +104,9 @@ jobs:
       - name: Export web app
         run: pnpm export:pages
 
+      - name: Audit SEO output
+        run: pnpm seo:audit
+
       - name: Audit public build for paid content
         run: node scripts/audit-public-build.mjs
 

@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { usePathname, useRouter, type Href } from 'expo-router';
+import { Link, usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -49,26 +49,19 @@ export function PersistentBottomNav() {
         {items.map((item) => {
           const active = selected === item.key;
           return (
-            <Pressable
-              key={item.key}
-              accessibilityRole="button"
-              accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
-              accessibilityState={{ selected: active }}
-              onPress={() => navigate(item)}
-              style={({ pressed }) => [
-                styles.item,
-                desktop && styles.itemDesktop,
-                pressed && styles.pressed,
-              ]}
-            >
-              {active ? (
-                <View style={[styles.activeIndicator, desktop && styles.activeIndicatorDesktop]} />
-              ) : null}
-              <NavIcon type={item.icon} active={active} />
-              <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>
-                {item.label}
-              </AppText>
-            </Pressable>
+            <Link key={item.key} href={item.href} asChild>
+              <Pressable
+                accessibilityRole="link"
+                accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
+                accessibilityState={{ selected: active }}
+                onPress={() => navigate(item)}
+                style={({ pressed }) => [styles.item, desktop && styles.itemDesktop, pressed && styles.pressed]}
+              >
+                {active ? <View style={[styles.activeIndicator, desktop && styles.activeIndicatorDesktop]} /> : null}
+                <NavIcon type={item.icon} active={active} />
+                <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>{item.label}</AppText>
+              </Pressable>
+            </Link>
           );
         })}
       </View>

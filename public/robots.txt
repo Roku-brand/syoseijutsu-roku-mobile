@@ -1,15 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /auth
-Disallow: /upgrade
-Disallow: /settings
-Disallow: /library
-Disallow: /my-os
-Disallow: /onboarding
-Disallow: /welcome
-Disallow: /collection
-Disallow: /goal
-Disallow: /learn
-Disallow: /card
+Disallow: /owner/
 
 Sitemap: https://shoseijutsuroku.com/sitemap.xml

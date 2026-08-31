@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
@@ -70,36 +70,36 @@ export function PersonaCard({ entry, variant, compact, showCategory = false }: {
   compact: boolean;
   showCategory?: boolean;
 }) {
-  const router = useRouter();
   const { isPaid } = useAccess();
   const { category, persona } = entry;
   const locked = !isPaid && !isFreePersona(persona.name);
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`${persona.name}、${categoryMeta[category.key].label}、${persona.items.length}処世術を開く`}
-      onPress={() => router.push({ pathname: '/subcategory/[category]/[name]', params: { category: category.key, name: persona.name } })}
-      style={({ pressed }) => [
-        styles.personaCard,
-        variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
-        compact && variant === 'rail' && styles.personaCardRailCompact,
-        compact && variant === 'grid' && styles.personaCardGridCompact,
-        pressed && styles.pressed,
-      ]}
-    >
-      <View accessibilityElementsHidden style={styles.personaIcon}>
-        <View style={styles.personaHead} />
-        <View style={styles.personaShoulders} />
-      </View>
-      {showCategory ? <AppText style={styles.personaCategory}>{categoryMeta[category.key].label}</AppText> : null}
-      <AppText numberOfLines={2} style={styles.personaTitle}>{persona.name}</AppText>
-      <View style={styles.personaFooter}>
-        <AppText style={styles.personaTechniqueCount}>{persona.items.length}処世術</AppText>
-        <AppText accessibilityElementsHidden style={styles.personaArrow}>›</AppText>
-      </View>
-      {locked ? <View style={styles.accessBadge}><AccessBadge locked compact /></View> : null}
-    </Pressable>
+    <Link href={{ pathname: '/subcategory/[category]/[name]', params: { category: category.key, name: persona.name } }} asChild>
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel={`${persona.name}、${categoryMeta[category.key].label}、${persona.items.length}処世術を開く`}
+        style={({ pressed }) => [
+          styles.personaCard,
+          variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
+          compact && variant === 'rail' && styles.personaCardRailCompact,
+          compact && variant === 'grid' && styles.personaCardGridCompact,
+          pressed && styles.pressed,
+        ]}
+      >
+        <View accessibilityElementsHidden style={styles.personaIcon}>
+          <View style={styles.personaHead} />
+          <View style={styles.personaShoulders} />
+        </View>
+        {showCategory ? <AppText style={styles.personaCategory}>{categoryMeta[category.key].label}</AppText> : null}
+        <AppText numberOfLines={2} style={styles.personaTitle}>{persona.name}</AppText>
+        <View style={styles.personaFooter}>
+          <AppText style={styles.personaTechniqueCount}>{persona.items.length}処世術</AppText>
+          <AppText accessibilityElementsHidden style={styles.personaArrow}>›</AppText>
+        </View>
+        {locked ? <View style={styles.accessBadge}><AccessBadge locked compact /></View> : null}
+      </Pressable>
+    </Link>
   );
 }
 

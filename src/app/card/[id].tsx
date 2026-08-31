@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
@@ -19,6 +19,7 @@ import { canReadTechnique } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
 import { isLockedTheoryShell } from '@/data/theory-display';
+import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -41,14 +42,6 @@ export default function CardDetailScreen() {
   }, [addHistory, card, effectiveAccess]);
 
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
-
-  if (card && !canReadTechnique(effectiveAccess, card.id)) {
-    return (
-      <Screen contentContainerStyle={styles.screenContent}>
-        <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />
-      </Screen>
-    );
-  }
 
   if (card && !canReadTechnique(effectiveAccess, card.id)) {
     return (
@@ -105,10 +98,18 @@ export default function CardDetailScreen() {
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
+        <SeoBreadcrumbs items={[
+          { label: 'ホーム', href: '/' },
+          { label: card.categoryName, href: `/category/${card.categoryKey}` },
+          { label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]', params: { category: card.categoryKey, name: card.subcategory } } },
+          { label: card.title },
+        ]} />
         <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
         {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
 
         <AppText
+          accessibilityRole="header"
+          aria-level={1}
           variant="serif"
           style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}
         >
@@ -194,27 +195,19 @@ export default function CardDetailScreen() {
             <View testID="related-theories" style={styles.theoryList}>
               {relatedTheories.map((theory) =>
                 theory ? (
-                  <Pressable
-                    key={theory.tagId}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${theory.title}を開く`}
-                    onPress={() =>
-                      router.push({
-                        pathname: '/theory/[id]',
-                        params: { id: theory.tagId },
-                      })
-                    }
-                    style={({ pressed }) => [
-                      styles.theoryItem,
-                      pressed && styles.pressed,
-                    ]}
-                  >
-                    <View style={styles.theoryCopy}>
-                      <AppText style={styles.theoryId}>{getTheoryDisplayId(theory)}</AppText>
-                      <AppText variant="serif" style={styles.theoryTitle}>{theory.title}</AppText>
-                    </View>
-                    <AppText style={styles.chevron}>›</AppText>
-                  </Pressable>
+                  <Link key={theory.tagId} href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
+                    <Pressable
+                      accessibilityRole="link"
+                      accessibilityLabel={`${theory.title}を開く`}
+                      style={({ pressed }) => [styles.theoryItem, pressed && styles.pressed]}
+                    >
+                      <View style={styles.theoryCopy}>
+                        <AppText style={styles.theoryId}>{getTheoryDisplayId(theory)}</AppText>
+                        <AppText variant="serif" style={styles.theoryTitle}>{theory.title}</AppText>
+                      </View>
+                      <AppText style={styles.chevron}>›</AppText>
+                    </Pressable>
+                  </Link>
                 ) : null,
               )}
             </View>
@@ -225,26 +218,18 @@ export default function CardDetailScreen() {
           <ArticleSection title="関連する処世術" mark="▱">
             <View style={styles.relatedGrid}>
               {related.map((relatedCard) => (
-                <Pressable
-                  key={relatedCard.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${relatedCard.title}を開く`}
-                  onPress={() =>
-                    router.push({
-                      pathname: '/card/[id]',
-                      params: { id: relatedCard.id },
-                    })
-                  }
-                  style={({ pressed }) => [
-                    styles.relatedItem,
-                    pressed && styles.pressed,
-                  ]}
-                >
-                  <AppText style={styles.relatedChevron}>›</AppText>
-                  <AppText style={styles.relatedText}>
-                    {getTechniqueDisplayId(relatedCard)} {relatedCard.title}
-                  </AppText>
-                </Pressable>
+                <Link key={relatedCard.id} href={{ pathname: '/card/[id]', params: { id: relatedCard.id } }} asChild>
+                  <Pressable
+                    accessibilityRole="link"
+                    accessibilityLabel={`${relatedCard.title}を開く`}
+                    style={({ pressed }) => [styles.relatedItem, pressed && styles.pressed]}
+                  >
+                    <AppText style={styles.relatedChevron}>›</AppText>
+                    <AppText style={styles.relatedText}>
+                      {getTechniqueDisplayId(relatedCard)} {relatedCard.title}
+                    </AppText>
+                  </Pressable>
+                </Link>
               ))}
             </View>
           </ArticleSection>
@@ -315,7 +300,7 @@ function ArticleSection({
     <View style={[styles.section, ruled && styles.sectionRuled]}>
       <View style={styles.sectionHeading}>
         {mark ? <AppText style={styles.sectionMark}>{mark}</AppText> : <View style={styles.goldBar} />}
-        <AppText variant="serif" style={styles.sectionTitle}>
+        <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.sectionTitle}>
           {title}
         </AppText>
       </View>

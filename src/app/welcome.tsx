@@ -7,8 +7,8 @@ import { categories, techniqueCards, theories } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
-const desktopBackground = require('../../assets/welcome/welcome-background-desktop.png');
-const mobileBackground = require('../../assets/welcome/welcome-background-mobile.png');
+const desktopBackground = require('../../assets/welcome/welcome-background-desktop.webp');
+const mobileBackground = require('../../assets/welcome/welcome-background-mobile.webp');
 const appIcon = require('../../assets/brand/icon.png');
 const personaCount = categories.reduce((count, category) => count + category.subcategories.length, 0);
 
@@ -66,7 +66,7 @@ export default function Welcome() {
               <FloatingNote key={`${note.text}-${index}`} text={note.text} tone={note.tone} style={noteStyle(note.position)} />
             ))}
             <View style={[styles.heroCopy, desktop && styles.heroCopyDesktop, compact && styles.heroCopyCompact]}>
-              <AppText variant="serif" style={[styles.heroTitle, desktop && styles.heroTitleDesktop, compact && styles.heroTitleCompact]}>
+              <AppText accessibilityRole="header" aria-level={1} variant="serif" style={[styles.heroTitle, desktop && styles.heroTitleDesktop, compact && styles.heroTitleCompact]}>
                 {desktop ? `人生をうまく生きる方法を、\nすべての人へ。` : `人生をうまく生きる\n方法を、すべての人へ。`}
               </AppText>
               <View style={styles.heroUnderline} />

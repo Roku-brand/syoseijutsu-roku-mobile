@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, type Href, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -15,6 +15,7 @@ import type { TheoryCard } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
+import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -77,25 +78,31 @@ export default function TheoryDetailScreen() {
   return (
     <Screen style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
       <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
+        <SeoBreadcrumbs items={[
+          { label: 'ホーム', href: '/' },
+          { label: '理論', href: '/theories' },
+          { label: getTheoryCategoryLabel(theory), href: `/theories/${theory.categoryId}` },
+          { label: normalizeDisplayText(theory.title) },
+        ]} />
         <View style={styles.titleRegion}>
           <View testID="theory-meta" style={styles.metaRow}>
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
             <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryCategoryLabel(theory)}</AppText></View>
           </View>
-          <AppText testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
+          <AppText accessibilityRole="header" aria-level={1} testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
             {normalizeDisplayText(theory.title)}
           </AppText>
         </View>
 
         <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact]}>
-          <View style={styles.summaryHeadingRow}><AppText variant="serif" style={styles.summaryTitle}>概要</AppText><View style={styles.summaryRule} /></View>
+          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>概要</AppText><View style={styles.summaryRule} /></View>
           <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
         </View>
 
         <DetailSection title="関連する処世術" count={related.length}>
           <View testID="theory-related-techniques" style={styles.relatedList}>
             {related.map((card) => (
-              <RelatedRow key={card.id} title={card.title} supportingText={card.essence ?? card.subtitle} accessibilityLabel={`${card.title}を開く`} onPress={() => router.push({ pathname: '/card/[id]', params: { id: card.id } })} />
+              <RelatedRow key={card.id} title={card.title} supportingText={card.essence ?? card.subtitle} accessibilityLabel={`${card.title}を開く`} href={{ pathname: '/card/[id]', params: { id: card.id } }} />
             ))}
           </View>
         </DetailSection>
@@ -103,13 +110,13 @@ export default function TheoryDetailScreen() {
         <DetailSection title="関連する理論" count={relatedTheories.length}>
           <View testID="theory-related-theories" style={styles.relatedList}>
             {relatedTheories.map((relatedTheory) => (
-              <RelatedRow key={relatedTheory.tagId} title={relatedTheory.title} supportingText={relatedTheory.summary} accessibilityLabel={`${relatedTheory.title}を開く`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: relatedTheory.tagId } })} />
+              <RelatedRow key={relatedTheory.tagId} title={relatedTheory.title} supportingText={relatedTheory.summary} accessibilityLabel={`${relatedTheory.title}を開く`} href={{ pathname: '/theory/[id]', params: { id: relatedTheory.tagId } }} />
             ))}
           </View>
         </DetailSection>
 
         <View testID="theory-information" style={styles.informationSection}>
-          <AppText variant="serif" style={styles.informationTitle}>理論情報</AppText>
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>理論情報</AppText>
           <TheoryInformation theory={theory} compact={compact} />
         </View>
       </DetailSwipe>
@@ -126,20 +133,22 @@ function formatTheorySummary(value: string) {
 }
 
 function DetailSection({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
-  return <View style={styles.section}><View style={styles.sectionHeading}><AppText variant="serif" style={styles.sectionTitle}>{title}</AppText><View style={styles.countBadge}><AppText style={styles.countText}>{count}</AppText></View></View>{children}</View>;
+  return <View style={styles.section}><View style={styles.sectionHeading}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.sectionTitle}>{title}</AppText><View style={styles.countBadge}><AppText style={styles.countText}>{count}</AppText></View></View>{children}</View>;
 }
 
-function RelatedRow({ title, supportingText, accessibilityLabel, onPress }: { title: string; supportingText?: string; accessibilityLabel: string; onPress: () => void }) {
+function RelatedRow({ title, supportingText, accessibilityLabel, href }: { title: string; supportingText?: string; accessibilityLabel: string; href: Href }) {
   const supporting = normalizeDisplayText(supportingText).replace(/\n+/g, ' ');
   return (
-    <Pressable accessibilityRole="link" accessibilityLabel={accessibilityLabel} onPress={onPress} style={({ pressed }) => [styles.relatedRow, pressed && styles.relatedRowPressed]}>
-      <View accessibilityElementsHidden style={styles.relatedDiamond} />
-      <View style={styles.relatedCopy}>
-        <AppText variant="serif" style={styles.relatedTitle}>{normalizeDisplayText(title)}</AppText>
-        {supporting ? <AppText style={styles.relatedSupporting}>{supporting}</AppText> : null}
-      </View>
-      <AppText style={styles.chevron}>›</AppText>
-    </Pressable>
+    <Link href={href} asChild>
+      <Pressable accessibilityRole="link" accessibilityLabel={accessibilityLabel} style={({ pressed }) => [styles.relatedRow, pressed && styles.relatedRowPressed]}>
+        <View accessibilityElementsHidden style={styles.relatedDiamond} />
+        <View style={styles.relatedCopy}>
+          <AppText variant="serif" style={styles.relatedTitle}>{normalizeDisplayText(title)}</AppText>
+          {supporting ? <AppText style={styles.relatedSupporting}>{supporting}</AppText> : null}
+        </View>
+        <AppText style={styles.chevron}>›</AppText>
+      </Pressable>
+    </Link>
   );
 }
 

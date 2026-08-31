@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import {
   Pressable,
   StyleSheet,
@@ -19,7 +19,6 @@ export function generateStaticParams() {
 }
 
 export default function GuidedTopicScreen() {
-  const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const { slug, category, subcategory } = useLocalSearchParams<{
     slug: string;
@@ -72,6 +71,8 @@ export default function GuidedTopicScreen() {
                 {topic.group}　{toKanjiChapter(chapterIndex)}
               </AppText>
               <AppText
+                accessibilityRole="header"
+                aria-level={1}
                 variant="display"
                 style={[styles.title, compact && styles.titleCompact]}
               >
@@ -86,7 +87,7 @@ export default function GuidedTopicScreen() {
           </View>
 
           <View style={styles.indexHeading}>
-            <AppText variant="serif" style={styles.indexTitle}>
+            <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.indexTitle}>
               この章の処世術
             </AppText>
             <AppText variant="label" style={styles.count}>
@@ -97,33 +98,17 @@ export default function GuidedTopicScreen() {
           {items.length ? (
             <View style={styles.list}>
               {items.map((card, index) => (
-                <Pressable
-                  key={card.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${card.title}を開く`}
-                  onPress={() =>
-                    router.push({
-                      pathname: '/card/[id]',
-                      params: { id: card.id },
-                    })
-                  }
-                  style={({ pressed }) => [
-                    styles.row,
-                    compact && styles.rowCompact,
-                    pressed && styles.rowPressed,
-                  ]}
-                >
-                  <AppText variant="label" style={styles.number}>
-                    {index + 1}
-                  </AppText>
-                  <AppText
-                    variant="serif"
-                    style={[styles.rowTitle, compact && styles.rowTitleCompact]}
+                <Link key={card.id} href={{ pathname: '/card/[id]', params: { id: card.id } }} asChild>
+                  <Pressable
+                    accessibilityRole="link"
+                    accessibilityLabel={`${card.title}を開く`}
+                    style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}
                   >
-                    {card.title}
-                  </AppText>
-                  <AppText style={styles.chevron}>›</AppText>
-                </Pressable>
+                    <AppText variant="label" style={styles.number}>{index + 1}</AppText>
+                    <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{card.title}</AppText>
+                    <AppText style={styles.chevron}>›</AppText>
+                  </Pressable>
+                </Link>
               ))}
             </View>
           ) : (

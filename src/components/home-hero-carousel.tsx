@@ -13,7 +13,7 @@ import { Rokumaru } from './rokumaru';
 import { bookCardShadow } from './book-ui';
 import { colors, fonts } from '@/constants/theme';
 
-const techniqueImage = require('../../assets/home/machiya-night-hero.png');
+const techniqueImage = require('../../assets/home/machiya-night-hero.webp');
 const personaImage = require('../../assets/home/persona-washi-portrait.webp');
 const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');

@@ -22,6 +22,7 @@ export default function CategoryDetailScreen() {
   if (key === 'all') {
     return (
       <Screen>
+        <AppText accessibilityRole="header" aria-level={1} variant="serif" style={styles.pageHeading}>処世術一覧</AppText>
         <SectionHeader title="処世術" count={techniqueCards.length} />
         {techniqueCards.map((card) => <TechniqueRow key={card.id} card={card} />)}
       </Screen>
@@ -46,6 +47,8 @@ export default function CategoryDetailScreen() {
 
   return (
     <Screen>
+      <AppText accessibilityRole="header" aria-level={1} variant="serif" style={styles.pageHeading}>{meta.label}の処世術</AppText>
+      <AppText style={styles.pageDescription}>{meta.description}</AppText>
       <SectionHeader title="テーマを選ぶ" count={themes.length} />
 
       <View style={styles.themeTabs}>
@@ -104,6 +107,8 @@ function groupByTheme(category: CatalogCategory) {
 }
 
 const styles = StyleSheet.create({
+  pageHeading: { color: colors.ink, fontSize: 30, lineHeight: 42 },
+  pageDescription: { maxWidth: 720, marginTop: 6, color: colors.muted, fontSize: 14, lineHeight: 24 },
   themeTabs: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   themeTab: {
     flexGrow: 1,

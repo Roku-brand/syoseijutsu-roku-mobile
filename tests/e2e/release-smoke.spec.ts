@@ -382,14 +382,14 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await expect.poll(() => page.getByTestId('discover-persona-rail').evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
   await page.getByRole('button', { name: '仕事術で絞り込む' }).click();
   await expect(page.getByText('（仕事術）', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: /仕事ができる人、仕事術、.*処世術を開く/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /仕事ができる人、仕事術、.*処世術を開く/ })).toBeVisible();
 
   await page.getByRole('link', { name: '26人物像を一覧で見る' }).click();
   await expect(page).toHaveURL(/\/personas$/);
   await expect(page.getByText('3領域・26人物像から選ぶ', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('personas-grid').getByRole('button')).toHaveCount(26);
+  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(26);
   await page.getByRole('button', { name: '人生術で絞り込む' }).click();
-  await expect(page.getByTestId('personas-grid').getByRole('button')).toHaveCount(7);
+  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(7);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/discover');
@@ -431,7 +431,7 @@ test('公開済みの管理コンテンツは同梱済みカードを置き換�
   });
 
   await page.goto('/card/master336-001');
-  await expect(page.getByText('公開反映テスト')).toBeVisible();
+  await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
   await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
 
@@ -569,9 +569,9 @@ test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件�
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('45件を無料公開', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('theory-index-list').getByRole('button')).toHaveCount(45);
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(45);
   await page.getByLabel('理論名・キーワードから検索').fill('初頭');
-  await expect(page.getByTestId('theory-index-list').getByRole('button')).toHaveCount(1);
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(1);
   await expect(page).toHaveURL(/q=%E5%88%9D%E9%A0%AD.*category=all.*sort=source.*page=1/);
   await page.getByRole('tab', { name: 'あいうえお順' }).click();
   await expect(page).toHaveURL(/sort=alpha/);

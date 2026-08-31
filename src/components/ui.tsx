@@ -59,11 +59,12 @@ export function Screen({
       contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact, contentContainerStyle]}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
+      role="main"
     >
       {children}
     </ScrollView>
   ) : (
-    <View {...props} style={[styles.flex, props.style]}>
+    <View {...props} role="main" style={[styles.flex, props.style]}>
       {children}
     </View>
   );

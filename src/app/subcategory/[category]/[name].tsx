@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
@@ -13,6 +13,7 @@ import { getTechniqueCount } from '@/data/technique-counts';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from '@/components/app-toast';
+import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
@@ -26,7 +27,6 @@ function splitIntoColumns<T>(items: T[]): [T[], T[]] {
 export default function PersonaScreen() {
   'use no memo';
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
-  const router = useRouter();
   const { isPaid, catalogRevision } = useAccess();
   const { width } = useResponsiveLayout();
   const { savedIds, toggleSaved } = useAppState();
@@ -56,6 +56,12 @@ export default function PersonaScreen() {
   return (
     <Screen scroll={compact} contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
       <View key={catalogRevision} style={[styles.page, compact && styles.pageCompact]}>
+        <SeoBreadcrumbs items={[
+          { label: 'ホーム', href: '/' },
+          { label: category.name, href: `/category/${category.key}` },
+          { label: persona.name },
+        ]} />
+        <AppText accessibilityRole="header" aria-level={1} variant="serif" style={[styles.pageTitle, compact && styles.pageTitleCompact]}>{persona.articleTitle ?? persona.name}</AppText>
         <View style={[styles.listSheet, compact && styles.listSheetCompact]}>
           {columns.map((column, columnIndex) => {
             const itemOffset = compact ? 0 : columnIndex * rowsPerColumn;
@@ -79,15 +85,16 @@ export default function PersonaScreen() {
                         index === rowsPerColumn - 1 && styles.techniqueRowLast,
                       ]}
                     >
-                      <Pressable
-                        accessibilityRole="link"
-                        accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
-                        onPress={() => router.push({ pathname: '/card/[id]', params: { id: item.id } })}
-                        style={({ pressed }) => [styles.techniqueOpenArea, pressed && styles.pressed]}
-                      >
-                        <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
-                        <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
-                      </Pressable>
+                      <Link href={{ pathname: '/card/[id]', params: { id: item.id } }} asChild>
+                        <Pressable
+                          accessibilityRole="link"
+                          accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
+                          style={({ pressed }) => [styles.techniqueOpenArea, pressed && styles.pressed]}
+                        >
+                          <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
+                          <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
+                        </Pressable>
+                      </Link>
                       <SaveDiamondButton
                         saved={saved}
                         compact
@@ -121,6 +128,8 @@ const styles = StyleSheet.create({
   contentCompact: { paddingBottom: 96 },
   page: { width: '100%', maxWidth: 1240, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
   pageCompact: { flex: 0, flexGrow: 0, flexBasis: 'auto', paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
+  pageTitle: { marginBottom: 18, color: '#24231E', fontSize: 27, lineHeight: 38 },
+  pageTitleCompact: { marginBottom: 12, fontSize: 22, lineHeight: 32 },
   listSheet: {
     width: '100%',
     flex: 1,

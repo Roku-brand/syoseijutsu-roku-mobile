@@ -46,8 +46,8 @@
     "typecheck": "node ./scripts/apply-ui-runtime-patches.mjs && tsc --noEmit",
     "pwa:stamp": "node ./scripts/stamp-pwa-cache.mjs",
     "content:build-public": "node ./scripts/build-public-catalog.mjs",
-    "export:web": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm content:build-public && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
-    "export:pages": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm content:build-public && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
+    "export:web": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm content:build-public && pnpm assets:web && pnpm assets:og && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
+    "export:pages": "node ./scripts/apply-ui-runtime-patches.mjs && pnpm content:build-public && pnpm assets:web && pnpm assets:og && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
     "serve:e2e": "node ./scripts/serve-dist.mjs",
     "test:e2e": "playwright test",
     "content:import": "node ./scripts/import-content.mjs",
@@ -75,6 +75,7 @@
     "content:import-practical": "node ./scripts/import-practical-actions.mjs",
     "content:import-owner": "node ./scripts/import-owner-content.mjs",
     "content:audit": "node ./scripts/audit-theories.mjs",
+    "seo:audit": "node ./scripts/audit-seo-build.mjs",
     "content:audit-techniques": "node ./scripts/audit-techniques.mjs",
     "content:audit-search": "node ./scripts/audit-technique-search.mjs",
     "content:expand-tags": "node ./scripts/expand-technique-tags.mjs",
@@ -82,6 +83,8 @@
     "content:refine-theories": "node ./scripts/refine-theory-summaries.mjs",
     "content:urahidensho": "node ./scripts/build-urahidensho-content.mjs",
     "assets:generate": "node ./scripts/generate-assets.cjs",
+    "assets:og": "node ./scripts/generate-og-image.mjs",
+    "assets:web": "node ./scripts/optimize-web-assets.mjs",
     "store:assets": "node ./scripts/generate-store-assets.mjs"
   },
   "private": true

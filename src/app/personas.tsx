@@ -17,7 +17,7 @@ export default function PersonasScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.introduction}>
-        <AppText style={[styles.title, compact && styles.titleCompact]}>{personaCount}人物像</AppText>
+        <AppText accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>{personaCount}人物像</AppText>
         <AppText style={styles.subtitle}>{categoryOrder.length}領域・{personaCount}人物像から選ぶ</AppText>
       </View>
 
@@ -27,7 +27,7 @@ export default function PersonasScreen() {
       </View>
 
       <View style={styles.listHeading}>
-        <AppText style={styles.listTitle}>人物像一覧</AppText>
+        <AppText accessibilityRole="header" aria-level={2} style={styles.listTitle}>人物像一覧</AppText>
         <AppText style={styles.listCount}>{getPersonaFilterLabel(filter)}・{personas.length}人物像</AppText>
       </View>
       <View testID="personas-grid" style={styles.grid}>

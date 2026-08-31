@@ -3,8 +3,8 @@ import type { PropsWithChildren } from 'react';
 
 const basePath = '';
 const siteUrl = 'https://shoseijutsuroku.com';
-const siteTitle = '処世術禄｜人生・仕事・人間関係のための処世術';
-const siteDescription = '人生をうまく生きるための対人術・仕事術・人生術を、心理学・行動科学・経験則から学べる処世術の辞典。';
+const siteTitle = '処世術禄｜人生をうまく生きる方法を、すべての人へ。';
+const siteDescription = '聞いたことがある、で終わらせない。心理学・行動科学などの理論と紐づけ、体系化した処世術を、人生・仕事・人間関係に使える知恵として届けます。';
 
 export default function Root({ children }: PropsWithChildren) {
   return (
@@ -36,8 +36,9 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="twitter:description" content={siteDescription} />
         <meta name="twitter:image" content={`${siteUrl}/og.png`} />
         <link rel="manifest" href={`${basePath}/manifest.webmanifest`} />
-        <link rel="icon" href={`${basePath}/pwa-icon.svg`} />
-        <link rel="apple-touch-icon" href={`${basePath}/pwa-icon.svg`} />
+        <link rel="icon" type="image/svg+xml" href={`${basePath}/pwa-icon.svg`} />
+        <link rel="icon" type="image/png" sizes="192x192" href={`${basePath}/pwa-icon-192.png`} />
+        <link rel="apple-touch-icon" sizes="192x192" href={`${basePath}/pwa-icon-192.png`} />
         <ScrollViewStyleReset />
         <style>{`
           /*

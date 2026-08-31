@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
@@ -93,7 +93,7 @@ export default function TheoryIndexScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.intro}>
-        <AppText style={[styles.title, compact && styles.titleCompact]}>理論一覧</AppText>
+        <AppText accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>理論一覧</AppText>
         <AppText style={styles.subtitle}>{theories.length}理論</AppText>
       </View>
 
@@ -154,14 +154,15 @@ export default function TheoryIndexScreen() {
 }
 
 function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
-  const router = useRouter();
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={`${theory.title}を開く`} onPress={() => router.push({ pathname: '/theory/[id]', params: { id: theory.tagId } })} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.pressed]}>
-      <View style={styles.rowMeta}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText><AppText style={styles.rowCategory}>{getTheoryCategoryLabel(theory)}</AppText></View>
-      <AppText numberOfLines={2} style={styles.rowTitle}>{normalizeDisplayText(theory.title)}</AppText>
-      <AppText numberOfLines={2} style={styles.rowSummary}>{getTheoryCoverSummary(theory.summary)}</AppText>
-      <AppText style={styles.rowArrow}>›</AppText>
-    </Pressable>
+    <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
+      <Pressable accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.pressed]}>
+        <View style={styles.rowMeta}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText><AppText style={styles.rowCategory}>{getTheoryCategoryLabel(theory)}</AppText></View>
+        <AppText numberOfLines={2} style={styles.rowTitle}>{normalizeDisplayText(theory.title)}</AppText>
+        <AppText numberOfLines={2} style={styles.rowSummary}>{getTheoryCoverSummary(theory.summary)}</AppText>
+        <AppText style={styles.rowArrow}>›</AppText>
+      </Pressable>
+    </Link>
   );
 }
 
