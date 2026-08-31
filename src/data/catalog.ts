@@ -93,6 +93,13 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
   for (const item of techniques) {
     placeManagedTechnique(item);
   }
+  hydratePaidTheories(paidTheories);
+}
+
+/** Resolves the private theory shells without resetting the currently loaded
+ * technique catalogue. This lets the complete edition become readable even
+ * when a larger secondary content sync is still in flight. */
+export function hydratePaidTheories(paidTheories: TheoryCard[]) {
   for (const theory of paidTheories) {
     const next = { ...theory, provenance: getTheoryProvenance(theory) };
     const existingIndex = theories.findIndex((candidate) => candidate.tagId === theory.tagId);
