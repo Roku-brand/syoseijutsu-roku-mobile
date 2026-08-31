@@ -33,12 +33,6 @@ export default function LearnHomeScreen() {
   return (
     <BookScreen contentContainerStyle={[styles.content, !desktop && styles.contentMobile]}>
       <View style={styles.intro}>
-        <View style={styles.introOrnaments} accessibilityElementsHidden>
-          <View style={styles.ornamentLine} />
-          <AppText style={styles.spark}>✦</AppText>
-          <AppText style={styles.sparkSmall}>✧</AppText>
-          <View style={styles.ornamentLine} />
-        </View>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.introTitle, !desktop && styles.introTitleMobile]}>処世術を習得しよう！</AppText>
         <AppText style={styles.introBody}>3つのステージで、判断を少しずつ自分の力に。</AppText>
       </View>
@@ -118,10 +112,6 @@ const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 1050, alignSelf: 'center', paddingTop: 36, paddingBottom: 48 },
   contentMobile: { paddingTop: 24, paddingHorizontal: 14, paddingBottom: 96 },
   intro: { alignItems: 'center', marginBottom: 26 },
-  introOrnaments: { position: 'absolute', top: 12, flexDirection: 'row', alignItems: 'center', gap: 18, opacity: 0.8 },
-  ornamentLine: { width: 150, height: 1, backgroundColor: '#E6D6B5' },
-  spark: { color: colors.gold, fontSize: 18, lineHeight: 20 },
-  sparkSmall: { color: colors.goldLight, fontSize: 13, lineHeight: 16 },
   introTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 36, lineHeight: 50, fontWeight: '700', letterSpacing: 3.5, textAlign: 'center', zIndex: 1 },
   introTitleMobile: { fontSize: 27, lineHeight: 39, letterSpacing: 2 },
   introBody: { marginTop: 8, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24, letterSpacing: 1.4, textAlign: 'center' },
