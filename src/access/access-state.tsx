@@ -153,10 +153,20 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (state) => {
-      if (state === 'active' && user) void refreshAccess();
+      if (state === 'active') {
+        // Revalidate the public catalogue for guests as well as signed-in
+        // users so a publish becomes visible without a full reload.
+        void refreshPublishedContent();
+        if (user) void refreshAccess();
+      }
     });
     return () => subscription.remove();
-  }, [refreshAccess, user]);
+  }, [refreshAccess, refreshPublishedContent, user]);
+
+  useEffect(() => {
+    const interval = setInterval(() => { void refreshPublishedContent(); }, 60_000);
+    return () => clearInterval(interval);
+  }, [refreshPublishedContent]);
 
   useEffect(() => {
     void storageReadWithin(PREVIEW_KEY).then((stored) => {

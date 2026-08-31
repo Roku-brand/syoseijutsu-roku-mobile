@@ -1,6 +1,6 @@
 import { Redirect } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
+import { FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
 import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
@@ -40,6 +40,7 @@ export default function OwnerContentScreen() {
   const [notice, setNotice] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [publishConfirming, setPublishConfirming] = useState(false);
+  const [restoreConfirming, setRestoreConfirming] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
   const reelRef = useRef<ScrollViewType>(null);
@@ -150,6 +151,10 @@ export default function OwnerContentScreen() {
       const published = await saveAndPublishTechnique(selected.id, selectedSnapshot, selected.updated_at);
       upsertManagedTechnique(toTechniquePayload(published));
       await refreshPublishedContent();
+      // A just-published row must win over a stale read returned by a
+      // concurrently cached/public catalogue request.
+      upsertManagedTechnique(toTechniquePayload(published));
+      void fetchTechniqueRevisions(selected.id).then(setRevisions).catch(() => undefined);
       const reflected = techniqueById.get(selected.id);
       if (!reflected || !isSnapshotReflected(reflected, selectedSnapshot)) {
         throw new Error('公開は完了しましたが、表示データの更新を確認できませんでした。もう一度読み込んでください。');
@@ -168,19 +173,21 @@ export default function OwnerContentScreen() {
   };
 
   const restore = (revision: TechniqueRevision) => {
-    Alert.alert('このバージョンを下書きに戻しますか？', '公開中の内容は変わりません。戻した後に確認して公開してください。', [
-      { text: 'キャンセル', style: 'cancel' },
-      { text: '下書きに戻す', onPress: () => void restoreConfirmed(revision) },
-    ]);
+    setRestoreConfirming(revision.revision_id);
   };
 
   const restoreConfirmed = async (revision: TechniqueRevision) => {
     try {
       await restoreTechniqueRevision(revision.revision_id);
       await reload(revision.technique_id);
+      const latestRevisions = await fetchTechniqueRevisions(revision.technique_id);
+      setRevisions(latestRevisions);
+      setRestoreConfirming(null);
+      setNotice(`バージョン ${revision.version} を下書きに戻しました。内容を確認して公開してください。`);
       setError(null);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : '履歴を復元できませんでした。');
+      setRestoreConfirming(null);
     }
   };
 
@@ -279,7 +286,7 @@ export default function OwnerContentScreen() {
                   <TheorySelector theoryOptions={theoryOptions} selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
                 </>
               )}
-              <RevisionHistory revisions={revisions} onRestore={restore} />
+              <RevisionHistory revisions={revisions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
             </View>
           ) : null}
         </View>
@@ -427,8 +434,8 @@ function PreviewList({ title, items }: { title: string; items: string[] }) {
   return <View style={styles.previewList}><AppText variant="label" style={styles.previewLabel}>{title}</AppText>{items.map((item, index) => <AppText key={`${index}-${item}`} style={styles.previewItem}>・{item}</AppText>)}</View>;
 }
 
-function RevisionHistory({ revisions, onRestore }: { revisions: TechniqueRevision[]; onRestore: (revision: TechniqueRevision) => void }) {
-  return <View style={styles.history}><AppText variant="label" style={styles.paneLabel}>更新履歴 {revisions.length}</AppText>{revisions.length ? revisions.map((revision) => <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText></View><Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable></View>) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
+function RevisionHistory({ revisions, restoringRevisionId, onRestore, onCancelRestore, onConfirmRestore }: { revisions: TechniqueRevision[]; restoringRevisionId: string | null; onRestore: (revision: TechniqueRevision) => void; onCancelRestore: () => void; onConfirmRestore: (revision: TechniqueRevision) => void }) {
+  return <View style={styles.history}><AppText variant="label" style={styles.paneLabel}>更新履歴 {revisions.length}</AppText>{revisions.length ? revisions.map((revision) => <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText></View>{restoringRevisionId === revision.revision_id ? <View style={styles.restoreActions}><Pressable onPress={onCancelRestore} style={styles.cancelRestoreButton}><AppText style={styles.cancelRestoreText}>キャンセル</AppText></Pressable><Pressable onPress={() => onConfirmRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>下書きに戻す</AppText></Pressable></View> : <Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable>}</View>) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
 }
 
 const styles = StyleSheet.create({
@@ -535,5 +542,8 @@ const styles = StyleSheet.create({
   historyDetail: { marginTop: 2, color: colors.muted, fontSize: 11 },
   restoreButton: { paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   restoreText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
+  restoreActions: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  cancelRestoreButton: { paddingHorizontal: 8, paddingVertical: 8 },
+  cancelRestoreText: { color: colors.muted, fontSize: 11, fontWeight: '700' },
   noHistory: { marginTop: 8, color: colors.muted, fontSize: 12 },
 });
