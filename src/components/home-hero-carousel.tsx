@@ -23,6 +23,10 @@ const HOME_REEL_ID = 'brand';
 const HOME_REEL_SLIDE_COUNT = 7;
 const homeReelPositions = new Map<string, number>();
 
+function wrapHomeReelIndex(index: number) {
+  return ((index % HOME_REEL_SLIDE_COUNT) + HOME_REEL_SLIDE_COUNT) % HOME_REEL_SLIDE_COUNT;
+}
+
 function readHomeReelPosition(reelId: string) {
   const cached = homeReelPositions.get(reelId);
   if (typeof cached === 'number') return cached;
@@ -30,7 +34,7 @@ function readHomeReelPosition(reelId: string) {
   try {
     const value = window.sessionStorage.getItem(`shoseijutsu-roku:home-reel:${reelId}`);
     const index = value ? Number(JSON.parse(value).index) : 0;
-    return Number.isInteger(index) ? Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, index)) : 0;
+    return Number.isInteger(index) ? wrapHomeReelIndex(index) : 0;
   } catch {
     return 0;
   }
@@ -185,7 +189,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, techniqueTitle, theories,
       <View style={[styles.mapContent, !desktop && styles.mapContentMobile]}>
         <Text style={styles.mapHeading}>ひとつの処世術を、複数の理論から読む</Text>
         <View style={[styles.mapLayout, !desktop && styles.mapLayoutMobile]}>
-          <Pressable
+        <Pressable
             accessibilityRole="link"
             accessibilityLabel={`${techniqueTitle}を開く`}
             testID="home-brand-map-technique-cta"
@@ -285,6 +289,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const [reduceMotion, setReduceMotion] = useState(false);
   const railRef = useRef<ScrollView>(null);
   const activeIndexRef = useRef(activeIndex);
+  const edgeWrapPendingRef = useRef(false);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
 
@@ -295,7 +300,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, []);
 
   const commitIndex = useCallback((index: number) => {
-    const nextIndex = Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, index));
+    const nextIndex = wrapHomeReelIndex(index);
     activeIndexRef.current = nextIndex;
     setActiveIndex(nextIndex);
     writeHomeReelPosition(HOME_REEL_ID, nextIndex);
@@ -304,13 +309,29 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 
   const moveTo = useCallback((index: number, animated = true) => {
     const nextIndex = commitIndex(index);
-    railRef.current?.scrollTo({ x: nextIndex * viewportWidth, animated: animated && !reduceMotion });
+    const crossedEdge = index < 0 || index >= HOME_REEL_SLIDE_COUNT;
+    railRef.current?.scrollTo({ x: nextIndex * viewportWidth, animated: animated && !reduceMotion && !crossedEdge });
   }, [commitIndex, reduceMotion, viewportWidth]);
 
   const settleAtOffset = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!viewportWidth) return;
-    commitIndex(Math.round(event.nativeEvent.contentOffset.x / viewportWidth));
-  }, [commitIndex, viewportWidth]);
+    if (edgeWrapPendingRef.current) {
+      edgeWrapPendingRef.current = false;
+      return;
+    }
+    const rawIndex = event.nativeEvent.contentOffset.x / viewportWidth;
+    if (rawIndex < -0.1) {
+      edgeWrapPendingRef.current = true;
+      moveTo(-1, false);
+      return;
+    }
+    if (rawIndex > HOME_REEL_SLIDE_COUNT - 1 + 0.1) {
+      edgeWrapPendingRef.current = true;
+      moveTo(HOME_REEL_SLIDE_COUNT, false);
+      return;
+    }
+    commitIndex(Math.round(rawIndex));
+  }, [commitIndex, moveTo, viewportWidth]);
 
   useEffect(() => {
     writeHomeReelPosition(HOME_REEL_ID, activeIndexRef.current);
@@ -346,13 +367,12 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   return (
     <View testID="home-brand-carousel" style={styles.carousel}>
       <View style={[styles.carouselRow, !desktop && styles.carouselRowMobile]}>
-        <Pressable
-          disabled={activeIndex === 0}
+          <Pressable
           accessibilityRole="button"
           accessibilityLabel="前のスライド"
-          accessibilityState={{ disabled: activeIndex === 0 }}
+          accessibilityHint="前のスライドへ移動します。1枚目の前は最後のスライドへ戻ります。"
           onPress={() => moveTo(activeIndexRef.current - 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, activeIndex === 0 && styles.arrowDisabled, pressed && activeIndex > 0 && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, pressed && styles.pressed]}
         ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>‹</Text></Pressable>
         <View
           style={styles.viewport}
@@ -383,12 +403,11 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           </ScrollView>
         </View>
         <Pressable
-          disabled={activeIndex === slides.length - 1}
           accessibilityRole="button"
           accessibilityLabel="次のスライド"
-          accessibilityState={{ disabled: activeIndex === slides.length - 1 }}
+          accessibilityHint="次のスライドへ移動します。最後のスライドの次は1枚目へ戻ります。"
           onPress={() => moveTo(activeIndexRef.current + 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, activeIndex === slides.length - 1 && styles.arrowDisabled, pressed && activeIndex < slides.length - 1 && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, pressed && styles.pressed]}
         ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>›</Text></Pressable>
       </View>
       <View accessibilityRole="tablist" style={styles.dots}>
@@ -520,7 +539,6 @@ const styles = StyleSheet.create({
   rokumaruMobile: { bottom: -22, height: 295, right: -24, width: 295 },
   arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.96)', borderColor: '#D3C4A9', borderRadius: 23, borderWidth: 1, flexShrink: 0, height: 46, justifyContent: 'center', width: 46, ...bookCardShadow },
   arrowMobile: { borderRadius: 17, height: 34, width: 34 },
-  arrowDisabled: { opacity: 0.28 },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
   arrowTextMobile: { fontSize: 25, lineHeight: 28 },
   dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 8 },

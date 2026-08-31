@@ -600,17 +600,19 @@ test('ホームのブランドリールは前後操作で同じ一枚へ戻れ�
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
 });
 
-test('ホームのブランドリールは端で止まり、矢印を連打してもカード単位に揃う', async ({ page }) => {
+test('ホームのブランドリールは前後どちら向きにも何周も循環する', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByLabel('前のスライド')).toHaveAttribute('aria-disabled', 'true');
-  for (let index = 0; index < 10; index += 1) await page.getByLabel('次のスライド').click({ force: true });
-  await expect(page.getByRole('tab', { name: '7枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByLabel('次のスライド')).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.getByLabel('前のスライド')).not.toHaveAttribute('aria-disabled', 'true');
+  await expect(page.getByLabel('次のスライド')).not.toHaveAttribute('aria-disabled', 'true');
+  for (let index = 0; index < 7; index += 1) await page.getByLabel('次のスライド').click({ force: true });
+  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  for (let index = 0; index < 7; index += 1) await page.getByLabel('前のスライド').click({ force: true });
+  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   const viewport = page.getByTestId('home-brand-viewport');
   await expect.poll(async () => {
     const metrics = await viewport.evaluate((element) => ({ left: element.scrollLeft, width: element.clientWidth }));
-    return Math.abs(metrics.left - metrics.width * 6);
+    return Math.abs(metrics.left);
   }).toBeLessThan(2);
 });
 
