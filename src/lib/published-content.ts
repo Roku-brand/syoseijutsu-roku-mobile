@@ -1,5 +1,5 @@
-import { hydratePaidCatalog, type PaidTechniquePayload } from '@/data/catalog';
-import type { TheoryCard } from '@/data/types';
+import { hydratePaidCatalog, theories, type PaidTechniquePayload } from '@/data/catalog';
+import { isLockedTheoryShell } from '@/data/theory-display';
 import { supabase } from '@/lib/supabase';
 
 let loaded = false;
@@ -38,9 +38,12 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       status: 'published',
       displayOrder: row.display_order as number,
     }));
-    // The table is the source of truth for techniques. The bundled theory
-    // catalogue is retained until theories receive the same managed table.
-    hydratePaidCatalog(techniques, [] as TheoryCard[]);
+    // The table is the source of truth for techniques. Keep every theory that
+    // has already been resolved by the authenticated complete-edition sync;
+    // passing an empty list here would reset those 585 records back to their
+    // intentionally blank public shells immediately after a successful sync.
+    const resolvedTheories = theories.filter((theory) => !isLockedTheoryShell(theory));
+    hydratePaidCatalog(techniques, resolvedTheories);
     loaded = true;
     return true;
   } catch (error) {
