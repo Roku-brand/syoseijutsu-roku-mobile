@@ -33,6 +33,7 @@ set theory_ids = (
     and jsonb_array_length(r.snapshot->'theory_ids') > 0
   order by r.version desc, r.created_at desc
   limit 1
+)
 where jsonb_array_length(t.theory_ids) = 0
   and exists (
     select 1 from public.technique_revisions r
