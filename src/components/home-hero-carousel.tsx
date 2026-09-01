@@ -110,7 +110,14 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
       <View style={styles.techniqueShade} />
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
         <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
-        <Text style={[styles.darkTitle, !desktop && styles.darkTitleMobile]}>{card.title}</Text>
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.62}
+          style={[styles.darkTitle, !desktop && styles.darkTitleMobile]}
+        >
+          {card.title}
+        </Text>
         <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
@@ -199,7 +206,14 @@ export function TechniqueTheoryMapSlide({ techniqueId, techniqueTitle, theories,
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
             <Text style={styles.mapTechniqueLabel}>処世術</Text>
-            <Text numberOfLines={desktop ? undefined : 2} style={[styles.mapTechniqueTitle, !desktop && styles.mapTechniqueTitleMobile]}>{techniqueTitle}</Text>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.68}
+              style={[styles.mapTechniqueTitle, !desktop && styles.mapTechniqueTitleMobile]}
+            >
+              {techniqueTitle}
+            </Text>
           </Pressable>
           <View accessibilityElementsHidden style={[styles.mapConnector, !desktop && styles.mapConnectorMobile]}><Text style={styles.mapConnectorGlyph}>{desktop ? '───' : '↓'}</Text></View>
           <View style={[styles.theoryNodes, !desktop && styles.theoryNodesMobile]}>
@@ -227,13 +241,15 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
         <Text style={styles.systemLead}>人生をうまく生きる方法を、ひとつの体系に。</Text>
         <View style={[styles.systemStats, !desktop && styles.systemStatsMobile]}>
           {stats.map((stat, index) => (
-            <View key={stat.label} style={[styles.systemStatWrap, !desktop && styles.systemStatWrapMobile]}>
-              <View style={[styles.systemStat, !desktop && styles.systemStatMobile, index === 2 && styles.systemStatGold, index === 3 && styles.systemStatDark]}>
-                <Text style={[styles.systemValue, !desktop && styles.systemValueMobile, index >= 2 && styles.systemValueReverse]}>{stat.value}</Text>
-                <Text style={[styles.systemLabel, !desktop && styles.systemLabelMobile, index >= 2 && styles.systemLabelReverse]}>{stat.label}</Text>
+            <View key={stat.label} style={styles.systemStatFlow}>
+              <View style={[styles.systemStatWrap, !desktop && styles.systemStatWrapMobile]}>
+                <View style={[styles.systemStat, !desktop && styles.systemStatMobile, index === 2 && styles.systemStatGold, index === 3 && styles.systemStatDark]}>
+                  <Text style={[styles.systemValue, !desktop && styles.systemValueMobile, index >= 2 && styles.systemValueReverse]}>{stat.value}</Text>
+                  <Text style={[styles.systemLabel, !desktop && styles.systemLabelMobile, index >= 2 && styles.systemLabelReverse]}>{stat.label}</Text>
+                </View>
+                <Text style={[styles.systemNote, !desktop && styles.systemNoteMobile]}>{stat.note}</Text>
               </View>
-              {desktop ? <Text style={styles.systemNote}>{stat.note}</Text> : null}
-              {index < stats.length - 1 ? <Text style={[styles.systemArrow, !desktop && styles.systemArrowMobile]}>{index === 2 ? '↔' : '→'}</Text> : null}
+              {index < stats.length - 1 ? <Text accessibilityElementsHidden style={[styles.systemArrow, !desktop && styles.systemArrowMobile]}>{index === 2 ? '↔' : '→'}</Text> : null}
             </View>
           ))}
         </View>
@@ -473,7 +489,7 @@ const styles = StyleSheet.create({
   techniqueCopyMobile: { flex: 1, minHeight: 236, paddingHorizontal: 34, paddingVertical: 19 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 21, letterSpacing: 1.2, lineHeight: 30, marginTop: 11, maxWidth: 320 },
+  darkTitleMobile: { fontSize: 21, letterSpacing: 1.2, lineHeight: 30, marginTop: 11, maxWidth: '100%' },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { fontSize: 13, letterSpacing: 0.35, lineHeight: 21, marginTop: 8, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
@@ -516,7 +532,7 @@ const styles = StyleSheet.create({
   mapTechniqueMobile: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 7, width: '100%' },
   mapTechniqueLabel: { color: '#DAB565', fontFamily: fonts.serif, fontSize: 11, letterSpacing: 1.5 },
   mapTechniqueTitle: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 25, lineHeight: 37, marginTop: 11, textAlign: 'center' },
-  mapTechniqueTitleMobile: { fontSize: 13, lineHeight: 18, marginTop: 4 },
+  mapTechniqueTitleMobile: { fontSize: 15, lineHeight: 20, marginTop: 4, width: '100%' },
   mapConnector: { alignItems: 'center', width: '10%' },
   mapConnectorMobile: { height: 18, justifyContent: 'center', width: '100%' },
   mapConnectorGlyph: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 18 },
@@ -533,9 +549,10 @@ const styles = StyleSheet.create({
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },
   systemLead: { color: '#766B5A', fontFamily: fonts.serif, fontSize: 12, marginTop: 3 },
   systemStats: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'center', marginTop: 30, width: '100%' },
-  systemStatsMobile: { flexWrap: 'nowrap', marginTop: 14, rowGap: 0 },
-  systemStatWrap: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', minWidth: 0, width: '25%' },
-  systemStatWrapMobile: { width: '25%' },
+  systemStatsMobile: { flexWrap: 'nowrap', marginTop: 14 },
+  systemStatFlow: { alignItems: 'center', flex: 1, flexDirection: 'row', minWidth: 0 },
+  systemStatWrap: { alignItems: 'center', flex: 1, minWidth: 0 },
+  systemStatWrapMobile: { flex: 1, minWidth: 0 },
   systemStat: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.82)', borderColor: '#CDB789', borderRadius: 58, borderWidth: 1, height: 116, justifyContent: 'center', width: 116 },
   systemStatMobile: { borderRadius: 30, height: 58, width: 58 },
   systemStatGold: { backgroundColor: '#B88A2A', borderColor: '#DAB967' },
@@ -546,9 +563,10 @@ const styles = StyleSheet.create({
   systemLabel: { color: '#665A49', fontFamily: fonts.serif, fontSize: 12 },
   systemLabelMobile: { fontSize: 9 },
   systemLabelReverse: { color: '#F1D99F' },
-  systemNote: { color: '#746A5B', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginLeft: -116, marginTop: 126, position: 'absolute', textAlign: 'center', width: 116 },
-  systemArrow: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 23, marginHorizontal: 5 },
-  systemArrowMobile: { fontSize: 17, marginHorizontal: 2 },
+  systemNote: { color: '#746A5B', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginTop: 9, minHeight: 28, paddingHorizontal: 3, textAlign: 'center', width: 116 },
+  systemNoteMobile: { fontSize: 7, lineHeight: 10, marginTop: 5, minHeight: 20, paddingHorizontal: 1, width: '100%' },
+  systemArrow: { color: '#B88A2A', flexShrink: 0, fontFamily: fonts.serif, fontSize: 23, marginHorizontal: 5, textAlign: 'center', width: 24 },
+  systemArrowMobile: { fontSize: 14, marginHorizontal: 0, width: 12 },
   premiumOrnament: { borderColor: 'rgba(184,138,42,0.26)', borderRadius: 300, borderWidth: 1, height: 360, position: 'absolute', right: 18, top: -72, width: 360 },
   premiumOrnamentMobile: { height: 230, right: 2, top: -12, width: 230 },
   premiumContent: { alignItems: 'center', flexDirection: 'row', minHeight: 380, paddingHorizontal: 48, paddingVertical: 26 },
