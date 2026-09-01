@@ -222,14 +222,16 @@ function TheoryBrowser({ router, compact, selectedCategory, onSelectCategory, on
   onSelectCategory: (category: TheoryFilterKey) => void;
   onSearch: (value: string) => void;
 }) {
-  const { isPaid } = useAccess();
+  const { isPaid, catalogRevision } = useAccess();
   const railRef = useRef<ScrollView>(null);
   const [rail, setRail] = useState({ x: 0, viewport: 0, content: 0 });
-  const visibleTheories = theories
-    .filter((theory) => !isLockedTheoryShell(theory))
-    .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
-    .filter((theory) => selectedCategory === 'all' || theory.categoryId === selectedCategory)
-    .slice(0, 24);
+  const visibleTheories = useMemo(
+    () => theories
+      .filter((theory) => !isLockedTheoryShell(theory))
+      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
+      .filter((theory) => selectedCategory === 'all' || theory.categoryId === selectedCategory),
+    [catalogRevision, isPaid, selectedCategory],
+  );
   const atStart = rail.x <= 2;
   const atEnd = rail.content <= rail.viewport + 2 || rail.x >= rail.content - rail.viewport - 2;
 

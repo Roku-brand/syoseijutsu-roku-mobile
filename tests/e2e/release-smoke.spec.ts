@@ -650,6 +650,7 @@ test('探す理論リールはカテゴリで切り替え、矢印で横に送�
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/discover');
   await page.getByRole('tab', { name: /理論/ }).click();
+  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(45);
   await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
   await expect(page.getByText('（行動科学）', { exact: true })).toBeVisible();
   await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(5);
