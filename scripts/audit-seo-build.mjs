@@ -61,6 +61,11 @@ for (const route of privateRoutes) {
   if (sitemap.includes(`>${`https://shoseijutsuroku.com${route}`}<`)) failures.push(`${route}: private route leaked into sitemap`);
 }
 
+const legacyCatalog = await readFile(path.join(dist, 'catalog.html'), 'utf8');
+if (!legacyCatalog.includes('content="noindex,follow"')) failures.push('/catalog: compatibility redirect must be noindex');
+if (!legacyCatalog.includes('rel="canonical" href="https://shoseijutsuroku.com/discover"')) failures.push('/catalog: canonical must point to /discover');
+if (sitemap.includes('>https://shoseijutsuroku.com/catalog<')) failures.push('/catalog: compatibility redirect leaked into sitemap');
+
 const notFound = await readFile(path.join(dist, '404.html'), 'utf8');
 if (!notFound.includes('content="noindex,follow"')) failures.push('404.html must be noindex');
 if (!notFound.includes('ページが見つかりません')) failures.push('404.html needs an explicit not-found message');

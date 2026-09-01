@@ -31,7 +31,6 @@ const categoryCopy: Record<string, [string, string]> = {
 const fixed: Record<string, [string, string, boolean]> = {
   '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', true],
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
-  '/catalog': ['処世術一覧', '人生・仕事・人間関係で使える処世術を、人物像とテーマから一覧で探せます。', true],
   '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。', true],
   '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。', true],
   '/legal/about': ['処世術禄について', '人物像から処世術、理論、実践へつなぐ知識体系「処世術禄」の考え方と運営方針を紹介します。', true],
@@ -53,6 +52,13 @@ function getMeta(rawPathname: string): PageMeta {
   const pathname = decode(rawPathname.replace(/\/$/, '') || '/');
   const fallback: PageMeta = { title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', canonicalPath: pathname, crumbs: [crumb('ホーム', '/')] };
   if (pathname === '/') return { ...fallback, title: homeTitle, indexable: true };
+  if (pathname === '/catalog') return {
+    ...fallback,
+    title: `処世術を探す｜${brand}`,
+    description: fixed['/discover'][1],
+    canonicalPath: '/discover',
+    crumbs: [crumb('ホーム', '/'), crumb('処世術を探す', '/discover')],
+  };
   if (fixed[pathname]) {
     const [label, description, indexable] = fixed[pathname];
     return { ...fallback, title: `${label}｜${brand}`, description, indexable, crumbs: [crumb('ホーム', '/'), crumb(label, pathname)] };

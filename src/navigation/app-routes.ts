@@ -27,17 +27,14 @@ export type MainSection = 'main' | 'discover' | 'learn' | 'my-os';
 const DISCOVER_PREFIXES = [
   '/discover',
   '/personas',
-  '/catalog',
   '/subcategory/',
   '/topic/',
-  '/goal/',
   '/theory/',
   '/theories',
 ] as const;
 
 const MY_PAGE_PREFIXES = [
   '/my-os',
-  '/collection/',
   '/library',
   '/history',
   '/my-techniques',

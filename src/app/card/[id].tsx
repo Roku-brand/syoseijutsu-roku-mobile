@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, fonts, radius } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,

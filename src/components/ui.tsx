@@ -76,17 +76,6 @@ export function Screen({
   );
 }
 
-export function DetailHeader({
-  title: _title,
-  right,
-}: {
-  title?: string;
-  right?: React.ReactNode;
-}) {
-  if (!right) return null;
-  return <View style={styles.detailHeaderInlineActions}>{right}</View>;
-}
-
 export function IconButton({
   label,
   icon,
@@ -109,33 +98,6 @@ export function IconButton({
       <AppText style={[styles.iconButtonText, active && styles.iconButtonTextActive]}>
         {icon}
       </AppText>
-    </Pressable>
-  );
-}
-
-export function Pill({
-  children,
-  active = false,
-  onPress,
-}: {
-  children: React.ReactNode;
-  active?: boolean;
-  onPress?: () => void;
-}) {
-  const content = (
-    <View style={[styles.pill, active && styles.pillActive]}>
-      <AppText
-        variant="caption"
-        style={[styles.pillText, active && styles.pillTextActive]}
-      >
-        {children}
-      </AppText>
-    </View>
-  );
-  if (!onPress) return content;
-  return (
-    <Pressable onPress={onPress} style={({ pressed }) => pressed && styles.pressed}>
-      {content}
     </Pressable>
   );
 }
@@ -265,12 +227,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   serif: { fontFamily: fonts.serif, fontWeight: '600' },
-  detailHeaderInlineActions: {
-    minHeight: 36,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    marginBottom: spacing.md,
-  },
   iconButton: {
     width: 44,
     height: 44,
@@ -285,18 +241,6 @@ const styles = StyleSheet.create({
   iconButtonText: { fontSize: 20, lineHeight: 24, color: colors.inkSoft },
   iconButtonTextActive: { color: colors.goldLight },
   pressed: { opacity: 0.65 },
-  pill: {
-    minHeight: 28,
-    justifyContent: 'center',
-    paddingHorizontal: 11,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: colors.surface,
-  },
-  pillActive: { backgroundColor: colors.ink, borderColor: colors.ink },
-  pillText: { color: colors.inkSoft },
-  pillTextActive: { color: colors.paper },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',

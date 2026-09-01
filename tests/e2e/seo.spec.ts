@@ -29,3 +29,10 @@ test('private and interactive utility pages remain noindex', async ({ page }) =>
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex,follow');
   }
 });
+
+test('the retired catalog URL resolves to the canonical discover page', async ({ page }) => {
+  await page.goto('/catalog');
+  await expect(page).toHaveURL(/\/discover$/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://shoseijutsuroku.com/discover');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /index,follow/);
+});

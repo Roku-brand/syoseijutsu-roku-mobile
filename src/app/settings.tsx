@@ -3,7 +3,7 @@ import { useRouter, type Href } from 'expo-router';
 import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { AppText, Screen } from '@/components/ui';
-import { colors, fonts, radius, shadow } from '@/constants/theme';
+import { colors, fonts, shadow } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';

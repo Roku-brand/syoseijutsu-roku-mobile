@@ -20,7 +20,6 @@ import {
   categories,
   categoryMeta,
   techniqueById,
-  theories,
   theoryById,
 } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
@@ -312,12 +311,10 @@ function getCurrentTitle(pathname: string) {
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'personas') return '人物像一覧';
-  if (segments[0] === 'goal') return '目的から探す';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
-    pathname.includes('/topic/') ||
-    pathname.includes('/catalog')
+    pathname.includes('/topic/')
   ) return '探す';
   if (pathname.includes('/my-techniques')) return 'マイ処世術';
   if (pathname.includes('/library')) return '蔵書';
@@ -325,7 +322,6 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/my-os')) return 'マイページ';
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';
-  if (pathname.includes('/collection/')) return 'コレクション';
   if (pathname.includes('/legal/')) return '規約・ポリシー';
   if (pathname.includes('/upgrade')) return '完全版を購入';
   if (pathname.includes('/settings')) return '設定';
@@ -342,7 +338,7 @@ function getHeaderSubtitle(pathname: string) {
 }
 
 function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/learn', '/catalog', '/my-os', '/onboarding'].includes(pathname);
+  return !['/', '/discover', '/learn', '/my-os', '/onboarding'].includes(pathname);
 }
 
 function PrincipleMark() {

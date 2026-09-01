@@ -60,17 +60,17 @@ const encodeRoute = (route) => {
 };
 const canonical = (route) => `${siteUrl}${route === '/' ? '/' : encodeRoute(route)}`;
 const crumb = (name, route) => ({ name, route });
-const baseMeta = (route) => ({ route, title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', pageType: 'WebPage', crumbs: [crumb('ホーム', '/')] });
+const baseMeta = (route) => ({ route, canonicalRoute: route, title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', pageType: 'WebPage', crumbs: [crumb('ホーム', '/')] });
 
 function metaFor(rawRoute) {
   const route = decode(rawRoute.replace(/\/$/, '') || '/');
   const base = baseMeta(route);
   if (route === '/') return { ...base, title: homeTitle, indexable: true };
   if (route === '/404' || route === '/+not-found') return { ...base, title: `ページが見つかりません｜${brand}`, description: 'お探しのページは移動または削除された可能性があります。処世術禄のホームから目的の処世術や理論を探せます。' };
+  if (route === '/catalog') return { ...base, canonicalRoute: '/discover', title: `処世術を探す｜${brand}`, description: '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', crumbs: [crumb('ホーム', '/'), crumb('処世術を探す', '/discover')] };
   const fixed = {
     '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。'],
     '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。'],
-    '/catalog': ['処世術一覧', '人生・仕事・人間関係で使える処世術を、人物像とテーマから一覧で探せます。'],
     '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。'],
     '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。'],
     '/legal/about': ['処世術禄について', '人物像から処世術、理論、実践へつなぐ知識体系「処世術禄」の考え方と運営方針を紹介します。'],
@@ -107,7 +107,7 @@ function metaFor(rawRoute) {
 }
 
 function jsonLd(meta) {
-  const url = canonical(meta.route);
+  const url = canonical(meta.canonicalRoute);
   const graph = [
     { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: brand, alternateName: homeTitle, inLanguage: 'ja', publisher: { '@id': `${siteUrl}/#organization` } },
     { '@type': 'Organization', '@id': `${siteUrl}/#organization`, name: brand, url: `${siteUrl}/`, logo: { '@type': 'ImageObject', url: `${siteUrl}/pwa-icon-512.png`, width: 512, height: 512 } },
@@ -120,7 +120,7 @@ function jsonLd(meta) {
 }
 
 function head(meta) {
-  const url = canonical(meta.route);
+  const url = canonical(meta.canonicalRoute);
   const robots = meta.indexable ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' : 'noindex,follow';
   return `<title>${escape(meta.title)}</title><meta name="description" content="${escape(meta.description)}"/><meta name="robots" content="${robots}"/><link rel="canonical" href="${escape(url)}"/><meta property="og:locale" content="ja_JP"/><meta property="og:type" content="${meta.type}"/><meta property="og:site_name" content="${brand}"/><meta property="og:title" content="${escape(meta.title)}"/><meta property="og:description" content="${escape(meta.description)}"/><meta property="og:url" content="${escape(url)}"/><meta property="og:image" content="${image}"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="${escape(`${meta.title}の共有画像`)}"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="${escape(meta.title)}"/><meta name="twitter:description" content="${escape(meta.description)}"/><meta name="twitter:image" content="${image}"/><meta name="twitter:image:alt" content="${escape(`${meta.title}の共有画像`)}"/><script type="application/ld+json" data-seo-jsonld="true">${jsonLd(meta)}</script>`;
 }

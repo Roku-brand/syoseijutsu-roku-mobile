@@ -39,7 +39,7 @@ export default function Welcome() {
   // hydration. This prevents desktop/mobile markup from mismatching during
   // web hydration and briefly breaking the welcome composition.
   const { width, height, hydrated } = useHydratedWindowDimensions();
-  const { interests, completeOnboarding } = useAppState();
+  const { interests, startFreeEdition } = useAppState();
   const desktop = hydrated && width >= 900;
   const compact = !desktop && width < 370;
   const heroHeight = desktop
@@ -47,7 +47,7 @@ export default function Welcome() {
     : Math.max(590, Math.min(760, height * 0.69));
 
   const startFree = () => {
-    completeOnboarding(interests);
+    startFreeEdition(interests);
     router.replace('/(tabs)');
   };
 

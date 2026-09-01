@@ -18,13 +18,6 @@ const STORAGE_HYDRATION_TIMEOUT_MS = 900;
 const LEARNING_CURRICULUM_VERSION = 2;
 const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
 
-export type Collection = {
-  id: string;
-  name: string;
-  cardIds: string[];
-  createdAt: string;
-};
-
 export type PracticeRecord = {
   cardId: string;
   status: 'planned' | 'tried';
@@ -53,7 +46,6 @@ export type PersonalMemo = {
 
 type PersistedState = {
   learningCurriculumVersion: number;
-  onboardingCompleted: boolean;
   welcomePageHidden: boolean;
   homeWelcomeSeen: boolean;
   homeWelcomePending: boolean;
@@ -62,7 +54,6 @@ type PersistedState = {
   savedTheoryIds: string[];
   historyIds: string[];
   notes: Record<string, string>;
-  collections: Collection[];
   practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
   personalMemos: PersonalMemo[];
@@ -72,7 +63,6 @@ type PersistedState = {
 
 const initialState: PersistedState = {
   learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
-  onboardingCompleted: false,
   welcomePageHidden: false,
   homeWelcomeSeen: false,
   homeWelcomePending: false,
@@ -81,7 +71,6 @@ const initialState: PersistedState = {
   savedTheoryIds: [],
   historyIds: [],
   notes: {},
-  collections: [],
   practiceRecords: {},
   personalPrinciple: '志は高く、腰は低く。',
   personalMemos: [],
@@ -91,16 +80,13 @@ const initialState: PersistedState = {
 
 type AppStateContextValue = PersistedState & {
   hydrated: boolean;
-  completeOnboarding: (interests: CategoryKey[]) => void;
+  startFreeEdition: (interests: CategoryKey[]) => void;
   setWelcomePageHidden: (hidden: boolean) => void;
   dismissHomeWelcome: () => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
   saveNote: (id: string, note: string) => void;
-  createCollection: (name: string) => string;
-  toggleCollectionCard: (collectionId: string, cardId: string) => void;
-  deleteCollection: (collectionId: string) => void;
   planPractice: (cardId: string) => void;
   completePractice: (cardId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
@@ -139,10 +125,14 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         const parsed = JSON.parse(stored) as Partial<PersistedState> & {
           contentActivity?: unknown;
           homeImpressions?: unknown;
+          onboardingCompleted?: unknown;
+          collections?: unknown;
         };
         const supportedState = { ...parsed };
         delete supportedState.contentActivity;
         delete supportedState.homeImpressions;
+        delete supportedState.onboardingCompleted;
+        delete supportedState.collections;
         const interests = (parsed.interests ?? []).filter(
           (interest): interest is CategoryKey =>
             CATEGORY_KEYS.includes(interest as CategoryKey),
@@ -219,10 +209,9 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     void AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [hydrated, state]);
 
-  const completeOnboarding = useCallback((interests: CategoryKey[]) => {
+  const startFreeEdition = useCallback((interests: CategoryKey[]) => {
     setState((current) => ({
       ...current,
-      onboardingCompleted: true,
       interests: interests.length ? interests : initialState.interests,
       homeWelcomePending: !current.homeWelcomeSeen,
     }));
@@ -276,47 +265,6 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     setState((current) => ({
       ...current,
       notes: { ...current.notes, [id]: note },
-    }));
-  }, []);
-
-  const createCollection = useCallback((name: string) => {
-    const id = `collection-${Date.now()}`;
-    setState((current) => ({
-      ...current,
-      collections: [
-        ...current.collections,
-        { id, name: name.trim(), cardIds: [], createdAt: new Date().toISOString() },
-      ],
-    }));
-    return id;
-  }, []);
-
-  const toggleCollectionCard = useCallback(
-    (collectionId: string, cardId: string) => {
-      haptic(Haptics.ImpactFeedbackStyle.Light);
-      setState((current) => ({
-        ...current,
-        collections: current.collections.map((collection) =>
-          collection.id !== collectionId
-            ? collection
-            : {
-                ...collection,
-                cardIds: collection.cardIds.includes(cardId)
-                  ? collection.cardIds.filter((id) => id !== cardId)
-                  : [cardId, ...collection.cardIds],
-              },
-        ),
-      }));
-    },
-    [],
-  );
-
-  const deleteCollection = useCallback((collectionId: string) => {
-    setState((current) => ({
-      ...current,
-      collections: current.collections.filter(
-        (collection) => collection.id !== collectionId,
-      ),
     }));
   }, []);
 
@@ -444,7 +392,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   }, []);
 
   const clearPersonalData = useCallback(async () => {
-    setState({ ...initialState, onboardingCompleted: true });
+    setState(initialState);
     await AsyncStorage.removeItem(STORAGE_KEY);
   }, []);
 
@@ -452,16 +400,13 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     () => ({
       ...state,
       hydrated,
-      completeOnboarding,
+      startFreeEdition,
       setWelcomePageHidden,
       dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
       saveNote,
-      createCollection,
-      toggleCollectionCard,
-      deleteCollection,
       planPractice,
       completePractice,
       toggleInterest,
@@ -478,16 +423,13 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     [
       state,
       hydrated,
-      completeOnboarding,
+      startFreeEdition,
       setWelcomePageHidden,
       dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
       saveNote,
-      createCollection,
-      toggleCollectionCard,
-      deleteCollection,
       planPractice,
       completePractice,
       toggleInterest,

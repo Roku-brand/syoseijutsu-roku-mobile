@@ -1,6 +1,6 @@
 import homeBrandSource from './generated/home-brand-content.json';
 import metadataSource from './generated/metadata.json';
-import { categories, techniqueById, theories, theoryById } from './catalog';
+import { categories, techniqueById, theoryById } from './catalog';
 import { guidedTopics } from './guided-topics';
 import type { TechniqueCard, TheoryCard } from './types';
 

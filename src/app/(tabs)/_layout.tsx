@@ -6,7 +6,6 @@ const tabIcons: Record<string, string> = {
   index: '禄',
   discover: '探',
   learn: '学',
-  catalog: '系',
   'my-os': '私',
 };
 
@@ -39,7 +38,6 @@ export default function TabsLayout() {
       <Tabs.Screen name="index" options={{ title: 'メイン' }} />
       <Tabs.Screen name="discover" options={{ title: '探す' }} />
       <Tabs.Screen name="learn" options={{ title: '学ぶ' }} />
-      <Tabs.Screen name="catalog" options={{ title: '体系', href: null }} />
       <Tabs.Screen name="my-os" options={{ title: 'マイページ' }} />
     </Tabs>
   );

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { AppText } from '@/components/ui';
-import { colors, fonts } from '@/constants/theme';
+import { fonts } from '@/constants/theme';
 
 type Source = 'reel' | 'discover_technique' | 'discover_theory' | 'learning' | 'my_os';
 
