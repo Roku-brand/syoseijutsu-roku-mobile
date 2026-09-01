@@ -78,19 +78,19 @@ export default function HomeScreen() {
     return result.slice(0, 4);
   }, [accessState, catalogRevision, trending]);
 
-  const railCardWidth = isDesktop ? Math.max(214, Math.min(276, (width - 230) / 4)) : 276;
+  const railCardWidth = isDesktop ? Math.max(210, Math.min(238, (width - 260) / 4)) : 276;
 
   return (
     <BookScreen>
-      <View style={[styles.introRow, !isDesktop && styles.introRowMobile]}>
-        <Text style={[styles.greeting, !isDesktop && styles.greetingMobile]}>{greeting}</Text>
-        <Text style={styles.copy}>今日も、少しだけ判断を磨く。</Text>
+      <View testID="home-intro-row" style={[styles.introRow, !isDesktop && styles.introRowMobile]}>
+        <Text testID="home-greeting" style={[styles.greeting, !isDesktop && styles.greetingMobile]}>{greeting}</Text>
+        <Text testID="home-intro-copy" style={[styles.copy, !isDesktop && styles.copyMobile]}>今日も、自分のペースで。ひとつ、うまく生きる知恵を。</Text>
       </View>
 
       <HomeHeroCarousel desktop={isDesktop} catalogRevision={catalogRevision} />
 
       {trendingContent.length > 0 ? (
-        <View style={styles.trendingSection}>
+        <View testID="home-trending-section" style={[styles.trendingSection, isDesktop && styles.trendingSectionDesktop]}>
           <View style={styles.sectionHeadingRow}>
             <View><Text style={styles.sectionTitle}>いま読まれているもの</Text><Text style={styles.sectionCaption}>直近14日の閲覧と保存から</Text></View>
             <Pressable accessibilityRole="link" onPress={() => router.push(APP_ROUTES.discover)}><Text style={styles.sectionLink}>探すへ　›</Text></Pressable>
@@ -103,11 +103,11 @@ export default function HomeScreen() {
               const group = theory ? getTheoryCategoryLabel(item.card as TheoryCard) : `${categoryMeta[(item.card as TechniqueCard).categoryKey].label}・${(item.card as TechniqueCard).subcategory}`;
               const saved = theory ? savedTheoryIds.includes(itemId) : savedIds.includes(itemId);
               return (
-                <Pressable key={`${item.type}:${itemId}`} accessibilityRole="link" onPress={() => router.push(theory ? theoryRoute(itemId) : techniqueRoute(itemId))} style={[styles.trendingCard, { width: railCardWidth }]}>
+                <Pressable testID="home-trending-card" key={`${item.type}:${itemId}`} accessibilityRole="link" onPress={() => router.push(theory ? theoryRoute(itemId) : techniqueRoute(itemId))} style={[styles.trendingCard, isDesktop && styles.trendingCardDesktop, { width: railCardWidth }]}>
                   <View style={styles.trendingTopRow}><Text style={styles.trendingKind}>{theory ? '理論' : '処世術'}</Text><SaveDiamondButton compact saved={saved} onPress={() => theory ? toggleSavedTheory(itemId) : toggleSaved(itemId)} /></View>
-                  <Text numberOfLines={2} style={styles.trendingTitle}>{item.card.title}</Text>
-                  <Text numberOfLines={3} style={styles.trendingSummary}>{summary}</Text>
-                  <View style={styles.trendingFooter}><Text numberOfLines={1} style={styles.trendingGroup}>{group}</Text><Text style={styles.trendingArrow}>›</Text></View>
+                  <Text numberOfLines={2} style={[styles.trendingTitle, isDesktop && styles.trendingTitleDesktop]}>{item.card.title}</Text>
+                  <Text numberOfLines={3} style={[styles.trendingSummary, isDesktop && styles.trendingSummaryDesktop]}>{summary}</Text>
+                  <View style={[styles.trendingFooter, isDesktop && styles.trendingFooterDesktop]}><Text numberOfLines={1} style={styles.trendingGroup}>{group}</Text><Text style={styles.trendingArrow}>›</Text></View>
                 </Pressable>
               );
             })}
@@ -131,23 +131,29 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  introRow: { alignItems: 'flex-start', gap: 9, marginBottom: 20, marginTop: 8 },
-  introRowMobile: { marginTop: 0 },
+  introRow: { alignItems: 'baseline', flexDirection: 'row', gap: 22, marginBottom: 12, marginTop: 0 },
+  introRowMobile: { alignItems: 'flex-start', gap: 12, marginBottom: 13, marginTop: 0 },
   greeting: { color: palette.ink, fontFamily: typography.serif, fontSize: 32, letterSpacing: 2 },
-  greetingMobile: { fontSize: 27 },
-  copy: { color: palette.muted, fontFamily: typography.serif, fontSize: 14, letterSpacing: 1.4 },
+  greetingMobile: { flexShrink: 0, fontSize: 27 },
+  copy: { color: palette.muted, flexShrink: 1, fontFamily: typography.serif, fontSize: 14, letterSpacing: 1.4, lineHeight: 23 },
+  copyMobile: { flex: 1, fontSize: 12, letterSpacing: 0.6, lineHeight: 19, paddingTop: 2 },
   trendingSection: { marginTop: 24 },
+  trendingSectionDesktop: { marginTop: 16 },
   sectionHeadingRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 14 },
   sectionTitle: { color: palette.ink, fontFamily: typography.serif, fontSize: 22, letterSpacing: 1.5 },
   sectionCaption: { color: palette.muted, fontFamily: typography.serif, fontSize: 11, letterSpacing: 0.8, marginTop: 5 },
   sectionLink: { color: palette.gold, fontFamily: typography.serif, fontSize: 12 },
   trendingRail: { gap: 14, paddingBottom: 10, paddingRight: 2 },
   trendingCard: { backgroundColor: palette.paper, borderColor: palette.line, borderRadius: 14, borderWidth: 1, minHeight: 240, padding: 19, ...bookCardShadow },
+  trendingCardDesktop: { minHeight: 210, padding: 16 },
   trendingTopRow: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' },
   trendingKind: { color: palette.gold, fontFamily: typography.serif, fontSize: 12, letterSpacing: 1 },
   trendingTitle: { color: palette.ink, fontFamily: typography.serif, fontSize: 20, letterSpacing: 1, lineHeight: 29, marginTop: 16, minHeight: 58 },
+  trendingTitleDesktop: { fontSize: 18, lineHeight: 26, marginTop: 12, minHeight: 52 },
   trendingSummary: { color: palette.muted, fontFamily: typography.serif, fontSize: 13, lineHeight: 23, marginTop: 10 },
+  trendingSummaryDesktop: { fontSize: 12, lineHeight: 20, marginTop: 7 },
   trendingFooter: { alignItems: 'center', borderTopColor: palette.line, borderTopWidth: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: 'auto', paddingTop: 14 },
+  trendingFooterDesktop: { paddingTop: 11 },
   trendingGroup: { color: palette.muted, flex: 1, fontFamily: typography.serif, fontSize: 11 },
   trendingArrow: { color: palette.gold, fontFamily: typography.serif, fontSize: 23, marginLeft: 8 },
   modalBackdrop: { alignItems: 'center', backgroundColor: 'rgba(13, 11, 8, 0.55)', flex: 1, justifyContent: 'center', padding: 22 },

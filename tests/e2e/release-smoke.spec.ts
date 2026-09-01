@@ -191,7 +191,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/おはようございます|こんにちは|こんばんは/).first()).toBeVisible();
-  await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
+  await expect(page.getByText('今日も、自分のペースで。ひとつ、うまく生きる知恵を。')).toBeVisible();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByTestId('home-brand-slide-1')).toContainText('今日の一枚｜処世術');
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
@@ -657,7 +657,20 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
-  await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
+  await expect(page.getByText('今日も、自分のペースで。ひとつ、うまく生きる知恵を。')).toBeVisible();
+  const [greetingBox, copyBox, introBox, firstSlideBox] = await Promise.all([
+    page.getByTestId('home-greeting').boundingBox(),
+    page.getByTestId('home-intro-copy').boundingBox(),
+    page.getByTestId('home-intro-row').boundingBox(),
+    page.getByTestId('home-brand-slide-1').boundingBox(),
+  ]);
+  expect(greetingBox).not.toBeNull();
+  expect(copyBox).not.toBeNull();
+  expect(introBox).not.toBeNull();
+  expect(firstSlideBox).not.toBeNull();
+  expect(copyBox!.x).toBeGreaterThan(greetingBox!.x + greetingBox!.width);
+  expect(firstSlideBox!.y - (introBox!.y + introBox!.height)).toBeLessThanOrEqual(16);
+  expect(firstSlideBox!.height).toBeLessThanOrEqual(382);
   await expect(page.getByLabel('次のスライド')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
   await expect(page.getByTestId('home-brand-slide-3')).toContainText('理論｜');
