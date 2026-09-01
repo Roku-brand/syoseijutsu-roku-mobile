@@ -26,6 +26,12 @@ alter table public.technique_revisions
   on delete restrict on update cascade;
 
 alter table public.technique_change_log
+  drop constraint if exists technique_change_log_event_type_check;
+alter table public.technique_change_log
+  add constraint technique_change_log_event_type_check
+  check (event_type in ('draft_saved', 'published', 'archived'));
+
+alter table public.technique_change_log
   drop constraint if exists technique_change_log_technique_id_fkey;
 alter table public.technique_change_log
   add constraint technique_change_log_technique_id_fkey
@@ -43,6 +49,25 @@ create index if not exists technique_id_aliases_current_idx
   on public.technique_id_aliases (current_id);
 alter table public.technique_id_aliases enable row level security;
 revoke all on public.technique_id_aliases from anon, authenticated;
+
+-- Archive operations are edits too; record the complete post-change snapshot.
+create or replace function public.log_technique_publish_change()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.status = 'published' then
+    insert into public.technique_change_log (technique_id, event_type, snapshot, created_by)
+    values (new.id, 'published', to_jsonb(new), coalesce(new.updated_by, auth.uid()));
+  elsif new.status = 'archived' and old.status is distinct from new.status then
+    insert into public.technique_change_log (technique_id, event_type, snapshot, created_by)
+    values (new.id, 'archived', to_jsonb(new), coalesce(new.updated_by, auth.uid()));
+  end if;
+  return new;
+end;
+$$;
 
 -- Physical deletes would erase revision/audit history. Owners use this RPC
 -- when they mean "delete"; public queries already expose only published rows.

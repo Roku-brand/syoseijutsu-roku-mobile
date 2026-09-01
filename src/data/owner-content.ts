@@ -40,7 +40,7 @@ export type TechniqueRevision = {
 export type TechniqueChangeLog = {
   log_id: string;
   technique_id: string;
-  event_type: 'draft_saved' | 'published';
+  event_type: 'draft_saved' | 'published' | 'archived';
   snapshot: TechniqueSnapshot & Record<string, unknown>;
   created_at: string;
 };
@@ -226,7 +226,7 @@ export async function fetchTechniqueChangeLogs(techniqueId: string): Promise<Tec
   return (data ?? []).map((row) => ({
     log_id: row.log_id as string,
     technique_id: row.technique_id as string,
-    event_type: row.event_type === 'published' ? 'published' : 'draft_saved',
+    event_type: row.event_type === 'published' ? 'published' : row.event_type === 'archived' ? 'archived' : 'draft_saved',
     snapshot: normalizeSnapshot((row.snapshot ?? {}) as Partial<TechniqueSnapshot>) as TechniqueSnapshot & Record<string, unknown>,
     created_at: row.created_at as string,
   }));
