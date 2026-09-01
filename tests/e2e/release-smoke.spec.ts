@@ -219,19 +219,19 @@ test('ホームの各CTAは正式コンテンツと既存画面へ遷移する',
   await startFreeHome(page);
 
   await page.getByTestId('home-brand-technique-cta').click();
-  await expect(page).toHaveURL(/\/card\/master336-014$/);
+  await expect(page).toHaveURL(/\/card\/master336-\d+$/);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '2枚目を表示' }).click();
   await page.getByTestId('home-brand-persona-cta').click();
-  await expect(page).toHaveURL(/\/subcategory\/interpersonal\/%E5%8D%B0%E8%B1%A1%E3%81%8C%E3%81%84%E3%81%84%E4%BA%BA$/);
+  await expect(page).toHaveURL(/\/subcategory\/(interpersonal|work|life)\//);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
   await page.getByTestId('home-brand-theory-cta').click();
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_theory$/);
+  await expect(page).toHaveURL(/\/theory\/kb_/);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
@@ -660,9 +660,41 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   await expect(page.getByText('今日も、少しだけ判断を磨く。')).toBeVisible();
   await expect(page.getByLabel('次のスライド')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
-  await expect(page.getByTestId('home-brand-slide-3')).toContainText('ピーク・エンドの法則');
+  await expect(page.getByTestId('home-brand-slide-3')).toContainText('理論｜');
+  await expect(page.getByTestId('home-brand-theory-cta')).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
+});
+
+test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const results: Array<{ domains: string[]; titles: string[] }> = [];
+  for (const date of ['2026-09-01T03:00:00.000Z', '2026-09-02T03:00:00.000Z', '2026-09-03T03:00:00.000Z']) {
+    await page.clock.setFixedTime(new Date(date));
+    await page.goto('/');
+    const freeEntry = page.getByRole('button', { name: '無料で始める' });
+    if (await freeEntry.isVisible({ timeout: 1_000 }).catch(() => false)) await startFreeHome(page);
+    await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+    const domains = await Promise.all([
+      page.getByTestId('home-brand-technique-domain').innerText(),
+      page.getByTestId('home-brand-persona-domain').innerText(),
+      page.getByTestId('home-brand-theory-domain').innerText(),
+    ]);
+    const titles = await Promise.all([
+      page.getByTestId('home-brand-slide-1').innerText(),
+      page.getByTestId('home-brand-slide-2').innerText(),
+      page.getByTestId('home-brand-slide-3').innerText(),
+    ]);
+    const represented = new Set(domains.flatMap((text) =>
+      ['対人術', '仕事術', '人生術'].filter((domain) => text.includes(domain)),
+    ));
+    expect(represented).toEqual(new Set(['対人術', '仕事術', '人生術']));
+    results.push({ domains, titles });
+  }
+  expect(results[1].domains).not.toEqual(results[0].domains);
+  expect(results[2].domains).not.toEqual(results[1].domains);
+  expect(results[1].titles).not.toEqual(results[0].titles);
+  expect(results[2].titles).not.toEqual(results[1].titles);
 });
 
 test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件を静かに示す', async ({ page }) => {

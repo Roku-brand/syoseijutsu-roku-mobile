@@ -4,9 +4,11 @@ const freePersonaNames = categories.flatMap((category) => category.subcategories
 export const FREE_PERSONA_NAMES = freePersonaNames as readonly string[];
 export const FREE_PERSONA_NAME_SET = new Set<string>(FREE_PERSONA_NAMES);
 
-// Preview selection is derived from the canonical catalog so content IDs can
-// change without leaving the free edition pointing at dead legacy IDs.
-export const FREE_REEL_TECHNIQUE_IDS = techniqueCards.slice(0, 45).map((card) => card.id) as readonly string[];
+// Preview selection is derived from the readable public catalogue so all
+// three domains stay available even though locked shells retain their IDs.
+export const FREE_REEL_TECHNIQUE_IDS = techniqueCards
+  .filter((card) => card.status !== 'locked' && card.title !== '完全版の処世術')
+  .map((card) => card.id) as readonly string[];
 export const FREE_DISCOVER_TECHNIQUE_IDS = FREE_REEL_TECHNIQUE_IDS;
 const FREE_THEORY_CATEGORY_IDS = [
   'behavioral-science',

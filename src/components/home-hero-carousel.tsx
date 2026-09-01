@@ -4,7 +4,7 @@ import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, 
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta } from '@/data/catalog';
-import { getHomeBrandContent, resolveHomeTheoryMapLinks, type HomePersona, type HomeTheoryMapItem } from '@/data/home-brand-content';
+import { getHomeBrandContent, getHomeDayKey, resolveHomeTheoryMapLinks, type HomePersona, type HomeTheoryMapItem } from '@/data/home-brand-content';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
@@ -113,7 +113,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         <Text style={[styles.darkTitle, !desktop && styles.darkTitleMobile]}>{card.title}</Text>
         <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
-          <Text style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
+          <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
           <Cta label="読む　→" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
         </View>
       </View>
@@ -127,7 +127,7 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
     <SlideShell desktop={desktop} testID="home-brand-slide-2">
       <Image source={personaImage} resizeMode="cover" accessibilityLabel="和紙と墨で描いた人物像の横顔" style={styles.fullImage} />
       <View style={[styles.paperCopy, !desktop && styles.paperCopyMobile]}>
-        <Text style={styles.goldEyebrow}>人物像｜{persona.categoryName}</Text>
+        <Text testID="home-brand-persona-domain" style={styles.goldEyebrow}>人物像｜{persona.categoryName}</Text>
         <Text style={[styles.paperTitle, !desktop && styles.paperTitleMobile]}>{persona.name}</Text>
         <Text style={[styles.personaDescription, !desktop && styles.personaDescriptionMobile]}>{persona.description}</Text>
         <View style={[styles.personaCountRow, !desktop && styles.personaCountRowMobile]}>
@@ -145,21 +145,22 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
   );
 }
 
-export function TheoryHeroSlide({ theory, desktop }: { theory: TheoryCard; desktop: boolean }) {
+export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: TheoryCard; domainLabel: string; desktop: boolean }) {
   const router = useRouter();
+  const longMobileTitle = !desktop && theory.title.length > 22;
   return (
     <SlideShell desktop={desktop} testID="home-brand-slide-3" tone="navy">
       <View style={styles.theoryFrame} />
       <View style={[styles.theoryCopy, !desktop && styles.theoryCopyMobile]}>
         <View style={styles.theoryMetaRow}>
           <View>
-            <Text style={styles.darkEyebrow}>理論</Text>
+            <Text testID="home-brand-theory-domain" style={styles.darkEyebrow}>理論｜{domainLabel}</Text>
             <Text style={styles.theoryCategory}>{theory.categoryTitle}</Text>
           </View>
           <Text style={styles.theoryId}>{getTheoryDisplayId(theory)}</Text>
         </View>
-        <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile]}>{theory.title}</Text>
-        <View style={styles.theoryRule}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
+        <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile, longMobileTitle && styles.theoryTitleMobileLong]}>{theory.title}</Text>
+        <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
         <Text numberOfLines={desktop ? undefined : 3} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
         <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
       </View>
@@ -292,16 +293,34 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const [activeIndex, setActiveIndex] = useState(() => readHomeReelPosition(HOME_REEL_ID));
   const [viewportWidth, setViewportWidth] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [dayKey, setDayKey] = useState(() => getHomeDayKey());
   const railRef = useRef<ScrollView>(null);
   const activeIndexRef = useRef(activeIndex);
   const edgeWrapPendingRef = useRef(false);
-  const content = useMemo(() => getHomeBrandContent(), [catalogRevision]);
+  const content = useMemo(() => getHomeBrandContent(), [catalogRevision, dayKey]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
 
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
     const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduceMotion);
     return () => subscription.remove();
+  }, []);
+
+  useEffect(() => {
+    const refreshDay = () => setDayKey((current) => {
+      const next = getHomeDayKey();
+      return next === current ? current : next;
+    });
+    const timer = setInterval(refreshDay, 60_000);
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', refreshDay);
+    }
+    return () => {
+      clearInterval(timer);
+      if (Platform.OS === 'web' && typeof document !== 'undefined') {
+        document.removeEventListener('visibilitychange', refreshDay);
+      }
+    };
   }, []);
 
   const commitIndex = useCallback((index: number) => {
@@ -357,12 +376,10 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [moveTo]);
 
-  if (!content.technique || !content.persona || !content.theory) return null;
-
   const slides: Array<{ type: HomeHeroSlideType; node: React.ReactNode }> = [
     { type: 'todayTechnique', node: <TechniqueHeroSlide card={content.technique} desktop={desktop} /> },
     { type: 'persona', node: <PersonaHeroSlide persona={content.persona} desktop={desktop} /> },
-    { type: 'theory', node: <TheoryHeroSlide theory={content.theory} desktop={desktop} /> },
+    { type: 'theory', node: <TheoryHeroSlide theory={content.theory} domainLabel={categoryMeta[content.domains.theory].label} desktop={desktop} /> },
     { type: 'techniqueTheoryMap', node: <TechniqueTheoryMapSlide techniqueId={content.techniqueTheoryMap.techniqueId} techniqueTitle={content.techniqueTheoryMap.title} theories={theoryLinks} desktop={desktop} /> },
     { type: 'systemMap', node: <SystemMapSlide counts={content.counts} desktop={desktop} /> },
     { type: 'premium', node: <PremiumHeroSlide desktop={desktop} counts={content.counts} /> },
@@ -456,7 +473,7 @@ const styles = StyleSheet.create({
   techniqueCopyMobile: { flex: 1, minHeight: 236, paddingHorizontal: 34, paddingVertical: 19 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 25, lineHeight: 34, marginTop: 11, maxWidth: 320 },
+  darkTitleMobile: { fontSize: 21, letterSpacing: 1.2, lineHeight: 30, marginTop: 11, maxWidth: 320 },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { fontSize: 13, letterSpacing: 0.35, lineHeight: 21, marginTop: 8, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
@@ -467,7 +484,7 @@ const styles = StyleSheet.create({
   paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.84)', flex: 1, justifyContent: 'flex-end', minHeight: 236, paddingBottom: 15, paddingHorizontal: 38, paddingTop: 42, width: '100%' },
   goldEyebrow: { color: '#A77824', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   paperTitle: { color: '#171717', fontFamily: fonts.serif, fontSize: 37, letterSpacing: 2.2, lineHeight: 51, marginTop: 15 },
-  paperTitleMobile: { fontSize: 24, lineHeight: 32, marginTop: 7 },
+  paperTitleMobile: { fontSize: 20, letterSpacing: 0.8, lineHeight: 28, marginTop: 7 },
   personaDescription: { color: '#5E584F', fontFamily: fonts.serif, fontSize: 14, lineHeight: 25, marginTop: 8, maxWidth: 420 },
   personaDescriptionMobile: { fontSize: 12, lineHeight: 19, marginTop: 4, maxWidth: 300 },
   personaCountRow: { alignItems: 'baseline', flexDirection: 'row', gap: 7, marginTop: 12 },
@@ -483,7 +500,9 @@ const styles = StyleSheet.create({
   theoryId: { borderColor: '#A77D31', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 12, paddingHorizontal: 15, paddingVertical: 7 },
   theoryTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 38, letterSpacing: 2, lineHeight: 53, marginTop: 24, textAlign: 'center' },
   theoryTitleMobile: { fontSize: 22, lineHeight: 28, marginTop: 5 },
+  theoryTitleMobileLong: { fontSize: 16, lineHeight: 21, marginTop: 3 },
   theoryRule: { alignItems: 'center', flexDirection: 'row', gap: 8, marginVertical: 9 },
+  theoryRuleMobile: { marginVertical: 5 },
   theoryRuleLine: { backgroundColor: 'rgba(196,148,57,0.65)', flex: 1, height: 1 },
   theoryRuleDiamond: { backgroundColor: '#C69A46', height: 7, transform: [{ rotate: '45deg' }], width: 7 },
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },

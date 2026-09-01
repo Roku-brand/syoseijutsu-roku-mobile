@@ -113,6 +113,27 @@ for (const preview of homeBrandContent.theorySnapshots) {
     throw new Error(`Home theory card is not canonical: ${preview.tagId}`);
   }
 }
+const expectedHomeDomains = techniques.categories.map((category) => category.key);
+for (const domain of expectedHomeDomains) {
+  const candidates = homeBrandContent.dailyCandidates[domain];
+  if (!candidates || candidates.techniqueIds.length !== 15 || !candidates.personaNames.length || !candidates.theoryIds.length) {
+    throw new Error(`Home daily candidates are incomplete for ${domain}.`);
+  }
+  if (candidates.techniqueIds.some((id) => !freeTechniqueIds.has(id))) {
+    throw new Error(`Home daily technique candidates include non-public content for ${domain}.`);
+  }
+  if (candidates.theoryIds.some((id) => !freeTheoryIds.has(id))) {
+    throw new Error(`Home daily theory candidates include non-public content for ${domain}.`);
+  }
+  const fallbackTechnique = homeBrandContent.fallbackTechniqueSnapshots[domain];
+  const canonicalTechnique = allTechniques.find((item) => item.id === fallbackTechnique?.id);
+  if (!canonicalTechnique || !freeTechniqueIds.has(canonicalTechnique.id) || canonicalTechnique.title !== fallbackTechnique.title) {
+    throw new Error(`Home fallback technique is not canonical for ${domain}.`);
+  }
+  if (homeBrandContent.fallbackPersonaSnapshots[domain]?.categoryKey !== domain) {
+    throw new Error(`Home fallback persona is not canonical for ${domain}.`);
+  }
+}
 for (const text of publicPreviewTexts) fingerprints.delete(fingerprint(text));
 
 const publicTechniqueItems = publicTechniques.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));

@@ -6,11 +6,38 @@ export const FREE_THEORY_CATEGORY_IDS = [
   'maxims-experience',
 ];
 
+export const FREE_TECHNIQUES_PER_DOMAIN = 15;
+
+function selectDomainPreviewItems(category) {
+  const previewPersonas = category.subcategories.slice(0, 2);
+  if (!previewPersonas.length) return [];
+  const reserveForNextPersona = previewPersonas.length > 1 ? 1 : 0;
+  const selected = previewPersonas[0].items.slice(0, FREE_TECHNIQUES_PER_DOMAIN - reserveForNextPersona);
+  const selectedIds = new Set(selected.map((item) => item.id));
+  if (reserveForNextPersona && previewPersonas[1].items[0]) {
+    selected.push(previewPersonas[1].items[0]);
+    selectedIds.add(previewPersonas[1].items[0].id);
+  }
+  for (const item of previewPersonas.flatMap((persona) => persona.items)) {
+    if (selected.length >= FREE_TECHNIQUES_PER_DOMAIN) break;
+    if (!selectedIds.has(item.id)) {
+      selected.push(item);
+      selectedIds.add(item.id);
+    }
+  }
+  return selected;
+}
+
 export function selectPublicContent({ techniques, theories, learning }) {
   const allTechniques = techniques.categories.flatMap((category) =>
     category.subcategories.flatMap((persona) => persona.items),
   );
-  const freeTechniqueIds = new Set(allTechniques.slice(0, 45).map((item) => item.id));
+  // The public edition is a cross-section of the whole knowledge system.
+  // Selecting from the flattened catalogue made all 45 cards interpersonal
+  // because that domain happens to be listed first.
+  const freeTechniqueIds = new Set(techniques.categories.flatMap((category) =>
+    selectDomainPreviewItems(category).map((item) => item.id),
+  ));
   const freeTheoryIds = new Set([
     ...theories.filter((theory) => theory.categoryId === 'psychology').slice(0, 20),
     ...FREE_THEORY_CATEGORY_IDS.flatMap((categoryId) =>

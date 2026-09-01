@@ -15,25 +15,65 @@ const [techniques, theories, learning, practicalActions, metadata] = await Promi
 
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 
-const HOME_TECHNIQUE_ID = 'master336-014';
-const HOME_PERSONA_NAME = '印象がいい人';
-const HOME_THEORY_ID = 'kb_029';
 const HOME_MAP_TECHNIQUE_ID = 'master336-007';
 const techniqueById = new Map(allTechniques.map((item) => [item.id, item]));
 const theoryById = new Map(theories.map((item) => [item.tagId, item]));
 const mapTechnique = techniqueById.get(HOME_MAP_TECHNIQUE_ID);
-const homeTheory = theoryById.get(HOME_THEORY_ID);
 
 if (!mapTechnique || (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds ?? []).length < 3) {
   throw new Error(`Home theory map requires at least three canonical links: ${HOME_MAP_TECHNIQUE_ID}`);
 }
-if (!homeTheory) throw new Error(`Unknown canonical home theory: ${HOME_THEORY_ID}`);
+
+const dailyCandidates = {};
+const fallbackTechniqueSnapshots = {};
+const fallbackPersonaSnapshots = {};
+for (const category of techniques.categories) {
+  const publicPersonas = category.subcategories.map((persona) => ({
+    persona,
+    items: persona.items.filter((item) => freeTechniqueIds.has(item.id)),
+  })).filter(({ items }) => items.length > 0);
+  const publicItems = publicPersonas.flatMap(({ items }) => items);
+  const theoryIds = [...new Set(publicItems.flatMap((item) =>
+    item.relatedTheoryIds ?? item.theoryTagIds ?? [],
+  ).filter((id) => freeTheoryIds.has(id)))];
+  if (!publicItems.length || !publicPersonas.length || !theoryIds.length) {
+    throw new Error(`Home daily candidates are incomplete for ${category.key}.`);
+  }
+
+  const firstPersona = publicPersonas[0];
+  dailyCandidates[category.key] = {
+    techniqueIds: publicItems.map((item) => item.id),
+    personaNames: publicPersonas.map(({ persona }) => persona.name),
+    theoryIds,
+  };
+  fallbackTechniqueSnapshots[category.key] = {
+    ...publicItems[0],
+    categoryKey: category.key,
+    categoryName: category.name,
+    subcategory: firstPersona.persona.name,
+    articleTitle: firstPersona.persona.articleTitle ?? firstPersona.persona.name,
+  };
+  fallbackPersonaSnapshots[category.key] = {
+    categoryKey: category.key,
+    categoryName: category.name,
+    name: firstPersona.persona.name,
+    description: `${firstPersona.persona.articleTitle ?? firstPersona.persona.name}を形づくる、${category.name}の実践知。`,
+    techniqueCount: firstPersona.items.length,
+  };
+}
+
+const dailyTheoryIds = [...new Set(Object.values(dailyCandidates).flatMap((group) => group.theoryIds))];
+const theorySnapshots = dailyTheoryIds.map((id) => {
+  const theory = theoryById.get(id);
+  if (!theory) throw new Error(`Unknown daily home theory: ${id}`);
+  return theory;
+});
 
 const homeBrandContent = {
-  todayTechniqueCandidateIds: [HOME_TECHNIQUE_ID],
-  personaCandidateNames: [HOME_PERSONA_NAME],
-  theoryCandidateIds: [HOME_THEORY_ID],
-  theorySnapshots: [homeTheory],
+  dailyCandidates,
+  fallbackTechniqueSnapshots,
+  fallbackPersonaSnapshots,
+  theorySnapshots,
   techniqueTheoryMap: {
     techniqueId: mapTechnique.id,
     title: mapTechnique.title,
