@@ -450,7 +450,7 @@ function RevisionHistory({ revisions, theoryOptions, restoringRevisionId, onRest
       const theory = theoryOptions.find((candidate) => candidate.tagId === id);
       return theory ? `${getTheoryDisplayId(theory)} ${theory.title}` : id;
     });
-    return <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText>{index === 0 ? <AppText style={styles.latestBadge}>最新</AppText> : null}</View><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText><AppText style={styles.historyTheoryLabel}>関連する理論</AppText><AppText numberOfLines={3} style={styles.historyTheories}>{relatedTheories.length ? relatedTheories.join('、') : 'なし'}</AppText></View>{restoringRevisionId === revision.revision_id ? <View style={styles.restoreActions}><Pressable onPress={onCancelRestore} style={styles.cancelRestoreButton}><AppText style={styles.cancelRestoreText}>キャンセル</AppText></Pressable><Pressable onPress={() => onConfirmRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>下書きに戻す</AppText></Pressable></View> : <Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable>}</View>;
+    return <View key={revision.revision_id} style={styles.historyRow}><View style={styles.historyCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(revision.created_at).toLocaleString('ja-JP')}</AppText>{index === 0 ? <AppText style={styles.latestBadge}>最新</AppText> : null}</View><AppText style={styles.historyDetail}>バージョン {revision.version} · {revision.snapshot.title}</AppText><AppText style={styles.historyTheoryLabel}>関連する理論（{relatedTheories.length}件）</AppText>{relatedTheories.length ? <View style={styles.historyTheoryList}>{relatedTheories.map((theory, theoryIndex) => <AppText key={`${revision.revision_id}-${theoryIndex}`} style={styles.historyTheories}>・{theory}</AppText>)}</View> : <AppText style={styles.historyTheories}>なし</AppText>}</View>{restoringRevisionId === revision.revision_id ? <View style={styles.restoreActions}><Pressable onPress={onCancelRestore} style={styles.cancelRestoreButton}><AppText style={styles.cancelRestoreText}>キャンセル</AppText></Pressable><Pressable onPress={() => onConfirmRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>下書きに戻す</AppText></Pressable></View> : <Pressable onPress={() => onRestore(revision)} style={styles.restoreButton}><AppText style={styles.restoreText}>この版に戻す</AppText></Pressable>}</View>;
   }) : <AppText style={styles.noHistory}>公開後の履歴がここに表示されます。</AppText>}</View>;
 }
 
@@ -458,7 +458,7 @@ function ChangeLogHistory({ logs, theoryOptions }: { logs: TechniqueChangeLog[];
   return <View style={styles.changeLog}><AppText variant="label" style={styles.paneLabel}>変更ログ {logs.length}</AppText>{logs.length ? logs.map((log) => {
     const theoryIds = log.snapshot.theory_ids ?? [];
     const theoryNames = theoryIds.map((id) => theoryOptions.find((theory) => theory.tagId === id)?.title ?? id);
-    return <View key={log.log_id} style={styles.changeLogRow}><View style={styles.changeLogCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(log.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.changeType}>{log.event_type === 'published' ? '公開' : '下書き保存'}</AppText></View><AppText style={styles.historyDetail}>{log.snapshot.title || 'タイトル未入力'} · 関連する理論 {theoryIds.length}件</AppText><AppText numberOfLines={2} style={styles.changeLogDetail}>{theoryNames.length ? `理論: ${theoryNames.join('、')}` : '理論: なし'} ／ 本質・解説・実践・具体例・注意点を含む完全スナップショット</AppText></View></View>;
+    return <View key={log.log_id} style={styles.changeLogRow}><View style={styles.changeLogCopy}><View style={styles.historyMeta}><AppText style={styles.historyDate}>{new Date(log.created_at).toLocaleString('ja-JP')}</AppText><AppText style={styles.changeType}>{log.event_type === 'published' ? '公開' : '下書き保存'}</AppText></View><AppText style={styles.historyDetail}>{log.snapshot.title || 'タイトル未入力'} · 関連する理論 {theoryIds.length}件</AppText>{theoryNames.length ? <View style={styles.historyTheoryList}>{theoryNames.map((theory, theoryIndex) => <AppText key={`${log.log_id}-${theoryIndex}`} style={styles.changeLogDetail}>・{theory}</AppText>)}</View> : <AppText style={styles.changeLogDetail}>理論: なし</AppText>}<AppText style={styles.changeLogScope}>本質・解説・実践・具体例・注意点を含む完全スナップショット</AppText></View></View>;
   }) : <AppText style={styles.noHistory}>保存・公開した変更がここに記録されます。</AppText>}</View>;
 }
 
@@ -568,6 +568,7 @@ const styles = StyleSheet.create({
   historyDetail: { marginTop: 2, color: colors.muted, fontSize: 11 },
   historyTheoryLabel: { marginTop: 6, color: colors.gold, fontSize: 10, fontWeight: '700' },
   historyTheories: { marginTop: 2, color: colors.inkSoft, fontSize: 11, lineHeight: 17 },
+  historyTheoryList: { marginTop: 1 },
   restoreButton: { paddingHorizontal: 10, paddingVertical: 8, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   restoreText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   restoreActions: { flexDirection: 'row', alignItems: 'center', gap: 7 },
@@ -579,4 +580,5 @@ const styles = StyleSheet.create({
   changeLogCopy: { minWidth: 0 },
   changeType: { paddingHorizontal: 6, paddingVertical: 2, color: colors.gold, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, fontSize: 10, fontWeight: '700' },
   changeLogDetail: { marginTop: 4, color: colors.muted, fontSize: 10, lineHeight: 16 },
+  changeLogScope: { marginTop: 5, color: colors.muted, fontSize: 10, lineHeight: 16 },
 });
