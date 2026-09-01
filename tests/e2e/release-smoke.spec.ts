@@ -768,6 +768,25 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
   }
 });
 
+test('ホームリール全7枚はスマホ・PCともカード内部にはみ出さない', async ({ page }) => {
+  for (const viewportSize of [{ width: 320, height: 740 }, { width: 1440, height: 900 }]) {
+    await page.setViewportSize(viewportSize);
+    await page.goto('/');
+    await startFreeHome(page);
+    for (let index = 1; index <= 7; index += 1) {
+      await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
+      const metrics = await page.getByTestId(`home-brand-slide-${index}`).evaluate((element) => ({
+        clientHeight: element.clientHeight,
+        clientWidth: element.clientWidth,
+        scrollHeight: element.scrollHeight,
+        scrollWidth: element.scrollWidth,
+      }));
+      expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth + 2);
+      expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.clientHeight + 2);
+    }
+  }
+});
+
 test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩さない', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/personas');

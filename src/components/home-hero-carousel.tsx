@@ -88,14 +88,14 @@ function SlideShell({ children, desktop, testID, tone = 'paper' }: SlideShellPro
   );
 }
 
-function Cta({ label, onPress, dark = false, compact = false, testID }: { label: string; onPress: () => void; dark?: boolean; compact?: boolean; testID?: string }) {
+function Cta({ label, onPress, dark = false, compact = false, centered = false, testID }: { label: string; onPress: () => void; dark?: boolean; compact?: boolean; centered?: boolean; testID?: string }) {
   return (
     <Pressable
       accessibilityRole="link"
       accessibilityLabel={label.replace(/\s*→$/, '')}
       testID={testID}
       onPress={onPress}
-      style={({ pressed }) => [styles.cta, compact && styles.ctaCompact, dark && styles.ctaDark, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.cta, compact && styles.ctaCompact, centered && styles.ctaCentered, dark && styles.ctaDark, pressed && styles.pressed]}
     >
       <Text style={[styles.ctaText, compact && styles.ctaTextCompact, dark && styles.ctaTextDark]}>{label}</Text>
     </Pressable>
@@ -161,7 +161,7 @@ export function TheoryHeroSlide({ theory, desktop }: { theory: TheoryCard; deskt
         <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile]}>{theory.title}</Text>
         <View style={styles.theoryRule}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
         <Text numberOfLines={desktop ? undefined : 3} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
-        <Cta label="理論を見る　→" dark compact={!desktop} onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
+        <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
       </View>
     </SlideShell>
   );
@@ -246,7 +246,7 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
   const router = useRouter();
   return (
     <SlideShell desktop={desktop} testID="home-brand-slide-6">
-      <View style={styles.premiumOrnament} />
+      <View style={[styles.premiumOrnament, !desktop && styles.premiumOrnamentMobile]} />
       <View style={[styles.premiumContent, !desktop && styles.premiumContentMobile]}>
         <View style={styles.premiumCopy}>
           <Text style={styles.goldEyebrow}>処世術禄　完全版</Text>
@@ -277,10 +277,10 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
 export function RokumaruSlide({ desktop }: { desktop: boolean }) {
   return (
     <SlideShell desktop={desktop} testID="home-brand-slide-7">
-      <View style={styles.rokumaruHalo} />
+      <View style={[styles.rokumaruHalo, !desktop && styles.rokumaruHaloMobile]} />
       <View style={[styles.rokumaruCopy, !desktop && styles.rokumaruCopyMobile]}>
         <Text style={styles.rokumaruEyebrow}>禄丸からひと言</Text>
-        <Text style={[styles.rokumaruQuote, !desktop && styles.rokumaruQuoteMobile]}>焦らず、一歩ずつ。</Text>
+        <Text style={[styles.rokumaruQuote, !desktop && styles.rokumaruQuoteMobile]}>{desktop ? '焦らず、一歩ずつ。' : <>焦らず、{`\n`}一歩ずつ。</>}</Text>
         <Text style={[styles.rokumaruMessage, !desktop && styles.rokumaruMessageMobile]}>今日の一枚も、立派な前進だよ。</Text>
       </View>
       <Rokumaru mood="encourage" testID="home-rokumaru" style={[styles.rokumaru, !desktop && styles.rokumaruMobile]} />
@@ -445,6 +445,7 @@ const styles = StyleSheet.create({
   pressed: { opacity: 0.82 },
   cta: { alignItems: 'center', alignSelf: 'flex-start', borderColor: '#B98A31', borderRadius: 999, borderWidth: 1, justifyContent: 'center', marginTop: 20, minHeight: 44, paddingHorizontal: 23 },
   ctaCompact: { marginTop: 8, minHeight: 34, paddingHorizontal: 17 },
+  ctaCentered: { alignSelf: 'center' },
   ctaDark: { borderColor: '#C59A45' },
   ctaText: { color: '#80580E', fontFamily: fonts.serif, fontSize: 13, fontWeight: '600', letterSpacing: 0.8 },
   ctaTextCompact: { fontSize: 12, letterSpacing: 0.5 },
@@ -463,7 +464,7 @@ const styles = StyleSheet.create({
   darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 11, marginTop: 20, paddingHorizontal: 13, paddingVertical: 6 },
   darkMetaMobile: { marginTop: 10, paddingHorizontal: 11, paddingVertical: 5 },
   paperCopy: { justifyContent: 'center', minHeight: 410, paddingHorizontal: 40, paddingVertical: 34, width: '58%' },
-  paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.84)', flex: 1, justifyContent: 'flex-end', minHeight: 236, paddingBottom: 15, paddingHorizontal: 30, paddingTop: 42, width: '100%' },
+  paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.84)', flex: 1, justifyContent: 'flex-end', minHeight: 236, paddingBottom: 15, paddingHorizontal: 38, paddingTop: 42, width: '100%' },
   goldEyebrow: { color: '#A77824', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   paperTitle: { color: '#171717', fontFamily: fonts.serif, fontSize: 37, letterSpacing: 2.2, lineHeight: 51, marginTop: 15 },
   paperTitleMobile: { fontSize: 24, lineHeight: 32, marginTop: 7 },
@@ -486,7 +487,7 @@ const styles = StyleSheet.create({
   theoryRuleLine: { backgroundColor: 'rgba(196,148,57,0.65)', flex: 1, height: 1 },
   theoryRuleDiamond: { backgroundColor: '#C69A46', height: 7, transform: [{ rotate: '45deg' }], width: 7 },
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },
-  theorySummaryMobile: { fontSize: 10.5, letterSpacing: 0.1, lineHeight: 16, maxWidth: 310 },
+  theorySummaryMobile: { fontSize: 11, letterSpacing: 0.1, lineHeight: 17, maxWidth: 310 },
   mapContent: { minHeight: 410, paddingHorizontal: 36, paddingVertical: 27 },
   mapContentMobile: { flex: 1, minHeight: 236, paddingHorizontal: 28, paddingVertical: 15 },
   mapHeading: { color: '#9D6E1B', fontFamily: fonts.serif, fontSize: 15, letterSpacing: 1.2, lineHeight: 22, textAlign: 'center' },
@@ -529,9 +530,10 @@ const styles = StyleSheet.create({
   systemNote: { color: '#746A5B', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginLeft: -116, marginTop: 126, position: 'absolute', textAlign: 'center', width: 116 },
   systemArrow: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 23, marginHorizontal: 5 },
   systemArrowMobile: { fontSize: 17, marginHorizontal: 2 },
-  premiumOrnament: { borderColor: 'rgba(184,138,42,0.26)', borderRadius: 300, borderWidth: 1, height: 430, position: 'absolute', right: -80, top: -120, width: 430 },
+  premiumOrnament: { borderColor: 'rgba(184,138,42,0.26)', borderRadius: 300, borderWidth: 1, height: 360, position: 'absolute', right: 18, top: -72, width: 360 },
+  premiumOrnamentMobile: { height: 230, right: 2, top: -12, width: 230 },
   premiumContent: { alignItems: 'center', flexDirection: 'row', minHeight: 410, paddingHorizontal: 48, paddingVertical: 32 },
-  premiumContentMobile: { flex: 1, flexDirection: 'row', justifyContent: 'center', minHeight: 236, paddingHorizontal: 30, paddingVertical: 16 },
+  premiumContentMobile: { flex: 1, flexDirection: 'row', justifyContent: 'center', minHeight: 236, paddingHorizontal: 38, paddingVertical: 16 },
   premiumCopy: { flex: 1, minWidth: 0 },
   premiumTitle: { color: '#1A1815', fontFamily: fonts.serif, fontSize: 31, lineHeight: 43, marginTop: 11 },
   premiumTitleMobile: { fontSize: 23, lineHeight: 31 },
@@ -549,17 +551,18 @@ const styles = StyleSheet.create({
   premiumMarkWrap: { alignItems: 'center', justifyContent: 'center', width: '33%' },
   premiumMarkWrapMobile: { height: '100%', width: '28%' },
   premiumMark: { height: 172, width: 172 },
-  premiumMarkMobile: { height: 88, width: 88 },
-  rokumaruHalo: { backgroundColor: 'rgba(201,153,55,0.13)', borderRadius: 230, height: 460, position: 'absolute', right: 25, top: -20, width: 460 },
+  premiumMarkMobile: { height: 74, width: 74 },
+  rokumaruHalo: { backgroundColor: 'rgba(201,153,55,0.13)', borderRadius: 205, height: 410, position: 'absolute', right: 25, top: 0, width: 410 },
+  rokumaruHaloMobile: { borderRadius: 115, height: 230, right: 0, top: 0, width: 230 },
   rokumaruCopy: { justifyContent: 'center', minHeight: 410, paddingHorizontal: 52, width: '61%' },
-  rokumaruCopyMobile: { flex: 1, justifyContent: 'flex-start', minHeight: 236, paddingHorizontal: 30, paddingTop: 27, width: '62%' },
+  rokumaruCopyMobile: { flex: 1, justifyContent: 'flex-start', minHeight: 236, paddingLeft: 38, paddingRight: 0, paddingTop: 27, width: '60%', zIndex: 2 },
   rokumaruEyebrow: { color: '#6D5531', fontFamily: fonts.serif, fontSize: 14, letterSpacing: 1.2 },
   rokumaruQuote: { color: '#1B1916', fontFamily: fonts.serif, fontSize: 37, letterSpacing: 2, lineHeight: 53, marginTop: 20 },
   rokumaruQuoteMobile: { fontSize: 23, lineHeight: 32, marginTop: 11 },
   rokumaruMessage: { color: '#4E473E', fontFamily: fonts.serif, fontSize: 18, lineHeight: 31, marginTop: 7 },
-  rokumaruMessageMobile: { fontSize: 13, lineHeight: 21, marginTop: 4 },
-  rokumaru: { bottom: -14, height: 390, position: 'absolute', right: 22, width: 390 },
-  rokumaruMobile: { bottom: -9, height: 172, right: -8, width: 172 },
+  rokumaruMessageMobile: { fontSize: 12, lineHeight: 20, marginTop: 4, maxWidth: 112 },
+  rokumaru: { bottom: 0, height: 380, position: 'absolute', right: 22, width: 380 },
+  rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
   arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.96)', borderColor: '#D3C4A9', borderRadius: 23, borderWidth: 1, flexShrink: 0, height: 46, justifyContent: 'center', width: 46, ...bookCardShadow },
   arrowMobile: { borderRadius: 20, height: 40, marginTop: -20, position: 'absolute', top: '50%', width: 40, zIndex: 3 },
   arrowPreviousMobile: { left: -6 },
