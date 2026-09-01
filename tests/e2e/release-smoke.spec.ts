@@ -564,6 +564,13 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(mapSlide).toContainText('限界効用逓減');
   await expect(mapSlide).toContainText('希少性価値');
   await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
+  for (const title of [page.getByTestId('home-brand-technique-title'), page.getByTestId('home-brand-map-technique-title')]) {
+    const style = await title.evaluate((element) => {
+      const computed = getComputedStyle(element);
+      return { overflow: computed.overflow, textOverflow: computed.textOverflow, whiteSpace: computed.whiteSpace };
+    });
+    expect(style).toEqual({ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' });
+  }
   await expect(page.getByTestId('home-brand-map-technique-cta')).not.toContainText(/[\.…]/);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);

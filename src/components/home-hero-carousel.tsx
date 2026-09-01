@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native';
+import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta } from '@/data/catalog';
@@ -29,7 +29,8 @@ function singleLineTitleSize(title: string, desktop: boolean, desktopBase: numbe
   const minimum = desktop ? 13 : 10;
   return {
     fontSize: Math.max(minimum, Math.min(base, (base * comfortableCharacters) / Math.max(title.length, comfortableCharacters))),
-  };
+    ...(Platform.OS === 'web' ? { overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' } : null),
+  } as TextStyle;
 }
 
 function wrapHomeReelIndex(index: number) {
@@ -120,11 +121,14 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
         <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
         <Text
-          numberOfLines={1}
+          testID="home-brand-technique-title"
+          numberOfLines={Platform.OS === 'web' ? undefined : 1}
+          adjustsFontSizeToFit={Platform.OS !== 'web'}
+          minimumFontScale={0.4}
           style={[
             styles.darkTitle,
             !desktop && styles.darkTitleMobile,
-            singleLineTitleSize(card.title, desktop, 39, 21, 15, 13),
+            singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
           ]}
         >
           {card.title}
@@ -197,7 +201,9 @@ function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem
     >
       <Text style={[styles.theoryNodeCategory, compact && styles.theoryNodeCategoryMobile]}>{item.categoryTitle}</Text>
       <Text
-        numberOfLines={1}
+        numberOfLines={Platform.OS === 'web' ? undefined : 1}
+        adjustsFontSizeToFit={Platform.OS !== 'web'}
+        minimumFontScale={0.4}
         style={[
           styles.theoryNodeTitle,
           compact && styles.theoryNodeTitleMobile,
@@ -230,11 +236,14 @@ export function TechniqueTheoryMapSlide({ techniqueId, techniqueTitle, theories,
           >
             <Text style={styles.mapTechniqueLabel}>処世術</Text>
             <Text
-              numberOfLines={1}
+              testID="home-brand-map-technique-title"
+              numberOfLines={Platform.OS === 'web' ? undefined : 1}
+              adjustsFontSizeToFit={Platform.OS !== 'web'}
+              minimumFontScale={0.4}
               style={[
                 styles.mapTechniqueTitle,
                 !desktop && styles.mapTechniqueTitleMobile,
-                singleLineTitleSize(techniqueTitle, desktop, 25, 15, 10, 14),
+                singleLineTitleSize(techniqueTitle, desktop, 25, 15, 8, 12),
               ]}
             >
               {techniqueTitle}
