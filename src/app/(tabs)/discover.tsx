@@ -72,7 +72,7 @@ export default function DiscoverScreen() {
         <TextInput
           value={query}
           onChangeText={setQuery}
-          placeholder="処世術・人物像・理論・キーワードを探す"
+          placeholder={compact ? '処世術・人物像・理論を探す' : '処世術・人物像・理論・キーワードを探す'}
           placeholderTextColor={colors.muted}
           accessibilityLabel="処世術・人物像・理論・キーワードを検索"
           style={[styles.searchInput, compact && styles.searchInputCompact]}

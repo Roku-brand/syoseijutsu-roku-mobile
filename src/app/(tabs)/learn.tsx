@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { AccessBadge } from '@/components/access-badge';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
@@ -34,7 +34,7 @@ export default function LearnHomeScreen() {
     <BookScreen contentContainerStyle={[styles.content, !desktop && styles.contentMobile]}>
       <View style={styles.intro}>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.introTitle, !desktop && styles.introTitleMobile]}>処世術を習得しよう！</AppText>
-        <AppText style={styles.introBody}>3つのステージで、判断を少しずつ自分の力に。</AppText>
+        <AppText style={styles.introBody}>3つのステージで、判断を少しずつ<AppText style={Platform.OS === 'web' ? ({ whiteSpace: 'nowrap' } as any) : undefined}>自分の力に。</AppText></AppText>
       </View>
 
       <View style={styles.stageList} testID="learning-stage-list">
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   stageIconRing: { position: 'absolute', width: '88%', height: '88%', borderRadius: 999, borderWidth: 1, borderColor: '#6F5726' },
   stageIconText: { color: '#E2BD67', fontFamily: fonts.serif, fontSize: 34, lineHeight: 42, fontWeight: '700' },
   stageIconTextMobile: { fontSize: 24, lineHeight: 31 },
-  stageCopy: { flex: 1, minWidth: 220 },
+  stageCopy: { flex: 1, minWidth: 0 },
   stageIdentity: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   stageNumber: { color: colors.gold, fontFamily: fonts.serif, fontSize: 15, lineHeight: 20, letterSpacing: 1.1, fontWeight: '700' },
   stageTitle: { marginTop: 5, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '700', letterSpacing: 1.6 },

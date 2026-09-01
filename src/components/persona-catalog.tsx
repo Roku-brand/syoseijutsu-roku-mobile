@@ -65,10 +65,11 @@ export function PersonaFilterBar({ selected, onSelect }: {
   );
 }
 
-export function PersonaCard({ entry, variant, compact, showCategory = false }: {
+export function PersonaCard({ entry, variant, compact, narrow = false, showCategory = false }: {
   entry: PersonaEntry;
   variant: 'rail' | 'grid';
   compact: boolean;
+  narrow?: boolean;
   showCategory?: boolean;
 }) {
   const { isPaid } = useAccess();
@@ -79,6 +80,7 @@ export function PersonaCard({ entry, variant, compact, showCategory = false }: {
     variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
     compact && variant === 'rail' && styles.personaCardRailCompact,
     compact && variant === 'grid' && styles.personaCardGridCompact,
+    narrow && variant === 'grid' && styles.personaCardGridNarrow,
   ]);
 
   return (
@@ -88,12 +90,12 @@ export function PersonaCard({ entry, variant, compact, showCategory = false }: {
         accessibilityLabel={`${persona.name}、${categoryMeta[category.key].label}、${persona.items.length}処世術を開く`}
         style={cardStyle}
       >
-        <View accessibilityElementsHidden style={styles.personaIcon}>
+        <View accessibilityElementsHidden style={[styles.personaIcon, narrow && styles.personaIconNarrow]}>
           <View style={styles.personaHead} />
           <View style={styles.personaShoulders} />
         </View>
-        {showCategory ? <AppText style={styles.personaCategory}>{categoryMeta[category.key].label}</AppText> : null}
-        <AppText numberOfLines={2} style={styles.personaTitle}>{persona.name}</AppText>
+        {showCategory ? <AppText style={[styles.personaCategory, narrow && styles.personaCategoryNarrow]}>{categoryMeta[category.key].label}</AppText> : null}
+        <AppText numberOfLines={2} style={[styles.personaTitle, narrow && styles.personaTitleNarrow]}>{persona.name}</AppText>
         <View style={styles.personaFooter}>
           <AppText style={styles.personaTechniqueCount}>{persona.items.length}処世術</AppText>
           <AppText accessibilityElementsHidden style={styles.personaArrow}>›</AppText>
@@ -115,11 +117,15 @@ const styles = StyleSheet.create({
   personaCardRailCompact: { width: 174, height: 196, minHeight: 196, paddingTop: 23, paddingHorizontal: 11 },
   personaCardGrid: { width: 224, height: 210, flexGrow: 1, flexShrink: 0 },
   personaCardGridCompact: { width: '48%', flexBasis: '48%', maxWidth: '48%', height: 194, minHeight: 194, paddingHorizontal: 9 },
+  personaCardGridNarrow: { width: '100%', flexBasis: '100%', maxWidth: '100%', height: 164, minHeight: 164, paddingTop: 15, paddingBottom: 11 },
   personaIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
+  personaIconNarrow: { width: 48, height: 48, borderRadius: 24 },
   personaHead: { width: 11, height: 11, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 6, marginBottom: 5 },
   personaShoulders: { width: 23, height: 12, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 12, borderTopRightRadius: 12 },
   personaCategory: { marginTop: 10, color: colors.gold, fontSize: 9, lineHeight: 14, fontWeight: '700', letterSpacing: 0.8 },
+  personaCategoryNarrow: { marginTop: 5 },
   personaTitle: { minHeight: 48, marginTop: 12, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', textAlign: 'center' },
+  personaTitleNarrow: { minHeight: 24, marginTop: 6, fontSize: 16, lineHeight: 23 },
   personaFooter: { width: '100%', minHeight: 26, marginTop: 'auto', paddingTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   personaTechniqueCount: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
   personaArrow: { color: colors.gold, fontSize: 21, lineHeight: 21 },

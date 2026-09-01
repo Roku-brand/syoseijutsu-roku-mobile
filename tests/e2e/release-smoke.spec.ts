@@ -554,7 +554,8 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   await expect(page.getByTestId('home-brand-slide-4')).toContainText('相手のテンポに寄せる');
   await expect(page.getByTestId('home-brand-slide-4')).toContainText('ミラーリング効果');
-  await expect(page.getByTestId('home-brand-slide-4')).toContainText('カメレオン効果');
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('言語スタイル同調');
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('行動同調');
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -739,7 +740,7 @@ test('ホームのカードから詳細へ移動して戻ると、選択位置�
 test('ホームのブランドリールはPC・タブレット・スマホでカードが途中で切れない', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
-  for (const viewportSize of [{ width: 1440, height: 900 }, { width: 768, height: 1024 }, { width: 390, height: 844 }]) {
+  for (const viewportSize of [{ width: 1440, height: 900 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewportSize);
     const viewport = page.getByTestId('home-brand-viewport');
     const slide = page.getByTestId('home-brand-slide-1');
@@ -753,6 +754,35 @@ test('ホームのブランドリールはPC・タブレット・スマホでカ
     const pageWidth = await page.evaluate(() => ({ inner: innerWidth, scroll: document.documentElement.scrollWidth }));
     expect(pageWidth.scroll).toBeLessThanOrEqual(pageWidth.inner);
   }
+});
+
+test('スマホのホームリールは横長比率を保ち全7枚を読みやすく表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+  for (let index = 1; index <= 7; index += 1) {
+    await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
+    const slideBox = await page.getByTestId(`home-brand-slide-${index}`).boundingBox();
+    expect(slideBox).not.toBeNull();
+    expect(slideBox!.width / slideBox!.height).toBeGreaterThan(1.4);
+  }
+});
+
+test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩さない', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto('/personas');
+  const cards = page.getByTestId('personas-grid').getByRole('link');
+  await expect(cards).toHaveCount(26);
+  const [first, second] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox()]);
+  expect(first).not.toBeNull();
+  expect(second).not.toBeNull();
+  expect(Math.abs(first!.x - second!.x)).toBeLessThan(2);
+
+  await page.goto('/learn');
+  await expect(page.getByText('3つのステージで、判断を少しずつ自分の力に。')).toBeVisible();
+  await expect(page.getByText('\\u2060')).toHaveCount(0);
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

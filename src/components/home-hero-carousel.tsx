@@ -88,16 +88,16 @@ function SlideShell({ children, desktop, testID, tone = 'paper' }: SlideShellPro
   );
 }
 
-function Cta({ label, onPress, dark = false, testID }: { label: string; onPress: () => void; dark?: boolean; testID?: string }) {
+function Cta({ label, onPress, dark = false, compact = false, testID }: { label: string; onPress: () => void; dark?: boolean; compact?: boolean; testID?: string }) {
   return (
     <Pressable
       accessibilityRole="link"
       accessibilityLabel={label.replace(/\s*→$/, '')}
       testID={testID}
       onPress={onPress}
-      style={({ pressed }) => [styles.cta, dark && styles.ctaDark, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.cta, compact && styles.ctaCompact, dark && styles.ctaDark, pressed && styles.pressed]}
     >
-      <Text style={[styles.ctaText, dark && styles.ctaTextDark]}>{label}</Text>
+      <Text style={[styles.ctaText, compact && styles.ctaTextCompact, dark && styles.ctaTextDark]}>{label}</Text>
     </Pressable>
   );
 }
@@ -111,10 +111,10 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
         <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
         <Text style={[styles.darkTitle, !desktop && styles.darkTitleMobile]}>{card.title}</Text>
-        <Text style={styles.darkBody}>{card.essence}</Text>
-        <View style={styles.metaRow}>
-          <Text style={styles.darkMeta}>{categoryMeta[card.categoryKey].label}</Text>
-          <Cta label="読む　→" dark onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
+        <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
+        <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
+          <Text style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
+          <Cta label="読む　→" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
         </View>
       </View>
     </SlideShell>
@@ -129,13 +129,14 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
       <View style={[styles.paperCopy, !desktop && styles.paperCopyMobile]}>
         <Text style={styles.goldEyebrow}>人物像｜{persona.categoryName}</Text>
         <Text style={[styles.paperTitle, !desktop && styles.paperTitleMobile]}>{persona.name}</Text>
-        <Text style={styles.personaDescription}>{persona.description}</Text>
-        <View style={styles.personaCountRow}>
-          <Text style={styles.personaCount}>{persona.techniqueCount}</Text>
+        <Text style={[styles.personaDescription, !desktop && styles.personaDescriptionMobile]}>{persona.description}</Text>
+        <View style={[styles.personaCountRow, !desktop && styles.personaCountRowMobile]}>
+          <Text style={[styles.personaCount, !desktop && styles.personaCountMobile]}>{persona.techniqueCount}</Text>
           <Text style={styles.personaCountLabel}>処世術で構成</Text>
         </View>
         <Cta
           label="人物像を見る　→"
+          compact={!desktop}
           onPress={() => router.push(personaRoute(persona.categoryKey, persona.name))}
           testID="home-brand-persona-cta"
         />
@@ -159,24 +160,24 @@ export function TheoryHeroSlide({ theory, desktop }: { theory: TheoryCard; deskt
         </View>
         <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile]}>{theory.title}</Text>
         <View style={styles.theoryRule}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
-        <Text style={styles.theorySummary}>{theory.summary}</Text>
-        <Cta label="理論を見る　→" dark onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
+        <Text numberOfLines={desktop ? undefined : 3} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
+        <Cta label="理論を見る　→" dark compact={!desktop} onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
       </View>
     </SlideShell>
   );
 }
 
-function TheoryNode({ item, index, onPress }: { item: HomeTheoryMapItem; index: number; onPress: () => void }) {
+function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem; index: number; compact: boolean; onPress: () => void }) {
   return (
     <Pressable
       accessibilityRole="link"
       accessibilityLabel={`${item.title}を開く`}
       testID={`home-brand-map-theory-${index + 1}`}
       onPress={onPress}
-      style={({ pressed }) => [styles.theoryNode, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.theoryNode, compact && styles.theoryNodeMobile, pressed && styles.pressed]}
     >
-      <Text style={styles.theoryNodeCategory}>{item.categoryTitle}</Text>
-      <Text style={styles.theoryNodeTitle}>{item.title}</Text>
+      <Text style={[styles.theoryNodeCategory, compact && styles.theoryNodeCategoryMobile]}>{item.categoryTitle}</Text>
+      <Text numberOfLines={compact ? 3 : undefined} style={[styles.theoryNodeTitle, compact && styles.theoryNodeTitleMobile]}>{item.title}</Text>
     </Pressable>
   );
 }
@@ -197,11 +198,11 @@ export function TechniqueTheoryMapSlide({ techniqueId, techniqueTitle, theories,
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
             <Text style={styles.mapTechniqueLabel}>処世術</Text>
-            <Text style={[styles.mapTechniqueTitle, !desktop && styles.mapTechniqueTitleMobile]}>{techniqueTitle}</Text>
+            <Text numberOfLines={desktop ? undefined : 2} style={[styles.mapTechniqueTitle, !desktop && styles.mapTechniqueTitleMobile]}>{techniqueTitle}</Text>
           </Pressable>
           <View accessibilityElementsHidden style={[styles.mapConnector, !desktop && styles.mapConnectorMobile]}><Text style={styles.mapConnectorGlyph}>{desktop ? '───' : '↓'}</Text></View>
           <View style={[styles.theoryNodes, !desktop && styles.theoryNodesMobile]}>
-            {theories.map((item, index) => <TheoryNode key={item.tagId} item={item} index={index} onPress={() => router.push(theoryRoute(item.tagId))} />)}
+            {(desktop ? theories : theories.slice(0, 3)).map((item, index) => <TheoryNode key={item.tagId} item={item} index={index} compact={!desktop} onPress={() => router.push(theoryRoute(item.tagId))} />)}
           </View>
         </View>
       </View>
@@ -226,16 +227,16 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
         <View style={[styles.systemStats, !desktop && styles.systemStatsMobile]}>
           {stats.map((stat, index) => (
             <View key={stat.label} style={[styles.systemStatWrap, !desktop && styles.systemStatWrapMobile]}>
-              <View style={[styles.systemStat, index === 2 && styles.systemStatGold, index === 3 && styles.systemStatDark]}>
-                <Text style={[styles.systemValue, index >= 2 && styles.systemValueReverse]}>{stat.value}</Text>
-                <Text style={[styles.systemLabel, index >= 2 && styles.systemLabelReverse]}>{stat.label}</Text>
+              <View style={[styles.systemStat, !desktop && styles.systemStatMobile, index === 2 && styles.systemStatGold, index === 3 && styles.systemStatDark]}>
+                <Text style={[styles.systemValue, !desktop && styles.systemValueMobile, index >= 2 && styles.systemValueReverse]}>{stat.value}</Text>
+                <Text style={[styles.systemLabel, !desktop && styles.systemLabelMobile, index >= 2 && styles.systemLabelReverse]}>{stat.label}</Text>
               </View>
               {desktop ? <Text style={styles.systemNote}>{stat.note}</Text> : null}
               {index < stats.length - 1 ? <Text style={[styles.systemArrow, !desktop && styles.systemArrowMobile]}>{index === 2 ? '↔' : '→'}</Text> : null}
             </View>
           ))}
         </View>
-        <Cta label="体系を見る　→" onPress={() => router.push(APP_ROUTES.personas)} testID="home-brand-system-cta" />
+        <Cta label="体系を見る　→" compact={!desktop} onPress={() => router.push(APP_ROUTES.personas)} testID="home-brand-system-cta" />
       </View>
     </SlideShell>
   );
@@ -251,18 +252,22 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
           <Text style={styles.goldEyebrow}>処世術禄　完全版</Text>
           <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>30日間、すべての知恵を。</Text>
           <View style={styles.premiumPriceRow}>
-            <Text style={styles.premiumPrice}>¥{COMPLETE_EDITION_PRICE_JPY}</Text>
+          <Text style={[styles.premiumPrice, !desktop && styles.premiumPriceMobile]}>¥{COMPLETE_EDITION_PRICE_JPY}</Text>
             <View><Text style={styles.premiumDuration}>30日間</Text><Text style={styles.premiumCondition}>一回払い・自動更新なし</Text></View>
           </View>
-          <View style={[styles.editionCompare, !desktop && styles.editionCompareMobile]}>
-            <View><Text style={styles.editionLabel}>無料版</Text><Text style={styles.editionText}>処世術 {FREE_REEL_TECHNIQUE_IDS.length}件　理論 {FREE_THEORY_IDS.length}件</Text></View>
-            <Text style={styles.editionArrow}>→</Text>
-            <View><Text style={[styles.editionLabel, styles.editionLabelComplete]}>完全版</Text><Text style={styles.editionText}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text></View>
-          </View>
-          <Cta label="完全版を見る　→" onPress={() => router.push(upgradeRoute('home_carousel'))} testID="home-brand-premium-cta" />
+          {desktop ? (
+            <View style={styles.editionCompare}>
+              <View><Text style={styles.editionLabel}>無料版</Text><Text style={styles.editionText}>処世術 {FREE_REEL_TECHNIQUE_IDS.length}件　理論 {FREE_THEORY_IDS.length}件</Text></View>
+              <Text style={styles.editionArrow}>→</Text>
+              <View><Text style={[styles.editionLabel, styles.editionLabelComplete]}>完全版</Text><Text style={styles.editionText}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text></View>
+            </View>
+          ) : (
+            <Text style={styles.premiumMobileSummary}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text>
+          )}
+          <Cta label="完全版を見る　→" compact={!desktop} onPress={() => router.push(upgradeRoute('home_carousel'))} testID="home-brand-premium-cta" />
         </View>
         <View style={[styles.premiumMarkWrap, !desktop && styles.premiumMarkWrapMobile]}>
-          <Image source={completeMark} resizeMode="contain" accessibilityLabel="処世術禄完全版の禄マーク" style={styles.premiumMark} />
+          <Image source={completeMark} resizeMode="contain" accessibilityLabel="処世術禄完全版の禄マーク" style={[styles.premiumMark, !desktop && styles.premiumMarkMobile]} />
         </View>
       </View>
     </SlideShell>
@@ -276,7 +281,7 @@ export function RokumaruSlide({ desktop }: { desktop: boolean }) {
       <View style={[styles.rokumaruCopy, !desktop && styles.rokumaruCopyMobile]}>
         <Text style={styles.rokumaruEyebrow}>禄丸からひと言</Text>
         <Text style={[styles.rokumaruQuote, !desktop && styles.rokumaruQuoteMobile]}>焦らず、一歩ずつ。</Text>
-        <Text style={styles.rokumaruMessage}>今日の一枚も、立派な前進だよ。</Text>
+        <Text style={[styles.rokumaruMessage, !desktop && styles.rokumaruMessageMobile]}>今日の一枚も、立派な前進だよ。</Text>
       </View>
       <Rokumaru mood="encourage" testID="home-rokumaru" style={[styles.rokumaru, !desktop && styles.rokumaruMobile]} />
     </SlideShell>
@@ -372,7 +377,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           accessibilityLabel="前のスライド"
           accessibilityHint="前のスライドへ移動します。1枚目の前は最後のスライドへ戻ります。"
           onPress={() => moveTo(activeIndexRef.current - 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, !desktop && styles.arrowPreviousMobile, pressed && styles.pressed]}
         ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>‹</Text></Pressable>
         <View
           style={styles.viewport}
@@ -407,7 +412,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           accessibilityLabel="次のスライド"
           accessibilityHint="次のスライドへ移動します。最後のスライドの次は1枚目へ戻ります。"
           onPress={() => moveTo(activeIndexRef.current + 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, !desktop && styles.arrowNextMobile, pressed && styles.pressed]}
         ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>›</Text></Pressable>
       </View>
       <View accessibilityRole="tablist" style={styles.dots}>
@@ -430,119 +435,139 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 const styles = StyleSheet.create({
   carousel: { width: '100%' },
   carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 12 },
-  carouselRowMobile: { gap: 6 },
+  carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
   slide: { backgroundColor: '#FCF8EF', borderColor: '#D8C9AE', borderRadius: 20, borderWidth: 1, minHeight: 410, overflow: 'hidden', position: 'relative', ...bookCardShadow },
-  slideMobile: { borderRadius: 17, minHeight: 520 },
+  slideMobile: { aspectRatio: 1.45, borderRadius: 17, minHeight: 236 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   pressed: { opacity: 0.82 },
   cta: { alignItems: 'center', alignSelf: 'flex-start', borderColor: '#B98A31', borderRadius: 999, borderWidth: 1, justifyContent: 'center', marginTop: 20, minHeight: 44, paddingHorizontal: 23 },
+  ctaCompact: { marginTop: 8, minHeight: 34, paddingHorizontal: 17 },
   ctaDark: { borderColor: '#C59A45' },
   ctaText: { color: '#80580E', fontFamily: fonts.serif, fontSize: 13, fontWeight: '600', letterSpacing: 0.8 },
+  ctaTextCompact: { fontSize: 12, letterSpacing: 0.5 },
   ctaTextDark: { color: '#E1BD68' },
   techniqueShade: { backgroundColor: 'rgba(6,5,4,0.42)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 410, width: '58%' },
-  techniqueCopyMobile: { paddingHorizontal: 30 },
+  techniqueCopyMobile: { flex: 1, minHeight: 236, paddingHorizontal: 34, paddingVertical: 19 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 31, lineHeight: 46, maxWidth: 280 },
+  darkTitleMobile: { fontSize: 25, lineHeight: 34, marginTop: 11, maxWidth: 320 },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
+  darkBodyMobile: { fontSize: 13, letterSpacing: 0.35, lineHeight: 21, marginTop: 8, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
+  metaRowMobile: { flexWrap: 'nowrap', gap: 10, marginTop: 0 },
   darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 11, marginTop: 20, paddingHorizontal: 13, paddingVertical: 6 },
+  darkMetaMobile: { marginTop: 10, paddingHorizontal: 11, paddingVertical: 5 },
   paperCopy: { justifyContent: 'center', minHeight: 410, paddingHorizontal: 40, paddingVertical: 34, width: '58%' },
-  paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.88)', justifyContent: 'flex-end', minHeight: 520, paddingBottom: 34, paddingHorizontal: 27, paddingTop: 215, width: '100%' },
+  paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.84)', flex: 1, justifyContent: 'flex-end', minHeight: 236, paddingBottom: 15, paddingHorizontal: 30, paddingTop: 42, width: '100%' },
   goldEyebrow: { color: '#A77824', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   paperTitle: { color: '#171717', fontFamily: fonts.serif, fontSize: 37, letterSpacing: 2.2, lineHeight: 51, marginTop: 15 },
-  paperTitleMobile: { fontSize: 30, lineHeight: 41 },
+  paperTitleMobile: { fontSize: 24, lineHeight: 32, marginTop: 7 },
   personaDescription: { color: '#5E584F', fontFamily: fonts.serif, fontSize: 14, lineHeight: 25, marginTop: 8, maxWidth: 420 },
+  personaDescriptionMobile: { fontSize: 12, lineHeight: 19, marginTop: 4, maxWidth: 300 },
   personaCountRow: { alignItems: 'baseline', flexDirection: 'row', gap: 7, marginTop: 12 },
+  personaCountRowMobile: { marginTop: 5 },
   personaCount: { color: '#A77824', fontFamily: fonts.serif, fontSize: 34, lineHeight: 40 },
+  personaCountMobile: { fontSize: 26, lineHeight: 31 },
   personaCountLabel: { color: '#6D6253', fontFamily: fonts.serif, fontSize: 12 },
   theoryFrame: { borderColor: 'rgba(197,154,69,0.55)', borderRadius: 14, borderWidth: 1, bottom: 10, left: 10, position: 'absolute', right: 10, top: 10 },
   theoryCopy: { alignSelf: 'center', justifyContent: 'center', maxWidth: 860, minHeight: 410, paddingHorizontal: 48, paddingVertical: 40, width: '100%' },
-  theoryCopyMobile: { minHeight: 520, paddingHorizontal: 29, paddingVertical: 38 },
+  theoryCopyMobile: { flex: 1, minHeight: 236, paddingHorizontal: 34, paddingVertical: 17 },
   theoryMetaRow: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'space-between' },
   theoryCategory: { color: '#DDBD75', fontFamily: fonts.serif, fontSize: 12, marginTop: 7 },
   theoryId: { borderColor: '#A77D31', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 12, paddingHorizontal: 15, paddingVertical: 7 },
   theoryTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 38, letterSpacing: 2, lineHeight: 53, marginTop: 24, textAlign: 'center' },
-  theoryTitleMobile: { fontSize: 30, lineHeight: 43 },
-  theoryRule: { alignItems: 'center', flexDirection: 'row', gap: 8, marginVertical: 14 },
+  theoryTitleMobile: { fontSize: 22, lineHeight: 28, marginTop: 5 },
+  theoryRule: { alignItems: 'center', flexDirection: 'row', gap: 8, marginVertical: 9 },
   theoryRuleLine: { backgroundColor: 'rgba(196,148,57,0.65)', flex: 1, height: 1 },
   theoryRuleDiamond: { backgroundColor: '#C69A46', height: 7, transform: [{ rotate: '45deg' }], width: 7 },
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },
+  theorySummaryMobile: { fontSize: 10.5, letterSpacing: 0.1, lineHeight: 16, maxWidth: 310 },
   mapContent: { minHeight: 410, paddingHorizontal: 36, paddingVertical: 27 },
-  mapContentMobile: { minHeight: 520, paddingHorizontal: 24, paddingVertical: 25 },
-  mapHeading: { color: '#9D6E1B', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1.6, textAlign: 'center' },
+  mapContentMobile: { flex: 1, minHeight: 236, paddingHorizontal: 28, paddingVertical: 15 },
+  mapHeading: { color: '#9D6E1B', fontFamily: fonts.serif, fontSize: 15, letterSpacing: 1.2, lineHeight: 22, textAlign: 'center' },
   mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 15 },
-  mapLayoutMobile: { flexDirection: 'column', justifyContent: 'flex-start', marginTop: 19 },
+  mapLayoutMobile: { alignItems: 'stretch', flexDirection: 'column', justifyContent: 'center', marginTop: 7, minHeight: 0 },
   mapTechnique: { alignItems: 'center', backgroundColor: '#101B29', borderColor: '#B88A2A', borderRadius: 14, borderWidth: 1, justifyContent: 'center', minHeight: 145, padding: 20, width: '30%' },
-  mapTechniqueMobile: { minHeight: 92, padding: 14, width: '100%' },
+  mapTechniqueMobile: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 7, width: '100%' },
   mapTechniqueLabel: { color: '#DAB565', fontFamily: fonts.serif, fontSize: 11, letterSpacing: 1.5 },
   mapTechniqueTitle: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 25, lineHeight: 37, marginTop: 11, textAlign: 'center' },
-  mapTechniqueTitleMobile: { fontSize: 20, lineHeight: 29 },
+  mapTechniqueTitleMobile: { fontSize: 13, lineHeight: 18, marginTop: 4 },
   mapConnector: { alignItems: 'center', width: '10%' },
-  mapConnectorMobile: { height: 28, justifyContent: 'center', width: '100%' },
+  mapConnectorMobile: { height: 18, justifyContent: 'center', width: '100%' },
   mapConnectorGlyph: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 18 },
   theoryNodes: { gap: 10, width: '43%' },
-  theoryNodesMobile: { flex: 1, gap: 7, width: '100%' },
+  theoryNodesMobile: { flex: 0, flexDirection: 'row', gap: 4, justifyContent: 'center', width: '100%' },
   theoryNode: { backgroundColor: 'rgba(255,253,248,0.94)', borderColor: '#CDAA67', borderRadius: 10, borderWidth: 1, minHeight: 58, paddingHorizontal: 17, paddingVertical: 9 },
+  theoryNodeMobile: { borderRadius: 8, flex: 1, minHeight: 54, paddingHorizontal: 7, paddingVertical: 5 },
   theoryNodeCategory: { color: '#9A712B', fontFamily: fonts.serif, fontSize: 9, letterSpacing: 0.8 },
+  theoryNodeCategoryMobile: { fontSize: 8, letterSpacing: 0.3 },
   theoryNodeTitle: { color: '#1D2024', fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, marginTop: 2 },
+  theoryNodeTitleMobile: { fontSize: 10, lineHeight: 14, marginTop: 1 },
   systemContent: { alignItems: 'center', minHeight: 410, paddingHorizontal: 34, paddingVertical: 24 },
-  systemContentMobile: { minHeight: 520, paddingHorizontal: 20, paddingVertical: 24 },
+  systemContentMobile: { flex: 1, minHeight: 236, paddingHorizontal: 29, paddingVertical: 16 },
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },
   systemLead: { color: '#766B5A', fontFamily: fonts.serif, fontSize: 12, marginTop: 3 },
   systemStats: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'center', marginTop: 30, width: '100%' },
-  systemStatsMobile: { flexWrap: 'wrap', marginTop: 20, rowGap: 11 },
+  systemStatsMobile: { flexWrap: 'nowrap', marginTop: 14, rowGap: 0 },
   systemStatWrap: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', minWidth: 0, width: '25%' },
-  systemStatWrapMobile: { width: '50%' },
+  systemStatWrapMobile: { width: '25%' },
   systemStat: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.82)', borderColor: '#CDB789', borderRadius: 58, borderWidth: 1, height: 116, justifyContent: 'center', width: 116 },
+  systemStatMobile: { borderRadius: 30, height: 58, width: 58 },
   systemStatGold: { backgroundColor: '#B88A2A', borderColor: '#DAB967' },
   systemStatDark: { backgroundColor: '#171717', borderColor: '#B88A2A' },
   systemValue: { color: '#1B1A17', fontFamily: fonts.serif, fontSize: 31, lineHeight: 37 },
+  systemValueMobile: { fontSize: 18, lineHeight: 22 },
   systemValueReverse: { color: '#FFF9ED' },
   systemLabel: { color: '#665A49', fontFamily: fonts.serif, fontSize: 12 },
+  systemLabelMobile: { fontSize: 9 },
   systemLabelReverse: { color: '#F1D99F' },
   systemNote: { color: '#746A5B', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginLeft: -116, marginTop: 126, position: 'absolute', textAlign: 'center', width: 116 },
   systemArrow: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 23, marginHorizontal: 5 },
   systemArrowMobile: { fontSize: 17, marginHorizontal: 2 },
   premiumOrnament: { borderColor: 'rgba(184,138,42,0.26)', borderRadius: 300, borderWidth: 1, height: 430, position: 'absolute', right: -80, top: -120, width: 430 },
   premiumContent: { alignItems: 'center', flexDirection: 'row', minHeight: 410, paddingHorizontal: 48, paddingVertical: 32 },
-  premiumContentMobile: { flexDirection: 'column-reverse', justifyContent: 'center', minHeight: 520, paddingHorizontal: 27, paddingVertical: 29 },
+  premiumContentMobile: { flex: 1, flexDirection: 'row', justifyContent: 'center', minHeight: 236, paddingHorizontal: 30, paddingVertical: 16 },
   premiumCopy: { flex: 1, minWidth: 0 },
   premiumTitle: { color: '#1A1815', fontFamily: fonts.serif, fontSize: 31, lineHeight: 43, marginTop: 11 },
-  premiumTitleMobile: { fontSize: 25, lineHeight: 35 },
+  premiumTitleMobile: { fontSize: 23, lineHeight: 31 },
   premiumPriceRow: { alignItems: 'center', flexDirection: 'row', gap: 14, marginTop: 10 },
   premiumPrice: { color: '#B4770B', fontFamily: fonts.serif, fontSize: 44, lineHeight: 50 },
+  premiumPriceMobile: { fontSize: 31, lineHeight: 36 },
   premiumDuration: { borderColor: '#C89434', borderRadius: 6, borderWidth: 1, color: '#8F641C', fontFamily: fonts.serif, fontSize: 11, paddingHorizontal: 8, paddingVertical: 3 },
   premiumCondition: { color: '#776B5B', fontFamily: fonts.serif, fontSize: 9, marginTop: 4 },
   editionCompare: { alignItems: 'center', borderTopColor: '#D9C9AC', borderTopWidth: 1, flexDirection: 'row', gap: 13, marginTop: 15, paddingTop: 13 },
-  editionCompareMobile: { alignItems: 'flex-start', gap: 7 },
   editionLabel: { color: '#7C7163', fontFamily: fonts.serif, fontSize: 10 },
   editionLabelComplete: { color: '#A66C0C' },
   editionText: { color: '#302B24', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, marginTop: 2 },
   editionArrow: { color: '#B88A2A', fontFamily: fonts.serif, fontSize: 18 },
+  premiumMobileSummary: { borderTopColor: '#D9C9AC', borderTopWidth: 1, color: '#5F5548', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginTop: 9, paddingTop: 7 },
   premiumMarkWrap: { alignItems: 'center', justifyContent: 'center', width: '33%' },
-  premiumMarkWrapMobile: { height: 105, width: '100%' },
+  premiumMarkWrapMobile: { height: '100%', width: '28%' },
   premiumMark: { height: 172, width: 172 },
+  premiumMarkMobile: { height: 88, width: 88 },
   rokumaruHalo: { backgroundColor: 'rgba(201,153,55,0.13)', borderRadius: 230, height: 460, position: 'absolute', right: 25, top: -20, width: 460 },
   rokumaruCopy: { justifyContent: 'center', minHeight: 410, paddingHorizontal: 52, width: '61%' },
-  rokumaruCopyMobile: { justifyContent: 'flex-start', minHeight: 520, paddingHorizontal: 28, paddingTop: 48, width: '100%' },
+  rokumaruCopyMobile: { flex: 1, justifyContent: 'flex-start', minHeight: 236, paddingHorizontal: 30, paddingTop: 27, width: '62%' },
   rokumaruEyebrow: { color: '#6D5531', fontFamily: fonts.serif, fontSize: 14, letterSpacing: 1.2 },
   rokumaruQuote: { color: '#1B1916', fontFamily: fonts.serif, fontSize: 37, letterSpacing: 2, lineHeight: 53, marginTop: 20 },
-  rokumaruQuoteMobile: { fontSize: 28, lineHeight: 40 },
+  rokumaruQuoteMobile: { fontSize: 23, lineHeight: 32, marginTop: 11 },
   rokumaruMessage: { color: '#4E473E', fontFamily: fonts.serif, fontSize: 18, lineHeight: 31, marginTop: 7 },
+  rokumaruMessageMobile: { fontSize: 13, lineHeight: 21, marginTop: 4 },
   rokumaru: { bottom: -14, height: 390, position: 'absolute', right: 22, width: 390 },
-  rokumaruMobile: { bottom: -22, height: 295, right: -24, width: 295 },
+  rokumaruMobile: { bottom: -9, height: 172, right: -8, width: 172 },
   arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.96)', borderColor: '#D3C4A9', borderRadius: 23, borderWidth: 1, flexShrink: 0, height: 46, justifyContent: 'center', width: 46, ...bookCardShadow },
-  arrowMobile: { borderRadius: 17, height: 34, width: 34 },
+  arrowMobile: { borderRadius: 20, height: 40, marginTop: -20, position: 'absolute', top: '50%', width: 40, zIndex: 3 },
+  arrowPreviousMobile: { left: -6 },
+  arrowNextMobile: { right: -6 },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
   arrowTextMobile: { fontSize: 25, lineHeight: 28 },
-  dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 8 },
-  dotTouch: { alignItems: 'center', height: 34, justifyContent: 'center', width: 25 },
+  dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 5 },
+  dotTouch: { alignItems: 'center', height: 30, justifyContent: 'center', width: 25 },
   dotTouchActive: { width: 35 },
   dot: { backgroundColor: '#D8D1C5', borderRadius: 4, height: 7, width: 7 },
   dotActive: { backgroundColor: '#B88A2A', width: 18 },

@@ -13,6 +13,7 @@ export default function PersonasScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
+  const narrow = width > 0 && width < 360;
   const browserCategory = Platform.OS === 'web' && typeof window !== 'undefined'
     ? new URLSearchParams(window.location.search).get('category') ?? undefined
     : undefined;
@@ -52,6 +53,7 @@ export default function PersonasScreen() {
             entry={entry}
             variant="grid"
             compact={compact}
+            narrow={narrow}
             showCategory
           />
         ))}

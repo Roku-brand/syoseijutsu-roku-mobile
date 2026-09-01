@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   filterTextActive: { color: colors.goldLight },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
-  cardCompact: { width: 276, minHeight: 350, padding: 20 },
+  cardCompact: { width: 276, minHeight: 310, padding: 18 },
   cardPressed: { opacity: 0.84, transform: [{ translateY: -1 }] },
   category: { color: '#D8B35E', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, fontWeight: '700', letterSpacing: 0.5 },
   code: { marginTop: 9, color: '#F3F0E9', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, letterSpacing: 0.7 },
