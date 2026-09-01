@@ -90,6 +90,19 @@ export type PaidTechniquePayload = TechniqueSource & {
 
 export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheories: TheoryCard[]) {
   resetCatalog();
+  // The published table is authoritative for managed cards. Remove bundled
+  // IDs that no longer exist there (for example after an owner archive or an
+  // ID rename) before applying additions and edits. This prevents stale cards
+  // from surviving a refresh while retaining the offline catalogue when the
+  // network response is empty (the caller never invokes this with no rows).
+  if (techniques.length) {
+    const currentIds = new Set(techniques.map((item) => item.id));
+    for (const category of categories) {
+      for (const subcategory of category.subcategories) {
+        subcategory.items = subcategory.items.filter((item) => currentIds.has(item.id));
+      }
+    }
+  }
   for (const item of techniques) {
     placeManagedTechnique(item);
   }
@@ -114,6 +127,20 @@ export function hydratePaidTheories(paidTheories: TheoryCard[]) {
 export function upsertManagedTechnique(item: PaidTechniquePayload) {
   placeManagedTechnique(item);
   rebuildIndexes();
+}
+
+/** Removes a card from the in-memory catalogue after an owner archives it. */
+export function removeManagedTechnique(techniqueId: string) {
+  let removed = false;
+  for (const category of categories) {
+    for (const subcategory of category.subcategories) {
+      const nextItems = subcategory.items.filter((candidate) => candidate.id !== techniqueId);
+      removed = removed || nextItems.length !== subcategory.items.length;
+      subcategory.items = nextItems;
+    }
+  }
+  if (removed) rebuildIndexes();
+  return removed;
 }
 
 function placeManagedTechnique(item: PaidTechniquePayload) {

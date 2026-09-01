@@ -15,7 +15,7 @@ export type TechniqueContent = {
   examples: string[];
   cautions: string[];
   theory_ids: string[];
-  status: 'published' | 'draft';
+  status: 'published' | 'draft' | 'archived';
   display_order: number;
   updated_at: string;
 };
@@ -85,7 +85,13 @@ function normalizeImportance(value: unknown): 1 | 2 | 3 {
 }
 
 function normalizeList(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+  if (!Array.isArray(value)) return [];
+  // Keep ordering (it is meaningful for related-theory cards) while removing
+  // blank/duplicate IDs introduced by older editors or imports.
+  return [...new Set(value
+    .filter((item): item is string => typeof item === 'string')
+    .map((item) => item.trim())
+    .filter(Boolean))];
 }
 
 export function toTechniqueContent(row: Record<string, unknown>): TechniqueContent {
@@ -93,7 +99,7 @@ export function toTechniqueContent(row: Record<string, unknown>): TechniqueConte
   return {
     ...snapshot,
     id: String(row.id ?? ''),
-    status: row.status === 'draft' ? 'draft' : 'published',
+    status: row.status === 'draft' ? 'draft' : row.status === 'archived' ? 'archived' : 'published',
     display_order: typeof row.display_order === 'number' ? row.display_order : 0,
     updated_at: typeof row.updated_at === 'string' ? row.updated_at : new Date(0).toISOString(),
   };
@@ -230,6 +236,26 @@ export async function restoreTechniqueRevision(revisionId: string) {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const { error } = await supabase.rpc('restore_technique_revision', { target_revision_id: revisionId });
   if (error) throw error;
+}
+
+/** Archives a card without deleting its revisions or audit history. */
+export async function archiveTechnique(techniqueId: string) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.rpc('archive_technique', { target_technique_id: techniqueId });
+  if (error) throw error;
+  return toTechniqueContent(asTechniqueRow(data));
+}
+
+/** Renames a card ID in one transaction; related drafts, revisions and logs
+ * follow the new ID through database-level ON UPDATE CASCADE constraints. */
+export async function renameTechnique(sourceId: string, targetId: string) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.rpc('rename_technique', {
+    source_technique_id: sourceId,
+    target_technique_id: targetId,
+  });
+  if (error) throw error;
+  return toTechniqueContent(asTechniqueRow(data));
 }
 
 export function toTechniquePayload(technique: TechniqueContent) {
