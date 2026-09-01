@@ -8,8 +8,26 @@ export const FREE_THEORY_CATEGORY_IDS = [
 
 export const FREE_TECHNIQUES_PER_DOMAIN = 15;
 
+const PERSONA_DISPLAY_PRIORITY = {
+  interpersonal: ['印象がいい人', '人たらしの人'],
+};
+
+export function orderPersonasForDisplay(category) {
+  const priority = PERSONA_DISPLAY_PRIORITY[category.key] ?? [];
+  if (!priority.length) return category.subcategories;
+  const priorityIndex = new Map(priority.map((name, index) => [name, index]));
+  return category.subcategories
+    .map((persona, sourceIndex) => ({ persona, sourceIndex }))
+    .sort((left, right) => {
+      const leftPriority = priorityIndex.get(left.persona.name) ?? Number.MAX_SAFE_INTEGER;
+      const rightPriority = priorityIndex.get(right.persona.name) ?? Number.MAX_SAFE_INTEGER;
+      return leftPriority - rightPriority || left.sourceIndex - right.sourceIndex;
+    })
+    .map(({ persona }) => persona);
+}
+
 function selectDomainPreviewItems(category) {
-  const previewPersonas = category.subcategories.slice(0, 2);
+  const previewPersonas = orderPersonasForDisplay(category).slice(0, 2);
   if (!previewPersonas.length) return [];
   const reserveForNextPersona = previewPersonas.length > 1 ? 1 : 0;
   const selected = previewPersonas[0].items.slice(0, FREE_TECHNIQUES_PER_DOMAIN - reserveForNextPersona);

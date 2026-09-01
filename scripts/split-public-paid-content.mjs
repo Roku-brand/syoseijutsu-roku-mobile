@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { selectPublicContent } from './public-content-selection.mjs';
+import { orderPersonasForDisplay, selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
 const techniques = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.json'), 'utf8'));
@@ -32,7 +32,7 @@ function sanitizePublicTechnique(item) {
 
 const publicCategories = techniques.categories.map((category) => ({
   ...category,
-  subcategories: category.subcategories.map((subcategory) => ({
+  subcategories: orderPersonasForDisplay(category).map((subcategory) => ({
     ...subcategory,
     items: subcategory.items.filter((item) => freeTechniqueIds.has(item.id)).map(sanitizePublicTechnique),
   })),

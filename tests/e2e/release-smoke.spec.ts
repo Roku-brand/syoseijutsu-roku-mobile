@@ -110,14 +110,19 @@ test('mobile technique detail keeps the full essence visible', async ({ page }) 
   expect(await essence.innerText()).not.toContain('…');
 });
 
-test('無料版の関連理論には実データだけを紐づいた順に表示する', async ({ page }) => {
+test('無料版の関連理論は完全版のタイトルも表示し、未収録理論は購入ページへ送る', async ({ page }) => {
   await page.goto('/card/master336-007');
   const relatedTheories = page.getByTestId('related-theories');
   await expect(relatedTheories).toBeVisible();
   await expect(relatedTheories.getByText('ミラーリング効果', { exact: true })).toBeVisible();
   await expect(relatedTheories.getByText('言語スタイル同調', { exact: true })).toBeVisible();
+  await expect(relatedTheories.getByText('行動同調', { exact: true })).toBeVisible();
+  await expect(relatedTheories.getByText('カメレオン効果', { exact: true })).toBeVisible();
   await expect(relatedTheories).not.toContainText('完全版の理論');
-  expect((await relatedTheories.innerText()).indexOf('ミラーリング効果')).toBeLessThan((await relatedTheories.innerText()).indexOf('言語スタイル同調'));
+  const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
+  await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
+  await lockedTheoryLink.click();
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_theory/);
 });
 
 test('theory metadata sits beside its identifier and content is never ellipsized', async ({ page }) => {
@@ -856,11 +861,14 @@ test('権威付けの装飾を表示せず保存のひし形操作は維持す�
 });
 
 test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
+  await page.goto('/subcategory/interpersonal/人たらしの人');
+  await expect(page.getByText('人生を楽しそうにする')).toBeVisible();
+
   await page.goto('/subcategory/interpersonal/会話がうまい人');
-  await expect(page.getByText('会話は内容よりテンポ')).toBeVisible();
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
 
   await page.goto('/subcategory/work/頭がいい人');
-  await expect(page.getByText('完全版').first()).toBeVisible();
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
 });
 
 test('人物像一覧は縦順の2段組として一覧できる', async ({ page }) => {

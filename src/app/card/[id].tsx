@@ -14,12 +14,12 @@ import {
 import { practiceGuidance } from '@/data/search';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
-import { canReadTechnique } from '@/access/access-config';
+import { canReadTechnique, canReadTheory } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
-import { isLockedTheoryShell } from '@/data/theory-display';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
+import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -70,10 +70,7 @@ export default function CardDetailScreen() {
   };
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
-    .filter((theory): theory is NonNullable<typeof theory> => {
-      if (!theory) return false;
-      return !isLockedTheoryShell(theory);
-    });
+    .filter((theory): theory is NonNullable<typeof theory> => Boolean(theory));
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
@@ -192,7 +189,12 @@ export default function CardDetailScreen() {
         <RelatedContentSection
           title="関連する理論"
           testID="related-theories"
-          items={relatedTheories.map((theory) => ({ key: theory.tagId, title: theory.title, supportingText: theory.summary, href: { pathname: '/theory/[id]', params: { id: theory.tagId } } }))}
+          items={relatedTheories.map((theory) => ({
+            key: theory.tagId,
+            title: theory.title,
+            supportingText: theory.summary,
+            href: canReadTheory(effectiveAccess, theory.tagId) ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
+          }))}
         />
 
         <RelatedContentSection

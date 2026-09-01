@@ -109,7 +109,7 @@ export default function UpgradeScreen() {
   }, [isPaid, params.checkout]);
 
   const primaryLabel = isPaid
-    ? (accessInfo.accessType === 'thirty_day' ? `完全版を利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '完全版を開く')
+    ? (accessInfo.accessType === 'thirty_day' ? `完全版を利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '購入済み・完全版を開く')
     : submitting
       ? '決済画面を開いています…'
       : accessStatus === 'expired'

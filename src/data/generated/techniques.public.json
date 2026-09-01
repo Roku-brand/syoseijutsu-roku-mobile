@@ -236,24 +236,168 @@
           ]
         },
         {
+          "name": "人たらしの人",
+          "articleTitle": "人たらしの人",
+          "items": [
+            {
+              "id": "master336-050",
+              "field": "対人術",
+              "persona": "人たらしの人",
+              "title": "人生を楽しそうにする",
+              "essence": "人は「自分を楽しませる人」以上に、「その人自身が楽しそうな人」に惹かれる。",
+              "explanation": "会うたびに愚痴ばかりで、「最近ほんと何も面白くない」と言う人より、忙しくても趣味や予定の話を楽しそうにする人の方が、なぜかまた会いたくなる。相手を笑わせる技術が特別になくても、自分の毎日に興味を持ち、何かを面白がっている姿には勢いがある。人はその人の話題そのものだけでなく、「この人のそばにいると世界が少し明るく見えそうだ」という感覚にも惹かれる。\n昼休みに友人から「週末何してた？」と聞かれたとき、「別に何も」と終える代わりに、「ずっと気になってた店に行ったんだけど、思った以上によかった」と素直に話してみる。大げさに盛り上げなくても、自分が面白かった点を一つ楽しそうに話せば、相手も「どんな店？」と入りやすい。こちらが相手を楽しませようと必死になるより、自分自身がその話を楽しんでいる方が、会話にも自然な活気が出る。\n意識する基準は、「相手を楽しませられたか」ではなく、「自分は今日の生活の中で何を面白がったか」に置くとよい。小さな予定を作る、好きなものを味わう、面白かったことを一つ言葉にする。そのうえで一日の終わりに、「今日は何が楽しかったか」を短く振り返る。無理に明るく振る舞う必要はない。自分の生活に実際の楽しみを増やし、その楽しさが自然に外へにじむ状態を目指す方が、人を惹きつける力は長続きする。",
+              "importance": 3,
+              "relatedTheoryIds": [
+                "kb_022",
+                "kb_023"
+              ],
+              "subtitle": "人は「自分を楽しませる人」以上に、「その人自身が楽しそうな人」に惹かれる。",
+              "displayOrder": 1,
+              "status": "published"
+            },
+            {
+              "id": "master336-051",
+              "title": "完全版の処世術",
+              "displayOrder": 2,
+              "status": "locked"
+            },
+            {
+              "id": "master336-052",
+              "title": "完全版の処世術",
+              "displayOrder": 3,
+              "status": "locked"
+            },
+            {
+              "id": "master336-053",
+              "title": "完全版の処世術",
+              "displayOrder": 4,
+              "status": "locked"
+            },
+            {
+              "id": "master336-054",
+              "title": "完全版の処世術",
+              "displayOrder": 5,
+              "status": "locked"
+            },
+            {
+              "id": "master336-055",
+              "title": "完全版の処世術",
+              "displayOrder": 6,
+              "status": "locked"
+            },
+            {
+              "id": "master336-056",
+              "title": "完全版の処世術",
+              "displayOrder": 7,
+              "status": "locked"
+            },
+            {
+              "id": "master336-057",
+              "title": "完全版の処世術",
+              "displayOrder": 8,
+              "status": "locked"
+            },
+            {
+              "id": "master336-058",
+              "title": "完全版の処世術",
+              "displayOrder": 9,
+              "status": "locked"
+            },
+            {
+              "id": "master336-059",
+              "title": "完全版の処世術",
+              "displayOrder": 10,
+              "status": "locked"
+            },
+            {
+              "id": "master336-060",
+              "title": "完全版の処世術",
+              "displayOrder": 11,
+              "status": "locked"
+            },
+            {
+              "id": "master336-061",
+              "title": "完全版の処世術",
+              "displayOrder": 12,
+              "status": "locked"
+            },
+            {
+              "id": "master336-062",
+              "title": "完全版の処世術",
+              "displayOrder": 13,
+              "status": "locked"
+            },
+            {
+              "id": "master336-063",
+              "title": "完全版の処世術",
+              "displayOrder": 14,
+              "status": "locked"
+            },
+            {
+              "id": "master336-064",
+              "title": "完全版の処世術",
+              "displayOrder": 15,
+              "status": "locked"
+            },
+            {
+              "id": "master336-065",
+              "title": "完全版の処世術",
+              "displayOrder": 16,
+              "status": "locked"
+            },
+            {
+              "id": "master336-066",
+              "title": "完全版の処世術",
+              "displayOrder": 17,
+              "status": "locked"
+            },
+            {
+              "id": "master336-067",
+              "title": "完全版の処世術",
+              "displayOrder": 18,
+              "status": "locked"
+            },
+            {
+              "id": "master336-068",
+              "title": "完全版の処世術",
+              "displayOrder": 19,
+              "status": "locked"
+            },
+            {
+              "id": "master336-069",
+              "title": "完全版の処世術",
+              "displayOrder": 20,
+              "status": "locked"
+            },
+            {
+              "id": "master336-070",
+              "title": "完全版の処世術",
+              "displayOrder": 21,
+              "status": "locked"
+            },
+            {
+              "id": "master336-071",
+              "title": "完全版の処世術",
+              "displayOrder": 22,
+              "status": "locked"
+            },
+            {
+              "id": "master336-072",
+              "title": "完全版の処世術",
+              "displayOrder": 23,
+              "status": "locked"
+            }
+          ]
+        },
+        {
           "name": "会話がうまい人",
           "articleTitle": "会話がうまい人",
           "items": [
             {
               "id": "master336-015",
-              "field": "対人術",
-              "persona": "会話がうまい人",
-              "title": "会話は内容よりテンポ",
-              "essence": "会話の心地よさは、内容より「噛み合っている感覚」に宿る。",
-              "explanation": "片方が短く相づちを打つたび、もう片方が長い説明を返していると、話題自体は悪くなくても会話が妙に重くなる。逆に、返事の速さや長さが近いと、特別に面白い話をしていなくても自然に続く。会話では内容を理解するだけでなく、「今ここで同じリズムに乗れているか」も無意識に確かめているため、テンポのずれは小さな負担として積み重なる。\n休憩中、相手が「昨日あの店行ったんだよね」と軽く話したとき、「へえ、どうだった？」と同じ程度の軽さで返せば、そのまま次の話が出てきやすい。そこで急に詳しい質問を三つ重ねたり、自分の体験を長く語ったりすると、相手は話題を奪われたように感じやすい。反対に、ゆっくり考えながら話す相手へ即答を連発すれば、急かされている感覚も生まれる。内容ではなく応答の間隔と分量が、噛み合い方を左右している。\n会話中に「何を言えば盛り上がるか」だけを考えるのではなく、「相手はいま、どの速さと長さでやり取りしているか」を見ると判断しやすくなる。短い返事が続くならこちらも簡潔にし、丁寧に語る相手なら少し間を取り、返答も広げる。ただし完全に模倣する必要はない。自分らしさを残したまま半歩だけ相手側へ寄せる。その程度の調整が、内容を作り込むより会話を自然につなげる。",
-              "importance": 3,
-              "relatedTheoryIds": [
-                "kb_013",
-                "kb_015"
-              ],
-              "subtitle": "会話の心地よさは、内容より「噛み合っている感覚」に宿る。",
+              "title": "完全版の処世術",
               "displayOrder": 1,
-              "status": "published"
+              "status": "locked"
             },
             {
               "id": "master336-016",
@@ -469,150 +613,6 @@
               "id": "master336-049",
               "title": "完全版の処世術",
               "displayOrder": 12,
-              "status": "locked"
-            }
-          ]
-        },
-        {
-          "name": "人たらしの人",
-          "articleTitle": "人たらしの人",
-          "items": [
-            {
-              "id": "master336-050",
-              "title": "完全版の処世術",
-              "displayOrder": 1,
-              "status": "locked"
-            },
-            {
-              "id": "master336-051",
-              "title": "完全版の処世術",
-              "displayOrder": 2,
-              "status": "locked"
-            },
-            {
-              "id": "master336-052",
-              "title": "完全版の処世術",
-              "displayOrder": 3,
-              "status": "locked"
-            },
-            {
-              "id": "master336-053",
-              "title": "完全版の処世術",
-              "displayOrder": 4,
-              "status": "locked"
-            },
-            {
-              "id": "master336-054",
-              "title": "完全版の処世術",
-              "displayOrder": 5,
-              "status": "locked"
-            },
-            {
-              "id": "master336-055",
-              "title": "完全版の処世術",
-              "displayOrder": 6,
-              "status": "locked"
-            },
-            {
-              "id": "master336-056",
-              "title": "完全版の処世術",
-              "displayOrder": 7,
-              "status": "locked"
-            },
-            {
-              "id": "master336-057",
-              "title": "完全版の処世術",
-              "displayOrder": 8,
-              "status": "locked"
-            },
-            {
-              "id": "master336-058",
-              "title": "完全版の処世術",
-              "displayOrder": 9,
-              "status": "locked"
-            },
-            {
-              "id": "master336-059",
-              "title": "完全版の処世術",
-              "displayOrder": 10,
-              "status": "locked"
-            },
-            {
-              "id": "master336-060",
-              "title": "完全版の処世術",
-              "displayOrder": 11,
-              "status": "locked"
-            },
-            {
-              "id": "master336-061",
-              "title": "完全版の処世術",
-              "displayOrder": 12,
-              "status": "locked"
-            },
-            {
-              "id": "master336-062",
-              "title": "完全版の処世術",
-              "displayOrder": 13,
-              "status": "locked"
-            },
-            {
-              "id": "master336-063",
-              "title": "完全版の処世術",
-              "displayOrder": 14,
-              "status": "locked"
-            },
-            {
-              "id": "master336-064",
-              "title": "完全版の処世術",
-              "displayOrder": 15,
-              "status": "locked"
-            },
-            {
-              "id": "master336-065",
-              "title": "完全版の処世術",
-              "displayOrder": 16,
-              "status": "locked"
-            },
-            {
-              "id": "master336-066",
-              "title": "完全版の処世術",
-              "displayOrder": 17,
-              "status": "locked"
-            },
-            {
-              "id": "master336-067",
-              "title": "完全版の処世術",
-              "displayOrder": 18,
-              "status": "locked"
-            },
-            {
-              "id": "master336-068",
-              "title": "完全版の処世術",
-              "displayOrder": 19,
-              "status": "locked"
-            },
-            {
-              "id": "master336-069",
-              "title": "完全版の処世術",
-              "displayOrder": 20,
-              "status": "locked"
-            },
-            {
-              "id": "master336-070",
-              "title": "完全版の処世術",
-              "displayOrder": 21,
-              "status": "locked"
-            },
-            {
-              "id": "master336-071",
-              "title": "完全版の処世術",
-              "displayOrder": 22,
-              "status": "locked"
-            },
-            {
-              "id": "master336-072",
-              "title": "完全版の処世術",
-              "displayOrder": 23,
               "status": "locked"
             }
           ]

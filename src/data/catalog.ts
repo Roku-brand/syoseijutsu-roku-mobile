@@ -15,7 +15,7 @@ const practicalActionsById = new Map(
 export const categories: CatalogCategory[] = structuredClone(publicCategories);
 export const theories: TheoryCard[] = publicTheories.map((theory) => ({
   ...theory,
-  provenance: getTheoryProvenance(theory),
+  provenance: isLockedTheoryShell(theory) ? undefined : getTheoryProvenance(theory),
 }));
 export const techniqueCards: TechniqueCard[] = [];
 export const techniqueById = new Map<string, TechniqueCard>();
@@ -170,7 +170,7 @@ export function resetCatalog() {
   categories.splice(0, categories.length, ...structuredClone(publicCategories));
   theories.splice(0, theories.length, ...publicTheories.map((theory) => ({
     ...theory,
-    provenance: getTheoryProvenance(theory),
+    provenance: isLockedTheoryShell(theory) ? undefined : getTheoryProvenance(theory),
   })));
   rebuildIndexes();
 }

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { selectPublicContent } from './public-content-selection.mjs';
+import { orderPersonasForDisplay, selectPublicContent } from './public-content-selection.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const generated = path.join(root, 'src', 'data', 'generated');
@@ -28,7 +28,7 @@ const dailyCandidates = {};
 const fallbackTechniqueSnapshots = {};
 const fallbackPersonaSnapshots = {};
 for (const category of techniques.categories) {
-  const publicPersonas = category.subcategories.map((persona) => ({
+  const publicPersonas = orderPersonasForDisplay(category).map((persona) => ({
     persona,
     items: persona.items.filter((item) => freeTechniqueIds.has(item.id)),
   })).filter(({ items }) => items.length > 0);
@@ -94,7 +94,7 @@ const publicTechniques = {
   ...techniques,
   categories: techniques.categories.map((category) => ({
     ...category,
-    subcategories: category.subcategories.map((persona) => ({
+    subcategories: orderPersonasForDisplay(category).map((persona) => ({
       ...persona,
       items: persona.items.map((item) => freeTechniqueIds.has(item.id)
         ? item
@@ -104,7 +104,7 @@ const publicTechniques = {
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
   ? theory
-  : { tagId: theory.tagId, title: '完全版の理論', summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle });
+  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, status: 'locked' });
 
 metadata.categoryCounts = Object.fromEntries(
   theories.map((theory) => theory.categoryId).filter((id, index, ids) => ids.indexOf(id) === index)

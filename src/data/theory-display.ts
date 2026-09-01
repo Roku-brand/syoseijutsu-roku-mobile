@@ -34,9 +34,10 @@ export function getTheoryCoverSummary(summary: string): string {
 }
 
 /**
- * 無料版バンドルには、完全版本文を含めないための空シェルが存在する。
- * これは理論カードとして提示せず、完全版カタログの同期完了を待つ。
+ * 無料版バンドルには、タイトルだけを公開して本文を含めないシェルが存在する。
+ * 完全版利用者には、完全版カタログの同期完了まで読み込み状態として扱う。
  */
-export function isLockedTheoryShell(theory: Pick<{ title: string; summary: string }, 'title' | 'summary'>): boolean {
-  return normalizeDisplayText(theory.title) === '完全版の理論' && !normalizeDisplayText(theory.summary);
+export function isLockedTheoryShell(theory: Pick<{ title: string; summary: string; status?: string }, 'title' | 'summary' | 'status'>): boolean {
+  return theory.status === 'locked'
+    || (normalizeDisplayText(theory.title) === '完全版の理論' && !normalizeDisplayText(theory.summary));
 }

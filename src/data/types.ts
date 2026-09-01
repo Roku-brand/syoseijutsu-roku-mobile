@@ -39,6 +39,8 @@ export type TheoryCard = {
   summary: string;
   categoryId: string;
   categoryTitle: string;
+  /** 無料版ではタイトルだけを公開する完全版理論を識別する。 */
+  status?: 'published' | 'locked';
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
   provenance?: TheoryProvenance;
 };

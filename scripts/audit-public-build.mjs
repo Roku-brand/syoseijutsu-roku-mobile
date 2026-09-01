@@ -71,7 +71,6 @@ const publicPreviewTheories = [
   ...homeBrandContent.theorySnapshots,
   ...homeBrandContent.techniqueTheoryMap.theories,
 ];
-const publicPreviewTheoryIds = new Set(publicPreviewTheories.map((theory) => theory.tagId));
 const publicPreviewTexts = new Set(publicPreviewTheories.flatMap((theory) => [theory.title, theory.summary].filter(Boolean)));
 
 for (const technique of allTechniques) {
@@ -82,10 +81,10 @@ for (const technique of allTechniques) {
 }
 for (const theory of theories) {
   if (!freeTheoryIds.has(theory.tagId)) {
-    collectTextFingerprints(theory, `theory:${theory.tagId}`, fingerprints);
-    if (!publicPreviewTheoryIds.has(theory.tagId)) {
-      titleCandidates.push({ id: theory.tagId, title: theory.title, label: `theory:${theory.tagId}:title` });
-    }
+    // Paid theory titles are intentionally public so free technique pages can
+    // show the complete relationship map. The summary and provenance remain
+    // protected and must never enter the public bundle.
+    collectTextFingerprints({ summary: theory.summary, provenance: theory.provenance }, `theory:${theory.tagId}`, fingerprints);
   }
 }
 for (const item of learning) {
@@ -143,8 +142,15 @@ if (publicTechniqueItems.length !== allTechniques.length || publicTheories.lengt
 if (publicTechniqueItems.filter((item) => item.status === 'locked').length !== allTechniques.length - freeTechniqueIds.size) {
   throw new Error('Public technique catalog does not contain the expected locked shells.');
 }
-if (publicTheories.filter((item) => item.title === '完全版の理論' && !item.summary).length !== theories.length - freeTheoryIds.size) {
+const lockedPublicTheories = publicTheories.filter((item) => item.status === 'locked' && !item.summary);
+if (lockedPublicTheories.length !== theories.length - freeTheoryIds.size) {
   throw new Error('Public theory catalog does not contain the expected locked shells.');
+}
+for (const shell of lockedPublicTheories) {
+  const canonical = theories.find((theory) => theory.tagId === shell.tagId);
+  if (!canonical || shell.title !== canonical.title || shell.categoryId !== canonical.categoryId || shell.categoryTitle !== canonical.categoryTitle) {
+    throw new Error(`Public theory title shell is not canonical: ${shell.tagId}`);
+  }
 }
 if (publicLearning.length !== freeLearningIds.size) throw new Error(`Public learning catalog contains ${publicLearning.length} cases; expected ${freeLearningIds.size}.`);
 
