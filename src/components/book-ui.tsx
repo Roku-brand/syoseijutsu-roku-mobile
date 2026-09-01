@@ -132,7 +132,6 @@ export function BookHeader() {
             />
             <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
-              <AppText style={styles.brandSubtitle}>判断と実践のカード集</AppText>
             </View>
           </View>
         )}
@@ -679,13 +678,6 @@ const styles = StyleSheet.create({
     fontSize: 21,
     lineHeight: 29,
     fontWeight: '700',
-    letterSpacing: 3,
-  },
-  brandSubtitle: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 18,
     letterSpacing: 3,
   },
   headerActions: {

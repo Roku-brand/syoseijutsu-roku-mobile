@@ -301,32 +301,32 @@
     }
   ],
   "techniqueTheoryMap": {
-    "techniqueId": "master336-007",
-    "title": "相手のテンポに寄せる",
+    "techniqueId": "master336-071",
+    "title": "名残惜しいくらいで去る",
     "theories": [
       {
-        "tagId": "kb_014",
-        "title": "ミラーリング効果",
+        "tagId": "kb_002",
+        "title": "親近効果",
         "categoryId": "psychology",
         "categoryTitle": "心理学"
       },
       {
-        "tagId": "kb_015",
-        "title": "言語スタイル同調",
+        "tagId": "kb_029",
+        "title": "ピーク・エンドの法則",
         "categoryId": "psychology",
         "categoryTitle": "心理学"
       },
       {
-        "tagId": "kb_390",
-        "title": "行動同調",
-        "categoryId": "psychology",
-        "categoryTitle": "心理学"
+        "tagId": "kb_401",
+        "title": "限界効用逓減",
+        "categoryId": "behavioral-science",
+        "categoryTitle": "行動科学"
       },
       {
-        "tagId": "kb_391",
-        "title": "カメレオン効果",
-        "categoryId": "psychology",
-        "categoryTitle": "心理学"
+        "tagId": "kb_514",
+        "title": "希少性価値",
+        "categoryId": "behavioral-science",
+        "categoryTitle": "行動科学"
       }
     ]
   }

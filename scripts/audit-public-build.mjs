@@ -72,11 +72,16 @@ const publicPreviewTheories = [
   ...homeBrandContent.techniqueTheoryMap.theories,
 ];
 const publicPreviewTexts = new Set(publicPreviewTheories.flatMap((theory) => [theory.title, theory.summary].filter(Boolean)));
+const publicPreviewTechniqueIds = new Set([homeBrandContent.techniqueTheoryMap.techniqueId]);
 
 for (const technique of allTechniques) {
   if (!freeTechniqueIds.has(technique.id)) {
     collectTextFingerprints(technique, `technique:${technique.id}`, fingerprints);
-    titleCandidates.push({ id: technique.id, title: technique.title, label: `technique:${technique.id}:title` });
+    // The home theory map intentionally names its featured technique even
+    // when the technique itself remains a complete-edition detail page.
+    if (!publicPreviewTechniqueIds.has(technique.id)) {
+      titleCandidates.push({ id: technique.id, title: technique.title, label: `technique:${technique.id}:title` });
+    }
   }
 }
 for (const theory of theories) {
@@ -101,6 +106,10 @@ for (const preview of homeBrandContent.techniqueTheoryMap.theories) {
   if (!canonical || canonical.title !== preview.title || canonical.categoryId !== preview.categoryId) {
     throw new Error(`Home theory preview is not canonical: ${preview.tagId}`);
   }
+}
+const homeMapTechnique = allTechniques.find((technique) => technique.id === homeBrandContent.techniqueTheoryMap.techniqueId);
+if (!homeMapTechnique || homeMapTechnique.title !== homeBrandContent.techniqueTheoryMap.title) {
+  throw new Error(`Home technique preview is not canonical: ${homeBrandContent.techniqueTheoryMap.techniqueId}`);
 }
 for (const preview of homeBrandContent.theorySnapshots) {
   const canonical = theories.find((theory) => theory.tagId === preview.tagId);

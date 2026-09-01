@@ -15,13 +15,18 @@ const [techniques, theories, learning, practicalActions, metadata] = await Promi
 
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
 
-const HOME_MAP_TECHNIQUE_ID = 'master336-007';
+const HOME_MAP_TECHNIQUE_ID = 'master336-071';
+const HOME_MAP_THEORY_IDS = ['kb_002', 'kb_029', 'kb_401', 'kb_514'];
 const techniqueById = new Map(allTechniques.map((item) => [item.id, item]));
 const theoryById = new Map(theories.map((item) => [item.tagId, item]));
 const mapTechnique = techniqueById.get(HOME_MAP_TECHNIQUE_ID);
 
-if (!mapTechnique || (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds ?? []).length < 3) {
-  throw new Error(`Home theory map requires at least three canonical links: ${HOME_MAP_TECHNIQUE_ID}`);
+if (!mapTechnique) {
+  throw new Error(`Unknown home theory map technique: ${HOME_MAP_TECHNIQUE_ID}`);
+}
+
+if (HOME_MAP_THEORY_IDS.length !== 4 || new Set(HOME_MAP_THEORY_IDS).size !== HOME_MAP_THEORY_IDS.length) {
+  throw new Error('Home theory map requires four distinct theories.');
 }
 
 const dailyCandidates = {};
@@ -77,7 +82,7 @@ const homeBrandContent = {
   techniqueTheoryMap: {
     techniqueId: mapTechnique.id,
     title: mapTechnique.title,
-    theories: (mapTechnique.relatedTheoryIds ?? mapTechnique.theoryTagIds).map((id) => {
+    theories: HOME_MAP_THEORY_IDS.map((id) => {
       const theory = theoryById.get(id);
       if (!theory) throw new Error(`Unknown canonical theory in home map: ${id}`);
       return {

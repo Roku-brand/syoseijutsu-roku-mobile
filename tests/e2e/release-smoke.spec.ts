@@ -242,7 +242,7 @@ test('ホームの各CTAは正式コンテンツと既存画面へ遷移する',
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   await page.getByTestId('home-brand-map-theory-1').click();
-  await expect(page).toHaveURL(/\/theory\/kb_014$/);
+  await expect(page).toHaveURL(/\/theory\/kb_002$/);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
@@ -557,10 +557,14 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
-  await expect(page.getByTestId('home-brand-slide-4')).toContainText('相手のテンポに寄せる');
-  await expect(page.getByTestId('home-brand-slide-4')).toContainText('ミラーリング効果');
-  await expect(page.getByTestId('home-brand-slide-4')).toContainText('言語スタイル同調');
-  await expect(page.getByTestId('home-brand-slide-4')).toContainText('行動同調');
+  const mapSlide = page.getByTestId('home-brand-slide-4');
+  await expect(mapSlide).toContainText('名残惜しいくらいで去る');
+  await expect(mapSlide).toContainText('親近効果');
+  await expect(mapSlide).toContainText('ピーク・エンドの法則');
+  await expect(mapSlide).toContainText('限界効用逓減');
+  await expect(mapSlide).toContainText('希少性価値');
+  await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
+  await expect(page.getByTestId('home-brand-map-technique-cta')).not.toContainText(/[\.…]/);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -772,7 +776,7 @@ test('ホームのカードから詳細へ移動して戻ると、選択位置�
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   await page.getByTestId('home-brand-map-technique-cta').click();
-  await expect(page).toHaveURL(/\/card\//);
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
   await page.getByRole('button', { name: '前の画面へ戻る' }).click();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
