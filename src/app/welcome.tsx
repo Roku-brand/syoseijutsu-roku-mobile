@@ -43,7 +43,7 @@ export default function Welcome() {
   const desktop = hydrated && width >= 900;
   const compact = !desktop && width < 370;
   const heroHeight = desktop
-    ? Math.max(460, Math.min(560, height * 0.53))
+    ? Math.max(590, Math.min(650, height * 0.63))
     : Math.max(590, Math.min(760, height * 0.69));
 
   const startFree = () => {
@@ -59,7 +59,7 @@ export default function Welcome() {
         style={styles.page}
         imageStyle={styles.backgroundImage}
       >
-        <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={[styles.scrollContent, !hydrated && styles.preHydrationContent]} showsVerticalScrollIndicator={false}>
           <WelcomeHeader desktop={desktop} compact={compact} onStartFree={startFree} onOpenComplete={() => router.push('/upgrade')} />
           <View style={[styles.hero, { minHeight: heroHeight }, desktop && styles.heroDesktop]}>
             {(desktop ? desktopNotes : mobileNotes).map((note, index) => (
@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#F7F0E5' },
   backgroundImage: { opacity: 1 },
   scrollContent: { flexGrow: 1 },
+  preHydrationContent: { display: 'none' },
   entryHeader: { minHeight: 82, paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'column', gap: 8, backgroundColor: 'rgba(9,10,9,0.97)', borderBottomWidth: 1, borderBottomColor: '#B8872D' },
   entryHeaderDesktop: { minHeight: 126, paddingHorizontal: 52, paddingVertical: 22, flexDirection: 'row', alignItems: 'center', gap: 36 },
   entryHeaderCompact: { minHeight: 74, paddingHorizontal: 12, gap: 6 },

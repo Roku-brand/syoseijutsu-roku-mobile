@@ -45,7 +45,14 @@
       "favicon": "./assets/brand/favicon.png"
     },
     "plugins": [
-      "expo-router",
+      [
+        "expo-router",
+        {
+          "asyncRoutes": {
+            "web": "production"
+          }
+        }
+      ],
       [
         "expo-image-picker",
         {
