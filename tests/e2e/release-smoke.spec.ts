@@ -608,16 +608,12 @@ test('主ナビはPCとタブレットで幅を失わない', async ({ page }) =
   await page.goto('/discover');
   const desktopItem = page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^ホーム/ });
   await expect(desktopItem).toBeVisible();
-  const desktopBox = await desktopItem.boundingBox();
-  expect(desktopBox).not.toBeNull();
-  expect(desktopBox!.width).toBeGreaterThanOrEqual(112);
+  await expect.poll(async () => (await desktopItem.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(112);
 
   await page.setViewportSize({ width: 768, height: 1024 });
   const tabletItem = page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^ホーム/ });
   await expect(tabletItem).toBeVisible();
-  const tabletBox = await tabletItem.boundingBox();
-  expect(tabletBox).not.toBeNull();
-  expect(tabletBox!.width).toBeGreaterThanOrEqual(190);
+  await expect.poll(async () => (await tabletItem.boundingBox())?.width ?? 0).toBeGreaterThanOrEqual(190);
 });
 
 test('人物像ページの保存操作は各行の右端に揃う', async ({ page }) => {
