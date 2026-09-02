@@ -579,6 +579,7 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(mapSlide).toContainText('ピーク・エンドの法則');
   await expect(mapSlide).toContainText('限界効用逓減');
   await expect(mapSlide).toContainText('希少性価値');
+  await expect(page.getByTestId('home-brand-map-connectors')).toBeVisible();
   await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
   for (const title of [page.getByTestId('home-brand-technique-title'), page.getByTestId('home-brand-map-technique-title')]) {
     const style = await title.evaluate((element) => {
