@@ -573,6 +573,7 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   const mapSlide = page.getByTestId('home-brand-slide-4');
+  await expect(mapSlide).toContainText('人物像｜人たらしの人');
   await expect(mapSlide).toContainText('名残惜しいくらいで去る');
   await expect(mapSlide).toContainText('親近効果');
   await expect(mapSlide).toContainText('ピーク・エンドの法則');
@@ -586,6 +587,13 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
     });
     expect(style).toEqual({ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' });
   }
+  const [techniqueBox, theoryBox] = await Promise.all([
+    page.getByTestId('home-brand-map-technique-cta').boundingBox(),
+    page.getByTestId('home-brand-map-theory-1').boundingBox(),
+  ]);
+  expect(techniqueBox).not.toBeNull();
+  expect(theoryBox).not.toBeNull();
+  expect(theoryBox!.x).toBeGreaterThan(techniqueBox!.x + techniqueBox!.width);
   await expect(page.getByTestId('home-brand-map-technique-cta')).not.toContainText(/[\.…]/);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);

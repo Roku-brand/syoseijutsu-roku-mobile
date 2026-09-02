@@ -93,7 +93,7 @@ export default function HomeScreen() {
         <View testID="home-trending-section" style={[styles.trendingSection, isDesktop && styles.trendingSectionDesktop]}>
           <View style={styles.sectionHeadingRow}>
             <View><Text style={styles.sectionTitle}>いま読まれているもの</Text><Text style={styles.sectionCaption}>直近14日の閲覧と保存から</Text></View>
-            <Pressable accessibilityRole="link" onPress={() => router.push(APP_ROUTES.discover)}><Text style={styles.sectionLink}>探すへ　›</Text></Pressable>
+            <Pressable accessibilityRole="link" accessibilityLabel="探す" onPress={() => router.push(APP_ROUTES.discover)} style={({ pressed }) => [styles.sectionLinkButton, pressed && styles.sectionLinkButtonPressed]}><Text style={styles.sectionLink}>探す　→</Text></Pressable>
           </View>
           <ScrollView horizontal testID="home-trending-rail" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trendingRail}>
             {trendingContent.map((item) => {
@@ -131,18 +131,20 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  introRow: { alignItems: 'baseline', flexDirection: 'row', gap: 22, marginBottom: 12, marginTop: 0 },
-  introRowMobile: { alignItems: 'stretch', flexDirection: 'column', gap: 2, marginBottom: 13, marginTop: 0 },
-  greeting: { color: palette.ink, fontFamily: typography.serif, fontSize: 32, letterSpacing: 2 },
-  greetingMobile: { flexShrink: 0, fontSize: 26, lineHeight: 35 },
-  copy: { color: palette.muted, flexShrink: 1, fontFamily: typography.serif, fontSize: 14, letterSpacing: 1.4, lineHeight: 23 },
-  copyMobile: { flex: 0, fontSize: 11, letterSpacing: 0.45, lineHeight: 18, paddingTop: 0 },
-  trendingSection: { marginTop: 24 },
-  trendingSectionDesktop: { marginTop: 16 },
-  sectionHeadingRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 14 },
-  sectionTitle: { color: palette.ink, fontFamily: typography.serif, fontSize: 22, letterSpacing: 1.5 },
-  sectionCaption: { color: palette.muted, fontFamily: typography.serif, fontSize: 11, letterSpacing: 0.8, marginTop: 5 },
-  sectionLink: { color: palette.gold, fontFamily: typography.serif, fontSize: 12 },
+  introRow: { alignItems: 'baseline', flexDirection: 'row', gap: 14, marginBottom: 10, marginTop: 0 },
+  introRowMobile: { alignItems: 'stretch', flexDirection: 'column', gap: 1, marginBottom: 11, marginTop: 0 },
+  greeting: { color: palette.ink, fontFamily: typography.serif, fontSize: 34, fontWeight: '600', letterSpacing: 2 },
+  greetingMobile: { flexShrink: 0, fontSize: 27, lineHeight: 36 },
+  copy: { color: palette.inkSoft, flexShrink: 1, fontFamily: typography.serif, fontSize: 14, letterSpacing: 1.15, lineHeight: 23 },
+  copyMobile: { flex: 0, fontSize: 11, letterSpacing: 0.35, lineHeight: 18, paddingTop: 0 },
+  trendingSection: { marginTop: 20 },
+  trendingSectionDesktop: { marginTop: 13 },
+  sectionHeadingRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+  sectionTitle: { color: palette.ink, fontFamily: typography.serif, fontSize: 23, fontWeight: '600', letterSpacing: 1.45 },
+  sectionCaption: { color: palette.inkSoft, fontFamily: typography.serif, fontSize: 11, letterSpacing: 0.65, marginTop: 4 },
+  sectionLinkButton: { alignItems: 'center', borderBottomColor: 'rgba(184,138,42,0.45)', borderBottomWidth: 1, justifyContent: 'center', minHeight: 34, paddingHorizontal: 5 },
+  sectionLinkButtonPressed: { opacity: 0.62 },
+  sectionLink: { color: '#9C6B12', fontFamily: typography.serif, fontSize: 13, fontWeight: '600', letterSpacing: 0.4 },
   trendingRail: { gap: 14, paddingBottom: 10, paddingRight: 2 },
   trendingCard: { backgroundColor: palette.paper, borderColor: palette.line, borderRadius: 14, borderWidth: 1, minHeight: 240, padding: 19, ...bookCardShadow },
   trendingCardDesktop: { minHeight: 210, padding: 16 },

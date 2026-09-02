@@ -81,6 +81,7 @@ const homeBrandContent = {
   theorySnapshots,
   techniqueTheoryMap: {
     techniqueId: mapTechnique.id,
+    personaName: mapTechnique.persona,
     title: mapTechnique.title,
     theories: HOME_MAP_THEORY_IDS.map((id) => {
       const theory = theoryById.get(id);
