@@ -1,0 +1,17 @@
+{
+  "reviewPolicy": "No target, minimum, or maximum count. Keep only direct and materially distinct explanatory links.",
+  "techniques": 336,
+  "theories": 630,
+  "links": 513,
+  "linkedTheories": 288,
+  "unlinkedTheories": 342,
+  "minimumLinksPerTechnique": 1,
+  "maximumLinksPerTechnique": 4,
+  "distribution": {
+    "1": 194,
+    "2": 108,
+    "3": 33,
+    "4": 1
+  },
+  "generatedAt": "2026-09-03"
+}

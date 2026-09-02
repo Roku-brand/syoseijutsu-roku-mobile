@@ -14,12 +14,16 @@ for (const category of catalog.categories ?? []) for (const persona of category.
   sourceById.set(item.id, item.relatedTheoryIds ?? item.theoryTagIds ?? []);
 }
 const supabase = createClient(url, serviceRoleKey, { auth: { persistSession: false } });
-const [{ data: techniques, error: techniqueError }, { data: revisions, error: revisionError }] = await Promise.all([
+const [{ data: techniques, error: techniqueError }, { data: revisions, error: revisionError }, optimizationResult] = await Promise.all([
   supabase.from('techniques').select('id,theory_ids'),
   supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version').order('version', { ascending: false }),
+  supabase.from('theory_link_optimization_backups').select('technique_id,optimized_theory_ids').eq('optimization_key', 'content-review-20260903'),
 ]);
 if (techniqueError) throw techniqueError;
 if (revisionError) throw revisionError;
+if (optimizationResult.error && optimizationResult.error.code !== '42P01') throw optimizationResult.error;
+
+const optimizedByTechnique = new Map((optimizationResult.data ?? []).map((row) => [row.technique_id, row.optimized_theory_ids]));
 
 const latestByTechnique = new Map();
 for (const revision of revisions ?? []) if (!latestByTechnique.has(revision.technique_id)) latestByTechnique.set(revision.technique_id, revision);
@@ -31,6 +35,11 @@ for (const row of techniques ?? []) {
   const revision = latestByTechnique.get(row.id);
   const snapshot = revision?.snapshot && typeof revision.snapshot === 'object' ? revision.snapshot : null;
   const revisionIds = Array.isArray(snapshot?.theory_ids) ? snapshot.theory_ids : Array.isArray(snapshot?.relatedTheoryIds) ? snapshot.relatedTheoryIds : [];
+  const optimizedIds = optimizedByTechnique.get(row.id);
+  // A reviewed, versioned catalogue migration is authoritative. Do not
+  // mistake its deliberate change for the historical accidental overwrite
+  // that this recovery script was written to repair.
+  if (Array.isArray(optimizedIds) && same(currentIds, optimizedIds) && same(sourceIds, optimizedIds)) continue;
   // A deploy used to overwrite a hand-edited row with the bundled source.
   // If the current value exactly matches that source but the latest revision
   // contains a different curated set, restore the curated set.

@@ -62,7 +62,7 @@
     "content:optimize-theory-links": "node ./scripts/optimize-master336-theory-links.mjs",
     "content:audit-theory-links": "node ./scripts/audit-master336-theory-links.mjs",
     "content:validate-theory-mapping": "node ./scripts/validate-master336-theory-mapping.mjs",
-    "content:build-theory-mapping": "node ./scripts/build-master336-theory-mapping.mjs",
+    "content:build-theory-mapping": "node ./scripts/optimize-master336-theory-links.mjs",
     "content:import-theory-mapping": "node ./scripts/import-master336-theory-mapping.mjs",
     "content:link-persona-theories": "node ./scripts/link-persona-catalog-theories.mjs",
     "content:add-researched-theories": "node ./scripts/add-researched-theories.mjs",

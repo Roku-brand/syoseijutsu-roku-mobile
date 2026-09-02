@@ -162,10 +162,8 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   await page.goto('/card/master336-007');
   const relatedTheories = page.getByTestId('related-theories');
   await expect(relatedTheories).toBeVisible();
-  await expect(relatedTheories.getByText('ミラーリング効果', { exact: true })).toBeVisible();
   await expect(relatedTheories.getByText('言語スタイル同調', { exact: true })).toBeVisible();
   await expect(relatedTheories.getByText('行動同調', { exact: true })).toBeVisible();
-  await expect(relatedTheories.getByText('カメレオン効果', { exact: true })).toBeVisible();
   await expect(relatedTheories).not.toContainText('完全版の理論');
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
   await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');
@@ -186,10 +184,10 @@ test('theory metadata sits beside its identifier and content is never ellipsized
 
 test('理論詳細は概要・処世術・理論・情報の順で、概要を2文に分ける', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/theory/kb_001');
+  await page.goto('/theory/kb_008');
   const summary = page.getByTestId('theory-summary');
   await expect(summary).toBeVisible();
-  expect(await summary.innerText()).toContain('最初に得た情報が、その後の印象や評価の基準として強く残る傾向。\n第一印象は後から修正しにくいため、関係の入口ほど重要になる。');
+  expect(await summary.innerText()).toContain('自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。\n親密さは一方的ではなく段階的に深まる。');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
   expect(article.indexOf('概要')).toBeLessThan(article.indexOf('関連する処世術'));
   expect(article.indexOf('関連する処世術')).toBeLessThan(article.indexOf('関連する理論'));
@@ -202,7 +200,7 @@ test('理論詳細は概要・処世術・理論・情報の順で、概要を2�
 
 test('理論詳細の関連項目は横幅いっぱいの読みやすいボックスになる', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/theory/kb_001');
+  await page.goto('/theory/kb_008');
   const techniqueRow = page.getByTestId('theory-related-techniques').getByRole('link').first();
   const theoryRow = page.getByTestId('theory-related-theories').getByRole('link').first();
   await expect(techniqueRow).toBeVisible();
