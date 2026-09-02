@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   personaCard: { position: 'relative', minWidth: 0, minHeight: 210, paddingTop: 30, paddingHorizontal: 18, paddingBottom: 17, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', alignItems: 'center', justifyContent: 'flex-start' },
   personaCardRail: { width: 238, height: 230, flexShrink: 0 },
   personaCardRailCompact: { width: 174, height: 196, minHeight: 196, paddingTop: 23, paddingHorizontal: 11 },
-  personaCardGrid: { width: 224, height: 210, flexGrow: 1, flexShrink: 0 },
+  personaCardGrid: { width: 224, flexBasis: 224, height: 210, flexGrow: 0, flexShrink: 0 },
   personaCardGridCompact: { width: '48%', flexBasis: '48%', maxWidth: '48%', height: 194, minHeight: 194, paddingHorizontal: 9 },
   personaCardGridNarrow: { width: '100%', flexBasis: '100%', maxWidth: '100%', height: 164, minHeight: 164, paddingTop: 15, paddingBottom: 11 },
   personaIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },

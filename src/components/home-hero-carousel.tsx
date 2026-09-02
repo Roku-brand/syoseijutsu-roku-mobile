@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
+import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta } from '@/data/catalog';
@@ -41,6 +41,18 @@ function singleLineTitleSize(title: string, desktop: boolean, desktopBase: numbe
 
 function wrapHomeReelIndex(index: number) {
   return ((index % HOME_REEL_SLIDE_COUNT) + HOME_REEL_SLIDE_COUNT) % HOME_REEL_SLIDE_COUNT;
+}
+
+function getTouchPoint(event: GestureResponderEvent) {
+  const nativeEvent = event.nativeEvent as typeof event.nativeEvent & {
+    changedTouches?: ArrayLike<{ pageX: number; pageY: number }>;
+    touches?: ArrayLike<{ pageX: number; pageY: number }>;
+  };
+  const touch = nativeEvent.changedTouches?.[0] ?? nativeEvent.touches?.[0];
+  return {
+    x: touch?.pageX ?? nativeEvent.pageX,
+    y: touch?.pageY ?? nativeEvent.pageY,
+  };
 }
 
 function readHomeReelPosition(reelId: string) {
@@ -352,6 +364,9 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const [dayKey, setDayKey] = useState(() => getHomeDayKey());
   const railRef = useRef<ScrollView>(null);
   const activeIndexRef = useRef(activeIndex);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const programmaticScrollRef = useRef(false);
+  const programmaticScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision, dayKey]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
 
@@ -389,17 +404,56 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const moveTo = useCallback((index: number, animated = true) => {
     const nextIndex = commitIndex(index);
     const crossedEdge = index < 0 || index >= HOME_REEL_SLIDE_COUNT;
+    programmaticScrollRef.current = true;
+    if (programmaticScrollTimerRef.current) clearTimeout(programmaticScrollTimerRef.current);
+    programmaticScrollTimerRef.current = setTimeout(() => {
+      programmaticScrollRef.current = false;
+      programmaticScrollTimerRef.current = null;
+    }, 500);
     railRef.current?.scrollTo({ x: nextIndex * viewportWidth, animated: animated && !reduceMotion && !crossedEdge });
   }, [commitIndex, reduceMotion, viewportWidth]);
 
   const settleAtOffset = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (programmaticScrollRef.current) {
+      programmaticScrollRef.current = false;
+      if (programmaticScrollTimerRef.current) clearTimeout(programmaticScrollTimerRef.current);
+      programmaticScrollTimerRef.current = null;
+      return;
+    }
     if (!viewportWidth) return;
     const rawIndex = event.nativeEvent.contentOffset.x / viewportWidth;
     commitIndex(Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, Math.round(rawIndex))));
   }, [commitIndex, viewportWidth]);
 
+  const syncIndicatorWithOffset = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (programmaticScrollRef.current) return;
+    if (!viewportWidth) return;
+    const rawIndex = event.nativeEvent.contentOffset.x / viewportWidth;
+    const nextIndex = Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, Math.round(rawIndex)));
+    if (nextIndex !== activeIndexRef.current) commitIndex(nextIndex);
+  }, [commitIndex, viewportWidth]);
+
+  const rememberTouchStart = useCallback((event: GestureResponderEvent) => {
+    touchStartRef.current = getTouchPoint(event);
+  }, []);
+
+  const wrapEdgeTouch = useCallback((event: GestureResponderEvent) => {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const end = getTouchPoint(event);
+    const deltaX = end.x - start.x;
+    const deltaY = end.y - start.y;
+    if (Math.abs(deltaX) < 36 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+    if (activeIndexRef.current === 0 && deltaX > 0) moveTo(-1);
+    if (activeIndexRef.current === HOME_REEL_SLIDE_COUNT - 1 && deltaX < 0) moveTo(HOME_REEL_SLIDE_COUNT);
+  }, [moveTo]);
+
   useEffect(() => {
     writeHomeReelPosition(HOME_REEL_ID, activeIndexRef.current);
+    return () => {
+      if (programmaticScrollTimerRef.current) clearTimeout(programmaticScrollTimerRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -457,11 +511,12 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             accessibilityLabel="処世術禄の魅力を7つの切り口で紹介"
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={16}
+            onScroll={syncIndicatorWithOffset}
             onMomentumScrollEnd={settleAtOffset}
             onScrollEndDrag={settleAtOffset}
-            onContentSizeChange={() => {
-              if (viewportWidth) railRef.current?.scrollTo({ x: activeIndexRef.current * viewportWidth, animated: false });
-            }}
+            onTouchStart={rememberTouchStart}
+            onTouchEnd={wrapEdgeTouch}
+            onTouchCancel={() => { touchStartRef.current = null; }}
           >
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
@@ -482,7 +537,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             accessibilityLabel={`${index + 1}枚目を表示`}
             accessibilityState={{ selected: index === activeIndex }}
             aria-selected={index === activeIndex}
-            onPress={() => moveTo(index)}
+            onPress={() => moveTo(index, false)}
             style={[styles.dotTouch, index === activeIndex && styles.dotTouchActive]}
           ><View style={[styles.dot, index === activeIndex && styles.dotActive]} /></Pressable>
         ))}

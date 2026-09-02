@@ -93,6 +93,7 @@ export function BookHeader() {
   const minimalHeaderActions = false;
   const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
+  const personaHeader = pathname.startsWith('/subcategory/');
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -103,7 +104,7 @@ export function BookHeader() {
 
   return (
     <>
-      <View style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, lightHeader && styles.headerLight]}>
+      <View style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight]}>
         {showBack ? (
           <View style={styles.brandGroup}>
             <Pressable
@@ -135,9 +136,15 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
-          <AppText style={[styles.screenTitle, lightHeader && styles.screenTitleLight, pathname === '/upgrade' && styles.upgradeScreenTitleText]}>{currentTitle}</AppText>
-          {headerSubtitle ? <AppText style={styles.screenSubtitle}>{headerSubtitle}</AppText> : null}
+        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
+          <AppText
+            testID={personaHeader ? 'persona-header-title' : undefined}
+            numberOfLines={compact && personaHeader ? 2 : 1}
+            adjustsFontSizeToFit={compact && personaHeader}
+            minimumFontScale={0.82}
+            style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
+          >{currentTitle}</AppText>
+          {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
         </View>
 
         {detail ? (
@@ -601,6 +608,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
+  personaHeaderCompact: { minHeight: 108, paddingTop: 6, paddingBottom: 58, alignItems: 'flex-start' },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,
@@ -659,6 +667,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   screenTitleGroupWithSubtitle: { gap: 2 },
+  personaScreenTitleGroupCompact: { left: 12, right: 12, top: 52, gap: 0 },
   screenTitle: {
     color: colors.ink,
     fontFamily: fonts.serif,
@@ -669,7 +678,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   screenTitleLight: { color: colors.ink },
+  personaScreenTitleCompact: { fontSize: 14, lineHeight: 19, letterSpacing: 0.45 },
   screenSubtitle: { color: '#A77A25', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
+  personaScreenSubtitleCompact: { fontSize: 10, lineHeight: 14, letterSpacing: 0.45 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {

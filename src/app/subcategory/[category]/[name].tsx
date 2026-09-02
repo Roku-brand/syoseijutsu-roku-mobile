@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams } from 'expo-router';
 import { useMemo } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View, type TextStyle } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
 import { categories } from '@/data/catalog';
@@ -15,6 +15,10 @@ import { useAppState } from '@/state/app-state';
 import { useAppToast } from '@/components/app-toast';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 
+const compactTwoLineWebStyle = Platform.OS === 'web'
+  ? ({ overflowWrap: 'anywhere', whiteSpace: 'pre-line', wordBreak: 'normal' } as unknown as TextStyle)
+  : undefined;
+
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
 }
@@ -22,6 +26,16 @@ export function generateStaticParams() {
 function splitIntoColumns<T>(items: T[]): [T[], T[]] {
   const breakAt = Math.ceil(items.length / 2);
   return [items.slice(0, breakAt), items.slice(breakAt)];
+}
+
+function compactTechniqueTitle(title: string) {
+  if (title.length <= 16) return title;
+  const middle = Math.ceil(title.length / 2);
+  const punctuationBreaks = [...title]
+    .map((character, index) => ['、', '。', '・'].includes(character) ? index + 1 : -1)
+    .filter((index) => index >= Math.floor(title.length * 0.35) && index <= Math.ceil(title.length * 0.65));
+  const breakAt = punctuationBreaks.sort((left, right) => Math.abs(left - middle) - Math.abs(right - middle))[0] ?? middle;
+  return `${title.slice(0, breakAt)}\n${title.slice(breakAt)}`;
 }
 
 export default function PersonaScreen() {
@@ -61,7 +75,16 @@ export default function PersonaScreen() {
           { label: category.name, href: { pathname: '/personas', params: { category: category.key } } },
           { label: persona.name },
         ]} />
-        <AppText accessibilityRole="header" aria-level={1} variant="serif" style={[styles.pageTitle, compact && styles.pageTitleCompact]}>{persona.articleTitle ?? persona.name}</AppText>
+        <AppText
+          accessibilityRole="header"
+          aria-level={1}
+          testID="persona-page-title"
+          variant="serif"
+          numberOfLines={compact ? 2 : undefined}
+          adjustsFontSizeToFit={compact && Platform.OS !== 'web'}
+          minimumFontScale={0.82}
+          style={[styles.pageTitle, compact && styles.pageTitleCompact, compact && (persona.articleTitle ?? persona.name).length > 10 && styles.pageTitleCompactLong]}
+        >{persona.articleTitle ?? persona.name}</AppText>
         <View style={[styles.listSheet, compact && styles.listSheetCompact]}>
           {columns.map((column, columnIndex) => {
             const itemOffset = compact ? 0 : columnIndex * rowsPerColumn;
@@ -89,13 +112,22 @@ export default function PersonaScreen() {
                         <Pressable
                           accessibilityRole="link"
                           accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
-                          style={({ pressed }) => [styles.techniqueOpenArea, pressed && styles.pressed]}
+                          style={({ pressed }) => [styles.techniqueOpenArea, compact && styles.techniqueOpenAreaCompact, pressed && styles.pressed]}
                         >
                           <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
-                          <AppText variant="serif" style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
+                          <View style={styles.rowTitleWrap}>
+                            <AppText
+                              testID={`persona-technique-title-${itemNumber}`}
+                              variant="serif"
+                              numberOfLines={compact ? 2 : undefined}
+                              adjustsFontSizeToFit={compact && Platform.OS !== 'web'}
+                              minimumFontScale={0.78}
+                              style={[styles.rowTitle, compact && styles.rowTitleCompact, compact && compactTwoLineWebStyle, compact && item.title.length > 18 && styles.rowTitleCompactLong]}
+                            >{compact ? compactTechniqueTitle(item.title) : item.title}</AppText>
+                          </View>
                         </Pressable>
                       </Link>
-                      <View style={styles.saveAction}>
+                      <View style={[styles.saveAction, compact && styles.saveActionCompact]}>
                         <SaveDiamondButton
                           saved={saved}
                           compact
@@ -129,9 +161,10 @@ const styles = StyleSheet.create({
   content: { width: '100%', flexGrow: 1 },
   contentCompact: { paddingBottom: 96 },
   page: { width: '100%', maxWidth: 1240, alignSelf: 'center', flex: 1, minHeight: 0, paddingTop: spacing.sm, paddingBottom: spacing.lg },
-  pageCompact: { flex: 0, flexGrow: 0, flexBasis: 'auto', paddingHorizontal: 10, paddingTop: 4, paddingBottom: 8 },
+  pageCompact: { flex: 0, flexGrow: 0, flexBasis: 'auto', paddingHorizontal: 0, paddingTop: 4, paddingBottom: 8 },
   pageTitle: { marginBottom: 18, color: '#24231E', fontSize: 27, lineHeight: 38 },
   pageTitleCompact: { marginBottom: 12, fontSize: 22, lineHeight: 32 },
+  pageTitleCompactLong: { fontSize: 19, lineHeight: 27, letterSpacing: 0.2 },
   listSheet: {
     width: '100%',
     flex: 1,
@@ -147,6 +180,7 @@ const styles = StyleSheet.create({
   columnCompact: { width: '100%', flex: 0, flexGrow: 0, flexBasis: 'auto' },
   columnDivided: { borderLeftWidth: 1, borderLeftColor: '#DED8CF' },
   techniqueRow: {
+    position: 'relative',
     minWidth: 0,
     flexDirection: 'row',
     alignItems: 'center',
@@ -156,15 +190,19 @@ const styles = StyleSheet.create({
     borderBottomColor: '#E2DDD5',
   },
   techniqueOpenArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 },
+  techniqueOpenAreaCompact: { width: '100%', flexBasis: '100%', gap: 6, paddingRight: 42 },
   saveAction: { marginLeft: 'auto', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center' },
+  saveActionCompact: { position: 'absolute', right: 8, top: 9, marginLeft: 0 },
   techniqueRowDesktop: { flex: 1, minHeight: 0, paddingVertical: 7 },
-  techniqueRowCompact: { minHeight: 58, paddingHorizontal: 12, paddingVertical: 9, gap: 10 },
+  techniqueRowCompact: { minHeight: 62, paddingHorizontal: 8, paddingVertical: 9, gap: 6 },
   techniqueRowLast: { borderBottomWidth: 0 },
   placeholder: { flex: 1, minHeight: 0, borderBottomWidth: 1, borderBottomColor: '#E2DDD5' },
   number: { width: 34, color: '#A77A25', fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.1 },
-  numberCompact: { width: 30, fontSize: 10, lineHeight: 14 },
-  rowTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '600' },
-  rowTitleCompact: { fontSize: 14, lineHeight: 20 },
+  numberCompact: { width: 22, fontSize: 9, lineHeight: 13 },
+  rowTitleWrap: { flex: 1, minWidth: 0, overflow: 'hidden', justifyContent: 'center' },
+  rowTitle: { maxWidth: '100%', minWidth: 0, flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '600' },
+  rowTitleCompact: { fontSize: 13.5, lineHeight: 19 },
+  rowTitleCompactLong: { fontSize: 12, lineHeight: 18, letterSpacing: 0 },
   endMarker: { minHeight: 48, paddingTop: 22, flexDirection: 'row', alignItems: 'center', gap: 24 },
   endMarkerCompact: { minHeight: 42, paddingTop: 18, paddingHorizontal: 2, gap: 10 },
   endLine: { flex: 1, minWidth: 0, height: 1, backgroundColor: '#D7D0C6' },

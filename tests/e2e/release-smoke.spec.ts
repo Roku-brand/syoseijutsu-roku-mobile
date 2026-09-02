@@ -793,6 +793,41 @@ test('ホームのブランドリールは前後どちら向きにも何周も�
   }).toBeLessThan(2);
 });
 
+test('ホームのブランドリールはタッチ移動で米粒表示を更新し両端から繰り返し循環する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+  const viewport = page.getByTestId('home-brand-viewport');
+
+  const cdp = await page.context().newCDPSession(page);
+  const dispatchTouchSwipe = async (startOffsetX: number, endOffsetX: number) => {
+    const box = await viewport.boundingBox();
+    expect(box).not.toBeNull();
+    const y = box!.y + box!.height / 2;
+    const startX = box!.x + startOffsetX;
+    const endX = box!.x + endOffsetX;
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: startX, y }] });
+    for (let step = 1; step <= 6; step += 1) {
+      const x = startX + ((endX - startX) * step) / 6;
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] });
+      await page.waitForTimeout(18);
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await page.waitForTimeout(450);
+  };
+
+  await dispatchTouchSwipe(300, 60);
+  await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+
+  await page.getByRole('tab', { name: '1枚目を表示' }).click();
+  for (let cycle = 0; cycle < 3; cycle += 1) {
+    await dispatchTouchSwipe(60, 300);
+    await expect(page.getByRole('tab', { name: '7枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+    await dispatchTouchSwipe(300, 60);
+    await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  }
+});
+
 test('ホームのカードから詳細へ移動して戻ると、選択位置を初期表示から復元する', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
@@ -909,6 +944,54 @@ test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩�
   await expect(page.getByText('\\u2060')).toHaveCount(0);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
+});
+
+test('26人物像カードは一覧の最終行まで同じ寸法で表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/personas');
+  const cards = page.getByTestId('personas-grid').getByRole('link');
+  await expect(cards).toHaveCount(26);
+  const sizes = await cards.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  }));
+  expect(Math.max(...sizes.map((size) => size.width)) - Math.min(...sizes.map((size) => size.width))).toBeLessThan(1);
+  expect(Math.max(...sizes.map((size) => size.height)) - Math.min(...sizes.map((size) => size.height))).toBeLessThan(1);
+});
+
+test('スマホの長い人物像名と処世術名はヘッダーと各行の内側に収まる', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto('/subcategory/life/充実した人生を過ごせる人');
+  await expect(page.getByTestId('persona-page-title')).toContainText('充実した人生を過ごせる人');
+
+  const headerMetrics = await page.getByTestId('persona-header-title').evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    clientWidth: element.clientWidth,
+    scrollHeight: element.scrollHeight,
+    scrollWidth: element.scrollWidth,
+  }));
+  expect(headerMetrics.scrollWidth).toBeLessThanOrEqual(headerMetrics.clientWidth + 1);
+  expect(headerMetrics.scrollHeight).toBeLessThanOrEqual(headerMetrics.clientHeight + 1);
+
+  for (const itemNumber of [5, 6, 14]) {
+    const title = page.getByTestId(`persona-technique-title-${itemNumber}`);
+    await title.scrollIntoViewIfNeeded();
+    const metrics = await title.evaluate((element) => ({
+      clientHeight: element.clientHeight,
+      clientWidth: element.clientWidth,
+      scrollHeight: element.scrollHeight,
+      scrollWidth: element.scrollWidth,
+    }));
+    expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth + 1);
+    expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.clientHeight + 1);
+    if (itemNumber === 5 || itemNumber === 6) {
+      expect(metrics.clientHeight).toBeGreaterThanOrEqual(35);
+      expect(await title.innerText()).toContain('\n');
+    }
+  }
+
+  const documentWidth = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(documentWidth.scrollWidth).toBeLessThanOrEqual(documentWidth.width);
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {
