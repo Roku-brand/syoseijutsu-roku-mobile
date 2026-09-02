@@ -79,6 +79,54 @@ test('マイページに座右の銘・3つの蓄積先・最近の蓄積を表�
   await expect(page.getByRole('button', { name: 'すべての履歴を見る' })).toBeVisible();
 });
 
+test('マイページはPCの同一グリッドとスマホの縦積みを保つ', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/my-os');
+  const profile = page.getByTestId('profile-usage-bar');
+  const principle = page.getByTestId('personal-principle-card');
+  await expect(profile).toContainText('無料版');
+  await expect(page.getByRole('button', { name: '完全版を見る' })).toBeVisible();
+  const [profileBox, principleBox] = await Promise.all([profile.boundingBox(), principle.boundingBox()]);
+  expect(profileBox).not.toBeNull();
+  expect(principleBox).not.toBeNull();
+  expect(Math.abs(profileBox!.x - principleBox!.x)).toBeLessThanOrEqual(1);
+  expect(Math.abs(profileBox!.width - principleBox!.width)).toBeLessThanOrEqual(1);
+
+  const summaryCards = page.getByTestId('my-page-summary-grid').getByRole('button');
+  await expect(summaryCards).toHaveCount(3);
+  const summaryBoxes = await Promise.all([0, 1, 2].map((index) => summaryCards.nth(index).boundingBox()));
+  expect(new Set(summaryBoxes.map((box) => Math.round(box!.y))).size).toBe(1);
+  const previewSections = page.getByTestId('my-page-preview-section');
+  await expect(previewSections).toHaveCount(3);
+  const previewBoxes = await Promise.all([0, 1, 2].map((index) => previewSections.nth(index).boundingBox()));
+  expect(new Set(previewBoxes.map((box) => Math.round(box!.y))).size).toBe(1);
+
+  await page.setViewportSize({ width: 900, height: 900 });
+  await page.reload();
+  const tabletSummary = page.getByTestId('my-page-summary-grid').getByRole('button');
+  const tabletBoxes = await Promise.all([0, 1, 2].map((index) => tabletSummary.nth(index).boundingBox()));
+  expect(Math.abs(tabletBoxes[0]!.y - tabletBoxes[1]!.y)).toBeLessThanOrEqual(1);
+  expect(tabletBoxes[2]!.y).toBeGreaterThan(tabletBoxes[0]!.y + tabletBoxes[0]!.height);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  const mobileSummary = page.getByTestId('my-page-summary-grid').getByRole('button');
+  const mobileSummaryBoxes = await Promise.all([0, 1, 2].map((index) => mobileSummary.nth(index).boundingBox()));
+  expect(mobileSummaryBoxes[1]!.y).toBeGreaterThan(mobileSummaryBoxes[0]!.y + mobileSummaryBoxes[0]!.height);
+  expect(mobileSummaryBoxes[2]!.y).toBeGreaterThan(mobileSummaryBoxes[1]!.y + mobileSummaryBoxes[1]!.height);
+  const mobilePreviewBoxes = await Promise.all([0, 1, 2].map((index) => page.getByTestId('my-page-preview-section').nth(index).boundingBox()));
+  expect(mobilePreviewBoxes[1]!.y).toBeGreaterThan(mobilePreviewBoxes[0]!.y + mobilePreviewBoxes[0]!.height);
+  expect(mobilePreviewBoxes[2]!.y).toBeGreaterThan(mobilePreviewBoxes[1]!.y + mobilePreviewBoxes[1]!.height);
+  expect((await page.getByTestId('personal-principle-edit').boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await page.getByTestId('personal-principle-edit').click();
+  const longPrinciple = '自分の歩幅を守りながら、相手への敬意を忘れず、焦らず静かに一つずつ進んでいく。';
+  await page.getByRole('textbox', { name: '座右の銘' }).fill(longPrinciple);
+  await page.getByRole('button', { name: '保存する' }).click();
+  await expect(page.getByTestId('personal-principle-card')).toContainText(longPrinciple);
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
+});
+
 test('account login screen keeps login and registration paths distinct', async ({ page }) => {
   await page.goto('/auth?mode=signin');
   await expect(page.getByText('アカウント作成・ログイン', { exact: true })).toBeVisible();
