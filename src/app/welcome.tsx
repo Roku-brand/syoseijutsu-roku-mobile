@@ -138,30 +138,30 @@ function WelcomeHeader({
     </View>
     <View style={styles.entryDivider} />
     <View style={styles.entryActions}>
-      <Pressable accessibilityRole="button" accessibilityLabel="無料ではじめる" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, pressed && styles.pressed]}>
-        <EntryMark type="free" />
+      <Pressable accessibilityRole="button" accessibilityLabel="無料ではじめる" onPress={onStartFree} style={({ pressed }) => [styles.entryAction, desktop && styles.entryActionDesktop, pressed && styles.pressed]}>
+        <EntryMark type="free" desktop={desktop} />
         <View style={styles.entryActionCopy}>
-          <AppText style={styles.entryActionKicker}>FREE EDITION</AppText>
-          <AppText variant="serif" style={styles.entryActionTitle}>無料ではじめる</AppText>
-          <AppText style={styles.entryActionNote}>登録不要・すぐに使えます</AppText>
+          <AppText style={[styles.entryActionKicker, desktop && styles.entryActionKickerDesktop]}>FREE EDITION</AppText>
+          <AppText testID="welcome-entry-free-title" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} variant="serif" style={[styles.entryActionTitle, desktop && styles.entryActionTitleDesktop]}>無料ではじめる</AppText>
+          <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[styles.entryActionNote, desktop && styles.entryActionNoteDesktop]}>登録不要・すぐに使えます</AppText>
         </View>
-        <AppText style={styles.entryChevron}>›</AppText>
+        <AppText style={[styles.entryChevron, desktop && styles.entryChevronDesktop]}>›</AppText>
       </Pressable>
-      <Pressable accessibilityRole="button" accessibilityLabel="完全版を購入する" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, styles.entryActionComplete, pressed && styles.pressed]}>
-        <EntryMark type="complete" />
+      <Pressable accessibilityRole="button" accessibilityLabel="完全版を購入する" onPress={onOpenComplete} style={({ pressed }) => [styles.entryAction, desktop && styles.entryActionDesktop, styles.entryActionComplete, pressed && styles.pressed]}>
+        <EntryMark type="complete" desktop={desktop} />
         <View style={styles.entryActionCopy}>
-          <AppText style={[styles.entryActionKicker, styles.entryActionKickerComplete]}>COMPLETE EDITION</AppText>
-          <AppText variant="serif" style={[styles.entryActionTitle, styles.entryActionTitleComplete]}>完全版を購入する</AppText>
-          <AppText style={[styles.entryActionNote, styles.entryActionNoteComplete]}>全コンテンツ・30日間アクセス</AppText>
+          <AppText style={[styles.entryActionKicker, desktop && styles.entryActionKickerDesktop, styles.entryActionKickerComplete]}>COMPLETE EDITION</AppText>
+          <AppText testID="welcome-entry-complete-title" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} variant="serif" style={[styles.entryActionTitle, desktop && styles.entryActionTitleDesktop, styles.entryActionTitleComplete]}>完全版を購入する</AppText>
+          <AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.7} style={[styles.entryActionNote, desktop && styles.entryActionNoteDesktop, styles.entryActionNoteComplete]}>全コンテンツ・30日間アクセス</AppText>
         </View>
-        <AppText style={[styles.entryChevron, styles.entryChevronComplete]}>›</AppText>
+        <AppText style={[styles.entryChevron, desktop && styles.entryChevronDesktop, styles.entryChevronComplete]}>›</AppText>
       </Pressable>
     </View>
   </View>;
 }
 
-function EntryMark({ type }: { type: 'free' | 'complete' }) {
-  return <View style={[styles.entryMark, type === 'complete' && styles.entryMarkComplete]}>
+function EntryMark({ type, desktop }: { type: 'free' | 'complete'; desktop: boolean }) {
+  return <View style={[styles.entryMark, desktop && styles.entryMarkDesktop, type === 'complete' && styles.entryMarkComplete, type === 'complete' && desktop && styles.entryMarkCompleteDesktop]}>
     {type === 'free' ? <><View style={styles.entryBookLeft} /><View style={styles.entryBookRight} /></> : <><View style={styles.entryCrownBase} /><View style={styles.entryCrownPeakOne} /><View style={styles.entryCrownPeakTwo} /><View style={styles.entryCrownPeakThree} /></>}
   </View>;
 }
@@ -246,11 +246,14 @@ const styles = StyleSheet.create({
   entryBrandReading: { marginTop: 1, color: '#DFBD70', fontSize: 10, lineHeight: 14, fontWeight: '700', letterSpacing: 2.2 },
   entryBrandReadingDesktop: { marginTop: 2, fontSize: 9, lineHeight: 14, letterSpacing: 4.4 },
   entryDivider: { width: 1, alignSelf: 'stretch', backgroundColor: 'rgba(226,198,130,0.24)' },
-  entryActions: { flex: 1, flexDirection: 'row', gap: 12, alignItems: 'center', justifyContent: 'flex-end' },
-  entryAction: { flex: 1, minWidth: 0, minHeight: 58, paddingHorizontal: 12, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: '#B48734', borderRadius: 14, backgroundColor: 'rgba(13,14,13,0.66)' },
+  entryActions: { flex: 1, flexDirection: 'row', gap: 8, alignItems: 'stretch', justifyContent: 'flex-end' },
+  entryAction: { flex: 1, minWidth: 0, minHeight: 58, paddingHorizontal: 8, paddingVertical: 7, flexDirection: 'row', alignItems: 'center', gap: 5, borderWidth: 1, borderColor: '#B48734', borderRadius: 14, backgroundColor: 'rgba(13,14,13,0.66)' },
+  entryActionDesktop: { paddingHorizontal: 12, gap: 9 },
   entryActionComplete: { borderColor: '#D7AF58', backgroundColor: '#F2DEAC' },
-  entryMark: { width: 23, height: 23, position: 'relative', flexShrink: 0 },
-  entryMarkComplete: { width: 25, height: 23 },
+  entryMark: { width: 20, height: 22, position: 'relative', flexShrink: 0 },
+  entryMarkDesktop: { width: 23, height: 23 },
+  entryMarkComplete: { width: 20, height: 22 },
+  entryMarkCompleteDesktop: { width: 25, height: 23 },
   entryBookLeft: { position: 'absolute', left: 2, top: 3, width: 10, height: 16, borderWidth: 1.25, borderColor: '#D5AD58', borderTopLeftRadius: 2, borderBottomLeftRadius: 2 },
   entryBookRight: { position: 'absolute', right: 2, top: 3, width: 10, height: 16, borderWidth: 1.25, borderColor: '#D5AD58', borderTopRightRadius: 2, borderBottomRightRadius: 2 },
   entryCrownBase: { position: 'absolute', left: 2, right: 2, bottom: 3, height: 5, borderWidth: 1.25, borderColor: '#5B431B', borderRadius: 1 },
@@ -258,13 +261,17 @@ const styles = StyleSheet.create({
   entryCrownPeakTwo: { position: 'absolute', left: 12, top: 2, width: 1.5, height: 13, backgroundColor: '#5B431B' },
   entryCrownPeakThree: { position: 'absolute', right: 3, top: 5, width: 1.5, height: 10, backgroundColor: '#5B431B', transform: [{ rotate: '28deg' }] },
   entryActionCopy: { flex: 1, minWidth: 0 },
-  entryActionKicker: { color: '#C9A663', fontSize: 10, lineHeight: 14, letterSpacing: 1.1, fontWeight: '800' },
+  entryActionKicker: { color: '#C9A663', fontSize: 8, lineHeight: 11, letterSpacing: 0.55, fontWeight: '800' },
+  entryActionKickerDesktop: { fontSize: 10, lineHeight: 14, letterSpacing: 1.1 },
   entryActionKickerComplete: { color: '#6D552A' },
-  entryActionTitle: { marginTop: 1, color: '#F7EFDE', fontSize: 14, lineHeight: 18, fontWeight: '600', letterSpacing: 0.6 },
+  entryActionTitle: { marginTop: 1, color: '#F7EFDE', fontSize: 12, lineHeight: 16, fontWeight: '600', letterSpacing: 0.15 },
+  entryActionTitleDesktop: { fontSize: 14, lineHeight: 18, letterSpacing: 0.6 },
   entryActionTitleComplete: { color: '#231C12' },
-  entryActionNote: { marginTop: 1, color: '#D6CCB8', fontSize: 10, lineHeight: 14, letterSpacing: 0.1 },
+  entryActionNote: { marginTop: 1, color: '#D6CCB8', fontSize: 8, lineHeight: 11, letterSpacing: 0 },
+  entryActionNoteDesktop: { fontSize: 10, lineHeight: 14, letterSpacing: 0.1 },
   entryActionNoteComplete: { color: '#655333' },
-  entryChevron: { color: '#D5AD58', fontSize: 27, lineHeight: 30, fontWeight: '300' },
+  entryChevron: { color: '#D5AD58', fontSize: 20, lineHeight: 24, fontWeight: '300' },
+  entryChevronDesktop: { fontSize: 27, lineHeight: 30 },
   entryChevronComplete: { color: '#5B431B' },
   hero: { position: 'relative', overflow: 'hidden', alignItems: 'center', justifyContent: 'flex-start', paddingHorizontal: 18, paddingTop: 72, paddingBottom: 34 },
   heroDesktop: { paddingTop: 72, paddingBottom: 54 },

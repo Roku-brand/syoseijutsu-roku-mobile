@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle } from 'react-native';
+import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta } from '@/data/catalog';
@@ -22,6 +22,12 @@ const completeMark = require('../../assets/upgrade/complete-mark.png');
 const HOME_REEL_ID = 'brand';
 const HOME_REEL_SLIDE_COUNT = 7;
 const homeReelPositions = new Map<string, number>();
+const webTouchRailStyle = Platform.OS === 'web'
+  ? ({ overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', touchAction: 'pan-x pan-y' } as unknown as ViewStyle)
+  : undefined;
+const webTouchSlideStyle = Platform.OS === 'web'
+  ? ({ scrollSnapAlign: 'start', scrollSnapStop: 'always' } as unknown as ViewStyle)
+  : undefined;
 
 function singleLineTitleSize(title: string, desktop: boolean, desktopBase: number, mobileBase: number, desktopCharacters: number, mobileCharacters: number) {
   const base = desktop ? desktopBase : mobileBase;
@@ -271,11 +277,11 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
     <SlideShell desktop={desktop} testID="home-brand-slide-5">
       <Image source={systemImage} resizeMode="cover" accessibilityLabel="和紙に描かれた知識地図と山並み" style={styles.fullImage} />
       <View style={[styles.systemContent, !desktop && styles.systemContentMobile]}>
-        <Text style={styles.systemTitle}>処世術禄の体系</Text>
-        <Text style={styles.systemLead}>人生をうまく生きる方法を、ひとつの体系に。</Text>
+        <Text style={[styles.systemTitle, !desktop && styles.systemTitleMobile]}>処世術禄の体系</Text>
+        <Text style={[styles.systemLead, !desktop && styles.systemLeadMobile]}>人生をうまく生きる方法を、ひとつの体系に。</Text>
         <View style={[styles.systemStats, !desktop && styles.systemStatsMobile]}>
           {stats.map((stat, index) => (
-            <View key={stat.label} style={[styles.systemStatFlow, !desktop && styles.systemStatFlowMobile]}>
+            <View key={stat.label} testID={`home-brand-system-stat-${index + 1}`} style={[styles.systemStatFlow, !desktop && styles.systemStatFlowMobile]}>
               <View style={[styles.systemStatWrap, !desktop && styles.systemStatWrapMobile]}>
                 <View style={[styles.systemStat, !desktop && styles.systemStatMobile, index === 2 && styles.systemStatGold, index === 3 && styles.systemStatDark]}>
                   <Text style={[styles.systemValue, !desktop && styles.systemValueMobile, index >= 2 && styles.systemValueReverse]}>{stat.value}</Text>
@@ -287,7 +293,7 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
             </View>
           ))}
         </View>
-        <Cta label="体系を見る　→" compact={!desktop} onPress={() => router.push(APP_ROUTES.personas)} testID="home-brand-system-cta" />
+        <Cta label="体系を見る　→" compact={!desktop} centered={!desktop} onPress={() => router.push(APP_ROUTES.personas)} testID="home-brand-system-cta" />
       </View>
     </SlideShell>
   );
@@ -346,7 +352,6 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const [dayKey, setDayKey] = useState(() => getHomeDayKey());
   const railRef = useRef<ScrollView>(null);
   const activeIndexRef = useRef(activeIndex);
-  const edgeWrapPendingRef = useRef(false);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision, dayKey]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
 
@@ -389,23 +394,9 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 
   const settleAtOffset = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!viewportWidth) return;
-    if (edgeWrapPendingRef.current) {
-      edgeWrapPendingRef.current = false;
-      return;
-    }
     const rawIndex = event.nativeEvent.contentOffset.x / viewportWidth;
-    if (rawIndex < -0.1) {
-      edgeWrapPendingRef.current = true;
-      moveTo(-1, false);
-      return;
-    }
-    if (rawIndex > HOME_REEL_SLIDE_COUNT - 1 + 0.1) {
-      edgeWrapPendingRef.current = true;
-      moveTo(HOME_REEL_SLIDE_COUNT, false);
-      return;
-    }
-    commitIndex(Math.round(rawIndex));
-  }, [commitIndex, moveTo, viewportWidth]);
+    commitIndex(Math.max(0, Math.min(HOME_REEL_SLIDE_COUNT - 1, Math.round(rawIndex))));
+  }, [commitIndex, viewportWidth]);
 
   useEffect(() => {
     writeHomeReelPosition(HOME_REEL_ID, activeIndexRef.current);
@@ -456,11 +447,12 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           <ScrollView
             ref={railRef}
             horizontal
-            pagingEnabled
-            disableIntervalMomentum
+            pagingEnabled={Platform.OS !== 'web'}
+            disableIntervalMomentum={Platform.OS !== 'web'}
             decelerationRate="fast"
             snapToAlignment="start"
-            snapToInterval={viewportWidth || undefined}
+            snapToInterval={Platform.OS !== 'web' ? viewportWidth || undefined : undefined}
+            style={webTouchRailStyle}
             testID="home-brand-viewport"
             accessibilityLabel="処世術禄の魅力を7つの切り口で紹介"
             showsHorizontalScrollIndicator={false}
@@ -471,7 +463,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
               if (viewportWidth) railRef.current?.scrollTo({ x: activeIndexRef.current * viewportWidth, animated: false });
             }}
           >
-            {viewportWidth ? slides.map((slide) => <View key={slide.type} style={{ width: viewportWidth }}>{slide.node}</View>) : null}
+            {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
         </View>
         <Pressable
@@ -558,7 +550,7 @@ const styles = StyleSheet.create({
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },
   theorySummaryMobile: { fontSize: 11, letterSpacing: 0.1, lineHeight: 17, maxWidth: 310 },
   mapContent: { minHeight: 380, paddingHorizontal: 36, paddingVertical: 24 },
-  mapContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 28, paddingVertical: 6 },
+  mapContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 40, paddingVertical: 7 },
   mapHeading: { color: '#9D6E1B', fontFamily: fonts.serif, fontSize: 15, letterSpacing: 1.2, lineHeight: 22, textAlign: 'center' },
   mapHeadingMobile: { fontSize: 12, letterSpacing: 0.6, lineHeight: 17 },
   mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 15 },
@@ -575,21 +567,23 @@ const styles = StyleSheet.create({
   theoryNodes: { gap: 10, width: '43%' },
   theoryNodesMobile: { flexDirection: 'row', flexGrow: 0, flexShrink: 0, flexWrap: 'wrap', gap: 4, justifyContent: 'center', width: '100%' },
   theoryNode: { backgroundColor: 'rgba(255,253,248,0.94)', borderColor: '#CDAA67', borderRadius: 10, borderWidth: 1, minHeight: 58, paddingHorizontal: 17, paddingVertical: 9 },
-  theoryNodeMobile: { borderRadius: 8, flexBasis: '48%', flexGrow: 1, minHeight: 32, paddingHorizontal: 6, paddingVertical: 3 },
+  theoryNodeMobile: { borderRadius: 8, flexBasis: '48%', flexGrow: 1, minHeight: 34, paddingHorizontal: 6, paddingVertical: 3 },
   theoryNodeCategory: { color: '#9A712B', fontFamily: fonts.serif, fontSize: 9, letterSpacing: 0.8 },
   theoryNodeCategoryMobile: { fontSize: 7, letterSpacing: 0.2 },
   theoryNodeTitle: { color: '#1D2024', fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, marginTop: 2 },
   theoryNodeTitleMobile: { fontSize: 9, lineHeight: 11, marginTop: 0 },
   systemContent: { alignItems: 'center', minHeight: 380, paddingHorizontal: 34, paddingVertical: 20 },
-  systemContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 29, paddingVertical: 12 },
+  systemContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 40, paddingVertical: 10 },
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },
+  systemTitleMobile: { fontSize: 22, lineHeight: 30 },
   systemLead: { color: '#766B5A', fontFamily: fonts.serif, fontSize: 12, marginTop: 3 },
+  systemLeadMobile: { fontSize: 10, lineHeight: 14, textAlign: 'center' },
   systemStats: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'center', marginTop: 30, width: '100%' },
-  systemStatsMobile: { alignItems: 'flex-start', flexWrap: 'nowrap', marginTop: 11 },
+  systemStatsMobile: { alignItems: 'flex-start', flexWrap: 'nowrap', justifyContent: 'center', marginTop: 9 },
   systemStatFlow: { alignItems: 'center', flex: 1, flexDirection: 'row', minWidth: 0 },
-  systemStatFlowMobile: { flex: 0 },
+  systemStatFlowMobile: { flexBasis: 'auto', flexGrow: 0, flexShrink: 0 },
   systemStatWrap: { alignItems: 'center', flex: 1, minWidth: 0 },
-  systemStatWrapMobile: { flex: 0, minWidth: 0, width: 52 },
+  systemStatWrapMobile: { flexBasis: 'auto', flexGrow: 0, flexShrink: 0, minWidth: 0, width: 52 },
   systemStat: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.82)', borderColor: '#CDB789', borderRadius: 58, borderWidth: 1, height: 116, justifyContent: 'center', width: 116 },
   systemStatMobile: { borderRadius: 27, height: 52, width: 52 },
   systemStatGold: { backgroundColor: '#B88A2A', borderColor: '#DAB967' },

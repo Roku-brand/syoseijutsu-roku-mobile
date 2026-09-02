@@ -357,6 +357,21 @@ test('ウェルカムのヘッダーに無料版・完全版の導線とホー�
   await expect(page.getByText('登録不要・すぐに使えます')).toBeVisible();
   await expect(page.getByText('全コンテンツ・30日間アクセス')).toBeVisible();
   await expect(page.getByText('処 世 術 禄', { exact: true })).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  const [freeEntry, completeEntry, freeTitle, completeTitle] = await Promise.all([
+    page.getByRole('button', { name: '無料ではじめる' }).boundingBox(),
+    page.getByRole('button', { name: '完全版を購入する' }).boundingBox(),
+    page.getByTestId('welcome-entry-free-title').boundingBox(),
+    page.getByTestId('welcome-entry-complete-title').boundingBox(),
+  ]);
+  expect(freeEntry).not.toBeNull();
+  expect(completeEntry).not.toBeNull();
+  expect(freeTitle).not.toBeNull();
+  expect(completeTitle).not.toBeNull();
+  expect(Math.abs(freeEntry!.height - completeEntry!.height)).toBeLessThan(2);
+  expect(Math.abs(freeTitle!.height - completeTitle!.height)).toBeLessThan(2);
 });
 
 test('ウェルカムの無料版と完全版の入口は、それぞれ正しい画面へ進む', async ({ page }) => {
@@ -818,11 +833,45 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
+  const [greetingBox, introCopyBox] = await Promise.all([
+    page.getByTestId('home-greeting').boundingBox(),
+    page.getByTestId('home-intro-copy').boundingBox(),
+  ]);
+  expect(greetingBox).not.toBeNull();
+  expect(introCopyBox).not.toBeNull();
+  expect(introCopyBox!.y).toBeGreaterThanOrEqual(greetingBox!.y + greetingBox!.height - 2);
+
+  const touchStyles = await page.getByTestId('home-brand-viewport').evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return {
+      overscrollBehaviorX: computed.overscrollBehaviorX,
+      scrollSnapType: computed.scrollSnapType,
+      touchAction: computed.touchAction,
+    };
+  });
+  expect(touchStyles).toEqual({ overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', touchAction: 'pan-x pan-y' });
+
   for (let index = 1; index <= 7; index += 1) {
     await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
     const slideBox = await page.getByTestId(`home-brand-slide-${index}`).boundingBox();
     expect(slideBox).not.toBeNull();
     expect(slideBox!.width / slideBox!.height).toBeGreaterThan(1.4);
+  }
+
+  await page.getByRole('tab', { name: '4枚目を表示' }).click();
+  const [previousArrow, firstTheory] = await Promise.all([
+    page.getByRole('button', { name: '前のスライド' }).boundingBox(),
+    page.getByTestId('home-brand-map-theory-1').boundingBox(),
+  ]);
+  expect(previousArrow).not.toBeNull();
+  expect(firstTheory).not.toBeNull();
+  expect(firstTheory!.x).toBeGreaterThanOrEqual(previousArrow!.x + previousArrow!.width);
+
+  await page.getByRole('tab', { name: '5枚目を表示' }).click();
+  const systemStats = await Promise.all([1, 2, 3, 4].map((index) => page.getByTestId(`home-brand-system-stat-${index}`).boundingBox()));
+  systemStats.forEach((box) => expect(box).not.toBeNull());
+  for (let index = 1; index < systemStats.length; index += 1) {
+    expect(systemStats[index]!.x).toBeGreaterThanOrEqual(systemStats[index - 1]!.x + systemStats[index - 1]!.width - 1);
   }
 });
 

@@ -132,11 +132,11 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   introRow: { alignItems: 'baseline', flexDirection: 'row', gap: 22, marginBottom: 12, marginTop: 0 },
-  introRowMobile: { alignItems: 'flex-start', gap: 12, marginBottom: 13, marginTop: 0 },
+  introRowMobile: { alignItems: 'stretch', flexDirection: 'column', gap: 2, marginBottom: 13, marginTop: 0 },
   greeting: { color: palette.ink, fontFamily: typography.serif, fontSize: 32, letterSpacing: 2 },
-  greetingMobile: { flexShrink: 0, fontSize: 27 },
+  greetingMobile: { flexShrink: 0, fontSize: 26, lineHeight: 35 },
   copy: { color: palette.muted, flexShrink: 1, fontFamily: typography.serif, fontSize: 14, letterSpacing: 1.4, lineHeight: 23 },
-  copyMobile: { flex: 1, fontSize: 12, letterSpacing: 0.6, lineHeight: 19, paddingTop: 2 },
+  copyMobile: { flex: 0, fontSize: 11, letterSpacing: 0.45, lineHeight: 18, paddingTop: 0 },
   trendingSection: { marginTop: 24 },
   trendingSectionDesktop: { marginTop: 16 },
   sectionHeadingRow: { alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 14 },
