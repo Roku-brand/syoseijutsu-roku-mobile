@@ -5,6 +5,7 @@ import path from 'node:path';
 
 const root = path.resolve('dist');
 const base = '';
+const port = Number(process.env.PORT ?? 4173);
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
@@ -20,6 +21,7 @@ const server = createServer(async (request, response) => {
   if (relative.startsWith(base)) relative = relative.slice(base.length);
   if (relative === '' || relative === '/') relative = '/index.html';
   let filePath = path.resolve(root, `.${relative}`);
+  let statusCode = 200;
   if (!filePath.startsWith(`${root}${path.sep}`) && filePath !== root) {
     response.writeHead(403).end();
     return;
@@ -34,13 +36,13 @@ const server = createServer(async (request, response) => {
       const htmlInfo = await stat(htmlPath).catch(() => null);
       if (htmlInfo?.isFile()) filePath = htmlPath;
       else {
-        response.writeHead(404).end('Not found');
-        return;
+        filePath = path.join(root, '404.html');
+        statusCode = 404;
       }
     }
   }
-  response.writeHead(200, { 'Content-Type': contentTypes[path.extname(filePath)] ?? 'application/octet-stream' });
+  response.writeHead(statusCode, { 'Content-Type': contentTypes[path.extname(filePath)] ?? 'application/octet-stream' });
   createReadStream(filePath).pipe(response);
 });
 
-server.listen(4173, '127.0.0.1', () => console.log('Serving dist on http://127.0.0.1:4173'));
+server.listen(port, '127.0.0.1', () => console.log(`Serving dist on http://127.0.0.1:${port}`));
