@@ -53,7 +53,8 @@ function AppFrame() {
 function isFocusedScreen(pathname: string) {
   return pathname === '/upgrade'
     || pathname === '/auth'
-    || pathname.startsWith('/legal/');
+    || pathname.startsWith('/legal/')
+    || pathname.startsWith('/about/');
 }
 
 export default function RootLayout() {

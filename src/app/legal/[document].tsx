@@ -1,43 +1,8 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter, type Href } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen, SectionHeader } from '@/components/ui';
 
 const documents = {
-  about: {
-    title: '処世術禄について',
-    lead: '人生・仕事・人間関係の迷いを、再現可能な判断原則へ変える。',
-    sections: [
-      {
-        title: '目的',
-        paragraphs: [
-          '処世術禄は、心理学・行動科学・社会科学・経験則から、現実の場面で使える判断の選択肢を整理したアプリです。',
-          '一つの正解を押しつけるのではなく、状況を見直し、自分で納得して決めるための視点を提供します。',
-        ],
-      },
-      {
-        title: '表記について',
-        paragraphs: [
-          '正式名称は「処世術禄」です。「処世術録」と表記・検索されることがありますが、同じ本サービスを指します。',
-        ],
-      },
-      {
-        title: '五つの原則',
-        paragraphs: [
-          '処世術は、語るものではなく使うもの。',
-          '処世術は万能ではなく、状況に依存する。',
-          '処世術は人格の代替ではなく、人格を守る道具。',
-          '処世術は知識ではなく、実践して初めて術になる。',
-          '処世術は目的ではなく、目的に従う手段。',
-        ],
-      },
-      {
-        title: '大切な注意',
-        paragraphs: [
-          '本サービスは一般的な情報提供を目的とし、医療、法律、税務、金融、投資、心理支援その他の専門的助言、個別の成果または安全を保証するものではありません。重要な判断は、個別の事情、法令および安全を確認したうえで、必要に応じて専門家に相談してください。',
-        ],
-      },
-    ],
-  },
   privacy: {
     title: 'プライバシーポリシー',
     lead: '処世術禄における個人情報および端末内データの取扱いです。',
@@ -277,15 +242,16 @@ const documents = {
 } as const;
 
 export function generateStaticParams() {
-  return (Object.keys(documents) as Array<keyof typeof documents>).map((document) => ({ document }));
+  return [{ document: 'about' }, ...(Object.keys(documents) as Array<keyof typeof documents>).map((document) => ({ document }))];
 }
 
 export default function LegalDocumentScreen() {
   const router = useRouter();
   const { document } = useLocalSearchParams<{
-    document: keyof typeof documents;
+    document: keyof typeof documents | 'about';
   }>();
-  const content = documents[document];
+  if (document === 'about') return <Redirect href={'/about/shoseijutsu' as Href} />;
+  const content = documents[document as keyof typeof documents];
 
   if (!content) {
     return (
@@ -313,11 +279,13 @@ export default function LegalDocumentScreen() {
         </View>
       ))}
       {document === 'terms' ? <Pressable style={styles.historyLink} onPress={() => router.push('/legal/terms-history')}><AppText style={styles.historyText}>利用規約の履歴を見る</AppText></Pressable> : null}
+      <Pressable style={styles.aboutLink} onPress={() => router.push('/about/shoseijutsu' as Href)}><AppText style={styles.historyText}>処世術禄の思想を読む ›</AppText></Pressable>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   historyLink: { alignSelf: 'flex-start', marginTop: 12, marginBottom: 24 },
+  aboutLink: { alignSelf: 'flex-start', marginTop: 8, marginBottom: 24 },
   historyText: { color: '#8B672A', fontSize: 14, lineHeight: 21, textDecorationLine: 'underline' },
 });

@@ -30,6 +30,28 @@ test('private and interactive utility pages remain noindex', async ({ page }) =>
   }
 });
 
+test('the shoseijutsu about page is an indexable standalone article', async ({ page }) => {
+  await page.goto('/about/shoseijutsu');
+  await expect(page).toHaveTitle('処世術とは？意味・考え方と処世術禄の五大原則｜処世術禄');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /処世術とは、人生・仕事・人間関係/);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /index,follow/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://shoseijutsuroku.com/about/shoseijutsu');
+  await expect(page.getByRole('heading', { name: '処世術とは' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '処世術禄の五大原則' })).toBeVisible();
+  await expect(page.getByText('語るな ／ 信じるな ／ 同一化するな')).toBeVisible();
+  const jsonLd = await page.locator('script[data-seo-jsonld]').evaluate((element) => element.textContent ?? '');
+  expect(jsonLd).toContain('BreadcrumbList');
+  expect(jsonLd).toContain('Article');
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileMetrics = await page.evaluate(() => ({ innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(mobileMetrics.scrollWidth).toBeLessThanOrEqual(mobileMetrics.innerWidth);
+});
+
+test('the retired legal about route redirects to the standalone article', async ({ page }) => {
+  await page.goto('/legal/about');
+  await expect(page).toHaveURL(/\/about\/shoseijutsu$/);
+});
+
 test('the retired catalog URL resolves to the canonical discover page', async ({ page }) => {
   await page.goto('/catalog');
   await expect(page).toHaveURL(/\/discover$/);

@@ -19,7 +19,7 @@ export const APP_ROUTES = {
   commerce: '/legal/commerce',
   terms: '/legal/terms',
   privacy: '/legal/privacy',
-  about: '/legal/about',
+  about: '/about/shoseijutsu' as Href,
 } as const satisfies Record<string, Href>;
 
 export type MainSection = 'main' | 'discover' | 'learn' | 'my-os';

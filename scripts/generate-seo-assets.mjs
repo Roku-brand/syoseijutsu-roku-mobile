@@ -73,10 +73,11 @@ function metaFor(rawRoute) {
     '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。'],
     '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。'],
     '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。'],
-    '/legal/about': ['処世術禄について', '人物像から処世術、理論、実践へつなぐ知識体系「処世術禄」の考え方と運営方針を紹介します。'],
+    '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。'],
+    '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。'],
     '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。'],
   };
-  if (fixed[route]) return { ...base, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: true, crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0], route)] };
+  if (fixed[route]) return { ...base, canonicalRoute: route === '/legal/about' ? '/about/shoseijutsu' : route, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: route !== '/legal/about', type: route === '/about/shoseijutsu' ? 'article' : 'website', pageType: route === '/about/shoseijutsu' ? 'Article' : 'WebPage', crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0], route)] };
   const personaMatch = route.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
   if (personaMatch) {
     const category = categories.find((item) => item.key === personaMatch[1]);
@@ -117,7 +118,7 @@ function jsonLd(meta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.route) })) },
   ];
   if (meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.item.title, description: meta.description, inLanguage: 'ja', about: [meta.item.categoryName, meta.item.persona, ...(meta.item.tags ?? [])], isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item.title, description: meta.item.summary, inLanguage: 'ja', mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
 
@@ -128,8 +129,77 @@ function head(meta) {
 }
 
 const breadcrumbs = (meta) => `<nav aria-label="パンくずリスト"><ol>${meta.crumbs.map((item, index) => `<li>${index < meta.crumbs.length - 1 ? `<a href="${encodeRoute(item.route)}">${escape(item.name)}</a>` : `<span aria-current="page">${escape(item.name)}</span>`}</li>`).join('')}</ol></nav>`;
+const aboutParagraph = (text, emphasis = false) => `<p${emphasis ? ' class="seo-emphasis"' : ''}>${escape(text)}</p>`;
+const aboutSection = (title, paragraphs, emphasis = []) => `<section><h2>${escape(title)}</h2>${paragraphs.map((text) => aboutParagraph(text, emphasis.includes(text))).join('')}</section>`;
+function shoseijutsuStaticContent(meta) {
+  const sections = [
+    ['処世術とは', [
+      '処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。',
+      '「処世」は世の中で暮らしていくこと、「術」はそのための方法や技術を意味します。',
+      '一般には、人間関係の築き方、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処、適切な距離の取り方など、社会生活を円滑にする幅広い知恵を指します。',
+      '処世術という言葉には、ときに「要領よく立ち回る」「世渡りをする」といった意味合いもあります。しかし、本来扱える範囲はそれだけではありません。',
+      '相手を理解すること。自分を守ること。適切に主張すること。無用な争いを避けること。努力を成果につなげること。人生の選択をよりよくすること。',
+      'こうしたものも、広い意味では処世術です。',
+    ], ['相手を理解すること。自分を守ること。適切に主張すること。無用な争いを避けること。努力を成果につなげること。人生の選択をよりよくすること。']],
+    ['処世術は「人を操る技術」ではない', [
+      '処世術という言葉から、相手に取り入ったり、人を操作したりする技術を想像する人もいるかもしれません。',
+      'しかし、それは処世術の一部を極端に捉えたものです。',
+      '人間は一人では生きていません。自分の考えだけでなく、相手の感情、集団の力学、社会のルール、タイミング、環境など、多くの条件の中で生きています。',
+      'それらを無視して「正しいことだけをしていればいい」と考えることも、現実的ではありません。',
+      '現実を理解しながら、それでも自分がどう生きるかを選ぶ。',
+      '処世術禄では、そのための技術を処世術と考えています。',
+    ], ['現実を理解しながら、それでも自分がどう生きるかを選ぶ。']],
+    ['なぜ処世術が必要なのか', [
+      '学校では、数学や歴史は教えてくれます。',
+      'しかし、「嫌われずに断るにはどうするか」「人から軽く扱われないためにはどうするか」「上司と意見が違うときどう伝えるか」「失敗したあと、どう立て直すか」「人間関係を終わらせるべきなのはいつか」といった問題には、ほとんど教科書がありません。',
+      'ところが実際の人生では、こうした判断の積み重ねが、人間関係や仕事、生活の質を大きく左右します。',
+      '多くの人は経験から少しずつ学びます。しかし、すべてを自分の失敗から学ぶ必要はありません。',
+      '誰かが経験から得た知恵や、研究によって明らかになった人間の性質を、あらかじめ知ることができる。',
+      'そこに、処世術を学ぶ意味があります。',
+    ], ['誰かが経験から得た知恵や、研究によって明らかになった人間の性質を、あらかじめ知ることができる。']],
+  ];
+  let body = `<section class="seo-hero"><p>${escape('人生をうまく生きる方法を、すべての人へ。')}</p>${aboutParagraph('人生には、学校では教わらないことが多くあります。人との距離の取り方。信頼の築き方。仕事の進め方。失敗との付き合い方。自分自身の扱い方。')}${aboutParagraph('私たちは、こうした知恵を「なんとなく分かっていること」のまま流してしまいます。')}${aboutParagraph('処世術禄は、それらを集め、整理し、理論と結びつけ、必要なときに取り出して使える知恵へ変えるための場所です。')}${aboutParagraph('聞いたことがある、で終わらせない。', true)}${aboutParagraph('流れて消える人生の知識を、何度でも使える知恵に変える。それが、処世術禄の役割です。')}</section>`;
+  body += sections.map(([title, paragraphs, emphasis]) => aboutSection(title, paragraphs, emphasis)).join('');
+  body += aboutSection('なぜ、処世術禄なのか', [
+    '人生に役立つ知恵は、すでに世の中に数多く存在します。問題は、それらが散らばっていることです。',
+    '人間関係の知恵は心理学の本にあり、仕事の進め方はビジネス書にあり、感情との付き合い方は哲学や行動科学にあり、人生についての知恵は誰かの経験談の中にある。',
+    '一つひとつは役に立っても、それらを自分で探し、比較し、整理し、必要な場面で取り出すのは簡単ではありません。',
+    '処世術禄は、その問題を解決するために設計されています。',
+  ]) + `<ol>${[
+    ['網羅する', '対人関係、仕事、人生という大きな領域をまたぎながら、日常で繰り返し直面する判断を幅広く扱います。人生全体で使える知恵を一つの場所に集めることを目指しています。'],
+    ['体系にする', '散らばった知恵を「人物像」「処世術」「理論」という構造で整理し、知識をただ並べるのではなく、互いの関係が分かる形にします。'],
+    ['理論につなぐ', '心理学、行動科学、社会科学などの理論と処世術を結びつけ、状況に応じて使い分けられる判断材料にします。'],
+    ['実践に落とす', '理論を現実の行動へ落とし込み、理論から実践へ、実践から理論へ往復しながら、知識を使えるものへ変えます。'],
+    ['何度でも使える', '判断に迷ったときに何度でも戻り、探し、読み返し、自分の判断に使える形で知恵を残します。'],
+  ].map(([title, text], index) => `<li><span>${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3><p>${escape(text)}</p></li>`).join('')}</ol>${aboutParagraph('網羅する。体系にする。理論につなぐ。実践に落とす。何度でも使える。', true)}</section>`;
+  body += `<section><h2>処世術禄の五大原則</h2><p>処世術禄は、処世術を人生の目的にせず、現実の中で静かに運用するための原則を掲げています。</p><ol>${[
+    ['処世術は好かれない', 'メタ発言抑制', '処世術そのものを過度に語ったり、「自分はこういう技術を使っている」とメタに説明した瞬間、自然な関係性や信頼が崩れることがある。必要な場面で静かに使うためのものです。'],
+    ['処世術は万能ではない', 'コンテクスト依存性', '一つの方法を絶対視せず、相手、場面、立場、力関係、時間軸、文化、目的が変われば結果も変わると理解します。だから唯一の正解を提示しません。'],
+    ['処世術は人格の代替ではない', '行動分離原則', '処世術を身につけることと人格を作り替えることは別です。自分の価値観や人格を守りながら社会と関わるための道具です。'],
+    ['処世術は知識ではない', '実践優先', '知識を集めることを目的化せず、理論を現実の判断や行動へ変換します。処世術禄は知識を使える形に編み直すプロダクトです。'],
+    ['処世術は目的ではない', '手段従属', '何を大切にし、どこへ向かうかを決めるのは本人です。処世術は、その目的を実現するための手段です。'],
+  ].map(([title, concept, text], index) => `<li><span>${String(index + 1).padStart(2, '0')}</span><h3>${escape(title)}</h3><small>${escape(concept)}</small><p>${escape(text)}</p></li>`).join('')}</ol><p>語るな ／ 信じるな ／ 同一化するな<br>運用せよ ／ 目的に従え</p></section>`;
+  body += aboutSection('知識を「使える形」にする', [
+    '世の中には、役に立つ知識がすでに大量にあります。心理学、行動科学、社会科学、哲学、歴史、書籍、経験則。',
+    '問題は、知識がないことだけではありません。散らばっていること。忘れてしまうこと。そして、現実のどの場面で使えばいいのか分からないこと。',
+    '処世術禄では、それらを「人物像」「処世術」「理論」という形で整理し、知識同士を結びつけます。',
+    '一つの処世術から、その背景にある複数の理論へ進み、「なぜ効くのか」を知ることができる。逆に、理論から、それを現実でどう使えるのかを処世術として知ることもできます。',
+    '知識を集めるのではなく、使える形に編み直す。これが処世術禄の基本設計です。',
+  ], ['散らばっていること。忘れてしまうこと。そして、現実のどの場面で使えばいいのか分からないこと。', '知識を集めるのではなく、使える形に編み直す。']);
+  body += aboutSection('正解集ではなく、判断のOS', [
+    '処世術禄は、「こうすれば絶対にうまくいく」という人生の正解集を目指していません。人間も、状況も、時代も変わるからです。',
+    '同じ行動でも、ある場面では正しく、別の場面では間違いになることがあります。',
+    'だから必要なのは、無数の正解を暗記することではありません。状況を見て、考え、自分で選べることです。',
+    '処世術禄が作ろうとしているのは、いわば人生をうまく生きるための思考のOSです。判断に迷ったとき、戻ってこられる場所。必要な知恵を探し、なぜそうするのかまで理解できる場所。',
+    '人生をうまく生きる方法を、すべての人へ。処世術禄は、そのための知恵を編み続けます。',
+  ], ['人生をうまく生きるための思考のOS']);
+  body += aboutSection('「処世術禄」と「処世術録」について', ['正式名称は「処世術禄」です。「処世術録」と表記・検索されることがありますが、同じ本サービスを指します。']);
+  body += `<section><h2>大切な注意</h2>${aboutParagraph('本サービスは一般的な情報と判断の視点を提供することを目的としています。')}${aboutParagraph('医療、法律、税務、金融、投資、心理支援その他の専門的助言を代替するものではなく、個別の成果や安全を保証するものでもありません。')}${aboutParagraph('重要な判断については、個別の事情、法令、安全性などを確認したうえで、必要に応じて専門家へ相談してください。')}</section>`;
+  return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape('処世術とは？意味・考え方と処世術禄の五大原則')}</h1>${body}</article></main></noscript>`;
+}
 function staticContent(meta) {
   if (!meta.indexable) return meta.route === '/404' || meta.route === '/+not-found' ? '<noscript><main><article><h1>ページが見つかりません</h1><p>URLをご確認いただくか、<a href="/">処世術禄のホーム</a>へ戻ってください。</p></article></main></noscript>' : '';
+  if (meta.route === '/about/shoseijutsu') return shoseijutsuStaticContent(meta);
   let body = `<p>${escape(meta.description)}</p>`;
   if (meta.pageType === 'CreativeWork') {
     const paragraphs = String(meta.item.explanation).split(/\n\s*\n/).map(clean).filter(Boolean);

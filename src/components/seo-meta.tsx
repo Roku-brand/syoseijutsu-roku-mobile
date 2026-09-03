@@ -33,7 +33,8 @@ const fixed: Record<string, [string, string, boolean]> = {
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
   '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。', true],
   '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。', true],
-  '/legal/about': ['処世術禄について', '人物像から処世術、理論、実践へつなぐ知識体系「処世術禄」の考え方と運営方針を紹介します。', true],
+  '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。', true],
+  '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。', false],
   '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。', true],
 };
 
@@ -58,6 +59,24 @@ function getMeta(rawPathname: string): PageMeta {
     description: fixed['/discover'][1],
     canonicalPath: '/discover',
     crumbs: [crumb('ホーム', '/'), crumb('処世術を探す', '/discover')],
+  };
+  if (pathname === '/about/shoseijutsu') return {
+    ...fallback,
+    title: '処世術とは？意味・考え方と処世術禄の五大原則｜処世術禄',
+    description: '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。',
+    indexable: true,
+    type: 'article',
+    pageType: 'Article',
+    canonicalPath: pathname,
+    entity: { headline: '処世術とは？意味・考え方と処世術禄の五大原則', description: '処世術の意味・必要性と、処世術禄の思想を紹介します。', about: ['処世術', '処世術禄', '人生', '人間関係', '仕事'] },
+    crumbs: [crumb('ホーム', '/'), crumb('処世術禄について', pathname)],
+  };
+  if (pathname === '/legal/about') return {
+    ...fallback,
+    title: '処世術禄について｜処世術禄',
+    description: '処世術禄についての新しいページへ移動します。',
+    canonicalPath: '/about/shoseijutsu',
+    crumbs: [crumb('ホーム', '/'), crumb('処世術禄について', '/about/shoseijutsu')],
   };
   if (fixed[pathname]) {
     const [label, description, indexable] = fixed[pathname];

@@ -330,6 +330,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';
   if (pathname.includes('/legal/')) return '規約・ポリシー';
+  if (pathname.startsWith('/about/')) return '処世術禄について';
   if (pathname.includes('/upgrade')) return '完全版を購入';
   if (pathname.includes('/settings')) return '設定';
   if (pathname.includes('/card/')) return '処世術カード';
