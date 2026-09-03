@@ -15,20 +15,27 @@ export type RelatedContentItem = {
 
 export function RelatedContentSection({
   title,
+  description,
   items,
   testID,
+  continuation = false,
 }: {
   title: string;
+  description?: string;
   items: RelatedContentItem[];
   testID?: string;
+  continuation?: boolean;
 }) {
   if (!items.length) return null;
 
   return (
-    <View style={styles.section}>
-      <View style={styles.heading}>
-        <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.headingText}>{title}</AppText>
-        <View style={styles.countBadge}><AppText style={styles.countText}>{items.length}</AppText></View>
+    <View style={[styles.section, continuation && styles.sectionContinuation]}>
+      <View style={styles.headingArea}>
+        <View style={styles.heading}>
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.headingText}>{title}</AppText>
+          <View style={styles.countBadge}><AppText style={styles.countText}>{items.length}</AppText></View>
+        </View>
+        {description ? <AppText style={styles.description}>{description}</AppText> : null}
       </View>
       <View testID={testID} style={styles.list}>
         {items.map((item, index) => (
@@ -61,8 +68,11 @@ export function RelatedContentSection({
 
 const styles = StyleSheet.create({
   section: { width: '100%', marginTop: 34 },
-  heading: { minHeight: 38, marginBottom: 12, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center', gap: 11 },
+  sectionContinuation: { marginTop: 24 },
+  headingArea: { marginBottom: 12, paddingHorizontal: 20 },
+  heading: { minHeight: 38, flexDirection: 'row', alignItems: 'center', gap: 11 },
   headingText: { color: '#24231E', fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, fontWeight: '700', letterSpacing: 0.7 },
+  description: { marginTop: 2, color: '#6B655C', fontSize: 12, lineHeight: 19 },
   countBadge: { minWidth: 29, height: 29, paddingHorizontal: 8, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEE4D2' },
   countText: { color: '#A27526', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '700' },
   list: { width: '100%', borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.74)', overflow: 'hidden' },

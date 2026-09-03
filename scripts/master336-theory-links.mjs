@@ -1,8 +1,9 @@
 // Curated, one-way source of truth for theory links in the 336-card catalog.
 // Rows follow the immutable display order (master336-001 through master336-336).
 // A card receives only theories that explain its operative mechanism directly.
-// There is deliberately no per-card target, minimum, or maximum: the count is
-// the natural result of the content review.
+// These are the representative entry points shown as 「主要理論」. The
+// comprehensive map is maintained separately and supplies the theories shown
+// as 「あわせて読む理論」.
 const rows = [
   // 印象がいい人 001–014
   ['003', '387'], ['388'], ['023', '388'], ['010', '387'], ['402'], ['012'], ['015', '390'], ['007'], ['008', '018'], ['038', '037'], ['025'], ['246'], ['393'], ['029', '002'],
@@ -66,109 +67,13 @@ if (rows.length !== 336) {
   throw new Error(`Theory-link map must have 336 rows; received ${rows.length}.`);
 }
 
-// A second content pass retained only materially distinct explanations that
-// were absent from the compact baseline above. Near-synonyms, broad maxims,
-// and theories that merely share a topic word were intentionally excluded.
-const contentReviewedAdditions = {
-  'master336-003': ['480'],
-  'master336-009': ['412'],
-  'master336-022': ['464'],
-  'master336-028': ['403'],
-  'master336-032': ['403'],
-  'master336-033': ['227', '405'],
-  'master336-039': ['422'],
-  'master336-040': ['300'],
-  'master336-045': ['298'],
-  'master336-046': ['410'],
-  'master336-066': ['112'],
-  'master336-067': ['112'],
-  'master336-070': ['035', '520'],
-  'master336-098': ['051'],
-  'master336-102': ['427'],
-  'master336-104': ['440'],
-  'master336-106': ['230'],
-  'master336-107': ['471'],
-  'master336-108': ['092'],
-  'master336-112': ['475'],
-  'master336-116': ['427'],
-  'master336-123': ['300'],
-  'master336-128': ['030', '499'],
-  'master336-129': ['428'],
-  'master336-131': ['430'],
-  'master336-132': ['157', '160'],
-  'master336-133': ['034'],
-  'master336-138': ['485'],
-  'master336-147': ['299'],
-  'master336-148': ['459', '482'],
-  'master336-149': ['484'],
-  'master336-151': ['072'],
-  'master336-154': ['070', '073'],
-  'master336-163': ['243'],
-  'master336-168': ['473'],
-  'master336-180': ['544'],
-  'master336-183': ['452'],
-  'master336-184': ['507'],
-  'master336-185': ['584'],
-  'master336-190': ['519'],
-  'master336-194': ['178'],
-  'master336-213': ['510'],
-  'master336-216': ['512'],
-  'master336-219': ['512'],
-  'master336-220': ['286'],
-  'master336-222': ['079'],
-  'master336-225': ['152'],
-  'master336-226': ['524'],
-  'master336-228': ['139'],
-  'master336-231': ['150'],
-  'master336-233': ['523'],
-  'master336-234': ['101'],
-  'master336-237': ['486'],
-  'master336-238': ['161'],
-  'master336-239': ['162'],
-  'master336-240': ['080'],
-  'master336-241': ['080'],
-  'master336-242': ['085'],
-  'master336-246': ['159'],
-  'master336-249': ['514'],
-  'master336-251': ['500'],
-  'master336-255': ['176'],
-  'master336-262': ['281'],
-  'master336-263': ['272'],
-  'master336-266': ['266'],
-  'master336-269': ['130'],
-  'master336-274': ['129'],
-  'master336-276': ['257'],
-  'master336-277': ['257'],
-  'master336-279': ['287'],
-  'master336-280': ['021'],
-  'master336-289': ['208', '220'],
-  'master336-290': ['227'],
-  'master336-291': ['223'],
-  'master336-292': ['237'],
-  'master336-293': ['207'],
-  'master336-294': ['216', '218'],
-  'master336-295': ['429', '430'],
-  'master336-298': ['243'],
-  'master336-299': ['561'],
-  'master336-301': ['133'],
-  'master336-303': ['278'],
-  'master336-304': ['548'],
-  'master336-305': ['216'],
-  'master336-306': ['288'],
-  'master336-312': ['248'],
-  'master336-318': ['136'],
-  'master336-319': ['242'],
-  'master336-325': ['291'],
-  'master336-326': ['292'],
-  'master336-327': ['287'],
-  'master336-329': ['329'],
-  'master336-331': ['263'],
-};
-
-export const master336TheoryLinks = Object.fromEntries(
+export const master336PrimaryTheoryLinks = Object.fromEntries(
   rows.map((ids, index) => [
     `master336-${String(index + 1).padStart(3, '0')}`,
-    [...new Set([...ids, ...(contentReviewedAdditions[`master336-${String(index + 1).padStart(3, '0')}`] ?? [])])]
-      .map((id) => `kb_${id}`),
+    ids.map((id) => `kb_${id}`),
   ]),
 );
+
+// Backward-compatible name for older audit tools. It now intentionally means
+// the representative set, not the complete reading list.
+export const master336TheoryLinks = master336PrimaryTheoryLinks;

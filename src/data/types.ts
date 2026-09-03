@@ -8,6 +8,8 @@ export type TechniqueSource = {
   title: string;
   theories?: string[];
   relatedTheoryIds?: string[];
+  /** 「主要理論」として先に示す代表的な理論。relatedTheoryIds の部分集合。 */
+  primaryTheoryIds?: string[];
   theoryTagIds?: string[];
   subtitle?: string;
   importance?: 1 | 2 | 3;

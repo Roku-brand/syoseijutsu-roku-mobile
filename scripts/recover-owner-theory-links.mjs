@@ -17,7 +17,7 @@ const supabase = createClient(url, serviceRoleKey, { auth: { persistSession: fal
 const [{ data: techniques, error: techniqueError }, { data: revisions, error: revisionError }, optimizationResult] = await Promise.all([
   supabase.from('techniques').select('id,theory_ids'),
   supabase.from('technique_revisions').select('revision_id,technique_id,snapshot,version').order('version', { ascending: false }),
-  supabase.from('theory_link_optimization_backups').select('technique_id,optimized_theory_ids').eq('optimization_key', 'content-review-20260903'),
+  supabase.from('theory_link_optimization_backups').select('technique_id,optimized_theory_ids').eq('optimization_key', 'comprehensive-groups-20260903'),
 ]);
 if (techniqueError) throw techniqueError;
 if (revisionError) throw revisionError;

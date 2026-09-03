@@ -1,6 +1,7 @@
 import techniquesSource from './generated/techniques.public.json';
 import theoriesSource from './generated/theories.public.json';
 import practicalActionsSource from './generated/practical-actions.public.json';
+import primaryLinksSource from './generated/primary-theory-links.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
@@ -11,6 +12,7 @@ const publicTheories = theoriesSource as TheoryCard[];
 const practicalActionsById = new Map(
   (practicalActionsSource as Array<TechniquePracticalActions & { id: string; title: string }>).map((item) => [item.id, item]),
 );
+const primaryTheoryIdsByTechniqueId = primaryLinksSource as Record<string, string[]>;
 
 export const categories: CatalogCategory[] = structuredClone(publicCategories);
 export const theories: TheoryCard[] = publicTheories.map((theory) => ({
@@ -36,10 +38,18 @@ function rebuildIndexes() {
           subcategory: subcategory.name,
           articleTitle,
         };
+        const theoryTagIds = context.relatedTheoryIds ?? context.theoryTagIds ?? [];
+        const configuredPrimaryIds = context.primaryTheoryIds
+          ?? primaryTheoryIdsByTechniqueId[context.id]
+          ?? theoryTagIds;
         return {
           ...context,
           practicalActions: context.practicalActions ?? practicalActionsById.get(context.id),
-          theoryTagIds: context.relatedTheoryIds ?? context.theoryTagIds ?? [],
+          theoryTagIds,
+          // Published rows currently store one comprehensive theory_ids list.
+          // Reapply the editorial grouping locally, and intersect it so an
+          // owner-side removal never leaves a stale primary relation visible.
+          primaryTheoryIds: configuredPrimaryIds.filter((id) => theoryTagIds.includes(id)),
           categoryKey: category.key,
           tags: getTechniqueTags(context),
         };

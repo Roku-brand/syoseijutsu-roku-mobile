@@ -71,6 +71,15 @@ export default function CardDetailScreen() {
   const relatedTheories = (card.theoryTagIds ?? [])
     .map((theoryId) => theoryById.get(theoryId))
     .filter((theory): theory is NonNullable<typeof theory> => Boolean(theory));
+  const primaryTheoryIds = new Set(card.primaryTheoryIds ?? card.theoryTagIds ?? []);
+  const primaryTheories = relatedTheories.filter((theory) => primaryTheoryIds.has(theory.tagId));
+  const supplementaryTheories = relatedTheories.filter((theory) => !primaryTheoryIds.has(theory.tagId));
+  const toTheoryItem = (theory: (typeof relatedTheories)[number]) => ({
+    key: theory.tagId,
+    title: theory.title,
+    supportingText: theory.summary,
+    href: canReadTheory(effectiveAccess, theory.tagId) ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
+  });
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const titleLength = [...card.title.replace(/\s/g, '')].length;
@@ -186,16 +195,21 @@ export default function CardDetailScreen() {
           </View>
         </ArticleSection>
 
-        <RelatedContentSection
-          title="関連する理論"
-          testID="related-theories"
-          items={relatedTheories.map((theory) => ({
-            key: theory.tagId,
-            title: theory.title,
-            supportingText: theory.summary,
-            href: canReadTheory(effectiveAccess, theory.tagId) ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
-          }))}
-        />
+        <View testID="related-theories">
+          <RelatedContentSection
+            title="主要理論"
+            description="理解の入口となる代表的な理論"
+            testID="primary-theories"
+            items={primaryTheories.map(toTheoryItem)}
+          />
+          <RelatedContentSection
+            title="あわせて読む理論"
+            description="類似・補完・別視点に加え、説得力を補う古典や名言"
+            testID="supplementary-theories"
+            continuation
+            items={supplementaryTheories.map(toTheoryItem)}
+          />
+        </View>
 
         <RelatedContentSection
           title="関連する処世術"
