@@ -105,7 +105,7 @@ export default function MyPageContent() {
         <View testID="personal-principle-card" style={[styles.principleCard, mobile && styles.principleCardMobile]}>
           <View accessibilityElementsHidden style={styles.principleAccentTop} />
           <View accessibilityElementsHidden style={styles.principleAccentBottom} />
-          <View style={styles.principleCopy}>
+          <View style={[styles.principleCopy, mobile && styles.principleCopyMobile]}>
             <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
             <AppText style={[styles.principle, mobile && styles.principleMobile]}>{personalPrinciple || 'まだ座右の銘は設定されていません'}</AppText>
           </View>
@@ -255,15 +255,16 @@ const styles = StyleSheet.create({
   profileEditMobile: { position: 'absolute', right: spacing.md, top: spacing.md, paddingLeft: 0 },
   profileEditText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   principleCard: { minHeight: 172, marginTop: spacing.md, paddingHorizontal: 72, paddingVertical: 30, borderWidth: 1, borderColor: '#D8C8AD', borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', flexDirection: 'row', alignItems: 'center', gap: spacing.xl, overflow: 'hidden', ...bookCardShadow },
-  principleCardMobile: { minHeight: 184, paddingHorizontal: spacing.lg, paddingTop: spacing.xl, paddingBottom: 68, alignItems: 'flex-start', flexDirection: 'column', gap: spacing.md },
+  principleCardMobile: { minHeight: 142, paddingHorizontal: 20, paddingTop: 20, paddingBottom: 22, alignItems: 'flex-start', flexDirection: 'column', gap: 0 },
   principleAccentTop: { position: 'absolute', width: 130, height: 130, left: -78, top: -82, borderWidth: 1, borderColor: 'rgba(184,138,42,0.14)', borderRadius: 65 },
   principleAccentBottom: { position: 'absolute', width: 170, height: 170, right: -108, bottom: -118, borderWidth: 1, borderColor: 'rgba(184,138,42,0.16)', borderRadius: 85 },
   principleCopy: { flex: 1, minWidth: 0 },
+  principleCopyMobile: { paddingRight: 76 },
   principleLabel: { color: '#A66F17', fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 1.4 },
   principle: { marginTop: 18, color: colors.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 47, fontWeight: '600', letterSpacing: 1.8 },
   principleMobile: { marginTop: spacing.md, fontSize: 22, lineHeight: 34, letterSpacing: 0.8 },
   editPrinciple: { minHeight: 44, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 6, borderWidth: 1, borderColor: '#D2B77F', borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.9)' },
-  editPrincipleMobile: { position: 'absolute', right: spacing.lg, bottom: spacing.lg },
+  editPrincipleMobile: { minHeight: 44, paddingHorizontal: 12, position: 'absolute', right: 12, top: 10 },
   editIcon: { color: colors.gold, fontSize: 16, lineHeight: 19 },
   editText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   destinationGrid: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.lg },

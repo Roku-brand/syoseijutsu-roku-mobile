@@ -104,12 +104,13 @@ export function BookHeader() {
 
   return (
     <>
-      <View style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight]}>
+      <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight]}>
         {showBack ? (
           <View style={styles.brandGroup}>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="前の画面へ戻る"
+              testID="book-header-back"
               onPress={handleBack}
               hitSlop={8}
               style={({ pressed }) => [
@@ -119,8 +120,8 @@ export function BookHeader() {
                 pressed && styles.headerActionPressed,
               ]}
             >
-              <AppText style={[styles.headerBackIcon, lightHeader && styles.headerBackIconLight]}>‹</AppText>
-              <AppText style={[styles.headerBackText, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
+              <AppText style={[styles.headerBackIcon, compact && styles.headerBackIconCompact, lightHeader && styles.headerBackIconLight]}>‹</AppText>
+              <AppText style={[styles.headerBackText, compact && styles.headerBackTextCompact, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
             </Pressable>
           </View>
         ) : (
@@ -608,7 +609,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
-  personaHeaderCompact: { minHeight: 108, paddingTop: 6, paddingBottom: 58, alignItems: 'flex-start' },
+  personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,
@@ -618,29 +619,30 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headerBack: {
-    minWidth: 74,
-    minHeight: 44,
-    paddingHorizontal: 10,
+    minWidth: 68,
+    minHeight: 40,
+    paddingHorizontal: 9,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
+    gap: 4,
     borderWidth: 1,
     borderColor: colors.gold,
-    borderRadius: radius.sm,
+    borderRadius: radius.pill,
   },
   headerBackCompact: {
-    minWidth: 80,
-    minHeight: 44,
-    paddingHorizontal: 10,
+    minWidth: 52,
+    minHeight: 34,
+    paddingHorizontal: 7,
   },
-  headerBackLight: { borderWidth: 1, justifyContent: 'center', paddingHorizontal: 10 },
+  headerBackLight: { borderWidth: 1, justifyContent: 'center' },
   headerBackIcon: {
     color: colors.gold,
     fontSize: 27,
     lineHeight: 28,
     marginTop: -2,
   },
+  headerBackIconCompact: { fontSize: 21, lineHeight: 22, marginTop: -1 },
   headerBackText: {
     color: colors.ink,
     fontFamily: fonts.sans,
@@ -648,6 +650,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     fontWeight: '600',
   },
+  headerBackTextCompact: { fontSize: 10, lineHeight: 14 },
   headerBackIconLight: { color: colors.gold },
   headerBackTextLight: { color: colors.ink },
   headerAppIcon: {
@@ -667,7 +670,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   screenTitleGroupWithSubtitle: { gap: 2 },
-  personaScreenTitleGroupCompact: { left: 12, right: 12, top: 52, gap: 0 },
+  personaScreenTitleGroupCompact: { bottom: 6, left: 62, right: 94, top: 6, gap: 0 },
   screenTitle: {
     color: colors.ink,
     fontFamily: fonts.serif,
@@ -678,9 +681,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   screenTitleLight: { color: colors.ink },
-  personaScreenTitleCompact: { fontSize: 14, lineHeight: 19, letterSpacing: 0.45 },
+  personaScreenTitleCompact: { fontSize: 12, lineHeight: 15, letterSpacing: 0.2 },
   screenSubtitle: { color: '#A77A25', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
-  personaScreenSubtitleCompact: { fontSize: 10, lineHeight: 14, letterSpacing: 0.45 },
+  personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {

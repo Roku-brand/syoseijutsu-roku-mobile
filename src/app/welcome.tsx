@@ -31,6 +31,7 @@ const mobileNotes: Array<{ text: string; tone: NoteTone; position: string }> = [
   { text: '知ってる。\nでも行動できない…', tone: 'speech', position: 'noteMobileTwo' },
   { text: '結局どう使えば\nいいの？？', tone: 'speech', position: 'noteMobileThree' },
   { text: 'プレモーテム', tone: 'paper', position: 'noteMobileFour' },
+  { text: '現状維持バイアス', tone: 'ink', position: 'noteMobileFive' },
 ];
 
 export default function Welcome() {
@@ -188,6 +189,7 @@ function noteStyle(position: string) {
     case 'noteMobileTwo': return styles.noteMobileTwo;
     case 'noteMobileThree': return styles.noteMobileThree;
     case 'noteMobileFour': return styles.noteMobileFour;
+    case 'noteMobileFive': return styles.noteMobileFive;
     default: return undefined;
   }
 }
@@ -309,6 +311,7 @@ const styles = StyleSheet.create({
   noteMobileTwo: { right: 14, top: 18, transform: [{ rotate: '4deg' }] },
   noteMobileThree: { left: 14, bottom: 15, transform: [{ rotate: '-4deg' }] },
   noteMobileFour: { right: 14, bottom: 15, transform: [{ rotate: '6deg' }] },
+  noteMobileFive: { bottom: 96, left: '50%', minWidth: 136, transform: [{ translateX: -68 }, { rotate: '1.5deg' }] },
   overview: { width: '100%', paddingHorizontal: 17, paddingTop: 33, paddingBottom: 34, backgroundColor: 'rgba(250,246,238,0.84)' },
   overviewDesktop: { paddingHorizontal: 44, paddingTop: 33, paddingBottom: 26 },
   overviewCompact: { paddingHorizontal: 12, paddingTop: 27 },

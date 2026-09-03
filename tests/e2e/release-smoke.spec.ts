@@ -1,7 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function startFreeHome(page: Page) {
-  await page.getByRole('button', { name: '無料で始める' }).click();
+  const headerEntry = page.getByRole('button', { name: '無料ではじめる' });
+  if (await headerEntry.isVisible({ timeout: 2_000 }).catch(() => false)) {
+    await headerEntry.click();
+  } else {
+    await page.getByRole('button', { name: '無料で始める' }).click();
+  }
   const welcomeModal = page.getByTestId('home-welcome-modal');
   if (await welcomeModal.isVisible({ timeout: 800 })) {
     await welcomeModal.getByRole('button', { name: 'あとで見る' }).click();
@@ -33,6 +38,7 @@ test('welcome presents both entry actions on desktop and mobile', async ({ page 
   await page.setViewportSize({ width: 393, height: 667 });
   await page.reload();
   await assertWelcomeFits();
+  await expect(page.getByText('現状維持バイアス', { exact: true })).toBeVisible();
   expect(await page.getByTestId('welcome-stats').innerText()).not.toContain('\\n');
 });
 
@@ -117,7 +123,16 @@ test('マイページはPCの同一グリッドとスマホの縦積みを保つ
   const mobilePreviewBoxes = await Promise.all([0, 1, 2].map((index) => page.getByTestId('my-page-preview-section').nth(index).boundingBox()));
   expect(mobilePreviewBoxes[1]!.y).toBeGreaterThan(mobilePreviewBoxes[0]!.y + mobilePreviewBoxes[0]!.height);
   expect(mobilePreviewBoxes[2]!.y).toBeGreaterThan(mobilePreviewBoxes[1]!.y + mobilePreviewBoxes[1]!.height);
-  expect((await page.getByTestId('personal-principle-edit').boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  const [mobilePrincipleBox, mobileEditBox] = await Promise.all([
+    page.getByTestId('personal-principle-card').boundingBox(),
+    page.getByTestId('personal-principle-edit').boundingBox(),
+  ]);
+  expect(mobilePrincipleBox).not.toBeNull();
+  expect(mobileEditBox).not.toBeNull();
+  expect(mobilePrincipleBox!.height).toBeLessThan(184);
+  expect(mobileEditBox!.height).toBeGreaterThanOrEqual(44);
+  expect(mobileEditBox!.y).toBeLessThanOrEqual(mobilePrincipleBox!.y + 12);
+  expect(mobileEditBox!.x + mobileEditBox!.width).toBeLessThanOrEqual(mobilePrincipleBox!.x + mobilePrincipleBox!.width - 10);
   await page.getByTestId('personal-principle-edit').click();
   const longPrinciple = '自分の歩幅を守りながら、相手への敬意を忘れず、焦らず静かに一つずつ進んでいく。';
   await page.getByRole('textbox', { name: '座右の銘' }).fill(longPrinciple);
@@ -778,8 +793,8 @@ test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・�
   for (const date of ['2026-09-01T03:00:00.000Z', '2026-09-02T03:00:00.000Z', '2026-09-03T03:00:00.000Z']) {
     await page.clock.setFixedTime(new Date(date));
     await page.goto('/');
-    const freeEntry = page.getByRole('button', { name: '無料で始める' });
-    if (await freeEntry.isVisible({ timeout: 1_000 }).catch(() => false)) await startFreeHome(page);
+    const carousel = page.getByTestId('home-brand-carousel');
+    if (!await carousel.isVisible({ timeout: 2_000 }).catch(() => false)) await startFreeHome(page);
     await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
     const domains = await Promise.all([
       page.getByTestId('home-brand-technique-domain').innerText(),
@@ -829,6 +844,7 @@ test('ゲストのマイページからログイン導線を直接開ける', as
 });
 
 test('ホームのブランドリールは前後操作で同じ一枚へ戻れる', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
@@ -839,6 +855,7 @@ test('ホームのブランドリールは前後操作で同じ一枚へ戻れ�
 });
 
 test('ホームのブランドリールは前後どちら向きにも何周も循環する', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
   await expect(page.getByLabel('前のスライド')).not.toHaveAttribute('aria-disabled', 'true');
@@ -955,13 +972,15 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
   }
 
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
-  const [previousArrow, firstTheory] = await Promise.all([
-    page.getByRole('button', { name: '前のスライド' }).boundingBox(),
+  await expect(page.getByRole('button', { name: '前のスライド' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '次のスライド' })).toHaveCount(0);
+  const [slide, firstTheory] = await Promise.all([
+    page.getByTestId('home-brand-slide-4').boundingBox(),
     page.getByTestId('home-brand-map-theory-1').boundingBox(),
   ]);
-  expect(previousArrow).not.toBeNull();
+  expect(slide).not.toBeNull();
   expect(firstTheory).not.toBeNull();
-  expect(firstTheory!.x).toBeGreaterThanOrEqual(previousArrow!.x + previousArrow!.width);
+  expect(firstTheory!.x).toBeGreaterThanOrEqual(slide!.x);
 
   await page.getByRole('tab', { name: '5枚目を表示' }).click();
   const systemStats = await Promise.all([1, 2, 3, 4].map((index) => page.getByTestId(`home-brand-system-stat-${index}`).boundingBox()));
@@ -1063,6 +1082,15 @@ test('スマホの長い人物像名と処世術名はヘッダーと各行の�
   }));
   expect(headerMetrics.scrollWidth).toBeLessThanOrEqual(headerMetrics.clientWidth + 1);
   expect(headerMetrics.scrollHeight).toBeLessThanOrEqual(headerMetrics.clientHeight + 1);
+  const [personaHeaderBox, backButtonBox] = await Promise.all([
+    page.getByTestId('book-header').boundingBox(),
+    page.getByTestId('book-header-back').boundingBox(),
+  ]);
+  expect(personaHeaderBox).not.toBeNull();
+  expect(backButtonBox).not.toBeNull();
+  expect(personaHeaderBox!.height).toBeLessThanOrEqual(60);
+  expect(backButtonBox!.width).toBeLessThanOrEqual(54);
+  expect(backButtonBox!.height).toBeLessThanOrEqual(36);
 
   for (const itemNumber of [5, 6, 14]) {
     const title = page.getByTestId(`persona-technique-title-${itemNumber}`);
@@ -1083,6 +1111,11 @@ test('スマホの長い人物像名と処世術名はヘッダーと各行の�
 
   const documentWidth = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(documentWidth.scrollWidth).toBeLessThanOrEqual(documentWidth.width);
+
+  await page.goto('/personas');
+  const listHeaderBox = await page.getByTestId('book-header').boundingBox();
+  expect(listHeaderBox).not.toBeNull();
+  expect(Math.abs(listHeaderBox!.height - personaHeaderBox!.height)).toBeLessThanOrEqual(1);
 });
 
 test('権威付けの装飾を表示せず保存のひし形操作は維持する', async ({ page }) => {

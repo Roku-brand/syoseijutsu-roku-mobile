@@ -526,13 +526,13 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   return (
     <View testID="home-brand-carousel" style={styles.carousel}>
       <View style={[styles.carouselRow, !desktop && styles.carouselRowMobile]}>
-          <Pressable
+        {desktop ? <Pressable
           accessibilityRole="button"
           accessibilityLabel="前のスライド"
           accessibilityHint="前のスライドへ移動します。1枚目の前は最後のスライドへ戻ります。"
           onPress={() => moveTo(activeIndexRef.current - 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, !desktop && styles.arrowPreviousMobile, pressed && styles.pressed]}
-        ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>‹</Text></Pressable>
+          style={({ pressed }) => [styles.arrow, pressed && styles.pressed]}
+        ><Text style={styles.arrowText}>‹</Text></Pressable> : null}
         <View
           style={styles.viewport}
           onLayout={(event) => {
@@ -563,13 +563,13 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
         </View>
-        <Pressable
+        {desktop ? <Pressable
           accessibilityRole="button"
           accessibilityLabel="次のスライド"
           accessibilityHint="次のスライドへ移動します。最後のスライドの次は1枚目へ戻ります。"
           onPress={() => moveTo(activeIndexRef.current + 1)}
-          style={({ pressed }) => [styles.arrow, !desktop && styles.arrowMobile, !desktop && styles.arrowNextMobile, pressed && styles.pressed]}
-        ><Text style={[styles.arrowText, !desktop && styles.arrowTextMobile]}>›</Text></Pressable>
+          style={({ pressed }) => [styles.arrow, pressed && styles.pressed]}
+        ><Text style={styles.arrowText}>›</Text></Pressable> : null}
       </View>
       <View accessibilityRole="tablist" style={styles.dots}>
         {slides.map((slide, index) => (
@@ -772,11 +772,7 @@ const styles = StyleSheet.create({
   rokumaru: { bottom: 0, height: 380, position: 'absolute', right: 22, width: 380 },
   rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
   arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.98)', borderColor: '#C8AF7B', borderRadius: 27, borderWidth: 1, flexShrink: 0, height: 54, justifyContent: 'center', width: 54, ...bookCardShadow },
-  arrowMobile: { borderRadius: 22, height: 44, marginTop: -22, position: 'absolute', top: '50%', width: 44, zIndex: 3 },
-  arrowPreviousMobile: { left: -6 },
-  arrowNextMobile: { right: -6 },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
-  arrowTextMobile: { fontSize: 25, lineHeight: 28 },
   dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 4 },
   dotTouch: { alignItems: 'center', height: 30, justifyContent: 'center', width: 24 },
   dotTouchActive: { width: 39 },
