@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
@@ -42,6 +42,7 @@ export default function UpgradeScreen() {
   const [message, setMessage] = useState('');
   const [showWelcome, setShowWelcome] = useState(false);
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
+  const checkoutReturnHandled = useRef(false);
 
   const purchase = async () => {
     if (!user) {
@@ -75,6 +76,11 @@ export default function UpgradeScreen() {
     setMessage('Stripeの購入履歴を確認しています…');
     try {
       const restored = await restorePurchase();
+      if (restored && params.checkout === 'success') {
+        setShowWelcome(true);
+        setMessage('');
+        return;
+      }
       setMessage(restored
         ? '有効な完全版アクセスを復元しました。'
         : accessStatus === 'expired'
@@ -93,9 +99,19 @@ export default function UpgradeScreen() {
         setMessage('決済を確認しました。決済に使用したメールアドレスでログインすると、完全版を有効にできます。');
         return;
       }
+      if (checkoutReturnHandled.current) return;
+      checkoutReturnHandled.current = true;
       setMessage('決済を確認しています。完了までこの画面を閉じずにお待ちください。');
       void restorePurchase(params.session_id).then((restored) => {
-        setMessage(restored ? '決済を確認しました。完全版をご利用いただけます。' : '決済の反映を待っています。しばらくしてから「購入を復元」を押してください。');
+        if (restored) {
+          // Show the completion screen from the successful reconciliation
+          // itself. Waiting for a separate `isPaid` render can miss the
+          // one-time return state on a slow mobile browser.
+          setShowWelcome(true);
+          setMessage('');
+          return;
+        }
+        setMessage('決済の反映を待っています。しばらくしてから「購入を復元」を押してください。');
       }).catch(() => {
         setMessage('決済の反映を待っています。「購入を復元」を押してください。');
       });
@@ -103,10 +119,6 @@ export default function UpgradeScreen() {
       setMessage('購入はキャンセルされました。完全版の利用権は付与されていません。');
     }
   }, [params.checkout, params.session_id, restorePurchase, user]);
-
-  useEffect(() => {
-    if (params.checkout === 'success' && isPaid) setShowWelcome(true);
-  }, [isPaid, params.checkout]);
 
   const primaryLabel = isPaid
     ? (accessInfo.accessType === 'thirty_day' ? `完全版を利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '購入済み・完全版を開く')

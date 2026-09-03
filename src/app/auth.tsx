@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
@@ -30,6 +30,21 @@ export default function AuthScreen() {
   const [submitting, setSubmitting] = useState(false);
   const checkoutStarted = useRef(false);
   const claimStarted = useRef(false);
+
+  const keepFocusedInputVisible = useCallback(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    const reveal = () => {
+      const activeElement = document.activeElement;
+      if (activeElement instanceof HTMLElement) {
+        activeElement.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' });
+      }
+    };
+    // iOS finishes resizing the visual viewport after the focus event. Run
+    // once immediately and once after that resize so the password field and
+    // the submit action do not remain behind the keyboard/autofill panel.
+    requestAnimationFrame(reveal);
+    window.setTimeout(reveal, 350);
+  }, []);
 
   useEffect(() => {
     if (params.mode === 'reset') setMode('reset');
@@ -168,8 +183,8 @@ export default function AuthScreen() {
   const disabled = submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6);
 
   return (
-    <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.panel}>
+    <BookScreen contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
+      <View style={[styles.panel, compact && styles.panelCompact]}>
         {user && mode !== 'reset' ? (
           <LoggedInAccount email={user.email ?? ''} onSignOut={() => void signOut()} />
         ) : (
@@ -194,6 +209,9 @@ export default function AuthScreen() {
                       onChangeText={setEmail}
                       autoCapitalize="none"
                       keyboardType="email-address"
+                      autoComplete="email"
+                      inputMode="email"
+                      onFocus={keepFocusedInputVisible}
                       placeholder="例）user@example.com"
                       placeholderTextColor={colors.muted}
                       accessibilityLabel="メールアドレス"
@@ -207,6 +225,8 @@ export default function AuthScreen() {
                       value={password}
                       onChangeText={setPassword}
                       secureTextEntry={!showPassword}
+                      autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+                      onFocus={keepFocusedInputVisible}
                       placeholder={mode === 'reset' ? '新しいパスワード（6文字以上）' : 'パスワードを入力'}
                       placeholderTextColor={colors.muted}
                       accessibilityLabel="パスワード"
@@ -299,7 +319,9 @@ const softLine = '#DDD7CE';
 
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 620, alignSelf: 'center', paddingTop: spacing.xxl, paddingBottom: spacing.section },
+  contentCompact: { paddingTop: spacing.md, paddingBottom: spacing.xl },
   panel: { width: '100%', minHeight: 600, paddingHorizontal: 28, paddingVertical: 34, borderWidth: 1, borderColor: softLine, backgroundColor: 'rgba(255,253,248,0.42)' },
+  panelCompact: { minHeight: 0, paddingHorizontal: 18, paddingVertical: 24 },
   intro: { alignItems: 'center' },
   title: { color: colors.ink, fontSize: 28, lineHeight: 40, fontWeight: '600', letterSpacing: 1.2, textAlign: 'center' },
   titleCompact: { fontSize: 24, lineHeight: 34, letterSpacing: 0.8 },
