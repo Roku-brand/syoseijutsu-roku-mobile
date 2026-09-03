@@ -292,7 +292,22 @@ export default function OwnerContentScreen() {
                   <ListEditor label="今日からできる実践" items={selectedSnapshot.practices} onChange={(items) => updateSnapshot({ practices: items })} />
                   <ListEditor label="具体例" items={selectedSnapshot.examples} onChange={(items) => updateSnapshot({ examples: items })} />
                   <ListEditor label="注意点" items={selectedSnapshot.cautions} onChange={(items) => updateSnapshot({ cautions: items })} />
-                  <TheorySelector theoryOptions={theoryOptions} selectedIds={selectedSnapshot.theory_ids} onChange={(theory_ids) => updateSnapshot({ theory_ids })} />
+                  <TheorySelector
+                    title="主要理論"
+                    description="カードで最初に示す、理解の入口となる代表的な理論"
+                    theoryOptions={theoryOptions}
+                    selectedIds={selectedSnapshot.primary_theory_ids}
+                    excludedIds={selectedSnapshot.supplementary_theory_ids}
+                    onChange={(primary_theory_ids) => updateSnapshot({ primary_theory_ids })}
+                  />
+                  <TheorySelector
+                    title="あわせて読む理論"
+                    description="主要理論を補い、別の視点や背景を加える理論"
+                    theoryOptions={theoryOptions}
+                    selectedIds={selectedSnapshot.supplementary_theory_ids}
+                    excludedIds={selectedSnapshot.primary_theory_ids}
+                    onChange={(supplementary_theory_ids) => updateSnapshot({ supplementary_theory_ids })}
+                  />
                 </>
               )}
               <RevisionHistory revisions={revisions} theoryOptions={theoryOptions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
@@ -310,7 +325,7 @@ function techniqueNumber(id: string) {
   return matched ? Number(matched[1]) : Number.MAX_SAFE_INTEGER;
 }
 
-function isSnapshotReflected(card: { title: string; essence?: string; explanation?: string; importance?: number; categoryKey: string; subcategory: string; relatedTheoryIds?: string[]; theoryTagIds?: string[]; practicalActions?: { todayActions?: string[]; examples?: string[]; cautions?: string[] } }, snapshot: TechniqueSnapshot) {
+function isSnapshotReflected(card: { title: string; essence?: string; explanation?: string; importance?: number; categoryKey: string; subcategory: string; primaryTheoryIds?: string[]; relatedTheoryIds?: string[]; theoryTagIds?: string[]; practicalActions?: { todayActions?: string[]; examples?: string[]; cautions?: string[] } }, snapshot: TechniqueSnapshot) {
   const sameList = (left: string[] | undefined, right: string[]) => JSON.stringify(left ?? []) === JSON.stringify(right);
   return card.title === snapshot.title
     && (card.essence ?? '') === snapshot.essence
@@ -318,6 +333,7 @@ function isSnapshotReflected(card: { title: string; essence?: string; explanatio
     && card.importance === snapshot.importance
     && card.categoryKey === snapshot.category
     && card.subcategory === snapshot.persona_id
+    && sameList(card.primaryTheoryIds, snapshot.primary_theory_ids)
     && sameList(card.relatedTheoryIds ?? card.theoryTagIds, snapshot.theory_ids)
     && sameList(card.practicalActions?.todayActions, snapshot.practices)
     && sameList(card.practicalActions?.examples, snapshot.examples)
@@ -337,13 +353,13 @@ function ListEditor({ label, items, onChange }: { label: string; items: string[]
   return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText>{items.map((item, index) => <View key={`${index}-${item.slice(0, 8)}`} style={styles.listInputRow}><TextInput value={item} onChangeText={(value) => update(index, value)} multiline style={[styles.input, styles.listInput]} /><Pressable onPress={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} style={styles.removeButton}><AppText style={styles.removeText}>削除</AppText></Pressable></View>)}<Pressable onPress={() => onChange([...items, ''])} style={styles.addButton}><AppText style={styles.addText}>＋ 追加</AppText></Pressable></View>;
 }
 
-function TheorySelector({ theoryOptions, selectedIds, onChange }: { theoryOptions: TheoryCard[]; selectedIds: string[]; onChange: (ids: string[]) => void }) {
+function TheorySelector({ title, description, theoryOptions, selectedIds, excludedIds, onChange }: { title: string; description: string; theoryOptions: TheoryCard[]; selectedIds: string[]; excludedIds: string[]; onChange: (ids: string[]) => void }) {
   const [adding, setAdding] = useState(false);
   const [query, setQuery] = useState('');
   const selectedSet = useMemo(() => new Set(selectedIds), [selectedIds]);
   const results = useMemo(
-    () => searchTheories(query, theoryOptions).filter((theory) => !selectedSet.has(theory.tagId)),
-    [query, selectedSet, theoryOptions],
+    () => searchTheories(query, theoryOptions).filter((theory) => !selectedSet.has(theory.tagId) && !excludedIds.includes(theory.tagId)),
+    [excludedIds, query, selectedSet, theoryOptions],
   );
   const move = (index: number, offset: -1 | 1) => {
     const targetIndex = index + offset;
@@ -356,8 +372,11 @@ function TheorySelector({ theoryOptions, selectedIds, onChange }: { theoryOption
   return (
     <View style={styles.field}>
       <View style={styles.theoryHeader}>
-        <AppText variant="label" style={styles.fieldLabel}>関連する理論　{selectedIds.length}件</AppText>
-        <Pressable onPress={() => setAdding((open) => !open)} style={styles.addButton} accessibilityRole="button" accessibilityLabel="理論を追加">
+        <View style={styles.theoryHeaderCopy}>
+          <AppText variant="label" style={styles.fieldLabel}>{title}　{selectedIds.length}件</AppText>
+          <AppText style={styles.theoryDescription}>{description}</AppText>
+        </View>
+        <Pressable onPress={() => setAdding((open) => !open)} style={styles.addButton} accessibilityRole="button" accessibilityLabel={`${title}に理論を追加`}>
           <AppText style={styles.addText}>{adding ? '閉じる' : '＋ 理論を追加'}</AppText>
         </Pressable>
       </View>
@@ -379,7 +398,7 @@ function TheorySelector({ theoryOptions, selectedIds, onChange }: { theoryOption
             </View>
           );
         })}
-      </View> : <AppText style={styles.noRelatedTheories}>関連する理論はありません。</AppText>}
+      </View> : <AppText style={styles.noRelatedTheories}>{title}はありません。</AppText>}
 
       {adding ? <View style={styles.theorySearchPanel}>
         <TextInput value={query} onChangeText={setQuery} placeholder="ID・tagId・タイトル・概要で検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="追加する理論を検索" />
@@ -521,7 +540,9 @@ const styles = StyleSheet.create({
   removeText: { color: '#A63F32', fontSize: 12, fontWeight: '700' },
   addButton: { alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   addText: { color: colors.gold, fontSize: 12, fontWeight: '700' },
-  theoryHeader: { minHeight: 34, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  theoryHeader: { minHeight: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
+  theoryHeaderCopy: { flex: 1, minWidth: 0 },
+  theoryDescription: { marginTop: 1, color: colors.muted, fontSize: 11, lineHeight: 16 },
   selectedTheoryList: { borderTopWidth: 1, borderTopColor: colors.line },
   selectedTheoryRow: { minHeight: 62, paddingVertical: 9, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
   selectedTheoryCopy: { flex: 1, minWidth: 0 },

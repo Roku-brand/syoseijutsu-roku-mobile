@@ -14,6 +14,7 @@ export type TechniqueContent = {
   practices: string[];
   examples: string[];
   cautions: string[];
+  primary_theory_ids: string[];
   theory_ids: string[];
   status: 'published' | 'draft' | 'archived';
   display_order: number;
@@ -27,7 +28,11 @@ export type TechniqueDraft = {
   updated_at: string;
 };
 
-export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'theory_ids'>;
+export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'primary_theory_ids' | 'theory_ids'> & {
+  /** Links shown after the primary theories. Kept in drafts/revisions so the
+   * two reader-facing groups remain independently editable. */
+  supplementary_theory_ids: string[];
+};
 
 export type TechniqueRevision = {
   revision_id: string;
@@ -57,12 +62,22 @@ export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSna
     practices: normalizeList(technique.practices),
     examples: normalizeList(technique.examples),
     cautions: normalizeList(technique.cautions),
+    primary_theory_ids: normalizeList(technique.primary_theory_ids),
+    supplementary_theory_ids: normalizeList(technique.theory_ids).filter((id) => !technique.primary_theory_ids.includes(id)),
     theory_ids: normalizeList(technique.theory_ids),
   };
 }
 
 export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueSnapshot {
-  const raw = value as Partial<TechniqueSnapshot> & { relatedTheoryIds?: unknown };
+  const raw = value as Partial<TechniqueSnapshot> & { relatedTheoryIds?: unknown; primaryTheoryIds?: unknown; supplementaryTheoryIds?: unknown };
+  const primaryTheoryIds = normalizeList(raw.primary_theory_ids ?? raw.primaryTheoryIds);
+  const allTheoryIds = normalizeList(raw.theory_ids ?? raw.relatedTheoryIds);
+  const supplementaryTheoryIds = normalizeList(raw.supplementary_theory_ids ?? raw.supplementaryTheoryIds);
+  // Legacy drafts only have one combined list. Keep it intact, but do not
+  // silently promote every legacy relation to a primary theory.
+  const resolvedSupplementaryIds = supplementaryTheoryIds.length || Object.hasOwn(raw, 'supplementary_theory_ids') || Object.hasOwn(raw, 'supplementaryTheoryIds')
+    ? supplementaryTheoryIds.filter((id) => !primaryTheoryIds.includes(id))
+    : allTheoryIds.filter((id) => !primaryTheoryIds.includes(id));
   return {
     persona_id: value.persona_id ?? '',
     category: value.category ?? 'interpersonal',
@@ -74,9 +89,11 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     practices: normalizeList(value.practices),
     examples: normalizeList(value.examples),
     cautions: normalizeList(value.cautions),
-    // Older drafts/revisions used the catalogue-facing name. Accept both so
-    // every historical entry keeps its related-theory links when displayed.
-    theory_ids: normalizeList(raw.theory_ids ?? raw.relatedTheoryIds),
+    primary_theory_ids: primaryTheoryIds,
+    supplementary_theory_ids: resolvedSupplementaryIds,
+    // This combined list is retained for the existing public DB column and
+    // the reader-side reverse index.
+    theory_ids: normalizeList([...primaryTheoryIds, ...resolvedSupplementaryIds]),
   };
 }
 
@@ -139,6 +156,7 @@ export async function seedOwnerTechniquesIfEmpty(): Promise<number> {
     practices: item.practicalActions?.todayActions ?? [],
     examples: item.practicalActions?.examples ?? [],
     cautions: item.practicalActions?.cautions ?? [],
+    primary_theory_ids: item.primaryTheoryIds ?? [],
     theory_ids: item.relatedTheoryIds ?? item.theoryTagIds ?? [],
     status: 'published' as const,
     display_order: item.displayOrder ?? index + 1,
@@ -272,6 +290,7 @@ export function toTechniquePayload(technique: TechniqueContent) {
     memo: technique.memo,
     importance: technique.importance,
     relatedTheoryIds: technique.theory_ids,
+    primaryTheoryIds: technique.primary_theory_ids,
     categoryKey: technique.category,
     categoryName: technique.category,
     subcategory: technique.persona_id,

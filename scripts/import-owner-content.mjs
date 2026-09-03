@@ -31,6 +31,7 @@ for (const category of catalog.categories ?? []) {
         practices: actions.todayActions ?? item.practices ?? [],
         examples: actions.examples ?? item.examples ?? [],
         cautions: actions.cautions ?? item.cautions ?? [],
+        primary_theory_ids: item.primaryTheoryIds ?? [],
         theory_ids: item.relatedTheoryIds ?? item.theoryTagIds ?? [],
         status: 'published',
         display_order: item.displayOrder ?? rows.length + 1,
@@ -61,6 +62,21 @@ for (let index = 0; index < importRows.length; index += 100) {
   if (error) throw error;
   console.log(`imported ${Math.min(index + batch.length, importRows.length)}/${importRows.length}`);
 }
+// `primary_theory_ids` was introduced after the first owner catalogue was
+// published. Seed only NULL legacy rows: an explicit empty array is a valid
+// owner decision and must never be overwritten during deployment.
+let groupedLinksSeeded = 0;
+for (const row of importRows) {
+  const { data, error } = await supabase
+    .from('techniques')
+    .update({ primary_theory_ids: row.primary_theory_ids })
+    .eq('id', row.id)
+    .is('primary_theory_ids', null)
+    .select('id');
+  if (error) throw error;
+  groupedLinksSeeded += data?.length ?? 0;
+}
+if (groupedLinksSeeded) console.log(`Seeded primary theory groups for ${groupedLinksSeeded} existing techniques.`);
 const { count: afterCount, error: afterError } = await supabase.from('techniques').select('id', { count: 'exact', head: true });
 if (afterError) throw afterError;
 console.log(`Imported ${importRows.length} techniques into public.techniques. Total after import: ${afterCount ?? 0}.`);

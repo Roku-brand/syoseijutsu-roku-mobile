@@ -13,7 +13,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
   try {
     const { data, error } = await supabase
       .from('techniques')
-      .select('id,persona_id,category,title,essence,explanation,memo,importance,practices,examples,cautions,theory_ids,status,display_order,updated_at')
+      .select('id,persona_id,category,title,essence,explanation,memo,importance,practices,examples,cautions,primary_theory_ids,theory_ids,status,display_order,updated_at')
       .eq('status', 'published')
       .order('display_order')
       .order('id');
@@ -25,6 +25,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       explanation: (row.explanation as string) ?? '',
       memo: (row.memo as string) ?? '',
       importance: row.importance as 1 | 2 | 3,
+      primaryTheoryIds: Array.isArray(row.primary_theory_ids) ? row.primary_theory_ids as string[] : [],
       relatedTheoryIds: Array.isArray(row.theory_ids) ? row.theory_ids as string[] : [],
       categoryKey: row.category as PaidTechniquePayload['categoryKey'],
       categoryName: row.category as string,

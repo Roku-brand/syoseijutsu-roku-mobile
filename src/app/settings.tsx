@@ -1,9 +1,8 @@
 import Constants from 'expo-constants';
 import { useRouter, type Href } from 'expo-router';
 import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
-import { SymbolView } from 'expo-symbols';
 import { AppText, Screen } from '@/components/ui';
-import { colors, fonts, shadow } from '@/constants/theme';
+import { colors, fonts } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
@@ -15,98 +14,75 @@ export default function SettingsScreen() {
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const { welcomePageHidden, setWelcomePageHidden, clearPersonalData } = useAppState();
   const version = Constants.expoConfig?.version ?? '1.0.0';
+  const profileDetail = user
+    ? profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'
+    : 'ログイン後に、表示名とプロフィールを設定できます';
 
   return (
     <Screen contentContainerStyle={styles.content}>
-      <SettingsSection title="アカウント・購入" />
-      <View style={styles.group}>
-        {user ? <>
-          <SettingLink
-            icon="person"
-            title="プロフィール"
-            detail={profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'}
-            href={APP_ROUTES.profile}
-          />
-          <SettingLink icon="person" title="ログイン情報・パスワード" href={APP_ROUTES.auth} />
-        </> : (
-          <SettingLink
-            icon="person"
-            title="ログイン / アカウントを作成"
-            detail="蔵書を引き継ぎ、プロフィールを設定できます"
-            href={signInRoute()}
-          />
-        )}
+      <SettingsSection title="アカウント" />
+      <SettingsGroup>
+        <SettingLink title="プロフィール" detail={profileDetail} href={user ? APP_ROUTES.profile : signInRoute()} />
         <SettingLink
-          icon="complete"
+          title="ログイン情報・パスワード"
+          detail={user ? user.email ?? 'ログイン情報を確認・変更します' : 'ログインまたはアカウントを作成します'}
+          href={user ? APP_ROUTES.auth : signInRoute()}
+        />
+        <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
           href={APP_ROUTES.upgrade}
           last
         />
-      </View>
+      </SettingsGroup>
 
-      {role === 'owner' ? (
-        <>
-          <SettingsSection title="オーナー機能" />
-          <View style={styles.group}>
-            <SettingLink
-              icon="document"
-              title="コンテンツ管理"
-              detail="処世術の編集・プレビュー・公開・更新履歴"
-              href={APP_ROUTES.ownerContent}
-            />
-            <SettingLink
-              icon="brand"
-              title="オーナープレビュー"
-              detail="無料版・完全版・未ログインの表示を確認"
-              href={APP_ROUTES.ownerPreview}
-              last
-            />
-          </View>
-        </>
-      ) : null}
+      <SettingsSection title="アプリ設定" />
+      <SettingsGroup>
+        <SettingToggle
+          title="ウェルカムページを非表示にする"
+          detail="オンにすると、次回からホームを直接表示します"
+          value={welcomePageHidden}
+          onValueChange={setWelcomePageHidden}
+        />
+        <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last />
+      </SettingsGroup>
 
-      <SettingsSection title="サポート・その他" />
-      <View style={styles.group}>
-        <View style={styles.row}>
-          <SettingIconMark type="brand" />
-          <View style={styles.copy}>
-            <AppText style={styles.title}>ウェルカムページを非表示にする</AppText>
-            <AppText style={styles.detail}>オンにすると、次回からホームを直接表示します</AppText>
-          </View>
-          <Switch
-            value={welcomePageHidden}
-            onValueChange={setWelcomePageHidden}
-            accessibilityLabel="ウェルカムページを非表示にする"
-            trackColor={{ false: '#D9D0C2', true: '#B88524' }}
-            thumbColor="#FFFDF8"
+      {role === 'owner' ? <>
+        <SettingsSection title="オーナー機能" />
+        <SettingsGroup>
+          <SettingLink title="コンテンツ管理" detail="処世術と主要・補助理論を編集・公開します" href={APP_ROUTES.ownerContent} />
+          <SettingLink title="オーナープレビュー" detail="無料版・完全版・未ログインの表示を確認" href={APP_ROUTES.ownerPreview} last />
+        </SettingsGroup>
+      </> : null}
+
+      <SettingsSection title="ヘルプ・サポート" />
+      <SettingsGroup>
+        <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
+        <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
+        <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} last />
+      </SettingsGroup>
+
+      <View style={styles.quietSection}>
+        <SettingsSection title="規約・データ" subdued />
+        <SettingsGroup subdued>
+          <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
+          <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
+          <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+          <SettingLink
+            title="端末内データをすべて消去"
+            detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
+            onPress={() => Alert.alert(
+              '端末内データをすべて消去',
+              'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
+              [
+                { text: 'キャンセル', style: 'cancel' },
+                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
+              ],
+            )}
+            danger
+            last
           />
-        </View>
-        <SettingLink
-          icon="install"
-          title="ホーム画面に追加"
-          detail="アプリのように、すぐ開けるようにする"
-          href={APP_ROUTES.install}
-        />
-        <SettingLink icon="document" title="購入・完全版 FAQ" href={APP_ROUTES.faq} />
-        <SettingLink icon="document" title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} />
-        <SettingLink icon="document" title="利用規約" href={APP_ROUTES.terms} />
-        <SettingLink icon="shield" title="プライバシーポリシー" href={APP_ROUTES.privacy} />
-        <SettingLink
-          icon="document"
-          title="端末内データをすべて消去"
-          detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
-          onPress={() => Alert.alert(
-            '端末内データをすべて消去',
-            'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
-            [
-              { text: 'キャンセル', style: 'cancel' },
-              { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
-            ],
-          )}
-        />
-        <SettingLink icon="contact" title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
-        <SettingLink icon="brand" title="処世術禄について" href={APP_ROUTES.about} last />
+        </SettingsGroup>
       </View>
 
       <AppText style={styles.version}>バージョン {version}</AppText>
@@ -114,62 +90,70 @@ export default function SettingsScreen() {
   );
 }
 
-function SettingsSection({ title }: { title: string }) {
-  return <AppText variant="serif" style={styles.sectionTitle}>{title}</AppText>;
+function SettingsSection({ title, subdued = false }: { title: string; subdued?: boolean }) {
+  return <AppText variant="serif" style={[styles.sectionTitle, subdued && styles.sectionTitleSubdued]}>{title}</AppText>;
 }
 
-type SettingIcon = 'person' | 'complete' | 'install' | 'document' | 'shield' | 'contact' | 'brand';
+function SettingsGroup({ children, subdued = false }: { children: React.ReactNode; subdued?: boolean }) {
+  return <View style={[styles.group, subdued && styles.groupSubdued]}>{children}</View>;
+}
 
-function SettingLink({ icon, title, detail, href, onPress, last = false }: { icon: SettingIcon; title: string; detail?: string; href?: Href; onPress?: () => void; last?: boolean }) {
+function SettingLink({ title, detail, href, onPress, last = false, subdued = false, danger = false }: { title: string; detail?: string; href?: Href; onPress?: () => void; last?: boolean; subdued?: boolean; danger?: boolean }) {
   const router = useRouter();
   return (
     <Pressable
       accessibilityRole="button"
       onPress={onPress ?? (href ? () => router.push(href) : undefined)}
-      style={({ pressed }) => [styles.row, last && styles.rowLast, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.row, last && styles.rowLast, subdued && styles.rowSubdued, danger && styles.rowDanger, pressed && styles.pressed]}
     >
-      <SettingIconMark type={icon} />
       <View style={styles.copy}>
-        <AppText style={styles.title}>{title}</AppText>
-        {detail ? <AppText style={styles.detail}>{detail}</AppText> : null}
+        <AppText style={[styles.title, subdued && styles.titleSubdued, danger && styles.titleDanger]}>{title}</AppText>
+        {detail ? <AppText style={[styles.detail, danger && styles.detailDanger]}>{detail}</AppText> : null}
       </View>
-      <AppText style={styles.chevron}>›</AppText>
+      <AppText style={[styles.chevron, subdued && styles.chevronSubdued, danger && styles.chevronDanger]}>›</AppText>
     </Pressable>
   );
 }
 
-function SettingIconMark({ type }: { type: SettingIcon }) {
-  if (type === 'brand') return <View style={styles.brandMark}><AppText style={styles.brandMarkText}>禄</AppText></View>;
-  const names = {
-    person: { ios: 'person', android: 'person', web: 'person' },
-    complete: { ios: 'books.vertical', android: 'menu_book', web: 'menu_book' },
-    install: { ios: 'square.and.arrow.down', android: 'install_mobile', web: 'install_mobile' },
-    document: { ios: 'document', android: 'description', web: 'description' },
-    shield: { ios: 'checkmark.shield', android: 'verified_user', web: 'verified_user' },
-    contact: { ios: 'envelope', android: 'mail', web: 'mail' },
-  } as const;
-  const fallbacks = { person: '人', complete: '全', install: '追加', document: '文', shield: '保', contact: '問' } as const;
+function SettingToggle({ title, detail, value, onValueChange }: { title: string; detail: string; value: boolean; onValueChange: (value: boolean) => void }) {
   return (
-    <View style={styles.iconMark} accessibilityElementsHidden>
-      <SymbolView name={names[type]} fallback={<AppText style={styles.iconFallback}>{fallbacks[type]}</AppText>} size={25} tintColor={colors.gold} weight="regular" />
+    <View style={[styles.row, styles.toggleRow, styles.rowLast]}>
+      <View style={styles.copy}>
+        <AppText style={styles.title}>{title}</AppText>
+        <AppText style={styles.detail}>{detail}</AppText>
+      </View>
+      <Switch
+        value={value}
+        onValueChange={onValueChange}
+        accessibilityLabel="ウェルカムページを非表示にする"
+        trackColor={{ false: '#D9D0C2', true: '#A87B29' }}
+        thumbColor="#FFFDF8"
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 680, alignSelf: 'center', paddingTop: 8, paddingBottom: 28 },
-  sectionTitle: { marginTop: 18, marginBottom: 10, color: colors.ink, fontSize: 18, lineHeight: 26, fontWeight: '700' },
-  group: { overflow: 'hidden', borderWidth: 1, borderColor: '#E1D5C3', borderRadius: 16, backgroundColor: 'rgba(255,253,248,0.86)', ...shadow.card },
-  row: { minHeight: 66, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#E7DED1' },
+  content: { width: '100%', maxWidth: 660, alignSelf: 'center', paddingTop: 8, paddingBottom: 36 },
+  sectionTitle: { marginTop: 32, marginBottom: 10, color: colors.ink, fontSize: 19, lineHeight: 28, fontWeight: '700' },
+  sectionTitleSubdued: { color: '#5E5A53' },
+  group: { overflow: 'hidden', borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#D8C9B2', backgroundColor: 'rgba(255,253,248,0.56)' },
+  groupSubdued: { borderColor: '#E1D8CC', backgroundColor: 'rgba(248,244,236,0.48)' },
+  quietSection: { marginTop: 12, paddingTop: 10 },
+  row: { minHeight: 68, paddingVertical: 11, paddingLeft: 16, paddingRight: 13, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#E3D9CA' },
   rowLast: { borderBottomWidth: 0 },
-  copy: { flex: 1, minWidth: 0 },
-  title: { fontSize: 15, lineHeight: 22, fontWeight: '600' },
-  detail: { marginTop: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
-  chevron: { width: 18, color: colors.gold, fontFamily: fonts.sans, fontSize: 27, lineHeight: 30, fontWeight: '300', textAlign: 'right' },
-  iconMark: { width: 36, height: 36, marginRight: 12, alignItems: 'center', justifyContent: 'center' },
-  iconFallback: { color: colors.gold, fontFamily: fonts.serif, fontSize: 22, lineHeight: 26 },
-  brandMark: { width: 36, height: 36, marginRight: 12, borderRadius: 9, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.ink },
-  brandMarkText: { color: colors.goldLight, fontFamily: fonts.serif, fontSize: 21, lineHeight: 27, fontWeight: '700' },
-  version: { marginTop: 24, color: '#AAA49A', fontSize: 12, lineHeight: 18, textAlign: 'center' },
-  pressed: { backgroundColor: colors.paperDeep },
+  rowSubdued: { borderBottomColor: '#E9E2D8' },
+  rowDanger: { backgroundColor: '#F4EDE4', borderTopWidth: 1, borderTopColor: '#D8C1A8' },
+  toggleRow: { minHeight: 76 },
+  copy: { flex: 1, minWidth: 0, paddingRight: 12 },
+  title: { color: colors.ink, fontSize: 15, lineHeight: 22, fontWeight: '600' },
+  titleSubdued: { color: '#4D4A44' },
+  titleDanger: { color: '#674840' },
+  detail: { marginTop: 2, color: '#69645C', fontSize: 12, lineHeight: 18 },
+  detailDanger: { color: '#80665C' },
+  chevron: { width: 20, color: colors.gold, fontFamily: fonts.sans, fontSize: 27, lineHeight: 30, fontWeight: '300', textAlign: 'right' },
+  chevronSubdued: { color: '#A59479' },
+  chevronDanger: { color: '#98725B' },
+  version: { marginTop: 32, color: '#938D84', fontSize: 12, lineHeight: 18, textAlign: 'center' },
+  pressed: { backgroundColor: '#F1EADC' },
 });
