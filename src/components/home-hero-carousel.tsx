@@ -32,7 +32,7 @@ const webTouchSlideStyle = Platform.OS === 'web'
 function singleLineTitleSize(title: string, desktop: boolean, desktopBase: number, mobileBase: number, desktopCharacters: number, mobileCharacters: number) {
   const base = desktop ? desktopBase : mobileBase;
   const comfortableCharacters = desktop ? desktopCharacters : mobileCharacters;
-  const minimum = desktop ? 13 : 10;
+  const minimum = desktop ? Math.min(13, desktopBase) : Math.min(7, mobileBase);
   return {
     fontSize: Math.max(minimum, Math.min(base, (base * comfortableCharacters) / Math.max(title.length, comfortableCharacters))),
     ...(Platform.OS === 'web' ? { overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' } : null),
@@ -217,6 +217,7 @@ function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem
       onPress={onPress}
       style={({ pressed }) => [styles.theoryNode, compact && styles.theoryNodeMobile, pressed && styles.pressed]}
     >
+      <View accessibilityElementsHidden style={[styles.theoryNodeEdge, compact && styles.theoryNodeEdgeMobile]} />
       <View accessibilityElementsHidden style={[styles.theoryNodeInnerFrame, compact && styles.theoryNodeInnerFrameMobile]} />
       <View style={styles.theoryNodeCopy}>
         <Text style={[styles.theoryNodeCategory, compact && styles.theoryNodeCategoryMobile]}>{item.categoryTitle}</Text>
@@ -265,6 +266,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
             <View accessibilityElementsHidden style={[styles.mapTechniqueInnerFrame, !desktop && styles.mapTechniqueInnerFrameMobile]} />
+            <View accessibilityElementsHidden style={[styles.mapTechniquePort, !desktop && styles.mapTechniquePortMobile]} />
             <Text style={styles.mapTechniqueLabel}>処世術</Text>
             <View style={[styles.mapPersonaRow, !desktop && styles.mapPersonaRowMobile]}>
               <Text accessibilityElementsHidden style={[styles.mapPersonaBullet, !desktop && styles.mapPersonaBulletMobile]}>•</Text>
@@ -283,7 +285,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
               style={[
                 styles.mapTechniqueTitle,
                 !desktop && styles.mapTechniqueTitleMobile,
-                singleLineTitleSize(techniqueTitle, desktop, 27, 9.5, 11, 11),
+                singleLineTitleSize(techniqueTitle, desktop, 22, 8.4, 13, 13),
               ]}
             >
               {techniqueTitle}
@@ -295,15 +297,17 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             </View>
           </Pressable>
           <View testID="home-brand-map-connectors" accessibilityElementsHidden style={[styles.mapConnector, !desktop && styles.mapConnectorMobile]}>
-            <View style={[styles.mapConnectorCurve, styles.mapConnectorCurveTopOuter]} />
-            <View style={[styles.mapConnectorCurve, styles.mapConnectorCurveTopInner]} />
-            <View style={[styles.mapConnectorCurve, styles.mapConnectorCurveBottomInner]} />
-            <View style={[styles.mapConnectorCurve, styles.mapConnectorCurveBottomOuter]} />
-            <View style={[styles.mapConnectorNode, !desktop && styles.mapConnectorNodeMobile, styles.mapConnectorStartNode]} />
-            <View style={[styles.mapConnectorNode, !desktop && styles.mapConnectorNodeMobile, styles.mapConnectorEndNode1]} />
-            <View style={[styles.mapConnectorNode, !desktop && styles.mapConnectorNodeMobile, styles.mapConnectorEndNode2]} />
-            <View style={[styles.mapConnectorNode, !desktop && styles.mapConnectorNodeMobile, styles.mapConnectorEndNode3]} />
-            <View style={[styles.mapConnectorNode, !desktop && styles.mapConnectorNodeMobile, styles.mapConnectorEndNode4]} />
+            <View style={styles.mapConnectorRoot} />
+            <View testID="home-brand-map-connector-spine" style={styles.mapConnectorSpine} />
+            <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch1]} />
+            <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch2]} />
+            <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch3]} />
+            <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch4]} />
+            <View style={[styles.mapConnectorHub, !desktop && styles.mapConnectorHubMobile]} />
+            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd1]} />
+            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd2]} />
+            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd3]} />
+            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd4]} />
           </View>
           <View style={[styles.theoryNodes, !desktop && styles.theoryNodesMobile]}>
             {theories.map((item, index) => <TheoryNode key={item.tagId} item={item} index={index} compact={!desktop} onPress={() => router.push(theoryRoute(item.tagId))} />)}
@@ -595,7 +599,7 @@ const styles = StyleSheet.create({
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   paperTextureWash: { backgroundColor: 'rgba(250,247,240,0.5)', bottom: 0, left: 0, position: 'absolute', right: 0, top: 0 },
-  mapTextureWash: { backgroundColor: 'rgba(250,247,240,0.33)' },
+  mapTextureWash: { backgroundColor: 'rgba(250,247,240,0.57)' },
   pressed: { opacity: 0.82 },
   cta: { alignItems: 'center', alignSelf: 'flex-start', borderColor: '#B98A31', borderRadius: 999, borderWidth: 1, justifyContent: 'center', marginTop: 20, minHeight: 44, paddingHorizontal: 23 },
   ctaCompact: { marginTop: 8, minHeight: 34, paddingHorizontal: 17 },
@@ -653,12 +657,14 @@ const styles = StyleSheet.create({
   mapHeadingRuleMobile: { marginTop: 2, width: '56%' },
   mapHeadingRuleLine: { backgroundColor: 'rgba(155,108,23,0.4)', flex: 1, height: 1 },
   mapHeadingRuleDiamond: { borderColor: '#B8892E', borderWidth: 1, height: 7, marginHorizontal: 8, transform: [{ rotate: '45deg' }], width: 7 },
-  mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10, minHeight: 0 },
+  mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10, minHeight: 0, position: 'relative' },
   mapLayoutMobile: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 4, minHeight: 0 },
-  mapTechnique: { alignItems: 'center', backgroundColor: '#0D1C2C', borderColor: '#B88A2A', borderRadius: 18, borderWidth: 1.5, justifyContent: 'center', minHeight: 180, paddingHorizontal: 24, paddingVertical: 18, position: 'relative', width: '35%', ...bookCardShadow },
+  mapTechnique: { alignItems: 'center', backgroundColor: '#0B1B2C', borderColor: '#B88A2A', borderRadius: 18, borderWidth: 1.5, justifyContent: 'center', minHeight: 180, paddingHorizontal: 24, paddingVertical: 18, position: 'relative', width: '35%', zIndex: 2, ...bookCardShadow },
   mapTechniqueMobile: { alignSelf: 'stretch', borderRadius: 11, minHeight: 0, paddingHorizontal: 7, paddingVertical: 7, width: '36%' },
   mapTechniqueInnerFrame: { borderColor: 'rgba(218,181,101,0.55)', borderRadius: 13, borderWidth: 1, bottom: 6, left: 6, position: 'absolute', right: 6, top: 6 },
   mapTechniqueInnerFrameMobile: { borderRadius: 8, bottom: 3, left: 3, right: 3, top: 3 },
+  mapTechniquePort: { backgroundColor: '#F8E8B6', borderColor: '#A97820', borderRadius: 7, borderWidth: 1, height: 12, position: 'absolute', right: -7, top: '50%', transform: [{ translateY: -6 }], width: 12, zIndex: 3 },
+  mapTechniquePortMobile: { borderRadius: 4, height: 7, right: -4.5, transform: [{ translateY: -3.5 }], width: 7 },
   mapTechniqueLabel: { color: '#DAB565', fontFamily: fonts.serif, fontSize: 13, fontWeight: '600', letterSpacing: 1.8 },
   mapPersonaRow: { alignItems: 'center', flexDirection: 'row', gap: 7, marginTop: 8 },
   mapPersonaRowMobile: { gap: 3, marginTop: 3 },
@@ -672,26 +678,31 @@ const styles = StyleSheet.create({
   mapTechniqueRuleLine: { backgroundColor: 'rgba(218,181,101,0.52)', flex: 1, height: 1 },
   mapTechniqueRuleDiamondSmall: { borderColor: '#DAB565', borderWidth: 1, height: 5, marginHorizontal: 4, transform: [{ rotate: '45deg' }], width: 5 },
   mapTechniqueRuleDiamond: { borderColor: '#DAB565', borderWidth: 1, height: 8, marginHorizontal: 5, transform: [{ rotate: '45deg' }], width: 8 },
-  mapTechniqueTitle: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 27, fontWeight: '600', letterSpacing: 0.7, lineHeight: 39, marginTop: 13, textAlign: 'center' },
-  mapTechniqueTitleMobile: { fontSize: 9.5, letterSpacing: 0, lineHeight: 13, marginTop: 6, width: '100%' },
-  mapConnector: { alignSelf: 'stretch', position: 'relative', width: '10%' },
-  mapConnectorMobile: { alignSelf: 'stretch', minHeight: 0, width: '8%' },
-  mapConnectorCurve: { borderColor: 'rgba(168,118,24,0.58)', left: 0, position: 'absolute', right: 0 },
-  mapConnectorCurveTopOuter: { borderLeftWidth: 1, borderTopLeftRadius: 999, borderTopWidth: 1, bottom: '50%', top: '10%' },
-  mapConnectorCurveTopInner: { borderLeftWidth: 1, borderTopLeftRadius: 999, borderTopWidth: 1, bottom: '50%', top: '36.7%' },
-  mapConnectorCurveBottomInner: { borderBottomLeftRadius: 999, borderBottomWidth: 1, borderLeftWidth: 1, bottom: '36.7%', top: '50%' },
-  mapConnectorCurveBottomOuter: { borderBottomLeftRadius: 999, borderBottomWidth: 1, borderLeftWidth: 1, bottom: '10%', top: '50%' },
-  mapConnectorNode: { backgroundColor: '#F9E8B4', borderColor: '#B88A2A', borderRadius: 6, borderWidth: 1, height: 11, marginTop: -5.5, position: 'absolute', width: 11, zIndex: 2 },
-  mapConnectorNodeMobile: { borderRadius: 4, height: 7, marginTop: -3.5, width: 7 },
-  mapConnectorStartNode: { left: -5.5, top: '50%' },
-  mapConnectorEndNode1: { right: -5.5, top: '10%' },
-  mapConnectorEndNode2: { right: -5.5, top: '36.7%' },
-  mapConnectorEndNode3: { right: -5.5, top: '63.3%' },
-  mapConnectorEndNode4: { right: -5.5, top: '90%' },
+  mapTechniqueTitle: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', letterSpacing: 0.55, lineHeight: 33, marginTop: 13, maxWidth: '100%', textAlign: 'center' },
+  mapTechniqueTitleMobile: { fontSize: 8.4, letterSpacing: 0, lineHeight: 12, marginTop: 6, width: '100%' },
+  mapConnector: { alignSelf: 'stretch', position: 'relative', width: '11%' },
+  mapConnectorMobile: { alignSelf: 'stretch', minHeight: 0, width: '9%' },
+  mapConnectorRoot: { backgroundColor: 'rgba(152,105,20,0.46)', height: 1, left: 0, position: 'absolute', right: '54%', top: '50%' },
+  mapConnectorSpine: { borderColor: 'rgba(152,105,20,0.38)', borderLeftWidth: 1, bottom: '10%', left: '46%', position: 'absolute', top: '10%' },
+  mapConnectorBranch: { backgroundColor: 'rgba(152,105,20,0.38)', height: 1, left: '46%', position: 'absolute', right: 0 },
+  mapConnectorBranch1: { top: '10%' },
+  mapConnectorBranch2: { top: '36.7%' },
+  mapConnectorBranch3: { top: '63.3%' },
+  mapConnectorBranch4: { top: '90%' },
+  mapConnectorHub: { backgroundColor: '#F5E2AA', borderColor: '#A97820', borderWidth: 1, height: 9, left: '46%', marginLeft: -4.5, marginTop: -4.5, position: 'absolute', top: '50%', transform: [{ rotate: '45deg' }], width: 9, zIndex: 2 },
+  mapConnectorHubMobile: { height: 6, marginLeft: -3, marginTop: -3, width: 6 },
+  mapConnectorEnd: { backgroundColor: '#F8E9BE', borderColor: 'rgba(169,120,32,0.9)', borderRadius: 4, borderWidth: 1, height: 7, marginTop: -3.5, position: 'absolute', right: -4, width: 7, zIndex: 2 },
+  mapConnectorEndMobile: { height: 5, marginTop: -2.5, right: -3, width: 5 },
+  mapConnectorEnd1: { top: '10%' },
+  mapConnectorEnd2: { top: '36.7%' },
+  mapConnectorEnd3: { top: '63.3%' },
+  mapConnectorEnd4: { top: '90%' },
   theoryNodes: { alignSelf: 'stretch', justifyContent: 'space-between', width: '42%' },
   theoryNodesMobile: { alignSelf: 'stretch', flexGrow: 0, flexShrink: 0, justifyContent: 'space-between', width: '52%' },
-  theoryNode: { backgroundColor: 'rgba(255,253,248,0.94)', borderColor: '#B88A2A', borderRadius: 12, borderWidth: 1.2, justifyContent: 'center', minHeight: 58, overflow: 'hidden', paddingHorizontal: 21, paddingVertical: 8, position: 'relative', ...bookCardShadow },
+  theoryNode: { backgroundColor: 'rgba(255,253,248,0.94)', borderColor: '#B88A2A', borderRadius: 12, borderWidth: 1.2, justifyContent: 'center', minHeight: 58, overflow: 'hidden', paddingHorizontal: 21, paddingVertical: 8, position: 'relative' },
   theoryNodeMobile: { borderRadius: 7, flexGrow: 0, minHeight: 0, paddingHorizontal: 8, paddingVertical: 3 },
+  theoryNodeEdge: { backgroundColor: 'rgba(184,138,42,0.72)', bottom: 14, left: 0, position: 'absolute', top: 14, width: 2 },
+  theoryNodeEdgeMobile: { bottom: 6, top: 6, width: 1 },
   theoryNodeInnerFrame: { borderColor: 'rgba(184,138,42,0.34)', borderRadius: 8, borderWidth: 1, bottom: 5, left: 5, position: 'absolute', right: 5, top: 5 },
   theoryNodeInnerFrameMobile: { borderRadius: 5, bottom: 2, left: 2, right: 2, top: 2 },
   theoryNodeCopy: { minWidth: 0, paddingRight: 28 },

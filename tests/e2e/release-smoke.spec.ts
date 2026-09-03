@@ -990,6 +990,36 @@ test('ホームリール全7枚はスマホ・PCともカード内部にはみ�
   }
 });
 
+test('4枚目は処世術名を枠内に収め、接続図をカード間に一体化する', async ({ page }) => {
+  for (const viewportSize of [{ width: 320, height: 740 }, { width: 1440, height: 900 }]) {
+    await page.setViewportSize(viewportSize);
+    await page.goto('/');
+    await startFreeHome(page);
+    await page.getByRole('tab', { name: '4枚目を表示' }).click();
+
+    const [slide, technique, title, connectors, firstTheory] = await Promise.all([
+      page.getByTestId('home-brand-slide-4').boundingBox(),
+      page.getByTestId('home-brand-map-technique-cta').boundingBox(),
+      page.getByTestId('home-brand-map-technique-title').boundingBox(),
+      page.getByTestId('home-brand-map-connectors').boundingBox(),
+      page.getByTestId('home-brand-map-theory-1').boundingBox(),
+    ]);
+    expect(slide).not.toBeNull();
+    expect(technique).not.toBeNull();
+    expect(title).not.toBeNull();
+    expect(connectors).not.toBeNull();
+    expect(firstTheory).not.toBeNull();
+
+    expect(title!.x).toBeGreaterThanOrEqual(technique!.x + 4);
+    expect(title!.x + title!.width).toBeLessThanOrEqual(technique!.x + technique!.width - 4);
+    expect(connectors!.x).toBeGreaterThanOrEqual(technique!.x + technique!.width - 2);
+    expect(connectors!.x + connectors!.width).toBeLessThanOrEqual(firstTheory!.x + 2);
+    expect(technique!.x).toBeGreaterThanOrEqual(slide!.x);
+    expect(firstTheory!.x + firstTheory!.width).toBeLessThanOrEqual(slide!.x + slide!.width);
+    await expect(page.getByTestId('home-brand-map-connector-spine')).toBeVisible();
+  }
+});
+
 test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩さない', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/personas');
