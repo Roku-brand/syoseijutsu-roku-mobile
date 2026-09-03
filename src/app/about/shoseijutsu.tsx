@@ -32,10 +32,10 @@ const chapters = [
     paragraphs: [
       '学校では、数学や歴史は教えてくれます。',
       'しかし、',
-      '「嫌われずに断るにはどうするか」\n「人から軽く扱われないためにはどうするか」\n「上司と意見が違うときどう伝えるか」\n「失敗したあと、どう立て直すか」\n「人間関係を終わらせるべきなのはいつか」',
+      '「嫌われずに断るにはどうするか」 「人から軽く扱われないためにはどうするか」 「上司と意見が違うときどう伝えるか」 「失敗したあと、どう立て直すか」 「人間関係を終わらせるべきなのはいつか」',
       'といった問題には、ほとんど教科書がありません。',
       'ところが実際の人生では、こうした判断の積み重ねが、人間関係や仕事、生活の質を大きく左右します。',
-      '多くの人は経験から少しずつ学びます。\nしかし、すべてを自分の失敗から学ぶ必要はありません。',
+      '多くの人は経験から少しずつ学びます。しかし、すべてを自分の失敗から学ぶ必要はありません。',
     ],
     emphasis: ['誰かが経験から得た知恵や、研究によって明らかになった人間の性質を、あらかじめ知ることができる。'],
     closing: 'そこに、処世術を学ぶ意味があります。',
@@ -76,11 +76,11 @@ export default function ShoseijutsuAboutScreen() {
         <View style={styles.hero}>
           <AppText style={styles.kicker}>処世術禄について</AppText>
           <AppText accessibilityRole="header" style={styles.heroTitle}>人生をうまく生きる方法を、すべての人へ。</AppText>
-          <Paragraph>人生には、学校では教わらないことが多くあります。\n人との距離の取り方。信頼の築き方。仕事の進め方。失敗との付き合い方。自分自身の扱い方。</Paragraph>
+          <Paragraph>人生には、学校では教わらないことが多くあります。人との距離の取り方。信頼の築き方。仕事の進め方。失敗との付き合い方。自分自身の扱い方。</Paragraph>
           <Paragraph>私たちは、こうした知恵を「なんとなく分かっていること」のまま流してしまいます。</Paragraph>
           <Paragraph>処世術禄は、それらを集め、整理し、理論と結びつけ、必要なときに取り出して使える知恵へ変えるための場所です。</Paragraph>
           <Paragraph emphasis>聞いたことがある、で終わらせない。</Paragraph>
-          <Paragraph>流れて消える人生の知識を、何度でも使える知恵に変える。\nそれが、処世術禄の役割です。</Paragraph>
+          <Paragraph>流れて消える人生の知識を、何度でも使える知恵に変える。それが、処世術禄の役割です。</Paragraph>
         </View>
 
         {chapters.map((chapter) => (
@@ -151,7 +151,7 @@ export default function ShoseijutsuAboutScreen() {
           <Paragraph>だから必要なのは、無数の正解を暗記することではありません。</Paragraph>
           <Paragraph>状況を見て、考え、自分で選べることです。</Paragraph>
           <Paragraph>処世術禄が作ろうとしているのは、いわば人生をうまく生きるための思考のOSです。</Paragraph>
-          <Paragraph>判断に迷ったとき、戻ってこられる場所。\n必要な知恵を探し、なぜそうするのかまで理解できる場所。</Paragraph>
+          <Paragraph>判断に迷ったとき、戻ってこられる場所。必要な知恵を探し、なぜそうするのかまで理解できる場所。</Paragraph>
           <Paragraph emphasis>人生をうまく生きる方法を、すべての人へ。</Paragraph>
           <Paragraph>処世術禄は、そのための知恵を編み続けます。</Paragraph>
         </View>

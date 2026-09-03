@@ -57,9 +57,9 @@ export default function SettingsScreen() {
 
       <SettingsSection title="ヘルプ・サポート" />
       <SettingsGroup>
+        <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
-        <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} />
-        <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} last />
+        <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
       </SettingsGroup>
 
       <View style={styles.quietSection}>
