@@ -48,7 +48,7 @@ test('short numeric technique URLs redirect to their canonical detail page witho
   await expect(page.getByRole('heading', { name: '清潔感で足切りを超える' })).toBeVisible();
 
   await page.goto('/card/master336-999');
-  await expect(page).toHaveURL(/\/+not-found$/);
+  await expect(page).toHaveURL(/\/\+not-found$/);
   await expect(page.getByRole('heading', { name: 'ページが見つかりません' })).toBeVisible();
   expect(errors).not.toContainEqual(expect.stringContaining('Minified React error #418'));
 });
