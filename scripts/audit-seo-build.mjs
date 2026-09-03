@@ -70,6 +70,13 @@ const notFound = await readFile(path.join(dist, '404.html'), 'utf8');
 if (!notFound.includes('content="noindex,follow"')) failures.push('404.html must be noindex');
 if (!notFound.includes('ページが見つかりません')) failures.push('404.html needs an explicit not-found message');
 
+const home = await readFile(path.join(dist, 'index.html'), 'utf8');
+try {
+  const homeGraph = JSON.parse(value(home, /<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/s))['@graph'] ?? [];
+  const website = homeGraph.find((item) => item['@type'] === 'WebSite');
+  if (website?.name !== '処世術禄' || website?.alternateName !== '処世術録') failures.push('home JSON-LD must preserve 処世術禄 and declare 処世術録 as its alternate name');
+} catch { failures.push('home JSON-LD site-name variant is invalid'); }
+
 const assetBudgets = [
   ['assets/welcome/welcome-background-desktop.webp', 100_000],
   ['assets/welcome/welcome-background-mobile.webp', 100_000],

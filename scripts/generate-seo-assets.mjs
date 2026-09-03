@@ -109,7 +109,9 @@ function metaFor(rawRoute) {
 function jsonLd(meta) {
   const url = canonical(meta.canonicalRoute);
   const graph = [
-    { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: brand, alternateName: homeTitle, inLanguage: 'ja', publisher: { '@id': `${siteUrl}/#organization` } },
+    // Keep the official name canonical while declaring the common one-character
+    // typo as a site-name variant. Do not repeat it in page titles or URLs.
+    { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: brand, alternateName: '処世術録', inLanguage: 'ja', publisher: { '@id': `${siteUrl}/#organization` } },
     { '@type': 'Organization', '@id': `${siteUrl}/#organization`, name: brand, url: `${siteUrl}/`, logo: { '@type': 'ImageObject', url: `${siteUrl}/pwa-icon-512.png`, width: 512, height: 512 } },
     { '@type': meta.pageType, '@id': `${url}#webpage`, url, name: meta.title, description: meta.description, inLanguage: 'ja', isPartOf: { '@id': `${siteUrl}/#website` }, breadcrumb: { '@id': `${url}#breadcrumb` } },
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.route) })) },
