@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SERVER_NAME = 'shoseijutsuroku-operations';
 const SERVER_VERSION = '1.0.0';
-const INGEST_KEY_SHA256 = '0a7a9dfc890771d037d6b0b8719c49f1e1568edc05619abeda0b1d3cdef21d78';
+const INGEST_KEY_SHA256 = '0b15a8e96bf57f21346c02fdfd4309fd9bbe7b6dad1aae38b5f3f758a8840845';
 const AUTOMATION_ID = 'gpt-work-inquiry-triage';
 
 const corsHeaders = {
