@@ -15,15 +15,22 @@
 
 1. GPT Work の定期タスクが、火曜・金曜の9:00（Asia/Tokyo）に問い合わせ用Gmailの新着を確認します。
 2. GPT Work は分類・要約・返信案を作りますが、メールの送信、下書き作成、既読化などは行いません。
-3. 現時点では GPT Work から Supabase / GitHub への認証済み書き込み経路は未接続です。そのため、GPT Workの結果はChatGPT上に出力され、管理画面へ自動反映されません。
-4. 管理画面へ反映するには、同じ形式の結果を `operations/*.json` へ取り込んで公開するか、信頼済みのサーバー処理から `operation_*` テーブルへ書き込みます。
-5. 管理画面はSupabaseの実データを読み、オーナーが問い合わせ状態、メモ、SNS候補、FAQ候補を更新します。更新内容はRLSでオーナーだけに許可されます。
+3. GPT Work は専用の `operations-mcp` 取込アプリを使い、問い合わせ・要約・返信案・対応評価・FAQ候補・実行結果を Supabase へ反映します。
+4. 取込前に前回成功日時と処理済み Gmail messageId を取得し、成功した場合だけチェックポイントを更新します。失敗時はエラーだけを記録し、次回に再試行できる状態を保ちます。
+
+`operations-mcp` は問い合わせの送信や Gmail の変更を行わず、同期状態の取得、成功結果の記録、失敗結果の記録だけを公開します。取込キーの平文はリポジトリへ保存せず、Edge Function は SHA-256 ハッシュだけを保持します。
+
+5. 問い合わせ本文・送信者・要約などの個人情報は、公開 GitHub リポジトリの `operations/*.json` には保存しません。
+6. 管理画面はSupabaseの実データを読み、オーナーが問い合わせ状態、メモ、SNS候補、FAQ候補を更新します。更新内容はRLSでオーナーだけに許可されます。
 
 データが0件のときは空状態を表示します。Supabase取得に失敗したときは原因を明示し、架空データで正常に見せかけません。
 
-## 定期タスクが更新するファイル
+## 外部タスクが更新する場所
 
-- `operations/inquiries.json`: Gmailから整理した問い合わせ、要約、AI返信案
+問い合わせ定期タスクは `operations-mcp` 経由でSupabaseだけを更新します。公開リポジトリのJSONへ問い合わせデータを書き込んではいけません。
+
+機密情報を含まないSNS案など、GitHub経由の処理では次のファイルを使用できます。
+
 - `operations/social-posts.json`: X投稿候補、予定日時、生成理由、実績
 - `operations/ai-tasks.json`: 各定期タスクの最終結果、次回予定、処理件数、エラー、更新先
 - `operations/faq-candidates.json`: 問い合わせから抽出したFAQ候補
@@ -32,7 +39,7 @@
 
 各JSONは `schemaVersion`、`updatedAt`、`items` を持ち、各項目は一意な `id` と `status` を持ちます。未連携時の `items` は空配列です。更新前後に `pnpm operations:validate` を実行してください。
 
-リポジトリへ反映したJSONは、GitHub Pagesの公開処理中に `pnpm operations:sync` で Supabaseへ upsert されます。定期タスクが Supabaseへ直接書く場合は、クライアント公開キーではなく、信頼済み環境に保管した `SUPABASE_SERVICE_ROLE_KEY` を使用してください。サービスロールキーはリポジトリ、ログ、生成JSONへ含めないでください。
+リポジトリへ反映したJSONは、GitHub Pagesの公開処理中に `pnpm operations:sync` で Supabaseへ upsert されます。`operations-mcp` はSupabase Edge Function内だけでサービスロールを使用します。サービスロールキーをタスクのプロンプト、リポジトリ、ログ、生成JSONへ含めないでください。
 
 ## 競合を避ける運用
 
@@ -44,6 +51,6 @@ JSON同期は同じ `id` を更新します。`scripts/sync-operations.mjs` は�
 
 ## Gmail / X連携の拡張点
 
-Gmail連携はメッセージIDを `sourceRef` に保存し、本文・送信者・日時を正規化してから `inquiries.json` または `operation_inquiries` を更新します。管理画面から直接返信する機能を追加する場合も、送信はサーバー側の所有者確認済みエンドポイントへ分離してください。
+Gmail連携はメッセージIDを `sourceRef` に保存し、本文・送信者・日時を正規化してから `operation_inquiries` を更新します。成功実行では `operation_faq_candidates`、`operation_ai_tasks`、`operation_activity_log` と非公開の `operation_automation_state` も更新します。管理画面から直接返信する機能を追加する場合も、送信はサーバー側の所有者確認済みエンドポイントへ分離してください。
 
 X連携は投稿候補と実績取得を分けます。投稿APIを追加する場合は、`承認済み` だけを対象にし、投稿結果のIDと時刻を保存してから `投稿済み` へ遷移させます。アクセストークンをWebクライアントやJSONへ含めないでください。
