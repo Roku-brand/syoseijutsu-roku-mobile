@@ -16,7 +16,7 @@ const cardById = new Map(cards.map((card) => [card.id, card]));
 const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
 const wisdomSupportByTechniqueId = new Map(cards.map((card) => [card.id, []]));
 
-if (cards.length !== 336) throw new Error(`Expected 336 techniques; found ${cards.length}.`);
+if (cards.length !== 356) throw new Error(`Expected 356 techniques; found ${cards.length}.`);
 if (theories.length !== 630) throw new Error(`Expected 630 theories; found ${theories.length}.`);
 if (Object.keys(comprehensive).length !== cards.length) throw new Error('Comprehensive map must contain every technique exactly once.');
 if (Object.keys(primary).length !== cards.length) throw new Error('Primary map must contain every technique exactly once.');
@@ -76,13 +76,16 @@ if (audit.linkedTheories !== linkedTheoryIds.size) throw new Error('Audit theory
 if (audit.categoryCoverage?.['classics-thought']?.linkedTheories !== 59) throw new Error('All 59 classical cards must remain reachable.');
 if (audit.categoryCoverage?.['maxims-experience']?.linkedTheories !== 76) throw new Error('All 76 maxim cards must remain reachable.');
 
+// The historical review document and rollback migration cover the immutable
+// original 336 cards. New cards are validated against the JSON/source maps.
+const legacyCards = cards.filter((card) => /^master336-(?:00[1-9]|0[1-9]\d|[12]\d{2}|3[0-2]\d|33[0-6])$/.test(card.id));
 const finalText = fs.readFileSync(path.join(root, 'master336_theory_links_final.md'), 'utf8').replace(/\r/g, '');
 const finalBlocks = new Map(finalText.split(/^## /m).slice(1).map((block) => {
   const newline = block.indexOf('\n');
   const header = block.slice(0, newline);
   return [header.split('｜')[0], { header, body: block.slice(newline + 1) }];
 }));
-for (const card of cards) {
+for (const card of legacyCards) {
   const block = finalBlocks.get(card.id);
   if (!block) throw new Error(`Final mapping Markdown is missing ${card.id}.`);
   if (block.header !== `${card.id}｜${card.title}`) throw new Error(`Final mapping Markdown title diverges for ${card.id}.`);
@@ -99,7 +102,7 @@ const migrationText = fs.readFileSync(path.join(root, 'supabase', 'migrations', 
 if (!migrationText.includes('comprehensive-groups-20260903') || !migrationText.includes('previous_theory_ids')) {
   throw new Error('Database migration is missing its rollback snapshot.');
 }
-for (const card of cards) {
+for (const card of legacyCards) {
   const occurrences = migrationText.split(`('${card.id}',`).length - 1;
   if (occurrences !== 2) throw new Error(`Database migration must carry ${card.id} in backup and update datasets.`);
 }

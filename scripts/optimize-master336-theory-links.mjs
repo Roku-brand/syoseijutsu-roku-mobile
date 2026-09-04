@@ -38,7 +38,7 @@ for (const [theoryId, techniqueIds] of Object.entries(wisdomSupportTechniqueIdsB
   }
 }
 
-if (cards.length !== 336) throw new Error(`Expected 336 techniques, found ${cards.length}.`);
+if (cards.length !== 356) throw new Error(`Expected 356 techniques, found ${cards.length}.`);
 if (Object.keys(comprehensiveLinks).length !== cards.length) throw new Error('Comprehensive theory-link map and catalog card counts differ.');
 if (Object.keys(primaryLinks).length !== cards.length) throw new Error('Primary theory-link map and catalog card counts differ.');
 if (JSON.stringify(primaryLinks) !== JSON.stringify(master336PrimaryTheoryLinks)) throw new Error('Primary theory-link JSON diverges from its curated source.');

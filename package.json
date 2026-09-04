@@ -51,6 +51,7 @@
     "content:validate-latest": "node ./scripts/validate-latest-catalog.mjs",
     "content:import-complete": "node ./scripts/import-complete-markdown.mjs",
     "content:import-persona-markdown": "node ./scripts/import-persona-markdown.mjs",
+    "content:add-fatigue-free-persona": "node ./scripts/add-fatigue-free-persona.mjs",
     "content:restructure-personas": "node ./scripts/restructure-persona-catalog.mjs",
     "content:sync-learning": "node ./scripts/sync-learning-content.mjs",
     "content:split-secure": "node ./scripts/split-public-paid-content.mjs",

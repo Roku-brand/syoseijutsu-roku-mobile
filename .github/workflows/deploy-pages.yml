@@ -92,7 +92,7 @@ jobs:
           pnpm content:split-secure
           pnpm content:sync-paid
 
-      - name: Validate 336-item master catalog
+      - name: Validate 356-item master catalog
         run: pnpm content:validate-master336
 
       - name: Audit curated theory links in both directions

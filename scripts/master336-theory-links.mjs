@@ -1,5 +1,5 @@
-// Curated, one-way source of truth for theory links in the 336-card catalog.
-// Rows follow the immutable display order (master336-001 through master336-336).
+// Curated, one-way source of truth for theory links in the master catalog.
+// The original 336 IDs remain immutable; additions continue the same sequence.
 // A card receives only theories that explain its operative mechanism directly.
 // These are the representative entry points shown as 「主要理論」. The
 // comprehensive map is maintained separately and supplies the theories shown
@@ -61,10 +61,13 @@ const rows = [
   ['583', '264'], ['576'], ['591'], ['588'], ['589'], ['540'], ['564', '565'], ['559'], ['584', '585'], ['251'], ['264'],
   // 可能性を広げられる人 322–336
   ['571'], ['256'], ['567'], ['279'], ['082'], ['290'], ['552'], ['543'], ['554'], ['571'], ['491'], ['593'], ['594', '595'], ['555'], ['575'],
+  // 一緒にいて疲れない人 337–356
+  ['412'], ['266'], ['479'], ['112'], ['024'], ['402'], ['436'], ['396'], ['398'], ['030'],
+  ['479'], ['410'], ['050'], ['233'], ['233'], ['403'], ['402'], ['055'], ['300'], ['047'],
 ];
 
-if (rows.length !== 336) {
-  throw new Error(`Theory-link map must have 336 rows; received ${rows.length}.`);
+if (rows.length !== 356) {
+  throw new Error(`Theory-link map must have 356 rows; received ${rows.length}.`);
 }
 
 export const master336PrimaryTheoryLinks = Object.fromEntries(

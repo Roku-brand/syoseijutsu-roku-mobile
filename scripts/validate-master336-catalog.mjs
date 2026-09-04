@@ -3,12 +3,13 @@ import fs from 'node:fs';
 const catalog = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8'));
 const theories = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8'));
 const metadata = JSON.parse(fs.readFileSync('src/data/generated/metadata.json', 'utf8'));
+const practicalActions = JSON.parse(fs.readFileSync('src/data/generated/practical-actions.json', 'utf8'));
 const expectedCounts = {
   interpersonal: {
     '印象がいい人': 14, '会話がうまい人': 13, '聞き上手な人': 10, '信頼される人': 12,
     '人たらしの人': 23, '面白い人': 15, '人を見極められる人': 10, '人に振り回されない人': 12,
     '軽く扱われない人': 12, '人間関係が安定する人': 14, '集団に馴染める人': 14,
-    'リーダーシップがある人': 9, 'カリスマ性のある人': 13,
+    'リーダーシップがある人': 9, 'カリスマ性のある人': 13, '一緒にいて疲れない人': 20,
   },
   work: {
     '仕事ができる人': 15, 'タスク処理がうまい人': 14, '頭がいい人': 10,
@@ -74,18 +75,20 @@ const checks = {
   metadataTechniqueCount: metadata.techniqueCount,
   metadataPersonaCount: metadata.personaCount,
   metadataCategoryCountsMatch,
+  practicalActionCount: practicalActions.length,
+  invalidPracticalActions: practicalActions.filter((item) => item.todayActions?.length !== 2 || item.cautions?.length !== 1).length,
   actualCategoryCounts,
   source: metadata.source,
   mismatchedGroups,
 };
 console.log(JSON.stringify(checks, null, 2));
 if (
-  checks.categories !== 3 || checks.personas !== 26 || checks.techniques !== 336 ||
+  checks.categories !== 3 || checks.personas !== 27 || checks.techniques !== 356 ||
   checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.invalidEssenceLengths ||
   checks.invalidEssenceSentences || checks.duplicateEssences || checks.missingExplanations ||
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
-  checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 336 ||
-  checks.metadataPersonaCount !== 26 || !checks.metadataCategoryCountsMatch ||
-  checks.source !== 'shoseijutsuroku_解説_再改善統合版_master336_001-336.md' || checks.mismatchedGroups.length
-) throw new Error('336-item master catalog validation failed.');
+  checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 356 ||
+  checks.metadataPersonaCount !== 27 || checks.practicalActionCount !== 356 || checks.invalidPracticalActions || !checks.metadataCategoryCountsMatch ||
+  metadata.catalogVersion !== 'master356' || checks.mismatchedGroups.length
+) throw new Error('356-item master catalog validation failed.');

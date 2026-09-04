@@ -1,18 +1,17 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
-  "techniques": 336,
+  "techniques": 356,
   "theories": 630,
-  "links": 1043,
-  "primaryLinks": 411,
-  "supplementaryLinks": 632,
-  "linkedTheories": 501,
-  "unlinkedTheories": 129,
+  "links": 1098,
+  "primaryLinks": 431,
+  "linkedTheories": 507,
+  "unlinkedTheories": 123,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 13,
   "distribution": {
     "1": 92,
-    "2": 82,
-    "3": 55,
+    "2": 87,
+    "3": 70,
     "4": 34,
     "5": 26,
     "6": 15,
@@ -25,13 +24,13 @@
     "13": 1
   },
   "primaryDistribution": {
-    "1": 261,
+    "1": 281,
     "2": 75
   },
   "supplementaryDistribution": {
     "0": 115,
-    "1": 75,
-    "2": 53,
+    "1": 80,
+    "2": 68,
     "3": 27,
     "4": 23,
     "5": 17,
@@ -46,8 +45,8 @@
   "categoryCoverage": {
     "psychology": {
       "theories": 237,
-      "linkedTheories": 184,
-      "links": 370
+      "linkedTheories": 189,
+      "links": 418
     },
     "behavioral-science": {
       "theories": 74,
@@ -56,18 +55,18 @@
     },
     "organization-management": {
       "theories": 123,
-      "linkedTheories": 92,
-      "links": 169
+      "linkedTheories": 93,
+      "links": 174
     },
     "strategy": {
       "theories": 61,
       "linkedTheories": 56,
-      "links": 82
+      "links": 83
     },
     "classics-thought": {
       "theories": 59,
       "linkedTheories": 59,
-      "links": 170
+      "links": 171
     },
     "maxims-experience": {
       "theories": 76,
@@ -75,5 +74,6 @@
       "links": 207
     }
   },
-  "generatedAt": "2026-09-03"
+  "generatedAt": "2026-09-04",
+  "supplementaryLinks": 667
 }
