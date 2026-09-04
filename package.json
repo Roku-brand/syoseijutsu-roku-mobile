@@ -40,6 +40,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
+    "operations:validate": "node ./scripts/validate-operations.mjs",
+    "operations:sync": "node ./scripts/sync-operations.mjs",
     "pwa:stamp": "node ./scripts/stamp-pwa-cache.mjs",
     "content:build-public": "node ./scripts/build-public-catalog.mjs",
     "export:web": "pnpm export:pages",

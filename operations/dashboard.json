@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-05T09:05:00+09:00",
+  "period": { "weekStartsAt": "2026-09-01T00:00:00+09:00", "weekEndsAt": "2026-09-07T23:59:59+09:00" },
+  "sources": {
+    "inquiries": "operations/inquiries.json",
+    "socialPosts": "operations/social-posts.json",
+    "aiTasks": "operations/ai-tasks.json",
+    "faqCandidates": "operations/faq-candidates.json",
+    "activityLog": "operations/activity-log.json"
+  }
+}

@@ -54,9 +54,22 @@ for (const url of urls) {
   }
 }
 
-const privateRoutes = ['/auth', '/settings', '/owner/content', '/library', '/my-os', '/learn/case-01'];
+const privateRoutes = [
+  '/auth',
+  '/settings',
+  '/owner/content',
+  '/owner/operations',
+  '/owner/operations/inquiries',
+  '/owner/operations/social',
+  '/owner/operations/tasks',
+  '/owner/operations/faq',
+  '/owner/operations/logs',
+  '/library',
+  '/my-os',
+  '/learn/case-01',
+];
 for (const route of privateRoutes) {
-  const html = await readFile(path.join(dist, `${route.slice(1)}.html`), 'utf8');
+  const html = await htmlForUrl(`https://shoseijutsuroku.com${route}`);
   if (!html.includes('content="noindex,follow"')) failures.push(`${route}: private route must be noindex`);
   if (sitemap.includes(`>${`https://shoseijutsuroku.com${route}`}<`)) failures.push(`${route}: private route leaked into sitemap`);
 }

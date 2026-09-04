@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-05T09:05:00+09:00",
+  "items": [
+    {
+      "id": "task-inquiry-triage",
+      "name": "問い合わせ確認・分類",
+      "lastRunAt": "2026-09-05T09:00:00+09:00",
+      "nextRunAt": "2026-09-05T12:00:00+09:00",
+      "status": "success",
+      "processedCount": 3,
+      "summary": "新着3件を確認し、カテゴリと緊急度を付与しました。",
+      "error": null,
+      "outputs": ["operations/inquiries.json", "operations/activity-log.json"],
+      "updatedAt": "2026-09-05T09:01:00+09:00"
+    },
+    {
+      "id": "task-reply-drafts",
+      "name": "AI返信案生成",
+      "lastRunAt": "2026-09-05T09:01:00+09:00",
+      "nextRunAt": "2026-09-05T12:01:00+09:00",
+      "status": "success",
+      "processedCount": 2,
+      "summary": "返信が必要な問い合わせ2件に、確認用の返信案を生成しました。",
+      "error": null,
+      "outputs": ["operations/inquiries.json"],
+      "updatedAt": "2026-09-05T09:02:00+09:00"
+    },
+    {
+      "id": "task-social-drafts",
+      "name": "SNS投稿案生成",
+      "lastRunAt": "2026-09-05T06:00:00+09:00",
+      "nextRunAt": "2026-09-06T06:00:00+09:00",
+      "status": "success",
+      "processedCount": 2,
+      "summary": "既存処世術からX投稿候補を2件生成し、類似度を確認しました。",
+      "error": null,
+      "outputs": ["operations/social-posts.json"],
+      "updatedAt": "2026-09-05T06:01:00+09:00"
+    },
+    {
+      "id": "task-faq-candidates",
+      "name": "FAQ候補抽出",
+      "lastRunAt": "2026-09-04T21:00:00+09:00",
+      "nextRunAt": "2026-09-11T21:00:00+09:00",
+      "status": "success",
+      "processedCount": 8,
+      "summary": "直近30日の問い合わせを分析し、候補を1件追加しました。",
+      "error": null,
+      "outputs": ["operations/faq-candidates.json"],
+      "updatedAt": "2026-09-04T21:02:00+09:00"
+    },
+    {
+      "id": "task-social-metrics",
+      "name": "SNS実績集計",
+      "lastRunAt": "2026-09-04T08:00:00+09:00",
+      "nextRunAt": "2026-09-05T08:00:00+09:00",
+      "status": "failure",
+      "processedCount": 0,
+      "summary": "Xの実績値を取得できず、前回値を保持しました。",
+      "error": "参照データが更新されていません。Xアナリティクスの入力元を確認してください。",
+      "outputs": ["operations/social-posts.json"],
+      "updatedAt": "2026-09-04T08:01:00+09:00"
+    }
+  ]
+}

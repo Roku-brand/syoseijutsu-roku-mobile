@@ -50,6 +50,7 @@ export default function SettingsScreen() {
       {role === 'owner' ? <>
         <SettingsSection title="オーナー機能" />
         <SettingsGroup>
+          <SettingLink title="運用ダッシュボード" detail="問い合わせ・SNS・AIタスクを一元確認します" href={APP_ROUTES.ownerOperations} />
           <SettingLink title="コンテンツ管理" detail="処世術と主要・補助理論を編集・公開します" href={APP_ROUTES.ownerContent} />
           <SettingLink title="オーナープレビュー" detail="無料版・完全版・未ログインの表示を確認" href={APP_ROUTES.ownerPreview} last />
         </SettingsGroup>

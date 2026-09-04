@@ -13,6 +13,21 @@ async function startFreeHome(page: Page) {
   }
 }
 
+test('owner operations routes do not expose operational data to signed-out users', async ({ page }) => {
+  for (const route of [
+    '/owner/operations',
+    '/owner/operations/inquiries',
+    '/owner/operations/social',
+    '/owner/operations/tasks',
+    '/owner/operations/faq',
+    '/owner/operations/logs',
+  ]) {
+    await page.goto(route);
+    await expect(page.getByText('owner権限が必要です')).toBeVisible();
+    await expect(page.getByTestId('owner-operations-page')).toHaveCount(0);
+  }
+});
+
 test('welcome presents both entry actions on desktop and mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
     await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();

@@ -15,6 +15,7 @@ export const APP_ROUTES = {
   upgrade: '/upgrade',
   ownerContent: '/owner/content',
   ownerPreview: '/owner/preview',
+  ownerOperations: '/owner/operations' as Href,
   faq: '/legal/faq',
   commerce: '/legal/commerce',
   terms: '/legal/terms',

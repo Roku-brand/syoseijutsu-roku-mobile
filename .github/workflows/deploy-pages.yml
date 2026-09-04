@@ -79,6 +79,9 @@ jobs:
       - name: Sync published technique content
         run: node scripts/import-owner-content.mjs
 
+      - name: Sync owner operations data
+        run: pnpm operations:sync
+
       - name: Recover owner-curated theory links
         run: node scripts/recover-owner-theory-links.mjs
 
