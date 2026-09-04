@@ -13,6 +13,7 @@ for (const file of files) {
     const ids = document.items.map((item) => item?.id);
     if (ids.some((id) => typeof id !== 'string' || !id) || new Set(ids).size !== ids.length) throw new Error(`${file}: id が不正または重複しています。`);
     if (document.items.some((item) => typeof item?.status !== 'string' || !item.status)) throw new Error(`${file}: status がない項目があります。`);
+    if (document.items.some((item) => /gmail:sample-|@example\.com/i.test(JSON.stringify(item)))) throw new Error(`${file}: デモ用レコードを運用データへ含めることはできません。`);
   }
   console.log(`${file}: OK`);
 }

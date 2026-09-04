@@ -1,12 +1,5 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-05T09:02:00+09:00",
-  "items": [
-    { "id": "log-20260905-0902", "occurredAt": "2026-09-05T09:02:00+09:00", "actor": "AI返信案生成", "action": "返信案2件を生成", "target": "operations/inquiries.json", "status": "success", "detail": "要返信・要確認の新着問い合わせを対象に生成しました。", "updatedAt": "2026-09-05T09:02:00+09:00" },
-    { "id": "log-20260905-0901", "occurredAt": "2026-09-05T09:01:00+09:00", "actor": "問い合わせ確認・分類", "action": "問い合わせ3件を分類", "target": "operations/inquiries.json", "status": "success", "detail": "カテゴリ、緊急度、要約を更新しました。", "updatedAt": "2026-09-05T09:01:00+09:00" },
-    { "id": "log-20260905-0601", "occurredAt": "2026-09-05T06:01:00+09:00", "actor": "SNS投稿案生成", "action": "X投稿候補2件を生成", "target": "operations/social-posts.json", "status": "success", "detail": "重複度0.35未満の候補のみを保存しました。", "updatedAt": "2026-09-05T06:01:00+09:00" },
-    { "id": "log-20260904-2102", "occurredAt": "2026-09-04T21:02:00+09:00", "actor": "FAQ候補抽出", "action": "FAQ候補1件を追加", "target": "operations/faq-candidates.json", "status": "success", "detail": "直近30日の問い合わせ8件を分析しました。", "updatedAt": "2026-09-04T21:02:00+09:00" },
-    { "id": "log-20260904-1809", "occurredAt": "2026-09-04T18:09:00+09:00", "actor": "owner", "action": "X投稿候補を予約済みに変更", "target": "social-20260904-003", "status": "success", "detail": "X側の予約日時と管理データを揃えました。", "updatedAt": "2026-09-04T18:09:00+09:00" },
-    { "id": "log-20260904-0801", "occurredAt": "2026-09-04T08:01:00+09:00", "actor": "SNS実績集計", "action": "実績集計に失敗", "target": "operations/social-posts.json", "status": "failure", "detail": "参照データが更新されていないため、前回値を保持しました。", "updatedAt": "2026-09-04T08:01:00+09:00" }
-  ]
+  "updatedAt": "2026-09-05T01:30:00+09:00",
+  "items": []
 }

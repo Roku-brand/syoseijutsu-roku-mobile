@@ -259,7 +259,7 @@ async function selectRows(table: string): Promise<JsonRecord[]> {
 }
 
 export async function loadOperationsData(): Promise<OperationsData> {
-  if (!supabase) return BUNDLED_OPERATIONS;
+  if (!supabase) return { ...BUNDLED_OPERATIONS, warning: 'Supabase接続が設定されていません。実データは表示されていません。' };
   try {
     const [inquiries, socialPosts, aiTasks, faqCandidates, activityLog] = await Promise.all([
       selectRows('operation_inquiries'),
@@ -278,12 +278,12 @@ export async function loadOperationsData(): Promise<OperationsData> {
       warning: null,
     };
   } catch {
-    return { ...BUNDLED_OPERATIONS, warning: '運用データを取得できなかったため、同梱された確認用データを表示しています。' };
+    return { ...BUNDLED_OPERATIONS, warning: 'Supabaseから運用データを取得できませんでした。リポジトリJSONに記録されたデータだけを表示しています。' };
   }
 }
 
 export async function saveInquiry(inquiry: Inquiry) {
-  if (!supabase) return;
+  if (!supabase) throw new Error('database_unavailable');
   const { error } = await supabase.from('operation_inquiries').update({
     category: inquiry.category,
     urgency: inquiry.urgency,
@@ -295,7 +295,7 @@ export async function saveInquiry(inquiry: Inquiry) {
 }
 
 export async function saveSocialPost(post: SocialPost) {
-  if (!supabase) return;
+  if (!supabase) throw new Error('database_unavailable');
   const { error } = await supabase.from('operation_social_posts').update({
     body: post.body,
     scheduled_at: post.scheduledAt,
@@ -307,7 +307,7 @@ export async function saveSocialPost(post: SocialPost) {
 }
 
 export async function saveFaqCandidate(candidate: FaqCandidate) {
-  if (!supabase) return;
+  if (!supabase) throw new Error('database_unavailable');
   const { error } = await supabase.from('operation_faq_candidates').update({
     proposed_answer: candidate.proposedAnswer,
     status: candidate.status,
@@ -317,7 +317,7 @@ export async function saveFaqCandidate(candidate: FaqCandidate) {
 }
 
 export async function appendActivityLog(entry: ActivityLog) {
-  if (!supabase) return;
+  if (!supabase) throw new Error('database_unavailable');
   const { error } = await supabase.from('operation_activity_log').upsert({
     id: entry.id,
     occurred_at: entry.occurredAt,

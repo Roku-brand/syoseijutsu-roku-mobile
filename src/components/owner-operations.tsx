@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAccess } from '@/access/access-state';
 import { useAppToast } from '@/components/app-toast';
 import { AppText, EmptyState, Screen } from '@/components/ui';
-import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
+import { colors, fonts, spacing } from '@/constants/theme';
 import {
   BUNDLED_OPERATIONS,
   FAQ_STATUSES,
@@ -41,20 +41,27 @@ const NAV_ITEMS: { key: OperationsSection; label: string; href: string }[] = [
 
 export function OwnerOperationsScreen({ section }: { section: OperationsSection }) {
   const { isOwner } = useAccess();
+  const { width } = useHydratedWindowDimensions();
+  const compact = width < 940;
   const [data, setData] = useState<OperationsData>(BUNDLED_OPERATIONS);
   const [loading, setLoading] = useState(false);
+  const [lastLoadedAt, setLastLoadedAt] = useState<string | null>(null);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    try {
+      const nextData = await loadOperationsData();
+      setData(nextData);
+      setLastLoadedAt(new Date().toISOString());
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isOwner) return;
-    let active = true;
-    setLoading(true);
-    void loadOperationsData().then((nextData) => {
-      if (active) setData(nextData);
-    }).finally(() => {
-      if (active) setLoading(false);
-    });
-    return () => { active = false; };
-  }, [isOwner]);
+    void reload();
+  }, [isOwner, reload]);
 
   if (!isOwner) {
     return (
@@ -79,37 +86,34 @@ export function OwnerOperationsScreen({ section }: { section: OperationsSection 
 
   return (
     <Screen contentContainerStyle={styles.screenContent} testID="owner-operations-page">
-      <OperationsHeader section={section} data={data} />
-      {data.warning ? <View style={styles.warning}><AppText style={styles.warningText}>{data.warning}</AppText></View> : null}
-      {loading ? <AppText style={styles.loading}>運用情報を更新しています…</AppText> : null}
-      {section === 'dashboard' ? <Dashboard data={data} /> : null}
-      {section === 'inquiries' ? <Inquiries data={data} onChange={replaceInquiry} /> : null}
-      {section === 'social' ? <SocialPosts data={data} onChange={replaceSocial} /> : null}
-      {section === 'tasks' ? <AiTasks tasks={data.aiTasks} /> : null}
-      {section === 'faq' ? <FaqCandidates items={data.faqCandidates} onChange={replaceFaq} /> : null}
-      {section === 'logs' ? <ActivityLogs items={data.activityLog} /> : null}
+      <View style={[styles.operationsFrame, compact && styles.operationsFrameCompact]}>
+        <OperationsNavigation section={section} data={data} compact={compact} />
+        <View style={styles.workspace}>
+          <WorkspaceHeading section={section} data={data} loading={loading} lastLoadedAt={lastLoadedAt} onReload={() => void reload()} />
+          {data.warning ? <View style={styles.warning}><AppText style={styles.warningText}>{data.warning}</AppText></View> : null}
+          {section === 'dashboard' ? <Dashboard data={data} /> : null}
+          {section === 'inquiries' ? <Inquiries data={data} onChange={replaceInquiry} /> : null}
+          {section === 'social' ? <SocialPosts data={data} onChange={replaceSocial} /> : null}
+          {section === 'tasks' ? <AiTasks tasks={data.aiTasks} /> : null}
+          {section === 'faq' ? <FaqCandidates items={data.faqCandidates} onChange={replaceFaq} /> : null}
+          {section === 'logs' ? <ActivityLogs items={data.activityLog} /> : null}
+        </View>
+      </View>
     </Screen>
   );
 }
 
-function OperationsHeader({ section, data }: { section: OperationsSection; data: OperationsData }) {
+function OperationsNavigation({ section, data, compact }: { section: OperationsSection; data: OperationsData; compact: boolean }) {
   const router = useRouter();
-  const current = NAV_ITEMS.find((item) => item.key === section) ?? NAV_ITEMS[0];
   const failedTasks = data.aiTasks.filter((task) => task.status === 'failure').length;
   return (
-    <View style={styles.header}>
-      <View style={styles.headerTop}>
-        <View style={styles.headerCopy}>
-          <AppText variant="label" style={styles.eyebrow}>OWNER OPERATIONS</AppText>
-          <AppText variant="serif" style={styles.headerTitle}>運用管制塔</AppText>
-          <AppText style={styles.headerDescription}>判断が必要なものだけを、静かに浮かび上がらせます。</AppText>
-        </View>
-        <View style={[styles.systemState, failedTasks > 0 && styles.systemStateAlert]}>
-          <AppText variant="label" style={styles.systemStateLabel}>AIタスク</AppText>
-          <AppText style={[styles.systemStateValue, failedTasks > 0 && styles.systemStateValueAlert]}>{failedTasks ? `${failedTasks}件失敗` : 'すべて正常'}</AppText>
-        </View>
+    <View style={[styles.sideNavigation, compact && styles.sideNavigationCompact]}>
+      <View style={styles.sideHeading}>
+        <AppText variant="label" style={styles.eyebrow}>オーナー専用</AppText>
+        <AppText variant="serif" style={styles.headerTitle}>運用</AppText>
+        <AppText style={styles.headerDescription}>判断と記録のための管理面</AppText>
       </View>
-      <View accessibilityRole="tablist" style={styles.nav}>
+      <View accessibilityRole="tablist" style={[styles.nav, compact && styles.navCompact]}>
         {NAV_ITEMS.map((item) => {
           const active = item.key === section;
           return (
@@ -118,18 +122,32 @@ function OperationsHeader({ section, data }: { section: OperationsSection; data:
               accessibilityRole="tab"
               accessibilityState={{ selected: active }}
               onPress={() => router.push(item.href as never)}
-              style={({ pressed }) => [styles.navItem, active && styles.navItemActive, pressed && styles.pressed]}
+              style={({ pressed }) => [styles.navItem, compact && styles.navItemCompact, active && styles.navItemActive, pressed && styles.pressed]}
             >
               <AppText style={[styles.navText, active && styles.navTextActive]}>{item.label}</AppText>
             </Pressable>
           );
         })}
       </View>
-      <View style={styles.locationLine}>
-        <View style={styles.locationMark} />
-        <AppText style={styles.locationText}>{current.label}</AppText>
-        <AppText style={styles.sourceText}>{data.source === 'database' ? 'LIVE DATA' : 'SAMPLE / FALLBACK'}</AppText>
+      <View style={[styles.systemState, failedTasks > 0 && styles.systemStateAlert]}>
+        <AppText style={styles.systemStateLabel}>AIタスク</AppText>
+        <AppText style={[styles.systemStateValue, failedTasks > 0 && styles.systemStateValueAlert]}>{data.aiTasks.length === 0 ? '実行記録なし' : failedTasks ? `${failedTasks}件失敗` : '正常'}</AppText>
       </View>
+    </View>
+  );
+}
+
+function WorkspaceHeading({ section, data, loading, lastLoadedAt, onReload }: { section: OperationsSection; data: OperationsData; loading: boolean; lastLoadedAt: string | null; onReload: () => void }) {
+  const current = NAV_ITEMS.find((item) => item.key === section) ?? NAV_ITEMS[0];
+  return (
+    <View style={styles.workspaceHeading}>
+      <View style={styles.workspaceHeadingCopy}>
+        <AppText variant="serif" style={styles.workspaceTitle}>{current.label}</AppText>
+        <AppText style={styles.sourceText}>データ元: {data.source === 'database' ? 'Supabase' : 'リポジトリJSON'}{lastLoadedAt ? ` ／ 確認 ${formatDateTime(lastLoadedAt)}` : ''}</AppText>
+      </View>
+      <Pressable accessibilityRole="button" disabled={loading} onPress={onReload} style={({ pressed }) => [styles.reloadButton, loading && styles.disabled, pressed && !loading && styles.pressed]}>
+        <AppText style={styles.reloadButtonText}>{loading ? '更新中' : '再読込'}</AppText>
+      </Pressable>
     </View>
   );
 }
@@ -153,7 +171,7 @@ function Dashboard({ data }: { data: OperationsData }) {
   const failedTasks = data.aiTasks.filter((item) => item.status === 'failure');
   const handledThisWeek = data.inquiries.filter((item) => item.status === '対応済み' && new Date(item.updatedAt) >= weekStart).length;
   const completedTasks = data.aiTasks.filter((item) => new Date(item.lastRunAt) >= weekStart);
-  const successRate = completedTasks.length ? Math.round(completedTasks.filter((item) => item.status === 'success').length / completedTasks.length * 100) : 100;
+  const successRate = completedTasks.length ? Math.round(completedTasks.filter((item) => item.status === 'success').length / completedTasks.length * 100) : null;
   const priorities = [
     ...needsReply.map((item) => ({ key: item.id, level: item.urgency === 'high' ? 'high' : 'medium', text: `${item.category}「${item.subject}」に返信が必要`, href: '/owner/operations/inquiries' })),
     ...(awaitingApproval.length ? [{ key: 'social', level: 'medium', text: `X投稿 ${awaitingApproval.length}件が未承認`, href: '/owner/operations/social' }] : []),
@@ -171,7 +189,7 @@ function Dashboard({ data }: { data: OperationsData }) {
 
   return (
     <View testID="operations-dashboard">
-      <SectionHeading eyebrow="TODAY" title="今日の運用状況" description="件数の多さではなく、判断の優先度順に並べています。" />
+      <SectionHeading title="今日の運用状況" description="件数の多さではなく、判断の優先度順に並べています。" />
       <View style={[styles.todayPanel, compact && styles.todayPanelCompact]}>
         <View style={[styles.primaryMetric, compact && styles.primaryMetricCompact]}>
           <AppText variant="label" style={styles.primaryMetricLabel}>最優先</AppText>
@@ -198,24 +216,24 @@ function Dashboard({ data }: { data: OperationsData }) {
             <AppText style={styles.actionArrow}>›</AppText>
           </Pressable>
         )) : (
-          <View style={styles.quietEmpty}><AppText variant="serif" style={styles.quietEmptyTitle}>現在、確認が必要な項目はありません</AppText><AppText style={styles.quietEmptyText}>次回の自動更新まで、この画面を閉じて大丈夫です。</AppText></View>
+          <View style={styles.quietEmpty}><AppText variant="serif" style={styles.quietEmptyTitle}>現在、確認が必要な項目はありません</AppText><AppText style={styles.quietEmptyText}>新しい運用データが反映されると、ここに判断項目が表示されます。</AppText></View>
         )}
       </View>
 
-      <SectionHeading eyebrow="RECENT" title="最近の運用" />
+      <SectionHeading title="最近の運用" />
       <View style={styles.recentGrid}>
         <RecentBlock title="最新問い合わせ" value={data.inquiries[0]?.subject ?? '新着なし'} meta={data.inquiries[0] ? `${formatDate(data.inquiries[0].receivedAt)} · ${data.inquiries[0].status}` : ''} />
         <RecentBlock title="最新SNS投稿候補" value={excerpt(data.socialPosts[0]?.body ?? '候補なし', 52)} meta={data.socialPosts[0] ? `${data.socialPosts[0].format} · ${data.socialPosts[0].status}` : ''} />
         <RecentBlock title="最近完了したAIタスク" value={data.aiTasks.find((task) => task.status === 'success')?.name ?? '完了記録なし'} meta={data.aiTasks.find((task) => task.status === 'success')?.summary ?? ''} />
-        <RecentBlock title="最近発生したエラー" value={failedTasks[0]?.name ?? 'エラーはありません'} meta={failedTasks[0]?.error ?? 'すべての処理が正常に完了しています。'} danger={Boolean(failedTasks[0])} />
+        <RecentBlock title="最近発生したエラー" value={failedTasks[0]?.name ?? 'エラーはありません'} meta={failedTasks[0]?.error ?? (data.aiTasks.length ? '直近の実行記録に失敗はありません。' : 'AIタスクの実行記録はまだありません。')} danger={Boolean(failedTasks[0])} />
       </View>
 
-      <SectionHeading eyebrow="THIS WEEK" title="今週" />
+      <SectionHeading title="今週" />
       <View style={styles.weekStrip}>
         <WeekMetric label="投稿予定数" value={`${scheduled.length}件`} />
         <WeekMetric label="対応済み問い合わせ" value={`${handledThisWeek}件`} />
         <WeekMetric label="未対応問い合わせ" value={`${needsReply.length + needsReview.length}件`} />
-        <WeekMetric label="AIタスク成功率" value={`${successRate}%`} />
+        <WeekMetric label="AIタスク成功率" value={successRate === null ? '—' : `${successRate}%`} />
       </View>
     </View>
   );
@@ -225,14 +243,23 @@ function Inquiries({ data, onChange }: { data: OperationsData; onChange: (item: 
   const { width } = useHydratedWindowDimensions();
   const compact = width < 820;
   const [filter, setFilter] = useState<InquiryStatus | 'すべて'>('すべて');
-  const filtered = filter === 'すべて' ? data.inquiries : data.inquiries.filter((item) => item.status === filter);
+  const [query, setQuery] = useState('');
+  const normalizedQuery = query.trim().toLocaleLowerCase('ja');
+  const filtered = data.inquiries.filter((item) => {
+    if (filter !== 'すべて' && item.status !== filter) return false;
+    if (!normalizedQuery) return true;
+    return [item.subject, item.sender, item.aiSummary, item.category, item.status].join(' ').toLocaleLowerCase('ja').includes(normalizedQuery);
+  });
   const [selectedId, setSelectedId] = useState(data.inquiries[0]?.id ?? '');
   const selected = filtered.find((item) => item.id === selectedId) ?? filtered[0];
 
   return (
     <View testID="operations-inquiries">
-      <SectionHeading eyebrow="INQUIRIES" title="問い合わせ" description="AIが整理した内容を確認し、返信判断と対応履歴を残します。ここからメールは送信しません。" />
-      <FilterRail values={['すべて', ...INQUIRY_STATUSES]} value={filter} onChange={(value) => setFilter(value as InquiryStatus | 'すべて')} />
+      <SectionHeading title="問い合わせ" description="AIが整理した内容を確認し、返信判断と対応履歴を残します。ここからメールは送信しません。" />
+      <View style={styles.listControls}>
+        <TextInput accessibilityLabel="問い合わせを検索" value={query} onChangeText={setQuery} placeholder="件名・送信者・要約を検索" placeholderTextColor="#77736C" style={styles.searchInput} />
+        <FilterRail values={['すべて', ...INQUIRY_STATUSES]} value={filter} onChange={(value) => setFilter(value as InquiryStatus | 'すべて')} />
+      </View>
       <View style={[styles.masterDetail, compact && styles.masterDetailCompact]}>
         <View style={[styles.masterPane, compact && styles.masterPaneCompact]}>
           <AppText variant="label" style={styles.paneLabel}>一覧 {filtered.length}件</AppText>
@@ -300,13 +327,22 @@ function SocialPosts({ data, onChange }: { data: OperationsData; onChange: (item
   const { width } = useHydratedWindowDimensions();
   const compact = width < 820;
   const [filter, setFilter] = useState<SocialStatus | 'すべて'>('すべて');
-  const filtered = filter === 'すべて' ? data.socialPosts : data.socialPosts.filter((item) => item.status === filter);
+  const [query, setQuery] = useState('');
+  const normalizedQuery = query.trim().toLocaleLowerCase('ja');
+  const filtered = data.socialPosts.filter((item) => {
+    if (filter !== 'すべて' && item.status !== filter) return false;
+    if (!normalizedQuery) return true;
+    return [item.body, item.format, item.targetSns, sourceLabel(item), item.status].join(' ').toLocaleLowerCase('ja').includes(normalizedQuery);
+  });
   const [selectedId, setSelectedId] = useState(data.socialPosts[0]?.id ?? '');
   const selected = filtered.find((item) => item.id === selectedId) ?? filtered[0];
   return (
     <View testID="operations-social">
-      <SectionHeading eyebrow="SOCIAL" title="SNS投稿候補" description="AIが生成した候補を読み、承認後にX側で予約投稿するための確認面です。" />
-      <FilterRail values={['すべて', ...SOCIAL_STATUSES]} value={filter} onChange={(value) => setFilter(value as SocialStatus | 'すべて')} />
+      <SectionHeading title="SNS投稿候補" description="AIが生成した候補を読み、承認後にX側で予約投稿するための確認面です。" />
+      <View style={styles.listControls}>
+        <TextInput accessibilityLabel="SNS投稿候補を検索" value={query} onChangeText={setQuery} placeholder="投稿本文・形式・元コンテンツを検索" placeholderTextColor="#77736C" style={styles.searchInput} />
+        <FilterRail values={['すべて', ...SOCIAL_STATUSES]} value={filter} onChange={(value) => setFilter(value as SocialStatus | 'すべて')} />
+      </View>
       <View style={[styles.masterDetail, compact && styles.masterDetailCompact]}>
         <View style={[styles.masterPane, compact && styles.masterPaneCompact]}>
           <AppText variant="label" style={styles.paneLabel}>候補 {filtered.length}件</AppText>
@@ -361,15 +397,15 @@ function AiTasks({ tasks }: { tasks: AiTask[] }) {
   const failures = tasks.filter((task) => task.status === 'failure').length;
   return (
     <View testID="operations-tasks">
-      <SectionHeading eyebrow="AI TASKS" title="AIタスク" description="Codex / ChatGPT等の定期処理が、何を更新し、どこで止まったかを確認します。" />
-      <View style={[styles.taskSummary, failures > 0 && styles.taskSummaryAlert]}><AppText variant="serif" style={styles.taskSummaryTitle}>{failures ? `${failures}件失敗` : 'すべて正常'}</AppText><AppText style={styles.taskSummaryText}>{failures ? 'エラー内容と入力元を確認してください。自動化そのものの編集は各サービス側で行います。' : '直近の定期処理はすべて完了しています。'}</AppText></View>
+      <SectionHeading title="AIタスク" description="Codex / ChatGPT等の定期処理が、何を更新し、どこで止まったかを確認します。" />
+      <View style={[styles.taskSummary, failures > 0 && styles.taskSummaryAlert]}><AppText variant="serif" style={styles.taskSummaryTitle}>{tasks.length === 0 ? '実行記録なし' : failures ? `${failures}件失敗` : 'すべて正常'}</AppText><AppText style={styles.taskSummaryText}>{tasks.length === 0 ? '定期タスクから実行結果が反映されると、ここに状態が表示されます。' : failures ? 'エラー内容と入力元を確認してください。自動化そのものの編集は各サービス側で行います。' : '直近の定期処理はすべて完了しています。'}</AppText></View>
       <View style={styles.taskList}>
         {tasks.length ? tasks.map((task) => (
           <View key={task.id} style={[styles.taskRow, task.status === 'failure' && styles.taskRowFailure]}>
             <View style={styles.taskHeader}><View style={styles.taskTitleCopy}><AppText variant="serif" style={styles.taskTitle}>{task.name}</AppText><AppText style={styles.taskTime}>最終実行 {formatDateTime(task.lastRunAt)}{task.nextRunAt ? `  ／  次回 ${formatDateTime(task.nextRunAt)}` : ''}</AppText></View><StatusLabel value={task.status === 'success' ? '成功' : '失敗'} danger={task.status === 'failure'} /></View>
             <AppText style={styles.taskDescription}>{task.summary}</AppText>
             <AppText style={styles.taskCount}>処理件数 {task.processedCount}件</AppText>
-            {task.error ? <View style={styles.taskError}><AppText variant="label" style={styles.taskErrorLabel}>ERROR</AppText><AppText style={styles.taskErrorText}>{task.error}</AppText></View> : null}
+            {task.error ? <View style={styles.taskError}><AppText variant="label" style={styles.taskErrorLabel}>エラー</AppText><AppText style={styles.taskErrorText}>{task.error}</AppText></View> : null}
             <AppText style={styles.outputs}>更新先  {task.outputs.length ? task.outputs.join('  ／  ') : '記録なし'}</AppText>
           </View>
         )) : <CompactEmpty text="AIタスクの実行記録はまだありません。" />}
@@ -393,7 +429,7 @@ function FaqCandidates({ items, onChange }: { items: FaqCandidate[]; onChange: (
   };
   return (
     <View testID="operations-faq">
-      <SectionHeading eyebrow="FAQ CANDIDATES" title="FAQ候補" description="繰り返し届く質問を、既存FAQへ移しやすい形で確認します。" />
+      <SectionHeading title="FAQ候補" description="繰り返し届く質問を、既存FAQへ移しやすい形で確認します。" />
       <FilterRail values={['すべて', ...FAQ_STATUSES]} value={filter} onChange={(value) => setFilter(value as FaqCandidate['status'] | 'すべて')} />
       <View style={styles.faqList}>
         {visible.length ? visible.map((item) => (
@@ -412,7 +448,7 @@ function FaqCandidates({ items, onChange }: { items: FaqCandidate[]; onChange: (
 function ActivityLogs({ items }: { items: ActivityLog[] }) {
   return (
     <View testID="operations-logs">
-      <SectionHeading eyebrow="AUDIT LOG" title="運用ログ" description="AIとオーナーが、いつ・何を・どこへ反映したかを時系列で残します。" />
+      <SectionHeading title="運用ログ" description="AIとオーナーが、いつ・何を・どこへ反映したかを時系列で残します。" />
       <View style={styles.logList}>
         {items.length ? items.map((item) => (
           <View key={item.id} style={[styles.logRow, item.status === 'failure' && styles.logRowFailure]}>
@@ -505,51 +541,57 @@ function urgencyLabel(value: string) { return value === 'high' ? '高' : value =
 function sourceLabel(post: SocialPost) { return [post.sourceTechniqueId, post.sourceTheoryId].filter(Boolean).join(' ／ ') || 'プロダクト全体'; }
 
 const styles = StyleSheet.create({
-  screenContent: { width: '100%', maxWidth: 1320, alignSelf: 'center', paddingHorizontal: spacing.lg, paddingTop: spacing.lg, paddingBottom: spacing.section * 2 },
+  screenContent: { width: '100%', maxWidth: 1440, alignSelf: 'center', paddingHorizontal: spacing.lg, paddingTop: spacing.lg, paddingBottom: spacing.section * 2 },
   pressed: { opacity: 0.68 },
   disabled: { opacity: 0.45 },
-  header: { overflow: 'hidden', borderRadius: radius.md, backgroundColor: colors.charcoal, ...shadow.card },
-  headerTop: { padding: spacing.xl, flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.lg },
-  headerCopy: { flex: 1, minWidth: 0 },
-  eyebrow: { color: colors.goldLight, fontSize: 10, letterSpacing: 2.2 },
-  headerTitle: { marginTop: 5, color: colors.paper, fontSize: 30, lineHeight: 40, fontWeight: '700' },
-  headerDescription: { marginTop: 5, color: '#C7BFAF', fontSize: 13, lineHeight: 20 },
-  systemState: { minWidth: 120, paddingLeft: spacing.md, borderLeftWidth: 2, borderLeftColor: colors.gold },
-  systemStateAlert: { borderLeftColor: colors.danger },
-  systemStateLabel: { color: '#AFA796', fontSize: 9 },
-  systemStateValue: { marginTop: 4, color: colors.paper, fontSize: 15, lineHeight: 21, fontWeight: '700' },
-  systemStateValueAlert: { color: '#E3AAA2' },
-  nav: { paddingHorizontal: spacing.md, flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderTopColor: '#332F29' },
-  navItem: { minHeight: 48, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
-  navItemActive: { borderBottomColor: colors.goldLight },
+  operationsFrame: { minHeight: 720, flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line, backgroundColor: colors.surface },
+  operationsFrameCompact: { minHeight: 0, flexDirection: 'column' },
+  sideNavigation: { width: 210, backgroundColor: colors.charcoal },
+  sideNavigationCompact: { width: '100%' },
+  sideHeading: { paddingHorizontal: spacing.xl, paddingTop: spacing.xl, paddingBottom: spacing.lg, borderBottomWidth: 1, borderBottomColor: '#34312B' },
+  eyebrow: { color: colors.goldLight, fontSize: 9, letterSpacing: 2.2 },
+  headerTitle: { marginTop: 3, color: colors.paper, fontSize: 28, lineHeight: 38, fontWeight: '700' },
+  headerDescription: { marginTop: 3, color: '#AFA796', fontSize: 11, lineHeight: 18 },
+  nav: { paddingVertical: spacing.md },
+  navCompact: { paddingVertical: 0, flexDirection: 'row', flexWrap: 'wrap', borderBottomWidth: 1, borderBottomColor: '#34312B' },
+  navItem: { minHeight: 46, paddingHorizontal: spacing.xl, alignItems: 'flex-start', justifyContent: 'center', borderLeftWidth: 3, borderLeftColor: 'transparent' },
+  navItemCompact: { minHeight: 42, paddingHorizontal: spacing.md, borderLeftWidth: 0, borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  navItemActive: { borderLeftColor: colors.goldLight, backgroundColor: '#23211D' },
   navText: { color: '#AAA293', fontSize: 12, lineHeight: 18, fontWeight: '600' },
   navTextActive: { color: colors.paper },
-  locationLine: { minHeight: 36, paddingHorizontal: spacing.xl, flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: '#11110F' },
-  locationMark: { width: 18, height: 1, backgroundColor: colors.gold },
-  locationText: { color: '#D7CEBE', fontSize: 10, lineHeight: 15, letterSpacing: 1 },
-  sourceText: { marginLeft: 'auto', color: '#777064', fontSize: 9, lineHeight: 14, letterSpacing: 1 },
-  warning: { marginTop: spacing.md, padding: spacing.md, borderLeftWidth: 3, borderLeftColor: colors.gold, backgroundColor: '#F3E8D2' },
+  systemState: { marginTop: 'auto', marginHorizontal: spacing.xl, marginBottom: spacing.xl, paddingTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.gold },
+  systemStateAlert: { borderTopColor: colors.danger },
+  systemStateLabel: { color: '#8E887E', fontSize: 9 },
+  systemStateValue: { marginTop: 3, color: colors.paper, fontSize: 13, lineHeight: 20, fontWeight: '700' },
+  systemStateValueAlert: { color: '#E3AAA2' },
+  workspace: { flex: 1, minWidth: 0, paddingHorizontal: spacing.xl, paddingBottom: spacing.xxl },
+  workspaceHeading: { minHeight: 76, paddingVertical: spacing.md, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
+  workspaceHeadingCopy: { flex: 1, minWidth: 0 },
+  workspaceTitle: { color: colors.ink, fontSize: 25, lineHeight: 34 },
+  sourceText: { marginTop: 2, color: colors.muted, fontSize: 10, lineHeight: 16 },
+  reloadButton: { minHeight: 36, paddingHorizontal: spacing.md, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.inkSoft },
+  reloadButtonText: { color: colors.inkSoft, fontSize: 11, lineHeight: 16, fontWeight: '700' },
+  warning: { marginTop: spacing.md, paddingVertical: spacing.sm, paddingHorizontal: spacing.md, borderLeftWidth: 3, borderLeftColor: colors.gold, backgroundColor: '#F3E8D2' },
   warningText: { color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
-  loading: { marginTop: spacing.sm, color: colors.muted, fontSize: 11 },
-  sectionHeading: { marginTop: spacing.xxl, marginBottom: spacing.md },
+  sectionHeading: { marginTop: spacing.xl, marginBottom: spacing.md },
   sectionEyebrow: { color: colors.gold, fontSize: 9, letterSpacing: 2 },
-  sectionTitle: { marginTop: 3, color: colors.ink, fontSize: 22, lineHeight: 31, fontWeight: '700' },
+  sectionTitle: { marginTop: 2, color: colors.ink, fontSize: 21, lineHeight: 30, fontWeight: '700' },
   sectionDescription: { marginTop: 4, maxWidth: 720, color: colors.muted, fontSize: 13, lineHeight: 20 },
-  todayPanel: { flexDirection: 'row', overflow: 'hidden', borderWidth: 1, borderColor: '#CDBB9E', backgroundColor: colors.surface },
+  todayPanel: { flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   todayPanelCompact: { flexDirection: 'column' },
-  primaryMetric: { width: '32%', minWidth: 220, padding: spacing.xl, justifyContent: 'center', backgroundColor: colors.charcoal },
+  primaryMetric: { width: '31%', minWidth: 220, paddingVertical: spacing.lg, paddingHorizontal: spacing.xl, justifyContent: 'center', borderLeftWidth: 3, borderLeftColor: colors.gold, borderRightWidth: 1, borderRightColor: colors.line },
   primaryMetricCompact: { width: '100%', minWidth: 0 },
-  primaryMetricLabel: { color: colors.goldLight, fontSize: 10, letterSpacing: 1.8 },
-  primaryMetricValue: { marginTop: 6, color: colors.paper, fontSize: 52, lineHeight: 58, fontWeight: '600' },
-  primaryMetricTitle: { marginTop: 1, color: colors.paper, fontSize: 15, fontWeight: '700' },
-  primaryMetricDetail: { marginTop: 8, color: '#BBB2A2', fontSize: 12, lineHeight: 18 },
-  metricList: { flex: 1, minWidth: 0, paddingVertical: spacing.sm },
+  primaryMetricLabel: { color: colors.gold, fontSize: 9, letterSpacing: 1.8 },
+  primaryMetricValue: { marginTop: 3, color: colors.ink, fontSize: 42, lineHeight: 48, fontWeight: '600' },
+  primaryMetricTitle: { marginTop: 0, color: colors.ink, fontSize: 14, fontWeight: '700' },
+  primaryMetricDetail: { marginTop: 6, color: colors.muted, fontSize: 11, lineHeight: 17 },
+  metricList: { flex: 1, minWidth: 0 },
   metricListCompact: { width: '100%' },
-  metricRow: { minHeight: 46, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#ECE4D7' },
+  metricRow: { minHeight: 44, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#ECE4D7' },
   metricRowEmphasis: { borderLeftWidth: 3, borderLeftColor: colors.gold },
   metricRowDanger: { borderLeftWidth: 3, borderLeftColor: colors.danger },
-  metricLabel: { color: colors.inkSoft, fontSize: 13 },
-  metricValue: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 26, fontWeight: '700' },
+  metricLabel: { color: colors.inkSoft, fontSize: 12 },
+  metricValue: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
   metricUnit: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10 },
   dangerText: { color: colors.danger },
   actionList: { borderTopWidth: 1, borderTopColor: colors.line },
@@ -562,32 +604,34 @@ const styles = StyleSheet.create({
   quietEmpty: { paddingVertical: spacing.xxl, paddingHorizontal: spacing.xl, alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
   quietEmptyTitle: { color: colors.inkSoft, fontSize: 17 },
   quietEmptyText: { marginTop: 5, color: colors.muted, fontSize: 12 },
-  recentGrid: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderLeftWidth: 1, borderColor: colors.line },
-  recentBlock: { width: '50%', minHeight: 138, padding: spacing.lg, borderRightWidth: 1, borderBottomWidth: 1, borderColor: colors.line, backgroundColor: 'rgba(255,253,248,0.55)' },
+  recentGrid: { borderTopWidth: 1, borderColor: colors.line },
+  recentBlock: { minHeight: 74, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderBottomWidth: 1, borderColor: colors.line },
   recentBlockDanger: { borderLeftWidth: 3, borderLeftColor: colors.danger },
   recentLabel: { color: colors.gold, fontSize: 9, letterSpacing: 1.2 },
-  recentValue: { marginTop: 9, color: colors.ink, fontSize: 15, lineHeight: 22, fontWeight: '700' },
-  recentMeta: { marginTop: 6, color: colors.muted, fontSize: 11, lineHeight: 17 },
+  recentValue: { marginTop: 4, color: colors.ink, fontSize: 14, lineHeight: 21, fontWeight: '700' },
+  recentMeta: { marginTop: 2, color: colors.muted, fontSize: 10, lineHeight: 16 },
   weekStrip: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
-  weekMetric: { flex: 1, minWidth: 150, paddingVertical: spacing.lg, paddingHorizontal: spacing.md, borderRightWidth: 1, borderRightColor: colors.line },
+  weekMetric: { flex: 1, minWidth: 145, paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderRightWidth: 1, borderRightColor: colors.line },
   weekLabel: { color: colors.muted, fontSize: 11, lineHeight: 16 },
-  weekValue: { marginTop: 4, color: colors.ink, fontSize: 23, lineHeight: 31 },
-  filterRail: { flexDirection: 'row', flexWrap: 'wrap', gap: 7, marginBottom: spacing.lg },
+  weekValue: { marginTop: 3, color: colors.ink, fontSize: 20, lineHeight: 28 },
+  listControls: { marginBottom: spacing.md, paddingTop: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: spacing.md, borderTopWidth: 1, borderTopColor: colors.line },
+  searchInput: { width: 300, maxWidth: '100%', minHeight: 38, paddingHorizontal: spacing.md, paddingVertical: spacing.sm, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper, color: colors.ink, fontFamily: fonts.sans, fontSize: 12 },
+  filterRail: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', marginBottom: spacing.lg },
   filterRailCompact: { marginTop: 6, marginBottom: spacing.md },
-  filterItem: { minHeight: 36, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.55)' },
+  filterItem: { minHeight: 36, paddingHorizontal: 11, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
   filterItemCompact: { minHeight: 32, paddingHorizontal: 10 },
-  filterItemActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal },
+  filterItemActive: { borderBottomWidth: 2, borderBottomColor: colors.gold },
   filterText: { color: colors.inkSoft, fontSize: 11, lineHeight: 16, fontWeight: '600' },
-  filterTextActive: { color: colors.paper },
-  masterDetail: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.lg },
+  filterTextActive: { color: colors.ink, fontWeight: '800' },
+  masterDetail: { flexDirection: 'row', alignItems: 'flex-start', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   masterDetailCompact: { flexDirection: 'column' },
-  masterPane: { width: 390, maxWidth: '36%', padding: spacing.md, borderWidth: 1, borderColor: colors.line, backgroundColor: '#F6F0E6' },
+  masterPane: { width: 390, maxWidth: '38%', paddingTop: spacing.md, borderRightWidth: 1, borderRightColor: colors.line },
   masterPaneCompact: { width: '100%', maxWidth: '100%' },
-  detailPane: { flex: 1, minWidth: 0, padding: spacing.xl, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, ...shadow.card },
-  detailPaneCompact: { width: '100%', padding: spacing.lg },
+  detailPane: { flex: 1, minWidth: 0, padding: spacing.xl },
+  detailPaneCompact: { width: '100%', padding: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
   paneLabel: { color: colors.gold, fontSize: 9, letterSpacing: 1.3 },
-  listRow: { paddingVertical: spacing.md, paddingHorizontal: spacing.sm, borderBottomWidth: 1, borderBottomColor: '#DBCFBC', borderLeftWidth: 3, borderLeftColor: 'transparent' },
-  listRowSelected: { borderLeftColor: colors.gold, backgroundColor: colors.surface },
+  listRow: { paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderBottomWidth: 1, borderBottomColor: '#E4DACB', borderLeftWidth: 3, borderLeftColor: 'transparent' },
+  listRowSelected: { borderLeftColor: colors.gold, backgroundColor: '#F6F0E6' },
   listMeta: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   listDate: { color: colors.muted, fontSize: 10 },
   listTitle: { marginTop: 7, color: colors.ink, fontSize: 14, lineHeight: 20, fontWeight: '700' },
@@ -602,37 +646,37 @@ const styles = StyleSheet.create({
   detailLabel: { marginBottom: 7, color: colors.gold, fontSize: 9, letterSpacing: 1.3 },
   bodyCopy: { color: colors.inkSoft, fontSize: 14, lineHeight: 23 },
   reference: { marginTop: 8, color: colors.muted, fontSize: 10, lineHeight: 16 },
-  aiDraftSection: { marginTop: spacing.lg, padding: spacing.lg, borderLeftWidth: 3, borderLeftColor: colors.gold, backgroundColor: '#F4EDDF' },
+  aiDraftSection: { marginTop: spacing.lg, paddingVertical: spacing.md, paddingLeft: spacing.lg, borderLeftWidth: 3, borderLeftColor: colors.gold },
   aiDraftHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   aiDraftLabel: { color: colors.ink, fontSize: 10, letterSpacing: 1.2 },
   aiCaution: { marginTop: 5, color: colors.danger, fontSize: 10, lineHeight: 16 },
   aiDraftBody: { marginTop: spacing.md, color: colors.ink, fontSize: 14, lineHeight: 24 },
   fieldCaption: { marginTop: spacing.md, color: colors.muted, fontSize: 11, fontWeight: '700' },
   field: { marginTop: spacing.lg },
-  input: { minHeight: 46, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.paper, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 21 },
+  input: { minHeight: 46, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.paper, color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 21 },
   multilineInput: { minHeight: 92 },
   tallInput: { minHeight: 210, fontFamily: fonts.serif, lineHeight: 24 },
   fieldHint: { marginTop: 5, color: colors.muted, fontSize: 10, lineHeight: 16 },
   inlineActions: { marginTop: spacing.md, flexDirection: 'row', flexWrap: 'wrap', gap: 8, alignItems: 'center' },
-  actionButton: { minHeight: 48, marginTop: spacing.xl, paddingHorizontal: spacing.lg, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.charcoal },
+  actionButton: { minHeight: 46, marginTop: spacing.xl, paddingHorizontal: spacing.lg, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.charcoal },
   actionButtonCompact: { minHeight: 38, marginTop: 0 },
   actionButtonText: { color: colors.paper, fontSize: 12, lineHeight: 18, fontWeight: '700' },
-  quietButton: { minHeight: 38, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.sm, backgroundColor: colors.surface },
+  quietButton: { minHeight: 38, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, backgroundColor: colors.surface },
   quietButtonDanger: { borderColor: '#B9918B' },
   quietButtonText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   quietButtonTextDanger: { color: colors.danger },
-  copyButton: { minHeight: 30, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
+  copyButton: { minHeight: 30, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: colors.gold },
   copyButtonText: { color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
-  copyButtonProminent: { minHeight: 38, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.charcoal, borderRadius: radius.sm },
+  copyButtonProminent: { minHeight: 38, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.charcoal },
   copyButtonProminentText: { color: colors.charcoal, fontSize: 11, fontWeight: '700' },
-  statusLabel: { flexShrink: 0, paddingHorizontal: 8, paddingVertical: 3, borderWidth: 1, borderColor: '#BAA987', borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.4)' },
-  statusLabelDanger: { borderColor: '#B8857C', backgroundColor: '#F7E9E6' },
+  statusLabel: { flexShrink: 0, paddingHorizontal: 7, paddingVertical: 2, borderWidth: 1, borderColor: '#BAA987' },
+  statusLabelDanger: { borderColor: '#B8857C' },
   statusText: { color: colors.inkSoft, fontSize: 9, lineHeight: 13, fontWeight: '700' },
   statusTextDanger: { color: colors.danger },
-  taskSummary: { padding: spacing.xl, borderLeftWidth: 4, borderLeftColor: colors.gold, backgroundColor: colors.charcoal },
+  taskSummary: { paddingVertical: spacing.lg, paddingHorizontal: spacing.md, borderTopWidth: 1, borderBottomWidth: 1, borderLeftWidth: 3, borderColor: colors.line, borderLeftColor: colors.gold },
   taskSummaryAlert: { borderLeftColor: colors.danger },
-  taskSummaryTitle: { color: colors.paper, fontSize: 24, lineHeight: 32 },
-  taskSummaryText: { marginTop: 5, color: '#BDB4A4', fontSize: 12, lineHeight: 19 },
+  taskSummaryTitle: { color: colors.ink, fontSize: 21, lineHeight: 30 },
+  taskSummaryText: { marginTop: 4, color: colors.muted, fontSize: 12, lineHeight: 19 },
   taskList: { marginTop: spacing.lg, borderTopWidth: 1, borderTopColor: colors.line },
   taskRow: { paddingVertical: spacing.lg, paddingHorizontal: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line, borderLeftWidth: 3, borderLeftColor: 'transparent' },
   taskRowFailure: { borderLeftColor: colors.danger, backgroundColor: '#F8EFEB' },
@@ -647,13 +691,13 @@ const styles = StyleSheet.create({
   taskErrorText: { marginTop: 4, color: colors.danger, fontSize: 12, lineHeight: 19 },
   outputs: { marginTop: spacing.md, color: colors.muted, fontSize: 10, lineHeight: 16 },
   performanceRow: { flexDirection: 'row', flexWrap: 'wrap' },
-  faqList: { gap: spacing.lg },
-  faqCard: { padding: spacing.xl, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface, ...shadow.card },
+  faqList: { borderTopWidth: 1, borderTopColor: colors.line },
+  faqCard: { paddingVertical: spacing.xl, paddingHorizontal: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   faqHeader: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: spacing.md },
   faqHeadingCopy: { flex: 1, minWidth: 0 },
   faqCount: { color: colors.gold, fontSize: 10, lineHeight: 15, fontWeight: '700' },
   faqQuestion: { marginTop: 6, color: colors.ink, fontSize: 20, lineHeight: 30 },
-  faqAnswer: { marginTop: spacing.lg, padding: spacing.lg, backgroundColor: '#F5EFE4' },
+  faqAnswer: { marginTop: spacing.lg, paddingLeft: spacing.lg, borderLeftWidth: 3, borderLeftColor: colors.gold },
   logList: { borderTopWidth: 1, borderTopColor: colors.line },
   logRow: { minHeight: 84, paddingVertical: spacing.md, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'flex-start', gap: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.line, borderLeftWidth: 3, borderLeftColor: 'transparent' },
   logRowFailure: { borderLeftColor: colors.danger, backgroundColor: '#F8EFEB' },
