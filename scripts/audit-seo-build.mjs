@@ -2,6 +2,8 @@ import { access, readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const dist = path.resolve('dist');
+const scope = JSON.parse(await readFile(path.resolve('src/data/content-scope.json'), 'utf8'));
+const publicTheories = JSON.parse(await readFile(path.resolve('src/data/generated/theories.public.json'), 'utf8'));
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1].replaceAll('&amp;', '&'));
 const failures = [];
@@ -39,6 +41,7 @@ for (const url of urls) {
   if (!robots.startsWith('index,follow')) failures.push(`${url}: sitemap page is not indexable`);
   if (canonical !== url) failures.push(`${url}: canonical mismatch (${canonical})`);
   if (!html.includes('<h1>')) failures.push(`${url}: no static h1 fallback`);
+  if (new URL(url).pathname.startsWith('/theory/') && !html.includes('<h2>出典・原典</h2>')) failures.push(`${url}: theory page has no static provenance section`);
   recordDuplicate(seenTitles, title, url, 'Title');
   recordDuplicate(seenDescriptions, description, url, 'Description');
   try { JSON.parse(value(html, /<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/s)); } catch { failures.push(`${url}: invalid JSON-LD`); }
@@ -52,6 +55,21 @@ for (const url of urls) {
       try { await access(nested); } catch { failures.push(`${url}: broken internal link ${match[1]}`); }
     }
   }
+}
+
+const theoryUrls = urls.filter((url) => new URL(url).pathname.startsWith('/theory/'));
+const techniqueUrls = urls.filter((url) => new URL(url).pathname.startsWith('/card/'));
+if (theoryUrls.length !== scope.free.theories) failures.push(`sitemap has ${theoryUrls.length} theory URLs; expected ${scope.free.theories}`);
+if (techniqueUrls.length !== scope.free.techniques) failures.push(`sitemap has ${techniqueUrls.length} technique URLs; expected ${scope.free.techniques}`);
+if (scope.excludedTechniqueIds.some((id) => sitemap.includes(`/card/${id}`))) failures.push('source-only techniques leaked into sitemap');
+
+const lockedTheory = publicTheories.find((item) => item.status === 'locked' && !item.summary);
+if (!lockedTheory) failures.push('no locked theory shell was available for index-control audit');
+else {
+  const route = `/theory/${lockedTheory.tagId}`;
+  const html = await htmlForUrl(`https://shoseijutsuroku.com${route}`);
+  if (!html.includes('content="noindex,follow"')) failures.push(`${route}: complete-edition-only theory must be noindex`);
+  if (sitemap.includes(`>${`https://shoseijutsuroku.com${route}`}<`)) failures.push(`${route}: complete-edition-only theory leaked into sitemap`);
 }
 
 const privateRoutes = [
@@ -107,4 +125,4 @@ if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join('\n'));
   process.exit(1);
 }
-console.log(JSON.stringify({ indexableUrls: urls.length, uniqueTitles: seenTitles.size, uniqueDescriptions: seenDescriptions.size, privateRoutesChecked: privateRoutes.length }, null, 2));
+console.log(JSON.stringify({ indexableUrls: urls.length, theoryUrls: theoryUrls.length, techniqueUrls: techniqueUrls.length, uniqueTitles: seenTitles.size, uniqueDescriptions: seenDescriptions.size, privateRoutesChecked: privateRoutes.length }, null, 2));

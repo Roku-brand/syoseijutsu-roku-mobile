@@ -361,16 +361,16 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
       <View style={[styles.premiumContent, !desktop && styles.premiumContentMobile]}>
         <View style={styles.premiumCopy}>
           <Text style={styles.goldEyebrow}>処世術禄　完全版</Text>
-          <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>30日間、すべての知恵を。</Text>
+          <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>抜粋から、完全体系へ。</Text>
           <View style={styles.premiumPriceRow}>
           <Text style={[styles.premiumPrice, !desktop && styles.premiumPriceMobile]}>¥{COMPLETE_EDITION_PRICE_JPY}</Text>
             <View><Text style={styles.premiumDuration}>30日間</Text><Text style={styles.premiumCondition}>一回払い・自動更新なし</Text></View>
           </View>
           {desktop ? (
             <View style={styles.editionCompare}>
-              <View><Text style={styles.editionLabel}>無料版</Text><Text style={styles.editionText}>処世術 {FREE_REEL_TECHNIQUE_IDS.length}件　理論 {FREE_THEORY_IDS.length}件</Text></View>
+              <View><Text style={styles.editionLabel}>無料版・体系の抜粋</Text><Text style={styles.editionText}>処世術 {FREE_REEL_TECHNIQUE_IDS.length}件　理論 {FREE_THEORY_IDS.length}件</Text></View>
               <Text style={styles.editionArrow}>→</Text>
-              <View><Text style={[styles.editionLabel, styles.editionLabelComplete]}>完全版</Text><Text style={styles.editionText}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text></View>
+              <View><Text style={[styles.editionLabel, styles.editionLabelComplete]}>完全版・全体系</Text><Text style={styles.editionText}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text></View>
             </View>
           ) : (
             <Text style={styles.premiumMobileSummary}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text>

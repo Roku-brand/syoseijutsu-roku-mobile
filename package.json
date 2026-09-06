@@ -44,6 +44,7 @@
     "operations:sync": "node ./scripts/sync-operations.mjs",
     "pwa:stamp": "node ./scripts/stamp-pwa-cache.mjs",
     "content:build-public": "node ./scripts/build-public-catalog.mjs",
+    "content:audit-scope": "node ./scripts/audit-content-scope.mjs",
     "export:web": "pnpm export:pages",
     "export:pages": "pnpm content:build-public && pnpm assets:web && pnpm assets:og && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
     "serve:e2e": "node ./scripts/serve-dist.mjs",

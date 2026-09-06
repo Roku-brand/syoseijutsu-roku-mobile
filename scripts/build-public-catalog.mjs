@@ -96,16 +96,19 @@ const homeBrandContent = {
   },
 };
 
+const activeTechniqueIds = new Set(allTechniques.map((item) => item.id));
 const publicTechniques = {
   ...techniques,
   categories: techniques.categories.map((category) => ({
     ...category,
-    subcategories: orderPersonasForDisplay(category).map((persona) => ({
-      ...persona,
-      items: persona.items.map((item) => freeTechniqueIds.has(item.id)
-        ? item
-        : { id: item.id, title: '完全版の処世術', displayOrder: item.displayOrder, status: 'locked' }),
-    })),
+    subcategories: orderPersonasForDisplay(category)
+      .map((persona) => ({
+        ...persona,
+        items: persona.items.filter((item) => activeTechniqueIds.has(item.id)).map((item) => freeTechniqueIds.has(item.id)
+          ? item
+          : { id: item.id, title: '完全版の処世術', displayOrder: item.displayOrder, status: 'locked' }),
+      }))
+      .filter((persona) => persona.items.length > 0),
   })),
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
@@ -116,6 +119,9 @@ metadata.categoryCounts = Object.fromEntries(
   theories.map((theory) => theory.categoryId).filter((id, index, ids) => ids.indexOf(id) === index)
     .map((id) => [id, theories.filter((theory) => theory.categoryId === id).length]),
 );
+metadata.productTechniqueCount = allTechniques.length;
+metadata.productTheoryCount = theories.length;
+metadata.productPersonaCount = publicTechniques.categories.reduce((count, category) => count + category.subcategories.length, 0);
 
 await Promise.all([
   writeJson('techniques.public.json', publicTechniques),

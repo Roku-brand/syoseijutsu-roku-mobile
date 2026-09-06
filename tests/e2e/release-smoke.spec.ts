@@ -225,8 +225,8 @@ test('理論詳細は概要・処世術・理論・情報の順で、概要を2�
   await expect(summary).toBeVisible();
   expect(await summary.innerText()).toContain('自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。\n親密さは一方的ではなく段階的に深まる。');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
-  expect(article.indexOf('概要')).toBeLessThan(article.indexOf('関連する処世術'));
-  expect(article.indexOf('関連する処世術')).toBeLessThan(article.indexOf('関連する理論'));
+  expect(article.indexOf('初頭効果とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
+  expect(article.indexOf('この考え方を実生活でどう使う？')).toBeLessThan(article.indexOf('関連する理論'));
   expect(article.indexOf('関連する理論')).toBeLessThan(article.indexOf('理論情報'));
   await expect(page.getByTestId('theory-information')).toContainText('出典状態');
   await expect(page.getByTestId('theory-information')).toContainText('提唱者');
@@ -380,7 +380,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
-  await expect(page.getByText('無料版', { exact: true })).toBeVisible();
+  await expect(page.getByText('無料版・体系の抜粋', { exact: true })).toBeVisible();
   await expect(page.getByText(/完全版/).first()).toBeVisible();
   await expect(page.getByText('完全版・30日間')).toBeVisible();
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
@@ -503,7 +503,7 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/discover');
 
-  await expect(page.getByRole('tab', { name: '処世術　356' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: '処世術　336' })).toBeVisible();
   await expect(page.getByText('処世術のカテゴリから絞り込む', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'すべてで絞り込む' })).toBeVisible();
   await expect(page.getByText('（すべて）', { exact: true })).toBeVisible();
@@ -516,10 +516,10 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await expect(page.getByText('（仕事術）', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /仕事ができる人、仕事術、.*処世術を開く/ })).toBeVisible();
 
-  await page.getByRole('link', { name: '27人物像を一覧で見る' }).click();
+  await page.getByRole('link', { name: '26人物像を一覧で見る' }).click();
   await expect(page).toHaveURL(/\/personas$/);
-  await expect(page.getByText('3領域・27人物像から選ぶ', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(27);
+  await expect(page.getByText('3領域・26人物像から選ぶ', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(26);
   await page.getByRole('button', { name: '人生術で絞り込む' }).click();
   await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(7);
 
@@ -604,7 +604,7 @@ test('PCの購入画面は初期表示で購入条件まで確認できる', asy
   await expect(purchaseButton).toBeVisible();
   await expect(page.getByText('独自の処世術集')).toBeVisible();
   await expect(page.getByText('通常価格', { exact: true })).toBeVisible();
-  await expect(page.getByText(/理論\s*45件/)).toBeVisible();
+  await expect(page.getByText(/理論\s*150件/)).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
@@ -698,7 +698,7 @@ test('理論一覧はPCで均等な2列カードを保つ', async ({ page }) => 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/theories');
   const rows = page.getByTestId('theory-index-list').getByRole('link');
-  await expect(rows).toHaveCount(45);
+  await expect(rows).toHaveCount(50);
   const [first, second] = await Promise.all([rows.nth(0).boundingBox(), rows.nth(1).boundingBox()]);
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
@@ -756,10 +756,10 @@ test('探す理論リールはカテゴリで切り替え、矢印で横に送�
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/discover');
   await page.getByRole('tab', { name: /理論/ }).click();
-  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(45);
+  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(150);
   await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
   await expect(page.getByText('（行動科学）', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(5);
+  await expect(page.getByTestId('discover-theory-rail').getByRole('button')).toHaveCount(25);
   const viewportInfo = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 
@@ -836,8 +836,8 @@ test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・�
 test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件を静かに示す', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('45件を無料公開', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(45);
+  await expect(page.getByText('150件を無料公開', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
   await page.getByLabel('理論名・キーワードから検索').fill('初頭');
   await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(1);
   await expect(page).toHaveURL(/q=%E5%88%9D%E9%A0%AD.*category=all.*sort=source.*page=1/);
@@ -846,7 +846,7 @@ test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件�
   await page.getByLabel('理論名・キーワードから検索').fill('存在しない理論名');
   await expect(page.getByText('該当する理論が見つかりませんでした。')).toBeVisible();
   await page.getByRole('button', { name: '理論一覧の条件を解除' }).click();
-  await expect(page.getByText('45件を無料公開', { exact: true })).toBeVisible();
+  await expect(page.getByText('150件を無料公開', { exact: true })).toBeVisible();
 });
 
 test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {
@@ -1058,7 +1058,7 @@ test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩�
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/personas');
   const cards = page.getByTestId('personas-grid').getByRole('link');
-  await expect(cards).toHaveCount(27);
+  await expect(cards).toHaveCount(26);
   const [first, second] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox()]);
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
@@ -1071,12 +1071,12 @@ test('320pxでは人物像を1列にし学ぶページの語句と横幅を崩�
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('27人物像カードは一覧の最終行まで同じ寸法で表示する', async ({ page }) => {
+test('26人物像カードは一覧の最終行まで同じ寸法で表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/personas');
   const cards = page.getByTestId('personas-grid').getByRole('link');
-  await expect(cards).toHaveCount(27);
-  await expect(page.getByRole('link', { name: '一緒にいて疲れない人、対人術、20処世術を開く' })).toBeVisible();
+  await expect(cards).toHaveCount(26);
+  await expect(page.getByRole('link', { name: /人たらしの人、対人術、23処世術を開く/ })).toBeVisible();
   const sizes = await cards.evaluateAll((elements) => elements.map((element) => {
     const rect = element.getBoundingClientRect();
     return { width: rect.width, height: rect.height };
@@ -1225,7 +1225,7 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await expect(page.getByText('相手は聞き役に固定され、会話ではなく自己紹介を採点する時間になる。次の質問も出にくくなる。').first()).toBeVisible();
   await expect(page.getByTestId('rokumaru-encourage')).toBeVisible();
   await expect(page.getByRole('link', { name: /関連する処世術、初対面は面白さより安心感を開く/ })).toBeVisible();
-  await expect(page.getByRole('link', { name: /関連する理論、不確実性低減理論を開く/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: '完全版で関連理論を開く' })).toBeVisible();
 
   await page.getByRole('button', { name: /次のケースへ/ }).click();
   await expect(page).toHaveURL(/\/learn\/case-02/);

@@ -16,7 +16,12 @@
         "master336-012",
         "master336-013",
         "master336-014",
-        "master336-050"
+        "master336-050",
+        "master336-051",
+        "master336-052",
+        "master336-053",
+        "master336-054",
+        "master336-055"
       ],
       "personaNames": [
         "印象がいい人",
@@ -24,16 +29,17 @@
       ],
       "theoryIds": [
         "kb_003",
-        "kb_010",
+        "kb_389",
         "kb_402",
-        "kb_012",
         "kb_014",
-        "kb_015",
+        "kb_391",
         "kb_007",
         "kb_008",
-        "kb_018",
+        "kb_623",
+        "kb_025",
         "kb_001",
-        "kb_002"
+        "kb_002",
+        "kb_029"
       ]
     },
     "work": {
@@ -59,8 +65,18 @@
         "タスク処理がうまい人"
       ],
       "theoryIds": [
+        "kb_190",
+        "kb_324",
+        "kb_627",
+        "kb_625",
+        "kb_543",
         "kb_330",
-        "kb_584"
+        "kb_599",
+        "kb_545",
+        "kb_329",
+        "kb_051",
+        "kb_452",
+        "kb_102"
       ]
     },
     "life": {
@@ -86,9 +102,16 @@
         "自分らしく生きられる人"
       ],
       "theoryIds": [
-        "kb_553",
+        "kb_669",
+        "kb_618",
+        "kb_268",
+        "kb_612",
+        "kb_604",
+        "kb_029",
         "kb_567",
-        "kb_338",
+        "kb_282",
+        "kb_296",
+        "kb_266",
         "kb_634"
       ]
     }
@@ -204,9 +227,9 @@
       "categoryTitle": "心理学"
     },
     {
-      "tagId": "kb_010",
-      "title": "不確実性低減理論",
-      "summary": "人は初対面の相手について予測できない状態を不快に感じ、質問や観察を通じて不確実性を減らそうとするという理論。安心感は予測可能性から生まれる。",
+      "tagId": "kb_389",
+      "title": "メラビアンの法則",
+      "summary": "感情や態度を伝える言葉と声・表情が食い違う場面では、受け手が声や表情を強く手掛かりにするという限定的な研究知見。あらゆる会話で「言葉は7％しか伝わらない」という法則ではない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学"
     },
@@ -218,13 +241,6 @@
       "categoryTitle": "組織・経営論"
     },
     {
-      "tagId": "kb_012",
-      "title": "知覚されたパートナー応答性",
-      "summary": "相手が自分を理解し、尊重し、気遣ってくれていると感じる程度。関係の満足度は、実際の行動だけでなく、そう受け取られているかで決まる。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学"
-    },
-    {
       "tagId": "kb_014",
       "title": "ミラーリング効果",
       "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
@@ -232,9 +248,9 @@
       "categoryTitle": "心理学"
     },
     {
-      "tagId": "kb_015",
-      "title": "言語スタイル同調",
-      "summary": "語彙、文の長さ、話す速さなどが似てくるほど、会話の一体感や関係の調和が高まりやすい現象。",
+      "tagId": "kb_391",
+      "title": "カメレオン効果",
+      "summary": "相手の姿勢や身ぶりを無意識に模倣すると、相互作用が滑らかになり、好意や親近感が高まることがある現象。効果は自然な模倣に限られ、誇張した物まねとは異なる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学"
     },
@@ -253,9 +269,16 @@
       "categoryTitle": "心理学"
     },
     {
-      "tagId": "kb_018",
-      "title": "質問好意効果",
-      "summary": "相手に関心を持って質問し、話をよく聞く人は好意的に評価されやすい傾向。質問の量より、答えを受け止めて深めることが重要になる。",
+      "tagId": "kb_623",
+      "title": "過ぎたるは猶及ばざるが如し",
+      "summary": "やりすぎは不足と同じく望ましくなく、適度が重要だという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_025",
+      "title": "プラットフォール効果",
+      "summary": "高い能力を持つ人が小さな失敗を見せると、親しみやすさが増すことがある現象。能力への信頼がない状態では、失敗はそのまま低評価になりうる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学"
     },
@@ -274,6 +297,48 @@
       "categoryTitle": "心理学"
     },
     {
+      "tagId": "kb_029",
+      "title": "ピーク・エンドの法則",
+      "summary": "体験全体は、最も感情が強かった瞬間と最後の印象によって記憶されやすいという法則。平均的な質だけでなく、山場と終わり方が重要になる。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
+    },
+    {
+      "tagId": "kb_190",
+      "title": "計画錯誤",
+      "summary": "過去の遅延を無視し、作業に必要な時間や費用を楽観的に見積もりやすい傾向。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学"
+    },
+    {
+      "tagId": "kb_324",
+      "title": "巧遅は拙速に如かず",
+      "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_627",
+      "title": "勝兵は先ず勝ちて而る後に戦いを求む",
+      "summary": "戦う前に勝てる条件を整えることが、強い戦略だという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_625",
+      "title": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
+      "summary": "学ぶだけでも考えるだけでも足りず、知識と思考を往復することが重要。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_543",
+      "title": "リーン・スタートアップ",
+      "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
+      "categoryId": "strategy",
+      "categoryTitle": "戦略論"
+    },
+    {
       "tagId": "kb_330",
       "title": "『Done is better than perfect』",
       "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
@@ -281,18 +346,88 @@
       "categoryTitle": "格言・経験則・作品"
     },
     {
-      "tagId": "kb_584",
-      "title": "人的資本",
-      "summary": "個人が持つ知識、技能、経験、健康など、環境が変わっても成果を生み得る資源。肩書や所属とは異なり、本人に蓄積され、将来の仕事や選択肢へ持ち運べる。",
-      "categoryId": "organization-management",
-      "categoryTitle": "組織・経営論"
+      "tagId": "kb_599",
+      "title": "プレモーテム",
+      "summary": "計画が失敗した未来を先に仮定し、その原因を洗い出す意思決定手法。失敗を恐れるためではなく、言いにくい懸念を計画段階で表に出すために使う。",
+      "categoryId": "strategy",
+      "categoryTitle": "戦略論",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Gary Klein",
+        "works": [
+          "Performing a Project Premortem (2007)"
+        ]
+      }
     },
     {
-      "tagId": "kb_553",
-      "title": "役割多元化",
-      "summary": "仕事、家族、友人、学習者など複数の役割に自己を分散させ、一つの役割だけで自己価値を決めないこと。ある領域の失敗が自己全体へ波及するのを抑える。",
+      "tagId": "kb_545",
+      "title": "パレートの法則",
+      "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論"
+    },
+    {
+      "tagId": "kb_329",
+      "title": "完璧は善の敵",
+      "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_051",
+      "title": "アサーション理論",
+      "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
+    },
+    {
+      "tagId": "kb_452",
+      "title": "権威バイアス",
+      "summary": "肩書、地位、専門性を持つ人の意見を、内容や根拠の検討以上に正しいと評価しやすい傾向。権威が関連分野のものか、利害関係があるかを分けて確かめる必要がある。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
+    },
+    {
+      "tagId": "kb_102",
+      "title": "希少性の原理",
+      "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学"
+    },
+    {
+      "tagId": "kb_669",
+      "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
+      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
+      "categoryId": "maxims-experience",
+      "categoryTitle": "格言・経験則・作品"
+    },
+    {
+      "tagId": "kb_618",
+      "title": "足るを知る者は富む",
+      "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_268",
+      "title": "快楽順応",
+      "summary": "良い変化にも悪い変化にも次第に慣れ、幸福感が元の水準へ戻りやすい現象。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
+    },
+    {
+      "tagId": "kb_612",
+      "title": "人生が短いのではない。多くを浪費している",
+      "summary": "時間不足より、時間の使い方こそが人生の長さを左右すると説く。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_604",
+      "title": "自分にできることと、できないことを分ける",
+      "summary": "自分で変えられることに力を使い、変えられないことへの執着を減らす考え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
     },
     {
       "tagId": "kb_567",
@@ -302,11 +437,25 @@
       "categoryTitle": "戦略論"
     },
     {
-      "tagId": "kb_338",
-      "title": "『自分の人生を他人のハイライトと比べない』",
-      "summary": "他人の最も良く見える瞬間と、自分の不安や失敗を含む日常全体を比較しても、公正な判断にはならない。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品"
+      "tagId": "kb_282",
+      "title": "バーベル戦略",
+      "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
+      "categoryId": "strategy",
+      "categoryTitle": "戦略論"
+    },
+    {
+      "tagId": "kb_296",
+      "title": "情けは人の為ならず",
+      "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想"
+    },
+    {
+      "tagId": "kb_266",
+      "title": "社会的比較理論",
+      "summary": "自分の能力や状況を判断するために、他者と比較するという理論。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学"
     },
     {
       "tagId": "kb_634",

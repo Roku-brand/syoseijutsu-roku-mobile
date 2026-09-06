@@ -1,4 +1,11 @@
 import { categories, techniqueCards, theories } from '@/data/catalog';
+import contentScope from '@/data/content-scope.json';
+
+export const COMPLETE_TECHNIQUE_COUNT = contentScope.complete.techniques;
+export const COMPLETE_THEORY_COUNT = contentScope.complete.theories;
+export const FREE_TECHNIQUE_COUNT = contentScope.free.techniques;
+export const FREE_THEORY_COUNT = contentScope.free.theories;
+export const EXCLUDED_TECHNIQUE_ID_SET = new Set<string>(contentScope.excludedTechniqueIds);
 
 const freePersonaNames = categories.flatMap((category) => category.subcategories.slice(0, 2).map((group) => group.name));
 export const FREE_PERSONA_NAMES = freePersonaNames as readonly string[];
@@ -10,26 +17,9 @@ export const FREE_REEL_TECHNIQUE_IDS = techniqueCards
   .filter((card) => card.status !== 'locked' && card.title !== '完全版の処世術')
   .map((card) => card.id) as readonly string[];
 export const FREE_DISCOVER_TECHNIQUE_IDS = FREE_REEL_TECHNIQUE_IDS;
-const FREE_THEORY_CATEGORY_IDS = [
-  'behavioral-science',
-  'organization-management',
-  'strategy',
-  'classics-thought',
-  'maxims-experience',
-] as const;
-
-export const FREE_THEORY_IDS = [
-  ...theories
-    .filter((theory) => theory.categoryId === 'psychology')
-    .slice(0, 20)
-    .map((theory) => theory.tagId),
-  ...FREE_THEORY_CATEGORY_IDS.flatMap((categoryId) =>
-    theories
-      .filter((theory) => theory.categoryId === categoryId)
-      .slice(0, 5)
-      .map((theory) => theory.tagId),
-  ),
-] as readonly string[];
+export const FREE_THEORY_IDS = theories
+  .filter((theory) => theory.status !== 'locked' && Boolean(theory.summary?.trim()))
+  .map((theory) => theory.tagId) as readonly string[];
 
 export const FREE_LEARNING_CASE_IDS = Array.from(
   { length: 7 },

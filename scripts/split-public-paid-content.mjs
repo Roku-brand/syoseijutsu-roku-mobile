@@ -21,7 +21,8 @@ async function loadLearningCases() {
   return Function(`"use strict"; return (${match[1]});`)();
 }
 const learning = await loadLearningCases();
-const { freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+const activeTechniqueIds = new Set(allTechniques.map((item) => item.id));
 
 function sanitizePublicTechnique(item) {
   const ids = Array.isArray(item.theoryTagIds) ? item.theoryTagIds : [];
@@ -32,15 +33,17 @@ function sanitizePublicTechnique(item) {
 
 const publicCategories = techniques.categories.map((category) => ({
   ...category,
-  subcategories: orderPersonasForDisplay(category).map((subcategory) => ({
-    ...subcategory,
-    items: subcategory.items.filter((item) => freeTechniqueIds.has(item.id)).map(sanitizePublicTechnique),
-  })),
+  subcategories: orderPersonasForDisplay(category)
+    .map((subcategory) => ({
+      ...subcategory,
+      items: subcategory.items.filter((item) => activeTechniqueIds.has(item.id) && freeTechniqueIds.has(item.id)).map(sanitizePublicTechnique),
+    }))
+    .filter((subcategory) => subcategory.items.length > 0),
 }));
 
 const paidRows = [];
 let order = 0;
-for (const category of techniques.categories) for (const subcategory of category.subcategories) for (const item of subcategory.items) {
+for (const category of techniques.categories) for (const subcategory of category.subcategories) for (const item of subcategory.items.filter((candidate) => activeTechniqueIds.has(candidate.id))) {
   if (!freeTechniqueIds.has(item.id)) paidRows.push({ content_type: 'technique', content_id: item.id, payload: { ...item, categoryKey: category.key, categoryName: category.name, subcategory: subcategory.name, articleTitle: subcategory.articleTitle ?? subcategory.name }, sort_order: order++ });
 }
 for (const theory of theories) if (!freeTheoryIds.has(theory.tagId)) paidRows.push({ content_type: 'theory', content_id: theory.tagId, payload: theory, sort_order: order++ });

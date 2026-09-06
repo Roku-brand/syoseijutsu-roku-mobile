@@ -25,6 +25,29 @@ export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; catego
   return normalizeDisplayText(theory.categoryTitle);
 }
 
+export function getTheorySeoCopy(theory: Pick<{ title: string; summary: string; categoryId: string }, 'title' | 'summary' | 'categoryId'>) {
+  const summary = normalizeDisplayText(theory.summary).replace(/\n+/g, ' ');
+  if (theory.categoryId === 'classics-thought') {
+    return {
+      title: `${theory.title}の意味・現代語訳と現代での活かし方`,
+      description: `${summary} 意味や背景を、現代の判断と処世術へのつながりから読み解きます。`,
+      summaryHeading: '意味・現代での捉え方',
+    };
+  }
+  if (theory.categoryId === 'maxims-experience') {
+    return {
+      title: `${theory.title}の意味・出典と現代での活かし方`,
+      description: `${summary} 言葉の意味・出典状態と、現代の判断への活かし方を確認できます。`,
+      summaryHeading: '意味と文脈',
+    };
+  }
+  return {
+    title: `${theory.title}とは？意味・具体例と実生活への活かし方`,
+    description: `${summary} 理論の意味と、日常・仕事・人間関係で使える処世術へのつながりを紹介します。`,
+    summaryHeading: `${theory.title}とは`,
+  };
+}
+
 /** 表紙・一覧用に、理論の意味を説明する最初の1文だけを返す。 */
 export function getTheoryCoverSummary(summary: string): string {
   const text = normalizeDisplayText(summary).replace(/\n+/g, ' ').replace(/[ \t]{2,}/g, ' ').trim();

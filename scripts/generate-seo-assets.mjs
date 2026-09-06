@@ -52,6 +52,23 @@ const topicCopy = {
 const clean = (value = '') => String(value).replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
 const truncate = (value, max = 155) => [...clean(value)].length <= max ? clean(value) : `${[...clean(value)].slice(0, max - 1).join('')}…`;
 const escape = (value = '') => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
+function theorySeoCopy(item) {
+  if (item.categoryId === 'classics-thought') return {
+    title: `${item.title}の意味・現代語訳と現代での活かし方`,
+    description: `${item.summary} 意味や背景を、現代の判断と処世術へのつながりから読み解きます。`,
+    summaryHeading: '意味・現代での捉え方',
+  };
+  if (item.categoryId === 'maxims-experience') return {
+    title: `${item.title}の意味・出典と現代での活かし方`,
+    description: `${item.summary} 言葉の意味・出典状態と、現代の判断への活かし方を確認できます。`,
+    summaryHeading: '意味と文脈',
+  };
+  return {
+    title: `${item.title}とは？意味・具体例と実生活への活かし方`,
+    description: `${item.summary} 理論の意味と、日常・仕事・人間関係で使える処世術へのつながりを紹介します。`,
+    summaryHeading: `${item.title}とは`,
+  };
+}
 const decode = (value) => { try { return decodeURIComponent(value); } catch { return value; } };
 const encodeRoute = (route) => {
   const [pathname, query] = route.split('?');
@@ -97,7 +114,8 @@ function metaFor(rawRoute) {
   if (theoryMatch) {
     const item = theoryById.get(theoryMatch[1]);
     if (!isPublicTheory(item)) return base;
-    return { ...base, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', item, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, route)] };
+    const seo = theorySeoCopy(item);
+    return { ...base, title: `${seo.title}｜${brand}`, description: truncate(seo.description), indexable: true, type: 'article', pageType: 'Article', item, seo, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, route)] };
   }
   const topic = route.match(/^\/topic\/([^/]+)$/);
   if (topic && topicCopy[topic[1]]) {
@@ -118,7 +136,7 @@ function jsonLd(meta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.route) })) },
   ];
   if (meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.item.title, description: meta.description, inLanguage: 'ja', about: [meta.item.categoryName, meta.item.persona, ...(meta.item.tags ?? [])], isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
 
@@ -208,11 +226,16 @@ function staticContent(meta) {
     if (related.length) body += `<section><h2>関連する理論</h2><ul>${related.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
   } else if (meta.pageType === 'Article') {
     const related = techniques.filter((item) => isPublicTechnique(item) && (item.relatedTheoryIds ?? item.theoryTagIds ?? []).includes(meta.item.tagId)).slice(0, 8);
-    body = `<section><h2>概要</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>この理論に関連する処世術</h2><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>` : ''}`;
+    const seo = meta.seo ?? theorySeoCopy(meta.item);
+    const provenance = meta.item.provenance;
+    const sourceText = provenance
+      ? [provenance.status, provenance.attribution, ...(provenance.works ?? []), provenance.note].filter(Boolean).join('。')
+      : '現時点で、特定の提唱者・原典・著作を確実に確認できていません。出典を断定せず、正本に収録された説明の範囲で掲載しています。';
+    body = `<section><h2>${escape(seo.summaryHeading)}</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>この考え方を実生活でどう使う？</h2><p>正本で紐づいている処世術だけを掲載しています。</p><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a><span> — ${escape(item.persona)}</span></li>`).join('')}</ul></section>` : ''}<section><h2>出典・原典</h2><p>${escape(sourceText)}</p></section>`;
   } else if (meta.persona) {
     body += `<section><h2>この人物像を形づくる処世術</h2><ul>${meta.persona.items.filter(isPublicTechnique).map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
   } else body += '<section><h2>体系から探す</h2><ul><li><a href="/personas?category=interpersonal">対人術</a></li><li><a href="/personas?category=work">仕事術</a></li><li><a href="/personas?category=life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/learn">場面から学ぶ</a></li></ul></section>';
-  const heading = meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
+  const heading = meta.item?.title ?? meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
   return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(heading)}</h1>${body}</article></main></noscript>`;
 }
 

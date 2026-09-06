@@ -30,16 +30,18 @@
   {
     "tagId": "kb_005",
     "title": "類似性魅力効果",
-    "summary": "価値観、経歴、趣味などの共通点が多い相手ほど、親しみや信頼を感じやすい傾向。共通点は関係を始める足場になる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_006",
     "title": "相補性",
-    "summary": "互いに異なる性質や役割が補い合うことで、関係が安定したり成果が高まったりする考え方。似ていることだけが相性を決めるわけではない。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_007",
@@ -58,37 +60,42 @@
   {
     "tagId": "kb_009",
     "title": "社会的浸透理論",
-    "summary": "人間関係は、会話の範囲と深さが少しずつ広がることで親密になるという理論。急激な踏み込みより、相互的な自己開示が重要になる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_010",
     "title": "不確実性低減理論",
-    "summary": "人は初対面の相手について予測できない状態を不快に感じ、質問や観察を通じて不確実性を減らそうとするという理論。安心感は予測可能性から生まれる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_011",
     "title": "応答性理論",
-    "summary": "相手の話や感情に適切に反応することが、信頼や親密さを生むという考え方。理解された感覚は、単なる相づちより内容に即した反応から生まれる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_012",
     "title": "知覚されたパートナー応答性",
-    "summary": "相手が自分を理解し、尊重し、気遣ってくれていると感じる程度。関係の満足度は、実際の行動だけでなく、そう受け取られているかで決まる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_013",
     "title": "ラポールの三要素モデル",
-    "summary": "相互の注意、肯定的な感情、行動の同調がそろうと、自然な信頼関係が生まれるというモデル。会話の内容だけでなく、リズムや雰囲気も重要になる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_014",
@@ -100,16 +107,18 @@
   {
     "tagId": "kb_015",
     "title": "言語スタイル同調",
-    "summary": "語彙、文の長さ、話す速さなどが似てくるほど、会話の一体感や関係の調和が高まりやすい現象。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_016",
     "title": "呼び名効果",
-    "summary": "相手の名前や望む呼び方を適切に使うことで、注意や親近感を引き出しやすくなる実務的な考え方。過剰に繰り返すと不自然になる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_017",
@@ -121,9 +130,10 @@
   {
     "tagId": "kb_018",
     "title": "質問好意効果",
-    "summary": "相手に関心を持って質問し、話をよく聞く人は好意的に評価されやすい傾向。質問の量より、答えを受け止めて深めることが重要になる。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_019",
@@ -135,9 +145,10 @@
   {
     "tagId": "kb_020",
     "title": "自己検証理論",
-    "summary": "人は肯定的な評価だけでなく、自分が抱く自己像と一致する評価を求めるという理論。相手を理解するには、理想像だけでなく自己認識を見る必要がある。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "status": "locked"
   },
   {
     "tagId": "kb_021",
@@ -174,10 +185,9 @@
   {
     "tagId": "kb_025",
     "title": "プラットフォール効果",
-    "summary": "",
+    "summary": "高い能力を持つ人が小さな失敗を見せると、親しみやすさが増すことがある現象。能力への信頼がない状態では、失敗はそのまま低評価になりうる。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_026",
@@ -198,18 +208,16 @@
   {
     "tagId": "kb_028",
     "title": "吊り橋効果",
-    "summary": "",
+    "summary": "恐怖や緊張による高揚を、目の前の相手への魅力だと誤認する可能性を示す現象。強い感情は、その原因を取り違えやすい。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_029",
     "title": "ピーク・エンドの法則",
-    "summary": "",
+    "summary": "体験全体は、最も感情が強かった瞬間と最後の印象によって記憶されやすいという法則。平均的な質だけでなく、山場と終わり方が重要になる。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_030",
@@ -262,10 +270,9 @@
   {
     "tagId": "kb_036",
     "title": "愛着理論",
-    "summary": "",
+    "summary": "幼少期から形成される他者への信頼や不安のパターンが、成人後の親密な関係にも影響するという理論。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_037",
@@ -302,10 +309,9 @@
   {
     "tagId": "kb_041",
     "title": "ゴットマンの四騎士",
-    "summary": "",
+    "summary": "批判、侮蔑、防御、無視という、関係悪化を強く予測する四つのコミュニケーションパターン。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_042",
@@ -334,10 +340,9 @@
   {
     "tagId": "kb_045",
     "title": "基本的帰属の誤り",
-    "summary": "",
+    "summary": "他人の行動を説明するとき、状況の影響を軽視し、性格や能力の影響を過大評価しやすい傾向。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_046",
@@ -350,10 +355,9 @@
   {
     "tagId": "kb_047",
     "title": "返報性の原理",
-    "summary": "",
+    "summary": "人は何かを受け取ると、同程度のものを返さなければならないと感じやすい原理。親切にも敵意にも働く。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_048",
@@ -374,18 +378,16 @@
   {
     "tagId": "kb_050",
     "title": "心理的リアクタンス",
-    "summary": "",
+    "summary": "自由を制限されたと感じると、その自由を取り戻そうとして反発する心理。正論でも命令的に伝えると抵抗を招きやすい。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_051",
     "title": "アサーション理論",
-    "summary": "",
+    "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_052",
@@ -398,10 +400,9 @@
   {
     "tagId": "kb_053",
     "title": "非暴力コミュニケーション",
-    "summary": "",
+    "summary": "観察、感情、ニーズ、依頼を分けて伝え、非難せずに相互理解を目指すコミュニケーション法。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_054",
@@ -438,34 +439,30 @@
   {
     "tagId": "kb_092",
     "title": "境界線理論",
-    "summary": "",
+    "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_093",
     "title": "共依存",
-    "summary": "",
+    "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_094",
     "title": "ダブルバインド",
-    "summary": "",
+    "summary": "矛盾する要求を同時に受け、どちらに従っても否定され、矛盾を指摘することも許されない状況。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_095",
     "title": "ガスライティング",
-    "summary": "",
+    "summary": "事実や記憶を繰り返し否定し、相手に自分の認識を疑わせる心理的操作。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_096",
@@ -486,10 +483,9 @@
   {
     "tagId": "kb_203",
     "title": "不確実性不耐性",
-    "summary": "",
+    "summary": "結果が分からない状態を過度に脅威と感じ、心配や確認行動を続けやすい傾向。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_204",
@@ -566,10 +562,9 @@
   {
     "tagId": "kb_213",
     "title": "破局的思考",
-    "summary": "",
+    "summary": "悪い可能性を極端に拡大し、最悪の結果が起き、対処できないと考える思考パターン。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_214",
@@ -590,10 +585,9 @@
   {
     "tagId": "kb_216",
     "title": "反すう理論",
-    "summary": "",
+    "summary": "原因や意味を繰り返し考え続けることで、問題解決よりも気分の悪化や行動停止が生じるという理論。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_217",
@@ -614,10 +608,9 @@
   {
     "tagId": "kb_219",
     "title": "白熊効果",
-    "summary": "",
+    "summary": "特定のことを考えないようにすると、逆にその考えが増える現象。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_220",
@@ -630,10 +623,9 @@
   {
     "tagId": "kb_221",
     "title": "心理的柔軟性",
-    "summary": "",
+    "summary": "不快な内的体験があっても、それに支配されず、状況と価値に沿って行動を選べる能力。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_222",
@@ -662,10 +654,9 @@
   {
     "tagId": "kb_225",
     "title": "マインドフルネス",
-    "summary": "",
+    "summary": "現在の体験に、評価や判断を加えすぎず意図的に注意を向ける実践。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_226",
@@ -710,26 +701,23 @@
   {
     "tagId": "kb_231",
     "title": "コントロール幻想",
-    "summary": "",
+    "summary": "実際には影響できない偶然の結果にも、自分が制御できると感じやすい傾向。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_232",
     "title": "スポットライト効果",
-    "summary": "",
+    "summary": "自分の外見や失敗が、実際以上に他人から注目されていると思い込む傾向。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_233",
     "title": "透明性の錯覚",
-    "summary": "",
+    "summary": "自分の感情や意図が、実際以上に相手へ伝わっていると思い込む傾向。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_234",
@@ -774,18 +762,16 @@
   {
     "tagId": "kb_239",
     "title": "学習性無力感",
-    "summary": "",
+    "summary": "努力しても結果を変えられない経験が続くと、変えられる状況でも行動を諦めやすくなる現象。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_240",
     "title": "レジリエンス理論",
-    "summary": "",
+    "summary": "逆境に遭っても、個人と環境の資源を使いながら適応し回復していく過程を捉える理論。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_241",
@@ -966,34 +952,30 @@
   {
     "tagId": "kb_263",
     "title": "成長マインドセット",
-    "summary": "",
+    "summary": "能力は固定されたものではなく、努力、戦略、支援によって伸ばせると捉える信念。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_264",
     "title": "セルフ・コンパッション",
-    "summary": "",
+    "summary": "失敗や苦痛の際に、自分を責めすぎず、人間共通の経験として理解し、思いやりを向ける姿勢。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_265",
     "title": "認知的不協和",
-    "summary": "",
+    "summary": "信念と行動が矛盾すると不快感が生じ、その不快感を減らすために解釈や態度を変える現象。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_266",
     "title": "社会的比較理論",
-    "summary": "",
+    "summary": "自分の能力や状況を判断するために、他者と比較するという理論。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_267",
@@ -1006,18 +988,16 @@
   {
     "tagId": "kb_268",
     "title": "快楽順応",
-    "summary": "",
+    "summary": "良い変化にも悪い変化にも次第に慣れ、幸福感が元の水準へ戻りやすい現象。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_269",
     "title": "公正世界仮説",
-    "summary": "",
+    "summary": "世界は基本的に公正で、人は相応の結果を得ると信じる傾向。被害者非難につながることがある。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_270",
@@ -1062,10 +1042,9 @@
   {
     "tagId": "kb_389",
     "title": "メラビアンの法則",
-    "summary": "",
+    "summary": "感情や態度を伝える言葉と声・表情が食い違う場面では、受け手が声や表情を強く手掛かりにするという限定的な研究知見。あらゆる会話で「言葉は7％しか伝わらない」という法則ではない。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_390",
@@ -1078,10 +1057,9 @@
   {
     "tagId": "kb_391",
     "title": "カメレオン効果",
-    "summary": "",
+    "summary": "相手の姿勢や身ぶりを無意識に模倣すると、相互作用が滑らかになり、好意や親近感が高まることがある現象。効果は自然な模倣に限られ、誇張した物まねとは異なる。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_392",
@@ -1518,10 +1496,9 @@
   {
     "tagId": "kb_452",
     "title": "権威バイアス",
-    "summary": "",
+    "summary": "肩書、地位、専門性を持つ人の意見を、内容や根拠の検討以上に正しいと評価しやすい傾向。権威が関連分野のものか、利害関係があるかを分けて確かめる必要がある。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_550",
@@ -1766,10 +1743,16 @@
   {
     "tagId": "kb_596",
     "title": "確証バイアス",
-    "summary": "",
+    "summary": "すでに信じている仮説に合う情報を集め、反する情報を軽く扱いやすい傾向。第一印象や自分の結論を疑うときは、反証になる事実を意識して探す必要がある。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Raymond S. Nickerson",
+      "works": [
+        "Confirmation Bias: A Ubiquitous Phenomenon in Many Guises (1998)"
+      ]
+    }
   },
   {
     "tagId": "kb_597",
@@ -1854,10 +1837,9 @@
   {
     "tagId": "kb_511",
     "title": "ネガティビティ・バイアス",
-    "summary": "",
+    "summary": "同程度の良い情報と悪い情報では、悪い情報の方が注意、記憶、判断に強く影響しやすい傾向。一度の不信行動が、複数の好意より重く評価されることがある。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "status": "locked"
+    "categoryTitle": "心理学"
   },
   {
     "tagId": "kb_158",
@@ -1878,30 +1860,34 @@
   {
     "tagId": "kb_401",
     "title": "限界効用逓減",
-    "summary": "同じ種類の利益や満足を追加で得るほど、その一単位から得られる価値が小さくなりやすいという原理。量を増やし続けても、満足が同じ割合で増えるとは限らない。",
+    "summary": "",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "status": "locked"
   },
   {
     "tagId": "kb_442",
     "title": "顕示選好",
-    "summary": "人の本当の選好は、言葉による自己申告だけでなく、制約の中で実際に何を選んだかから推測できるという考え。行動はコストを伴うため、優先順位の手掛かりになる。",
+    "summary": "",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "status": "locked"
   },
   {
     "tagId": "kb_449",
     "title": "ベースレート思考",
-    "summary": "目立つ個別事例だけでなく、その出来事が一般にどの程度起こるかという基礎確率を判断に取り入れる考え方。一度の好印象や失敗より、同様の行動の頻度を重視する。",
+    "summary": "",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "status": "locked"
   },
   {
     "tagId": "kb_570",
     "title": "ベイズ更新",
-    "summary": "新しい証拠を得るたびに、それまでの見込みである事前確率を修正し、判断を更新する考え。印象を固定せず、証拠の信頼度と起こりやすさを考慮する。",
+    "summary": "",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "status": "locked"
   },
   {
     "tagId": "kb_098",
@@ -1913,18 +1899,16 @@
   {
     "tagId": "kb_099",
     "title": "ドア・イン・ザ・フェイス",
-    "summary": "",
+    "summary": "最初に大きな依頼を断らせ、その後に小さな依頼を提示すると譲歩として受け入れられやすくなる技法。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_100",
     "title": "ローボール・テクニック",
-    "summary": "",
+    "summary": "好条件で一度決定させた後に条件を悪化させても、決定の一貫性から受け入れ続けやすくなる技法。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_101",
@@ -1937,10 +1921,9 @@
   {
     "tagId": "kb_102",
     "title": "希少性の原理",
-    "summary": "",
+    "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_103",
@@ -1953,18 +1936,16 @@
   {
     "tagId": "kb_104",
     "title": "社会的証明",
-    "summary": "",
+    "summary": "判断が難しいとき、他者の選択や多数派の行動を正しさの手がかりにする傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_105",
     "title": "バーナム効果",
-    "summary": "",
+    "summary": "誰にでも当てはまる曖昧な説明を、自分だけに当てはまる正確な評価だと感じる傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_106",
@@ -1977,50 +1958,44 @@
   {
     "tagId": "kb_133",
     "title": "プロスペクト理論",
-    "summary": "",
+    "summary": "人は絶対的な結果ではなく基準点からの得失で判断し、利益より損失を強く感じるという意思決定理論。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_134",
     "title": "損失回避",
-    "summary": "",
+    "summary": "同じ大きさの利益を得る喜びより、損失を被る苦痛を強く感じる傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_135",
     "title": "保有効果",
-    "summary": "",
+    "summary": "一度所有したものを、所有していない同じものより高く評価しやすい傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_136",
     "title": "現状維持バイアス",
-    "summary": "",
+    "summary": "変化の利益があっても、不確実性や損失を避けるため現在の選択を維持しやすい傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_137",
     "title": "フレーミング効果",
-    "summary": "",
+    "summary": "同じ内容でも、利益として示すか損失として示すかによって判断が変わる現象。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_138",
     "title": "アンカリング効果",
-    "summary": "",
+    "summary": "最初に示された数値や情報が基準となり、その後の判断がそこから十分に離れにくくなる傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_139",
@@ -2033,10 +2008,9 @@
   {
     "tagId": "kb_140",
     "title": "おとり効果",
-    "summary": "",
+    "summary": "明らかに劣る第三の選択肢を加えることで、特定の選択肢が相対的に魅力的に見える現象。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_141",
@@ -2049,10 +2023,9 @@
   {
     "tagId": "kb_167",
     "title": "目標設定理論",
-    "summary": "",
+    "summary": "具体的で難度の高い目標と適切なフィードバックが、努力と成果を高めるという理論。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_168",
@@ -2065,10 +2038,9 @@
   {
     "tagId": "kb_169",
     "title": "自己効力感",
-    "summary": "",
+    "summary": "特定の課題を自分は遂行できるという信念。能力そのものだけでなく、挑戦、努力、粘り強さを左右する。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_170",
@@ -2089,10 +2061,9 @@
   {
     "tagId": "kb_172",
     "title": "実行意図",
-    "summary": "",
+    "summary": "「いつ、どこで、何をするか」をあらかじめ決めることで、意図を行動へ移しやすくする方法。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_173",
@@ -2113,10 +2084,9 @@
   {
     "tagId": "kb_175",
     "title": "現在バイアス",
-    "summary": "",
+    "summary": "将来の大きな利益より、目の前の小さな利益を過度に優先しやすい傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_176",
@@ -2129,10 +2099,9 @@
   {
     "tagId": "kb_177",
     "title": "デフォルト効果",
-    "summary": "",
+    "summary": "明示的に変更しない限り採用される初期設定が、そのまま選ばれやすい現象。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_178",
@@ -2145,18 +2114,16 @@
   {
     "tagId": "kb_179",
     "title": "ナッジ",
-    "summary": "",
+    "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_180",
     "title": "習慣ループ",
-    "summary": "",
+    "summary": "きっかけ、行動、報酬の循環によって習慣が形成・維持されるという枠組み。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_181",
@@ -2233,18 +2200,16 @@
   {
     "tagId": "kb_190",
     "title": "計画錯誤",
-    "summary": "",
+    "summary": "過去の遅延を無視し、作業に必要な時間や費用を楽観的に見積もりやすい傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_191",
     "title": "意思決定疲れ",
-    "summary": "",
+    "summary": "選択を繰り返すことで認知資源が消耗し、判断の質が下がったり安易な選択が増えたりする現象。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_198",
@@ -2289,10 +2254,9 @@
   {
     "tagId": "kb_273",
     "title": "サンクコスト効果",
-    "summary": "",
+    "summary": "すでに費やした時間、金銭、努力を惜しみ、将来価値の低い選択を続けてしまう傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_274",
@@ -2305,10 +2269,9 @@
   {
     "tagId": "kb_275",
     "title": "選択のパラドックス",
-    "summary": "",
+    "summary": "選択肢が増えすぎると、自由が増す一方で迷い、後悔、満足度低下が生じるという考え方。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_276",
@@ -2353,10 +2316,9 @@
   {
     "tagId": "kb_531",
     "title": "ツァイガルニク効果",
-    "summary": "",
+    "summary": "完了した課題より、中断された未完了課題の方が記憶や注意に残りやすいとされる現象。未完了が再開の手掛かりになる一方、常に強く再現される単純な法則ではない。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学",
-    "status": "locked"
+    "categoryTitle": "行動科学"
   },
   {
     "tagId": "kb_532",
@@ -2472,30 +2434,34 @@
   {
     "tagId": "kb_423",
     "title": "サービス・リカバリー・パラドックス",
-    "summary": "失敗後の対応が非常に優れていると、失敗がなかった場合より満足や忠誠が高くなることがあるという現象。ただし常に起こるわけではなく、重大な失敗や反復する失敗には当てはまりにくい。",
+    "summary": "",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "status": "locked"
   },
   {
     "tagId": "kb_571",
     "title": "人的資本論",
-    "summary": "教育、訓練、経験、健康などを、将来の生産性や所得を高める投資として捉える理論。能力形成には費用と時間がかかるため、投資先と回収可能性を考える。",
+    "summary": "",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "status": "locked"
   },
   {
     "tagId": "kb_584",
     "title": "人的資本",
-    "summary": "個人が持つ知識、技能、経験、健康など、環境が変わっても成果を生み得る資源。肩書や所属とは異なり、本人に蓄積され、将来の仕事や選択肢へ持ち運べる。",
+    "summary": "",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "status": "locked"
   },
   {
     "tagId": "kb_585",
     "title": "転移可能スキル",
-    "summary": "特定の職場や職種だけでなく、別の環境でも応用できる技能。問題解決、文章化、交渉、学習、調整などは、役割を失った後も新しい場への移行を支える。",
+    "summary": "",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "status": "locked"
   },
   {
     "tagId": "kb_593",
@@ -2516,10 +2482,9 @@
   {
     "tagId": "kb_058",
     "title": "社会的アイデンティティ理論",
-    "summary": "",
+    "summary": "人は所属集団を自己の一部として捉え、その集団の評価を通じて自尊感情を得るという理論。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_059",
@@ -2532,10 +2497,9 @@
   {
     "tagId": "kb_060",
     "title": "内集団バイアス",
-    "summary": "",
+    "summary": "自分が属する集団の人を、外部の人より好意的かつ有利に扱いやすい傾向。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_061",
@@ -2556,18 +2520,16 @@
   {
     "tagId": "kb_063",
     "title": "同調効果",
-    "summary": "",
+    "summary": "周囲の多数意見や行動に合わせて、自分の判断や振る舞いを変える傾向。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_064",
     "title": "集団思考",
-    "summary": "",
+    "summary": "結束の強い集団が合意を優先し、反対意見やリスク検討を抑えて誤った判断に至る現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_065",
@@ -2580,18 +2542,16 @@
   {
     "tagId": "kb_066",
     "title": "沈黙の螺旋",
-    "summary": "",
+    "summary": "自分の意見が少数派だと感じた人が発言を控え、その沈黙によって多数派がさらに強く見える現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_067",
     "title": "多元的無知",
-    "summary": "",
+    "summary": "多くの人が内心では同意していないのに、他者は賛成していると思い込み、表面上合わせ続ける状態。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_068",
@@ -2612,10 +2572,9 @@
   {
     "tagId": "kb_070",
     "title": "社会的手抜き",
-    "summary": "",
+    "summary": "集団で作業すると個人の貢献が見えにくくなり、一人で行うときより努力が低下しやすい現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_071",
@@ -2628,18 +2587,16 @@
   {
     "tagId": "kb_072",
     "title": "傍観者効果",
-    "summary": "",
+    "summary": "緊急時に周囲の人数が多いほど、自分が行動する可能性が低下しやすい現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_073",
     "title": "責任の分散",
-    "summary": "",
+    "summary": "複数人がいると、責任が他者にもあると感じ、自分の責任感が弱まる現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_074",
@@ -2668,10 +2625,9 @@
   {
     "tagId": "kb_077",
     "title": "マタイ効果",
-    "summary": "",
+    "summary": "既に資源や評価を持つ者ほど新たな機会を得やすく、優位が累積していく現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_078",
@@ -2708,10 +2664,9 @@
   {
     "tagId": "kb_082",
     "title": "弱い紐帯の強さ",
-    "summary": "",
+    "summary": "親しい人より、緩やかにつながる知人の方が、新しい情報や機会を運んでくることがあるという理論。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_083",
@@ -2788,10 +2743,9 @@
   {
     "tagId": "kb_107",
     "title": "シグナリング理論",
-    "summary": "",
+    "summary": "直接観察できない能力や意図を、学歴、資格、行動などの観察可能な手がかりで伝えるという理論。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_108",
@@ -2804,10 +2758,9 @@
   {
     "tagId": "kb_109",
     "title": "情報の非対称性",
-    "summary": "",
+    "summary": "取引や関係の当事者間で、持っている情報の量や質に差がある状態。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_110",
@@ -2820,10 +2773,9 @@
   {
     "tagId": "kb_111",
     "title": "印象管理理論",
-    "summary": "",
+    "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_112",
@@ -2916,10 +2868,9 @@
   {
     "tagId": "kb_123",
     "title": "ピグマリオン効果",
-    "summary": "",
+    "summary": "高い期待を向けられた人が、扱われ方の変化を通じて実際に成果を高めることがある現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_124",
@@ -2988,26 +2939,23 @@
   {
     "tagId": "kb_132",
     "title": "ピーターの法則",
-    "summary": "",
+    "summary": "階層組織では、人は成果を出せた役職から昇進を重ね、やがて能力を発揮できない役職に達しやすいという法則。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_192",
     "title": "パーキンソンの法則",
-    "summary": "",
+    "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_193",
     "title": "グッドハートの法則",
-    "summary": "",
+    "summary": "指標が目標になると、その指標は本来測ろうとしていたものを正確に表さなくなるという法則。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_194",
@@ -3188,10 +3136,9 @@
   {
     "tagId": "kb_473",
     "title": "自己成就予言",
-    "summary": "",
+    "summary": "ある予想を信じて行動すると、その行動が相手や状況を変え、当初の予想どおりの結果を生みやすくする現象。期待が態度や機会配分を通じて現実化する。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "status": "locked"
+    "categoryTitle": "組織・経営論"
   },
   {
     "tagId": "kb_474",
@@ -3444,9 +3391,10 @@
   {
     "tagId": "kb_553",
     "title": "役割多元化",
-    "summary": "仕事、家族、友人、学習者など複数の役割に自己を分散させ、一つの役割だけで自己価値を決めないこと。ある領域の失敗が自己全体へ波及するのを抑える。",
+    "summary": "",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "status": "locked"
   },
   {
     "tagId": "kb_554",
@@ -3458,16 +3406,18 @@
   {
     "tagId": "kb_555",
     "title": "リスク・オブ・ルイン",
-    "summary": "損失が一時的な不調ではなく、資金・健康・信用などを回復不能な水準まで壊す危険。期待値が高い選択でも、破滅確率があるなら賭け金を制限する必要がある。",
+    "summary": "",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "status": "locked"
   },
   {
     "tagId": "kb_561",
     "title": "バックキャスティング",
-    "summary": "望ましい将来の状態を先に描き、そこから現在へ逆算して必要な中間条件と行動を決める計画法。現在の延長予測では届かない大きな変化の設計に向く。",
+    "summary": "",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "status": "locked"
   },
   {
     "tagId": "kb_567",
@@ -3527,10 +3477,16 @@
   {
     "tagId": "kb_599",
     "title": "プレモーテム",
-    "summary": "",
+    "summary": "計画が失敗した未来を先に仮定し、その原因を洗い出す意思決定手法。失敗を恐れるためではなく、言いにくい懸念を計画段階で表に出すために使う。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Gary Klein",
+      "works": [
+        "Performing a Project Premortem (2007)"
+      ]
+    }
   },
   {
     "tagId": "kb_542",
@@ -3543,10 +3499,9 @@
   {
     "tagId": "kb_543",
     "title": "リーン・スタートアップ",
-    "summary": "",
+    "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_544",
@@ -3559,10 +3514,9 @@
   {
     "tagId": "kb_545",
     "title": "パレートの法則",
-    "summary": "",
+    "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_546",
@@ -3615,18 +3569,16 @@
   {
     "tagId": "kb_142",
     "title": "BATNA",
-    "summary": "",
+    "summary": "交渉がまとまらなかった場合に取れる最善の代替案。強いBATNAは、無理な条件を断る力になる。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_143",
     "title": "ZOPA",
-    "summary": "",
+    "summary": "交渉当事者の受け入れ可能な範囲が重なる、合意可能領域。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_144",
@@ -3759,10 +3711,9 @@
   {
     "tagId": "kb_162",
     "title": "囚人のジレンマ",
-    "summary": "",
+    "summary": "個人に合理的な裏切りが、双方にとって劣る結果を生む協力問題を示すゲーム。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_163",
@@ -3799,10 +3750,9 @@
   {
     "tagId": "kb_278",
     "title": "オプション価値",
-    "summary": "",
+    "summary": "今すぐ決定せず、将来より多くの情報を得て選べる余地そのものが持つ価値。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_279",
@@ -3831,26 +3781,23 @@
   {
     "tagId": "kb_282",
     "title": "バーベル戦略",
-    "summary": "",
+    "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_283",
     "title": "アンチフラジャイル",
-    "summary": "",
+    "summary": "変動や失敗を単に耐えるだけでなく、それらを通じて強くなる性質。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_284",
     "title": "OODAループ",
-    "summary": "",
+    "summary": "観察、状況判断、意思決定、行動を高速で回し、変化する状況へ適応する意思決定モデル。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_285",
@@ -3863,18 +3810,16 @@
   {
     "tagId": "kb_286",
     "title": "撤退戦略",
-    "summary": "",
+    "summary": "損失が拡大する前に、どの条件で縮小・中止・転換するかをあらかじめ設計する戦略。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_287",
     "title": "探索と活用",
-    "summary": "",
+    "summary": "新しい可能性を試す活動と、既に有効な方法を深める活動のバランスを扱う考え方。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_288",
@@ -3887,10 +3832,9 @@
   {
     "tagId": "kb_289",
     "title": "ロックイン効果",
-    "summary": "",
+    "summary": "切り替え費用や習慣、互換性のため、より良い選択肢があっても現在の制度や製品から離れにくくなる現象。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論",
-    "status": "locked"
+    "categoryTitle": "戦略論"
   },
   {
     "tagId": "kb_522",
@@ -3927,37 +3871,42 @@
   {
     "tagId": "kb_549",
     "title": "水に常形無く",
-    "summary": "『孫子』虚実篇の、水に一定の形がないように戦いにも固定した態勢はない、という比喩。過去の成功法を絶対視せず、相手と地形に応じて形を変える適応を説く。",
+    "summary": "",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "status": "locked"
   },
   {
     "tagId": "kb_468",
     "title": "鳥尽きて良弓蔵れ",
-    "summary": "獲物の鳥がいなくなれば優れた弓もしまわれる、という中国の故事。組織では、役割を果たした功労者でも必要性がなくなれば地位を失い得るため、役割以外の価値と選択肢が要る。",
+    "summary": "",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "status": "locked"
   },
   {
     "tagId": "kb_469",
     "title": "狡兎死して走狗烹らる",
-    "summary": "狡猾な兎を捕り終えると猟犬が煮られる、という故事。共通の敵や課題で結ばれた関係は、目的達成後に利害が変わるため、永続的な忠誠を前提にしてはならない。",
+    "summary": "",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "status": "locked"
   },
   {
     "tagId": "kb_490",
     "title": "善の善なる者なり",
-    "summary": "『孫子』の「戦わずして人の兵を屈するは、善の善なる者なり」の結句。勝敗の数ではなく、資源を損なわず目的を達成することを最上とする評価基準を表す。",
+    "summary": "",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "status": "locked"
   },
   {
     "tagId": "kb_496",
     "title": "未だ巧久を睹ざるなり",
-    "summary": "『孫子』作戦篇の「兵は拙速を聞くも、未だ巧久を睹ざるなり」の一部。戦いを巧妙に長引かせて利益を得た例はないとして、消耗する長期戦を戒める。",
+    "summary": "",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "status": "locked"
   },
   {
     "tagId": "kb_503",
@@ -3986,58 +3935,79 @@
   {
     "tagId": "kb_296",
     "title": "情けは人の為ならず",
-    "summary": "",
+    "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_298",
     "title": "過ちて改めざる、是を過ちと謂う",
-    "summary": "",
+    "summary": "間違えることより、間違いを認めず修正しないことこそ本当の過ちだという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "論語",
+      "works": [
+        "衛霊公篇"
+      ]
+    }
   },
   {
     "tagId": "kb_299",
     "title": "和して同ぜず",
-    "summary": "",
+    "summary": "人と調和しながらも、無批判に同調せず自分の判断を保つべきだという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "論語",
+      "works": [
+        "子路篇"
+      ]
+    }
   },
   {
     "tagId": "kb_300",
     "title": "親しき仲にも礼儀あり",
-    "summary": "",
+    "summary": "近い関係ほど境界や配慮を失いやすいため、親密さの中にも敬意が必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_301",
     "title": "雨降って地固まる",
-    "summary": "",
+    "summary": "対立や困難を適切に乗り越えることで、以前より強い関係や基盤ができるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_304",
     "title": "巧言令色、鮮なし仁",
-    "summary": "",
+    "summary": "口先の巧さや愛想の良さだけでは、誠実さや思いやりは判断できないという戒め。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "論語",
+      "works": [
+        "学而篇"
+      ]
+    }
   },
   {
     "tagId": "kb_311",
     "title": "知らざるを知らずと為す、是れ知るなり",
-    "summary": "",
+    "summary": "知らないことを知らないと認める態度こそ、正確な知識の出発点だという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "論語",
+      "works": [
+        "為政篇"
+      ]
+    }
   },
   {
     "tagId": "kb_312",
@@ -4050,50 +4020,65 @@
   {
     "tagId": "kb_315",
     "title": "鶏口となるも牛後となるなかれ",
-    "summary": "",
+    "summary": "大組織の末端にいるより、小さな組織でも主導権を持つ道を選ぶ価値を説く言葉。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "史記",
+      "works": [
+        "蘇秦列伝"
+      ]
+    }
   },
   {
     "tagId": "kb_324",
     "title": "巧遅は拙速に如かず",
-    "summary": "",
+    "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_326",
     "title": "為せば成る、為さねば成らぬ何事も",
-    "summary": "",
+    "summary": "結果を生む第一条件は、能力の有無を考え続けることではなく、実際に着手することだという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "上杉鷹山",
+      "works": [
+        "広く知られる言葉"
+      ]
+    }
   },
   {
     "tagId": "kb_327",
     "title": "継続は力なり",
-    "summary": "",
+    "summary": "小さな行動でも長く積み重ねることで、単発の大きな努力を超える力になるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_329",
     "title": "完璧は善の敵",
-    "summary": "",
+    "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_333",
     "title": "人間万事塞翁が馬",
-    "summary": "",
+    "summary": "幸運と不運は後から意味が変わるため、目先の出来事だけで人生全体を判断できないという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "淮南子",
+      "works": [
+        "人間訓"
+      ]
+    }
   },
   {
     "tagId": "kb_334",
@@ -4106,18 +4091,16 @@
   {
     "tagId": "kb_335",
     "title": "案ずるより産むが易し",
-    "summary": "",
+    "summary": "始める前の不安は実際の困難より大きくなりやすく、着手すれば意外に進められるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_336",
     "title": "明日は明日の風が吹く",
-    "summary": "",
+    "summary": "今日の不安を未来まで固定せず、状況が変わる余地を残して休むことも必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_351",
@@ -4130,26 +4113,34 @@
   {
     "tagId": "kb_352",
     "title": "臥薪嘗胆",
-    "summary": "",
+    "summary": "屈辱や失敗を忘れず、長期的な目的のために耐えながら準備を続ける姿勢を示す言葉。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "呉越抗争の故事"
+    }
   },
   {
     "tagId": "kb_353",
     "title": "捲土重来",
-    "summary": "",
+    "summary": "一度敗れても、力を蓄え直して再び挑戦できるという教え。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "status": "locked"
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "杜牧",
+      "works": [
+        "題烏江亭"
+      ]
+    }
   },
   {
     "tagId": "kb_359",
     "title": "一つの籠にすべての卵を盛るな",
-    "summary": "",
+    "summary": "一つの選択や資源にすべてを集中すると、失敗時に全体を失うため分散が必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_603",
@@ -4162,10 +4153,9 @@
   {
     "tagId": "kb_604",
     "title": "自分にできることと、できないことを分ける",
-    "summary": "",
+    "summary": "自分で変えられることに力を使い、変えられないことへの執着を減らす考え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_605",
@@ -4226,10 +4216,9 @@
   {
     "tagId": "kb_612",
     "title": "人生が短いのではない。多くを浪費している",
-    "summary": "",
+    "summary": "時間不足より、時間の使い方こそが人生の長さを左右すると説く。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_613",
@@ -4242,10 +4231,9 @@
   {
     "tagId": "kb_614",
     "title": "苦しむ前から苦しむ者は、必要以上に苦しむ",
-    "summary": "",
+    "summary": "起きていない未来を想像して先に苦しむことの無駄を戒める。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_615",
@@ -4258,50 +4246,44 @@
   {
     "tagId": "kb_616",
     "title": "われわれが恐れるものは、現実より想像の中に多い",
-    "summary": "",
+    "summary": "不安の多くは現実そのものより、頭の中で膨らんだ想像から生まれる。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_617",
     "title": "自分を知る者は明らかである",
-    "summary": "",
+    "summary": "他人を知る以上に、自分自身を理解することが重要だと説く。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_618",
     "title": "足るを知る者は富む",
-    "summary": "",
+    "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_619",
     "title": "人に勝つ者は力があり、自分に勝つ者は強い",
-    "summary": "",
+    "summary": "他人との競争より、自分の欲望や弱さを制する方が本質的な強さだと説く。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_620",
     "title": "千里の道も足下から始まる",
-    "summary": "",
+    "summary": "大きな目標も、最初の小さな一歩からしか始まらないという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_621",
     "title": "柔よく剛を制す",
-    "summary": "",
+    "summary": "正面から力でぶつかるより、柔軟に対応する方が強い場合があるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_622",
@@ -4314,42 +4296,37 @@
   {
     "tagId": "kb_623",
     "title": "過ぎたるは猶及ばざるが如し",
-    "summary": "",
+    "summary": "やりすぎは不足と同じく望ましくなく、適度が重要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_624",
     "title": "己の欲せざる所、人に施すこと勿れ",
-    "summary": "",
+    "summary": "自分がされて嫌なことを他人にしないという対人の基本原則。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_625",
     "title": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
-    "summary": "",
+    "summary": "学ぶだけでも考えるだけでも足りず、知識と思考を往復することが重要。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_626",
     "title": "知彼知己、百戦殆うからず",
-    "summary": "",
+    "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_627",
     "title": "勝兵は先ず勝ちて而る後に戦いを求む",
-    "summary": "",
+    "summary": "戦う前に勝てる条件を整えることが、強い戦略だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_628",
@@ -4362,10 +4339,9 @@
   {
     "tagId": "kb_629",
     "title": "兵に常勢なく、水に常形なし",
-    "summary": "",
+    "summary": "状況に応じて形を変え、固定したやり方に執着しないことを説く。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_630",
@@ -4378,18 +4354,16 @@
   {
     "tagId": "kb_631",
     "title": "井の中の蛙、大海を知らず",
-    "summary": "",
+    "summary": "狭い環境だけを基準にすると、世界の広さや別の可能性を見失う。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_632",
     "title": "無用の用",
-    "summary": "",
+    "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "status": "locked"
+    "categoryTitle": "古典・思想"
   },
   {
     "tagId": "kb_330",
@@ -4401,16 +4375,18 @@
   {
     "tagId": "kb_331",
     "title": "『環境は意志より強い』",
-    "summary": "行動を変えるには意志力へ頼るより、望ましい行動が自然に起きる環境を設計する方が強いという原則。",
+    "summary": "",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "status": "locked"
   },
   {
     "tagId": "kb_338",
     "title": "『自分の人生を他人のハイライトと比べない』",
-    "summary": "他人の最も良く見える瞬間と、自分の不安や失敗を含む日常全体を比較しても、公正な判断にはならない。",
+    "summary": "",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "status": "locked"
   },
   {
     "tagId": "kb_633",
@@ -4429,10 +4405,9 @@
   {
     "tagId": "kb_635",
     "title": "『80歳の自分が振り返ったときの後悔を減らす』 — ジェフ・ベゾス",
-    "summary": "",
+    "summary": "目先の不安より、長期的に何を後悔するかで選択する考え方。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_636",
@@ -4453,10 +4428,9 @@
   {
     "tagId": "kb_638",
     "title": "『失敗は、余計なものを削ぎ落としてくれた』 — J.K.ローリング",
-    "summary": "",
+    "summary": "失敗によって失うものがある一方、本当に大切なものが明確になることもある。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_639",
@@ -4509,10 +4483,9 @@
   {
     "tagId": "kb_645",
     "title": "『結果より、まず自分の仕事をする』 — 大谷翔平",
-    "summary": "",
+    "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_646",
@@ -4525,10 +4498,9 @@
   {
     "tagId": "kb_647",
     "title": "『長く考えれば、必ず良い答えになるわけではない』 — 羽生善治",
-    "summary": "",
+    "summary": "考える時間を増やすことと判断の質は同じではなく、決める力も必要だという教え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_648",
@@ -4581,10 +4553,9 @@
   {
     "tagId": "kb_654",
     "title": "『自分の中に毒を持て』 — 岡本太郎",
-    "summary": "",
+    "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_655",
@@ -4637,10 +4608,9 @@
   {
     "tagId": "kb_661",
     "title": "『やってみもせんで、何がわかる。』 — 本田宗一郎",
-    "summary": "",
+    "summary": "考えるだけで結論を出さず、実際に試してから判断することを勧める。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_662",
@@ -4701,10 +4671,9 @@
   {
     "tagId": "kb_669",
     "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
-    "summary": "",
+    "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "status": "locked"
+    "categoryTitle": "格言・経験則・作品"
   },
   {
     "tagId": "kb_670",

@@ -124,7 +124,9 @@ for (const preview of homeBrandContent.theorySnapshots) {
 const expectedHomeDomains = techniques.categories.map((category) => category.key);
 for (const domain of expectedHomeDomains) {
   const candidates = homeBrandContent.dailyCandidates[domain];
-  if (!candidates || candidates.techniqueIds.length !== 15 || !candidates.personaNames.length || !candidates.theoryIds.length) {
+  const expectedTechniqueCount = techniques.categories.find((category) => category.key === domain)
+    ?.subcategories.flatMap((persona) => persona.items).filter((item) => freeTechniqueIds.has(item.id)).length;
+  if (!candidates || candidates.techniqueIds.length !== expectedTechniqueCount || !candidates.personaNames.length || !candidates.theoryIds.length) {
     throw new Error(`Home daily candidates are incomplete for ${domain}.`);
   }
   if (candidates.techniqueIds.some((id) => !freeTechniqueIds.has(id))) {

@@ -1,8 +1,10 @@
 import { hydratePaidCatalog, theories, type PaidTechniquePayload } from '@/data/catalog';
+import contentScope from '@/data/content-scope.json';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { supabase } from '@/lib/supabase';
 
 let loaded = false;
+const excludedTechniqueIds = new Set<string>(contentScope.excludedTechniqueIds);
 
 /**
  * Loads the public catalogue from Supabase when the owner-content migration
@@ -18,7 +20,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       .order('display_order')
       .order('id');
     if (error || !data?.length) return false;
-    const techniques: PaidTechniquePayload[] = data.map((row) => ({
+    const techniques: PaidTechniquePayload[] = data.filter((row) => !excludedTechniqueIds.has(row.id as string)).map((row) => ({
       id: row.id as string,
       title: row.title as string,
       essence: (row.essence as string) ?? '',

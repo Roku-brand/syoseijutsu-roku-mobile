@@ -1,16 +1,17 @@
-export const FREE_THEORY_CATEGORY_IDS = [
-  'behavioral-science',
-  'organization-management',
-  'strategy',
-  'classics-thought',
-  'maxims-experience',
-];
+import {
+  COMPLETE_TECHNIQUE_COUNT,
+  FREE_TECHNIQUE_COUNT,
+  isProductTechnique,
+  resolveFreeTheoryIds,
+} from './public-content-portfolio.mjs';
 
 export const FREE_TECHNIQUES_PER_DOMAIN = 15;
 
 const PERSONA_DISPLAY_PRIORITY = {
   interpersonal: ['印象がいい人', '人たらしの人'],
 };
+
+const numericTechniqueId = (id) => Number.parseInt(String(id).match(/(\d+)$/)?.[1] ?? '', 10);
 
 export function orderPersonasForDisplay(category) {
   const priority = PERSONA_DISPLAY_PRIORITY[category.key] ?? [];
@@ -26,7 +27,7 @@ export function orderPersonasForDisplay(category) {
     .map(({ persona }) => persona);
 }
 
-function selectDomainPreviewItems(category) {
+export function selectDomainPreviewItems(category) {
   const previewPersonas = orderPersonasForDisplay(category).slice(0, 2);
   if (!previewPersonas.length) return [];
   const reserveForNextPersona = previewPersonas.length > 1 ? 1 : 0;
@@ -48,20 +49,37 @@ function selectDomainPreviewItems(category) {
 
 export function selectPublicContent({ techniques, theories, learning }) {
   const allTechniques = techniques.categories.flatMap((category) =>
-    category.subcategories.flatMap((persona) => persona.items),
+    category.subcategories.flatMap((persona) => persona.items.filter(isProductTechnique)),
   );
-  // The public edition is a cross-section of the whole knowledge system.
-  // Selecting from the flattened catalogue made all 45 cards interpersonal
-  // because that domain happens to be listed first.
+  if (allTechniques.length !== COMPLETE_TECHNIQUE_COUNT) {
+    throw new Error(`Complete technique catalogue must contain ${COMPLETE_TECHNIQUE_COUNT} active items; received ${allTechniques.length}.`);
+  }
+  // Preserve the original 45-card cross-section exactly. The five additions
+  // are then selected only from those already-open persona packages, ordered
+  // by their canonical display order/ID. This prevents an SEO-led selection
+  // from opening a new persona or creating a disconnected free card.
   const freeTechniqueIds = new Set(techniques.categories.flatMap((category) =>
     selectDomainPreviewItems(category).map((item) => item.id),
   ));
-  const freeTheoryIds = new Set([
-    ...theories.filter((theory) => theory.categoryId === 'psychology').slice(0, 20),
-    ...FREE_THEORY_CATEGORY_IDS.flatMap((categoryId) =>
-      theories.filter((theory) => theory.categoryId === categoryId).slice(0, 5),
-    ),
-  ].map((theory) => theory.tagId));
+  const freePersonaNames = new Set(techniques.categories.flatMap((category) =>
+    orderPersonasForDisplay(category).slice(0, 2).map((persona) => persona.name),
+  ));
+  const additionalCandidates = techniques.categories
+    .flatMap((category) => category.subcategories)
+    .filter((persona) => freePersonaNames.has(persona.name))
+    .flatMap((persona) => persona.items)
+    .filter((item) => isProductTechnique(item) && !freeTechniqueIds.has(item.id))
+    .sort((left, right) => numericTechniqueId(left.id) - numericTechniqueId(right.id)
+      || (left.displayOrder ?? Number.MAX_SAFE_INTEGER) - (right.displayOrder ?? Number.MAX_SAFE_INTEGER)
+      || left.id.localeCompare(right.id, 'en'));
+  for (const item of additionalCandidates) {
+    if (freeTechniqueIds.size >= FREE_TECHNIQUE_COUNT) break;
+    freeTechniqueIds.add(item.id);
+  }
+  if (freeTechniqueIds.size !== FREE_TECHNIQUE_COUNT) {
+    throw new Error(`Free technique portfolio must contain ${FREE_TECHNIQUE_COUNT} items; received ${freeTechniqueIds.size}.`);
+  }
+  const freeTheoryIds = resolveFreeTheoryIds(theories);
   const freeLearningIds = new Set(learning.slice(0, 7).map((item) => item.id));
 
   return { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds };

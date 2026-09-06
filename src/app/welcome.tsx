@@ -94,7 +94,7 @@ export default function Welcome() {
                 <View style={[styles.plans, desktop && styles.plansDesktop]}>
                   <PlanCard
                     title="無料版"
-                    description="まずは気軽に、処世術の一部を体験できます。"
+                    description="50の処世術と150の理論から、体系の入口を体験できます。"
                     button="無料で始める"
                     note="登録不要"
                     onPress={startFree}
@@ -102,7 +102,7 @@ export default function Welcome() {
                   <PlanCard
                     complete
                     title="完全版"
-                    description="すべての人物像・処世術・理論にアクセスできます。"
+                    description="全人物像・全紐づけを含む、処世術禄の完全体系にアクセスできます。"
                     button="すべての内容を見る"
                     note="利用条件は内容画面で確認"
                     onPress={() => router.push('/upgrade')}

@@ -96,8 +96,11 @@ jobs:
           pnpm content:split-secure
           pnpm content:sync-paid
 
-      - name: Validate 356-item master catalog
+      - name: Validate canonical source catalog
         run: pnpm content:validate-master336
+
+      - name: Audit free and complete product scope
+        run: pnpm content:audit-scope
 
       - name: Audit curated theory links in both directions
         run: pnpm content:audit-theory-links

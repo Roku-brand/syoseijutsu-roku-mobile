@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { Platform } from 'react-native';
 import { categories, techniqueById, theoryById } from '@/data/catalog';
 import { guidedTopicBySlug } from '@/data/guided-topics';
-import { isLockedTheoryShell } from '@/data/theory-display';
+import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
 
 const siteUrl = 'https://shoseijutsuroku.com';
 const brand = '処世術禄';
@@ -102,7 +102,8 @@ function getMeta(rawPathname: string): PageMeta {
   if (theoryMatch) {
     const item = theoryById.get(theoryMatch[1]);
     if (!item || isLockedTheoryShell(item)) return fallback;
-    return { ...fallback, title: `${item.title}とは？意味と処世術への活かし方｜${brand}`, description: truncate(`${item.summary} 関連する処世術と実践へのつながりを紹介します。`), indexable: true, type: 'article', pageType: 'Article', entity: { headline: item.title, description: item.summary, about: [item.categoryTitle] }, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, pathname)] };
+    const seo = getTheorySeoCopy(item);
+    return { ...fallback, title: `${seo.title}｜${brand}`, description: truncate(seo.description), indexable: true, type: 'article', pageType: 'Article', entity: { headline: item.title, description: item.summary, about: [item.categoryTitle] }, crumbs: [crumb('探す', '/discover'), crumb('理論', '/theories'), crumb(item.categoryTitle, `/theories?category=${item.categoryId}`), crumb(item.title, pathname)] };
   }
   const topicMatch = pathname.match(/^\/topic\/([^/]+)$/);
   if (topicMatch) {

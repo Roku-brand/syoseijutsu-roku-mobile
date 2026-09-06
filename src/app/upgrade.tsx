@@ -137,16 +137,16 @@ export default function UpgradeScreen() {
             <ProductCover compact={compact} />
             <View style={styles.productCopy}>
               <AppText variant="serif" style={[styles.productTitle, compact && styles.productTitleCompact]}>処世術禄　完全版</AppText>
-              <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>30日間、すべての知恵を。</AppText>
+              <AppText style={[styles.productLead, compact && styles.productLeadCompact]}>抜粋版から、知恵の完全体系へ。</AppText>
               <View style={styles.productPriceRow}><View style={styles.originalPriceGroup}><AppText variant="serif" style={[styles.originalPrice, compact && styles.originalPriceCompact]}>¥680</AppText><AppText style={[styles.originalPriceNote, compact && styles.originalPriceNoteCompact]}>通常価格</AppText></View><AppText variant="serif" style={[styles.productPrice, compact && styles.productPriceCompact]}>¥280</AppText><View style={styles.durationBadge}><AppText style={styles.durationBadgeText}>30日間</AppText></View></View>
               <View style={[styles.productConditionRow, compact && styles.productConditionRowCompact]}><AppText style={[styles.productCondition, compact && styles.productConditionCompact]}>一回払い・自動更新なし</AppText><AppText style={[styles.scopeText, compact && styles.scopeTextCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件・全{COMPLETE_LEARNING_CASE_COUNT}ケース</AppText></View>
             </View>
           </View>
 
           <View style={[styles.editionComparison, compact && styles.editionComparisonCompact]}>
-            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術{FREE_REEL_TECHNIQUE_IDS.length}件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View>
+            <View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版・体系の抜粋</AppText><AppText variant="serif" style={[styles.editionCount, compact && styles.editionCountCompact]}>処世術{FREE_REEL_TECHNIQUE_IDS.length}件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View>
             <AppText style={[styles.editionArrow, compact && styles.editionArrowCompact]}>›</AppText>
-            <View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount, compact && styles.completeEditionCountCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
+            <View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版・全体系</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount, compact && styles.completeEditionCountCompact]}>処世術{techniqueCards.length}件・理論{theories.length}件</AppText></View>
           </View>
 
           <View style={[styles.valueHeading, compact && styles.valueHeadingCompact]}><View style={styles.valueHeadingLine} /><View><AppText variant="serif" style={styles.valueHeadingTitle}>迷ったとき、すぐ一手が見つかる</AppText><AppText style={styles.valueHeadingSub}>完全版で手に入る3つの強み。</AppText></View><View style={styles.valueHeadingLine} /></View>

@@ -9,7 +9,7 @@ import { LockedPreview } from '@/components/locked-preview';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
 import { getRelatedTheories, getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
-import { getTheoryCategoryLabel, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
+import { getTheoryCategoryLabel, getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -70,6 +70,7 @@ export default function TheoryDetailScreen() {
     ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
     : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
   const summary = formatTheorySummary(theory.summary);
+  const seoCopy = getTheorySeoCopy(theory);
   const navigateTheory = (offset: -1 | 1) => {
     const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
     const next = theories[(currentIndex + offset + theories.length) % theories.length];
@@ -96,14 +97,14 @@ export default function TheoryDetailScreen() {
         </View>
 
         <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact]}>
-          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>概要</AppText><View style={styles.summaryRule} /></View>
+          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
           <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
         </View>
 
         <RelatedContentSection
-          title="関連する処世術"
+          title="この考え方を実生活でどう使う？"
           testID="theory-related-techniques"
-          items={related.map((card) => ({ key: card.id, title: card.title, supportingText: card.essence ?? card.subtitle, href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+          items={related.map((card) => ({ key: card.id, title: card.title, supportingText: `${card.subcategory}｜${card.essence ?? card.subtitle ?? ''}`, href: { pathname: '/card/[id]', params: { id: card.id } } }))}
         />
 
         <RelatedContentSection
