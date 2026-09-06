@@ -1191,6 +1191,26 @@ test('学ぶトップは3ステージの実進捗と禄丸を表示し、無料�
   await expect(page).toHaveURL(/\/upgrade\?source=learning/);
 });
 
+test('人物像の処世術はホバーとキーボードフォーカスでリンクだと分かる', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto('/subcategory/interpersonal/印象がいい人');
+
+  const link = page.getByRole('link', { name: /^01 / });
+  const row = page.getByTestId('persona-technique-row-1');
+  const title = page.getByTestId('persona-technique-title-1');
+  const initial = await row.evaluate((element) => getComputedStyle(element).backgroundColor);
+  const initialTitle = await title.evaluate((element) => getComputedStyle(element).color);
+
+  await link.hover();
+  await expect.poll(() => row.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe(initial);
+  await expect.poll(() => title.evaluate((element) => getComputedStyle(element).color)).not.toBe(initialTitle);
+
+  await page.mouse.move(0, 0);
+  await link.focus();
+  await expect.poll(() => row.evaluate((element) => getComputedStyle(element).backgroundColor)).not.toBe(initial);
+  await expect.poll(() => title.evaluate((element) => getComputedStyle(element).color)).not.toBe(initialTitle);
+});
+
 test('学ぶの改善が必要な選択は理由・関連知識・次ケースへつながる', async ({ page }) => {
   await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();

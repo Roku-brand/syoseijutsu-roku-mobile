@@ -1,5 +1,5 @@
 import { Link, useLocalSearchParams } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Platform, Pressable, StyleSheet, View, type TextStyle } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, spacing } from '@/constants/theme';
@@ -45,6 +45,7 @@ export default function PersonaScreen() {
   const { width } = useResponsiveLayout();
   const { savedIds, toggleSaved } = useAppState();
   const showToast = useAppToast();
+  const [activeTechniqueId, setActiveTechniqueId] = useState<string | null>(null);
   const { category, persona } = useMemo(() => {
     const nextCategory = categories.find((item) => item.key === categoryKey);
     return {
@@ -98,13 +99,16 @@ export default function PersonaScreen() {
                 {column.map((item, index) => {
                   const itemNumber = itemOffset + index + 1;
                   const saved = savedIds.includes(item.id);
+                  const active = activeTechniqueId === item.id;
                   return (
                     <View
                       key={item.id}
+                      testID={`persona-technique-row-${itemNumber}`}
                       style={[
                         styles.techniqueRow,
                         !compact && styles.techniqueRowDesktop,
                         compact && styles.techniqueRowCompact,
+                        active && styles.techniqueRowActive,
                         index === rowsPerColumn - 1 && styles.techniqueRowLast,
                       ]}
                     >
@@ -112,9 +116,13 @@ export default function PersonaScreen() {
                         <Pressable
                           accessibilityRole="link"
                           accessibilityLabel={`${String(itemNumber).padStart(2, '0')} ${item.title}を開く`}
+                          onFocus={() => setActiveTechniqueId(item.id)}
+                          onBlur={() => setActiveTechniqueId(null)}
+                          onHoverIn={() => setActiveTechniqueId(item.id)}
+                          onHoverOut={() => setActiveTechniqueId(null)}
                           style={({ pressed }) => [styles.techniqueOpenArea, compact && styles.techniqueOpenAreaCompact, pressed && styles.pressed]}
                         >
-                          <AppText style={[styles.number, compact && styles.numberCompact]}>{String(itemNumber).padStart(2, '0')}</AppText>
+                          <AppText style={[styles.number, compact && styles.numberCompact, active && styles.numberActive]}>{String(itemNumber).padStart(2, '0')}</AppText>
                           <View style={styles.rowTitleWrap}>
                             <AppText
                               testID={`persona-technique-title-${itemNumber}`}
@@ -122,7 +130,7 @@ export default function PersonaScreen() {
                               numberOfLines={compact ? 2 : undefined}
                               adjustsFontSizeToFit={compact && Platform.OS !== 'web'}
                               minimumFontScale={0.78}
-                              style={[styles.rowTitle, compact && styles.rowTitleCompact, compact && compactTwoLineWebStyle, compact && item.title.length > 18 && styles.rowTitleCompactLong]}
+                              style={[styles.rowTitle, compact && styles.rowTitleCompact, compact && compactTwoLineWebStyle, compact && item.title.length > 18 && styles.rowTitleCompactLong, active && styles.rowTitleActive]}
                             >{compact ? compactTechniqueTitle(item.title) : item.title}</AppText>
                           </View>
                         </Pressable>
@@ -189,6 +197,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E2DDD5',
   },
+  techniqueRowActive: { backgroundColor: '#FFF4DF' },
   techniqueOpenArea: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 14 },
   techniqueOpenAreaCompact: { width: '100%', flexBasis: '100%', gap: 6, paddingRight: 42 },
   saveAction: { marginLeft: 'auto', flexShrink: 0, alignItems: 'flex-end', justifyContent: 'center' },
@@ -199,10 +208,12 @@ const styles = StyleSheet.create({
   placeholder: { flex: 1, minHeight: 0, borderBottomWidth: 1, borderBottomColor: '#E2DDD5' },
   number: { width: 34, color: '#A77A25', fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, fontWeight: '800', letterSpacing: 1.1 },
   numberCompact: { width: 22, fontSize: 9, lineHeight: 13 },
+  numberActive: { color: '#705018' },
   rowTitleWrap: { flex: 1, minWidth: 0, overflow: 'hidden', justifyContent: 'center' },
   rowTitle: { maxWidth: '100%', minWidth: 0, flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 22, fontWeight: '600' },
   rowTitleCompact: { fontSize: 13.5, lineHeight: 19 },
   rowTitleCompactLong: { fontSize: 12, lineHeight: 18, letterSpacing: 0 },
+  rowTitleActive: { color: '#7A5518', fontWeight: '700' },
   endMarker: { minHeight: 48, paddingTop: 22, flexDirection: 'row', alignItems: 'center', gap: 24 },
   endMarkerCompact: { minHeight: 42, paddingTop: 18, paddingHorizontal: 2, gap: 10 },
   endLine: { flex: 1, minWidth: 0, height: 1, backgroundColor: '#D7D0C6' },
