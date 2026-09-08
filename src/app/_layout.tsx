@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
 import { Stack, useLocalSearchParams, usePathname, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BookHeader } from '@/components/book-ui';
 import { colors } from '@/constants/theme';
@@ -15,8 +15,12 @@ import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
 import { useAppState } from '@/state/app-state';
 import { SeoMeta } from '@/components/seo-meta';
+import { RouteTransition } from '@/components/route-transition';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { motion } from '@/constants/motion';
 
 function AppFrame() {
+  const reducedMotion = useReducedMotion();
   const pathname = usePathname();
   const segments = useSegments();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
@@ -41,13 +45,20 @@ function AppFrame() {
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
-      <View style={styles.navigator}>
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.paper }, animation: 'slide_from_right', gestureEnabled: true, fullScreenGestureEnabled: true }} />
-      </View>
+      <RouteTransition disabled={isWelcome}>
+        <Stack screenOptions={({ route }) => ({
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.paper },
+          animation: Platform.OS === 'web' || reducedMotion ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
+          animationDuration: motion.detailDuration,
+          gestureEnabled: true,
+          fullScreenGestureEnabled: true,
+        })} />
+      </RouteTransition>
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-  return <View style={styles.container}><StatusBar style="dark" />{desktop && showPersistentNavigation ? <View style={styles.desktopFrame}><PersistentBottomNav />{appContent}</View> : appContent}</View>;
+  return <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
 }
 
 function isFocusedScreen(pathname: string) {
@@ -64,6 +75,5 @@ const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   desktopFrame: { flex: 1, minHeight: 0, flexDirection: 'row' },
   contentColumn: { flex: 1, minWidth: 0, minHeight: 0 },
-  navigator: { flex: 1, minHeight: 0 },
   headerSafeArea: { flexShrink: 0, backgroundColor: colors.surface },
 });
