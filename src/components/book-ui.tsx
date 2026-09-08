@@ -1,4 +1,4 @@
-import { usePathname, useRouter } from 'expo-router';
+import { usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
@@ -28,6 +28,7 @@ import { useAuth } from '@/auth/auth-state';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
+import { upgradeRoute } from '@/navigation/app-routes';
 
 const appIcon = require('../../assets/brand/icon.png');
 
@@ -82,8 +83,9 @@ export function BookScreen({
 export function BookHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const segments = useSegments();
   const { user } = useAuth();
-  const { catalogRevision } = useAccess();
+  const { accessState, catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
@@ -94,6 +96,8 @@ export function BookHeader() {
   const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
+  const primaryTabHeader = segments[0] === '(tabs)';
+  const showUpgradeBanner = primaryTabHeader && (accessState === 'guest' || accessState === 'free');
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -137,21 +141,44 @@ export function BookHeader() {
             </View>
           </View>
         )}
-        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
-          <AppText
-            testID={personaHeader ? 'persona-header-title' : undefined}
-            numberOfLines={compact && personaHeader ? 2 : 1}
-            adjustsFontSizeToFit={compact && personaHeader}
-            minimumFontScale={0.82}
-            style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
-          >{currentTitle}</AppText>
-          {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
-        </View>
+        {showUpgradeBanner ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="完全版購入の案内を開く"
+            testID="header-upgrade-banner"
+            onPress={() => router.push(upgradeRoute('header_banner'))}
+            style={({ pressed }) => [
+              compact ? styles.headerUpgradeBannerCompact : styles.headerUpgradeBanner,
+              pressed && styles.headerUpgradeBannerPressed,
+            ]}
+          >
+            <View style={styles.headerUpgradeEmblem} accessibilityElementsHidden>
+              <AppText style={styles.headerUpgradeEmblemText}>全</AppText>
+            </View>
+            <View style={styles.headerUpgradeCopy}>
+              <AppText numberOfLines={1} style={styles.headerUpgradeEyebrow}>
+                {compact ? '全編をひらく' : 'すべての知恵を、あなたの手元に'}
+              </AppText>
+              <AppText numberOfLines={1} style={styles.headerUpgradeTitle}>完全版購入　›</AppText>
+            </View>
+          </Pressable>
+        ) : primaryTabHeader ? null : (
+          <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
+            <AppText
+              testID={personaHeader ? 'persona-header-title' : undefined}
+              numberOfLines={compact && personaHeader ? 2 : 1}
+              adjustsFontSizeToFit={compact && personaHeader}
+              minimumFontScale={0.82}
+              style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
+            >{currentTitle}</AppText>
+            {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
+          </View>
+        )}
 
         {detail ? (
           <DetailHeaderActions detail={detail} compact={compact} />
         ) : (
-          <View style={styles.headerActions}>
+          <View testID="book-header-actions" style={styles.headerActions}>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel="処世術の五大原則を開く"
@@ -687,6 +714,79 @@ const styles = StyleSheet.create({
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
+  headerUpgradeBanner: {
+    position: 'absolute',
+    left: '50%',
+    width: 310,
+    marginLeft: -155,
+    minHeight: 43,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 9,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#C9AB68',
+    borderRadius: radius.pill,
+    backgroundColor: colors.charcoal,
+    ...shadow.card,
+  },
+  headerUpgradeBannerCompact: {
+    position: 'absolute',
+    left: 54,
+    right: 116,
+    minHeight: 40,
+    paddingHorizontal: 7,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#C9AB68',
+    borderRadius: radius.pill,
+    backgroundColor: colors.charcoal,
+    ...shadow.card,
+  },
+  headerUpgradeBannerPressed: { opacity: 0.82, transform: [{ scale: 0.985 }] },
+  headerUpgradeEmblem: {
+    width: 27,
+    height: 27,
+    flexShrink: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#D8BD7D',
+    borderRadius: 14,
+    backgroundColor: '#29261F',
+  },
+  headerUpgradeEmblemText: {
+    color: '#F0D99D',
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: '700',
+  },
+  headerUpgradeCopy: { minWidth: 0, alignItems: 'flex-start' },
+  headerUpgradeEyebrow: {
+    color: '#CBB985',
+    fontFamily: fonts.serif,
+    fontSize: 8,
+    lineHeight: 11,
+    fontWeight: '500',
+    letterSpacing: 0.7,
+  },
+  headerUpgradeTitle: {
+    color: '#FFF7DF',
+    fontFamily: fonts.serif,
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: '700',
+    letterSpacing: 0.8,
+  },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,
