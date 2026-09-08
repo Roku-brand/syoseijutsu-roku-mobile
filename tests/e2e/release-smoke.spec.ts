@@ -1303,7 +1303,7 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await expect(page.getByText('相手は聞き役に固定され、会話ではなく自己紹介を採点する時間になる。次の質問も出にくくなる。').first()).toBeVisible();
   await expect(page.getByTestId('rokumaru-encourage')).toBeVisible();
   await expect(page.getByRole('link', { name: /関連する処世術、初対面は面白さより安心感を開く/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: '完全版で関連理論を開く' })).toBeVisible();
+  await expect(page.getByText('関連する理論')).toBeVisible();
 
   await page.getByRole('button', { name: /次のケースへ/ }).click();
   await expect(page).toHaveURL(/\/learn\/case-02/);
