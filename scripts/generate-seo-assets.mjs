@@ -100,9 +100,12 @@ function metaFor(rawRoute) {
     const category = categories.find((item) => item.key === personaMatch[1]);
     const persona = category?.subcategories.find((item) => item.name === personaMatch[2]);
     const visible = persona?.items.filter(isPublicTechnique) ?? [];
-    if (!persona || visible.length === 0) return base;
+    if (!persona) return base;
     const label = categoryCopy[personaMatch[1]][0];
-    return { ...base, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description: `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`, indexable: true, persona, crumbs: [crumb('探す', '/discover'), crumb(label, `/personas?category=${personaMatch[1]}`), crumb(persona.name, route)] };
+    const description = visible.length > 0
+      ? `${persona.name}を形づくる${visible.length}の処世術を、考え方・実践・関連理論から体系的に学べます。`
+      : `${persona.name}になるための考え方と、挫折から立て直すための処世術を、完全版を含む体系から学べます。`;
+    return { ...base, title: `${persona.articleTitle ?? persona.name}になるための処世術｜${brand}`, description, indexable: true, persona, crumbs: [crumb('探す', '/discover'), crumb(label, `/personas?category=${personaMatch[1]}`), crumb(persona.name, route)] };
   }
   const cardMatch = route.match(/^\/card\/([^/]+)$/);
   if (cardMatch) {
@@ -233,7 +236,10 @@ function staticContent(meta) {
       : '現時点で、特定の提唱者・原典・著作を確実に確認できていません。出典を断定せず、正本に収録された説明の範囲で掲載しています。';
     body = `<section><h2>${escape(seo.summaryHeading)}</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>この考え方を実生活でどう使う？</h2><p>正本で紐づいている処世術だけを掲載しています。</p><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a><span> — ${escape(item.persona)}</span></li>`).join('')}</ul></section>` : ''}<section><h2>出典・原典</h2><p>${escape(sourceText)}</p></section>`;
   } else if (meta.persona) {
-    body += `<section><h2>この人物像を形づくる処世術</h2><ul>${meta.persona.items.filter(isPublicTechnique).map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
+    const publicItems = meta.persona.items.filter(isPublicTechnique);
+    body += `<section><h2>この人物像を形づくる処世術</h2>${publicItems.length > 0
+      ? `<ul>${publicItems.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul>`
+      : '<p>立ち直る力を育てるための処世術は、現在、完全版で公開しています。失敗や挫折を次の行動へつなげる考え方を、体系的に学べます。</p><p><a href="/discover">公開中の処世術を探す</a>、または<a href="/upgrade">完全版の案内を見る</a>。</p>'}</section>`;
   } else body += '<section><h2>体系から探す</h2><ul><li><a href="/personas?category=interpersonal">対人術</a></li><li><a href="/personas?category=work">仕事術</a></li><li><a href="/personas?category=life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/learn">場面から学ぶ</a></li></ul></section>';
   const heading = meta.item?.title ?? meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
   return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(heading)}</h1>${body}</article></main></noscript>`;
