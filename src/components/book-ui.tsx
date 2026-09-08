@@ -198,34 +198,40 @@ export function BookHeader() {
           >
             <View testID="header-upgrade-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeSurface, headerUpgradeSurfaceGradient]} />
             <View pointerEvents="none" style={styles.headerUpgradeSheen} />
-            <View style={[styles.headerUpgradeEmblem, compact && styles.headerUpgradeEmblemCompact]} accessibilityElementsHidden>
-              <AppText style={[styles.headerUpgradeEmblemText, compact && styles.headerUpgradeEmblemTextCompact]}>禄</AppText>
-            </View>
-            <View style={[styles.headerUpgradeDivider, compact && styles.headerUpgradeDividerCompact]} />
-            <AppText
-              testID="header-upgrade-message"
-              numberOfLines={compact ? 3 : 1}
-              style={[
-                styles.headerUpgradeMessage,
-                compact && styles.headerUpgradeMessageCompact,
-                !compact && !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
-              ]}
-            >
-              356の処世術・630の理論をすべて読む
-            </AppText>
-            <View
-              testID="header-upgrade-cta"
-              style={[
-                styles.headerUpgradeCta,
-                compact && styles.headerUpgradeCtaCompact,
-                (upgradeHovered || upgradeFocused) && styles.headerUpgradeCtaInteractive,
-              ]}
-            >
-              <View testID="header-upgrade-cta-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeCtaSurface, headerUpgradeCtaGradient]} />
-              <AppText numberOfLines={compact ? 2 : 1} style={[styles.headerUpgradeCtaText, compact && styles.headerUpgradeCtaTextCompact]}>
+            {compact ? (
+              <AppText testID="header-upgrade-mobile-label" numberOfLines={1} style={styles.headerUpgradeMobileLabel}>
                 完全版を見る →
               </AppText>
-            </View>
+            ) : (
+              <>
+                <View style={styles.headerUpgradeEmblem} accessibilityElementsHidden>
+                  <AppText style={styles.headerUpgradeEmblemText}>禄</AppText>
+                </View>
+                <View style={styles.headerUpgradeDivider} />
+                <AppText
+                  testID="header-upgrade-message"
+                  numberOfLines={1}
+                  style={[
+                    styles.headerUpgradeMessage,
+                    !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
+                  ]}
+                >
+                  356の処世術・630の理論をすべて読む
+                </AppText>
+                <View
+                  testID="header-upgrade-cta"
+                  style={[
+                    styles.headerUpgradeCta,
+                    (upgradeHovered || upgradeFocused) && styles.headerUpgradeCtaInteractive,
+                  ]}
+                >
+                  <View testID="header-upgrade-cta-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeCtaSurface, headerUpgradeCtaGradient]} />
+                  <AppText numberOfLines={1} style={styles.headerUpgradeCtaText}>
+                    完全版を見る →
+                  </AppText>
+                </View>
+              </>
+            )}
           </Pressable>
         ) : primaryTabHeader ? null : (
           <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
@@ -810,10 +816,11 @@ const styles = StyleSheet.create({
   headerUpgradeBannerCompact: {
     left: 54,
     right: 116,
-    minHeight: 44,
+    minHeight: 38,
     paddingHorizontal: 6,
-    paddingVertical: 4,
-    gap: 5,
+    paddingVertical: 3,
+    justifyContent: 'center',
+    gap: 0,
   },
   headerUpgradeSurface: {
     borderRadius: radius.pill,
@@ -850,7 +857,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#211E19',
   },
-  headerUpgradeEmblemCompact: { width: 22, height: 22, borderRadius: 11 },
   headerUpgradeEmblemText: {
     color: '#E7C665',
     fontFamily: fonts.serif,
@@ -858,9 +864,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '700',
   },
-  headerUpgradeEmblemTextCompact: { fontSize: 9, lineHeight: 12 },
   headerUpgradeDivider: { width: 1, height: 25, flexShrink: 0, backgroundColor: 'rgba(184,131,29,0.38)' },
-  headerUpgradeDividerCompact: { height: 22 },
   headerUpgradeMessage: {
     minWidth: 0,
     flex: 1,
@@ -873,7 +877,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headerUpgradeMessageMedium: { fontSize: 10, lineHeight: 15, letterSpacing: 0 },
-  headerUpgradeMessageCompact: { fontSize: 7, lineHeight: 8, letterSpacing: -0.15, textAlign: 'left' },
   headerUpgradeCta: {
     minWidth: 132,
     minHeight: 33,
@@ -892,7 +895,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
-  headerUpgradeCtaCompact: { minWidth: 50, minHeight: 30, paddingHorizontal: 4 },
   headerUpgradeCtaSurface: { borderRadius: radius.pill, backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
   headerUpgradeCtaInteractive: {
     borderColor: '#A96F0D',
@@ -910,7 +912,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.35,
     textAlign: 'center',
   },
-  headerUpgradeCtaTextCompact: { fontSize: 8, lineHeight: 10, letterSpacing: -0.1 },
+  headerUpgradeMobileLabel: {
+    color: HEADER_UPGRADE_TOKENS.goldDeep,
+    fontFamily: fonts.serif,
+    fontSize: 11,
+    lineHeight: 16,
+    fontWeight: '700',
+    letterSpacing: 0.45,
+    textAlign: 'center',
+  },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,
