@@ -287,6 +287,47 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
 });
 
+test('主要4タブは重複するヘッダー名を省き、無料版の完全版購入バナーを表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  for (const [route, title] of [
+    ['/', 'ホーム'],
+    ['/discover', '探す'],
+    ['/learn', '学ぶ'],
+    ['/my-os', 'マイページ'],
+  ] as const) {
+    await page.goto(route);
+    if (route === '/' && await page.getByRole('button', { name: '無料で始める' }).isVisible({ timeout: 500 }).catch(() => false)) {
+      await startFreeHome(page);
+    }
+    const header = page.getByTestId('book-header');
+    await expect(header.getByText(title, { exact: true })).toHaveCount(0);
+    await expect(header.getByTestId('header-upgrade-banner')).toBeVisible();
+    await expect(header.getByText('完全版購入', { exact: false })).toBeVisible();
+  }
+
+  await page.setViewportSize({ width: 320, height: 740 });
+  await page.goto('/discover');
+  const [appIcon, banner, actions] = await Promise.all([
+    page.getByTestId('book-header-app-icon').boundingBox(),
+    page.getByTestId('header-upgrade-banner').boundingBox(),
+    page.getByTestId('book-header-actions').boundingBox(),
+  ]);
+  expect(appIcon).not.toBeNull();
+  expect(banner).not.toBeNull();
+  expect(actions).not.toBeNull();
+  expect(banner!.x).toBeGreaterThanOrEqual(appIcon!.x + appIcon!.width + 4);
+  expect(banner!.x + banner!.width).toBeLessThanOrEqual(actions!.x - 4);
+
+  await page.goto('/settings');
+  await expect(page.getByTestId('book-header').getByText('設定', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('header-upgrade-banner')).toHaveCount(0);
+
+  await page.goto('/discover');
+  await page.getByTestId('header-upgrade-banner').click();
+  await expect(page).toHaveURL(/\/upgrade\?source=header_banner/);
+});
+
 test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/welcome');
