@@ -19,7 +19,10 @@
         }
       ],
       "note": "印象形成の代表的研究。記憶課題での初頭効果とは区別します。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_739"
+    ]
   },
   {
     "tagId": "kb_002",
@@ -41,12 +44,15 @@
         }
       ],
       "note": "自由再生課題の系列位置効果を扱う研究。会話全体の評価への適用まで直接検証した論文ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_739"
+    ]
   },
   {
     "tagId": "kb_003",
     "title": "ハロー効果",
-    "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。",
+    "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。逆に、一つの目立つ欠点が全体評価を引き下げるホーン効果も同じ印象波及の仕組みで説明できる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "provenance": {
@@ -63,7 +69,13 @@
         }
       ],
       "note": "評価に共通して入り込む誤差を扱った古典的論文。"
-    }
+    },
+    "aliases": [
+      "ホーン効果",
+      "horn effect",
+      "devil effect"
+    ],
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_004",
@@ -85,7 +97,11 @@
         }
       ],
       "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_718",
+      "kb_821"
+    ]
   },
   {
     "tagId": "kb_005",
@@ -93,6 +109,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_823"
+    ],
     "status": "locked"
   },
   {
@@ -101,6 +120,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -123,7 +143,8 @@
         }
       ],
       "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_008",
@@ -145,7 +166,8 @@
         }
       ],
       "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_009",
@@ -153,6 +175,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -161,6 +184,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -169,6 +193,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -177,6 +202,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -185,6 +211,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -207,7 +234,8 @@
         }
       ],
       "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_015",
@@ -215,6 +243,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -223,6 +252,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -245,7 +275,8 @@
         }
       ],
       "note": "選択的聴取の古典的研究。自分の名前を呼ぶと好意が上がるという主張の直接の根拠ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_018",
@@ -253,6 +284,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -275,7 +307,8 @@
         }
       ],
       "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_020",
@@ -283,6 +316,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -291,6 +325,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -299,6 +334,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -307,6 +343,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -315,6 +352,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -337,7 +375,8 @@
         }
       ],
       "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_026",
@@ -345,6 +384,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -353,6 +393,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -375,7 +416,8 @@
         }
       ],
       "note": "高不安状況と魅力の関連を扱う研究。「吊り橋効果」は日本語での通称です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_029",
@@ -397,7 +439,8 @@
         }
       ],
       "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_030",
@@ -405,6 +448,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -413,6 +457,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -421,6 +466,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -429,6 +475,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_822"
+    ],
     "status": "locked"
   },
   {
@@ -437,6 +486,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -445,6 +495,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -452,7 +503,8 @@
     "title": "愛着理論",
     "summary": "幼少期から形成される他者への信頼や不安のパターンが、成人後の親密な関係にも影響するという理論。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_037",
@@ -460,6 +512,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -468,6 +521,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -476,6 +530,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -484,6 +539,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -491,7 +547,8 @@
     "title": "ゴットマンの四騎士",
     "summary": "批判、侮蔑、防御、無視という、関係悪化を強く予測する四つのコミュニケーションパターン。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_042",
@@ -499,6 +556,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -507,6 +565,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -515,6 +574,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -537,7 +597,8 @@
         }
       ],
       "note": "帰属判断の偏りを整理した代表的論考。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_046",
@@ -545,6 +606,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_708"
+    ],
     "status": "locked"
   },
   {
@@ -567,7 +631,8 @@
         }
       ],
       "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_048",
@@ -575,6 +640,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -583,6 +649,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -590,14 +657,18 @@
     "title": "心理的リアクタンス",
     "summary": "自由を制限されたと感じると、その自由を取り戻そうとして反発する心理。正論でも命令的に伝えると抵抗を招きやすい。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_787"
+    ]
   },
   {
     "tagId": "kb_051",
     "title": "アサーション理論",
     "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_052",
@@ -605,6 +676,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -612,7 +684,8 @@
     "title": "非暴力コミュニケーション",
     "summary": "観察、感情、ニーズ、依頼を分けて伝え、非難せずに相互理解を目指すコミュニケーション法。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_054",
@@ -620,6 +693,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -628,6 +702,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -636,6 +711,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -644,6 +720,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -651,28 +728,32 @@
     "title": "境界線理論",
     "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_093",
     "title": "共依存",
     "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_094",
     "title": "ダブルバインド",
     "summary": "矛盾する要求を同時に受け、どちらに従っても否定され、矛盾を指摘することも許されない状況。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_095",
     "title": "ガスライティング",
     "summary": "事実や記憶を繰り返し否定し、相手に自分の認識を疑わせる心理的操作。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_096",
@@ -680,6 +761,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -688,6 +770,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -710,7 +793,10 @@
         }
       ],
       "note": "不確実性不耐性を含む全般性不安のモデルを検討した論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_758"
+    ]
   },
   {
     "tagId": "kb_204",
@@ -718,6 +804,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -726,6 +813,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -734,6 +822,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -742,6 +831,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -750,6 +840,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -758,6 +849,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -766,6 +858,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -774,6 +867,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -782,6 +876,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -789,7 +884,8 @@
     "title": "破局的思考",
     "summary": "悪い可能性を極端に拡大し、最悪の結果が起き、対処できないと考える思考パターン。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_214",
@@ -797,6 +893,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -805,6 +902,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -827,7 +925,8 @@
         }
       ],
       "note": "反すうなどの反応様式を扱う論文。反すうの中断という単独手法の初出ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_217",
@@ -835,6 +934,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -843,6 +943,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -865,7 +966,8 @@
         }
       ],
       "note": "白熊を考えない課題などを用いた思考抑制の実験。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_220",
@@ -873,6 +975,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -895,7 +998,8 @@
         }
       ],
       "note": "ACTの心理的柔軟性・受容・脱フュージョンなどの過程を扱う論文。受容全般の起源ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_222",
@@ -903,6 +1007,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -911,6 +1016,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -919,6 +1025,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -941,7 +1048,8 @@
         }
       ],
       "note": "マインドフルネスを用いた医療プログラムの初期報告。瞑想の歴史的起源とは別です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_226",
@@ -949,6 +1057,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -957,6 +1066,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -965,6 +1075,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_772"
+    ],
     "status": "locked"
   },
   {
@@ -973,6 +1086,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -981,6 +1095,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_725"
+    ],
     "status": "locked"
   },
   {
@@ -1003,7 +1120,8 @@
         }
       ],
       "note": "偶然に対する統制の錯覚を扱う論文。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_232",
@@ -1025,7 +1143,8 @@
         }
       ],
       "note": "自分が他者から注目される程度の見積もりを扱う研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_233",
@@ -1047,7 +1166,8 @@
         }
       ],
       "note": "自分の内的状態の伝わり方に関する偏りを扱う研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_234",
@@ -1055,6 +1175,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1063,6 +1184,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1071,6 +1193,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1079,6 +1202,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_728"
+    ],
     "status": "locked"
   },
   {
@@ -1087,6 +1213,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1109,7 +1236,10 @@
         }
       ],
       "note": "学習性無力感に関する初期の動物実験。人間への適用とは区別します。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_725"
+    ]
   },
   {
     "tagId": "kb_240",
@@ -1131,7 +1261,8 @@
         }
       ],
       "note": "逆境後の回復力と複数の経過を扱う論考。誰もが同じ回復経過をたどるとはしません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_241",
@@ -1139,6 +1270,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1147,6 +1279,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1155,6 +1288,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1163,6 +1297,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1171,6 +1306,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1179,6 +1315,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_805"
+    ],
     "status": "locked"
   },
   {
@@ -1187,6 +1326,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1195,6 +1335,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1203,6 +1344,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1211,6 +1353,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1219,6 +1362,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1227,6 +1371,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1235,6 +1380,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_825"
+    ],
     "status": "locked"
   },
   {
@@ -1243,6 +1391,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1251,6 +1400,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1259,6 +1409,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1267,6 +1418,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1275,6 +1427,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1283,6 +1436,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_806"
+    ],
     "status": "locked"
   },
   {
@@ -1291,6 +1447,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1299,6 +1456,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1307,6 +1465,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1329,7 +1488,10 @@
         }
       ],
       "note": "能力観と目標志向を扱う枠組み。成長マインドセットという呼称の初出を示すものではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_706"
+    ]
   },
   {
     "tagId": "kb_264",
@@ -1351,14 +1513,26 @@
         }
       ],
       "note": "セルフ・コンパッションの概念を提示した論文。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_265",
     "title": "認知的不協和",
-    "summary": "信念と行動が矛盾すると不快感が生じ、その不快感を減らすために解釈や態度を変える現象。",
+    "summary": "信念と行動が矛盾すると不快感が生じ、その不快感を減らすために解釈や態度を変える現象。大きな努力を払った対象を過大評価して不協和を減らす努力正当化も、この理論の代表的な現れである。",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "aliases": [
+      "努力正当化",
+      "effort justification"
+    ],
+    "provenance": {
+      "note": "努力正当化を同義・下位概念として統合。"
+    },
+    "relatedTheoryIds": [
+      "kb_786",
+      "kb_839"
+    ]
   },
   {
     "tagId": "kb_266",
@@ -1380,7 +1554,8 @@
         }
       ],
       "note": "社会的比較の理論を示した原典。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_267",
@@ -1388,6 +1563,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1410,7 +1586,8 @@
         }
       ],
       "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_269",
@@ -1432,7 +1609,8 @@
         }
       ],
       "note": "被害者への評価を通して公正世界に関する仮説を検討した研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_270",
@@ -1440,6 +1618,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1448,6 +1627,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1456,6 +1636,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1464,6 +1645,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1472,6 +1654,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1494,7 +1677,8 @@
         }
       ],
       "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_390",
@@ -1502,6 +1686,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1524,7 +1709,8 @@
         }
       ],
       "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_392",
@@ -1532,6 +1718,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1540,6 +1727,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1548,6 +1736,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1556,6 +1745,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1564,6 +1754,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1572,6 +1763,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1580,6 +1772,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1588,6 +1781,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1596,6 +1790,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1604,6 +1799,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1612,6 +1808,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1620,6 +1817,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1628,6 +1826,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1636,6 +1835,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1644,6 +1844,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1652,6 +1853,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1660,6 +1862,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1668,6 +1871,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1676,6 +1880,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_789"
+    ],
     "status": "locked"
   },
   {
@@ -1684,6 +1891,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1692,6 +1900,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_858"
+    ],
     "status": "locked"
   },
   {
@@ -1700,6 +1911,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_744"
+    ],
     "status": "locked"
   },
   {
@@ -1708,6 +1922,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1716,6 +1931,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1724,6 +1940,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1732,6 +1949,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1740,6 +1958,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1748,6 +1967,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1756,6 +1976,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1764,6 +1985,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1772,6 +1994,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1780,6 +2003,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1788,6 +2012,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1796,6 +2021,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1804,6 +2030,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1812,6 +2039,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_836"
+    ],
     "status": "locked"
   },
   {
@@ -1820,6 +2050,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1828,6 +2059,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1836,6 +2068,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1844,6 +2077,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1852,6 +2086,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1860,6 +2095,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1868,6 +2104,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1876,6 +2113,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1884,6 +2122,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1892,6 +2131,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_831"
+    ],
     "status": "locked"
   },
   {
@@ -1900,6 +2142,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1908,6 +2151,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1916,6 +2160,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1924,6 +2169,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1932,6 +2178,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1940,6 +2187,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1948,6 +2196,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1956,14 +2205,19 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_452",
     "title": "権威バイアス",
-    "summary": "肩書、地位、専門性を持つ人の意見を、内容や根拠の検討以上に正しいと評価しやすい傾向。権威が関連分野のものか、利害関係があるかを分けて確かめる必要がある。",
+    "summary": "",
     "categoryId": "psychology",
-    "categoryTitle": "心理学"
+    "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_733"
+    ],
+    "status": "locked"
   },
   {
     "tagId": "kb_550",
@@ -1971,6 +2225,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_740"
+    ],
     "status": "locked"
   },
   {
@@ -1979,6 +2236,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1987,6 +2245,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -1995,6 +2254,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2003,6 +2263,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2011,6 +2272,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2019,6 +2281,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2027,6 +2290,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2035,6 +2299,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2043,6 +2308,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2051,6 +2317,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_824"
+    ],
     "status": "locked"
   },
   {
@@ -2059,6 +2328,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2067,6 +2337,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2075,6 +2346,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2083,6 +2355,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2091,6 +2364,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2099,6 +2373,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2107,6 +2382,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2115,6 +2391,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2123,6 +2400,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2131,6 +2409,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2139,6 +2418,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2147,6 +2427,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2155,6 +2436,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2163,6 +2445,9 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_709"
+    ],
     "status": "locked"
   },
   {
@@ -2171,6 +2456,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2179,6 +2465,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2187,6 +2474,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2195,6 +2483,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2203,29 +2492,19 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_596",
     "title": "確証バイアス",
-    "summary": "すでに信じている仮説に合う情報を集め、反する情報を軽く扱いやすい傾向。第一印象や自分の結論を疑うときは、反証になる事実を意識して探す必要がある。",
+    "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Raymond S. Nickerson（参照文献の著者）",
-      "period": "1998年（参照文献）",
-      "works": [
-        "Confirmation Bias: A Ubiquitous Phenomenon in Many Guises (1998). Review of General Psychology, 2(2), 175-220"
-      ],
-      "sources": [
-        {
-          "title": "文献情報・原文（DOI）",
-          "url": "https://doi.org/10.1037/1089-2680.2.2.175"
-        }
-      ],
-      "note": "確証バイアス研究の総説。Nickersonをこの偏りの最初の発見者とはしません。"
-    }
+    "relatedTheoryIds": [
+      "kb_812"
+    ],
+    "status": "locked"
   },
   {
     "tagId": "kb_597",
@@ -2233,6 +2512,11 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_711",
+      "kb_836",
+      "kb_858"
+    ],
     "status": "locked"
   },
   {
@@ -2241,6 +2525,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2249,6 +2534,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2257,6 +2543,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2265,6 +2552,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2273,6 +2561,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2281,6 +2570,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2289,6 +2579,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2297,6 +2588,12 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_737",
+      "kb_742",
+      "kb_745",
+      "kb_840"
+    ],
     "status": "locked"
   },
   {
@@ -2305,29 +2602,17 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_511",
     "title": "ネガティビティ・バイアス",
-    "summary": "同程度の良い情報と悪い情報では、悪い情報の方が注意、記憶、判断に強く影響しやすい傾向。一度の不信行動が、複数の好意より重く評価されることがある。",
+    "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Roy F. Baumeister / Ellen Bratslavsky / Catrin Finkenauer / Kathleen D. Vohs（参照文献の著者）",
-      "period": "2001年（参照文献）",
-      "works": [
-        "Bad is Stronger than Good (2001). Review of General Psychology, 5(4), 323-370"
-      ],
-      "sources": [
-        {
-          "title": "文献情報・原文（DOI）",
-          "url": "https://doi.org/10.1037/1089-2680.5.4.323"
-        }
-      ],
-      "note": "否定的情報と肯定的情報の非対称性を整理したレビュー。"
-    }
+    "relatedTheoryIds": [],
+    "status": "locked"
   },
   {
     "tagId": "kb_158",
@@ -2335,6 +2620,7 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2343,6 +2629,10 @@
     "summary": "",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
+    "relatedTheoryIds": [
+      "kb_736",
+      "kb_833"
+    ],
     "status": "locked"
   },
   {
@@ -2351,6 +2641,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2359,6 +2650,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2367,6 +2659,10 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_711",
+      "kb_712"
+    ],
     "status": "locked"
   },
   {
@@ -2375,6 +2671,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2397,7 +2694,8 @@
         }
       ],
       "note": "小さな依頼から大きな依頼への承諾を扱う研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_099",
@@ -2419,7 +2717,8 @@
         }
       ],
       "note": "譲歩による承諾を扱う実験。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_100",
@@ -2441,7 +2740,8 @@
         }
       ],
       "note": "承諾後に条件が変わるローボール手続きの研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_101",
@@ -2449,6 +2749,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2456,7 +2757,8 @@
     "title": "希少性の原理",
     "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_103",
@@ -2464,6 +2766,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2471,7 +2774,10 @@
     "title": "社会的証明",
     "summary": "判断が難しいとき、他者の選択や多数派の行動を正しさの手がかりにする傾向。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_729"
+    ]
   },
   {
     "tagId": "kb_105",
@@ -2493,7 +2799,8 @@
         }
       ],
       "note": "曖昧な人物記述を自分に当てはまると捉える傾向を扱う実験。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_106",
@@ -2501,12 +2808,16 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_729",
+      "kb_782"
+    ],
     "status": "locked"
   },
   {
     "tagId": "kb_133",
     "title": "プロスペクト理論",
-    "summary": "人は絶対的な結果ではなく基準点からの得失で判断し、利益より損失を強く感じるという意思決定理論。",
+    "summary": "人は絶対的な結果ではなく基準点からの得失で判断し、利益より損失を強く感じるという意思決定理論。同程度の確率でも、利得局面ではリスク回避、損失局面ではリスク追求へ傾きやすい反射効果を含む。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "provenance": {
@@ -2523,7 +2834,15 @@
         }
       ],
       "note": "リスク下の選択と価値関数を扱う原典。損失回避の効果が全場面で同一という意味ではありません。"
-    }
+    },
+    "aliases": [
+      "反射効果",
+      "reflection effect"
+    ],
+    "relatedTheoryIds": [
+      "kb_756",
+      "kb_759"
+    ]
   },
   {
     "tagId": "kb_134",
@@ -2545,7 +2864,8 @@
         }
       ],
       "note": "リスク下の選択と価値関数を扱う原典。損失回避の効果が全場面で同一という意味ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_135",
@@ -2567,7 +2887,12 @@
         }
       ],
       "note": "保有効果の代表的実験。呼称の初出を確定する資料ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_837",
+      "kb_838",
+      "kb_846"
+    ]
   },
   {
     "tagId": "kb_136",
@@ -2589,7 +2914,11 @@
         }
       ],
       "note": "現状維持バイアスを扱う代表的論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_807",
+      "kb_808"
+    ]
   },
   {
     "tagId": "kb_137",
@@ -2611,7 +2940,11 @@
         }
       ],
       "note": "選択肢の提示の仕方と意思決定を扱う論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_820",
+      "kb_819"
+    ]
   },
   {
     "tagId": "kb_138",
@@ -2633,7 +2966,11 @@
         }
       ],
       "note": "アンカリングや事前確率の扱いなど、判断のヒューリスティックを整理した論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_787",
+      "kb_842"
+    ]
   },
   {
     "tagId": "kb_139",
@@ -2641,6 +2978,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2663,7 +3001,8 @@
         }
       ],
       "note": "非対称に劣る選択肢の追加による選好変化を扱う研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_141",
@@ -2671,6 +3010,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2693,7 +3033,10 @@
         }
       ],
       "note": "目標設定理論の代表的初期論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_749"
+    ]
   },
   {
     "tagId": "kb_168",
@@ -2701,6 +3044,11 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_750",
+      "kb_774",
+      "kb_776"
+    ],
     "status": "locked"
   },
   {
@@ -2723,7 +3071,14 @@
         }
       ],
       "note": "自己効力感の理論を提示した論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_727",
+      "kb_728",
+      "kb_735",
+      "kb_750",
+      "kb_804"
+    ]
   },
   {
     "tagId": "kb_170",
@@ -2731,6 +3086,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_832"
+    ],
     "status": "locked"
   },
   {
@@ -2739,6 +3097,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2761,7 +3120,11 @@
         }
       ],
       "note": "実行意図の研究を整理した論文。概念の初出ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_749",
+      "kb_832"
+    ]
   },
   {
     "tagId": "kb_173",
@@ -2769,6 +3132,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2777,6 +3141,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2799,7 +3164,13 @@
         }
       ],
       "note": "現在と将来の選好の不整合を扱う代表的モデル。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_751",
+      "kb_753",
+      "kb_761",
+      "kb_840"
+    ]
   },
   {
     "tagId": "kb_176",
@@ -2807,6 +3178,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2829,7 +3201,10 @@
         }
       ],
       "note": "デフォルト設定と選択を扱う研究。全分野で同じ効果を保証するものではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_842"
+    ]
   },
   {
     "tagId": "kb_178",
@@ -2837,6 +3212,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2844,14 +3220,16 @@
     "title": "ナッジ",
     "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_180",
     "title": "習慣ループ",
     "summary": "きっかけ、行動、報酬の循環によって習慣が形成・維持されるという枠組み。",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_181",
@@ -2859,6 +3237,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2867,6 +3246,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2875,6 +3255,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_751"
+    ],
     "status": "locked"
   },
   {
@@ -2883,6 +3266,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2891,6 +3275,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2899,6 +3284,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2907,6 +3293,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2915,6 +3302,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2923,6 +3311,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2945,7 +3334,11 @@
         }
       ],
       "note": "課題の所要時間を過小評価する傾向を扱う実験。用語の初出ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_710",
+      "kb_810"
+    ]
   },
   {
     "tagId": "kb_191",
@@ -2967,7 +3360,10 @@
         }
       ],
       "note": "選択と自己制御の資源モデルに基づく研究。意思決定疲れの機序・再現性が確定したという意味ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_754"
+    ]
   },
   {
     "tagId": "kb_198",
@@ -2975,6 +3371,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -2983,6 +3380,13 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_738",
+      "kb_741",
+      "kb_747",
+      "kb_829",
+      "kb_831"
+    ],
     "status": "locked"
   },
   {
@@ -2991,6 +3395,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_738"
+    ],
     "status": "locked"
   },
   {
@@ -2999,6 +3406,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_747"
+    ],
     "status": "locked"
   },
   {
@@ -3007,6 +3417,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3029,7 +3440,11 @@
         }
       ],
       "note": "埋没費用が意思決定へ及ぼす影響を扱う論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_757",
+      "kb_837"
+    ]
   },
   {
     "tagId": "kb_274",
@@ -3037,6 +3452,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_760"
+    ],
     "status": "locked"
   },
   {
@@ -3059,7 +3477,8 @@
         }
       ],
       "note": "選択肢の多さと動機づけを扱う研究。多い選択肢が常に悪いとはいえません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_276",
@@ -3067,6 +3486,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3075,6 +3495,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_754"
+    ],
     "status": "locked"
   },
   {
@@ -3083,6 +3506,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3091,6 +3515,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3099,14 +3524,17 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_531",
     "title": "ツァイガルニク効果",
-    "summary": "完了した課題より、中断された未完了課題の方が記憶や注意に残りやすいとされる現象。未完了が再開の手掛かりになる一方、常に強く再現される単純な法則ではない。",
+    "summary": "",
     "categoryId": "behavioral-science",
-    "categoryTitle": "行動科学"
+    "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
+    "status": "locked"
   },
   {
     "tagId": "kb_532",
@@ -3114,6 +3542,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3122,6 +3551,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3130,6 +3560,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3138,6 +3569,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3146,6 +3578,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3154,6 +3587,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3162,6 +3596,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_762"
+    ],
     "status": "locked"
   },
   {
@@ -3170,6 +3607,9 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [
+      "kb_722"
+    ],
     "status": "locked"
   },
   {
@@ -3178,6 +3618,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3186,6 +3627,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3194,6 +3636,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3202,6 +3645,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3210,6 +3654,7 @@
     "summary": "",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3232,7 +3677,13 @@
         }
       ],
       "note": "チームにおける心理的安全性と学習行動の代表的研究。用語の最初の使用ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_770",
+      "kb_771",
+      "kb_773",
+      "kb_845"
+    ]
   },
   {
     "tagId": "kb_423",
@@ -3240,6 +3691,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3248,6 +3700,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3256,6 +3709,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3264,6 +3718,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3272,6 +3727,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3280,6 +3736,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_765"
+    ],
     "status": "locked"
   },
   {
@@ -3302,7 +3761,10 @@
         }
       ],
       "note": "最小条件集団と集団間行動を扱う研究。社会的アイデンティティ理論全体の成立年をこの論文だけで確定しません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_732"
+    ]
   },
   {
     "tagId": "kb_059",
@@ -3310,6 +3772,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3332,7 +3795,8 @@
         }
       ],
       "note": "最小条件集団と集団間行動を扱う研究。社会的アイデンティティ理論全体の成立年をこの論文だけで確定しません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_061",
@@ -3340,6 +3804,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3348,6 +3813,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3370,14 +3836,18 @@
         }
       ],
       "note": "規範的影響と情報的影響を区別する研究。同調研究全体の唯一の原典ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_064",
     "title": "集団思考",
     "summary": "結束の強い集団が合意を優先し、反対意見やリスク検討を抑えて誤った判断に至る現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_777"
+    ]
   },
   {
     "tagId": "kb_065",
@@ -3385,6 +3855,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3407,7 +3878,8 @@
         }
       ],
       "note": "世論形成における沈黙の螺旋の論考。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_067",
@@ -3429,7 +3901,11 @@
         }
       ],
       "note": "多元的無知の実証研究。概念の初出ではありません。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_707",
+      "kb_734"
+    ]
   },
   {
     "tagId": "kb_068",
@@ -3437,6 +3913,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3445,6 +3922,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3467,7 +3945,8 @@
         }
       ],
       "note": "社会的手抜きの代表的実験研究。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_071",
@@ -3475,6 +3954,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3497,7 +3977,8 @@
         }
       ],
       "note": "緊急時の傍観と責任の分散を扱う実験。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_073",
@@ -3519,7 +4000,11 @@
         }
       ],
       "note": "緊急時の傍観と責任の分散を扱う実験。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_732",
+      "kb_733"
+    ]
   },
   {
     "tagId": "kb_074",
@@ -3527,6 +4012,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_731"
+    ],
     "status": "locked"
   },
   {
@@ -3535,6 +4023,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3543,6 +4032,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3565,7 +4055,8 @@
         }
       ],
       "note": "科学者の評価・報酬の累積的な偏りを扱う論考。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_078",
@@ -3573,6 +4064,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3581,6 +4073,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3589,6 +4082,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3597,6 +4091,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3619,7 +4114,8 @@
         }
       ],
       "note": "弱い紐帯と情報・機会のつながりを扱う原典。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_083",
@@ -3627,6 +4123,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3635,6 +4132,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3643,6 +4141,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_851"
+    ],
     "status": "locked"
   },
   {
@@ -3651,6 +4152,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3659,6 +4161,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_777"
+    ],
     "status": "locked"
   },
   {
@@ -3667,6 +4172,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3675,6 +4181,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3683,6 +4190,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3691,6 +4199,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3713,7 +4222,10 @@
         }
       ],
       "note": "雇用市場を題材にしたシグナリングの原典。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_802"
+    ]
   },
   {
     "tagId": "kb_108",
@@ -3721,6 +4233,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3743,7 +4256,11 @@
         }
       ],
       "note": "品質に関する情報の非対称性を扱う論文。"
-    }
+    },
+    "relatedTheoryIds": [
+      "kb_800",
+      "kb_801"
+    ]
   },
   {
     "tagId": "kb_110",
@@ -3751,6 +4268,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_801"
+    ],
     "status": "locked"
   },
   {
@@ -3758,7 +4278,8 @@
     "title": "印象管理理論",
     "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_112",
@@ -3766,6 +4287,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3774,6 +4296,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3782,6 +4305,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3790,6 +4314,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3798,6 +4323,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3806,6 +4332,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3814,6 +4341,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3822,6 +4350,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3830,6 +4359,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3838,6 +4368,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3846,6 +4377,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3853,7 +4385,12 @@
     "title": "ピグマリオン効果",
     "summary": "高い期待を向けられた人が、扱われ方の変化を通じて実際に成果を高めることがある現象。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_731",
+      "kb_735",
+      "kb_762"
+    ]
   },
   {
     "tagId": "kb_124",
@@ -3861,6 +4398,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3869,6 +4407,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_775"
+    ],
     "status": "locked"
   },
   {
@@ -3877,6 +4418,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3885,6 +4427,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_765"
+    ],
     "status": "locked"
   },
   {
@@ -3893,6 +4438,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3901,6 +4447,10 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_724",
+      "kb_803"
+    ],
     "status": "locked"
   },
   {
@@ -3909,6 +4459,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_764"
+    ],
     "status": "locked"
   },
   {
@@ -3917,28 +4470,33 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_132",
     "title": "ピーターの法則",
-    "summary": "階層組織では、人は成果を出せた役職から昇進を重ね、やがて能力を発揮できない役職に達しやすいという法則。",
+    "summary": "",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
+    "status": "locked"
   },
   {
     "tagId": "kb_192",
     "title": "パーキンソンの法則",
     "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_193",
     "title": "グッドハートの法則",
     "summary": "指標が目標になると、その指標は本来測ろうとしていたものを正確に表さなくなるという法則。",
     "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論"
+    "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_194",
@@ -3946,6 +4504,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3954,6 +4513,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3962,6 +4522,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3970,6 +4531,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3978,6 +4540,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3986,6 +4549,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -3994,6 +4558,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4002,6 +4567,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4010,6 +4576,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4018,6 +4585,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4026,6 +4594,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_734"
+    ],
     "status": "locked"
   },
   {
@@ -4034,6 +4605,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4042,6 +4614,16 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "aliases": [
+      "情報源信頼性モデル",
+      "source credibility model",
+      "source credibility"
+    ],
+    "relatedTheoryIds": [
+      "kb_784",
+      "kb_785",
+      "kb_857"
+    ],
     "status": "locked"
   },
   {
@@ -4050,6 +4632,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4058,6 +4641,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4066,6 +4650,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4074,6 +4659,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4082,6 +4668,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4090,6 +4677,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4098,6 +4686,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_730"
+    ],
     "status": "locked"
   },
   {
@@ -4106,6 +4697,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4114,29 +4706,17 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_473",
     "title": "自己成就予言",
-    "summary": "ある予想を信じて行動すると、その行動が相手や状況を変え、当初の予想どおりの結果を生みやすくする現象。期待が態度や機会配分を通じて現実化する。",
+    "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Robert K. Merton（参照文献の著者）",
-      "period": "1948年（参照文献）",
-      "works": [
-        "The Self-Fulfilling Prophecy (1948). The Antioch Review, 8(2), 193"
-      ],
-      "sources": [
-        {
-          "title": "文献情報・原文（DOI）",
-          "url": "https://doi.org/10.2307/4609267"
-        }
-      ],
-      "note": "自己成就予言の原典。"
-    }
+    "relatedTheoryIds": [],
+    "status": "locked"
   },
   {
     "tagId": "kb_474",
@@ -4144,6 +4724,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4152,6 +4733,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4160,6 +4742,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4168,6 +4751,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4176,6 +4760,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4184,6 +4769,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4192,6 +4778,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4200,6 +4787,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4208,6 +4796,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4216,6 +4805,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4224,6 +4814,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4232,6 +4823,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4240,6 +4832,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4248,6 +4841,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_767"
+    ],
     "status": "locked"
   },
   {
@@ -4256,6 +4852,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4264,6 +4861,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4272,6 +4870,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_853"
+    ],
     "status": "locked"
   },
   {
@@ -4280,6 +4881,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4288,6 +4890,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4296,6 +4899,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_865"
+    ],
     "status": "locked"
   },
   {
@@ -4304,6 +4910,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4312,6 +4919,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4320,6 +4928,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4328,6 +4937,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4336,6 +4946,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4344,6 +4955,11 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_768",
+      "kb_769",
+      "kb_798"
+    ],
     "status": "locked"
   },
   {
@@ -4352,6 +4968,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4360,6 +4977,9 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [
+      "kb_805"
+    ],
     "status": "locked"
   },
   {
@@ -4368,6 +4988,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4376,6 +4997,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4384,6 +5006,7 @@
     "summary": "",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4392,6 +5015,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4414,7 +5038,8 @@
         }
       ],
       "note": "80歳の自分から選択を振り返るという講演の趣旨を参照。後悔最小化という手法の初出を確定する資料ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_555",
@@ -4422,6 +5047,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4430,6 +5056,9 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [
+      "kb_752"
+    ],
     "status": "locked"
   },
   {
@@ -4452,7 +5081,8 @@
         }
       ],
       "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_568",
@@ -4460,6 +5090,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4468,6 +5099,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4476,6 +5108,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4484,6 +5117,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4492,6 +5126,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4500,6 +5135,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4514,7 +5150,8 @@
       "works": [
         "Performing a Project Premortem (2007)"
       ]
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_542",
@@ -4522,6 +5159,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4529,7 +5167,8 @@
     "title": "リーン・スタートアップ",
     "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_544",
@@ -4537,6 +5176,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4544,7 +5184,8 @@
     "title": "パレートの法則",
     "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_546",
@@ -4552,6 +5193,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4560,6 +5202,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4568,6 +5211,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4576,6 +5220,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4584,6 +5229,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4592,6 +5238,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4614,14 +5261,16 @@
         }
       ],
       "note": "原則立脚型交渉の代表的著作。参照版の刊行年であり、各手法の最初の提案年とは限りません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_143",
     "title": "ZOPA",
     "summary": "交渉当事者の受け入れ可能な範囲が重なる、合意可能領域。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_144",
@@ -4629,6 +5278,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4637,6 +5287,9 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [
+      "kb_795"
+    ],
     "status": "locked"
   },
   {
@@ -4645,6 +5298,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4653,6 +5307,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4661,6 +5316,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4669,6 +5325,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4677,6 +5334,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4685,6 +5343,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4693,6 +5352,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4701,6 +5361,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4709,6 +5370,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4717,6 +5379,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4725,6 +5388,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4733,6 +5397,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4741,6 +5406,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4749,6 +5415,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4756,7 +5423,11 @@
     "title": "囚人のジレンマ",
     "summary": "個人に合理的な裏切りが、双方にとって劣る結果を生む協力問題を示すゲーム。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": [
+      "kb_791",
+      "kb_797"
+    ]
   },
   {
     "tagId": "kb_163",
@@ -4764,6 +5435,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4772,6 +5444,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4780,6 +5453,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4788,6 +5462,9 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [
+      "kb_792"
+    ],
     "status": "locked"
   },
   {
@@ -4810,7 +5487,8 @@
         }
       ],
       "note": "投資機会をオプションとして捉える議論を含む論文。あらゆるオプション価値の唯一の原典ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_279",
@@ -4818,6 +5496,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4826,6 +5505,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4834,6 +5514,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4841,21 +5522,24 @@
     "title": "バーベル戦略",
     "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_283",
     "title": "アンチフラジャイル",
     "summary": "変動や失敗を単に耐えるだけでなく、それらを通じて強くなる性質。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_284",
     "title": "OODAループ",
     "summary": "観察、状況判断、意思決定、行動を高速で回し、変化する状況へ適応する意思決定モデル。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_285",
@@ -4863,6 +5547,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4870,7 +5555,8 @@
     "title": "撤退戦略",
     "summary": "損失が拡大する前に、どの条件で縮小・中止・転換するかをあらかじめ設計する戦略。",
     "categoryId": "strategy",
-    "categoryTitle": "戦略論"
+    "categoryTitle": "戦略論",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_287",
@@ -4892,7 +5578,8 @@
         }
       ],
       "note": "探索と活用の配分を扱うモデル。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_288",
@@ -4900,29 +5587,19 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_289",
     "title": "ロックイン効果",
-    "summary": "切り替え費用や習慣、互換性のため、より良い選択肢があっても現在の制度や製品から離れにくくなる現象。",
+    "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "W. Brian Arthur（参照文献の著者）",
-      "period": "1989年（参照文献）",
-      "works": [
-        "Competing Technologies, Increasing Returns, and Lock-In by Historical Events (1989). The Economic Journal, 99(394), 116"
-      ],
-      "sources": [
-        {
-          "title": "文献情報・原文（DOI）",
-          "url": "https://doi.org/10.2307/2234208"
-        }
-      ],
-      "note": "収穫逓増と歴史的な経路によるロックインを扱うモデル。"
-    }
+    "relatedTheoryIds": [
+      "kb_783"
+    ],
+    "status": "locked"
   },
   {
     "tagId": "kb_522",
@@ -4930,6 +5607,9 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [
+      "kb_795"
+    ],
     "status": "locked"
   },
   {
@@ -4938,6 +5618,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4946,6 +5627,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4954,6 +5636,7 @@
     "summary": "",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4962,6 +5645,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4970,6 +5654,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4978,6 +5663,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4986,6 +5672,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -4994,6 +5681,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5002,6 +5690,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5010,6 +5699,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5018,6 +5708,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5025,7 +5716,8 @@
     "title": "情けは人の為ならず",
     "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_298",
@@ -5047,7 +5739,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_299",
@@ -5069,21 +5762,24 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_300",
     "title": "親しき仲にも礼儀あり",
     "summary": "近い関係ほど境界や配慮を失いやすいため、親密さの中にも敬意が必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_301",
     "title": "雨降って地固まる",
     "summary": "対立や困難を適切に乗り越えることで、以前より強い関係や基盤ができるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_304",
@@ -5105,7 +5801,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_311",
@@ -5127,7 +5824,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_312",
@@ -5135,6 +5833,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5149,14 +5848,16 @@
       "works": [
         "蘇秦列伝"
       ]
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_324",
     "title": "巧遅は拙速に如かず",
     "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_326",
@@ -5170,21 +5871,24 @@
       "works": [
         "広く知られる言葉"
       ]
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_327",
     "title": "継続は力なり",
     "summary": "小さな行動でも長く積み重ねることで、単発の大きな努力を超える力になるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_329",
     "title": "完璧は善の敵",
     "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_333",
@@ -5198,7 +5902,8 @@
       "works": [
         "人間訓"
       ]
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_334",
@@ -5206,6 +5911,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5213,14 +5919,16 @@
     "title": "案ずるより産むが易し",
     "summary": "始める前の不安は実際の困難より大きくなりやすく、着手すれば意外に進められるという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_336",
     "title": "明日は明日の風が吹く",
     "summary": "今日の不安を未来まで固定せず、状況が変わる余地を残して休むことも必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_351",
@@ -5228,6 +5936,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5239,7 +5948,8 @@
     "provenance": {
       "status": "一部確認",
       "attribution": "呉越抗争の故事"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_353",
@@ -5253,14 +5963,16 @@
       "works": [
         "題烏江亭"
       ]
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_359",
     "title": "一つの籠にすべての卵を盛るな",
     "summary": "一つの選択や資源にすべてを集中すると、失敗時に全体を失うため分散が必要だという教え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_603",
@@ -5268,6 +5980,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5290,7 +6003,8 @@
         }
       ],
       "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_605",
@@ -5298,6 +6012,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5306,6 +6021,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5314,6 +6030,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5322,6 +6039,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5330,6 +6048,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5338,6 +6057,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5346,6 +6066,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5368,7 +6089,8 @@
         }
       ],
       "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_613",
@@ -5376,6 +6098,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5398,7 +6121,8 @@
         }
       ],
       "note": "未来の苦しみを先取りする態度への戒め。公開英訳で対応箇所を確認。日本語は意訳です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_615",
@@ -5406,6 +6130,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5428,7 +6153,8 @@
         }
       ],
       "note": "想像の中で苦しむことについての記述に対応。公開英訳で確認した内容の意訳です。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_617",
@@ -5450,7 +6176,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_618",
@@ -5472,7 +6199,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_619",
@@ -5494,7 +6222,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_620",
@@ -5516,7 +6245,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_621",
@@ -5538,7 +6268,8 @@
         }
       ],
       "note": "柔弱が剛強に勝るという関連思想を確認。「柔よく剛を制す」という成句そのものの唯一の出典を『老子』と断定しません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_622",
@@ -5546,6 +6277,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5568,7 +6300,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_624",
@@ -5590,7 +6323,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_625",
@@ -5612,7 +6346,8 @@
         }
       ],
       "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_626",
@@ -5634,7 +6369,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_627",
@@ -5656,7 +6392,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_628",
@@ -5664,6 +6401,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5686,7 +6424,8 @@
         }
       ],
       "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_630",
@@ -5694,6 +6433,7 @@
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5701,21 +6441,24 @@
     "title": "井の中の蛙、大海を知らず",
     "summary": "狭い環境だけを基準にすると、世界の広さや別の可能性を見失う。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_632",
     "title": "無用の用",
     "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
     "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想"
+    "categoryTitle": "古典・思想",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_330",
     "title": "『Done is better than perfect』",
     "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_331",
@@ -5723,6 +6466,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5731,6 +6475,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5753,7 +6498,8 @@
         }
       ],
       "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_634",
@@ -5775,7 +6521,8 @@
         }
       ],
       "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_635",
@@ -5797,7 +6544,8 @@
         }
       ],
       "note": "80歳の自分から選択を振り返るという講演の趣旨を参照。後悔最小化という手法の初出を確定する資料ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_636",
@@ -5805,6 +6553,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5813,6 +6562,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5835,7 +6585,8 @@
         }
       ],
       "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    }
+    },
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_639",
@@ -5843,6 +6594,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5851,6 +6603,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5859,6 +6612,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5867,6 +6621,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5875,6 +6630,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5883,6 +6639,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5890,7 +6647,8 @@
     "title": "『結果より、まず自分の仕事をする』 — 大谷翔平",
     "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_646",
@@ -5898,6 +6656,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5905,7 +6664,8 @@
     "title": "『長く考えれば、必ず良い答えになるわけではない』 — 羽生善治",
     "summary": "考える時間を増やすことと判断の質は同じではなく、決める力も必要だという教え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_648",
@@ -5913,6 +6673,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5921,6 +6682,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5929,6 +6691,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5937,6 +6700,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5945,6 +6709,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5953,6 +6718,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5960,7 +6726,8 @@
     "title": "『自分の中に毒を持て』 — 岡本太郎",
     "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_655",
@@ -5968,6 +6735,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5976,6 +6744,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5984,6 +6753,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -5992,6 +6762,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6000,6 +6771,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6008,6 +6780,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6015,7 +6788,8 @@
     "title": "『やってみもせんで、何がわかる。』 — 本田宗一郎",
     "summary": "考えるだけで結論を出さず、実際に試してから判断することを勧める。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_662",
@@ -6023,6 +6797,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6031,6 +6806,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6039,6 +6815,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6047,6 +6824,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6055,6 +6833,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6063,6 +6842,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6071,6 +6851,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6078,7 +6859,8 @@
     "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
     "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
     "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品"
+    "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": []
   },
   {
     "tagId": "kb_670",
@@ -6086,6 +6868,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6094,6 +6877,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6102,6 +6886,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6110,6 +6895,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6118,6 +6904,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6126,6 +6913,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6134,6 +6922,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6142,6 +6931,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6150,6 +6940,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6158,6 +6949,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6166,6 +6958,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6174,6 +6967,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6182,6 +6976,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6190,6 +6985,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6198,6 +6994,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6206,6 +7003,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6214,6 +7012,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6222,6 +7021,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6230,6 +7030,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6238,6 +7039,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6246,6 +7048,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6254,6 +7057,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6262,6 +7066,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6270,6 +7075,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6278,6 +7084,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6286,6 +7093,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6294,6 +7102,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6302,6 +7111,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6310,6 +7120,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6318,6 +7129,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6326,6 +7138,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6334,6 +7147,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6342,6 +7156,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6350,6 +7165,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6358,6 +7174,7 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
     "status": "locked"
   },
   {
@@ -6366,6 +7183,2827 @@
     "summary": "",
     "categoryId": "maxims-experience",
     "categoryTitle": "格言・経験則・作品",
+    "relatedTheoryIds": [],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_706",
+    "title": "ダニング＝クルーガー効果",
+    "aliases": [
+      "Dunning-Kruger effect",
+      "ダニングクルーガー効果"
+    ],
+    "summary": "技能が低い人ほど自分の誤りを見抜くための技能も不足し、自己評価を誤りやすいという研究知見。誰もが無知なら自信過剰になるという単純な序列ではなく、課題・測定法・統計的回帰の影響も議論されている。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "David Dunning / Justin Kruger",
+      "period": "1999年",
+      "works": [
+        "Unskilled and unaware of it (1999)"
+      ],
+      "sources": [
+        {
+          "title": "代表研究（DOI）",
+          "url": "https://doi.org/10.1037/0022-3514.77.6.1121"
+        }
+      ],
+      "note": "個人を侮辱するラベルとして使わず、校正されたフィードバックと技能測定に使う。"
+    },
+    "relatedTheoryIds": [
+      "kb_710",
+      "kb_723",
+      "kb_263"
+    ]
+  },
+  {
+    "tagId": "kb_707",
+    "title": "偽の合意効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "false consensus effect",
+      "フォールス・コンセンサス効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_813",
+      "kb_067",
+      "kb_814"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_708",
+    "title": "自己奉仕バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "self-serving bias",
+      "セルフサービング・バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_046",
+      "kb_722",
+      "kb_719",
+      "kb_727",
+      "kb_814"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_709",
+    "title": "後知恵バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "hindsight bias",
+      "I-knew-it-all-along effect",
+      "あと知恵バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_722",
+      "kb_586"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_710",
+    "title": "自信過剰効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "overconfidence effect",
+      "overconfidence bias",
+      "自信過剰バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_706",
+      "kb_190",
+      "kb_719",
+      "kb_810"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_711",
+    "title": "生存者バイアス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "survivorship bias",
+      "サバイバーシップ・バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_449",
+      "kb_597"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_712",
+    "title": "代表性ヒューリスティック",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "representativeness heuristic",
+      "代表性バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_715",
+      "kb_449"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_713",
+    "title": "ギャンブラーの誤謬",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "gambler's fallacy",
+      "ギャンブラーズ・ファラシー"
+    ],
+    "relatedTheoryIds": [
+      "kb_716",
+      "kb_714"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_714",
+    "title": "ホットハンド効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "hot-hand effect",
+      "hot-hand fallacy",
+      "ホットハンドの誤謬"
+    ],
+    "relatedTheoryIds": [
+      "kb_713",
+      "kb_716"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_715",
+    "title": "連言錯誤",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "conjunction fallacy",
+      "リンダ問題"
+    ],
+    "relatedTheoryIds": [
+      "kb_712",
+      "kb_844",
+      "kb_843"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_716",
+    "title": "小数の法則",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "law of small numbers",
+      "少数の法則"
+    ],
+    "relatedTheoryIds": [
+      "kb_713",
+      "kb_714",
+      "kb_717"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_717",
+    "title": "平均への回帰",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "regression to the mean",
+      "平均回帰"
+    ],
+    "relatedTheoryIds": [
+      "kb_716",
+      "kb_722"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_718",
+    "title": "真実性錯覚",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "illusory truth effect",
+      "真実錯覚効果",
+      "反復真実効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_829",
+      "kb_004",
+      "kb_857",
+      "kb_856"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_719",
+    "title": "バイアスの盲点",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "bias blind spot",
+      "バイアス・ブラインド・スポット"
+    ],
+    "relatedTheoryIds": [
+      "kb_708",
+      "kb_710",
+      "kb_811"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_720",
+    "title": "正常性バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "normalcy bias",
+      "正常化の偏見"
+    ],
+    "relatedTheoryIds": [
+      "kb_839"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_721",
+    "title": "知識の呪い",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "curse of knowledge",
+      "知識バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_723",
+      "kb_789",
+      "kb_813",
+      "kb_818"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_722",
+    "title": "結果バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "outcome bias",
+      "アウトカム・バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_708",
+      "kb_709",
+      "kb_717",
+      "kb_539",
+      "kb_841"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_723",
+    "title": "説明深度の錯覚",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "illusion of explanatory depth",
+      "説明の深さの錯覚"
+    ],
+    "relatedTheoryIds": [
+      "kb_706",
+      "kb_721",
+      "kb_748"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_724",
+    "title": "Big Five／五因子モデル",
+    "aliases": [
+      "Big Five",
+      "Five-Factor Model",
+      "FFM",
+      "ビッグファイブ",
+      "五因子性格モデル",
+      "OCEAN"
+    ],
+    "summary": "人格特性を開放性、誠実性、外向性、協調性、神経症傾向の五次元で記述するモデル。人を五つの型へ分類する診断ではなく、連続的な傾向を比較する枠組みである。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Paul Costa / Robert McCrae / Lewis Goldbergほか",
+      "period": "1980〜1990年代",
+      "works": [
+        "An introduction to the five-factor model and its applications (1992)"
+      ],
+      "sources": [
+        {
+          "title": "代表研究（DOI）",
+          "url": "https://doi.org/10.1111/j.1467-6494.1992.tb00970.x"
+        }
+      ],
+      "note": "測定尺度・文化・自己評定と他者評定によって結果が変わる。"
+    },
+    "relatedTheoryIds": [
+      "kb_726",
+      "kb_129",
+      "kb_817"
+    ]
+  },
+  {
+    "tagId": "kb_725",
+    "title": "統制の所在／ローカス・オブ・コントロール",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "locus of control",
+      "ローカスオブコントロール",
+      "内的統制",
+      "外的統制"
+    ],
+    "relatedTheoryIds": [
+      "kb_239",
+      "kb_230"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_726",
+    "title": "HEXACOモデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "HEXACO personality model",
+      "HEXACO性格モデル",
+      "六因子モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_724",
+      "kb_817"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_727",
+    "title": "インポスター現象",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "impostor phenomenon",
+      "impostor syndrome",
+      "インポスター症候群"
+    ],
+    "relatedTheoryIds": [
+      "kb_708",
+      "kb_169"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_728",
+    "title": "セルフ・ハンディキャッピング",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "self-handicapping",
+      "自己ハンディキャッピング"
+    ],
+    "relatedTheoryIds": [
+      "kb_237",
+      "kb_169"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_729",
+    "title": "バンドワゴン効果",
+    "aliases": [
+      "bandwagon effect",
+      "バンドワゴン・エフェクト"
+    ],
+    "summary": "多くの人が支持・選択しているという情報によって、自分も同じ側へ動きやすくなる現象。人気は有用な手がかりにもなるが、正しさそのものを保証しない。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Harvey Leibensteinほか",
+      "period": "1950年以降",
+      "works": [
+        "Bandwagon, snob, and Veblen effects in the theory of consumers' demand (1950)"
+      ],
+      "sources": [
+        {
+          "title": "代表研究（DOI）",
+          "url": "https://doi.org/10.2307/1882692"
+        }
+      ],
+      "note": "同調、情報カスケード、ネットワーク効果と重なるが、同義ではない。"
+    },
+    "relatedTheoryIds": [
+      "kb_104",
+      "kb_106"
+    ]
+  },
+  {
+    "tagId": "kb_730",
+    "title": "所属欲求／Need to Belong",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "need to belong",
+      "belongingness hypothesis",
+      "所属の欲求"
+    ],
+    "relatedTheoryIds": [
+      "kb_470",
+      "kb_824",
+      "kb_815",
+      "kb_816",
+      "kb_821"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_731",
+    "title": "ステレオタイプ脅威",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "stereotype threat",
+      "ステレオタイプ・スレット"
+    ],
+    "relatedTheoryIds": [
+      "kb_074",
+      "kb_123"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_732",
+    "title": "脱個人化",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "deindividuation",
+      "没個性化"
+    ],
+    "relatedTheoryIds": [
+      "kb_058",
+      "kb_073"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_733",
+    "title": "権威への服従",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "obedience to authority",
+      "ミルグラム実験",
+      "服従実験"
+    ],
+    "relatedTheoryIds": [
+      "kb_452",
+      "kb_073"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_734",
+    "title": "情報的社会的影響",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "informational social influence",
+      "informational influence",
+      "情報的影響"
+    ],
+    "relatedTheoryIds": [
+      "kb_459",
+      "kb_067"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_735",
+    "title": "観察学習／社会的学習理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "observational learning",
+      "social learning theory",
+      "社会的認知理論",
+      "モデリング"
+    ],
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_123"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_736",
+    "title": "フロー理論",
+    "aliases": [
+      "flow theory",
+      "flow state",
+      "フロー状態",
+      "ゾーン"
+    ],
+    "summary": "技能と挑戦の水準がともに高く釣り合うと、行為への深い没入と明確な手応えが生じやすいという理論。没入は幸福や高成果と同義ではなく、活動内容と回復も考慮する。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Mihaly Csikszentmihalyi",
+      "period": "1975年以降",
+      "works": [
+        "Beyond Boredom and Anxiety (1975)"
+      ],
+      "note": "フローの測定と因果方向には課題がある。"
+    },
+    "relatedTheoryIds": [
+      "kb_737",
+      "kb_520"
+    ]
+  },
+  {
+    "tagId": "kb_737",
+    "title": "ヤーキーズ＝ドッドソンの法則",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "Yerkes-Dodson law",
+      "逆U字仮説",
+      "覚醒水準とパフォーマンス"
+    ],
+    "relatedTheoryIds": [
+      "kb_736",
+      "kb_493"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_738",
+    "title": "エビングハウスの忘却曲線",
+    "aliases": [
+      "Ebbinghaus forgetting curve",
+      "忘却曲線"
+    ],
+    "summary": "学習後の記憶は初期に急速に失われ、その後ゆるやかになるという保持の時間変化。曲線の形は材料、個人、想起条件で変わり、固定の忘却率ではない。",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Hermann Ebbinghaus",
+      "period": "1885年",
+      "works": [
+        "Über das Gedächtnis (1885)"
+      ],
+      "note": "原研究は無意味綴りを用いた自己実験で、現実の知識へ同じ数値を当てはめない。"
+    },
+    "relatedTheoryIds": [
+      "kb_200",
+      "kb_199"
+    ]
+  },
+  {
+    "tagId": "kb_739",
+    "title": "系列位置効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "serial position effect",
+      "初頭・新近性効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_001",
+      "kb_002",
+      "kb_740"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_740",
+    "title": "フォン・レストルフ効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "Von Restorff effect",
+      "isolation effect",
+      "孤立効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_550",
+      "kb_739"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_741",
+    "title": "生成効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "generation effect",
+      "自己生成効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_199",
+      "kb_748",
+      "kb_828"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_742",
+    "title": "二重符号化理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "dual coding theory",
+      "デュアルコーディング"
+    ],
+    "relatedTheoryIds": [
+      "kb_743",
+      "kb_493"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_743",
+    "title": "符号化特定性原理",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "encoding specificity principle",
+      "符号化特定性"
+    ],
+    "relatedTheoryIds": [
+      "kb_742",
+      "kb_826",
+      "kb_827",
+      "kb_830"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_744",
+    "title": "処理水準理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "levels of processing framework",
+      "処理水準モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_415",
+      "kb_748",
+      "kb_830"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_745",
+    "title": "ワーキングメモリ・モデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "working memory model",
+      "作業記憶モデル",
+      "中央実行系"
+    ],
+    "relatedTheoryIds": [
+      "kb_493",
+      "kb_746"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_746",
+    "title": "チャンク化",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "chunking",
+      "チャンキング",
+      "情報のまとまり化"
+    ],
+    "relatedTheoryIds": [
+      "kb_745",
+      "kb_825"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_747",
+    "title": "インターリービング効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "interleaving effect",
+      "交互学習",
+      "混合練習"
+    ],
+    "relatedTheoryIds": [
+      "kb_201",
+      "kb_199"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_748",
+    "title": "自己説明効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "self-explanation effect",
+      "自己説明学習"
+    ],
+    "relatedTheoryIds": [
+      "kb_723",
+      "kb_741",
+      "kb_744",
+      "kb_828"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_749",
+    "title": "メンタル・コントラスティング／WOOP・MCII",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "mental contrasting",
+      "WOOP",
+      "MCII",
+      "Mental Contrasting with Implementation Intentions",
+      "願望実現の4ステップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_172",
+      "kb_167"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_750",
+    "title": "期待価値理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "expectancy-value theory",
+      "期待×価値理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_168",
+      "kb_169",
+      "kb_804",
+      "kb_833"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_751",
+    "title": "時間的動機づけ理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "temporal motivation theory",
+      "TMT"
+    ],
+    "relatedTheoryIds": [
+      "kb_175",
+      "kb_183"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_752",
+    "title": "解釈レベル理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "construal level theory",
+      "CLT",
+      "心理的距離"
+    ],
+    "relatedTheoryIds": [
+      "kb_753",
+      "kb_561",
+      "kb_834"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_753",
+    "title": "未来自己連続性",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "future self-continuity",
+      "未来の自己との連続性"
+    ],
+    "relatedTheoryIds": [
+      "kb_752",
+      "kb_175",
+      "kb_834"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_754",
+    "title": "限定合理性",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "bounded rationality",
+      "制約された合理性"
+    ],
+    "relatedTheoryIds": [
+      "kb_277",
+      "kb_191"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_755",
+    "title": "期待値",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "expected value",
+      "期待価値",
+      "数学的期待値"
+    ],
+    "relatedTheoryIds": [
+      "kb_756"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_756",
+    "title": "期待効用理論",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "expected utility theory",
+      "EUT",
+      "期待効用"
+    ],
+    "relatedTheoryIds": [
+      "kb_755",
+      "kb_133",
+      "kb_758",
+      "kb_835"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_757",
+    "title": "メンタル・アカウンティング",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "mental accounting",
+      "心の会計"
+    ],
+    "relatedTheoryIds": [
+      "kb_761",
+      "kb_273",
+      "kb_838"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_758",
+    "title": "曖昧性回避／エルズバーグ・パラドックス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "ambiguity aversion",
+      "Ellsberg paradox",
+      "曖昧さ回避"
+    ],
+    "relatedTheoryIds": [
+      "kb_756",
+      "kb_203"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_759",
+    "title": "確実性効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "certainty effect",
+      "確実性バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_133",
+      "kb_809",
+      "kb_760",
+      "kb_835"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_760",
+    "title": "ゼロ価格効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "zero-price effect",
+      "無料効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_759",
+      "kb_274"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_761",
+    "title": "支払いの痛み",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "pain of paying",
+      "支払痛"
+    ],
+    "relatedTheoryIds": [
+      "kb_757",
+      "kb_175"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_762",
+    "title": "ホーソン効果",
+    "aliases": [
+      "Hawthorne effect",
+      "ホーソン実験"
+    ],
+    "summary": "観察されているという認識や研究参加が行動を変える可能性を指す呼称。原実験の再解釈が続いており、単純に注目すれば生産性が上がる法則として扱えない。",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Elton Mayo / Henry Landsbergerほか",
+      "period": "1920〜1950年代",
+      "works": [
+        "Hawthorne Revisited (1958)"
+      ],
+      "note": "定義が研究ごとに異なり、原データの解釈にも議論がある。"
+    },
+    "relatedTheoryIds": [
+      "kb_538",
+      "kb_123"
+    ]
+  },
+  {
+    "tagId": "kb_763",
+    "title": "職務要求‐資源モデル／JD-R",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "job demands-resources model",
+      "JD-R model",
+      "JD-Rモデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_772",
+      "kb_767"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_764",
+    "title": "職務特性モデル",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "job characteristics model",
+      "JCM",
+      "職務特性理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_130",
+      "kb_766"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_765",
+    "title": "組織コミットメント",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "organizational commitment",
+      "三成分モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_598",
+      "kb_127",
+      "kb_766",
+      "kb_822"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_766",
+    "title": "職務満足",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "job satisfaction",
+      "仕事満足度"
+    ],
+    "relatedTheoryIds": [
+      "kb_764",
+      "kb_765"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_767",
+    "title": "従業員エンゲージメント",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "work engagement",
+      "employee engagement",
+      "ワーク・エンゲージメント"
+    ],
+    "relatedTheoryIds": [
+      "kb_763",
+      "kb_500",
+      "kb_846"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_768",
+    "title": "分配的公正",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "distributive justice",
+      "分配公平性"
+    ],
+    "relatedTheoryIds": [
+      "kb_155",
+      "kb_769",
+      "kb_798",
+      "kb_863"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_769",
+    "title": "相互作用的公正",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "interactional justice",
+      "対人的公正",
+      "情報的公正"
+    ],
+    "relatedTheoryIds": [
+      "kb_768",
+      "kb_155"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_770",
+    "title": "組織沈黙",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "organizational silence",
+      "employee silence",
+      "従業員沈黙"
+    ],
+    "relatedTheoryIds": [
+      "kb_771",
+      "kb_402"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_771",
+    "title": "発言行動／Employee Voice",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "employee voice",
+      "voice behavior",
+      "従業員発言"
+    ],
+    "relatedTheoryIds": [
+      "kb_770",
+      "kb_402"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_772",
+    "title": "資源保存理論／COR",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "conservation of resources theory",
+      "COR theory",
+      "COR理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_763",
+      "kb_228"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_773",
+    "title": "変革型リーダーシップ",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "transformational leadership",
+      "変革的リーダーシップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_774",
+      "kb_402",
+      "kb_845"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_774",
+    "title": "取引型リーダーシップ",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "transactional leadership",
+      "交換型リーダーシップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_773",
+      "kb_168"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_775",
+    "title": "状況対応型リーダーシップ",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "situational leadership",
+      "SLII",
+      "シチュエーショナル・リーダーシップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_776",
+      "kb_125"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_776",
+    "title": "パス・ゴール理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "path-goal theory",
+      "パスゴール理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_775",
+      "kb_168"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_777",
+    "title": "共有メンタルモデル",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "shared mental models",
+      "チーム認知"
+    ],
+    "relatedTheoryIds": [
+      "kb_087",
+      "kb_064",
+      "kb_794"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_778",
+    "title": "共有地の悲劇",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "tragedy of the commons",
+      "コモンズの悲劇"
+    ],
+    "relatedTheoryIds": [
+      "kb_799",
+      "kb_780"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_779",
+    "title": "フリーライダー問題",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "free-rider problem",
+      "ただ乗り問題"
+    ],
+    "relatedTheoryIds": [
+      "kb_799",
+      "kb_780"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_780",
+    "title": "集合行為問題",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "collective action problem",
+      "集団行動問題"
+    ],
+    "relatedTheoryIds": [
+      "kb_778",
+      "kb_779"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_781",
+    "title": "イノベーション普及理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "diffusion of innovations",
+      "innovation diffusion theory",
+      "普及学"
+    ],
+    "relatedTheoryIds": [
+      "kb_782",
+      "kb_783",
+      "kb_847",
+      "kb_861"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_782",
+    "title": "閾値モデル",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "threshold model of collective behavior",
+      "集団行動の閾値モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_781",
+      "kb_106",
+      "kb_852"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_783",
+    "title": "ネットワーク効果",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "network effect",
+      "network externality",
+      "ネットワーク外部性"
+    ],
+    "relatedTheoryIds": [
+      "kb_781",
+      "kb_852",
+      "kb_289",
+      "kb_851",
+      "kb_861"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_784",
+    "title": "精緻化可能性モデル／ELM",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "elaboration likelihood model",
+      "ELM",
+      "精緻化見込みモデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_785",
+      "kb_461",
+      "kb_786",
+      "kb_856"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_785",
+    "title": "HSM／ヒューリスティック・システマティック・モデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "heuristic-systematic model",
+      "HSM",
+      "ヒューリスティックシステマティックモデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_784",
+      "kb_461"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_786",
+    "title": "接種理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "inoculation theory",
+      "態度接種理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_265",
+      "kb_784"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_787",
+    "title": "社会的判断理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "social judgment theory",
+      "SJT",
+      "社会判断理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_138",
+      "kb_050"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_788",
+    "title": "コミュニケーション適応理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "communication accommodation theory",
+      "CAT",
+      "会話調整理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_860"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_789",
+    "title": "共通基盤理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "common ground theory",
+      "grounding in communication",
+      "コモングラウンド"
+    ],
+    "relatedTheoryIds": [
+      "kb_721",
+      "kb_412",
+      "kb_818",
+      "kb_859"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_790",
+    "title": "ナッシュ均衡",
+    "aliases": [
+      "Nash equilibrium",
+      "ナッシュ・イクイリブリアム"
+    ],
+    "summary": "他者の戦略が変わらないとき、誰も自分だけ戦略を変えて利益を増やせない戦略の組。安定点を示すが、望ましさ、公平さ、唯一性を保証しない。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John F. Nash Jr.",
+      "period": "1950年",
+      "works": [
+        "Equilibrium points in n-person games (1950)"
+      ],
+      "sources": [
+        {
+          "title": "代表研究（DOI）",
+          "url": "https://doi.org/10.1073/pnas.36.1.48"
+        }
+      ],
+      "note": "均衡予測にはプレイヤー、情報、利得のモデル化が必要である。"
+    },
+    "relatedTheoryIds": [
+      "kb_791",
+      "kb_864",
+      "kb_862",
+      "kb_863"
+    ]
+  },
+  {
+    "tagId": "kb_791",
+    "title": "支配戦略",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "dominant strategy",
+      "優越戦略"
+    ],
+    "relatedTheoryIds": [
+      "kb_790",
+      "kb_162"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_792",
+    "title": "後方帰納法",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "backward induction",
+      "後ろ向き帰納法"
+    ],
+    "relatedTheoryIds": [
+      "kb_864",
+      "kb_166"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_793",
+    "title": "シェリングの焦点",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "Schelling point",
+      "focal point",
+      "フォーカルポイント"
+    ],
+    "relatedTheoryIds": [
+      "kb_796",
+      "kb_794"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_794",
+    "title": "共通知識",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "common knowledge",
+      "共通知識の論理"
+    ],
+    "relatedTheoryIds": [
+      "kb_793",
+      "kb_777"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_795",
+    "title": "ゼロサム／非ゼロサムゲーム",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "zero-sum game",
+      "non-zero-sum game",
+      "ゼロ和ゲーム",
+      "非ゼロ和ゲーム"
+    ],
+    "relatedTheoryIds": [
+      "kb_145",
+      "kb_522",
+      "kb_862"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_796",
+    "title": "協調ゲーム",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "coordination game",
+      "コーディネーション・ゲーム"
+    ],
+    "relatedTheoryIds": [
+      "kb_793",
+      "kb_797"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_797",
+    "title": "スタグハント",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "stag hunt",
+      "鹿狩りゲーム",
+      "保証ゲーム"
+    ],
+    "relatedTheoryIds": [
+      "kb_796",
+      "kb_162"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_798",
+    "title": "最後通牒ゲーム",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "ultimatum game",
+      "最後通告ゲーム"
+    ],
+    "relatedTheoryIds": [
+      "kb_768",
+      "kb_155"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_799",
+    "title": "公共財ゲーム",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "public goods game",
+      "公共財実験"
+    ],
+    "relatedTheoryIds": [
+      "kb_778",
+      "kb_779"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_800",
+    "title": "逆選択",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "adverse selection",
+      "アドバース・セレクション"
+    ],
+    "relatedTheoryIds": [
+      "kb_109",
+      "kb_802",
+      "kb_866"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_801",
+    "title": "モラルハザード",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "moral hazard",
+      "倫理的危険"
+    ],
+    "relatedTheoryIds": [
+      "kb_110",
+      "kb_109",
+      "kb_841"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_802",
+    "title": "レモン市場",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "market for lemons",
+      "レモンの市場"
+    ],
+    "relatedTheoryIds": [
+      "kb_800",
+      "kb_107"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_803",
+    "title": "ホランドのRIASECモデル",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "Holland codes",
+      "RIASEC",
+      "ホランド理論",
+      "六角形モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_129",
+      "kb_806"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_804",
+    "title": "社会的認知キャリア理論／SCCT",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "social cognitive career theory",
+      "SCCT",
+      "社会認知的キャリア理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_750"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_805",
+    "title": "キャリア構築理論",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "career construction theory",
+      "career construction",
+      "キャリア・コンストラクション理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_291",
+      "kb_246",
+      "kb_867",
+      "kb_868"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_806",
+    "title": "キャリア・アンカー",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "career anchors",
+      "キャリアアンカー"
+    ],
+    "relatedTheoryIds": [
+      "kb_803",
+      "kb_259"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_807",
+    "title": "省略バイアス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "omission bias",
+      "不作為バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_136",
+      "kb_808"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_808",
+    "title": "行動バイアス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "action bias",
+      "アクション・バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_807",
+      "kb_136"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_809",
+    "title": "ゼロリスク・バイアス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "zero-risk bias",
+      "ゼロリスクバイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_759",
+      "kb_844"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_810",
+    "title": "楽観バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "optimism bias",
+      "非現実的楽観主義"
+    ],
+    "relatedTheoryIds": [
+      "kb_190",
+      "kb_710"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_811",
+    "title": "第三者効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "third-person effect",
+      "第三者知覚"
+    ],
+    "relatedTheoryIds": [
+      "kb_719",
+      "kb_812"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_812",
+    "title": "敵対的メディア効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "hostile media effect",
+      "敵対的メディア知覚"
+    ],
+    "relatedTheoryIds": [
+      "kb_811",
+      "kb_596"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_813",
+    "title": "エゴセントリック・バイアス",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "egocentric bias",
+      "自己中心性バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_707",
+      "kb_721"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_814",
+    "title": "偽の独自性効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "false uniqueness effect",
+      "フォールス・ユニークネス効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_707",
+      "kb_708"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_815",
+    "title": "ソシオメーター理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "sociometer theory",
+      "社会計器理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_730",
+      "kb_816"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_816",
+    "title": "拒絶感受性",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "rejection sensitivity",
+      "拒否感受性"
+    ],
+    "relatedTheoryIds": [
+      "kb_815",
+      "kb_730"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_817",
+    "title": "ダークトライアド",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "Dark Triad",
+      "暗黒の三徴"
+    ],
+    "relatedTheoryIds": [
+      "kb_726",
+      "kb_724"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_818",
+    "title": "心の理論／Theory of Mind",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "theory of mind",
+      "ToM",
+      "心の理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_789",
+      "kb_721"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_819",
+    "title": "プラセボ効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "placebo effect",
+      "プラシーボ効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_820",
+      "kb_137"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_820",
+    "title": "ノセボ効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "nocebo effect",
+      "ノーシーボ効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_819",
+      "kb_137"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_821",
+    "title": "近接性効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "proximity effect",
+      "propinquity effect",
+      "近接の原理"
+    ],
+    "relatedTheoryIds": [
+      "kb_004",
+      "kb_730",
+      "kb_823"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_822",
+    "title": "恋愛の三角理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "triangular theory of love",
+      "愛情の三角理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_765",
+      "kb_033"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_823",
+    "title": "マッチング仮説",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "matching hypothesis",
+      "適合仮説"
+    ],
+    "relatedTheoryIds": [
+      "kb_821",
+      "kb_005"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_824",
+    "title": "社会的ベースライン理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "social baseline theory",
+      "SBT"
+    ],
+    "relatedTheoryIds": [
+      "kb_730",
+      "kb_564"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_825",
+    "title": "熟達者の直観／RPDモデル",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "expert intuition",
+      "recognition-primed decision",
+      "RPD",
+      "再認主導意思決定モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_746",
+      "kb_253"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_826",
+    "title": "文脈依存記憶",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "context-dependent memory",
+      "文脈依存効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_743",
+      "kb_827"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_827",
+    "title": "状態依存記憶",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "state-dependent memory",
+      "状態依存学習"
+    ],
+    "relatedTheoryIds": [
+      "kb_743",
+      "kb_826"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_828",
+    "title": "プロテジェ効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "protégé effect",
+      "プロテジェ・エフェクト"
+    ],
+    "relatedTheoryIds": [
+      "kb_748",
+      "kb_741"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_829",
+    "title": "流暢性の錯覚",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "illusion of fluency",
+      "fluency illusion",
+      "流暢性バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_718",
+      "kb_199"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_830",
+    "title": "転移適合処理",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "transfer-appropriate processing",
+      "転移適切処理"
+    ],
+    "relatedTheoryIds": [
+      "kb_744",
+      "kb_743"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_831",
+    "title": "記憶の再固定化",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "memory reconsolidation",
+      "記憶再固定化"
+    ],
+    "relatedTheoryIds": [
+      "kb_440",
+      "kb_199"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_832",
+    "title": "ゴール・シールディング",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "goal shielding",
+      "目標遮蔽"
+    ],
+    "relatedTheoryIds": [
+      "kb_170",
+      "kb_172"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_833",
+    "title": "自己一致モデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "self-concordance model",
+      "自己一致目標モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_520",
+      "kb_750"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_834",
+    "title": "エピソード的未来思考",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "episodic future thinking",
+      "EFT"
+    ],
+    "relatedTheoryIds": [
+      "kb_753",
+      "kb_752"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_835",
+    "title": "アレのパラドックス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "Allais paradox",
+      "アレ・パラドックス"
+    ],
+    "relatedTheoryIds": [
+      "kb_756",
+      "kb_759"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_836",
+    "title": "識別可能な被害者効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "identifiable victim effect",
+      "特定可能な犠牲者効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_597",
+      "kb_430"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_837",
+    "title": "IKEA効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "IKEA effect",
+      "イケア効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_273",
+      "kb_135"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_838",
+    "title": "ディドロ効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "Diderot effect",
+      "ディドロ統一性"
+    ],
+    "relatedTheoryIds": [
+      "kb_757",
+      "kb_135"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_839",
+    "title": "情報回避／オーストリッチ効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "information avoidance",
+      "ostrich effect",
+      "オーストリッチ効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_265",
+      "kb_720"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_840",
+    "title": "希少性マインドセット／トンネリング",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "scarcity mindset",
+      "tunneling",
+      "希少性心理"
+    ],
+    "relatedTheoryIds": [
+      "kb_175",
+      "kb_493"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_841",
+    "title": "リスク補償／ペルツマン効果",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "risk compensation",
+      "Peltzman effect",
+      "リスク・ホメオスタシス"
+    ],
+    "relatedTheoryIds": [
+      "kb_801",
+      "kb_722"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_842",
+    "title": "単位バイアス",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "unit bias",
+      "ユニット・バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_177",
+      "kb_138"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_843",
+    "title": "分母無視",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "denominator neglect",
+      "分母無視バイアス",
+      "比率バイアス"
+    ],
+    "relatedTheoryIds": [
+      "kb_844",
+      "kb_715"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_844",
+    "title": "確率無視",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "aliases": [
+      "probability neglect",
+      "確率軽視"
+    ],
+    "relatedTheoryIds": [
+      "kb_715",
+      "kb_809",
+      "kb_843"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_845",
+    "title": "サーバント・リーダーシップ",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "servant leadership",
+      "奉仕型リーダーシップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_773",
+      "kb_402"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_846",
+    "title": "心理的所有感",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "psychological ownership",
+      "心理的オーナーシップ"
+    ],
+    "relatedTheoryIds": [
+      "kb_767",
+      "kb_135"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_847",
+    "title": "組織的両利き",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "organizational ambidexterity",
+      "両利きの経営"
+    ],
+    "relatedTheoryIds": [
+      "kb_849",
+      "kb_781"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_848",
+    "title": "資源ベース理論／RBV",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "resource-based view",
+      "RBV",
+      "資源ベース・ビュー"
+    ],
+    "relatedTheoryIds": [
+      "kb_850",
+      "kb_849"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_849",
+    "title": "ダイナミック・ケイパビリティ",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "dynamic capabilities",
+      "動的能力論"
+    ],
+    "relatedTheoryIds": [
+      "kb_847",
+      "kb_848",
+      "kb_850"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_850",
+    "title": "コア・コンピタンス",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "core competence",
+      "中核能力"
+    ],
+    "relatedTheoryIds": [
+      "kb_848",
+      "kb_849",
+      "kb_855"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_851",
+    "title": "ダンバー数",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "Dunbar's number",
+      "ダンバーズ・ナンバー"
+    ],
+    "relatedTheoryIds": [
+      "kb_783",
+      "kb_085"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_852",
+    "title": "メトカーフの法則",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "Metcalfe's law",
+      "メトカーフ則"
+    ],
+    "relatedTheoryIds": [
+      "kb_783",
+      "kb_782"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_853",
+    "title": "経験曲線／学習曲線",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "experience curve",
+      "learning curve",
+      "経験効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_854",
+      "kb_506"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_854",
+    "title": "規模の経済",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "economies of scale",
+      "スケールメリット"
+    ],
+    "relatedTheoryIds": [
+      "kb_853",
+      "kb_855"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_855",
+    "title": "範囲の経済",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "economies of scope",
+      "スコープ・エコノミー"
+    ],
+    "relatedTheoryIds": [
+      "kb_854",
+      "kb_850"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_856",
+    "title": "ナラティブ・トランスポーテーション",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "narrative transportation",
+      "物語への移入"
+    ],
+    "relatedTheoryIds": [
+      "kb_784",
+      "kb_718"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_857",
+    "title": "スリーパー効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "sleeper effect",
+      "睡眠者効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_461",
+      "kb_718"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_858",
+    "title": "認知的プライミング",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "cognitive priming",
+      "概念プライミング"
+    ],
+    "relatedTheoryIds": [
+      "kb_597",
+      "kb_414"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_859",
+    "title": "グライスの協調原理",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "cooperative principle",
+      "Gricean maxims",
+      "会話の公理"
+    ],
+    "relatedTheoryIds": [
+      "kb_789",
+      "kb_860"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_860",
+    "title": "ポライトネス理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "politeness theory",
+      "Brown and Levinson politeness theory",
+      "丁寧さの理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_859",
+      "kb_788"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_861",
+    "title": "二段階流れ仮説",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "aliases": [
+      "two-step flow of communication",
+      "二段階の流れ"
+    ],
+    "relatedTheoryIds": [
+      "kb_781",
+      "kb_783"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_862",
+    "title": "ミニマックス／マキシミン",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "Minimax theorem",
+      "maximin",
+      "ミニマックス定理"
+    ],
+    "relatedTheoryIds": [
+      "kb_795",
+      "kb_790"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_863",
+    "title": "パレート効率性",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "Pareto efficiency",
+      "Pareto optimality",
+      "パレート最適"
+    ],
+    "relatedTheoryIds": [
+      "kb_790",
+      "kb_768"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_864",
+    "title": "サブゲーム完全均衡",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "subgame perfect equilibrium",
+      "部分ゲーム完全均衡"
+    ],
+    "relatedTheoryIds": [
+      "kb_790",
+      "kb_792"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_865",
+    "title": "メカニズム・デザイン",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "mechanism design",
+      "制度設計理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_866",
+      "kb_509"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_866",
+    "title": "オークション理論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "aliases": [
+      "auction theory",
+      "競売理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_865",
+      "kb_800"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_867",
+    "title": "プロティアン・キャリア",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "protean career",
+      "プロティアンキャリア"
+    ],
+    "relatedTheoryIds": [
+      "kb_868",
+      "kb_805"
+    ],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_868",
+    "title": "境界なきキャリア",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "aliases": [
+      "boundaryless career",
+      "バウンダリーレス・キャリア"
+    ],
+    "relatedTheoryIds": [
+      "kb_867",
+      "kb_805"
+    ],
     "status": "locked"
   }
 ]

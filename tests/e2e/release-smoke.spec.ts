@@ -303,7 +303,7 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByTestId('header-upgrade-banner')).toBeVisible();
-    await expect(header.getByText('356の処世術・630の理論をすべて読む', { exact: true })).toHaveCount(0);
+    await expect(header.getByText('356の処世術・793の理論をすべて読む', { exact: true })).toHaveCount(0);
     await expect(header.getByText('完全版を見る →', { exact: true })).toBeVisible();
     await expect(header.getByText('禄', { exact: true })).toHaveCount(0);
     await expect(header.getByText('人生をより深く、より豊かに', { exact: true })).toHaveCount(0);
@@ -317,7 +317,7 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
   const desktopBanner = page.getByTestId('header-upgrade-banner');
   const desktopCta = page.getByTestId('header-upgrade-cta');
   await expect(desktopBanner).toBeVisible();
-  await expect(desktopBanner.getByText('356の処世術・630の理論をすべて読む', { exact: true })).toBeVisible();
+  await expect(desktopBanner.getByText('356の処世術・793の理論をすべて読む', { exact: true })).toBeVisible();
   await expect(desktopBanner.getByText('禄', { exact: true })).toBeVisible();
   await expect(desktopBanner.getByText('完全版を見る →', { exact: true })).toBeVisible();
   await expect(desktopBanner).toHaveCSS('background-color', 'rgb(248, 240, 221)');
@@ -590,12 +590,27 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await page.goto('/discover');
   await expect(page.getByTestId('discover-persona-rail')).toBeVisible();
 
-  await page.getByRole('tab', { name: '理論　630' }).click();
+  await page.getByRole('tab', { name: '理論　793' }).click();
   await expect(page.getByText('理論のカテゴリから絞り込む', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '心理学で理論を絞り込む' })).toBeVisible();
   await expect(page.getByRole('button', { name: '格言で理論を絞り込む' })).toBeVisible();
   await expect(page.getByTestId('discover-theory-rail')).toBeVisible();
-  await expect(page.getByRole('link', { name: '630理論を一覧で見る' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '793理論を一覧で見る' })).toBeVisible();
+  await page.getByRole('button', { name: 'Big Fiveで検索' }).click();
+  await expect(page.getByLabel('処世術・人物像・理論・キーワードを検索')).toHaveValue('Big Five');
+  await expect(page.getByText('Big Five／五因子モデル', { exact: true })).toBeVisible();
+  const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+  expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
+});
+
+test('追加理論は詳細・出典・関連導線まで表示される', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/theory/kb_706');
+  await expect(page.getByTestId('theory-title')).toHaveText('ダニング＝クルーガー効果');
+  await expect(page.getByTestId('theory-summary')).toContainText('自己評価');
+  await expect(page.getByTestId('theory-information')).toContainText('David Dunning');
+  await expect(page.getByTestId('theory-related-techniques').getByRole('link').first()).toBeVisible();
+  await expect(page.getByTestId('theory-related-theories').getByRole('link').first()).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -902,7 +917,7 @@ test('理論一覧は検索・カテゴリ・ソートをURLへ保持し、0件�
   await expect(page.getByText('150件を無料公開', { exact: true })).toBeVisible();
   await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
   await page.getByLabel('理論名・キーワードから検索').fill('初頭');
-  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(1);
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(2);
   await expect(page).toHaveURL(/q=%E5%88%9D%E9%A0%AD.*category=all.*sort=source.*page=1/);
   await page.getByRole('tab', { name: 'あいうえお順' }).click();
   await expect(page).toHaveURL(/sort=alpha/);
