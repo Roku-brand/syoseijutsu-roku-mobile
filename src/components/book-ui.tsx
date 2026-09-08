@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import {
   Modal,
   Image,
+  Platform,
   Pressable,
   Share,
   ScrollView,
@@ -31,6 +32,34 @@ import { useAccess } from '@/access/access-state';
 import { upgradeRoute } from '@/navigation/app-routes';
 
 const appIcon = require('../../assets/brand/icon.png');
+
+const HEADER_UPGRADE_TOKENS = {
+  surfaceStart: '#FFFCF5',
+  surfaceMiddle: '#F8F0DD',
+  surfaceEnd: '#F1DDAE',
+  border: '#D8B45B',
+  borderActive: '#D8A93A',
+  ink: '#1F1A17',
+  gold: '#C89A2B',
+  goldBright: '#D8A93A',
+  goldDeep: '#B8831D',
+  ctaText: '#2A1D08',
+  shadow: '#8D691D',
+} as const;
+
+const headerUpgradeSurfaceGradient = Platform.select({
+  web: {
+    backgroundImage: `linear-gradient(105deg, ${HEADER_UPGRADE_TOKENS.surfaceStart} 0%, ${HEADER_UPGRADE_TOKENS.surfaceMiddle} 58%, ${HEADER_UPGRADE_TOKENS.surfaceEnd} 100%)`,
+  } as object,
+  default: { backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle },
+});
+
+const headerUpgradeCtaGradient = Platform.select({
+  web: {
+    backgroundImage: `linear-gradient(180deg, #E3BB58 0%, ${HEADER_UPGRADE_TOKENS.goldBright} 52%, ${HEADER_UPGRADE_TOKENS.gold} 100%)`,
+  } as object,
+  default: { backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
+});
 
 export function BookScreen({
   children,
@@ -88,7 +117,10 @@ export function BookHeader() {
   const { accessState, catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
+  const wideUpgradeBanner = width >= 1000;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
+  const [upgradeHovered, setUpgradeHovered] = useState(false);
+  const [upgradeFocused, setUpgradeFocused] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
@@ -145,21 +177,54 @@ export function BookHeader() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="完全版購入の案内を開く"
+            accessibilityHint="完全版の内容と購入方法を表示します"
             testID="header-upgrade-banner"
             onPress={() => router.push(upgradeRoute('header_banner'))}
+            onHoverIn={() => setUpgradeHovered(true)}
+            onHoverOut={() => setUpgradeHovered(false)}
+            onFocus={() => setUpgradeFocused(true)}
+            onBlur={() => setUpgradeFocused(false)}
             style={({ pressed }) => [
-              compact ? styles.headerUpgradeBannerCompact : styles.headerUpgradeBanner,
+              styles.headerUpgradeBannerBase,
+              compact
+                ? styles.headerUpgradeBannerCompact
+                : wideUpgradeBanner
+                  ? styles.headerUpgradeBannerWide
+                  : styles.headerUpgradeBannerMedium,
+              (upgradeHovered || upgradeFocused) && styles.headerUpgradeBannerInteractive,
+              upgradeFocused && styles.headerUpgradeBannerFocused,
               pressed && styles.headerUpgradeBannerPressed,
             ]}
           >
-            <View style={styles.headerUpgradeEmblem} accessibilityElementsHidden>
-              <AppText style={styles.headerUpgradeEmblemText}>全</AppText>
+            <View testID="header-upgrade-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeSurface, headerUpgradeSurfaceGradient]} />
+            <View pointerEvents="none" style={styles.headerUpgradeSheen} />
+            <View style={[styles.headerUpgradeEmblem, compact && styles.headerUpgradeEmblemCompact]} accessibilityElementsHidden>
+              <AppText style={[styles.headerUpgradeEmblemText, compact && styles.headerUpgradeEmblemTextCompact]}>禄</AppText>
             </View>
-            <View style={styles.headerUpgradeCopy}>
-              <AppText numberOfLines={1} style={styles.headerUpgradeEyebrow}>
-                {compact ? '全編をひらく' : 'すべての知恵を、あなたの手元に'}
+            <View style={[styles.headerUpgradeDivider, compact && styles.headerUpgradeDividerCompact]} />
+            <AppText
+              testID="header-upgrade-message"
+              numberOfLines={compact ? 3 : 1}
+              style={[
+                styles.headerUpgradeMessage,
+                compact && styles.headerUpgradeMessageCompact,
+                !compact && !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
+              ]}
+            >
+              356の処世術・630の理論をすべて読む
+            </AppText>
+            <View
+              testID="header-upgrade-cta"
+              style={[
+                styles.headerUpgradeCta,
+                compact && styles.headerUpgradeCtaCompact,
+                (upgradeHovered || upgradeFocused) && styles.headerUpgradeCtaInteractive,
+              ]}
+            >
+              <View testID="header-upgrade-cta-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeCtaSurface, headerUpgradeCtaGradient]} />
+              <AppText numberOfLines={compact ? 2 : 1} style={[styles.headerUpgradeCtaText, compact && styles.headerUpgradeCtaTextCompact]}>
+                完全版を見る →
               </AppText>
-              <AppText numberOfLines={1} style={styles.headerUpgradeTitle}>完全版購入　›</AppText>
             </View>
           </Pressable>
         ) : primaryTabHeader ? null : (
@@ -714,79 +779,138 @@ const styles = StyleSheet.create({
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
-  headerUpgradeBanner: {
+  headerUpgradeBannerBase: {
     position: 'absolute',
-    left: '50%',
-    width: 310,
-    marginLeft: -155,
-    minHeight: 43,
-    paddingHorizontal: 10,
+    minHeight: 46,
+    paddingHorizontal: 12,
     paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 9,
-    overflow: 'hidden',
+    gap: 10,
     borderWidth: 1,
-    borderColor: '#C9AB68',
+    borderColor: HEADER_UPGRADE_TOKENS.border,
     borderRadius: radius.pill,
-    backgroundColor: colors.charcoal,
-    ...shadow.card,
+    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
+    shadowColor: HEADER_UPGRADE_TOKENS.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.13,
+    shadowRadius: 11,
+    elevation: 3,
+  },
+  headerUpgradeBannerWide: {
+    left: '50%',
+    width: 590,
+    marginLeft: -295,
+  },
+  headerUpgradeBannerMedium: {
+    left: '50%',
+    width: 400,
+    marginLeft: -200,
   },
   headerUpgradeBannerCompact: {
-    position: 'absolute',
     left: 54,
     right: 116,
-    minHeight: 40,
-    paddingHorizontal: 7,
+    minHeight: 44,
+    paddingHorizontal: 6,
     paddingVertical: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 7,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#C9AB68',
-    borderRadius: radius.pill,
-    backgroundColor: colors.charcoal,
-    ...shadow.card,
+    gap: 5,
   },
-  headerUpgradeBannerPressed: { opacity: 0.82, transform: [{ scale: 0.985 }] },
+  headerUpgradeSurface: {
+    borderRadius: radius.pill,
+    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
+  },
+  headerUpgradeSheen: {
+    position: 'absolute',
+    top: 2,
+    left: 18,
+    right: 18,
+    height: 15,
+    borderRadius: radius.pill,
+    backgroundColor: 'rgba(255,255,255,0.38)',
+  },
+  headerUpgradeBannerInteractive: {
+    borderColor: HEADER_UPGRADE_TOKENS.borderActive,
+    shadowOpacity: 0.2,
+    shadowRadius: 14,
+    transform: [{ translateY: -1 }],
+  },
+  headerUpgradeBannerFocused: {
+    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
+    shadowOpacity: 0.23,
+  },
+  headerUpgradeBannerPressed: { opacity: 0.9, transform: [{ translateY: 0 }, { scale: 0.992 }] },
   headerUpgradeEmblem: {
-    width: 27,
-    height: 27,
+    width: 30,
+    height: 30,
     flexShrink: 0,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#D8BD7D',
-    borderRadius: 14,
-    backgroundColor: '#29261F',
+    borderColor: HEADER_UPGRADE_TOKENS.gold,
+    borderRadius: 15,
+    backgroundColor: '#211E19',
   },
+  headerUpgradeEmblemCompact: { width: 22, height: 22, borderRadius: 11 },
   headerUpgradeEmblemText: {
-    color: '#F0D99D',
+    color: '#E7C665',
     fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 13,
+    lineHeight: 18,
     fontWeight: '700',
   },
-  headerUpgradeCopy: { minWidth: 0, alignItems: 'flex-start' },
-  headerUpgradeEyebrow: {
-    color: '#CBB985',
+  headerUpgradeEmblemTextCompact: { fontSize: 9, lineHeight: 12 },
+  headerUpgradeDivider: { width: 1, height: 25, flexShrink: 0, backgroundColor: 'rgba(184,131,29,0.38)' },
+  headerUpgradeDividerCompact: { height: 22 },
+  headerUpgradeMessage: {
+    minWidth: 0,
+    flex: 1,
+    color: HEADER_UPGRADE_TOKENS.ink,
     fontFamily: fonts.serif,
-    fontSize: 8,
-    lineHeight: 11,
-    fontWeight: '500',
-    letterSpacing: 0.7,
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: '600',
+    letterSpacing: 0.35,
+    textAlign: 'center',
   },
-  headerUpgradeTitle: {
-    color: '#FFF7DF',
+  headerUpgradeMessageMedium: { fontSize: 10, lineHeight: 15, letterSpacing: 0 },
+  headerUpgradeMessageCompact: { fontSize: 7, lineHeight: 8, letterSpacing: -0.15, textAlign: 'left' },
+  headerUpgradeCta: {
+    minWidth: 132,
+    minHeight: 33,
+    flexShrink: 0,
+    paddingHorizontal: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
+    borderRadius: radius.pill,
+    backgroundColor: HEADER_UPGRADE_TOKENS.goldBright,
+    shadowColor: HEADER_UPGRADE_TOKENS.goldDeep,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.22,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  headerUpgradeCtaCompact: { minWidth: 50, minHeight: 30, paddingHorizontal: 4 },
+  headerUpgradeCtaSurface: { borderRadius: radius.pill, backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
+  headerUpgradeCtaInteractive: {
+    borderColor: '#A96F0D',
+    backgroundColor: '#E3B64B',
+    shadowOpacity: 0.32,
+    shadowRadius: 7,
+    transform: [{ translateY: -1 }],
+  },
+  headerUpgradeCtaText: {
+    color: HEADER_UPGRADE_TOKENS.ctaText,
     fontFamily: fonts.serif,
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 11,
+    lineHeight: 16,
     fontWeight: '700',
-    letterSpacing: 0.8,
+    letterSpacing: 0.35,
+    textAlign: 'center',
   },
+  headerUpgradeCtaTextCompact: { fontSize: 8, lineHeight: 10, letterSpacing: -0.1 },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,
