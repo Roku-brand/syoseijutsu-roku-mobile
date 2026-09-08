@@ -35,18 +35,23 @@ function fingerprint(text) {
   return normalized.slice(start, start + 64);
 }
 
-function collectTextFingerprints(value, label, fingerprints) {
+function collectTextFingerprints(value, label, fingerprints, publicSourceTexts = new Set()) {
   if (typeof value === 'string') {
-    const valueFingerprint = fingerprint(value);
+    if ([...publicSourceTexts].some((text) => text.includes(value))) return;
+    // Citation fragments (journal names, author surnames) are not unique.
+    const normalized = value.replace(/\s+/g, ' ').trim();
+    const valueFingerprint = label.includes('.provenance')
+      ? (normalized.length >= 24 ? normalized : null)
+      : fingerprint(value);
     if (valueFingerprint) fingerprints.set(valueFingerprint, label);
     return;
   }
   if (Array.isArray(value)) {
-    value.forEach((item, index) => collectTextFingerprints(item, `${label}[${index}]`, fingerprints));
+    value.forEach((item, index) => collectTextFingerprints(item, `${label}[${index}]`, fingerprints, publicSourceTexts));
     return;
   }
   if (value && typeof value === 'object') {
-    Object.entries(value).forEach(([key, item]) => collectTextFingerprints(item, `${label}.${key}`, fingerprints));
+    Object.entries(value).forEach(([key, item]) => collectTextFingerprints(item, `${label}.${key}`, fingerprints, publicSourceTexts));
   }
 }
 
@@ -65,6 +70,17 @@ const [techniques, theories, learning, publicTechniques, publicTheories, publicL
   readJson('metadata.json'),
 ]);
 const { allTechniques, freeTechniqueIds, freeTheoryIds, freeLearningIds } = selectPublicContent({ techniques, theories, learning });
+// Shared citations are public when they occur verbatim in an authorized free
+// card. Only provenance strings are exempted; paid summaries stay protected.
+const publicSourceTexts = new Set();
+function collectSourceTexts(value) {
+  if (typeof value === 'string') publicSourceTexts.add(value);
+  else if (Array.isArray(value)) value.forEach(collectSourceTexts);
+  else if (value && typeof value === 'object') Object.values(value).forEach(collectSourceTexts);
+}
+for (const theory of theories) {
+  if (freeTheoryIds.has(theory.tagId)) collectSourceTexts(theory.provenance);
+}
 const fingerprints = new Map();
 const titleCandidates = [];
 const publicPreviewTheories = [
@@ -89,7 +105,8 @@ for (const theory of theories) {
     // Paid theory titles are intentionally public so free technique pages can
     // show the complete relationship map. The summary and provenance remain
     // protected and must never enter the public bundle.
-    collectTextFingerprints({ summary: theory.summary, provenance: theory.provenance }, `theory:${theory.tagId}`, fingerprints);
+    collectTextFingerprints(theory.summary, `theory:${theory.tagId}.summary`, fingerprints);
+    collectTextFingerprints(theory.provenance, `theory:${theory.tagId}.provenance`, fingerprints, publicSourceTexts);
   }
 }
 for (const item of learning) {
@@ -158,6 +175,7 @@ if (lockedPublicTheories.length !== theories.length - freeTheoryIds.size) {
   throw new Error('Public theory catalog does not contain the expected locked shells.');
 }
 for (const shell of lockedPublicTheories) {
+  if (Object.hasOwn(shell, 'provenance')) throw new Error(`Paid provenance in public shell: ${shell.tagId}`);
   const canonical = theories.find((theory) => theory.tagId === shell.tagId);
   if (!canonical || shell.title !== canonical.title || shell.categoryId !== canonical.categoryId || shell.categoryTitle !== canonical.categoryTitle) {
     throw new Error(`Public theory title shell is not canonical: ${shell.tagId}`);
