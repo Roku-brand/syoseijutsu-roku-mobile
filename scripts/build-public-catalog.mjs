@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { orderPersonasForDisplay, selectPublicContent } from './public-content-selection.mjs';
+import './apply-theory-provenance.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const generated = path.join(root, 'src', 'data', 'generated');
