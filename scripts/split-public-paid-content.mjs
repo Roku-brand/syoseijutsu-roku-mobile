@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { orderPersonasForDisplay, selectPublicContent } from './public-content-selection.mjs';
+import './apply-theory-provenance.mjs';
 
 const root = process.cwd();
 const techniques = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.json'), 'utf8'));

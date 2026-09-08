@@ -224,91 +224,286 @@
       "title": "ハロー効果",
       "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "E.L. Thorndike（参照文献の著者）",
+        "period": "1920年（参照文献）",
+        "works": [
+          "A constant error in psychological ratings. (1920). Journal of Applied Psychology, 4(1), 25-29"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0071663"
+          }
+        ],
+        "note": "評価に共通して入り込む誤差を扱った古典的論文。"
+      }
     },
     {
       "tagId": "kb_389",
       "title": "メラビアンの法則",
       "summary": "感情や態度を伝える言葉と声・表情が食い違う場面では、受け手が声や表情を強く手掛かりにするという限定的な研究知見。あらゆる会話で「言葉は7％しか伝わらない」という法則ではない。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Albert Mehrabian / Susan R. Ferris（参照文献の著者）",
+        "period": "1967年（参照文献）",
+        "works": [
+          "Inference of attitudes from nonverbal communication in two channels. (1967). Journal of Consulting Psychology, 31(3), 248-252"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0024648"
+          }
+        ],
+        "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
+      }
     },
     {
       "tagId": "kb_402",
       "title": "心理的安全性",
       "summary": "対人上のリスクを取って質問、異論、失敗を表明しても、侮辱や不利益を受けないと集団成員が共有して感じる状態。単なる仲の良さではなく、率直に学び合える条件を指す。",
       "categoryId": "organization-management",
-      "categoryTitle": "組織・経営論"
+      "categoryTitle": "組織・経営論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Amy Edmondson（参照文献の著者）",
+        "period": "1999年（参照文献）",
+        "works": [
+          "Psychological Safety and Learning Behavior in Work Teams (1999). Administrative Science Quarterly, 44(2), 350-383"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.2307/2666999"
+          }
+        ],
+        "note": "チームにおける心理的安全性と学習行動の代表的研究。用語の最初の使用ではありません。"
+      }
     },
     {
       "tagId": "kb_014",
       "title": "ミラーリング効果",
       "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）",
+        "period": "1999年（参照文献）",
+        "works": [
+          "The chameleon effect: The perception–behavior link and social interaction. (1999). Journal of Personality and Social Psychology, 76(6), 893-910"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/0022-3514.76.6.893"
+          }
+        ],
+        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
+      }
     },
     {
       "tagId": "kb_391",
       "title": "カメレオン効果",
       "summary": "相手の姿勢や身ぶりを無意識に模倣すると、相互作用が滑らかになり、好意や親近感が高まることがある現象。効果は自然な模倣に限られ、誇張した物まねとは異なる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）",
+        "period": "1999年（参照文献）",
+        "works": [
+          "The chameleon effect: The perception–behavior link and social interaction. (1999). Journal of Personality and Social Psychology, 76(6), 893-910"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/0022-3514.76.6.893"
+          }
+        ],
+        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
+      }
     },
     {
       "tagId": "kb_007",
       "title": "好意の返報性",
       "summary": "相手から好意を示されると、自分も好意を返したくなりやすい傾向。好意は待つより、先に示すことで循環が生まれる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Alvin W. Gouldner（参照文献の著者）",
+        "period": "1960年（参照文献）",
+        "works": [
+          "The Norm of Reciprocity: A Preliminary Statement (1960). American Sociological Review, 25(2), 161"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.2307/2092623"
+          }
+        ],
+        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
+      }
     },
     {
       "tagId": "kb_008",
       "title": "自己開示の返報性",
       "summary": "自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。親密さは一方的ではなく段階的に深まる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Nancy L. Collins / Lynn Carol Miller（参照文献の著者）",
+        "period": "1994年（参照文献）",
+        "works": [
+          "Self-disclosure and liking: A meta-analytic review. (1994). Psychological Bulletin, 116(3), 457-475"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/0033-2909.116.3.457"
+          }
+        ],
+        "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
+      }
     },
     {
       "tagId": "kb_623",
       "title": "過ぎたるは猶及ばざるが如し",
       "summary": "やりすぎは不足と同じく望ましくなく、適度が重要だという教え。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孔子の言行／門人・後学による編纂",
+        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "works": [
+          "『論語』先進篇"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html"
+          }
+        ],
+        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
+      }
     },
     {
       "tagId": "kb_025",
       "title": "プラットフォール効果",
       "summary": "高い能力を持つ人が小さな失敗を見せると、親しみやすさが増すことがある現象。能力への信頼がない状態では、失敗はそのまま低評価になりうる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Elliot Aronson / Ben Willerman / Joanne Floyd（参照文献の著者）",
+        "period": "1966年（参照文献）",
+        "works": [
+          "The effect of a pratfall on increasing interpersonal attractiveness (1966). Psychonomic Science, 4(6), 227-228"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.3758/bf03342263"
+          }
+        ],
+        "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
+      }
     },
     {
       "tagId": "kb_001",
       "title": "初頭効果",
       "summary": "最初に得た情報が、その後の印象や評価の基準として強く残る傾向。第一印象は後から修正しにくいため、関係の入口ほど重要になる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "S. E. Asch（参照文献の著者）",
+        "period": "1946年（参照文献）",
+        "works": [
+          "Forming impressions of personality. (1946). The Journal of Abnormal and Social Psychology, 41(3), 258-290"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0055756"
+          }
+        ],
+        "note": "印象形成の代表的研究。記憶課題での初頭効果とは区別します。"
+      }
     },
     {
       "tagId": "kb_002",
       "title": "親近効果",
       "summary": "最後に得た情報ほど記憶や判断に残りやすい傾向。会話や体験は、終わり方によって全体の印象が変わる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Bennet B. Murdock（参照文献の著者）",
+        "period": "1962年（参照文献）",
+        "works": [
+          "The serial position effect of free recall. (1962). Journal of Experimental Psychology, 64(5), 482-488"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0045106"
+          }
+        ],
+        "note": "自由再生課題の系列位置効果を扱う研究。会話全体の評価への適用まで直接検証した論文ではありません。"
+      }
     },
     {
       "tagId": "kb_029",
       "title": "ピーク・エンドの法則",
       "summary": "体験全体は、最も感情が強かった瞬間と最後の印象によって記憶されやすいという法則。平均的な質だけでなく、山場と終わり方が重要になる。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Daniel Kahneman / Barbara L. Fredrickson / Charles A. Schreiber / Donald A. Redelmeier（参照文献の著者）",
+        "period": "1993年（参照文献）",
+        "works": [
+          "When More Pain Is Preferred to Less: Adding a Better End (1993). Psychological Science, 4(6), 401-405"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1111/j.1467-9280.1993.tb00589.x"
+          }
+        ],
+        "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
+      }
     },
     {
       "tagId": "kb_190",
       "title": "計画錯誤",
       "summary": "過去の遅延を無視し、作業に必要な時間や費用を楽観的に見積もりやすい傾向。",
       "categoryId": "behavioral-science",
-      "categoryTitle": "行動科学"
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Roger Buehler / Dale Griffin / Michael Ross（参照文献の著者）",
+        "period": "1994年（参照文献）",
+        "works": [
+          "Exploring the \"planning fallacy\": Why people underestimate their task completion times. (1994). Journal of Personality and Social Psychology, 67(3), 366-381"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/0022-3514.67.3.366"
+          }
+        ],
+        "note": "課題の所要時間を過小評価する傾向を扱う実験。用語の初出ではありません。"
+      }
     },
     {
       "tagId": "kb_324",
@@ -322,14 +517,44 @@
       "title": "勝兵は先ず勝ちて而る後に戦いを求む",
       "summary": "戦う前に勝てる条件を整えることが、強い戦略だという教え。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孫武に伝統的に帰される『孫子』",
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "works": [
+          "『孫子』軍形篇（第4篇）"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
+      }
     },
     {
       "tagId": "kb_625",
       "title": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
       "summary": "学ぶだけでも考えるだけでも足りず、知識と思考を往復することが重要。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孔子の言行／門人・後学による編纂",
+        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "works": [
+          "『論語』為政篇"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html"
+          }
+        ],
+        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
+      }
     },
     {
       "tagId": "kb_543",
@@ -406,35 +631,110 @@
       "title": "足るを知る者は富む",
       "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第33章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      }
     },
     {
       "tagId": "kb_268",
       "title": "快楽順応",
       "summary": "良い変化にも悪い変化にも次第に慣れ、幸福感が元の水準へ戻りやすい現象。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Philip Brickman / Dan Coates / Ronnie Janoff-Bulman（参照文献の著者）",
+        "period": "1978年（参照文献）",
+        "works": [
+          "Lottery winners and accident victims: Is happiness relative? (1978). Journal of Personality and Social Psychology, 36(8), 917-927"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/0022-3514.36.8.917"
+          }
+        ],
+        "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
+      }
     },
     {
       "tagId": "kb_612",
       "title": "人生が短いのではない。多くを浪費している",
       "summary": "時間不足より、時間の使い方こそが人生の長さを左右すると説く。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "セネカ",
+        "period": "紀元1世紀（厳密な成立年は未確認）",
+        "works": [
+          "人生の短さについて（De brevitate vitae）第1章"
+        ],
+        "sources": [
+          {
+            "title": "対応本文（公開テキスト）",
+            "url": "https://www.thelatinlibrary.com/sen/sen.brevita.shtml"
+          }
+        ],
+        "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
+      }
     },
     {
       "tagId": "kb_604",
       "title": "自分にできることと、できないことを分ける",
       "summary": "自分で変えられることに力を使い、変えられないことへの執着を減らす考え。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "エピクテトスの教え／アリアノス編",
+        "period": "2世紀（成立の正確な年は未確定）",
+        "works": [
+          "『提要（Enchiridion）』第1節"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://classics.mit.edu/Epictetus/epicench.html"
+          }
+        ],
+        "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      }
     },
     {
       "tagId": "kb_567",
       "title": "ポートフォリオ理論",
       "summary": "値動きや失敗要因の異なる資産を組み合わせ、全体の期待収益に対するリスクを管理する理論。人生設計では、収入源、技能、役割への依存を分散する比喩として応用される。",
       "categoryId": "strategy",
-      "categoryTitle": "戦略論"
+      "categoryTitle": "戦略論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Harry Markowitz（参照文献の著者）",
+        "period": "1952年（参照文献）",
+        "works": [
+          "PORTFOLIO SELECTION* (1952). The Journal of Finance, 7(1), 77-91"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1111/j.1540-6261.1952.tb01525.x"
+          }
+        ],
+        "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
+      }
     },
     {
       "tagId": "kb_282",
@@ -455,14 +755,44 @@
       "title": "社会的比較理論",
       "summary": "自分の能力や状況を判断するために、他者と比較するという理論。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Leon Festinger（参照文献の著者）",
+        "period": "1954年（参照文献）",
+        "works": [
+          "A Theory of Social Comparison Processes (1954). Human Relations, 7(2), 117-140"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1177/001872675400700202"
+          }
+        ],
+        "note": "社会的比較の理論を示した原典。"
+      }
     },
     {
       "tagId": "kb_634",
       "title": "『時間は限られている。他人の人生を生きるな』 — スティーブ・ジョブズ",
       "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
       "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品"
+      "categoryTitle": "格言・経験則・作品",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "スティーブ・ジョブズ（Steve Jobs）",
+        "period": "2005年6月12日",
+        "works": [
+          "Stanford University Commencement Address (2005)"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says"
+          }
+        ],
+        "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
+      }
     }
   ],
   "techniqueTheoryMap": {

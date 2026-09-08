@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -134,18 +134,32 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
   const provenance = getTheoryProvenance(theory);
   const rows = [
     ['出典状態', provenance.status],
-    ['提唱者', provenance.attribution],
+    ['提唱者・著者', provenance.attribution],
+    ...(provenance.period ? [['発表・刊行時期', provenance.period]] : []),
     ['著作・研究', provenance.works?.join('\n')],
     ['注記', provenance.note],
   ];
   return (
     <View style={styles.informationBody}>
-      {rows.map(([label, value], index) => (
-        <View key={label} style={[styles.informationRow, compact && styles.informationRowCompact, index === rows.length - 1 && styles.informationRowLast]}>
+      {rows.map(([label, value]) => (
+        <View key={label} style={[styles.informationRow, compact && styles.informationRowCompact]}>
           <AppText style={[styles.informationLabel, compact && styles.informationLabelCompact]}>{label}</AppText>
           <AppText style={styles.informationValue}>{value || '—'}</AppText>
         </View>
       ))}
+      {!!provenance.sources?.length && (
+        <View style={[styles.informationRow, compact && styles.informationRowCompact]}>
+          <AppText style={[styles.informationLabel, compact && styles.informationLabelCompact]}>出典を読む</AppText>
+          <View style={styles.sourceLinks}>
+            {provenance.sources.filter((source) => /^https:\/\//.test(source.url)).map((source) => (
+              <Link key={source.url} href={source.url as `https://${string}`} target="_blank" rel="noopener noreferrer" style={styles.sourceLink}>
+                {source.title}
+              </Link>
+            ))}
+          </View>
+        </View>
+      )}
+      <AppText style={styles.sourceExplanation}>「書誌確認済み」は著者・文献・刊行情報を照合した状態です。出典状態は、効果の強さや再現性を示す評価ではありません。</AppText>
     </View>
   );
 }
@@ -177,6 +191,9 @@ const styles = StyleSheet.create({
   informationLabel: { width: 170, paddingHorizontal: 22, paddingVertical: 17, borderRightWidth: 1, borderRightColor: '#E3D5BF', color: '#302D27', fontFamily: fonts.serif, fontSize: 13, lineHeight: 21, fontWeight: '700' },
   informationLabelCompact: { width: '100%', paddingHorizontal: 16, paddingVertical: 10, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: '#EEE4D4', color: '#8E661E' },
   informationValue: { flex: 1, paddingHorizontal: 20, paddingVertical: 17, color: '#292A26', fontSize: 13, lineHeight: 22 },
+  sourceLinks: { flex: 1, minWidth: 0, paddingHorizontal: 20, paddingVertical: 17, gap: 12 },
+  sourceLink: { color: '#795515', fontSize: 13, lineHeight: 22, textDecorationLine: 'underline', flexShrink: 1 },
+  sourceExplanation: { paddingHorizontal: 20, paddingVertical: 14, color: '#686155', fontSize: 12, lineHeight: 20 },
   pressed: { opacity: 0.58 },
   retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   retryButtonText: { color: colors.gold, fontSize: 13, lineHeight: 19, fontWeight: '700' },
