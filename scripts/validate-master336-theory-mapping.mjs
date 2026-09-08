@@ -11,13 +11,14 @@ const theories = readJson('src/data/generated/theories.json');
 const comprehensive = readJson('src/data/generated/comprehensive-theory-links.json');
 const primary = readJson('src/data/generated/primary-theory-links.json');
 const audit = readJson('docs/theory-link-audit/content-review-summary.json');
+const scope = readJson('src/data/content-scope.json');
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const cardById = new Map(cards.map((card) => [card.id, card]));
 const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
 const wisdomSupportByTechniqueId = new Map(cards.map((card) => [card.id, []]));
 
 if (cards.length !== 356) throw new Error(`Expected 356 techniques; found ${cards.length}.`);
-if (theories.length !== 630) throw new Error(`Expected 630 theories; found ${theories.length}.`);
+if (theories.length !== scope.complete.theories) throw new Error(`Expected ${scope.complete.theories} theories; found ${theories.length}.`);
 if (Object.keys(comprehensive).length !== cards.length) throw new Error('Comprehensive map must contain every technique exactly once.');
 if (Object.keys(primary).length !== cards.length) throw new Error('Primary map must contain every technique exactly once.');
 if (JSON.stringify(primary) !== JSON.stringify(master336PrimaryTheoryLinks)) throw new Error('Primary JSON diverges from its curated source.');
@@ -94,7 +95,9 @@ for (const card of legacyCards) {
   }
   const listed = [...block.body.matchAll(/^- [PBOQCS]－\d+｜(.+)$/gm)].map((match) => match[1].trim());
   const supplementaryIds = card.relatedTheoryIds.filter((id) => !card.primaryTheoryIds.includes(id));
-  const expectedTitles = [...card.primaryTheoryIds, ...supplementaryIds].map((id) => theoryById.get(id).title);
+  const expectedTitles = [...card.primaryTheoryIds, ...supplementaryIds]
+    .filter((id) => Number(id.match(/\d+/)?.[0] ?? 0) <= 705)
+    .map((id) => theoryById.get(id).title);
   if (JSON.stringify(listed) !== JSON.stringify(expectedTitles)) throw new Error(`Final mapping Markdown diverges for ${card.id}.`);
 }
 

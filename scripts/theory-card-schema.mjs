@@ -15,9 +15,13 @@ export function createTheoryCard(record, overrides = {}) {
   }
 
   const provenance = overrides.provenance ?? record.provenance ?? sourceProvenance(record);
-  return provenance
-    ? { tagId, title, summary, categoryId, categoryTitle, provenance }
-    : { tagId, title, summary, categoryId, categoryTitle };
+  const aliases = [...new Set((overrides.aliases ?? record.aliases ?? []).map((value) => String(value).trim()).filter(Boolean))];
+  const relatedTheoryIds = [...new Set((overrides.relatedTheoryIds ?? record.relatedTheoryIds ?? []).map((value) => String(value).trim()).filter(Boolean))];
+  const card = { tagId, title, summary, categoryId, categoryTitle };
+  if (aliases.length) card.aliases = aliases;
+  if (relatedTheoryIds.length) card.relatedTheoryIds = relatedTheoryIds;
+  if (provenance) card.provenance = provenance;
+  return card;
 }
 
 function sourceProvenance(record) {

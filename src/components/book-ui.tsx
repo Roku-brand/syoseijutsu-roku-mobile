@@ -21,6 +21,7 @@ import {
   categories,
   categoryMeta,
   techniqueById,
+  theories,
   theoryById,
 } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
@@ -216,7 +217,7 @@ export function BookHeader() {
                     !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
                   ]}
                 >
-                  356の処世術・630の理論をすべて読む
+                  356の処世術・{theories.length}の理論をすべて読む
                 </AppText>
                 <View
                   testID="header-upgrade-cta"

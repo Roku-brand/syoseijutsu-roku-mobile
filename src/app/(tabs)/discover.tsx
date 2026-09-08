@@ -31,7 +31,7 @@ const searchAliases: Record<string, string[]> = {
 };
 
 const popularSearches = ['友達', '出世', '進路', '会話', '人間関係', '転職', '恋愛', '自己肯定感', '不安', '習慣', 'リーダーシップ', '交渉'];
-const popularTheorySearches = ['初頭効果', 'ピーク・エンドの法則', 'ハビットループ', '認知的不協和', '損失回避の法則', '80対20の法則'];
+const popularTheorySearches = ['ダニング＝クルーガー効果', 'Big Five', 'バンドワゴン効果', 'フロー理論', '忘却曲線', 'ナッシュ均衡'];
 
 function matchesKeyword(source: string, keyword: string) {
   return (searchAliases[keyword] ?? [keyword]).some((term) => source.includes(term));
@@ -55,10 +55,9 @@ export default function DiscoverScreen() {
   );
   const theoryMatches = useMemo(
     () => !keywords.length ? [] : theories
-      .filter((theory) => !isLockedTheoryShell(theory))
-      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId))
+      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory))
       .filter((theory) => {
-        const source = [theory.tagId, theory.title, theory.summary, theory.categoryTitle].filter(Boolean).join(' ').toLocaleLowerCase();
+        const source = [theory.tagId, theory.title, theory.aliases?.join(' '), theory.summary, theory.categoryTitle].filter(Boolean).join(' ').toLocaleLowerCase();
         return keywords.every((keyword) => matchesKeyword(source, keyword));
       }),
     [catalogRevision, isPaid, keywords],

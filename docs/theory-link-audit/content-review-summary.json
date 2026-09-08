@@ -1,67 +1,75 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 630,
-  "links": 1098,
+  "theories": 793,
+  "links": 1418,
   "primaryLinks": 431,
-  "linkedTheories": 507,
-  "unlinkedTheories": 123,
+  "linkedTheories": 667,
+  "unlinkedTheories": 126,
   "minimumLinksPerTechnique": 1,
-  "maximumLinksPerTechnique": 13,
+  "maximumLinksPerTechnique": 28,
   "distribution": {
-    "1": 92,
-    "2": 87,
-    "3": 70,
-    "4": 34,
-    "5": 26,
-    "6": 15,
-    "7": 16,
-    "8": 4,
-    "9": 6,
-    "10": 1,
+    "1": 65,
+    "2": 78,
+    "3": 67,
+    "4": 37,
+    "5": 30,
+    "6": 21,
+    "7": 21,
+    "8": 6,
+    "9": 7,
+    "10": 9,
     "11": 3,
-    "12": 1,
-    "13": 1
+    "12": 2,
+    "13": 5,
+    "14": 2,
+    "21": 1,
+    "25": 1,
+    "28": 1
   },
   "primaryDistribution": {
     "1": 281,
     "2": 75
   },
   "supplementaryDistribution": {
-    "0": 115,
-    "1": 80,
-    "2": 68,
-    "3": 27,
-    "4": 23,
-    "5": 17,
-    "6": 10,
+    "0": 82,
+    "1": 76,
+    "2": 62,
+    "3": 35,
+    "4": 28,
+    "5": 23,
+    "6": 15,
     "7": 5,
-    "8": 6,
-    "9": 1,
+    "8": 7,
+    "9": 9,
     "10": 3,
-    "11": 1
+    "11": 3,
+    "12": 5,
+    "20": 1,
+    "24": 1,
+    "26": 1
   },
-  "wisdomSupportLinks": 269,
+  "wisdomSupportLinks": 378,
   "categoryCoverage": {
     "psychology": {
-      "theories": 237,
-      "linkedTheories": 189,
-      "links": 418
+      "theories": 305,
+      "linkedTheories": 255,
+      "links": 550
     },
     "behavioral-science": {
-      "theories": 74,
-      "linkedTheories": 34,
-      "links": 45
+      "theories": 108,
+      "linkedTheories": 67,
+      "links": 111
     },
     "organization-management": {
-      "theories": 123,
-      "linkedTheories": 93,
-      "links": 174
+      "theories": 164,
+      "linkedTheories": 134,
+      "links": 256
     },
     "strategy": {
-      "theories": 61,
-      "linkedTheories": 56,
-      "links": 83
+      "theories": 81,
+      "linkedTheories": 76,
+      "links": 123
     },
     "classics-thought": {
       "theories": 59,
@@ -74,6 +82,6 @@
       "links": 207
     }
   },
-  "generatedAt": "2026-09-04",
-  "supplementaryLinks": 667
+  "generatedAt": "2026-09-08",
+  "supplementaryLinks": 987
 }

@@ -68,14 +68,16 @@
         "kb_190",
         "kb_324",
         "kb_627",
+        "kb_706",
         "kb_625",
         "kb_543",
         "kb_330",
         "kb_599",
+        "kb_762",
+        "kb_738",
         "kb_545",
         "kb_329",
         "kb_051",
-        "kb_452",
         "kb_102"
       ]
     },
@@ -104,6 +106,7 @@
       "theoryIds": [
         "kb_669",
         "kb_618",
+        "kb_736",
         "kb_268",
         "kb_612",
         "kb_604",
@@ -153,6 +156,7 @@
         "kb_190",
         "kb_547",
         "kb_324",
+        "kb_751",
         "kb_503",
         "kb_504",
         "kb_627",
@@ -222,7 +226,7 @@
     {
       "tagId": "kb_003",
       "title": "ハロー効果",
-      "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。",
+      "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。逆に、一つの目立つ欠点が全体評価を引き下げるホーン効果も同じ印象波及の仕組みで説明できる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "provenance": {
@@ -239,7 +243,13 @@
           }
         ],
         "note": "評価に共通して入り込む誤差を扱った古典的論文。"
-      }
+      },
+      "aliases": [
+        "ホーン効果",
+        "horn effect",
+        "devil effect"
+      ],
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_389",
@@ -261,7 +271,8 @@
           }
         ],
         "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_402",
@@ -283,7 +294,13 @@
           }
         ],
         "note": "チームにおける心理的安全性と学習行動の代表的研究。用語の最初の使用ではありません。"
-      }
+      },
+      "relatedTheoryIds": [
+        "kb_770",
+        "kb_771",
+        "kb_773",
+        "kb_845"
+      ]
     },
     {
       "tagId": "kb_014",
@@ -305,7 +322,8 @@
           }
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_391",
@@ -327,7 +345,8 @@
           }
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_007",
@@ -349,7 +368,8 @@
           }
         ],
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_008",
@@ -371,7 +391,8 @@
           }
         ],
         "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_623",
@@ -393,7 +414,8 @@
           }
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_025",
@@ -415,7 +437,8 @@
           }
         ],
         "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_001",
@@ -437,7 +460,10 @@
           }
         ],
         "note": "印象形成の代表的研究。記憶課題での初頭効果とは区別します。"
-      }
+      },
+      "relatedTheoryIds": [
+        "kb_739"
+      ]
     },
     {
       "tagId": "kb_002",
@@ -459,7 +485,10 @@
           }
         ],
         "note": "自由再生課題の系列位置効果を扱う研究。会話全体の評価への適用まで直接検証した論文ではありません。"
-      }
+      },
+      "relatedTheoryIds": [
+        "kb_739"
+      ]
     },
     {
       "tagId": "kb_029",
@@ -481,7 +510,8 @@
           }
         ],
         "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_190",
@@ -503,14 +533,19 @@
           }
         ],
         "note": "課題の所要時間を過小評価する傾向を扱う実験。用語の初出ではありません。"
-      }
+      },
+      "relatedTheoryIds": [
+        "kb_710",
+        "kb_810"
+      ]
     },
     {
       "tagId": "kb_324",
       "title": "巧遅は拙速に如かず",
       "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_627",
@@ -532,7 +567,39 @@
           }
         ],
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-      }
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_706",
+      "title": "ダニング＝クルーガー効果",
+      "aliases": [
+        "Dunning-Kruger effect",
+        "ダニングクルーガー効果"
+      ],
+      "summary": "技能が低い人ほど自分の誤りを見抜くための技能も不足し、自己評価を誤りやすいという研究知見。誰もが無知なら自信過剰になるという単純な序列ではなく、課題・測定法・統計的回帰の影響も議論されている。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "David Dunning / Justin Kruger",
+        "period": "1999年",
+        "works": [
+          "Unskilled and unaware of it (1999)"
+        ],
+        "sources": [
+          {
+            "title": "代表研究（DOI）",
+            "url": "https://doi.org/10.1037/0022-3514.77.6.1121"
+          }
+        ],
+        "note": "個人を侮辱するラベルとして使わず、校正されたフィードバックと技能測定に使う。"
+      },
+      "relatedTheoryIds": [
+        "kb_710",
+        "kb_723",
+        "kb_263"
+      ]
     },
     {
       "tagId": "kb_625",
@@ -554,21 +621,24 @@
           }
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_543",
       "title": "リーン・スタートアップ",
       "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
       "categoryId": "strategy",
-      "categoryTitle": "戦略論"
+      "categoryTitle": "戦略論",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_330",
       "title": "『Done is better than perfect』",
       "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
       "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品"
+      "categoryTitle": "格言・経験則・作品",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_599",
@@ -582,49 +652,96 @@
         "works": [
           "Performing a Project Premortem (2007)"
         ]
-      }
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_762",
+      "title": "ホーソン効果",
+      "aliases": [
+        "Hawthorne effect",
+        "ホーソン実験"
+      ],
+      "summary": "観察されているという認識や研究参加が行動を変える可能性を指す呼称。原実験の再解釈が続いており、単純に注目すれば生産性が上がる法則として扱えない。",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Elton Mayo / Henry Landsbergerほか",
+        "period": "1920〜1950年代",
+        "works": [
+          "Hawthorne Revisited (1958)"
+        ],
+        "note": "定義が研究ごとに異なり、原データの解釈にも議論がある。"
+      },
+      "relatedTheoryIds": [
+        "kb_538",
+        "kb_123"
+      ]
+    },
+    {
+      "tagId": "kb_738",
+      "title": "エビングハウスの忘却曲線",
+      "aliases": [
+        "Ebbinghaus forgetting curve",
+        "忘却曲線"
+      ],
+      "summary": "学習後の記憶は初期に急速に失われ、その後ゆるやかになるという保持の時間変化。曲線の形は材料、個人、想起条件で変わり、固定の忘却率ではない。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Hermann Ebbinghaus",
+        "period": "1885年",
+        "works": [
+          "Über das Gedächtnis (1885)"
+        ],
+        "note": "原研究は無意味綴りを用いた自己実験で、現実の知識へ同じ数値を当てはめない。"
+      },
+      "relatedTheoryIds": [
+        "kb_200",
+        "kb_199"
+      ]
     },
     {
       "tagId": "kb_545",
       "title": "パレートの法則",
       "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
       "categoryId": "strategy",
-      "categoryTitle": "戦略論"
+      "categoryTitle": "戦略論",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_329",
       "title": "完璧は善の敵",
       "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_051",
       "title": "アサーション理論",
       "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
       "categoryId": "psychology",
-      "categoryTitle": "心理学"
-    },
-    {
-      "tagId": "kb_452",
-      "title": "権威バイアス",
-      "summary": "肩書、地位、専門性を持つ人の意見を、内容や根拠の検討以上に正しいと評価しやすい傾向。権威が関連分野のものか、利害関係があるかを分けて確かめる必要がある。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学"
+      "categoryTitle": "心理学",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_102",
       "title": "希少性の原理",
       "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
       "categoryId": "behavioral-science",
-      "categoryTitle": "行動科学"
+      "categoryTitle": "行動科学",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_669",
       "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
       "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
       "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品"
+      "categoryTitle": "格言・経験則・作品",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_618",
@@ -646,7 +763,34 @@
           }
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_736",
+      "title": "フロー理論",
+      "aliases": [
+        "flow theory",
+        "flow state",
+        "フロー状態",
+        "ゾーン"
+      ],
+      "summary": "技能と挑戦の水準がともに高く釣り合うと、行為への深い没入と明確な手応えが生じやすいという理論。没入は幸福や高成果と同義ではなく、活動内容と回復も考慮する。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Mihaly Csikszentmihalyi",
+        "period": "1975年以降",
+        "works": [
+          "Beyond Boredom and Anxiety (1975)"
+        ],
+        "note": "フローの測定と因果方向には課題がある。"
+      },
+      "relatedTheoryIds": [
+        "kb_737",
+        "kb_520"
+      ]
     },
     {
       "tagId": "kb_268",
@@ -668,7 +812,8 @@
           }
         ],
         "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_612",
@@ -690,7 +835,8 @@
           }
         ],
         "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_604",
@@ -712,7 +858,8 @@
           }
         ],
         "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_567",
@@ -734,21 +881,24 @@
           }
         ],
         "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_282",
       "title": "バーベル戦略",
       "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
       "categoryId": "strategy",
-      "categoryTitle": "戦略論"
+      "categoryTitle": "戦略論",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_296",
       "title": "情けは人の為ならず",
       "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
       "categoryId": "classics-thought",
-      "categoryTitle": "古典・思想"
+      "categoryTitle": "古典・思想",
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_266",
@@ -770,7 +920,8 @@
           }
         ],
         "note": "社会的比較の理論を示した原典。"
-      }
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_634",
@@ -792,7 +943,8 @@
           }
         ],
         "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-      }
+      },
+      "relatedTheoryIds": []
     }
   ],
   "techniqueTheoryMap": {

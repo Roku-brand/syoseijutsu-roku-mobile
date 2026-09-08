@@ -94,7 +94,7 @@ add('');
 add(`- カタログ識別子：${metadata.catalogVersion ?? '現行生成データ'}（作業時点のリポジトリHEADを基準）`);
 add('- 処世術正本：`src/data/generated/techniques.json`（詳細本文を含む完全ソース356件）');
 add('- アプリ同梱公開束：`src/data/generated/techniques.public.json`（現行実装では20件をロック表示し、読めるカードは336件）');
-add('- 理論正本：`src/data/generated/theories.json`（630件）');
+add(`- 理論正本：\`src/data/generated/theories.json\`（${theories.length}件）`);
 add('- 実践正本：`src/data/generated/practical-actions.json`（完全正本356件に対応）');
 add('- 主要理論紐づけ：`src/data/generated/primary-theory-links.json`');
 add('- 網羅理論紐づけ：`src/data/generated/comprehensive-theory-links.json`');
@@ -230,7 +230,7 @@ for (const technique of techniques.sort((a, b) => (a.displayOrder ?? 0) - (b.dis
   addBlank();
 }
 
-add('## 3. 理論詳細ページ素材（全630件）');
+add(`## 3. 理論詳細ページ素材（全${theories.length}件）`);
 add('');
 add('理論は「こうするべき」の根拠ではなく、処世術を状況に応じて使い分けるための見取り図。投稿では、理論の定義を短く示し、処世術の具体例へ戻す。');
 addBlank();
@@ -314,7 +314,7 @@ const missingActionIds = techniques.filter((item) => !actionById.has(item.id)).m
 const missingTheoryIds = [...new Set(techniques.flatMap((item) => allIdsFor(item)))].filter((id) => !theoryById.has(id));
 const primaryNotInAll = techniques.flatMap((item) => primaryIdsFor(item).filter((id) => !allIdsFor(item).includes(id)).map((id) => `${item.id}:${id}`));
 add(`- X素材DBの処世術数：${techniques.length}（期待値356）`);
-add(`- 理論数：${theories.length}（期待値630）`);
+add(`- 理論数：${theories.length}（正本メタデータ ${metadata.theoryCount}）`);
 add(`- 現行処世術に実践データがないID：${missingActionIds.length ? missingActionIds.join('、') : 'なし'}`);
 add(`- 紐づけ先が理論正本にないID：${missingTheoryIds.length ? missingTheoryIds.join('、') : 'なし'}`);
 add(`- 主要理論が網羅紐づけに含まれない組み合わせ：${primaryNotInAll.length ? primaryNotInAll.join('、') : 'なし'}`);

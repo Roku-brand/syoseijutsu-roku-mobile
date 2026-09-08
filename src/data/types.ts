@@ -41,6 +41,10 @@ export type TheoryCard = {
   summary: string;
   categoryId: string;
   categoryTitle: string;
+  /** 英語名・邦訳違い・略称など、同じ理論へ到達する検索語。 */
+  aliases?: string[];
+  /** 編集者が意味的な近さを確認した、次に読む価値の高い理論。 */
+  relatedTheoryIds?: string[];
   /** 無料版ではタイトルだけを公開する完全版理論を識別する。 */
   status?: 'published' | 'locked';
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
