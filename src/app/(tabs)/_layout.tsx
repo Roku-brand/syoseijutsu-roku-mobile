@@ -1,6 +1,8 @@
 import { Tabs } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { Easing, Platform, StyleSheet, Text } from 'react-native';
 import { colors, fonts } from '@/constants/theme';
+import { motion } from '@/constants/motion';
+import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
 const tabIcons: Record<string, string> = {
   index: '禄',
@@ -10,11 +12,15 @@ const tabIcons: Record<string, string> = {
 };
 
 export default function TabsLayout() {
+  const reducedMotion = useReducedMotion();
   return (
     <Tabs
       detachInactiveScreens
       screenOptions={({ route }) => ({
         headerShown: false,
+        animation: Platform.OS === 'web' || reducedMotion ? 'none' : 'fade',
+        transitionSpec: { animation: 'timing', config: { duration: motion.tabDuration, easing: Easing.bezier(0.22, 1, 0.36, 1) } },
+        sceneStyle: { backgroundColor: colors.paper },
         tabBarActiveTintColor: colors.goldLight,
         tabBarInactiveTintColor: '#9A9C95',
         tabBarStyle: styles.hiddenTabBar,
