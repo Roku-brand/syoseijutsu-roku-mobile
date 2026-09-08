@@ -70,6 +70,7 @@
     "content:import-theory-mapping": "node ./scripts/import-master336-theory-mapping.mjs",
     "content:link-persona-theories": "node ./scripts/link-persona-catalog-theories.mjs",
     "content:add-researched-theories": "node ./scripts/add-researched-theories.mjs",
+    "content:expand-theories": "node ./scripts/apply-theory-expansion.mjs",
     "content:optimize-theory-cards": "node ./scripts/optimize-theory-card-quality.mjs",
     "content:audit-theory-quality": "node ./scripts/audit-theory-card-quality.mjs",
     "content:import-practical": "node ./scripts/import-practical-actions.mjs",

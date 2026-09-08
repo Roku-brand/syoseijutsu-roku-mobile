@@ -1,0 +1,3137 @@
+{
+  "generatedAt": "2026-09-08T22:40:36.530Z",
+  "beforeCount": 630,
+  "addedCount": 163,
+  "improvedCount": 4,
+  "integratedGroups": 11,
+  "skippedCount": 0,
+  "afterCount": 793,
+  "additions": [
+    {
+      "id": "kb_706",
+      "title": "ダニング＝クルーガー効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_707",
+      "title": "偽の合意効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_708",
+      "title": "自己奉仕バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_709",
+      "title": "後知恵バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_710",
+      "title": "自信過剰効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_711",
+      "title": "生存者バイアス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_712",
+      "title": "代表性ヒューリスティック",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_713",
+      "title": "ギャンブラーの誤謬",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_714",
+      "title": "ホットハンド効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_715",
+      "title": "連言錯誤",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_716",
+      "title": "小数の法則",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_717",
+      "title": "平均への回帰",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_718",
+      "title": "真実性錯覚",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_719",
+      "title": "バイアスの盲点",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_720",
+      "title": "正常性バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_721",
+      "title": "知識の呪い",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_722",
+      "title": "結果バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_723",
+      "title": "説明深度の錯覚",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_724",
+      "title": "Big Five／五因子モデル",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_725",
+      "title": "統制の所在／ローカス・オブ・コントロール",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_726",
+      "title": "HEXACOモデル",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_727",
+      "title": "インポスター現象",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_728",
+      "title": "セルフ・ハンディキャッピング",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_729",
+      "title": "バンドワゴン効果",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_730",
+      "title": "所属欲求／Need to Belong",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_731",
+      "title": "ステレオタイプ脅威",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_732",
+      "title": "脱個人化",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_733",
+      "title": "権威への服従",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_734",
+      "title": "情報的社会的影響",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_735",
+      "title": "観察学習／社会的学習理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_736",
+      "title": "フロー理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_737",
+      "title": "ヤーキーズ＝ドッドソンの法則",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_738",
+      "title": "エビングハウスの忘却曲線",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_739",
+      "title": "系列位置効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_740",
+      "title": "フォン・レストルフ効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_741",
+      "title": "生成効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_742",
+      "title": "二重符号化理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_743",
+      "title": "符号化特定性原理",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_744",
+      "title": "処理水準理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_745",
+      "title": "ワーキングメモリ・モデル",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_746",
+      "title": "チャンク化",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_747",
+      "title": "インターリービング効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_748",
+      "title": "自己説明効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_749",
+      "title": "メンタル・コントラスティング／WOOP・MCII",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_750",
+      "title": "期待価値理論",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_751",
+      "title": "時間的動機づけ理論",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_752",
+      "title": "解釈レベル理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_753",
+      "title": "未来自己連続性",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_754",
+      "title": "限定合理性",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_755",
+      "title": "期待値",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_756",
+      "title": "期待効用理論",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_757",
+      "title": "メンタル・アカウンティング",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_758",
+      "title": "曖昧性回避／エルズバーグ・パラドックス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_759",
+      "title": "確実性効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_760",
+      "title": "ゼロ価格効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_761",
+      "title": "支払いの痛み",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_762",
+      "title": "ホーソン効果",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_763",
+      "title": "職務要求‐資源モデル／JD-R",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_764",
+      "title": "職務特性モデル",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_765",
+      "title": "組織コミットメント",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_766",
+      "title": "職務満足",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_767",
+      "title": "従業員エンゲージメント",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_768",
+      "title": "分配的公正",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_769",
+      "title": "相互作用的公正",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_770",
+      "title": "組織沈黙",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_771",
+      "title": "発言行動／Employee Voice",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_772",
+      "title": "資源保存理論／COR",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_773",
+      "title": "変革型リーダーシップ",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_774",
+      "title": "取引型リーダーシップ",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_775",
+      "title": "状況対応型リーダーシップ",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_776",
+      "title": "パス・ゴール理論",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_777",
+      "title": "共有メンタルモデル",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_778",
+      "title": "共有地の悲劇",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_779",
+      "title": "フリーライダー問題",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_780",
+      "title": "集合行為問題",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_781",
+      "title": "イノベーション普及理論",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_782",
+      "title": "閾値モデル",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_783",
+      "title": "ネットワーク効果",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_784",
+      "title": "精緻化可能性モデル／ELM",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_785",
+      "title": "HSM／ヒューリスティック・システマティック・モデル",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_786",
+      "title": "接種理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_787",
+      "title": "社会的判断理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_788",
+      "title": "コミュニケーション適応理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_789",
+      "title": "共通基盤理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_790",
+      "title": "ナッシュ均衡",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_791",
+      "title": "支配戦略",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_792",
+      "title": "後方帰納法",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_793",
+      "title": "シェリングの焦点",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_794",
+      "title": "共通知識",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_795",
+      "title": "ゼロサム／非ゼロサムゲーム",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_796",
+      "title": "協調ゲーム",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_797",
+      "title": "スタグハント",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_798",
+      "title": "最後通牒ゲーム",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_799",
+      "title": "公共財ゲーム",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_800",
+      "title": "逆選択",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_801",
+      "title": "モラルハザード",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_802",
+      "title": "レモン市場",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_803",
+      "title": "ホランドのRIASECモデル",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_804",
+      "title": "社会的認知キャリア理論／SCCT",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_805",
+      "title": "キャリア構築理論",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_806",
+      "title": "キャリア・アンカー",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_807",
+      "title": "省略バイアス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_808",
+      "title": "行動バイアス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_809",
+      "title": "ゼロリスク・バイアス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_810",
+      "title": "楽観バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_811",
+      "title": "第三者効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_812",
+      "title": "敵対的メディア効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_813",
+      "title": "エゴセントリック・バイアス",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_814",
+      "title": "偽の独自性効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_815",
+      "title": "ソシオメーター理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_816",
+      "title": "拒絶感受性",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_817",
+      "title": "ダークトライアド",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_818",
+      "title": "心の理論／Theory of Mind",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_819",
+      "title": "プラセボ効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_820",
+      "title": "ノセボ効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_821",
+      "title": "近接性効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_822",
+      "title": "恋愛の三角理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_823",
+      "title": "マッチング仮説",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_824",
+      "title": "社会的ベースライン理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_825",
+      "title": "熟達者の直観／RPDモデル",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_826",
+      "title": "文脈依存記憶",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_827",
+      "title": "状態依存記憶",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_828",
+      "title": "プロテジェ効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_829",
+      "title": "流暢性の錯覚",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_830",
+      "title": "転移適合処理",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_831",
+      "title": "記憶の再固定化",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_832",
+      "title": "ゴール・シールディング",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_833",
+      "title": "自己一致モデル",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_834",
+      "title": "エピソード的未来思考",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_835",
+      "title": "アレのパラドックス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_836",
+      "title": "識別可能な被害者効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_837",
+      "title": "IKEA効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_838",
+      "title": "ディドロ効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_839",
+      "title": "情報回避／オーストリッチ効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_840",
+      "title": "希少性マインドセット／トンネリング",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_841",
+      "title": "リスク補償／ペルツマン効果",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_842",
+      "title": "単位バイアス",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_843",
+      "title": "分母無視",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_844",
+      "title": "確率無視",
+      "category": "行動科学"
+    },
+    {
+      "id": "kb_845",
+      "title": "サーバント・リーダーシップ",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_846",
+      "title": "心理的所有感",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_847",
+      "title": "組織的両利き",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_848",
+      "title": "資源ベース理論／RBV",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_849",
+      "title": "ダイナミック・ケイパビリティ",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_850",
+      "title": "コア・コンピタンス",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_851",
+      "title": "ダンバー数",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_852",
+      "title": "メトカーフの法則",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_853",
+      "title": "経験曲線／学習曲線",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_854",
+      "title": "規模の経済",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_855",
+      "title": "範囲の経済",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_856",
+      "title": "ナラティブ・トランスポーテーション",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_857",
+      "title": "スリーパー効果",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_858",
+      "title": "認知的プライミング",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_859",
+      "title": "グライスの協調原理",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_860",
+      "title": "ポライトネス理論",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_861",
+      "title": "二段階流れ仮説",
+      "category": "心理学"
+    },
+    {
+      "id": "kb_862",
+      "title": "ミニマックス／マキシミン",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_863",
+      "title": "パレート効率性",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_864",
+      "title": "サブゲーム完全均衡",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_865",
+      "title": "メカニズム・デザイン",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_866",
+      "title": "オークション理論",
+      "category": "戦略論"
+    },
+    {
+      "id": "kb_867",
+      "title": "プロティアン・キャリア",
+      "category": "組織・経営論"
+    },
+    {
+      "id": "kb_868",
+      "title": "境界なきキャリア",
+      "category": "組織・経営論"
+    }
+  ],
+  "improvements": [
+    {
+      "candidate": "ホーン効果",
+      "targetId": "kb_003",
+      "targetTitle": "ハロー効果"
+    },
+    {
+      "candidate": "反射効果",
+      "targetId": "kb_133",
+      "targetTitle": "プロスペクト理論"
+    },
+    {
+      "candidate": "努力正当化",
+      "targetId": "kb_265",
+      "targetTitle": "認知的不協和"
+    },
+    {
+      "candidate": "情報源信頼性モデル",
+      "targetId": "kb_461",
+      "targetTitle": "情報源効果"
+    }
+  ],
+  "integrations": [
+    {
+      "candidates": "観察学習・社会的学習理論",
+      "action": "包含関係を一枚へ統合"
+    },
+    {
+      "candidates": "メンタル・コントラスティング・WOOP・MCII",
+      "action": "理論・手順・実装意図の関係を一枚へ統合"
+    },
+    {
+      "candidates": "曖昧性回避・エルズバーグ・パラドックス",
+      "action": "選好と代表課題を一枚へ統合"
+    },
+    {
+      "candidates": "ゼロサムゲーム・非ゼロサムゲーム",
+      "action": "対概念として一枚へ統合"
+    },
+    {
+      "candidates": "熟達者の直観・RPD",
+      "action": "自然主義的意思決定として一枚へ統合"
+    },
+    {
+      "candidates": "専門性とチャンク化",
+      "action": "チャンク化カードへ統合"
+    },
+    {
+      "candidates": "情報回避・オーストリッチ効果",
+      "action": "同一行動傾向として一枚へ統合"
+    },
+    {
+      "candidates": "希少性マインドセット・トンネリング",
+      "action": "原因と注意集中の機序を一枚へ統合"
+    },
+    {
+      "candidates": "リスク補償・ペルツマン効果",
+      "action": "一般仮説と代表研究を一枚へ統合"
+    },
+    {
+      "candidates": "経験曲線・学習曲線",
+      "action": "実務上の重複範囲を一枚へ統合"
+    },
+    {
+      "candidates": "ミニマックス・マキシミン",
+      "action": "ゼロ和ゲームでの双対的関係を一枚へ統合"
+    }
+  ],
+  "linkedPairs": [
+    {
+      "theoryId": "kb_706",
+      "theory": "ダニング＝クルーガー効果",
+      "techniqueId": "master336-173",
+      "technique": "分からないことは分からないと言う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_706",
+      "theory": "ダニング＝クルーガー効果",
+      "techniqueId": "master336-202",
+      "technique": "知ったかぶりしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_707",
+      "theory": "偽の合意効果",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_707",
+      "theory": "偽の合意効果",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_708",
+      "theory": "自己奉仕バイアス",
+      "techniqueId": "master336-044",
+      "technique": "間違えたらすぐに認める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_708",
+      "theory": "自己奉仕バイアス",
+      "techniqueId": "master336-179",
+      "technique": "同じ失敗を二度しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_709",
+      "theory": "後知恵バイアス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_709",
+      "theory": "後知恵バイアス",
+      "techniqueId": "master336-179",
+      "technique": "同じ失敗を二度しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_710",
+      "theory": "自信過剰効果",
+      "techniqueId": "master336-174",
+      "technique": "質問には仮説を持っていく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_710",
+      "theory": "自信過剰効果",
+      "techniqueId": "master336-296",
+      "technique": "完璧な確信を待たない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_711",
+      "theory": "生存者バイアス",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_711",
+      "theory": "生存者バイアス",
+      "techniqueId": "master336-215",
+      "technique": "努力より評価される仕事を選ぶ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_712",
+      "theory": "代表性ヒューリスティック",
+      "techniqueId": "master336-088",
+      "technique": "本性は言葉より行動に表れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_712",
+      "theory": "代表性ヒューリスティック",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_713",
+      "theory": "ギャンブラーの誤謬",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_713",
+      "theory": "ギャンブラーの誤謬",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_714",
+      "theory": "ホットハンド効果",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_714",
+      "theory": "ホットハンド効果",
+      "techniqueId": "master336-295",
+      "technique": "感情が強い日は重大判断を避ける",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_715",
+      "theory": "連言錯誤",
+      "techniqueId": "master336-206",
+      "technique": "具体と抽象を往復する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_715",
+      "theory": "連言錯誤",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_716",
+      "theory": "小数の法則",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_716",
+      "theory": "小数の法則",
+      "techniqueId": "master336-208",
+      "technique": "極端な考え方をしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_717",
+      "theory": "平均への回帰",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_717",
+      "theory": "平均への回帰",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_718",
+      "theory": "真実性錯覚",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_718",
+      "theory": "真実性錯覚",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_719",
+      "theory": "バイアスの盲点",
+      "techniqueId": "master336-044",
+      "technique": "間違えたらすぐに認める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_719",
+      "theory": "バイアスの盲点",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_721",
+      "theory": "知識の呪い",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_721",
+      "theory": "知識の呪い",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_722",
+      "theory": "結果バイアス",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_722",
+      "theory": "結果バイアス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_723",
+      "theory": "説明深度の錯覚",
+      "techniqueId": "master336-174",
+      "technique": "質問には仮説を持っていく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_723",
+      "theory": "説明深度の錯覚",
+      "techniqueId": "master336-202",
+      "technique": "知ったかぶりしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_724",
+      "theory": "Big Five／五因子モデル",
+      "techniqueId": "master336-269",
+      "technique": "関心・能力・環境から戦う場所を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_724",
+      "theory": "Big Five／五因子モデル",
+      "techniqueId": "master336-275",
+      "technique": "環境によってキャラクターが変わることを受け入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_725",
+      "theory": "統制の所在／ローカス・オブ・コントロール",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_725",
+      "theory": "統制の所在／ローカス・オブ・コントロール",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_726",
+      "theory": "HEXACOモデル",
+      "techniqueId": "master336-088",
+      "technique": "本性は言葉より行動に表れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_726",
+      "theory": "HEXACOモデル",
+      "techniqueId": "master336-269",
+      "technique": "関心・能力・環境から戦う場所を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_727",
+      "theory": "インポスター現象",
+      "techniqueId": "master336-113",
+      "technique": "褒め言葉は素直に受け取る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_727",
+      "theory": "インポスター現象",
+      "techniqueId": "master336-214",
+      "technique": "頑張りではなく成果で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_728",
+      "theory": "セルフ・ハンディキャッピング",
+      "techniqueId": "master336-179",
+      "technique": "同じ失敗を二度しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_728",
+      "theory": "セルフ・ハンディキャッピング",
+      "techniqueId": "master336-329",
+      "technique": "完璧を待たず小さく挑戦する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_729",
+      "theory": "バンドワゴン効果",
+      "techniqueId": "master336-136",
+      "technique": "集団は内容より一体感を楽しむ場であると知る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_729",
+      "theory": "バンドワゴン効果",
+      "techniqueId": "master336-148",
+      "technique": "馴染んでも同調しすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_730",
+      "theory": "所属欲求／Need to Belong",
+      "techniqueId": "master336-109",
+      "technique": "コミュニティを複数もつ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_730",
+      "theory": "所属欲求／Need to Belong",
+      "techniqueId": "master336-276",
+      "technique": "演じなくていい場所を持つ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_731",
+      "theory": "ステレオタイプ脅威",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_731",
+      "theory": "ステレオタイプ脅威",
+      "techniqueId": "master336-157",
+      "technique": "人前で指摘せず、個別で修正する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_732",
+      "theory": "脱個人化",
+      "techniqueId": "master336-136",
+      "technique": "集団は内容より一体感を楽しむ場であると知る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_732",
+      "theory": "脱個人化",
+      "techniqueId": "master336-143",
+      "technique": "人によって態度を変えない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_733",
+      "theory": "権威への服従",
+      "techniqueId": "master336-173",
+      "technique": "分からないことは分からないと言う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_733",
+      "theory": "権威への服従",
+      "techniqueId": "master336-183",
+      "technique": "目上にも物怖じしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_734",
+      "theory": "情報的社会的影響",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_734",
+      "theory": "情報的社会的影響",
+      "techniqueId": "master336-148",
+      "technique": "馴染んでも同調しすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_735",
+      "theory": "観察学習／社会的学習理論",
+      "techniqueId": "master336-057",
+      "technique": "結果より過程を褒める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_735",
+      "theory": "観察学習／社会的学習理論",
+      "techniqueId": "master336-150",
+      "technique": "表情・視線・姿勢・声を安定させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_736",
+      "theory": "フロー理論",
+      "techniqueId": "master336-199",
+      "technique": "タスクに応じて力の入れ具合を調整する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_736",
+      "theory": "フロー理論",
+      "techniqueId": "master336-252",
+      "technique": "幸福を未来の達成日に預けない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_737",
+      "theory": "ヤーキーズ＝ドッドソンの法則",
+      "techniqueId": "master336-165",
+      "technique": "不安な場面でも態度を安定させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_737",
+      "theory": "ヤーキーズ＝ドッドソンの法則",
+      "techniqueId": "master336-199",
+      "technique": "タスクに応じて力の入れ具合を調整する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_738",
+      "theory": "エビングハウスの忘却曲線",
+      "techniqueId": "master336-179",
+      "technique": "同じ失敗を二度しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_738",
+      "theory": "エビングハウスの忘却曲線",
+      "techniqueId": "master336-187",
+      "technique": "やることを頭の外に出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_739",
+      "theory": "系列位置効果",
+      "techniqueId": "master336-014",
+      "technique": "別れ際を重視する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_739",
+      "theory": "系列位置効果",
+      "techniqueId": "master336-187",
+      "technique": "やることを頭の外に出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_740",
+      "theory": "フォン・レストルフ効果",
+      "techniqueId": "master336-013",
+      "technique": "自分らしさのキーワードを残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_740",
+      "theory": "フォン・レストルフ効果",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_741",
+      "theory": "生成効果",
+      "techniqueId": "master336-174",
+      "technique": "質問には仮説を持っていく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_741",
+      "theory": "生成効果",
+      "techniqueId": "master336-203",
+      "technique": "1を聞いて10理解できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_742",
+      "theory": "二重符号化理論",
+      "techniqueId": "master336-077",
+      "technique": "例えが独特で分かりやすい",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_742",
+      "theory": "二重符号化理論",
+      "techniqueId": "master336-209",
+      "technique": "たとえ話がうまい",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_743",
+      "theory": "符号化特定性原理",
+      "techniqueId": "master336-055",
+      "technique": "以前の会話の内容を覚えている",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_743",
+      "theory": "符号化特定性原理",
+      "techniqueId": "master336-187",
+      "technique": "やることを頭の外に出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_744",
+      "theory": "処理水準理論",
+      "techniqueId": "master336-018",
+      "technique": "一つの話題を深く広げる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_744",
+      "theory": "処理水準理論",
+      "techniqueId": "master336-203",
+      "technique": "1を聞いて10理解できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_745",
+      "theory": "ワーキングメモリ・モデル",
+      "techniqueId": "master336-187",
+      "technique": "やることを頭の外に出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_745",
+      "theory": "ワーキングメモリ・モデル",
+      "techniqueId": "master336-210",
+      "technique": "話が短い",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_746",
+      "theory": "チャンク化",
+      "techniqueId": "master336-196",
+      "technique": "似た作業はまとめて処理する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_746",
+      "theory": "チャンク化",
+      "techniqueId": "master336-204",
+      "technique": "結論より構造を見る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_747",
+      "theory": "インターリービング効果",
+      "techniqueId": "master336-179",
+      "technique": "同じ失敗を二度しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_747",
+      "theory": "インターリービング効果",
+      "techniqueId": "master336-203",
+      "technique": "1を聞いて10理解できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_748",
+      "theory": "自己説明効果",
+      "techniqueId": "master336-174",
+      "technique": "質問には仮説を持っていく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_748",
+      "theory": "自己説明効果",
+      "techniqueId": "master336-203",
+      "technique": "1を聞いて10理解できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_749",
+      "theory": "メンタル・コントラスティング／WOOP・MCII",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_749",
+      "theory": "メンタル・コントラスティング／WOOP・MCII",
+      "techniqueId": "master336-329",
+      "technique": "完璧を待たず小さく挑戦する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_750",
+      "theory": "期待価値理論",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_750",
+      "theory": "期待価値理論",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_751",
+      "theory": "時間的動機づけ理論",
+      "techniqueId": "master336-172",
+      "technique": "締切より早く期限を持つ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_751",
+      "theory": "時間的動機づけ理論",
+      "techniqueId": "master336-191",
+      "technique": "締切の前に安全日を置く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_752",
+      "theory": "解釈レベル理論",
+      "techniqueId": "master336-206",
+      "technique": "具体と抽象を往復する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_752",
+      "theory": "解釈レベル理論",
+      "techniqueId": "master336-299",
+      "technique": "人生の終わりから今を見る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_753",
+      "theory": "未来自己連続性",
+      "techniqueId": "master336-255",
+      "technique": "大事なことから時間を使わないと取り返しがつかなくなる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_753",
+      "theory": "未来自己連続性",
+      "techniqueId": "master336-299",
+      "technique": "人生の終わりから今を見る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_754",
+      "theory": "限定合理性",
+      "techniqueId": "master336-200",
+      "technique": "必要十分で止める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_754",
+      "theory": "限定合理性",
+      "techniqueId": "master336-305",
+      "technique": "決断の期限を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_756",
+      "theory": "期待効用理論",
+      "techniqueId": "master336-301",
+      "technique": "得るものと失うもの両方を考慮する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_756",
+      "theory": "期待効用理論",
+      "techniqueId": "master336-303",
+      "technique": "迷ったら後戻りできるか考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_757",
+      "theory": "メンタル・アカウンティング",
+      "techniqueId": "master336-256",
+      "technique": "お金より時間の使い道を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_757",
+      "theory": "メンタル・アカウンティング",
+      "techniqueId": "master336-301",
+      "technique": "得るものと失うもの両方を考慮する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_758",
+      "theory": "曖昧性回避／エルズバーグ・パラドックス",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_758",
+      "theory": "曖昧性回避／エルズバーグ・パラドックス",
+      "techniqueId": "master336-296",
+      "technique": "完璧な確信を待たない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_759",
+      "theory": "確実性効果",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_759",
+      "theory": "確実性効果",
+      "techniqueId": "master336-301",
+      "technique": "得るものと失うもの両方を考慮する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_760",
+      "theory": "ゼロ価格効果",
+      "techniqueId": "master336-235",
+      "technique": "感情と市場基準を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_760",
+      "theory": "ゼロ価格効果",
+      "techniqueId": "master336-256",
+      "technique": "お金より時間の使い道を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_761",
+      "theory": "支払いの痛み",
+      "techniqueId": "master336-235",
+      "technique": "感情と市場基準を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_761",
+      "theory": "支払いの痛み",
+      "techniqueId": "master336-256",
+      "technique": "お金より時間の使い道を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_762",
+      "theory": "ホーソン効果",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_762",
+      "theory": "ホーソン効果",
+      "techniqueId": "master336-214",
+      "technique": "頑張りではなく成果で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_763",
+      "theory": "職務要求‐資源モデル／JD-R",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_763",
+      "theory": "職務要求‐資源モデル／JD-R",
+      "techniqueId": "master336-190",
+      "technique": "予定に余白を作る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_764",
+      "theory": "職務特性モデル",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_764",
+      "theory": "職務特性モデル",
+      "techniqueId": "master336-184",
+      "technique": "自分が抜けても回る仕組みにする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_765",
+      "theory": "組織コミットメント",
+      "techniqueId": "master336-038",
+      "technique": "小さな約束や時間を守る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_765",
+      "theory": "組織コミットメント",
+      "techniqueId": "master336-220",
+      "technique": "いつでも出られる状態を作る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_766",
+      "theory": "職務満足",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_766",
+      "theory": "職務満足",
+      "techniqueId": "master336-215",
+      "technique": "努力より評価される仕事を選ぶ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_767",
+      "theory": "従業員エンゲージメント",
+      "techniqueId": "master336-186",
+      "technique": "忙しいアピールをしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_767",
+      "theory": "従業員エンゲージメント",
+      "techniqueId": "master336-199",
+      "technique": "タスクに応じて力の入れ具合を調整する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_768",
+      "theory": "分配的公正",
+      "techniqueId": "master336-237",
+      "technique": "結果だけでなく手続きの公平感も重視する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_768",
+      "theory": "分配的公正",
+      "techniqueId": "master336-214",
+      "technique": "頑張りではなく成果で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_769",
+      "theory": "相互作用的公正",
+      "techniqueId": "master336-157",
+      "technique": "人前で指摘せず、個別で修正する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_769",
+      "theory": "相互作用的公正",
+      "techniqueId": "master336-237",
+      "technique": "結果だけでなく手続きの公平感も重視する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_770",
+      "theory": "組織沈黙",
+      "techniqueId": "master336-173",
+      "technique": "分からないことは分からないと言う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_770",
+      "theory": "組織沈黙",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_771",
+      "theory": "発言行動／Employee Voice",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_771",
+      "theory": "発言行動／Employee Voice",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_772",
+      "theory": "資源保存理論／COR",
+      "techniqueId": "master336-190",
+      "technique": "予定に余白を作る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_772",
+      "theory": "資源保存理論／COR",
+      "techniqueId": "master336-317",
+      "technique": "落ちたときほど人との線を切らない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_773",
+      "theory": "変革型リーダーシップ",
+      "techniqueId": "master336-152",
+      "technique": "最初に方針を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_773",
+      "theory": "変革型リーダーシップ",
+      "techniqueId": "master336-162",
+      "technique": "人より大きな旗を掲げる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_774",
+      "theory": "取引型リーダーシップ",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_774",
+      "theory": "取引型リーダーシップ",
+      "techniqueId": "master336-168",
+      "technique": "期待を実力で回収する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_775",
+      "theory": "状況対応型リーダーシップ",
+      "techniqueId": "master336-150",
+      "technique": "表情・視線・姿勢・声を安定させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_775",
+      "theory": "状況対応型リーダーシップ",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_776",
+      "theory": "パス・ゴール理論",
+      "techniqueId": "master336-152",
+      "technique": "最初に方針を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_776",
+      "theory": "パス・ゴール理論",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_777",
+      "theory": "共有メンタルモデル",
+      "techniqueId": "master336-153",
+      "technique": "議論の流れを簡潔に要約する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_777",
+      "theory": "共有メンタルモデル",
+      "techniqueId": "master336-184",
+      "technique": "自分が抜けても回る仕組みにする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_778",
+      "theory": "共有地の悲劇",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_778",
+      "theory": "共有地の悲劇",
+      "techniqueId": "master336-243",
+      "technique": "味方は必要になる前に平時から作っておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_779",
+      "theory": "フリーライダー問題",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_779",
+      "theory": "フリーライダー問題",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_780",
+      "theory": "集合行為問題",
+      "techniqueId": "master336-136",
+      "technique": "集団は内容より一体感を楽しむ場であると知る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_780",
+      "theory": "集合行為問題",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_781",
+      "theory": "イノベーション普及理論",
+      "techniqueId": "master336-175",
+      "technique": "完成品ではなく60点段階で一度確認する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_781",
+      "theory": "イノベーション普及理論",
+      "techniqueId": "master336-333",
+      "technique": "欲しい機会を周囲に言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_782",
+      "theory": "閾値モデル",
+      "techniqueId": "master336-136",
+      "technique": "集団は内容より一体感を楽しむ場であると知る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_782",
+      "theory": "閾値モデル",
+      "techniqueId": "master336-333",
+      "technique": "欲しい機会を周囲に言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_783",
+      "theory": "ネットワーク効果",
+      "techniqueId": "master336-245",
+      "technique": "情報の結節点になる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_783",
+      "theory": "ネットワーク効果",
+      "techniqueId": "master336-332",
+      "technique": "3つの強みを掛け合わせて希少化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_784",
+      "theory": "精緻化可能性モデル／ELM",
+      "techniqueId": "master336-017",
+      "technique": "固有名詞を拾う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_784",
+      "theory": "精緻化可能性モデル／ELM",
+      "techniqueId": "master336-223",
+      "technique": "相手に先に希望を話させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_785",
+      "theory": "HSM／ヒューリスティック・システマティック・モデル",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_785",
+      "theory": "HSM／ヒューリスティック・システマティック・モデル",
+      "techniqueId": "master336-223",
+      "technique": "相手に先に希望を話させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_786",
+      "theory": "接種理論",
+      "techniqueId": "master336-174",
+      "technique": "質問には仮説を持っていく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_786",
+      "theory": "接種理論",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_787",
+      "theory": "社会的判断理論",
+      "techniqueId": "master336-223",
+      "technique": "相手に先に希望を話させる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_787",
+      "theory": "社会的判断理論",
+      "techniqueId": "master336-236",
+      "technique": "相手の面子が残る出口を用意する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_789",
+      "theory": "共通基盤理論",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_789",
+      "theory": "共通基盤理論",
+      "techniqueId": "master336-031",
+      "technique": "分かったふりをしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_790",
+      "theory": "ナッシュ均衡",
+      "techniqueId": "master336-222",
+      "technique": "交渉は離れられる側が圧倒的に強い",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_790",
+      "theory": "ナッシュ均衡",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_791",
+      "theory": "支配戦略",
+      "techniqueId": "master336-221",
+      "technique": "最低ラインを先に決めておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_791",
+      "theory": "支配戦略",
+      "techniqueId": "master336-222",
+      "technique": "交渉は離れられる側が圧倒的に強い",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_792",
+      "theory": "後方帰納法",
+      "techniqueId": "master336-221",
+      "technique": "最低ラインを先に決めておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_792",
+      "theory": "後方帰納法",
+      "techniqueId": "master336-232",
+      "technique": "期限を交渉材料にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_793",
+      "theory": "シェリングの焦点",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_793",
+      "theory": "シェリングの焦点",
+      "techniqueId": "master336-246",
+      "technique": "決定前に根回しを終える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_794",
+      "theory": "共通知識",
+      "techniqueId": "master336-152",
+      "technique": "最初に方針を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_794",
+      "theory": "共通知識",
+      "techniqueId": "master336-246",
+      "technique": "決定前に根回しを終える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_795",
+      "theory": "ゼロサム／非ゼロサムゲーム",
+      "techniqueId": "master336-224",
+      "technique": "相手の優先順位を把握する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_795",
+      "theory": "ゼロサム／非ゼロサムゲーム",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_796",
+      "theory": "協調ゲーム",
+      "techniqueId": "master336-152",
+      "technique": "最初に方針を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_796",
+      "theory": "協調ゲーム",
+      "techniqueId": "master336-246",
+      "technique": "決定前に根回しを終える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_797",
+      "theory": "スタグハント",
+      "techniqueId": "master336-038",
+      "technique": "小さな約束や時間を守る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_797",
+      "theory": "スタグハント",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_798",
+      "theory": "最後通牒ゲーム",
+      "techniqueId": "master336-230",
+      "technique": "譲歩するときは必ず何かと交換する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_798",
+      "theory": "最後通牒ゲーム",
+      "techniqueId": "master336-237",
+      "technique": "結果だけでなく手続きの公平感も重視する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_799",
+      "theory": "公共財ゲーム",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_799",
+      "theory": "公共財ゲーム",
+      "techniqueId": "master336-243",
+      "technique": "味方は必要になる前に平時から作っておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_800",
+      "theory": "逆選択",
+      "techniqueId": "master336-088",
+      "technique": "本性は言葉より行動に表れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_800",
+      "theory": "逆選択",
+      "techniqueId": "master336-241",
+      "technique": "情報を持つ人を肩書で軽視しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_801",
+      "theory": "モラルハザード",
+      "techniqueId": "master336-038",
+      "technique": "小さな約束や時間を守る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_801",
+      "theory": "モラルハザード",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_802",
+      "theory": "レモン市場",
+      "techniqueId": "master336-089",
+      "technique": "愛想の良さと誠実さは違う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_802",
+      "theory": "レモン市場",
+      "techniqueId": "master336-241",
+      "technique": "情報を持つ人を肩書で軽視しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_803",
+      "theory": "ホランドのRIASECモデル",
+      "techniqueId": "master336-269",
+      "technique": "関心・能力・環境から戦う場所を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_803",
+      "theory": "ホランドのRIASECモデル",
+      "techniqueId": "master336-274",
+      "technique": "停滞したら環境との相性も疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_804",
+      "theory": "社会的認知キャリア理論／SCCT",
+      "techniqueId": "master336-269",
+      "technique": "関心・能力・環境から戦う場所を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_804",
+      "theory": "社会的認知キャリア理論／SCCT",
+      "techniqueId": "master336-274",
+      "technique": "停滞したら環境との相性も疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_805",
+      "theory": "キャリア構築理論",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_805",
+      "theory": "キャリア構築理論",
+      "techniqueId": "master336-273",
+      "technique": "違和感を進路変更の手掛かりにする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_806",
+      "theory": "キャリア・アンカー",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_806",
+      "theory": "キャリア・アンカー",
+      "techniqueId": "master336-269",
+      "technique": "関心・能力・環境から戦う場所を決める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_807",
+      "theory": "省略バイアス",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_807",
+      "theory": "省略バイアス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_808",
+      "theory": "行動バイアス",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_808",
+      "theory": "行動バイアス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_809",
+      "theory": "ゼロリスク・バイアス",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_809",
+      "theory": "ゼロリスク・バイアス",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_810",
+      "theory": "楽観バイアス",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_810",
+      "theory": "楽観バイアス",
+      "techniqueId": "master336-296",
+      "technique": "完璧な確信を待たない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_811",
+      "theory": "第三者効果",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_811",
+      "theory": "第三者効果",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_812",
+      "theory": "敵対的メディア効果",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_812",
+      "theory": "敵対的メディア効果",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_813",
+      "theory": "エゴセントリック・バイアス",
+      "techniqueId": "master336-044",
+      "technique": "間違えたらすぐに認める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_813",
+      "theory": "エゴセントリック・バイアス",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_814",
+      "theory": "偽の独自性効果",
+      "techniqueId": "master336-044",
+      "technique": "間違えたらすぐに認める",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_814",
+      "theory": "偽の独自性効果",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_815",
+      "theory": "ソシオメーター理論",
+      "techniqueId": "master336-010",
+      "technique": "親しみやすさと馴れ馴れしさは違う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_815",
+      "theory": "ソシオメーター理論",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_816",
+      "theory": "拒絶感受性",
+      "techniqueId": "master336-010",
+      "technique": "親しみやすさと馴れ馴れしさは違う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_816",
+      "theory": "拒絶感受性",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_817",
+      "theory": "ダークトライアド",
+      "techniqueId": "master336-072",
+      "technique": "全員に好かれようとしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_817",
+      "theory": "ダークトライアド",
+      "techniqueId": "master336-211",
+      "technique": "評価者の物差しを先に読む",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_818",
+      "theory": "心の理論／Theory of Mind",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_818",
+      "theory": "心の理論／Theory of Mind",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_819",
+      "theory": "プラセボ効果",
+      "techniqueId": "master336-109",
+      "technique": "コミュニティを複数もつ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_819",
+      "theory": "プラセボ効果",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_820",
+      "theory": "ノセボ効果",
+      "techniqueId": "master336-109",
+      "technique": "コミュニティを複数もつ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_820",
+      "theory": "ノセボ効果",
+      "techniqueId": "master336-292",
+      "technique": "最悪の想定と対策を考える",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_821",
+      "theory": "近接性効果",
+      "techniqueId": "master336-007",
+      "technique": "相手のテンポに寄せる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_821",
+      "theory": "近接性効果",
+      "techniqueId": "master336-015",
+      "technique": "会話は内容よりテンポ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_822",
+      "theory": "恋愛の三角理論",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_822",
+      "theory": "恋愛の三角理論",
+      "techniqueId": "master336-142",
+      "technique": "最初から全部の自分を出さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_823",
+      "theory": "マッチング仮説",
+      "techniqueId": "master336-007",
+      "technique": "相手のテンポに寄せる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_823",
+      "theory": "マッチング仮説",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_824",
+      "theory": "社会的ベースライン理論",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_824",
+      "theory": "社会的ベースライン理論",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_825",
+      "theory": "熟達者の直観／RPDモデル",
+      "techniqueId": "master336-173",
+      "technique": "分からないことは分からないと言う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_825",
+      "theory": "熟達者の直観／RPDモデル",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_826",
+      "theory": "文脈依存記憶",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_826",
+      "theory": "文脈依存記憶",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_827",
+      "theory": "状態依存記憶",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_827",
+      "theory": "状態依存記憶",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_828",
+      "theory": "プロテジェ効果",
+      "techniqueId": "master336-202",
+      "technique": "知ったかぶりしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_828",
+      "theory": "プロテジェ効果",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_829",
+      "theory": "流暢性の錯覚",
+      "techniqueId": "master336-202",
+      "technique": "知ったかぶりしない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_829",
+      "theory": "流暢性の錯覚",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_830",
+      "theory": "転移適合処理",
+      "techniqueId": "master336-178",
+      "technique": "数字で話す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_830",
+      "theory": "転移適合処理",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_831",
+      "theory": "記憶の再固定化",
+      "techniqueId": "master336-109",
+      "technique": "コミュニティを複数もつ",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_831",
+      "theory": "記憶の再固定化",
+      "techniqueId": "master336-293",
+      "technique": "情報を集めすぎない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_832",
+      "theory": "ゴール・シールディング",
+      "techniqueId": "master336-170",
+      "technique": "予想できない一面を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_832",
+      "theory": "ゴール・シールディング",
+      "techniqueId": "master336-242",
+      "technique": "自分の影響力が何から来るか知る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_833",
+      "theory": "自己一致モデル",
+      "techniqueId": "master336-169",
+      "technique": "自分を語り切らない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_833",
+      "theory": "自己一致モデル",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_834",
+      "theory": "エピソード的未来思考",
+      "techniqueId": "master336-170",
+      "technique": "予想できない一面を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_834",
+      "theory": "エピソード的未来思考",
+      "techniqueId": "master336-296",
+      "technique": "完璧な確信を待たない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_835",
+      "theory": "アレのパラドックス",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_835",
+      "theory": "アレのパラドックス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_836",
+      "theory": "識別可能な被害者効果",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_836",
+      "theory": "識別可能な被害者効果",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_837",
+      "theory": "IKEA効果",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_837",
+      "theory": "IKEA効果",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_838",
+      "theory": "ディドロ効果",
+      "techniqueId": "master336-177",
+      "technique": "報告は事実だけでなく、意見・対処案まで入れる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_838",
+      "theory": "ディドロ効果",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_839",
+      "theory": "情報回避／オーストリッチ効果",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_839",
+      "theory": "情報回避／オーストリッチ効果",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_840",
+      "theory": "希少性マインドセット／トンネリング",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_840",
+      "theory": "希少性マインドセット／トンネリング",
+      "techniqueId": "master336-296",
+      "technique": "完璧な確信を待たない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_841",
+      "theory": "リスク補償／ペルツマン効果",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_841",
+      "theory": "リスク補償／ペルツマン効果",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_842",
+      "theory": "単位バイアス",
+      "techniqueId": "master336-101",
+      "technique": "不機嫌に負けない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_842",
+      "theory": "単位バイアス",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_843",
+      "theory": "分母無視",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_843",
+      "theory": "分母無視",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_844",
+      "theory": "確率無視",
+      "techniqueId": "master336-176",
+      "technique": "問題は小さいうちに表へ出す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_844",
+      "theory": "確率無視",
+      "techniqueId": "master336-207",
+      "technique": "相関関係と因果関係を混同しない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_845",
+      "theory": "サーバント・リーダーシップ",
+      "techniqueId": "master336-038",
+      "technique": "小さな約束や時間を守る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_845",
+      "theory": "サーバント・リーダーシップ",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_846",
+      "theory": "心理的所有感",
+      "techniqueId": "master336-038",
+      "technique": "小さな約束や時間を守る",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_846",
+      "theory": "心理的所有感",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_847",
+      "theory": "組織的両利き",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_847",
+      "theory": "組織的両利き",
+      "techniqueId": "master336-243",
+      "technique": "味方は必要になる前に平時から作っておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_848",
+      "theory": "資源ベース理論／RBV",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_848",
+      "theory": "資源ベース理論／RBV",
+      "techniqueId": "master336-271",
+      "technique": "自分で決めた進路は、納得できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_849",
+      "theory": "ダイナミック・ケイパビリティ",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_849",
+      "theory": "ダイナミック・ケイパビリティ",
+      "techniqueId": "master336-243",
+      "technique": "味方は必要になる前に平時から作っておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_850",
+      "theory": "コア・コンピタンス",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_850",
+      "theory": "コア・コンピタンス",
+      "techniqueId": "master336-271",
+      "technique": "自分で決めた進路は、納得できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_851",
+      "theory": "ダンバー数",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_851",
+      "theory": "ダンバー数",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_852",
+      "theory": "メトカーフの法則",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_852",
+      "theory": "メトカーフの法則",
+      "techniqueId": "master336-243",
+      "technique": "味方は必要になる前に平時から作っておく",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_853",
+      "theory": "経験曲線／学習曲線",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_853",
+      "theory": "経験曲線／学習曲線",
+      "techniqueId": "master336-295",
+      "technique": "感情が強い日は重大判断を避ける",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_854",
+      "theory": "規模の経済",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_854",
+      "theory": "規模の経済",
+      "techniqueId": "master336-271",
+      "technique": "自分で決めた進路は、納得できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_855",
+      "theory": "範囲の経済",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_855",
+      "theory": "範囲の経済",
+      "techniqueId": "master336-271",
+      "technique": "自分で決めた進路は、納得できる",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_856",
+      "theory": "ナラティブ・トランスポーテーション",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_856",
+      "theory": "ナラティブ・トランスポーテーション",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_857",
+      "theory": "スリーパー効果",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_857",
+      "theory": "スリーパー効果",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_858",
+      "theory": "認知的プライミング",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_858",
+      "theory": "認知的プライミング",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_859",
+      "theory": "グライスの協調原理",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_859",
+      "theory": "グライスの協調原理",
+      "techniqueId": "master336-138",
+      "technique": "集団全体の共通点を話題にする",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_860",
+      "theory": "ポライトネス理論",
+      "techniqueId": "master336-020",
+      "technique": "質問より仮定で聞く",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_860",
+      "theory": "ポライトネス理論",
+      "techniqueId": "master336-040",
+      "technique": "親しくても礼儀を崩さない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_861",
+      "theory": "二段階流れ仮説",
+      "techniqueId": "master336-205",
+      "technique": "前提を疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_861",
+      "theory": "二段階流れ仮説",
+      "techniqueId": "master336-291",
+      "technique": "心配を事実と予測に分解する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_862",
+      "theory": "ミニマックス／マキシミン",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_862",
+      "theory": "ミニマックス／マキシミン",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_863",
+      "theory": "パレート効率性",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_863",
+      "theory": "パレート効率性",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_864",
+      "theory": "サブゲーム完全均衡",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_864",
+      "theory": "サブゲーム完全均衡",
+      "techniqueId": "master336-310",
+      "technique": "過去の自分を今の情報だけで裁かない",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_865",
+      "theory": "メカニズム・デザイン",
+      "techniqueId": "master336-154",
+      "technique": "役割と期待を明示する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_865",
+      "theory": "メカニズム・デザイン",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_866",
+      "theory": "オークション理論",
+      "techniqueId": "master336-089",
+      "technique": "愛想の良さと誠実さは違う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_866",
+      "theory": "オークション理論",
+      "techniqueId": "master336-239",
+      "technique": "勝ち切らず次も組める余地を残す",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_867",
+      "theory": "プロティアン・キャリア",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_867",
+      "theory": "プロティアン・キャリア",
+      "techniqueId": "master336-274",
+      "technique": "停滞したら環境との相性も疑う",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_868",
+      "theory": "境界なきキャリア",
+      "techniqueId": "master336-268",
+      "technique": "自分の価値観を言語化する",
+      "layer": "あわせて読む理論"
+    },
+    {
+      "theoryId": "kb_868",
+      "theory": "境界なきキャリア",
+      "techniqueId": "master336-274",
+      "technique": "停滞したら環境との相性も疑う",
+      "layer": "あわせて読む理論"
+    }
+  ],
+  "unresolvedRelations": []
+}

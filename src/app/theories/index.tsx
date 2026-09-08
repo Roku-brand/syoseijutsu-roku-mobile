@@ -49,8 +49,7 @@ export default function TheoryIndexScreen() {
 
   const visibleCatalog = useMemo(
     () => theories
-      .filter((theory) => !isLockedTheoryShell(theory))
-      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId)),
+      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)),
     [catalogRevision, isPaid],
   );
   const filtered = useMemo(() => {
@@ -62,6 +61,7 @@ export default function TheoryIndexScreen() {
         theory.tagId,
         getTheoryDisplayId(theory),
         theory.title,
+        theory.aliases?.join(' '),
         theory.summary,
         theory.categoryTitle,
         getTheoryCategoryLabel(theory),
@@ -125,8 +125,8 @@ export default function TheoryIndexScreen() {
       </View>
 
       <View style={styles.resultHeading}>
-        <AppText style={styles.resultTitle}>{isPaid ? `${filtered.length}件` : `${filtered.length}件を無料公開`}</AppText>
-        {!isPaid ? <AppText style={styles.totalNote}>全{theories.length}理論</AppText> : null}
+        <AppText style={styles.resultTitle}>{filtered.length}件</AppText>
+        {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (

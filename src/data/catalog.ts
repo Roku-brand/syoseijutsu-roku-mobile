@@ -295,9 +295,12 @@ export function getRelatedTheories(theory: TheoryCard) {
       if (id !== theory.tagId) coReferencedCounts.set(id, (coReferencedCounts.get(id) ?? 0) + 1);
     });
   });
+  const editorialOrder = new Map((theory.relatedTheoryIds ?? []).map((id, index) => [id, index]));
   return theories.filter((candidate) => candidate.tagId !== theory.tagId && !isLockedTheoryShell(candidate)).map((candidate) => {
-    return { candidate, score: coReferencedCounts.get(candidate.tagId) ?? 0 };
-  }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || a.candidate.title.localeCompare(b.candidate.title, 'ja')).map(({ candidate }) => candidate);
+    return { candidate, editorial: editorialOrder.get(candidate.tagId), score: coReferencedCounts.get(candidate.tagId) ?? 0 };
+  }).filter(({ editorial, score }) => editorial !== undefined || score > 0)
+    .sort((a, b) => (a.editorial ?? Number.MAX_SAFE_INTEGER) - (b.editorial ?? Number.MAX_SAFE_INTEGER) || b.score - a.score || a.candidate.title.localeCompare(b.candidate.title, 'ja'))
+    .slice(0, 8).map(({ candidate }) => candidate);
 }
 
 // Theory detail pages use this exact reverse index rather than re-running a
