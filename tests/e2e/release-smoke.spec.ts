@@ -303,8 +303,26 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByTestId('header-upgrade-banner')).toBeVisible();
-    await expect(header.getByText('完全版購入', { exact: false })).toBeVisible();
+    await expect(header.getByText('356の処世術・630の理論をすべて読む', { exact: true })).toBeVisible();
+    await expect(header.getByText('完全版を見る →', { exact: true })).toBeVisible();
+    await expect(header.getByText('人生をより深く、より豊かに', { exact: true })).toHaveCount(0);
   }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  if (await page.getByRole('button', { name: '無料で始める' }).isVisible({ timeout: 500 }).catch(() => false)) {
+    await startFreeHome(page);
+  }
+  const desktopBanner = page.getByTestId('header-upgrade-banner');
+  const desktopCta = page.getByTestId('header-upgrade-cta');
+  await expect(desktopBanner).toBeVisible();
+  await expect(desktopBanner).toHaveCSS('background-color', 'rgb(248, 240, 221)');
+  await expect(page.getByTestId('header-upgrade-surface')).toHaveCSS('background-image', /linear-gradient/);
+  await expect(page.getByTestId('header-upgrade-cta-surface')).toHaveCSS('background-image', /linear-gradient/);
+  await desktopBanner.hover();
+  await expect(desktopCta).toHaveCSS('border-color', 'rgb(169, 111, 13)');
+  await desktopBanner.focus();
+  await expect(desktopBanner).toHaveCSS('border-color', 'rgb(184, 131, 29)');
 
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/discover');
