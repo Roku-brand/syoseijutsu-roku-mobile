@@ -417,6 +417,7 @@ function getCurrentTitle(pathname: string) {
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'personas') return '人物像一覧';
+  if (segments[0] === 'search') return 'キーワード検索';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||

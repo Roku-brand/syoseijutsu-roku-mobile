@@ -3,6 +3,7 @@ import type { Href } from 'expo-router';
 export const APP_ROUTES = {
   home: '/(tabs)',
   discover: '/discover',
+  search: '/search' as Href,
   learn: '/learn',
   myPage: '/my-os',
   personas: '/personas',
@@ -32,6 +33,7 @@ const DISCOVER_PREFIXES = [
   '/topic/',
   '/theory/',
   '/theories',
+  '/search',
 ] as const;
 
 const MY_PAGE_PREFIXES = [

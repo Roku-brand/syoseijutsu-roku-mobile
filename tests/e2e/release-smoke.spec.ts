@@ -559,7 +559,20 @@ test('探すは検索欄から始まり、目的語タグを表示する', async
     await expect(page.getByRole('button', { name: `${label}で検索` })).toBeVisible();
   }
   await page.getByRole('button', { name: '友達で検索' }).click();
-  await expect(page.getByLabel('処世術・人物像・理論・キーワードを検索')).toHaveValue('友達');
+  await expect(page).toHaveURL(/\/search\?q=%E5%8F%8B%E9%81%94&mode=techniques/);
+  await expect(page.getByTestId('search-page-results')).toBeVisible();
+  await expect(page.getByText('「友達」の検索結果', { exact: true })).toBeVisible();
+});
+
+test('探すのキーワードはEnter確定後に独立検索ページで表示する', async ({ page }) => {
+  await page.goto('/discover');
+  const input = page.getByLabel('処世術・人物像・理論・キーワードを検索');
+  await input.fill('友達');
+  await expect(page.getByTestId('discover-search-results')).toHaveCount(0);
+  await expect(page).toHaveURL(/\/discover$/);
+  await input.press('Enter');
+  await expect(page).toHaveURL(/\/search\?q=%E5%8F%8B%E9%81%94&mode=techniques/);
+  await expect(page.getByTestId('search-page-results')).toBeVisible();
 });
 
 test('探すは人物像を横に流し、独立一覧と理論カテゴリへ遷移できる', async ({ page }) => {

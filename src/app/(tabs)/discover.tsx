@@ -1,41 +1,23 @@
 import { useRouter } from 'expo-router';
+import type { Href } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { NativeScrollEvent, NativeSyntheticEvent, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
 import { TheoryBrowseCard, TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
-import { TechniqueRow } from '@/components/technique-row';
-import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { SearchMark } from '@/components/search-mark';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { techniqueCards, theories } from '@/data/catalog';
+import { theories } from '@/data/catalog';
 import { isLockedTheoryShell } from '@/data/theory-display';
-import { getTechniqueSearchText } from '@/data/technique-tags';
 import { useAccess } from '@/access/access-state';
-import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
+import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { getTechniqueCountTotal } from '@/data/technique-counts';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-
-type BrowseMode = 'techniques' | 'theories';
-
-const searchAliases: Record<string, string[]> = {
-  友達: ['友達', '人間関係', '関係'],
-  出世: ['出世', '評価', '昇進', 'キャリア'],
-  進路: ['進路', '選択', 'キャリア', '方向性'],
-  転職: ['転職', 'キャリア', '仕事'],
-  自己肯定感: ['自己肯定感', '自信', '自己評価'],
-  リーダーシップ: ['リーダーシップ', 'リーダー', '集団'],
-  習慣: ['習慣', '継続', '行動'],
-  交渉: ['交渉', '合意', '説得'],
-};
+import type { BrowseMode } from '@/data/search-catalog';
 
 const popularSearches = ['友達', '出世', '進路', '会話', '人間関係', '転職', '恋愛', '自己肯定感', '不安', '習慣', 'リーダーシップ', '交渉'];
 const popularTheorySearches = ['ダニング＝クルーガー効果', 'Big Five', 'バンドワゴン効果', 'フロー理論', '忘却曲線', 'ナッシュ均衡'];
-
-function matchesKeyword(source: string, keyword: string) {
-  return (searchAliases[keyword] ?? [keyword]).some((term) => source.includes(term));
-}
 
 export default function DiscoverScreen() {
   const router = useRouter();
@@ -45,24 +27,12 @@ export default function DiscoverScreen() {
   const [mode, setMode] = useState<BrowseMode>('techniques');
   const [selectedCategory, setSelectedCategory] = useState<PersonaFilterKey>('all');
   const [selectedTheoryCategory, setSelectedTheoryCategory] = useState<TheoryFilterKey>('all');
-  const { isPaid, catalogRevision } = useAccess();
-  const keywords = useMemo(() => query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean), [query]);
-  const techniqueMatches = useMemo(
-    () => !keywords.length ? [] : techniqueCards
-      .filter((card) => isPaid || FREE_TECHNIQUE_IDS.has(card.id))
-      .filter((card) => keywords.every((keyword) => matchesKeyword(getTechniqueSearchText(card), keyword))),
-    [catalogRevision, isPaid, keywords],
-  );
-  const theoryMatches = useMemo(
-    () => !keywords.length ? [] : theories
-      .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory))
-      .filter((theory) => {
-        const source = [theory.tagId, theory.title, theory.aliases?.join(' '), theory.summary, theory.categoryTitle].filter(Boolean).join(' ').toLocaleLowerCase();
-        return keywords.every((keyword) => matchesKeyword(source, keyword));
-      }),
-    [catalogRevision, isPaid, keywords],
-  );
   const techniqueCount = getTechniqueCountTotal();
+  const submitSearch = (value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) return;
+    router.push({ pathname: '/search', params: { q: trimmed, mode } } as unknown as Href);
+  };
 
   return (
     <BookScreen contentContainerStyle={styles.discoverContent}>
@@ -71,6 +41,8 @@ export default function DiscoverScreen() {
         <TextInput
           value={query}
           onChangeText={setQuery}
+          onSubmitEditing={() => submitSearch(query)}
+          returnKeyType="search"
           placeholder={compact ? '処世術・人物像・理論を探す' : '処世術・人物像・理論・キーワードを探す'}
           placeholderTextColor={colors.muted}
           accessibilityLabel="処世術・人物像・理論・キーワードを検索"
@@ -84,17 +56,15 @@ export default function DiscoverScreen() {
         <ModeTab label={`理論　${theories.length}`} selected={mode === 'theories'} onPress={() => setMode('theories')} />
       </View>
 
-      {keywords.length ? (
-        <SearchResults mode={mode} techniqueMatches={techniqueMatches} theoryMatches={theoryMatches} />
-      ) : mode === 'techniques' ? (
+      {mode === 'techniques' ? (
         <TechniqueBrowser
           router={router}
           compact={compact}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
-          onSearch={setQuery}
+          onSearch={submitSearch}
         />
-      ) : <TheoryBrowser router={router} compact={compact} selectedCategory={selectedTheoryCategory} onSelectCategory={setSelectedTheoryCategory} onSearch={setQuery} />}
+      ) : <TheoryBrowser router={router} compact={compact} selectedCategory={selectedTheoryCategory} onSelectCategory={setSelectedTheoryCategory} onSearch={submitSearch} />}
     </BookScreen>
   );
 }
@@ -104,16 +74,6 @@ function ModeTab({ label, selected, onPress }: { label: string; selected: boolea
     <Pressable accessibilityRole="tab" accessibilityState={{ selected }} onPress={onPress} style={({ pressed }) => [styles.modeTab, selected && styles.modeTabActive, pressed && styles.pressed]}>
       <AppText style={[styles.modeText, selected && styles.modeTextActive]}>{label}</AppText>
     </Pressable>
-  );
-}
-
-function SearchResults({ mode, techniqueMatches, theoryMatches }: { mode: BrowseMode; techniqueMatches: typeof techniqueCards; theoryMatches: typeof theories }) {
-  const count = mode === 'techniques' ? techniqueMatches.length : theoryMatches.length;
-  return (
-    <View testID="discover-search-results" style={styles.searchResults}>
-      <SectionHeading title="検索結果" note={`${mode === 'techniques' ? '処世術' : '理論'} ${count}件`} />
-      {count ? <View>{mode === 'techniques' ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />) : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View> : <View style={styles.emptyResult}><AppText style={styles.emptyResultText}>一致するものはありません</AppText></View>}
-    </View>
   );
 }
 
@@ -305,14 +265,13 @@ const styles = StyleSheet.create({
   searchInput: { flex: 1, minWidth: 0, minHeight: 54, padding: 0, margin: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 16 },
   searchInputCompact: { minHeight: 50, fontSize: 13 },
   clear: { color: colors.gold, fontSize: 11, fontWeight: '700' },
+  emptyResult: { minHeight: 160, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
+  emptyResultText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 14 },
   modeTabs: { flexDirection: 'row', width: '100%', maxWidth: 820, alignSelf: 'center', marginTop: spacing.md, padding: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
   modeTab: { flex: 1, minHeight: 52, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill },
   modeTabActive: { backgroundColor: colors.charcoal },
   modeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, fontWeight: '600' },
   modeTextActive: { color: colors.goldLight },
-  searchResults: { marginTop: spacing.sm },
-  emptyResult: { minHeight: 160, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
-  emptyResultText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 14 },
   sectionHeading: { minHeight: 34, marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', gap: spacing.md },
   sectionHeadingInline: { flex: 1, minWidth: 0, marginBottom: spacing.md },
   sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 30, fontWeight: '600', letterSpacing: 1.2 },
