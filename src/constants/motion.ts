@@ -1,6 +1,6 @@
 export const motion = {
-  tabDuration: 180,
-  detailDuration: 240,
+  tabDuration: 220,
+  detailDuration: 300,
   tabDistance: 4,
   detailDistance: 16,
   purchaseDistance: 20,

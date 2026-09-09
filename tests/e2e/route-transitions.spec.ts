@@ -9,6 +9,8 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
     Element.prototype.animate = function (frames, options) {
       if (this.getAttribute('data-testid') === 'route-transition-content') {
         this.setAttribute('data-last-motion', JSON.stringify(frames));
+        const duration = typeof options === 'number' ? options : options?.duration;
+        this.setAttribute('data-last-motion-duration', String(duration));
       }
       return original.call(this, frames, options);
     };
@@ -25,6 +27,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await nav.getByRole('link', { name: /^学ぶ/ }).click();
   await expect(page).toHaveURL(/\/learn$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateY\(4px\)/);
+  await expect(content).toHaveAttribute('data-last-motion-duration', '220');
   expect(await header.evaluate((element, previous) => element === previous, originalHeader)).toBe(true);
   expect(await header.boundingBox()).toEqual(headerBox);
   expect(await nav.boundingBox()).toEqual(navBox);
@@ -32,6 +35,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await page.getByRole('button', { name: '設定を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(16px\)/);
+  await expect(content).toHaveAttribute('data-last-motion-duration', '300');
   await page.goBack();
   await expect(page).toHaveURL(/\/learn$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(-16px\)/);
