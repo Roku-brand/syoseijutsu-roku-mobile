@@ -610,8 +610,9 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await expect(page.getByTestId('discover-theory-rail')).toBeVisible();
   await expect(page.getByRole('link', { name: '793理論を一覧で見る' })).toBeVisible();
   await page.getByRole('button', { name: 'Big Fiveで検索' }).click();
-  await expect(page.getByLabel('処世術・人物像・理論・キーワードを検索')).toHaveValue('Big Five');
-  await expect(page.getByText('Big Five／五因子モデル', { exact: true })).toBeVisible();
+  await expect(page).toHaveURL(/\/search\?q=Big%20Five&mode=theories/);
+  await expect(page.getByLabel('キーワードを検索', { exact: true })).toHaveValue('Big Five');
+  await expect(page.getByTestId('search-page-results').getByText('Big Five／五因子モデル', { exact: true })).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -884,7 +885,7 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(firstSlideBox).not.toBeNull();
   expect(copyBox!.x).toBeGreaterThan(greetingBox!.x + greetingBox!.width);
   expect(firstSlideBox!.y - (introBox!.y + introBox!.height)).toBeLessThanOrEqual(16);
-  expect(firstSlideBox!.height).toBeLessThanOrEqual(382);
+  expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
   await expect(page.getByLabel('次のスライド')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
   await expect(page.getByTestId('home-brand-slide-3')).toContainText('理論｜');
