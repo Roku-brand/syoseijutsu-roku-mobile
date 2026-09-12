@@ -48,6 +48,7 @@ export default function OwnerContentScreen() {
   const [archiveConfirming, setArchiveConfirming] = useState(false);
   const [restoreConfirming, setRestoreConfirming] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
   const [changeLogs, setChangeLogs] = useState<TechniqueChangeLog[]>([]);
   const reelRef = useRef<ScrollViewType>(null);
@@ -151,6 +152,7 @@ export default function OwnerContentScreen() {
     }
     setError(null);
     setNotice(null);
+    setArchiveConfirming(false);
     setPublishConfirming(true);
   };
 
@@ -212,6 +214,9 @@ export default function OwnerContentScreen() {
     setNotice(null);
     try {
       const created = await createTechnique();
+      setQuery('');
+      setPublishConfirming(false);
+      setArchiveConfirming(false);
       await reload(created.id);
       setPreview(false);
       setNotice('新しい処世術を下書きとして追加しました。タイトルなどを入力してから公開してください。IDは自動で作成されています。');
@@ -256,7 +261,7 @@ export default function OwnerContentScreen() {
           <AppText variant="serif" style={styles.title}>コンテンツ管理</AppText>
           <AppText style={styles.description}>処世術を追加・編集・公開できます。IDは自動で作成されます。</AppText>
           <View style={styles.topActions}>
-            <PrimaryButton onPress={() => void createNewTechnique()} disabled={saving}>{saving ? '作成中…' : '＋ 新規処世術'}</PrimaryButton>
+            <PrimaryButton onPress={() => void createNewTechnique()} disabled={saving || loadingContent}>＋ 新規処世術</PrimaryButton>
             <SecondaryButton onPress={() => router.push(APP_ROUTES.ownerTheories)}>理論を管理する</SecondaryButton>
           </View>
         </View>
@@ -265,9 +270,9 @@ export default function OwnerContentScreen() {
       {error ? <View style={styles.error}><AppText style={styles.errorText}>{error}</AppText></View> : null}
       {notice ? <View style={styles.notice}><AppText style={styles.noticeText}>{notice}</AppText></View> : null}
       {loadingContent ? <AppText style={styles.loading}>コンテンツを読み込んでいます…</AppText> : null}
-      {!loadingContent && !filtered.length ? <EmptyState title="公開・編集できる処世術がありません" description="「新規処世術」から下書きを追加できます。" /> : null}
+      {!loadingContent && !filtered.length ? <AppText>{query ? '一致する処世術がありません。検索語を変更してください。' : '「新規処世術」から追加できます。'}</AppText> : null}
 
-      {filtered.length ? (
+      {!loadingContent ? (
         <View style={[styles.workspace, width < 900 && styles.workspaceCompact]}>
           <View style={[styles.listPane, width < 900 && styles.listPaneCompact]}>
             <View style={styles.reelHeading}>
@@ -275,7 +280,7 @@ export default function OwnerContentScreen() {
               {selectedReelIndex >= 0 ? <AppText style={styles.reelPosition}>{selectedReelIndex + 1} / {filtered.length}</AppText> : null}
             </View>
             <TextInput value={query} onChangeText={setQuery} placeholder="タイトル・人物像・IDで検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="処世術を検索" />
-            <AppText style={styles.reelHint}>上下にスクロールして選択</AppText>
+            <AppText style={styles.reelHint}>編集する処世術をタップしてください</AppText>
             <ScrollView
               ref={reelRef}
               style={styles.reelViewport}
@@ -285,8 +290,6 @@ export default function OwnerContentScreen() {
               decelerationRate="fast"
               showsVerticalScrollIndicator={false}
               nestedScrollEnabled
-              onMomentumScrollEnd={selectTechniqueAtReelPosition}
-              onScrollEndDrag={selectTechniqueAtReelPosition}
               scrollEventThrottle={16}
               accessibilityLabel="処世術の縦リール"
             >
@@ -295,10 +298,10 @@ export default function OwnerContentScreen() {
                 <Pressable key={technique.id} onPress={() => selectTechnique(technique.id)} style={[styles.resultRow, technique.id === selectedId && styles.resultRowSelected]}>
                   <View style={styles.resultCopy}>
                     <AppText style={styles.resultId}>{technique.id}</AppText>
-                    <AppText numberOfLines={2} style={styles.resultTitle}>{technique.title}</AppText>
+                    <AppText numberOfLines={2} style={styles.resultTitle}>{technique.title || '新しい処世術（タイトル未入力）'}</AppText>
                     <AppText numberOfLines={1} style={styles.resultPersona}>{technique.persona_id}</AppText>
                   </View>
-                  {drafts[technique.id] ? <AppText style={styles.draftBadge}>下書き</AppText> : null}
+                  <AppText style={styles.draftBadge}>{drafts[technique.id] || technique.status === 'draft' ? '下書き' : '公開中'}</AppText>
                 </Pressable>
               ))}
             </View>
@@ -337,7 +340,7 @@ export default function OwnerContentScreen() {
               <View style={[styles.actions, styles.actionsTop]}>
                 <SecondaryButton onPress={() => void save()} disabled={saving}>{saving ? '保存中…' : '下書き保存'}</SecondaryButton>
                 <PrimaryButton onPress={beginPublish} disabled={saving || publishConfirming}>公開する</PrimaryButton>
-                <Pressable onPress={() => setArchiveConfirming(true)} disabled={saving || archiveConfirming} style={[styles.archiveButton, (saving || archiveConfirming) && styles.buttonDisabled]}><AppText style={styles.archiveButtonText}>公開から削除</AppText></Pressable>
+                <Pressable onPress={() => { setPublishConfirming(false); setArchiveConfirming(true); }} disabled={saving || archiveConfirming} style={[styles.archiveButton, (saving || archiveConfirming) && styles.buttonDisabled]}><AppText style={styles.archiveButtonText}>公開から削除</AppText></Pressable>
               </View>
               {preview ? <TechniquePreview snapshot={selectedSnapshot} id={selected.id} /> : (
                 <>
@@ -369,8 +372,9 @@ export default function OwnerContentScreen() {
                   />
                 </>
               )}
-              <RevisionHistory revisions={revisions} theoryOptions={theoryOptions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
-              <ChangeLogHistory logs={changeLogs} theoryOptions={theoryOptions} />
+              <SecondaryButton onPress={() => setShowHistory((value) => !value)}>{showHistory ? '更新履歴を閉じる' : '更新履歴を見る'}</SecondaryButton>
+              {showHistory ? <><RevisionHistory revisions={revisions} theoryOptions={theoryOptions} restoringRevisionId={restoreConfirming} onRestore={restore} onCancelRestore={() => setRestoreConfirming(null)} onConfirmRestore={(revision) => void restoreConfirmed(revision)} />
+              <ChangeLogHistory logs={changeLogs} theoryOptions={theoryOptions} /></> : null}
             </View>
           ) : null}
         </View>
@@ -404,12 +408,12 @@ function EditorField({ label, value, onChangeText, multiline = false, tall = fal
 }
 
 function Selector<T extends string | number>({ label, values, value, onChange }: { label: string; values: readonly T[]; value: T; onChange: (value: T) => void }) {
-  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText><View style={styles.selector}>{values.map((item) => <Pressable key={String(item)} onPress={() => onChange(item)} style={[styles.selectorItem, item === value && styles.selectorItemActive]}><AppText style={[styles.selectorText, item === value && styles.selectorTextActive]}>{String(item)}</AppText></Pressable>)}</View></View>;
+  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText><View style={styles.selector}>{values.map((item) => <Pressable key={String(item)} onPress={() => onChange(item)} style={[styles.selectorItem, item === value && styles.selectorItemActive]}><AppText style={[styles.selectorText, item === value && styles.selectorTextActive]}>{({ interpersonal: '人間関係', work: '仕事', life: '人生' } as Record<string, string>)[String(item)] ?? String(item)}</AppText></Pressable>)}</View></View>;
 }
 
 function ListEditor({ label, items, onChange }: { label: string; items: string[]; onChange: (items: string[]) => void }) {
   const update = (index: number, value: string) => onChange(items.map((item, itemIndex) => itemIndex === index ? value : item));
-  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText>{items.map((item, index) => <View key={`${index}-${item.slice(0, 8)}`} style={styles.listInputRow}><TextInput value={item} onChangeText={(value) => update(index, value)} multiline style={[styles.input, styles.listInput]} /><Pressable onPress={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} style={styles.removeButton}><AppText style={styles.removeText}>削除</AppText></Pressable></View>)}<Pressable onPress={() => onChange([...items, ''])} style={styles.addButton}><AppText style={styles.addText}>＋ 追加</AppText></Pressable></View>;
+  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText>{items.map((item, index) => <View key={index} style={styles.listInputRow}><TextInput value={item} onChangeText={(value) => update(index, value)} multiline style={[styles.input, styles.listInput]} /><Pressable onPress={() => onChange(items.filter((_, itemIndex) => itemIndex !== index))} style={styles.removeButton}><AppText style={styles.removeText}>削除</AppText></Pressable></View>)}<Pressable onPress={() => onChange([...items, ''])} style={styles.addButton}><AppText style={styles.addText}>＋ 追加</AppText></Pressable></View>;
 }
 
 function TheorySelector({ title, description, theoryOptions, selectedIds, excludedIds, onChange }: { title: string; description: string; theoryOptions: TheoryCard[]; selectedIds: string[]; excludedIds: string[]; onChange: (ids: string[]) => void }) {
@@ -558,7 +562,7 @@ const styles = StyleSheet.create({
   workspace: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.lg },
   workspaceCompact: { flexDirection: 'column' },
   listPane: { width: 360, maxWidth: '38%', height: 690, padding: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
-  listPaneCompact: { width: '100%', maxWidth: '100%', height: 390 },
+  listPaneCompact: { width: '100%', maxWidth: '100%', height: 260 },
   editorPane: { flex: 1, minWidth: 0, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, ...shadow.card },
   editorPaneCompact: { width: '100%' },
   paneLabel: { color: colors.gold, letterSpacing: 1.1, fontSize: 11 },
