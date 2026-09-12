@@ -1,4 +1,4 @@
-import { Redirect } from 'expo-router';
+import { Redirect, router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, TextInput, View, type NativeScrollEvent, type NativeSyntheticEvent, type ScrollView as ScrollViewType } from 'react-native';
 import { AppText, EmptyState, PrimaryButton, Screen, SecondaryButton } from '@/components/ui';
@@ -8,6 +8,7 @@ import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { getTheoryDisplayId, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
 import { isLockedTheoryShell } from '@/data/theory-display';
+import { APP_ROUTES } from '@/navigation/app-routes';
 import type { TheoryCard } from '@/data/types';
 import {
   fetchOwnerDrafts,
@@ -211,6 +212,7 @@ export default function OwnerContentScreen() {
           <AppText variant="label" style={styles.eyebrow}>OWNER CONTENT</AppText>
           <AppText variant="serif" style={styles.title}>コンテンツ管理</AppText>
           <AppText style={styles.description}>処世術を検索して、下書き・プレビュー・公開を行います。</AppText>
+          <SecondaryButton onPress={() => router.push(APP_ROUTES.ownerTheories)}>理論を管理する</SecondaryButton>
         </View>
       </View>
 

@@ -13,12 +13,12 @@ const excludedTechniqueIds = new Set<string>(contentScope.excludedTechniqueIds);
 export async function hydratePublishedContent(force = false): Promise<boolean> {
   if (!supabase || (loaded && !force)) return false;
   try {
-    const { data, error } = await supabase
+    const [{ data, error }, theoryResult] = await Promise.all([supabase
       .from('techniques')
       .select('id,persona_id,category,title,essence,explanation,memo,importance,practices,examples,cautions,primary_theory_ids,theory_ids,status,display_order,updated_at')
       .eq('status', 'published')
       .order('display_order')
-      .order('id');
+      .order('id'), supabase.from('theories').select('id,title,summary,category_id,category_title,aliases,related_theory_ids,status,display_order').eq('status', 'published').order('display_order').order('id')]);
     if (error || !data?.length) return false;
     const techniques: PaidTechniquePayload[] = data.filter((row) => !excludedTechniqueIds.has(row.id as string)).map((row) => ({
       id: row.id as string,
@@ -45,7 +45,8 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     // has already been resolved by the authenticated complete-edition sync;
     // passing an empty list here would reset those 585 records back to their
     // intentionally blank public shells immediately after a successful sync.
-    const resolvedTheories = theories.filter((theory) => !isLockedTheoryShell(theory));
+    const remoteTheories = (theoryResult.data ?? []).map((row) => ({ tagId: String(row.id), title: String(row.title ?? ''), summary: String(row.summary ?? ''), categoryId: String(row.category_id ?? ''), categoryTitle: String(row.category_title ?? ''), aliases: Array.isArray(row.aliases) ? row.aliases as string[] : [], relatedTheoryIds: Array.isArray(row.related_theory_ids) ? row.related_theory_ids as string[] : [], status: 'published' as const }));
+    const resolvedTheories = remoteTheories.length ? remoteTheories : theories.filter((theory) => !isLockedTheoryShell(theory));
     hydratePaidCatalog(techniques, resolvedTheories);
     loaded = true;
     return true;
