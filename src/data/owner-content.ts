@@ -129,6 +129,15 @@ export async function fetchOwnerTechniques(): Promise<TechniqueContent[]> {
   return (data ?? []).map((row) => toTechniqueContent(row as Record<string, unknown>));
 }
 
+/** Creates an empty owner-only draft. The database assigns its stable ID and
+ * display order, so owners never need to invent or manage technical IDs. */
+export async function createTechnique(): Promise<TechniqueContent> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { data, error } = await supabase.rpc('create_technique');
+  if (error) throw error;
+  return toTechniqueContent(asTechniqueRow(data));
+}
+
 /**
  * Bootstrap the owner-managed table from the bundled catalogue once.
  * This uses the signed-in owner session, so no service-role key is exposed

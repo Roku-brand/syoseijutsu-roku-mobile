@@ -6,13 +6,15 @@ import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { getTheoryDisplayId, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
+import { getTheoryDisplayId, removeManagedTechnique, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import type { TheoryCard } from '@/data/types';
 import {
   fetchOwnerDrafts,
   fetchOwnerTechniques,
+  archiveTechnique,
+  createTechnique,
   seedOwnerTechniquesIfEmpty,
   fetchTechniqueRevisions,
   fetchTechniqueChangeLogs,
@@ -43,6 +45,7 @@ export default function OwnerContentScreen() {
   const [notice, setNotice] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [publishConfirming, setPublishConfirming] = useState(false);
+  const [archiveConfirming, setArchiveConfirming] = useState(false);
   const [restoreConfirming, setRestoreConfirming] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [revisions, setRevisions] = useState<TechniqueRevision[]>([]);
@@ -57,7 +60,8 @@ export default function OwnerContentScreen() {
       const [nextTechniques, nextDraftRows] = await Promise.all([fetchOwnerTechniques(), fetchOwnerDrafts()]);
       setTechniques(nextTechniques);
       setDrafts(Object.fromEntries(nextDraftRows.map((draft) => [draft.technique_id, draft.snapshot])));
-      setSelectedId((current) => preferredId ?? current ?? nextTechniques[0]?.id ?? null);
+      const available = nextTechniques.filter((technique) => technique.status !== 'archived');
+      setSelectedId((current) => preferredId ?? (current && available.some((technique) => technique.id === current) ? current : available[0]?.id ?? null));
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'コンテンツを読み込めませんでした。');
     } finally {
@@ -72,8 +76,8 @@ export default function OwnerContentScreen() {
   const filtered = useMemo(() => {
     const keywords = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     const matched = !keywords.length
-      ? techniques
-      : techniques.filter((technique) => keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
+      ? techniques.filter((technique) => technique.status !== 'archived')
+      : techniques.filter((technique) => technique.status !== 'archived' && keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
     return [...matched].sort((left, right) => techniqueNumber(left.id) - techniqueNumber(right.id) || left.id.localeCompare(right.id, 'en'));
   }, [query, techniques]);
 
@@ -86,6 +90,7 @@ export default function OwnerContentScreen() {
     setSelectedId(id);
     setPreview(false);
     setPublishConfirming(false);
+    setArchiveConfirming(false);
     void fetchTechniqueRevisions(id).then(setRevisions).catch(() => setRevisions([]));
   };
 
@@ -201,6 +206,44 @@ export default function OwnerContentScreen() {
     }
   };
 
+  const createNewTechnique = async () => {
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const created = await createTechnique();
+      await reload(created.id);
+      setPreview(false);
+      setNotice('新しい処世術を下書きとして追加しました。タイトルなどを入力してから公開してください。IDは自動で作成されています。');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : '新しい処世術を追加できませんでした。');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const archiveConfirmed = async () => {
+    if (!selected) return;
+    setSaving(true);
+    setError(null);
+    setNotice(null);
+    try {
+      const archivedId = selected.id;
+      const nextId = techniques.find((technique) => technique.id !== archivedId && technique.status !== 'archived')?.id ?? null;
+      await archiveTechnique(archivedId);
+      removeManagedTechnique(archivedId);
+      await refreshPublishedContent();
+      await reload(nextId);
+      setPreview(false);
+      setArchiveConfirming(false);
+      setNotice('処世術をアーカイブしました。公開コンテンツからは削除され、履歴は保持されています。');
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : '処世術をアーカイブできませんでした。');
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) return <Screen><EmptyState title="権限を確認しています" description="ログイン状態を確認しています。" /></Screen>;
   if (!user) return <Redirect href="/auth?mode=signin" />;
   if (role !== 'owner') return <Screen><EmptyState title="owner権限が必要です" description="この画面はコンテンツ管理者専用です。" /></Screen>;
@@ -211,21 +254,24 @@ export default function OwnerContentScreen() {
         <View style={styles.headingCopy}>
           <AppText variant="label" style={styles.eyebrow}>OWNER CONTENT</AppText>
           <AppText variant="serif" style={styles.title}>コンテンツ管理</AppText>
-          <AppText style={styles.description}>処世術を検索して、下書き・プレビュー・公開を行います。</AppText>
-          <SecondaryButton onPress={() => router.push(APP_ROUTES.ownerTheories)}>理論を管理する</SecondaryButton>
+          <AppText style={styles.description}>処世術を追加・編集・公開できます。IDは自動で作成されます。</AppText>
+          <View style={styles.topActions}>
+            <PrimaryButton onPress={() => void createNewTechnique()} disabled={saving}>{saving ? '作成中…' : '＋ 新規処世術'}</PrimaryButton>
+            <SecondaryButton onPress={() => router.push(APP_ROUTES.ownerTheories)}>理論を管理する</SecondaryButton>
+          </View>
         </View>
       </View>
 
       {error ? <View style={styles.error}><AppText style={styles.errorText}>{error}</AppText></View> : null}
       {notice ? <View style={styles.notice}><AppText style={styles.noticeText}>{notice}</AppText></View> : null}
       {loadingContent ? <AppText style={styles.loading}>コンテンツを読み込んでいます…</AppText> : null}
-      {!loadingContent && !techniques.length ? <EmptyState title="管理対象がありません" description="Supabaseのmigrationと移行スクリプトを実行してください。" /> : null}
+      {!loadingContent && !filtered.length ? <EmptyState title="公開・編集できる処世術がありません" description="「新規処世術」から下書きを追加できます。" /> : null}
 
-      {techniques.length ? (
+      {filtered.length ? (
         <View style={[styles.workspace, width < 900 && styles.workspaceCompact]}>
           <View style={[styles.listPane, width < 900 && styles.listPaneCompact]}>
             <View style={styles.reelHeading}>
-              <AppText variant="label" style={styles.paneLabel}>処世術一覧 {techniques.length}</AppText>
+              <AppText variant="label" style={styles.paneLabel}>処世術一覧 {filtered.length}</AppText>
               {selectedReelIndex >= 0 ? <AppText style={styles.reelPosition}>{selectedReelIndex + 1} / {filtered.length}</AppText> : null}
             </View>
             <TextInput value={query} onChangeText={setQuery} placeholder="タイトル・人物像・IDで検索" placeholderTextColor={colors.muted} style={styles.searchInput} accessibilityLabel="処世術を検索" />
@@ -278,9 +324,20 @@ export default function OwnerContentScreen() {
                   <PrimaryButton onPress={() => void publishConfirmed()} disabled={saving}>{saving ? '公開中…' : '公開を確定'}</PrimaryButton>
                 </View>
               </View> : null}
+              {archiveConfirming ? <View style={styles.archiveConfirmation}>
+                <View style={styles.publishConfirmationCopy}>
+                  <AppText variant="label" style={styles.archiveConfirmationLabel}>削除の確認</AppText>
+                  <AppText style={styles.publishConfirmationText}>「{selectedSnapshot.title || '無題の処世術'}」を公開コンテンツから削除します。更新履歴は保持されます。</AppText>
+                </View>
+                <View style={styles.publishConfirmationActions}>
+                  <SecondaryButton onPress={() => setArchiveConfirming(false)} disabled={saving}>キャンセル</SecondaryButton>
+                  <PrimaryButton onPress={() => void archiveConfirmed()} disabled={saving}>{saving ? '削除中…' : '削除を確定'}</PrimaryButton>
+                </View>
+              </View> : null}
               <View style={[styles.actions, styles.actionsTop]}>
                 <SecondaryButton onPress={() => void save()} disabled={saving}>{saving ? '保存中…' : '下書き保存'}</SecondaryButton>
                 <PrimaryButton onPress={beginPublish} disabled={saving || publishConfirming}>公開する</PrimaryButton>
+                <Pressable onPress={() => setArchiveConfirming(true)} disabled={saving || archiveConfirming} style={[styles.archiveButton, (saving || archiveConfirming) && styles.buttonDisabled]}><AppText style={styles.archiveButtonText}>公開から削除</AppText></Pressable>
               </View>
               {preview ? <TechniquePreview snapshot={selectedSnapshot} id={selected.id} /> : (
                 <>
@@ -487,6 +544,7 @@ const styles = StyleSheet.create({
   screenContent: { width: '100%', maxWidth: 1320, alignSelf: 'center', paddingBottom: spacing.xl * 2 },
   topBar: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: spacing.md, marginBottom: spacing.lg },
   headingCopy: { flex: 1 },
+  topActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginTop: spacing.md },
   eyebrow: { color: colors.gold, letterSpacing: 1.8, fontSize: 10 },
   title: { marginTop: 3, color: colors.ink, fontSize: 30, lineHeight: 40, fontWeight: '700' },
   description: { marginTop: 4, color: colors.muted, fontSize: 13, lineHeight: 21 },
@@ -573,6 +631,11 @@ const styles = StyleSheet.create({
   publishConfirmationLabel: { color: colors.gold, fontSize: 11, letterSpacing: 1 },
   publishConfirmationText: { color: colors.ink, fontSize: 14, lineHeight: 21, fontWeight: '700' },
   publishConfirmationActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  archiveConfirmation: { gap: spacing.md, padding: spacing.md, marginTop: spacing.sm, borderWidth: 1, borderColor: '#A63F32', borderRadius: radius.sm, backgroundColor: '#FDE9E4' },
+  archiveConfirmationLabel: { color: '#A63F32', fontSize: 11, letterSpacing: 1 },
+  archiveButton: { minHeight: 42, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14, borderWidth: 1, borderColor: '#A63F32', borderRadius: radius.pill },
+  archiveButtonText: { color: '#A63F32', fontSize: 12, fontWeight: '700' },
+  buttonDisabled: { opacity: 0.45 },
   previewCard: { padding: spacing.lg, marginBottom: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: '#FBF8F2' },
   previewId: { color: colors.gold, fontSize: 11, fontWeight: '700' },
   previewTitle: { marginTop: 5, color: colors.ink, fontSize: 28, lineHeight: 38, fontWeight: '700' },
