@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      skip_backend:
+        description: 'Skip backend deployment when the migration/functions were already applied manually'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: read
@@ -16,6 +22,7 @@ concurrency:
 
 jobs:
   deploy-backend:
+    if: ${{ inputs.skip_backend != true }}
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -50,6 +57,7 @@ jobs:
 
   build-and-sync:
     needs: deploy-backend
+    if: ${{ always() && (needs.deploy-backend.result == 'success' || needs.deploy-backend.result == 'skipped') }}
     runs-on: ubuntu-latest
     env:
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
