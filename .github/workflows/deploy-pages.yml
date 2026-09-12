@@ -141,6 +141,7 @@ jobs:
 
   deploy:
     needs: build-and-sync
+    if: ${{ always() && needs.build-and-sync.result == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
