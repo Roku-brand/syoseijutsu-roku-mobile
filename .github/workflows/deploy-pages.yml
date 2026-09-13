@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   deploy-backend:
-    if: ${{ inputs.skip_backend != true }}
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_backend != true }}
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
