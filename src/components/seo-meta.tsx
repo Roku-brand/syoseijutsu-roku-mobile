@@ -5,7 +5,7 @@ import { categories, techniqueById, theoryById } from '@/data/catalog';
 import { guidedTopicBySlug } from '@/data/guided-topics';
 import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
 
-const siteUrl = 'https://shoseijutsuroku.com';
+const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
 const homeTitle = '処世術禄｜人生をうまく生きる方法を、すべての人へ。';
 const homeDescription = '聞いたことがある、で終わらせない。心理学・行動科学などの理論と紐づけ、体系化した処世術を、人生・仕事・人間関係に使える知恵として届けます。';

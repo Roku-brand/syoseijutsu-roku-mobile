@@ -10,7 +10,7 @@ import {
   type DeferredInstallPrompt,
 } from '@/lib/pwa-install';
 
-const APP_URL = 'https://shoseijutsuroku.com/';
+const APP_URL = 'https://app.shoseijutsuroku.com/';
 type InstallPlatform = 'ios' | 'android' | 'desktop';
 
 export default function InstallAppScreen() {
