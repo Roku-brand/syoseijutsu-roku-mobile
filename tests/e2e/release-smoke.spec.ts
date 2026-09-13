@@ -592,12 +592,23 @@ test('探すは人物像を横に流し、独立一覧と理論カテゴリへ�
   await expect(page.getByText('（仕事術）', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: /仕事ができる人、仕事術、.*処世術を開く/ })).toBeVisible();
 
-  await page.getByRole('link', { name: '26人物像を一覧で見る' }).click();
+  await page.getByRole('link', { name: /^\d+人物像を一覧で見る$/ }).click();
   await expect(page).toHaveURL(/\/personas$/);
-  await expect(page.getByText('3領域・26人物像から選ぶ', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(26);
+  const personaSummary = page.getByText(/^3領域・\d+人物像から選ぶ$/);
+  await expect(personaSummary).toBeVisible();
+  const personaLinks = page.getByTestId('personas-grid').getByRole('link');
+  // Owner-created/archived personas change this total. Assert the actual
+  // catalogue contract rather than freezing the bundled bootstrap count.
+  await expect.poll(async () => {
+    const total = Number((await personaSummary.innerText()).match(/・(\d+)人物像/)?.[1]);
+    return total > 0 && await personaLinks.count() === total;
+  }).toBe(true);
   await page.getByRole('button', { name: '人生術で絞り込む' }).click();
-  await expect(page.getByTestId('personas-grid').getByRole('link')).toHaveCount(7);
+  await expect.poll(async () => {
+    const label = await page.getByText(/^人生術・\d+人物像$/).innerText();
+    return await personaLinks.count() === Number(label.match(/・(\d+)人物像/)?.[1]);
+  }).toBe(true);
+  for (const link of await personaLinks.all()) await expect(link).toHaveAttribute('aria-label', /、人生術、/);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/discover');
