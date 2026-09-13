@@ -57,7 +57,7 @@ jobs:
 
   build-and-sync:
     needs: deploy-backend
-    if: ${{ always() && (needs.deploy-backend.result == 'success' || needs.deploy-backend.result == 'skipped') }}
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     env:
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
