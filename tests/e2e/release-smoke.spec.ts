@@ -1050,13 +1050,17 @@ test('ホームのブランドリールはPC・タブレット・スマホでカ
     const slide = page.getByTestId('home-brand-slide-1');
     await expect(viewport).toBeVisible();
     await expect(slide).toBeVisible();
-    const [viewportBox, slideBox] = await Promise.all([viewport.boundingBox(), slide.boundingBox()]);
-    expect(viewportBox).not.toBeNull();
-    expect(slideBox).not.toBeNull();
-    expect(Math.abs(slideBox!.x - viewportBox!.x)).toBeLessThan(2);
-    expect(Math.abs(slideBox!.width - viewportBox!.width)).toBeLessThan(2);
-    const pageWidth = await page.evaluate(() => ({ inner: innerWidth, scroll: document.documentElement.scrollWidth }));
-    expect(pageWidth.scroll).toBeLessThanOrEqual(pageWidth.inner);
+    // React Native's onLayout responds asynchronously to viewport changes.
+    // Keep the exact geometry contract, but wait for the resized layout.
+    await expect(async () => {
+      const [viewportBox, slideBox] = await Promise.all([viewport.boundingBox(), slide.boundingBox()]);
+      expect(viewportBox).not.toBeNull();
+      expect(slideBox).not.toBeNull();
+      expect(Math.abs(slideBox!.x - viewportBox!.x)).toBeLessThan(2);
+      expect(Math.abs(slideBox!.width - viewportBox!.width)).toBeLessThan(2);
+      const pageWidth = await page.evaluate(() => ({ inner: innerWidth, scroll: document.documentElement.scrollWidth }));
+      expect(pageWidth.scroll).toBeLessThanOrEqual(pageWidth.inner);
+    }).toPass({ timeout: 5000 });
   }
 });
 
