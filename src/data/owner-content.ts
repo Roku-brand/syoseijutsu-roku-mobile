@@ -131,9 +131,9 @@ export async function fetchOwnerTechniques(): Promise<TechniqueContent[]> {
 
 /** Creates an empty owner-only draft. The database assigns its stable ID and
  * display order, so owners never need to invent or manage technical IDs. */
-export async function createTechnique(): Promise<TechniqueContent> {
+export async function createTechnique(personaName: string): Promise<TechniqueContent> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { data, error } = await supabase.rpc('create_technique');
+  const { data, error } = await supabase.rpc('create_technique', { target_persona_id: personaName });
   if (error) throw error;
   return toTechniqueContent(asTechniqueRow(data));
 }

@@ -8,6 +8,8 @@ import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import { archiveTheory, applyTheory, fetchOwnerTheories, publishTheory, seedOwnerTheoriesIfEmpty } from '@/data/owner-theories';
+import { TheoryDetailsEditor } from '@/components/owner-theory-details';
+import { theoryCategories, validateTheoryForPublish } from '@/data/content-editor-schema';
 import type { TheoryCard } from '@/data/types';
 
 type EditableTheory = Omit<TheoryCard, 'status'> & { displayOrder?: number };
@@ -50,16 +52,13 @@ export default function OwnerTheoriesScreen() {
     const words = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
     return items.filter((item) => item.status !== 'archived' && words.every((word) => [item.title, item.summary, item.categoryTitle, ...(item.aliases ?? [])].join(' ').toLocaleLowerCase().includes(word)));
   }, [items, query]);
-  const categories = useMemo(() => {
-    const result = new Map<string, string>([['psychology', '心理学']]);
-    items.forEach((item) => result.set(item.categoryId, item.categoryTitle));
-    return [...result];
-  }, [items]);
+  const categories = theoryCategories;
   const choose = (item: EditableTheory) => { if (busy) return; if (dirty) setPending(item); else select(item); };
   const update = (patch: Partial<EditableTheory>) => { if (!draft) return; setDraft({ ...draft, ...patch }); setDirty(true); setConfirmation(null); };
   const existing = items.some((item) => item.tagId === draft?.tagId && item.status !== 'archived');
   const execute = async () => {
     if (!draft || !confirmation || busy) return;
+    if (confirmation === 'publish') { const errors = validateTheoryForPublish(draft); if (errors.length) { setError(errors.join('\n')); return; } }
     setBusy(true); setError(''); setMessage('');
     try {
       if (confirmation === 'archive') {
@@ -112,12 +111,14 @@ export default function OwnerTheoriesScreen() {
           <AppText variant="serif" style={styles.editorTitle}>{existing ? '理論を編集' : '新しい理論'}</AppText>
           <AppText style={styles.muted}>{dirty ? '未公開の変更があります' : existing ? '公開中' : 'タイトルと概要を入力してください'} · ID入力は不要です</AppText>
           <Field label="タイトル（必須）" value={draft.title} disabled={busy} onChange={(title) => update({ title })} />
-          <Field label="概要" value={draft.summary} disabled={busy} onChange={(summary) => update({ summary })} multi />
+          <Field label="概要（必須）" value={draft.summary} disabled={busy} onChange={(summary) => update({ summary })} multi />
           <AppText variant="label">カテゴリ</AppText>
           <View style={styles.actions}>{categories.map(([id, title]) => <Pressable key={id} disabled={busy} accessibilityRole="button" accessibilityState={{ selected: draft.categoryId === id }} onPress={() => update({ categoryId: id, categoryTitle: title })} style={[styles.chip, draft.categoryId === id && styles.selected]}><AppText>{title}</AppText></Pressable>)}</View>
           <Field label="別名（読点・カンマで区切る）" value={aliases} disabled={busy} onChange={(value) => { setAliases(value); setDirty(true); setConfirmation(null); }} />
+          <TheoryDetailsEditor value={draft} disabled={busy} options={items.filter((item) => item.status !== 'archived')} onChange={update} />
+          <AppText style={styles.muted}>公開に必須：タイトル・概要・カテゴリ。別名・出典・関連理論は任意です。</AppText>
           {confirmation ? <View style={styles.confirmation}><AppText>{confirmation === 'archive' ? 'この理論を公開から削除します。データはアーカイブとして保持します。' : 'この内容をすべてのユーザーに公開します。'}</AppText><View style={styles.actions}><SecondaryButton disabled={busy} onPress={() => setConfirmation(null)}>キャンセル</SecondaryButton><PrimaryButton disabled={busy} onPress={() => void execute()}>{busy ? '処理中…' : confirmation === 'archive' ? '削除を確定' : '公開を確定'}</PrimaryButton></View></View> : null}
-          <View style={styles.actions}><PrimaryButton disabled={busy || !draft.title.trim()} onPress={() => setConfirmation('publish')}>内容を確認して公開</PrimaryButton></View>
+          <View style={styles.actions}><PrimaryButton disabled={busy} onPress={() => { const errors = validateTheoryForPublish(draft); setError(errors.join('\n')); if (!errors.length) setConfirmation('publish'); }}>内容を確認して公開</PrimaryButton></View>
           {existing ? <Pressable accessibilityRole="button" disabled={busy} style={styles.deleteButton} onPress={() => setConfirmation('archive')}><AppText style={styles.deleteText}>この理論を削除…</AppText></Pressable> : null}
         </> : <EmptyState title="理論を選択してください" description="一覧から選ぶか、「新規理論」で追加できます。" />}
       </View>

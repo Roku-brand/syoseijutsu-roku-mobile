@@ -185,6 +185,30 @@ export function resetCatalog() {
   rebuildIndexes();
 }
 
+/** Reconcile successful public reads, including empty lists and empty personas. */
+export function reconcilePublishedStructure(
+  techniqueIds: string[],
+  personaRows?: { name: string; category: CategoryKey }[],
+  theoryIds?: string[],
+) {
+  const currentIds = new Set(techniqueIds);
+  for (const category of categories) {
+    for (const persona of category.subcategories) persona.items = persona.items.filter((item) => currentIds.has(item.id));
+    if (personaRows) {
+      category.subcategories = category.subcategories.filter((persona) => personaRows.some((row) => row.name === persona.name && row.category === category.key));
+      for (const row of personaRows.filter((row) => row.category === category.key)) {
+        if (!category.subcategories.some((persona) => persona.name === row.name)) category.subcategories.push({ name: row.name, articleTitle: row.name, items: [] });
+      }
+    }
+  }
+  if (theoryIds) {
+    const ids = new Set(theoryIds);
+    const retained = theories.filter((theory) => ids.has(theory.tagId));
+    theories.splice(0, theories.length, ...retained);
+  }
+  rebuildIndexes();
+}
+
 export const categoryOrder: CategoryKey[] = ['interpersonal', 'work', 'life'];
 export const categoryMeta: Record<CategoryKey, { label: string; mark: string; description: string }> = {
   interpersonal: { label: '対人術', mark: '対', description: '関係を築き、保ち、集団の中で立ち回る' },

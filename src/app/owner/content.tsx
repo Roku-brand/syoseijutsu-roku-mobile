@@ -7,6 +7,8 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { getTheoryDisplayId, removeManagedTechnique, techniqueById, theories, upsertManagedTechnique } from '@/data/catalog';
+import { PersonaPicker, PersonaManager } from '@/components/owner-personas';
+import { fetchOwnerPersonas, type OwnerPersona } from '@/data/owner-personas';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import type { TheoryCard } from '@/data/types';
@@ -40,6 +42,8 @@ export default function OwnerContentScreen() {
   const [drafts, setDrafts] = useState<Record<string, TechniqueSnapshot>>({});
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [query, setQuery] = useState('');
+  const [personas, setPersonas] = useState<OwnerPersona[]>([]);
+  const [personaFilter, setPersonaFilter] = useState('');
   const [loadingContent, setLoadingContent] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -58,7 +62,8 @@ export default function OwnerContentScreen() {
     setError(null);
     try {
       await seedOwnerTechniquesIfEmpty();
-      const [nextTechniques, nextDraftRows] = await Promise.all([fetchOwnerTechniques(), fetchOwnerDrafts()]);
+      const [nextTechniques, nextDraftRows, nextPersonas] = await Promise.all([fetchOwnerTechniques(), fetchOwnerDrafts(), fetchOwnerPersonas()]);
+      setPersonas(nextPersonas);
       setTechniques(nextTechniques);
       setDrafts(Object.fromEntries(nextDraftRows.map((draft) => [draft.technique_id, draft.snapshot])));
       const available = nextTechniques.filter((technique) => technique.status !== 'archived');
@@ -76,18 +81,28 @@ export default function OwnerContentScreen() {
 
   const filtered = useMemo(() => {
     const keywords = query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+    const scoped = techniques.filter((technique) => !personaFilter || (drafts[technique.id]?.persona_id ?? technique.persona_id) === personaFilter);
     const matched = !keywords.length
-      ? techniques.filter((technique) => technique.status !== 'archived')
-      : techniques.filter((technique) => technique.status !== 'archived' && keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
+      ? scoped.filter((technique) => technique.status !== 'archived')
+      : scoped.filter((technique) => technique.status !== 'archived' && keywords.every((keyword) => [technique.id, technique.title, technique.persona_id, technique.essence, technique.category].join(' ').toLocaleLowerCase().includes(keyword)));
     return [...matched].sort((left, right) => techniqueNumber(left.id) - techniqueNumber(right.id) || left.id.localeCompare(right.id, 'en'));
-  }, [query, techniques]);
+  }, [query, techniques, personaFilter, drafts]);
 
-  const selected = techniques.find((technique) => technique.id === selectedId) ?? null;
+  const personaCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    techniques.filter((item) => item.status !== 'archived').forEach((item) => {
+      new Set([item.persona_id, drafts[item.id]?.persona_id].filter(Boolean)).forEach((name) => { counts[name!] = (counts[name!] ?? 0) + 1; });
+    });
+    return counts;
+  }, [techniques, drafts]);
+  const selected = techniques.find((technique) => technique.id === selectedId && (!personaFilter || (drafts[technique.id]?.persona_id ?? technique.persona_id) === personaFilter)) ?? null;
   const selectedReelIndex = filtered.findIndex((technique) => technique.id === selectedId);
-  const selectedSnapshot = selected ? drafts[selected.id] ?? snapshotFromTechnique(selected) : null;
+  const rawSnapshot = selected ? drafts[selected.id] ?? snapshotFromTechnique(selected) : null;
+  const selectedSnapshot = rawSnapshot ? { ...rawSnapshot, category: personas.find((persona) => persona.name === rawSnapshot.persona_id)?.category ?? rawSnapshot.category } : null;
   const theoryOptions = useMemo(() => theories.filter((theory) => !isLockedTheoryShell(theory)), [catalogRevision]);
 
   const selectTechnique = (id: string) => {
+    if (saving) return;
     setSelectedId(id);
     setPreview(false);
     setPublishConfirming(false);
@@ -96,7 +111,7 @@ export default function OwnerContentScreen() {
   };
 
   useEffect(() => {
-    if (filtered.length && selectedReelIndex < 0) selectTechnique(filtered[0].id);
+    if (!saving && filtered.length && selectedReelIndex < 0) selectTechnique(filtered[0].id);
   }, [filtered, selectedReelIndex]);
 
   useEffect(() => {
@@ -119,13 +134,15 @@ export default function OwnerContentScreen() {
   }, [selectedId]);
 
   const updateSnapshot = (patch: Partial<TechniqueSnapshot>) => {
-    if (!selected) return;
+    if (!selected || saving) return;
+    setPublishConfirming(false); setArchiveConfirming(false);
     setNotice(null);
     setDrafts((current) => ({ ...current, [selected.id]: normalizeSnapshot({ ...(current[selected.id] ?? snapshotFromTechnique(selected)), ...patch }) }));
   };
 
   const save = async () => {
     if (!selected || !selectedSnapshot) return;
+    if (!personas.some((persona) => persona.name === selectedSnapshot.persona_id && persona.status === 'published')) { setError('所属する人物像を選択してください。'); return; }
     if (!selectedSnapshot.title.trim()) {
       setError('タイトルを入力してください。');
       return;
@@ -146,6 +163,9 @@ export default function OwnerContentScreen() {
 
   const beginPublish = () => {
     if (!selected || !selectedSnapshot) return;
+    if (!personas.some((persona) => persona.name === selectedSnapshot.persona_id && persona.status === 'published')) {
+      setError('所属する人物像を選択してください。'); return;
+    }
     if (!selectedSnapshot.title.trim()) {
       setError('タイトルを入力してください。');
       return;
@@ -209,11 +229,12 @@ export default function OwnerContentScreen() {
   };
 
   const createNewTechnique = async () => {
+    if (!personaFilter) { setError('追加先の人物像を選択してください。'); return; }
     setSaving(true);
     setError(null);
     setNotice(null);
     try {
-      const created = await createTechnique();
+      const created = await createTechnique(personaFilter);
       setQuery('');
       setPublishConfirming(false);
       setArchiveConfirming(false);
@@ -259,9 +280,11 @@ export default function OwnerContentScreen() {
         <View style={styles.headingCopy}>
           <AppText variant="label" style={styles.eyebrow}>OWNER CONTENT</AppText>
           <AppText variant="serif" style={styles.title}>コンテンツ管理</AppText>
-          <AppText style={styles.description}>処世術を追加・編集・公開できます。IDは自動で作成されます。</AppText>
+          <AppText style={styles.description}>人物像を選択 → 処世術を追加・編集 → 内容を確認して公開。カテゴリは人物像から自動で決まります。</AppText>
+          <PersonaPicker personas={personas} value={personaFilter} allowAll disabled={saving} onChange={(name) => { setPersonaFilter(name); setQuery(''); }} />
+          <PersonaManager personas={personas} counts={personaCounts} selectedName={personaFilter} disabled={saving || loadingContent} onChanged={async (name) => { setPersonas(await fetchOwnerPersonas()); setPersonaFilter(name ?? ''); await refreshPublishedContent(); }} />
           <View style={styles.topActions}>
-            <PrimaryButton onPress={() => void createNewTechnique()} disabled={saving || loadingContent}>＋ 新規処世術</PrimaryButton>
+            <PrimaryButton onPress={() => void createNewTechnique()} disabled={saving || loadingContent || !personaFilter}>＋ 選択した人物像に処世術を追加</PrimaryButton>
             <SecondaryButton onPress={() => router.push(APP_ROUTES.ownerTheories)}>理論を管理する</SecondaryButton>
           </View>
         </View>
@@ -295,7 +318,7 @@ export default function OwnerContentScreen() {
             >
             <View style={styles.resultList}>
               {filtered.map((technique) => (
-                <Pressable key={technique.id} onPress={() => selectTechnique(technique.id)} style={[styles.resultRow, technique.id === selectedId && styles.resultRowSelected]}>
+                <Pressable key={technique.id} disabled={saving} accessibilityRole="button" accessibilityState={{ selected: technique.id === selectedId }} onPress={() => selectTechnique(technique.id)} style={[styles.resultRow, technique.id === selectedId && styles.resultRowSelected]}>
                   <View style={styles.resultCopy}>
                     <AppText style={styles.resultId}>{technique.id}</AppText>
                     <AppText numberOfLines={2} style={styles.resultTitle}>{technique.title || '新しい処世術（タイトル未入力）'}</AppText>
@@ -344,13 +367,15 @@ export default function OwnerContentScreen() {
               </View>
               {preview ? <TechniquePreview snapshot={selectedSnapshot} id={selected.id} /> : (
                 <>
-                  <EditorField label="タイトル" value={selectedSnapshot.title} onChangeText={(value) => updateSnapshot({ title: value })} />
+                  <EditorField label="タイトル（必須）" value={selectedSnapshot.title} onChangeText={(value) => updateSnapshot({ title: value })} />
                   <EditorField label="本質" value={selectedSnapshot.essence} onChangeText={(value) => updateSnapshot({ essence: value })} multiline />
                   <EditorField label="解説" value={selectedSnapshot.explanation} onChangeText={(value) => updateSnapshot({ explanation: value })} multiline tall />
                   <EditorField label="メモ" value={selectedSnapshot.memo} onChangeText={(value) => updateSnapshot({ memo: value })} multiline />
                   <Selector label="重要度" values={[1, 2, 3]} value={selectedSnapshot.importance} onChange={(value) => updateSnapshot({ importance: value as 1 | 2 | 3 })} />
-                  <Selector label="カテゴリ" values={['interpersonal', 'work', 'life']} value={selectedSnapshot.category} onChange={(value) => updateSnapshot({ category: value as TechniqueSnapshot['category'] })} />
-                  <EditorField label="人物像" value={selectedSnapshot.persona_id} onChangeText={(value) => updateSnapshot({ persona_id: value })} />
+                  <PersonaPicker personas={personas} value={selectedSnapshot.persona_id} disabled={saving} onChange={(name) => {
+                    const persona = personas.find((candidate) => candidate.name === name);
+                    if (persona) { setPersonaFilter(''); updateSnapshot({ persona_id: persona.name, category: persona.category }); }
+                  }} />
                   <ListEditor label="今日からできる実践" items={selectedSnapshot.practices} onChange={(items) => updateSnapshot({ practices: items })} />
                   <ListEditor label="具体例" items={selectedSnapshot.examples} onChange={(items) => updateSnapshot({ examples: items })} />
                   <ListEditor label="注意点" items={selectedSnapshot.cautions} onChange={(items) => updateSnapshot({ cautions: items })} />
@@ -404,7 +429,7 @@ function isSnapshotReflected(card: { title: string; essence?: string; explanatio
 }
 
 function EditorField({ label, value, onChangeText, multiline = false, tall = false }: { label: string; value: string; onChangeText: (value: string) => void; multiline?: boolean; tall?: boolean }) {
-  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText><TextInput value={value} onChangeText={onChangeText} multiline={multiline} textAlignVertical={multiline ? 'top' : 'center'} style={[styles.input, multiline && styles.multilineInput, tall && styles.tallInput]} /></View>;
+  return <View style={styles.field}><AppText variant="label" style={styles.fieldLabel}>{label}</AppText><TextInput accessibilityLabel={label} value={value} onChangeText={onChangeText} multiline={multiline} textAlignVertical={multiline ? 'top' : 'center'} style={[styles.input, multiline && styles.multilineInput, tall && styles.tallInput]} /></View>;
 }
 
 function Selector<T extends string | number>({ label, values, value, onChange }: { label: string; values: readonly T[]; value: T; onChange: (value: T) => void }) {
