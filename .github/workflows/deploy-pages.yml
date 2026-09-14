@@ -25,7 +25,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          # Pin the CLI to avoid latest-release resolution hitting GitHub rate limits.
+          version: v2.117.0
       - name: Verify backend deployment settings
         run: |
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
