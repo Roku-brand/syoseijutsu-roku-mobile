@@ -2,7 +2,7 @@
 
 ## Source-of-truth audit
 
-The web build is an Expo Router static export deployed by GitHub Pages. `scripts/generate-seo-assets.mjs` adds canonical metadata, robots directives, JSON-LD, breadcrumbs, and an HTML fallback containing the page's primary content and links after the export. The public catalog built from the checked-in canonical data contains **50 public techniques, 150 public theories, and 26 personas**. The complete-edition source contains 336 techniques and 793 theories; it must not be treated as publicly indexable content merely because a locked client shell has a route.
+The web build is an Expo Router static export deployed by GitHub Pages. `scripts/generate-seo-assets.mjs` adds canonical metadata, robots directives, JSON-LD, breadcrumbs, and an HTML fallback containing the page's primary content and links after the export. The public catalog built from the checked-in canonical data contains **50 public techniques, 150 public theories, and 26 persona labels**; only **6 persona hubs** currently contain public techniques and qualify for the sitemap. The complete-edition source contains 336 techniques and 793 theories; it must not be treated as publicly indexable content merely because a locked client shell has a route.
 
 The canonical host is `https://app.shoseijutsuroku.com`, without a trailing slash except for `/`. Sitemap URLs, canonical tags, and generated internal links use that convention. Query parameters are never canonical URLs.
 
@@ -11,7 +11,7 @@ The canonical host is `https://app.shoseijutsuroku.com`, without a trailing slas
 | Classification | Route pattern | SEO treatment | Count in this build |
 | --- | --- | --- | --- |
 | A — index | `/`, `/about/shoseijutsu`, `/discover`, `/personas`, `/theories`, `/interpersonal`, `/work`, `/life`, `/app`, `/legal/faq`, `/learn` | Canonical, 200, unique title/description/H1, breadcrumbs and JSON-LD | 11 fixed hubs |
-| A — index | `/subcategory/{interpersonal|work|life}/{persona}` with one or more public techniques | Persona hub | 26 |
+| A — index | `/subcategory/{interpersonal|work|life}/{persona}` with one or more public techniques | Persona hub | 6 |
 | A — index | `/card/{id}` only where the authoritative public item has a substantive explanation | Individual technique | 50 |
 | A — index | `/theory/{id}` only where the authoritative public theory has a substantive summary | Individual theory | 150 |
 | A — index | `/topic/{slug}` for editorially defined search-intent hubs | Topic hub | 21 |

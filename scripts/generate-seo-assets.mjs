@@ -243,8 +243,9 @@ function staticContent(meta) {
     if (actions?.cautions?.length) body += `<section><h2>注意点</h2><ul>${actions.cautions.map((caution) => `<li>${escape(caution)}</li>`).join('')}</ul></section>`;
     const primary = (meta.item.primaryTheoryIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
     const related = (meta.item.relatedTheoryIds ?? meta.item.theoryTagIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
+    const secondaryTheories = related.filter((item) => !primary.some((main) => main.tagId === item.tagId));
     if (primary.length) body += `<section><h2>主要理論</h2><ul>${primary.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
-    if (related.length) body += `<section><h2>あわせて読む理論</h2><ul>${related.filter((item) => !primary.some((main) => main.tagId === item.tagId)).map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
+    if (secondaryTheories.length) body += `<section><h2>あわせて読む理論</h2><ul>${secondaryTheories.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
     const relatedTechniques = techniques.filter((item) => isPublicTechnique(item) && item.id !== meta.item.id && ((item.relatedTheoryIds ?? item.theoryTagIds ?? []).some((id) => (meta.item.relatedTheoryIds ?? meta.item.theoryTagIds ?? []).includes(id)) || item.persona === meta.item.persona)).slice(0, 6);
     if (relatedTechniques.length) body += `<section><h2>関連する処世術</h2><ul>${relatedTechniques.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
   } else if (meta.pageType === 'Article') {
