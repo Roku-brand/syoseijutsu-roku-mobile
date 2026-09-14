@@ -29,7 +29,9 @@ jobs:
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
-          supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
+          # Use DNS-over-HTTPS so the runner resolves Supabase's IPv4 pooler
+          # even when the hosted runner has no IPv6 connectivity.
+          supabase link --dns-resolver https --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
           supabase db push --linked
       - name: Deploy payment and entitlement functions
         run: |
