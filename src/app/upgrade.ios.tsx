@@ -5,7 +5,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
-import { buyAppleProduct, listenToApplePurchases, loadAppleProduct, restoreApplePurchases } from '@/lib/apple-purchase.ios';
+import { buyAppleProduct, formatApplePurchaseError, listenToApplePurchases, loadAppleProduct, restoreApplePurchases } from '@/lib/apple-purchase.ios';
 import { COMPLETE_EDITION_PRICE_JPY, fetchVerifiedAccess, formatAccessDateTime } from '@/lib/purchase';
 
 const completeMark = require('../../assets/upgrade/complete-mark.png');
@@ -43,7 +43,7 @@ export default function AppleUpgradeScreen() {
       if (current.status === 'active') { await refreshAccess(); setBusy(false); return; }
       if (current.status === 'processing') throw new Error('既存の購入を確認中です。通信を確認して購入を復元してください。');
       await buyAppleProduct(user.id);
-    } catch (error) { setMessage(error instanceof Error ? error.message : '購入できませんでした。'); setBusy(false); }
+    } catch (error) { setMessage(formatApplePurchaseError(error)); setBusy(false); }
   }
   async function restore() {
     if (!user) { router.push('/auth'); return; }

@@ -6,7 +6,62 @@ import { purchaseTimeout } from './purchase-timeout';
 export const appleProductId = process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID ?? '';
 let connection: Promise<boolean> | null = null;
 const pending = new Map<string, Promise<void>>();
+
+type PurchaseSubscriber = {
+  onVerified: () => void;
+  onError: (message: string) => void;
+};
+
+// expo-iap must have its native listeners installed before initConnection().
+// Keep one native pair for the whole app and fan events out to screen-level
+// subscribers. Registering a pair per screen can make StoreKit deliver the
+// same transaction twice and can also race the first purchase request.
+const subscribers = new Set<PurchaseSubscriber>();
+let nativeListeners: { updated: { remove: () => void }; failed: { remove: () => void } } | null = null;
+let purchaseRequest: Promise<unknown> | null = null;
+
+export function formatApplePurchaseError(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error ?? '');
+  if (/unable to complete request|unexpectedexception/i.test(message)) {
+    return 'App Storeで購入を開始できませんでした。App Storeにサインインしていることを確認して、もう一度お試しください。';
+  }
+  return message || '購入できませんでした。';
+}
+
+function notifyVerified() {
+  for (const subscriber of subscribers) {
+    try { subscriber.onVerified(); } catch { /* UI callbacks must not stop IAP processing. */ }
+  }
+}
+
+function notifyError(message: string) {
+  for (const subscriber of subscribers) {
+    try { subscriber.onError(message); } catch { /* UI callbacks must not stop IAP processing. */ }
+  }
+}
+
+function ensurePurchaseListeners() {
+  if (nativeListeners) return;
+  const updated = purchaseUpdatedListener(purchase => {
+    if (purchase.productId !== appleProductId) return;
+    if (purchase.purchaseState === 'pending') {
+      notifyError('購入は承認待ちです。承認後に反映されます。');
+      return;
+    }
+    void verifyApplePurchase(purchase).then(notifyVerified).catch(error => notifyError(formatApplePurchaseError(error)));
+  }, { dedupeTransactionIOS: false });
+  const failed = purchaseErrorListener(error => notifyError(
+    String(error.code).includes('cancel')
+      ? '購入をキャンセルしました。'
+      : '購入が完了しませんでした。App Storeの状態を確認してください。',
+  ));
+  nativeListeners = { updated, failed };
+}
+
 export function connectAppleStore() {
+  // Register listeners first. StoreKit can emit restored/pending purchases as
+  // soon as the connection is established.
+  ensurePurchaseListeners();
   if (!connection) connection = purchaseTimeout(initConnection()).then(connected => {
     if (!connected) throw new Error('App Storeに接続できません。');
     return connected;
@@ -33,15 +88,10 @@ export async function verifyApplePurchase(purchase: Purchase) {
   try { await task; } finally { pending.delete(transactionId); }
 }
 export function listenToApplePurchases(onVerified: () => void, onError: (message: string) => void) {
-  const updated = purchaseUpdatedListener(purchase => {
-    if (purchase.productId !== appleProductId) return;
-    if (purchase.purchaseState === 'pending') { onError('購入は承認待ちです。承認後に反映されます。'); return; }
-    void verifyApplePurchase(purchase).then(onVerified).catch(error => onError(error.message));
-  }, { dedupeTransactionIOS: false });
-  const failed = purchaseErrorListener(error => onError(
-    String(error.code).includes('cancel') ? '購入をキャンセルしました。' : '購入が完了しませんでした。App Storeの状態を確認してください。',
-  ));
-  return () => { updated.remove(); failed.remove(); };
+  const subscriber = { onVerified, onError };
+  subscribers.add(subscriber);
+  ensurePurchaseListeners();
+  return () => { subscribers.delete(subscriber); };
 }
 export async function loadAppleProduct() {
   if (!appleProductId) throw new Error('App Storeの商品が設定されていません。');
@@ -52,11 +102,24 @@ export async function loadAppleProduct() {
   return product;
 }
 export async function buyAppleProduct(userId: string) {
-  await connectAppleStore();
-  await requestPurchase({ type: 'in-app', request: { apple: {
-    sku: appleProductId, appAccountToken: userId,
-    andDangerouslyFinishTransactionAutomatically: false,
-  } } });
+  if (!appleProductId) throw new Error('App Storeの商品が設定されていません。');
+  if (purchaseRequest) throw new Error('前回の購入処理を確認中です。購入済みの場合は「購入を復元」をお試しください。');
+  // Acquire the lock before awaiting the connection so two taps during
+  // initConnection() cannot both reach StoreKit.requestPurchase().
+  purchaseRequest = (async () => {
+    await connectAppleStore();
+    return requestPurchase({ type: 'in-app', request: { apple: {
+      sku: appleProductId,
+      quantity: 1,
+      appAccountToken: userId,
+      andDangerouslyFinishTransactionAutomatically: false,
+    } } });
+  })();
+  try {
+    await purchaseRequest;
+  } finally {
+    purchaseRequest = null;
+  }
 }
 export async function restoreApplePurchases() {
   await connectAppleStore();
