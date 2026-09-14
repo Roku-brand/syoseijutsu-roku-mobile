@@ -22,6 +22,10 @@ export const APP_ROUTES = {
   terms: '/legal/terms',
   privacy: '/legal/privacy',
   about: '/about/shoseijutsu' as Href,
+  app: '/app',
+  interpersonal: '/interpersonal',
+  work: '/work',
+  life: '/life',
 } as const satisfies Record<string, Href>;
 
 export type MainSection = 'main' | 'discover' | 'learn' | 'my-os';
