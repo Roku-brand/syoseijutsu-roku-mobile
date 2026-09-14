@@ -1310,16 +1310,17 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByTestId('learning-question-card').getByTestId('rokumaru-guide')).toBeVisible();
   await page.getByRole('button', { name: /^A/ }).click();
-  await expect(page.getByText('この場面での評価')).toBeVisible();
-  await expect(page.getByText('あなたの選択')).toBeVisible();
-  await expect(page.getByText('この選択だと、次の問題が起きる。')).toBeVisible();
-  await expect(page.getByText('この選択による問題')).toBeVisible();
-  await expect(page.getByText('相手は聞き役に固定され、会話ではなく自己紹介を採点する時間になる。次の質問も出にくくなる。').first()).toBeVisible();
+  await expect(page.getByText('おしい！')).toBeVisible();
+  await expect(page.getByText('ここで違いを覚えましょう。')).toBeVisible();
+  await expect(page.getByTestId('learning-review-choice-a')).toContainText('あなたの回答');
+  await expect(page.getByTestId('learning-review-choice-a')).toContainText('おしい');
+  await expect(page.getByTestId('learning-review-choice-b')).toContainText('正解');
+  await expect(page.getByTestId('learning-review-choice-c')).toContainText('解説：');
   await expect(page.getByTestId('rokumaru-encourage')).toBeVisible();
-  await expect(page.getByRole('link', { name: /関連する処世術、初対面は面白さより安心感を開く/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /関連する基礎知識、初対面は面白さより安心感を開く/ })).toBeVisible();
   await expect(page.getByText('関連する理論')).toBeVisible();
 
-  await page.getByRole('button', { name: /次のケースへ/ }).click();
+  await page.getByRole('button', { name: /次の問題へ/ }).click();
   await expect(page).toHaveURL(/\/learn\/case-02/);
   await expect(page.getByText('CASE 02 / 21')).toBeVisible();
 });
@@ -1327,12 +1328,13 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
 test('学ぶの良い判断は正解表情と解説を示し、進捗へ保存する', async ({ page }) => {
   await page.goto('/learn/case-01?retry=1');
   await page.getByRole('button', { name: /^B/ }).click();
-  await expect(page.getByText('いい選択です。')).toBeVisible();
-  await expect(page.getByText('この手が活きる理由')).toBeVisible();
+  await expect(page.getByText('正解！')).toBeVisible();
+  await expect(page.getByText('いい判断です。', { exact: true })).toBeVisible();
+  await expect(page.getByText('このケースの処世術')).toBeVisible();
   await expect(page.getByText('安心できる小さな往復から始める。')).toBeVisible();
   await expect(page.getByTestId('rokumaru-happy')).toBeVisible();
 
-  await page.getByRole('button', { name: /解説を閉じる/ }).click();
+  await page.getByRole('link', { name: /学ぶ。/ }).click();
   await expect(page).toHaveURL(/\/learn$/);
   await expect(page.getByTestId('learning-stage-1')).toContainText('1 / 7');
 });
