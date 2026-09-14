@@ -675,6 +675,19 @@ test('公開済みの管理コンテンツは同梱済みカードを置き換�
       }]),
     });
   });
+  // The public hydration now reads the linked theory and persona tables in
+  // the same request cycle. Keep this test's fixture coherent rather than
+  // accidentally treating unmocked endpoints as an authoritative empty set.
+  await page.route('**/rest/v1/theories*', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) });
+  });
+  await page.route('**/rest/v1/personas*', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify([{ name: '印象がいい人', category: 'interpersonal' }]),
+    });
+  });
 
   await page.goto('/card/master336-001');
   await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
