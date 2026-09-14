@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "処世術禄",
-    "slug": "shoseijutsu-roku",
+    "slug": "shoseijutsuroku",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/brand/icon.png",
@@ -12,7 +12,8 @@
     "ios": {
       "bundleIdentifier": "jp.shoseijutsuroku.app",
       "buildNumber": "1",
-      "supportsTablet": true,
+      "jsEngine": "jsc",
+      "supportsTablet": false,
       "icon": "./assets/brand/icon.png",
       "config": {
         "usesNonExemptEncryption": false
@@ -63,8 +64,7 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": true
     }
   }
 }

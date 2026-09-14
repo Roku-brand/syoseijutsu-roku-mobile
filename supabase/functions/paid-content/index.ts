@@ -28,6 +28,7 @@ Deno.serve(async (request) => {
   const url = new URL(request.url);
   const type = url.searchParams.get('type');
   const id = url.searchParams.get('id');
+  const platform = url.searchParams.get('platform');
   if (type && !allowedTypes.has(type)) return json({ error: 'invalid_content_type' }, 400);
 
   let query = admin.from('paid_content')
@@ -37,6 +38,12 @@ Deno.serve(async (request) => {
     .order('content_id');
   if (type) query = query.eq('content_type', type);
   else query = query.in('content_type', [...allowedTypes]);
+  // The first iOS release excludes the maxims catalogue. That catalogue
+  // contains modern quotations whose publication rights are still being
+  // documented. Web and other platforms retain the existing catalogue.
+  if (platform === 'ios' && type === 'theory') {
+    query = query.neq('payload->>categoryId', 'maxims-experience');
+  }
   if (id) query = query.eq('content_id', id);
 
   const { data, error } = await query;

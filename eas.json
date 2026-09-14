@@ -5,17 +5,25 @@
   },
   "build": {
     "development": {
+      "environment": "development",
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
+      "environment": "preview",
       "distribution": "internal"
     },
     "production": {
+      "environment": "production",
+      "distribution": "store",
       "autoIncrement": true
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6810376658"
+      }
+    }
   }
 }

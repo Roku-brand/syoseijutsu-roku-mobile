@@ -127,6 +127,10 @@ metadata.productPersonaCount = publicTechniques.categories.reduce((count, catego
 await Promise.all([
   writeJson('techniques.public.json', publicTechniques),
   writeJson('theories.public.json', publicTheories),
+  // Modern quotations remain available on the existing web catalogue. The
+  // initial iOS release uses only independently written theory summaries
+  // while publication-rights evidence for the quotation catalogue is pending.
+  writeJson('theories.public.ios.json', publicTheories.filter((theory) => theory.categoryId !== 'maxims-experience')),
   writeJson('learning.public.json', learning.filter((item) => freeLearningIds.has(item.id))),
   writeJson('practical-actions.public.json', practicalActions.filter((item) => freeTechniqueIds.has(item.id))),
   writeJson('home-brand-content.json', homeBrandContent),

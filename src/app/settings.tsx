@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { useRouter, type Href } from 'expo-router';
-import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, Platform, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
 import { colors, fonts } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
@@ -30,7 +30,7 @@ export default function SettingsScreen() {
         />
         <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
-          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥280・自動更新なし'}
+          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : Platform.OS === 'ios' ? '30日間・自動更新なし' : '30日間 ¥280・自動更新なし'}
           href={APP_ROUTES.upgrade}
           last
         />
@@ -44,7 +44,7 @@ export default function SettingsScreen() {
           value={welcomePageHidden}
           onValueChange={setWelcomePageHidden}
         />
-        <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last />
+        {Platform.OS === 'web' ? <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last /> : null}
       </SettingsGroup>
 
       {role === 'owner' ? <>
@@ -69,6 +69,7 @@ export default function SettingsScreen() {
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
           <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+          {Platform.OS === 'ios' && user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"
             detail="保存した蔵書、履歴、関心カテゴリなどを削除します"

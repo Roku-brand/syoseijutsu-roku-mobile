@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState, type ReactNode } from 'react';
-import { Image, Modal, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Image, Keyboard, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -133,16 +133,20 @@ export default function MyPageContent() {
         </View>
       </View>
 
-      <Modal transparent visible={editing} animationType="fade" onRequestClose={() => setEditing(false)}>
+      <Modal transparent visible={editing} animationType="fade" onRequestClose={() => { Keyboard.dismiss(); setEditing(false); }}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalKeyboard}>
+        <ScrollView contentContainerStyle={styles.modalScroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         <View style={styles.modalBackdrop}><View style={styles.modalCard}>
           <AppText style={styles.modalTitle}>座右の銘を編集</AppText>
           <AppText style={styles.modalLead}>自分が大切にしたい言葉を、一文で書き留めます。</AppText>
           <TextInput autoFocus multiline maxLength={100} value={draft} onChangeText={setDraft} accessibilityLabel="座右の銘" style={styles.input} />
           <View style={styles.modalActions}>
-            <Pressable accessibilityRole="button" onPress={() => setEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
-            <Pressable accessibilityRole="button" onPress={() => { updatePersonalPrinciple(draft); setEditing(false); }} style={styles.save}><AppText style={styles.saveText}>保存する</AppText></Pressable>
+            <Pressable accessibilityRole="button" onPress={() => { Keyboard.dismiss(); setEditing(false); }} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
+            <Pressable accessibilityRole="button" onPress={() => { updatePersonalPrinciple(draft); Keyboard.dismiss(); setEditing(false); }} style={styles.save}><AppText style={styles.saveText}>保存する</AppText></Pressable>
           </View>
         </View></View>
+        </ScrollView>
+        </KeyboardAvoidingView>
       </Modal>
     </BookScreen>
   );
@@ -299,7 +303,9 @@ const styles = StyleSheet.create({
   memoDate: { marginTop: 5, color: colors.muted, fontSize: 9, lineHeight: 14 },
   quietEmpty: { minHeight: 210, padding: spacing.lg, alignItems: 'center', justifyContent: 'center' },
   quietEmptyText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, textAlign: 'center' },
-  modalBackdrop: { flex: 1, padding: spacing.lg, backgroundColor: 'rgba(17,18,17,0.58)', alignItems: 'center', justifyContent: 'center' },
+  modalKeyboard: { flex: 1 },
+  modalScroll: { flexGrow: 1 },
+  modalBackdrop: { flex: 1, minHeight: '100%', padding: spacing.lg, backgroundColor: 'rgba(17,18,17,0.58)', alignItems: 'center', justifyContent: 'center' },
   modalCard: { width: '100%', maxWidth: 520, padding: spacing.xl, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.lg, backgroundColor: colors.surface },
   modalTitle: { fontFamily: fonts.serif, fontSize: 23, lineHeight: 32, fontWeight: '600' },
   modalLead: { marginTop: spacing.sm, color: colors.muted },

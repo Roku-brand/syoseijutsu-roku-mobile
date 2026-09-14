@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { hydratePaidCatalog, hydratePaidTheories, resetCatalog, theories as catalogTheories, type PaidTechniquePayload } from '@/data/catalog';
 import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
 import { isLockedTheoryShell } from '@/data/theory-display';
@@ -18,7 +19,7 @@ let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v10';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v11';
 
 type PaidContentSnapshot = {
   version: 8;
@@ -82,7 +83,7 @@ async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]>
   const session = data.session;
   if (!session) throw new Error('Authentication is required.');
   const response = await within(
-    fetch(`${supabaseUrl}/functions/v1/paid-content?type=${encodeURIComponent(type)}`, {
+    fetch(`${supabaseUrl}/functions/v1/paid-content?type=${encodeURIComponent(type)}&platform=${encodeURIComponent(Platform.OS)}`, {
       method: 'GET',
       headers: { Authorization: `Bearer ${session.access_token}`, apikey: supabasePublishableKey },
     }),

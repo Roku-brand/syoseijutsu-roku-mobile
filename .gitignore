@@ -6,6 +6,11 @@ node_modules/
 # Expo
 .expo/
 dist/
+dist-ios/
+dist-ios-*/
+diagnostics/
+.deno-cache/
+*-build-check.log
 dist-secure-content/
 test-results/
 web-build/
@@ -33,7 +38,9 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env*
+!.env.example
+!.env.ios.example
 
 # typescript
 *.tsbuildinfo

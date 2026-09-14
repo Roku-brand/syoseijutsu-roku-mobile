@@ -1,5 +1,5 @@
 import techniquesSource from './generated/techniques.public.json';
-import theoriesSource from './generated/theories.public.json';
+import theoriesSource from './theories-source';
 import practicalActionsSource from './generated/practical-actions.public.json';
 import primaryLinksSource from './generated/primary-theory-links.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';

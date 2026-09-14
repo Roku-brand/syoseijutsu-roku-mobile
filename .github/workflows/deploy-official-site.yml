@@ -1,0 +1,36 @@
+name: Deploy official site
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: official-site-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build official site
+        working-directory: site
+        env:
+          SITE_URL: https://shoseijutsuroku.com
+          WEB_APP_URL: https://app.shoseijutsuroku.com
+          APP_STORE_URL: https://apps.apple.com/jp/app/id6810376658
+        run: node scripts/build.mjs
+      - name: Validate official site
+        working-directory: site
+        run: node scripts/check.mjs
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site/dist --project-name=${{ vars.CLOUDFLARE_SITE_PROJECT }} --branch=main

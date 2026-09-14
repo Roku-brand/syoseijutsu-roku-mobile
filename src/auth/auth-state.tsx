@@ -1,6 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
+import { acceptNativeAuthCallback } from '@/lib/native-auth-callback';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-content';
 
@@ -43,6 +44,17 @@ function settleWithin<T>(promise: Promise<T>, timeoutMs: number): Promise<T | nu
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  useEffect(() => {
+    if (Platform.OS === 'web' || !supabase) return;
+    const client = supabase;
+    void Linking.getInitialURL().then(url => url ? acceptNativeAuthCallback(url) : undefined).catch(() => {});
+    const links = Linking.addEventListener('url', ({ url }) => { void acceptNativeAuthCallback(url).catch(() => {}); });
+    const state = AppState.addEventListener('change', next => {
+      if (next === 'active') client.auth.startAutoRefresh(); else client.auth.stopAutoRefresh();
+    });
+    if (AppState.currentState === 'active') client.auth.startAutoRefresh();
+    return () => { links.remove(); state.remove(); client.auth.stopAutoRefresh(); };
+  }, []);
   const [loading, setLoading] = useState(supabaseConfigured);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AccountRole>('user');
@@ -111,7 +123,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo } : undefined,
+      options: options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo }
+        : Platform.OS !== 'web' ? { emailRedirectTo: 'shoseijutsuroku://auth' } : undefined,
     });
     return { error: error?.message ?? null, hasSession: Boolean(data.session), session: data.session };
   }, []);

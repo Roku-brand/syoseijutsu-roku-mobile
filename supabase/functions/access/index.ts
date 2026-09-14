@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { json, optionsResponse } from '../_shared/http.ts';
+import { refreshAppleTransactions } from '../_shared/apple.ts';
 
 Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return optionsResponse();
@@ -18,6 +19,9 @@ Deno.serve(async (request) => {
   if (!userData.user) return json({ access: 'guest', productId: 'complete-edition' });
 
   const admin = createClient(supabaseUrl, serviceRoleKey);
+  // No Apple configuration/API calls for accounts without Apple purchases.
+  // On outages the database's bounded verification lease fails closed.
+  try { await refreshAppleTransactions(userData.user.id); } catch { /* Preserve Web access. */ }
   const { data: accessRows, error } = await admin.rpc('get_complete_edition_access', {
     target_user_id: userData.user.id,
   });

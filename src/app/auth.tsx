@@ -24,7 +24,11 @@ export default function AuthScreen() {
   const claimSessionId = typeof params.session_id === 'string' ? params.session_id : '';
   const claimIntent = params.intent === 'claim' && /^cs_(test_|live_)?[A-Za-z0-9]+$/.test(claimSessionId);
   const [mode, setMode] = useState<AuthMode>(
-    params.mode === 'reset' ? 'reset' : params.mode === 'signup' ? 'signup' : 'signin',
+    params.mode === 'reset'
+      ? 'reset'
+      : params.mode === 'signup' || (!params.mode && purchaseIntent)
+        ? 'signup'
+        : 'signin',
   );
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -50,10 +54,11 @@ export default function AuthScreen() {
     if (params.mode === 'reset') setMode('reset');
     else if (params.mode === 'forgot') setMode('forgot');
     else if (params.mode === 'signin') setMode('signin');
-    else if (params.mode === 'signup') setMode('signup');
-  }, [params.mode]);
+    else if (params.mode === 'signup' || (!params.mode && purchaseIntent)) setMode('signup');
+  }, [params.mode, purchaseIntent]);
 
   const continueToCheckout = useCallback(async (accessToken?: string) => {
+    if (Platform.OS === 'ios') { router.replace('/upgrade'); return; }
     if (checkoutStarted.current) return;
     checkoutStarted.current = true;
     setSubmitting(true);

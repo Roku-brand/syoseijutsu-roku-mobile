@@ -91,12 +91,10 @@ Deno.serve(async (request) => {
   form.set('payment_intent_data[metadata][product_id]', PRODUCT_ID);
   form.set('payment_intent_data[metadata][access_type]', ACCESS_TYPE);
 
-  // Keep repeated taps within a short window idempotent, while allowing a
-  // customer whose previous 30-day access expired to start a fresh Checkout
-  // Session instead of receiving the old session forever.
-  const idempotencySuffix = currentAccess?.access_status === 'expired'
-    ? String(Math.floor(Date.now() / 10_000))
-    : String(currentAccess?.access_expires_at ?? 'first');
+  // Keep repeated taps within a short window idempotent. A key fixed to the account
+  // can make Stripe return a cancelled or expired first Session for up to its
+  // idempotency retention period, preventing the customer from retrying.
+  const idempotencySuffix = String(Math.floor(Date.now() / 10_000));
   const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {

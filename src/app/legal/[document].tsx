@@ -1,5 +1,6 @@
 import { Redirect, useLocalSearchParams, useRouter, type Href } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Platform, Pressable, StyleSheet, View } from 'react-native';
+import { iosLegal } from '@/data/ios-legal';
 import { AppText, EmptyState, Screen, SectionHeader } from '@/components/ui';
 
 const documents = {
@@ -17,6 +18,8 @@ const documents = {
       {
         title: '2. 取得・保存する情報',
         paragraphs: [
+          'プロフィールの表示名と任意の画像をSupabaseに保存します。人気表示と改善のため、閲覧・保存イベント、対象コンテンツ、時刻、端末内で生成した識別子を送信し、ログイン時はユーザーIDに関連付けます。広告目的には利用しません。',
+          'iOS購入はAppleが決済を処理し、運営者は取引識別子、商品、有効期間、返金状態とアカウントとの関連を保存します。Appleへの支払情報は運営者に送られません。',
           'アカウントを作成する場合、メールアドレス、認証に必要な情報およびサービス内の識別子を、認証・購入状態の管理のために取得します。パスワードそのものを運営者が閲覧または保存することはありません。',
           '完全版の購入時には、購入対象、購入状態、購入日時、決済事業者上の取引識別子および完全版の利用権限に関する情報を保存します。カード番号・PayPayアカウント情報等の決済情報はStripeが取り扱い、運営者は取得または保存しません。',
           '保存した処世術、マイ処世術、関心カテゴリ、閲覧履歴および初回設定の完了状態は、原則として端末内に保存します。',
@@ -32,6 +35,7 @@ const documents = {
       {
         title: '4. 外部サービス・委託',
         paragraphs: [
+          'iOSアプリ内決済にはAppleを利用します。認証・配信・障害対応の過程で、外部サービスにIPアドレス等の通信ログが記録される場合があります。',
           '本サービスは、認証、データベースおよびサーバー機能にSupabaseを、決済にStripeを利用します。これらの事業者は、各機能の提供に必要な範囲で情報を取り扱います。決済画面でStripeが取得する情報には、Stripeのプライバシーポリシーが適用されます。',
           '運営者は、法令に基づく場合その他法令上認められる場合を除き、個人データを第三者に提供しません。',
       ],
@@ -39,6 +43,7 @@ const documents = {
       {
         title: '5. 保管・削除・安全管理',
         paragraphs: [
+          'iOSでは設定の「アカウントを削除」から、再認証後にアカウント、プロフィール画像、関連する利用データと権限を削除できます。匿名状態の集計記録、外部決済事業者の記録、法令上必要な情報は残る場合があります。お問い合わせに含まれる情報の削除は窓口でも受け付けます。',
           '運営者は、情報の漏えい、滅失または毀損を防止するため、アクセス制御その他の合理的な安全管理措置を講じます。ただし、インターネット通信および外部サービスに絶対的な安全性があることを保証するものではありません。',
           '端末内データは設定画面の「端末内データをすべて消去」またはアプリの削除により削除できます。アカウントおよび購入情報は、利用目的の達成に必要な期間または法令上必要な期間保存します。',
       ],
@@ -47,7 +52,7 @@ const documents = {
         title: '6. 開示等・改定',
         paragraphs: [
           '保有個人データについて、法令に基づく開示、訂正、利用停止等を希望する場合は、特定商取引法に基づく表記に記載の窓口へ連絡してください。本人確認その他、法令上認められる手続をお願いすることがあります。',
-          '運営者は、法令、サービス内容または取扱方法の変更に応じて本ポリシーを改定できます。重要な変更は、効力発生日を示して本サービス内または公式サイトで告知します。制定日：2026年8月3日／最終改定日：2026年8月11日',
+          '運営者は、法令、サービス内容または取扱方法の変更に応じて本ポリシーを改定できます。重要な変更は、効力発生日を示して本サービス内または公式サイトで告知します。制定日：2026年8月3日／最終改定日：2026年9月9日',
         ],
       },
     ],
@@ -241,6 +246,29 @@ const documents = {
   },
 } as const;
 
+// Retain the existing business, intellectual-property and service-end terms;
+// substitute only the Apple-specific purchase/refund clauses for iOS.
+const iosTermsDocument = {
+  ...documents.terms,
+  lead: '既存利用規約v3.2を基本としたiOS購入特則／2026年9月9日。iOS購入・返金は以下のApple向け条件を適用します。',
+  sections: [
+    ...documents.terms.sections.map(section => section.title === '3. 商品内容・購入・返金'
+      ? { title: section.title, paragraphs: [iosLegal.terms.sections[1].paragraphs[0], documents.terms.sections[2].paragraphs[1], iosLegal.terms.sections[3].paragraphs[0]] }
+      : { ...section, paragraphs: section.paragraphs.map(text => text.replace('GitHub Pages、Stripe、Supabase', 'Apple、Supabase')) }),
+    iosLegal.terms.sections[2],
+  ],
+};
+const iosCommerceDocument = {
+  ...documents.commerce,
+  sections: [
+    { title: '販売価格・追加費用', paragraphs: [iosLegal.commerce.sections[0].paragraphs[0], documents.commerce.sections[0].paragraphs[1]] },
+    { title: '支払方法・提供時期', paragraphs: ['AppleのIn-App Purchaseによる一回払い。購入完了時点から30×24時間、サーバーの購入検証後に完全版を利用できます。反映されない場合は「購入を復元」をお試しください。'] },
+    { title: '取消し・返金・動作環境', paragraphs: [iosLegal.terms.sections[3].paragraphs[0], '対応iOS端末と権限確認のためのインターネット接続が必要です。'] },
+    documents.commerce.sections[3],
+    documents.commerce.sections[4],
+  ],
+};
+
 export function generateStaticParams() {
   return [{ document: 'about' }, ...(Object.keys(documents) as Array<keyof typeof documents>).map((document) => ({ document }))];
 }
@@ -251,7 +279,10 @@ export default function LegalDocumentScreen() {
     document: keyof typeof documents | 'about';
   }>();
   if (document === 'about') return <Redirect href={'/about/shoseijutsu' as Href} />;
-  const content = documents[document as keyof typeof documents];
+  const content = Platform.OS === 'ios' && document !== 'privacy'
+    ? document === 'terms' || document === 'terms-history' ? iosTermsDocument
+      : document === 'commerce' ? iosCommerceDocument : iosLegal[document as keyof typeof iosLegal]
+    : documents[document as keyof typeof documents];
 
   if (!content) {
     return (
@@ -278,7 +309,8 @@ export default function LegalDocumentScreen() {
           ))}
         </View>
       ))}
-      {document === 'terms' ? <Pressable style={styles.historyLink} onPress={() => router.push('/legal/terms-history')}><AppText style={styles.historyText}>利用規約の履歴を見る</AppText></Pressable> : null}
+      {document === 'faq' ? <Pressable accessibilityRole="link" style={styles.historyLink} onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')}><AppText style={styles.historyText}>お問い合わせ：shosezyutsu6@gmail.com</AppText></Pressable> : null}
+      {document === 'terms' && Platform.OS !== 'ios' ? <Pressable style={styles.historyLink} onPress={() => router.push('/legal/terms-history')}><AppText style={styles.historyText}>利用規約の履歴を見る</AppText></Pressable> : null}
       <Pressable style={styles.aboutLink} onPress={() => router.push('/about/shoseijutsu' as Href)}><AppText style={styles.historyText}>処世術禄の思想を読む ›</AppText></Pressable>
     </Screen>
   );

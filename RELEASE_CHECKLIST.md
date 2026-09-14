@@ -1,5 +1,7 @@
 # 処世術禄 リリースチェックリスト
 
+> iOSの現行手順は [IOS_RELEASE.md](docs/IOS_RELEASE.md)、実施済み/未実施の判定は [IOS_VERIFICATION.md](docs/IOS_VERIFICATION.md) を正としてください。以下の過去チェック印や生成画像は、今回のIAP実機確認・ストアスクリーンショット完了を意味しません。
+
 ## リリース前に必ず確定する項目
 
 - [ ] Apple Developer ProgramとGoogle Play Consoleの事業者情報

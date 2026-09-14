@@ -2,7 +2,8 @@ import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
 import { Stack, useLocalSearchParams, usePathname, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { ApplePurchaseObserver } from '@/components/apple-purchase-observer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BookHeader } from '@/components/book-ui';
 import { colors } from '@/constants/theme';
@@ -18,6 +19,12 @@ import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
+
+function KeyboardFrame({ children }: { children: React.ReactNode }) {
+  return Platform.OS === 'ios'
+    ? <KeyboardAvoidingView style={styles.contentColumn} behavior="padding">{children}</KeyboardAvoidingView>
+    : children;
+}
 
 function AppFrame() {
   const reducedMotion = useReducedMotion();
@@ -36,7 +43,9 @@ function AppFrame() {
   // 「無料で始める」. Keep the welcome exception scoped to the root route,
   // while allowing the `(tabs)` home to render its header and navigation.
   const isTabHome = segments[0] === '(tabs)';
-  const isRootWelcome = pathname === '/' && !isTabHome && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
+  // The welcome composition is a Web/PWA marketing entry only. Native starts
+  // at the tab library through index.ios.tsx.
+  const isRootWelcome = Platform.OS === 'web' && pathname === '/' && !isTabHome && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover
@@ -45,6 +54,7 @@ function AppFrame() {
   const appContent = (
     <View style={styles.contentColumn}>
       {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      <KeyboardFrame>
       <RouteTransition disabled={isWelcome}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
@@ -55,10 +65,12 @@ function AppFrame() {
           fullScreenGestureEnabled: true,
         })} />
       </RouteTransition>
+      </KeyboardFrame>
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-  return <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
+  const frame = <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
+  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={isWelcome ? ['top', 'bottom'] : showPersistentNavigation ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
 }
 
 function isFocusedScreen(pathname: string) {
@@ -69,7 +81,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AccessBoundary><AppToastProvider><AppFrame /></AppToastProvider></AccessBoundary></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><ApplePurchaseObserver /><AccessBoundary><AppToastProvider><AppFrame /></AppToastProvider></AccessBoundary></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

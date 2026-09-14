@@ -1,3 +1,5 @@
+allowBuilds:
+  deno: true
 minimumReleaseAgeExclude:
   - '@expo/cli@57.0.10'
   - '@expo/config-plugins@57.0.6'

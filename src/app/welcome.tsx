@@ -31,7 +31,7 @@ const mobileNotes: Array<{ text: string; tone: NoteTone; position: string }> = [
   { text: '知ってる。\nでも行動できない…', tone: 'speech', position: 'noteMobileTwo' },
   { text: '結局どう使えば\nいいの？？', tone: 'speech', position: 'noteMobileThree' },
   { text: 'プレモーテム', tone: 'paper', position: 'noteMobileFour' },
-  { text: '現状維持バイアス', tone: 'ink', position: 'noteMobileFive' },
+  { text: 'ピークエンドの法則', tone: 'paper', position: 'noteMobileFive' },
 ];
 
 export default function Welcome() {
