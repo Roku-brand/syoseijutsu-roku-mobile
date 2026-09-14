@@ -4,18 +4,18 @@
 
 The web build is an Expo Router static export deployed by GitHub Pages. `scripts/generate-seo-assets.mjs` adds canonical metadata, robots directives, JSON-LD, breadcrumbs, and an HTML fallback containing the page's primary content and links after the export. The public catalog built from the checked-in canonical data contains **50 public techniques, 150 public theories, and 26 personas**. The complete-edition source contains 336 techniques and 793 theories; it must not be treated as publicly indexable content merely because a locked client shell has a route.
 
-The canonical host is `https://shoseijutsuroku.com`, without a trailing slash except for `/`. Sitemap URLs, canonical tags, and generated internal links use that convention. Query parameters are never canonical URLs.
+The canonical host is `https://app.shoseijutsuroku.com`, without a trailing slash except for `/`. Sitemap URLs, canonical tags, and generated internal links use that convention. Query parameters are never canonical URLs.
 
 ## URL decision register
 
 | Classification | Route pattern | SEO treatment | Count in this build |
 | --- | --- | --- | --- |
-| A — index | `/`, `/about/shoseijutsu`, `/discover`, `/personas`, `/theories`, `/interpersonal`, `/work`, `/life`, `/app`, `/legal/faq` | Canonical, 200, unique title/description/H1, breadcrumbs and JSON-LD | 10 fixed hubs |
+| A — index | `/`, `/about/shoseijutsu`, `/discover`, `/personas`, `/theories`, `/interpersonal`, `/work`, `/life`, `/app`, `/legal/faq`, `/learn` | Canonical, 200, unique title/description/H1, breadcrumbs and JSON-LD | 11 fixed hubs |
 | A — index | `/subcategory/{interpersonal|work|life}/{persona}` with one or more public techniques | Persona hub | 26 |
 | A — index | `/card/{id}` only where the authoritative public item has a substantive explanation | Individual technique | 50 |
 | A — index | `/theory/{id}` only where the authoritative public theory has a substantive summary | Individual theory | 150 |
 | A — index | `/topic/{slug}` for editorially defined search-intent hubs | Topic hub | 21 |
-| B — noindex | `/auth`, `/my-os`, `/library`, `/history`, `/my-techniques`, `/settings/*`, `/owner/*`, `/learn/*`, `/search*`, `/upgrade`, checkout callback/query URLs | User-specific, operational, learning, payment, or search/filter state; not in sitemap | Route families |
+| B — noindex | `/auth`, `/my-os`, `/library`, `/history`, `/my-techniques`, `/settings/*`, `/owner/*`, `/learn/{caseId}`, `/search*`, `/upgrade`, checkout callback/query URLs | User-specific, operational, individual learning questions, payment, or search/filter state; not in sitemap | Route families |
 | B — noindex | locked `/card/{id}`, locked `/theory/{id}`, unknown routes, `/404`, `/+not-found`, `/catalog` | No standalone public content or compatibility route | Route families |
 | C — redirect | short legacy `/card/master336-1` through `/card/master336-99` when the zero-padded canonical card exists | Client compatibility redirect exists; a real HTTP 301 is not possible on GitHub Pages alone | 336 possible aliases |
 | C — redirect | `/catalog` → `/discover` | Canonical/noindex compatibility page exists; needs edge/server redirect support for HTTP 301 | 1 |
