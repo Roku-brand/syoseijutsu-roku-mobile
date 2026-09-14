@@ -149,7 +149,12 @@ export default function LearningCaseScreen() {
               <AppText style={[styles.resultMarkText, !desktop && styles.resultMarkTextMobile, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextImprove]}>{isBestMove ? '✓' : '×'}</AppText>
             </View>
             <View style={[styles.resultHeading, !desktop && styles.resultHeadingMobile]}>
-              <AppText style={[styles.resultStatusTitle, !desktop && styles.resultStatusTitleMobile, isBestMove ? styles.goodInk : styles.improveInk]}>
+              <AppText
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.82}
+                style={[styles.resultStatusTitle, !desktop && styles.resultStatusTitleMobile, isBestMove ? styles.goodInk : styles.improveInk]}
+              >
                 {isBestMove ? '正解！' : 'おしい！'}
               </AppText>
               <AppText style={[styles.resultStatusCopy, !desktop && styles.resultStatusCopyMobile]}>
@@ -443,9 +448,9 @@ const styles = StyleSheet.create({
   resultMarkTextGood: { color: '#008D43' },
   resultMarkTextImprove: { color: '#C8001E' },
   resultHeading: { minWidth: 240 },
-  resultHeadingMobile: { minWidth: 0, width: 90 },
+  resultHeadingMobile: { minWidth: 0, width: 108, flexShrink: 0 },
   resultStatusTitle: { fontFamily: fonts.serif, fontSize: 37, lineHeight: 47, fontWeight: '700', letterSpacing: 1.5 },
-  resultStatusTitleMobile: { fontSize: 28, lineHeight: 35, letterSpacing: 0.1 },
+  resultStatusTitleMobile: { fontSize: 24, lineHeight: 31, letterSpacing: 0.1 },
   resultStatusCopy: { color: '#17223B', fontFamily: fonts.serif, fontSize: 14, lineHeight: 22, letterSpacing: 0.6 },
   resultStatusCopyMobile: { fontSize: 10.5, lineHeight: 16, letterSpacing: 0.1 },
   goodInk: { color: '#008D43' },
