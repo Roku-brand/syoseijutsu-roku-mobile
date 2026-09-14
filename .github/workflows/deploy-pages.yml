@@ -86,7 +86,15 @@ jobs:
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
       - name: Sync published technique content
-        run: node scripts/import-owner-content.mjs
+        run: |
+          for attempt in 1 2 3; do
+            node scripts/import-owner-content.mjs && exit 0
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            echo "Content sync failed; retrying after 15 seconds (attempt $attempt/3)."
+            sleep 15
+          done
 
       - name: Sync owner operations data
         run: pnpm operations:sync
