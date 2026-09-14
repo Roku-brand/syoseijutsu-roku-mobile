@@ -129,6 +129,7 @@ export function BookHeader() {
   const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
+  const learningCaseHeader = pathname.startsWith('/learn/');
   const primaryTabHeader = segments[0] === '(tabs)';
   const showUpgradeBanner = primaryTabHeader && (accessState === 'guest' || accessState === 'free');
   const handleBack = () => {
@@ -253,8 +254,8 @@ export function BookHeader() {
           <View testID="book-header-actions" style={styles.headerActions}>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="処世術の五大原則を開く"
-              onPress={() => setPrinciplesVisible(true)}
+              accessibilityLabel={learningCaseHeader ? '用語集を開く' : '処世術の五大原則を開く'}
+              onPress={() => learningCaseHeader ? router.push('/theories') : setPrinciplesVisible(true)}
               style={({ pressed }) => [
                 styles.headerAction,
                 lightHeader && styles.headerActionLight,
@@ -262,7 +263,7 @@ export function BookHeader() {
               ]}
             >
               <PrincipleMark />
-              {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>原則</AppText> : null}
+              {!compact || learningCaseHeader ? <AppText style={[styles.headerActionLabel, compact && styles.headerActionLabelCompact, lightHeader && styles.headerActionLabelLight]}>{learningCaseHeader ? '用語集' : '原則'}</AppText> : null}
             </Pressable>
             {!minimalHeaderActions ? (
               <Pressable
@@ -974,6 +975,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
     letterSpacing: 1,
   },
+  headerActionLabelCompact: { fontSize: 8, lineHeight: 11, letterSpacing: 0.4 },
   headerActionLabelLight: { color: colors.gold },
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
   menuMark: { width: 28, height: 27, justifyContent: 'space-between', paddingVertical: 2 },
