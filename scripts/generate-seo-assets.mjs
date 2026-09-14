@@ -11,12 +11,14 @@ const image = `${siteUrl}/og.png`;
 
 const techniqueSource = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.public.json'), 'utf8'));
 const theories = JSON.parse(await readFile(path.join(root, 'src/data/generated/theories.public.json'), 'utf8'));
+const practicalActions = JSON.parse(await readFile(path.join(root, 'src/data/generated/practical-actions.public.json'), 'utf8'));
 const categories = techniqueSource.categories;
 const techniques = categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items.map((item) => ({
   ...item, categoryKey: category.key, categoryName: category.name, persona: persona.name,
 }))));
 const techniqueById = new Map(techniques.map((item) => [item.id, item]));
 const theoryById = new Map(theories.map((item) => [item.tagId, item]));
+const practicalActionsById = new Map(practicalActions.map((item) => [item.id, item]));
 const isPublicTechnique = (item) => Boolean(item && item.status !== 'locked' && item.title !== '完全版の処世術' && item.explanation);
 const isPublicTheory = (item) => Boolean(item && item.title !== '完全版の理論' && item.summary);
 
@@ -89,12 +91,16 @@ function metaFor(rawRoute) {
     '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。'],
     '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。'],
     '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。'],
+    '/interpersonal': ['対人術｜人間関係・会話・信頼を整える処世術', '会話、印象、信頼、距離感、集団での立ち回りまで、人間関係の場面で使う処世術を人物像から体系的に探せます。'],
+    '/work': ['仕事術｜評価・合意・実行を成果へつなげる処世術', '段取り、交渉、評価、組織での立ち回りまで、仕事の場面で使う処世術を人物像から体系的に探せます。'],
+    '/life': ['人生術｜不安・選択・立て直しを整える処世術', '選択、習慣、不安、回復、人生設計まで、日々の判断を整える処世術を人物像から体系的に探せます。'],
+    '/app': ['処世術禄アプリ｜知恵を、迷ったときに使える判断へ', '処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。'],
     '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。'],
     '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。'],
     '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。'],
     '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。'],
   };
-  if (fixed[route]) return { ...base, canonicalRoute: route === '/legal/about' ? '/about/shoseijutsu' : route, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: route !== '/legal/about', type: route === '/about/shoseijutsu' ? 'article' : 'website', pageType: route === '/about/shoseijutsu' ? 'Article' : 'WebPage', crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0], route)] };
+  if (fixed[route]) return { ...base, canonicalRoute: route === '/legal/about' ? '/about/shoseijutsu' : route, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: route !== '/legal/about', type: route === '/about/shoseijutsu' ? 'article' : 'website', pageType: route === '/about/shoseijutsu' ? 'Article' : 'WebPage', crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0].split('｜')[0], route)] };
   const personaMatch = route.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
   if (personaMatch) {
     const category = categories.find((item) => item.key === personaMatch[1]);
@@ -137,6 +143,7 @@ function jsonLd(meta) {
   ];
   if (meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.item.title, description: meta.description, inLanguage: 'ja', about: [meta.item.categoryName, meta.item.persona, ...(meta.item.tags ?? [])], isPartOf: { '@id': `${siteUrl}/#website` } });
   if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.route === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: brand, applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
 
@@ -218,12 +225,28 @@ function shoseijutsuStaticContent(meta) {
 function staticContent(meta) {
   if (!meta.indexable) return meta.route === '/404' || meta.route === '/+not-found' ? '<noscript><main><article><h1>ページが見つかりません</h1><p>URLをご確認いただくか、<a href="/">処世術禄のホーム</a>へ戻ってください。</p></article></main></noscript>' : '';
   if (meta.route === '/about/shoseijutsu') return shoseijutsuStaticContent(meta);
+  if (['/interpersonal', '/work', '/life'].includes(meta.route)) {
+    const categoryKey = meta.route.slice(1);
+    const category = categories.find((item) => item.key === categoryKey);
+    const label = categoryCopy[categoryKey][0];
+    const people = category?.subcategories ?? [];
+    return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(label)}</h1><p>${escape(meta.description)}</p><section><h2>人物像から探す</h2><ul>${people.map((persona) => `<li><a href="/subcategory/${encodeURIComponent(categoryKey)}/${encodeURIComponent(persona.name)}">${escape(persona.articleTitle ?? persona.name)}</a></li>`).join('')}</ul></section><section><h2>理論から、なぜ有効なのかを知る</h2><p>処世術禄では、人物像と個別処世術を、心理学・行動科学などの理論と結び付けて整理しています。</p><a href="/theories">理論一覧を見る</a></section></article></main></noscript>`;
+  }
+  if (meta.route === '/app') return `<noscript><main>${breadcrumbs(meta)}<article><h1>処世術禄アプリ</h1><p>知識を、迷ったときに使える判断へ。処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。</p><p><a href="https://apps.apple.com/app/id6810376658">App Storeで処世術禄を見る</a></p><section><h2>Webで知り、アプリで身につける</h2><ul><li>体系から探す：処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件の無料公開コンテンツを人物像や場面からたどれます。</li><li>保存して戻る：必要だった知恵を保存し、迷ったときに読み返せます。</li><li>ケースで考える：ケース問題を通じて、知識を状況に応じた判断へつなげます。</li></ul></section><section><h2>無料版と完全版</h2><p>無料版では処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件を公開しています。完全版では、正本に収録された処世術${techniques.length}件・理論${theories.length}件と全ケース問題を利用できます。価格・利用条件はアプリ内の完全版画面で確認できます。</p></section><section><h2>大切な注意</h2><p>本アプリは一般的な情報と判断の視点を提供するもので、医療・法律・金融その他の専門的助言を代替しません。</p></section></article></main></noscript>`;
   let body = `<p>${escape(meta.description)}</p>`;
   if (meta.pageType === 'CreativeWork') {
     const paragraphs = String(meta.item.explanation).split(/\n\s*\n/).map(clean).filter(Boolean);
-    body = `<section><h2>本質</h2><p>${escape(clean(meta.item.essence ?? meta.item.subtitle ?? paragraphs[0]))}</p></section><section><h2>原理と解説</h2>${paragraphs.map((text) => `<p>${escape(text)}</p>`).join('')}</section>`;
+    const actions = practicalActionsById.get(meta.item.id);
+    body = `<section><h2>本質</h2><p>${escape(clean(meta.item.essence ?? meta.item.subtitle ?? paragraphs[0]))}</p></section><section><h2>なぜ重要か・どう使うか</h2>${paragraphs.map((text) => `<p>${escape(text)}</p>`).join('')}</section>`;
+    if (actions?.todayActions?.length) body += `<section><h2>今日からできる実践</h2><ul>${actions.todayActions.map((action) => `<li>${escape(action)}</li>`).join('')}</ul></section>`;
+    if (actions?.examples?.length) body += `<section><h2>使う場面の例</h2><ul>${actions.examples.map((example) => `<li>${escape(example)}</li>`).join('')}</ul></section>`;
+    if (actions?.cautions?.length) body += `<section><h2>注意点</h2><ul>${actions.cautions.map((caution) => `<li>${escape(caution)}</li>`).join('')}</ul></section>`;
+    const primary = (meta.item.primaryTheoryIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
     const related = (meta.item.relatedTheoryIds ?? meta.item.theoryTagIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
-    if (related.length) body += `<section><h2>関連する理論</h2><ul>${related.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
+    if (primary.length) body += `<section><h2>主要理論</h2><ul>${primary.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
+    if (related.length) body += `<section><h2>あわせて読む理論</h2><ul>${related.filter((item) => !primary.some((main) => main.tagId === item.tagId)).map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
+    const relatedTechniques = techniques.filter((item) => isPublicTechnique(item) && item.id !== meta.item.id && ((item.relatedTheoryIds ?? item.theoryTagIds ?? []).some((id) => (meta.item.relatedTheoryIds ?? meta.item.theoryTagIds ?? []).includes(id)) || item.persona === meta.item.persona)).slice(0, 6);
+    if (relatedTechniques.length) body += `<section><h2>関連する処世術</h2><ul>${relatedTechniques.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
   } else if (meta.pageType === 'Article') {
     const related = techniques.filter((item) => isPublicTechnique(item) && (item.relatedTheoryIds ?? item.theoryTagIds ?? []).includes(meta.item.tagId)).slice(0, 8);
     const seo = meta.seo ?? theorySeoCopy(meta.item);
@@ -231,10 +254,11 @@ function staticContent(meta) {
     const sourceText = provenance
       ? [provenance.status, provenance.attribution, ...(provenance.works ?? []), provenance.note].filter(Boolean).join('。')
       : '現時点で、特定の提唱者・原典・著作を確実に確認できていません。出典を断定せず、正本に収録された説明の範囲で掲載しています。';
-    body = `<section><h2>${escape(seo.summaryHeading)}</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>この考え方を実生活でどう使う？</h2><p>正本で紐づいている処世術だけを掲載しています。</p><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a><span> — ${escape(item.persona)}</span></li>`).join('')}</ul></section>` : ''}<section><h2>出典・原典</h2><p>${escape(sourceText)}</p></section>`;
+    const relatedTheories = (meta.item.relatedTheoryIds ?? []).map((id) => theoryById.get(id)).filter(isPublicTheory);
+    body = `<section><h2>${escape(seo.summaryHeading)}</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>処世術との関係</h2><p>正本で紐づいている処世術だけを掲載しています。</p><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a><span> — ${escape(item.persona)}</span></li>`).join('')}</ul></section>` : ''}${relatedTheories.length ? `<section><h2>関連する理論</h2><ul>${relatedTheories.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>` : ''}<section><h2>出典・原典</h2><p>${escape(sourceText)}</p></section>`;
   } else if (meta.persona) {
     body += `<section><h2>この人物像を形づくる処世術</h2><ul>${meta.persona.items.filter(isPublicTechnique).map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
-  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/personas?category=interpersonal">対人術</a></li><li><a href="/personas?category=work">仕事術</a></li><li><a href="/personas?category=life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/learn">場面から学ぶ</a></li></ul></section>';
+  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/interpersonal">対人術</a></li><li><a href="/work">仕事術</a></li><li><a href="/life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/app">処世術禄アプリ</a></li></ul></section>';
   const heading = meta.item?.title ?? meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
   return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(heading)}</h1>${body}</article></main></noscript>`;
 }

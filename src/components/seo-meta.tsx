@@ -32,6 +32,10 @@ const fixed: Record<string, [string, string, boolean]> = {
   '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', true],
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
   '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。', true],
+  '/interpersonal': ['対人術｜人間関係・会話・信頼を整える処世術', '会話、印象、信頼、距離感、集団での立ち回りまで、人間関係の場面で使う処世術を人物像から体系的に探せます。', true],
+  '/work': ['仕事術｜評価・合意・実行を成果へつなげる処世術', '段取り、交渉、評価、組織での立ち回りまで、仕事の場面で使う処世術を人物像から体系的に探せます。', true],
+  '/life': ['人生術｜不安・選択・立て直しを整える処世術', '選択、習慣、不安、回復、人生設計まで、日々の判断を整える処世術を人物像から体系的に探せます。', true],
+  '/app': ['処世術禄アプリ｜知恵を、迷ったときに使える判断へ', '処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。', true],
   '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。', true],
   '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。', true],
   '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。', false],
@@ -80,7 +84,9 @@ function getMeta(rawPathname: string): PageMeta {
   };
   if (fixed[pathname]) {
     const [label, description, indexable] = fixed[pathname];
-    return { ...fallback, title: `${label}｜${brand}`, description, indexable, crumbs: [crumb('ホーム', '/'), crumb(label, pathname)] };
+    const title = label.includes('｜') ? `${label}｜${brand}` : `${label}｜${brand}`;
+    const pageType = pathname === '/app' ? 'WebPage' : undefined;
+    return { ...fallback, title, description, indexable, pageType, crumbs: [crumb('ホーム', '/'), crumb(label.split('｜')[0], pathname)] };
   }
   const personaMatch = pathname.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
   if (personaMatch) {
@@ -134,6 +140,7 @@ function setJsonLd(meta: PageMeta) {
   ];
   if (meta.entity && meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.entity.about, isPartOf: { '@id': `${siteUrl}/#website` } });
   if (meta.entity && meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.entity.about, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.canonicalPath === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: '処世術禄', applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   let element = document.head.querySelector<HTMLScriptElement>('script[data-seo-jsonld]');
   if (!element) {
     element = document.createElement('script');
