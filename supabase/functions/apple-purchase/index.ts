@@ -18,7 +18,13 @@ Deno.serve(async request => {
     return json({ verified: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
-    return json({ error: message === 'authentication_required' ? message : 'apple_verification_failed' },
+    const publicErrors = ['authentication_required', 'sandbox_account_not_allowed', 'transaction_ownership_conflict'];
+    // Log only a bounded error category, never credentials or signed receipts.
+    console.error('apple_purchase_failed', {
+      code: publicErrors.includes(message) ? message : 'apple_verification_failed',
+      reason: /^[a-z_]{1,64}$/.test(message) ? message : 'upstream_error',
+    });
+    return json({ error: publicErrors.includes(message) ? message : 'apple_verification_failed' },
       message === 'authentication_required' ? 401 : 400);
   }
 });

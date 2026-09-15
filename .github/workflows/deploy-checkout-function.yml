@@ -2,6 +2,11 @@ name: Deploy payment functions
 
 on:
   workflow_dispatch:
+    inputs:
+      apple_only:
+        description: Deploy only Apple purchase functions
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -21,11 +26,13 @@ jobs:
           # release through GitHub's rate-limited API during CI.
           version: v2.117.0
       - name: Verify deployment settings
+        if: ${{ !inputs.apple_only }}
         run: |
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
           test -n "$SUPABASE_DB_PASSWORD" || { echo 'Missing repository secret: SUPABASE_DB_PASSWORD'; exit 1; }
           test -n "$SUPABASE_URL" || { echo 'Missing repository variable: EXPO_PUBLIC_SUPABASE_URL'; exit 1; }
       - name: Apply database migrations
+        if: ${{ !inputs.apple_only }}
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
@@ -38,6 +45,7 @@ jobs:
           db_url="postgresql://postgres.${project_ref}:${encoded_password}@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres?sslmode=require"
           supabase db push --db-url "$db_url"
       - name: Deploy payment and entitlement functions
+        if: ${{ !inputs.apple_only }}
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
@@ -46,3 +54,5 @@ jobs:
           supabase functions deploy access --project-ref "$project_ref"
           supabase functions deploy paid-content --project-ref "$project_ref"
           supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"
+      - name: Deploy Apple purchase functions
+        run: supabase functions deploy apple-purchase apple-notifications --no-verify-jwt --project-ref psfexomjhivqieehcrzx

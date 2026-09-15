@@ -71,6 +71,10 @@ export function connectAppleStore() {
 async function invoke(body: Record<string, unknown>) {
   if (!supabase) throw new Error('購入機能が設定されていません。');
   const { data, error } = await purchaseTimeout(supabase.functions.invoke('apple-purchase', { body }));
+  const response = error && 'context' in error && error.context instanceof Response
+    ? await error.context.clone().json().catch(() => null) : data;
+  if (response?.error === 'sandbox_account_not_allowed') throw new Error('このアカウントはTestFlight購入のテスト対象に登録されていません。運営に登録を依頼してください。');
+  if (response?.error === 'transaction_ownership_conflict') throw new Error('この購入は別の処世術禄アカウントに紐づいています。購入時のアカウントでログインしてください。');
   if (error || data?.verified !== true) throw new Error('購入を確認できませんでした。同じアカウントで「購入を復元」をお試しください。');
 }
 export async function verifyApplePurchase(purchase: Purchase) {

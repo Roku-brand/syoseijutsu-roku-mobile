@@ -31,7 +31,7 @@ export default function AppleUpgradeScreen() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const fallbackPrice = useMemo(() => `¥${COMPLETE_EDITION_PRICE_JPY}`, []);
-  const price = storePrice || fallbackPrice;
+  const price = fallbackPrice;
 
   const load = () => {
     setMessage('');
@@ -64,7 +64,7 @@ export default function AppleUpgradeScreen() {
     if (!user) { router.push('/auth'); return; }
     setBusy(true); setMessage('購入を確認しています…');
     try { await restoreApplePurchases(); const state = await refreshAccess(); setMessage(state === 'paid' ? '有効な購入を復元しました。' : '有効な購入がありません。購入時と同じアカウントでログインしてください。'); }
-    catch (error) { setMessage(error instanceof Error ? error.message : '購入を復元できませんでした。'); }
+    catch (error) { setMessage(formatApplePurchaseError(error)); }
     finally { setBusy(false); }
   }
 
