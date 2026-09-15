@@ -1,4 +1,3 @@
-import { AppStoreServerAPIClient, Environment } from 'npm:@apple/app-store-server-library@3.1.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { verifyAppleNotification, verifyAppleTransaction } from './apple-jws.ts';
 
@@ -34,22 +33,76 @@ export function appleEnvironmentCandidates(value: unknown): AppleEnvironment[] {
     : ['Production', 'Sandbox'];
 }
 
-function environment(value: AppleEnvironment) {
-  if (value === 'Production') return Environment.PRODUCTION;
-  if (value === 'Sandbox') return Environment.SANDBOX;
-  throw new Error('invalid_environment');
+function base64Url(value: string | Uint8Array) {
+  const bytes = typeof value === 'string' ? new TextEncoder().encode(value) : value;
+  return btoa(String.fromCharCode(...bytes)).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
-function api(value: AppleEnvironment) {
-  return new AppStoreServerAPIClient(required('APPLE_IAP_PRIVATE_KEY').replace(/\\n/g, '\n'),
-    required('APPLE_IAP_KEY_ID'), required('APPLE_IAP_ISSUER_ID'), required('APPLE_BUNDLE_ID'), environment(value));
+
+function pemBytes(value: string) {
+  const encoded = value.replace(/\\n/g, '\n')
+    .replace(/-----BEGIN PRIVATE KEY-----|-----END PRIVATE KEY-----|\s/g, '');
+  if (!encoded) throw new Error('apple_not_configured');
+  return Uint8Array.from(atob(encoded), character => character.charCodeAt(0));
+}
+
+async function authorizationToken() {
+  const now = Math.floor(Date.now() / 1000);
+  const header = base64Url(JSON.stringify({
+    alg: 'ES256',
+    kid: required('APPLE_IAP_KEY_ID'),
+    typ: 'JWT',
+  }));
+  const payload = base64Url(JSON.stringify({
+    iss: required('APPLE_IAP_ISSUER_ID'),
+    iat: now,
+    exp: now + 300,
+    aud: 'appstoreconnect-v1',
+    bid: required('APPLE_BUNDLE_ID'),
+  }));
+  const signingInput = `${header}.${payload}`;
+  // The official Node library rejects Deno's standards-compliant P-256 key
+  // metadata because Deno names the curve "P-256" instead of OpenSSL's
+  // alias "prime256v1". Sign the same Apple JWT with Web Crypto so the key
+  // never leaves the Edge Function and no curve-name alias is involved.
+  const key = await crypto.subtle.importKey('pkcs8', pemBytes(required('APPLE_IAP_PRIVATE_KEY')),
+    { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+  const signature = new Uint8Array(await crypto.subtle.sign(
+    { name: 'ECDSA', hash: 'SHA-256' }, key, new TextEncoder().encode(signingInput),
+  ));
+  return `${signingInput}.${base64Url(signature)}`;
+}
+
+class AppleApiError extends Error {
+  constructor(public httpStatusCode: number, public apiError: number | null) {
+    super(`apple_api_error_${httpStatusCode}${apiError === null ? '' : `_${apiError}`}`);
+    this.name = 'AppleApiError';
+  }
+}
+
+async function transactionInfo(transactionId: string, value: AppleEnvironment) {
+  const host = value === 'Sandbox' ? 'api.storekit-sandbox.apple.com' : 'api.storekit.apple.com';
+  const response = await fetch(`https://${host}/inApps/v1/transactions/${encodeURIComponent(transactionId)}`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${await authorizationToken()}`,
+    },
+  });
+  const body = await response.json().catch(() => ({})) as {
+    signedTransactionInfo?: unknown;
+    errorCode?: unknown;
+  };
+  if (!response.ok) {
+    throw new AppleApiError(response.status, typeof body.errorCode === 'number' ? body.errorCode : null);
+  }
+  if (typeof body.signedTransactionInfo !== 'string') throw new Error('missing_transaction');
+  return body.signedTransactionInfo;
 }
 async function fetchVerifiedTransaction(transactionId: string, environmentHint: unknown) {
   let lastError: unknown = new Error('missing_transaction');
   for (const value of appleEnvironmentCandidates(environmentHint)) {
     try {
-      const response = await api(value).getTransactionInfo(transactionId);
-      if (!response.signedTransactionInfo) throw new Error('missing_transaction');
-      const transaction = verifyAppleTransaction(response.signedTransactionInfo, value,
+      const signedTransactionInfo = await transactionInfo(transactionId, value);
+      const transaction = verifyAppleTransaction(signedTransactionInfo, value,
         required('APPLE_BUNDLE_ID'));
       return { transaction, value };
     } catch (error) {
