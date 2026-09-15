@@ -18,17 +18,37 @@ Deno.serve(async request => {
     return json({ verified: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
-    const detail = error as { status?: unknown; cause?: { code?: unknown }; name?: unknown };
-    const status = typeof detail?.status === 'number' ? detail.status : null;
+    const detail = error as {
+      status?: unknown;
+      statusCode?: unknown;
+      httpStatusCode?: unknown;
+      apiError?: unknown;
+      cause?: { code?: unknown };
+      name?: unknown;
+    };
+    // @apple/app-store-server-library exposes the HTTP response as
+    // `httpStatusCode` (not `status`). Keep all variants so a library update
+    // cannot hide the upstream response again.
+    const status = [detail?.status, detail?.statusCode, detail?.httpStatusCode]
+      .find(value => typeof value === 'number') ?? null;
+    const apiErrorCode = typeof detail?.apiError === 'number' ? detail.apiError : null;
     const cause = typeof detail?.cause?.code === 'string' && /^[A-Za-z0-9_.-]{1,64}$/.test(detail.cause.code)
       ? detail.cause.code : null;
+    const errorName = typeof detail?.name === 'string' && /^[A-Za-z0-9_.-]{1,64}$/.test(detail.name)
+      ? detail.name : null;
+    const errorMessage = error instanceof Error
+      ? error.message.replace(/\s+/g, ' ').slice(0, 160)
+      : null;
     const publicErrors = ['authentication_required', 'sandbox_account_not_allowed', 'transaction_ownership_conflict'];
     // Log only a bounded error category, never credentials or signed receipts.
     console.error('apple_purchase_failed', {
       code: publicErrors.includes(message) ? message : 'apple_verification_failed',
       reason: /^[a-z_]{1,64}$/.test(message) ? message : 'upstream_error',
       status,
+      apiErrorCode,
       cause,
+      errorName,
+      errorMessage,
     });
     return json({ error: publicErrors.includes(message) ? message : 'apple_verification_failed' },
       message === 'authentication_required' ? 401 : 400);
