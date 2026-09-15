@@ -18,11 +18,17 @@ Deno.serve(async request => {
     return json({ verified: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : '';
+    const detail = error as { status?: unknown; cause?: { code?: unknown }; name?: unknown };
+    const status = typeof detail?.status === 'number' ? detail.status : null;
+    const cause = typeof detail?.cause?.code === 'string' && /^[A-Za-z0-9_.-]{1,64}$/.test(detail.cause.code)
+      ? detail.cause.code : null;
     const publicErrors = ['authentication_required', 'sandbox_account_not_allowed', 'transaction_ownership_conflict'];
     // Log only a bounded error category, never credentials or signed receipts.
     console.error('apple_purchase_failed', {
       code: publicErrors.includes(message) ? message : 'apple_verification_failed',
       reason: /^[a-z_]{1,64}$/.test(message) ? message : 'upstream_error',
+      status,
+      cause,
     });
     return json({ error: publicErrors.includes(message) ? message : 'apple_verification_failed' },
       message === 'authentication_required' ? 401 : 400);
