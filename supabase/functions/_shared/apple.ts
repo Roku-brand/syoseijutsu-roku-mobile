@@ -72,7 +72,15 @@ export async function verifyAndRecord(transactionId: string, environmentHint?: u
       || !transaction.appAccountToken) throw new Error('invalid_transaction');
   const owner = transaction.appAccountToken.toLowerCase();
   if (userId && owner !== userId.toLowerCase()) throw new Error('transaction_ownership_conflict');
-  if (value === 'Sandbox' && !required('APPLE_SANDBOX_USER_IDS').toLowerCase().split(',').map(v => v.trim()).includes(owner)) {
+  // Sandbox purchases are already constrained by Apple's signed transaction
+  // and the authenticated appAccountToken above. Do not require a manually
+  // maintained allowlist: app users may create accounts freely, and requiring
+  // their UUID here makes every new TestFlight tester fail until an operator
+  // edits a production secret. If an allowlist is configured, retain it as an
+  // optional extra restriction for private test cohorts.
+  const sandboxUserIds = Deno.env.get('APPLE_SANDBOX_USER_IDS')
+    ?.toLowerCase().split(',').map(v => v.trim()).filter(Boolean) ?? [];
+  if (value === 'Sandbox' && sandboxUserIds.length > 0 && !sandboxUserIds.includes(owner)) {
     throw new Error('sandbox_account_not_allowed');
   }
   const admin = adminClient();
