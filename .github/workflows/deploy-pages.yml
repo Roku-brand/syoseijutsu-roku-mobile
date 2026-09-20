@@ -10,6 +10,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      skip_content_sync:
+        description: 'Build from the committed catalog when Supabase is temporarily unavailable'
+        required: false
+        default: 'false'
+        type: boolean
 
 permissions:
   contents: read
@@ -43,11 +48,10 @@ jobs:
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
           for attempt in 1 2 3; do
-            # A first link can discover that the direct database endpoint is
-            # IPv6-only on the hosted runner. Linking again in the same
-            # workspace lets the CLI persist its IPv4 pooler fallback before
-            # retrying the migration.
-            supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
+            # Keep the password in the documented environment variable. Omitting
+            # --password here lets `link` discover and persist the IPv4 pooler
+            # connection used by GitHub-hosted runners.
+            supabase link --project-ref "$project_ref"
             if supabase db push --linked --include-all; then
               exit 0
             fi
@@ -95,10 +99,12 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Verify content sync setting
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
       - name: Sync published technique content
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
           for attempt in 1 2 3; do
             node scripts/import-owner-content.mjs && exit 0
@@ -110,9 +116,11 @@ jobs:
           done
 
       - name: Sync owner operations data
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: pnpm operations:sync
 
       - name: Recover owner-curated theory links
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: node scripts/recover-owner-theory-links.mjs
 
       - name: Prepare public runtime catalog
@@ -121,6 +129,7 @@ jobs:
           pnpm content:build-public
 
       - name: Prepare and securely sync complete-edition content
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
           pnpm content:split-secure
           pnpm content:sync-paid
