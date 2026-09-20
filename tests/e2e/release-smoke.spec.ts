@@ -901,7 +901,7 @@ test('理論一覧の検索は右上から独立検索ページへ移る', async
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('初頭');
   await input.press('Enter');
-  await expect(page.getByText('初頭効果', { exact: true }).first()).toBeVisible();
+  await expect(page.getByTestId('search-page-results').getByText('初頭効果', { exact: true }).first()).toBeVisible();
 });
 
 test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {

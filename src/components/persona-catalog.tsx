@@ -78,7 +78,8 @@ export function PersonaCard({ entry, variant, gridColumns = 2 }: {
   const presentation = getPersonaPresentation(persona.name);
   const locked = !isPaid && !isFreePersona(persona.name);
   const number = presentation?.number ?? 0;
-  const width = gridColumns === 4 ? '23.8%' : gridColumns === 3 ? '32%' : '48.1%';
+  // Leave enough room for the 12px grid gap even at a 320px viewport.
+  const width = gridColumns === 4 ? '23.8%' : gridColumns === 3 ? '32%' : '47.5%';
 
   const open = () => {
     if (locked) {
