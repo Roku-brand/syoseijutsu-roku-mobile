@@ -1,19 +1,18 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, usePathname, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
-import { getPersonaCount, getPersonaEntries, getPersonaFilterLabel, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
-import { AppText } from '@/components/ui';
-import { colors, fonts, spacing } from '@/constants/theme';
+import { CatalogModeSwitch, CatalogTitleBar } from '@/components/catalog-navigation';
+import { getPersonaEntries, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
+import { colors, spacing } from '@/constants/theme';
 import { categoryOrder } from '@/data/catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export default function PersonasScreen() {
   const params = useLocalSearchParams<{ category?: string }>();
+  const pathname = usePathname();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
-  const narrow = width > 0 && width < 360;
   const browserCategory = Platform.OS === 'web' && typeof window !== 'undefined'
     ? new URLSearchParams(window.location.search).get('category') ?? undefined
     : undefined;
@@ -23,7 +22,7 @@ export default function PersonasScreen() {
     : 'all';
   const [filter, setFilter] = useState<PersonaFilterKey>(initialFilter);
   const personas = getPersonaEntries(filter);
-  const personaCount = getPersonaCount();
+  const columns: 2 | 3 | 4 = width >= 1120 ? 4 : width >= 720 ? 3 : 2;
 
   const selectFilter = (next: PersonaFilterKey) => {
     setFilter(next);
@@ -32,19 +31,10 @@ export default function PersonasScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      <View style={styles.introduction}>
-        <AppText accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>{personaCount}人物像</AppText>
-        <AppText style={styles.subtitle}>{categoryOrder.length}領域・{personaCount}人物像から選ぶ</AppText>
-      </View>
-
-      <View style={styles.filterSection}>
-        <AppText style={styles.filterHeading}>領域から絞り込む</AppText>
+      {pathname === '/discover' ? <CatalogTitleBar title="人物像一覧" searchMode="personas" /> : null}
+      <CatalogModeSwitch active="personas" />
+      <View style={styles.filters}>
         <PersonaFilterBar selected={filter} onSelect={selectFilter} />
-      </View>
-
-      <View style={styles.listHeading}>
-        <AppText accessibilityRole="header" aria-level={2} style={styles.listTitle}>人物像一覧</AppText>
-        <AppText style={styles.listCount}>{getPersonaFilterLabel(filter)}・{personas.length}人物像</AppText>
       </View>
       <View testID="personas-grid" style={styles.grid}>
         {personas.map((entry) => (
@@ -52,9 +42,7 @@ export default function PersonasScreen() {
             key={`${entry.category.key}-${entry.persona.name}`}
             entry={entry}
             variant="grid"
-            compact={compact}
-            narrow={narrow}
-            showCategory
+            gridColumns={columns}
           />
         ))}
       </View>
@@ -63,15 +51,7 @@ export default function PersonasScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { paddingBottom: spacing.xl * 2 },
-  introduction: { paddingVertical: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.line, alignItems: 'center' },
-  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 2.4 },
-  titleCompact: { fontSize: 25, lineHeight: 36 },
-  subtitle: { marginTop: 4, color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, letterSpacing: 0.8 },
-  filterSection: { marginTop: spacing.xl },
-  filterHeading: { marginBottom: 12, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19, letterSpacing: 0.8, textAlign: 'center' },
-  listHeading: { minHeight: 38, marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: spacing.md },
-  listTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, lineHeight: 30, fontWeight: '600', letterSpacing: 1.2 },
-  listCount: { color: colors.gold, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', gap: 12 },
+  content: { width: '100%', maxWidth: 1180, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
+  filters: { marginTop: spacing.lg, paddingBottom: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
+  grid: { width: '100%', marginTop: spacing.lg, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', justifyContent: 'flex-start', gap: 12 },
 });

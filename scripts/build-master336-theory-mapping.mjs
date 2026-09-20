@@ -352,7 +352,7 @@ for (const [cardId, links] of initialLinks) {
   card.relatedTheoryIds = unique;
 }
 
-const displayPrefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q' };
+const displayPrefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'practical-wisdom': 'W', 'classics-thought': 'C', 'maxims-experience': 'Q' };
 const displayIdByTheoryId = new Map();
 const categoryCounts = new Map();
 for (const theory of theories) {
@@ -374,7 +374,7 @@ for (const count of techniqueCounts) {
 }
 
 function relationReason(card, theory) {
-  if (theory.categoryId === 'maxims-experience') {
+  if (theory.categoryId === 'maxims-experience' || theory.categoryId === 'practical-wisdom') {
     return `格言「${theory.title}」が示す判断軸が、この処世術の本質・実践条件・注意点を直接補強するため。`;
   }
   const text = `${card.title} ${card.essence} ${card.explanation}`;

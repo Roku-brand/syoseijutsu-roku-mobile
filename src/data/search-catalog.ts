@@ -1,10 +1,11 @@
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
-import { getTheoryDisplayId, techniqueCards, theories } from '@/data/catalog';
+import { categories, categoryMeta, getTheoryDisplayId, techniqueCards, theories } from '@/data/catalog';
+import { getPersonaPresentation } from '@/data/persona-presentation';
 import { getTechniqueSearchText } from '@/data/technique-tags';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 
-export type BrowseMode = 'techniques' | 'theories';
+export type BrowseMode = 'personas' | 'techniques' | 'theories';
 
 const searchAliases: Record<string, string[]> = {
   友達: ['友達', '人間関係', '関係'],
@@ -27,6 +28,20 @@ export function getSearchKeywords(query: string) {
 
 export function getSearchResults(query: string, isPaid: boolean) {
   const keywords = getSearchKeywords(query);
+  const personaMatches = !keywords.length ? [] : categories
+    .flatMap((category) => category.subcategories.map((persona) => ({ category, persona })))
+    .filter(({ category, persona }) => {
+      const presentation = getPersonaPresentation(persona.name);
+      const source = [
+        persona.name,
+        presentation?.subtitle,
+        category.name,
+        categoryMeta[category.key].label,
+        ...persona.items.slice(0, 8).flatMap((item) => [item.title, item.subtitle, item.essence]),
+      ].filter(Boolean).join(' ').toLocaleLowerCase();
+      return keywords.every((keyword) => matchesKeyword(source, keyword));
+    })
+    .sort((left, right) => (getPersonaPresentation(left.persona.name)?.number ?? 999) - (getPersonaPresentation(right.persona.name)?.number ?? 999));
   const techniqueMatches = !keywords.length ? [] : techniqueCards
     .filter((card) => isPaid || FREE_TECHNIQUE_IDS.has(card.id))
     .filter((card) => keywords.every((keyword) => matchesKeyword(getTechniqueSearchText(card).toLocaleLowerCase(), keyword)));
@@ -44,5 +59,5 @@ export function getSearchResults(query: string, isPaid: boolean) {
       ].filter(Boolean).join(' ').toLocaleLowerCase();
       return keywords.every((keyword) => matchesKeyword(source, keyword));
     });
-  return { keywords, techniqueMatches, theoryMatches };
+  return { keywords, personaMatches, techniqueMatches, theoryMatches };
 }

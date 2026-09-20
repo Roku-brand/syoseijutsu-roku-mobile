@@ -5,6 +5,7 @@ const THEORY_PREFIXES = {
   'behavioral-science': 'B',
   'organization-management': 'O',
   strategy: 'S',
+  'practical-wisdom': 'W',
   'classics-thought': 'C',
   'maxims-experience': 'Q',
 };
