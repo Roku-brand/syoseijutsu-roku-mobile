@@ -42,8 +42,21 @@ jobs:
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
-          supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
-          supabase db push --linked --include-all
+          for attempt in 1 2 3; do
+            # A first link can discover that the direct database endpoint is
+            # IPv6-only on the hosted runner. Linking again in the same
+            # workspace lets the CLI persist its IPv4 pooler fallback before
+            # retrying the migration.
+            supabase link --project-ref "$project_ref" --password "$SUPABASE_DB_PASSWORD"
+            if supabase db push --linked --include-all; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            echo "Database migration failed; relinking for IPv4 and retrying (attempt $attempt/3)."
+            sleep 5
+          done
       - name: Deploy backend functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
