@@ -40,6 +40,16 @@ function notifyError(message: string) {
   }
 }
 
+async function belongsToCurrentAppAccount(purchase: Purchase) {
+  // StoreKit replays unfinished transactions whenever the connection opens.
+  // A transaction belongs to the app account selected when its purchase was
+  // initiated, not necessarily the account currently shown on screen. Do not
+  // turn that replay into a misleading failure of a new purchase attempt.
+  if (!('appAccountToken' in purchase) || !purchase.appAccountToken) return true;
+  const userId = (await supabase?.auth.getSession())?.data.session?.user?.id;
+  return userId?.toLowerCase() === purchase.appAccountToken.toLowerCase();
+}
+
 function ensurePurchaseListeners() {
   if (nativeListeners) return;
   const updated = purchaseUpdatedListener(purchase => {
@@ -48,7 +58,12 @@ function ensurePurchaseListeners() {
       notifyError('購入は承認待ちです。承認後に反映されます。');
       return;
     }
-    void verifyApplePurchase(purchase).then(notifyVerified).catch(error => notifyError(formatApplePurchaseError(error)));
+    void belongsToCurrentAppAccount(purchase).then(matches => {
+      // Leave another account's transaction in StoreKit for its rightful
+      // owner. Finishing it here could permanently hide a valid purchase.
+      if (!matches) return;
+      return verifyApplePurchase(purchase).then(notifyVerified).catch(error => notifyError(formatApplePurchaseError(error)));
+    }).catch(error => notifyError(formatApplePurchaseError(error)));
   }, { dedupeTransactionIOS: false });
   const failed = purchaseErrorListener(error => notifyError(
     String(error.code).includes('cancel')
@@ -132,8 +147,7 @@ export async function restoreApplePurchases() {
   for (const purchase of purchases) {
     if (purchase.productId !== appleProductId) continue;
     // Ignore another app account's StoreKit history; never reassign ownership.
-    const user = (await supabase?.auth.getSession())?.data.session?.user;
-    if ('appAccountToken' in purchase && purchase.appAccountToken?.toLowerCase() !== user?.id.toLowerCase()) continue;
+    if (!await belongsToCurrentAppAccount(purchase)) continue;
     await verifyApplePurchase(purchase);
   }
   await invoke({ restore: true });
