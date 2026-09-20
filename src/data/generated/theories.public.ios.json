@@ -6453,6 +6453,33 @@
     "relatedTheoryIds": []
   },
   {
+    "tagId": "kb_330",
+    "title": "『Done is better than perfect』",
+    "summary": "",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_331",
+    "title": "『環境は意志より強い』",
+    "summary": "",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_338",
+    "title": "『自分の人生を他人のハイライトと比べない』",
+    "summary": "",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "status": "locked"
+  },
+  {
     "tagId": "kb_706",
     "title": "ダニング＝クルーガー効果",
     "aliases": [
