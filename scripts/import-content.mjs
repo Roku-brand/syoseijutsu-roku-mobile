@@ -72,6 +72,7 @@ const theoryCategoryIds = new Map([
   ['行動科学', 'behavioral-science'],
   ['組織・経営論', 'organization-management'],
   ['戦略論', 'strategy'],
+  ['実践知', 'practical-wisdom'],
   ['古典・思想', 'classics-thought'],
   ['格言・経験則・作品', 'maxims-experience'],
 ]);

@@ -7,7 +7,8 @@ export const FREE_TECHNIQUE_COUNT = contentScope.free.techniques;
 export const FREE_THEORY_COUNT = contentScope.free.theories;
 export const EXCLUDED_TECHNIQUE_ID_SET = new Set<string>(contentScope.excludedTechniqueIds);
 
-const freePersonaNames = categories.flatMap((category) => category.subcategories.slice(0, 2).map((group) => group.name));
+const orderedPersonaNames = categories.flatMap((category) => category.subcategories.map((group) => group.name));
+const freePersonaNames = orderedPersonaNames.filter((name) => ['印象がいい人', '人たらしの人'].includes(name));
 export const FREE_PERSONA_NAMES = freePersonaNames as readonly string[];
 export const FREE_PERSONA_NAME_SET = new Set<string>(FREE_PERSONA_NAMES);
 

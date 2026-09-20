@@ -11,7 +11,7 @@ const catalog = JSON.parse(fs.readFileSync(techniquesPath, 'utf8'));
 const theories = JSON.parse(fs.readFileSync(theoriesPath, 'utf8'));
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
 const theoryByDisplayId = new Map();
-const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q' };
+const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'practical-wisdom': 'W', 'classics-thought': 'C', 'maxims-experience': 'Q' };
 const counts = new Map();
 for (const theory of theories) {
   const next = (counts.get(theory.categoryId) ?? 0) + 1;

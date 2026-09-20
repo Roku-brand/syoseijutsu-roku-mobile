@@ -76,10 +76,15 @@
       "linkedTheories": 59,
       "links": 171
     },
+    "practical-wisdom": {
+      "theories": 3,
+      "linkedTheories": 3,
+      "links": 7
+    },
     "maxims-experience": {
-      "theories": 76,
-      "linkedTheories": 76,
-      "links": 207
+      "theories": 73,
+      "linkedTheories": 73,
+      "links": 200
     }
   },
   "generatedAt": "2026-09-08",
