@@ -42,7 +42,7 @@ for (const item of additions) {
 const displayMap = mapTheoryDisplayIds(theories);
 const selectedDisplayIds = scope.freeTheoryDisplayIds.filter((id) => freeTheoryIds.has(displayMap.get(id)?.tagId));
 if (selectedDisplayIds.length !== scope.free.theories) throw new Error(`Expected ${scope.free.theories} free theories; found ${selectedDisplayIds.length}.`);
-const expectedTheoryCategoryCounts = { P: 45, B: 25, O: 20, S: 15, C: 35, Q: 10 };
+const expectedTheoryCategoryCounts = { P: 45, B: 25, O: 20, S: 15, W: 1, C: 35, Q: 9 };
 for (const [prefix, expected] of Object.entries(expectedTheoryCategoryCounts)) {
   const actual = selectedDisplayIds.filter((id) => id.startsWith(`${prefix}-`)).length;
   if (actual !== expected) throw new Error(`Free theory portfolio ${prefix} count is ${actual}; expected ${expected}.`);

@@ -1,7 +1,7 @@
 import type { TheoryCard } from './types';
 export const theoryCategories = [
  ['psychology', '心理学'], ['behavioral-science', '行動科学'], ['organization-management', '組織・経営論'],
- ['strategy', '戦略論'], ['classics-thought', '古典・思想'], ['maxims-experience', '格言・経験則・作品'],
+ ['strategy', '戦略論'], ['practical-wisdom', '実践知'], ['classics-thought', '古典・思想'], ['maxims-experience', '格言'],
 ] as const;
 export function validateTheoryForPublish(theory: Omit<TheoryCard, 'status'>): string[] {
  const errors: string[] = [];

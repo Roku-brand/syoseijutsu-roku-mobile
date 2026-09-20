@@ -1,22 +1,23 @@
 import { useRouter } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, fonts, radius } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
 
-export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'classics-thought' | 'maxims-experience';
+export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'practical-wisdom' | 'classics-thought' | 'maxims-experience';
 
 export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }> = [
   { key: 'all', label: 'すべて' },
   { key: 'psychology', label: '心理学' },
   { key: 'behavioral-science', label: '行動科学' },
-  { key: 'organization-management', label: '組織・経営' },
+  { key: 'organization-management', label: '組織・経営論' },
   { key: 'strategy', label: '戦略論' },
+  { key: 'practical-wisdom', label: '実践知' },
   { key: 'classics-thought', label: '古典・思想' },
   { key: 'maxims-experience', label: '格言' },
 ];
@@ -26,7 +27,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
   onSelect: (filter: TheoryFilterKey) => void;
 }) {
   return (
-    <ScrollView horizontal testID="theory-category-filters" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
+    <View testID="theory-category-filters" style={styles.filterRow}>
       {theoryFilterOptions.map((option) => {
         const active = selected === option.key;
         return (
@@ -43,7 +44,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
           </Pressable>
         );
       })}
-    </ScrollView>
+    </View>
   );
 }
 
@@ -74,11 +75,11 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterRow: { minWidth: '100%', gap: 12, paddingHorizontal: 2, paddingVertical: 2 },
-  filterButton: { width: 143, minWidth: 143, minHeight: 52, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { borderColor: '#10263F', backgroundColor: '#10263F' },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
-  filterTextActive: { color: colors.goldLight },
+  filterRow: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 10, paddingHorizontal: 1, paddingVertical: 2 },
+  filterButton: { width: '22%', minHeight: 52, paddingHorizontal: 2, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
+  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, fontWeight: '600' },
+  filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },
   cardPressed: { opacity: 0.84, transform: [{ translateY: -1 }] },

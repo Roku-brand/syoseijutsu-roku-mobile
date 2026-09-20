@@ -231,7 +231,7 @@ const linkReviewSummary = {
   distribution: countDistribution(techniques.map((item) => item.relatedTheoryIds.length)),
   primaryDistribution: countDistribution(techniques.map((item) => item.primaryTheoryIds.length)),
   supplementaryDistribution: countDistribution(techniques.map((item) => item.relatedTheoryIds.length - item.primaryTheoryIds.length)),
-  wisdomSupportLinks: techniques.reduce((sum, item) => sum + item.relatedTheoryIds.filter((id) => ['classics-thought', 'maxims-experience'].includes(theories.find((theory) => theory.tagId === id)?.categoryId)).length, 0),
+  wisdomSupportLinks: techniques.reduce((sum, item) => sum + item.relatedTheoryIds.filter((id) => ['practical-wisdom', 'classics-thought', 'maxims-experience'].includes(theories.find((theory) => theory.tagId === id)?.categoryId)).length, 0),
   categoryCoverage,
   generatedAt: new Date().toISOString().slice(0, 10),
 };

@@ -19,7 +19,8 @@ export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; catego
   const displayLabels: Record<string, string> = {
     'maxims-experience': '格言',
     'organization-management': '組織・経営論',
-    'classics-thought': '古典',
+    'practical-wisdom': '実践知',
+    'classics-thought': '古典・思想',
   };
   if (displayLabels[theory.categoryId]) return displayLabels[theory.categoryId];
   return normalizeDisplayText(theory.categoryTitle);
