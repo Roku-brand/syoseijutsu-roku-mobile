@@ -1,10 +1,9 @@
-import { Link, useLocalSearchParams, usePathname, useRouter } from 'expo-router';
+import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
-import { CatalogModeSwitch, CatalogTitleBar } from '@/components/catalog-navigation';
 import { TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -33,7 +32,6 @@ function pageItems(current: number, total: number): Array<number | 'ellipsis'> {
 
 export default function TheoryIndexScreen() {
   const params = useLocalSearchParams<{ category?: string; page?: string }>();
-  const pathname = usePathname();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
@@ -66,8 +64,6 @@ export default function TheoryIndexScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      {pathname === '/discover' ? <CatalogTitleBar title="理論一覧" searchMode="theories" /> : null}
-      <CatalogModeSwitch active="theories" />
       <View style={styles.filters}>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
       </View>

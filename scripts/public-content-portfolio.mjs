@@ -14,6 +14,7 @@ export const COMPLETE_TECHNIQUE_COUNT = scope.complete.techniques;
 export const COMPLETE_THEORY_COUNT = scope.complete.theories;
 export const FREE_TECHNIQUE_COUNT = scope.free.techniques;
 export const FREE_THEORY_COUNT = scope.free.theories;
+export const FREE_PERSONA_NAMES = scope.free.personas;
 export const EXCLUDED_TECHNIQUE_IDS = new Set(scope.excludedTechniqueIds);
 export const FREE_THEORY_DISPLAY_IDS = scope.freeTheoryDisplayIds;
 

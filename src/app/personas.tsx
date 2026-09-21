@@ -1,8 +1,7 @@
-import { useLocalSearchParams, usePathname, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
-import { CatalogModeSwitch, CatalogTitleBar } from '@/components/catalog-navigation';
 import { getPersonaEntries, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
 import { colors, spacing } from '@/constants/theme';
 import { categoryOrder } from '@/data/catalog';
@@ -10,7 +9,6 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 
 export default function PersonasScreen() {
   const params = useLocalSearchParams<{ category?: string }>();
-  const pathname = usePathname();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const browserCategory = Platform.OS === 'web' && typeof window !== 'undefined'
@@ -31,8 +29,6 @@ export default function PersonasScreen() {
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
-      {pathname === '/discover' ? <CatalogTitleBar title="人物像一覧" searchMode="personas" /> : null}
-      <CatalogModeSwitch active="personas" />
       <View style={styles.filters}>
         <PersonaFilterBar selected={filter} onSelect={selectFilter} />
       </View>
