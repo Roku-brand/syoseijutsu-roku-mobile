@@ -76,16 +76,10 @@ function rebuildIndexes() {
   theoryById.clear();
   theories.forEach((theory) => theoryById.set(theory.tagId, theory));
 
-  const prefixes: Record<string, string> = {
-    psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O',
-    strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q',
-  };
-  const counts = new Map<string, number>();
   theoryDisplayIdByTagId.clear();
-  theories.forEach((theory) => {
-    const next = (counts.get(theory.categoryId) ?? 0) + 1;
-    counts.set(theory.categoryId, next);
-    theoryDisplayIdByTagId.set(theory.tagId, `${prefixes[theory.categoryId] ?? '理'}－${next}`);
+  theories.forEach((theory, index) => {
+    const canonicalNumber = theory.tagId.match(/^kb_(\d+)$/)?.[1];
+    theoryDisplayIdByTagId.set(theory.tagId, `T-${String(canonicalNumber ?? index + 1).padStart(3, '0')}`);
   });
 }
 

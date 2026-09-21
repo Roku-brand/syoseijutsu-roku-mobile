@@ -31,6 +31,7 @@ import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { upgradeRoute } from '@/navigation/app-routes';
+import { SearchMark } from './search-mark';
 
 const appIcon = require('../../assets/brand/icon.png');
 
@@ -130,6 +131,7 @@ export function BookHeader() {
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
   const learningCaseHeader = pathname.startsWith('/learn/');
+  const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
   const primaryTabHeader = segments[0] === '(tabs)';
   const showUpgradeBanner = primaryTabHeader && (accessState === 'guest' || accessState === 'free');
   const handleBack = () => {
@@ -239,6 +241,8 @@ export function BookHeader() {
           <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
             <AppText
               testID={personaHeader ? 'persona-header-title' : undefined}
+              accessibilityRole="header"
+              aria-level={1}
               numberOfLines={compact && personaHeader ? 2 : 1}
               adjustsFontSizeToFit={compact && personaHeader}
               minimumFontScale={0.82}
@@ -250,6 +254,18 @@ export function BookHeader() {
 
         {detail ? (
           <DetailHeaderActions detail={detail} compact={compact} />
+        ) : catalogueSearchMode ? (
+          <View testID="book-header-actions" style={styles.headerActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${currentTitle}を検索`}
+              onPress={() => router.push({ pathname: '/search', params: { mode: catalogueSearchMode } })}
+              style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
+            >
+              <SearchMark size={24} color={colors.gold} />
+              {!compact ? <AppText style={[styles.headerActionLabel, styles.headerActionLabelLight]}>検索</AppText> : null}
+            </Pressable>
+          </View>
         ) : (
           <View testID="book-header-actions" style={styles.headerActions}>
             <Pressable

@@ -201,7 +201,7 @@ export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: Theo
         </View>
         <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile, longMobileTitle && styles.theoryTitleMobileLong]}>{theory.title}</Text>
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
-        <Text style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
+        <Text numberOfLines={desktop ? undefined : 3} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
         <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
       </View>
     </SlideShell>
@@ -635,7 +635,7 @@ const styles = StyleSheet.create({
   personaCountLabel: { color: '#6D6253', fontFamily: fonts.serif, fontSize: 12 },
   theoryFrame: { borderColor: 'rgba(197,154,69,0.55)', borderRadius: 14, borderWidth: 1, bottom: 10, left: 10, position: 'absolute', right: 10, top: 10 },
   theoryCopy: { alignSelf: 'center', justifyContent: 'center', maxWidth: 860, minHeight: 380, paddingHorizontal: 48, paddingVertical: 32, width: '100%' },
-  theoryCopyMobile: { flex: 1, minHeight: 236, paddingHorizontal: 34, paddingVertical: 17 },
+  theoryCopyMobile: { flex: 1, minHeight: 0, paddingHorizontal: 34, paddingVertical: 12 },
   theoryMetaRow: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'space-between' },
   theoryCategory: { color: '#DDBD75', fontFamily: fonts.serif, fontSize: 12, marginTop: 7 },
   theoryId: { borderColor: '#A77D31', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 12, paddingHorizontal: 15, paddingVertical: 7 },
