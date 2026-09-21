@@ -30,7 +30,7 @@ test('owner operations routes do not expose operational data to signed-out users
 
 test('welcome presents both entry actions on desktop and mobile', async ({ page }) => {
   const assertWelcomeFits = async () => {
-    await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
     const purchase = page.getByRole('button', { name: 'すべての内容を見る' });
     const free = page.getByRole('button', { name: '無料で始める' });
     await free.scrollIntoViewIfNeeded();
@@ -271,8 +271,8 @@ test('persona technique menu leaves saving to each technique detail', async ({ p
 
 test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
-  await expect(page.getByText(/流れていく知恵を、/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
+  await expect(page.getByText(/聞いたことがある、/)).toBeVisible();
   await startFreeHome(page);
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
@@ -283,7 +283,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   await page.goto('/');
-  await expect(page.getByText(/人生をうまく生きる/)).toBeVisible();
+  await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
 });
 
 test('主要4タブは重複するヘッダー名を省き、無料版の完全版購入バナーを表示する', async ({ page }) => {

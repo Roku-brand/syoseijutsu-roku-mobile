@@ -7,8 +7,8 @@ import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
 
 const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
-const homeTitle = '処世術禄｜人生をうまく生きる方法を、すべての人へ。';
-const homeDescription = '聞いたことがある、で終わらせない。心理学・行動科学などの理論と紐づけ、体系化した処世術を、人生・仕事・人間関係に使える知恵として届けます。';
+const homeTitle = '処世術禄｜処世術を人生・仕事・人間関係に使える体系へ';
+const homeDescription = '処世術を、人間関係・仕事・人生で使える知恵へ。心理学・行動科学などの理論と結びつけ、流れていく知恵を何度でも使える体系として届けます。';
 const image = `${siteUrl}/og.png`;
 
 type PageMeta = {
@@ -37,7 +37,7 @@ const fixed: Record<string, [string, string, boolean]> = {
   '/life': ['人生術｜不安・選択・立て直しを整える処世術', '選択、習慣、不安、回復、人生設計まで、日々の判断を整える処世術を人物像から体系的に探せます。', true],
   '/app': ['処世術禄アプリ｜知恵を、迷ったときに使える判断へ', '処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。', true],
   '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。', true],
-  '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。', true],
+  '/about/shoseijutsu': ['処世術とは｜意味・必要性・身につけ方をわかりやすく解説', '処世術とは、社会の中で人や状況とうまく関わり、自分の目的や生活を成り立たせるための知恵や方法です。言葉の意味、人を操る技術との違い、必要性、身につけ方を具体例とともに解説します。', true],
   '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。', false],
   '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。', true],
 };
@@ -66,14 +66,14 @@ function getMeta(rawPathname: string): PageMeta {
   };
   if (pathname === '/about/shoseijutsu') return {
     ...fallback,
-    title: '処世術とは？意味・考え方と処世術禄の五大原則｜処世術禄',
-    description: '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。',
+    title: '処世術とは｜意味・必要性・身につけ方をわかりやすく解説｜処世術禄',
+    description: '処世術とは、社会の中で人や状況とうまく関わり、自分の目的や生活を成り立たせるための知恵や方法です。言葉の意味、人を操る技術との違い、必要性、身につけ方を具体例とともに解説します。',
     indexable: true,
     type: 'article',
     pageType: 'Article',
     canonicalPath: pathname,
-    entity: { headline: '処世術とは？意味・考え方と処世術禄の五大原則', description: '処世術の意味・必要性と、処世術禄の思想を紹介します。', about: ['処世術', '処世術禄', '人生', '人間関係', '仕事'] },
-    crumbs: [crumb('ホーム', '/'), crumb('処世術禄について', pathname)],
+    entity: { headline: '処世術とは｜意味・必要性・身につけ方', description: '処世術の意味、人を操る技術との違い、必要性、身につけ方を解説します。', about: ['処世術', '世渡り', '人間関係', '仕事', '人生'] },
+    crumbs: [crumb('ホーム', '/'), crumb('処世術とは', pathname)],
   };
   if (pathname === '/legal/about') return {
     ...fallback,
@@ -139,7 +139,8 @@ function setJsonLd(meta: PageMeta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.path) })) },
   ];
   if (meta.entity && meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.entity.about, isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.entity && meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.entity.about, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.entity && meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.canonicalPath === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.entity.about, dateModified: meta.canonicalPath === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.canonicalPath === '/about/shoseijutsu') graph.push({ '@type': 'DefinedTerm', '@id': `${url}#term`, url, name: '処世術', alternateName: ['世渡り術', '処世の知恵'], description: '社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法。' });
   if (meta.canonicalPath === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: '処世術禄', applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   let element = document.head.querySelector<HTMLScriptElement>('script[data-seo-jsonld]');
   if (!element) {

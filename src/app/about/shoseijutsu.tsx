@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Link, useRouter, type Href } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
@@ -6,9 +6,8 @@ import { colors, fonts } from '@/constants/theme';
 
 const chapters = [
   {
-    title: '処世術とは',
+    title: '処世術の意味',
     paragraphs: [
-      '処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。',
       '「処世」は世の中で暮らしていくこと、「術」はそのための方法や技術を意味します。',
       '一般には、人間関係の築き方、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処、適切な距離の取り方など、社会生活を円滑にする幅広い知恵を指します。',
       '処世術という言葉には、ときに「要領よく立ち回る」「世渡りをする」といった意味合いもあります。しかし、本来扱える範囲はそれだけではありません。',
@@ -50,6 +49,13 @@ const pillars = [
   ['05', '何度でも使える', 'SNSや動画で偶然知った知識は、その場では納得しても、必要なときには思い出せないことがあります。処世術禄は、知識を一度消費して終わるものではなく、判断に迷ったときに何度でも戻ってこられる形で残します。必要なときに探し、読み返し、自分の判断に使う。流れて消える知識ではなく、蓄積される知恵にする。それが、処世術禄の役割です。'],
 ] as const;
 
+const learningPaths = [
+  { title: '人間関係の処世術', description: '会話・信頼・距離感を整える', href: '/interpersonal' },
+  { title: '仕事の処世術', description: '評価・合意・実行を成果につなげる', href: '/work' },
+  { title: '人生の処世術', description: '選択・不安・立て直しの軸を持つ', href: '/life' },
+  { title: '処世術を支える理論', description: '心理学・行動科学などから理解する', href: '/theories' },
+] as const satisfies ReadonlyArray<{ title: string; description: string; href: Href }>;
+
 const principles = [
   ['01', '処世術は好かれない', 'メタ発言抑制', '処世術そのものを過度に語ったり、「自分はこういう技術を使っている」とメタに説明した瞬間、自然な関係性や信頼が崩れることがある。処世術は思想として誇示するものではなく、必要な場面で静かに使うためのもの、という意味です。'],
   ['02', '処世術は万能ではない', 'コンテクスト依存性', '一つの方法を絶対視しないことが必要です。相手、場面、立場、力関係、時間軸、文化、目的が変われば、同じ行動でも意味や結果が変わります。処世術禄が「唯一の正解」を提示しないのは、そのためです。'],
@@ -71,16 +77,15 @@ export default function ShoseijutsuAboutScreen() {
   return (
     <Screen contentContainerStyle={styles.screenContent}>
       <View style={styles.article}>
-        <SeoBreadcrumbs items={[{ label: 'ホーム', href: '/' }, { label: '処世術禄について' }]} />
+        <SeoBreadcrumbs items={[{ label: 'ホーム', href: '/' }, { label: '処世術とは' }]} />
 
         <View style={styles.hero}>
-          <AppText style={styles.kicker}>処世術禄について</AppText>
-          <AppText accessibilityRole="header" style={styles.heroTitle}>人生をうまく生きる方法を、すべての人へ。</AppText>
-          <Paragraph>人生には、学校では教わらないことが多くあります。人との距離の取り方。信頼の築き方。仕事の進め方。失敗との付き合い方。自分自身の扱い方。</Paragraph>
-          <Paragraph>私たちは、こうした知恵を「なんとなく分かっていること」のまま流してしまいます。</Paragraph>
-          <Paragraph>処世術禄は、それらを集め、整理し、理論と結びつけ、必要なときに取り出して使える知恵へ変えるための場所です。</Paragraph>
-          <Paragraph emphasis>聞いたことがある、で終わらせない。</Paragraph>
-          <Paragraph>流れて消える人生の知識を、何度でも使える知恵に変える。それが、処世術禄の役割です。</Paragraph>
+          <AppText style={styles.kicker}>意味・必要性・身につけ方</AppText>
+          <AppText accessibilityRole="header" aria-level={1} style={styles.heroTitle}>処世術とは</AppText>
+          <AppText style={styles.heroDefinition}>処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。</AppText>
+          <Paragraph>人間関係、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処など、社会生活をよりよくする幅広い知恵を含みます。</Paragraph>
+          <Paragraph emphasis>流れていく知恵を、ここで使える体系にする。</Paragraph>
+          <Paragraph>聞いたことがある、で終わらせない。処世術禄は、散らばった知恵を整理し、必要なときに取り出して使える形へ変える場所です。</Paragraph>
         </View>
 
         {chapters.map((chapter) => (
@@ -91,6 +96,24 @@ export default function ShoseijutsuAboutScreen() {
             <Paragraph>{chapter.closing}</Paragraph>
           </View>
         ))}
+
+        <View style={styles.chapter}>
+          <Heading>場面別に処世術を学ぶ</Heading>
+          <Paragraph>処世術は、置かれた場面によって使い方が変わります。今の課題に近い入口から、具体的な方法とその背景にある理論をたどれます。</Paragraph>
+          <View style={styles.learningLinks}>
+            {learningPaths.map((item) => (
+              <Link key={item.href} href={item.href} asChild>
+                <Pressable accessibilityRole="link" style={({ pressed }) => [styles.learningLink, pressed && styles.pressed]}>
+                  <View style={styles.learningLinkCopy}>
+                    <AppText style={styles.learningLinkTitle}>{item.title}</AppText>
+                    <AppText style={styles.learningLinkDescription}>{item.description}</AppText>
+                  </View>
+                  <AppText style={styles.learningLinkArrow}>›</AppText>
+                </Pressable>
+              </Link>
+            ))}
+          </View>
+        </View>
 
         <View style={styles.chapter}>
           <Heading>なぜ、処世術禄なのか</Heading>
@@ -152,8 +175,8 @@ export default function ShoseijutsuAboutScreen() {
           <Paragraph>状況を見て、考え、自分で選べることです。</Paragraph>
           <Paragraph>処世術禄が作ろうとしているのは、いわば人生をうまく生きるための思考のOSです。</Paragraph>
           <Paragraph>判断に迷ったとき、戻ってこられる場所。必要な知恵を探し、なぜそうするのかまで理解できる場所。</Paragraph>
-          <Paragraph emphasis>人生をうまく生きる方法を、すべての人へ。</Paragraph>
-          <Paragraph>処世術禄は、そのための知恵を編み続けます。</Paragraph>
+          <Paragraph emphasis>流れていく知恵を、ここで使える体系にする。</Paragraph>
+          <Paragraph>聞いたことがある、で終わらせない。処世術禄は、そのための知恵を編み続けます。</Paragraph>
         </View>
 
         <View style={styles.chapter}>
@@ -183,6 +206,7 @@ const styles = StyleSheet.create({
   hero: { paddingTop: 18, paddingBottom: 34, borderBottomWidth: 1, borderBottomColor: colors.line },
   kicker: { color: colors.gold, fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, letterSpacing: 2.2, fontWeight: '700' },
   heroTitle: { marginTop: 18, marginBottom: 28, color: colors.ink, fontFamily: fonts.serif, fontSize: 32, lineHeight: 48, fontWeight: '700' },
+  heroDefinition: { marginBottom: 22, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 36, fontWeight: '700' },
   chapter: { paddingTop: 58, paddingBottom: 10 },
   h2: { marginBottom: 22, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, fontWeight: '700' },
   h3: { marginTop: 2, marginBottom: 10, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 30, fontWeight: '700' },
@@ -197,6 +221,12 @@ const styles = StyleSheet.create({
   concept: { marginBottom: 14, color: colors.gold, fontFamily: fonts.sans, fontSize: 12, lineHeight: 19, letterSpacing: 1.1 },
   motto: { marginTop: 28, paddingVertical: 23, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.gold },
   mottoText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 32, letterSpacing: 1.6, textAlign: 'center' },
+  learningLinks: { marginTop: 14, borderTopWidth: 1, borderTopColor: colors.line },
+  learningLink: { minHeight: 82, paddingVertical: 16, paddingHorizontal: 2, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
+  learningLinkCopy: { flex: 1, minWidth: 0, paddingRight: 18 },
+  learningLinkTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 28, fontWeight: '700' },
+  learningLinkDescription: { marginTop: 3, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22 },
+  learningLinkArrow: { color: colors.gold, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
   notice: { marginTop: 52, paddingTop: 28, borderTopWidth: 1, borderTopColor: colors.line },
   noticeParagraph: { fontSize: 14, lineHeight: 25 },
   settingsLink: { alignSelf: 'flex-start', marginTop: 32, paddingVertical: 10, paddingHorizontal: 2 },
