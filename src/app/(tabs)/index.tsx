@@ -41,6 +41,7 @@ export default function HomeScreen() {
     hydrated,
     savedIds,
     savedTheoryIds,
+    historyIds,
     toggleSaved,
     toggleSavedTheory,
     homeWelcomePending,
@@ -62,21 +63,43 @@ export default function HomeScreen() {
   }, []);
 
   const trendingContent = useMemo<HomeContent[]>(() => {
-    if (!trending) return [];
     const techniques = new Map(techniqueCards.map((card) => [card.id, card]));
     const theoryLookup = new Map(theories.map((card) => [card.tagId, card]));
     const result: HomeContent[] = [];
-    trending.forEach((item) => {
+    const seen = new Set<string>();
+    const append = (item: TrendingContent) => {
+      const key = `${item.contentType}:${item.contentId}`;
+      if (seen.has(key) || result.length >= 4) return;
       if (item.contentType === 'technique') {
         const card = techniques.get(item.contentId);
-        if (card && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))) result.push({ type: 'technique', card });
+        if (card && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))) {
+          seen.add(key);
+          result.push({ type: 'technique', card });
+        }
       } else {
         const card = theoryLookup.get(item.contentId);
-        if (card && !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))) result.push({ type: 'theory', card });
+        if (card && !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))) {
+          seen.add(key);
+          result.push({ type: 'theory', card });
+        }
       }
-    });
-    return result.slice(0, 4);
-  }, [accessState, catalogRevision, trending]);
+    };
+    (trending ?? []).forEach(append);
+    historyIds.forEach((id) => append({
+      contentType: techniques.has(id) ? 'technique' : 'theory',
+      contentId: id,
+      score: 0,
+    }));
+    techniqueCards.forEach((card) => append({ contentType: 'technique', contentId: card.id, score: 0 }));
+    theories.forEach((card) => append({ contentType: 'theory', contentId: card.tagId, score: 0 }));
+    return result;
+  }, [accessState, catalogRevision, historyIds, trending]);
+
+  const trendingCaption = trending?.length
+    ? '直近14日の閲覧と保存から'
+    : historyIds.length
+      ? 'あなたの閲覧履歴から'
+      : '公開中のおすすめから';
 
   const railCardWidth = isDesktop ? Math.max(210, Math.min(238, (width - 260) / 4)) : 276;
 
@@ -92,7 +115,7 @@ export default function HomeScreen() {
       {trendingContent.length > 0 ? (
         <View testID="home-trending-section" style={[styles.trendingSection, isDesktop && styles.trendingSectionDesktop]}>
           <View style={styles.sectionHeadingRow}>
-            <View><Text style={styles.sectionTitle}>いま読まれているもの</Text><Text style={styles.sectionCaption}>直近14日の閲覧と保存から</Text></View>
+            <View><Text style={styles.sectionTitle}>最近見られているもの</Text><Text style={styles.sectionCaption}>{trendingCaption}</Text></View>
             <Pressable accessibilityRole="link" accessibilityLabel="探す" onPress={() => router.push(APP_ROUTES.discover)} style={({ pressed }) => [styles.sectionLinkButton, pressed && styles.sectionLinkButtonPressed]}><Text style={styles.sectionLink}>探す　→</Text></Pressable>
           </View>
           <ScrollView horizontal testID="home-trending-rail" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.trendingRail}>

@@ -550,29 +550,28 @@ test('理論の閲覧もマイページと履歴一覧へ蓄積される', async
   await expect(page.getByRole('button', { name: '初頭効果を開く' })).toBeVisible();
 });
 
-test('探すは人物像ギャラリーから始まり、検索は右上から開く', async ({ page }) => {
+test('探すは検索と人物像・理論への入口から始まる', async ({ page }) => {
   await page.goto('/discover');
-  await expect(page.getByRole('heading', { name: '人物像一覧' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '人物像一覧を検索' })).toBeVisible();
-  await expect(page.getByTestId('personas-grid').getByRole('button')).toHaveCount(26);
-  await expect(page.getByText('初対面から好感を持たれる振る舞い方', { exact: true })).toBeVisible();
-  await expect(page.getByText(/無料プランでは\s*ご利用いただけません/).first()).toBeVisible();
+  await expect(page.getByRole('button', { name: '処世術・人物像・理論を検索' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '人物像から探す' })).toBeVisible();
+  await expect(page.getByRole('link', { name: '理論から探す' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'よく見られる検索' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '友達を検索' })).toBeVisible();
 });
 
-test('探すの検索アイコンは人物像検索を独立ページで開く', async ({ page }) => {
+test('探すの検索欄は独立検索ページを開く', async ({ page }) => {
   await page.goto('/discover');
-  await page.getByRole('button', { name: '人物像一覧を検索' }).click();
-  await expect(page).toHaveURL(/\/search\?mode=personas/);
+  await page.getByRole('button', { name: '処世術・人物像・理論を検索' }).click();
+  await expect(page).toHaveURL(/\/search\?mode=techniques/);
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('聞き上手');
   await input.press('Enter');
-  await expect(page.getByText('人物像 1件', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '聞き上手な人は完全版で利用できます' })).toBeVisible();
+  await expect(page.getByText(/処世術 \d+件/).first()).toBeVisible();
 });
 
 test('人物像ギャラリーと理論索引は役割を分けてレスポンシブ表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto('/discover');
+  await page.goto('/personas');
   const desktopCards = page.getByTestId('personas-grid').getByRole('button');
   const desktopBoxes = await Promise.all([0, 1, 2, 3, 4].map((index) => desktopCards.nth(index).boundingBox()));
   expect(new Set(desktopBoxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
@@ -600,7 +599,7 @@ test('追加理論は詳細・出典・関連導線まで表示される', async
 
 test('探すの人物像カードは参考レイアウトの寸法を保つ', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/discover');
+  await page.goto('/personas');
   const firstCard = page.getByTestId('personas-grid').getByRole('button').first();
   await expect(firstCard).toBeVisible();
   const box = await firstCard.boundingBox();
@@ -856,6 +855,15 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   await expect(page.getByTestId('home-brand-theory-cta')).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
+});
+
+test('人気取得が停止中でも最近見られているものを表示する', async ({ page }) => {
+  await page.route('**/rest/v1/rpc/get_trending_content', (route) => route.fulfill({ status: 503, body: '{}' }));
+  await page.goto('/');
+  await startFreeHome(page);
+  await expect(page.getByTestId('home-trending-section')).toBeVisible();
+  await expect(page.getByText('最近見られているもの', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('home-trending-card')).toHaveCount(4);
 });
 
 test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
@@ -1167,9 +1175,19 @@ test('権威付けの装飾と人物像メニューの保存操作を表示し�
   await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(0);
 });
 
-test('無料人物像は体系で読め、完全版人物像は南京錠で区別される', async ({ page }) => {
-  await page.goto('/subcategory/interpersonal/人たらしの人');
-  await expect(page.getByText('人生を楽しそうにする')).toBeVisible();
+test('各領域の無料2人物像は配下の処世術をすべて読める', async ({ page }) => {
+  for (const [category, name, count] of [
+    ['interpersonal', '印象がいい人', 14],
+    ['interpersonal', '人たらしの人', 23],
+    ['work', '仕事ができる人', 15],
+    ['work', 'タスク処理がうまい人', 14],
+    ['life', '充実した人生を過ごせる人', 16],
+    ['life', '自分らしく生きられる人', 13],
+  ] as const) {
+    await page.goto(`/subcategory/${category}/${name}`);
+    await expect(page.getByTestId('persona-page-title')).toContainText(name);
+    await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(count);
+  }
 
   await page.goto('/subcategory/interpersonal/会話がうまい人');
   await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);

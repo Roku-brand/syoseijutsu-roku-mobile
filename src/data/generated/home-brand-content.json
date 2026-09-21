@@ -21,7 +21,24 @@
         "master336-052",
         "master336-053",
         "master336-054",
-        "master336-055"
+        "master336-055",
+        "master336-056",
+        "master336-057",
+        "master336-058",
+        "master336-059",
+        "master336-060",
+        "master336-061",
+        "master336-062",
+        "master336-063",
+        "master336-064",
+        "master336-065",
+        "master336-066",
+        "master336-067",
+        "master336-068",
+        "master336-069",
+        "master336-070",
+        "master336-071",
+        "master336-072"
       ],
       "personaNames": [
         "印象がいい人",
@@ -39,7 +56,11 @@
         "kb_025",
         "kb_001",
         "kb_002",
-        "kb_029"
+        "kb_029",
+        "kb_047",
+        "kb_004",
+        "kb_019",
+        "kb_093"
       ]
     },
     "work": {
@@ -58,7 +79,21 @@
         "master336-183",
         "master336-184",
         "master336-185",
-        "master336-187"
+        "master336-186",
+        "master336-187",
+        "master336-188",
+        "master336-189",
+        "master336-190",
+        "master336-191",
+        "master336-192",
+        "master336-193",
+        "master336-194",
+        "master336-195",
+        "master336-196",
+        "master336-197",
+        "master336-198",
+        "master336-199",
+        "master336-200"
       ],
       "personaNames": [
         "仕事ができる人",
@@ -78,7 +113,20 @@
         "kb_545",
         "kb_329",
         "kb_051",
-        "kb_102"
+        "kb_102",
+        "kb_111",
+        "kb_632",
+        "kb_192",
+        "kb_175",
+        "kb_326",
+        "kb_620",
+        "kb_645",
+        "kb_177",
+        "kb_179",
+        "kb_619",
+        "kb_736",
+        "kb_623",
+        "kb_629"
       ]
     },
     "life": {
@@ -97,7 +145,21 @@
         "master336-261",
         "master336-262",
         "master336-263",
-        "master336-266"
+        "master336-264",
+        "master336-265",
+        "master336-266",
+        "master336-267",
+        "master336-268",
+        "master336-269",
+        "master336-270",
+        "master336-271",
+        "master336-272",
+        "master336-273",
+        "master336-274",
+        "master336-275",
+        "master336-276",
+        "master336-277",
+        "master336-278"
       ],
       "personaNames": [
         "充実した人生を過ごせる人",
@@ -115,7 +177,14 @@
         "kb_282",
         "kb_296",
         "kb_266",
-        "kb_634"
+        "kb_634",
+        "kb_315",
+        "kb_654",
+        "kb_617",
+        "kb_724",
+        "kb_626",
+        "kb_629",
+        "kb_092"
       ]
     }
   },
@@ -212,14 +281,14 @@
       "categoryName": "仕事術",
       "name": "仕事ができる人",
       "description": "仕事ができる人を形づくる、仕事術の実践知。",
-      "techniqueCount": 14
+      "techniqueCount": 15
     },
     "life": {
       "categoryKey": "life",
       "categoryName": "人生術",
       "name": "充実した人生を過ごせる人",
       "description": "充実した人生を過ごせる人を形づくる、人生術の実践知。",
-      "techniqueCount": 14
+      "techniqueCount": 16
     }
   },
   "theorySnapshots": [
@@ -514,6 +583,86 @@
       "relatedTheoryIds": []
     },
     {
+      "tagId": "kb_047",
+      "title": "返報性の原理",
+      "summary": "人は何かを受け取ると、同程度のものを返さなければならないと感じやすい原理。親切にも敵意にも働く。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Alvin W. Gouldner（参照文献の著者）",
+        "period": "1960年（参照文献）",
+        "works": [
+          "The Norm of Reciprocity: A Preliminary Statement (1960). American Sociological Review, 25(2), 161"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.2307/2092623"
+          }
+        ],
+        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_004",
+      "title": "単純接触効果",
+      "summary": "接する回数が増えるほど、対象への親しみや好意が高まりやすくなる傾向。ただし、もともとの不快感が強い場合には逆効果になりうる。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Zajonc（参照文献の著者）",
+        "period": "1968年（参照文献）",
+        "works": [
+          "Attitudinal effects of mere exposure. (1968). Journal of Personality and Social Psychology, 9(2, Pt.2), 1-27"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0025848"
+          }
+        ],
+        "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。"
+      },
+      "relatedTheoryIds": [
+        "kb_718",
+        "kb_821"
+      ]
+    },
+    {
+      "tagId": "kb_019",
+      "title": "ベン・フランクリン効果",
+      "summary": "一度誰かを助けると、その行動と整合させるために相手への好意が高まりやすい傾向。小さな依頼が関係形成のきっかけになることがある。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Jon Jecker / David Landy（参照文献の著者）",
+        "period": "1969年（参照文献）",
+        "works": [
+          "Liking a Person as a Function of Doing Him a Favour (1969). Human Relations, 22(4), 371-378"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1177/001872676902200407"
+          }
+        ],
+        "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_093",
+      "title": "共依存",
+      "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "relatedTheoryIds": []
+    },
+    {
       "tagId": "kb_190",
       "title": "計画錯誤",
       "summary": "過去の遅延を無視し、作業に必要な時間や費用を楽観的に見積もりやすい傾向。",
@@ -736,17 +885,140 @@
       "relatedTheoryIds": []
     },
     {
-      "tagId": "kb_669",
-      "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
-      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
+      "tagId": "kb_111",
+      "title": "印象管理理論",
+      "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_632",
+      "title": "無用の用",
+      "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_192",
+      "title": "パーキンソンの法則",
+      "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_175",
+      "title": "現在バイアス",
+      "summary": "将来の大きな利益より、目の前の小さな利益を過度に優先しやすい傾向。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "D. Laibson（参照文献の著者）",
+        "period": "1997年（参照文献）",
+        "works": [
+          "Golden Eggs and Hyperbolic Discounting (1997). The Quarterly Journal of Economics, 112(2), 443-478"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1162/003355397555253"
+          }
+        ],
+        "note": "現在と将来の選好の不整合を扱う代表的モデル。"
+      },
+      "relatedTheoryIds": [
+        "kb_751",
+        "kb_753",
+        "kb_761",
+        "kb_840"
+      ]
+    },
+    {
+      "tagId": "kb_326",
+      "title": "為せば成る、為さねば成らぬ何事も",
+      "summary": "結果を生む第一条件は、能力の有無を考え続けることではなく、実際に着手することだという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "上杉鷹山",
+        "works": [
+          "広く知られる言葉"
+        ]
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_620",
+      "title": "千里の道も足下から始まる",
+      "summary": "大きな目標も、最初の小さな一歩からしか始まらないという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第64章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_645",
+      "title": "『結果より、まず自分の仕事をする』 — 大谷翔平",
+      "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
       "categoryId": "maxims-experience",
       "categoryTitle": "格言・経験則・作品",
       "relatedTheoryIds": []
     },
     {
-      "tagId": "kb_618",
-      "title": "足るを知る者は富む",
-      "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
+      "tagId": "kb_177",
+      "title": "デフォルト効果",
+      "summary": "明示的に変更しない限り採用される初期設定が、そのまま選ばれやすい現象。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eric J. Johnson / Daniel Goldstein（参照文献の著者）",
+        "period": "2003年（参照文献）",
+        "works": [
+          "Do Defaults Save Lives? (2003). Science, 302(5649), 1338-1339"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1126/science.1091721"
+          }
+        ],
+        "note": "デフォルト設定と選択を扱う研究。全分野で同じ効果を保証するものではありません。"
+      },
+      "relatedTheoryIds": [
+        "kb_842"
+      ]
+    },
+    {
+      "tagId": "kb_179",
+      "title": "ナッジ",
+      "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_619",
+      "title": "人に勝つ者は力があり、自分に勝つ者は強い",
+      "summary": "他人との競争より、自分の欲望や弱さを制する方が本質的な強さだと説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "provenance": {
@@ -791,6 +1063,60 @@
         "kb_737",
         "kb_520"
       ]
+    },
+    {
+      "tagId": "kb_629",
+      "title": "兵に常勢なく、水に常形なし",
+      "summary": "状況に応じて形を変え、固定したやり方に執着しないことを説く。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孫武に伝統的に帰される『孫子』",
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "works": [
+          "『孫子』虚実篇（第6篇）"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_669",
+      "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
+      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
+      "categoryId": "maxims-experience",
+      "categoryTitle": "格言・経験則・作品",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_618",
+      "title": "足るを知る者は富む",
+      "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第33章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      },
+      "relatedTheoryIds": []
     },
     {
       "tagId": "kb_268",
@@ -944,6 +1270,118 @@
         ],
         "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
       },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_315",
+      "title": "鶏口となるも牛後となるなかれ",
+      "summary": "大組織の末端にいるより、小さな組織でも主導権を持つ道を選ぶ価値を説く言葉。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "史記",
+        "works": [
+          "蘇秦列伝"
+        ]
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_654",
+      "title": "『自分の中に毒を持て』 — 岡本太郎",
+      "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
+      "categoryId": "maxims-experience",
+      "categoryTitle": "格言・経験則・作品",
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_617",
+      "title": "自分を知る者は明らかである",
+      "summary": "他人を知る以上に、自分自身を理解することが重要だと説く。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第33章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_724",
+      "title": "Big Five／五因子モデル",
+      "aliases": [
+        "Big Five",
+        "Five-Factor Model",
+        "FFM",
+        "ビッグファイブ",
+        "五因子性格モデル",
+        "OCEAN"
+      ],
+      "summary": "人格特性を開放性、誠実性、外向性、協調性、神経症傾向の五次元で記述するモデル。人を五つの型へ分類する診断ではなく、連続的な傾向を比較する枠組みである。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Paul Costa / Robert McCrae / Lewis Goldbergほか",
+        "period": "1980〜1990年代",
+        "works": [
+          "An introduction to the five-factor model and its applications (1992)"
+        ],
+        "sources": [
+          {
+            "title": "代表研究（DOI）",
+            "url": "https://doi.org/10.1111/j.1467-6494.1992.tb00970.x"
+          }
+        ],
+        "note": "測定尺度・文化・自己評定と他者評定によって結果が変わる。"
+      },
+      "relatedTheoryIds": [
+        "kb_726",
+        "kb_129",
+        "kb_817"
+      ]
+    },
+    {
+      "tagId": "kb_626",
+      "title": "知彼知己、百戦殆うからず",
+      "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孫武に伝統的に帰される『孫子』",
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "works": [
+          "『孫子』謀攻篇（第3篇）"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
+      },
+      "relatedTheoryIds": []
+    },
+    {
+      "tagId": "kb_092",
+      "title": "境界線理論",
+      "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
       "relatedTheoryIds": []
     }
   ],

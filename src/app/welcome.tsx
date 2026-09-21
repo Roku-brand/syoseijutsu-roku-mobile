@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AppText } from '@/components/ui';
 import { normalizeDisplayText } from '@/data/theory-display';
 import { categories, techniqueCards, theories } from '@/data/catalog';
+import { FREE_TECHNIQUE_COUNT, FREE_THEORY_COUNT } from '@/access/access-config';
 import { useAppState } from '@/state/app-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -94,7 +95,7 @@ export default function Welcome() {
                 <View style={[styles.plans, desktop && styles.plansDesktop]}>
                   <PlanCard
                     title="無料版"
-                    description="50の処世術と150の理論から、体系の入口を体験できます。"
+                    description={`${FREE_TECHNIQUE_COUNT}の処世術と${FREE_THEORY_COUNT}の理論から、体系の入口を体験できます。`}
                     button="無料で始める"
                     note="登録不要"
                     onPress={startFree}

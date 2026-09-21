@@ -5,8 +5,16 @@
     "theories": 793
   },
   "free": {
-    "techniques": 50,
-    "theories": 150
+    "techniques": 95,
+    "theories": 150,
+    "personas": [
+      "印象がいい人",
+      "人たらしの人",
+      "仕事ができる人",
+      "タスク処理がうまい人",
+      "充実した人生を過ごせる人",
+      "自分らしく生きられる人"
+    ]
   },
   "excludedTechniqueIds": [
     "master336-337",
