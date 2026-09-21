@@ -69,12 +69,9 @@ export default function Welcome() {
             ))}
             <View style={[styles.heroCopy, desktop && styles.heroCopyDesktop, compact && styles.heroCopyCompact]}>
               <AppText accessibilityRole="header" aria-level={1} variant="serif" style={[styles.heroTitle, desktop && styles.heroTitleDesktop, compact && styles.heroTitleCompact]}>
-                {desktop ? `人生をうまく生きる方法を、\nすべての人へ。` : `人生をうまく生きる\n方法を、すべての人へ。`}
+                {desktop ? `流れていく知恵を、\nここで使える体系にする。` : `流れていく知恵を、\nここで使える\n体系にする。`}
               </AppText>
               <View style={styles.heroUnderline} />
-              <AppText variant="serif" style={[styles.heroLead, desktop && styles.heroLeadDesktop, compact && styles.heroLeadCompact]}>
-                {desktop ? '流れていく知恵を、ここで使える体系にする。' : '流れていく知恵を、\nここで使える体系にする。'}
-              </AppText>
               <View style={[styles.heroStatement, desktop && styles.heroStatementDesktop, compact && styles.heroStatementCompact]}>
                 <AppText variant="serif" style={[styles.heroStatementText, desktop && styles.heroStatementTextDesktop]}>{desktop ? '聞いたことがある、で終わらせない。' : '聞いたことがある、\nで終わらせない。'}</AppText>
               </View>
@@ -281,13 +278,10 @@ const styles = StyleSheet.create({
   heroCopy: { width: '100%', maxWidth: 690, alignItems: 'center', zIndex: 2 },
   heroCopyDesktop: { maxWidth: 800 },
   heroCopyCompact: { transform: [{ scale: 0.92 }] },
-  heroTitle: { color: '#F6F0E4', fontSize: 29, lineHeight: 44, letterSpacing: 1.4, textAlign: 'center', fontWeight: '400' },
+  heroTitle: { color: '#F6F0E4', fontSize: 29, lineHeight: 44, letterSpacing: 1.4, textAlign: 'center', fontWeight: '700' },
   heroTitleDesktop: { fontSize: 49, lineHeight: 68, letterSpacing: 3 },
   heroTitleCompact: { fontSize: 27, lineHeight: 40 },
   heroUnderline: { width: 124, height: 3, marginTop: 9, borderRadius: 9, backgroundColor: '#BD8119', transform: [{ rotate: '-2deg' }] },
-  heroLead: { marginTop: 27, color: '#DAD2C4', fontSize: 16, lineHeight: 27, letterSpacing: 1.25, textAlign: 'center', fontWeight: '500' },
-  heroLeadDesktop: { marginTop: 28, fontSize: 20, lineHeight: 33, letterSpacing: 1.8 },
-  heroLeadCompact: { marginTop: 22, fontSize: 15, lineHeight: 23 },
   heroStatement: { marginTop: 31, paddingHorizontal: 20, paddingVertical: 13, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#B68A3C', backgroundColor: 'rgba(6,7,7,0.18)' },
   heroStatementDesktop: { marginTop: 30, paddingHorizontal: 28, paddingVertical: 15 },
   heroStatementCompact: { marginTop: 25, paddingHorizontal: 16, paddingVertical: 10 },

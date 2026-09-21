@@ -16,9 +16,10 @@ const svg = `
   <image href="data:image/png;base64,${logo}" x="86" y="151" width="328" height="328"/>
   <line x1="468" y1="151" x2="468" y2="479" stroke="#92713b" stroke-width="2"/>
   <text x="530" y="214" fill="#d2b06f" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="30" letter-spacing="12">処世術禄</text>
-  <text x="530" y="305" fill="#fff8e9" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="46" font-weight="700">人生をうまく生きる方法を、</text>
-  <text x="530" y="378" fill="#fff8e9" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="46" font-weight="700">すべての人へ。</text>
-  <text x="533" y="447" fill="#c3b9a8" font-family="Yu Gothic, Noto Sans CJK JP, sans-serif" font-size="20" letter-spacing="2">人物像 → 処世術 → 理論 → 実践</text>
+  <text x="530" y="300" fill="#fff8e9" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="46" font-weight="700">流れていく知恵を、</text>
+  <text x="530" y="370" fill="#fff8e9" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="46" font-weight="700">ここで使える体系にする。</text>
+  <text x="533" y="430" fill="#d2b06f" font-family="Yu Mincho, Noto Serif CJK JP, serif" font-size="24" font-weight="700">聞いたことがある、で終わらせない。</text>
+  <text x="533" y="490" fill="#c3b9a8" font-family="Yu Gothic, Noto Sans CJK JP, sans-serif" font-size="20" letter-spacing="2">人物像 → 処世術 → 理論 → 実践</text>
 </svg>`;
 
 await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toFile('public/og.png');

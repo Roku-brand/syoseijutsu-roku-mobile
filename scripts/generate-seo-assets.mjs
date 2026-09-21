@@ -5,8 +5,8 @@ const root = process.cwd();
 const dist = path.join(root, 'dist');
 const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
-const homeTitle = '処世術禄｜人生をうまく生きる方法を、すべての人へ。';
-const homeDescription = '聞いたことがある、で終わらせない。心理学・行動科学などの理論と紐づけ、体系化した処世術を、人生・仕事・人間関係に使える知恵として届けます。';
+const homeTitle = '処世術禄｜処世術を人生・仕事・人間関係に使える体系へ';
+const homeDescription = '処世術を、人間関係・仕事・人生で使える知恵へ。心理学・行動科学などの理論と結びつけ、流れていく知恵を何度でも使える体系として届けます。';
 const image = `${siteUrl}/og.png`;
 
 const techniqueSource = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.public.json'), 'utf8'));
@@ -96,7 +96,7 @@ function metaFor(rawRoute) {
     '/life': ['人生術｜不安・選択・立て直しを整える処世術', '選択、習慣、不安、回復、人生設計まで、日々の判断を整える処世術を人物像から体系的に探せます。'],
     '/app': ['処世術禄アプリ｜知恵を、迷ったときに使える判断へ', '処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。'],
     '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。'],
-    '/about/shoseijutsu': ['処世術とは？意味・考え方と処世術禄の五大原則', '処世術とは、人生・仕事・人間関係をよりよく生きるための知恵と方法です。処世術の意味や必要性、処世術禄が有効な理由、五大原則、知識を使える判断原則へ変える思想を紹介します。'],
+    '/about/shoseijutsu': ['処世術とは｜意味・必要性・身につけ方をわかりやすく解説', '処世術とは、社会の中で人や状況とうまく関わり、自分の目的や生活を成り立たせるための知恵や方法です。言葉の意味、人を操る技術との違い、必要性、身につけ方を具体例とともに解説します。'],
     '/legal/about': ['処世術禄について', '処世術禄についての新しいページへ移動します。'],
     '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。'],
   };
@@ -142,7 +142,8 @@ function jsonLd(meta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.route) })) },
   ];
   if (meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.item.title, description: meta.description, inLanguage: 'ja', about: [meta.item.categoryName, meta.item.persona, ...(meta.item.tags ?? [])], isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.route === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, dateModified: meta.route === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.route === '/about/shoseijutsu') graph.push({ '@type': 'DefinedTerm', '@id': `${url}#term`, url, name: '処世術', alternateName: ['世渡り術', '処世の知恵'], description: '社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法。' });
   if (meta.route === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: brand, applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
 }
@@ -158,8 +159,7 @@ const aboutParagraph = (text, emphasis = false) => `<p${emphasis ? ' class="seo-
 const aboutSection = (title, paragraphs, emphasis = []) => `<section><h2>${escape(title)}</h2>${paragraphs.map((text) => aboutParagraph(text, emphasis.includes(text))).join('')}</section>`;
 function shoseijutsuStaticContent(meta) {
   const sections = [
-    ['処世術とは', [
-      '処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。',
+    ['処世術の意味', [
       '「処世」は世の中で暮らしていくこと、「術」はそのための方法や技術を意味します。',
       '一般には、人間関係の築き方、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処、適切な距離の取り方など、社会生活を円滑にする幅広い知恵を指します。',
       '処世術という言葉には、ときに「要領よく立ち回る」「世渡りをする」といった意味合いもあります。しかし、本来扱える範囲はそれだけではありません。',
@@ -183,8 +183,9 @@ function shoseijutsuStaticContent(meta) {
       'そこに、処世術を学ぶ意味があります。',
     ], ['誰かが経験から得た知恵や、研究によって明らかになった人間の性質を、あらかじめ知ることができる。']],
   ];
-  let body = `<section class="seo-hero"><p>${escape('人生をうまく生きる方法を、すべての人へ。')}</p>${aboutParagraph('人生には、学校では教わらないことが多くあります。人との距離の取り方。信頼の築き方。仕事の進め方。失敗との付き合い方。自分自身の扱い方。')}${aboutParagraph('私たちは、こうした知恵を「なんとなく分かっていること」のまま流してしまいます。')}${aboutParagraph('処世術禄は、それらを集め、整理し、理論と結びつけ、必要なときに取り出して使える知恵へ変えるための場所です。')}${aboutParagraph('聞いたことがある、で終わらせない。', true)}${aboutParagraph('流れて消える人生の知識を、何度でも使える知恵に変える。それが、処世術禄の役割です。')}</section>`;
+  let body = `<section class="seo-hero">${aboutParagraph('処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。', true)}${aboutParagraph('人間関係、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処など、社会生活をよりよくする幅広い知恵を含みます。')}${aboutParagraph('流れていく知恵を、ここで使える体系にする。', true)}${aboutParagraph('聞いたことがある、で終わらせない。処世術禄は、散らばった知恵を整理し、必要なときに取り出して使える形へ変える場所です。')}</section>`;
   body += sections.map(([title, paragraphs, emphasis]) => aboutSection(title, paragraphs, emphasis)).join('');
+  body += `<section><h2>場面別に処世術を学ぶ</h2><p>処世術は、置かれた場面によって使い方が変わります。今の課題に近い入口から、具体的な方法とその背景にある理論をたどれます。</p><ul><li><a href="/interpersonal">人間関係の処世術</a>—会話・信頼・距離感を整える</li><li><a href="/work">仕事の処世術</a>—評価・合意・実行を成果につなげる</li><li><a href="/life">人生の処世術</a>—選択・不安・立て直しの軸を持つ</li><li><a href="/theories">処世術を支える理論</a>—心理学・行動科学などから理解する</li></ul></section>`;
   body += aboutSection('なぜ、処世術禄なのか', [
     '人生に役立つ知恵は、すでに世の中に数多く存在します。問題は、それらが散らばっていることです。',
     '人間関係の知恵は心理学の本にあり、仕事の進め方はビジネス書にあり、感情との付き合い方は哲学や行動科学にあり、人生についての知恵は誰かの経験談の中にある。',
@@ -216,11 +217,11 @@ function shoseijutsuStaticContent(meta) {
     '同じ行動でも、ある場面では正しく、別の場面では間違いになることがあります。',
     'だから必要なのは、無数の正解を暗記することではありません。状況を見て、考え、自分で選べることです。',
     '処世術禄が作ろうとしているのは、いわば人生をうまく生きるための思考のOSです。判断に迷ったとき、戻ってこられる場所。必要な知恵を探し、なぜそうするのかまで理解できる場所。',
-    '人生をうまく生きる方法を、すべての人へ。処世術禄は、そのための知恵を編み続けます。',
+    '流れていく知恵を、ここで使える体系にする。聞いたことがある、で終わらせない。処世術禄は、そのための知恵を編み続けます。',
   ], ['人生をうまく生きるための思考のOS']);
   body += aboutSection('「処世術禄」と「処世術録」について', ['正式名称は「処世術禄」です。「処世術録」と表記・検索されることがありますが、同じ本サービスを指します。']);
   body += `<section><h2>大切な注意</h2>${aboutParagraph('本サービスは一般的な情報と判断の視点を提供することを目的としています。')}${aboutParagraph('医療、法律、税務、金融、投資、心理支援その他の専門的助言を代替するものではなく、個別の成果や安全を保証するものでもありません。')}${aboutParagraph('重要な判断については、個別の事情、法令、安全性などを確認したうえで、必要に応じて専門家へ相談してください。')}</section>`;
-  return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape('処世術とは？意味・考え方と処世術禄の五大原則')}</h1>${body}</article></main></noscript>`;
+  return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape('処世術とは')}</h1>${body}</article></main></noscript>`;
 }
 function staticContent(meta) {
   if (!meta.indexable) return meta.route === '/404' || meta.route === '/+not-found' ? '<noscript><main><article><h1>ページが見つかりません</h1><p>URLをご確認いただくか、<a href="/">処世術禄のホーム</a>へ戻ってください。</p></article></main></noscript>' : '';
