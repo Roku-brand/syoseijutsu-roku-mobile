@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Image, Modal, Pressable, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { useAccess } from '../../access/access-state';
@@ -15,20 +15,20 @@ import { useAppState } from '../../state/app-state';
 import { colors, fonts } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute } from '../../navigation/app-routes';
 
-const techniqueImage = require('../../../assets/home/machiya-night-hero.webp');
-const personaImage = require('../../../assets/home/persona-washi-portrait.webp');
-const theoryImage = require('../../../assets/home/theory-lineage-washi.webp');
-const systemImage = require('../../../assets/home/system-atlas-washi.webp');
+const interpersonalRecommendationImage = require('../../../assets/home/recommendation-interpersonal.webp');
+const workRecommendationImage = require('../../../assets/home/recommendation-work.webp');
+const lifeRecommendationImage = require('../../../assets/home/recommendation-life.webp');
+const theoryRecommendationImage = require('../../../assets/home/recommendation-theory.webp');
 
 type HomeContent =
   | { type: 'technique'; card: TechniqueCard }
   | { type: 'theory'; card: TheoryCard };
 
 const recommendationImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
-  interpersonal: personaImage,
-  work: systemImage,
-  life: techniqueImage,
-  theory: theoryImage,
+  interpersonal: interpersonalRecommendationImage,
+  work: workRecommendationImage,
+  life: lifeRecommendationImage,
+  theory: theoryRecommendationImage,
 };
 
 function contentId(item: HomeContent) {
@@ -77,11 +77,25 @@ function buildRecommendations({ accessState, historyIds, interests, savedIds }: 
     .filter((theory) => !isLockedTheoryShell(theory) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(theory.tagId)))
     .sort((a, b) => (theoryRank.get(b.tagId) ?? 0) - (theoryRank.get(a.tagId) ?? 0) || a.tagId.localeCompare(b.tagId));
   const items: HomeContent[] = [];
-  if (techniqueCandidates[0]) items.push({ type: 'technique', card: techniqueCandidates[0] });
-  if (theoryCandidates[0]) items.push({ type: 'theory', card: theoryCandidates[0] });
-  const secondTechnique = techniqueCandidates.find((card) => card.id !== techniqueCandidates[0]?.id && card.categoryKey !== techniqueCandidates[0]?.categoryKey) ?? techniqueCandidates[1];
-  if (secondTechnique) items.push({ type: 'technique', card: secondTechnique });
-  return items.slice(0, 3);
+  const selected = new Set<string>();
+  const categoryOrder: CategoryKey[] = ['interpersonal', 'work', 'life'];
+  const addTechnique = (card: TechniqueCard | undefined) => {
+    if (!card || selected.has(card.id) || items.length >= 7) return;
+    selected.add(card.id);
+    items.push({ type: 'technique', card });
+  };
+  const addTheory = (card: TheoryCard | undefined) => {
+    if (!card || selected.has(card.tagId) || items.length >= 7) return;
+    selected.add(card.tagId);
+    items.push({ type: 'theory', card });
+  };
+
+  categoryOrder.forEach((category) => addTechnique(techniqueCandidates.find((card) => card.categoryKey === category)));
+  addTheory(theoryCandidates[0]);
+  categoryOrder.forEach((category) => addTechnique(techniqueCandidates.filter((card) => card.categoryKey === category)[1]));
+  techniqueCandidates.forEach(addTechnique);
+  theoryCandidates.forEach(addTheory);
+  return items.slice(0, 7);
 }
 
 export default function HomeScreen() {
@@ -126,9 +140,15 @@ export default function HomeScreen() {
       <HomeHeroCarousel desktop={isDesktop} catalogRevision={catalogRevision} />
 
       <HomeSection title="あなたにおすすめ" action="すべて見る →" onAction={() => router.push(APP_ROUTES.discover)} testID="home-recommendations-section" compact>
-        <View style={styles.recommendationGrid}>
-          {recommendations.map((item) => <RecommendationCard key={`${item.type}:${contentId(item)}`} item={item} onPress={() => openContent(item)} />)}
-        </View>
+        <ScrollView
+          horizontal
+          testID="home-recommendation-rail"
+          accessibilityLabel="おすすめの処世術と理論"
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.recommendationRail}
+        >
+          {recommendations.map((item) => <RecommendationCard key={`${item.type}:${contentId(item)}`} item={item} desktop={isDesktop} onPress={() => openContent(item)} />)}
+        </ScrollView>
       </HomeSection>
 
       <Pressable accessibilityRole="link" accessibilityLabel="処世術をつくる" testID="home-create-technique" onPress={() => router.push({ pathname: APP_ROUTES.myTechniques, params: { compose: '1' } })} style={({ pressed }) => [styles.createCard, pressed && styles.pressed]}>
@@ -164,18 +184,18 @@ function HomeSection({ title, action, onAction, testID, compact = false, childre
   return <View testID={testID} style={[styles.section, compact && styles.sectionCompact]}><View style={styles.sectionHeadingRow}><Text style={styles.sectionTitle}>{title}</Text>{action && onAction ? <Pressable accessibilityRole="link" accessibilityLabel={action.replace(' →', '')} onPress={onAction} style={({ pressed }) => [styles.sectionLinkButton, pressed && styles.pressed]}><Text style={styles.sectionLink}>{action}</Text></Pressable> : null}</View>{children}</View>;
 }
 
-function RecommendationCard({ item, onPress }: { item: HomeContent; onPress: () => void }) {
+function RecommendationCard({ item, desktop, onPress }: { item: HomeContent; desktop: boolean; onPress: () => void }) {
   const technique = item.type === 'technique' ? item.card : null;
   const label = technique ? categoryMeta[technique.categoryKey].label : getTheoryCategoryLabel(item.card as TheoryCard);
   const image = technique ? recommendationImages[technique.categoryKey] : recommendationImages.theory;
-  return <Pressable accessibilityRole="link" accessibilityLabel={`${item.card.title}を開く`} testID="home-recommendation-card" onPress={onPress} style={({ pressed }) => [styles.recommendationCard, pressed && styles.pressed]}><Image source={image} resizeMode="cover" style={styles.recommendationImage} /><View style={styles.recommendationBody}><Text numberOfLines={1} style={styles.recommendationCategory}>{item.type === 'theory' ? '理論・' : ''}{label}</Text><View style={styles.recommendationTitleRow}><Text numberOfLines={2} style={styles.recommendationTitle}>{item.card.title}</Text><Text style={styles.cardArrow}>›</Text></View></View></Pressable>;
+  return <Pressable accessibilityRole="link" accessibilityLabel={`${item.card.title}を開く`} testID="home-recommendation-card" onPress={onPress} style={({ pressed }) => [styles.recommendationCard, desktop && styles.recommendationCardDesktop, pressed && styles.pressed]}><Image source={image} resizeMode="cover" style={[styles.recommendationImage, desktop && styles.recommendationImageDesktop]} /><View style={[styles.recommendationBody, desktop && styles.recommendationBodyDesktop]}><Text numberOfLines={1} style={[styles.recommendationCategory, item.type === 'theory' && styles.recommendationCategoryTheory]}>{item.type === 'theory' ? '理論・' : ''}{label}</Text><View style={styles.recommendationTitleRow}><Text numberOfLines={2} style={[styles.recommendationTitle, desktop && styles.recommendationTitleDesktop]}>{item.card.title}</Text><Text style={styles.cardArrow}>›</Text></View></View></Pressable>;
 }
 
 function RecentRow({ item, onPress }: { item: HomeContent; onPress: () => void }) {
   const technique = item.type === 'technique' ? item.card : null;
   const label = technique ? categoryMeta[technique.categoryKey].label : '理論';
   const image = technique ? recommendationImages[technique.categoryKey] : recommendationImages.theory;
-  return <Pressable accessibilityRole="link" accessibilityLabel={`${item.card.title}を開く`} testID="home-recent-row" onPress={onPress} style={({ pressed }) => [styles.recentRow, pressed && styles.pressed]}><Image source={image} resizeMode="cover" style={styles.recentImage} /><Text style={styles.recentKind}>{label}</Text><Text numberOfLines={1} style={styles.recentTitle}>{item.card.title}</Text><Text style={styles.cardArrow}>›</Text></Pressable>;
+  return <Pressable accessibilityRole="link" accessibilityLabel={`${item.card.title}を開く`} testID="home-recent-row" onPress={onPress} style={({ pressed }) => [styles.recentRow, pressed && styles.pressed]}><Image source={image} resizeMode="cover" style={styles.recentImage} /><View style={styles.recentCopy}><Text numberOfLines={1} style={[styles.recentKind, item.type === 'theory' && styles.recentKindTheory]}>{label}</Text><Text numberOfLines={1} style={styles.recentTitle}>{item.card.title}</Text></View><Text style={styles.recentArrow}>›</Text></Pressable>;
 }
 
 const styles = StyleSheet.create({
@@ -187,11 +207,13 @@ const styles = StyleSheet.create({
   sectionHeadingRow: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 9 },
   sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, fontWeight: '600', letterSpacing: 1.25, lineHeight: 29 },
   sectionLinkButton: { minHeight: 30, paddingLeft: 10, alignItems: 'center', justifyContent: 'center' }, sectionLink: { color: '#B87408', fontFamily: fonts.serif, fontSize: 12, fontWeight: '600', letterSpacing: 0.25 },
-  recommendationGrid: { flexDirection: 'row', gap: 8 },
-  recommendationCard: { flex: 1, minWidth: 0, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface, ...bookCardShadow },
-  recommendationImage: { width: '100%', height: 50, backgroundColor: '#E9E9E6' }, recommendationBody: { minHeight: 69, paddingHorizontal: 9, paddingBottom: 8, paddingTop: 6 },
+  recommendationRail: { gap: 8, paddingRight: 16 },
+  recommendationCard: { width: 112, flexGrow: 0, flexShrink: 0, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface, ...bookCardShadow },
+  recommendationCardDesktop: { width: 190 },
+  recommendationImage: { width: '100%', height: 50, backgroundColor: '#E9E9E6' }, recommendationImageDesktop: { height: 72 }, recommendationBody: { minHeight: 69, paddingHorizontal: 9, paddingBottom: 8, paddingTop: 6 }, recommendationBodyDesktop: { minHeight: 78, paddingHorizontal: 11, paddingTop: 8 },
   recommendationCategory: { alignSelf: 'flex-start', maxWidth: '100%', paddingHorizontal: 7, paddingVertical: 1, overflow: 'hidden', borderWidth: 1, borderColor: '#D59A36', borderRadius: 999, color: '#A86F0E', fontFamily: fonts.serif, fontSize: 8, lineHeight: 12 },
-  recommendationTitleRow: { minWidth: 0, flexDirection: 'row', alignItems: 'center', marginTop: 4 }, recommendationTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, fontWeight: '600', lineHeight: 17 },
+  recommendationCategoryTheory: { borderColor: '#687485', color: '#344258' },
+  recommendationTitleRow: { minWidth: 0, flexDirection: 'row', alignItems: 'center', marginTop: 4 }, recommendationTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, fontWeight: '600', lineHeight: 17 }, recommendationTitleDesktop: { fontSize: 14, lineHeight: 20 },
   cardArrow: { color: '#C17E08', flexShrink: 0, fontFamily: fonts.serif, fontSize: 24, lineHeight: 25, marginLeft: 4 },
   createCard: { minHeight: 78, marginTop: 14, paddingHorizontal: 13, paddingVertical: 9, flexDirection: 'row', alignItems: 'center', gap: 11, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, ...bookCardShadow },
   createIcon: { width: 48, height: 48, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E7DDCE', borderRadius: 24, backgroundColor: '#FAF7F1' }, createIconText: { color: '#17202A', fontSize: 24, lineHeight: 28 },
@@ -202,8 +224,8 @@ const styles = StyleSheet.create({
   learningCopy: { flex: 1, minWidth: 0 }, learningStage: { color: '#B47A14', fontFamily: fonts.serif, fontSize: 10, lineHeight: 14 }, learningTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, fontWeight: '600', lineHeight: 21 },
   progressRow: { flexDirection: 'row', gap: 4, marginTop: 7 }, progressDot: { flex: 1, maxWidth: 18, height: 6, borderRadius: 5, backgroundColor: '#DFDFDC' }, progressDotActive: { backgroundColor: '#BE8A26' }, progressCount: { color: colors.ink, flexShrink: 0, fontFamily: fonts.serif, fontSize: 11 },
   learningCta: { minHeight: 36, flexShrink: 0, paddingHorizontal: 10, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#CA8A17', borderRadius: 999 }, learningCtaText: { color: '#AF730D', fontFamily: fonts.serif, fontSize: 10, fontWeight: '600' },
-  recentList: { gap: 7 }, recentRow: { minHeight: 60, flexDirection: 'row', alignItems: 'center', gap: 10, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface }, recentImage: { width: 82, alignSelf: 'stretch', backgroundColor: '#E9E9E6' },
-  recentKind: { paddingHorizontal: 8, paddingVertical: 2, borderWidth: 1, borderColor: '#D59A36', borderRadius: 999, color: '#A86F0E', fontFamily: fonts.serif, fontSize: 9 }, recentTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, fontWeight: '600' },
+  recentList: { gap: 7 }, recentRow: { height: 64, flexDirection: 'row', alignItems: 'center', gap: 10, overflow: 'hidden', paddingRight: 10, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface }, recentImage: { width: 96, height: 64, flexShrink: 0, backgroundColor: '#E9E9E6' },
+  recentCopy: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 10 }, recentKind: { flexShrink: 0, maxWidth: 78, overflow: 'hidden', paddingHorizontal: 8, paddingVertical: 2, borderWidth: 1, borderColor: '#D59A36', borderRadius: 999, color: '#A86F0E', fontFamily: fonts.serif, fontSize: 9 }, recentKindTheory: { borderColor: '#687485', color: '#344258' }, recentTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, fontWeight: '600' }, recentArrow: { color: '#C17E08', flexShrink: 0, fontFamily: fonts.serif, fontSize: 25, lineHeight: 28 },
   emptyRecent: { minHeight: 64, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderStyle: 'dashed', borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface }, emptyRecentText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11 },
   pressed: { opacity: 0.68 },
   modalBackdrop: { alignItems: 'center', backgroundColor: 'rgba(13, 11, 8, 0.55)', flex: 1, justifyContent: 'center', padding: 22 }, modalCard: { backgroundColor: colors.surface, borderColor: colors.gold, borderRadius: 16, borderWidth: 1, maxWidth: 430, padding: 28, width: '100%', ...bookCardShadow },

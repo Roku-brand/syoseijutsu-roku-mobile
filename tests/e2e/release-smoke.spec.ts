@@ -867,6 +867,21 @@ test('人気取得が停止中でも実履歴だけを最近見られている�
   await expect(page.getByText('読んだ処世術や理論が、ここに並びます。', { exact: true })).toBeVisible();
 });
 
+test('ホームのおすすめは4分類を含む7枚を横スクロールできる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await startFreeHome(page);
+  const section = page.getByTestId('home-recommendations-section');
+  const rail = page.getByTestId('home-recommendation-rail');
+  await expect(section.getByTestId('home-recommendation-card')).toHaveCount(7);
+  await expect(section.getByText('対人術', { exact: true }).first()).toBeVisible();
+  await expect(section.getByText('仕事術', { exact: true }).first()).toBeVisible();
+  await expect(section.getByText('人生術', { exact: true }).first()).toBeVisible();
+  await expect(section.getByText(/^理論・/).first()).toBeVisible();
+  const metrics = await rail.evaluate((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
+  expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
+});
+
 test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const results: Array<{ domains: string[]; titles: string[] }> = [];
