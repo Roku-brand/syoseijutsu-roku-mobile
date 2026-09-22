@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
@@ -8,6 +9,8 @@ import { useAppState, type PersonalMemo } from '@/state/app-state';
 type FolderFilter = 'all' | 'unfiled' | string;
 
 export default function MyTechniquesScreen() {
+  const { compose } = useLocalSearchParams<{ compose?: string | string[] }>();
+  const composeHandled = useRef(false);
   const {
     personalMemos,
     personalMemoFolders,
@@ -24,6 +27,14 @@ export default function MyTechniquesScreen() {
   const [draft, setDraft] = useState('');
   const [folderDraft, setFolderDraft] = useState('');
   const [draftFolderId, setDraftFolderId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const requested = Array.isArray(compose) ? compose[0] : compose;
+    if (requested === '1' && !composeHandled.current) {
+      composeHandled.current = true;
+      setComposerOpen(true);
+    }
+  }, [compose]);
 
   const visibleMemos = personalMemos.filter((memo) => filter === 'all' || (filter === 'unfiled' ? !memo.folderId : memo.folderId === filter));
   const addMemo = () => {

@@ -857,13 +857,14 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('人気取得が停止中でも最近見られているものを表示する', async ({ page }) => {
+test('人気取得が停止中でも実履歴だけを最近見られているものに表示する', async ({ page }) => {
   await page.route('**/rest/v1/rpc/get_trending_content', (route) => route.fulfill({ status: 503, body: '{}' }));
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('home-trending-section')).toBeVisible();
+  await expect(page.getByTestId('home-recent-section')).toBeVisible();
   await expect(page.getByText('最近見られているもの', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('home-trending-card')).toHaveCount(4);
+  await expect(page.getByTestId('home-recent-row')).toHaveCount(0);
+  await expect(page.getByText('読んだ処世術や理論が、ここに並びます。', { exact: true })).toBeVisible();
 });
 
 test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
