@@ -5,6 +5,7 @@ import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, type Image
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { useAccess } from '../../access/access-state';
 import { BookScreen, bookCardShadow } from '../../components/book-ui';
+import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { categoryMeta, techniqueById, techniqueCards, theories } from '../../data/catalog';
 import { learningCases, learningStages } from '../../data/learning';
@@ -166,7 +167,8 @@ export default function HomeScreen() {
 }
 
 function HomeSection({ title, action, onAction, testID, compact = false, children }: { title: string; action?: string; onAction?: () => void; testID: string; compact?: boolean; children: React.ReactNode }) {
-  return <View testID={testID} style={[styles.section, compact && styles.sectionCompact]}><View style={styles.sectionHeadingRow}><Text style={styles.sectionTitle}>{title}</Text>{action && onAction ? <Pressable accessibilityRole="link" accessibilityLabel={action.replace(' →', '')} onPress={onAction} style={({ pressed }) => [styles.sectionLinkButton, pressed && styles.pressed]}><Text style={styles.sectionLink}>{action}</Text></Pressable> : null}</View>{children}</View>;
+  const { desktop } = useResponsiveLayout();
+  return <View testID={testID} style={[styles.section, compact && styles.sectionCompact]}><View style={styles.sectionHeadingRow}><BrandSectionHeading title={title} actionLabel={action} onAction={onAction} compact={!desktop} /></View>{children}</View>;
 }
 
 function RecommendationCard({ item, desktop, viewportWidth, onPress }: { item: HomeContent; desktop: boolean; viewportWidth: number; onPress: () => void }) {
@@ -181,11 +183,9 @@ const styles = StyleSheet.create({
   page: { paddingTop: 6, paddingBottom: 28 }, pageDesktop: { paddingTop: 18, paddingBottom: 42 },
   introRow: { marginBottom: 7 }, introRowDesktop: { alignItems: 'baseline', flexDirection: 'row', gap: 18, marginBottom: 12 },
   greeting: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, fontWeight: '600', letterSpacing: 1.5, lineHeight: 36 }, greetingDesktop: { fontSize: 35, lineHeight: 46 },
-  copy: { color: '#77808B', fontFamily: fonts.serif, fontSize: 12, letterSpacing: 0.1, lineHeight: 18 }, copyDesktop: { fontSize: 14, letterSpacing: 0.6, lineHeight: 23 },
+  copy: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12, letterSpacing: 0.1, lineHeight: 18 }, copyDesktop: { fontSize: 14, letterSpacing: 0.6, lineHeight: 23 },
   section: { marginTop: 19 }, sectionCompact: { marginTop: 7 },
-  sectionHeadingRow: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 },
-  sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 21, fontWeight: '600', letterSpacing: 0.8, lineHeight: 30 },
-  sectionLinkButton: { minHeight: 30, paddingLeft: 10, alignItems: 'center', justifyContent: 'center' }, sectionLink: { color: '#A96F10', fontFamily: fonts.serif, fontSize: 12, fontWeight: '600', letterSpacing: 0.1 },
+  sectionHeadingRow: { marginBottom: 8 },
   recommendationRail: { gap: 12, paddingRight: 16 },
   recommendationCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: 15, backgroundColor: colors.surface, ...bookCardShadow },
   recommendationImage: { width: '100%', height: 105, backgroundColor: '#E9E9E6' }, recommendationBody: { minHeight: 94, paddingHorizontal: 13, paddingBottom: 11, paddingTop: 9 },
@@ -196,12 +196,12 @@ const styles = StyleSheet.create({
   createCard: { minHeight: 70, marginTop: 20, paddingHorizontal: 12, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface },
   createIcon: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E7DDCE', borderRadius: 21, backgroundColor: '#FAF7F1' }, createIconText: { color: '#17202A', fontSize: 21, lineHeight: 25 },
   createCopy: { flex: 1, minWidth: 0 }, createTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, fontWeight: '600', letterSpacing: 0.2, lineHeight: 22 }, createBody: { color: '#7D8794', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
-  createCta: { minWidth: 74, minHeight: 36, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#C6810C', borderRadius: 999, backgroundColor: '#FFFFFF' }, createCtaText: { color: '#A96F10', fontFamily: fonts.serif, fontSize: 12, fontWeight: '600' },
+  createCta: { minWidth: 74, minHeight: 36, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: 999, backgroundColor: colors.surface }, createCtaText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, fontWeight: '600' },
   learningCard: { minHeight: 88, padding: 10, flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, ...bookCardShadow },
   learningMark: { width: 54, height: 54, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#1D211F' }, learningMarkText: { color: '#E2B95F', fontFamily: fonts.serif, fontSize: 24, fontWeight: '600' },
   learningCopy: { flex: 1, minWidth: 0 }, learningStage: { color: '#A77217', fontFamily: fonts.serif, fontSize: 11, lineHeight: 16 }, learningTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, fontWeight: '600', lineHeight: 21 },
   progressRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 7 }, progressTrack: { flex: 1, height: 6, borderRadius: 5, backgroundColor: '#E8E4DC', overflow: 'hidden' }, progressFill: { height: 6, borderRadius: 5, backgroundColor: '#C49A51' }, progressCount: { color: '#737B87', flexShrink: 0, fontFamily: fonts.serif, fontSize: 11 },
-  learningCta: { minHeight: 37, flexShrink: 0, paddingHorizontal: 9, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#CA8A17', borderRadius: 999 }, learningCtaText: { color: '#A96F10', fontFamily: fonts.serif, fontSize: 11, fontWeight: '600' },
+  learningCta: { minHeight: 37, flexShrink: 0, paddingHorizontal: 9, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: 999 }, learningCtaText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 11, fontWeight: '600' },
   pressed: { opacity: 0.68 },
   modalBackdrop: { alignItems: 'center', backgroundColor: 'rgba(13, 11, 8, 0.55)', flex: 1, justifyContent: 'center', padding: 22 }, modalCard: { backgroundColor: colors.surface, borderColor: colors.gold, borderRadius: 16, borderWidth: 1, maxWidth: 430, padding: 28, width: '100%', ...bookCardShadow },
   modalEyebrow: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, letterSpacing: 1.2 }, modalTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, letterSpacing: 1, lineHeight: 37, marginTop: 14 }, modalBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 14, lineHeight: 25, marginTop: 15 },

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { BookScreen } from '@/components/book-ui';
+import { BrandSectionHeading } from '@/components/brand-section-heading';
 import { SearchMark } from '@/components/search-mark';
 import { theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
@@ -69,10 +70,7 @@ export default function DiscoverScreen() {
       </View>
 
       <View testID="discover-categories" style={[styles.categoriesSection, compact && styles.categoriesSectionCompact]}>
-        <View style={styles.sectionHeading}>
-          <AppText accessibilityRole="header" aria-level={2} style={[styles.sectionTitle, compact && styles.sectionTitleCompact]}>カテゴリから探す</AppText>
-          <Pressable accessibilityRole="link" accessibilityLabel="すべての人物像を見る" onPress={() => router.push(APP_ROUTES.personas)} style={({ pressed }) => pressed && styles.pressed}><AppText style={styles.seeAll}>すべて見る →</AppText></Pressable>
-        </View>
+        <BrandSectionHeading title="カテゴリから探す" actionLabel="すべて見る →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
         <GroupHeading title="処世術" />
         <View testID="discover-technique-grid" style={styles.categoryGrid}>
           {categoryOrder.map((key) => <CategoryCard key={key} title={categoryMeta[key].label} description={techniqueDescriptions[key]} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push(techniqueRoutes[key])} />)}
@@ -88,7 +86,7 @@ export default function DiscoverScreen() {
       </View>
 
       <View testID="discover-popular" style={[styles.popularSection, compact && styles.popularSectionCompact]}>
-        <AppText accessibilityRole="header" aria-level={2} style={[styles.sectionTitle, compact && styles.sectionTitleCompact]}>よく見られる検索</AppText>
+        <BrandSectionHeading title="よく見られる検索" compact={compact} />
         <View style={styles.popularGrid}>
           {popularSearches.map((term) => <Pressable key={term} accessibilityRole="button" accessibilityLabel={term + 'を検索'} onPress={() => openSearch(term)} style={({ pressed }) => [styles.popularButton, compact && styles.popularButtonCompact, pressed && styles.pressed]}><SearchMark size={compact ? 16 : 18} color={colors.gold} /><AppText numberOfLines={1} style={[styles.popularText, narrow && styles.popularTextNarrow]}>{term}</AppText></Pressable>)}
         </View>
@@ -131,7 +129,7 @@ function TheoryIcon({ name }: { name: TheoryIconName }) {
   return <View style={styles.mindIcon}><View style={styles.mindInner} /><View style={styles.mindNeck} /></View>;
 }
 
-const softGold = '#E7D9C3';
+const softGold = colors.goldSoft;
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingBottom: 42 },
   contentCompact: { paddingBottom: 22 },
@@ -160,10 +158,6 @@ const styles = StyleSheet.create({
   arrow: { color: colors.gold, fontFamily: fonts.serif, fontWeight: '600' },
   destinationArrow: { position: 'absolute', right: 4, top: '47%', fontSize: 21, lineHeight: 24 },
   categoriesSection: { marginTop: 36 }, categoriesSectionCompact: { marginTop: 28 },
-  sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 38, fontWeight: '700', letterSpacing: 0.8 },
-  sectionTitleCompact: { fontSize: 23, lineHeight: 33 },
-  seeAll: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   groupHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 16, marginBottom: 8 }, groupHeadingSecondary: { marginTop: 18 },
   groupTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   groupRule: { flex: 1, height: 1, backgroundColor: colors.line },
