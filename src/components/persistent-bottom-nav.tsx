@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     minWidth: 0,
     alignSelf: 'stretch',
-    height: 62,
+    height: 58,
     flexDirection: 'row',
     backgroundColor: colors.surface,
     borderWidth: 1,
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   itemDesktop: { flex: 0, position: 'relative', width: 114, minWidth: 114, maxWidth: 114, minHeight: 100, alignItems: 'center', justifyContent: 'center', gap: 1 },
   activeIndicator: {
     position: 'absolute',
-    bottom: 3,
+    bottom: 2,
     width: 28,
     height: 3,
     borderRadius: 3,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   pressed: { opacity: 0.65 },
-  rokuMark: { fontFamily: fonts.serif, fontSize: 20, lineHeight: 23, fontWeight: '700' },
+  rokuMark: { fontFamily: fonts.serif, fontSize: 19, lineHeight: 22, fontWeight: '700' },
   // 虫眼鏡の柄は、画面倍率に関係なく円と接続して描画する。
   searchMark: { width: 24, height: 24, position: 'relative' },
   searchCircle: { position: 'absolute', top: 2, left: 2, width: 14, height: 14, borderWidth: 1.8, borderRadius: 9 },
@@ -153,6 +153,6 @@ const styles = StyleSheet.create({
   bookPageLeft: { borderTopRightRadius: 5, borderBottomRightRadius: 2 },
   bookPageRight: { borderTopLeftRadius: 5, borderBottomLeftRadius: 2 },
   circleMark: { width: 21, height: 21, borderWidth: 1.5, borderRadius: 12 },
-  label: { color: '#44423E', fontSize: 9, lineHeight: 13, fontWeight: '600' },
+  label: { color: '#44423E', fontSize: 10, lineHeight: 14, fontWeight: '600' },
   labelActive: { color: colors.gold },
 });

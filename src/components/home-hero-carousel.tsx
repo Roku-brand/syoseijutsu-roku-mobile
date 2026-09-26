@@ -13,7 +13,7 @@ import { Rokumaru } from './rokumaru';
 import { bookCardShadow } from './book-ui';
 import { colors, fonts } from '@/constants/theme';
 
-const techniqueImage = require('../../assets/home/machiya-night-hero.webp');
+const techniqueImage = require('../../assets/home/quiet-dialogue-hero.webp');
 const personaImage = require('../../assets/home/persona-washi-portrait.webp');
 const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');
@@ -134,7 +134,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
   const router = useRouter();
   return (
     <SlideShell desktop={desktop} testID="home-brand-slide-1" tone="dark">
-      <Image source={techniqueImage} resizeMode="cover" accessibilityLabel="雨上がりの夜、暖かな灯りが残る町家の路地" style={styles.fullImage} />
+      <Image source={techniqueImage} resizeMode="cover" accessibilityLabel="静かな部屋で、得意分野について相談する二人" style={styles.fullImage} />
       <View style={styles.techniqueShade} />
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
         <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
@@ -154,7 +154,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
-          <Cta label="読む　→" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
+          <Cta label="読む →" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
         </View>
       </View>
     </SlideShell>
@@ -594,7 +594,7 @@ const styles = StyleSheet.create({
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
   slide: { backgroundColor: '#FCF8EF', borderColor: '#D8C9AE', borderRadius: 20, borderWidth: 1, minHeight: 380, overflow: 'hidden', position: 'relative', ...bookCardShadow },
-  slideMobile: { aspectRatio: 1.92, borderRadius: 14, minHeight: 178 },
+  slideMobile: { aspectRatio: 2.04, borderRadius: 14, minHeight: 172 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
@@ -608,15 +608,15 @@ const styles = StyleSheet.create({
   ctaText: { color: '#80580E', fontFamily: fonts.serif, fontSize: 13, fontWeight: '600', letterSpacing: 0.8 },
   ctaTextCompact: { fontSize: 12, letterSpacing: 0.5 },
   ctaTextDark: { color: '#E1BD68' },
-  techniqueShade: { backgroundColor: 'rgba(6,5,4,0.42)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
+  techniqueShade: { backgroundColor: 'rgba(6,5,4,0.15)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, width: '58%' },
-  techniqueCopyMobile: { flex: 1, minHeight: 178, paddingHorizontal: 24, paddingVertical: 12 },
+  techniqueCopyMobile: { flex: 1, minHeight: 172, paddingHorizontal: 20, paddingVertical: 10 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 19, letterSpacing: 1, lineHeight: 27, marginTop: 7, maxWidth: '100%' },
+  darkTitleMobile: { fontSize: 19, letterSpacing: 0.7, lineHeight: 27, marginTop: 6, maxWidth: '100%' },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
-  darkBodyMobile: { fontSize: 11, letterSpacing: 0.25, lineHeight: 17, marginTop: 5, maxWidth: 330 },
+  darkBodyMobile: { fontSize: 11, letterSpacing: 0.15, lineHeight: 16, marginTop: 4, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
   metaRowMobile: { flexWrap: 'nowrap', gap: 10, marginTop: 0 },
   darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 11, marginTop: 20, paddingHorizontal: 13, paddingVertical: 6 },
@@ -780,6 +780,6 @@ const styles = StyleSheet.create({
   dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 1 },
   dotTouch: { alignItems: 'center', height: 22, justifyContent: 'center', width: 20 },
   dotTouchActive: { width: 30 },
-  dot: { backgroundColor: '#D4CCBE', borderRadius: 4, height: 7, width: 7 },
-  dotActive: { backgroundColor: '#AA7415', height: 7, width: 18 },
+  dot: { backgroundColor: '#D9D4CC', borderRadius: 4, height: 6, width: 6 },
+  dotActive: { backgroundColor: '#A97824', height: 6, width: 16 },
 });

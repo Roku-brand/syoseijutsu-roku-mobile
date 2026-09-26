@@ -25,6 +25,6 @@ export function useResponsiveLayout() {
     sectionGap: density === 'veryCompact' ? 4 : density === 'compact' ? 6 : 8,
     // A shorter bottom bar keeps the controls at the physical lower edge of
     // the phone while preserving a comfortable touch target.
-    bottomNavHeight: density === 'veryCompact' ? 54 : density === 'compact' ? 58 : 62,
+    bottomNavHeight: density === 'veryCompact' ? 52 : density === 'compact' ? 55 : 58,
   };
 }

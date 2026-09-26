@@ -857,14 +857,20 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('人気取得が停止中でも実履歴だけを最近見られているものに表示する', async ({ page }) => {
-  await page.route('**/rest/v1/rpc/get_trending_content', (route) => route.fulfill({ status: 503, body: '{}' }));
+test('ホームは学習再開をおすすめより先に表示する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('home-recent-section')).toBeVisible();
-  await expect(page.getByText('最近見られているもの', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('home-recent-row')).toHaveCount(0);
-  await expect(page.getByText('読んだ処世術や理論が、ここに並びます。', { exact: true })).toBeVisible();
+  const hero = await page.getByTestId('home-brand-carousel').boundingBox();
+  const continueSection = await page.getByTestId('home-continue-section').boundingBox();
+  const recommendations = await page.getByTestId('home-recommendations-section').boundingBox();
+  const create = await page.getByTestId('home-create-technique').boundingBox();
+  expect(hero && continueSection && recommendations && create).toBeTruthy();
+  expect(hero!.y).toBeLessThan(continueSection!.y);
+  expect(continueSection!.y).toBeLessThan(recommendations!.y);
+  expect(recommendations!.y).toBeLessThan(create!.y);
+  await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
+  await expect(page.getByTestId('home-create-technique')).toContainText('自分の処世術を残す');
 });
 
 test('ホームのおすすめは4分類を含む7枚を横スクロールできる', async ({ page }) => {
@@ -880,6 +886,9 @@ test('ホームのおすすめは4分類を含む7枚を横スクロールでき
   await expect(section.getByText(/^理論・/).first()).toBeVisible();
   const metrics = await rail.evaluate((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
   expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
+  const cardWidth = (await section.getByTestId('home-recommendation-card').first().boundingBox())!.width;
+  expect(cardWidth).toBeGreaterThan(metrics.clientWidth * 0.6);
+  expect(cardWidth).toBeLessThan(metrics.clientWidth * 0.9);
 });
 
 test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
