@@ -140,19 +140,21 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         <Text numberOfLines={1} style={[styles.darkEyebrow, !desktop && styles.darkEyebrowMobile]}>
           今日の一枚｜処世術｜{card.subcategory}
         </Text>
-        <Text
-          testID="home-brand-technique-title"
-          numberOfLines={desktop ? undefined : 2}
-          adjustsFontSizeToFit={false}
-          style={[
-            styles.darkTitle,
-            !desktop && styles.darkTitleMobile,
-            desktop && singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
-          ]}
-        >
-          {card.title}
-        </Text>
-        <View accessibilityElementsHidden style={[styles.techniqueTitleRule, !desktop && styles.techniqueTitleRuleMobile]} />
+        <View style={[styles.techniqueTitleGroup, !desktop && styles.techniqueTitleGroupMobile]}>
+          <Text
+            testID="home-brand-technique-title"
+            numberOfLines={desktop ? undefined : 2}
+            adjustsFontSizeToFit={false}
+            style={[
+              styles.darkTitle,
+              !desktop && styles.darkTitleMobile,
+              desktop && singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
+            ]}
+          >
+            {card.title}
+          </Text>
+          <View accessibilityElementsHidden style={styles.techniqueTitleRule} />
+        </View>
         <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
@@ -622,8 +624,9 @@ const styles = StyleSheet.create({
   darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, fontWeight: '600', letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
   darkTitleMobile: { fontSize: 20, fontWeight: '700', letterSpacing: 0.4, lineHeight: 26, marginTop: 5, maxWidth: '90%' },
-  techniqueTitleRule: { alignSelf: 'flex-start', width: '92%', height: 1, marginTop: 7, marginBottom: 2, borderRadius: 1, backgroundColor: '#D2A64A' },
-  techniqueTitleRuleMobile: { width: '92%', height: 1, marginTop: 5 },
+  techniqueTitleGroup: { alignSelf: 'flex-start', maxWidth: 480 },
+  techniqueTitleGroupMobile: { maxWidth: '90%' },
+  techniqueTitleRule: { alignSelf: 'stretch', width: '100%', height: 1, marginTop: 7, marginBottom: 2, borderRadius: 1, backgroundColor: '#D2A64A' },
   darkBody: { color: '#DED5C7', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { color: '#D8CEBF', fontSize: 12, letterSpacing: 0.15, lineHeight: 17, marginTop: 6, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
