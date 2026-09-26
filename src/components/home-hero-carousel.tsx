@@ -187,6 +187,10 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
   );
 }
 
+function firstDefinitionSentence(summary: string) {
+  return summary.match(/^.*?。/u)?.[0] ?? summary;
+}
+
 export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: TheoryCard; domainLabel: string; desktop: boolean }) {
   const router = useRouter();
   const longMobileTitle = !desktop && theory.title.length > 22;
@@ -203,7 +207,7 @@ export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: Theo
         </View>
         <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile, longMobileTitle && styles.theoryTitleMobileLong]}>{theory.title}</Text>
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
-        <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{theory.summary}</Text>
+        <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
         <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
       </View>
     </SlideShell>
@@ -616,12 +620,12 @@ const styles = StyleSheet.create({
   techniqueCopyMobile: { flex: 1, minHeight: 178, paddingHorizontal: 20, paddingVertical: 10 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
-  darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 18, letterSpacing: 0.4, lineHeight: 24, marginTop: 5, maxWidth: '90%' },
-  techniqueTitleRule: { width: 128, height: 2, marginTop: 5, marginBottom: 1, borderRadius: 1, backgroundColor: '#D2A64A' },
-  techniqueTitleRuleMobile: { width: 128, height: 2, marginTop: 3 },
-  darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
-  darkBodyMobile: { fontSize: 11, letterSpacing: 0.15, lineHeight: 16, marginTop: 4, maxWidth: 330 },
+  darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, fontWeight: '600', letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
+  darkTitleMobile: { fontSize: 20, fontWeight: '700', letterSpacing: 0.4, lineHeight: 26, marginTop: 5, maxWidth: '90%' },
+  techniqueTitleRule: { alignSelf: 'flex-start', width: '92%', height: 1, marginTop: 7, marginBottom: 2, borderRadius: 1, backgroundColor: '#D2A64A' },
+  techniqueTitleRuleMobile: { width: '92%', height: 1, marginTop: 5 },
+  darkBody: { color: '#DED5C7', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
+  darkBodyMobile: { color: '#D8CEBF', fontSize: 12, letterSpacing: 0.15, lineHeight: 17, marginTop: 6, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
   metaRowMobile: { flexWrap: 'nowrap', gap: 10, marginTop: 0 },
   darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 11, marginTop: 20, paddingHorizontal: 13, paddingVertical: 6 },
