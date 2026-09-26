@@ -1,5 +1,6 @@
 import { useRouter, type Href } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { BookScreen } from '@/components/book-ui';
 import { SearchMark } from '@/components/search-mark';
@@ -33,14 +34,33 @@ export default function DiscoverScreen() {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const narrow = width > 0 && width < 370;
-  const openSearch = (query?: string) => router.push({ pathname: '/search', params: { mode: 'techniques', ...(query ? { q: query } : {}) } });
+  const [query, setQuery] = useState('');
+  const openSearch = (value = query) => {
+    const searchQuery = value.trim();
+    router.push({ pathname: '/search', params: { mode: 'techniques', ...(searchQuery ? { q: searchQuery } : {}) } });
+  };
 
   return (
     <BookScreen contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
-      <Pressable accessibilityRole="button" accessibilityLabel="処世術・人物像・理論を検索" testID="discover-search" onPress={() => openSearch()} style={({ pressed }) => [styles.search, compact && styles.searchCompact, pressed && styles.pressed]}>
+      <View style={[styles.search, compact && styles.searchCompact]} testID="discover-search">
         <SearchMark size={compact ? 27 : 30} color={colors.gold} />
-        <AppText numberOfLines={1} style={[styles.searchPlaceholder, compact && styles.searchPlaceholderCompact, narrow && styles.searchPlaceholderNarrow]}>処世術・人物像・理論を探す</AppText>
-      </Pressable>
+        <TextInput
+          accessibilityLabel="処世術・人物像・理論を検索"
+          testID="discover-search-input"
+          value={query}
+          onChangeText={setQuery}
+          onSubmitEditing={() => openSearch()}
+          returnKeyType="search"
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="処世術・人物像・理論を探す"
+          placeholderTextColor="#898680"
+          style={[styles.searchInput, compact && styles.searchInputCompact, narrow && styles.searchInputNarrow]}
+        />
+        <Pressable accessibilityRole="button" accessibilityLabel="処世術・人物像・理論を検索" testID="discover-search-submit" onPress={() => openSearch()} style={({ pressed }) => [styles.searchSubmit, pressed && styles.pressed]}>
+          <AppText style={styles.searchSubmitText}>検索</AppText>
+        </Pressable>
+      </View>
       <AppText style={[styles.lead, compact && styles.leadCompact]}>いまの悩みや、なりたい自分から探せます。</AppText>
 
       <View testID="discover-destinations" style={[styles.destinations, compact && styles.destinationsCompact]}>
@@ -117,9 +137,11 @@ const styles = StyleSheet.create({
   contentCompact: { paddingBottom: 22 },
   search: { width: '100%', minHeight: 82, marginTop: 8, paddingHorizontal: 26, flexDirection: 'row', alignItems: 'center', gap: 16, borderWidth: 1.2, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: colors.surface },
   searchCompact: { minHeight: 72, marginTop: 5, paddingHorizontal: 20, gap: 12 },
-  searchPlaceholder: { flexShrink: 1, color: '#898680', fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4 },
-  searchPlaceholderCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
-  searchPlaceholderNarrow: { fontSize: 14 },
+  searchInput: { flex: 1, minWidth: 0, height: '100%', padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4, outlineStyle: 'none' } as object,
+  searchInputCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
+  searchInputNarrow: { fontSize: 14 },
+  searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },
+  searchSubmitText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, fontWeight: '700' },
   lead: { marginTop: 8, color: colors.muted, fontFamily: fonts.serif, fontSize: 14, lineHeight: 23 },
   leadCompact: { marginTop: 7, fontSize: 12, lineHeight: 20 },
   destinations: { flexDirection: 'row', gap: 14, marginTop: 26 },

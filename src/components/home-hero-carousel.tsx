@@ -137,7 +137,9 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
       <Image source={techniqueImage} resizeMode="cover" accessibilityLabel="静かな部屋で、得意分野について相談する二人" style={styles.fullImage} />
       <View style={styles.techniqueShade} />
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
-        <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
+        <Text numberOfLines={1} style={[styles.darkEyebrow, !desktop && styles.darkEyebrowMobile]}>
+          今日の一枚｜処世術｜{card.subcategory}
+        </Text>
         <Text
           testID="home-brand-technique-title"
           numberOfLines={desktop ? undefined : 2}
@@ -150,6 +152,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         >
           {card.title}
         </Text>
+        <View accessibilityElementsHidden style={[styles.techniqueTitleRule, !desktop && styles.techniqueTitleRuleMobile]} />
         <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
@@ -612,8 +615,11 @@ const styles = StyleSheet.create({
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, width: '58%' },
   techniqueCopyMobile: { flex: 1, minHeight: 178, paddingHorizontal: 20, paddingVertical: 10 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
+  darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
   darkTitleMobile: { fontSize: 18, letterSpacing: 0.4, lineHeight: 24, marginTop: 5, maxWidth: '90%' },
+  techniqueTitleRule: { width: 88, height: 2, marginTop: 5, marginBottom: 1, borderRadius: 1, backgroundColor: '#D2A64A' },
+  techniqueTitleRuleMobile: { width: 54, height: 2, marginTop: 3 },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { fontSize: 11, letterSpacing: 0.15, lineHeight: 16, marginTop: 4, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
