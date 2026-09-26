@@ -18,13 +18,14 @@ const techniqueDescriptions: Record<CategoryKey, string> = {
 const techniqueRoutes: Record<CategoryKey, Href> = {
   interpersonal: APP_ROUTES.interpersonal, work: APP_ROUTES.work, life: APP_ROUTES.life,
 };
-const theoryDetails: Array<{ key: TheoryFilterKey; description: string; glyph: string }> = [
-  { key: 'psychology', description: '心の仕組みを知る', glyph: '◉' },
-  { key: 'behavioral-science', description: '行動を変える', glyph: '▥' },
-  { key: 'strategy', description: '長期的に考える', glyph: '◇' },
-  { key: 'organization-management', description: '組織と社会を動かす', glyph: '♙' },
-  { key: 'classics-thought', description: '普遍の知恵を学ぶ', glyph: '▤' },
-  { key: 'practical-wisdom', description: '現場からの学び', glyph: '✧' },
+type TheoryIconName = 'mind' | 'chart' | 'compass' | 'people' | 'classics' | 'idea';
+const theoryDetails: Array<{ key: TheoryFilterKey; description: string; icon: TheoryIconName }> = [
+  { key: 'psychology', description: '心の仕組みを知る', icon: 'mind' },
+  { key: 'behavioral-science', description: '行動を変える', icon: 'chart' },
+  { key: 'strategy', description: '長期的に考える', icon: 'compass' },
+  { key: 'organization-management', description: '組織と社会を動かす', icon: 'people' },
+  { key: 'classics-thought', description: '普遍の知恵を学ぶ', icon: 'classics' },
+  { key: 'practical-wisdom', description: '現場からの学び', icon: 'idea' },
 ];
 
 export default function DiscoverScreen() {
@@ -61,7 +62,7 @@ export default function DiscoverScreen() {
           {theoryDetails.map((item) => {
             const title = theoryFilterOptions.find((option) => option.key === item.key)?.label;
             if (!title) return null;
-            return <CategoryCard key={item.key} title={title} description={item.description} glyph={item.glyph} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
+            return <CategoryCard key={item.key} title={title} description={item.description} icon={item.icon} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
           })}
         </View>
       </View>
@@ -93,12 +94,21 @@ function GroupHeading({ title, secondary = false }: { title: string; secondary?:
   return <View style={[styles.groupHeading, secondary && styles.groupHeadingSecondary]}><AppText accessibilityRole="header" aria-level={3} style={styles.groupTitle}>{title}</AppText><View style={styles.groupRule} /></View>;
 }
 
-function CategoryCard({ title, description, mark, glyph, narrow, onPress }: { title: string; description: string; mark?: string; glyph?: string; narrow: boolean; onPress: () => void }) {
+function CategoryCard({ title, description, mark, icon, narrow, onPress }: { title: string; description: string; mark?: string; icon?: TheoryIconName; narrow: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
-    <View style={styles.categoryTop}><View style={[styles.categoryIcon, glyph && styles.theoryIcon, narrow && styles.categoryIconNarrow]}><AppText style={[styles.categoryMark, glyph && styles.theoryGlyph, narrow && styles.categoryMarkNarrow]}>{mark ?? glyph}</AppText></View><AppText numberOfLines={2} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
+    <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={2} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
     <AppText numberOfLines={2} style={[styles.categoryDescription, narrow && styles.categoryDescriptionNarrow]}>{description}</AppText>
     <AppText accessibilityElementsHidden style={[styles.arrow, styles.categoryArrow, narrow && styles.categoryArrowNarrow]}>›</AppText>
   </Pressable>;
+}
+
+function TheoryIcon({ name }: { name: TheoryIconName }) {
+  if (name === 'chart') return <View style={styles.chartIcon}><View style={[styles.chartBar, { height: 7 }]} /><View style={[styles.chartBar, { height: 12 }]} /><View style={[styles.chartBar, { height: 17 }]} /></View>;
+  if (name === 'compass') return <View style={styles.compassIcon}><View style={styles.compassNeedle} /></View>;
+  if (name === 'people') return <View style={styles.peopleIcon}><View style={styles.peopleHeads}><View style={styles.peopleHead} /><View style={styles.peopleHead} /></View><View style={styles.peopleShoulders} /></View>;
+  if (name === 'classics') return <View style={styles.classicsIcon}><View style={styles.classicsRule} /><View style={styles.classicsColumns}><View style={styles.classicsColumn} /><View style={styles.classicsColumn} /><View style={styles.classicsColumn} /></View><View style={styles.classicsRule} /></View>;
+  if (name === 'idea') return <View style={styles.ideaIcon}><View style={styles.ideaBulb} /><View style={styles.ideaStem} /></View>;
+  return <View style={styles.mindIcon}><View style={styles.mindInner} /><View style={styles.mindNeck} /></View>;
 }
 
 const softGold = '#E7D9C3';
@@ -143,7 +153,6 @@ const styles = StyleSheet.create({
   categoryIconNarrow: { width: 24, height: 24, borderRadius: 12 },
   theoryIcon: { backgroundColor: '#FDFBF7', borderWidth: 1, borderColor: softGold },
   categoryMark: { color: '#DDB867', fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
-  theoryGlyph: { color: colors.gold, fontSize: 18, fontWeight: '400' },
   categoryMarkNarrow: { fontSize: 15, lineHeight: 20 },
   categoryTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, fontWeight: '700' },
   categoryTitleNarrow: { fontSize: 10, lineHeight: 13 },
@@ -164,4 +173,22 @@ const styles = StyleSheet.create({
   bookPage: { width: 13, height: 20, borderWidth: 1.5, borderColor: '#DDB867' },
   bookPageLeft: { borderTopLeftRadius: 3, borderBottomLeftRadius: 3, borderTopRightRadius: 5 },
   bookPageRight: { borderTopRightRadius: 3, borderBottomRightRadius: 3, borderTopLeftRadius: 5 },
+  chartIcon: { width: 19, height: 18, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
+  chartBar: { width: 4, borderWidth: 1.2, borderColor: colors.gold },
+  compassIcon: { width: 19, height: 19, borderWidth: 1.3, borderColor: colors.gold, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  compassNeedle: { width: 3, height: 14, borderWidth: 1.1, borderColor: colors.gold, transform: [{ rotate: '40deg' }] },
+  peopleIcon: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
+  peopleHeads: { flexDirection: 'row', gap: 3 },
+  peopleHead: { width: 6, height: 6, borderRadius: 3, borderWidth: 1.1, borderColor: colors.gold },
+  peopleShoulders: { width: 17, height: 7, marginTop: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8, borderWidth: 1.1, borderBottomWidth: 0, borderColor: colors.gold },
+  classicsIcon: { width: 19, height: 17, alignItems: 'center', justifyContent: 'center' },
+  classicsRule: { width: 19, height: 3, borderWidth: 1, borderColor: colors.gold },
+  classicsColumns: { width: 15, height: 11, flexDirection: 'row', justifyContent: 'space-between' },
+  classicsColumn: { width: 3, borderLeftWidth: 1, borderRightWidth: 1, borderColor: colors.gold },
+  ideaIcon: { width: 18, height: 20, alignItems: 'center' },
+  ideaBulb: { width: 14, height: 14, borderWidth: 1.2, borderColor: colors.gold, borderRadius: 7 },
+  ideaStem: { width: 6, height: 5, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderBottomWidth: 1.2, borderColor: colors.gold },
+  mindIcon: { width: 18, height: 16, borderWidth: 1.2, borderColor: colors.gold, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  mindInner: { width: 6, height: 6, borderWidth: 1, borderColor: colors.gold, borderRadius: 3 },
+  mindNeck: { position: 'absolute', bottom: -3, right: 0, width: 5, height: 5, borderLeftWidth: 1, borderBottomWidth: 1, borderColor: colors.gold },
 });
