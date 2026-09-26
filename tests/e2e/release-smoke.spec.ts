@@ -1102,6 +1102,10 @@ test('ホームリール全7枚はスマホ・PCともカード内部にはみ�
     await page.setViewportSize(viewportSize);
     await page.goto('/');
     await startFreeHome(page);
+    if (viewportSize.width === 320) {
+      const titleSize = await page.getByTestId('home-brand-technique-title').evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+      expect(titleSize).toBeGreaterThanOrEqual(16);
+    }
     for (let index = 1; index <= 7; index += 1) {
       await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
       const metrics = await page.getByTestId(`home-brand-slide-${index}`).evaluate((element) => ({

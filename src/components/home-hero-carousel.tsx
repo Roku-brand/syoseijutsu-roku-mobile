@@ -140,18 +140,17 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         <Text style={styles.darkEyebrow}>今日の一枚｜処世術</Text>
         <Text
           testID="home-brand-technique-title"
-          numberOfLines={Platform.OS === 'web' ? undefined : 1}
-          adjustsFontSizeToFit={Platform.OS !== 'web'}
-          minimumFontScale={0.4}
+          numberOfLines={desktop ? undefined : 2}
+          adjustsFontSizeToFit={false}
           style={[
             styles.darkTitle,
             !desktop && styles.darkTitleMobile,
-            singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
+            desktop && singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
           ]}
         >
           {card.title}
         </Text>
-        <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
+        <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
           <Cta label="読む →" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
@@ -614,7 +613,7 @@ const styles = StyleSheet.create({
   techniqueCopyMobile: { flex: 1, minHeight: 178, paddingHorizontal: 20, paddingVertical: 10 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 19, letterSpacing: 0.7, lineHeight: 27, marginTop: 6, maxWidth: '100%' },
+  darkTitleMobile: { fontSize: 18, letterSpacing: 0.4, lineHeight: 24, marginTop: 5, maxWidth: '90%' },
   darkBody: { color: '#F7F0E4', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { fontSize: 11, letterSpacing: 0.15, lineHeight: 16, marginTop: 4, maxWidth: 330 },
   metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
