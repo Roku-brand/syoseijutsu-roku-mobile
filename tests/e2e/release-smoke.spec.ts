@@ -733,13 +733,16 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(mapSlide).toContainText('希少性価値');
   await expect(page.getByTestId('home-brand-map-connectors')).toBeVisible();
   await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
-  for (const title of [page.getByTestId('home-brand-technique-title'), page.getByTestId('home-brand-map-technique-title')]) {
-    const style = await title.evaluate((element) => {
-      const computed = getComputedStyle(element);
-      return { overflow: computed.overflow, textOverflow: computed.textOverflow, whiteSpace: computed.whiteSpace };
-    });
-    expect(style).toEqual({ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' });
-  }
+  const dailyTitleStyle = await page.getByTestId('home-brand-technique-title').evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return { overflow: computed.overflow, whiteSpace: computed.whiteSpace };
+  });
+  expect(dailyTitleStyle).toEqual({ overflow: 'clip', whiteSpace: 'pre-wrap' });
+  const mapTitleStyle = await page.getByTestId('home-brand-map-technique-title').evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return { overflow: computed.overflow, textOverflow: computed.textOverflow, whiteSpace: computed.whiteSpace };
+  });
+  expect(mapTitleStyle).toEqual({ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' });
   const [techniqueBox, theoryBox] = await Promise.all([
     page.getByTestId('home-brand-map-technique-cta').boundingBox(),
     page.getByTestId('home-brand-map-theory-1').boundingBox(),
