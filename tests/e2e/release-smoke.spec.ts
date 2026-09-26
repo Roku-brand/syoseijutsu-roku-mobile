@@ -559,6 +559,39 @@ test('探すは検索と人物像・理論への入口から始まる', async ({
   await expect(page.getByRole('button', { name: '友達を検索' })).toBeVisible();
 });
 
+test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の一覧に遷移する', async ({ page }) => {
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/discover');
+    const destinations = page.getByTestId('discover-destinations');
+    const categories = page.getByTestId('discover-categories');
+    const popular = page.getByTestId('discover-popular');
+    const destinationBox = await destinations.boundingBox();
+    const categoryBox = await categories.boundingBox();
+    const popularBox = await popular.boundingBox();
+    expect(destinationBox && categoryBox && popularBox).toBeTruthy();
+    expect(destinationBox!.y + destinationBox!.height).toBeLessThan(categoryBox!.y);
+    expect(categoryBox!.y + categoryBox!.height).toBeLessThan(popularBox!.y);
+    await expect(page.getByTestId('discover-technique-grid').getByRole('link')).toHaveCount(3);
+    await expect(page.getByTestId('discover-theory-grid').getByRole('link')).toHaveCount(6);
+    await expect(popular.getByRole('button')).toHaveCount(6);
+    const headings = await page.getByRole('heading', { level: 2 }).evaluateAll((nodes) => nodes.map((node) => getComputedStyle(node).fontSize));
+    expect(headings).toEqual([headings[0], headings[0]]);
+    const widths = await page.getByTestId('discover-technique-grid').getByRole('link').evaluateAll((nodes) => nodes.map((node) => Math.round(node.getBoundingClientRect().width)));
+    expect(new Set(widths).size).toBe(1);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
+  await page.getByRole('link', { name: '心理学から探す' }).click();
+  await expect(page).toHaveURL(/\/theories\?category=psychology/);
+  await page.goto('/discover');
+  await page.getByRole('link', { name: '対人術から探す' }).click();
+  await expect(page).toHaveURL(/\/interpersonal/);
+  await page.goto('/discover');
+  await page.getByRole('button', { name: '印象を検索' }).click();
+  await expect(page).toHaveURL(/\/search\?.*q=/);
+  await expect(page.getByRole('textbox', { name: 'キーワードを検索' })).toHaveValue('印象');
+});
+
 test('探すの検索欄は独立検索ページを開く', async ({ page }) => {
   await page.goto('/discover');
   await page.getByRole('button', { name: '処世術・人物像・理論を検索' }).click();
