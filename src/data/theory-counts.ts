@@ -7,7 +7,6 @@ export const THEORY_CATEGORY_LABELS: Record<string, string> = {
   strategy: '戦略論',
   'practical-wisdom': '実践知',
   'classics-thought': '古典・思想',
-  'maxims-experience': '格言',
 };
 
 export function getTheoryCategoryCount(category: string) {

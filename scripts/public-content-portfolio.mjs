@@ -7,7 +7,6 @@ const THEORY_PREFIXES = {
   strategy: 'S',
   'practical-wisdom': 'W',
   'classics-thought': 'C',
-  'maxims-experience': 'Q',
 };
 
 export const COMPLETE_TECHNIQUE_COUNT = scope.complete.techniques;

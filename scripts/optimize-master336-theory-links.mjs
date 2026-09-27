@@ -28,7 +28,7 @@ const wisdomSupportByTechniqueId = new Map(cards.map((card) => [card.id, []]));
 
 for (const [theoryId, techniqueIds] of Object.entries(wisdomSupportTechniqueIdsByTheoryId)) {
   const theory = theoryById.get(theoryId);
-  if (!theory || !['practical-wisdom', 'classics-thought', 'maxims-experience'].includes(theory.categoryId)) {
+  if (!theory || !['practical-wisdom', 'classics-thought'].includes(theory.categoryId)) {
     throw new Error(`Wisdom support map references a non-wisdom theory: ${theoryId}.`);
   }
   for (const techniqueId of techniqueIds) {
@@ -67,7 +67,6 @@ const displayPrefixes = {
   strategy: 'S',
   'practical-wisdom': 'W',
   'classics-thought': 'C',
-  'maxims-experience': 'Q',
 };
 const categoryCounts = new Map();
 const displayIdByTheoryId = new Map();

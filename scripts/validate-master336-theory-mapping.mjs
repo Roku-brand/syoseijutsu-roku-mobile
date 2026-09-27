@@ -25,7 +25,7 @@ if (JSON.stringify(primary) !== JSON.stringify(master336PrimaryTheoryLinks)) thr
 
 for (const [theoryId, techniqueIds] of Object.entries(wisdomSupportTechniqueIdsByTheoryId)) {
   const theory = theoryById.get(theoryId);
-  if (!theory || !['practical-wisdom', 'classics-thought', 'maxims-experience'].includes(theory.categoryId)) {
+  if (!theory || !['practical-wisdom', 'classics-thought'].includes(theory.categoryId)) {
     throw new Error(`Wisdom support entry is not a classical/maxim card: ${theoryId}.`);
   }
   if (new Set(techniqueIds).size !== techniqueIds.length) throw new Error(`Duplicate support target for ${theoryId}.`);
@@ -64,7 +64,7 @@ for (const card of cards) {
 
 // 古典・名言は網羅数を稼ぐためではなく、個別に指定した処世術の判断を
 // 補強する層として全カードから到達可能にする。
-for (const theory of theories.filter((item) => ['practical-wisdom', 'classics-thought', 'maxims-experience'].includes(item.categoryId))) {
+for (const theory of theories.filter((item) => ['practical-wisdom', 'classics-thought'].includes(item.categoryId))) {
   if (!linkedTheoryIds.has(theory.tagId)) throw new Error(`Wisdom card remains unreachable: ${theory.tagId} ${theory.title}.`);
 }
 
@@ -74,9 +74,12 @@ if (audit.links !== links || audit.primaryLinks !== primaryLinks || audit.supple
   throw new Error('Audit link counts diverge from the generated catalogue.');
 }
 if (audit.linkedTheories !== linkedTheoryIds.size) throw new Error('Audit theory coverage diverges from the generated catalogue.');
-if (audit.categoryCoverage?.['classics-thought']?.linkedTheories !== 59) throw new Error('All 59 classical cards must remain reachable.');
-if (audit.categoryCoverage?.['practical-wisdom']?.linkedTheories !== 3) throw new Error('All 3 practical-wisdom cards must remain reachable.');
-if (audit.categoryCoverage?.['maxims-experience']?.linkedTheories !== 73) throw new Error('All 73 maxim cards must remain reachable.');
+for (const category of ['classics-thought', 'practical-wisdom']) {
+  if (audit.categoryCoverage?.[category]?.linkedTheories !== theories.filter((theory) => theory.categoryId === category).length) {
+    throw new Error(`All ${category} cards must remain reachable.`);
+  }
+}
+if (audit.categoryCoverage?.['maxims-experience']) throw new Error('Retired maxim category remains in the audit.');
 
 // The historical review document and rollback migration cover the immutable
 // original 336 cards. New cards are validated against the JSON/source maps.
@@ -94,7 +97,7 @@ for (const card of legacyCards) {
   if (!block.body.includes('### 主要理論') || !block.body.includes('### あわせて読む理論')) {
     throw new Error(`Final mapping Markdown is missing grouped headings for ${card.id}.`);
   }
-  const listed = [...block.body.matchAll(/^- [PBOQCS]－\d+｜(.+)$/gm)].map((match) => match[1].trim());
+  const listed = [...block.body.matchAll(/^- [PBOSWC]－\d+｜(.+)$/gm)].map((match) => match[1].trim());
   const supplementaryIds = card.relatedTheoryIds.filter((id) => !card.primaryTheoryIds.includes(id));
   const expectedTitles = [...card.primaryTheoryIds, ...supplementaryIds]
     .filter((id) => Number(id.match(/\d+/)?.[0] ?? 0) <= 705)
@@ -119,9 +122,8 @@ console.log(JSON.stringify({
   supplementaryLinks: links - primaryLinks,
   linkedTheories: linkedTheoryIds.size,
   unlinkedTheories: theories.length - linkedTheoryIds.size,
-  classicsReachable: 59,
-  practicalWisdomReachable: 3,
-  maximsReachable: 73,
+  classicsReachable: audit.categoryCoverage['classics-thought'].linkedTheories,
+  practicalWisdomReachable: audit.categoryCoverage['practical-wisdom'].linkedTheories,
   distribution: Object.fromEntries([...distribution.entries()].sort(([left], [right]) => left - right)),
   rollbackSnapshot: true,
 }, null, 2));

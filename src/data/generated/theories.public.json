@@ -6454,7 +6454,7 @@
   },
   {
     "tagId": "kb_330",
-    "title": "『Done is better than perfect』",
+    "title": "まず完成させてから改善する",
     "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
     "categoryId": "practical-wisdom",
     "categoryTitle": "実践知",
@@ -6462,7 +6462,7 @@
   },
   {
     "tagId": "kb_331",
-    "title": "『環境は意志より強い』",
+    "title": "望ましい行動が起きる環境をつくる",
     "summary": "",
     "categoryId": "practical-wisdom",
     "categoryTitle": "実践知",
@@ -6471,7 +6471,7 @@
   },
   {
     "tagId": "kb_338",
-    "title": "『自分の人生を他人のハイライトと比べない』",
+    "title": "他人の好調な一場面と自分の全体を比べない",
     "summary": "",
     "categoryId": "practical-wisdom",
     "categoryTitle": "実践知",
@@ -6480,664 +6480,370 @@
   },
   {
     "tagId": "kb_633",
-    "title": "『点と点は、振り返って初めてつながる』 — スティーブ・ジョブズ",
+    "title": "経験の意味は後から見つかる",
     "summary": "今は無駄に見える経験も、後から意味を持つことがあるという人生観。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "provenance": {
-      "status": "確認済み",
-      "attribution": "スティーブ・ジョブズ（Steve Jobs）",
-      "period": "2005年6月12日",
-      "works": [
-        "Stanford University Commencement Address (2005)"
-      ],
-      "sources": [
-        {
-          "title": "原典・公開資料",
-          "url": "https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says"
-        }
-      ],
-      "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    },
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_634",
-    "title": "『時間は限られている。他人の人生を生きるな』 — スティーブ・ジョブズ",
+    "title": "自分の価値観で時間を使う",
     "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "provenance": {
-      "status": "確認済み",
-      "attribution": "スティーブ・ジョブズ（Steve Jobs）",
-      "period": "2005年6月12日",
-      "works": [
-        "Stanford University Commencement Address (2005)"
-      ],
-      "sources": [
-        {
-          "title": "原典・公開資料",
-          "url": "https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says"
-        }
-      ],
-      "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    },
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_635",
-    "title": "『80歳の自分が振り返ったときの後悔を減らす』 — ジェフ・ベゾス",
+    "title": "長期的な後悔を選択の基準にする",
     "summary": "目先の不安より、長期的に何を後悔するかで選択する考え方。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "provenance": {
-      "status": "確認済み",
-      "attribution": "ジェフ・ベゾス（Jeff Bezos）",
-      "period": "2010年5月30日（参照講演）",
-      "works": [
-        "Princeton University: We Are What We Choose"
-      ],
-      "sources": [
-        {
-          "title": "原典・公開資料",
-          "url": "https://www.princeton.edu/news/2010/05/30/2010-baccalaureate-remarks"
-        }
-      ],
-      "note": "80歳の自分から選択を振り返るという講演の趣旨を参照。後悔最小化という手法の初出を確定する資料ではありません。"
-    },
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_636",
-    "title": "『失敗と発明は切り離せない』 — ジェフ・ベゾス",
+    "title": "新しい試みには失敗も含まれる",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_637",
-    "title": "『大きく見える出来事の多くは、人生を決定づけない』 — スンダー・ピチャイ",
+    "title": "一度の出来事で人生全体を決めつけない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_638",
-    "title": "『失敗は、余計なものを削ぎ落としてくれた』 — J.K.ローリング",
+    "title": "失敗から大切なものを見直す",
     "summary": "失敗によって失うものがある一方、本当に大切なものが明確になることもある。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "provenance": {
-      "status": "確認済み",
-      "attribution": "J.K.ローリング（J.K. Rowling）",
-      "period": "2008年6月5日",
-      "works": [
-        "The Fringe Benefits of Failure, and the Importance of Imagination"
-      ],
-      "sources": [
-        {
-          "title": "原典・公開資料",
-          "url": "https://news.harvard.edu/gazette/story/2008/06/text-of-j-k-rowling-speech/"
-        }
-      ],
-      "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-    },
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_639",
-    "title": "『一つの失点は、ただの一つの失点だ』 — ロジャー・フェデラー",
+    "title": "一度の失点を次へ持ち越さない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_640",
-    "title": "『才能とは、規律や忍耐でもある』 — ロジャー・フェデラー",
+    "title": "才能を支える習慣と忍耐",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_641",
-    "title": "『休むことは怠けることではない』 — ビル・ゲイツ",
+    "title": "休息を継続のために確保する",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_642",
-    "title": "『勇気に、脆弱性のないものはない』 — ブレネー・ブラウン",
+    "title": "傷つく可能性を受け入れて挑む",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_643",
-    "title": "『失敗には『なぜ』より『何を学ぶか』を問う』 — オプラ・ウィンフリー",
+    "title": "失敗から次に使える教訓を探す",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_644",
-    "title": "『自分の価値観を、便利さのために曲げない』 — スティーヴン・スピルバーグ",
+    "title": "判断の基準を目先の便利さに譲らない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_645",
-    "title": "『結果より、まず自分の仕事をする』 — 大谷翔平",
+    "title": "結果より今日の行動に集中する",
     "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_646",
-    "title": "『足りないところに目を向け続ける』 — イチロー",
+    "title": "改善余地を見つけ続ける",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_647",
-    "title": "『長く考えれば、必ず良い答えになるわけではない』 — 羽生善治",
+    "title": "考える時間と決断の質を分ける",
     "summary": "考える時間を増やすことと判断の質は同じではなく、決める力も必要だという教え。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_648",
-    "title": "『100点は、最初から存在するものではない』 — 糸井重里",
+    "title": "動きながら完成度を高める",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_649",
-    "title": "『困った時、苦しい時の知恵が尊い』 — 本田宗一郎",
+    "title": "困難の中で実用的な工夫を探す",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_650",
-    "title": "『恐れて立ち止まるより、価値があるなら挑戦する』 — 豊田章男",
+    "title": "価値ある挑戦を恐れだけで諦めない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_651",
-    "title": "『過去にとらわれず、未来におびえず、今を生きろ』 — 堀江貴文",
+    "title": "今変えられる行動へ意識を戻す",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_652",
-    "title": "『優れるな、異なれ』 — 中田敦彦",
+    "title": "違いを自分の強みに育てる",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_653",
-    "title": "『勝てないのは、努力が足りないからとは限らない』 — 為末大",
+    "title": "努力だけでなく環境と適性を見直す",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_654",
-    "title": "『自分の中に毒を持て』 — 岡本太郎",
+    "title": "自分ならではの価値観を守る",
     "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_655",
-    "title": "『もうダメだというときが、仕事のはじまり』 — 稲盛和夫",
+    "title": "行き詰まりの先で工夫する",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_656",
-    "title": "『人生・仕事の結果＝考え方×熱意×能力』 — 稲盛和夫",
+    "title": "姿勢・熱意・能力を合わせて考える",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_657",
-    "title": "『過去を取り繕うより、未来に向かってなすべきことをなす』 — 松下幸之助",
+    "title": "過去の弁明より次の行動を選ぶ",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_658",
-    "title": "『誰かを心から気にかけられたなら、それはもう一つの成功だ。』 — マヤ・アンジェロウ",
+    "title": "人への思いやりも成果として捉える",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_659",
-    "title": "『本当の居場所は、周りに合わせることでなく、本当の自分でいられる場所にある。』 — ブレネー・ブラウン",
+    "title": "自然体でいられる関係を大切にする",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_660",
-    "title": "『愛される資格や、居場所を得る資格は、努力して勝ち取るものではない。』 — ブレネー・ブラウン",
+    "title": "所属するために成果を条件にしない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_661",
-    "title": "『やってみもせんで、何がわかる。』 — 本田宗一郎",
+    "title": "試してから判断する",
     "summary": "考えるだけで結論を出さず、実際に試してから判断することを勧める。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_662",
-    "title": "『何もしないことを恐れろ。』 — 本田宗一郎",
+    "title": "何もしないことの機会損失を見る",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_663",
-    "title": "『失敗するなら、前に倒れろ。』 — デンゼル・ワシントン",
+    "title": "挑戦から学べる失敗を選ぶ",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_664",
-    "title": "『評論する側ではなく、不完全でも実際にやる側に立て。』 — セオドア・ルーズベルト",
+    "title": "批評だけで終わらず実際に動く",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_665",
-    "title": "『努力の元を取ろうとすると、過去に人生を縛られる。』 — 為末大",
+    "title": "過去の努力を理由に進路を固定しない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_666",
-    "title": "『自分を尊重するなら、雑に扱われることを当然にしない。』 — マヤ・アンジェロウ",
+    "title": "不当な扱いには境界線を引く",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_667",
-    "title": "『恥ずかしい過去があるのは、ちゃんと生きてきた証拠でもある。』 — テイラー・スウィフト",
+    "title": "過去の未熟さを成長の一部と捉える",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_668",
-    "title": "『好きなものを好きだと言う熱意を、恥じる必要はない。』 — テイラー・スウィフト",
+    "title": "好きなものへの熱意を隠さない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_669",
-    "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
+    "title": "成功の裏にある試行錯誤を見る",
     "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": []
   },
   {
     "tagId": "kb_670",
-    "title": "『小さくまとまって、自分にできる人生より小さな人生を選ぶな。』 — ネルソン・マンデラ",
+    "title": "可能性を必要以上に狭めない",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_671",
-    "title": "『人生に空ける場所は、自分で選んでいい。』 — テイラー・スウィフト",
+    "title": "時間と人間関係の余白を自分で決める",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_672",
-    "title": "『格好悪くても、本気で欲しがる人であれ。』 — テイラー・スウィフト",
+    "title": "望むものに率直に向き合う",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_673",
-    "title": "『批判されない人生より、挑戦して傷つく人生を選ぶ。』 — セオドア・ルーズベルト",
+    "title": "批判を恐れず挑戦を選ぶ",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_674",
-    "title": "『人間の偉さは、世の中にどれだけ貢献したかで決まる。』 — 本田宗一郎",
+    "title": "社会への貢献も成功の尺度にする",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_675",
-    "title": "『失った物ばかり数えるな。無いものは無い。』 — ジンベエ／『ONE PIECE』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_676",
-    "title": "『人はいつ死ぬと思う？ 人に忘れられた時さ。』 — Dr.ヒルルク／『ONE PIECE』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_677",
-    "title": "『俺が知りたいのは楽な道のりじゃねェ。険しい道の歩き方だ。』 — 『NARUTO』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_678",
-    "title": "『諦めねェ。それこそがワシのとるべき本当の選択だった。』 — 自来也／『NARUTO』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_679",
-    "title": "『ルールを破る奴はクズだ。だが仲間を大切にしない奴はそれ以上のクズだ。』 — 『NARUTO』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_680",
-    "title": "『自分を信じない奴なんかに、努力する価値はない。』 — マイト・ガイ／『NARUTO』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_681",
-    "title": "『あきらめたらそこで試合終了ですよ。』 — 安西先生／『SLAM DUNK』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_682",
-    "title": "『オレは今なんだよ。』 — 桜木花道／『SLAM DUNK』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_683",
-    "title": "『負けたことがあるというのが、いつか大きな財産になる。』 — 『SLAM DUNK』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_684",
-    "title": "『才能は開花させるもの。センスは磨くもの。』 — 及川徹／『ハイキュー!!』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_685",
-    "title": "『ところで平凡な俺よ、下を向いている暇はあるのか。』 — 田中龍之介／『ハイキュー!!』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_686",
-    "title": "『今日敗者の君たちよ。明日は何者になる？』 — 『ハイキュー!!』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_687",
-    "title": "『逃げる方が絶対後からしんどいってことは、もう知ってる。』 — 『宇宙兄弟』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_688",
-    "title": "『本気でやった場合に限るよ。本気の失敗には価値がある。』 — 南波六太／『宇宙兄弟』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_689",
-    "title": "『迷った時はね、どっちが正しいかなんて考えちゃダメ。どっちが楽しいかで決めなさい。』 — 『宇宙兄弟』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_690",
-    "title": "『俺の敵は、だいたい俺です。』 — 南波六太／『宇宙兄弟』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_691",
-    "title": "『一番いけないのは、自分なんかダメだと思い込むことだよ。』 — 『ドラえもん』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_692",
-    "title": "『人にできて、きみだけにできないなんてことあるもんか。』 — ドラえもん／『ドラえもん』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_693",
-    "title": "『過ぎたことを悔やんでもしょうがないじゃないか。目はどうして前についていると思う？ 前向きに進んでいくためだよ。』 — 『ドラえもん』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_694",
-    "title": "『何かを変えることのできる人間がいるとすれば、その人はきっと、大事なものを捨てることができる人だ。』 — アルミン／『進撃の巨人』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_695",
-    "title": "『後悔のない方を自分で選べ。』 — リヴァイ／『進撃の巨人』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_696",
-    "title": "『立って歩け。前へ進め。あんたには立派な足がついてるじゃないか。』 — エドワード・エルリック／『鋼の錬金術師』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_697",
-    "title": "『痛みを伴わない教訓には意義がない。』 — 『鋼の錬金術師』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_698",
-    "title": "『人間は何かの犠牲なしには何も得ることはできない。』 — 『鋼の錬金術師』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_699",
-    "title": "『重要なのは結論ではなく、経過なんだ。』 — 『春に踊れば』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
-    "relatedTheoryIds": [],
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_700",
-    "title": "『重要じゃないもの、無意味なものを、無価値だと思わないでほしい。』 — 『春に踊れば』",
-    "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
@@ -7145,8 +6851,8 @@
     "tagId": "kb_701",
     "title": "『生れて来た以上は、生きねばならぬ。』 — 夏目漱石",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
     "status": "locked"
   },
@@ -7154,35 +6860,35 @@
     "tagId": "kb_702",
     "title": "『とかくに人の世は住みにくい。』 — 夏目漱石『草枕』",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_703",
-    "title": "『なんとなく生きるな。』 — 小池一夫",
+    "title": "惰性で過ごす時間を見直す",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_704",
-    "title": "『トラウマを飼いならせ。』 — 小池一夫",
+    "title": "過去の傷との付き合い方を学ぶ",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },
   {
     "tagId": "kb_705",
-    "title": "『悠々として急げ。』 — 小池一夫",
+    "title": "落ち着きを保ちながら行動する",
     "summary": "",
-    "categoryId": "maxims-experience",
-    "categoryTitle": "格言・経験則・作品",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
     "relatedTheoryIds": [],
     "status": "locked"
   },

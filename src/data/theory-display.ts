@@ -17,7 +17,6 @@ export function normalizeDisplayText(value?: string | null): string {
 
 export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; categoryTitle: string }, 'categoryId' | 'categoryTitle'>): string {
   const displayLabels: Record<string, string> = {
-    'maxims-experience': '格言',
     'organization-management': '組織・経営論',
     'practical-wisdom': '実践知',
     'classics-thought': '古典・思想',
@@ -33,13 +32,6 @@ export function getTheorySeoCopy(theory: Pick<{ title: string; summary: string; 
       title: `${theory.title}の意味・現代語訳と現代での活かし方`,
       description: `${summary} 意味や背景を、現代の判断と処世術へのつながりから読み解きます。`,
       summaryHeading: '意味・現代での捉え方',
-    };
-  }
-  if (theory.categoryId === 'maxims-experience') {
-    return {
-      title: `${theory.title}の意味・出典と現代での活かし方`,
-      description: `${summary} 言葉の意味・出典状態と、現代の判断への活かし方を確認できます。`,
-      summaryHeading: '意味と文脈',
     };
   }
   return {

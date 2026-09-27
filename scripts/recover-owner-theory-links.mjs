@@ -27,6 +27,7 @@ const optimizedByTechnique = new Map((optimizationResult.data ?? []).map((row) =
 
 const latestByTechnique = new Map();
 for (const revision of revisions ?? []) if (!latestByTechnique.has(revision.technique_id)) latestByTechnique.set(revision.technique_id, revision);
+const retiredTheoryIds = new Set([...Array.from({ length: 26 }, (_, index) => `kb_${675 + index}`), 'theory-1789343197612-6d9ahj0r']);
 const same = (left, right) => JSON.stringify(left ?? []) === JSON.stringify(right ?? []);
 let recovered = 0;
 for (const row of techniques ?? []) {
@@ -34,7 +35,8 @@ for (const row of techniques ?? []) {
   const currentIds = Array.isArray(row.theory_ids) ? row.theory_ids : [];
   const revision = latestByTechnique.get(row.id);
   const snapshot = revision?.snapshot && typeof revision.snapshot === 'object' ? revision.snapshot : null;
-  const revisionIds = Array.isArray(snapshot?.theory_ids) ? snapshot.theory_ids : Array.isArray(snapshot?.relatedTheoryIds) ? snapshot.relatedTheoryIds : [];
+  const revisionIds = (Array.isArray(snapshot?.theory_ids) ? snapshot.theory_ids : Array.isArray(snapshot?.relatedTheoryIds) ? snapshot.relatedTheoryIds : [])
+    .filter((id) => !retiredTheoryIds.has(id));
   const optimizedIds = optimizedByTechnique.get(row.id);
   // A reviewed, versioned catalogue migration is authoritative. Do not
   // mistake its deliberate change for the historical accidental overwrite

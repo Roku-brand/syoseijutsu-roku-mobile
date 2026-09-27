@@ -103,6 +103,10 @@ jobs:
         run: |
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
+      - name: Remove retired quotation content from owner catalogue
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
+        run: node scripts/sync-theory-rights.mjs
+
       - name: Sync published technique content
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
@@ -139,6 +143,9 @@ jobs:
 
       - name: Audit free and complete product scope
         run: pnpm content:audit-scope
+
+      - name: Audit retired quotation content
+        run: pnpm content:audit-theory-rights
 
       - name: Audit curated theory links in both directions
         run: pnpm content:audit-theory-links

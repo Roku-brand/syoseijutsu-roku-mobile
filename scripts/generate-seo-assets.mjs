@@ -60,11 +60,6 @@ function theorySeoCopy(item) {
     description: `${item.summary} 意味や背景を、現代の判断と処世術へのつながりから読み解きます。`,
     summaryHeading: '意味・現代での捉え方',
   };
-  if (item.categoryId === 'maxims-experience') return {
-    title: `${item.title}の意味・出典と現代での活かし方`,
-    description: `${item.summary} 言葉の意味・出典状態と、現代の判断への活かし方を確認できます。`,
-    summaryHeading: '意味と文脈',
-  };
   return {
     title: `${item.title}とは？意味・具体例と実生活への活かし方`,
     description: `${item.summary} 理論の意味と、日常・仕事・人間関係で使える処世術へのつながりを紹介します。`,

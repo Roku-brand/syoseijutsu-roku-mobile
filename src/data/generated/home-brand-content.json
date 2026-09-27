@@ -783,7 +783,7 @@
     },
     {
       "tagId": "kb_330",
-      "title": "『Done is better than perfect』",
+      "title": "まず完成させてから改善する",
       "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
@@ -976,10 +976,10 @@
     },
     {
       "tagId": "kb_645",
-      "title": "『結果より、まず自分の仕事をする』 — 大谷翔平",
+      "title": "結果より今日の行動に集中する",
       "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
       "relatedTheoryIds": []
     },
     {
@@ -1089,10 +1089,10 @@
     },
     {
       "tagId": "kb_669",
-      "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
+      "title": "成功の裏にある試行錯誤を見る",
       "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
       "relatedTheoryIds": []
     },
     {
@@ -1251,25 +1251,10 @@
     },
     {
       "tagId": "kb_634",
-      "title": "『時間は限られている。他人の人生を生きるな』 — スティーブ・ジョブズ",
+      "title": "自分の価値観で時間を使う",
       "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
-      "provenance": {
-        "status": "確認済み",
-        "attribution": "スティーブ・ジョブズ（Steve Jobs）",
-        "period": "2005年6月12日",
-        "works": [
-          "Stanford University Commencement Address (2005)"
-        ],
-        "sources": [
-          {
-            "title": "原典・公開資料",
-            "url": "https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says"
-          }
-        ],
-        "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
-      },
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
       "relatedTheoryIds": []
     },
     {
@@ -1289,10 +1274,10 @@
     },
     {
       "tagId": "kb_654",
-      "title": "『自分の中に毒を持て』 — 岡本太郎",
+      "title": "自分ならではの価値観を守る",
       "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
       "relatedTheoryIds": []
     },
     {

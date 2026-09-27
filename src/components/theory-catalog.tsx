@@ -9,7 +9,7 @@ import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
 
-export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'practical-wisdom' | 'classics-thought' | 'maxims-experience';
+export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'practical-wisdom' | 'classics-thought';
 
 export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }> = [
   { key: 'all', label: 'すべて' },
@@ -19,7 +19,6 @@ export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }>
   { key: 'strategy', label: '戦略論' },
   { key: 'practical-wisdom', label: '実践知' },
   { key: 'classics-thought', label: '古典・思想' },
-  { key: 'maxims-experience', label: '格言' },
 ];
 
 export function TheoryFilterBar({ selected, onSelect }: {

@@ -302,7 +302,7 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByTestId('header-upgrade-banner')).toBeVisible();
-    await expect(header.getByText('356の処世術・793の理論をすべて読む', { exact: true })).toHaveCount(0);
+    await expect(header.getByText('356の処世術・767の理論をすべて読む', { exact: true })).toHaveCount(0);
     await expect(header.getByText('完全版を見る →', { exact: true })).toBeVisible();
     await expect(header.getByText('禄', { exact: true })).toHaveCount(0);
     await expect(header.getByText('人生をより深く、より豊かに', { exact: true })).toHaveCount(0);
@@ -316,7 +316,7 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
   const desktopBanner = page.getByTestId('header-upgrade-banner');
   const desktopCta = page.getByTestId('header-upgrade-cta');
   await expect(desktopBanner).toBeVisible();
-  await expect(desktopBanner.getByText('356の処世術・793の理論をすべて読む', { exact: true })).toBeVisible();
+  await expect(desktopBanner.getByText('356の処世術・767の理論をすべて読む', { exact: true })).toBeVisible();
   await expect(desktopBanner.getByText('禄', { exact: true })).toBeVisible();
   await expect(desktopBanner.getByText('完全版を見る →', { exact: true })).toBeVisible();
   await expect(desktopBanner).toHaveCSS('background-color', 'rgb(248, 240, 221)');
@@ -612,9 +612,9 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
 
   await page.goto('/theories');
   await expect(page.getByRole('heading', { name: '理論一覧' })).toBeVisible();
-  await expect(page.getByText('793件', { exact: true })).toBeVisible();
+  await expect(page.getByText('767件', { exact: true })).toBeVisible();
   const labels = await page.getByTestId('theory-category-filters').getByRole('button').allTextContents();
-  expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想', '格言']);
+  expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想']);
   await expect(page.getByRole('textbox')).toHaveCount(0);
 });
 
@@ -790,7 +790,6 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
 
 test('理論カテゴリは一つの理論一覧で絞り込む', async ({ page }) => {
   for (const [category, label] of [
-    ['maxims-experience', '格言'],
     ['organization-management', '組織・経営論'],
     ['practical-wisdom', '実践知'],
     ['classics-thought', '古典・思想'],
@@ -961,7 +960,7 @@ test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・�
 test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('793件', { exact: true })).toBeVisible();
+  await expect(page.getByText('767件', { exact: true })).toBeVisible();
   await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);
