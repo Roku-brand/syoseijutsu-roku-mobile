@@ -628,6 +628,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(async () => {
     const mobileBoxes = await Promise.all([0, 1, 2].map((index) => filters.nth(index).boundingBox()));
+    if (mobileBoxes.some((box) => box === null)) return false;
     return mobileBoxes[1]!.y > mobileBoxes[0]!.y + mobileBoxes[0]!.height
       && Math.abs(mobileBoxes[1]!.y - mobileBoxes[2]!.y) <= 1;
   }).toBe(true);
