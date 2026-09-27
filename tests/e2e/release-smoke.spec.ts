@@ -622,15 +622,17 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   expect(new Set(boxes.slice(1, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(boxes[4]!.y).toBeGreaterThan(boxes[1]!.y);
-  expect(boxes[0]!.height).toBeGreaterThanOrEqual(boxes[4]!.y + boxes[4]!.height - boxes[0]!.y - 2);
+  expect(Math.abs(boxes[0]!.width - boxes[1]!.width)).toBeLessThanOrEqual(3);
+  expect(Math.abs(boxes[0]!.height - boxes[1]!.height)).toBeLessThanOrEqual(1);
   await expect(page.getByRole('textbox')).toHaveCount(0);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(async () => {
     const mobileBoxes = await Promise.all([0, 1, 2].map((index) => filters.nth(index).boundingBox()));
     if (mobileBoxes.some((box) => box === null)) return false;
-    return mobileBoxes[1]!.y > mobileBoxes[0]!.y + mobileBoxes[0]!.height
-      && Math.abs(mobileBoxes[1]!.y - mobileBoxes[2]!.y) <= 1;
+    return Math.abs(mobileBoxes[0]!.y - mobileBoxes[1]!.y) <= 1
+      && Math.abs(mobileBoxes[0]!.width - mobileBoxes[1]!.width) <= 1
+      && mobileBoxes[2]!.y > mobileBoxes[0]!.y + mobileBoxes[0]!.height;
   }).toBe(true);
 });
 

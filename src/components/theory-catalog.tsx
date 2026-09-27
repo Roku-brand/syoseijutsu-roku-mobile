@@ -38,17 +38,19 @@ export function TheoryFilterBar({ selected, onSelect, compact }: {
         onPress={() => onSelect(option.key)}
         style={({ pressed }) => [styles.filterButton, featured ? [styles.filterButtonFeatured, compact && styles.filterButtonFeaturedCompact] : [styles.filterButtonCategory, compact && styles.filterButtonCategoryCompact], active && styles.filterButtonActive, pressed && styles.pressed]}
       >
-        <AppText style={[styles.filterText, featured && styles.filterTextFeatured, active && styles.filterTextActive]}>{option.label}</AppText>
+        <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
       </Pressable>
     );
   };
 
   return (
-    <View testID="theory-category-filters" style={[styles.filterRow, compact && styles.filterRowCompact]}>
-      {renderOption(theoryFilterOptions[0], true)}
-      <View style={[styles.filterGrid, compact && styles.filterGridCompact]}>
-        {theoryFilterOptions.slice(1).map((option) => renderOption(option))}
-      </View>
+    <View testID="theory-category-filters" style={compact ? styles.filterGridCompact : styles.filterRow}>
+      {compact ? theoryFilterOptions.map((option, index) => renderOption(option, index === 0)) : <>
+        {renderOption(theoryFilterOptions[0], true)}
+        <View style={styles.filterGrid}>
+          {theoryFilterOptions.slice(1).map((option) => renderOption(option))}
+        </View>
+      </>}
     </View>
   );
 }
@@ -81,17 +83,15 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 
 const styles = StyleSheet.create({
   filterRow: { width: '100%', flexDirection: 'row', gap: 12, paddingHorizontal: 1, paddingVertical: 2 },
-  filterRowCompact: { flexDirection: 'column' },
   filterGrid: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
-  filterGridCompact: { flex: 0, width: '100%' },
+  filterGridCompact: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12, paddingHorizontal: 1, paddingVertical: 2 },
   filterButton: { minHeight: 64, paddingHorizontal: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
-  filterButtonFeatured: { width: '23%', minHeight: 140 },
-  filterButtonFeaturedCompact: { width: '100%', minHeight: 58 },
+  filterButtonFeatured: { width: '24%' },
+  filterButtonFeaturedCompact: { width: '48%' },
   filterButtonCategory: { width: '32%' },
   filterButtonCategoryCompact: { width: '48%' },
   filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
-  filterTextFeatured: { fontSize: 15, lineHeight: 23 },
   filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },
