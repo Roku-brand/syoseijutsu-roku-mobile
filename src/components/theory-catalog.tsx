@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   filterGrid: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
   filterGridCompact: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12, paddingHorizontal: 1, paddingVertical: 2 },
   filterButton: { minHeight: 64, paddingHorizontal: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
-  filterButtonFeatured: { width: '24%' },
+  filterButtonFeatured: { width: '24%', alignSelf: 'flex-start' },
   filterButtonFeaturedCompact: { width: '48%' },
   filterButtonCategory: { width: '32%' },
   filterButtonCategoryCompact: { width: '48%' },
