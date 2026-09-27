@@ -21,28 +21,34 @@ export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }>
   { key: 'classics-thought', label: '古典・思想' },
 ];
 
-export function TheoryFilterBar({ selected, onSelect }: {
+export function TheoryFilterBar({ selected, onSelect, compact }: {
   selected: TheoryFilterKey;
   onSelect: (filter: TheoryFilterKey) => void;
+  compact: boolean;
 }) {
+  const renderOption = (option: (typeof theoryFilterOptions)[number], featured = false) => {
+    const active = selected === option.key;
+    return (
+      <Pressable
+        key={option.key}
+        accessibilityRole="button"
+        accessibilityLabel={`${option.label}で理論を絞り込む`}
+        accessibilityState={{ selected: active }}
+        aria-selected={active}
+        onPress={() => onSelect(option.key)}
+        style={({ pressed }) => [styles.filterButton, featured ? [styles.filterButtonFeatured, compact && styles.filterButtonFeaturedCompact] : [styles.filterButtonCategory, compact && styles.filterButtonCategoryCompact], active && styles.filterButtonActive, pressed && styles.pressed]}
+      >
+        <AppText style={[styles.filterText, featured && styles.filterTextFeatured, active && styles.filterTextActive]}>{option.label}</AppText>
+      </Pressable>
+    );
+  };
+
   return (
-    <View testID="theory-category-filters" style={styles.filterRow}>
-      {theoryFilterOptions.map((option) => {
-        const active = selected === option.key;
-        return (
-          <Pressable
-            key={option.key}
-            accessibilityRole="button"
-            accessibilityLabel={`${option.label}で理論を絞り込む`}
-            accessibilityState={{ selected: active }}
-            aria-selected={active}
-            onPress={() => onSelect(option.key)}
-            style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
-          >
-            <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
-          </Pressable>
-        );
-      })}
+    <View testID="theory-category-filters" style={[styles.filterRow, compact && styles.filterRowCompact]}>
+      {renderOption(theoryFilterOptions[0], true)}
+      <View style={[styles.filterGrid, compact && styles.filterGridCompact]}>
+        {theoryFilterOptions.slice(1).map((option) => renderOption(option))}
+      </View>
     </View>
   );
 }
@@ -74,10 +80,18 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterRow: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 10, paddingHorizontal: 1, paddingVertical: 2 },
-  filterButton: { width: '22%', minHeight: 52, paddingHorizontal: 2, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterRow: { width: '100%', flexDirection: 'row', gap: 12, paddingHorizontal: 1, paddingVertical: 2 },
+  filterRowCompact: { flexDirection: 'column' },
+  filterGrid: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
+  filterGridCompact: { flex: 0, width: '100%' },
+  filterButton: { minHeight: 64, paddingHorizontal: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButtonFeatured: { width: '23%', minHeight: 140 },
+  filterButtonFeaturedCompact: { width: '100%', minHeight: 58 },
+  filterButtonCategory: { width: '32%' },
+  filterButtonCategoryCompact: { width: '48%' },
   filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, fontWeight: '600' },
+  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
+  filterTextFeatured: { fontSize: 15, lineHeight: 23 },
   filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },

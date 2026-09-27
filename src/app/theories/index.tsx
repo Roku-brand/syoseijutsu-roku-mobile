@@ -65,7 +65,7 @@ export default function TheoryIndexScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.filters}>
-        <TheoryFilterBar selected={category} onSelect={selectCategory} />
+        <TheoryFilterBar selected={category} onSelect={selectCategory} compact={compact} />
       </View>
 
       <View style={styles.resultHeading}>

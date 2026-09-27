@@ -615,7 +615,22 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   await expect(page.getByText('767件', { exact: true })).toBeVisible();
   const labels = await page.getByTestId('theory-category-filters').getByRole('button').allTextContents();
   expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想']);
+  const filters = page.getByTestId('theory-category-filters').getByRole('button');
+  const boxes = await Promise.all(Array.from({ length: 7 }, (_, index) => filters.nth(index).boundingBox()));
+  expect(boxes.every(Boolean)).toBe(true);
+  expect(boxes.slice(1).every((box) => box!.x > boxes[0]!.x + boxes[0]!.width)).toBe(true);
+  expect(new Set(boxes.slice(1, 4).map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(boxes[4]!.y).toBeGreaterThan(boxes[1]!.y);
+  expect(boxes[0]!.height).toBeGreaterThanOrEqual(boxes[4]!.y + boxes[4]!.height - boxes[0]!.y - 2);
   await expect(page.getByRole('textbox')).toHaveCount(0);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect.poll(async () => {
+    const mobileBoxes = await Promise.all([0, 1, 2].map((index) => filters.nth(index).boundingBox()));
+    return mobileBoxes[1]!.y > mobileBoxes[0]!.y + mobileBoxes[0]!.height
+      && Math.abs(mobileBoxes[1]!.y - mobileBoxes[2]!.y) <= 1;
+  }).toBe(true);
 });
 
 test('追加理論は詳細・出典・関連導線まで表示される', async ({ page }) => {
