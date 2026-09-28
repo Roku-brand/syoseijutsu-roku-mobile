@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { SymbolView } from 'expo-symbols';
-import { usePathname, useRouter, type Href } from 'expo-router';
+import { useLocalSearchParams, usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,10 +24,12 @@ const items = [
 export function PersistentBottomNav() {
   const { desktop, bottomNavHeight } = useResponsiveLayout();
   const pathname = usePathname();
+  const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const router = useRouter();
   const lastTap = useRef<Record<string, number>>({});
+  const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
 
-  if (pathname === '/welcome' || pathname === '/onboarding') return null;
+  if (pathname === '/welcome' || pathname === '/onboarding' || (pathname === '/' && (checkout === 'success' || checkout === 'cancelled'))) return null;
   const selected = getMainSection(pathname);
 
   const navigate = (item: (typeof items)[number]) => {
