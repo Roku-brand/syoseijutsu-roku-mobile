@@ -44,7 +44,7 @@ test('the shoseijutsu about page is an indexable standalone article', async ({ p
   expect(jsonLd).toContain('BreadcrumbList');
   expect(jsonLd).toContain('Article');
   expect(jsonLd).toContain('DefinedTerm');
-  await expect(page.getByRole('link', { name: /人間関係の処世術/ })).toHaveAttribute('href', '/interpersonal');
+  await expect(page.getByRole('link', { name: /人間関係の処世術/ })).toHaveAttribute('href', '/personas?category=interpersonal');
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileMetrics = await page.evaluate(() => ({ innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(mobileMetrics.scrollWidth).toBeLessThanOrEqual(mobileMetrics.innerWidth);

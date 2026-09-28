@@ -1,4 +1,4 @@
-import { useRouter, type Href } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 
@@ -9,25 +9,18 @@ import { theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-c
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
 import { categoryMeta, categoryOrder } from '@/data/catalog';
-import type { CategoryKey } from '@/data/types';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
 
 const popularSearches = ['友達', '出世', '進路', '会話', '印象', '信頼'] as const;
-const techniqueDescriptions: Record<CategoryKey, string> = {
-  interpersonal: '人との関わり方', work: '仕事で成果を出す', life: 'より良く生きる',
-};
-const techniqueRoutes: Record<CategoryKey, Href> = {
-  interpersonal: APP_ROUTES.interpersonal, work: APP_ROUTES.work, life: APP_ROUTES.life,
-};
 type TheoryIconName = 'mind' | 'chart' | 'compass' | 'people' | 'classics' | 'idea';
-const theoryDetails: Array<{ key: TheoryFilterKey; description: string; icon: TheoryIconName }> = [
-  { key: 'psychology', description: '心の仕組みを知る', icon: 'mind' },
-  { key: 'behavioral-science', description: '行動を変える', icon: 'chart' },
-  { key: 'strategy', description: '長期的に考える', icon: 'compass' },
-  { key: 'organization-management', description: '組織と社会を動かす', icon: 'people' },
-  { key: 'classics-thought', description: '普遍の知恵を学ぶ', icon: 'classics' },
-  { key: 'practical-wisdom', description: '現場からの学び', icon: 'idea' },
+const theoryDetails: Array<{ key: TheoryFilterKey; icon: TheoryIconName }> = [
+  { key: 'psychology', icon: 'mind' },
+  { key: 'behavioral-science', icon: 'chart' },
+  { key: 'strategy', icon: 'compass' },
+  { key: 'organization-management', icon: 'people' },
+  { key: 'classics-thought', icon: 'classics' },
+  { key: 'practical-wisdom', icon: 'idea' },
 ];
 
 export default function DiscoverScreen() {
@@ -62,25 +55,23 @@ export default function DiscoverScreen() {
           <AppText style={styles.searchSubmitText}>検索</AppText>
         </Pressable>
       </View>
-      <AppText style={[styles.lead, compact && styles.leadCompact]}>いまの悩みや、なりたい自分から探せます。</AppText>
-
       <View testID="discover-destinations" style={[styles.destinations, compact && styles.destinationsCompact]}>
-        <DestinationCard title="人物像から探す" description="目指したい人物像から、必要な処世術を探します。" icon="person" compact={compact} narrow={narrow} onPress={() => router.push(APP_ROUTES.personas)} />
-        <DestinationCard title="理論から探す" description="心理学・行動科学・戦略論などの理論から探します。" icon="book" compact={compact} narrow={narrow} onPress={() => router.push('/theories')} />
+        <DestinationCard title="人物像から探す" icon="person" compact={compact} narrow={narrow} onPress={() => router.push(APP_ROUTES.personas)} />
+        <DestinationCard title="理論から探す" icon="book" compact={compact} narrow={narrow} onPress={() => router.push('/theories')} />
       </View>
 
       <View testID="discover-categories" style={[styles.categoriesSection, compact && styles.categoriesSectionCompact]}>
-        <BrandSectionHeading title="カテゴリから探す" actionLabel="すべて見る →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
-        <GroupHeading title="処世術" />
+        <BrandSectionHeading title="人物像から探す" actionLabel="すべて見る →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
+        <GroupHeading title="人物像" />
         <View testID="discover-technique-grid" style={styles.categoryGrid}>
-          {categoryOrder.map((key) => <CategoryCard key={key} title={categoryMeta[key].label} description={techniqueDescriptions[key]} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push(techniqueRoutes[key])} />)}
+          {categoryOrder.map((key) => <CategoryCard key={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
         </View>
         <GroupHeading title="理論" secondary />
         <View testID="discover-theory-grid" style={styles.categoryGrid}>
           {theoryDetails.map((item) => {
             const title = theoryFilterOptions.find((option) => option.key === item.key)?.label;
             if (!title) return null;
-            return <CategoryCard key={item.key} title={title} description={item.description} icon={item.icon} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
+            return <CategoryCard key={item.key} title={title} icon={item.icon} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
           })}
         </View>
       </View>
@@ -95,10 +86,10 @@ export default function DiscoverScreen() {
   );
 }
 
-function DestinationCard({ title, description, icon, compact, narrow, onPress }: { title: string; description: string; icon: 'person' | 'book'; compact: boolean; narrow: boolean; onPress: () => void }) {
+function DestinationCard({ title, icon, compact, narrow, onPress }: { title: string; icon: 'person' | 'book'; compact: boolean; narrow: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="link" accessibilityLabel={title} onPress={onPress} style={({ pressed }) => [styles.destinationCard, compact && styles.destinationCardCompact, narrow && styles.destinationCardNarrow, pressed && styles.pressedCard]}>
     <View style={[styles.destinationIcon, compact && styles.destinationIconCompact]}><DestinationIcon name={icon} /></View>
-    <View style={styles.destinationCopy}><AppText numberOfLines={2} style={[styles.destinationTitle, compact && styles.destinationTitleCompact, narrow && styles.destinationTitleNarrow]}>{title}</AppText><AppText numberOfLines={3} style={[styles.destinationDescription, compact && styles.destinationDescriptionCompact]}>{description}</AppText></View>
+    <View style={styles.destinationCopy}><AppText numberOfLines={2} style={[styles.destinationTitle, compact && styles.destinationTitleCompact, narrow && styles.destinationTitleNarrow]}>{title}</AppText></View>
     <AppText accessibilityElementsHidden style={[styles.arrow, styles.destinationArrow]}>›</AppText>
   </Pressable>;
 }
@@ -112,10 +103,9 @@ function GroupHeading({ title, secondary = false }: { title: string; secondary?:
   return <View style={[styles.groupHeading, secondary && styles.groupHeadingSecondary]}><AppText accessibilityRole="header" aria-level={3} style={styles.groupTitle}>{title}</AppText><View style={styles.groupRule} /></View>;
 }
 
-function CategoryCard({ title, description, mark, icon, narrow, onPress }: { title: string; description: string; mark?: string; icon?: TheoryIconName; narrow: boolean; onPress: () => void }) {
+function CategoryCard({ title, mark, icon, narrow, onPress }: { title: string; mark?: string; icon?: TheoryIconName; narrow: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
     <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={2} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
-    <AppText numberOfLines={2} style={[styles.categoryDescription, narrow && styles.categoryDescriptionNarrow]}>{description}</AppText>
     <AppText accessibilityElementsHidden style={[styles.arrow, styles.categoryArrow, narrow && styles.categoryArrowNarrow]}>›</AppText>
   </Pressable>;
 }
@@ -140,21 +130,17 @@ const styles = StyleSheet.create({
   searchInputNarrow: { fontSize: 14 },
   searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },
   searchSubmitText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, fontWeight: '700' },
-  lead: { marginTop: 8, color: colors.muted, fontFamily: fonts.serif, fontSize: 14, lineHeight: 23 },
-  leadCompact: { marginTop: 7, fontSize: 12, lineHeight: 20 },
-  destinations: { flexDirection: 'row', gap: 14, marginTop: 26 },
+  destinations: { flexDirection: 'row', gap: 14, marginTop: 18 },
   destinationsCompact: { gap: 10, marginTop: 20 },
-  destinationCard: { position: 'relative', flex: 1, minWidth: 0, minHeight: 150, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 18, paddingVertical: 18, borderWidth: 1, borderColor: softGold, borderRadius: 18, backgroundColor: colors.surface },
-  destinationCardCompact: { minHeight: 120, gap: 6, paddingHorizontal: 10, paddingVertical: 10 },
-  destinationCardNarrow: { minHeight: 132, paddingHorizontal: 8, gap: 5 },
+  destinationCard: { position: 'relative', flex: 1, minWidth: 0, minHeight: 90, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 18, paddingVertical: 12, borderWidth: 1, borderColor: softGold, borderRadius: 18, backgroundColor: colors.surface },
+  destinationCardCompact: { minHeight: 72, gap: 6, paddingHorizontal: 10, paddingVertical: 8 },
+  destinationCardNarrow: { minHeight: 72, paddingHorizontal: 8, gap: 5 },
   destinationIcon: { width: 52, height: 52, flexShrink: 0, borderRadius: 26, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
   destinationIconCompact: { width: 34, height: 34, borderRadius: 17 },
   destinationCopy: { flex: 1, minWidth: 0, paddingRight: 3 },
   destinationTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
   destinationTitleCompact: { fontSize: 15, lineHeight: 21 },
   destinationTitleNarrow: { fontSize: 13, lineHeight: 19 },
-  destinationDescription: { marginTop: 8, color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 21 },
-  destinationDescriptionCompact: { marginTop: 5, fontSize: 11, lineHeight: 17 },
   arrow: { color: colors.gold, fontFamily: fonts.serif, fontWeight: '600' },
   destinationArrow: { position: 'absolute', right: 4, top: '47%', fontSize: 21, lineHeight: 24 },
   categoriesSection: { marginTop: 36 }, categoriesSectionCompact: { marginTop: 28 },
@@ -162,8 +148,8 @@ const styles = StyleSheet.create({
   groupTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   groupRule: { flex: 1, height: 1, backgroundColor: colors.line },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, minHeight: 70, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
-  categoryCardNarrow: { minHeight: 78, paddingHorizontal: 5 },
+  categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, minHeight: 58, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
+  categoryCardNarrow: { minHeight: 64, paddingHorizontal: 5 },
   categoryTop: { flexDirection: 'row', alignItems: 'center', gap: 5, minWidth: 0, paddingRight: 4 },
   categoryIcon: { width: 29, height: 29, flexShrink: 0, borderRadius: 15, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
   categoryIconNarrow: { width: 24, height: 24, borderRadius: 12 },
@@ -172,8 +158,6 @@ const styles = StyleSheet.create({
   categoryMarkNarrow: { fontSize: 15, lineHeight: 20 },
   categoryTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, fontWeight: '700' },
   categoryTitleNarrow: { fontSize: 10, lineHeight: 13 },
-  categoryDescription: { marginTop: 3, paddingRight: 7, color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 13 },
-  categoryDescriptionNarrow: { fontSize: 9, lineHeight: 12 },
   categoryArrow: { position: 'absolute', right: 2, bottom: 2, fontSize: 16, lineHeight: 18 },
   categoryArrowNarrow: { right: 1, fontSize: 14 },
   popularSection: { marginTop: 34 }, popularSectionCompact: { marginTop: 28 },

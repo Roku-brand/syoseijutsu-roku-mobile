@@ -25,9 +25,6 @@ export const APP_ROUTES = {
   privacy: '/legal/privacy',
   about: '/about/shoseijutsu' as Href,
   app: '/app',
-  interpersonal: '/interpersonal',
-  work: '/work',
-  life: '/life',
 } as const satisfies Record<string, Href>;
 
 export type MainSection = 'main' | 'discover' | 'learn' | 'my-os';
@@ -36,6 +33,9 @@ const DISCOVER_PREFIXES = [
   '/discover',
   '/popular',
   '/personas',
+  '/interpersonal',
+  '/work',
+  '/life',
   '/subcategory/',
   '/topic/',
   '/theory/',

@@ -86,9 +86,6 @@ function metaFor(rawRoute) {
     '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。'],
     '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。'],
     '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。'],
-    '/interpersonal': ['対人術｜人間関係・会話・信頼を整える処世術', '会話、印象、信頼、距離感、集団での立ち回りまで、人間関係の場面で使う処世術を人物像から体系的に探せます。'],
-    '/work': ['仕事術｜評価・合意・実行を成果へつなげる処世術', '段取り、交渉、評価、組織での立ち回りまで、仕事の場面で使う処世術を人物像から体系的に探せます。'],
-    '/life': ['人生術｜不安・選択・立て直しを整える処世術', '選択、習慣、不安、回復、人生設計まで、日々の判断を整える処世術を人物像から体系的に探せます。'],
     '/app': ['処世術禄アプリ｜知恵を、迷ったときに使える判断へ', '処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。'],
     '/learn': ['場面から処世術を学ぶ', '人間関係・仕事・人生の具体的な場面から一手を選び、処世術と理論を実践につなげて学べます。'],
     '/about/shoseijutsu': ['処世術とは｜意味・必要性・身につけ方をわかりやすく解説', '処世術とは、社会の中で人や状況とうまく関わり、自分の目的や生活を成り立たせるための知恵や方法です。言葉の意味、人を操る技術との違い、必要性、身につけ方を具体例とともに解説します。'],
@@ -180,7 +177,7 @@ function shoseijutsuStaticContent(meta) {
   ];
   let body = `<section class="seo-hero">${aboutParagraph('処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。', true)}${aboutParagraph('人間関係、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処など、社会生活をよりよくする幅広い知恵を含みます。')}${aboutParagraph('流れていく知恵を、ここで使える体系にする。', true)}${aboutParagraph('聞いたことがある、で終わらせない。処世術禄は、散らばった知恵を整理し、必要なときに取り出して使える形へ変える場所です。')}</section>`;
   body += sections.map(([title, paragraphs, emphasis]) => aboutSection(title, paragraphs, emphasis)).join('');
-  body += `<section><h2>場面別に処世術を学ぶ</h2><p>処世術は、置かれた場面によって使い方が変わります。今の課題に近い入口から、具体的な方法とその背景にある理論をたどれます。</p><ul><li><a href="/interpersonal">人間関係の処世術</a>—会話・信頼・距離感を整える</li><li><a href="/work">仕事の処世術</a>—評価・合意・実行を成果につなげる</li><li><a href="/life">人生の処世術</a>—選択・不安・立て直しの軸を持つ</li><li><a href="/theories">処世術を支える理論</a>—心理学・行動科学などから理解する</li></ul></section>`;
+  body += `<section><h2>場面別に処世術を学ぶ</h2><p>処世術は、置かれた場面によって使い方が変わります。今の課題に近い入口から、具体的な方法とその背景にある理論をたどれます。</p><ul><li><a href="/personas?category=interpersonal">人間関係の処世術</a>—会話・信頼・距離感を整える</li><li><a href="/personas?category=work">仕事の処世術</a>—評価・合意・実行を成果につなげる</li><li><a href="/personas?category=life">人生の処世術</a>—選択・不安・立て直しの軸を持つ</li><li><a href="/theories">処世術を支える理論</a>—心理学・行動科学などから理解する</li></ul></section>`;
   body += aboutSection('なぜ、処世術禄なのか', [
     '人生に役立つ知恵は、すでに世の中に数多く存在します。問題は、それらが散らばっていることです。',
     '人間関係の知恵は心理学の本にあり、仕事の進め方はビジネス書にあり、感情との付き合い方は哲学や行動科学にあり、人生についての知恵は誰かの経験談の中にある。',
@@ -221,13 +218,6 @@ function shoseijutsuStaticContent(meta) {
 function staticContent(meta) {
   if (!meta.indexable) return meta.route === '/404' || meta.route === '/+not-found' ? '<noscript><main><article><h1>ページが見つかりません</h1><p>URLをご確認いただくか、<a href="/">処世術禄のホーム</a>へ戻ってください。</p></article></main></noscript>' : '';
   if (meta.route === '/about/shoseijutsu') return shoseijutsuStaticContent(meta);
-  if (['/interpersonal', '/work', '/life'].includes(meta.route)) {
-    const categoryKey = meta.route.slice(1);
-    const category = categories.find((item) => item.key === categoryKey);
-    const label = categoryCopy[categoryKey][0];
-    const people = category?.subcategories ?? [];
-    return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(label)}</h1><p>${escape(meta.description)}</p><section><h2>人物像から探す</h2><ul>${people.map((persona) => `<li><a href="/subcategory/${encodeURIComponent(categoryKey)}/${encodeURIComponent(persona.name)}">${escape(persona.articleTitle ?? persona.name)}</a></li>`).join('')}</ul></section><section><h2>理論から、なぜ有効なのかを知る</h2><p>処世術禄では、人物像と個別処世術を、心理学・行動科学などの理論と結び付けて整理しています。</p><a href="/theories">理論一覧を見る</a></section></article></main></noscript>`;
-  }
   if (meta.route === '/app') return `<noscript><main>${breadcrumbs(meta)}<article><h1>処世術禄アプリ</h1><p>知識を、迷ったときに使える判断へ。処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。</p><p><a href="https://apps.apple.com/app/id6810376658">App Storeで処世術禄を見る</a></p><section><h2>Webで知り、アプリで身につける</h2><ul><li>体系から探す：処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件の無料公開コンテンツを人物像や場面からたどれます。</li><li>保存して戻る：必要だった知恵を保存し、迷ったときに読み返せます。</li><li>ケースで考える：ケース問題を通じて、知識を状況に応じた判断へつなげます。</li></ul></section><section><h2>無料版と完全版</h2><p>無料版では処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件を公開しています。完全版では、正本に収録された処世術${techniques.length}件・理論${theories.length}件と全ケース問題を利用できます。価格・利用条件はアプリ内の完全版画面で確認できます。</p></section><section><h2>大切な注意</h2><p>本アプリは一般的な情報と判断の視点を提供するもので、医療・法律・金融その他の専門的助言を代替しません。</p></section></article></main></noscript>`;
   let body = `<p>${escape(meta.description)}</p>`;
   if (meta.pageType === 'CreativeWork') {
@@ -255,7 +245,7 @@ function staticContent(meta) {
     body = `<section><h2>${escape(seo.summaryHeading)}</h2><p>${escape(meta.item.summary)}</p></section>${related.length ? `<section><h2>処世術との関係</h2><p>正本で紐づいている処世術だけを掲載しています。</p><ul>${related.map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a><span> — ${escape(item.persona)}</span></li>`).join('')}</ul></section>` : ''}${relatedTheories.length ? `<section><h2>関連する理論</h2><ul>${relatedTheories.map((item) => `<li><a href="/theory/${encodeURIComponent(item.tagId)}">${escape(item.title)}</a></li>`).join('')}</ul></section>` : ''}<section><h2>出典・原典</h2><p>${escape(sourceText)}</p></section>`;
   } else if (meta.persona) {
     body += `<section><h2>この人物像を形づくる処世術</h2><ul>${meta.persona.items.filter(isPublicTechnique).map((item) => `<li><a href="/card/${encodeURIComponent(item.id)}">${escape(item.title)}</a></li>`).join('')}</ul></section>`;
-  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/interpersonal">対人術</a></li><li><a href="/work">仕事術</a></li><li><a href="/life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/app">処世術禄アプリ</a></li></ul></section>';
+  } else body += '<section><h2>体系から探す</h2><ul><li><a href="/personas?category=interpersonal">対人術</a></li><li><a href="/personas?category=work">仕事術</a></li><li><a href="/personas?category=life">人生術</a></li><li><a href="/theories">心理学・行動科学などの理論</a></li><li><a href="/app">処世術禄アプリ</a></li></ul></section>';
   const heading = meta.item?.title ?? meta.title.replace(/｜処世術禄.*$/, '').replace(/｜人生を.*$/, '');
   return `<noscript><main>${breadcrumbs(meta)}<article><h1>${escape(heading)}</h1>${body}</article></main></noscript>`;
 }

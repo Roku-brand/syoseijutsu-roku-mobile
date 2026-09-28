@@ -10,7 +10,7 @@ The canonical host is `https://app.shoseijutsuroku.com`, without a trailing slas
 
 | Classification | Route pattern | SEO treatment | Count in this build |
 | --- | --- | --- | --- |
-| A — index | `/`, `/about/shoseijutsu`, `/discover`, `/personas`, `/theories`, `/interpersonal`, `/work`, `/life`, `/app`, `/legal/faq`, `/learn` | Canonical, 200, unique title/description/H1, breadcrumbs and JSON-LD | 11 fixed hubs |
+| A — index | `/`, `/about/shoseijutsu`, `/discover`, `/personas`, `/theories`, `/app`, `/legal/faq`, `/learn` | Canonical, 200, unique title/description/H1, breadcrumbs and JSON-LD | 8 fixed hubs |
 | A — index | `/subcategory/{interpersonal|work|life}/{persona}` with one or more public techniques | Persona hub | 6 |
 | A — index | `/card/{id}` only where the authoritative public item has a substantive explanation | Individual technique | 50 |
 | A — index | `/theory/{id}` only where the authoritative public theory has a substantive summary | Individual theory | 150 |
@@ -19,6 +19,7 @@ The canonical host is `https://app.shoseijutsuroku.com`, without a trailing slas
 | B — noindex | locked `/card/{id}`, locked `/theory/{id}`, unknown routes, `/404`, `/+not-found`, `/catalog` | No standalone public content or compatibility route | Route families |
 | C — redirect | short legacy `/card/master336-1` through `/card/master336-99` when the zero-padded canonical card exists | Client compatibility redirect exists; a real HTTP 301 is not possible on GitHub Pages alone | 336 possible aliases |
 | C — redirect | `/catalog` → `/discover` | Canonical/noindex compatibility page exists; needs edge/server redirect support for HTTP 301 | 1 |
+| C — redirect | `/interpersonal`, `/work`, `/life` → `/personas?category=…` | Client compatibility redirects to the matching persona category; filtered URLs remain outside the sitemap | 3 |
 | D — 404 | malformed or out-of-range `master336-*` IDs and unknown routes | Explicit noindex not-found content | Route family |
 
 GitHub Pages cannot emit per-path 301 or 410 response codes. Do not claim a client-side redirect, canonical tag, or SPA fallback is an HTTP redirect. If legacy URLs are already indexed and need status-code migration, move the domain behind a configured edge/server redirect layer before changing their sitemap or requesting removal.
