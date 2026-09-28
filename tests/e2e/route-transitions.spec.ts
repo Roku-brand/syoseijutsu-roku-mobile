@@ -15,6 +15,13 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
       return original.call(this, frames, options);
     };
   });
+  await page.goto('/welcome');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  const welcomeModal = page.getByTestId('home-welcome-modal');
+  if (await welcomeModal.isVisible({ timeout: 800 })) {
+    await welcomeModal.getByRole('button', { name: 'あとで見る' }).click();
+  }
+  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
   await page.goto('/discover');
   const content = page.getByTestId('route-transition-content');
   const header = page.getByTestId('book-header');
