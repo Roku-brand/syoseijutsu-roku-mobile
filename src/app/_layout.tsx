@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
-import { Stack, useLocalSearchParams, usePathname } from 'expo-router';
+import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -21,7 +21,7 @@ import { motion } from '@/constants/motion';
 function AppFrame() {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
-  const params = useLocalSearchParams<{ checkout?: string | string[] }>();
+  const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
