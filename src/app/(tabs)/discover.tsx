@@ -61,7 +61,7 @@ export default function DiscoverScreen() {
       </View>
 
       <View testID="discover-categories" style={[styles.categoriesSection, compact && styles.categoriesSectionCompact]}>
-        <BrandSectionHeading title="人物像から探す" actionLabel="すべて見る →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
+        <BrandSectionHeading title="カテゴリから探す" actionLabel="人物像一覧 →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
         <GroupHeading title="人物像" />
         <View testID="discover-technique-grid" style={styles.categoryGrid}>
           {categoryOrder.map((key) => <CategoryCard key={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   searchInputCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
   searchInputNarrow: { fontSize: 14 },
   searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },
-  searchSubmitText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, fontWeight: '700' },
+  searchSubmitText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, fontWeight: '700' },
   destinations: { flexDirection: 'row', gap: 14, marginTop: 18 },
   destinationsCompact: { gap: 10, marginTop: 20 },
   destinationCard: { position: 'relative', flex: 1, minWidth: 0, minHeight: 90, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 18, paddingVertical: 12, borderWidth: 1, borderColor: softGold, borderRadius: 18, backgroundColor: colors.surface },
@@ -139,8 +139,8 @@ const styles = StyleSheet.create({
   destinationIconCompact: { width: 34, height: 34, borderRadius: 17 },
   destinationCopy: { flex: 1, minWidth: 0, paddingRight: 3 },
   destinationTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  destinationTitleCompact: { fontSize: 15, lineHeight: 21 },
-  destinationTitleNarrow: { fontSize: 13, lineHeight: 19 },
+  destinationTitleCompact: { fontSize: 16, lineHeight: 22 },
+  destinationTitleNarrow: { fontSize: 14, lineHeight: 20 },
   arrow: { color: colors.gold, fontFamily: fonts.serif, fontWeight: '600' },
   destinationArrow: { position: 'absolute', right: 4, top: '47%', fontSize: 21, lineHeight: 24 },
   categoriesSection: { marginTop: 36 }, categoriesSectionCompact: { marginTop: 28 },
@@ -156,15 +156,15 @@ const styles = StyleSheet.create({
   theoryIcon: { backgroundColor: '#FDFBF7', borderWidth: 1, borderColor: softGold },
   categoryMark: { color: '#DDB867', fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
   categoryMarkNarrow: { fontSize: 15, lineHeight: 20 },
-  categoryTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 16, fontWeight: '700' },
-  categoryTitleNarrow: { fontSize: 10, lineHeight: 13 },
+  categoryTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
+  categoryTitleNarrow: { fontSize: 12, lineHeight: 16 },
   categoryArrow: { position: 'absolute', right: 2, bottom: 2, fontSize: 16, lineHeight: 18 },
   categoryArrowNarrow: { right: 1, fontSize: 14 },
   popularSection: { marginTop: 34 }, popularSectionCompact: { marginTop: 28 },
   popularGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },
   popularButton: { width: '30%', flexGrow: 1, minHeight: 47, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 14, borderWidth: 1, borderColor: softGold, borderRadius: radius.pill, backgroundColor: colors.surface },
   popularButtonCompact: { minHeight: 39, gap: 9 },
-  popularText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20 }, popularTextNarrow: { fontSize: 12 },
+  popularText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20 }, popularTextNarrow: { fontSize: 13 },
   pressed: { opacity: 0.68 }, pressedCard: { opacity: 0.75 },
   personIcon: { width: 28, height: 29, alignItems: 'center' },
   personHead: { width: 10, height: 10, borderRadius: 6, borderWidth: 1.5, borderColor: '#DDB867' },

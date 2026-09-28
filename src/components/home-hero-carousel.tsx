@@ -243,7 +243,6 @@ function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem
           {item.title}
         </Text>
       </View>
-      <Text accessibilityElementsHidden style={[styles.theoryNodeOrnament, compact && styles.theoryNodeOrnamentMobile]}>✥</Text>
     </Pressable>
   );
 }
@@ -262,8 +261,6 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
           <Text style={[styles.mapHeading, !desktop && styles.mapHeadingMobile]}>ひとつの処世術を、複数の理論から読む</Text>
           <View accessibilityElementsHidden style={[styles.mapHeadingRule, !desktop && styles.mapHeadingRuleMobile]}>
             <View style={styles.mapHeadingRuleLine} />
-            <View style={styles.mapHeadingRuleDiamond} />
-            <View style={styles.mapHeadingRuleLine} />
           </View>
         </View>
         <View style={[styles.mapLayout, !desktop && styles.mapLayoutMobile]}>
@@ -275,7 +272,6 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
             <View accessibilityElementsHidden style={[styles.mapTechniqueInnerFrame, !desktop && styles.mapTechniqueInnerFrameMobile]} />
-            <View accessibilityElementsHidden style={[styles.mapTechniquePort, !desktop && styles.mapTechniquePortMobile]} />
             <Text style={styles.mapTechniqueLabel}>処世術</Text>
             <View style={[styles.mapPersonaRow, !desktop && styles.mapPersonaRowMobile]}>
               <Text accessibilityElementsHidden style={[styles.mapPersonaBullet, !desktop && styles.mapPersonaBulletMobile]}>•</Text>
@@ -283,7 +279,6 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             </View>
             <View accessibilityElementsHidden style={[styles.mapTechniqueRule, !desktop && styles.mapTechniqueRuleMobile]}>
               <View style={styles.mapTechniqueRuleLine} />
-              <View style={styles.mapTechniqueRuleDiamondSmall} />
               <View style={styles.mapTechniqueRuleLine} />
             </View>
             <Text
@@ -301,7 +296,6 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             </Text>
             <View accessibilityElementsHidden style={[styles.mapTechniqueRule, styles.mapTechniqueRuleBottom, !desktop && styles.mapTechniqueRuleMobile]}>
               <View style={styles.mapTechniqueRuleLine} />
-              <View style={styles.mapTechniqueRuleDiamond} />
               <View style={styles.mapTechniqueRuleLine} />
             </View>
           </Pressable>
@@ -312,11 +306,6 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch2]} />
             <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch3]} />
             <View style={[styles.mapConnectorBranch, styles.mapConnectorBranch4]} />
-            <View style={[styles.mapConnectorHub, !desktop && styles.mapConnectorHubMobile]} />
-            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd1]} />
-            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd2]} />
-            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd3]} />
-            <View style={[styles.mapConnectorEnd, !desktop && styles.mapConnectorEndMobile, styles.mapConnectorEnd4]} />
           </View>
           <View style={[styles.theoryNodes, !desktop && styles.theoryNodesMobile]}>
             {theories.map((item, index) => <TheoryNode key={item.tagId} item={item} index={index} compact={!desktop} onPress={() => router.push(theoryRoute(item.tagId))} />)}
@@ -672,15 +661,12 @@ const styles = StyleSheet.create({
   mapHeadingRule: { alignItems: 'center', flexDirection: 'row', marginTop: 5, maxWidth: 540, width: '58%' },
   mapHeadingRuleMobile: { marginTop: 2, width: '56%' },
   mapHeadingRuleLine: { backgroundColor: 'rgba(155,108,23,0.4)', flex: 1, height: 1 },
-  mapHeadingRuleDiamond: { borderColor: '#B8892E', borderWidth: 1, height: 7, marginHorizontal: 8, transform: [{ rotate: '45deg' }], width: 7 },
   mapLayout: { alignItems: 'center', flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 10, minHeight: 0, position: 'relative' },
   mapLayoutMobile: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 4, minHeight: 0 },
   mapTechnique: { alignItems: 'center', backgroundColor: '#0B1B2C', borderColor: '#B88A2A', borderRadius: 18, borderWidth: 1.5, justifyContent: 'center', minHeight: 180, paddingHorizontal: 24, paddingVertical: 18, position: 'relative', width: '35%', zIndex: 2, ...bookCardShadow },
   mapTechniqueMobile: { alignSelf: 'stretch', borderRadius: 11, minHeight: 0, paddingHorizontal: 7, paddingVertical: 7, width: '36%' },
   mapTechniqueInnerFrame: { borderColor: 'rgba(218,181,101,0.55)', borderRadius: 13, borderWidth: 1, bottom: 6, left: 6, position: 'absolute', right: 6, top: 6 },
   mapTechniqueInnerFrameMobile: { borderRadius: 8, bottom: 3, left: 3, right: 3, top: 3 },
-  mapTechniquePort: { backgroundColor: '#F8E8B6', borderColor: '#A97820', borderRadius: 7, borderWidth: 1, height: 12, position: 'absolute', right: -7, top: '50%', transform: [{ translateY: -6 }], width: 12, zIndex: 3 },
-  mapTechniquePortMobile: { borderRadius: 4, height: 7, right: -4.5, transform: [{ translateY: -3.5 }], width: 7 },
   mapTechniqueLabel: { color: '#DAB565', fontFamily: fonts.serif, fontSize: 13, fontWeight: '600', letterSpacing: 1.8 },
   mapPersonaRow: { alignItems: 'center', flexDirection: 'row', gap: 7, marginTop: 8 },
   mapPersonaRowMobile: { gap: 3, marginTop: 3 },
@@ -692,42 +678,30 @@ const styles = StyleSheet.create({
   mapTechniqueRuleBottom: { marginTop: 13 },
   mapTechniqueRuleMobile: { marginTop: 5, width: '76%' },
   mapTechniqueRuleLine: { backgroundColor: 'rgba(218,181,101,0.52)', flex: 1, height: 1 },
-  mapTechniqueRuleDiamondSmall: { borderColor: '#DAB565', borderWidth: 1, height: 5, marginHorizontal: 4, transform: [{ rotate: '45deg' }], width: 5 },
-  mapTechniqueRuleDiamond: { borderColor: '#DAB565', borderWidth: 1, height: 8, marginHorizontal: 5, transform: [{ rotate: '45deg' }], width: 8 },
   mapTechniqueTitle: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', letterSpacing: 0.55, lineHeight: 33, marginTop: 13, maxWidth: '100%', textAlign: 'center' },
   mapTechniqueTitleMobile: { fontSize: 8.4, letterSpacing: 0, lineHeight: 12, marginTop: 6, width: '100%' },
   mapConnector: { alignSelf: 'stretch', position: 'relative', width: '11%' },
   mapConnectorMobile: { alignSelf: 'stretch', minHeight: 0, width: '9%' },
-  mapConnectorRoot: { backgroundColor: 'rgba(152,105,20,0.46)', height: 1, left: 0, position: 'absolute', right: '54%', top: '50%' },
-  mapConnectorSpine: { borderColor: 'rgba(152,105,20,0.38)', borderLeftWidth: 1, bottom: '10%', left: '46%', position: 'absolute', top: '10%' },
-  mapConnectorBranch: { backgroundColor: 'rgba(152,105,20,0.38)', height: 1, left: '46%', position: 'absolute', right: 0 },
-  mapConnectorBranch1: { top: '10%' },
-  mapConnectorBranch2: { top: '36.7%' },
-  mapConnectorBranch3: { top: '63.3%' },
-  mapConnectorBranch4: { top: '90%' },
-  mapConnectorHub: { backgroundColor: '#F5E2AA', borderColor: '#A97820', borderWidth: 1, height: 9, left: '46%', marginLeft: -4.5, marginTop: -4.5, position: 'absolute', top: '50%', transform: [{ rotate: '45deg' }], width: 9, zIndex: 2 },
-  mapConnectorHubMobile: { height: 6, marginLeft: -3, marginTop: -3, width: 6 },
-  mapConnectorEnd: { backgroundColor: '#F8E9BE', borderColor: 'rgba(169,120,32,0.9)', borderRadius: 4, borderWidth: 1, height: 7, marginTop: -3.5, position: 'absolute', right: -4, width: 7, zIndex: 2 },
-  mapConnectorEndMobile: { height: 5, marginTop: -2.5, right: -3, width: 5 },
-  mapConnectorEnd1: { top: '10%' },
-  mapConnectorEnd2: { top: '36.7%' },
-  mapConnectorEnd3: { top: '63.3%' },
-  mapConnectorEnd4: { top: '90%' },
-  theoryNodes: { alignSelf: 'stretch', justifyContent: 'space-between', width: '42%' },
-  theoryNodesMobile: { alignSelf: 'stretch', flexGrow: 0, flexShrink: 0, justifyContent: 'space-between', width: '52%' },
+  mapConnectorRoot: { backgroundColor: 'rgba(152,105,20,0.34)', height: 1, left: 0, position: 'absolute', right: '54%', top: '50%' },
+  mapConnectorSpine: { borderColor: 'rgba(152,105,20,0.3)', borderLeftWidth: 1, bottom: '12.5%', left: '46%', position: 'absolute', top: '12.5%' },
+  mapConnectorBranch: { backgroundColor: 'rgba(152,105,20,0.3)', height: 1, left: '46%', position: 'absolute', right: 0 },
+  mapConnectorBranch1: { top: '12.5%' },
+  mapConnectorBranch2: { top: '37.5%' },
+  mapConnectorBranch3: { top: '62.5%' },
+  mapConnectorBranch4: { top: '87.5%' },
+  theoryNodes: { alignSelf: 'stretch', justifyContent: 'space-around', width: '42%' },
+  theoryNodesMobile: { alignSelf: 'stretch', flexGrow: 0, flexShrink: 0, justifyContent: 'space-around', width: '52%' },
   theoryNode: { backgroundColor: 'rgba(255,253,248,0.94)', borderColor: '#B88A2A', borderRadius: 12, borderWidth: 1.2, justifyContent: 'center', minHeight: 58, overflow: 'hidden', paddingHorizontal: 21, paddingVertical: 8, position: 'relative' },
   theoryNodeMobile: { borderRadius: 7, flexGrow: 0, minHeight: 0, paddingHorizontal: 8, paddingVertical: 3 },
   theoryNodeEdge: { backgroundColor: 'rgba(184,138,42,0.72)', bottom: 14, left: 0, position: 'absolute', top: 14, width: 2 },
   theoryNodeEdgeMobile: { bottom: 6, top: 6, width: 1 },
   theoryNodeInnerFrame: { borderColor: 'rgba(184,138,42,0.34)', borderRadius: 8, borderWidth: 1, bottom: 5, left: 5, position: 'absolute', right: 5, top: 5 },
   theoryNodeInnerFrameMobile: { borderRadius: 5, bottom: 2, left: 2, right: 2, top: 2 },
-  theoryNodeCopy: { minWidth: 0, paddingRight: 28 },
+  theoryNodeCopy: { minWidth: 0 },
   theoryNodeCategory: { color: '#9A712B', fontFamily: fonts.serif, fontSize: 10, letterSpacing: 0.9 },
   theoryNodeCategoryMobile: { fontSize: 6, letterSpacing: 0.1, lineHeight: 8 },
   theoryNodeTitle: { color: '#171A1E', fontFamily: fonts.serif, fontSize: 17, fontWeight: '500', lineHeight: 23, marginTop: 3 },
   theoryNodeTitleMobile: { fontSize: 9, lineHeight: 11, marginTop: 0 },
-  theoryNodeOrnament: { color: 'rgba(184,138,42,0.2)', fontFamily: fonts.serif, fontSize: 32, lineHeight: 34, position: 'absolute', right: 18, top: 13 },
-  theoryNodeOrnamentMobile: { fontSize: 14, lineHeight: 15, right: 7, top: 7 },
   systemContent: { alignItems: 'center', minHeight: 380, paddingHorizontal: 34, paddingVertical: 20 },
   systemContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 40, paddingVertical: 7 },
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },

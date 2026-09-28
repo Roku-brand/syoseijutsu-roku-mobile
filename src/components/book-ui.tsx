@@ -757,7 +757,7 @@ const styles = StyleSheet.create({
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
   menuMark: { width: 25, height: 23, justifyContent: 'space-between', paddingVertical: 2 },
   menuMarkActive: { opacity: 1 },
-  menuLine: { width: 25, height: 1.25, borderRadius: 2, alignSelf: 'center' },
+  menuLine: { width: 25, height: 1.5, borderRadius: 2, alignSelf: 'center' },
   principleMark: {
     width: 25,
     height: 25,
