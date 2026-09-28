@@ -1234,6 +1234,11 @@ test('人物像の処世術はキーボードでフォーカスできるリン�
 test('学ぶの改善が必要な選択は理由・関連知識・次ケースへつながる', async ({ page }) => {
   await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
+  const header = page.getByTestId('book-header');
+  await expect(header.getByRole('button', { name: '用語集を開く' })).toBeVisible();
+  await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+  await expect(header.getByText('用語集', { exact: true })).toHaveCount(0);
+  await expect(header.getByText('設定', { exact: true })).toHaveCount(0);
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByTestId('learning-question-card').getByTestId('rokumaru-guide')).toBeVisible();
