@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
-import { categoryMeta } from '@/data/catalog';
+import { categoryMeta, techniqueCards } from '@/data/catalog';
 import { getHomeBrandContent, getHomeDayKey, resolveHomeTheoryMapLinks, type HomePersona, type HomeTheoryMapItem } from '@/data/home-brand-content';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
@@ -19,8 +19,9 @@ const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 
-const HOME_REEL_ID = 'brand';
+const HOME_REEL_ID = 'home-v2';
 const HOME_REEL_SLIDE_COUNT = 7;
+const featuredTechnique = techniqueCards.find((card) => card.title === '小さな頼み事で相手を巻き込む');
 const homeReelPositions = new Map<string, number>();
 const webTouchRailStyle = Platform.OS === 'web'
   ? ({ overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', touchAction: 'pan-x pan-y' } as unknown as ViewStyle)
@@ -522,7 +523,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, [moveTo]);
 
   const slides: Array<{ type: HomeHeroSlideType; node: React.ReactNode }> = [
-    { type: 'todayTechnique', node: <TechniqueHeroSlide card={content.technique} desktop={desktop} /> },
+    { type: 'todayTechnique', node: <TechniqueHeroSlide card={featuredTechnique ?? content.technique} desktop={desktop} /> },
     { type: 'persona', node: <PersonaHeroSlide persona={content.persona} desktop={desktop} /> },
     { type: 'theory', node: <TheoryHeroSlide theory={content.theory} domainLabel={categoryMeta[content.domains.theory].label} desktop={desktop} /> },
     { type: 'techniqueTheoryMap', node: <TechniqueTheoryMapSlide techniqueId={content.techniqueTheoryMap.techniqueId} personaName={content.techniqueTheoryMap.personaName} techniqueTitle={content.techniqueTheoryMap.title} theories={theoryLinks} desktop={desktop} /> },
@@ -558,7 +559,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             snapToInterval={Platform.OS !== 'web' ? viewportWidth || undefined : undefined}
             style={webTouchRailStyle}
             testID="home-brand-viewport"
-            accessibilityLabel="処世術禄の魅力を7つの切り口で紹介"
+            accessibilityLabel="今日の一枚と知恵を7つの切り口で紹介"
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={16}
             onScroll={syncIndicatorWithOffset}
@@ -602,7 +603,7 @@ const styles = StyleSheet.create({
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
   slide: { backgroundColor: '#FCF8EF', borderColor: '#D8C9AE', borderRadius: 20, borderWidth: 1, minHeight: 380, overflow: 'hidden', position: 'relative', ...bookCardShadow },
-  slideMobile: { aspectRatio: 2.04, borderRadius: 14, minHeight: 178 },
+  slideMobile: { aspectRatio: 1.7, borderRadius: 14, minHeight: 205 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
@@ -619,7 +620,7 @@ const styles = StyleSheet.create({
   techniqueShade: { backgroundColor: 'rgba(6,5,4,0.15)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, width: '58%' },
-  techniqueCopyMobile: { flex: 1, minHeight: 178, paddingHorizontal: 20, paddingVertical: 10 },
+  techniqueCopyMobile: { flex: 1, minHeight: 205, paddingHorizontal: 20, paddingVertical: 14 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, fontWeight: '600', letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },

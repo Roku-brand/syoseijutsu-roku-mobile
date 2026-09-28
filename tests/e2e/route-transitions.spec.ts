@@ -15,6 +15,13 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
       return original.call(this, frames, options);
     };
   });
+  await page.goto('/welcome');
+  await page.getByRole('button', { name: '無料で始める' }).click();
+  const welcomeModal = page.getByTestId('home-welcome-modal');
+  if (await welcomeModal.isVisible({ timeout: 800 })) {
+    await welcomeModal.getByRole('button', { name: 'あとで見る' }).click();
+  }
+  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
   await page.goto('/discover');
   const content = page.getByTestId('route-transition-content');
   const header = page.getByTestId('book-header');
@@ -38,7 +45,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await nav.getByRole('link', { name: /^学ぶ/ }).click();
   await expect(page).toHaveURL(/\/learn$/);
 
-  await page.getByRole('button', { name: '設定を開く', exact: true }).click();
+  await page.getByRole('button', { name: 'メニューを開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(16px\)/);
   await expect(content).toHaveAttribute('data-last-motion-duration', '300');
@@ -46,11 +53,13 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await expect(page).toHaveURL(/\/learn$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(-16px\)/);
 
-  await page.getByTestId('header-upgrade-banner').click();
+  await nav.getByRole('link', { name: /^ホーム/ }).click();
+  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
+  await page.getByTestId('home-premium-banner').click();
   await expect(page).toHaveURL(/\/upgrade/);
   await expect(content).toHaveAttribute('data-last-motion', /translateY\(20px\)/);
   await page.getByRole('button', { name: '前の画面へ戻る' }).click();
-  await expect(page).toHaveURL(/\/learn$/);
+  await expect(page).toHaveURL(/\/$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateY\(-20px\)/);
   await expect.poll(() => content.evaluate((element) => element.getAnimations().length)).toBe(0);
   expect(await content.evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
