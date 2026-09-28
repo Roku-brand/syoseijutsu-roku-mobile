@@ -72,7 +72,7 @@ function buildRecommendations({ accessState, historyIds, interests, savedIds }: 
 }
 
 const shortcuts = [
-  { label: 'カテゴリー', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.discover, testID: 'home-shortcut-categories' },
+  { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
   { label: '人気', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
   { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myTechniques, params: { compose: '1' } }, testID: 'home-create-technique' },
   { label: '保存済み', icon: 'bookmark', material: 'bookmark', fallback: '▯', route: APP_ROUTES.library, testID: 'home-shortcut-saved' },
@@ -126,6 +126,12 @@ export default function HomeScreen() {
         </View>
       </Pressable>
 
+      <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
+        <ScrollView horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
+          {recommendations.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} testID="home-recommendation-card" />)}
+        </ScrollView>
+      </HomeSection>
+
       <HomeSection title="続きから読む" testID="home-continue-section" onAction={() => router.push(APP_ROUTES.history)}>
         {recent.length ? <ScrollView horizontal testID="home-continue-rail" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
           {recent.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} />)}
@@ -133,12 +139,6 @@ export default function HomeScreen() {
           <Text style={styles.emptyHistoryTitle}>まだ読書の履歴はありません</Text>
           <Text style={styles.emptyHistoryBody}>気になる一枚を読むと、ここから再開できます。　探す →</Text>
         </Pressable>}
-      </HomeSection>
-
-      <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
-        <ScrollView horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
-          {recommendations.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} testID="home-recommendation-card" />)}
-        </ScrollView>
       </HomeSection>
 
       <Modal transparent visible={hydrated && homeWelcomePending} animationType="fade" onRequestClose={dismissHomeWelcome}>

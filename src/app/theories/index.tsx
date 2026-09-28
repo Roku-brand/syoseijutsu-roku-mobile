@@ -37,7 +37,8 @@ export default function TheoryIndexScreen() {
   const compact = width < 700;
   const { isPaid, accessState, catalogRevision } = useAccess();
   const browserSearch = Platform.OS === 'web' && typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : undefined;
-  const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(browserSearch?.get('category') ?? params.category));
+  const requestedCategory = browserSearch?.get('category') ?? params.category;
+  const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
   const [page, setPage] = useState(Math.max(1, Number(browserSearch?.get('page') ?? params.page) || 1));
 
   const visibleCatalog = useMemo(
@@ -53,6 +54,11 @@ export default function TheoryIndexScreen() {
   const pageTheories = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
   useEffect(() => {
+    setCategory(safeCategory(requestedCategory));
+    setPage(1);
+  }, [requestedCategory]);
+
+  useEffect(() => {
     if (page !== safePage) setPage(safePage);
   }, [page, safePage]);
 
@@ -65,7 +71,7 @@ export default function TheoryIndexScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.filters}>
-        <TheoryFilterBar selected={category} onSelect={selectCategory} compact={compact} />
+        <TheoryFilterBar selected={category} onSelect={selectCategory} />
       </View>
 
       <View style={styles.resultHeading}>

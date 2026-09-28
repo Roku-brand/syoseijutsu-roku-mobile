@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { getPersonaEntries, PersonaCard, PersonaFilterBar, type PersonaFilterKey } from '@/components/persona-catalog';
@@ -21,6 +21,8 @@ export default function PersonasScreen() {
   const [filter, setFilter] = useState<PersonaFilterKey>(initialFilter);
   const personas = getPersonaEntries(filter);
   const columns: 2 | 3 | 4 = width >= 1120 ? 4 : width >= 720 ? 3 : 2;
+
+  useEffect(() => setFilter(initialFilter), [initialFilter]);
 
   const selectFilter = (next: PersonaFilterKey) => {
     setFilter(next);

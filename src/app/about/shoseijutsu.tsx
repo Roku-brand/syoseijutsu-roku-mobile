@@ -50,9 +50,9 @@ const pillars = [
 ] as const;
 
 const learningPaths = [
-  { title: '人間関係の処世術', description: '会話・信頼・距離感を整える', href: '/interpersonal' },
-  { title: '仕事の処世術', description: '評価・合意・実行を成果につなげる', href: '/work' },
-  { title: '人生の処世術', description: '選択・不安・立て直しの軸を持つ', href: '/life' },
+  { title: '人間関係の処世術', description: '会話・信頼・距離感を整える', href: '/personas?category=interpersonal' },
+  { title: '仕事の処世術', description: '評価・合意・実行を成果につなげる', href: '/personas?category=work' },
+  { title: '人生の処世術', description: '選択・不安・立て直しの軸を持つ', href: '/personas?category=life' },
   { title: '処世術を支える理論', description: '心理学・行動科学などから理解する', href: '/theories' },
 ] as const satisfies ReadonlyArray<{ title: string; description: string; href: Href }>;
 

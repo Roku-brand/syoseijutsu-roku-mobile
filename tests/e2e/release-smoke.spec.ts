@@ -522,7 +522,7 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
   await expect(page).toHaveURL(/\/theories\?category=psychology/);
   await page.goto('/discover');
   await page.getByRole('link', { name: '対人術から探す' }).click();
-  await expect(page).toHaveURL(/\/interpersonal/);
+  await expect(page).toHaveURL(/\/personas\?category=interpersonal/);
   await page.goto('/discover');
   await page.getByRole('button', { name: '印象を検索' }).click();
   await expect(page).toHaveURL(/\/search\?.*q=/);
@@ -555,21 +555,20 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   const filters = page.getByTestId('theory-category-filters').getByRole('button');
   const boxes = await Promise.all(Array.from({ length: 7 }, (_, index) => filters.nth(index).boundingBox()));
   expect(boxes.every(Boolean)).toBe(true);
-  expect(boxes.slice(1).every((box) => box!.x > boxes[0]!.x + boxes[0]!.width)).toBe(true);
-  expect(new Set(boxes.slice(1, 4).map((box) => Math.round(box!.y))).size).toBe(1);
+  expect(new Set(boxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
-  expect(boxes[4]!.y).toBeGreaterThan(boxes[1]!.y);
-  expect(Math.abs(boxes[0]!.width - boxes[1]!.width)).toBeLessThanOrEqual(3);
-  expect(Math.abs(boxes[0]!.height - boxes[1]!.height)).toBeLessThanOrEqual(1);
+  expect(boxes[4]!.y).toBeGreaterThan(boxes[0]!.y);
+  expect(boxes.every((box) => Math.abs(box!.height - 48) <= 1)).toBe(true);
   await expect(page.getByRole('textbox')).toHaveCount(0);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(async () => {
-    const mobileBoxes = await Promise.all([0, 1, 2].map((index) => filters.nth(index).boundingBox()));
+    const mobileBoxes = await Promise.all(Array.from({ length: 7 }, (_, index) => filters.nth(index).boundingBox()));
     if (mobileBoxes.some((box) => box === null)) return false;
-    return Math.abs(mobileBoxes[0]!.y - mobileBoxes[1]!.y) <= 1
-      && Math.abs(mobileBoxes[0]!.width - mobileBoxes[1]!.width) <= 1
-      && mobileBoxes[2]!.y > mobileBoxes[0]!.y + mobileBoxes[0]!.height;
+    return mobileBoxes.slice(0, 4).every((box) => Math.abs(box!.y - mobileBoxes[0]!.y) <= 1)
+      && mobileBoxes.slice(4).every((box) => Math.abs(box!.y - mobileBoxes[4]!.y) <= 1)
+      && mobileBoxes[4]!.y > mobileBoxes[0]!.y
+      && mobileBoxes.every((box) => Math.abs(box!.height - 48) <= 1);
   }).toBe(true);
 });
 
@@ -855,7 +854,7 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   expect(hero!.y).toBeLessThan(shortcuts!.y);
   expect(shortcuts!.y).toBeLessThan(banner!.y);
   expect(banner!.y).toBeLessThan(continueSection!.y);
-  expect(continueSection!.y).toBeLessThan(recommendations!.y);
+  expect(recommendations!.y).toBeLessThan(continueSection!.y);
   expect(create!.y).toBeLessThan(banner!.y);
   await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
   await expect(page.getByTestId('home-create-technique')).toContainText('処世術を作る');

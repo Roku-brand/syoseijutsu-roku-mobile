@@ -1,2 +1,5 @@
-import { SeoCategoryScreen } from '@/components/seo-category-screen';
-export default function WorkScreen() { return <SeoCategoryScreen categoryKey="work" />; }
+import { Redirect } from 'expo-router';
+
+export default function WorkScreen() {
+  return <Redirect href={{ pathname: '/personas', params: { category: 'work' } }} />;
+}

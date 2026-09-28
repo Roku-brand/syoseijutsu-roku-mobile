@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
-import { colors, fonts, radius } from '@/constants/theme';
+import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
@@ -21,36 +21,26 @@ export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }>
   { key: 'classics-thought', label: '古典・思想' },
 ];
 
-export function TheoryFilterBar({ selected, onSelect, compact }: {
+export function TheoryFilterBar({ selected, onSelect }: {
   selected: TheoryFilterKey;
   onSelect: (filter: TheoryFilterKey) => void;
-  compact: boolean;
 }) {
-  const renderOption = (option: (typeof theoryFilterOptions)[number], featured = false) => {
-    const active = selected === option.key;
-    return (
-      <Pressable
-        key={option.key}
-        accessibilityRole="button"
-        accessibilityLabel={`${option.label}で理論を絞り込む`}
-        accessibilityState={{ selected: active }}
-        aria-selected={active}
-        onPress={() => onSelect(option.key)}
-        style={({ pressed }) => [styles.filterButton, featured ? [styles.filterButtonFeatured, compact && styles.filterButtonFeaturedCompact] : [styles.filterButtonCategory, compact && styles.filterButtonCategoryCompact], active && styles.filterButtonActive, pressed && styles.pressed]}
-      >
-        <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
-      </Pressable>
-    );
-  };
-
   return (
-    <View testID="theory-category-filters" style={compact ? styles.filterGridCompact : styles.filterRow}>
-      {compact ? theoryFilterOptions.map((option, index) => renderOption(option, index === 0)) : <>
-        {renderOption(theoryFilterOptions[0], true)}
-        <View style={styles.filterGrid}>
-          {theoryFilterOptions.slice(1).map((option) => renderOption(option))}
-        </View>
-      </>}
+    <View testID="theory-category-filters" style={styles.filterGrid}>
+      {theoryFilterOptions.map((option) => {
+        const active = selected === option.key;
+        return <Pressable
+          key={option.key}
+          accessibilityRole="button"
+          accessibilityLabel={`${option.label}で理論を絞り込む`}
+          accessibilityState={{ selected: active }}
+          aria-selected={active}
+          onPress={() => onSelect(option.key)}
+          style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
+        >
+          <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
+        </Pressable>;
+      })}
     </View>
   );
 }
@@ -82,16 +72,10 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterRow: { width: '100%', flexDirection: 'row', gap: 12, paddingHorizontal: 1, paddingVertical: 2 },
-  filterGrid: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12 },
-  filterGridCompact: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 12, paddingHorizontal: 1, paddingVertical: 2 },
-  filterButton: { minHeight: 64, paddingHorizontal: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
-  filterButtonFeatured: { width: '24%', alignSelf: 'flex-start' },
-  filterButtonFeaturedCompact: { width: '48%' },
-  filterButtonCategory: { width: '32%' },
-  filterButtonCategoryCompact: { width: '48%' },
+  filterGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
+  filterButton: { width: '22.8%', minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
+  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 0.3, textAlign: 'center' },
   filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },

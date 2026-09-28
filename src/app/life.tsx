@@ -1,2 +1,5 @@
-import { SeoCategoryScreen } from '@/components/seo-category-screen';
-export default function LifeScreen() { return <SeoCategoryScreen categoryKey="life" />; }
+import { Redirect } from 'expo-router';
+
+export default function LifeScreen() {
+  return <Redirect href={{ pathname: '/personas', params: { category: 'life' } }} />;
+}
