@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Image, ImageBackground, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -12,6 +12,8 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES, signInRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+
+const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.png');
 
 type Tab = 'history' | 'library' | 'mine';
 type ContentRow = { kind: 'technique' | 'theory'; id: string; label: string; title: string; description: string };
@@ -110,10 +112,14 @@ export default function MyPageContent() {
             ><AppText style={styles.profileEditText}>編集  ›</AppText></Pressable>
           </View>
           <View style={styles.profileDivider} />
-          <View testID="personal-principle-card" style={styles.scrollWrap}>
-            <View pointerEvents="none" style={[styles.scrollAxis, styles.scrollAxisLeft]}><View style={styles.axisLine} /></View>
-            <View style={styles.scrollPaper}>
-              <View pointerEvents="none" style={styles.paperRuleTop} />
+          <ImageBackground
+            testID="personal-principle-card"
+            source={principleScrollArtwork}
+            resizeMode="stretch"
+            imageStyle={styles.scrollArtwork}
+            style={[styles.scrollWrap, mobile && styles.scrollWrapMobile]}
+          >
+            <View style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
               <View style={styles.principleHeading}>
                 <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
                 <Pressable
@@ -126,10 +132,8 @@ export default function MyPageContent() {
               </View>
               {personalPrinciple ? <AppText style={[styles.principle, mobile && styles.principleMobile]}>{personalPrinciple}</AppText>
                 : <Pressable accessibilityRole="button" accessibilityLabel="座右の銘を設定" onPress={openPrincipleEditor}><AppText style={[styles.principle, mobile && styles.principleMobile]}>座右の銘を設定　›</AppText></Pressable>}
-              <View pointerEvents="none" style={styles.paperRuleBottom} />
             </View>
-            <View pointerEvents="none" style={[styles.scrollAxis, styles.scrollAxisRight]}><View style={styles.axisLine} /></View>
-          </View>
+          </ImageBackground>
         </View>
 
         <View testID="my-page-tabs" accessibilityRole="tablist" style={styles.tabs}>
@@ -291,18 +295,15 @@ const styles = StyleSheet.create({
   profileEdit: { minHeight: 44, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center' },
   profileEditText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   profileDivider: { height: 1, marginHorizontal: spacing.lg, backgroundColor: colors.line },
-  scrollWrap: { minHeight: 128, marginHorizontal: spacing.md, marginTop: spacing.sm, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'stretch' },
-  scrollAxis: { width: 9, borderWidth: 1, borderColor: '#C6B18B', borderRadius: 5, backgroundColor: '#E7D8BA', alignItems: 'center', justifyContent: 'center' },
-  scrollAxisLeft: { marginRight: -1, zIndex: 1 },
-  scrollAxisRight: { marginLeft: -1, zIndex: 1 },
-  axisLine: { width: 1, height: '86%', backgroundColor: '#BFA77E' },
-  scrollPaper: { flex: 1, minWidth: 0, paddingHorizontal: spacing.xl, paddingVertical: spacing.lg, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#D9C6A2', backgroundColor: '#F8F3E8' },
-  paperRuleTop: { position: 'absolute', top: 5, left: 0, right: 0, height: 1, backgroundColor: 'rgba(165,123,53,0.12)' },
-  paperRuleBottom: { position: 'absolute', bottom: 5, left: 0, right: 0, height: 1, backgroundColor: 'rgba(165,123,53,0.12)' },
+  scrollWrap: { minHeight: 158, marginHorizontal: spacing.xs, marginTop: spacing.xs, marginBottom: spacing.sm, justifyContent: 'center' },
+  scrollWrapMobile: { minHeight: 126 },
+  scrollArtwork: { resizeMode: 'stretch' },
+  scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: spacing.xl * 2, paddingVertical: spacing.lg },
+  scrollContentMobile: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
   principleHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   principleLabel: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1 },
-  principle: { marginTop: spacing.sm, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 40, fontWeight: '600', letterSpacing: 1 },
-  principleMobile: { fontSize: 21, lineHeight: 32, letterSpacing: 0.5 },
+  principle: { maxWidth: '84%', marginTop: spacing.xs, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '600', letterSpacing: 1 },
+  principleMobile: { maxWidth: '78%', fontSize: 19, lineHeight: 27, letterSpacing: 0.4 },
   editPrinciple: { minHeight: 34, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#CEB583', borderRadius: radius.pill, backgroundColor: colors.surface },
   editIcon: { color: colors.gold, fontSize: 14, lineHeight: 18 },
   editText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
