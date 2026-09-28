@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSegments } from 'expo-router';
+import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
@@ -83,6 +83,7 @@ export function BookScreen({
 
 export function BookHeader() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
   const segments = useSegments();
   const { user } = useAuth();
@@ -101,7 +102,9 @@ export function BookHeader() {
   const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
   // The static web home is served through the root index route, so its first
   // segment is not `(tabs)` even though it represents the main tab.
-  const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/';
+  const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
+  const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
+  const primaryTabHeader = segments[0] === '(tabs)' || (pathname === '/' && !isCheckoutReturn);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
