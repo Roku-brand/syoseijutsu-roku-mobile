@@ -570,9 +570,7 @@ test('決済後のトップURLから購入完了画面へ戻れる', async ({ pa
   await expect(page.getByText(/決済に使用したメールアドレスでログインすると、完全版を有効にできます/)).toBeVisible();
   await expect(page.getByRole('button', { name: '決済に使ったメールアドレスでログインして完全版を有効にする' })).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  const header = page.getByTestId('book-header');
-  await expect(header.getByRole('button', { name: '検索' })).toHaveCount(0);
-  await expect(header.getByRole('button', { name: 'メニューを開く' })).toHaveCount(0);
+  await expect(page.getByTestId('book-header')).toHaveCount(0);
 });
 
 test('購入済みゲストは同じメールアドレスで安全に引き換えられる', async ({ page }) => {

@@ -34,8 +34,8 @@ function AppFrame() {
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
-      <RouteTransition disabled={isWelcome}>
+      {!isWelcome && !isCheckoutReturn ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      <RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: colors.paper },
