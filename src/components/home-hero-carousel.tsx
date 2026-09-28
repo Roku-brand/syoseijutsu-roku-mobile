@@ -571,6 +571,21 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           >
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
+          <View pointerEvents="box-none" style={styles.dotsOverlay}>
+            <View accessibilityRole="tablist" style={styles.dots}>
+              {slides.map((slide, index) => (
+                <Pressable
+                  key={slide.type}
+                  accessibilityRole="tab"
+                  accessibilityLabel={`${index + 1}枚目を表示`}
+                  accessibilityState={{ selected: index === activeIndex }}
+                  aria-selected={index === activeIndex}
+                  onPress={() => moveTo(index, false)}
+                  style={[styles.dotTouch, index === activeIndex && styles.dotTouchActive]}
+                ><View style={[styles.dot, index === activeIndex && styles.dotActive]} /></Pressable>
+              ))}
+            </View>
+          </View>
         </View>
         {desktop ? <Pressable
           accessibilityRole="button"
@@ -579,19 +594,6 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           onPress={() => moveTo(activeIndexRef.current + 1)}
           style={({ pressed }) => [styles.arrow, pressed && styles.pressed]}
         ><Text style={styles.arrowText}>›</Text></Pressable> : null}
-      </View>
-      <View accessibilityRole="tablist" style={styles.dots}>
-        {slides.map((slide, index) => (
-          <Pressable
-            key={slide.type}
-            accessibilityRole="tab"
-            accessibilityLabel={`${index + 1}枚目を表示`}
-            accessibilityState={{ selected: index === activeIndex }}
-            aria-selected={index === activeIndex}
-            onPress={() => moveTo(index, false)}
-            style={[styles.dotTouch, index === activeIndex && styles.dotTouchActive]}
-          ><View style={[styles.dot, index === activeIndex && styles.dotActive]} /></Pressable>
-        ))}
       </View>
     </View>
   );
@@ -790,9 +792,10 @@ const styles = StyleSheet.create({
   rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
   arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.98)', borderColor: '#C8AF7B', borderRadius: 27, borderWidth: 1, flexShrink: 0, height: 54, justifyContent: 'center', width: 54, ...bookCardShadow },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
-  dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center', marginTop: 1 },
+  dotsOverlay: { alignItems: 'center', bottom: 5, left: 0, position: 'absolute', right: 0, zIndex: 3 },
+  dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.5)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 4 },
   dotTouch: { alignItems: 'center', height: 22, justifyContent: 'center', width: 20 },
   dotTouchActive: { width: 30 },
-  dot: { backgroundColor: '#D9D4CC', borderRadius: 4, height: 6, width: 6 },
-  dotActive: { backgroundColor: '#A97824', height: 6, width: 16 },
+  dot: { backgroundColor: '#E9E3D8', borderRadius: 4, height: 6, width: 6 },
+  dotActive: { backgroundColor: '#D9AF60', height: 6, width: 16 },
 });
