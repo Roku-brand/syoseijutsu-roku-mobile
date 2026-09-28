@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { Image, ImageBackground, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -112,13 +112,14 @@ export default function MyPageContent() {
             ><AppText style={styles.profileEditText}>編集  ›</AppText></Pressable>
           </View>
           <View style={styles.profileDivider} />
-          <ImageBackground
-            source={principleScrollArtwork}
-            resizeMode="stretch"
-            imageStyle={styles.scrollArtwork}
+          <View
+            testID="personal-principle-card"
             style={[styles.scrollWrap, mobile && styles.scrollWrapMobile]}
           >
-            <View testID="personal-principle-card" style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
+            <View pointerEvents="none" style={styles.scrollArtwork}>
+              <Image source={principleScrollArtwork} resizeMode="stretch" style={styles.scrollImage} />
+            </View>
+            <View style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
               <View style={styles.principleHeading}>
                 <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
                 <Pressable
@@ -132,7 +133,7 @@ export default function MyPageContent() {
               {personalPrinciple ? <AppText style={[styles.principle, mobile && styles.principleMobile]}>{personalPrinciple}</AppText>
                 : <Pressable accessibilityRole="button" accessibilityLabel="座右の銘を設定" onPress={openPrincipleEditor}><AppText style={[styles.principle, mobile && styles.principleMobile]}>座右の銘を設定　›</AppText></Pressable>}
             </View>
-          </ImageBackground>
+          </View>
         </View>
 
         <View testID="my-page-tabs" accessibilityRole="tablist" style={styles.tabs}>
@@ -296,7 +297,8 @@ const styles = StyleSheet.create({
   profileDivider: { height: 1, marginHorizontal: spacing.lg, backgroundColor: colors.line },
   scrollWrap: { minHeight: 158, marginHorizontal: spacing.xs, marginTop: spacing.xs, marginBottom: spacing.sm, justifyContent: 'center' },
   scrollWrapMobile: { minHeight: 126 },
-  scrollArtwork: { resizeMode: 'stretch' },
+  scrollArtwork: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
+  scrollImage: { width: '100%', height: '100%' },
   scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: spacing.xl * 2, paddingVertical: spacing.lg },
   scrollContentMobile: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
   principleHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
