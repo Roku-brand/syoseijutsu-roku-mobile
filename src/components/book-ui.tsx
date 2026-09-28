@@ -94,7 +94,6 @@ export function BookHeader() {
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
-  const minimalHeaderActions = false;
   const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
@@ -169,12 +168,10 @@ export function BookHeader() {
             <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
               <SearchMark size={compact ? 25 : 27} color={colors.ink} />
             </Pressable>
-            <Pressable accessibilityRole="button" accessibilityLabel="メニューを開く" onPress={() => router.push('/settings')} style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}>
-              <MenuMark active={Boolean(user)} light />
-            </Pressable>
+            <MenuHeaderAction active={Boolean(user)} />
           </View>
         ) : detail ? (
-          <DetailHeaderActions detail={detail} compact={compact} />
+          <DetailHeaderActions detail={detail} menuActive={Boolean(user)} />
         ) : catalogueSearchMode ? (
           <View testID="book-header-actions" style={styles.headerActions}>
             <Pressable
@@ -184,8 +181,8 @@ export function BookHeader() {
               style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
             >
               <SearchMark size={24} color={colors.gold} />
-              {!compact ? <AppText style={[styles.headerActionLabel, styles.headerActionLabelLight]}>検索</AppText> : null}
             </Pressable>
+            <MenuHeaderAction active={Boolean(user)} />
           </View>
         ) : (
           <View testID="book-header-actions" style={styles.headerActions}>
@@ -200,23 +197,8 @@ export function BookHeader() {
               ]}
             >
               <PrincipleMark />
-              {!compact || learningCaseHeader ? <AppText style={[styles.headerActionLabel, compact && styles.headerActionLabelCompact, lightHeader && styles.headerActionLabelLight]}>{learningCaseHeader ? '用語集' : '原則'}</AppText> : null}
             </Pressable>
-            {!minimalHeaderActions ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="設定を開く"
-                onPress={() => router.push('/settings')}
-                style={({ pressed }) => [
-                  styles.headerAction,
-                  lightHeader && styles.headerActionLight,
-                  pressed && styles.headerActionPressed,
-                ]}
-              >
-                <MenuMark active={Boolean(user)} light={lightHeader} />
-                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>設定</AppText> : null}
-              </Pressable>
-            ) : null}
+            {!isCheckoutReturn ? <MenuHeaderAction active={Boolean(user)} /> : null}
           </View>
         )}
       </View>
@@ -276,6 +258,20 @@ function MenuMark({ active, light }: { active: boolean; light: boolean }) {
   );
 }
 
+function MenuHeaderAction({ active }: { active: boolean }) {
+  const router = useRouter();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="メニューを開く"
+      onPress={() => router.push('/settings')}
+      style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}
+    >
+      <MenuMark active={active} light />
+    </Pressable>
+  );
+}
+
 type DetailTarget =
   | { kind: 'card'; id: string; title: string }
   | { kind: 'theory'; id: string; title: string };
@@ -297,10 +293,10 @@ function getDetail(pathname: string): DetailTarget | null {
 
 function DetailHeaderActions({
   detail,
-  compact,
+  menuActive,
 }: {
   detail: DetailTarget;
-  compact: boolean;
+  menuActive: boolean;
 }) {
   const showToast = useAppToast();
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
@@ -314,18 +310,21 @@ function DetailHeaderActions({
   };
 
   return (
-    <View style={styles.detailActions}>
-      <SaveDiamondButton
-        saved={isSaved}
+    <View testID="book-header-actions" style={styles.headerActions}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
+        accessibilityState={{ selected: isSaved }}
         onPress={toggle}
-        label={compact ? undefined : isSaved ? '保存済み' : '保存'}
-        compact={compact}
-      />
+        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
+      >
+        <View style={[styles.saveDiamond, isSaved && styles.saveDiamondFilled]} />
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="共有"
         onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
-        style={({ pressed }) => [styles.detailAction, pressed && styles.headerActionPressed]}
+        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
         <SymbolView
           name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
@@ -334,12 +333,11 @@ function DetailHeaderActions({
           tintColor={colors.gold}
           weight="regular"
         />
-        {!compact ? <AppText style={styles.detailActionLabel}>共有</AppText> : null}
       </Pressable>
+      <MenuHeaderAction active={menuActive} />
     </View>
   );
 }
-
 function getCurrentTitle(pathname: string) {
   const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
   if (segments[0] === 'category') {
@@ -740,22 +738,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  detailActions: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  detailAction: {
-    minWidth: 42,
-    minHeight: 44,
-    paddingHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 1,
-  },
-  detailActionLabel: {
-    color: colors.gold,
-    fontSize: 10,
-    lineHeight: 13,
-    fontWeight: '600',
-  },
-  detailActionLabelSaved: { color: colors.gold },
   detailActionFallback: { color: colors.gold, fontSize: 20, lineHeight: 22 },
   detailActionSaved: { color: colors.gold },
   headerAction: {
@@ -772,15 +754,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(210,182,111,0.14)',
     opacity: 0.72,
   },
-  headerActionLabel: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 14,
-    letterSpacing: 1,
-  },
-  headerActionLabelCompact: { fontSize: 8, lineHeight: 11, letterSpacing: 0.4 },
-  headerActionLabelLight: { color: colors.gold },
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
   menuMark: { width: 25, height: 23, justifyContent: 'space-between', paddingVertical: 2 },
   menuMarkActive: { opacity: 1 },
