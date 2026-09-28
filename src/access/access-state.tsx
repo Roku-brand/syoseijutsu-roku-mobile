@@ -5,7 +5,6 @@ import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
 import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 import { hydratePublishedContent } from '@/lib/published-content';
-import { supabase } from '@/lib/supabase';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -64,7 +63,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
     return changed;
   }, []);
 
-  useEffect(() => { void refreshPublishedContent(); }, [refreshPublishedContent]);
+  const checkPublishedContent = useCallback(async () => {
+    if (await hydratePublishedContent()) setCatalogRevision((value) => value + 1);
+  }, []);
+
+  useEffect(() => { void checkPublishedContent(); }, [checkPublishedContent]);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
     if (hasHydratedSecureContent(userId)) {
@@ -75,12 +78,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
     try {
       await hydrateSecureContent();
       setSecureContentStatus('ready');
-      await refreshPublishedContent();
+      await checkPublishedContent();
     } catch {
       if (await restoreCachedSecureContent(userId)) {
         setSecureContentStatus('ready');
         setCatalogRevision((value) => value + 1);
-        await refreshPublishedContent();
+        await checkPublishedContent();
         return;
       }
       // Never expose the intentionally blank public-catalogue shell as a
@@ -88,7 +91,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setSecureContentStatus('error');
       setCatalogRevision((value) => value + 1);
     }
-  }, [refreshPublishedContent]);
+  }, [checkPublishedContent]);
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
@@ -105,7 +108,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
-      await refreshPublishedContent();
+      await checkPublishedContent();
       return 'guest';
     }
 
@@ -124,7 +127,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await refreshPublishedContent();
+      await checkPublishedContent();
       const nextState: AccessState = 'free';
       setActualAccessState(nextState);
       return nextState;
@@ -135,11 +138,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await refreshPublishedContent();
+      await checkPublishedContent();
       setActualAccessState('error');
       return 'error';
     }
-  }, [loading, refreshPublishedContent, role, synchronizeSecureContent, user]);
+  }, [checkPublishedContent, loading, role, synchronizeSecureContent, user]);
 
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
 
@@ -157,29 +160,17 @@ export function AccessProvider({ children }: PropsWithChildren) {
       if (state === 'active') {
         // Revalidate the public catalogue for guests as well as signed-in
         // users so a publish becomes visible without a full reload.
-        void refreshPublishedContent();
+        void checkPublishedContent();
         if (user) void refreshAccess();
       }
     });
     return () => subscription.remove();
-  }, [refreshAccess, refreshPublishedContent, user]);
+  }, [checkPublishedContent, refreshAccess, user]);
 
   useEffect(() => {
-    const interval = setInterval(() => { void refreshPublishedContent(); }, 15_000);
+    const interval = setInterval(() => { void checkPublishedContent(); }, 60 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [refreshPublishedContent]);
-
-  useEffect(() => {
-    const client = supabase;
-    if (!client) return;
-    const channel = client
-      .channel('published-techniques-refresh')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'techniques' }, () => {
-        void refreshPublishedContent();
-      })
-      .subscribe();
-    return () => { void client.removeChannel(channel); };
-  }, [refreshPublishedContent]);
+  }, [checkPublishedContent]);
 
   useEffect(() => {
     void storageReadWithin(PREVIEW_KEY).then((stored) => {

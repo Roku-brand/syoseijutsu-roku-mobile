@@ -4,6 +4,9 @@ import { isLockedTheoryShell } from '@/data/theory-display';
 import { supabase } from '@/lib/supabase';
 
 let loaded = false;
+let lastLoadedAt = 0;
+let hydrationPromise: Promise<boolean> | null = null;
+const REFRESH_INTERVAL_MS = 60 * 60 * 1000;
 const excludedTechniqueIds = new Set<string>(contentScope.excludedTechniqueIds);
 
 /**
@@ -11,14 +14,22 @@ const excludedTechniqueIds = new Set<string>(contentScope.excludedTechniqueIds);
  * is available. The bundled JSON remains a safe offline/bootstrap fallback.
  */
 export async function hydratePublishedContent(force = false): Promise<boolean> {
-  if (!supabase || (loaded && !force)) return false;
+  const client = supabase;
+  if (!client) return false;
+  if (hydrationPromise) return hydrationPromise;
+  if (loaded && !force && Date.now() - lastLoadedAt < REFRESH_INTERVAL_MS) return false;
+  hydrationPromise = fetchPublishedContent(client).finally(() => { hydrationPromise = null; });
+  return hydrationPromise;
+}
+
+async function fetchPublishedContent(client: NonNullable<typeof supabase>): Promise<boolean> {
   try {
-    const [{ data, error }, theoryResult, personaResult] = await Promise.all([supabase
+    const [{ data, error }, theoryResult, personaResult] = await Promise.all([client
       .from('techniques')
       .select('id,persona_id,category,title,essence,explanation,memo,importance,practices,examples,cautions,primary_theory_ids,theory_ids,status,display_order,updated_at')
       .eq('status', 'published')
       .order('display_order')
-      .order('id'), supabase.from('theories').select('id,title,summary,category_id,category_title,aliases,related_theory_ids,provenance,status,display_order').eq('status', 'published').order('display_order').order('id'), supabase.from('personas').select('name,category').eq('status', 'published').order('display_order')]);
+      .order('id'), client.from('theories').select('id,title,summary,category_id,category_title,aliases,related_theory_ids,provenance,status,display_order').eq('status', 'published').order('display_order').order('id'), client.from('personas').select('name,category').eq('status', 'published').order('display_order')]);
     if (error || !data) return false;
     const techniques: PaidTechniquePayload[] = data.filter((row) => !excludedTechniqueIds.has(row.id as string)).map((row) => ({
       id: row.id as string,
@@ -50,6 +61,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     hydratePaidCatalog(techniques, resolvedTheories);
     reconcilePublishedStructure(techniques.map((item) => item.id), personaResult.error ? undefined : personaResult.data as { name: string; category: PaidTechniquePayload['categoryKey'] }[], theoryResult.error ? undefined : remoteTheories.map((item) => item.tagId));
     loaded = true;
+    lastLoadedAt = Date.now();
     return true;
   } catch (error) {
     console.warn('Published content hydration failed', error);
@@ -59,4 +71,5 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
 
 export function resetPublishedContentHydration() {
   loaded = false;
+  lastLoadedAt = 0;
 }
