@@ -276,8 +276,8 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await startFreeHome(page);
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
-  await expect(page.getByText(/おはようございます|こんにちは|こんばんは/).first()).toBeVisible();
-  await expect(page.getByText('今日も、自分のペースで。ひとつ、うまく生きる知恵を。')).toBeVisible();
+  await expect(page.getByTestId('home-shortcuts')).toBeVisible();
+  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByTestId('home-brand-slide-1')).toContainText('今日の一枚｜処世術');
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
@@ -286,7 +286,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
 });
 
-test('主要4タブは重複するヘッダー名を省き、無料版の完全版購入バナーを表示する', async ({ page }) => {
+test('主要4タブのヘッダーはブランド、検索、メニューを表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
 
   for (const [route, title] of [
@@ -301,52 +301,14 @@ test('主要4タブは重複するヘッダー名を省き、無料版の完全�
     }
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
-    await expect(header.getByTestId('header-upgrade-banner')).toBeVisible();
-    await expect(header.getByText('356の処世術・767の理論をすべて読む', { exact: true })).toHaveCount(0);
-    await expect(header.getByText('完全版を見る →', { exact: true })).toBeVisible();
-    await expect(header.getByText('禄', { exact: true })).toHaveCount(0);
-    await expect(header.getByText('人生をより深く、より豊かに', { exact: true })).toHaveCount(0);
+    await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
+    await expect(header.getByText('生きる知恵を、日々の力に。', { exact: true })).toBeVisible();
+    await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
+    await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+    await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
   }
-
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/');
-  if (await page.getByRole('button', { name: '無料で始める' }).isVisible({ timeout: 500 }).catch(() => false)) {
-    await startFreeHome(page);
-  }
-  const desktopBanner = page.getByTestId('header-upgrade-banner');
-  const desktopCta = page.getByTestId('header-upgrade-cta');
-  await expect(desktopBanner).toBeVisible();
-  await expect(desktopBanner.getByText('356の処世術・767の理論をすべて読む', { exact: true })).toBeVisible();
-  await expect(desktopBanner.getByText('禄', { exact: true })).toBeVisible();
-  await expect(desktopBanner.getByText('完全版を見る →', { exact: true })).toBeVisible();
-  await expect(desktopBanner).toHaveCSS('background-color', 'rgb(248, 240, 221)');
-  await expect(page.getByTestId('header-upgrade-surface')).toHaveCSS('background-image', /linear-gradient/);
-  await expect(page.getByTestId('header-upgrade-cta-surface')).toHaveCSS('background-image', /linear-gradient/);
-  await desktopBanner.hover();
-  await expect(desktopCta).toHaveCSS('border-color', 'rgb(169, 111, 13)');
-  await desktopBanner.focus();
-  await expect(desktopBanner).toHaveCSS('border-color', 'rgb(184, 131, 29)');
-
-  await page.setViewportSize({ width: 320, height: 740 });
-  await page.goto('/discover');
-  const [appIcon, banner, actions] = await Promise.all([
-    page.getByTestId('book-header-app-icon').boundingBox(),
-    page.getByTestId('header-upgrade-banner').boundingBox(),
-    page.getByTestId('book-header-actions').boundingBox(),
-  ]);
-  expect(appIcon).not.toBeNull();
-  expect(banner).not.toBeNull();
-  expect(actions).not.toBeNull();
-  expect(banner!.x).toBeGreaterThanOrEqual(appIcon!.x + appIcon!.width + 4);
-  expect(banner!.x + banner!.width).toBeLessThanOrEqual(actions!.x - 4);
-
-  await page.goto('/settings');
-  await expect(page.getByTestId('book-header').getByText('設定', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('header-upgrade-banner')).toHaveCount(0);
-
-  await page.goto('/discover');
-  await page.getByTestId('header-upgrade-banner').click();
-  await expect(page).toHaveURL(/\/upgrade\?source=header_banner/);
+  await page.getByTestId('book-header').getByRole('button', { name: '検索' }).click();
+  await expect(page).toHaveURL(/\/search$/);
 });
 
 test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
@@ -880,7 +842,7 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 });
 
-test('PCホームは挨拶と7枚のブランドリールを上品に収める', async ({ page }) => {
+test('PCホームはブランドヘッダーと7枚のリールを上品に収める', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
@@ -888,19 +850,9 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
-  await expect(page.getByText('今日も、自分のペースで。ひとつ、うまく生きる知恵を。')).toBeVisible();
-  const [greetingBox, copyBox, introBox, firstSlideBox] = await Promise.all([
-    page.getByTestId('home-greeting').boundingBox(),
-    page.getByTestId('home-intro-copy').boundingBox(),
-    page.getByTestId('home-intro-row').boundingBox(),
-    page.getByTestId('home-brand-slide-1').boundingBox(),
-  ]);
-  expect(greetingBox).not.toBeNull();
-  expect(copyBox).not.toBeNull();
-  expect(introBox).not.toBeNull();
+  await expect(page.getByTestId('book-header').getByText('生きる知恵を、日々の力に。')).toBeVisible();
+  const firstSlideBox = await page.getByTestId('home-brand-slide-1').boundingBox();
   expect(firstSlideBox).not.toBeNull();
-  expect(copyBox!.x).toBeGreaterThan(greetingBox!.x + greetingBox!.width);
-  expect(firstSlideBox!.y - (introBox!.y + introBox!.height)).toBeLessThanOrEqual(16);
   expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
   await expect(page.getByLabel('次のスライド')).toBeVisible();
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
@@ -910,20 +862,25 @@ test('PCホームは挨拶と7枚のブランドリールを上品に収める',
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('ホームは学習再開をおすすめより先に表示する', async ({ page }) => {
+test('ホームはショートカット、完全版、読書再開、おすすめの順に表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
   const hero = await page.getByTestId('home-brand-carousel').boundingBox();
+  const shortcuts = await page.getByTestId('home-shortcuts').boundingBox();
+  const banner = await page.getByTestId('home-premium-banner').boundingBox();
   const continueSection = await page.getByTestId('home-continue-section').boundingBox();
   const recommendations = await page.getByTestId('home-recommendations-section').boundingBox();
   const create = await page.getByTestId('home-create-technique').boundingBox();
-  expect(hero && continueSection && recommendations && create).toBeTruthy();
-  expect(hero!.y).toBeLessThan(continueSection!.y);
+  expect(hero && shortcuts && banner && continueSection && recommendations && create).toBeTruthy();
+  expect(hero!.y).toBeLessThan(shortcuts!.y);
+  expect(shortcuts!.y).toBeLessThan(banner!.y);
+  expect(banner!.y).toBeLessThan(continueSection!.y);
   expect(continueSection!.y).toBeLessThan(recommendations!.y);
-  expect(recommendations!.y).toBeLessThan(create!.y);
+  expect(create!.y).toBeLessThan(banner!.y);
   await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
-  await expect(page.getByTestId('home-create-technique')).toContainText('自分の処世術を残す');
+  await expect(page.getByTestId('home-create-technique')).toContainText('処世術を作る');
+  await expect(page.getByTestId('home-continue-section')).toContainText('続きから読む');
 });
 
 test('ホームのおすすめは4分類を含む7枚を横スクロールできる', async ({ page }) => {
@@ -936,7 +893,7 @@ test('ホームのおすすめは4分類を含む7枚を横スクロールでき
   await expect(section.getByText('対人術', { exact: true }).first()).toBeVisible();
   await expect(section.getByText('仕事術', { exact: true }).first()).toBeVisible();
   await expect(section.getByText('人生術', { exact: true }).first()).toBeVisible();
-  await expect(section.getByText(/^理論・/).first()).toBeVisible();
+  await expect(section.getByText('理論', { exact: true }).first()).toBeVisible();
   const metrics = await rail.evaluate((element) => ({ clientWidth: element.clientWidth, scrollWidth: element.scrollWidth }));
   expect(metrics.scrollWidth).toBeGreaterThan(metrics.clientWidth);
   const cardWidth = (await section.getByTestId('home-recommendation-card').first().boundingBox())!.width;
@@ -944,35 +901,15 @@ test('ホームのおすすめは4分類を含む7枚を横スクロールでき
   expect(cardWidth).toBeLessThan(metrics.clientWidth * 0.9);
 });
 
-test('ホームの日替わり3枚は毎日変わり、対人術・仕事術・人生術を同時に扱う', async ({ page }) => {
+test('今日の一枚は指定された処世術と説明を表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  const results: Array<{ domains: string[]; titles: string[] }> = [];
-  for (const date of ['2026-09-01T03:00:00.000Z', '2026-09-02T03:00:00.000Z', '2026-09-03T03:00:00.000Z']) {
-    await page.clock.setFixedTime(new Date(date));
-    await page.goto('/');
-    const carousel = page.getByTestId('home-brand-carousel');
-    if (!await carousel.isVisible({ timeout: 2_000 }).catch(() => false)) await startFreeHome(page);
-    await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-    const domains = await Promise.all([
-      page.getByTestId('home-brand-technique-domain').innerText(),
-      page.getByTestId('home-brand-persona-domain').innerText(),
-      page.getByTestId('home-brand-theory-domain').innerText(),
-    ]);
-    const titles = await Promise.all([
-      page.getByTestId('home-brand-slide-1').innerText(),
-      page.getByTestId('home-brand-slide-2').innerText(),
-      page.getByTestId('home-brand-slide-3').innerText(),
-    ]);
-    const represented = new Set(domains.flatMap((text) =>
-      ['対人術', '仕事術', '人生術'].filter((domain) => text.includes(domain)),
-    ));
-    expect(represented).toEqual(new Set(['対人術', '仕事術', '人生術']));
-    results.push({ domains, titles });
-  }
-  expect(results[1].domains).not.toEqual(results[0].domains);
-  expect(results[2].domains).not.toEqual(results[1].domains);
-  expect(results[1].titles).not.toEqual(results[0].titles);
-  expect(results[2].titles).not.toEqual(results[1].titles);
+  await page.goto('/');
+  await startFreeHome(page);
+  const hero = page.getByTestId('home-brand-slide-1');
+  await expect(hero).toContainText('今日の一枚｜処世術｜人たらしの人');
+  await expect(hero).toContainText('小さな頼み事で相手を巻き込む');
+  await expect(hero).toContainText('人は関わった相手ほど、その関係を自分事として扱う。');
+  await expect(hero.getByTestId('home-brand-technique-cta')).toContainText('読む →');
 });
 
 test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
@@ -1106,13 +1043,7 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
-  const [greetingBox, introCopyBox] = await Promise.all([
-    page.getByTestId('home-greeting').boundingBox(),
-    page.getByTestId('home-intro-copy').boundingBox(),
-  ]);
-  expect(greetingBox).not.toBeNull();
-  expect(introCopyBox).not.toBeNull();
-  expect(introCopyBox!.y).toBeGreaterThanOrEqual(greetingBox!.y + greetingBox!.height - 2);
+  await expect(page.getByTestId('home-brand-slide-1')).toBeVisible();
 
   const touchStyles = await page.getByTestId('home-brand-viewport').evaluate((element) => {
     const computed = getComputedStyle(element);

@@ -3,20 +3,20 @@ import { Link, usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts } from '@/constants/theme';
+import { colors } from '@/constants/theme';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { APP_ROUTES, getMainSection, type MainSection } from '@/navigation/app-routes';
 import { AppText } from './ui';
 
 const items = [
-  { key: 'main', label: 'ホーム', icon: 'roku', href: APP_ROUTES.home },
-  { key: 'discover', label: '探す', icon: 'search', href: APP_ROUTES.discover },
+  { key: 'main', label: 'ホーム', icon: 'home', href: APP_ROUTES.home },
+  { key: 'discover', label: '探す', icon: 'compass', href: APP_ROUTES.discover },
   { key: 'learn', label: '学ぶ', icon: 'book', href: APP_ROUTES.learn },
-  { key: 'my-os', label: 'マイページ', icon: 'circle', href: APP_ROUTES.myPage },
+  { key: 'my-os', label: 'マイページ', icon: 'person', href: APP_ROUTES.myPage },
 ] as const satisfies ReadonlyArray<{
   key: MainSection;
   label: string;
-  icon: 'roku' | 'search' | 'book' | 'circle';
+  icon: 'home' | 'compass' | 'book' | 'person';
   href: Href;
 }>;
 
@@ -71,10 +71,10 @@ export function PersistentBottomNav() {
 
 function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; active: boolean }) {
   const color = active ? colors.gold : '#44423E';
-  if (type === 'roku') return <AppText style={[styles.rokuMark, { color }]}>禄</AppText>;
-  if (type === 'search') return <View style={styles.searchMark}><View style={[styles.searchCircle, { borderColor: color }]} /><View style={[styles.searchHandle, { backgroundColor: color }]} /></View>;
+  if (type === 'home') return <View style={styles.homeMark}><View style={[styles.homeRoof, { borderColor: color }]} /><View style={[styles.homeBody, { borderColor: color, backgroundColor: active ? color : 'transparent' }]} /></View>;
+  if (type === 'compass') return <View style={[styles.compassMark, { borderColor: color }]}><View style={[styles.compassNeedle, { borderTopColor: color }]} /></View>;
   if (type === 'book') return <View style={styles.bookMark}><View style={[styles.bookPage, styles.bookPageLeft, { backgroundColor: color }]} /><View style={[styles.bookPage, styles.bookPageRight, { backgroundColor: color }]} /></View>;
-  return <View style={[styles.circleMark, { borderColor: color }]} />;
+  return <View style={styles.personMark}><View style={[styles.personHead, { backgroundColor: color }]} /><View style={[styles.personShoulders, { backgroundColor: color }]} /></View>;
 }
 
 const styles = StyleSheet.create({
@@ -143,7 +143,11 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   pressed: { opacity: 0.65 },
-  rokuMark: { fontFamily: fonts.serif, fontSize: 19, lineHeight: 22, fontWeight: '700' },
+  homeMark: { width: 24, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
+  homeRoof: { position: 'absolute', top: 3, width: 15, height: 15, borderTopWidth: 2, borderLeftWidth: 2, transform: [{ rotate: '45deg' }] },
+  homeBody: { width: 17, height: 13, borderWidth: 1.7, borderTopWidth: 0, borderBottomLeftRadius: 2, borderBottomRightRadius: 2 },
+  compassMark: { width: 23, height: 23, borderWidth: 1.7, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  compassNeedle: { width: 0, height: 0, borderLeftWidth: 4, borderRightWidth: 4, borderTopWidth: 11, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '38deg' }] },
   // 虫眼鏡の柄は、画面倍率に関係なく円と接続して描画する。
   searchMark: { width: 24, height: 24, position: 'relative' },
   searchCircle: { position: 'absolute', top: 2, left: 2, width: 14, height: 14, borderWidth: 1.8, borderRadius: 9 },
@@ -152,7 +156,9 @@ const styles = StyleSheet.create({
   bookPage: { width: 11, height: 18, borderRadius: 2 },
   bookPageLeft: { borderTopRightRadius: 5, borderBottomRightRadius: 2 },
   bookPageRight: { borderTopLeftRadius: 5, borderBottomLeftRadius: 2 },
-  circleMark: { width: 21, height: 21, borderWidth: 1.5, borderRadius: 12 },
+  personMark: { width: 24, height: 24, alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' },
+  personHead: { width: 8, height: 8, borderRadius: 4, marginBottom: 2 },
+  personShoulders: { width: 20, height: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
   label: { color: '#44423E', fontSize: 10, lineHeight: 14, fontWeight: '600' },
   labelActive: { color: colors.gold },
 });

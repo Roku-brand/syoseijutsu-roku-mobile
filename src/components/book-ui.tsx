@@ -21,7 +21,6 @@ import {
   categories,
   categoryMeta,
   techniqueById,
-  theories,
   theoryById,
 } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
@@ -30,38 +29,9 @@ import { useAuth } from '@/auth/auth-state';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
-import { upgradeRoute } from '@/navigation/app-routes';
 import { SearchMark } from './search-mark';
 
 const appIcon = require('../../assets/brand/icon.png');
-
-const HEADER_UPGRADE_TOKENS = {
-  surfaceStart: '#FFFCF5',
-  surfaceMiddle: '#F8F0DD',
-  surfaceEnd: '#F1DDAE',
-  border: '#D8B45B',
-  borderActive: '#D8A93A',
-  ink: '#1F1A17',
-  gold: '#C89A2B',
-  goldBright: '#D8A93A',
-  goldDeep: '#B8831D',
-  ctaText: '#2A1D08',
-  shadow: '#8D691D',
-} as const;
-
-const headerUpgradeSurfaceGradient = Platform.select({
-  web: {
-    backgroundImage: `linear-gradient(105deg, ${HEADER_UPGRADE_TOKENS.surfaceStart} 0%, ${HEADER_UPGRADE_TOKENS.surfaceMiddle} 58%, ${HEADER_UPGRADE_TOKENS.surfaceEnd} 100%)`,
-  } as object,
-  default: { backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle },
-});
-
-const headerUpgradeCtaGradient = Platform.select({
-  web: {
-    backgroundImage: `linear-gradient(180deg, #E3BB58 0%, ${HEADER_UPGRADE_TOKENS.goldBright} 52%, ${HEADER_UPGRADE_TOKENS.gold} 100%)`,
-  } as object,
-  default: { backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
-});
 
 export function BookScreen({
   children,
@@ -116,13 +86,10 @@ export function BookHeader() {
   const pathname = usePathname();
   const segments = useSegments();
   const { user } = useAuth();
-  const { accessState, catalogRevision } = useAccess();
+  const { catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const wideUpgradeBanner = width >= 1000;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
-  const [upgradeHovered, setUpgradeHovered] = useState(false);
-  const [upgradeFocused, setUpgradeFocused] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
@@ -133,7 +100,6 @@ export function BookHeader() {
   const learningCaseHeader = pathname.startsWith('/learn/');
   const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
   const primaryTabHeader = segments[0] === '(tabs)';
-  const showUpgradeBanner = primaryTabHeader && (accessState === 'guest' || accessState === 'free');
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -172,72 +138,13 @@ export function BookHeader() {
               source={appIcon}
               style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
             />
-            <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
+            <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
+              {primaryTabHeader ? <AppText style={styles.brandTagline}>生きる知恵を、日々の力に。</AppText> : null}
             </View>
           </View>
         )}
-        {showUpgradeBanner ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="完全版購入の案内を開く"
-            accessibilityHint="完全版の内容と購入方法を表示します"
-            testID="header-upgrade-banner"
-            onPress={() => router.push(upgradeRoute('header_banner'))}
-            onHoverIn={() => setUpgradeHovered(true)}
-            onHoverOut={() => setUpgradeHovered(false)}
-            onFocus={() => setUpgradeFocused(true)}
-            onBlur={() => setUpgradeFocused(false)}
-            style={({ pressed }) => [
-              styles.headerUpgradeBannerBase,
-              compact
-                ? styles.headerUpgradeBannerCompact
-                : wideUpgradeBanner
-                  ? styles.headerUpgradeBannerWide
-                  : styles.headerUpgradeBannerMedium,
-              (upgradeHovered || upgradeFocused) && styles.headerUpgradeBannerInteractive,
-              upgradeFocused && styles.headerUpgradeBannerFocused,
-              pressed && styles.headerUpgradeBannerPressed,
-            ]}
-          >
-            <View testID="header-upgrade-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeSurface, headerUpgradeSurfaceGradient]} />
-            <View pointerEvents="none" style={styles.headerUpgradeSheen} />
-            {compact ? (
-              <AppText testID="header-upgrade-mobile-label" numberOfLines={1} style={styles.headerUpgradeMobileLabel}>
-                完全版を見る →
-              </AppText>
-            ) : (
-              <>
-                <View style={styles.headerUpgradeEmblem} accessibilityElementsHidden>
-                  <AppText style={styles.headerUpgradeEmblemText}>禄</AppText>
-                </View>
-                <View style={styles.headerUpgradeDivider} />
-                <AppText
-                  testID="header-upgrade-message"
-                  numberOfLines={1}
-                  style={[
-                    styles.headerUpgradeMessage,
-                    !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
-                  ]}
-                >
-                  356の処世術・{theories.length}の理論をすべて読む
-                </AppText>
-                <View
-                  testID="header-upgrade-cta"
-                  style={[
-                    styles.headerUpgradeCta,
-                    (upgradeHovered || upgradeFocused) && styles.headerUpgradeCtaInteractive,
-                  ]}
-                >
-                  <View testID="header-upgrade-cta-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeCtaSurface, headerUpgradeCtaGradient]} />
-                  <AppText numberOfLines={1} style={styles.headerUpgradeCtaText}>
-                    完全版を見る →
-                  </AppText>
-                </View>
-              </>
-            )}
-          </Pressable>
-        ) : primaryTabHeader ? null : (
+        {primaryTabHeader ? null : (
           <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
             <AppText
               testID={personaHeader ? 'persona-header-title' : undefined}
@@ -252,7 +159,16 @@ export function BookHeader() {
           </View>
         )}
 
-        {detail ? (
+        {primaryTabHeader ? (
+          <View testID="book-header-actions" style={styles.headerActions}>
+            <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
+              <SearchMark size={compact ? 25 : 27} color={colors.ink} />
+            </Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel="メニューを開く" onPress={() => router.push('/settings')} style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}>
+              <MenuMark active={Boolean(user)} light />
+            </Pressable>
+          </View>
+        ) : detail ? (
           <DetailHeaderActions detail={detail} compact={compact} />
         ) : catalogueSearchMode ? (
           <View testID="book-header-actions" style={styles.headerActions}>
@@ -435,6 +351,7 @@ function getCurrentTitle(pathname: string) {
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'personas') return '人物像一覧';
   if (segments[0] === 'search') return 'キーワード検索';
+  if (segments[0] === 'popular') return '人気';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
@@ -779,6 +696,7 @@ const styles = StyleSheet.create({
   },
   headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
   brandCopy: { minWidth: 0, gap: 1 },
+  brandTagline: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, letterSpacing: 0.3 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',
@@ -804,142 +722,6 @@ const styles = StyleSheet.create({
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
-  headerUpgradeBannerBase: {
-    position: 'absolute',
-    minHeight: 42,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.border,
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
-    shadowColor: HEADER_UPGRADE_TOKENS.shadow,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.07,
-    shadowRadius: 7,
-    elevation: 1,
-  },
-  headerUpgradeBannerWide: {
-    left: '50%',
-    width: 590,
-    marginLeft: -295,
-  },
-  headerUpgradeBannerMedium: {
-    left: '50%',
-    width: 400,
-    marginLeft: -200,
-  },
-  headerUpgradeBannerCompact: {
-    left: 56,
-    right: 104,
-    minHeight: 32,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    justifyContent: 'center',
-    gap: 0,
-  },
-  headerUpgradeSurface: {
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
-  },
-  headerUpgradeSheen: {
-    position: 'absolute',
-    top: 2,
-    left: 18,
-    right: 18,
-    height: 7,
-    borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.18)',
-  },
-  headerUpgradeBannerInteractive: {
-    borderColor: HEADER_UPGRADE_TOKENS.borderActive,
-    shadowOpacity: 0.2,
-    shadowRadius: 14,
-    transform: [{ translateY: -1 }],
-  },
-  headerUpgradeBannerFocused: {
-    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    shadowOpacity: 0.23,
-  },
-  headerUpgradeBannerPressed: { opacity: 0.9, transform: [{ translateY: 0 }, { scale: 0.992 }] },
-  headerUpgradeEmblem: {
-    width: 30,
-    height: 30,
-    flexShrink: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.gold,
-    borderRadius: 15,
-    backgroundColor: '#211E19',
-  },
-  headerUpgradeEmblemText: {
-    color: '#E7C665',
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '700',
-  },
-  headerUpgradeDivider: { width: 1, height: 25, flexShrink: 0, backgroundColor: 'rgba(184,131,29,0.38)' },
-  headerUpgradeMessage: {
-    minWidth: 0,
-    flex: 1,
-    color: HEADER_UPGRADE_TOKENS.ink,
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: '600',
-    letterSpacing: 0.35,
-    textAlign: 'center',
-  },
-  headerUpgradeMessageMedium: { fontSize: 10, lineHeight: 15, letterSpacing: 0 },
-  headerUpgradeCta: {
-    minWidth: 132,
-    minHeight: 30,
-    flexShrink: 0,
-    paddingHorizontal: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.goldBright,
-    shadowColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 1,
-  },
-  headerUpgradeCtaSurface: { borderRadius: radius.pill, backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
-  headerUpgradeCtaInteractive: {
-    borderColor: '#A96F0D',
-    backgroundColor: '#E3B64B',
-    shadowOpacity: 0.32,
-    shadowRadius: 7,
-    transform: [{ translateY: -1 }],
-  },
-  headerUpgradeCtaText: {
-    color: HEADER_UPGRADE_TOKENS.ctaText,
-    fontFamily: fonts.serif,
-    fontSize: 11,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 0.35,
-    textAlign: 'center',
-  },
-  headerUpgradeMobileLabel: {
-    color: HEADER_UPGRADE_TOKENS.goldDeep,
-    fontFamily: fonts.serif,
-    fontSize: 11,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 0.45,
-    textAlign: 'center',
-  },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,
@@ -979,6 +761,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 2,
   },
+  homeMenuAction: { width: 38, height: 38, borderWidth: 1, borderColor: colors.gold, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',
