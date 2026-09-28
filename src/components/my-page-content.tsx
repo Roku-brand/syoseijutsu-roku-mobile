@@ -113,13 +113,12 @@ export default function MyPageContent() {
           </View>
           <View style={styles.profileDivider} />
           <ImageBackground
-            testID="personal-principle-card"
             source={principleScrollArtwork}
             resizeMode="stretch"
             imageStyle={styles.scrollArtwork}
             style={[styles.scrollWrap, mobile && styles.scrollWrapMobile]}
           >
-            <View style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
+            <View testID="personal-principle-card" style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
               <View style={styles.principleHeading}>
                 <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
                 <Pressable
