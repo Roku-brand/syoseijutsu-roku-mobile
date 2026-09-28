@@ -1,11 +1,11 @@
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { useAccess } from '../../access/access-state';
-import { BookScreen, bookCardShadow } from '../../components/book-ui';
+import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { categoryMeta, techniqueById, techniqueCards, theories, theoryById } from '../../data/catalog';
@@ -76,12 +76,13 @@ const shortcuts = [
   { label: '人気', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
   { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myTechniques, params: { compose: '1' } }, testID: 'home-create-technique' },
   { label: '保存済み', icon: 'bookmark', material: 'bookmark', fallback: '▯', route: APP_ROUTES.library, testID: 'home-shortcut-saved' },
-  { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', route: APP_ROUTES.about, testID: 'home-shortcut-principles' },
-] as const satisfies ReadonlyArray<{ label: string; icon: string; material: string; fallback: string; route: Href; testID: string }>;
+  { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', action: 'principles', testID: 'home-shortcut-principles' },
+] as const satisfies ReadonlyArray<{ label: string; icon: string; material: string; fallback: string; route: Href; testID: string } | { label: string; icon: string; material: string; fallback: string; action: 'principles'; testID: string }>;
 
 export default function HomeScreen() {
   const router = useRouter();
   const { desktop, width } = useResponsiveLayout();
+  const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, catalogRevision } = useAccess();
   const { hydrated, historyIds, interests, savedIds, homeWelcomePending, dismissHomeWelcome } = useAppState();
 
@@ -104,19 +105,24 @@ export default function HomeScreen() {
       <HomeHeroCarousel desktop={desktop} catalogRevision={catalogRevision} />
 
       <View testID="home-shortcuts" style={styles.shortcuts}>
-        {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole="link" accessibilityLabel={item.label} onPress={() => router.push(item.route)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
+        {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
           <Text numberOfLines={2} style={styles.shortcutLabel}>{item.label}</Text>
         </Pressable>)}
       </View>
 
-      <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, pressed && styles.pressed]}>
+      <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, pressed && styles.pressed]}>
         <Image source={premiumImage} resizeMode="cover" accessibilityLabel="黒と金の装丁の書籍" style={styles.premiumImage} />
-        <View style={styles.premiumCopy}>
-          <Text style={styles.premiumEyebrow}>処世術禄</Text>
-          <Text style={styles.premiumTitle}>完全版</Text>
-          <Text style={styles.premiumBody}>人生をより深く生きる{`\n`}すべての知恵を、ここに。</Text>
-          <View style={styles.premiumButton}><Text style={styles.premiumButtonText}>詳しく見る →</Text></View>
+        <View style={[styles.premiumCopy, !desktop && styles.premiumCopyMobile]}>
+          <View style={styles.premiumEdition}>
+            <Text style={[styles.premiumEyebrow, !desktop && styles.premiumEyebrowMobile]}>処世術禄</Text>
+            <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>完全版</Text>
+          </View>
+          <View style={styles.premiumDivider} />
+          <View style={styles.premiumDetails}>
+            <Text style={[styles.premiumBody, !desktop && styles.premiumBodyMobile]}>人生をより深く生きる{`\n`}すべての知恵を、ここに。</Text>
+            <View style={[styles.premiumButton, !desktop && styles.premiumButtonMobile]}><Text style={[styles.premiumButtonText, !desktop && styles.premiumButtonTextMobile]}>詳しく見る →</Text></View>
+          </View>
         </View>
       </Pressable>
 
@@ -141,6 +147,7 @@ export default function HomeScreen() {
           <Pressable accessibilityRole="button" accessibilityLabel="今日の一枚を見る" onPress={dismissHomeWelcome} style={styles.modalPrimary}><Text style={styles.modalPrimaryText}>今日の一枚を見る</Text></Pressable><Pressable accessibilityRole="button" accessibilityLabel="あとで見る" onPress={dismissHomeWelcome} style={styles.modalSecondary}><Text style={styles.modalSecondaryText}>あとで見る</Text></Pressable>
         </View></View>
       </Modal>
+      <PrinciplesModal visible={principlesVisible} compact={!desktop} onClose={() => setPrinciplesVisible(false)} />
     </BookScreen>
   );
 }
@@ -173,14 +180,24 @@ const styles = StyleSheet.create({
   shortcut: { flex: 1, minWidth: 0, height: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
   shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
-  premiumBanner: { height: 139, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
+  premiumBanner: { height: 126, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
+  premiumBannerMobile: { height: 69, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
-  premiumCopy: { width: '68%', height: '100%', justifyContent: 'center', paddingHorizontal: 17 },
-  premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, letterSpacing: 0.8 },
-  premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 26, fontWeight: '700', lineHeight: 31, letterSpacing: 1.4 },
-  premiumBody: { color: '#3E3931', fontFamily: fonts.serif, fontSize: 10, lineHeight: 15, marginTop: 2 },
-  premiumButton: { alignSelf: 'flex-start', backgroundColor: '#AA7832', borderRadius: 999, marginTop: 8, paddingHorizontal: 13, paddingVertical: 5 },
-  premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600' },
+  premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
+  premiumCopyMobile: { width: '76%', paddingHorizontal: 9, gap: 8 },
+  premiumEdition: { flexShrink: 0 },
+  premiumDivider: { width: 1, height: '58%', backgroundColor: '#B78B43' },
+  premiumDetails: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, letterSpacing: 1.1, fontWeight: '700' },
+  premiumEyebrowMobile: { fontSize: 12, lineHeight: 17, letterSpacing: 0.3 },
+  premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700', lineHeight: 44, letterSpacing: 1.4 },
+  premiumTitleMobile: { fontSize: 25, lineHeight: 29, letterSpacing: 0.4 },
+  premiumBody: { color: '#29251F', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
+  premiumBodyMobile: { fontSize: 10, lineHeight: 14 },
+  premiumButton: { alignSelf: 'flex-start', backgroundColor: '#AA7832', borderRadius: 999, marginTop: 8, paddingHorizontal: 15, paddingVertical: 6 },
+  premiumButtonMobile: { marginTop: 3, paddingHorizontal: 10, paddingVertical: 3 },
+  premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
+  premiumButtonTextMobile: { fontSize: 10, lineHeight: 13 },
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },

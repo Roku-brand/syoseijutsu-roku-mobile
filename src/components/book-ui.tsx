@@ -433,7 +433,7 @@ const principles = [
   },
 ] as const;
 
-function PrinciplesModal({
+export function PrinciplesModal({
   visible,
   compact,
   onClose,

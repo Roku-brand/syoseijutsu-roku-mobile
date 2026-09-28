@@ -1,7 +1,8 @@
 import * as Haptics from 'expo-haptics';
+import { SymbolView } from 'expo-symbols';
 import { usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/constants/theme';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
@@ -70,8 +71,12 @@ export function PersistentBottomNav() {
 
 function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; active: boolean }) {
   const color = active ? colors.gold : '#44423E';
-  if (type === 'home') return <View style={styles.homeMark}><View style={[styles.homeRoof, { borderColor: color }]} /><View style={[styles.homeBody, { borderColor: color, backgroundColor: active ? color : 'transparent' }]} /></View>;
-  if (type === 'compass') return <View style={[styles.compassMark, { borderColor: color }]}><View style={[styles.compassNeedle, { borderTopColor: color }]} /></View>;
+  if (type === 'home') return Platform.OS === 'ios'
+    ? <SymbolView name="house.fill" size={25} tintColor={color} weight="regular" />
+    : <View style={styles.homeMark}><View style={[styles.homeRoof, { backgroundColor: color }]} /><View style={[styles.homeBody, { backgroundColor: color }]} /><View style={styles.homeDoor} /></View>;
+  if (type === 'compass') return Platform.OS === 'ios'
+    ? <SymbolView name="safari" size={25} tintColor={color} weight="regular" />
+    : <View style={[styles.compassMark, { borderColor: color }]}><View style={[styles.compassNeedleNorth, { borderBottomColor: color }]} /><View style={[styles.compassNeedleSouth, { borderTopColor: color }]} /></View>;
   if (type === 'book') return <View style={styles.bookMark}><View style={[styles.bookPage, styles.bookPageLeft, { backgroundColor: color }]} /><View style={[styles.bookPage, styles.bookPageRight, { backgroundColor: color }]} /></View>;
   return <View style={styles.personMark}><View style={[styles.personHead, { backgroundColor: color }]} /><View style={[styles.personShoulders, { backgroundColor: color }]} /></View>;
 }
@@ -142,11 +147,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
   },
   pressed: { opacity: 0.65 },
-  homeMark: { width: 24, height: 24, alignItems: 'center', justifyContent: 'flex-end' },
-  homeRoof: { position: 'absolute', top: 3, width: 15, height: 15, borderTopWidth: 2, borderLeftWidth: 2, transform: [{ rotate: '45deg' }] },
-  homeBody: { width: 17, height: 13, borderWidth: 1.7, borderTopWidth: 0, borderBottomLeftRadius: 2, borderBottomRightRadius: 2 },
-  compassMark: { width: 23, height: 23, borderWidth: 1.7, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  compassNeedle: { width: 0, height: 0, borderLeftWidth: 4, borderRightWidth: 4, borderTopWidth: 11, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '38deg' }] },
+  homeMark: { width: 25, height: 25, position: 'relative' },
+  homeRoof: { position: 'absolute', top: 4, left: 5, width: 15, height: 15, borderTopLeftRadius: 2, transform: [{ rotate: '45deg' }] },
+  homeBody: { position: 'absolute', bottom: 2, left: 4, width: 17, height: 13, borderBottomLeftRadius: 2, borderBottomRightRadius: 2 },
+  homeDoor: { position: 'absolute', bottom: 2, left: 10, width: 5, height: 8, borderTopLeftRadius: 2, borderTopRightRadius: 2, backgroundColor: colors.surface },
+  compassMark: { width: 24, height: 24, borderWidth: 1.7, borderRadius: 12, alignItems: 'center', justifyContent: 'center', position: 'relative' },
+  compassNeedleNorth: { position: 'absolute', top: 3, left: 8, width: 0, height: 0, borderLeftWidth: 3, borderRightWidth: 3, borderBottomWidth: 9, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '42deg' }] },
+  compassNeedleSouth: { position: 'absolute', bottom: 3, right: 8, width: 0, height: 0, borderLeftWidth: 3, borderRightWidth: 3, borderTopWidth: 9, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '42deg' }] },
   // 虫眼鏡の柄は、画面倍率に関係なく円と接続して描画する。
   searchMark: { width: 24, height: 24, position: 'relative' },
   searchCircle: { position: 'absolute', top: 2, left: 2, width: 14, height: 14, borderWidth: 1.8, borderRadius: 9 },

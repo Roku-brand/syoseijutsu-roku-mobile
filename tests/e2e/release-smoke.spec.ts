@@ -869,10 +869,14 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   const hero = await page.getByTestId('home-brand-carousel').boundingBox();
   const shortcuts = await page.getByTestId('home-shortcuts').boundingBox();
   const banner = await page.getByTestId('home-premium-banner').boundingBox();
+  const reelDot = await page.getByRole('tab', { name: '1枚目を表示' }).boundingBox();
   const continueSection = await page.getByTestId('home-continue-section').boundingBox();
   const recommendations = await page.getByTestId('home-recommendations-section').boundingBox();
   const create = await page.getByTestId('home-create-technique').boundingBox();
-  expect(hero && shortcuts && banner && continueSection && recommendations && create).toBeTruthy();
+  expect(hero && shortcuts && banner && reelDot && continueSection && recommendations && create).toBeTruthy();
+  expect(reelDot!.y + reelDot!.height).toBeLessThanOrEqual(hero!.y + hero!.height);
+  expect(banner!.height).toBeGreaterThanOrEqual(65);
+  expect(banner!.height).toBeLessThanOrEqual(75);
   expect(hero!.y).toBeLessThan(shortcuts!.y);
   expect(shortcuts!.y).toBeLessThan(banner!.y);
   expect(banner!.y).toBeLessThan(continueSection!.y);
@@ -881,6 +885,10 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
   await expect(page.getByTestId('home-create-technique')).toContainText('処世術を作る');
   await expect(page.getByTestId('home-continue-section')).toContainText('続きから読む');
+  await page.getByTestId('home-shortcut-principles').click();
+  await expect(page.getByText('処世術の五大原則', { exact: true })).toBeVisible();
+  await expect(page.getByText('術に使われず、術を使うための五つの戒め。')).toBeVisible();
+  await page.getByRole('button', { name: '原則を閉じる' }).last().click();
 });
 
 test('ホームのおすすめは4分類を含む7枚を横スクロールできる', async ({ page }) => {
