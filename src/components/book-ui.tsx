@@ -383,7 +383,7 @@ function getHeaderSubtitle(pathname: string) {
 }
 
 function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/learn', '/my-os', '/onboarding'].includes(pathname);
+  return !['/', '/discover', '/learn', '/my-os', '/welcome', '/onboarding'].includes(pathname);
 }
 
 function PrincipleMark() {

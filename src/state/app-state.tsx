@@ -46,9 +46,6 @@ export type PersonalMemo = {
 
 type PersistedState = {
   learningCurriculumVersion: number;
-  welcomePageHidden: boolean;
-  homeWelcomeSeen: boolean;
-  homeWelcomePending: boolean;
   interests: CategoryKey[];
   savedIds: string[];
   savedTheoryIds: string[];
@@ -63,9 +60,6 @@ type PersistedState = {
 
 const initialState: PersistedState = {
   learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
-  welcomePageHidden: false,
-  homeWelcomeSeen: false,
-  homeWelcomePending: false,
   interests: CATEGORY_KEYS,
   savedIds: [],
   savedTheoryIds: [],
@@ -81,8 +75,6 @@ const initialState: PersistedState = {
 type AppStateContextValue = PersistedState & {
   hydrated: boolean;
   startFreeEdition: (interests: CategoryKey[]) => void;
-  setWelcomePageHidden: (hidden: boolean) => void;
-  dismissHomeWelcome: () => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
   addHistory: (id: string) => void;
@@ -125,12 +117,18 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         if (!stored) return;
         const parsed = JSON.parse(stored) as Partial<PersistedState> & {
           contentActivity?: unknown;
+          welcomePageHidden?: unknown;
+          homeWelcomeSeen?: unknown;
+          homeWelcomePending?: unknown;
           homeImpressions?: unknown;
           onboardingCompleted?: unknown;
           collections?: unknown;
         };
         const supportedState = { ...parsed };
         delete supportedState.contentActivity;
+        delete supportedState.welcomePageHidden;
+        delete supportedState.homeWelcomeSeen;
+        delete supportedState.homeWelcomePending;
         delete supportedState.homeImpressions;
         delete supportedState.onboardingCompleted;
         delete supportedState.collections;
@@ -214,19 +212,6 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     setState((current) => ({
       ...current,
       interests: interests.length ? interests : initialState.interests,
-      homeWelcomePending: !current.homeWelcomeSeen,
-    }));
-  }, []);
-
-  const setWelcomePageHidden = useCallback((hidden: boolean) => {
-    setState((current) => ({ ...current, welcomePageHidden: hidden }));
-  }, []);
-
-  const dismissHomeWelcome = useCallback(() => {
-    setState((current) => ({
-      ...current,
-      homeWelcomeSeen: true,
-      homeWelcomePending: false,
     }));
   }, []);
 
@@ -414,8 +399,6 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       ...state,
       hydrated,
       startFreeEdition,
-      setWelcomePageHidden,
-      dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,
@@ -438,8 +421,6 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       state,
       hydrated,
       startFreeEdition,
-      setWelcomePageHidden,
-      dismissHomeWelcome,
       toggleSaved,
       toggleSavedTheory,
       addHistory,

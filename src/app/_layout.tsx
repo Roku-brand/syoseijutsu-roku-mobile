@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
-import { Stack, useLocalSearchParams, usePathname, useSegments } from 'expo-router';
+import { Stack, useLocalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
@@ -13,7 +13,6 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { AccessProvider } from '@/access/access-state';
 import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
-import { useAppState } from '@/state/app-state';
 import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
@@ -22,22 +21,13 @@ import { motion } from '@/constants/motion';
 function AppFrame() {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
-  const segments = useSegments();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
-  const { hydrated, welcomePageHidden } = useAppState();
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
-  // `/onboarding` is retained only for existing links.  While its redirect
-  // resolves, it must not show the regular application chrome.
-  // Both the root welcome screen and the tab home resolve to `/` on web.
-  // `usePathname()` alone therefore hides the frame after tapping
-  // 「無料で始める」. Keep the welcome exception scoped to the root route,
-  // while allowing the `(tabs)` home to render its header and navigation.
-  const isTabHome = segments[0] === '(tabs)';
-  const isRootWelcome = pathname === '/' && !isTabHome && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
-  const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
+  // Legacy entry URLs redirect to the home screen without flashing app chrome.
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover
   // the purchase CTA at the bottom of the page.

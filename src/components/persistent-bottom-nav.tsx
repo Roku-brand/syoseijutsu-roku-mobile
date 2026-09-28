@@ -27,7 +27,7 @@ export function PersistentBottomNav() {
   const router = useRouter();
   const lastTap = useRef<Record<string, number>>({});
 
-  if (pathname === '/onboarding') return null;
+  if (pathname === '/welcome' || pathname === '/onboarding') return null;
   const selected = getMainSection(pathname);
 
   const navigate = (item: (typeof items)[number]) => {

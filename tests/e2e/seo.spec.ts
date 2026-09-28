@@ -4,7 +4,7 @@ test('top page exposes the requested search and social metadata', async ({ page 
   await page.goto('/');
   await expect(page).toHaveTitle('処世術禄｜処世術を人生・仕事・人間関係に使える体系へ');
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', '処世術を、人間関係・仕事・人生で使える知恵へ。心理学・行動科学などの理論と結びつけ、流れていく知恵を何度でも使える体系として届けます。');
-  await expect(page.getByRole('heading', { name: /流れていく知恵を、.*ここで使える.*体系にする。/ })).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://app.shoseijutsuroku.com/');
   await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', '処世術禄');
   const jsonLd = await page.locator('script[data-seo-jsonld]').evaluate((element) => element.textContent ?? '');

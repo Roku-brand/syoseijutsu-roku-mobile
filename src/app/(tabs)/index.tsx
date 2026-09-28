@@ -1,7 +1,7 @@
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useMemo, useState } from 'react';
-import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { useAccess } from '../../access/access-state';
@@ -84,7 +84,7 @@ export default function HomeScreen() {
   const { desktop, width } = useResponsiveLayout();
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, catalogRevision } = useAccess();
-  const { hydrated, historyIds, interests, savedIds, homeWelcomePending, dismissHomeWelcome } = useAppState();
+  const { historyIds, interests, savedIds } = useAppState();
 
   const recent = useMemo<HomeContent[]>(() => historyIds.flatMap((id): HomeContent[] => {
     const card = techniqueById.get(id);
@@ -141,12 +141,6 @@ export default function HomeScreen() {
         </Pressable>}
       </HomeSection>
 
-      <Modal transparent visible={hydrated && homeWelcomePending} animationType="fade" onRequestClose={dismissHomeWelcome}>
-        <View style={styles.modalBackdrop} testID="home-welcome-modal"><View style={styles.modalCard}>
-          <Text style={styles.modalEyebrow}>処世術禄へようこそ</Text><Text style={styles.modalTitle}>判断に迷う日に、静かな手がかりを。</Text><Text style={styles.modalBody}>まずは今日の一枚から。気になった知恵は、蔵書へ残せます。</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel="今日の一枚を見る" onPress={dismissHomeWelcome} style={styles.modalPrimary}><Text style={styles.modalPrimaryText}>今日の一枚を見る</Text></Pressable><Pressable accessibilityRole="button" accessibilityLabel="あとで見る" onPress={dismissHomeWelcome} style={styles.modalSecondary}><Text style={styles.modalSecondaryText}>あとで見る</Text></Pressable>
-        </View></View>
-      </Modal>
       <PrinciplesModal visible={principlesVisible} compact={!desktop} onClose={() => setPrinciplesVisible(false)} />
     </BookScreen>
   );
@@ -211,13 +205,4 @@ const styles = StyleSheet.create({
   emptyHistory: { minHeight: 89, justifyContent: 'center', paddingHorizontal: 16, borderWidth: 1, borderColor: '#E9E2D8', borderRadius: 14, backgroundColor: '#FFFDF9' },
   emptyHistoryTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
   emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11, lineHeight: 19, marginTop: 4 },
-  modalBackdrop: { alignItems: 'center', backgroundColor: 'rgba(13, 11, 8, 0.55)', flex: 1, justifyContent: 'center', padding: 22 },
-  modalCard: { backgroundColor: colors.surface, borderColor: colors.gold, borderRadius: 16, borderWidth: 1, maxWidth: 430, padding: 28, ...bookCardShadow },
-  modalEyebrow: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, letterSpacing: 1.2 },
-  modalTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, letterSpacing: 1, lineHeight: 37, marginTop: 14 },
-  modalBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 14, lineHeight: 25, marginTop: 15 },
-  modalPrimary: { alignItems: 'center', backgroundColor: colors.ink, borderRadius: 999, marginTop: 24, paddingVertical: 13 },
-  modalPrimaryText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13 },
-  modalSecondary: { alignItems: 'center', marginTop: 8, paddingVertical: 11 },
-  modalSecondaryText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12 },
 });

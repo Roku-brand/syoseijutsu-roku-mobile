@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import { useRouter, type Href } from 'expo-router';
-import { Alert, Linking, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
 import { colors, fonts } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
@@ -12,7 +12,7 @@ import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 export default function SettingsScreen() {
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
-  const { welcomePageHidden, setWelcomePageHidden, clearPersonalData } = useAppState();
+  const { clearPersonalData } = useAppState();
   const version = Constants.expoConfig?.version ?? '1.0.0';
   const profileDetail = user
     ? profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'
@@ -38,12 +38,6 @@ export default function SettingsScreen() {
 
       <SettingsSection title="アプリ設定" />
       <SettingsGroup>
-        <SettingToggle
-          title="ウェルカムページを非表示にする"
-          detail="オンにすると、次回からホームを直接表示します"
-          value={welcomePageHidden}
-          onValueChange={setWelcomePageHidden}
-        />
         <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last />
       </SettingsGroup>
 
@@ -116,24 +110,6 @@ function SettingLink({ title, detail, href, onPress, last = false, subdued = fal
   );
 }
 
-function SettingToggle({ title, detail, value, onValueChange }: { title: string; detail: string; value: boolean; onValueChange: (value: boolean) => void }) {
-  return (
-    <View style={[styles.row, styles.toggleRow, styles.rowLast]}>
-      <View style={styles.copy}>
-        <AppText style={styles.title}>{title}</AppText>
-        <AppText style={styles.detail}>{detail}</AppText>
-      </View>
-      <Switch
-        value={value}
-        onValueChange={onValueChange}
-        accessibilityLabel="ウェルカムページを非表示にする"
-        trackColor={{ false: '#D9D0C2', true: '#A87B29' }}
-        thumbColor="#FFFDF8"
-      />
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 660, alignSelf: 'center', paddingTop: 8, paddingBottom: 36 },
   sectionTitle: { marginTop: 32, marginBottom: 10, color: colors.ink, fontSize: 19, lineHeight: 28, fontWeight: '700' },
@@ -145,7 +121,6 @@ const styles = StyleSheet.create({
   rowLast: { borderBottomWidth: 0 },
   rowSubdued: { borderBottomColor: '#E9E2D8' },
   rowDanger: { backgroundColor: '#F4EDE4', borderTopWidth: 1, borderTopColor: '#D8C1A8' },
-  toggleRow: { minHeight: 76 },
   copy: { flex: 1, minWidth: 0, paddingRight: 12 },
   title: { color: colors.ink, fontSize: 15, lineHeight: 22, fontWeight: '600' },
   titleSubdued: { color: '#4D4A44' },

@@ -1,16 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 
 async function startFreeHome(page: Page) {
-  const headerEntry = page.getByRole('button', { name: '無料ではじめる' });
-  if (await headerEntry.isVisible({ timeout: 2_000 }).catch(() => false)) {
-    await headerEntry.click();
-  } else {
-    await page.getByRole('button', { name: '無料で始める' }).click();
-  }
-  const welcomeModal = page.getByTestId('home-welcome-modal');
-  if (await welcomeModal.isVisible({ timeout: 800 })) {
-    await welcomeModal.getByRole('button', { name: 'あとで見る' }).click();
-  }
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 }
 
 test('owner operations routes do not expose operational data to signed-out users', async ({ page }) => {
@@ -28,42 +19,22 @@ test('owner operations routes do not expose operational data to signed-out users
   }
 });
 
-test('welcome presents both entry actions on desktop and mobile', async ({ page }) => {
-  const assertWelcomeFits = async () => {
-    await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
-    const purchase = page.getByRole('button', { name: 'すべての内容を見る' });
-    const free = page.getByRole('button', { name: '無料で始める' });
-    await free.scrollIntoViewIfNeeded();
-    await purchase.scrollIntoViewIfNeeded();
-    await expect(purchase).toBeVisible();
-    await expect(free).toBeVisible();
-  };
-
-  await page.setViewportSize({ width: 1920, height: 868 });
-  await page.goto('/welcome');
-  await expect(page.getByText('利用状態を確認しています')).toHaveCount(0);
-  await assertWelcomeFits();
-  const stats = await page.getByTestId('welcome-stats').boundingBox();
-  const steps = await page.getByTestId('welcome-steps').boundingBox();
-  expect(stats?.width).toBeGreaterThan(700);
-  expect(steps?.width).toBeGreaterThan(300);
-  expect(steps?.width).toBeLessThan(420);
-  expect(await page.getByTestId('welcome-stats').innerText()).not.toContain('\\n');
-
-  await page.setViewportSize({ width: 393, height: 667 });
-  await page.reload();
-  await assertWelcomeFits();
-  await expect(page.getByText('現状維持バイアス', { exact: true })).toBeVisible();
-  expect(await page.getByTestId('welcome-stats').innerText()).not.toContain('\\n');
+test('ホームが初期画面になり、旧ウェルカムURLもホームへ転送する', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const route of ['/', '/welcome', '/onboarding']) {
+      await page.goto(route);
+      await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+      await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toHaveCount(0);
+      await expect(page.getByTestId('home-welcome-modal')).toHaveCount(0);
+    }
+  }
 });
 
-test('settings can hide the recurring welcome page', async ({ page }) => {
+test('設定からウェルカム関連項目を外し、ホーム画面への追加は残す', async ({ page }) => {
   await page.goto('/settings');
-  const hideWelcome = page.getByRole('switch', { name: 'ウェルカムページを非表示にする' });
-  await expect(hideWelcome).toBeVisible();
-  await hideWelcome.click();
-  await page.goto('/');
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByText('ウェルカムページを非表示にする')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'ホーム画面に追加' })).toBeVisible();
 });
 
 test('my page keeps the guest profile entry compact', async ({ page }) => {
@@ -249,11 +220,9 @@ test('persona technique menu leaves saving to each technique detail', async ({ p
   await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(14);
 });
 
-test('初回訪問から無料版ホームへ入り、再読み込み後も維持できる', async ({ page }) => {
+test('初回訪問でホームを直接表示し、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
-  await expect(page.getByText(/聞いたことがある、/)).toBeVisible();
-  await startFreeHome(page);
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
   await expect(page.getByTestId('home-shortcuts')).toBeVisible();
@@ -263,7 +232,7 @@ test('初回訪問から無料版ホームへ入り、再読み込み後も維�
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toBeVisible();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 });
 
 test('主要4タブのヘッダーはブランド、検索、メニューを表示する', async ({ page }) => {
@@ -276,9 +245,6 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     ['/my-os', 'マイページ'],
   ] as const) {
     await page.goto(route);
-    if (route === '/' && await page.getByRole('button', { name: '無料で始める' }).isVisible({ timeout: 500 }).catch(() => false)) {
-      await startFreeHome(page);
-    }
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
@@ -293,7 +259,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
 
 test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/welcome');
+  await page.goto('/');
   await startFreeHome(page);
 
   const rail = page.getByTestId('home-brand-viewport');
@@ -306,7 +272,7 @@ test('ホームのブランドリールは矢印で7枚を横にスライドす�
 });
 
 test('ホームの各CTAは正式コンテンツと既存画面へ遷移する', async ({ page }) => {
-  await page.goto('/welcome');
+  await page.goto('/');
   await startFreeHome(page);
 
   await page.getByTestId('home-brand-technique-cta').click();
@@ -341,43 +307,6 @@ test('ホームの各CTAは正式コンテンツと既存画面へ遷移する',
   await page.getByRole('tab', { name: '6枚目を表示' }).click();
   await page.getByTestId('home-brand-premium-cta').click();
   await expect(page).toHaveURL(/\/upgrade\?source=home_carousel$/);
-});
-
-test('ウェルカムから初回ホームへ入ると今日の一枚へ導く歓迎ポップアップを一度だけ表示する', async ({ page }) => {
-  await page.goto('/welcome');
-  await page.getByRole('button', { name: '無料で始める' }).click();
-
-  const welcomeModal = page.getByTestId('home-welcome-modal');
-  await expect(welcomeModal).toBeVisible();
-  await expect(welcomeModal).toContainText('処世術禄へようこそ');
-  await expect(welcomeModal).toContainText('判断に迷う日に、静かな手がかりを。');
-  await welcomeModal.getByRole('button', { name: '今日の一枚を見る' }).click();
-  await expect(welcomeModal).toHaveCount(0);
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-
-  await page.goto('/welcome');
-  await page.getByRole('button', { name: '無料で始める' }).click();
-  await expect(welcomeModal).toHaveCount(0);
-});
-
-test('初回歓迎ポップアップはスマホ画面内に収まり、あとで閉じられる', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 667 });
-  await page.goto('/welcome');
-  await page.getByRole('button', { name: '無料で始める' }).click();
-
-  const welcomeModal = page.getByTestId('home-welcome-modal');
-  const primary = welcomeModal.getByRole('button', { name: '今日の一枚を見る' });
-  await expect(welcomeModal).toBeVisible();
-  await expect(primary).toBeVisible();
-  const [modalBox, primaryBox] = await Promise.all([welcomeModal.boundingBox(), primary.boundingBox()]);
-  expect(modalBox).not.toBeNull();
-  expect(primaryBox).not.toBeNull();
-  expect(modalBox!.y).toBeGreaterThanOrEqual(0);
-  expect(modalBox!.y + modalBox!.height).toBeLessThanOrEqual(667);
-  expect(primaryBox!.y + primaryBox!.height).toBeLessThanOrEqual(667);
-
-  await welcomeModal.getByRole('button', { name: 'あとで見る' }).click();
-  await expect(welcomeModal).toHaveCount(0);
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
@@ -429,47 +358,6 @@ test('マイ処世術はマイページ内で作成・フォルダー整理・�
   await page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' }).click();
   await page.getByRole('button', { name: 'このマイ処世術を削除' }).click();
   await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
-});
-
-test('ウェルカムのヘッダーに無料版・完全版の導線とホームアイコンを置く', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/welcome');
-  await expect(page.getByTestId('welcome-entry-header')).toBeVisible();
-  await expect(page.getByLabel('処世術禄のホームアイコン')).toBeVisible();
-  await expect(page.getByRole('button', { name: '無料ではじめる' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '完全版を購入する' })).toBeVisible();
-  await expect(page.getByText('登録不要・すぐに使えます')).toBeVisible();
-  await expect(page.getByText('全コンテンツ・30日間アクセス')).toBeVisible();
-  await expect(page.getByText('処 世 術 禄', { exact: true })).toHaveCount(0);
-
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload();
-  const [freeEntry, completeEntry, freeTitle, completeTitle] = await Promise.all([
-    page.getByRole('button', { name: '無料ではじめる' }).boundingBox(),
-    page.getByRole('button', { name: '完全版を購入する' }).boundingBox(),
-    page.getByTestId('welcome-entry-free-title').boundingBox(),
-    page.getByTestId('welcome-entry-complete-title').boundingBox(),
-  ]);
-  expect(freeEntry).not.toBeNull();
-  expect(completeEntry).not.toBeNull();
-  expect(freeTitle).not.toBeNull();
-  expect(completeTitle).not.toBeNull();
-  expect(Math.abs(freeEntry!.height - completeEntry!.height)).toBeLessThan(2);
-  expect(Math.abs(freeTitle!.height - completeTitle!.height)).toBeLessThan(2);
-});
-
-test('ウェルカムの無料版と完全版の入口は、それぞれ正しい画面へ進む', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/welcome');
-  await page.getByRole('button', { name: '無料ではじめる' }).click();
-  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-
-  await page.goto('/welcome');
-  await page.getByRole('button', { name: '完全版を購入する' }).click();
-  await expect(page).toHaveURL(/\/upgrade$/);
-  await expect(page.getByText('完全版・30日間', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
 test('閲覧履歴はマイページ内で確認できる', async ({ page }) => {
