@@ -99,7 +99,9 @@ export function BookHeader() {
   const personaHeader = pathname.startsWith('/subcategory/');
   const learningCaseHeader = pathname.startsWith('/learn/');
   const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
-  const primaryTabHeader = segments[0] === '(tabs)';
+  // The static web home is served through the root index route, so its first
+  // segment is not `(tabs)` even though it represents the main tab.
+  const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/';
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -1076,3 +1078,4 @@ const styles = StyleSheet.create({
   saveDiamondLabelSaved: { color: colors.goldLight },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });
+
