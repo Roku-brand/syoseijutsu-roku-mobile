@@ -83,71 +83,51 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('マイページに座右の銘・3つの蓄積先・最近の蓄積を表示する', async ({ page }) => {
+test('マイページはプロフィールと座右の銘を統合し、実データのタブを切り替える', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
+  const profileCard = page.getByTestId('profile-principle-card');
+  await expect(profileCard).toBeVisible();
   await expect(page.getByTestId('personal-principle-card')).toBeVisible();
   await expect(page.getByText('いまの座右の銘', { exact: true })).toBeVisible();
   await expect(page.getByText('志は高く、腰は低く。', { exact: true })).toBeVisible();
   await expect(page.getByTestId('personal-principle-edit')).toBeVisible();
   await expect(page.getByTestId('personal-principle-edit')).toHaveAttribute('aria-label', '座右の銘を編集');
-  await expect(page.getByRole('button', { name: '蔵書を開く' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'マイ処世術を開く' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '履歴を開く' })).toBeVisible();
-  await expect(page.getByText('最近保存したもの', { exact: true })).toBeVisible();
-  await expect(page.getByText('最近の履歴', { exact: true })).toBeVisible();
-  await expect(page.getByText('まだ保存したものはありません', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'すべての履歴を見る' })).toBeVisible();
+  await expect(profileCard).toContainText('無料版を利用中');
+  await expect(profileCard).not.toContainText('無料公開分');
+  await expect(profileCard).not.toContainText('完全版を見る');
+  await expect(page.getByRole('tab')).toHaveCount(3);
+  await expect(page.getByRole('tab', { name: '閲覧履歴' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByText('最近見た処世術・理論')).toBeVisible();
+  await page.getByRole('tab', { name: '蔵書' }).click();
+  await expect(page.getByRole('tab', { name: '蔵書' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByText('まだ保存した処世術・理論はありません')).toBeVisible();
+  await expect(page).toHaveURL(/my-os/);
+  await page.getByRole('tab', { name: 'マイ処世術' }).click();
+  await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
+  await page.getByRole('button', { name: '＋ 作る' }).click();
+  await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、相手の話を聞く。');
+  await page.getByRole('button', { name: '保存する' }).click();
+  await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
+  await page.reload();
+  await page.getByRole('tab', { name: 'マイ処世術' }).click();
+  await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
+  await page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' }).click();
+  await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、最後まで話を聞く。');
+  await page.getByRole('button', { name: '保存する' }).click();
+  await expect(page.getByRole('button', { name: '一呼吸おいて、最後まで話を聞く。を編集' })).toBeVisible();
 });
 
-test('マイページはPCの同一グリッドとスマホの縦積みを保つ', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/my-os');
-  const profile = page.getByTestId('profile-usage-bar');
-  const principle = page.getByTestId('personal-principle-card');
-  await expect(profile).toContainText('無料版');
-  await expect(page.getByRole('button', { name: '完全版を見る' })).toBeVisible();
-  const [profileBox, principleBox] = await Promise.all([profile.boundingBox(), principle.boundingBox()]);
-  expect(profileBox).not.toBeNull();
-  expect(principleBox).not.toBeNull();
-  expect(Math.abs(profileBox!.x - principleBox!.x)).toBeLessThanOrEqual(1);
-  expect(Math.abs(profileBox!.width - principleBox!.width)).toBeLessThanOrEqual(1);
-
-  const summaryCards = page.getByTestId('my-page-summary-grid').getByRole('button');
-  await expect(summaryCards).toHaveCount(3);
-  const summaryBoxes = await Promise.all([0, 1, 2].map((index) => summaryCards.nth(index).boundingBox()));
-  expect(new Set(summaryBoxes.map((box) => Math.round(box!.y))).size).toBe(1);
-  const previewSections = page.getByTestId('my-page-preview-section');
-  await expect(previewSections).toHaveCount(3);
-  const previewBoxes = await Promise.all([0, 1, 2].map((index) => previewSections.nth(index).boundingBox()));
-  expect(new Set(previewBoxes.map((box) => Math.round(box!.y))).size).toBe(1);
-
-  await page.setViewportSize({ width: 900, height: 900 });
-  await page.reload();
-  const tabletSummary = page.getByTestId('my-page-summary-grid').getByRole('button');
-  const tabletBoxes = await Promise.all([0, 1, 2].map((index) => tabletSummary.nth(index).boundingBox()));
-  expect(Math.abs(tabletBoxes[0]!.y - tabletBoxes[1]!.y)).toBeLessThanOrEqual(1);
-  expect(tabletBoxes[2]!.y).toBeGreaterThan(tabletBoxes[0]!.y + tabletBoxes[0]!.height);
-
+test('マイページの統合カードとタブはスマホ幅に収まり、座右の銘を編集できる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload();
-  const mobileSummary = page.getByTestId('my-page-summary-grid').getByRole('button');
-  const mobileSummaryBoxes = await Promise.all([0, 1, 2].map((index) => mobileSummary.nth(index).boundingBox()));
-  expect(mobileSummaryBoxes[1]!.y).toBeGreaterThan(mobileSummaryBoxes[0]!.y + mobileSummaryBoxes[0]!.height);
-  expect(mobileSummaryBoxes[2]!.y).toBeGreaterThan(mobileSummaryBoxes[1]!.y + mobileSummaryBoxes[1]!.height);
-  const mobilePreviewBoxes = await Promise.all([0, 1, 2].map((index) => page.getByTestId('my-page-preview-section').nth(index).boundingBox()));
-  expect(mobilePreviewBoxes[1]!.y).toBeGreaterThan(mobilePreviewBoxes[0]!.y + mobilePreviewBoxes[0]!.height);
-  expect(mobilePreviewBoxes[2]!.y).toBeGreaterThan(mobilePreviewBoxes[1]!.y + mobilePreviewBoxes[1]!.height);
-  const [mobilePrincipleBox, mobileEditBox] = await Promise.all([
-    page.getByTestId('personal-principle-card').boundingBox(),
-    page.getByTestId('personal-principle-edit').boundingBox(),
-  ]);
-  expect(mobilePrincipleBox).not.toBeNull();
-  expect(mobileEditBox).not.toBeNull();
-  expect(mobilePrincipleBox!.height).toBeLessThan(184);
-  expect(mobileEditBox!.height).toBeGreaterThanOrEqual(44);
-  expect(mobileEditBox!.y).toBeLessThanOrEqual(mobilePrincipleBox!.y + 12);
-  expect(mobileEditBox!.x + mobileEditBox!.width).toBeLessThanOrEqual(mobilePrincipleBox!.x + mobilePrincipleBox!.width - 10);
+  await page.goto('/my-os');
+  const card = await page.getByTestId('profile-principle-card').boundingBox();
+  const tabs = await page.getByTestId('my-page-tabs').boundingBox();
+  expect(card).not.toBeNull();
+  expect(tabs).not.toBeNull();
+  expect(card!.height).toBeLessThan(270);
+  expect(tabs!.y).toBeGreaterThan(card!.y + card!.height);
+  expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(20);
   await page.getByTestId('personal-principle-edit').click();
   const longPrinciple = '自分の歩幅を守りながら、相手への敬意を忘れず、焦らず静かに一つずつ進んでいく。';
   await page.getByRole('textbox', { name: '座右の銘' }).fill(longPrinciple);
@@ -435,22 +415,20 @@ test('PCの購入確認でも対応決済手段を読みやすく表示する', 
   expect(supportBox!.y + supportBox!.height).toBeLessThanOrEqual(900);
 });
 
-test('マイ処世術は専用ページで作成・フォルダー整理・削除ができる', async ({ page }) => {
+test('マイ処世術はマイページ内で作成・フォルダー整理・削除ができる', async ({ page }) => {
   await page.goto('/my-os');
-  await page.getByRole('button', { name: 'マイ処世術を開く' }).click();
-  await expect(page).toHaveURL(/\/my-techniques/);
-  await expect(page.getByText('いまの自分の指針')).toHaveCount(0);
+  await page.getByRole('tab', { name: 'マイ処世術' }).click();
+  await expect(page).toHaveURL(/\/my-os/);
   await page.getByRole('button', { name: 'フォルダーを追加' }).click();
   await page.getByRole('textbox', { name: 'フォルダー名' }).fill('仕事');
-  await page.getByRole('button', { name: 'フォルダーを作成する' }).click();
-  await page.getByRole('button', { name: 'マイ処世術を新規作成' }).click();
+  await page.getByRole('button', { name: '作成する' }).click();
+  await page.getByRole('button', { name: '＋ 作る' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('焦ったら、一度だけ深呼吸する');
-  await page.getByRole('radio', { name: '仕事' }).click();
-  await page.getByRole('button', { name: 'マイ処世術を追加' }).click();
-  await expect(page.getByText('焦ったら、一度だけ深呼吸する').last()).toBeVisible();
-  await expect(page.getByText('▱ 仕事')).toBeVisible();
-  await page.getByRole('button', { name: '1番目のマイ処世術を削除' }).click();
-  await expect(page.getByText('このフォルダーはまだ空です。')).toBeVisible();
+  await page.getByRole('button', { name: '保存する' }).click();
+  await expect(page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' })).toContainText('仕事');
+  await page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' }).click();
+  await page.getByRole('button', { name: 'このマイ処世術を削除' }).click();
+  await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
 });
 
 test('ウェルカムのヘッダーに無料版・完全版の導線とホームアイコンを置く', async ({ page }) => {
@@ -494,22 +472,19 @@ test('ウェルカムの無料版と完全版の入口は、それぞれ正し�
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
-test('履歴はマイページで最新を示し、全件は独立ページで読める', async ({ page }) => {
+test('閲覧履歴はマイページ内で確認できる', async ({ page }) => {
   await page.goto('/my-os');
-  await page.getByRole('button', { name: 'すべての履歴を見る' }).click();
-  await expect(page).toHaveURL(/\/history/);
+  await expect(page.getByRole('tab', { name: '閲覧履歴' })).toBeVisible();
   await expect(page.getByText('まだ閲覧履歴はありません')).toBeVisible();
 });
 
-test('理論の閲覧もマイページと履歴一覧へ蓄積される', async ({ page }) => {
+test('理論の閲覧もマイページの履歴タブへ蓄積される', async ({ page }) => {
   await page.goto('/theory/kb_001');
   await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
   await page.goto('/my-os');
-  await expect(page.getByText('最近の履歴', { exact: true })).toBeVisible();
-  await expect(page.getByText('初頭効果', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'すべての履歴を見る' }).click();
-  await expect(page).toHaveURL(/\/history/);
+  await expect(page.getByText('最近見た処世術・理論', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '初頭効果を開く' })).toBeVisible();
+  await expect(page).toHaveURL(/\/my-os/);
 });
 
 test('探すは検索と人物像・理論への入口から始まる', async ({ page }) => {
