@@ -31,7 +31,7 @@ export function PersistentBottomNav() {
 
   const navigate = (item: (typeof items)[number]) => {
     const now = Date.now();
-    const isCurrent = selected === item.key;
+    const isCurrent = selected === item.key && (item.key === 'main' ? pathname === '/' : pathname === item.href);
     const isDoubleTap = isCurrent && now - (lastTap.current[item.key] ?? 0) < 320;
     lastTap.current[item.key] = now;
     void Haptics.selectionAsync().catch(() => undefined);
