@@ -92,6 +92,7 @@ type AppStateContextValue = PersistedState & {
   toggleInterest: (category: CategoryKey) => void;
   updatePersonalPrinciple: (principle: string) => void;
   addPersonalMemo: (memo: string, folderId?: string | null) => void;
+  updatePersonalMemo: (id: string, text: string, folderId: string | null) => void;
   removePersonalMemo: (id: string) => void;
   createPersonalMemoFolder: (name: string) => string | null;
   deletePersonalMemoFolder: (id: string) => void;
@@ -316,8 +317,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   const updatePersonalPrinciple = useCallback((personalPrinciple: string) => {
     setState((current) => ({
       ...current,
-      personalPrinciple:
-        personalPrinciple.trim() || initialState.personalPrinciple,
+      personalPrinciple: personalPrinciple.trim(),
     }));
   }, []);
 
@@ -340,6 +340,19 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     setState((current) => ({
       ...current,
       personalMemos: current.personalMemos.filter((memo) => memo.id !== id),
+    }));
+  }, []);
+
+  const updatePersonalMemo = useCallback((id: string, text: string, folderId: string | null) => {
+    const value = text.trim();
+    if (!value) return;
+    setState((current) => ({
+      ...current,
+      personalMemos: current.personalMemos.map((memo) => memo.id === id ? {
+        ...memo,
+        text: value,
+        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
+      } : memo),
     }));
   }, []);
 
@@ -412,6 +425,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleInterest,
       updatePersonalPrinciple,
       addPersonalMemo,
+      updatePersonalMemo,
       removePersonalMemo,
       createPersonalMemoFolder,
       deletePersonalMemoFolder,
@@ -435,6 +449,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       toggleInterest,
       updatePersonalPrinciple,
       addPersonalMemo,
+      updatePersonalMemo,
       removePersonalMemo,
       createPersonalMemoFolder,
       deletePersonalMemoFolder,
