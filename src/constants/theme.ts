@@ -22,7 +22,7 @@ export const colors = {
   charcoal: '#171712',
 } as const;
 
-export const categoryPalette = {
+const builtInCategoryPalette = {
   interpersonal: {
     accent: '#6B5430',
     tint: '#F6F0E5',
@@ -39,6 +39,16 @@ export const categoryPalette = {
     soft: '#E5DED1',
   },
 } as const;
+
+type CategoryPalette = { accent: string; tint: string; soft: string };
+export const categoryPalette: Record<string, CategoryPalette> = new Proxy(
+  builtInCategoryPalette as Record<string, CategoryPalette>,
+  {
+    get(target, key: string) {
+      return target[key] ?? { accent: colors.inkSoft, tint: colors.paper, soft: colors.paperDeep };
+    },
+  },
+);
 
 export const fonts = {
   serif: Platform.select({

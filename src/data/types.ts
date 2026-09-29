@@ -1,7 +1,5 @@
-export type CategoryKey =
-  | 'interpersonal'
-  | 'work'
-  | 'life';
+/** Category IDs are managed in Supabase, so owners may add categories. */
+export type CategoryKey = string;
 
 export type TechniqueSource = {
   id: string;
@@ -38,6 +36,10 @@ export type TechniqueCard = TechniqueSource & {
 
 export type TheoryCard = {
   tagId: string;
+  /** Stable, public sequence number. The route/relation key remains tagId. */
+  displayId?: number | null;
+  /** Requested number while an item is still a draft. */
+  draftDisplayId?: number | null;
   title: string;
   /** 理論を説明する唯一の本文。UIでは「概要」と表示する。 */
   summary: string;
@@ -49,7 +51,7 @@ export type TheoryCard = {
   relatedTheoryIds?: string[];
   /** 無料版ではタイトルだけを公開する完全版理論を識別する。 */
   status?: 'published' | 'locked';
-  displayOrder?: number;
+  displayOrder?: number | null;
   imagePath?: string | null;
   accessTier?: 'free' | 'complete';
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */

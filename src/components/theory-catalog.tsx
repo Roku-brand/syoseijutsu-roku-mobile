@@ -3,23 +3,20 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTheoryDisplayId, theories } from '@/data/catalog';
+import { getTheoryCategoryTitle, getTheoryDisplayId, theoryCategoryOrder } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
 
-export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'practical-wisdom' | 'classics-thought';
+export type TheoryFilterKey = string;
 
-export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }> = [
-  { key: 'all', label: 'すべて' },
-  { key: 'psychology', label: '心理学' },
-  { key: 'behavioral-science', label: '行動科学' },
-  { key: 'organization-management', label: '組織・経営論' },
-  { key: 'strategy', label: '戦略論' },
-  { key: 'practical-wisdom', label: '実践知' },
-  { key: 'classics-thought', label: '古典・思想' },
-];
+export function getTheoryFilterOptions(): Array<{ key: TheoryFilterKey; label: string }> {
+  return [
+    { key: 'all', label: 'すべて' },
+    ...theoryCategoryOrder.map((key) => ({ key, label: getTheoryCategoryTitle(key) })),
+  ];
+}
 
 export function TheoryFilterBar({ selected, onSelect }: {
   selected: TheoryFilterKey;
@@ -27,9 +24,9 @@ export function TheoryFilterBar({ selected, onSelect }: {
 }) {
   return (
     <View testID="theory-category-filters" style={styles.filterGrid}>
-      {theoryFilterOptions.map((option) => {
+      {getTheoryFilterOptions().map((option) => {
         const active = selected === option.key;
-        const label = option.key === 'all' ? option.label : theories.find((item) => item.categoryId === option.key)?.categoryTitle ?? option.label;
+        const label = option.label;
         return <Pressable
           key={option.key}
           accessibilityRole="button"

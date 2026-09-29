@@ -1,9 +1,9 @@
 import type { CategoryKey } from './types';
 
-export const practiceGuidance: Record<
+export const practiceGuidance: Partial<Record<
   CategoryKey,
   { actions: string[]; cautions: string[] }
-> = {
+>> = {
   interpersonal: {
     actions: [
       '相手との関係と力関係を一度、言葉にする',

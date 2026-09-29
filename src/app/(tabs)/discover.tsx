@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { BrandSectionHeading } from '@/components/brand-section-heading';
 import { SearchMark } from '@/components/search-mark';
-import { theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
+import { getTheoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
 import { categoryMeta, categoryOrder, theories } from '@/data/catalog';
@@ -70,7 +70,7 @@ export default function DiscoverScreen() {
         <View testID="discover-theory-grid" style={styles.categoryGrid}>
           {theoryDetails.map((item) => {
             const title = theories.find((theory) => theory.categoryId === item.key)?.categoryTitle
-              ?? theoryFilterOptions.find((option) => option.key === item.key)?.label;
+              ?? getTheoryFilterOptions().find((option) => option.key === item.key)?.label;
             if (!title) return null;
             return <CategoryCard key={item.key} title={title} icon={item.icon} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
           })}

@@ -158,7 +158,7 @@ function ContentCard({ item, width, onPress, testID }: { item: HomeContent; widt
   const category = item.type === 'technique' ? item.card.categoryKey : 'theory';
   const label = item.type === 'technique' ? categoryMeta[item.card.categoryKey].label : '理論';
   return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width }, pressed && styles.pressed]}>
-    <Image source={categoryImages[category]} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
+    <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
       <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>

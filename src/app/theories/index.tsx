@@ -4,7 +4,7 @@ import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
-import { TheoryFilterBar, theoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
+import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
@@ -15,7 +15,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 const PAGE_SIZE = 50;
 
 function safeCategory(value: string | undefined): TheoryFilterKey {
-  return theoryFilterOptions.some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
+  return getTheoryFilterOptions().some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
 }
 
 function pageItems(current: number, total: number): Array<number | 'ellipsis'> {
