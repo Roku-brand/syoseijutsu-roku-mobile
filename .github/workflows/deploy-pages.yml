@@ -48,25 +48,19 @@ jobs:
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
           supabase link --project-ref "$project_ref"
-          supabase migration repair 20260912113000 20260913090000 20260920090000 --status applied
+          encoded_password="$(node -p 'encodeURIComponent(process.env.SUPABASE_DB_PASSWORD)')"
+          db_url="postgresql://postgres.${project_ref}:${encoded_password}@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres"
+          echo "::add-mask::$db_url"
+          supabase migration repair 20260912113000 20260913090000 20260920090000 --status applied --db-url "$db_url"
       - name: Apply entitlement migration
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
-          for attempt in 1 2 3; do
-            # Keep the password in the documented environment variable. Omitting
-            # --password here lets `link` discover and persist the IPv4 pooler
-            # connection used by GitHub-hosted runners.
-            supabase link --project-ref "$project_ref"
-            if supabase db push --linked --include-all; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            echo "Database migration failed; relinking for IPv4 and retrying (attempt $attempt/3)."
-            sleep 5
-          done
+          encoded_password="$(node -p 'encodeURIComponent(process.env.SUPABASE_DB_PASSWORD)')"
+          db_url="postgresql://postgres.${project_ref}:${encoded_password}@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres"
+          echo "::add-mask::$db_url"
+          supabase db push --db-url "$db_url" --include-all --dry-run
+          supabase db push --db-url "$db_url" --include-all
       - name: Deploy backend functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
