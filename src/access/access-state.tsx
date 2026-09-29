@@ -64,7 +64,10 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, []);
 
   const checkPublishedContent = useCallback(async (force = false) => {
-    if (await hydratePublishedContent(force)) setCatalogRevision((value) => value + 1);
+    const changed = await hydratePublishedContent(force);
+    // A forced check can overlap another catalog sync. Refresh consumers even
+    // if this call reports no change, so they read the latest catalog objects.
+    if (changed || force) setCatalogRevision((value) => value + 1);
   }, []);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
