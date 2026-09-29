@@ -10,6 +10,10 @@ const presentation = readFileSync(resolve(root, 'src/data/persona-presentation.t
 const techniques = techniqueCatalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
 const freeTechniques = techniques.filter((item) => item.status !== 'locked' && item.title !== '完全版の処世術').map((item) => item.id);
 const freeTheories = theoryCatalog.filter((item) => item.status !== 'locked' && item.summary?.trim()).map((item) => item.tagId);
+const freeTechniqueIds = new Set(freeTechniques);
+const freeTheoryIds = new Set(freeTheories);
+const completeTechniques = techniques.map((item) => item.id).filter((id) => !freeTechniqueIds.has(id));
+const completeTheories = theoryCatalog.map((item) => item.tagId).filter((id) => !freeTheoryIds.has(id));
 const quote = (value) => `'${String(value).replaceAll("'", "''")}'`;
 const list = (values) => values.map(quote).join(',');
 const personaRows = [...presentation.matchAll(/'([^']+)': \{ number: (\d+), subtitle: '([^']+)', image: require\('\.\.\/\.\.\/assets\/personas\/([^']+)'\)/g)]
@@ -19,9 +23,10 @@ if (freeTechniques.length !== scope.free.techniques || freeTheories.length !== s
 }
 const sql = `-- Generated from the shipped public catalog and persona image map.\n` +
 `-- This preserves the current free/complete boundary while making it editable in DB.\n` +
-`update public.techniques set access_tier='complete' where access_tier<>'complete';\n` +
+`-- Preserve the edition choice of owner-created rows absent from this bundle.\n` +
+`update public.techniques set access_tier='complete' where id in (${list(completeTechniques)});\n` +
 `update public.techniques set access_tier='free' where id in (${list(freeTechniques)});\n` +
-`update public.theories set access_tier='complete' where access_tier<>'complete';\n` +
+`update public.theories set access_tier='complete' where id in (${list(completeTheories)});\n` +
 `update public.theories set access_tier='free' where id in (${list(freeTheories)});\n` +
 `update public.techniques set status='draft' where id in (${list(scope.excludedTechniqueIds)}) and status='published';\n` +
 `update public.personas p set subtitle=v.subtitle,image_path=v.image_path,display_order=v.display_order\n` +
