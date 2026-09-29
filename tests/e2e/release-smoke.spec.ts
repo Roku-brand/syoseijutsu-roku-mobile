@@ -520,6 +520,11 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
       body: JSON.stringify([{ name: '印象がいい人', category: 'interpersonal' }]),
     });
   });
+  await page.route('**/rest/v1/content_categories*', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
+      { kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 1 },
+    ]) });
+  });
 
   await page.goto('/card/master336-001');
   await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
