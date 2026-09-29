@@ -63,11 +63,9 @@ export function AccessProvider({ children }: PropsWithChildren) {
     return changed;
   }, []);
 
-  const checkPublishedContent = useCallback(async () => {
-    if (await hydratePublishedContent()) setCatalogRevision((value) => value + 1);
+  const checkPublishedContent = useCallback(async (force = false) => {
+    if (await hydratePublishedContent(force)) setCatalogRevision((value) => value + 1);
   }, []);
-
-  useEffect(() => { void checkPublishedContent(); }, [checkPublishedContent]);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
     if (hasHydratedSecureContent(userId)) {
@@ -78,18 +76,19 @@ export function AccessProvider({ children }: PropsWithChildren) {
     try {
       await hydrateSecureContent(() => setCatalogRevision((value) => value + 1));
       setSecureContentStatus('ready');
-      await checkPublishedContent();
+      await checkPublishedContent(true);
     } catch {
       if (await restoreCachedSecureContent(userId)) {
         setSecureContentStatus('ready');
         setCatalogRevision((value) => value + 1);
-        await checkPublishedContent();
+        await checkPublishedContent(true);
         return;
       }
       // Never expose the intentionally blank public-catalogue shell as a
       // usable theory title. Theory surfaces show a quiet retry state instead.
       setSecureContentStatus('error');
       setCatalogRevision((value) => value + 1);
+      await checkPublishedContent(true);
     }
   }, [checkPublishedContent]);
 
@@ -108,7 +107,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
-      await checkPublishedContent();
+      await checkPublishedContent(true);
       return 'guest';
     }
 
@@ -127,7 +126,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent();
+      await checkPublishedContent(true);
       const nextState: AccessState = 'free';
       setActualAccessState(nextState);
       return nextState;
@@ -138,7 +137,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent();
+      await checkPublishedContent(true);
       setActualAccessState('error');
       return 'error';
     }
@@ -196,7 +195,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
     setCatalogRevision((value) => value + 1);
     setAccessInfo(FREE_ACCESS);
     setActualAccessState('guest');
-  }, []);
+    void checkPublishedContent(true);
+  }, [checkPublishedContent]);
 
   const restorePurchase = useCallback(async (sessionId?: string) => {
     setAccessInfo((current) => ({ ...current, status: 'processing' }));
