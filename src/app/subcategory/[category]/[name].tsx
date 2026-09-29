@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
@@ -32,10 +32,8 @@ export default function PersonaScreen() {
   const [clientReady, setClientReady] = useState(false);
   useEffect(() => { setClientReady(true); }, []);
   const { width } = useResponsiveLayout();
-  const { category, persona } = useMemo(() => {
-    const nextCategory = categories.find((item) => item.key === categoryKey);
-    return { category: nextCategory, persona: nextCategory?.subcategories.find((item) => item.name === name) };
-  }, [catalogRevision, categoryKey, name]);
+  const category = categories.find((item) => item.key === categoryKey);
+  const persona = category?.subcategories.find((item) => item.name === name);
 
   if (!category || !persona) {
     return <Screen><EmptyState title="人物像が見つかりません" description="前の画面へ戻って、人物像を選び直してください。" /></Screen>;
@@ -75,7 +73,7 @@ export default function PersonaScreen() {
       </View>
 
       <View key={`${clientReady ? 'live' : 'prerender'}-${catalogRevision}`} testID="persona-technique-list" style={styles.list}>
-        {persona.items.map((item, index) => (
+        {clientReady ? persona.items.map((item, index) => (
           <Link key={item.id} href={{ pathname: '/card/[id]', params: { id: item.id } }} asChild>
             <Pressable testID={`persona-technique-row-${index + 1}`} accessibilityRole="link" accessibilityLabel={`${String(index + 1).padStart(2, '0')} ${item.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
               <AppText style={[styles.number, compact && styles.numberCompact]}>{String(index + 1).padStart(2, '0')}</AppText>
@@ -86,7 +84,7 @@ export default function PersonaScreen() {
               <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText>
             </Pressable>
           </Link>
-        ))}
+        )) : null}
       </View>
     </BookScreen>
   );
