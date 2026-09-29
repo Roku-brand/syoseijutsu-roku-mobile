@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTheoryDisplayId } from '@/data/catalog';
+import { getTheoryDisplayId, theories } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
@@ -29,16 +29,17 @@ export function TheoryFilterBar({ selected, onSelect }: {
     <View testID="theory-category-filters" style={styles.filterGrid}>
       {theoryFilterOptions.map((option) => {
         const active = selected === option.key;
+        const label = option.key === 'all' ? option.label : theories.find((item) => item.categoryId === option.key)?.categoryTitle ?? option.label;
         return <Pressable
           key={option.key}
           accessibilityRole="button"
-          accessibilityLabel={`${option.label}で理論を絞り込む`}
+          accessibilityLabel={`${label}で理論を絞り込む`}
           accessibilityState={{ selected: active }}
           aria-selected={active}
           onPress={() => onSelect(option.key)}
           style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
         >
-          <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
+          <AppText style={[styles.filterText, active && styles.filterTextActive]}>{label}</AppText>
         </Pressable>;
       })}
     </View>

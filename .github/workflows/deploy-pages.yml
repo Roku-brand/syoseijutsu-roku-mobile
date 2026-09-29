@@ -43,24 +43,15 @@ jobs:
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
           test -n "$SUPABASE_DB_PASSWORD" || { echo 'Missing repository secret: SUPABASE_DB_PASSWORD'; exit 1; }
           test -n "$SUPABASE_URL" || { echo 'Missing repository variable: EXPO_PUBLIC_SUPABASE_URL'; exit 1; }
-      - name: Apply entitlement migration
+      - name: Apply pending database migrations
         run: |
           project_ref="${SUPABASE_URL#https://}"
           project_ref="${project_ref%%.supabase.co*}"
-          for attempt in 1 2 3; do
-            # Keep the password in the documented environment variable. Omitting
-            # --password here lets `link` discover and persist the IPv4 pooler
-            # connection used by GitHub-hosted runners.
-            supabase link --project-ref "$project_ref"
-            if supabase db push --linked --include-all; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            echo "Database migration failed; relinking for IPv4 and retrying (attempt $attempt/3)."
-            sleep 5
-          done
+          encoded_password="$(node -p 'encodeURIComponent(process.env.SUPABASE_DB_PASSWORD)')"
+          db_url="postgresql://postgres.${project_ref}:${encoded_password}@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres"
+          echo "::add-mask::$db_url"
+          supabase db push --db-url "$db_url" --include-all --dry-run
+          supabase db push --db-url "$db_url" --include-all
       - name: Deploy backend functions
         run: |
           project_ref="${SUPABASE_URL#https://}"
@@ -74,7 +65,7 @@ jobs:
 
   build-and-sync:
     needs: deploy-backend
-    if: ${{ always() }}
+    if: ${{ always() && (needs.deploy-backend.result == 'success' || needs.deploy-backend.result == 'skipped') }}
     runs-on: ubuntu-latest
     env:
       EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
@@ -103,36 +94,16 @@ jobs:
         run: |
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
-      - name: Remove retired quotation content from owner catalogue
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: node scripts/sync-theory-rights.mjs
-
-      - name: Sync published technique content
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: |
-          for attempt in 1 2 3; do
-            node scripts/import-owner-content.mjs && exit 0
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            echo "Content sync failed; retrying after 15 seconds (attempt $attempt/3)."
-            sleep 15
-          done
-
       - name: Sync owner operations data
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: pnpm operations:sync
-
-      - name: Recover owner-curated theory links
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: node scripts/recover-owner-theory-links.mjs
 
       - name: Prepare public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
           pnpm content:build-public
 
-      - name: Prepare and securely sync complete-edition content
+      - name: Prepare complete-edition catalog and sync learning content
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
           pnpm content:split-secure

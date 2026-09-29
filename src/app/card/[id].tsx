@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
+import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
@@ -20,6 +21,7 @@ import { recordContentEvent } from '@/lib/content-events';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
 import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { contentImageUrl } from '@/lib/content-media';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -121,6 +123,8 @@ export default function CardDetailScreen() {
         >
           {card.title}
         </AppText>
+
+        {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
 
         <View style={styles.rule} />
 

@@ -1,9 +1,10 @@
 import type { ImageSource } from 'expo-image';
+import { contentImageUrl } from '@/lib/content-media';
 
 export type PersonaPresentation = {
   number: number;
   subtitle: string;
-  image: ImageSource;
+  image?: ImageSource;
 };
 
 const presentations: Record<string, PersonaPresentation> = {
@@ -35,8 +36,21 @@ const presentations: Record<string, PersonaPresentation> = {
   '可能性を広げられる人': { number: 26, subtitle: '選択肢を増やし未来をひらく工夫', image: require('../../assets/personas/persona-26.webp') },
 };
 
+const bundledImages = Object.fromEntries(Object.values(presentations).map((item) => [`bundled:persona-${String(item.number).padStart(2, '0')}.webp`, item.image]));
+let managedPresentations = new Map<string, PersonaPresentation>();
+
+export function hydratePersonaPresentations(rows: Array<{ name: string; category?: string; subtitle?: string; image_path?: string | null; display_order?: number }>, categoryOrder: string[] = []) {
+  const ordered = [...rows].sort((a, b) => categoryOrder.indexOf(a.category ?? '') - categoryOrder.indexOf(b.category ?? '') || (a.display_order ?? 0) - (b.display_order ?? 0) || a.name.localeCompare(b.name, 'ja'));
+  managedPresentations = new Map(ordered.map((row, index) => {
+    const fallback = presentations[row.name];
+    const image = row.image_path?.startsWith('bundled:') ? bundledImages[row.image_path]
+      : row.image_path ? { uri: contentImageUrl(row.image_path) ?? '' } : undefined;
+    return [row.name, { number: index + 1, subtitle: row.subtitle ?? fallback?.subtitle ?? '', image }];
+  }));
+}
+
 export function getPersonaPresentation(name: string): PersonaPresentation | undefined {
-  return presentations[name];
+  return managedPresentations.get(name) ?? presentations[name];
 }
 
 export function formatPersonaNumber(number: number) {
