@@ -9,4 +9,3 @@ export function validateTheoryForPublish(theory: Omit<TheoryCard, 'status'>): st
  if (theory.provenance?.sources?.some((source) => !source.title.trim() || !/^https:\/\/\S+$/.test(source.url))) errors.push('参照先には名称とhttpsのURLを入力してください。');
  return errors;
 }
-

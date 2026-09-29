@@ -324,4 +324,3 @@ export function toTechniquePayload(technique: TechniqueContent) {
     accessTier: technique.access_tier,
   };
 }
-

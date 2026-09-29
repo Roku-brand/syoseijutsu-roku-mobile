@@ -458,4 +458,3 @@ const styles = StyleSheet.create({
   },
   bottomTagText: { color: '#454640', fontSize: 10, lineHeight: 15 },
 });
-

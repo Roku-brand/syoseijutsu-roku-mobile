@@ -359,4 +359,3 @@ export function getTechniquesForTheory(theoryOrId: TheoryCard | string) {
       return primaryDifference || (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.id.localeCompare(b.id);
     });
 }
-

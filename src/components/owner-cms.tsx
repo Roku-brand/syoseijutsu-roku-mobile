@@ -320,4 +320,3 @@ function TechniqueFields({ item, personas, theories, categories, patch, imageAss
   <MediaEditor path={item.image_path} asset={imageAsset} onPick={setImageAsset} onRemove={() => { patch({ image_path: null }); setImageAsset(null); }} />
   <Section title="関連付け"><AppText variant="label">主要理論</AppText><MultiPicker options={theories.filter((t) => t.status === 'published').map((t) => ({ id: t.tagId, title: t.title }))} ids={item.primary_theory_ids} onChange={(ids) => patch({ primary_theory_ids: ids, theory_ids: [...new Set([...ids,...item.theory_ids])] })} /><AppText variant="label">あわせて読む理論</AppText><MultiPicker options={theories.filter((t) => t.status === 'published').map((t) => ({ id: t.tagId, title: t.title }))} ids={item.theory_ids.filter((id) => !item.primary_theory_ids.includes(id))} onChange={(ids) => patch({ theory_ids: [...item.primary_theory_ids,...ids] })} /></Section>
 </>; }
-

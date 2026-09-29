@@ -56,4 +56,3 @@ export function getPersonaPresentation(name: string): PersonaPresentation | unde
 export function formatPersonaNumber(number: number) {
   return String(number).padStart(2, '0');
 }
-

@@ -91,4 +91,3 @@ const styles = StyleSheet.create({
   badge: { position: 'absolute', top: 10, right: 8, transform: [{ scale: 0.8 }] },
   pressed: { opacity: 0.7 },
 });
-

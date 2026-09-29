@@ -16,4 +16,3 @@ export const THEORY_CATEGORY_LABELS: Record<string, string> = Object.fromEntries
 export function getTheoryCategoryLabel(category: string) {
   return category === 'all' ? 'すべての理論' : THEORY_CATEGORY_LABELS[category] ?? '理論';
 }
-

@@ -349,4 +349,3 @@ create policy "owners upload content images" on storage.objects for insert to au
 with check(bucket_id='content-images' and public.is_owner());
 create policy "owners remove content images" on storage.objects for delete to authenticated
 using(bucket_id='content-images' and public.is_owner());
-

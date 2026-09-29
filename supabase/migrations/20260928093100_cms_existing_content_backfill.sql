@@ -34,4 +34,3 @@ from (values
  ('立ち直れる人','つまずきから回復し前へ進む方法','bundled:persona-25.webp',25),
  ('可能性を広げられる人','選択肢を増やし未来をひらく工夫','bundled:persona-26.webp',26)
 ) as v(name,subtitle,image_path,display_order) where p.name=v.name;
-

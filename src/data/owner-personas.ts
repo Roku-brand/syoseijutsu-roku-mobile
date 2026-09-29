@@ -18,4 +18,3 @@ export async function savePersona(persona: Pick<OwnerPersona, 'id' | 'name' | 's
  if (error) throw error;
  return (Array.isArray(data) ? data[0] : data) as OwnerPersona;
 }
-

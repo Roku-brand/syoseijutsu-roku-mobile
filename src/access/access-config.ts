@@ -64,4 +64,3 @@ export function canReadTheory(access: 'guest' | 'free' | 'paid', id: string) {
 export function canPlayLearningCase(access: 'guest' | 'free' | 'paid', id: string) {
   return access === 'paid' || FREE_LEARNING_CASE_ID_SET.has(id);
 }
-

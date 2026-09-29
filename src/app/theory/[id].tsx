@@ -202,4 +202,3 @@ const styles = StyleSheet.create({
   retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
   retryButtonText: { color: colors.gold, fontSize: 13, lineHeight: 19, fontWeight: '700' },
 });
-

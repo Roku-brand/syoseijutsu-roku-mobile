@@ -53,4 +53,3 @@ export const ownerCmsStyles = StyleSheet.create({
   confirm: { padding: 12, gap: 10, backgroundColor: '#FBF4E3', borderWidth: 1, borderColor: colors.gold, borderRadius: 8 },
   danger: { gap: 9, paddingTop: spacing.md, borderTopWidth: 1, borderColor: colors.line },
 });
-

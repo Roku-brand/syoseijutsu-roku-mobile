@@ -55,4 +55,3 @@ export async function removeContentImageIfUnused(path: string | null | undefined
   if (error) throw error;
   return true;
 }
-

@@ -51,4 +51,3 @@ export function isLockedTheoryShell(theory: Pick<{ title: string; summary: strin
   return theory.status === 'locked'
     || (normalizeDisplayText(theory.title) === '完全版の理論' && !normalizeDisplayText(theory.summary));
 }
-

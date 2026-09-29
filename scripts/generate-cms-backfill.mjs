@@ -29,4 +29,3 @@ const sql = `-- Generated from the shipped public catalog and persona image map.
 writeFileSync(resolve(root, 'supabase/migrations/20260928093100_cms_existing_content_backfill.sql'), sql);
 console.log(`Generated backfill: ${freeTechniques.length} free techniques, ${freeTheories.length} free theories, ${personaRows.length} persona images.`);
 
-

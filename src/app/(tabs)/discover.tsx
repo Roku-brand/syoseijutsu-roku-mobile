@@ -193,4 +193,3 @@ const styles = StyleSheet.create({
   mindInner: { width: 6, height: 6, borderWidth: 1, borderColor: colors.gold, borderRadius: 3 },
   mindNeck: { position: 'absolute', bottom: -3, right: 0, width: 5, height: 5, borderLeftWidth: 1, borderBottomWidth: 1, borderColor: colors.gold },
 });
-

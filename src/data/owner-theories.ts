@@ -35,4 +35,3 @@ export async function seedOwnerTheoriesIfEmpty() {
   for (let i = 0; i < rows.length; i += 100) { const { error: insertError } = await supabase.from('theories').insert(rows.slice(i, i + 100)); if (insertError) throw insertError; }
 }
 export function applyTheory(theory: Omit<TheoryCard, 'status'>) { hydratePaidTheories([{ ...theory, status: 'published' }]); }
-

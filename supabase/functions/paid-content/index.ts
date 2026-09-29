@@ -48,4 +48,3 @@ Deno.serve(async (request) => {
   }
   return json({ items, scope: type ? 'single' : 'complete-edition' });
 });
-

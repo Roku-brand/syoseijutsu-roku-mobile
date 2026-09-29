@@ -166,4 +166,3 @@ export function purgeSecureContent() {
   resetCatalog();
   resetLearningCases();
 }
-

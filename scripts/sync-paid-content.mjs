@@ -107,4 +107,3 @@ const counts = rows.reduce((result, row) => {
   return result;
 }, {});
 console.log(`Paid-content sync complete. total=${rows.length}, deleted=${deleted}, counts=${JSON.stringify(counts)}`);
-

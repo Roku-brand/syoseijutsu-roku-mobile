@@ -47,4 +47,3 @@ export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { dis
   }).eq('id', theory.tagId);
   if (error) throw error;
 }
-

@@ -19,4 +19,3 @@ with ranked as (
  from public.theories where status<>'archived'
 )
 update public.theories t set display_order=r.next_order from ranked r where t.id=r.id;
-
