@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
@@ -29,6 +29,8 @@ function techniqueSummary(item: TechniqueSource) {
 export default function PersonaScreen() {
   const { category: categoryKey, name } = useLocalSearchParams<{ category: CategoryKey; name: string }>();
   const { isPaid, catalogRevision } = useAccess();
+  const [clientReady, setClientReady] = useState(false);
+  useEffect(() => { setClientReady(true); }, []);
   const { width } = useResponsiveLayout();
   const { category, persona } = useMemo(() => {
     const nextCategory = categories.find((item) => item.key === categoryKey);
@@ -72,7 +74,7 @@ export default function PersonaScreen() {
         </View>
       </View>
 
-      <View testID="persona-technique-list" style={styles.list}>
+      <View key={`${clientReady ? 'live' : 'prerender'}-${catalogRevision}`} testID="persona-technique-list" style={styles.list}>
         {persona.items.map((item, index) => (
           <Link key={item.id} href={{ pathname: '/card/[id]', params: { id: item.id } }} asChild>
             <Pressable testID={`persona-technique-row-${index + 1}`} accessibilityRole="link" accessibilityLabel={`${String(index + 1).padStart(2, '0')} ${item.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
