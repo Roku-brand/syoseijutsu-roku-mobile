@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hydratePaidCatalog, hydratePaidTheories, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
+import { hydratePaidTheories, overlayPaidCatalog, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
 import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
 import type { TheoryCard } from '@/data/types';
 import { supabase, supabasePublishableKey, supabaseUrl } from './supabase';
@@ -42,7 +42,7 @@ function settleWithin<T>(promise: Promise<T>, timeoutMs = STORAGE_TIMEOUT_MS): P
 }
 
 function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCard[], paidLearning: LearningCase[]) {
-  hydratePaidCatalog(techniques, theories);
+  overlayPaidCatalog(techniques, theories);
   resetLearningCases();
   const merged = [...learningCases];
   for (const item of paidLearning) {
@@ -93,7 +93,7 @@ async function fetchRows<T>(type: PaidContentType): Promise<PaidContentRow<T>[]>
   return Array.isArray(body?.items) ? body.items as PaidContentRow<T>[] : [];
 }
 
-export async function hydrateSecureContent() {
+export async function hydrateSecureContent(onContentApplied?: () => void) {
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data } = await supabase.auth.getSession();
   const userId = data.session?.user.id ?? null;
@@ -114,7 +114,7 @@ export async function hydrateSecureContent() {
     }
     hydratePaidTheories(theories);
     hydratedUserId = userId;
-    void hydrateRemainingContent(userId, theories);
+    void hydrateRemainingContent(userId, theories, onContentApplied);
   })().finally(() => {
     hydrationPromise = null;
   });
@@ -141,7 +141,7 @@ export async function clearSecureContentCache() {
   await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
 }
 
-async function hydrateRemainingContent(userId: string, theories: TheoryCard[]) {
+async function hydrateRemainingContent(userId: string, theories: TheoryCard[], onContentApplied?: () => void) {
   const [techniquesResult, learningResult] = await Promise.allSettled([
     fetchRows<PaidTechniquePayload>('technique'),
     fetchRows<LearningCase>('learning'),
@@ -151,6 +151,7 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[]) {
   const learning = learningResult.value.map((row) => row.payload);
   if (!techniques.length || !learning.length) return;
   applyPaidContent(techniques, theories, learning);
+  onContentApplied?.();
   const snapshot: PaidContentSnapshot = { version: 8, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
   await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
 }

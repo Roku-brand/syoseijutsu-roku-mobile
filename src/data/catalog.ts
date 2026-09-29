@@ -122,6 +122,13 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
   hydratePaidTheories(paidTheories);
 }
 
+/** Add complete-edition rows without discarding canonical free rows that were
+ * already loaded from the published tables. */
+export function overlayPaidCatalog(techniques: PaidTechniquePayload[], paidTheories: TheoryCard[]) {
+  for (const item of techniques) placeManagedTechnique(item);
+  hydratePaidTheories(paidTheories);
+}
+
 /** Resolves the private theory shells without resetting the currently loaded
  * technique catalogue. This lets the complete edition become readable even
  * when a larger secondary content sync is still in flight. */
