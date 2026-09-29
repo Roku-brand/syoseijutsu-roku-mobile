@@ -76,7 +76,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
     }
     setSecureContentStatus('loading');
     try {
-      await hydrateSecureContent();
+      await hydrateSecureContent(() => setCatalogRevision((value) => value + 1));
       setSecureContentStatus('ready');
       await checkPublishedContent();
     } catch {
