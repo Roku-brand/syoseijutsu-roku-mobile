@@ -36,9 +36,11 @@ export const FREE_LEARNING_CASE_ID_SET = new Set<string>(FREE_LEARNING_CASE_IDS)
 /** The bundled values are the offline fallback. A successful canonical DB
  * read replaces these sets so edition changes made in the CMS take effect. */
 export function hydrateContentAccessScope(rows: { personas: Array<{ name: string; access_tier?: string }>; techniques: Array<{ id: string; access_tier?: string }>; theories: Array<{ id: string; access_tier?: string }> }) {
-  const personaNames = rows.personas.filter((row) => row.access_tier === 'free').map((row) => row.name);
-  const techniqueIds = rows.techniques.filter((row) => row.access_tier === 'free').map((row) => row.id);
-  const theoryIds = rows.theories.filter((row) => row.access_tier === 'free').map((row) => row.id);
+  // Older API rows may omit access_tier while a migration is rolling out.
+  // Retain the shipped free boundary for those rows until the field exists.
+  const personaNames = rows.personas.filter((row) => row.access_tier === 'free' || (row.access_tier == null && FREE_PERSONA_NAME_SET.has(row.name))).map((row) => row.name);
+  const techniqueIds = rows.techniques.filter((row) => row.access_tier === 'free' || (row.access_tier == null && FREE_TECHNIQUE_IDS.has(row.id))).map((row) => row.id);
+  const theoryIds = rows.theories.filter((row) => row.access_tier === 'free' || (row.access_tier == null && FREE_THEORY_ID_SET.has(row.id))).map((row) => row.id);
   FREE_PERSONA_NAMES.splice(0, FREE_PERSONA_NAMES.length, ...personaNames);
   FREE_TECHNIQUE_COUNT = techniqueIds.length;
   FREE_THEORY_COUNT = theoryIds.length;
