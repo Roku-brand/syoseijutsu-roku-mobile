@@ -16,12 +16,6 @@ export function normalizeDisplayText(value?: string | null): string {
 }
 
 export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; categoryTitle: string }, 'categoryId' | 'categoryTitle'>): string {
-  const displayLabels: Record<string, string> = {
-    'organization-management': '組織・経営論',
-    'practical-wisdom': '実践知',
-    'classics-thought': '古典・思想',
-  };
-  if (displayLabels[theory.categoryId]) return displayLabels[theory.categoryId];
   return normalizeDisplayText(theory.categoryTitle);
 }
 

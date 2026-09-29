@@ -18,6 +18,9 @@ export type TechniqueContent = {
   theory_ids: string[];
   status: 'published' | 'draft' | 'archived';
   display_order: number;
+  image_path: string | null;
+  tags: string[] | null;
+  access_tier: 'free' | 'complete';
   updated_at: string;
 };
 
@@ -28,7 +31,7 @@ export type TechniqueDraft = {
   updated_at: string;
 };
 
-export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'primary_theory_ids' | 'theory_ids'> & {
+export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'primary_theory_ids' | 'theory_ids' | 'image_path' | 'access_tier' | 'tags'> & {
   /** Links shown after the primary theories. Kept in drafts/revisions so the
    * two reader-facing groups remain independently editable. */
   supplementary_theory_ids: string[];
@@ -65,6 +68,9 @@ export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSna
     primary_theory_ids: normalizeList(technique.primary_theory_ids),
     supplementary_theory_ids: normalizeList(technique.theory_ids).filter((id) => !technique.primary_theory_ids.includes(id)),
     theory_ids: normalizeList(technique.theory_ids),
+    image_path: technique.image_path,
+    tags: technique.tags,
+    access_tier: technique.access_tier,
   };
 }
 
@@ -94,6 +100,9 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     // This combined list is retained for the existing public DB column and
     // the reader-side reverse index.
     theory_ids: normalizeList([...primaryTheoryIds, ...resolvedSupplementaryIds]),
+    image_path: typeof value.image_path === 'string' ? value.image_path : null,
+    tags: Array.isArray(value.tags) ? normalizeList(value.tags) : null,
+    access_tier: value.access_tier === 'free' ? 'free' : 'complete',
   };
 }
 
@@ -118,15 +127,23 @@ export function toTechniqueContent(row: Record<string, unknown>): TechniqueConte
     id: String(row.id ?? ''),
     status: row.status === 'draft' ? 'draft' : row.status === 'archived' ? 'archived' : 'published',
     display_order: typeof row.display_order === 'number' ? row.display_order : 0,
+    image_path: typeof row.image_path === 'string' ? row.image_path : null,
+    tags: Array.isArray(row.tags) ? normalizeList(row.tags) : null,
+    access_tier: row.access_tier === 'free' ? 'free' : 'complete',
     updated_at: typeof row.updated_at === 'string' ? row.updated_at : new Date(0).toISOString(),
   };
 }
 
 export async function fetchOwnerTechniques(): Promise<TechniqueContent[]> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { data, error } = await supabase.from('techniques').select('*').order('display_order').order('id');
-  if (error) throw error;
-  return (data ?? []).map((row) => toTechniqueContent(row as Record<string, unknown>));
+  const rows: Record<string, unknown>[] = [];
+  for (let offset = 0; ; offset += 1000) {
+    const { data, error } = await supabase.from('techniques').select('*').order('display_order').order('id').range(offset, offset + 999);
+    if (error) throw error;
+    rows.push(...(data ?? []) as Record<string, unknown>[]);
+    if ((data ?? []).length < 1000) break;
+  }
+  return rows.map(toTechniqueContent);
 }
 
 /** Creates an empty owner-only draft. The database assigns its stable ID and
@@ -193,16 +210,11 @@ export async function fetchOwnerDrafts(): Promise<TechniqueDraft[]> {
 
 export async function saveTechniqueDraft(techniqueId: string, snapshot: TechniqueSnapshot, baseUpdatedAt: string | null) {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { data: sessionData } = await supabase.auth.getSession();
-  const userId = sessionData.session?.user.id;
-  if (!userId) throw new Error('ログインが必要です。');
-  const { error } = await supabase.from('technique_drafts').upsert({
-    technique_id: techniqueId,
-    snapshot: normalizeSnapshot(snapshot),
-    base_updated_at: baseUpdatedAt,
-    updated_by: userId,
-    updated_at: new Date().toISOString(),
-  }, { onConflict: 'technique_id' });
+  const { error } = await supabase.rpc('save_technique_draft', {
+    target_technique_id: techniqueId,
+    target_snapshot: normalizeSnapshot(snapshot),
+    expected_updated_at: baseUpdatedAt,
+  });
   if (error) throw error;
 }
 
@@ -307,5 +319,8 @@ export function toTechniquePayload(technique: TechniqueContent) {
     practicalActions: actions,
     status: technique.status,
     displayOrder: technique.display_order,
+    imagePath: technique.image_path,
+    tags: technique.tags ?? undefined,
+    accessTier: technique.access_tier,
   };
 }

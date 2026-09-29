@@ -18,6 +18,8 @@ export type TechniqueSource = {
   tags?: string[];
   status?: string;
   displayOrder?: number;
+  imagePath?: string | null;
+  accessTier?: 'free' | 'complete';
   practicalActions?: TechniquePracticalActions;
 };
 
@@ -47,6 +49,9 @@ export type TheoryCard = {
   relatedTheoryIds?: string[];
   /** 無料版ではタイトルだけを公開する完全版理論を識別する。 */
   status?: 'published' | 'locked';
+  displayOrder?: number;
+  imagePath?: string | null;
+  accessTier?: 'free' | 'complete';
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
   provenance?: TheoryProvenance;
 };
@@ -67,6 +72,7 @@ export type CatalogCategory = {
   subcategories: {
     name: string;
     articleTitle?: string;
+    displayOrder?: number;
     items: TechniqueSource[];
   }[];
 };

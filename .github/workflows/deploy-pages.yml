@@ -43,6 +43,12 @@ jobs:
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo 'Missing repository secret: SUPABASE_ACCESS_TOKEN'; exit 1; }
           test -n "$SUPABASE_DB_PASSWORD" || { echo 'Missing repository secret: SUPABASE_DB_PASSWORD'; exit 1; }
           test -n "$SUPABASE_URL" || { echo 'Missing repository variable: EXPO_PUBLIC_SUPABASE_URL'; exit 1; }
+      - name: Reconcile migrations previously applied directly to production
+        run: |
+          project_ref="${SUPABASE_URL#https://}"
+          project_ref="${project_ref%%.supabase.co*}"
+          supabase link --project-ref "$project_ref"
+          supabase migration repair 20260912113000 20260913090000 20260920090000 --status applied
       - name: Apply entitlement migration
         run: |
           project_ref="${SUPABASE_URL#https://}"
@@ -103,36 +109,16 @@ jobs:
         run: |
           test -n "$SUPABASE_SERVICE_ROLE_KEY" || { echo 'Missing repository secret: SUPABASE_SERVICE_ROLE_KEY'; exit 1; }
 
-      - name: Remove retired quotation content from owner catalogue
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: node scripts/sync-theory-rights.mjs
-
-      - name: Sync published technique content
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: |
-          for attempt in 1 2 3; do
-            node scripts/import-owner-content.mjs && exit 0
-            if [ "$attempt" -eq 3 ]; then
-              exit 1
-            fi
-            echo "Content sync failed; retrying after 15 seconds (attempt $attempt/3)."
-            sleep 15
-          done
-
       - name: Sync owner operations data
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: pnpm operations:sync
-
-      - name: Recover owner-curated theory links
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
-        run: node scripts/recover-owner-theory-links.mjs
 
       - name: Prepare public runtime catalog
         run: |
           cp src/data/learning.runtime.ts src/data/learning.ts
           pnpm content:build-public
 
-      - name: Prepare and securely sync complete-edition content
+      - name: Prepare complete-edition catalog and sync learning content
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.skip_content_sync != true }}
         run: |
           pnpm content:split-secure

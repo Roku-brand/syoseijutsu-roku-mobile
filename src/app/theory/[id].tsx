@@ -1,5 +1,6 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
+import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { canReadTheory } from '@/access/access-config';
@@ -17,6 +18,7 @@ import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
+import { contentImageUrl } from '@/lib/content-media';
 
 export function generateStaticParams() {
   return Array.from(theoryById.keys()).map((id) => ({ id }));
@@ -95,6 +97,8 @@ export default function TheoryDetailScreen() {
             {normalizeDisplayText(theory.title)}
           </AppText>
         </View>
+
+        {theory.imagePath && contentImageUrl(theory.imagePath) ? <Image source={{ uri: contentImageUrl(theory.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
 
         <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact]}>
           <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>

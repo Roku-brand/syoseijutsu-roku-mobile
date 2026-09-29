@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hydratePaidCatalog, hydratePaidTheories, resetCatalog, theories as catalogTheories, type PaidTechniquePayload } from '@/data/catalog';
+import { hydratePaidCatalog, hydratePaidTheories, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
 import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
-import { isLockedTheoryShell } from '@/data/theory-display';
-import { resetPublishedContentHydration } from './published-content';
 import type { TheoryCard } from '@/data/types';
 import { supabase, supabasePublishableKey, supabaseUrl } from './supabase';
 
@@ -111,8 +109,7 @@ export async function hydrateSecureContent() {
     // it independent from the much larger technique and learning payloads.
     const theoryRows = await fetchRows<TheoryCard>('theory');
     const theories = theoryRows.map((row) => row.payload);
-    const expectedPaidTheoryCount = catalogTheories.filter(isLockedTheoryShell).length;
-    if (theories.length !== expectedPaidTheoryCount) {
+    if (!theories.length) {
       throw new Error('完全版データが不足しているため、端末への保存を中止しました。');
     }
     hydratePaidTheories(theories);
@@ -164,14 +161,8 @@ export function hasHydratedSecureContent(userId: string | null | undefined): boo
 }
 
 export function purgeSecureContent() {
-  const hadPaidContent = hydratedUserId !== null;
   hydratedUserId = null;
   hydrationPromise = null;
-  if (hadPaidContent) {
-    resetCatalog();
-    resetLearningCases();
-    // The public catalogue was reset along with the private rows. Its next
-    // ordinary refresh must restore the latest published structure.
-    resetPublishedContentHydration();
-  }
+  resetCatalog();
+  resetLearningCases();
 }

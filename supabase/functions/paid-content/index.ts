@@ -30,16 +30,21 @@ Deno.serve(async (request) => {
   const id = url.searchParams.get('id');
   if (type && !allowedTypes.has(type)) return json({ error: 'invalid_content_type' }, 400);
 
-  let query = admin.from('paid_content')
-    .select('content_type,content_id,payload,sort_order,updated_at')
-    .order('content_type')
-    .order('sort_order')
-    .order('content_id');
-  if (type) query = query.eq('content_type', type);
-  else query = query.in('content_type', [...allowedTypes]);
-  if (id) query = query.eq('content_id', id);
-
-  const { data, error } = await query;
-  if (error) return json({ error: 'content_read_failed' }, 500);
-  return json({ items: data ?? [], scope: type ? 'single' : 'complete-edition' });
+  const items = [];
+  const pageSize = 500;
+  for (let from = 0; ; from += pageSize) {
+    let query = admin.from('paid_content')
+      .select('content_type,content_id,payload,sort_order,updated_at')
+      .order('content_type')
+      .order('sort_order')
+      .order('content_id');
+    if (type) query = query.eq('content_type', type);
+    else query = query.in('content_type', [...allowedTypes]);
+    if (id) query = query.eq('content_id', id);
+    const { data, error } = await query.range(from, from + pageSize - 1);
+    if (error) return json({ error: 'content_read_failed' }, 500);
+    items.push(...(data ?? []));
+    if (!data || data.length < pageSize) break;
+  }
+  return json({ items, scope: type ? 'single' : 'complete-edition' });
 });

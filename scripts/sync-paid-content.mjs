@@ -43,9 +43,11 @@ const rows = sourceText.split(/\r?\n/).filter(Boolean).map((line, index) => {
   } catch (error) {
     throw new Error(`Invalid JSON on line ${index + 1}: ${error instanceof Error ? error.message : String(error)}`);
   }
-});
+}).filter((row) => row.content_type === 'learning');
 
-const allowedTypes = new Set(['technique', 'theory', 'learning']);
+// Owner CMS tables project technique and theory rows into paid_content.
+// The generated catalog remains authoritative only for learning cases.
+const allowedTypes = new Set(['learning']);
 const desiredKeys = new Set();
 for (const row of rows) {
   if (!allowedTypes.has(row.content_type)) throw new Error(`Unsupported content_type: ${row.content_type}`);
@@ -67,9 +69,10 @@ for (const batch of chunks(rows, chunkSize)) {
   console.log(`Upserted ${batch.length} rows.`);
 }
 
-const existing = await request(`${baseUrl}?select=content_type,content_id&limit=10000`, { method: 'GET' });
+const existing = await request(`${baseUrl}?select=content_type,content_id&content_type=eq.learning&limit=10000`, { method: 'GET' });
 const staleByType = new Map();
 for (const row of existing ?? []) {
+  if (!allowedTypes.has(row.content_type)) continue;
   if (!desiredKeys.has(keyOf(row))) {
     const ids = staleByType.get(row.content_type) ?? [];
     ids.push(row.content_id);
@@ -91,8 +94,8 @@ for (const [contentType, ids] of staleByType) {
   }
 }
 
-const finalRows = await request(`${baseUrl}?select=content_type,content_id&limit=10000`, { method: 'GET' });
-const finalKeys = new Set((finalRows ?? []).map(keyOf));
+const finalRows = await request(`${baseUrl}?select=content_type,content_id&content_type=eq.learning&limit=10000`, { method: 'GET' });
+const finalKeys = new Set((finalRows ?? []).filter((row) => allowedTypes.has(row.content_type)).map(keyOf));
 const missing = [...desiredKeys].filter((key) => !finalKeys.has(key));
 const unexpected = [...finalKeys].filter((key) => !desiredKeys.has(key));
 if (missing.length || unexpected.length || finalKeys.size !== desiredKeys.size) {
