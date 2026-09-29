@@ -6,6 +6,7 @@ import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, Theo
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
 import { isLockedTheoryShell } from './theory-display';
+import { THEORY_CATEGORIES } from './theory-categories';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
@@ -26,8 +27,16 @@ const techniqueCardsByTheoryId = new Map<string, TechniqueCard[]>();
 
 const techniqueNumberById = new Map<string, number>();
 const theoryDisplayIdByTagId = new Map<string, string>();
+export const theoryCategoryOrder = THEORY_CATEGORIES.map(({ id }) => id) as string[];
 
 function rebuildIndexes() {
+  const order = (left: { displayOrder?: number }, right: { displayOrder?: number }) =>
+    (left.displayOrder ?? Number.MAX_SAFE_INTEGER) - (right.displayOrder ?? Number.MAX_SAFE_INTEGER);
+  categories.forEach((category) => {
+    category.subcategories.sort(order);
+    category.subcategories.forEach((persona) => persona.items.sort(order));
+  });
+  theories.sort((a,b) => theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId) || order(a,b) || a.tagId.localeCompare(b.tagId));
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.items.map((item) => {
@@ -51,7 +60,7 @@ function rebuildIndexes() {
           // owner-side removal never leaves a stale primary relation visible.
           primaryTheoryIds: configuredPrimaryIds.filter((id) => theoryTagIds.includes(id)),
           categoryKey: category.key,
-          tags: getTechniqueTags(context),
+          tags: context.tags ?? getTechniqueTags(context),
         };
       }),
     ),
@@ -182,7 +191,7 @@ export function resetCatalog() {
 /** Reconcile successful public reads, including empty lists and empty personas. */
 export function reconcilePublishedStructure(
   techniqueIds: string[],
-  personaRows?: { name: string; category: CategoryKey }[],
+  personaRows?: { name: string; category: CategoryKey; display_order?: number }[],
   theoryIds?: string[],
 ) {
   const currentIds = new Set(techniqueIds);
@@ -191,7 +200,9 @@ export function reconcilePublishedStructure(
     if (personaRows) {
       category.subcategories = category.subcategories.filter((persona) => personaRows.some((row) => row.name === persona.name && row.category === category.key));
       for (const row of personaRows.filter((row) => row.category === category.key)) {
-        if (!category.subcategories.some((persona) => persona.name === row.name)) category.subcategories.push({ name: row.name, articleTitle: row.name, items: [] });
+        const existing = category.subcategories.find((persona) => persona.name === row.name);
+        if (existing) existing.displayOrder = row.display_order;
+        else category.subcategories.push({ name: row.name, articleTitle: row.name, displayOrder: row.display_order, items: [] });
       }
     }
   }
@@ -209,6 +220,22 @@ export const categoryMeta: Record<CategoryKey, { label: string; mark: string; de
   work: { label: '仕事術', mark: '仕', description: '評価・合意・実行を成果へつなげる' },
   life: { label: '人生術', mark: '生', description: '判断軸を持ち、不安とつまずきを越える' },
 };
+
+export function applyManagedCategories(rows: Array<{ kind: string; id: string; title: string; display_order: number }>) {
+  const techniqueRows = rows.filter((row) => row.kind === 'technique').sort((a, b) => a.display_order - b.display_order);
+  if (techniqueRows.length) {
+    categoryOrder.splice(0, categoryOrder.length, ...techniqueRows.map((row) => row.id as CategoryKey));
+    techniqueRows.forEach((row) => {
+      if (categoryMeta[row.id as CategoryKey]) categoryMeta[row.id as CategoryKey].label = row.title;
+      const category = categories.find((item) => item.key === row.id);
+      if (category) category.name = row.title;
+    });
+    categories.sort((a, b) => categoryOrder.indexOf(a.key) - categoryOrder.indexOf(b.key));
+  }
+  const theoryRows = rows.filter((row) => row.kind === 'theory').sort((a,b) => a.display_order-b.display_order);
+  if (theoryRows.length) theoryCategoryOrder.splice(0,theoryCategoryOrder.length,...theoryRows.map((row) => row.id));
+  rebuildIndexes();
+}
 
 const personaThemeOverrides: Partial<Record<CategoryKey, Record<string, string>>> = {
   interpersonal: {
@@ -329,15 +356,7 @@ export function getTechniquesForTheory(theoryOrId: TheoryCard | string) {
   return [...(techniqueCardsByTheoryId.get(theoryId) ?? [])]
     .sort((a, b) => {
       const primaryDifference = (a.theoryTagIds ?? []).indexOf(theoryId) - (b.theoryTagIds ?? []).indexOf(theoryId);
-      return primaryDifference || a.id.localeCompare(b.id);
+      return primaryDifference || (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.id.localeCompare(b.id);
     });
 }
 
-export function getFeed(interests: CategoryKey[], savedIds: string[]) {
-  const interestSet = new Set(interests);
-  const savedTheoryIds = new Set(savedIds.flatMap((id) => techniqueById.get(id)?.theoryTagIds ?? []));
-  return [...techniqueCards].sort((a, b) => {
-    const score = (card: TechniqueCard) => (interestSet.has(card.categoryKey) ? 10 : 0) + (card.theoryTagIds ?? []).filter((id) => savedTheoryIds.has(id)).length * 2;
-    return score(b) - score(a) || a.id.localeCompare(b.id);
-  });
-}
