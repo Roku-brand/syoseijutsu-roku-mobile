@@ -28,15 +28,20 @@ const techniqueCardsByTheoryId = new Map<string, TechniqueCard[]>();
 const techniqueNumberById = new Map<string, number>();
 const theoryDisplayIdByTagId = new Map<string, string>();
 export const theoryCategoryOrder = THEORY_CATEGORIES.map(({ id }) => id) as string[];
+const theoryCategoryLabels = new Map<string, string>(THEORY_CATEGORIES.map(({ id, label }) => [id, label]));
+export function getTheoryCategoryTitle(id: string) { return theoryCategoryLabels.get(id) ?? id; }
 
 function rebuildIndexes() {
-  const order = (left: { displayOrder?: number }, right: { displayOrder?: number }) =>
+  const order = (left: { displayOrder?: number | null }, right: { displayOrder?: number | null }) =>
     (left.displayOrder ?? Number.MAX_SAFE_INTEGER) - (right.displayOrder ?? Number.MAX_SAFE_INTEGER);
   categories.forEach((category) => {
     category.subcategories.sort(order);
     category.subcategories.forEach((persona) => persona.items.sort(order));
   });
-  theories.sort((a,b) => theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId) || order(a,b) || a.tagId.localeCompare(b.tagId));
+  theories.sort((a,b) => {
+    if (a.displayId != null && b.displayId != null) return a.displayId - b.displayId;
+    return theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId) || order(a,b) || a.tagId.localeCompare(b.tagId);
+  });
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.items.map((item) => {
@@ -87,7 +92,9 @@ function rebuildIndexes() {
 
   theoryDisplayIdByTagId.clear();
   theories.forEach((theory, index) => {
-    const canonicalNumber = theory.tagId.match(/^kb_(\d+)$/)?.[1];
+    const canonicalNumber = theory.displayId != null
+      ? String(theory.displayId)
+      : theory.tagId.match(/^kb_(\d+)$/)?.[1];
     theoryDisplayIdByTagId.set(theory.tagId, `T-${String(canonicalNumber ?? index + 1).padStart(3, '0')}`);
   });
 }
@@ -230,17 +237,26 @@ export const categoryMeta: Record<CategoryKey, { label: string; mark: string; de
 
 export function applyManagedCategories(rows: Array<{ kind: string; id: string; title: string; display_order: number }>) {
   const techniqueRows = rows.filter((row) => row.kind === 'technique').sort((a, b) => a.display_order - b.display_order);
-  if (techniqueRows.length) {
+  {
     categoryOrder.splice(0, categoryOrder.length, ...techniqueRows.map((row) => row.id as CategoryKey));
+    const activeIds = new Set(techniqueRows.map((row) => row.id));
+    categories.splice(0, categories.length, ...categories.filter((item) => activeIds.has(item.key)));
     techniqueRows.forEach((row) => {
-      if (categoryMeta[row.id as CategoryKey]) categoryMeta[row.id as CategoryKey].label = row.title;
-      const category = categories.find((item) => item.key === row.id);
-      if (category) category.name = row.title;
+      categoryMeta[row.id as CategoryKey] ??= { label: row.title, mark: [...row.title][0] ?? '術', description: row.title };
+      categoryMeta[row.id as CategoryKey].label = row.title;
+      let category = categories.find((item) => item.key === row.id);
+      if (!category) {
+        category = { key: row.id as CategoryKey, name: row.title, subcategories: [] };
+        categories.push(category);
+      }
+      category.name = row.title;
     });
     categories.sort((a, b) => categoryOrder.indexOf(a.key) - categoryOrder.indexOf(b.key));
   }
   const theoryRows = rows.filter((row) => row.kind === 'theory').sort((a,b) => a.display_order-b.display_order);
-  if (theoryRows.length) theoryCategoryOrder.splice(0,theoryCategoryOrder.length,...theoryRows.map((row) => row.id));
+  theoryCategoryOrder.splice(0,theoryCategoryOrder.length,...theoryRows.map((row) => row.id));
+  theoryCategoryLabels.clear();
+  theoryRows.forEach((row) => theoryCategoryLabels.set(row.id,row.title));
   rebuildIndexes();
 }
 
@@ -314,7 +330,7 @@ const personaThemeTitles: Record<CategoryKey, Record<string, string>> = {
 };
 
 export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number], categoryKey?: CategoryKey) {
-  const standardizedTheme = categoryKey ? personaThemeTitles[categoryKey][persona.name] : undefined;
+  const standardizedTheme = categoryKey ? personaThemeTitles[categoryKey]?.[persona.name] : undefined;
   if (standardizedTheme) return standardizedTheme;
   const override = categoryKey ? personaThemeOverrides[categoryKey]?.[persona.name] : undefined;
   return override ?? (persona.articleTitle && persona.articleTitle !== persona.name ? persona.articleTitle : persona.name);

@@ -15,12 +15,13 @@ type PaidContentRow<T> = {
 
 let hydratedUserId: string | null = null;
 let hydrationPromise: Promise<void> | null = null;
+let secureGeneration = 0;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v10';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v11';
 
 type PaidContentSnapshot = {
-  version: 8;
+  version: 9;
   userId: string;
   savedAt: string;
   techniques: PaidTechniquePayload[];
@@ -55,7 +56,7 @@ function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCa
 function isSnapshot(value: unknown): value is PaidContentSnapshot {
   if (!value || typeof value !== 'object') return false;
   const snapshot = value as Partial<PaidContentSnapshot>;
-  return snapshot.version === 8
+  return snapshot.version === 9
     && typeof snapshot.userId === 'string'
     && Array.isArray(snapshot.techniques)
     && Array.isArray(snapshot.theories)
@@ -104,6 +105,7 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
   if (hydratedUserId === userId) return;
   if (hydrationPromise) return hydrationPromise;
 
+  const generation = secureGeneration;
   hydrationPromise = (async () => {
     // Theory metadata is the first complete-edition surface to render. Keep
     // it independent from the much larger technique and learning payloads.
@@ -114,12 +116,44 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     }
     hydratePaidTheories(theories);
     hydratedUserId = userId;
-    void hydrateRemainingContent(userId, theories, onContentApplied);
+    void hydrateRemainingContent(userId, theories, onContentApplied, generation);
   })().finally(() => {
     hydrationPromise = null;
   });
 
   return hydrationPromise;
+}
+
+/** Refetches the signed-in user's secure catalogue after an owner-side publish or reorder. */
+export async function refreshSecureContent(onContentApplied?: () => void): Promise<boolean> {
+  if (!supabase) return false;
+  const { data } = await supabase.auth.getSession();
+  const userId = data.session?.user.id;
+  if (!userId || hydratedUserId !== userId) return false;
+  const generation = ++secureGeneration;
+  if (hydrationPromise) await hydrationPromise.catch(() => undefined);
+  hydrationPromise = null;
+  hydratedUserId = null;
+  await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
+  try {
+    const [techniqueRows, theoryRows, learningRows] = await Promise.all([
+      fetchRows<PaidTechniquePayload>('technique'),
+      fetchRows<TheoryCard>('theory'),
+      fetchRows<LearningCase>('learning'),
+    ]);
+    if (generation !== secureGeneration || !theoryRows.length || !techniqueRows.length || !learningRows.length) return false;
+    const techniques = techniqueRows.map((row) => row.payload);
+    const theories = theoryRows.map((row) => row.payload);
+    const learning = learningRows.map((row) => row.payload);
+    applyPaidContent(techniques, theories, learning);
+    hydratedUserId = userId;
+    onContentApplied?.();
+    const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
+    await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 /** Restores the last server-verified paid catalogue without requiring a network request. */
@@ -141,18 +175,19 @@ export async function clearSecureContentCache() {
   await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
 }
 
-async function hydrateRemainingContent(userId: string, theories: TheoryCard[], onContentApplied?: () => void) {
+async function hydrateRemainingContent(userId: string, theories: TheoryCard[], onContentApplied?: () => void, generation = secureGeneration) {
   const [techniquesResult, learningResult] = await Promise.allSettled([
     fetchRows<PaidTechniquePayload>('technique'),
     fetchRows<LearningCase>('learning'),
   ]);
-  if (hydratedUserId !== userId || techniquesResult.status !== 'fulfilled' || learningResult.status !== 'fulfilled') return;
+  if (hydratedUserId !== userId || generation !== secureGeneration || techniquesResult.status !== 'fulfilled' || learningResult.status !== 'fulfilled') return;
   const techniques = techniquesResult.value.map((row) => row.payload);
   const learning = learningResult.value.map((row) => row.payload);
   if (!techniques.length || !learning.length) return;
   applyPaidContent(techniques, theories, learning);
   onContentApplied?.();
-  const snapshot: PaidContentSnapshot = { version: 8, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
+  if (generation !== secureGeneration) return;
+  const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
   await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
 }
 
@@ -162,6 +197,7 @@ export function hasHydratedSecureContent(userId: string | null | undefined): boo
 }
 
 export function purgeSecureContent() {
+  secureGeneration += 1;
   hydratedUserId = null;
   hydrationPromise = null;
   resetCatalog();

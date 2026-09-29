@@ -17,7 +17,8 @@ export type TechniqueContent = {
   primary_theory_ids: string[];
   theory_ids: string[];
   status: 'published' | 'draft' | 'archived';
-  display_order: number;
+  display_order: number | null;
+  draft_display_order: number | null;
   image_path: string | null;
   tags: string[] | null;
   access_tier: 'free' | 'complete';
@@ -32,6 +33,7 @@ export type TechniqueDraft = {
 };
 
 export type TechniqueSnapshot = Pick<TechniqueContent, 'persona_id' | 'category' | 'title' | 'essence' | 'explanation' | 'memo' | 'importance' | 'practices' | 'examples' | 'cautions' | 'primary_theory_ids' | 'theory_ids' | 'image_path' | 'access_tier' | 'tags'> & {
+  display_order?: number;
   /** Links shown after the primary theories. Kept in drafts/revisions so the
    * two reader-facing groups remain independently editable. */
   supplementary_theory_ids: string[];
@@ -71,6 +73,7 @@ export function snapshotFromTechnique(technique: TechniqueContent): TechniqueSna
     image_path: technique.image_path,
     tags: technique.tags,
     access_tier: technique.access_tier,
+    display_order: technique.display_order ?? technique.draft_display_order ?? 1,
   };
 }
 
@@ -103,6 +106,7 @@ export function normalizeSnapshot(value: Partial<TechniqueSnapshot>): TechniqueS
     image_path: typeof value.image_path === 'string' ? value.image_path : null,
     tags: Array.isArray(value.tags) ? normalizeList(value.tags) : null,
     access_tier: value.access_tier === 'free' ? 'free' : 'complete',
+    display_order: typeof value.display_order === 'number' ? Math.max(1, Math.floor(value.display_order)) : 1,
   };
 }
 
@@ -126,7 +130,8 @@ export function toTechniqueContent(row: Record<string, unknown>): TechniqueConte
     ...snapshot,
     id: String(row.id ?? ''),
     status: row.status === 'draft' ? 'draft' : row.status === 'archived' ? 'archived' : 'published',
-    display_order: typeof row.display_order === 'number' ? row.display_order : 0,
+    display_order: typeof row.display_order === 'number' ? row.display_order : null,
+    draft_display_order: typeof row.draft_display_order === 'number' ? row.draft_display_order : null,
     image_path: typeof row.image_path === 'string' ? row.image_path : null,
     tags: Array.isArray(row.tags) ? normalizeList(row.tags) : null,
     access_tier: row.access_tier === 'free' ? 'free' : 'complete',

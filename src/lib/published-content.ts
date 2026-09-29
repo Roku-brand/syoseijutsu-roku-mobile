@@ -12,7 +12,7 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
   const rows: Record<string, any>[] = [];
   for (let from = 0; ; from += PAGE_SIZE) {
     const { data, error } = await supabase.from(table).select(columns).eq('status', 'published')
-      .order('display_order').order(table === 'personas' ? 'name' : 'id')
+      .order(table === 'theories' ? 'display_id' : 'display_order').order(table === 'personas' ? 'name' : 'id')
       .range(from, from + PAGE_SIZE - 1);
     if (error) return { data: null, error };
     rows.push(...(data ?? []));
@@ -30,7 +30,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
   try {
     const [{ data, error }, theoryResult, personaResult, categoryResult] = await Promise.all([
       fetchPublishedRows('techniques', 'id,persona_id,category,title,essence,explanation,memo,importance,practices,examples,cautions,primary_theory_ids,theory_ids,status,display_order,updated_at,image_path,access_tier,tags'),
-      fetchPublishedRows('theories', 'id,title,summary,category_id,category_title,aliases,related_theory_ids,provenance,status,display_order,image_path,access_tier'),
+      fetchPublishedRows('theories', 'id,title,summary,category_id,category_title,aliases,related_theory_ids,provenance,status,display_order,display_id,image_path,access_tier'),
       fetchPublishedRows('personas', 'name,category,subtitle,image_path,display_order,access_tier'),
       supabase.from('content_categories').select('kind,id,title,display_order').order('display_order'),
     ]);
@@ -63,11 +63,11 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     // has already been resolved by the authenticated complete-edition sync;
     // passing an empty list here would reset those 585 records back to their
     // intentionally blank public shells immediately after a successful sync.
-    const remoteTheories = (theoryResult.data ?? []).map((row) => ({ provenance: row.provenance ?? theories.find((item) => item.tagId === row.id)?.provenance, tagId: String(row.id), title: String(row.title ?? ''), summary: String(row.summary ?? ''), categoryId: String(row.category_id ?? ''), categoryTitle: String(row.category_title ?? ''), aliases: Array.isArray(row.aliases) ? row.aliases as string[] : [], relatedTheoryIds: Array.isArray(row.related_theory_ids) ? row.related_theory_ids as string[] : [], status: 'published' as const, displayOrder: Number(row.display_order ?? 0), imagePath: typeof row.image_path === 'string' ? row.image_path : null, accessTier: row.access_tier === 'free' ? 'free' as const : 'complete' as const }));
+    const remoteTheories = (theoryResult.data ?? []).map((row) => ({ provenance: row.provenance ?? theories.find((item) => item.tagId === row.id)?.provenance, tagId: String(row.id), displayId: typeof row.display_id === 'number' ? row.display_id : Number(row.display_order ?? 0), title: String(row.title ?? ''), summary: String(row.summary ?? ''), categoryId: String(row.category_id ?? ''), categoryTitle: String(row.category_title ?? ''), aliases: Array.isArray(row.aliases) ? row.aliases as string[] : [], relatedTheoryIds: Array.isArray(row.related_theory_ids) ? row.related_theory_ids as string[] : [], status: 'published' as const, displayOrder: Number(row.display_id ?? row.display_order ?? 0), imagePath: typeof row.image_path === 'string' ? row.image_path : null, accessTier: row.access_tier === 'free' ? 'free' as const : 'complete' as const }));
     const resolvedTheories = !theoryResult.error ? remoteTheories : theories.filter((theory) => !isLockedTheoryShell(theory));
     hydratePaidCatalog(techniques, resolvedTheories);
-    reconcilePublishedStructure(techniques.map((item) => item.id), personaResult.error ? undefined : personaResult.data as { name: string; category: PaidTechniquePayload['categoryKey'] }[], theoryResult.error ? undefined : remoteTheories.map((item) => item.tagId));
     if (!categoryResult.error && categoryResult.data) applyManagedCategories(categoryResult.data);
+    reconcilePublishedStructure(techniques.map((item) => item.id), personaResult.error ? undefined : personaResult.data as { name: string; category: PaidTechniquePayload['categoryKey'] }[], theoryResult.error ? undefined : remoteTheories.map((item) => item.tagId));
     if (!personaResult.error && personaResult.data) hydratePersonaPresentations(personaResult.data as Array<{ name: string; category?: string; subtitle?: string; image_path?: string | null; display_order?: number }>, categoryOrder);
     if (!personaResult.error && !theoryResult.error) hydrateContentAccessScope({ personas: (personaResult.data ?? []) as Array<{ name: string; access_tier?: string }>, techniques: data as Array<{ id: string; access_tier?: string }>, theories: (theoryResult.data ?? []) as Array<{ id: string; access_tier?: string }> });
     loaded = true;

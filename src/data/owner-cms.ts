@@ -14,8 +14,20 @@ export async function fetchContentCategories(): Promise<ContentCategory[]> {
 
 export async function saveContentCategory(category: ContentCategory): Promise<void> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { error } = await supabase.from('content_categories').update({ title: category.title.trim(), updated_at: new Date().toISOString() })
-    .eq('kind', category.kind).eq('id', category.id);
+  const { error } = await supabase.rpc('save_content_category', {
+    target_kind: category.kind,
+    target_id: category.id,
+    target_title: category.title.trim(),
+  });
+  if (error) throw error;
+}
+
+export async function deleteContentCategory(category: Pick<ContentCategory, 'kind' | 'id'>): Promise<void> {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { error } = await supabase.rpc('delete_content_category', {
+    target_kind: category.kind,
+    target_id: category.id,
+  });
   if (error) throw error;
 }
 
@@ -27,23 +39,27 @@ export async function reorderContent(kind: ContentKind | 'technique-category' | 
 
 export async function createTheoryDraft(category: ContentCategory): Promise<ReturnType<typeof toTheory>> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const id = `theory-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-  const { data: last, error: orderError } = await supabase.from('theories').select('display_order').eq('category_id', category.id).order('display_order', { ascending: false }).limit(1);
-  if (orderError) throw orderError;
-  const { data, error } = await supabase.from('theories').insert({
-    id, title: '', summary: '', category_id: category.id, category_title: category.title,
-    status: 'draft', access_tier: 'complete', display_order: Number(last?.[0]?.display_order ?? 0) + 1, aliases: [], related_theory_ids: [],
-  }).select('*').single();
+  const { data, error } = await supabase.rpc('create_theory_draft', { target_category_id: category.id });
   if (error) throw error;
-  return toTheory(data as Record<string, unknown>);
+  return toTheory((Array.isArray(data) ? data[0] : data) as Record<string, unknown>);
 }
 
-export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { displayOrder?: number; draftTechniqueIds?: string[] }): Promise<void> {
+export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { displayOrder?: number | null; draftTechniqueIds?: string[] }): Promise<void> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
-  const { error } = await supabase.from('theories').update({ title: theory.title, summary: theory.summary,
-    category_id: theory.categoryId, aliases: theory.aliases ?? [], related_theory_ids: theory.relatedTheoryIds ?? [],
-    provenance: theory.provenance ?? null, image_path: theory.imagePath ?? null, access_tier: theory.accessTier ?? 'complete',
-    display_order: theory.displayOrder ?? 0, draft_technique_ids: theory.draftTechniqueIds ?? [], status: 'draft', updated_at: new Date().toISOString(),
-  }).eq('id', theory.tagId);
+  const { error } = await supabase.rpc('save_theory_draft', {
+    target_theory_id: theory.tagId,
+    payload: {
+      title: theory.title,
+      summary: theory.summary,
+      category_id: theory.categoryId,
+      aliases: theory.aliases ?? [],
+      related_theory_ids: theory.relatedTheoryIds ?? [],
+      provenance: theory.provenance ?? null,
+      image_path: theory.imagePath ?? null,
+      access_tier: theory.accessTier ?? 'complete',
+      display_id: theory.displayId ?? theory.draftDisplayId ?? theory.displayOrder ?? undefined,
+      draft_technique_ids: theory.draftTechniqueIds ?? [],
+    },
+  });
   if (error) throw error;
 }

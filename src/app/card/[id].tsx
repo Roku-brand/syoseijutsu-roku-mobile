@@ -64,7 +64,7 @@ export default function CardDetailScreen() {
     );
   }
 
-  const fallbackGuidance = practiceGuidance[card.categoryKey];
+  const fallbackGuidance = practiceGuidance[card.categoryKey] ?? practiceGuidance.interpersonal!;
   const guidance = card.practicalActions ?? {
     todayActions: fallbackGuidance.actions,
     examples: [],

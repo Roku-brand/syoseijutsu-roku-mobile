@@ -3,7 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
-import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
+import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, refreshSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 import { hydratePublishedContent } from '@/lib/published-content';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
@@ -56,12 +56,16 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
     const changed = await hydratePublishedContent(true);
+    const secureWasHydrated = hasHydratedSecureContent(user?.id);
+    const secureChanged = secureWasHydrated
+      ? await refreshSecureContent(() => setCatalogRevision((value) => value + 1))
+      : true;
     // A publish RPC can already have applied its returned row locally. Always
     // notify catalogue consumers so that immediate reflection does not depend
     // on a follow-up public read succeeding in the same moment.
     setCatalogRevision((value) => value + 1);
-    return changed;
-  }, []);
+    return changed && secureChanged;
+  }, [user?.id]);
 
   const checkPublishedContent = useCallback(async (force = false) => {
     const changed = await hydratePublishedContent(force);
