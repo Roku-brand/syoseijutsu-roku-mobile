@@ -1,5 +1,5 @@
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { Image as ExpoImage } from 'expo-image';
 import { Image, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
@@ -18,11 +18,11 @@ export default function PopularScreen() {
   const [division, setDivision] = useState<RankingDivision>('technique');
   const [entries, setEntries] = useState<RankedContent[]>(DEFAULT_RANKINGS);
   const [offline, setOffline] = useState(false);
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     let active = true;
     fetchPopularRankings().then((data) => { if (active) { setEntries(data); setOffline(false); } }).catch(() => { if (active) setOffline(true); });
     return () => { active = false; };
-  }, []);
+  }, []));
   const selected = divisions.find((item) => item.id === division)!;
   const ranked = entries.filter((item) => item.division === division).sort((a, b) => a.rank - b.rank).slice(0, 10);
   return <BookScreen contentContainerStyle={styles.page}>

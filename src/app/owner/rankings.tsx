@@ -84,7 +84,7 @@ function RankingEditor() {
           <View style={styles.order}><Button label={`${index + 1}位を上へ移動`} disabled={busy || index === 0} onPress={() => move(index, -1)}>↑</Button><Button label={`${index + 1}位を下へ移動`} disabled={busy || index === 9} onPress={() => move(index, 1)}>↓</Button></View>
         </View>;
       })}
-      <View style={styles.actions}><Button disabled={busy} onPress={() => router.push('/popular')}>公開画面を見る</Button><Button active disabled={busy || !divisionDirty || config.content_ids.some((id) => !byId.has(id))} onPress={() => void publish()}>{busy ? '公開中…' : 'ランキングを公開'}</Button></View>
+      <View style={styles.actions}><Button disabled={busy || dirty} onPress={() => router.push('/popular')}>公開画面を見る</Button><Button active disabled={busy || !divisionDirty || config.content_ids.some((id) => !byId.has(id))} onPress={() => void publish()}>{busy ? '公開中…' : 'ランキングを公開'}</Button></View>
       <AppText style={styles.muted}>カテゴリ画像は全記事で共通です。本文やカテゴリ内の並び順は、この画面での順位変更に影響されません。</AppText>
     </> : null}
     <Button disabled={busy || fetching} onPress={() => { if (dirty) setConfirmReload(true); else void reload(); }}>最新の設定を再読み込み</Button>
