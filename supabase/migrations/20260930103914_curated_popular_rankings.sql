@@ -10,14 +10,16 @@ revoke all on public.popular_rankings from anon,authenticated;
 grant select on public.popular_rankings to authenticated;
 insert into public.popular_rankings(division,content_ids)
 select 'technique', jsonb_agg(t.id order by p.ordinality)
-from unnest(array['清潔感を意識する','相手のテンポに寄せる','締切より早く期限を持つ','人生を楽しそうにする','成功だけを幸福の物差しにしない','相手の名前を呼ぶ','やることを頭の外に出す','他人の正解は、自分の正解ではない','笑顔にはメリハリをつける','緊急より重要を先に守る']) with ordinality p(title,ordinality)
-join lateral (select id from public.techniques where title=p.title and status='published' order by id limit 1) t on true
+-- These are authored catalogue keys, not generated database UUIDs.
+from unnest(array['master336-001','master336-007','master336-172','master336-050','master336-250','master336-052','master336-187','master336-266','master336-003','master336-188']) with ordinality p(id,ordinality)
+join public.techniques t on t.id=p.id and t.status='published'
 having count(*)=10
 on conflict(division) do nothing;
 insert into public.popular_rankings(division,content_ids)
 select 'theory', jsonb_agg(t.id order by p.ordinality)
-from unnest(array['初頭効果','親近効果','単純接触効果','ハロー効果','ピーク・エンドの法則','返報性の原理','アンカリング効果','損失回避','社会的証明','OODAループ']) with ordinality p(title,ordinality)
-join lateral (select id from public.theories where title=p.title and status='published' order by id limit 1) t on true
+-- These are authored catalogue keys, not generated database UUIDs.
+from unnest(array['kb_001','kb_002','kb_004','kb_003','kb_029','kb_047','kb_138','kb_134','kb_104','kb_284']) with ordinality p(id,ordinality)
+join public.theories t on t.id=p.id and t.status='published'
 having count(*)=10
 on conflict(division) do nothing;
 do $$ begin
