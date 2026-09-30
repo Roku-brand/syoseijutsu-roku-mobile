@@ -101,7 +101,7 @@ export default function TheoryIndexScreen() {
 function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
   return (
     <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
-      <Pressable accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
+      <Pressable testID="theory-index-row-card" accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
         <View style={[styles.idColumn, compact && styles.idColumnCompact]}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText></View>
         <View style={styles.rowCopy}>
           <AppText numberOfLines={2} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
