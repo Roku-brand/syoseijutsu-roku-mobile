@@ -38,10 +38,17 @@ const theoryDisplayPrefixes: Record<string, string> = {
   'classics-thought': 'C',
 };
 
+function theoryDisplayPrefix(categoryId: string) {
+  const knownPrefix = theoryDisplayPrefixes[categoryId];
+  if (knownPrefix) return knownPrefix;
+  const categoryToken = categoryId.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4) || 'CUSTOM';
+  return `X${categoryToken}`;
+}
+
 function formatTheoryDisplayId(theory: Pick<TheoryCard, 'categoryId' | 'displayId' | 'draftDisplayId'>, fallbackNumber: number) {
-  const prefix = theoryDisplayPrefixes[theory.categoryId];
+  const prefix = theoryDisplayPrefix(theory.categoryId);
   const number = theory.displayId ?? theory.draftDisplayId ?? fallbackNumber;
-  return prefix ? `${prefix}-${String(number).padStart(3, '0')}` : '—';
+  return `${prefix}-${String(number).padStart(3, '0')}`;
 }
 
 export function getTheoryCategoryTitle(id: string) { return theoryCategoryLabels.get(id) ?? id; }
