@@ -665,21 +665,12 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   expect(second!.y).toBeGreaterThan(first!.y + first!.height - 2);
   const firstRowStyle = await page.getByTestId('theory-index-row-card').first().evaluate((element) => {
     const computed = getComputedStyle(element);
-    const ancestorStyles = [];
-    let current: Element | null = element;
-    while (current && current !== document.body) {
-      const style = getComputedStyle(current);
-      ancestorStyles.push({ tag: current.tagName, className: current.className, style: (current as HTMLElement).getAttribute('style'), border: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth].join('/'), outer: current === element ? current.outerHTML.slice(0, 800) : undefined });
-      current = current.parentElement;
-    }
     return {
       borderStyle: computed.borderTopStyle,
       borderWidth: computed.borderTopWidth,
       borderRadius: Number.parseFloat(computed.borderTopLeftRadius),
-      ancestorStyles,
     };
   });
-  console.log('THEORY_ROW_DEBUG', JSON.stringify(firstRowStyle));
   expect(firstRowStyle.borderStyle).toBe('solid');
   expect(firstRowStyle.borderWidth).toBe('1px');
   expect(firstRowStyle.borderRadius).toBeGreaterThan(0);

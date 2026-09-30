@@ -100,8 +100,8 @@ export default function TheoryIndexScreen() {
 
 function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
   return (
-    <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>
-      <Pressable testID="theory-index-row-card" accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
+    <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild style={[styles.row, compact && styles.rowCompact]}>
+      <Pressable testID="theory-index-row-card" accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`}>
         <View style={[styles.idColumn, compact && styles.idColumnCompact]}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText></View>
         <View style={styles.rowCopy}>
           <AppText numberOfLines={2} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
   list: { width: '100%', gap: 12 },
   row: { position: 'relative', width: '100%', minHeight: 112, paddingVertical: 18, paddingRight: 48, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderRightWidth: 1, borderBottomWidth: 1, borderLeftWidth: 1, borderStyle: 'solid', borderColor: '#E0D0B8', borderRadius: radius.md, backgroundColor: '#FFFEFB' },
   rowCompact: { minHeight: 126, paddingVertical: 15, paddingRight: 37 },
-  rowPressed: { backgroundColor: '#F7F0E3', transform: [{ translateX: 1 }] },
   idColumn: { width: 108, flexShrink: 0, paddingHorizontal: 20, alignItems: 'flex-start', justifyContent: 'center', borderRightWidth: 1, borderRightColor: colors.line },
   idColumnCompact: { width: 76, paddingHorizontal: 12 },
   rowCode: { color: colors.gold, fontSize: 14, lineHeight: 20, fontWeight: '600', letterSpacing: 0.2 },
