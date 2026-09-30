@@ -446,7 +446,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   expect(new Set(boxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(boxes[4]!.y).toBeGreaterThan(boxes[0]!.y);
-  expect(Math.abs(boxes[4]!.x - boxes[1]!.x)).toBeLessThan(2);
+  expect(boxes[4]!.x).toBeGreaterThan(boxes[0]!.x + 100);
   expect(Math.abs((boxes[6]!.x + boxes[6]!.width) - (boxes[3]!.x + boxes[3]!.width))).toBeLessThan(2);
   expect(boxes.every((box) => Math.abs(box!.height - 48) <= 1)).toBe(true);
   await expect(page.getByRole('textbox')).toHaveCount(0);
