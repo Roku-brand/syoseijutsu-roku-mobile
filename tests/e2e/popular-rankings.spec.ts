@@ -35,7 +35,10 @@ test('オーナーが両部門の編集を保持し、差し替えと順位変�
   const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'owner@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
   const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${payload}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
-  await page.addInitScript((value) => localStorage.setItem('sb-example-auth-token', JSON.stringify(value)), session);
+  const projectRef = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0];
+  await page.addInitScript(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)), {
+    key: `sb-${projectRef}-auth-token`, value: session,
+  });
   let configs = ['technique', 'theory'].map((division) => ({ division, content_ids: defaults.filter((item) => item.division === division).map((item) => item.content_id), updated_at: '2026-09-30T00:00:00+00:00' }));
   const candidates = defaults.map((item) => ({ division: item.division, id: item.content_id, title: item.title, category: item.category_title }));
   candidates.push({ division: 'technique', id: 'candidate-new', title: '新しく選ぶ処世術', category: '仕事術' });
