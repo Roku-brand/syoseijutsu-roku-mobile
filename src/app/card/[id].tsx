@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Image } from 'expo-image';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { colors, fonts, radius } from '@/constants/theme';
@@ -32,12 +32,12 @@ export default function CardDetailScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { addHistory } = useAppState();
-  const { accessState, catalogRevision } = useAccess();
+  const { accessState, catalogRevision, refreshAccess, secureContentStatus } = useAccess();
   const card = useMemo(() => techniqueById.get(id), [catalogRevision, id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
-    if (card && canReadTechnique(effectiveAccess, card.id)) {
+    if (card && card.status !== 'locked' && canReadTechnique(effectiveAccess, card.id)) {
       addHistory(card.id);
       void recordContentEvent('technique', card.id, 'view').catch(() => undefined);
     }
@@ -60,6 +60,16 @@ export default function CardDetailScreen() {
           title="処世術が見つかりません"
           description="コンテンツが更新された可能性があります。前の画面へ戻ってください。"
         />
+      </Screen>
+    );
+  }
+
+  if (card.status === 'locked') {
+    const failed = secureContentStatus === 'error';
+    return (
+      <Screen contentContainerStyle={styles.screenContent}>
+        <EmptyState title={failed ? '処世術を読み込めませんでした' : '処世術を読み込んでいます'} description={failed ? '通信を確認して、もう一度お試しください。' : '完全版の本文を確認しています。しばらくお待ちください。'} />
+        {failed ? <Pressable accessibilityRole="button" accessibilityLabel="処世術データを再読み込み" onPress={() => void refreshAccess()} style={{ paddingVertical: 16 }}><AppText>もう一度読み込む</AppText></Pressable> : null}
       </Screen>
     );
   }

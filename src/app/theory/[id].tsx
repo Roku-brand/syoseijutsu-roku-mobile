@@ -35,7 +35,7 @@ export default function TheoryDetailScreen() {
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
-    if (theory && canReadTheory(effectiveAccess, theory.tagId)) {
+    if (theory && !isLockedTheoryShell(theory) && canReadTheory(effectiveAccess, theory.tagId)) {
       addHistory(theory.tagId);
       void recordContentEvent('theory', theory.tagId, 'view').catch(() => undefined);
     }

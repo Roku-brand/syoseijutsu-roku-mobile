@@ -27,3 +27,5 @@ store
 tests
 *.md
 src/data/generated/*.full.json
+
+.expo

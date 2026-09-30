@@ -12,65 +12,18 @@ import {
 import type { CategoryKey } from '@/data/types';
 import { theoryById } from '@/data/catalog';
 import { recordContentEvent } from '@/lib/content-events';
+import {
+  APP_STATE_STORAGE_KEY,
+  createInitialAppState,
+  restoreAppState,
+  reduceAppState,
+  type AppStateAction,
+  type PersistedState,
+  type LearningRecord,
+} from './app-state-model';
+import { createStatePersistence } from './state-persistence';
 
-const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
-const STORAGE_HYDRATION_TIMEOUT_MS = 900;
-const LEARNING_CURRICULUM_VERSION = 2;
-const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
-
-export type PracticeRecord = {
-  cardId: string;
-  status: 'planned' | 'tried';
-  plannedAt: string;
-  triedAt?: string;
-};
-
-export type LearningRecord = {
-  caseId: string;
-  choiceId: 'a' | 'b' | 'c';
-  answeredAt: string;
-};
-
-export type PersonalMemoFolder = {
-  id: string;
-  name: string;
-  createdAt: string;
-};
-
-export type PersonalMemo = {
-  id: string;
-  text: string;
-  folderId: string | null;
-  createdAt: string;
-};
-
-type PersistedState = {
-  learningCurriculumVersion: number;
-  interests: CategoryKey[];
-  savedIds: string[];
-  savedTheoryIds: string[];
-  historyIds: string[];
-  notes: Record<string, string>;
-  practiceRecords: Record<string, PracticeRecord>;
-  personalPrinciple: string;
-  personalMemos: PersonalMemo[];
-  personalMemoFolders: PersonalMemoFolder[];
-  learningRecords: Record<string, LearningRecord>;
-};
-
-const initialState: PersistedState = {
-  learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
-  interests: CATEGORY_KEYS,
-  savedIds: [],
-  savedTheoryIds: [],
-  historyIds: [],
-  notes: {},
-  practiceRecords: {},
-  personalPrinciple: '志は高く、腰は低く。',
-  personalMemos: [],
-  personalMemoFolders: [],
-  learningRecords: {},
-};
+export type { PracticeRecord, LearningRecord, PersonalMemo, PersonalMemoFolder } from './app-state-model';
 
 type AppStateContextValue = PersistedState & {
   hydrated: boolean;
@@ -100,349 +53,95 @@ function haptic(style: Haptics.ImpactFeedbackStyle) {
   void Haptics.impactAsync(style).catch(() => undefined);
 }
 
+let personalIdSequence = 0;
+function personalId(prefix: string) {
+  return prefix + '-' + Date.now() + '-' + (++personalIdSequence);
+}
+
 export function AppStateProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState(initialState);
-  const [hydrated, setHydrated] = useState(false);
+  const [persistence] = useState(() => createStatePersistence<PersistedState, AppStateAction>({
+    storage: AsyncStorage,
+    key: APP_STATE_STORAGE_KEY,
+    initialState: createInitialAppState,
+    restore: (stored) => restoreAppState(stored, (id) => theoryById.has(id)),
+    reduce: reduceAppState,
+    onError: (operation, error) => console.warn(
+      'Personal state storage operation failed:',
+      operation,
+      error instanceof Error ? error.name : 'UnknownError',
+    ),
+  }));
+  const [{ state, hydrated }, setSnapshot] = useState(persistence.getSnapshot);
 
   useEffect(() => {
-    let active = true;
-    // AsyncStorage can be unavailable or stall in a browser privacy mode.
-    // Release the app with the safe default, while still accepting a late
-    // result when the storage implementation recovers.
-    const fallback = setTimeout(() => {
-      if (active) setHydrated(true);
-    }, STORAGE_HYDRATION_TIMEOUT_MS);
-    AsyncStorage.getItem(STORAGE_KEY)
-      .then((stored) => {
-        if (!stored) return;
-        const parsed = JSON.parse(stored) as Partial<PersistedState> & {
-          contentActivity?: unknown;
-          welcomePageHidden?: unknown;
-          homeWelcomeSeen?: unknown;
-          homeWelcomePending?: unknown;
-          homeImpressions?: unknown;
-          onboardingCompleted?: unknown;
-          collections?: unknown;
-        };
-        const supportedState = { ...parsed };
-        delete supportedState.contentActivity;
-        delete supportedState.welcomePageHidden;
-        delete supportedState.homeWelcomeSeen;
-        delete supportedState.homeWelcomePending;
-        delete supportedState.homeImpressions;
-        delete supportedState.onboardingCompleted;
-        delete supportedState.collections;
-        const interests = (parsed.interests ?? []).filter(
-          (interest): interest is CategoryKey =>
-            CATEGORY_KEYS.includes(interest as CategoryKey),
-        );
-        if (!active) return;
-        const savedTheoryIds = Array.isArray(parsed.savedTheoryIds)
-          ? parsed.savedTheoryIds.filter((id): id is string => typeof id === 'string' && theoryById.has(id))
-          : [];
-        const learningRecords = parsed.learningCurriculumVersion === LEARNING_CURRICULUM_VERSION
-          ? parsed.learningRecords ?? {}
-          : {};
-        const personalMemos = Array.isArray(parsed.personalMemos)
-          ? (parsed.personalMemos as unknown[])
-            .map((memo, index): PersonalMemo | null => {
-              if (typeof memo === 'string') {
-                const text = memo.trim();
-                return text ? {
-                  id: `legacy-memo-${index}-${text.slice(0, 12)}`,
-                  text,
-                  folderId: null,
-                  createdAt: new Date(0).toISOString(),
-                } : null;
-              }
-              if (!memo || typeof memo !== 'object') return null;
-              const value = memo as Partial<PersonalMemo>;
-              const text = typeof value.text === 'string' ? value.text.trim() : '';
-              return text ? {
-                id: typeof value.id === 'string' && value.id ? value.id : `memo-${index}-${text.slice(0, 12)}`,
-                text,
-                folderId: typeof value.folderId === 'string' ? value.folderId : null,
-                createdAt: typeof value.createdAt === 'string' ? value.createdAt : new Date(0).toISOString(),
-              } : null;
-            })
-            .filter((memo): memo is PersonalMemo => memo !== null)
-          : [];
-        const personalMemoFolders = Array.isArray(parsed.personalMemoFolders)
-          ? parsed.personalMemoFolders
-            .filter((folder): folder is PersonalMemoFolder => Boolean(
-              folder
-              && typeof folder === 'object'
-              && typeof (folder as PersonalMemoFolder).id === 'string'
-              && typeof (folder as PersonalMemoFolder).name === 'string',
-            ))
-            .map((folder) => ({
-              id: folder.id,
-              name: folder.name.trim() || '無題のフォルダー',
-              createdAt: typeof folder.createdAt === 'string' ? folder.createdAt : new Date(0).toISOString(),
-            }))
-          : [];
-        setState({
-          ...initialState,
-          ...supportedState,
-          learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
-          learningRecords,
-          savedTheoryIds,
-          personalMemos,
-          personalMemoFolders,
-          interests: interests.length ? interests : initialState.interests,
-        });
-      })
-      .catch(() => undefined)
-      .finally(() => {
-        clearTimeout(fallback);
-        if (active) setHydrated(true);
-      });
-    return () => {
-      active = false;
-      clearTimeout(fallback);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    void AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [hydrated, state]);
+    const unsubscribe = persistence.subscribe(setSnapshot);
+    setSnapshot(persistence.getSnapshot());
+    persistence.start();
+    return unsubscribe;
+  }, [persistence]);
 
   const startFreeEdition = useCallback((interests: CategoryKey[]) => {
-    setState((current) => ({
-      ...current,
-      interests: interests.length ? interests : initialState.interests,
-    }));
-  }, []);
-
+    persistence.dispatch({ type: 'interests/set', interests });
+  }, [persistence]);
   const toggleSaved = useCallback((id: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
-    if (!state.savedIds.includes(id)) void recordContentEvent('technique', id, 'save').catch(() => undefined);
-    setState((current) => ({
-      ...current,
-      savedIds: current.savedIds.includes(id)
-        ? current.savedIds.filter((savedId) => savedId !== id)
-        : [id, ...current.savedIds],
-    }));
-  }, [state.savedIds]);
-
+    const saved = !persistence.getSnapshot().state.savedIds.includes(id);
+    if (saved) void recordContentEvent('technique', id, 'save').catch(() => undefined);
+    persistence.dispatch({ type: 'saved/set', id, saved });
+  }, [persistence]);
   const toggleSavedTheory = useCallback((id: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
-    if (!state.savedTheoryIds.includes(id)) void recordContentEvent('theory', id, 'save').catch(() => undefined);
-    setState((current) => ({
-      ...current,
-      savedTheoryIds: current.savedTheoryIds.includes(id)
-        ? current.savedTheoryIds.filter((savedId) => savedId !== id)
-        : [id, ...current.savedTheoryIds],
-    }));
-  }, [state.savedTheoryIds]);
-
-  const addHistory = useCallback((id: string) => {
-    setState((current) => ({
-      ...current,
-      historyIds: [id, ...current.historyIds.filter((item) => item !== id)].slice(
-        0,
-        100,
-      ),
-    }));
-  }, []);
-
-  const saveNote = useCallback((id: string, note: string) => {
-    setState((current) => ({
-      ...current,
-      notes: { ...current.notes, [id]: note },
-    }));
-  }, []);
-
-  const toggleInterest = useCallback((category: CategoryKey) => {
-    setState((current) => {
-      const exists = current.interests.includes(category);
-      const interests = exists
-        ? current.interests.filter((item) => item !== category)
-        : [...current.interests, category];
-      return { ...current, interests: interests.length ? interests : current.interests };
-    });
-  }, []);
-
+    const saved = !persistence.getSnapshot().state.savedTheoryIds.includes(id);
+    if (saved) void recordContentEvent('theory', id, 'save').catch(() => undefined);
+    persistence.dispatch({ type: 'theory/set', id, saved });
+  }, [persistence]);
+  const addHistory = useCallback((id: string) => persistence.dispatch({ type: 'history/add', id }), [persistence]);
+  const saveNote = useCallback((id: string, note: string) => persistence.dispatch({ type: 'note/save', id, note }), [persistence]);
+  const toggleInterest = useCallback((category: CategoryKey) => persistence.dispatch({ type: 'interests/toggle', category }), [persistence]);
   const planPractice = useCallback((cardId: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
-    setState((current) => ({
-      ...current,
-      practiceRecords: {
-        ...current.practiceRecords,
-        [cardId]: {
-          cardId,
-          status: 'planned',
-          plannedAt:
-            current.practiceRecords[cardId]?.plannedAt ??
-            new Date().toISOString(),
-        },
-      },
-    }));
-  }, []);
-
+    persistence.dispatch({ type: 'practice/plan', cardId, at: new Date().toISOString() });
+  }, [persistence]);
   const completePractice = useCallback((cardId: string) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
-    setState((current) => ({
-      ...current,
-      practiceRecords: {
-        ...current.practiceRecords,
-        [cardId]: {
-          cardId,
-          status: 'tried',
-          plannedAt:
-            current.practiceRecords[cardId]?.plannedAt ??
-            new Date().toISOString(),
-          triedAt: new Date().toISOString(),
-        },
-      },
-    }));
-  }, []);
-
-  const updatePersonalPrinciple = useCallback((personalPrinciple: string) => {
-    setState((current) => ({
-      ...current,
-      personalPrinciple: personalPrinciple.trim(),
-    }));
-  }, []);
-
-  const addPersonalMemo = useCallback((memo: string, folderId: string | null = null) => {
-    const value = memo.trim();
-    if (!value) return;
+    persistence.dispatch({ type: 'practice/complete', cardId, at: new Date().toISOString() });
+  }, [persistence]);
+  const updatePersonalPrinciple = useCallback((text: string) => persistence.dispatch({ type: 'principle/set', text }), [persistence]);
+  const addPersonalMemo = useCallback((text: string, folderId: string | null = null) => {
+    if (!text.trim()) return;
     haptic(Haptics.ImpactFeedbackStyle.Light);
-    setState((current) => ({
-      ...current,
-      personalMemos: [{
-        id: `memo-${Date.now()}`,
-        text: value,
-        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
-        createdAt: new Date().toISOString(),
-      }, ...current.personalMemos].slice(0, 100),
-    }));
-  }, []);
-
-  const removePersonalMemo = useCallback((id: string) => {
-    setState((current) => ({
-      ...current,
-      personalMemos: current.personalMemos.filter((memo) => memo.id !== id),
-    }));
-  }, []);
-
-  const updatePersonalMemo = useCallback((id: string, text: string, folderId: string | null) => {
-    const value = text.trim();
-    if (!value) return;
-    setState((current) => ({
-      ...current,
-      personalMemos: current.personalMemos.map((memo) => memo.id === id ? {
-        ...memo,
-        text: value,
-        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
-      } : memo),
-    }));
-  }, []);
-
+    persistence.dispatch({ type: 'memo/add', id: personalId('memo'), text, folderId, at: new Date().toISOString() });
+  }, [persistence]);
+  const updatePersonalMemo = useCallback((id: string, text: string, folderId: string | null) => persistence.dispatch({ type: 'memo/update', id, text, folderId }), [persistence]);
+  const removePersonalMemo = useCallback((id: string) => persistence.dispatch({ type: 'memo/remove', id }), [persistence]);
   const createPersonalMemoFolder = useCallback((name: string) => {
-    const value = name.trim().slice(0, 32);
-    if (!value) return null;
-    const id = `memo-folder-${Date.now()}`;
-    setState((current) => ({
-      ...current,
-      personalMemoFolders: [...current.personalMemoFolders, { id, name: value, createdAt: new Date().toISOString() }],
-    }));
+    if (!name.trim()) return null;
+    const id = personalId('memo-folder');
+    persistence.dispatch({ type: 'folder/add', id, name, at: new Date().toISOString() });
     return id;
-  }, []);
-
-  const deletePersonalMemoFolder = useCallback((id: string) => {
-    setState((current) => ({
-      ...current,
-      personalMemoFolders: current.personalMemoFolders.filter((folder) => folder.id !== id),
-      personalMemos: current.personalMemos.map((memo) => memo.folderId === id ? { ...memo, folderId: null } : memo),
-    }));
-  }, []);
-
-  const movePersonalMemo = useCallback((memoId: string, folderId: string | null) => {
-    setState((current) => ({
-      ...current,
-      personalMemos: current.personalMemos.map((memo) => memo.id === memoId ? {
-        ...memo,
-        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
-      } : memo),
-    }));
-  }, []);
-
+  }, [persistence]);
+  const deletePersonalMemoFolder = useCallback((id: string) => persistence.dispatch({ type: 'folder/remove', id }), [persistence]);
+  const movePersonalMemo = useCallback((id: string, folderId: string | null) => persistence.dispatch({ type: 'memo/move', id, folderId }), [persistence]);
   const answerLearningCase = useCallback((caseId: string, choiceId: LearningRecord['choiceId']) => {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
-    setState((current) => ({
-      ...current,
-      learningRecords: {
-        ...current.learningRecords,
-        [caseId]: { caseId, choiceId, answeredAt: new Date().toISOString() },
-      },
-    }));
-  }, []);
+    persistence.dispatch({ type: 'learning/answer', caseId, choiceId, at: new Date().toISOString() });
+  }, [persistence]);
+  const resetLearningCase = useCallback((id: string) => persistence.dispatch({ type: 'learning/reset', id }), [persistence]);
+  const clearPersonalData = useCallback(() => persistence.clear(), [persistence]);
 
-  const resetLearningCase = useCallback((caseId: string) => {
-    setState((current) => {
-      const learningRecords = { ...current.learningRecords };
-      delete learningRecords[caseId];
-      return { ...current, learningRecords };
-    });
-  }, []);
+  const value = useMemo(() => ({
+    ...state, hydrated, startFreeEdition, toggleSaved, toggleSavedTheory, addHistory, saveNote,
+    planPractice, completePractice, toggleInterest, updatePersonalPrinciple, addPersonalMemo,
+    updatePersonalMemo, removePersonalMemo, createPersonalMemoFolder, deletePersonalMemoFolder,
+    movePersonalMemo, answerLearningCase, resetLearningCase, clearPersonalData,
+  }), [
+    state, hydrated, startFreeEdition, toggleSaved, toggleSavedTheory, addHistory, saveNote,
+    planPractice, completePractice, toggleInterest, updatePersonalPrinciple, addPersonalMemo,
+    updatePersonalMemo, removePersonalMemo, createPersonalMemoFolder, deletePersonalMemoFolder,
+    movePersonalMemo, answerLearningCase, resetLearningCase, clearPersonalData,
+  ]);
 
-  const clearPersonalData = useCallback(async () => {
-    setState(initialState);
-    await AsyncStorage.removeItem(STORAGE_KEY);
-  }, []);
-
-  const value = useMemo(
-    () => ({
-      ...state,
-      hydrated,
-      startFreeEdition,
-      toggleSaved,
-      toggleSavedTheory,
-      addHistory,
-      saveNote,
-      planPractice,
-      completePractice,
-      toggleInterest,
-      updatePersonalPrinciple,
-      addPersonalMemo,
-      updatePersonalMemo,
-      removePersonalMemo,
-      createPersonalMemoFolder,
-      deletePersonalMemoFolder,
-      movePersonalMemo,
-      answerLearningCase,
-      resetLearningCase,
-      clearPersonalData,
-    }),
-    [
-      state,
-      hydrated,
-      startFreeEdition,
-      toggleSaved,
-      toggleSavedTheory,
-      addHistory,
-      saveNote,
-      planPractice,
-      completePractice,
-      toggleInterest,
-      updatePersonalPrinciple,
-      addPersonalMemo,
-      updatePersonalMemo,
-      removePersonalMemo,
-      createPersonalMemoFolder,
-      deletePersonalMemoFolder,
-      movePersonalMemo,
-      answerLearningCase,
-      clearPersonalData,
-    ],
-  );
-
-  return (
-    <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>
-  );
+  return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;
 }
 
 export function useAppState() {

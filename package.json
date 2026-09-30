@@ -98,7 +98,9 @@
     "assets:generate": "node ./scripts/generate-assets.cjs",
     "assets:og": "node ./scripts/generate-og-image.mjs",
     "assets:web": "node ./scripts/optimize-web-assets.mjs",
-    "store:assets": "node ./scripts/generate-store-assets.mjs"
+    "store:assets": "node ./scripts/generate-store-assets.mjs",
+    "test:unit": "node --experimental-strip-types --test tests/unit/*.test.mjs",
+    "check": "pnpm typecheck && pnpm test:unit && pnpm operations:validate"
   },
   "private": true
 }

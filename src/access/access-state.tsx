@@ -75,7 +75,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, []);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
-    if (hasHydratedSecureContent(userId)) {
+    if (hasHydratedSecureContent(userId, true)) {
       setSecureContentStatus('ready');
       return;
     }
@@ -83,19 +83,19 @@ export function AccessProvider({ children }: PropsWithChildren) {
     try {
       await hydrateSecureContent(() => setCatalogRevision((value) => value + 1));
       setSecureContentStatus('ready');
-      await checkPublishedContent(true);
+      await checkPublishedContent();
     } catch {
       if (await restoreCachedSecureContent(userId)) {
         setSecureContentStatus('ready');
         setCatalogRevision((value) => value + 1);
-        await checkPublishedContent(true);
+        await checkPublishedContent();
         return;
       }
       // Never expose the intentionally blank public-catalogue shell as a
       // usable theory title. Theory surfaces show a quiet retry state instead.
       setSecureContentStatus('error');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent(true);
+      await checkPublishedContent();
     }
   }, [checkPublishedContent]);
 
@@ -114,7 +114,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
-      await checkPublishedContent(true);
+      await checkPublishedContent();
       return 'guest';
     }
 
@@ -133,7 +133,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent(true);
+      await checkPublishedContent();
       const nextState: AccessState = 'free';
       setActualAccessState(nextState);
       return nextState;
@@ -144,7 +144,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent(true);
+      await checkPublishedContent();
       setActualAccessState('error');
       return 'error';
     }
@@ -174,9 +174,12 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, [checkPublishedContent, refreshAccess, user]);
 
   useEffect(() => {
-    const interval = setInterval(() => { void checkPublishedContent(); }, 60 * 60 * 1000);
+    const interval = setInterval(() => {
+      void checkPublishedContent();
+      if (user) void refreshAccess();
+    }, 60 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [checkPublishedContent]);
+  }, [checkPublishedContent, refreshAccess, user]);
 
   useEffect(() => {
     void storageReadWithin(PREVIEW_KEY).then((stored) => {
@@ -202,7 +205,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
     setCatalogRevision((value) => value + 1);
     setAccessInfo(FREE_ACCESS);
     setActualAccessState('guest');
-    void checkPublishedContent(true);
+    void checkPublishedContent();
   }, [checkPublishedContent]);
 
   const restorePurchase = useCallback(async (sessionId?: string) => {

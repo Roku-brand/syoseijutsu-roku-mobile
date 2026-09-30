@@ -72,7 +72,7 @@ export default function SettingsScreen() {
               'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
               [
                 { text: 'キャンセル', style: 'cancel' },
-                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
+                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData().catch(() => Alert.alert('消去できませんでした', '端末の保存領域にアクセスできません。時間をおいてもう一度お試しください。')) },
               ],
             )}
             danger
