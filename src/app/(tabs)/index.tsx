@@ -73,7 +73,7 @@ function buildRecommendations({ accessState, historyIds, interests, savedIds }: 
 
 const shortcuts = [
   { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
-  { label: '人気', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
+  { label: '人気ランキング', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
   { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myTechniques, params: { compose: '1' } }, testID: 'home-create-technique' },
   { label: '保存済み', icon: 'bookmark', material: 'bookmark', fallback: '▯', route: APP_ROUTES.library, testID: 'home-shortcut-saved' },
   { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', action: 'principles', testID: 'home-shortcut-principles' },
