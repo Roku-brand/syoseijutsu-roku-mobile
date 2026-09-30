@@ -11,9 +11,10 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
   if (!supabase) return { data: null, error: new Error('Supabase is unavailable') };
   const rows: Record<string, any>[] = [];
   for (let from = 0; ; from += PAGE_SIZE) {
-    const { data, error } = await supabase.from(table).select(columns).eq('status', 'published')
-      .order(table === 'theories' ? 'display_id' : 'display_order').order(table === 'personas' ? 'name' : 'id')
-      .range(from, from + PAGE_SIZE - 1);
+    let query = supabase.from(table).select(columns).eq('status', 'published');
+    if (table === 'theories') query = query.order('category_id').order('display_id').order('id');
+    else query = query.order('display_order').order(table === 'personas' ? 'name' : 'id');
+    const { data, error } = await query.range(from, from + PAGE_SIZE - 1);
     if (error) return { data: null, error };
     rows.push(...(data ?? []));
     if (!data || data.length < PAGE_SIZE) break;

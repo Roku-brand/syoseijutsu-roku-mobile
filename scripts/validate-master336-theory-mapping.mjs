@@ -97,10 +97,9 @@ for (const card of legacyCards) {
   if (!block.body.includes('### 主要理論') || !block.body.includes('### あわせて読む理論')) {
     throw new Error(`Final mapping Markdown is missing grouped headings for ${card.id}.`);
   }
-  const listed = [...block.body.matchAll(/^- [PBOSWC]－\d+｜(.+)$/gm)].map((match) => match[1].trim());
+  const listed = [...block.body.matchAll(/^- [PBOTAC]－\d{3}｜(.+)$/gm)].map((match) => match[1].trim());
   const supplementaryIds = card.relatedTheoryIds.filter((id) => !card.primaryTheoryIds.includes(id));
   const expectedTitles = [...card.primaryTheoryIds, ...supplementaryIds]
-    .filter((id) => Number(id.match(/\d+/)?.[0] ?? 0) <= 705)
     .map((id) => theoryById.get(id).title);
   if (JSON.stringify(listed) !== JSON.stringify(expectedTitles)) throw new Error(`Final mapping Markdown diverges for ${card.id}.`);
 }

@@ -1,11 +1,11 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 767,
+  "theories": 768,
   "links": 1346,
   "primaryLinks": 431,
   "linkedTheories": 641,
-  "unlinkedTheories": 126,
+  "unlinkedTheories": 127,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 28,
   "distribution": {
@@ -57,7 +57,7 @@
       "links": 550
     },
     "behavioral-science": {
-      "theories": 108,
+      "theories": 109,
       "linkedTheories": 67,
       "links": 111
     },
@@ -71,17 +71,17 @@
       "linkedTheories": 76,
       "links": 123
     },
-    "classics-thought": {
-      "theories": 61,
-      "linkedTheories": 61,
-      "links": 178
-    },
     "practical-wisdom": {
       "theories": 48,
       "linkedTheories": 48,
       "links": 128
+    },
+    "classics-thought": {
+      "theories": 61,
+      "linkedTheories": 61,
+      "links": 178
     }
   },
-  "generatedAt": "2026-09-27",
+  "generatedAt": "2026-09-30",
   "supplementaryLinks": 915
 }

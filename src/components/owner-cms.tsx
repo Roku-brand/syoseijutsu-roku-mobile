@@ -13,6 +13,7 @@ import { archiveTheory, fetchOwnerTheories, publishTheory } from '@/data/owner-t
 import { createTheoryDraft, deleteContentCategory, fetchContentCategories, reorderContent, saveContentCategory, saveTheoryDraft, type ContentCategory, type ContentKind } from '@/data/owner-cms';
 import { contentImageUrl, countImageReferences, pickContentImage, removeContentImageIfUnused, uploadContentImage, type ContentImageAsset } from '@/lib/content-media';
 import { getPersonaPresentation } from '@/data/persona-presentation';
+import { getTheoryDisplayId } from '@/data/catalog';
 import { getTechniqueTags } from '@/data/technique-tags';
 import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -100,9 +101,9 @@ export default function OwnerCmsScreen() {
   const selectImage = (asset: ContentImageAsset | null) => { setImageAsset(asset); if (asset) { setDirty(true); setNotice(''); } };
 
   const allRows = useMemo(() => [
-    ...personas.map((item) => ({ kind: 'persona' as const, id: item.id, title: item.name, category: categoryTitle('technique', item.category, categories), status: item.status, order: item.display_order, updated: item.updated_at, subtitle: item.subtitle, searchBody: '', image: item.image_path, reference: techniques.filter((t) => t.persona_id === item.name && t.status !== 'archived').length, detail: item.category })),
-    ...techniques.map((item) => ({ kind: 'technique' as const, id: item.id, title: item.title || '無題の処世術', category: item.persona_id, status: item.status, order: item.display_order ?? item.draft_display_order, updated: item.updated_at, subtitle: item.essence, searchBody: [item.explanation,item.memo,...item.practices,...item.examples,...item.cautions].join(' '), image: item.image_path, reference: item.importance, detail: item.category })),
-    ...theories.map((item) => ({ kind: 'theory' as const, id: item.tagId, title: item.title || '無題の理論', category: categoryTitle('theory', item.categoryId, categories), status: item.status, order: item.displayId ?? item.draftDisplayId ?? item.displayOrder, updated: item.updatedAt, subtitle: item.summary, searchBody: (item.aliases ?? []).join(' '), image: item.imagePath, reference: techniques.filter((t) => t.theory_ids.includes(item.tagId) && t.status !== 'archived').length, detail: item.categoryId })),
+    ...personas.map((item) => ({ kind: 'persona' as const, id: item.id, title: item.name, category: categoryTitle('technique', item.category, categories), status: item.status, order: item.display_order, displayLabel: undefined, updated: item.updated_at, subtitle: item.subtitle, searchBody: '', image: item.image_path, reference: techniques.filter((t) => t.persona_id === item.name && t.status !== 'archived').length, detail: item.category })),
+    ...techniques.map((item) => ({ kind: 'technique' as const, id: item.id, title: item.title || '無題の処世術', category: item.persona_id, status: item.status, order: item.display_order ?? item.draft_display_order, displayLabel: undefined, updated: item.updated_at, subtitle: item.essence, searchBody: [item.explanation,item.memo,...item.practices,...item.examples,...item.cautions].join(' '), image: item.image_path, reference: item.importance, detail: item.category })),
+    ...theories.map((item) => ({ kind: 'theory' as const, id: item.tagId, title: item.title || '無題の理論', category: categoryTitle('theory', item.categoryId, categories), status: item.status, order: item.displayId ?? item.draftDisplayId ?? item.displayOrder, displayLabel: getTheoryDisplayId(item), updated: item.updatedAt, subtitle: item.summary, searchBody: (item.aliases ?? []).join(' '), image: item.imagePath, reference: techniques.filter((t) => t.theory_ids.includes(item.tagId) && t.status !== 'archived').length, detail: item.categoryId })),
   ], [personas, techniques, theories, categories]);
   const words = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
   const techniquePersonaList = mode === 'technique' && (!scope || scope.startsWith('category:') || !personas.some((persona) => persona.name === scope));
@@ -111,8 +112,14 @@ export default function OwnerCmsScreen() {
     : techniquePersonaList
       ? row.kind === 'persona' && (!scope || (scope.startsWith('category:') ? row.detail === scope.slice(9) : true))
       : row.kind === mode && (!scope || (mode === 'technique' ? row.category === scope : row.detail === scope)));
+  const theoryCategoryOrder = new Map(categories.filter((item) => item.kind === 'theory').sort((a, b) => a.display_order - b.display_order).map((item, index) => [item.id, index]));
   const rows = [...visibleRows].sort((a, b) => listSort === 'title'
     ? a.title.localeCompare(b.title, 'ja')
+    : mode === 'theory' ? ((theoryCategoryOrder.get(a.detail) ?? Number.MAX_SAFE_INTEGER)
+      - (theoryCategoryOrder.get(b.detail) ?? Number.MAX_SAFE_INTEGER))
+      || (listSort === 'status' ? a.status.localeCompare(b.status) : 0)
+      || ((a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER))
+      || a.title.localeCompare(b.title, 'ja')
     : listSort === 'status'
       ? a.status.localeCompare(b.status) || ((a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER))
       : ((a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER)) || a.title.localeCompare(b.title, 'ja'));
@@ -233,7 +240,7 @@ export default function OwnerCmsScreen() {
   };
 
   const move = async (rowId: string, targetId: string) => {
-    if (rowId === targetId || query || listSort !== 'display') return;
+    if (rowId === targetId || query || listSort !== 'display' || (mode === 'theory' && !scope)) return;
     let orderKind: ContentKind = mode;
     let orderScope = scope;
     if (techniquePersonaList && !scope.startsWith('category:')) return;
@@ -429,7 +436,7 @@ export default function OwnerCmsScreen() {
                   { label: '編集', onPress: () => { choose({ kind: 'persona', id: persona.id }); setTreeMenu(null); } },
                   { label: '上へ並び替え', onPress: () => { const previous=childPersonas[index-1]; if (previous) void movePersona(persona.id,previous.id); setTreeMenu(null); } },
                   { label: '下へ並び替え', onPress: () => { const next=childPersonas[index+1]; if (next) void movePersona(persona.id,next.id); setTreeMenu(null); } },
-                  { label: '削除', danger: true, onPress: () => requestDelete({ kind: 'persona', id: persona.id, title: persona.name, category: category.title, status: persona.status, order: persona.display_order, updated: persona.updated_at, subtitle: persona.subtitle, searchBody: '', image: persona.image_path, reference: count, detail: persona.category }) },
+                  { label: '削除', danger: true, onPress: () => requestDelete({ kind: 'persona', id: persona.id, title: persona.name, category: category.title, status: persona.status, order: persona.display_order, displayLabel: undefined, updated: persona.updated_at, subtitle: persona.subtitle, searchBody: '', image: persona.image_path, reference: count, detail: persona.category }) },
                 ]} /> : null}
               </View>;
             }) : null}
@@ -462,13 +469,13 @@ export default function OwnerCmsScreen() {
           renderItem={({ item: row }) => {
             const reorderable = !query && listSort === 'display' && (techniquePersonaList
               ? scope.startsWith('category:') && row.kind === 'persona' && row.status !== 'archived'
-              : row.kind === mode && row.status === 'published' && Boolean(scope || mode === 'theory'));
+              : row.kind === mode && row.status === 'published' && Boolean(scope));
             const active = selection?.kind === row.kind && selection.id === row.id;
             const menuKey = `${row.kind}:${row.id}`;
             return <View>
               <View style={[styles.row, active && styles.rowActive]} {...(Platform.OS === 'web' ? { draggable: Boolean(reorderable), onDragStart: () => { draggedId.current = row.id; }, onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(), onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); if (draggedId.current && reorderable) void move(draggedId.current,row.id); draggedId.current = null; } } as any : {})}>
                 <AppText style={[styles.handle, !reorderable && styles.handleDisabled]}>⠿</AppText>
-                <AppText style={styles.number}>{row.order == null ? '—' : String(row.order).padStart(2,'0')}</AppText>
+                <AppText style={styles.number}>{row.displayLabel ?? (row.order == null ? '—' : String(row.order).padStart(2,'0'))}</AppText>
                 {row.image ? <Image source={row.kind === 'persona' ? getPersonaPresentation(row.title)?.image : { uri: contentImageUrl(row.image) ?? '' }} style={styles.thumb} /> : null}
                 <Pressable accessibilityRole="button" accessibilityState={{ selected: active }} onPress={() => choose({ kind: row.kind, id: row.id })} style={styles.rowCopy}>
                   <AppText numberOfLines={1} style={styles.rowTitle}>{row.title}</AppText>
@@ -533,7 +540,7 @@ function ActionMenu({ actions }: { actions: MenuAction[] }) { return <View style
 function Section({ title, children }: { title: string; children: React.ReactNode }) { return <View style={styles.section}><AppText style={styles.sectionTitle}>{title}</AppText>{children}</View>; }
 function TreeRow({ label, count, active, expanded, nested, onPress, onMenu, onExpand, onDragStart, onDrop }: { label: string; count: string; active: boolean; expanded?: boolean; nested?: boolean; onPress: () => void; onMenu: () => void; onExpand?: () => void; onDragStart?: () => void; onDrop?: () => void }) { return <View style={[styles.treeRow,active && styles.treeActive,nested && { paddingLeft: 23 }]} {...(Platform.OS === 'web' && onDragStart ? { draggable: true, onDragStart, onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(), onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); onDrop?.(); } } as any : {})}>{onExpand ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}を${expanded ? '閉じる' : '開く'}`} onPress={onExpand} style={styles.treeDisclosure}><AppText style={styles.treeDisclosure}>{expanded ? '⌄' : '›'}</AppText></Pressable> : <AppText style={styles.handle}>⠿</AppText>}<Pressable accessibilityRole="button" onPress={onPress} style={{ flex: 1, minWidth: 0 }}><AppText numberOfLines={1} style={styles.treeText}>{label}</AppText></Pressable><AppText style={styles.treeCount}>{count}</AppText><Pressable accessibilityRole="button" accessibilityLabel={`${label}の操作`} onPress={onMenu} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable></View>; }
 function Field({ label, value, onChange, multi }: { label: string; value: string; onChange: (value: string) => void; multi?: boolean }) { return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} value={value} onChangeText={onChange} multiline={multi} style={[styles.input, multi && styles.multi]} /></View>; }
-function IntegerField({ label, value, onChange }: { label: string; value: number | null | undefined; onChange: (value: number) => void }) { const [text,setText] = useState(value == null ? '' : String(value)); useEffect(() => { setText(value == null ? '' : String(value)); }, [value]); return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} keyboardType="number-pad" value={text} onChangeText={setText} onBlur={() => { const parsed=Number.parseInt(text,10); const next=Number.isFinite(parsed) && parsed > 0 ? parsed : Math.max(1,value ?? 1); setText(String(next)); onChange(next); }} style={[styles.input,{ maxWidth: 130 }]} /><AppText style={styles.muted}>{label === '表示ID' ? '全理論を通した番号です。移動時に周囲を自動採番します。' : '同じ人物像内の表示順です。保存時に周囲を自動調整します。'}</AppText></View>; }
+function IntegerField({ label, value, onChange }: { label: string; value: number | null | undefined; onChange: (value: number) => void }) { const [text,setText] = useState(value == null ? '' : String(value)); useEffect(() => { setText(value == null ? '' : String(value)); }, [value]); return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} keyboardType="number-pad" value={text} onChangeText={setText} onBlur={() => { const parsed=Number.parseInt(text,10); const next=Number.isFinite(parsed) && parsed > 0 ? parsed : Math.max(1,value ?? 1); setText(String(next)); onChange(next); }} style={[styles.input,{ maxWidth: 130 }]} /><AppText style={styles.muted}>{label === '表示ID' ? '選択中カテゴリ内の表示番号です。移動時は同じカテゴリ内で自動採番します。' : '同じ人物像内の表示順です。保存時に周囲を自動調整します。'}</AppText></View>; }
 function Choice({ label, value, options, onChange }: { label: string; value: string; options: string[][]; onChange: (value: string) => void }) { return <View style={styles.field}>{label ? <AppText variant="label">{label}</AppText> : null}<View style={styles.actions}>{options.map(([id,title]) => <Pressable key={id} accessibilityRole="button" accessibilityState={{ selected: value === id }} onPress={() => onChange(id)} style={[styles.choice,value === id && styles.choiceActive]}><AppText style={styles.buttonText}>{title}</AppText></Pressable>)}</View></View>; }
 function MultiPicker({ options, ids, onChange }: { options: Array<{ id: string; title: string }>; ids: string[]; onChange: (ids: string[]) => void }) { const [search,setSearch] = useState(''); return <View style={styles.field}><View style={styles.chips}>{ids.map((id) => <Pressable key={id} accessibilityRole="button" onPress={() => onChange(ids.filter((item) => item !== id))} style={styles.chip}><AppText numberOfLines={1}>{options.find((o) => o.id === id)?.title ?? id}　×</AppText></Pressable>)}</View><TextInput accessibilityLabel="関連コンテンツを検索" value={search} onChangeText={setSearch} placeholder="名前・IDで検索して追加" style={styles.input} /><ScrollView nestedScrollEnabled style={{ maxHeight: 170 }}>{options.filter((item) => !ids.includes(item.id) && [item.title,item.id].join(' ').toLocaleLowerCase().includes(search.toLocaleLowerCase())).slice(0,20).map((item) => <Pressable key={item.id} accessibilityRole="button" onPress={() => { onChange([...ids,item.id]); setSearch(''); }} style={styles.option}><AppText numberOfLines={1}>＋ {item.title}</AppText></Pressable>)}</ScrollView></View>; }
 function ListField({ label, items, onChange }: { label: string; items: string[]; onChange: (items: string[]) => void }) { return <View style={styles.field}><AppText variant="label">{label}</AppText>{items.map((item,index) => <View key={index} style={styles.actions}><TextInput value={item} onChangeText={(value) => onChange(items.map((x,i) => i === index ? value : x))} multiline style={[styles.input,{ flex: 1 }]} /><CmsButton onPress={() => onChange(items.filter((_,i) => i !== index))}>削除</CmsButton></View>)}<CmsButton onPress={() => onChange([...items,''])}>＋ 追加</CmsButton></View>; }

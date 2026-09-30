@@ -11,14 +11,14 @@
   ],
   "categoryCounts": {
     "psychology": 305,
-    "behavioral-science": 108,
+    "behavioral-science": 109,
     "organization-management": 164,
     "strategy": 81,
-    "classics-thought": 61,
-    "practical-wisdom": 48
+    "practical-wisdom": 48,
+    "classics-thought": 61
   },
   "catalogVersion": "master356",
   "productTechniqueCount": 336,
-  "productTheoryCount": 767,
+  "productTheoryCount": 768,
   "productPersonaCount": 26
 }

@@ -64,16 +64,13 @@ const displayPrefixes = {
   psychology: 'P',
   'behavioral-science': 'B',
   'organization-management': 'O',
-  strategy: 'S',
-  'practical-wisdom': 'W',
+  strategy: 'T',
+  'practical-wisdom': 'A',
   'classics-thought': 'C',
 };
-const categoryCounts = new Map();
 const displayIdByTheoryId = new Map();
 for (const theory of theories) {
-  const next = (categoryCounts.get(theory.categoryId) ?? 0) + 1;
-  categoryCounts.set(theory.categoryId, next);
-  displayIdByTheoryId.set(theory.tagId, `${displayPrefixes[theory.categoryId] ?? '理'}－${next}`);
+  displayIdByTheoryId.set(theory.tagId, `${displayPrefixes[theory.categoryId] ?? '理'}－${String(theory.displayId).padStart(3, '0')}`);
 }
 
 const markdown = [

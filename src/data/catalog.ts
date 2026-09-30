@@ -29,6 +29,21 @@ const techniqueNumberById = new Map<string, number>();
 const theoryDisplayIdByTagId = new Map<string, string>();
 export const theoryCategoryOrder = THEORY_CATEGORIES.map(({ id }) => id) as string[];
 const theoryCategoryLabels = new Map<string, string>(THEORY_CATEGORIES.map(({ id, label }) => [id, label]));
+const theoryDisplayPrefixes: Record<string, string> = {
+  psychology: 'P',
+  'behavioral-science': 'B',
+  'organization-management': 'O',
+  strategy: 'T',
+  'practical-wisdom': 'A',
+  'classics-thought': 'C',
+};
+
+function formatTheoryDisplayId(theory: Pick<TheoryCard, 'categoryId' | 'displayId' | 'draftDisplayId'>, fallbackNumber: number) {
+  const prefix = theoryDisplayPrefixes[theory.categoryId];
+  const number = theory.displayId ?? theory.draftDisplayId ?? fallbackNumber;
+  return prefix ? `${prefix}-${String(number).padStart(3, '0')}` : '—';
+}
+
 export function getTheoryCategoryTitle(id: string) { return theoryCategoryLabels.get(id) ?? id; }
 
 function rebuildIndexes() {
@@ -38,10 +53,10 @@ function rebuildIndexes() {
     category.subcategories.sort(order);
     category.subcategories.forEach((persona) => persona.items.sort(order));
   });
-  theories.sort((a,b) => {
-    if (a.displayId != null && b.displayId != null) return a.displayId - b.displayId;
-    return theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId) || order(a,b) || a.tagId.localeCompare(b.tagId);
-  });
+  theories.sort((a, b) => theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId)
+    || (a.displayId ?? Number.MAX_SAFE_INTEGER) - (b.displayId ?? Number.MAX_SAFE_INTEGER)
+    || order(a, b)
+    || a.tagId.localeCompare(b.tagId));
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.items.map((item) => {
@@ -91,11 +106,11 @@ function rebuildIndexes() {
   theories.forEach((theory) => theoryById.set(theory.tagId, theory));
 
   theoryDisplayIdByTagId.clear();
-  theories.forEach((theory, index) => {
-    const canonicalNumber = theory.displayId != null
-      ? String(theory.displayId)
-      : theory.tagId.match(/^kb_(\d+)$/)?.[1];
-    theoryDisplayIdByTagId.set(theory.tagId, `T-${String(canonicalNumber ?? index + 1).padStart(3, '0')}`);
+  const theoryNumbersByCategory = new Map<string, number>();
+  theories.forEach((theory) => {
+    const fallbackNumber = (theoryNumbersByCategory.get(theory.categoryId) ?? 0) + 1;
+    theoryNumbersByCategory.set(theory.categoryId, theory.displayId ?? fallbackNumber);
+    theoryDisplayIdByTagId.set(theory.tagId, formatTheoryDisplayId(theory, fallbackNumber));
   });
 }
 
@@ -342,7 +357,10 @@ export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
   return number ? `No.${number}` : 'No.—';
 }
 
-export function getTheoryDisplayId(theoryOrId: TheoryCard | string) {
+export function getTheoryDisplayId(theoryOrId: string | Pick<TheoryCard, 'tagId' | 'categoryId' | 'displayId' | 'draftDisplayId'>) {
+  if (typeof theoryOrId !== 'string' && (theoryOrId.displayId != null || theoryOrId.draftDisplayId != null)) {
+    return formatTheoryDisplayId(theoryOrId, theoryOrId.displayId ?? theoryOrId.draftDisplayId ?? 1);
+  }
   const id = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
   return theoryDisplayIdByTagId.get(id) ?? '—';
 }

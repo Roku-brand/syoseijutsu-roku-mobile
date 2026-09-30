@@ -4,8 +4,8 @@ const THEORY_PREFIXES = {
   psychology: 'P',
   'behavioral-science': 'B',
   'organization-management': 'O',
-  strategy: 'S',
-  'practical-wisdom': 'W',
+  strategy: 'T',
+  'practical-wisdom': 'A',
   'classics-thought': 'C',
 };
 
@@ -24,11 +24,11 @@ export function isProductTechnique(item) {
 export function mapTheoryDisplayIds(theories) {
   const counts = new Map();
   return new Map(theories.map((theory) => {
-    const next = (counts.get(theory.categoryId) ?? 0) + 1;
+    const next = theory.displayId ?? (counts.get(theory.categoryId) ?? 0) + 1;
     counts.set(theory.categoryId, next);
     const prefix = THEORY_PREFIXES[theory.categoryId];
     if (!prefix) throw new Error(`Unknown theory category: ${theory.categoryId}`);
-    return [`${prefix}-${next}`, theory];
+    return [`${prefix}-${String(next).padStart(3, '0')}`, theory];
   }));
 }
 
