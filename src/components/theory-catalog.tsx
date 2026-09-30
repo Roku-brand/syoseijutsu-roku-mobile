@@ -22,23 +22,30 @@ export function TheoryFilterBar({ selected, onSelect }: {
   selected: TheoryFilterKey;
   onSelect: (filter: TheoryFilterKey) => void;
 }) {
+  const options = getTheoryFilterOptions();
+  const renderOption = (option: { key: TheoryFilterKey; label: string }) => {
+    const active = selected === option.key;
+    const label = option.label;
+    return <Pressable
+      key={option.key}
+      accessibilityRole="button"
+      accessibilityLabel={`${label}で理論を絞り込む`}
+      accessibilityState={{ selected: active }}
+      aria-selected={active}
+      onPress={() => onSelect(option.key)}
+      style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
+    >
+      <AppText style={[styles.filterText, active && styles.filterTextActive]}>{label}</AppText>
+    </Pressable>;
+  };
+
   return (
     <View testID="theory-category-filters" style={styles.filterGrid}>
-      {getTheoryFilterOptions().map((option) => {
-        const active = selected === option.key;
-        const label = option.label;
-        return <Pressable
-          key={option.key}
-          accessibilityRole="button"
-          accessibilityLabel={`${label}で理論を絞り込む`}
-          accessibilityState={{ selected: active }}
-          aria-selected={active}
-          onPress={() => onSelect(option.key)}
-          style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
-        >
-          <AppText style={[styles.filterText, active && styles.filterTextActive]}>{label}</AppText>
-        </Pressable>;
-      })}
+      <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
+      <View style={styles.filterRow}>
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.filterSpacer} />
+        {options.slice(4).map(renderOption)}
+      </View>
     </View>
   );
 }
@@ -70,8 +77,10 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
-  filterButton: { width: '22.8%', minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
+  filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
+  filterSpacer: { flex: 1, minWidth: 0 },
+  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 0.3, textAlign: 'center' },
   filterTextActive: { color: colors.surface },

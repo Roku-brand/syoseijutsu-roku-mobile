@@ -318,7 +318,8 @@
         "horn effect",
         "devil effect"
       ],
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 243
     },
     {
       "tagId": "kb_389",
@@ -341,7 +342,8 @@
         ],
         "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 279
     },
     {
       "tagId": "kb_402",
@@ -369,7 +371,8 @@
         "kb_771",
         "kb_773",
         "kb_845"
-      ]
+      ],
+      "displayId": 75
     },
     {
       "tagId": "kb_014",
@@ -392,7 +395,8 @@
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 276
     },
     {
       "tagId": "kb_391",
@@ -415,7 +419,8 @@
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 46
     },
     {
       "tagId": "kb_007",
@@ -438,7 +443,8 @@
         ],
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 92
     },
     {
       "tagId": "kb_008",
@@ -461,7 +467,8 @@
         ],
         "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 111
     },
     {
       "tagId": "kb_623",
@@ -484,7 +491,8 @@
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 37
     },
     {
       "tagId": "kb_025",
@@ -507,7 +515,8 @@
         ],
         "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 262
     },
     {
       "tagId": "kb_001",
@@ -532,7 +541,8 @@
       },
       "relatedTheoryIds": [
         "kb_739"
-      ]
+      ],
+      "displayId": 146
     },
     {
       "tagId": "kb_002",
@@ -557,7 +567,8 @@
       },
       "relatedTheoryIds": [
         "kb_739"
-      ]
+      ],
+      "displayId": 150
     },
     {
       "tagId": "kb_029",
@@ -580,7 +591,8 @@
         ],
         "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 247
     },
     {
       "tagId": "kb_047",
@@ -603,7 +615,8 @@
         ],
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 268
     },
     {
       "tagId": "kb_004",
@@ -629,7 +642,8 @@
       "relatedTheoryIds": [
         "kb_718",
         "kb_821"
-      ]
+      ],
+      "displayId": 195
     },
     {
       "tagId": "kb_019",
@@ -652,7 +666,8 @@
         ],
         "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 267
     },
     {
       "tagId": "kb_093",
@@ -660,7 +675,8 @@
       "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 212
     },
     {
       "tagId": "kb_190",
@@ -686,7 +702,8 @@
       "relatedTheoryIds": [
         "kb_710",
         "kb_810"
-      ]
+      ],
+      "displayId": 27
     },
     {
       "tagId": "kb_324",
@@ -694,7 +711,8 @@
       "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 23
     },
     {
       "tagId": "kb_627",
@@ -717,7 +735,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 34
     },
     {
       "tagId": "kb_706",
@@ -748,7 +767,8 @@
         "kb_710",
         "kb_723",
         "kb_263"
-      ]
+      ],
+      "displayId": 193
     },
     {
       "tagId": "kb_625",
@@ -771,7 +791,8 @@
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 56
     },
     {
       "tagId": "kb_543",
@@ -779,15 +800,17 @@
       "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 75
     },
     {
       "tagId": "kb_330",
-      "title": "まず完成させてから改善する",
+      "title": "「形にして初めて、直す場所が見える」",
       "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 14
     },
     {
       "tagId": "kb_599",
@@ -802,7 +825,8 @@
           "Performing a Project Premortem (2007)"
         ]
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 66
     },
     {
       "tagId": "kb_762",
@@ -826,7 +850,8 @@
       "relatedTheoryIds": [
         "kb_538",
         "kb_123"
-      ]
+      ],
+      "displayId": 150
     },
     {
       "tagId": "kb_738",
@@ -850,7 +875,8 @@
       "relatedTheoryIds": [
         "kb_200",
         "kb_199"
-      ]
+      ],
+      "displayId": 9
     },
     {
       "tagId": "kb_545",
@@ -858,7 +884,8 @@
       "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 59
     },
     {
       "tagId": "kb_329",
@@ -866,7 +893,8 @@
       "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 15
     },
     {
       "tagId": "kb_051",
@@ -874,7 +902,8 @@
       "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 11
     },
     {
       "tagId": "kb_102",
@@ -882,7 +911,8 @@
       "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 20
     },
     {
       "tagId": "kb_111",
@@ -890,7 +920,8 @@
       "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
       "categoryId": "organization-management",
       "categoryTitle": "組織・経営論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 7
     },
     {
       "tagId": "kb_632",
@@ -898,7 +929,8 @@
       "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 58
     },
     {
       "tagId": "kb_192",
@@ -906,7 +938,8 @@
       "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
       "categoryId": "organization-management",
       "categoryTitle": "組織・経営論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 124
     },
     {
       "tagId": "kb_175",
@@ -934,7 +967,8 @@
         "kb_753",
         "kb_761",
         "kb_840"
-      ]
+      ],
+      "displayId": 30
     },
     {
       "tagId": "kb_326",
@@ -949,7 +983,8 @@
           "広く知られる言葉"
         ]
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 50
     },
     {
       "tagId": "kb_620",
@@ -972,15 +1007,17 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 39
     },
     {
       "tagId": "kb_645",
-      "title": "結果より今日の行動に集中する",
+      "title": "「結果を案じるより、今日の一歩を整える」",
       "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 21
     },
     {
       "tagId": "kb_177",
@@ -1005,7 +1042,8 @@
       },
       "relatedTheoryIds": [
         "kb_842"
-      ]
+      ],
+      "displayId": 81
     },
     {
       "tagId": "kb_179",
@@ -1013,7 +1051,8 @@
       "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 84
     },
     {
       "tagId": "kb_619",
@@ -1036,7 +1075,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 52
     },
     {
       "tagId": "kb_736",
@@ -1062,7 +1102,8 @@
       "relatedTheoryIds": [
         "kb_737",
         "kb_520"
-      ]
+      ],
+      "displayId": 263
     },
     {
       "tagId": "kb_629",
@@ -1085,15 +1126,17 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 55
     },
     {
       "tagId": "kb_669",
-      "title": "成功の裏にある試行錯誤を見る",
+      "title": "「成果の陰にある試行も、成功の一部と見る」",
       "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 33
     },
     {
       "tagId": "kb_618",
@@ -1116,7 +1159,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 44
     },
     {
       "tagId": "kb_268",
@@ -1139,7 +1183,8 @@
         ],
         "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 31
     },
     {
       "tagId": "kb_612",
@@ -1162,7 +1207,8 @@
         ],
         "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 36
     },
     {
       "tagId": "kb_604",
@@ -1185,7 +1231,8 @@
         ],
         "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 29
     },
     {
       "tagId": "kb_567",
@@ -1208,7 +1255,8 @@
         ],
         "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 68
     },
     {
       "tagId": "kb_282",
@@ -1216,7 +1264,8 @@
       "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 53
     },
     {
       "tagId": "kb_296",
@@ -1224,7 +1273,8 @@
       "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 49
     },
     {
       "tagId": "kb_266",
@@ -1247,15 +1297,17 @@
         ],
         "note": "社会的比較の理論を示した原典。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 133
     },
     {
       "tagId": "kb_634",
-      "title": "自分の価値観で時間を使う",
+      "title": "「時間の使い方に、自分の価値観を映す」",
       "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 25
     },
     {
       "tagId": "kb_315",
@@ -1270,15 +1322,17 @@
           "蘇秦列伝"
         ]
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 19
     },
     {
       "tagId": "kb_654",
-      "title": "自分ならではの価値観を守る",
+      "title": "「自分らしさを、周囲の型に押し込まない」",
       "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 30
     },
     {
       "tagId": "kb_617",
@@ -1301,7 +1355,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 30
     },
     {
       "tagId": "kb_724",
@@ -1336,7 +1391,8 @@
         "kb_726",
         "kb_129",
         "kb_817"
-      ]
+      ],
+      "displayId": 250
     },
     {
       "tagId": "kb_626",
@@ -1359,7 +1415,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 45
     },
     {
       "tagId": "kb_092",
@@ -1367,7 +1424,8 @@
       "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 68
     }
   ],
   "techniqueTheoryMap": {

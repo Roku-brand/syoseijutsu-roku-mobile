@@ -20,6 +20,10 @@ declare
   draft_two public.techniques;
   created_theory public.theories;
   existing_theory public.theories;
+  draft_theory_one public.theories;
+  draft_theory_two public.theories;
+  saved_theory_draft public.theories;
+  first_theory_category text;
   destination_theory_category text;
   original_technique_category_title text;
   original_theory_category_title text;
@@ -133,41 +137,68 @@ begin
   end if;
   perform public.save_content_category('theory','psychology',original_theory_category_title);
 
-  -- Theory display IDs stay globally dense through both directions, insertion,
-  -- removal and category movement; internal relation keys stay unchanged.
-  select array(select id from public.theories where status='published' order by display_id limit 10) into original_display_ids;
-  if cardinality(original_display_ids)<>10 then raise exception 'theory_fixture_requires_ten_rows'; end if;
-  perform public.move_theory_display_id(original_display_ids[10],3,'published',null);
-  select array(select id from public.theories where status='published' order by display_id limit 10) into display_ids;
+  -- Published theory order is dense within each category. Matching numbers
+  -- across two categories are valid and the stable relation IDs do not change.
+  select category_id into first_theory_category from public.theories
+    where status='published' group by category_id having count(*)>=10 order by category_id limit 1;
+  if first_theory_category is null then raise exception 'theory_fixture_requires_ten_rows'; end if;
+  select array(select id from public.theories where status='published' and category_id=first_theory_category order by display_id limit 10) into original_display_ids;
+  perform public.move_theory_display_id(original_display_ids[10],3,'published',first_theory_category);
+  select array(select id from public.theories where status='published' and category_id=first_theory_category order by display_id limit 10) into display_ids;
   expected_ids:=array[original_display_ids[1],original_display_ids[2],original_display_ids[10],original_display_ids[3],original_display_ids[4],original_display_ids[5],original_display_ids[6],original_display_ids[7],original_display_ids[8],original_display_ids[9]];
-  if display_ids is distinct from expected_ids then raise exception 'theory_move_10_to_3_failed'; end if;
-  perform public.move_theory_display_id(original_display_ids[10],10,'published',null);
-  perform public.move_theory_display_id(original_display_ids[3],10,'published',null);
-  perform public.move_theory_display_id(original_display_ids[3],3,'published',null);
-  select array(select id from public.theories where status='published' order by display_id limit 10) into display_ids;
-  if display_ids is distinct from original_display_ids then raise exception 'theory_restore_failed'; end if;
+  if display_ids is distinct from expected_ids then raise exception 'theory_category_move_10_to_3_failed'; end if;
+  perform public.move_theory_display_id(original_display_ids[10],10,'published',first_theory_category);
+  perform public.move_theory_display_id(original_display_ids[3],10,'published',first_theory_category);
+  perform public.move_theory_display_id(original_display_ids[3],3,'published',first_theory_category);
+  select array(select id from public.theories where status='published' and category_id=first_theory_category order by display_id limit 10) into display_ids;
+  if display_ids is distinct from original_display_ids then raise exception 'theory_category_restore_failed'; end if;
+  if not exists(select 1 from public.theories where category_id='psychology' and status='published' and display_id=1)
+    or not exists(select 1 from public.theories where category_id='behavioral-science' and status='published' and display_id=1) then
+    raise exception 'category_local_ids_cannot_repeat';
+  end if;
 
   select * into created_theory from public.create_theory_draft('psychology');
-  select * into created_theory from public.publish_theory(created_theory.id,
+  select * into saved_theory_draft from public.save_theory_draft(created_theory.id,
+    jsonb_build_object('title','CMS順序テスト理論','summary','テスト用の概要です。','category_id','psychology','display_id',4,'aliases','[]'::jsonb,'related_theory_ids','[]'::jsonb));
+  select * into created_theory from public.publish_theory(saved_theory_draft.id,
     jsonb_build_object('title','CMS順序テスト理論','summary','テスト用の概要です。','category_id','psychology','display_id',4,'aliases','[]'::jsonb,'related_theory_ids','[]'::jsonb));
   if created_theory.display_id<>4 then raise exception 'theory_insert_at_four_failed'; end if;
   perform public.archive_theory(created_theory.id);
   if not exists(select 1 from public.theories where id=created_theory.id and status='archived') then raise exception 'theory_delete_failed'; end if;
   select count(*),min(display_id),max(display_id),count(distinct display_id)
-    into total_count,min_order,max_order,unique_count from public.theories where status='published';
-  if min_order<>1 or max_order<>total_count or unique_count<>total_count then raise exception 'theory_archive_left_gap'; end if;
+    into total_count,min_order,max_order,unique_count from public.theories where status='published' and category_id='psychology';
+  if min_order<>1 or max_order<>total_count or unique_count<>total_count then raise exception 'theory_archive_left_category_gap'; end if;
 
-  select * into existing_theory from public.theories where status='published' order by display_id limit 1;
-  select id into destination_theory_category from public.content_categories
-    where kind='theory' and id<>existing_theory.category_id order by display_order limit 1;
+  -- Draft positions are category-local; move a draft between categories,
+  -- publish it, and archive it while the other category keeps rank one.
+  select * into draft_theory_one from public.create_theory_draft('psychology');
+  select * into draft_theory_two from public.create_theory_draft('behavioral-science');
+  if draft_theory_one.draft_display_id<>1 or draft_theory_two.draft_display_id<>1 then raise exception 'draft_ids_not_category_local'; end if;
+  select * into saved_theory_draft from public.save_theory_draft(draft_theory_one.id,
+    jsonb_build_object('title','CMS下書き移動テスト','summary','カテゴリ別下書き順序のテストです。','category_id','behavioral-science','display_id',2,'aliases','[]'::jsonb,'related_theory_ids','[]'::jsonb));
+  if saved_theory_draft.category_id<>'behavioral-science' or saved_theory_draft.draft_display_id<>2 then raise exception 'draft_cross_category_move_failed'; end if;
+  if not exists(select 1 from public.theories where id=draft_theory_two.id and status='draft' and category_id='behavioral-science' and draft_display_id=1) then
+    raise exception 'existing_destination_draft_order_changed';
+  end if;
+  select * into created_theory from public.publish_theory(saved_theory_draft.id,
+    jsonb_build_object('title','CMS下書き移動テスト','summary','カテゴリ別下書き順序のテストです。','category_id','behavioral-science','display_id',4,'aliases','[]'::jsonb,'related_theory_ids','[]'::jsonb));
+  if created_theory.status<>'published' or created_theory.category_id<>'behavioral-science' or created_theory.display_id<>4 then raise exception 'draft_category_publish_failed'; end if;
+  perform public.archive_theory(created_theory.id);
+  perform public.archive_theory(draft_theory_two.id);
+
+  select * into existing_theory from public.theories where category_id='psychology' and status='published' order by display_id limit 1;
+  select id into destination_theory_category from public.content_categories where kind='theory' and id='behavioral-science';
   perform public.publish_theory(existing_theory.id,jsonb_build_object(
     'title',existing_theory.title,'summary',existing_theory.summary,'category_id',destination_theory_category,
     'aliases',existing_theory.aliases,'related_theory_ids',existing_theory.related_theory_ids,
     'provenance',existing_theory.provenance,'display_id',existing_theory.display_id,
     'image_path',existing_theory.image_path,'access_tier',existing_theory.access_tier));
-  if not exists(select 1 from public.theories where id=existing_theory.id and category_id=destination_theory_category and display_id=existing_theory.display_id) then
+  if not exists(select 1 from public.theories where id=existing_theory.id and category_id=destination_theory_category and display_id=1) then
     raise exception 'theory_category_move_changed_internal_id_or_display_id';
   end if;
+  select count(*),min(display_id),max(display_id),count(distinct display_id)
+    into total_count,min_order,max_order,unique_count from public.theories where status='published' and category_id='psychology';
+  if min_order<>1 or max_order<>total_count or unique_count<>total_count then raise exception 'theory_source_category_move_left_gap'; end if;
   perform public.publish_theory(existing_theory.id,jsonb_build_object(
     'title',existing_theory.title,'summary',existing_theory.summary,'category_id',existing_theory.category_id,
     'aliases',existing_theory.aliases,'related_theory_ids',existing_theory.related_theory_ids,

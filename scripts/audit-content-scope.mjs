@@ -40,7 +40,7 @@ for (const category of techniques.categories) for (const persona of category.sub
 const displayMap = mapTheoryDisplayIds(theories);
 const selectedDisplayIds = scope.freeTheoryDisplayIds.filter((id) => freeTheoryIds.has(displayMap.get(id)?.tagId));
 if (selectedDisplayIds.length !== scope.free.theories) throw new Error(`Expected ${scope.free.theories} free theories; found ${selectedDisplayIds.length}.`);
-const expectedTheoryCategoryCounts = { P: 45, B: 25, O: 20, S: 15, W: 10, C: 35 };
+const expectedTheoryCategoryCounts = { P: 45, B: 26, O: 20, T: 15, A: 10, C: 35 };
 for (const [prefix, expected] of Object.entries(expectedTheoryCategoryCounts)) {
   const actual = selectedDisplayIds.filter((id) => id.startsWith(`${prefix}-`)).length;
   if (actual !== expected) throw new Error(`Free theory portfolio ${prefix} count is ${actual}; expected ${expected}.`);
@@ -53,7 +53,7 @@ const publicTechniqueIds = new Set(publicTechniqueItems.filter((item) => item.st
 const publicTheoryIds = new Set(publicTheories.filter((item) => item.status !== 'locked' && item.summary).map((item) => item.tagId));
 if (publicTechniqueItems.length !== scope.complete.techniques) throw new Error(`Public runtime has ${publicTechniqueItems.length} technique shells; expected ${scope.complete.techniques}.`);
 if (publicTechniqueIds.size !== scope.free.techniques || [...freeTechniqueIds].some((id) => !publicTechniqueIds.has(id))) throw new Error(`Generated public techniques do not match the selected ${scope.free.techniques}.`);
-if (publicTheories.length !== scope.complete.theories || publicTheoryIds.size !== scope.free.theories || [...freeTheoryIds].some((id) => !publicTheoryIds.has(id))) throw new Error('Generated public theories do not match the selected 150.');
+if (publicTheories.length !== scope.complete.theories || publicTheoryIds.size !== scope.free.theories || [...freeTheoryIds].some((id) => !publicTheoryIds.has(id))) throw new Error(`Generated public theories do not match the selected ${scope.free.theories}.`);
 if (scope.excludedTechniqueIds.some((id) => publicTechniqueItems.some((item) => item.id === id))) throw new Error('A source-only technique leaked into the active product catalogue.');
 if (metadata.productTechniqueCount !== scope.complete.techniques || metadata.productTheoryCount !== scope.complete.theories) throw new Error('Product scope metadata is stale.');
 

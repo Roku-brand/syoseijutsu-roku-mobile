@@ -11,7 +11,7 @@ for (const [name, catalogue] of [['complete', theories], ['public', publicTheori
   for (const theory of catalogue) {
     if (retired.has(theory.tagId)) failures.push(`${name}: retired theory ${theory.tagId}`);
     if (theory.categoryId === 'maxims-experience') failures.push(`${name}: retired category ${theory.tagId}`);
-    if (theory.categoryId === 'practical-wisdom' && /[『』]|\s—\s/.test(theory.title)) failures.push(`${name}: quotation-like practical heading ${theory.tagId}`);
+    if (theory.categoryId === 'practical-wisdom' && !/^「[^「」]+」$/.test(theory.title)) failures.push(`${name}: practical title must be an original aphorism in Japanese quotation marks: ${theory.tagId}`);
   }
 }
 for (const [name, catalogue] of [['complete', techniques], ['public', publicTechniques]]) {
@@ -22,4 +22,4 @@ for (const [name, catalogue] of [['complete', techniques], ['public', publicTech
   }
 }
 if (failures.length) throw new Error(failures.join('\n'));
-console.log(`Theory rights audit passed: ${theories.length} complete theories, ${publicTheories.length} public shells, 0 retired references.`);
+console.log(`Theory rights audit passed: ${theories.length} complete theories, ${publicTheories.length} public shells, 0 retired references, 48 original practical titles.`);

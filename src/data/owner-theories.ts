@@ -8,7 +8,7 @@ export async function fetchOwnerTheories() {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const rows: Record<string, unknown>[] = [];
   for (let offset = 0; ; offset += 1000) {
-    const { data, error } = await supabase.from('theories').select('*').order('display_id').order('id').range(offset, offset + 999);
+    const { data, error } = await supabase.from('theories').select('*').order('category_id').order('display_id').order('id').range(offset, offset + 999);
     if (error) throw error;
     rows.push(...(data ?? []) as Record<string, unknown>[]);
     if ((data ?? []).length < 1000) break;
@@ -34,7 +34,7 @@ export async function seedOwnerTheoriesIfEmpty() {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const { data: existing, error } = await supabase.from('theories').select('id').limit(1);
   if (error) throw error; if (existing?.length) return;
-  const rows = bundledTheories.map((theory, index) => ({ provenance: theory.provenance ?? null, id: theory.tagId, title: theory.title, summary: theory.summary, category_id: theory.categoryId, category_title: theory.categoryTitle, aliases: theory.aliases ?? [], related_theory_ids: theory.relatedTheoryIds ?? [], display_id: index + 1, display_order: index + 1, status: 'published' }));
+  const rows = bundledTheories.map((theory) => ({ provenance: theory.provenance ?? null, id: theory.tagId, title: theory.title, summary: theory.summary, category_id: theory.categoryId, category_title: theory.categoryTitle, aliases: theory.aliases ?? [], related_theory_ids: theory.relatedTheoryIds ?? [], display_id: theory.displayId ?? theory.displayOrder ?? 1, display_order: theory.displayId ?? theory.displayOrder ?? 1, status: 'published' }));
   for (let i = 0; i < rows.length; i += 100) { const { error: insertError } = await supabase.from('theories').insert(rows.slice(i, i + 100)); if (insertError) throw insertError; }
 }
 export function applyTheory(theory: Omit<TheoryCard, 'status'>) { hydratePaidTheories([{ ...theory, status: 'published' }]); }

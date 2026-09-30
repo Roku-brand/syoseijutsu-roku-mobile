@@ -11,22 +11,17 @@ const primary = await load('src/data/generated/primary-theory-links.json');
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
 const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
 
-const supportPath = path.join(root, 'scripts/master336-wisdom-support-links.mjs');
-const supportText = await fs.readFile(supportPath, 'utf8');
-await fs.writeFile(supportPath, supportText.replace(/^  kb_(?:67[5-9]|68\d|69\d|700):.*\r?\n/gm, ''));
-
-const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'practical-wisdom': 'W', 'classics-thought': 'C' };
-const counts = {};
+const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'T', 'practical-wisdom': 'A', 'classics-thought': 'C' };
+const counts = Object.fromEntries([...new Set(theories.map((theory) => theory.categoryId))].map((id) => [id, theories.filter((theory) => theory.categoryId === id).length]));
 const displayById = new Map();
 for (const theory of theories) {
-  counts[theory.categoryId] = (counts[theory.categoryId] ?? 0) + 1;
-  displayById.set(theory.tagId, `${prefixes[theory.categoryId]}－${counts[theory.categoryId]}`);
+  displayById.set(theory.tagId, `${prefixes[theory.categoryId]}－${String(theory.displayId).padStart(3, '0')}`);
 }
 let md = '# master336 処世術→理論 紐づけ（網羅版・二段構成）\n\n';
 md += '> 現在公開する理論に合わせて更新。主要理論とあわせて読む理論は、それぞれ理解の入口と補足の視点です。\n\n';
 for (const card of cards.filter((item) => /^master336-(?:00[1-9]|0[1-9]\d|[12]\d{2}|3[0-2]\d|33[0-6])$/.test(item.id))) {
   const allMajor = primary[card.id] ?? [];
-  const visible = (id) => Number(id.match(/\d+/)?.[0] ?? 0) <= 705;
+  const visible = (id) => theoryById.has(id);
   const major = allMajor.filter(visible);
   const supplementary = card.relatedTheoryIds.filter((id) => !allMajor.includes(id) && visible(id));
   const line = (id) => {
@@ -38,7 +33,10 @@ for (const card of cards.filter((item) => /^master336-(?:00[1-9]|0[1-9]\d|[12]\d
   md += `### あわせて読む理論\n\n${supplementary.map(line).join('\n') || '- なし'}\n\n`;
   md += `合計：${major.length + supplementary.length}件（主要${major.length}件・あわせて読む${supplementary.length}件）。\n\n`;
 }
-await fs.writeFile(path.join(root, 'master336_theory_links_final.md'), md);
+for (const relativePath of [
+  'master336_theory_links_final.md',
+  'docs/shoseijutsuroku_theory_mapping_master336_final.md',
+]) await fs.writeFile(path.join(root, relativePath), md);
 
 const auditPath = 'docs/theory-link-audit/content-review-summary.json';
 const audit = await load(auditPath);
@@ -78,7 +76,7 @@ Object.assign(audit, {
   primaryDistribution,
   supplementaryDistribution,
   categoryCoverage,
-  generatedAt: '2026-09-27',
+  generatedAt: '2026-09-30',
 });
 audit.wisdomSupportLinks = categoryCoverage['practical-wisdom'].links + categoryCoverage['classics-thought'].links;
 await save(auditPath, audit);

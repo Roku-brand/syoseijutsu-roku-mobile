@@ -163,7 +163,7 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   const title = page.getByTestId('theory-title');
   await expect(meta).toBeVisible();
   await expect(title).toBeVisible();
-  await expect(meta).toContainText('T-001');
+  await expect(meta).toContainText('P-146');
   await expect(title).not.toContainText('…');
 });
 
@@ -437,7 +437,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
 
   await page.goto('/theories');
   await expect(page.getByRole('heading', { name: '理論一覧' })).toBeVisible();
-  await expect(page.getByText('767件', { exact: true })).toBeVisible();
+  await expect(page.getByText('768件', { exact: true })).toBeVisible();
   const labels = await page.getByTestId('theory-category-filters').getByRole('button').allTextContents();
   expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想']);
   const filters = page.getByTestId('theory-category-filters').getByRole('button');
@@ -446,6 +446,8 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   expect(new Set(boxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(new Set(boxes.slice(4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(boxes[4]!.y).toBeGreaterThan(boxes[0]!.y);
+  expect(boxes[4]!.x).toBeGreaterThan(boxes[0]!.x + 100);
+  expect(Math.abs((boxes[6]!.x + boxes[6]!.width) - (boxes[3]!.x + boxes[3]!.width))).toBeLessThan(2);
   expect(boxes.every((box) => Math.abs(box!.height - 48) <= 1)).toBe(true);
   await expect(page.getByRole('textbox')).toHaveCount(0);
 
@@ -554,7 +556,7 @@ test('PCの購入画面は初期表示で購入条件まで確認できる', asy
   await expect(purchaseButton).toBeVisible();
   await expect(page.getByText('独自の処世術集')).toBeVisible();
   await expect(page.getByText('通常価格', { exact: true })).toBeVisible();
-  await expect(page.getByText(/理論\s*150件/)).toBeVisible();
+  await expect(page.getByText(/理論\s*151件/)).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
@@ -661,6 +663,17 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   expect(Math.abs(first!.width - second!.width)).toBeLessThan(2);
   expect(Math.abs(first!.x - second!.x)).toBeLessThan(2);
   expect(second!.y).toBeGreaterThan(first!.y + first!.height - 2);
+  const firstRowStyle = await page.getByTestId('theory-index-row-card').first().evaluate((element) => {
+    const computed = getComputedStyle(element);
+    return {
+      borderStyle: computed.borderTopStyle,
+      borderWidth: computed.borderTopWidth,
+      borderRadius: Number.parseFloat(computed.borderTopLeftRadius),
+    };
+  });
+  expect(firstRowStyle.borderStyle).toBe('solid');
+  expect(firstRowStyle.borderWidth).toBe('1px');
+  expect(firstRowStyle.borderRadius).toBeGreaterThan(0);
 });
 
 test('詳細ページの階層リンクは探す配下の統合一覧へ戻る', async ({ page }) => {
@@ -705,7 +718,7 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
   await page.goto('/theories');
   await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
   await expect(page.getByRole('button', { name: '行動科学で理論を絞り込む' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('108件', { exact: true })).toBeVisible();
+  await expect(page.getByText('109件', { exact: true })).toBeVisible();
   const viewportInfo = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 });
@@ -791,7 +804,7 @@ test('今日の一枚は指定された処世術と説明を表示する', async
 test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('767件', { exact: true })).toBeVisible();
+  await expect(page.getByText('768件', { exact: true })).toBeVisible();
   await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);

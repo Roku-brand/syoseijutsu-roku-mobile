@@ -199,7 +199,7 @@ function parseTheorySource(filePath) {
       categoryTitle = category[1].trim();
       continue;
     }
-    const theory = line.match(/^[-*]\s+([PBOQCS])－(\d+)｜(.+)$/);
+    const theory = line.match(/^[-*]\s+([PBOTAC])－(\d+)｜(.+)$/);
     if (theory) rows.push({ prefix: theory[1], number: Number(theory[2]), title: theory[3].trim(), categoryTitle });
   }
   if (rows.length !== 630) throw new Error(`Theory source must contain 630 cards; found ${rows.length}.`);
@@ -352,13 +352,10 @@ for (const [cardId, links] of initialLinks) {
   card.relatedTheoryIds = unique;
 }
 
-const displayPrefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'practical-wisdom': 'W', 'classics-thought': 'C' };
 const displayIdByTheoryId = new Map();
-const categoryCounts = new Map();
 for (const theory of theories) {
-  const next = (categoryCounts.get(theory.categoryId) ?? 0) + 1;
-  categoryCounts.set(theory.categoryId, next);
-  displayIdByTheoryId.set(theory.tagId, `${displayPrefix[theory.categoryId] ?? '理'}－${next}`);
+  const prefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'T', 'practical-wisdom': 'A', 'classics-thought': 'C' }[theory.categoryId] ?? '理';
+  displayIdByTheoryId.set(theory.tagId, `${prefix}－${String(theory.displayId).padStart(3, '0')}`);
 }
 
 const edgeRows = cards.flatMap((card) => card.relatedTheoryIds.map((theoryId) => ({ card, theory: theoryById.get(theoryId) })));
