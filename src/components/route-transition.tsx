@@ -5,7 +5,7 @@ import { colors } from '@/constants/theme';
 import { motion } from '@/constants/motion';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 
-const tabPaths = new Set(['/', '/discover', '/learn', '/my-os']);
+const tabPaths = ['/', '/discover', '/learn', '/my-os'] as const;
 type RouteState = { type?: string; index?: number; routes: readonly { state?: RouteState }[] };
 
 function stackDepth(state: RouteState | undefined): number {
@@ -39,15 +39,21 @@ export function RouteTransition({ children, disabled = false }: PropsWithChildre
       const element = viewport.current as unknown as HTMLElement | null;
       if (!element?.animate) return;
 
-      const tabs = tabPaths.has(before.path) && tabPaths.has(pathname);
+      const previousTab = tabPaths.indexOf(before.path as (typeof tabPaths)[number]);
+      const nextTab = tabPaths.indexOf(pathname as (typeof tabPaths)[number]);
+      const tabs = previousTab >= 0 && nextTab >= 0;
       const returning = depth < before.depth;
       const purchase = pathname === '/upgrade' || (before.path === '/upgrade' && returning);
       const transform = tabs
-        ? `translateY(${motion.tabDistance}px)`
+        ? `translateX(${nextTab > previousTab ? motion.tabDistance : -motion.tabDistance}px)`
         : purchase
           ? `translateY(${returning ? -motion.purchaseDistance : motion.purchaseDistance}px)`
           : `translateX(${returning ? -motion.detailDistance : motion.detailDistance}px)`;
-      animation = element.animate([
+      animation = element.animate(tabs ? [
+        { opacity: 0.42, transform },
+        { opacity: 0.88, transform: 'translateX(2px)', offset: 0.72 },
+        { opacity: 1, transform: 'translateX(0)' },
+      ] : [
         { opacity: 0.35, transform },
         { opacity: 1, transform: 'translate(0, 0)' },
       ], { duration: tabs ? motion.tabDuration : motion.detailDuration, easing: motion.easing });

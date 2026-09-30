@@ -6,6 +6,7 @@ import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, Theo
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
 import { isLockedTheoryShell } from './theory-display';
+import { THEORY_CATEGORIES } from './theory-categories';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
@@ -26,8 +27,43 @@ const techniqueCardsByTheoryId = new Map<string, TechniqueCard[]>();
 
 const techniqueNumberById = new Map<string, number>();
 const theoryDisplayIdByTagId = new Map<string, string>();
+export const theoryCategoryOrder = THEORY_CATEGORIES.map(({ id }) => id) as string[];
+const theoryCategoryLabels = new Map<string, string>(THEORY_CATEGORIES.map(({ id, label }) => [id, label]));
+const theoryDisplayPrefixes: Record<string, string> = {
+  psychology: 'P',
+  'behavioral-science': 'B',
+  'organization-management': 'O',
+  strategy: 'T',
+  'practical-wisdom': 'A',
+  'classics-thought': 'C',
+};
+
+function theoryDisplayPrefix(categoryId: string) {
+  const knownPrefix = theoryDisplayPrefixes[categoryId];
+  if (knownPrefix) return knownPrefix;
+  const categoryToken = categoryId.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 4) || 'CUSTOM';
+  return `X${categoryToken}`;
+}
+
+function formatTheoryDisplayId(theory: Pick<TheoryCard, 'categoryId' | 'displayId' | 'draftDisplayId'>, fallbackNumber: number) {
+  const prefix = theoryDisplayPrefix(theory.categoryId);
+  const number = theory.displayId ?? theory.draftDisplayId ?? fallbackNumber;
+  return `${prefix}-${String(number).padStart(3, '0')}`;
+}
+
+export function getTheoryCategoryTitle(id: string) { return theoryCategoryLabels.get(id) ?? id; }
 
 function rebuildIndexes() {
+  const order = (left: { displayOrder?: number | null }, right: { displayOrder?: number | null }) =>
+    (left.displayOrder ?? Number.MAX_SAFE_INTEGER) - (right.displayOrder ?? Number.MAX_SAFE_INTEGER);
+  categories.forEach((category) => {
+    category.subcategories.sort(order);
+    category.subcategories.forEach((persona) => persona.items.sort(order));
+  });
+  theories.sort((a, b) => theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId)
+    || (a.displayId ?? Number.MAX_SAFE_INTEGER) - (b.displayId ?? Number.MAX_SAFE_INTEGER)
+    || order(a, b)
+    || a.tagId.localeCompare(b.tagId));
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
     category.subcategories.flatMap((subcategory) =>
       subcategory.items.map((item) => {
@@ -51,7 +87,7 @@ function rebuildIndexes() {
           // owner-side removal never leaves a stale primary relation visible.
           primaryTheoryIds: configuredPrimaryIds.filter((id) => theoryTagIds.includes(id)),
           categoryKey: category.key,
-          tags: getTechniqueTags(context),
+          tags: context.tags ?? getTechniqueTags(context),
         };
       }),
     ),
@@ -76,16 +112,12 @@ function rebuildIndexes() {
   theoryById.clear();
   theories.forEach((theory) => theoryById.set(theory.tagId, theory));
 
-  const prefixes: Record<string, string> = {
-    psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O',
-    strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q',
-  };
-  const counts = new Map<string, number>();
   theoryDisplayIdByTagId.clear();
+  const theoryNumbersByCategory = new Map<string, number>();
   theories.forEach((theory) => {
-    const next = (counts.get(theory.categoryId) ?? 0) + 1;
-    counts.set(theory.categoryId, next);
-    theoryDisplayIdByTagId.set(theory.tagId, `${prefixes[theory.categoryId] ?? '理'}－${next}`);
+    const fallbackNumber = (theoryNumbersByCategory.get(theory.categoryId) ?? 0) + 1;
+    theoryNumbersByCategory.set(theory.categoryId, theory.displayId ?? fallbackNumber);
+    theoryDisplayIdByTagId.set(theory.tagId, formatTheoryDisplayId(theory, fallbackNumber));
   });
 }
 
@@ -116,6 +148,13 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
   for (const item of techniques) {
     placeManagedTechnique(item);
   }
+  hydratePaidTheories(paidTheories);
+}
+
+/** Add complete-edition rows without discarding canonical free rows that were
+ * already loaded from the published tables. */
+export function overlayPaidCatalog(techniques: PaidTechniquePayload[], paidTheories: TheoryCard[]) {
+  for (const item of techniques) placeManagedTechnique(item);
   hydratePaidTheories(paidTheories);
 }
 
@@ -185,12 +224,63 @@ export function resetCatalog() {
   rebuildIndexes();
 }
 
+/** Reconcile successful public reads, including empty lists and empty personas. */
+export function reconcilePublishedStructure(
+  techniqueIds: string[],
+  personaRows?: { name: string; category: CategoryKey; display_order?: number }[],
+  theoryIds?: string[],
+) {
+  const currentIds = new Set(techniqueIds);
+  for (const category of categories) {
+    for (const persona of category.subcategories) persona.items = persona.items.filter((item) => currentIds.has(item.id));
+    if (personaRows) {
+      category.subcategories = category.subcategories.filter((persona) => personaRows.some((row) => row.name === persona.name && row.category === category.key));
+      for (const row of personaRows.filter((row) => row.category === category.key)) {
+        const existing = category.subcategories.find((persona) => persona.name === row.name);
+        if (existing) existing.displayOrder = row.display_order;
+        else category.subcategories.push({ name: row.name, articleTitle: row.name, displayOrder: row.display_order, items: [] });
+      }
+    }
+  }
+  if (theoryIds) {
+    const ids = new Set(theoryIds);
+    const retained = theories.filter((theory) => ids.has(theory.tagId));
+    theories.splice(0, theories.length, ...retained);
+  }
+  rebuildIndexes();
+}
+
 export const categoryOrder: CategoryKey[] = ['interpersonal', 'work', 'life'];
 export const categoryMeta: Record<CategoryKey, { label: string; mark: string; description: string }> = {
   interpersonal: { label: '対人術', mark: '対', description: '関係を築き、保ち、集団の中で立ち回る' },
   work: { label: '仕事術', mark: '仕', description: '評価・合意・実行を成果へつなげる' },
   life: { label: '人生術', mark: '生', description: '判断軸を持ち、不安とつまずきを越える' },
 };
+
+export function applyManagedCategories(rows: Array<{ kind: string; id: string; title: string; display_order: number }>) {
+  const techniqueRows = rows.filter((row) => row.kind === 'technique').sort((a, b) => a.display_order - b.display_order);
+  {
+    categoryOrder.splice(0, categoryOrder.length, ...techniqueRows.map((row) => row.id as CategoryKey));
+    const activeIds = new Set(techniqueRows.map((row) => row.id));
+    categories.splice(0, categories.length, ...categories.filter((item) => activeIds.has(item.key)));
+    techniqueRows.forEach((row) => {
+      categoryMeta[row.id as CategoryKey] ??= { label: row.title, mark: [...row.title][0] ?? '術', description: row.title };
+      categoryMeta[row.id as CategoryKey].label = row.title;
+      let category = categories.find((item) => item.key === row.id);
+      if (!category) {
+        category = { key: row.id as CategoryKey, name: row.title, subcategories: [] };
+        categories.push(category);
+      }
+      category.name = row.title;
+    });
+    categories.sort((a, b) => categoryOrder.indexOf(a.key) - categoryOrder.indexOf(b.key));
+  }
+  const theoryRows = rows.filter((row) => row.kind === 'theory').sort((a,b) => a.display_order-b.display_order);
+  theoryCategoryOrder.splice(0,theoryCategoryOrder.length,...theoryRows.map((row) => row.id));
+  theoryCategoryLabels.clear();
+  theoryRows.forEach((row) => theoryCategoryLabels.set(row.id,row.title));
+  rebuildIndexes();
+}
 
 const personaThemeOverrides: Partial<Record<CategoryKey, Record<string, string>>> = {
   interpersonal: {
@@ -262,7 +352,7 @@ const personaThemeTitles: Record<CategoryKey, Record<string, string>> = {
 };
 
 export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][number], categoryKey?: CategoryKey) {
-  const standardizedTheme = categoryKey ? personaThemeTitles[categoryKey][persona.name] : undefined;
+  const standardizedTheme = categoryKey ? personaThemeTitles[categoryKey]?.[persona.name] : undefined;
   if (standardizedTheme) return standardizedTheme;
   const override = categoryKey ? personaThemeOverrides[categoryKey]?.[persona.name] : undefined;
   return override ?? (persona.articleTitle && persona.articleTitle !== persona.name ? persona.articleTitle : persona.name);
@@ -274,7 +364,10 @@ export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
   return number ? `No.${number}` : 'No.—';
 }
 
-export function getTheoryDisplayId(theoryOrId: TheoryCard | string) {
+export function getTheoryDisplayId(theoryOrId: string | Pick<TheoryCard, 'tagId' | 'categoryId' | 'displayId' | 'draftDisplayId'>) {
+  if (typeof theoryOrId !== 'string' && (theoryOrId.displayId != null || theoryOrId.draftDisplayId != null)) {
+    return formatTheoryDisplayId(theoryOrId, theoryOrId.displayId ?? theoryOrId.draftDisplayId ?? 1);
+  }
   const id = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
   return theoryDisplayIdByTagId.get(id) ?? '—';
 }
@@ -311,15 +404,6 @@ export function getTechniquesForTheory(theoryOrId: TheoryCard | string) {
   return [...(techniqueCardsByTheoryId.get(theoryId) ?? [])]
     .sort((a, b) => {
       const primaryDifference = (a.theoryTagIds ?? []).indexOf(theoryId) - (b.theoryTagIds ?? []).indexOf(theoryId);
-      return primaryDifference || a.id.localeCompare(b.id);
+      return primaryDifference || (a.displayOrder ?? 0) - (b.displayOrder ?? 0) || a.id.localeCompare(b.id);
     });
-}
-
-export function getFeed(interests: CategoryKey[], savedIds: string[]) {
-  const interestSet = new Set(interests);
-  const savedTheoryIds = new Set(savedIds.flatMap((id) => techniqueById.get(id)?.theoryTagIds ?? []));
-  return [...techniqueCards].sort((a, b) => {
-    const score = (card: TechniqueCard) => (interestSet.has(card.categoryKey) ? 10 : 0) + (card.theoryTagIds ?? []).filter((id) => savedTheoryIds.has(id)).length * 2;
-    return score(b) - score(a) || a.id.localeCompare(b.id);
-  });
 }

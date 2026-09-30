@@ -1,49 +1,52 @@
 import { useRouter } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTheoryDisplayId } from '@/data/catalog';
+import { getTheoryCategoryTitle, getTheoryDisplayId, theoryCategoryOrder } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
 
-export type TheoryFilterKey = 'all' | 'psychology' | 'behavioral-science' | 'organization-management' | 'strategy' | 'classics-thought' | 'maxims-experience';
+export type TheoryFilterKey = string;
 
-export const theoryFilterOptions: Array<{ key: TheoryFilterKey; label: string }> = [
-  { key: 'all', label: 'すべて' },
-  { key: 'psychology', label: '心理学' },
-  { key: 'behavioral-science', label: '行動科学' },
-  { key: 'organization-management', label: '組織・経営' },
-  { key: 'strategy', label: '戦略論' },
-  { key: 'classics-thought', label: '古典・思想' },
-  { key: 'maxims-experience', label: '格言' },
-];
+export function getTheoryFilterOptions(): Array<{ key: TheoryFilterKey; label: string }> {
+  return [
+    { key: 'all', label: 'すべて' },
+    ...theoryCategoryOrder.map((key) => ({ key, label: getTheoryCategoryTitle(key) })),
+  ];
+}
 
 export function TheoryFilterBar({ selected, onSelect }: {
   selected: TheoryFilterKey;
   onSelect: (filter: TheoryFilterKey) => void;
 }) {
+  const options = getTheoryFilterOptions();
+  const renderOption = (option: { key: TheoryFilterKey; label: string }) => {
+    const active = selected === option.key;
+    const label = option.label;
+    return <Pressable
+      key={option.key}
+      accessibilityRole="button"
+      accessibilityLabel={`${label}で理論を絞り込む`}
+      accessibilityState={{ selected: active }}
+      aria-selected={active}
+      onPress={() => onSelect(option.key)}
+      style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
+    >
+      <AppText style={[styles.filterText, active && styles.filterTextActive]}>{label}</AppText>
+    </Pressable>;
+  };
+
   return (
-    <ScrollView horizontal testID="theory-category-filters" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
-      {theoryFilterOptions.map((option) => {
-        const active = selected === option.key;
-        return (
-          <Pressable
-            key={option.key}
-            accessibilityRole="button"
-            accessibilityLabel={`${option.label}で理論を絞り込む`}
-            accessibilityState={{ selected: active }}
-            aria-selected={active}
-            onPress={() => onSelect(option.key)}
-            style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
-          >
-            <AppText style={[styles.filterText, active && styles.filterTextActive]}>{option.label}</AppText>
-          </Pressable>
-        );
-      })}
-    </ScrollView>
+    <View testID="theory-category-filters" style={styles.filterGrid}>
+      <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
+      <View style={styles.filterRow}>
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.filterSpacer} />
+        {options.slice(4).map(renderOption)}
+      </View>
+    </View>
   );
 }
 
@@ -74,11 +77,13 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 }
 
 const styles = StyleSheet.create({
-  filterRow: { minWidth: '100%', gap: 12, paddingHorizontal: 2, paddingVertical: 2 },
-  filterButton: { width: 143, minWidth: 143, minHeight: 52, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { borderColor: '#10263F', backgroundColor: '#10263F' },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
-  filterTextActive: { color: colors.goldLight },
+  filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
+  filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
+  filterSpacer: { flex: 1, minWidth: 0 },
+  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
+  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 0.3, textAlign: 'center' },
+  filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },
   cardPressed: { opacity: 0.84, transform: [{ translateY: -1 }] },

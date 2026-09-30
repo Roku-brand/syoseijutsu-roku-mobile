@@ -56,6 +56,7 @@
     "content:build-public": "node ./scripts/build-public-catalog.mjs",
     "content:build-ios-theories": "node ./scripts/generate-ios-theory-catalog.mjs",
     "content:audit-scope": "node ./scripts/audit-content-scope.mjs",
+    "content:audit-theory-rights": "node ./scripts/audit-theory-rights.mjs",
     "export:web": "pnpm export:pages",
     "export:pages": "pnpm content:build-public && pnpm assets:web && pnpm assets:og && pnpm pwa:stamp && expo export --platform web && node ./scripts/ensure-pages-fallback.mjs && node ./scripts/generate-seo-assets.mjs",
     "serve:e2e": "node ./scripts/serve-dist.mjs",

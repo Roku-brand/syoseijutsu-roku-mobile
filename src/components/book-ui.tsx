@@ -1,4 +1,4 @@
-import { usePathname, useRouter, useSegments } from 'expo-router';
+import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
@@ -21,7 +21,6 @@ import {
   categories,
   categoryMeta,
   techniqueById,
-  theories,
   theoryById,
 } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
@@ -30,37 +29,9 @@ import { useAuth } from '@/auth/auth-state';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
-import { upgradeRoute } from '@/navigation/app-routes';
+import { SearchMark } from './search-mark';
 
 const appIcon = require('../../assets/brand/icon.png');
-
-const HEADER_UPGRADE_TOKENS = {
-  surfaceStart: '#FFFCF5',
-  surfaceMiddle: '#F8F0DD',
-  surfaceEnd: '#F1DDAE',
-  border: '#D8B45B',
-  borderActive: '#D8A93A',
-  ink: '#1F1A17',
-  gold: '#C89A2B',
-  goldBright: '#D8A93A',
-  goldDeep: '#B8831D',
-  ctaText: '#2A1D08',
-  shadow: '#8D691D',
-} as const;
-
-const headerUpgradeSurfaceGradient = Platform.select({
-  web: {
-    backgroundImage: `linear-gradient(105deg, ${HEADER_UPGRADE_TOKENS.surfaceStart} 0%, ${HEADER_UPGRADE_TOKENS.surfaceMiddle} 58%, ${HEADER_UPGRADE_TOKENS.surfaceEnd} 100%)`,
-  } as object,
-  default: { backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle },
-});
-
-const headerUpgradeCtaGradient = Platform.select({
-  web: {
-    backgroundImage: `linear-gradient(180deg, #E3BB58 0%, ${HEADER_UPGRADE_TOKENS.goldBright} 52%, ${HEADER_UPGRADE_TOKENS.gold} 100%)`,
-  } as object,
-  default: { backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
-});
 
 export function BookScreen({
   children,
@@ -112,26 +83,27 @@ export function BookScreen({
 
 export function BookHeader() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
   const segments = useSegments();
   const { user } = useAuth();
-  const { accessState, catalogRevision } = useAccess();
+  const { catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const wideUpgradeBanner = width >= 1000;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
-  const [upgradeHovered, setUpgradeHovered] = useState(false);
-  const [upgradeFocused, setUpgradeFocused] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
-  const minimalHeaderActions = false;
   const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
   const learningCaseHeader = pathname.startsWith('/learn/');
-  const primaryTabHeader = segments[0] === '(tabs)';
-  const showUpgradeBanner = primaryTabHeader && (accessState === 'guest' || accessState === 'free');
+  const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
+  // The static web home is served through the root index route, so its first
+  // segment is not `(tabs)` even though it represents the main tab.
+  const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
+  const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
+  const primaryTabHeader = segments[0] === '(tabs)' || (pathname === '/' && !isCheckoutReturn);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -170,75 +142,18 @@ export function BookHeader() {
               source={appIcon}
               style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
             />
-            <View style={[styles.brandCopy, compact && styles.brandCopyHidden]}>
+            <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
+              {primaryTabHeader ? <AppText style={styles.brandTagline}>生きる知恵を、日々の力に。</AppText> : null}
             </View>
           </View>
         )}
-        {showUpgradeBanner ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="完全版購入の案内を開く"
-            accessibilityHint="完全版の内容と購入方法を表示します"
-            testID="header-upgrade-banner"
-            onPress={() => router.push(upgradeRoute('header_banner'))}
-            onHoverIn={() => setUpgradeHovered(true)}
-            onHoverOut={() => setUpgradeHovered(false)}
-            onFocus={() => setUpgradeFocused(true)}
-            onBlur={() => setUpgradeFocused(false)}
-            style={({ pressed }) => [
-              styles.headerUpgradeBannerBase,
-              compact
-                ? styles.headerUpgradeBannerCompact
-                : wideUpgradeBanner
-                  ? styles.headerUpgradeBannerWide
-                  : styles.headerUpgradeBannerMedium,
-              (upgradeHovered || upgradeFocused) && styles.headerUpgradeBannerInteractive,
-              upgradeFocused && styles.headerUpgradeBannerFocused,
-              pressed && styles.headerUpgradeBannerPressed,
-            ]}
-          >
-            <View testID="header-upgrade-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeSurface, headerUpgradeSurfaceGradient]} />
-            <View pointerEvents="none" style={styles.headerUpgradeSheen} />
-            {compact ? (
-              <AppText testID="header-upgrade-mobile-label" numberOfLines={1} style={styles.headerUpgradeMobileLabel}>
-                完全版を見る →
-              </AppText>
-            ) : (
-              <>
-                <View style={styles.headerUpgradeEmblem} accessibilityElementsHidden>
-                  <AppText style={styles.headerUpgradeEmblemText}>禄</AppText>
-                </View>
-                <View style={styles.headerUpgradeDivider} />
-                <AppText
-                  testID="header-upgrade-message"
-                  numberOfLines={1}
-                  style={[
-                    styles.headerUpgradeMessage,
-                    !wideUpgradeBanner && styles.headerUpgradeMessageMedium,
-                  ]}
-                >
-                  356の処世術・{theories.length}の理論をすべて読む
-                </AppText>
-                <View
-                  testID="header-upgrade-cta"
-                  style={[
-                    styles.headerUpgradeCta,
-                    (upgradeHovered || upgradeFocused) && styles.headerUpgradeCtaInteractive,
-                  ]}
-                >
-                  <View testID="header-upgrade-cta-surface" pointerEvents="none" style={[StyleSheet.absoluteFill, styles.headerUpgradeCtaSurface, headerUpgradeCtaGradient]} />
-                  <AppText numberOfLines={1} style={styles.headerUpgradeCtaText}>
-                    完全版を見る →
-                  </AppText>
-                </View>
-              </>
-            )}
-          </Pressable>
-        ) : primaryTabHeader ? null : (
+        {primaryTabHeader ? null : (
           <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
             <AppText
               testID={personaHeader ? 'persona-header-title' : undefined}
+              accessibilityRole="header"
+              aria-level={1}
               numberOfLines={compact && personaHeader ? 2 : 1}
               adjustsFontSizeToFit={compact && personaHeader}
               minimumFontScale={0.82}
@@ -248,8 +163,27 @@ export function BookHeader() {
           </View>
         )}
 
-        {detail ? (
-          <DetailHeaderActions detail={detail} compact={compact} />
+        {primaryTabHeader ? (
+          <View testID="book-header-actions" style={styles.headerActions}>
+            <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
+              <SearchMark size={compact ? 25 : 27} color={colors.ink} />
+            </Pressable>
+            <MenuHeaderAction active={Boolean(user)} />
+          </View>
+        ) : detail ? (
+          <DetailHeaderActions detail={detail} menuActive={Boolean(user)} />
+        ) : catalogueSearchMode ? (
+          <View testID="book-header-actions" style={styles.headerActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${currentTitle}を検索`}
+              onPress={() => router.push({ pathname: '/search', params: { mode: catalogueSearchMode } })}
+              style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
+            >
+              <SearchMark size={24} color={colors.gold} />
+            </Pressable>
+            <MenuHeaderAction active={Boolean(user)} />
+          </View>
         ) : (
           <View testID="book-header-actions" style={styles.headerActions}>
             <Pressable
@@ -263,23 +197,8 @@ export function BookHeader() {
               ]}
             >
               <PrincipleMark />
-              {!compact || learningCaseHeader ? <AppText style={[styles.headerActionLabel, compact && styles.headerActionLabelCompact, lightHeader && styles.headerActionLabelLight]}>{learningCaseHeader ? '用語集' : '原則'}</AppText> : null}
             </Pressable>
-            {!minimalHeaderActions ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="設定を開く"
-                onPress={() => router.push('/settings')}
-                style={({ pressed }) => [
-                  styles.headerAction,
-                  lightHeader && styles.headerActionLight,
-                  pressed && styles.headerActionPressed,
-                ]}
-              >
-                <MenuMark active={Boolean(user)} light={lightHeader} />
-                {!compact ? <AppText style={[styles.headerActionLabel, lightHeader && styles.headerActionLabelLight]}>設定</AppText> : null}
-              </Pressable>
-            ) : null}
+            {!isCheckoutReturn ? <MenuHeaderAction active={Boolean(user)} /> : null}
           </View>
         )}
       </View>
@@ -339,6 +258,20 @@ function MenuMark({ active, light }: { active: boolean; light: boolean }) {
   );
 }
 
+function MenuHeaderAction({ active }: { active: boolean }) {
+  const router = useRouter();
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel="メニューを開く"
+      onPress={() => router.push('/settings')}
+      style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}
+    >
+      <MenuMark active={active} light />
+    </Pressable>
+  );
+}
+
 type DetailTarget =
   | { kind: 'card'; id: string; title: string }
   | { kind: 'theory'; id: string; title: string };
@@ -360,10 +293,10 @@ function getDetail(pathname: string): DetailTarget | null {
 
 function DetailHeaderActions({
   detail,
-  compact,
+  menuActive,
 }: {
   detail: DetailTarget;
-  compact: boolean;
+  menuActive: boolean;
 }) {
   const showToast = useAppToast();
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
@@ -377,18 +310,21 @@ function DetailHeaderActions({
   };
 
   return (
-    <View style={styles.detailActions}>
-      <SaveDiamondButton
-        saved={isSaved}
+    <View testID="book-header-actions" style={styles.headerActions}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
+        accessibilityState={{ selected: isSaved }}
         onPress={toggle}
-        label={compact ? undefined : isSaved ? '保存済み' : '保存'}
-        compact={compact}
-      />
+        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
+      >
+        <View style={[styles.saveDiamond, isSaved && styles.saveDiamondFilled]} />
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="共有"
         onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
-        style={({ pressed }) => [styles.detailAction, pressed && styles.headerActionPressed]}
+        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
         <SymbolView
           name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
@@ -397,12 +333,11 @@ function DetailHeaderActions({
           tintColor={colors.gold}
           weight="regular"
         />
-        {!compact ? <AppText style={styles.detailActionLabel}>共有</AppText> : null}
       </Pressable>
+      <MenuHeaderAction active={menuActive} />
     </View>
   );
 }
-
 function getCurrentTitle(pathname: string) {
   const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
   if (segments[0] === 'category') {
@@ -419,6 +354,7 @@ function getCurrentTitle(pathname: string) {
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'personas') return '人物像一覧';
   if (segments[0] === 'search') return 'キーワード検索';
+  if (segments[0] === 'popular') return '人気ランキング';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
@@ -447,7 +383,7 @@ function getHeaderSubtitle(pathname: string) {
 }
 
 function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/learn', '/my-os', '/onboarding'].includes(pathname);
+  return !['/', '/discover', '/learn', '/my-os', '/welcome', '/onboarding'].includes(pathname);
 }
 
 function PrincipleMark() {
@@ -500,7 +436,7 @@ const principles = [
   },
 ] as const;
 
-function PrinciplesModal({
+export function PrinciplesModal({
   visible,
   compact,
   onClose,
@@ -706,9 +642,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.line,
   },
   headerCompact: {
-    minHeight: 58,
+    minHeight: 50,
     paddingHorizontal: 12,
-    paddingVertical: 7,
+    paddingVertical: 4,
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
@@ -761,8 +697,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     resizeMode: 'cover',
   },
-  headerAppIconCompact: { width: 34, height: 34, borderRadius: 7 },
+  headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
   brandCopy: { minWidth: 0, gap: 1 },
+  brandTagline: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, letterSpacing: 0.3 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',
@@ -788,142 +725,6 @@ const styles = StyleSheet.create({
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
-  headerUpgradeBannerBase: {
-    position: 'absolute',
-    minHeight: 46,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.border,
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
-    shadowColor: HEADER_UPGRADE_TOKENS.shadow,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.13,
-    shadowRadius: 11,
-    elevation: 3,
-  },
-  headerUpgradeBannerWide: {
-    left: '50%',
-    width: 590,
-    marginLeft: -295,
-  },
-  headerUpgradeBannerMedium: {
-    left: '50%',
-    width: 400,
-    marginLeft: -200,
-  },
-  headerUpgradeBannerCompact: {
-    left: 54,
-    right: 116,
-    minHeight: 38,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    justifyContent: 'center',
-    gap: 0,
-  },
-  headerUpgradeSurface: {
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.surfaceMiddle,
-  },
-  headerUpgradeSheen: {
-    position: 'absolute',
-    top: 2,
-    left: 18,
-    right: 18,
-    height: 15,
-    borderRadius: radius.pill,
-    backgroundColor: 'rgba(255,255,255,0.38)',
-  },
-  headerUpgradeBannerInteractive: {
-    borderColor: HEADER_UPGRADE_TOKENS.borderActive,
-    shadowOpacity: 0.2,
-    shadowRadius: 14,
-    transform: [{ translateY: -1 }],
-  },
-  headerUpgradeBannerFocused: {
-    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    shadowOpacity: 0.23,
-  },
-  headerUpgradeBannerPressed: { opacity: 0.9, transform: [{ translateY: 0 }, { scale: 0.992 }] },
-  headerUpgradeEmblem: {
-    width: 30,
-    height: 30,
-    flexShrink: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.gold,
-    borderRadius: 15,
-    backgroundColor: '#211E19',
-  },
-  headerUpgradeEmblemText: {
-    color: '#E7C665',
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: '700',
-  },
-  headerUpgradeDivider: { width: 1, height: 25, flexShrink: 0, backgroundColor: 'rgba(184,131,29,0.38)' },
-  headerUpgradeMessage: {
-    minWidth: 0,
-    flex: 1,
-    color: HEADER_UPGRADE_TOKENS.ink,
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: '600',
-    letterSpacing: 0.35,
-    textAlign: 'center',
-  },
-  headerUpgradeMessageMedium: { fontSize: 10, lineHeight: 15, letterSpacing: 0 },
-  headerUpgradeCta: {
-    minWidth: 132,
-    minHeight: 33,
-    flexShrink: 0,
-    paddingHorizontal: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    borderRadius: radius.pill,
-    backgroundColor: HEADER_UPGRADE_TOKENS.goldBright,
-    shadowColor: HEADER_UPGRADE_TOKENS.goldDeep,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.22,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  headerUpgradeCtaSurface: { borderRadius: radius.pill, backgroundColor: HEADER_UPGRADE_TOKENS.goldBright },
-  headerUpgradeCtaInteractive: {
-    borderColor: '#A96F0D',
-    backgroundColor: '#E3B64B',
-    shadowOpacity: 0.32,
-    shadowRadius: 7,
-    transform: [{ translateY: -1 }],
-  },
-  headerUpgradeCtaText: {
-    color: HEADER_UPGRADE_TOKENS.ctaText,
-    fontFamily: fonts.serif,
-    fontSize: 11,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 0.35,
-    textAlign: 'center',
-  },
-  headerUpgradeMobileLabel: {
-    color: HEADER_UPGRADE_TOKENS.goldDeep,
-    fontFamily: fonts.serif,
-    fontSize: 11,
-    lineHeight: 16,
-    fontWeight: '700',
-    letterSpacing: 0.45,
-    textAlign: 'center',
-  },
   brandName: {
     color: colors.ink,
     fontFamily: fonts.serif,
@@ -937,53 +738,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  detailActions: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  detailAction: {
-    minWidth: 42,
-    minHeight: 44,
-    paddingHorizontal: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 1,
-  },
-  detailActionLabel: {
-    color: colors.gold,
-    fontSize: 10,
-    lineHeight: 13,
-    fontWeight: '600',
-  },
-  detailActionLabelSaved: { color: colors.gold },
   detailActionFallback: { color: colors.gold, fontSize: 20, lineHeight: 22 },
   detailActionSaved: { color: colors.gold },
   headerAction: {
-    width: 48,
-    minHeight: 44,
+    width: 40,
+    minHeight: 36,
     borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 2,
   },
+  homeMenuAction: { width: 38, height: 38, borderWidth: 1, borderColor: colors.gold, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',
     opacity: 0.72,
   },
-  headerActionLabel: {
-    color: colors.gold,
-    fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 14,
-    letterSpacing: 1,
-  },
-  headerActionLabelCompact: { fontSize: 8, lineHeight: 11, letterSpacing: 0.4 },
-  headerActionLabelLight: { color: colors.gold },
   accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
-  menuMark: { width: 28, height: 27, justifyContent: 'space-between', paddingVertical: 2 },
+  menuMark: { width: 25, height: 23, justifyContent: 'space-between', paddingVertical: 2 },
   menuMarkActive: { opacity: 1 },
-  menuLine: { width: 28, height: 1.25, borderRadius: 2, alignSelf: 'center' },
+  menuLine: { width: 25, height: 1.5, borderRadius: 2, alignSelf: 'center' },
   principleMark: {
-    width: 27,
-    height: 27,
+    width: 25,
+    height: 25,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: colors.gold,
@@ -1277,3 +1054,4 @@ const styles = StyleSheet.create({
   saveDiamondLabelSaved: { color: colors.goldLight },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });
+

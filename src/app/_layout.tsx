@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
-import { Stack, useLocalSearchParams, usePathname, useSegments } from 'expo-router';
+import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { ApplePurchaseObserver } from '@/components/apple-purchase-observer';
@@ -14,48 +14,32 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { AccessProvider } from '@/access/access-state';
 import { AccessBoundary } from '@/access/access-boundary';
 import { AuthProvider } from '@/auth/auth-state';
-import { useAppState } from '@/state/app-state';
 import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
 
 function KeyboardFrame({ children }: { children: React.ReactNode }) {
-  return Platform.OS === 'ios'
-    ? <KeyboardAvoidingView style={styles.contentColumn} behavior="padding">{children}</KeyboardAvoidingView>
-    : children;
+  return Platform.OS === 'ios' ? <KeyboardAvoidingView style={styles.contentColumn} behavior="padding">{children}</KeyboardAvoidingView> : children;
 }
-
 function AppFrame() {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
-  const segments = useSegments();
-  const params = useLocalSearchParams<{ checkout?: string | string[] }>();
+  const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
-  const { hydrated, welcomePageHidden } = useAppState();
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
-  // `/onboarding` is retained only for existing links.  While its redirect
-  // resolves, it must not show the regular application chrome.
-  // Both the root welcome screen and the tab home resolve to `/` on web.
-  // `usePathname()` alone therefore hides the frame after tapping
-  // 「無料で始める」. Keep the welcome exception scoped to the root route,
-  // while allowing the `(tabs)` home to render its header and navigation.
-  const isTabHome = segments[0] === '(tabs)';
-  // The welcome composition is a Web/PWA marketing entry only. Native starts
-  // at the tab library through index.ios.tsx.
-  const isRootWelcome = Platform.OS === 'web' && pathname === '/' && !isTabHome && !isCheckoutReturn && (!hydrated || !welcomePageHidden);
-  const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || isRootWelcome;
+  // Legacy entry URLs redirect to the home screen without flashing app chrome.
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover
   // the purchase CTA at the bottom of the page.
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
-      <KeyboardFrame>
-      <RouteTransition disabled={isWelcome}>
+      {!isWelcome && !isCheckoutReturn ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      <KeyboardFrame><RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: colors.paper },
@@ -64,13 +48,12 @@ function AppFrame() {
           gestureEnabled: true,
           fullScreenGestureEnabled: true,
         })} />
-      </RouteTransition>
-      </KeyboardFrame>
+      </RouteTransition></KeyboardFrame>
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
   const frame = <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
-  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={isWelcome ? ['top', 'bottom'] : showPersistentNavigation ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
+  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={showPersistentNavigation ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
 }
 
 function isFocusedScreen(pathname: string) {

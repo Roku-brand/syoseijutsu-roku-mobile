@@ -3,6 +3,7 @@ import type { Href } from 'expo-router';
 export const APP_ROUTES = {
   home: '/(tabs)',
   discover: '/discover',
+  popular: '/popular',
   search: '/search' as Href,
   learn: '/learn',
   myPage: '/my-os',
@@ -23,13 +24,18 @@ export const APP_ROUTES = {
   terms: '/legal/terms',
   privacy: '/legal/privacy',
   about: '/about/shoseijutsu' as Href,
+  app: '/app',
 } as const satisfies Record<string, Href>;
 
 export type MainSection = 'main' | 'discover' | 'learn' | 'my-os';
 
 const DISCOVER_PREFIXES = [
   '/discover',
+  '/popular',
   '/personas',
+  '/interpersonal',
+  '/work',
+  '/life',
   '/subcategory/',
   '/topic/',
   '/theory/',

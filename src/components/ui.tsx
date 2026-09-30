@@ -12,7 +12,7 @@ import {
   type ScrollView as ScrollViewType,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
+import { colors, fonts, layout, radius, spacing, typography } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function AppText({
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 28,
   },
-  caption: { color: '#686A65', fontSize: 12, lineHeight: 19 },
+  caption: { color: colors.muted, fontSize: 12, lineHeight: 19 },
   label: { fontSize: 12, lineHeight: 18, fontWeight: '700', letterSpacing: 1 },
   title: {
     fontFamily: fonts.serif,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(255,255,255,0.72)',
+    backgroundColor: colors.surface,
     borderWidth: 1,
     borderColor: colors.line,
   },
@@ -248,22 +248,22 @@ const styles = StyleSheet.create({
     marginTop: spacing.xxl,
     marginBottom: spacing.lg,
   },
-  sectionTitle: { fontSize: 20, lineHeight: 28 },
-  sectionCount: { color: colors.gold },
-  sectionAction: { color: colors.gold },
+  sectionTitle: { fontSize: typography.sectionTitle.fontSize, lineHeight: typography.sectionTitle.lineHeight },
+  sectionCount: { color: colors.goldDeep },
+  sectionAction: { color: colors.goldDeep },
   primaryButton: {
     minHeight: 54,
     borderRadius: radius.md,
-    backgroundColor: colors.gold,
+    backgroundColor: colors.goldDeep,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
   },
   primaryDisabled: { backgroundColor: colors.muted, opacity: 0.45 },
-  primaryPressed: { backgroundColor: colors.goldLight, transform: [{ scale: 0.99 }] },
-  primaryButtonText: { color: '#FFFFFF', fontSize: 14 },
+  primaryPressed: { backgroundColor: colors.gold, transform: [{ scale: 0.99 }] },
+  primaryButtonText: { color: colors.white, fontSize: 14 },
   secondaryButton: { minHeight: 54, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.md, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
-  secondaryButtonText: { color: colors.gold, fontSize: 14, fontWeight: '700' },
+  secondaryButtonText: { color: colors.goldDeep, fontSize: 14, fontWeight: '700' },
   empty: { alignItems: 'center', paddingVertical: 64, paddingHorizontal: spacing.xl },
   emptyMark: {
     width: 58,

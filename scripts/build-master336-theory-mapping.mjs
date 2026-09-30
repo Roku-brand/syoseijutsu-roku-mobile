@@ -199,7 +199,7 @@ function parseTheorySource(filePath) {
       categoryTitle = category[1].trim();
       continue;
     }
-    const theory = line.match(/^[-*]\s+([PBOQCS])－(\d+)｜(.+)$/);
+    const theory = line.match(/^[-*]\s+([PBOTAC])－(\d+)｜(.+)$/);
     if (theory) rows.push({ prefix: theory[1], number: Number(theory[2]), title: theory[3].trim(), categoryTitle });
   }
   if (rows.length !== 630) throw new Error(`Theory source must contain 630 cards; found ${rows.length}.`);
@@ -291,7 +291,7 @@ for (const card of cards) {
       // every resilience card.
       const affinity = cosine(grams(card.title), grams(`${theory.title} ${theory.summary}`));
       if (affinity < 0.08) continue;
-      addCandidate(card.id, theoryId, 2.8 + affinity * 7, '格言の個別意味監査で採用');
+      addCandidate(card.id, theoryId, 2.8 + affinity * 7, '実践知の個別意味監査で採用');
     }
   }
   if (legacyCards.length) {
@@ -305,7 +305,7 @@ for (const card of cards) {
       const auditedLegacy = legacyByPersonaAndOrder.get(`${legacy.persona}/${legacy.displayOrder}`);
       for (const relation of auditedLegacy?.relatedTheories ?? []) {
         if (relation.editorial === 'manual-review') addCandidate(card.id, relation.tagId, 2.8, '過去の個別監査で採用');
-        else if (relation.editorial === 'wisdom-anchor') addCandidate(card.id, relation.tagId, 2.4, '古典・格言の個別監査で採用');
+        else if (relation.editorial === 'wisdom-anchor') addCandidate(card.id, relation.tagId, 2.4, '古典・実践知の個別監査で採用');
       }
     }
   }
@@ -319,7 +319,7 @@ for (const card of cards) {
     .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   if (!ranked.length) throw new Error(`No candidates for ${card.id}`);
   const top = ranked[0].score;
-  let selected = ranked.filter((entry) => entry.evidence.has('既存の手動紐づけ') || entry.evidence.has('過去の個別監査で採用') || entry.evidence.has('古典・格言の個別監査で採用') || entry.evidence.has('格言の個別意味監査で採用') || (entry.score >= Math.max(1.25, top * 0.58) && entry.score >= 1.7));
+  let selected = ranked.filter((entry) => entry.evidence.has('既存の手動紐づけ') || entry.evidence.has('過去の個別監査で採用') || entry.evidence.has('古典・実践知の個別監査で採用') || entry.evidence.has('実践知の個別意味監査で採用') || (entry.score >= Math.max(1.25, top * 0.58) && entry.score >= 1.7));
   if (!selected.length) selected = [ranked[0]];
   initialLinks.set(card.id, selected.map((entry) => entry.id));
 }
@@ -352,13 +352,10 @@ for (const [cardId, links] of initialLinks) {
   card.relatedTheoryIds = unique;
 }
 
-const displayPrefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q' };
 const displayIdByTheoryId = new Map();
-const categoryCounts = new Map();
 for (const theory of theories) {
-  const next = (categoryCounts.get(theory.categoryId) ?? 0) + 1;
-  categoryCounts.set(theory.categoryId, next);
-  displayIdByTheoryId.set(theory.tagId, `${displayPrefix[theory.categoryId] ?? '理'}－${next}`);
+  const prefix = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'T', 'practical-wisdom': 'A', 'classics-thought': 'C' }[theory.categoryId] ?? '理';
+  displayIdByTheoryId.set(theory.tagId, `${prefix}－${String(theory.displayId).padStart(3, '0')}`);
 }
 
 const edgeRows = cards.flatMap((card) => card.relatedTheoryIds.map((theoryId) => ({ card, theory: theoryById.get(theoryId) })));
@@ -374,8 +371,8 @@ for (const count of techniqueCounts) {
 }
 
 function relationReason(card, theory) {
-  if (theory.categoryId === 'maxims-experience') {
-    return `格言「${theory.title}」が示す判断軸が、この処世術の本質・実践条件・注意点を直接補強するため。`;
+  if (theory.categoryId === 'practical-wisdom') {
+    return `実践知「${theory.title}」が示す判断軸が、この処世術の本質・実践条件・注意点を直接補強するため。`;
   }
   const text = `${card.title} ${card.essence} ${card.explanation}`;
   const matched = patternRules.find(([pattern]) => pattern.test(text));
@@ -414,7 +411,7 @@ const auditLines = [
   '- 処世術起点：336件を14件ずつ24バッチで個別監査。',
   '- 理論起点：630件を30件ずつ21バッチで全件監査。',
   '- 件数均等化は行わず、本文の作用点・条件・副作用を説明できる対応だけを採用。',
-  '- 学術理論・組織論・戦略・古典・格言を同じ候補母集団として扱った。',
+  '- 学術理論・組織論・戦略・古典・実践知を同じ候補母集団として扱った。',
   ...(sourceTitleDifferences.length ? [`- 正本と既存アプリの表記差分：${sourceTitleDifferences.length}件。既存アプリのタイトルは変更せず保持した。`] : []),
   '',
   '## 集計',

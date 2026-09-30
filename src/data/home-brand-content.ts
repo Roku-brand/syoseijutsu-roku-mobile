@@ -26,7 +26,7 @@ type DailyCandidateGroup = {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const TOKYO_OFFSET_MS = 9 * 60 * 60 * 1000;
-const DAILY_DOMAINS = categoryOrder as readonly CategoryKey[];
+const DAILY_DOMAINS = categoryOrder.filter((key) => key in homeBrandSource.dailyCandidates) as CategoryKey[];
 
 function positiveModulo(value: number, length: number) {
   return ((value % length) + length) % length;
@@ -47,7 +47,8 @@ function chooseResolved<T>(items: readonly string[], index: number, resolve: (id
 }
 
 function candidateGroup(domain: CategoryKey) {
-  return homeBrandSource.dailyCandidates[domain] as DailyCandidateGroup;
+  return (homeBrandSource.dailyCandidates as Record<string, DailyCandidateGroup>)[domain]
+    ?? homeBrandSource.dailyCandidates.interpersonal as DailyCandidateGroup;
 }
 
 function resolvePersona(domain: CategoryKey, name: string) {
@@ -80,9 +81,9 @@ export function getHomeBrandContent(now = new Date()) {
   const theoryCandidates = candidateGroup(theoryDomain);
 
   const technique = chooseResolved(techniqueCandidates.techniqueIds, cycle, (id) => techniqueById.get(id))
-    ?? homeBrandSource.fallbackTechniqueSnapshots[techniqueDomain] as TechniqueCard;
+    ?? (homeBrandSource.fallbackTechniqueSnapshots as Record<string, TechniqueCard>)[techniqueDomain];
   const persona = chooseResolved(personaCandidates.personaNames, cycle, (name) => resolvePersona(personaDomain, name))
-    ?? homeBrandSource.fallbackPersonaSnapshots[personaDomain] as HomePersona;
+    ?? (homeBrandSource.fallbackPersonaSnapshots as Record<string, HomePersona>)[personaDomain];
   const theory = chooseResolved(theoryCandidates.theoryIds, cycle, (id) => {
     const live = theoryById.get(id);
     if (live && live.title !== '完全版の理論') return live;

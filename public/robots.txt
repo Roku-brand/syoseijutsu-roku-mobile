@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /owner/
 
-Sitemap: https://shoseijutsuroku.com/sitemap.xml
+Sitemap: https://app.shoseijutsuroku.com/sitemap.xml

@@ -21,7 +21,24 @@
         "master336-052",
         "master336-053",
         "master336-054",
-        "master336-055"
+        "master336-055",
+        "master336-056",
+        "master336-057",
+        "master336-058",
+        "master336-059",
+        "master336-060",
+        "master336-061",
+        "master336-062",
+        "master336-063",
+        "master336-064",
+        "master336-065",
+        "master336-066",
+        "master336-067",
+        "master336-068",
+        "master336-069",
+        "master336-070",
+        "master336-071",
+        "master336-072"
       ],
       "personaNames": [
         "印象がいい人",
@@ -39,7 +56,11 @@
         "kb_025",
         "kb_001",
         "kb_002",
-        "kb_029"
+        "kb_029",
+        "kb_047",
+        "kb_004",
+        "kb_019",
+        "kb_093"
       ]
     },
     "work": {
@@ -58,7 +79,21 @@
         "master336-183",
         "master336-184",
         "master336-185",
-        "master336-187"
+        "master336-186",
+        "master336-187",
+        "master336-188",
+        "master336-189",
+        "master336-190",
+        "master336-191",
+        "master336-192",
+        "master336-193",
+        "master336-194",
+        "master336-195",
+        "master336-196",
+        "master336-197",
+        "master336-198",
+        "master336-199",
+        "master336-200"
       ],
       "personaNames": [
         "仕事ができる人",
@@ -78,7 +113,20 @@
         "kb_545",
         "kb_329",
         "kb_051",
-        "kb_102"
+        "kb_102",
+        "kb_111",
+        "kb_632",
+        "kb_192",
+        "kb_175",
+        "kb_326",
+        "kb_620",
+        "kb_645",
+        "kb_177",
+        "kb_179",
+        "kb_619",
+        "kb_736",
+        "kb_623",
+        "kb_629"
       ]
     },
     "life": {
@@ -97,7 +145,21 @@
         "master336-261",
         "master336-262",
         "master336-263",
-        "master336-266"
+        "master336-264",
+        "master336-265",
+        "master336-266",
+        "master336-267",
+        "master336-268",
+        "master336-269",
+        "master336-270",
+        "master336-271",
+        "master336-272",
+        "master336-273",
+        "master336-274",
+        "master336-275",
+        "master336-276",
+        "master336-277",
+        "master336-278"
       ],
       "personaNames": [
         "充実した人生を過ごせる人",
@@ -115,7 +177,14 @@
         "kb_282",
         "kb_296",
         "kb_266",
-        "kb_634"
+        "kb_634",
+        "kb_315",
+        "kb_654",
+        "kb_617",
+        "kb_724",
+        "kb_626",
+        "kb_629",
+        "kb_092"
       ]
     }
   },
@@ -212,14 +281,14 @@
       "categoryName": "仕事術",
       "name": "仕事ができる人",
       "description": "仕事ができる人を形づくる、仕事術の実践知。",
-      "techniqueCount": 14
+      "techniqueCount": 15
     },
     "life": {
       "categoryKey": "life",
       "categoryName": "人生術",
       "name": "充実した人生を過ごせる人",
       "description": "充実した人生を過ごせる人を形づくる、人生術の実践知。",
-      "techniqueCount": 14
+      "techniqueCount": 16
     }
   },
   "theorySnapshots": [
@@ -249,7 +318,8 @@
         "horn effect",
         "devil effect"
       ],
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 243
     },
     {
       "tagId": "kb_389",
@@ -272,7 +342,8 @@
         ],
         "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 279
     },
     {
       "tagId": "kb_402",
@@ -300,7 +371,8 @@
         "kb_771",
         "kb_773",
         "kb_845"
-      ]
+      ],
+      "displayId": 75
     },
     {
       "tagId": "kb_014",
@@ -323,7 +395,8 @@
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 276
     },
     {
       "tagId": "kb_391",
@@ -346,7 +419,8 @@
         ],
         "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 46
     },
     {
       "tagId": "kb_007",
@@ -369,7 +443,8 @@
         ],
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 92
     },
     {
       "tagId": "kb_008",
@@ -392,7 +467,8 @@
         ],
         "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 111
     },
     {
       "tagId": "kb_623",
@@ -415,7 +491,8 @@
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 37
     },
     {
       "tagId": "kb_025",
@@ -438,7 +515,8 @@
         ],
         "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 262
     },
     {
       "tagId": "kb_001",
@@ -463,7 +541,8 @@
       },
       "relatedTheoryIds": [
         "kb_739"
-      ]
+      ],
+      "displayId": 146
     },
     {
       "tagId": "kb_002",
@@ -488,7 +567,8 @@
       },
       "relatedTheoryIds": [
         "kb_739"
-      ]
+      ],
+      "displayId": 150
     },
     {
       "tagId": "kb_029",
@@ -511,7 +591,92 @@
         ],
         "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 247
+    },
+    {
+      "tagId": "kb_047",
+      "title": "返報性の原理",
+      "summary": "人は何かを受け取ると、同程度のものを返さなければならないと感じやすい原理。親切にも敵意にも働く。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Alvin W. Gouldner（参照文献の著者）",
+        "period": "1960年（参照文献）",
+        "works": [
+          "The Norm of Reciprocity: A Preliminary Statement (1960). American Sociological Review, 25(2), 161"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.2307/2092623"
+          }
+        ],
+        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 268
+    },
+    {
+      "tagId": "kb_004",
+      "title": "単純接触効果",
+      "summary": "接する回数が増えるほど、対象への親しみや好意が高まりやすくなる傾向。ただし、もともとの不快感が強い場合には逆効果になりうる。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Zajonc（参照文献の著者）",
+        "period": "1968年（参照文献）",
+        "works": [
+          "Attitudinal effects of mere exposure. (1968). Journal of Personality and Social Psychology, 9(2, Pt.2), 1-27"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1037/h0025848"
+          }
+        ],
+        "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。"
+      },
+      "relatedTheoryIds": [
+        "kb_718",
+        "kb_821"
+      ],
+      "displayId": 195
+    },
+    {
+      "tagId": "kb_019",
+      "title": "ベン・フランクリン効果",
+      "summary": "一度誰かを助けると、その行動と整合させるために相手への好意が高まりやすい傾向。小さな依頼が関係形成のきっかけになることがある。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Jon Jecker / David Landy（参照文献の著者）",
+        "period": "1969年（参照文献）",
+        "works": [
+          "Liking a Person as a Function of Doing Him a Favour (1969). Human Relations, 22(4), 371-378"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1177/001872676902200407"
+          }
+        ],
+        "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 267
+    },
+    {
+      "tagId": "kb_093",
+      "title": "共依存",
+      "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "relatedTheoryIds": [],
+      "displayId": 212
     },
     {
       "tagId": "kb_190",
@@ -537,7 +702,8 @@
       "relatedTheoryIds": [
         "kb_710",
         "kb_810"
-      ]
+      ],
+      "displayId": 27
     },
     {
       "tagId": "kb_324",
@@ -545,7 +711,8 @@
       "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 23
     },
     {
       "tagId": "kb_627",
@@ -568,7 +735,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 34
     },
     {
       "tagId": "kb_706",
@@ -599,7 +767,8 @@
         "kb_710",
         "kb_723",
         "kb_263"
-      ]
+      ],
+      "displayId": 193
     },
     {
       "tagId": "kb_625",
@@ -622,7 +791,8 @@
         ],
         "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 56
     },
     {
       "tagId": "kb_543",
@@ -630,15 +800,17 @@
       "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 75
     },
     {
       "tagId": "kb_330",
-      "title": "『Done is better than perfect』",
+      "title": "「形にして初めて、直す場所が見える」",
       "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
-      "relatedTheoryIds": []
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "relatedTheoryIds": [],
+      "displayId": 14
     },
     {
       "tagId": "kb_599",
@@ -653,7 +825,8 @@
           "Performing a Project Premortem (2007)"
         ]
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 66
     },
     {
       "tagId": "kb_762",
@@ -677,7 +850,8 @@
       "relatedTheoryIds": [
         "kb_538",
         "kb_123"
-      ]
+      ],
+      "displayId": 150
     },
     {
       "tagId": "kb_738",
@@ -701,7 +875,8 @@
       "relatedTheoryIds": [
         "kb_200",
         "kb_199"
-      ]
+      ],
+      "displayId": 9
     },
     {
       "tagId": "kb_545",
@@ -709,7 +884,8 @@
       "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 59
     },
     {
       "tagId": "kb_329",
@@ -717,7 +893,8 @@
       "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 15
     },
     {
       "tagId": "kb_051",
@@ -725,7 +902,8 @@
       "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 11
     },
     {
       "tagId": "kb_102",
@@ -733,20 +911,153 @@
       "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 20
     },
     {
-      "tagId": "kb_669",
-      "title": "『成功は、九九％の失敗に支えられた一％だ。』 — 本田宗一郎",
-      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
-      "relatedTheoryIds": []
+      "tagId": "kb_111",
+      "title": "印象管理理論",
+      "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "relatedTheoryIds": [],
+      "displayId": 7
     },
     {
-      "tagId": "kb_618",
-      "title": "足るを知る者は富む",
-      "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
+      "tagId": "kb_632",
+      "title": "無用の用",
+      "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "relatedTheoryIds": [],
+      "displayId": 58
+    },
+    {
+      "tagId": "kb_192",
+      "title": "パーキンソンの法則",
+      "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "relatedTheoryIds": [],
+      "displayId": 124
+    },
+    {
+      "tagId": "kb_175",
+      "title": "現在バイアス",
+      "summary": "将来の大きな利益より、目の前の小さな利益を過度に優先しやすい傾向。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "D. Laibson（参照文献の著者）",
+        "period": "1997年（参照文献）",
+        "works": [
+          "Golden Eggs and Hyperbolic Discounting (1997). The Quarterly Journal of Economics, 112(2), 443-478"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1162/003355397555253"
+          }
+        ],
+        "note": "現在と将来の選好の不整合を扱う代表的モデル。"
+      },
+      "relatedTheoryIds": [
+        "kb_751",
+        "kb_753",
+        "kb_761",
+        "kb_840"
+      ],
+      "displayId": 30
+    },
+    {
+      "tagId": "kb_326",
+      "title": "為せば成る、為さねば成らぬ何事も",
+      "summary": "結果を生む第一条件は、能力の有無を考え続けることではなく、実際に着手することだという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "上杉鷹山",
+        "works": [
+          "広く知られる言葉"
+        ]
+      },
+      "relatedTheoryIds": [],
+      "displayId": 50
+    },
+    {
+      "tagId": "kb_620",
+      "title": "千里の道も足下から始まる",
+      "summary": "大きな目標も、最初の小さな一歩からしか始まらないという教え。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第64章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 39
+    },
+    {
+      "tagId": "kb_645",
+      "title": "「結果を案じるより、今日の一歩を整える」",
+      "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "relatedTheoryIds": [],
+      "displayId": 21
+    },
+    {
+      "tagId": "kb_177",
+      "title": "デフォルト効果",
+      "summary": "明示的に変更しない限り採用される初期設定が、そのまま選ばれやすい現象。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eric J. Johnson / Daniel Goldstein（参照文献の著者）",
+        "period": "2003年（参照文献）",
+        "works": [
+          "Do Defaults Save Lives? (2003). Science, 302(5649), 1338-1339"
+        ],
+        "sources": [
+          {
+            "title": "文献情報・原文（DOI）",
+            "url": "https://doi.org/10.1126/science.1091721"
+          }
+        ],
+        "note": "デフォルト設定と選択を扱う研究。全分野で同じ効果を保証するものではありません。"
+      },
+      "relatedTheoryIds": [
+        "kb_842"
+      ],
+      "displayId": 81
+    },
+    {
+      "tagId": "kb_179",
+      "title": "ナッジ",
+      "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
+      "categoryId": "behavioral-science",
+      "categoryTitle": "行動科学",
+      "relatedTheoryIds": [],
+      "displayId": 84
+    },
+    {
+      "tagId": "kb_619",
+      "title": "人に勝つ者は力があり、自分に勝つ者は強い",
+      "summary": "他人との競争より、自分の欲望や弱さを制する方が本質的な強さだと説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "provenance": {
@@ -764,7 +1075,8 @@
         ],
         "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 52
     },
     {
       "tagId": "kb_736",
@@ -790,7 +1102,65 @@
       "relatedTheoryIds": [
         "kb_737",
         "kb_520"
-      ]
+      ],
+      "displayId": 263
+    },
+    {
+      "tagId": "kb_629",
+      "title": "兵に常勢なく、水に常形なし",
+      "summary": "状況に応じて形を変え、固定したやり方に執着しないことを説く。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孫武に伝統的に帰される『孫子』",
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "works": [
+          "『孫子』虚実篇（第6篇）"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 55
+    },
+    {
+      "tagId": "kb_669",
+      "title": "「成果の陰にある試行も、成功の一部と見る」",
+      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "relatedTheoryIds": [],
+      "displayId": 33
+    },
+    {
+      "tagId": "kb_618",
+      "title": "足るを知る者は富む",
+      "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "works": [
+          "『老子（道徳経）』第33章"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 44
     },
     {
       "tagId": "kb_268",
@@ -813,7 +1183,8 @@
         ],
         "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 31
     },
     {
       "tagId": "kb_612",
@@ -836,7 +1207,8 @@
         ],
         "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 36
     },
     {
       "tagId": "kb_604",
@@ -859,7 +1231,8 @@
         ],
         "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 29
     },
     {
       "tagId": "kb_567",
@@ -882,7 +1255,8 @@
         ],
         "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 68
     },
     {
       "tagId": "kb_282",
@@ -890,7 +1264,8 @@
       "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 53
     },
     {
       "tagId": "kb_296",
@@ -898,7 +1273,8 @@
       "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 49
     },
     {
       "tagId": "kb_266",
@@ -921,30 +1297,135 @@
         ],
         "note": "社会的比較の理論を示した原典。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 133
     },
     {
       "tagId": "kb_634",
-      "title": "『時間は限られている。他人の人生を生きるな』 — スティーブ・ジョブズ",
+      "title": "「時間の使い方に、自分の価値観を映す」",
       "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
-      "categoryId": "maxims-experience",
-      "categoryTitle": "格言・経験則・作品",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "relatedTheoryIds": [],
+      "displayId": 25
+    },
+    {
+      "tagId": "kb_315",
+      "title": "鶏口となるも牛後となるなかれ",
+      "summary": "大組織の末端にいるより、小さな組織でも主導権を持つ道を選ぶ価値を説く言葉。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "史記",
+        "works": [
+          "蘇秦列伝"
+        ]
+      },
+      "relatedTheoryIds": [],
+      "displayId": 19
+    },
+    {
+      "tagId": "kb_654",
+      "title": "「自分らしさを、周囲の型に押し込まない」",
+      "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "relatedTheoryIds": [],
+      "displayId": 30
+    },
+    {
+      "tagId": "kb_617",
+      "title": "自分を知る者は明らかである",
+      "summary": "他人を知る以上に、自分自身を理解することが重要だと説く。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
       "provenance": {
         "status": "確認済み",
-        "attribution": "スティーブ・ジョブズ（Steve Jobs）",
-        "period": "2005年6月12日",
+        "attribution": "老子に伝統的に帰される『老子』",
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
         "works": [
-          "Stanford University Commencement Address (2005)"
+          "『老子（道徳経）』第33章"
         ],
         "sources": [
           {
             "title": "原典・公開資料",
-            "url": "https://news.stanford.edu/stories/2005/06/youve-got-find-love-jobs-says"
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
           }
         ],
-        "note": "大学が公開した講演本文で趣旨を確認。見出しは日本語での要約で、逐語訳ではありません。"
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
       },
-      "relatedTheoryIds": []
+      "relatedTheoryIds": [],
+      "displayId": 30
+    },
+    {
+      "tagId": "kb_724",
+      "title": "Big Five／五因子モデル",
+      "aliases": [
+        "Big Five",
+        "Five-Factor Model",
+        "FFM",
+        "ビッグファイブ",
+        "五因子性格モデル",
+        "OCEAN"
+      ],
+      "summary": "人格特性を開放性、誠実性、外向性、協調性、神経症傾向の五次元で記述するモデル。人を五つの型へ分類する診断ではなく、連続的な傾向を比較する枠組みである。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Paul Costa / Robert McCrae / Lewis Goldbergほか",
+        "period": "1980〜1990年代",
+        "works": [
+          "An introduction to the five-factor model and its applications (1992)"
+        ],
+        "sources": [
+          {
+            "title": "代表研究（DOI）",
+            "url": "https://doi.org/10.1111/j.1467-6494.1992.tb00970.x"
+          }
+        ],
+        "note": "測定尺度・文化・自己評定と他者評定によって結果が変わる。"
+      },
+      "relatedTheoryIds": [
+        "kb_726",
+        "kb_129",
+        "kb_817"
+      ],
+      "displayId": 250
+    },
+    {
+      "tagId": "kb_626",
+      "title": "知彼知己、百戦殆うからず",
+      "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
+      "categoryId": "classics-thought",
+      "categoryTitle": "古典・思想",
+      "provenance": {
+        "status": "確認済み",
+        "attribution": "孫武に伝統的に帰される『孫子』",
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "works": [
+          "『孫子』謀攻篇（第3篇）"
+        ],
+        "sources": [
+          {
+            "title": "原典・公開資料",
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+          }
+        ],
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
+      },
+      "relatedTheoryIds": [],
+      "displayId": 45
+    },
+    {
+      "tagId": "kb_092",
+      "title": "境界線理論",
+      "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "relatedTheoryIds": [],
+      "displayId": 68
     }
   ],
   "techniqueTheoryMap": {

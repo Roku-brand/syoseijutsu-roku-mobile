@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
+import { PersonaCard } from '@/components/persona-catalog';
 import { SearchMark } from '@/components/search-mark';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
@@ -24,12 +25,15 @@ export default function SearchScreen() {
   const initialQuery = getParam(params.q);
   const [query, setQuery] = useState(initialQuery);
   const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
-  const [mode, setMode] = useState<BrowseMode>(getParam(params.mode) === 'theories' ? 'theories' : 'techniques');
-  const { techniqueMatches, theoryMatches } = useMemo(
+  const requestedMode = getParam(params.mode);
+  const [mode, setMode] = useState<BrowseMode>(requestedMode === 'personas' || requestedMode === 'theories' ? requestedMode : 'techniques');
+  const { personaMatches, techniqueMatches, theoryMatches } = useMemo(
     () => getSearchResults(submittedQuery, isPaid),
     [catalogRevision, isPaid, submittedQuery],
   );
-  const count = mode === 'techniques' ? techniqueMatches.length : theoryMatches.length;
+  const count = mode === 'personas' ? personaMatches.length : mode === 'techniques' ? techniqueMatches.length : theoryMatches.length;
+  const resultKind = mode === 'personas' ? '人物像' : mode === 'techniques' ? '処世術' : '理論';
+  const personaColumns: 2 | 3 | 4 = compact ? 2 : width >= 1120 ? 4 : 3;
 
   const submitSearch = () => {
     const trimmed = query.trim();
@@ -65,6 +69,7 @@ export default function SearchScreen() {
       </View>
 
       <View accessibilityRole="tablist" style={styles.modeTabs}>
+        <ModeTab label="人物像" selected={mode === 'personas'} onPress={() => changeMode('personas')} />
         <ModeTab label="処世術" selected={mode === 'techniques'} onPress={() => changeMode('techniques')} />
         <ModeTab label="理論" selected={mode === 'theories'} onPress={() => changeMode('theories')} />
       </View>
@@ -73,12 +78,14 @@ export default function SearchScreen() {
         <View testID="search-page-results" style={styles.results}>
           <View style={styles.resultHeading}>
             <AppText style={styles.resultTitle}>「{submittedQuery}」の検索結果</AppText>
-            <AppText style={styles.resultNote}>{mode === 'techniques' ? '処世術' : '理論'} {count}件</AppText>
+            <AppText style={styles.resultNote}>{resultKind} {count}件</AppText>
           </View>
           {count ? (
-            <View>{mode === 'techniques'
-              ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
-              : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
+            mode === 'personas'
+              ? <View style={styles.personaGrid}>{personaMatches.map((entry) => <PersonaCard key={`${entry.category.key}-${entry.persona.name}`} entry={entry} variant="grid" gridColumns={personaColumns} />)}</View>
+              : <View>{mode === 'techniques'
+                ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
+                : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
           ) : <View style={styles.empty}><AppText style={styles.emptyText}>一致するものはありません</AppText></View>}
         </View>
       ) : (
@@ -109,6 +116,7 @@ const styles = StyleSheet.create({
   modeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, fontWeight: '600' },
   modeTextActive: { color: colors.goldLight },
   results: { marginTop: spacing.xl },
+  personaGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', gap: 12 },
   resultHeading: { minHeight: 38, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: spacing.md, flexWrap: 'wrap' },
   resultTitle: { flex: 1, minWidth: 220, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '600' },
   resultNote: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12 },

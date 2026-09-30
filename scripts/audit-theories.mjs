@@ -12,13 +12,13 @@ const expectedCategories = new Map([
   ['行動科学', 'behavioral-science'],
   ['組織・経営論', 'organization-management'],
   ['戦略論', 'strategy'],
+  ['実践知', 'practical-wisdom'],
   ['古典・思想', 'classics-thought'],
-  ['格言・経験則・作品', 'maxims-experience'],
 ]);
 const errors = [];
 const ids = new Set();
 const referencedIds = new Set(cards.flatMap((card) => card.relatedTheoryIds ?? []));
-const allowedTheoryKeys = new Set(['tagId', 'title', 'summary', 'categoryId', 'categoryTitle', 'provenance']);
+const allowedTheoryKeys = new Set(['tagId', 'title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'relatedTheoryIds', 'displayId']);
 
 for (const theory of theories) {
   if (ids.has(theory.tagId)) errors.push(`Duplicate id: ${theory.tagId}`);

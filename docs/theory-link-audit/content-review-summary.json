@@ -1,29 +1,29 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 793,
-  "links": 1418,
+  "theories": 768,
+  "links": 1346,
   "primaryLinks": 431,
-  "linkedTheories": 667,
-  "unlinkedTheories": 126,
+  "linkedTheories": 641,
+  "unlinkedTheories": 127,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 28,
   "distribution": {
-    "1": 65,
+    "1": 68,
     "2": 78,
-    "3": 67,
+    "3": 74,
     "4": 37,
-    "5": 30,
-    "6": 21,
-    "7": 21,
-    "8": 6,
-    "9": 7,
+    "5": 33,
+    "6": 18,
+    "7": 14,
+    "8": 8,
+    "9": 6,
     "10": 9,
-    "11": 3,
+    "11": 1,
     "12": 2,
-    "13": 5,
+    "13": 3,
     "14": 2,
-    "21": 1,
+    "18": 1,
     "25": 1,
     "28": 1
   },
@@ -32,24 +32,24 @@
     "2": 75
   },
   "supplementaryDistribution": {
-    "0": 82,
-    "1": 76,
-    "2": 62,
-    "3": 35,
+    "0": 87,
+    "1": 74,
+    "2": 67,
+    "3": 39,
     "4": 28,
-    "5": 23,
-    "6": 15,
-    "7": 5,
-    "8": 7,
-    "9": 9,
-    "10": 3,
+    "5": 20,
+    "6": 9,
+    "7": 9,
+    "8": 5,
+    "9": 7,
+    "10": 1,
     "11": 3,
-    "12": 5,
-    "20": 1,
+    "12": 4,
+    "17": 1,
     "24": 1,
     "26": 1
   },
-  "wisdomSupportLinks": 378,
+  "wisdomSupportLinks": 306,
   "categoryCoverage": {
     "psychology": {
       "theories": 305,
@@ -57,7 +57,7 @@
       "links": 550
     },
     "behavioral-science": {
-      "theories": 108,
+      "theories": 109,
       "linkedTheories": 67,
       "links": 111
     },
@@ -71,17 +71,17 @@
       "linkedTheories": 76,
       "links": 123
     },
-    "classics-thought": {
-      "theories": 59,
-      "linkedTheories": 59,
-      "links": 171
+    "practical-wisdom": {
+      "theories": 48,
+      "linkedTheories": 48,
+      "links": 128
     },
-    "maxims-experience": {
-      "theories": 76,
-      "linkedTheories": 76,
-      "links": 207
+    "classics-thought": {
+      "theories": 61,
+      "linkedTheories": 61,
+      "links": 178
     }
   },
-  "generatedAt": "2026-09-08",
-  "supplementaryLinks": 987
+  "generatedAt": "2026-09-30",
+  "supplementaryLinks": 915
 }

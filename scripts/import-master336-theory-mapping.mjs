@@ -11,12 +11,9 @@ const catalog = JSON.parse(fs.readFileSync(techniquesPath, 'utf8'));
 const theories = JSON.parse(fs.readFileSync(theoriesPath, 'utf8'));
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
 const theoryByDisplayId = new Map();
-const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'S', 'classics-thought': 'C', 'maxims-experience': 'Q' };
-const counts = new Map();
+const prefixes = { psychology: 'P', 'behavioral-science': 'B', 'organization-management': 'O', strategy: 'T', 'practical-wisdom': 'A', 'classics-thought': 'C' };
 for (const theory of theories) {
-  const next = (counts.get(theory.categoryId) ?? 0) + 1;
-  counts.set(theory.categoryId, next);
-  theoryByDisplayId.set(`${prefixes[theory.categoryId] ?? '理'}－${next}`, theory);
+  theoryByDisplayId.set(`${prefixes[theory.categoryId] ?? '理'}－${String(theory.displayId).padStart(3, '0')}`, theory);
 }
 const cardById = new Map(cards.map((card) => [card.id, card]));
 const blocks = mapping.split(/^##\s+/m).slice(1);
@@ -30,7 +27,7 @@ for (const block of blocks) {
   if (card.title !== title.trim()) throw new Error(`Technique title mismatch for ${id}`);
   if (seen.has(id)) throw new Error(`Duplicate technique block: ${id}`);
   seen.add(id);
-  const links = [...block.matchAll(/^-\s+([PBOQCS]－\d+)｜(.+)$/gm)].map((match) => {
+  const links = [...block.matchAll(/^-\s+([PBOTAC]－\d+)｜(.+)$/gm)].map((match) => {
     const theory = theoryByDisplayId.get(match[1]);
     if (!theory) throw new Error(`Unknown theory display ID: ${match[1]}`);
     if (theory.title !== match[2].trim()) throw new Error(`Theory title mismatch for ${match[1]}`);

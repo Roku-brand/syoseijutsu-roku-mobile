@@ -7,6 +7,7 @@ const publicTheories = JSON.parse(await readFile(path.resolve('src/data/generate
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1].replaceAll('&amp;', '&'));
 const failures = [];
+const siteUrl = 'https://app.shoseijutsuroku.com';
 const seenTitles = new Map();
 const seenDescriptions = new Map();
 
@@ -67,9 +68,9 @@ const lockedTheory = publicTheories.find((item) => item.status === 'locked' && !
 if (!lockedTheory) failures.push('no locked theory shell was available for index-control audit');
 else {
   const route = `/theory/${lockedTheory.tagId}`;
-  const html = await htmlForUrl(`https://shoseijutsuroku.com${route}`);
+  const html = await htmlForUrl(`${siteUrl}${route}`);
   if (!html.includes('content="noindex,follow"')) failures.push(`${route}: complete-edition-only theory must be noindex`);
-  if (sitemap.includes(`>${`https://shoseijutsuroku.com${route}`}<`)) failures.push(`${route}: complete-edition-only theory leaked into sitemap`);
+  if (sitemap.includes(`>${`${siteUrl}${route}`}<`)) failures.push(`${route}: complete-edition-only theory leaked into sitemap`);
 }
 
 const privateRoutes = [
@@ -87,15 +88,15 @@ const privateRoutes = [
   '/learn/case-01',
 ];
 for (const route of privateRoutes) {
-  const html = await htmlForUrl(`https://shoseijutsuroku.com${route}`);
+  const html = await htmlForUrl(`${siteUrl}${route}`);
   if (!html.includes('content="noindex,follow"')) failures.push(`${route}: private route must be noindex`);
-  if (sitemap.includes(`>${`https://shoseijutsuroku.com${route}`}<`)) failures.push(`${route}: private route leaked into sitemap`);
+  if (sitemap.includes(`>${`${siteUrl}${route}`}<`)) failures.push(`${route}: private route leaked into sitemap`);
 }
 
 const legacyCatalog = await readFile(path.join(dist, 'catalog.html'), 'utf8');
 if (!legacyCatalog.includes('content="noindex,follow"')) failures.push('/catalog: compatibility redirect must be noindex');
-if (!legacyCatalog.includes('rel="canonical" href="https://shoseijutsuroku.com/discover"')) failures.push('/catalog: canonical must point to /discover');
-if (sitemap.includes('>https://shoseijutsuroku.com/catalog<')) failures.push('/catalog: compatibility redirect leaked into sitemap');
+if (!legacyCatalog.includes(`rel="canonical" href="${siteUrl}/discover"`)) failures.push('/catalog: canonical must point to /discover');
+if (sitemap.includes(`>${siteUrl}/catalog<`)) failures.push('/catalog: compatibility redirect leaked into sitemap');
 
 const notFound = await readFile(path.join(dist, '404.html'), 'utf8');
 if (!notFound.includes('content="noindex,follow"')) failures.push('404.html must be noindex');

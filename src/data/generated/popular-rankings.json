@@ -1,0 +1,182 @@
+[
+  {
+    "division": "technique",
+    "content_id": "master336-001",
+    "rank": 1,
+    "title": "清潔感を意識する",
+    "category_id": "interpersonal",
+    "category_title": "対人術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-007",
+    "rank": 2,
+    "title": "相手のテンポに寄せる",
+    "category_id": "interpersonal",
+    "category_title": "対人術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-172",
+    "rank": 3,
+    "title": "締切より早く期限を持つ",
+    "category_id": "work",
+    "category_title": "仕事術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-050",
+    "rank": 4,
+    "title": "人生を楽しそうにする",
+    "category_id": "interpersonal",
+    "category_title": "対人術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-250",
+    "rank": 5,
+    "title": "成功だけを幸福の物差しにしない",
+    "category_id": "life",
+    "category_title": "人生術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-052",
+    "rank": 6,
+    "title": "相手の名前を呼ぶ",
+    "category_id": "interpersonal",
+    "category_title": "対人術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-187",
+    "rank": 7,
+    "title": "やることを頭の外に出す",
+    "category_id": "work",
+    "category_title": "仕事術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-266",
+    "rank": 8,
+    "title": "他人の正解は、自分の正解ではない",
+    "category_id": "life",
+    "category_title": "人生術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-003",
+    "rank": 9,
+    "title": "笑顔にはメリハリをつける",
+    "category_id": "interpersonal",
+    "category_title": "対人術",
+    "access_tier": "free"
+  },
+  {
+    "division": "technique",
+    "content_id": "master336-188",
+    "rank": 10,
+    "title": "緊急より重要を先に守る",
+    "category_id": "work",
+    "category_title": "仕事術",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_001",
+    "rank": 1,
+    "title": "初頭効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_002",
+    "rank": 2,
+    "title": "親近効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_004",
+    "rank": 3,
+    "title": "単純接触効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_003",
+    "rank": 4,
+    "title": "ハロー効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_029",
+    "rank": 5,
+    "title": "ピーク・エンドの法則",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_047",
+    "rank": 6,
+    "title": "返報性の原理",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_138",
+    "rank": 7,
+    "title": "アンカリング効果",
+    "category_id": "behavioral-science",
+    "category_title": "行動科学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_134",
+    "rank": 8,
+    "title": "損失回避",
+    "category_id": "behavioral-science",
+    "category_title": "行動科学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_104",
+    "rank": 9,
+    "title": "社会的証明",
+    "category_id": "behavioral-science",
+    "category_title": "行動科学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_284",
+    "rank": 10,
+    "title": "OODAループ",
+    "category_id": "strategy",
+    "category_title": "戦略論",
+    "access_tier": "free"
+  }
+]

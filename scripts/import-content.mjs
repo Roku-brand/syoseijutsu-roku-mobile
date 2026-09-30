@@ -72,8 +72,8 @@ const theoryCategoryIds = new Map([
   ['行動科学', 'behavioral-science'],
   ['組織・経営論', 'organization-management'],
   ['戦略論', 'strategy'],
+  ['実践知', 'practical-wisdom'],
   ['古典・思想', 'classics-thought'],
-  ['格言・経験則・作品', 'maxims-experience'],
 ]);
 
 // The source dataset contains one deliberately broad
@@ -106,7 +106,6 @@ const theoryContexts = {
   '組織・経営論': '組織の評価・権力・協働をめぐる力学',
   '戦略論': '競争・交渉・不確実性の中で資源を配る考え方',
   '古典・思想': '長い時間を生き抜くための判断と人間観',
-  '格言・経験則・作品': '経験から抽出された、行動を選ぶための視点',
 };
 
 function createTheorySummary(record) {
@@ -118,7 +117,7 @@ function createTheorySummary(record) {
   }
 
   if (record.source_type === '格言・経験則・作品') {
-    return `「${record.title}」は、${context}を言葉にした${kind}です。迷ったときの見方や行動の軸として使えます。`;
+    throw new Error('格言・経験則・作品カテゴリは廃止しました。権利確認後、実践知または古典・思想として個別に編集してください。');
   }
 
   return `「${record.title}」は、${context}を捉える${kind}です。起きていることを整理し、次に取る行動を考える手がかりになります。`;

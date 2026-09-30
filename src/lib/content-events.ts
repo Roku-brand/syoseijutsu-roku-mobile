@@ -40,11 +40,12 @@ export async function recordContentEvent(contentType: ContentType, contentId: st
 }
 
 export async function loadTrendingContent(limit = 12): Promise<TrendingContent[] | null> {
-  if (!supabase) return null;
+  let cachedItems: TrendingContent[] | null = null;
   try {
     const cached = await AsyncStorage.getItem(TRENDING_CACHE_KEY);
     if (cached) {
       const parsed = JSON.parse(cached) as { fetchedAt?: number; items?: TrendingContent[] };
+      if (Array.isArray(parsed.items)) cachedItems = parsed.items;
       if (parsed.fetchedAt && Date.now() - parsed.fetchedAt < TRENDING_CACHE_MS && Array.isArray(parsed.items)) {
         return parsed.items;
       }
@@ -53,8 +54,10 @@ export async function loadTrendingContent(limit = 12): Promise<TrendingContent[]
     // A failed local cache must never block the home screen.
   }
 
+  if (!supabase) return cachedItems;
+
   const { data, error } = await supabase.rpc('get_trending_content', { p_limit: limit });
-  if (error || !Array.isArray(data)) return null;
+  if (error || !Array.isArray(data)) return cachedItems;
   const items = data
     .map((item): TrendingContent | null => {
       const contentType = item.content_type === 'technique' || item.content_type === 'theory' ? item.content_type : null;

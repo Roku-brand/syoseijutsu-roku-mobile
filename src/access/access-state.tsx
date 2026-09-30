@@ -3,9 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
-import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
+import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, refreshSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
 import { hydratePublishedContent } from '@/lib/published-content';
-import { supabase } from '@/lib/supabase';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -57,14 +56,23 @@ export function AccessProvider({ children }: PropsWithChildren) {
 
   const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
     const changed = await hydratePublishedContent(true);
+    const secureWasHydrated = hasHydratedSecureContent(user?.id);
+    const secureChanged = secureWasHydrated
+      ? await refreshSecureContent(() => setCatalogRevision((value) => value + 1))
+      : true;
     // A publish RPC can already have applied its returned row locally. Always
     // notify catalogue consumers so that immediate reflection does not depend
     // on a follow-up public read succeeding in the same moment.
     setCatalogRevision((value) => value + 1);
-    return changed;
-  }, []);
+    return changed && secureChanged;
+  }, [user?.id]);
 
-  useEffect(() => { void refreshPublishedContent(); }, [refreshPublishedContent]);
+  const checkPublishedContent = useCallback(async (force = false) => {
+    const changed = await hydratePublishedContent(force);
+    // A forced check can overlap another catalog sync. Refresh consumers even
+    // if this call reports no change, so they read the latest catalog objects.
+    if (changed || force) setCatalogRevision((value) => value + 1);
+  }, []);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
     if (hasHydratedSecureContent(userId)) {
@@ -73,22 +81,23 @@ export function AccessProvider({ children }: PropsWithChildren) {
     }
     setSecureContentStatus('loading');
     try {
-      await hydrateSecureContent();
+      await hydrateSecureContent(() => setCatalogRevision((value) => value + 1));
       setSecureContentStatus('ready');
-      await refreshPublishedContent();
+      await checkPublishedContent(true);
     } catch {
       if (await restoreCachedSecureContent(userId)) {
         setSecureContentStatus('ready');
         setCatalogRevision((value) => value + 1);
-        await refreshPublishedContent();
+        await checkPublishedContent(true);
         return;
       }
       // Never expose the intentionally blank public-catalogue shell as a
       // usable theory title. Theory surfaces show a quiet retry state instead.
       setSecureContentStatus('error');
       setCatalogRevision((value) => value + 1);
+      await checkPublishedContent(true);
     }
-  }, [refreshPublishedContent]);
+  }, [checkPublishedContent]);
 
   const refreshAccess = useCallback(async (): Promise<AccessState> => {
     if (loading) {
@@ -105,7 +114,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       setCatalogRevision((value) => value + 1);
       setActualAccessState('guest');
       setAccessInfo(FREE_ACCESS);
-      await refreshPublishedContent();
+      await checkPublishedContent(true);
       return 'guest';
     }
 
@@ -124,7 +133,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await refreshPublishedContent();
+      await checkPublishedContent(true);
       const nextState: AccessState = 'free';
       setActualAccessState(nextState);
       return nextState;
@@ -135,11 +144,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await refreshPublishedContent();
+      await checkPublishedContent(true);
       setActualAccessState('error');
       return 'error';
     }
-  }, [loading, refreshPublishedContent, role, synchronizeSecureContent, user]);
+  }, [checkPublishedContent, loading, role, synchronizeSecureContent, user]);
 
   useEffect(() => { void refreshAccess(); }, [refreshAccess]);
 
@@ -157,29 +166,17 @@ export function AccessProvider({ children }: PropsWithChildren) {
       if (state === 'active') {
         // Revalidate the public catalogue for guests as well as signed-in
         // users so a publish becomes visible without a full reload.
-        void refreshPublishedContent();
+        void checkPublishedContent();
         if (user) void refreshAccess();
       }
     });
     return () => subscription.remove();
-  }, [refreshAccess, refreshPublishedContent, user]);
+  }, [checkPublishedContent, refreshAccess, user]);
 
   useEffect(() => {
-    const interval = setInterval(() => { void refreshPublishedContent(); }, 15_000);
+    const interval = setInterval(() => { void checkPublishedContent(); }, 60 * 60 * 1000);
     return () => clearInterval(interval);
-  }, [refreshPublishedContent]);
-
-  useEffect(() => {
-    const client = supabase;
-    if (!client) return;
-    const channel = client
-      .channel('published-techniques-refresh')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'techniques' }, () => {
-        void refreshPublishedContent();
-      })
-      .subscribe();
-    return () => { void client.removeChannel(channel); };
-  }, [refreshPublishedContent]);
+  }, [checkPublishedContent]);
 
   useEffect(() => {
     void storageReadWithin(PREVIEW_KEY).then((stored) => {
@@ -205,7 +202,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
     setCatalogRevision((value) => value + 1);
     setAccessInfo(FREE_ACCESS);
     setActualAccessState('guest');
-  }, []);
+    void checkPublishedContent(true);
+  }, [checkPublishedContent]);
 
   const restorePurchase = useCallback(async (sessionId?: string) => {
     setAccessInfo((current) => ({ ...current, status: 'processing' }));

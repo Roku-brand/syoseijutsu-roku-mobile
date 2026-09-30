@@ -6,10 +6,10 @@ test('opens the consolidated persona archive with the requested category selecte
   await expect(page.getByText('印象がいい人', { exact: true })).toBeVisible();
   await expect(page.getByText('人たらしの人', { exact: true })).toBeVisible();
   await expect(page.getByText('会話がうまい人', { exact: true })).toBeVisible();
-  const personaLinks = page.getByTestId('personas-grid').getByRole('link');
-  await expect(personaLinks.nth(0)).toHaveAccessibleName(/^印象がいい人/);
-  await expect(personaLinks.nth(1)).toHaveAccessibleName(/^人たらしの人/);
-  await expect(personaLinks.nth(2)).toHaveAccessibleName(/^会話がうまい人/);
+  const personaCards = page.getByTestId('personas-grid').getByRole('button');
+  await expect(personaCards.nth(0)).toHaveAccessibleName(/^印象がいい人/);
+  await expect(personaCards.nth(1)).toHaveAccessibleName(/^人たらしの人/);
+  await expect(personaCards.nth(2)).toHaveAccessibleName(/^会話がうまい人/);
   await expect(page.getByText('仕事ができる人', { exact: true })).toHaveCount(0);
 });
 

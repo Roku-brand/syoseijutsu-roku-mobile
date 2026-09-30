@@ -53,14 +53,25 @@ if (importRows.length !== rows.length) {
 const { count: beforeCount, error: beforeError } = await supabase.from('techniques').select('id', { count: 'exact', head: true });
 if (beforeError) throw beforeError;
 console.log(`Existing techniques before import: ${beforeCount ?? 0}`);
-for (let index = 0; index < importRows.length; index += 100) {
-  const batch = importRows.slice(index, index + 100);
+// Do not send existing (including archived) rows through INSERT triggers.
+// ON CONFLICT DO NOTHING still runs BEFORE INSERT validation, which may reject
+// bundled references that the owner has since moved or archived.
+const existingIds = new Set();
+for (let offset = 0; ; offset += 1000) {
+  const { data, error } = await supabase.from('techniques').select('id').order('id').range(offset, offset + 999);
+  if (error) throw error;
+  for (const row of data ?? []) existingIds.add(row.id);
+  if ((data?.length ?? 0) < 1000) break;
+}
+const missingRows = importRows.filter((row) => !existingIds.has(row.id));
+for (let index = 0; index < missingRows.length; index += 100) {
+  const batch = missingRows.slice(index, index + 100);
   // The owner table is authoritative after the initial seed. Never replace
   // hand-curated rows from the bundled catalogue on every Pages deploy.
   // Insert only cards that are missing from a fresh project.
   const { error } = await supabase.from('techniques').upsert(batch, { onConflict: 'id', ignoreDuplicates: true });
   if (error) throw error;
-  console.log(`imported ${Math.min(index + batch.length, importRows.length)}/${importRows.length}`);
+  console.log(`imported ${Math.min(index + batch.length, missingRows.length)}/${missingRows.length}`);
 }
 // `primary_theory_ids` was introduced after the first owner catalogue was
 // published. Seed only NULL legacy rows: an explicit empty array is a valid

@@ -28,7 +28,7 @@ const wisdomSupportByTechniqueId = new Map(cards.map((card) => [card.id, []]));
 
 for (const [theoryId, techniqueIds] of Object.entries(wisdomSupportTechniqueIdsByTheoryId)) {
   const theory = theoryById.get(theoryId);
-  if (!theory || !['classics-thought', 'maxims-experience'].includes(theory.categoryId)) {
+  if (!theory || !['practical-wisdom', 'classics-thought'].includes(theory.categoryId)) {
     throw new Error(`Wisdom support map references a non-wisdom theory: ${theoryId}.`);
   }
   for (const techniqueId of techniqueIds) {
@@ -64,16 +64,13 @@ const displayPrefixes = {
   psychology: 'P',
   'behavioral-science': 'B',
   'organization-management': 'O',
-  strategy: 'S',
+  strategy: 'T',
+  'practical-wisdom': 'A',
   'classics-thought': 'C',
-  'maxims-experience': 'Q',
 };
-const categoryCounts = new Map();
 const displayIdByTheoryId = new Map();
 for (const theory of theories) {
-  const next = (categoryCounts.get(theory.categoryId) ?? 0) + 1;
-  categoryCounts.set(theory.categoryId, next);
-  displayIdByTheoryId.set(theory.tagId, `${displayPrefixes[theory.categoryId] ?? '理'}－${next}`);
+  displayIdByTheoryId.set(theory.tagId, `${displayPrefixes[theory.categoryId] ?? '理'}－${String(theory.displayId).padStart(3, '0')}`);
 }
 
 const markdown = [

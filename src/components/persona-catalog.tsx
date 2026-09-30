@@ -1,11 +1,14 @@
-import { Link } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Image, type ImageSource } from 'expo-image';
+import { useEffect, useRef, useState } from 'react';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { isFreePersona } from '@/access/access-config';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { categories, categoryMeta, categoryOrder } from '@/data/catalog';
+import { formatPersonaNumber, getPersonaPresentation } from '@/data/persona-presentation';
 import type { CatalogCategory, CategoryKey } from '@/data/types';
-import { AccessBadge } from './access-badge';
+import { personaRoute, upgradeRoute } from '@/navigation/app-routes';
 import { AppText } from './ui';
 
 export type PersonaFilterKey = 'all' | CategoryKey;
@@ -22,7 +25,8 @@ export function getPersonaCount() {
 export function getPersonaEntries(filter: PersonaFilterKey): PersonaEntry[] {
   return categories
     .filter((category) => filter === 'all' || category.key === filter)
-    .flatMap((category) => category.subcategories.map((persona) => ({ category, persona })));
+    .flatMap((category) => category.subcategories.map((persona) => ({ category, persona })))
+    .sort((left, right) => (getPersonaPresentation(left.persona.name)?.number ?? 999) - (getPersonaPresentation(right.persona.name)?.number ?? 999));
 }
 
 export function getPersonaFilterLabel(filter: PersonaFilterKey) {
@@ -39,12 +43,7 @@ export function PersonaFilterBar({ selected, onSelect }: {
   ];
 
   return (
-    <ScrollView
-      horizontal
-      testID="persona-category-filters"
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.filterRow}
-    >
+    <ScrollView horizontal testID="persona-category-filters" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterRow}>
       {options.map((option) => {
         const active = option.key === selected;
         return (
@@ -65,70 +64,132 @@ export function PersonaFilterBar({ selected, onSelect }: {
   );
 }
 
-export function PersonaCard({ entry, variant, compact, narrow = false, showCategory = false }: {
+export function PersonaCard({ entry, variant, gridColumns = 2 }: {
   entry: PersonaEntry;
   variant: 'rail' | 'grid';
-  compact: boolean;
+  compact?: boolean;
   narrow?: boolean;
   showCategory?: boolean;
+  gridColumns?: 2 | 3 | 4;
 }) {
+  const router = useRouter();
   const { isPaid } = useAccess();
   const { category, persona } = entry;
+  const presentation = getPersonaPresentation(persona.name);
   const locked = !isPaid && !isFreePersona(persona.name);
-  const cardStyle = StyleSheet.flatten([
-    styles.personaCard,
-    variant === 'rail' ? styles.personaCardRail : styles.personaCardGrid,
-    compact && variant === 'rail' && styles.personaCardRailCompact,
-    compact && variant === 'grid' && styles.personaCardGridCompact,
-    narrow && variant === 'grid' && styles.personaCardGridNarrow,
-  ]);
+  const number = presentation?.number ?? 0;
+  // Leave enough room for the 12px grid gap even at a 320px viewport.
+  const width = gridColumns === 4 ? '23.8%' : gridColumns === 3 ? '32%' : '47.5%';
+
+  const open = () => {
+    if (locked) {
+      router.push(upgradeRoute('persona_card'));
+      return;
+    }
+    router.push(personaRoute(category.key, persona.name));
+  };
 
   return (
-    <Link href={{ pathname: '/subcategory/[category]/[name]', params: { category: category.key, name: persona.name } }} asChild>
-      <Pressable
-        accessibilityRole="link"
-        accessibilityLabel={`${persona.name}、${categoryMeta[category.key].label}、${persona.items.length}処世術を開く`}
-        style={cardStyle}
-      >
-        <View accessibilityElementsHidden style={[styles.personaIcon, narrow && styles.personaIconNarrow]}>
-          <View style={styles.personaHead} />
-          <View style={styles.personaShoulders} />
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={locked ? `${persona.name}は完全版で利用できます` : `${persona.name}、${persona.items.length}処世術を開く`}
+      onPress={open}
+      style={({ pressed }) => [
+        styles.personaCard,
+        variant === 'rail' ? styles.personaCardRail : { width, flexBasis: width },
+        pressed && styles.pressedCard,
+      ]}
+    >
+      <PersonaImage name={persona.name} source={presentation?.image} />
+      <View style={styles.cardBody}>
+        <View style={styles.titleRow}>
+          <AppText style={styles.number}>{number ? formatPersonaNumber(number) : '—'}</AppText>
+          <AppText numberOfLines={2} style={styles.personaTitle}>{persona.name}</AppText>
         </View>
-        {showCategory ? <AppText style={[styles.personaCategory, narrow && styles.personaCategoryNarrow]}>{categoryMeta[category.key].label}</AppText> : null}
-        <AppText numberOfLines={2} style={[styles.personaTitle, narrow && styles.personaTitleNarrow]}>{persona.name}</AppText>
-        <View style={styles.personaFooter}>
-          <AppText style={styles.personaTechniqueCount}>{persona.items.length}処世術</AppText>
-          <AppText accessibilityElementsHidden style={styles.personaArrow}>›</AppText>
+        <AppText numberOfLines={3} style={styles.subtitle}>{presentation?.subtitle ?? `${persona.items.length}の処世術から学ぶ方法`}</AppText>
+        <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText>
+      </View>
+      {locked ? <View pointerEvents="none" style={styles.lockedTint} /> : null}
+      {locked ? (
+        <View pointerEvents="none" style={styles.lockMessage}>
+          <LockMark />
+          <AppText style={styles.lockText}>無料プランでは{`\n`}ご利用いただけません</AppText>
         </View>
-        {locked ? <View style={styles.accessBadge}><AccessBadge locked compact /></View> : null}
-      </Pressable>
-    </Link>
+      ) : null}
+    </Pressable>
+  );
+}
+
+function PersonaImage({ name, source }: { name: string; source?: ImageSource }) {
+  const hostRef = useRef<any>(null);
+  const [visible, setVisible] = useState(Platform.OS !== 'web');
+
+  useEffect(() => {
+    if (Platform.OS !== 'web' || visible) return;
+    const host = hostRef.current;
+    if (!host || typeof IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      setVisible(true);
+      observer.disconnect();
+    }, { rootMargin: '360px 0px' });
+    observer.observe(host);
+    return () => observer.disconnect();
+  }, [visible]);
+
+  return (
+    <View ref={hostRef} style={styles.imageFrame}>
+      {visible && source ? (
+        <Image
+          source={source}
+          accessibilityLabel={`${name}を象徴する写真`}
+          contentFit="cover"
+          cachePolicy="memory-disk"
+          transition={140}
+          recyclingKey={name}
+          style={styles.image}
+        />
+      ) : <View style={styles.imageFallback} />}
+    </View>
+  );
+}
+
+function LockMark() {
+  return (
+    <View style={styles.lockMark} accessibilityElementsHidden>
+      <View style={styles.lockShackle} />
+      <View style={styles.lockBody}><View style={styles.lockKeyhole} /></View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  filterRow: { minWidth: '100%', justifyContent: 'center', gap: 14, paddingHorizontal: 2, paddingVertical: 2 },
-  filterButton: { width: 190, minHeight: 44, paddingHorizontal: spacing.md, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: 'rgba(255,253,248,0.72)', alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { borderColor: colors.charcoal, backgroundColor: colors.charcoal },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600', letterSpacing: 0.6 },
-  filterTextActive: { color: colors.goldLight },
-  personaCard: { position: 'relative', minWidth: 0, minHeight: 210, paddingTop: 30, paddingHorizontal: 18, paddingBottom: 17, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: 'rgba(255,253,248,0.82)', alignItems: 'center', justifyContent: 'flex-start' },
-  personaCardRail: { width: 238, height: 230, flexShrink: 0 },
-  personaCardRailCompact: { width: 174, height: 196, minHeight: 196, paddingTop: 23, paddingHorizontal: 11 },
-  personaCardGrid: { width: 224, flexBasis: 224, height: 210, flexGrow: 0, flexShrink: 0 },
-  personaCardGridCompact: { width: '48%', flexBasis: '48%', maxWidth: '48%', height: 194, minHeight: 194, paddingHorizontal: 9 },
-  personaCardGridNarrow: { width: '100%', flexBasis: '100%', maxWidth: '100%', height: 164, minHeight: 164, paddingTop: 15, paddingBottom: 11 },
-  personaIcon: { width: 58, height: 58, borderRadius: 29, backgroundColor: colors.paperDeep, alignItems: 'center', justifyContent: 'center' },
-  personaIconNarrow: { width: 48, height: 48, borderRadius: 24 },
-  personaHead: { width: 11, height: 11, borderWidth: 1.2, borderColor: colors.inkSoft, borderRadius: 6, marginBottom: 5 },
-  personaShoulders: { width: 23, height: 12, borderTopWidth: 1.2, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderColor: colors.inkSoft, borderTopLeftRadius: 12, borderTopRightRadius: 12 },
-  personaCategory: { marginTop: 10, color: colors.gold, fontSize: 9, lineHeight: 14, fontWeight: '700', letterSpacing: 0.8 },
-  personaCategoryNarrow: { marginTop: 5 },
-  personaTitle: { minHeight: 48, marginTop: 12, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', textAlign: 'center' },
-  personaTitleNarrow: { minHeight: 24, marginTop: 6, fontSize: 16, lineHeight: 23 },
-  personaFooter: { width: '100%', minHeight: 26, marginTop: 'auto', paddingTop: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  personaTechniqueCount: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
-  personaArrow: { color: colors.gold, fontSize: 21, lineHeight: 21 },
-  accessBadge: { position: 'absolute', right: 9, top: 9, transform: [{ scale: 0.86 }] },
-  pressed: { opacity: 0.7 },
+  filterRow: { minWidth: '100%', justifyContent: 'center', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
+  filterButton: { minWidth: 78, flexGrow: 1, minHeight: 48, paddingHorizontal: spacing.sm, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButtonActive: { backgroundColor: colors.gold },
+  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5 },
+  filterTextActive: { color: colors.surface, fontWeight: '700' },
+  personaCard: { position: 'relative', minWidth: 0, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface, ...shadow.card },
+  personaCardRail: { width: 260, flexBasis: 260, flexShrink: 0 },
+  pressedCard: { opacity: 0.84, transform: [{ translateY: 1 }] },
+  imageFrame: { width: '100%', aspectRatio: 1.55, overflow: 'hidden', backgroundColor: colors.paperDeep },
+  image: { width: '100%', height: '100%' },
+  imageFallback: { flex: 1, backgroundColor: colors.paperDeep },
+  cardBody: { position: 'relative', minHeight: 132, paddingLeft: 11, paddingTop: 12, paddingRight: 28, paddingBottom: 13 },
+  titleRow: { flexDirection: 'row', alignItems: 'baseline', gap: 7 },
+  number: { flexShrink: 0, color: colors.gold, fontFamily: fonts.serif, fontSize: 17, lineHeight: 23, fontWeight: '600', letterSpacing: 0.3 },
+  personaTitle: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '700', letterSpacing: 0.1 },
+  subtitle: { marginTop: 8, color: colors.inkSoft, fontSize: 12, lineHeight: 19 },
+  arrow: { position: 'absolute', right: 9, top: 48, color: colors.gold, fontFamily: fonts.serif, fontSize: 27, lineHeight: 30 },
+  lockedTint: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(22, 19, 15, 0.30)' },
+  lockMessage: { position: 'absolute', top: 0, left: 0, right: 0, aspectRatio: 1.55, alignItems: 'center', justifyContent: 'center', gap: 7 },
+  lockText: { color: '#FFF8E9', fontSize: 11, lineHeight: 18, fontWeight: '700', textAlign: 'center', textShadowColor: 'rgba(0,0,0,0.6)', textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
+  lockMark: { width: 27, height: 31, alignItems: 'center' },
+  lockShackle: { width: 17, height: 15, borderWidth: 3, borderBottomWidth: 0, borderColor: '#F4D99D', borderTopLeftRadius: 9, borderTopRightRadius: 9 },
+  lockBody: { width: 25, height: 19, borderRadius: 4, backgroundColor: '#F4D99D', alignItems: 'center', justifyContent: 'center' },
+  lockKeyhole: { width: 4, height: 7, borderRadius: 2, backgroundColor: '#3A3024' },
+  pressed: { opacity: 0.72 },
 });
