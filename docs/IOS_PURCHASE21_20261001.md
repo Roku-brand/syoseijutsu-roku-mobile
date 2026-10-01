@@ -33,3 +33,5 @@ App Store Connectの非更新商品 `jp.shoseijutsuroku.app.complete30days`（Ap
 - [App Store Connectへの提出予約](https://expo.dev/accounts/shoseijutsuroku/projects/shoseijutsuroku/submissions/38592e52-f194-4713-ac5f-0454e6fd5475)
 
 11:29（日本時間）にビルド作成を開始し、自動アップロードを予約した。審査への再提出・一般公開は行っていない。ビルドログは `.expo/eas-build21.log`、最新の作成状態は `.expo/eas-build21-state.json`、検証用ソースの場所は `.expo/purchase21-build-path.txt`。
+
+11:34:58（日本時間）にEAS Buildが `FINISHED`。署名済みIPAの作成に成功した。11:35の照合で予約済み提出は `IN_QUEUE`、エラーなし。Appleへの転送とASCの処理完了はまだ確認できていない。更新後はTestFlightで `1.0.0 (21)` を選ぶ。待機中の提出を重複作成しない。
