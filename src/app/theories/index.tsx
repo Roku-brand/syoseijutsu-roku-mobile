@@ -84,7 +84,7 @@ export default function TheoryIndexScreen() {
         <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
           {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
             ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
-            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
+            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
         </View>
       ) : null}
 
