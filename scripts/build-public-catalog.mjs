@@ -114,7 +114,7 @@ const publicTechniques = {
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
   ? theory
-  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, status: 'locked' });
+  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, ...(theory.provenance?.status === 'オリジナル' ? { provenance: theory.provenance } : {}), status: 'locked' });
 
 metadata.categoryCounts = Object.fromEntries(
   theories.map((theory) => theory.categoryId).filter((id, index, ids) => ids.indexOf(id) === index)

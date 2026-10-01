@@ -30,6 +30,9 @@ jobs:
       - run: pnpm content:validate-master336
       - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning
+      - run: pnpm lint
+      - run: pnpm test:practical-wisdom
+      - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck
       - run: node scripts/check-purchase-price.mjs
       - run: pnpm export:pages

@@ -44,13 +44,13 @@ const theoryRules = [
   [/動か|説得|依頼/, ['kb_462', 'kb_483', 'kb_520']], [/責任.*曖昧|責任の所在/, ['kb_073', 'kb_487']],
   [/根回し|会議.*前|提案.*前/, ['kb_159', 'kb_483']], [/評価|上司|成果を見せ|実績/, ['kb_111', 'kb_116', 'kb_117']],
   [/目的|完了条件|依頼.*先/, ['kb_170', 'kb_171', 'kb_498']], [/締切|期限|予定/, ['kb_190', 'kb_192', 'kb_547']],
-  [/優先|重要.*捨て|完璧/, ['kb_329', 'kb_330', 'kb_545']], [/タスク.*頭の外|メモ|書き出/, ['kb_493', 'kb_577']],
+  [/優先|重要.*捨て|完璧/, ['kb_329', 'kb_545']], [/タスク.*頭の外|メモ|書き出/, ['kb_493', 'kb_577']],
   [/着手|始める|取りかか/, ['kb_172', 'kb_530', 'kb_532']], [/集中|割り込み|気が散/, ['kb_181', 'kb_493']],
   [/習慣|続け/, ['kb_180', 'kb_533', 'kb_534']], [/例外|決めつけ|前提|反対の可能性|仮説/, ['kb_570', 'kb_573', 'kb_574']],
   [/交渉.*前|代替案|決裂/, ['kb_142', 'kb_143', 'kb_144']], [/条件|譲歩|交換/, ['kb_147', 'kb_150', 'kb_151']],
   [/対立|面子|衝突/, ['kb_157', 'kb_159', 'kb_160']], [/幸せ|幸福|成功だけ|充実/, ['kb_268', 'kb_551', 'kb_560']],
   [/時間|忙し/, ['kb_556', 'kb_562']], [/自分らし|価値観|得意|強み|他人の正解/, ['kb_257', 'kb_259', 'kb_491']],
-  [/比べ|比較|他人の正解/, ['kb_266', 'kb_338']], [/不安|心配|恐れ/, ['kb_203', 'kb_204', 'kb_213']],
+  [/比べ|比較|他人の正解/, ['kb_266']], [/不安|心配|恐れ/, ['kb_203', 'kb_204', 'kb_213']],
   [/不安.*動|恐れ.*行動/, ['kb_210', 'kb_221', 'kb_222']], [/後悔|選択|納得/, ['kb_554', 'kb_569', 'kb_277']],
   [/失敗|立ち直|喪失|回復/, ['kb_240', 'kb_241', 'kb_264']], [/可能性|未来|肩書|選び直|小さく試/, ['kb_256', 'kb_279', 'kb_290']],
   [/学び|能力|スキル/, ['kb_571', 'kb_584', 'kb_585']],
@@ -140,7 +140,8 @@ const theoryIdByTitle = new Map(theories.map((theory) => [theory.title, theory.t
 
 for (const card of cards) {
   const vector = techniqueVector(card);
-  const compatibleTheories = theories;
+  // Original aphorisms require independent editorial matches, never keyword similarity.
+  const compatibleTheories = theories.filter((theory) => theory.categoryId !== 'practical-wisdom');
   const legacyRanked = legacyCards
     .filter((legacy) => legacy.field === card.field)
     .map((legacy) => {
@@ -156,7 +157,7 @@ for (const card of cards) {
   for (const { legacy, score } of legacyRanked) {
     for (const id of legacy.relatedTheoryIds ?? []) {
       const theory = theoryById.get(id);
-      if (!theory) continue;
+      if (!theory || theory.categoryId === 'practical-wisdom') continue;
       scores.set(id, (scores.get(id) ?? 0) + score);
     }
   }
@@ -189,7 +190,8 @@ for (const card of cards) {
     selected.splice(0, selected.length, ...curatedIds.map((id) => ({ id, score: 100, theory: theoryById.get(id) })));
   }
   if (!selected.length) throw new Error(`No compatible theory found for ${card.id}: ${card.title}`);
-  card.relatedTheoryIds = selected.map((entry) => entry.id);
+  const reviewedOriginalIds = card.relatedTheoryIds?.filter((id) => theoryById.get(id)?.categoryId === 'practical-wisdom') ?? [];
+  card.relatedTheoryIds = [...new Set([...selected.map((entry) => entry.id), ...reviewedOriginalIds])];
   report.push({
     id: card.id,
     field: card.field,

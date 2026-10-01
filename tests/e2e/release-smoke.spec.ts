@@ -437,7 +437,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
 
   await page.goto('/theories');
   await expect(page.getByRole('heading', { name: '理論一覧' })).toBeVisible();
-  await expect(page.getByText('768件', { exact: true })).toBeVisible();
+  await expect(page.getByText('759件', { exact: true })).toBeVisible();
   const labels = await page.getByTestId('theory-category-filters').getByRole('button').allTextContents();
   expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想']);
   const filters = page.getByTestId('theory-category-filters').getByRole('button');
@@ -845,7 +845,7 @@ test('今日の一枚は指定された処世術と説明を表示する', async
 test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('768件', { exact: true })).toBeVisible();
+  await expect(page.getByText('759件', { exact: true })).toBeVisible();
   await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);

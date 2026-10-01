@@ -124,6 +124,12 @@ jobs:
       - name: Audit learning curriculum
         run: pnpm content:audit-learning
 
+      - name: Lint source
+        run: pnpm lint
+
+      - name: Test practical wisdom contracts
+        run: pnpm test:practical-wisdom
+
       - name: Check types
         run: pnpm typecheck
 

@@ -1,0 +1,434 @@
+[
+  {
+    "tagId": "kb_636",
+    "title": "「新しい道には、失敗から学ぶ余地がある」",
+    "summary": "新しいことに挑戦する以上、失敗は避けるべき異常ではなく必要な過程だという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 1
+  },
+  {
+    "tagId": "kb_670",
+    "title": "「安心のために、可能性を狭めすぎない」",
+    "summary": "安全だけを求めて、自分の可能性を必要以上に縮めないよう促す。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 2
+  },
+  {
+    "tagId": "kb_655",
+    "title": "「行き詰まったら、別の手段を試してみる」",
+    "summary": "限界を感じた後に、工夫や粘りが生まれるという仕事観。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 3
+  },
+  {
+    "tagId": "kb_637",
+    "title": "「一度の出来事に、人生の結論を預けない」",
+    "summary": "一度の失敗や選択を、人生全体の決定打だと思い込まないための視点。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 4
+  },
+  {
+    "tagId": "kb_662",
+    "title": "「動かないことで失う機会も、リスクに数える」",
+    "summary": "失敗そのものより、挑戦せず停滞することを大きなリスクと見る考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 5
+  },
+  {
+    "tagId": "kb_648",
+    "title": "「動きながら、少しずつ形を磨く」",
+    "summary": "完璧な正解を探すより、動きながら良い形を作るという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 6
+  },
+  {
+    "tagId": "kb_674",
+    "title": "「生んだ価値を、周囲への貢献でも測る」",
+    "summary": "成功を自分の所有物ではなく、他者や社会へ生んだ価値で測る考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 7
+  },
+  {
+    "tagId": "kb_650",
+    "title": "「恐れの大きさだけで、機会を閉じない」",
+    "summary": "失敗の恐怖だけを理由に、価値ある機会を手放さない姿勢。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 8
+  },
+  {
+    "tagId": "kb_705",
+    "title": "「落ち着きを保ち、できることから動き出す」",
+    "summary": "焦って自分を乱さず、それでも行動は止めないという姿勢。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 9
+  },
+  {
+    "tagId": "kb_651",
+    "title": "「変えられる一歩へ、意識を戻す」",
+    "summary": "過去への後悔と未来への不安に奪われず、現在の行動へ意識を戻す教え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 10
+  },
+  {
+    "tagId": "kb_704",
+    "title": "「過去の傷は、急がず付き合い方を学ぶ」",
+    "summary": "過去の傷を消そうとするより、付き合い方を学び人生を支配させないという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 11
+  },
+  {
+    "tagId": "kb_665",
+    "title": "「過去の努力より、これからの適合を選ぶ」",
+    "summary": "過去に費やした努力を理由に、合わなくなった道へ居続ける危険を戒める。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 12
+  },
+  {
+    "tagId": "kb_657",
+    "title": "「過去の弁明より、次の行動に力を使う」",
+    "summary": "過去の失敗を正当化するより、これからの行動で状況を変えることを重視する。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 13
+  },
+  {
+    "tagId": "kb_330",
+    "title": "「形にして初めて、直す場所が見える」",
+    "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 14
+  },
+  {
+    "tagId": "kb_647",
+    "title": "「考える時間を区切り、決める時を持つ」",
+    "summary": "考える時間を増やすことと判断の質は同じではなく、決める力も必要だという教え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 15
+  },
+  {
+    "tagId": "kb_661",
+    "title": "「考えを確かめるなら、小さく試してみる」",
+    "summary": "考えるだけで結論を出さず、実際に試してから判断することを勧める。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 16
+  },
+  {
+    "tagId": "kb_642",
+    "title": "「傷つく可能性を知り、挑み方を選ぶ」",
+    "summary": "傷つく可能性を受け入れることなしに、本当の挑戦や自己開示はできない。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 17
+  },
+  {
+    "tagId": "kb_338",
+    "title": "「比べるなら、見ている範囲をそろえる」",
+    "summary": "他人の最も良く見える瞬間と、自分の不安や失敗を含む日常全体を比較しても、公正な判断にはならない。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 18
+  },
+  {
+    "tagId": "kb_666",
+    "title": "「敬意を欠く場面には、境界を引いてよい」",
+    "summary": "自己尊重は、他人からの不当な扱いに境界線を引くことにも表れる。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 19
+  },
+  {
+    "tagId": "kb_633",
+    "title": "「経験の意味は、歩いた後から育つ」",
+    "summary": "今は無駄に見える経験も、後から意味を持つことがあるという人生観。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 20
+  },
+  {
+    "tagId": "kb_645",
+    "title": "「結果を案じるより、今日の一歩を整える」",
+    "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 21
+  },
+  {
+    "tagId": "kb_331",
+    "title": "「行動は、起こりやすい環境から変わる」",
+    "summary": "行動を変えるには意志力へ頼るより、望ましい行動が自然に起きる環境を設計する方が強いという原則。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 22
+  },
+  {
+    "tagId": "kb_640",
+    "title": "「才は、習慣と忍耐によって育つ」",
+    "summary": "才能は生まれつきの能力だけでなく、続ける力や自己管理にも表れる。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 23
+  },
+  {
+    "tagId": "kb_671",
+    "title": "「時間と縁に、自分で余白を残しておく」",
+    "summary": "時間や人間関係の余白を、他人ではなく自分の基準で配分するという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 24
+  },
+  {
+    "tagId": "kb_634",
+    "title": "「時間の使い方に、自分の価値観を映す」",
+    "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 25
+  },
+  {
+    "tagId": "kb_656",
+    "title": "「姿勢と熱意と力の向きが、結果を形づくる」",
+    "summary": "能力だけでなく、姿勢や努力の方向が結果を大きく左右するという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 26
+  },
+  {
+    "tagId": "kb_659",
+    "title": "「自然体でいられる縁を、丁寧に育てる」",
+    "summary": "所属するために自分を偽るのではなく、自然体で受け入れられる関係を大切にする。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 27
+  },
+  {
+    "tagId": "kb_643",
+    "title": "「失敗の記録から、次の工夫を拾い上げる」",
+    "summary": "失敗の原因探しだけで止まらず、次に活かせる教訓へ変えることを重視する。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 28
+  },
+  {
+    "tagId": "kb_638",
+    "title": "「失敗は、守りたいものを照らすことがある」",
+    "summary": "失敗によって失うものがある一方、本当に大切なものが明確になることもある。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 29
+  },
+  {
+    "tagId": "kb_654",
+    "title": "「自分らしさを、周囲の型に押し込まない」",
+    "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 30
+  },
+  {
+    "tagId": "kb_668",
+    "title": "「好きなものへの熱を、理由なく隠さない」",
+    "summary": "周囲の目を気にして、自分の好奇心や情熱を小さくしないことを勧める。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 31
+  },
+  {
+    "tagId": "kb_660",
+    "title": "「成果だけで、自分の居場所を決めない」",
+    "summary": "自分の価値を、他人から認められるための成果と結びつけすぎないという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 32
+  },
+  {
+    "tagId": "kb_669",
+    "title": "「成果の陰にある試行も、成功の一部と見る」",
+    "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 33
+  },
+  {
+    "tagId": "kb_649",
+    "title": "「制約の中に、工夫の入口を探す」",
+    "summary": "困難な状況だからこそ、実用的な工夫や本物の知恵が生まれるという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 34
+  },
+  {
+    "tagId": "kb_703",
+    "title": "「惰性に気づいたら、時間の使い道を選び直す」",
+    "summary": "惰性に流されず、自分の意思を持って時間を使うことを促す。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 35
+  },
+  {
+    "tagId": "kb_652",
+    "title": "「違いを磨けば、その人ならではの価値になる」",
+    "summary": "同じ土俵で他人を上回るより、自分だけの違いを価値に変えるという考え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 36
+  },
+  {
+    "tagId": "kb_653",
+    "title": "「努力だけでなく、場と相性も問い直す」",
+    "summary": "努力量だけでなく、適性や環境、戦う場所を見直す必要があるという教え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 37
+  },
+  {
+    "tagId": "kb_672",
+    "title": "「望みを曖昧にせず、正面から向き合う」",
+    "summary": "冷めたふりをするより、欲しいものに本気で向き合うことを肯定する。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 38
+  },
+  {
+    "tagId": "kb_646",
+    "title": "「伸びしろは、見直す目の中にある」",
+    "summary": "現状に満足しすぎず、自分の改善余地を見続けることが成長につながる。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 39
+  },
+  {
+    "tagId": "kb_639",
+    "title": "「ひとつの失点を、次の一手に持ち越さない」",
+    "summary": "一度の失敗を引きずらず、その出来事だけで切り離して考える姿勢。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 40
+  },
+  {
+    "tagId": "kb_658",
+    "title": "「人を大切にする歩みも、成果に数える」",
+    "summary": "成功を地位や成果だけでなく、人を大切にできたかでも測るという人生観。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 41
+  },
+  {
+    "tagId": "kb_673",
+    "title": "「批判を避けることだけを、選択の基準にしない」",
+    "summary": "批判を避けるために何もしないより、挑戦のリスクを引き受けることを重視する。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 42
+  },
+  {
+    "tagId": "kb_664",
+    "title": "「評するだけでなく、手を動かして確かめる」",
+    "summary": "安全な場所から批評するより、失敗を引き受けて行動する側に価値があると説く。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 43
+  },
+  {
+    "tagId": "kb_663",
+    "title": "「学びを残す挑戦を、失敗ごと選び取る」",
+    "summary": "失敗しても、挑戦した結果として次につながる失敗を選べという教え。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 44
+  },
+  {
+    "tagId": "kb_667",
+    "title": "「未熟だった自分も、成長の道に含める」",
+    "summary": "過去の未熟さを消そうとせず、成長の一部として受け入れる視点。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 45
+  },
+  {
+    "tagId": "kb_635",
+    "title": "「未来の自分が悔やまない選択を考える」",
+    "summary": "目先の不安より、長期的に何を後悔するかで選択する考え方。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 46
+  },
+  {
+    "tagId": "kb_644",
+    "title": "「目先の便利さより、譲れない基準を確かめる」",
+    "summary": "目先の得や楽さのために、自分が大事にする基準を手放さないという姿勢。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 47
+  },
+  {
+    "tagId": "kb_641",
+    "title": "「休む時間も、続ける計画に入れておく」",
+    "summary": "休息を罪悪視せず、長く動き続けるための必要な行動として捉える。",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "relatedTheoryIds": [],
+    "displayId": 48
+  }
+]
