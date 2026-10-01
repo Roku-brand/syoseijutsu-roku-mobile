@@ -44,6 +44,17 @@ function wrapHomeReelIndex(index: number) {
   return ((index % HOME_REEL_SLIDE_COUNT) + HOME_REEL_SLIDE_COUNT) % HOME_REEL_SLIDE_COUNT;
 }
 
+function HeroTitle({ title, desktop, mobileSize, style, testID }: { title: string; desktop: boolean; mobileSize: number; style: TextStyle[]; testID?: string }) {
+  const [width, setWidth] = useState(0);
+  // Keep complete titles readable: fit one line where possible, then allow
+  // two lines rather than shrinking unusually long titles to tiny text.
+  const characterWidth = [...title].reduce((sum, char) => sum + (/^[\x20-\x7e]$/.test(char) ? 0.55 : 1), 0);
+  const size = width ? Math.max(14, Math.min(mobileSize, (width - characterWidth * 0.2) / Math.max(1, characterWidth))) : mobileSize;
+  return <Text testID={testID} numberOfLines={desktop ? undefined : 2}
+    onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
+    style={[...style, !desktop && { fontSize: size, lineHeight: Math.ceil(size * 1.4), letterSpacing: 0.2, alignSelf: 'stretch' }]}>{title}</Text>;
+}
+
 function getTouchPoint(event: GestureResponderEvent) {
   const nativeEvent = event.nativeEvent as typeof event.nativeEvent & {
     changedTouches?: ArrayLike<{ pageX: number; pageY: number }>;
@@ -142,19 +153,17 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
           今日の一枚｜処世術｜{card.subcategory}
         </Text>
         <View style={[styles.techniqueTitleGroup, !desktop && styles.techniqueTitleGroupMobile]}>
-          <Text
+          <HeroTitle
+            title={card.title}
+            desktop={desktop}
+            mobileSize={21}
             testID="home-brand-technique-title"
-            numberOfLines={desktop ? undefined : 2}
-            adjustsFontSizeToFit={false}
             style={[
               styles.darkTitle,
-              !desktop && styles.darkTitleMobile,
-              desktop && singleLineTitleSize(card.title, desktop, 39, 21, 10, 11),
+              ...(desktop ? [singleLineTitleSize(card.title, desktop, 39, 21, 10, 11)] : [styles.darkTitleMobile]),
             ]}
-          >
-            {card.title}
-          </Text>
-          <View accessibilityElementsHidden style={styles.techniqueTitleRule} />
+          />
+          <View testID="home-brand-technique-rule" accessibilityElementsHidden style={styles.techniqueTitleRule} />
         </View>
         <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
@@ -173,7 +182,7 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
       <Image source={personaImage} resizeMode="cover" accessibilityLabel="和紙と墨で描いた人物像の横顔" style={styles.fullImage} />
       <View style={[styles.paperCopy, !desktop && styles.paperCopyMobile]}>
         <Text testID="home-brand-persona-domain" style={styles.goldEyebrow}>人物像｜{persona.categoryName}</Text>
-        <Text style={[styles.paperTitle, !desktop && styles.paperTitleMobile]}>{persona.name}</Text>
+        <HeroTitle title={persona.name} desktop={desktop} mobileSize={20} style={[styles.paperTitle, ...(desktop ? [] : [styles.paperTitleMobile])]} />
         <Text style={[styles.personaDescription, !desktop && styles.personaDescriptionMobile]}>{persona.description}</Text>
         <View style={[styles.personaCountRow, !desktop && styles.personaCountRowMobile]}>
           <Text style={[styles.personaCount, !desktop && styles.personaCountMobile]}>{persona.techniqueCount}</Text>
@@ -196,7 +205,6 @@ function firstDefinitionSentence(summary: string) {
 
 export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: TheoryCard; domainLabel: string; desktop: boolean }) {
   const router = useRouter();
-  const longMobileTitle = !desktop && theory.title.length > 22;
   return (
     <SlideShell desktop={desktop} testID="home-brand-slide-3" tone="navy">
       <View style={styles.theoryFrame} />
@@ -208,7 +216,7 @@ export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: Theo
           </View>
           <Text style={styles.theoryId}>{getTheoryDisplayId(theory)}</Text>
         </View>
-        <Text style={[styles.theoryTitle, !desktop && styles.theoryTitleMobile, longMobileTitle && styles.theoryTitleMobileLong]}>{theory.title}</Text>
+        <HeroTitle title={theory.title} desktop={desktop} mobileSize={22} style={[styles.theoryTitle, ...(desktop ? [] : [styles.theoryTitleMobile])]} />
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
         <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
         <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
@@ -359,7 +367,7 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
       <View style={[styles.premiumContent, !desktop && styles.premiumContentMobile]}>
         <View style={styles.premiumCopy}>
           <Text style={[styles.goldEyebrow, !desktop && styles.goldEyebrowMobile]}>処世術禄　完全版</Text>
-          <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>抜粋から、完全体系へ。</Text>
+          <HeroTitle title="抜粋から、完全体系へ。" desktop={desktop} mobileSize={20} style={[styles.premiumTitle, ...(desktop ? [] : [styles.premiumTitleMobile])]} />
           <View style={[styles.premiumPriceRow, !desktop && styles.premiumPriceRowMobile]}>
           <Text style={[styles.premiumPrice, !desktop && styles.premiumPriceMobile]}>¥{COMPLETE_EDITION_PRICE_JPY}</Text>
             <View><Text style={[styles.premiumDuration, !desktop && styles.premiumDurationMobile]}>30日間</Text><Text style={[styles.premiumCondition, !desktop && styles.premiumConditionMobile]}>一回払い・自動更新なし</Text></View>
@@ -389,7 +397,7 @@ export function RokumaruSlide({ desktop }: { desktop: boolean }) {
       <View style={[styles.rokumaruHalo, !desktop && styles.rokumaruHaloMobile]} />
       <View style={[styles.rokumaruCopy, !desktop && styles.rokumaruCopyMobile]}>
         <Text style={styles.rokumaruEyebrow}>禄丸からひと言</Text>
-        <Text style={[styles.rokumaruQuote, !desktop && styles.rokumaruQuoteMobile]}>{desktop ? '焦らず、一歩ずつ。' : <>焦らず、{`\n`}一歩ずつ。</>}</Text>
+        <HeroTitle title="焦らず、一歩ずつ。" desktop={desktop} mobileSize={23} style={[styles.rokumaruQuote, ...(desktop ? [] : [styles.rokumaruQuoteMobile])]} />
         <Text style={[styles.rokumaruMessage, !desktop && styles.rokumaruMessageMobile]}>今日の一枚も、立派な前進だよ。</Text>
       </View>
       <Rokumaru mood="encourage" testID="home-rokumaru" style={[styles.rokumaru, !desktop && styles.rokumaruMobile]} />
@@ -615,9 +623,9 @@ const styles = StyleSheet.create({
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
   darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, fontWeight: '600', letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
-  darkTitleMobile: { fontSize: 20, fontWeight: '700', letterSpacing: 0.4, lineHeight: 26, marginTop: 5, maxWidth: '90%' },
+  darkTitleMobile: { fontSize: 20, fontWeight: '700', letterSpacing: 0.4, lineHeight: 26, marginTop: 5 },
   techniqueTitleGroup: { alignSelf: 'flex-start', maxWidth: 480 },
-  techniqueTitleGroupMobile: { maxWidth: '90%' },
+  techniqueTitleGroupMobile: { alignSelf: 'stretch', maxWidth: '100%' },
   techniqueTitleRule: { alignSelf: 'stretch', width: '100%', height: 1, marginTop: 7, marginBottom: 2, borderRadius: 1, backgroundColor: '#D2A64A' },
   darkBody: { color: '#DED5C7', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
   darkBodyMobile: { color: '#D8CEBF', fontSize: 12, letterSpacing: 0.15, lineHeight: 17, marginTop: 6, maxWidth: 330 },
@@ -646,7 +654,6 @@ const styles = StyleSheet.create({
   theoryId: { borderColor: '#A77D31', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 12, paddingHorizontal: 15, paddingVertical: 7 },
   theoryTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 38, letterSpacing: 2, lineHeight: 53, marginTop: 24, textAlign: 'center' },
   theoryTitleMobile: { fontSize: 22, lineHeight: 28, marginTop: 5 },
-  theoryTitleMobileLong: { fontSize: 16, lineHeight: 21, marginTop: 3 },
   theoryRule: { alignItems: 'center', flexDirection: 'row', gap: 8, marginVertical: 9 },
   theoryRuleMobile: { marginVertical: 5 },
   theoryRuleLine: { backgroundColor: 'rgba(196,148,57,0.65)', flex: 1, height: 1 },
@@ -703,19 +710,19 @@ const styles = StyleSheet.create({
   theoryNodeTitle: { color: '#171A1E', fontFamily: fonts.serif, fontSize: 17, fontWeight: '500', lineHeight: 23, marginTop: 3 },
   theoryNodeTitleMobile: { fontSize: 9, lineHeight: 11, marginTop: 0 },
   systemContent: { alignItems: 'center', minHeight: 380, paddingHorizontal: 34, paddingVertical: 20 },
-  systemContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 40, paddingVertical: 7 },
+  systemContentMobile: { flex: 1, justifyContent: 'center', minHeight: 0, paddingHorizontal: 14, paddingTop: 4, paddingBottom: 30 },
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },
   systemTitleMobile: { fontSize: 18, lineHeight: 23 },
   systemLead: { color: '#766B5A', fontFamily: fonts.serif, fontSize: 12, marginTop: 3 },
   systemLeadMobile: { fontSize: 9, lineHeight: 12, marginTop: 1, textAlign: 'center' },
   systemStats: { alignItems: 'flex-start', flexDirection: 'row', justifyContent: 'center', marginTop: 30, width: '100%' },
-  systemStatsMobile: { alignItems: 'flex-start', flexWrap: 'nowrap', justifyContent: 'center', marginTop: 5 },
+  systemStatsMobile: { alignItems: 'flex-start', flexWrap: 'nowrap', justifyContent: 'center', marginTop: 6 },
   systemStatFlow: { alignItems: 'center', flex: 1, flexDirection: 'row', minWidth: 0 },
-  systemStatFlowMobile: { flexBasis: 'auto', flexGrow: 0, flexShrink: 0 },
+  systemStatFlowMobile: { flex: 1, minWidth: 0 },
   systemStatWrap: { alignItems: 'center', flex: 1, minWidth: 0 },
-  systemStatWrapMobile: { flexBasis: 'auto', flexGrow: 0, flexShrink: 0, minWidth: 0, width: 44 },
-  systemStat: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.82)', borderColor: '#CDB789', borderRadius: 58, borderWidth: 1, height: 116, justifyContent: 'center', width: 116 },
-  systemStatMobile: { borderRadius: 23, height: 44, width: 44 },
+  systemStatWrapMobile: { flex: 1, minWidth: 0 },
+  systemStat: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.82)', borderColor: '#CDB789', borderRadius: 58, borderWidth: 1, aspectRatio: 1, justifyContent: 'center', width: 116 },
+  systemStatMobile: { borderRadius: 999, width: '100%', maxWidth: 56 },
   systemStatGold: { backgroundColor: '#B88A2A', borderColor: '#DAB967' },
   systemStatDark: { backgroundColor: '#171717', borderColor: '#B88A2A' },
   systemValue: { color: '#1B1A17', fontFamily: fonts.serif, fontSize: 31, lineHeight: 37 },
@@ -725,9 +732,9 @@ const styles = StyleSheet.create({
   systemLabelMobile: { fontSize: 8 },
   systemLabelReverse: { color: '#F1D99F' },
   systemNote: { color: '#746A5B', fontFamily: fonts.serif, fontSize: 9, lineHeight: 14, marginTop: 9, minHeight: 28, paddingHorizontal: 3, textAlign: 'center', width: 116 },
-  systemNoteMobile: { display: 'none' },
+  systemNoteMobile: { width: '100%', fontSize: 7, lineHeight: 10, marginTop: 4, minHeight: 20, paddingHorizontal: 0 },
   systemArrow: { color: '#B88A2A', flexShrink: 0, fontFamily: fonts.serif, fontSize: 23, marginHorizontal: 5, textAlign: 'center', width: 24 },
-  systemArrowMobile: { fontSize: 11, marginHorizontal: 0, width: 9 },
+  systemArrowMobile: { fontSize: 13, marginHorizontal: 1, width: 10, alignSelf: 'flex-start', marginTop: 18 },
   premiumOrnament: { borderColor: 'rgba(184,138,42,0.26)', borderRadius: 300, borderWidth: 1, height: 360, position: 'absolute', right: 18, top: -72, width: 360 },
   premiumOrnamentMobile: { height: 188, right: 2, top: -12, width: 188 },
   premiumContent: { alignItems: 'center', flexDirection: 'row', minHeight: 380, paddingHorizontal: 48, paddingVertical: 26 },

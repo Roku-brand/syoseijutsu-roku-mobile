@@ -12,6 +12,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES, signInRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { formatRemainingAccess } from '@/lib/purchase';
 
 const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.png');
 
@@ -44,7 +45,7 @@ export default function MyPageContent() {
   const badge = accessState === 'checking' ? '利用状態を確認中'
     : accessState === 'error' ? '利用状態を確認できません'
     : accessInfo.status === 'expired' ? '利用期間終了'
-    : accessState === 'paid' ? '完全版を利用中' : '無料版を利用中';
+    : accessState === 'paid' ? `完全版を利用中${accessInfo.accessType === 'thirty_day' && accessInfo.accessExpiresAt ? `・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : ''}` : '無料版を利用中';
 
   const historyRows = useMemo(
     () => historyIds.map(resolveRow).filter((row): row is ContentRow => Boolean(row)),

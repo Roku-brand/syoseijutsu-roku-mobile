@@ -1,6 +1,6 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -9,6 +9,7 @@ import { useAppState, type PersonalMemo } from '@/state/app-state';
 type FolderFilter = 'all' | 'unfiled' | string;
 
 export default function MyTechniquesScreen() {
+  const router = useRouter();
   const { compose } = useLocalSearchParams<{ compose?: string | string[] }>();
   const composeHandled = useRef(false);
   const {
@@ -33,8 +34,10 @@ export default function MyTechniquesScreen() {
     if (requested === '1' && !composeHandled.current) {
       composeHandled.current = true;
       setComposerOpen(true);
+      router.setParams({ compose: undefined });
     }
-  }, [compose]);
+    if (requested !== '1') composeHandled.current = false;
+  }, [compose, router]);
 
   const visibleMemos = personalMemos.filter((memo) => filter === 'all' || (filter === 'unfiled' ? !memo.folderId : memo.folderId === filter));
   const addMemo = () => {
@@ -70,7 +73,29 @@ export default function MyTechniquesScreen() {
 
     {visibleMemos.length ? <View style={styles.memoList}>{visibleMemos.map((memo, index) => <MemoCard key={memo.id} memo={memo} index={index} folderName={folderName(memo.folderId)} folders={personalMemoFolders.map((folder) => ({ id: folder.id, name: folder.name }))} moving={movingMemoId === memo.id} onMove={() => setMovingMemoId(movingMemoId === memo.id ? null : memo.id)} onChooseFolder={(folderId) => { movePersonalMemo(memo.id, folderId); setMovingMemoId(null); }} onDelete={() => removePersonalMemo(memo.id)} />)}</View> : <View style={styles.emptyCard}><AppText variant="serif" style={styles.emptyTitle}>このフォルダーはまだ空です。</AppText><AppText style={styles.emptyLead}>右上の「＋ 新規作成」から、自分の処世術を残せます。</AppText></View>}
 
-    <Modal transparent visible={composerOpen} animationType="fade" onRequestClose={() => setComposerOpen(false)}><View style={styles.modalBackdrop}><View style={styles.modalCard}><AppText variant="serif" style={styles.modalTitle}>新しい処世術</AppText><AppText style={styles.modalLead}>自分の言葉で、あとから使い返せる一文を残します。</AppText><TextInput autoFocus multiline maxLength={140} value={draft} onChangeText={setDraft} placeholder="例：迷ったら、その場で返事をしない" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} /><AppText style={styles.folderSelectLabel}>保存先</AppText><View style={styles.folderPicker}><Picker label="未整理" selected={!draftFolderId} onPress={() => setDraftFolderId(null)} />{personalMemoFolders.map((folder) => <Picker key={folder.id} label={folder.name} selected={draftFolderId === folder.id} onPress={() => setDraftFolderId(folder.id)} />)}</View><View style={styles.modalActions}><Pressable accessibilityRole="button" onPress={() => setComposerOpen(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable><Pressable accessibilityRole="button" accessibilityLabel="マイ処世術を追加" disabled={!draft.trim()} onPress={addMemo} style={({ pressed }) => [styles.save, !draft.trim() && styles.saveDisabled, pressed && draft.trim() && styles.pressed]}><AppText style={styles.saveText}>保存する</AppText></Pressable></View></View></View></Modal>
+    <Modal transparent visible={composerOpen} animationType="fade" onRequestClose={() => setComposerOpen(false)}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalKeyboard}>
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.composerBackdrop}>
+          <View style={styles.modalCard}>
+            <View style={styles.composerHeading}>
+              <AppText variant="serif" style={styles.modalTitle}>新しい処世術</AppText>
+              <Pressable accessibilityRole="button" accessibilityLabel="作成を閉じる" onPress={() => setComposerOpen(false)} style={styles.composerClose}><AppText style={styles.cancelText}>閉じる ×</AppText></Pressable>
+            </View>
+            <AppText style={styles.modalLead}>自分の言葉で、あとから使い返せる一文を残します。</AppText>
+            <TextInput autoFocus multiline maxLength={140} value={draft} onChangeText={setDraft} placeholder="例：迷ったら、その場で返事をしない" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
+            <AppText style={styles.folderSelectLabel}>保存先</AppText>
+            <View style={styles.folderPicker}>
+              <Picker label="未整理" selected={!draftFolderId} onPress={() => setDraftFolderId(null)} />
+              {personalMemoFolders.map((folder) => <Picker key={folder.id} label={folder.name} selected={draftFolderId === folder.id} onPress={() => setDraftFolderId(folder.id)} />)}
+            </View>
+            <View style={styles.modalActions}>
+              <Pressable accessibilityRole="button" onPress={() => setComposerOpen(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel="マイ処世術を追加" disabled={!draft.trim()} onPress={addMemo} style={({ pressed }) => [styles.save, !draft.trim() && styles.saveDisabled, pressed && draft.trim() && styles.pressed]}><AppText style={styles.saveText}>保存する</AppText></Pressable>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </Modal>
     <Modal transparent visible={folderComposerOpen} animationType="fade" onRequestClose={() => setFolderComposerOpen(false)}><View style={styles.modalBackdrop}><View style={styles.folderModalCard}><AppText variant="serif" style={styles.modalTitle}>フォルダーを作成</AppText><TextInput autoFocus maxLength={32} value={folderDraft} onChangeText={setFolderDraft} placeholder="例：仕事、人間関係、朝の習慣" placeholderTextColor={colors.muted} accessibilityLabel="フォルダー名" style={styles.folderInput} /><View style={styles.modalActions}><Pressable accessibilityRole="button" onPress={() => setFolderComposerOpen(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable><Pressable accessibilityRole="button" accessibilityLabel="フォルダーを作成する" disabled={!folderDraft.trim()} onPress={addFolder} style={({ pressed }) => [styles.save, !folderDraft.trim() && styles.saveDisabled, pressed && folderDraft.trim() && styles.pressed]}><AppText style={styles.saveText}>作成する</AppText></Pressable></View></View></View></Modal>
   </BookScreen>;
 }
@@ -126,6 +151,10 @@ const styles = StyleSheet.create({
   emptyTitle: { color: colors.ink, fontSize: 19, lineHeight: 28 },
   emptyLead: { marginTop: 6, color: colors.muted, fontSize: 13, lineHeight: 20, textAlign: 'center' },
   modalBackdrop: { flex: 1, padding: spacing.lg, backgroundColor: 'rgba(17,18,17,0.58)', alignItems: 'center', justifyContent: 'center' },
+  modalKeyboard: { flex: 1, backgroundColor: 'rgba(17,18,17,0.58)' },
+  composerBackdrop: { flexGrow: 1, padding: spacing.lg, alignItems: 'center', justifyContent: 'center' },
+  composerHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
+  composerClose: { minHeight: 44, paddingHorizontal: 6, justifyContent: 'center' },
   modalCard: { width: '100%', maxWidth: 540, padding: spacing.xl, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.lg, backgroundColor: colors.surface },
   folderModalCard: { width: '100%', maxWidth: 440, padding: spacing.xl, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.lg, backgroundColor: colors.surface },
   modalTitle: { color: colors.ink, fontSize: 23, lineHeight: 32, fontWeight: '600' },
