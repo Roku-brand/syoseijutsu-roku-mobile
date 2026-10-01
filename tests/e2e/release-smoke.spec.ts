@@ -313,9 +313,9 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
-  await expect(page.getByText('無料版・体系の抜粋', { exact: true })).toBeVisible();
+  await expect(page.getByText('まずは処世術禄を体験', { exact: true })).toBeVisible();
   await expect(page.getByText(/完全版/).first()).toBeVisible();
-  await expect(page.getByText('完全版・30日間')).toBeVisible();
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('完全版（30日間）');
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -539,14 +539,23 @@ test('スマホの購入画面は初期表示から購入ボタンを押せる',
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
-  await expect(page.getByText('網羅性を追求')).toBeVisible();
-  await expect(page.getByText('利用規約')).toBeVisible();
+  await expect(page.getByText('処世術禄を、\nもっと広く。もっと深く。')).toBeVisible();
+  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
-  const legalBox = await page.getByText('利用規約').boundingBox();
+  const legalBox = await page.getByRole('link', { name: '購入条件・返金について' }).boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(legalBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
   expect(legalBox!.y + legalBox!.height).toBeLessThanOrEqual(667);
+  await expect(purchaseButton).toHaveCount(1);
+  const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+  await page.getByTestId('upgrade-lp-scroll').evaluate((element) => { element.scrollTop = element.scrollHeight; });
+  const barAfter = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+  expect(barAfter).toEqual(barBefore);
+  await page.getByTestId('upgrade-faq-1').click();
+  await expect(page.getByTestId('upgrade-faq-1')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByTestId('upgrade-faq-0')).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByText('されません。利用期間が終わった後に、自動で課金されることはありません。')).toBeVisible();
 });
 
 test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }) => {
@@ -554,9 +563,10 @@ test('PCの購入画面は初期表示で購入条件まで確認できる', asy
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
-  await expect(page.getByText('独自の処世術集')).toBeVisible();
-  await expect(page.getByText('通常価格', { exact: true })).toBeVisible();
-  await expect(page.getByText(/理論\s*151件/)).toBeVisible();
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('一回払い・自動更新なし');
+  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
+  const frame = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+  expect(frame!.width).toBeLessThanOrEqual(480);
   const purchaseBox = await purchaseButton.boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
@@ -564,7 +574,7 @@ test('PCの購入画面は初期表示で購入条件まで確認できる', asy
 
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
-  await page.getByText('利用規約', { exact: true }).first().click();
+  await page.getByRole('link', { name: '購入条件・返金について' }).click();
   await expect(page.getByText(/バージョン3\.2/)).toBeVisible();
   await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
   await expect(page.getByText(/購入時点の各文章、項目数および構成が将来にわたり同一のまま維持されることを保証するものではありません/)).toBeVisible();
