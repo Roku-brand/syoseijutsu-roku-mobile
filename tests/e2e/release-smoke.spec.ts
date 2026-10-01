@@ -319,7 +319,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
-  await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
+  await expect(page.getByText('¥320（税込）', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText(/決済前にアカウントを作成またはログインします/)).toBeVisible();
@@ -606,7 +606,7 @@ test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購�
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
   await page.getByRole('link', { name: '購入条件・返金について' }).click();
-  await expect(page.getByText(/バージョン3\.2/)).toBeVisible();
+  await expect(page.getByText(/バージョン3\.3/)).toBeVisible();
   await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
   await expect(page.getByText(/購入時点の各文章、項目数および構成が将来にわたり同一のまま維持されることを保証するものではありません/)).toBeVisible();
   await expect(page.getByText(/商品の主要な利用目的を損なう重大な不利益変更は行わず/)).toBeVisible();

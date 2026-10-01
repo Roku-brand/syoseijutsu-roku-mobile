@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { corsHeaders, json, optionsResponse } from '../_shared/http.ts';
 
 const PRODUCT_ID = 'complete-edition';
-const UNIT_AMOUNT = 280;
+const UNIT_AMOUNT = 320;
 const ACCESS_TYPE = 'thirty_day';
 const CURRENCY = 'jpy';
 // Return through the app shell instead of a generated route HTML file. The
@@ -73,14 +73,14 @@ Deno.serve(async (request) => {
   // eligible method for this JPY one-time payment. This keeps card checkout
   // working while PayPay is pending review, and lets PayPay appear after it is
   // enabled in Stripe without a code or deployment change.
-  const configuredPriceId = Deno.env.get('STRIPE_PRICE_ID_30DAY');
+  const configuredPriceId = Deno.env.get('STRIPE_PRICE_ID_30DAY_320');
   if (configuredPriceId) {
     if (!(await validateConfiguredPrice(stripeSecretKey, configuredPriceId))) {
       return json({ error: 'invalid_30day_price_configuration' }, 503);
     }
     form.set('line_items[0][price]', configuredPriceId);
   } else {
-    // Safe fallback for the first deployment. Configure STRIPE_PRICE_ID_30DAY
+    // The former 280-yen Price is intentionally not reused. Configure STRIPE_PRICE_ID_30DAY_320
     // to use the dedicated, one-time Stripe Price without changing code.
     form.set('line_items[0][price_data][currency]', CURRENCY);
     form.set('line_items[0][price_data][unit_amount]', String(UNIT_AMOUNT));
@@ -104,7 +104,7 @@ Deno.serve(async (request) => {
       'Content-Type': 'application/x-www-form-urlencoded',
       // Repeated taps and concurrent requests within Stripe's idempotency
       // window resolve to the same Checkout Session.
-      'Idempotency-Key': `complete-edition-30day-v1-${user.id}-${idempotencySuffix}`,
+      'Idempotency-Key': `complete-edition-30day-v2-${UNIT_AMOUNT}-${user.id}-${idempotencySuffix}`,
     },
     body: form,
   });
