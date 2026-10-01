@@ -534,7 +534,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
 });
 
-test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }) => {
+test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 667 });
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
@@ -547,7 +547,8 @@ test('スマホの購入画面は初期表示から購入ボタンを押せる',
   expect(legalBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
   expect(legalBox!.y + legalBox!.height).toBeLessThanOrEqual(667);
-  await expect(purchaseButton).toHaveCount(1);
+    await expect(purchaseButton).toHaveCount(1);
+    await page.screenshot({ path: testInfo.outputPath('purchase-mobile.png') });
   const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
   await page.getByTestId('upgrade-lp-scroll').evaluate((element) => { element.scrollTop = element.scrollHeight; });
   const barAfter = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
@@ -558,18 +559,48 @@ test('スマホの購入画面は初期表示から購入ボタンを押せる',
   await expect(page.getByText('されません。利用期間が終わった後に、自動で課金されることはありません。')).toBeVisible();
 });
 
-test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }) => {
+test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
   await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('一回払い・自動更新なし');
   await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
-  const frame = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
-  expect(frame!.width).toBeLessThanOrEqual(480);
-  const purchaseBox = await purchaseButton.boundingBox();
-  expect(purchaseBox).not.toBeNull();
-  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
+    const frame = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+    expect(frame!.width).toBeGreaterThan(900);
+    expect(frame!.width).toBeLessThanOrEqual(1120);
+    expect(frame!.height).toBeLessThan(160);
+    const purchaseBox = await purchaseButton.boundingBox();
+    expect(purchaseBox).not.toBeNull();
+    expect(purchaseBox!.width).toBeGreaterThan(250);
+    expect(purchaseBox!.height).toBeLessThan(80);
+    expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
+    await page.screenshot({ path: testInfo.outputPath('purchase-desktop.png') });
+  });
+
+test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購入バーを固定する', async ({ page }) => {
+  for (const width of [960, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/upgrade-preview');
+    await expect(page.getByTestId('upgrade-desktop-layout')).toBeVisible();
+    await expect(page.getByTestId('upgrade-mobile-layout')).toHaveCount(0);
+    const copy = await page.getByTestId('upgrade-comparison-copy').boundingBox();
+    const free = await page.getByTestId('upgrade-free-card').boundingBox();
+    const complete = await page.getByTestId('upgrade-complete-card').boundingBox();
+    expect(free!.x).toBeGreaterThan(copy!.x + copy!.width);
+    expect(complete!.x).toBeGreaterThan(free!.x + free!.width);
+    const knowledge = await page.getByTestId('upgrade-knowledge-copy').boundingBox();
+    const network = await page.getByTestId('knowledge-network').boundingBox();
+    expect(network!.x).toBeGreaterThan(knowledge!.x + knowledge!.width);
+    const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+    await page.getByTestId('upgrade-lp-scroll').evaluate(element => { element.scrollTop = element.scrollHeight; });
+    expect(await page.getByTestId('upgrade-fixed-purchase').boundingBox()).toEqual(barBefore);
+    await expect(page.getByTestId('upgrade-purchase-cta')).toHaveCount(1);
+    expect(await page.getByTestId('upgrade-lp-scroll').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByTestId('upgrade-mobile-layout')).toBeVisible();
+  await expect(page.getByTestId('upgrade-desktop-layout')).toHaveCount(0);
 });
 
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {

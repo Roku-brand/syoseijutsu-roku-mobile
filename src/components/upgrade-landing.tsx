@@ -7,6 +7,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 
 const photos = {
   hero: require('../../assets/upgrade/landscape-hero-portrait.webp'),
+  heroDesktop: require('../../assets/upgrade/landscape-hero.webp'),
   comparison: require('../../assets/upgrade/sunlit-library.webp'),
   recommend: require('../../assets/upgrade/morning-study.webp'),
   network: require('../../assets/upgrade/dark-library.webp'),
@@ -49,29 +50,29 @@ function LineIcon({ name, color = ink, size = 22 }: { name: IconName; color?: st
 function Check({ small = false }: { small?: boolean }) {
   return <View style={[styles.check, small && styles.checkSmall]} accessibilityElementsHidden><AppText style={[styles.checkText, small && styles.checkTextSmall]}>✓</AppText></View>;
 }
-function Phone({ complete, width }: { complete?: boolean; width: number }) {
+function Phone({ complete, width, desktop = false }: { complete?: boolean; width: number; desktop?: boolean }) {
   const rows = [['person', '人物像'], ['action', '処世術'], ['theory', '理論'], ['book', '学習ケース']] as const;
   return <View style={[styles.phone, { width, height: width * 2.12, transform: [{ rotate: complete ? '3deg' : '-5deg' }] }, complete && styles.phoneComplete]} accessibilityLabel={complete ? 'すべての知識が開放された完全版のスマートフォン' : 'ロックのある無料版のスマートフォン'}>
     <View style={styles.phoneNotch} />
     <View style={[styles.phoneScreen, complete && styles.phoneScreenComplete]}>
       <AppText style={[styles.phoneStatus, complete && styles.phoneStatusComplete]}>9:41</AppText>
       {complete ? <Image loading="eager" source={mark} style={styles.phoneMark} contentFit="contain" /> : <View style={styles.phoneMarkSpace} />}
-      <AppText variant="serif" style={[styles.phoneTitle, complete && styles.phoneTitleComplete]}> {complete ? '完全版' : '無料版'} </AppText>
-      <View style={[styles.phoneRows, complete && styles.phoneRowsComplete]}>{rows.map(([icon, title]) => <View key={title} style={styles.phoneRow}>
+      <AppText variant="serif" style={[styles.phoneTitle, desktop && { fontSize: 21, lineHeight: 32, marginTop: 5, marginBottom: 18 }, complete && styles.phoneTitleComplete]}> {complete ? '完全版' : '無料版'} </AppText>
+      <View style={[styles.phoneRows, complete && styles.phoneRowsComplete]}>{rows.map(([icon, title]) => <View key={title} style={[styles.phoneRow, desktop && { height: width * 0.27, gap: 8 }]}>
         <LineIcon name={icon} size={width * 0.16} />
-        <View style={styles.phoneRowCopy}><AppText style={[styles.phoneRowTitle, { fontSize: width * 0.079 }]}>{title}</AppText>{complete ? <AppText style={[styles.phoneRowHint, { fontSize: width * 0.053 }]}>すべて利用可能</AppText> : null}</View>
+        <View style={styles.phoneRowCopy}><AppText style={[styles.phoneRowTitle, { fontSize: width * 0.079 }, desktop && { lineHeight: 22 }]}>{title}</AppText>{complete ? <AppText style={[styles.phoneRowHint, { fontSize: width * 0.053 }, desktop && { lineHeight: 15 }]}>すべて利用可能</AppText> : null}</View>
         {!complete ? <LineIcon name="lock" color="#B48B45" size={width * 0.1} /> : null}
       </View>)}</View>
       <View style={styles.phoneHome} />
     </View>
   </View>;
 }
-function EditionCard({ complete }: { complete?: boolean }) {
-  return <View style={[styles.editionCard, complete && styles.editionCardComplete]}>
+function EditionCard({ complete, desktop = false }: { complete?: boolean; desktop?: boolean }) {
+  return <View testID={complete ? 'upgrade-complete-card' : 'upgrade-free-card'} style={[styles.editionCard, desktop && desktopStyles.editionCard, complete && styles.editionCardComplete]}>
     <View style={[styles.editionSeal, complete && styles.editionSealComplete]}><AppText variant="serif" style={styles.editionSealText}>禄</AppText></View>
-    <AppText variant="serif" style={[styles.editionTitle, complete && styles.editionTitleComplete]}>{complete ? '完全版' : '無料版'}</AppText>
-    <AppText style={[styles.editionSubtitle, complete && styles.editionSubtitleComplete]}>{complete ? '処世術禄を、まるごと使える' : 'まずは処世術禄を体験'}</AppText>
-    <View style={styles.editionItems}>{(complete ? completeItems : freeItems).map((item, index) => <View key={item} style={[styles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small /><AppText style={[styles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
+    <AppText variant="serif" style={[styles.editionTitle, desktop && desktopStyles.editionTitle, complete && styles.editionTitleComplete]}>{complete ? '完全版' : '無料版'}</AppText>
+    <AppText style={[styles.editionSubtitle, desktop && desktopStyles.editionSubtitle, complete && styles.editionSubtitleComplete]}>{complete ? '処世術禄を、まるごと使える' : 'まずは処世術禄を体験'}</AppText>
+    <View style={[styles.editionItems, desktop && desktopStyles.editionItems]}>{(complete ? completeItems : freeItems).map((item, index) => <View key={item} style={[styles.editionItem, desktop && desktopStyles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small={!desktop} /><AppText style={[styles.editionItemText, desktop && desktopStyles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
   </View>;
 }
 
@@ -106,75 +107,84 @@ export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, o
   const { width: viewportWidth } = useHydratedWindowDimensions();
   const insets = useSafeAreaInsets();
   const width = Math.min(viewportWidth || 390, 480);
+  const desktop = Platform.OS === 'web' && viewportWidth >= 960;
+  const desktopWidth = Math.min(viewportWidth, 1600);
+  const gutter = Math.max(48, (desktopWidth - 1120) / 2);
+  const sectionSpace = desktop ? { paddingHorizontal: gutter } : undefined;
   const narrow = width < 360;
   const [expanded, setExpanded] = useState<number | null>(0);
   const [barHeight, setBarHeight] = useState(100);
   return <View style={styles.root} testID="upgrade-landing">
-    <View style={styles.frame}>
-      <View style={styles.header}>
+    <View testID={desktop ? 'upgrade-desktop-layout' : 'upgrade-mobile-layout'} style={[styles.frame, desktop && desktopStyles.frame]}>
+      <View style={[styles.header, desktop && desktopStyles.header, desktop && sectionSpace]}>
         <Pressable accessibilityRole="button" accessibilityLabel="前の画面へ戻る" onPress={onBack} style={({ pressed }) => [styles.back, pressed && styles.pressed]}><AppText style={styles.backArrow}>‹</AppText><AppText style={styles.backText}>戻る</AppText></Pressable>
         <AppText style={styles.headerTitle}>完全版を購入</AppText><View style={styles.headerBalance} />
       </View>
       <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
-        <View style={[styles.hero, { height: width * 1.27 }]}>
-          <Image loading="eager" source={photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition="center" accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
-          <View style={styles.heroWash} />
-          <View style={styles.heroCopy}>
+        <View style={[styles.hero, { height: desktop ? 660 : width * 1.27 }]}>
+          <Image loading="eager" source={desktop ? photos.heroDesktop : photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={desktop ? { left: '50%', top: '45%' } : 'center'} accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
+          <View style={[styles.heroWash, desktop && desktopStyles.heroWash]} />
+          <View style={[styles.heroCopy, desktop && desktopStyles.heroCopy, desktop && sectionSpace]}>
             <View style={styles.brandRow}><Image loading="eager" source={mark} style={styles.brandMark} contentFit="contain" /><AppText variant="serif" style={styles.brandName}>処世術禄　完全版</AppText></View>
-            <AppText variant="serif" accessibilityRole="header" style={[styles.heroTitle, narrow && { fontSize: 22, lineHeight: 34 }]}>処世術禄を、{'\n'}もっと広く。もっと深く。</AppText>
-            <AppText style={styles.heroLead}>無料版では届かなかった処世術、{'\n'}その背景、その先の学びまで。</AppText>
+            <AppText variant="serif" accessibilityRole="header" style={[styles.heroTitle, narrow && { fontSize: 22, lineHeight: 34 }, desktop && desktopStyles.heroTitle, desktop && desktopWidth < 1200 && { fontSize: 42, lineHeight: 66 }]}>処世術禄を、{'\n'}もっと広く。もっと深く。</AppText>
+            <AppText style={[styles.heroLead, desktop && desktopStyles.heroLead]}>無料版では届かなかった処世術、{'\n'}その背景、その先の学びまで。</AppText>
           </View>
           <View style={styles.heroBottomShade} />
-          <View style={styles.phones}><Phone width={width * 0.265} /><AppText style={styles.upgradeArrow}>➜</AppText><Phone complete width={width * 0.287} /></View>
-          <View style={styles.heroPrice}><AppText variant="serif" style={styles.heroPriceLabel}>完全版（30日間）</AppText><AppText variant="serif" style={[styles.heroPriceAmount, narrow && { fontSize: 32 }]}>{price}</AppText><AppText style={styles.heroPriceNote}>一回払い・自動更新なし</AppText></View>
+          <View style={[styles.phones, desktop && desktopStyles.phones, desktop && { right: desktopWidth * 0.19 }]}><Phone desktop={desktop} width={desktop ? 165 : width * 0.265} /><AppText style={styles.upgradeArrow}>➜</AppText><Phone desktop={desktop} complete width={desktop ? 180 : width * 0.287} /></View>
+          <View style={[styles.heroPrice, desktop && desktopStyles.heroPrice, desktop && { left: gutter }]}><AppText variant="serif" style={[styles.heroPriceLabel, desktop && { fontSize: 15, lineHeight: 24, color: '#6C522B' }]}>完全版（30日間）</AppText><AppText variant="serif" style={[styles.heroPriceAmount, narrow && { fontSize: 32 }, desktop && { fontSize: 60, lineHeight: 78, color: '#17221C' }]}>{price}</AppText><AppText style={[styles.heroPriceNote, desktop && { fontSize: 11, lineHeight: 18, color: '#2D3A30' }]}>一回払い・自動更新なし</AppText></View>
         </View>
 
-        <View style={styles.comparison}>
+        <View style={[styles.comparison, desktop && desktopStyles.comparison, sectionSpace]}>
           <Image loading="eager" source={photos.comparison} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition="right center" accessibilityElementsHidden />
           <View style={styles.comparisonWash} />
-          <AppText variant="serif" accessibilityRole="header" style={[styles.heading, narrow && { fontSize: 22 }]}>気になった、その先まで。</AppText>
-          <AppText style={styles.comparisonLead}>無料版では、処世術禄の基本的な体験を試せます。{'\n'}完全版では、知識のつながりをより広く辿り、{'\n'}気になったテーマのその先まで学ぶことができます。</AppText>
-          <View style={styles.editions}><EditionCard /><EditionCard complete /></View>
+          <View testID="upgrade-comparison-copy" style={desktop && desktopStyles.comparisonCopy}>
+            <AppText variant="serif" accessibilityRole="header" style={[styles.heading, narrow && { fontSize: 22 }, desktop && desktopStyles.heading]}>気になった、{desktop ? '\n' : ''}その先まで。</AppText>
+            <AppText style={[styles.comparisonLead, desktop && desktopStyles.body]}>無料版では、処世術禄の基本的な体験を試せます。{desktop ? '' : '\n'}完全版では、知識のつながりをより広く辿り、{desktop ? '' : '\n'}気になったテーマのその先まで学ぶことができます。</AppText>
+          </View>
+          <View style={[styles.editions, desktop && desktopStyles.editions]}><EditionCard desktop={desktop} /><EditionCard desktop={desktop} complete /></View>
         </View>
 
-        <View style={styles.recommendation}>
+        <View style={[styles.recommendation, desktop && desktopStyles.recommendation, sectionSpace]}>
           <Image loading="eager" source={photos.recommend} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition="bottom center" accessibilityElementsHidden />
-          <View style={styles.recommendationWash} />
-          <AppText variant="serif" accessibilityRole="header" style={styles.heading}>こんな方におすすめ</AppText>
-          <View style={styles.recommendationList}>{recommendations.map((item) => <View key={item} style={styles.recommendationItem}><Check /><AppText style={styles.recommendationText}>{item}</AppText></View>)}</View>
+          <View style={[styles.recommendationWash, desktop && desktopStyles.recommendationWash]} />
+          <AppText variant="serif" accessibilityRole="header" style={[styles.heading, desktop && desktopStyles.heading]}>こんな方におすすめ</AppText>
+          <View style={[styles.recommendationList, desktop && desktopStyles.recommendationList]}>{recommendations.map((item) => <View key={item} style={styles.recommendationItem}><Check /><AppText style={[styles.recommendationText, desktop && desktopStyles.recommendationText]}>{item}</AppText></View>)}</View>
         </View>
 
-        <View style={styles.knowledge}>
+        <View style={[styles.knowledge, desktop && desktopStyles.knowledge, sectionSpace]}>
           <Image loading="eager" source={photos.network} style={StyleSheet.absoluteFill} contentFit="cover" accessibilityElementsHidden />
           <View style={styles.knowledgeWash} />
-          <AppText variant="serif" accessibilityRole="header" style={styles.knowledgeTitle}>処世術禄は、{'\n'}知識をつなげて読む。</AppText>
-          <AppText variant="serif" style={styles.knowledgeSubtitle}>論理性 × 網羅性 × 体系性</AppText>
-          <AppText style={styles.knowledgeDescription}>処世術禄では、処世術を単独で読むだけではなく、{'\n'}その背景にある理論や関連する知識までつなげ、{'\n'}一つのテーマを立体的に理解できます。{'\n'}完全版では、このつながりをより広く辿れます。</AppText>
-          <View style={styles.networkWrap}><KnowledgeNetwork width={width - 42} /></View>
+          <View testID="upgrade-knowledge-copy" style={desktop && desktopStyles.knowledgeCopy}>
+            <AppText variant="serif" accessibilityRole="header" style={[styles.knowledgeTitle, desktop && desktopStyles.knowledgeTitle]}>処世術禄は、{'\n'}知識をつなげて読む。</AppText>
+            <AppText variant="serif" style={[styles.knowledgeSubtitle, desktop && desktopStyles.knowledgeSubtitle]}>論理性 × 網羅性 × 体系性</AppText>
+            <AppText style={[styles.knowledgeDescription, desktop && desktopStyles.knowledgeDescription]}>処世術禄では、処世術を単独で読むだけではなく、{desktop ? '' : '\n'}その背景にある理論や関連する知識までつなげ、{desktop ? '' : '\n'}一つのテーマを立体的に理解できます。{'\n'}完全版では、このつながりをより広く辿れます。</AppText>
+          </View>
+          <View style={[styles.networkWrap, desktop && desktopStyles.networkWrap]}><KnowledgeNetwork width={desktop ? Math.min(480, (desktopWidth - gutter * 2) * 0.48) : width - 42} /></View>
         </View>
 
-        <View style={styles.faq}>
-          <AppText variant="serif" accessibilityRole="header" style={styles.heading}>よくある質問</AppText>
-          <View style={styles.faqList}>{questions.map(([question, answer], index) => {
+        <View style={[styles.faq, desktop && desktopStyles.faq, sectionSpace]}>
+          <AppText variant="serif" accessibilityRole="header" style={[styles.heading, desktop && desktopStyles.heading, desktop && desktopStyles.faqHeading]}>よくある質問</AppText>
+          <View style={[styles.faqList, desktop && desktopStyles.faqList]}>{questions.map(([question, answer], index) => {
             const open = expanded === index;
             return <View key={question} style={styles.faqItem}>
-              <Pressable testID={`upgrade-faq-${index}`} accessibilityRole="button" aria-expanded={open} accessibilityState={{ expanded: open }} accessibilityLabel={question} onPress={() => setExpanded(open ? null : index)} style={({ pressed }) => [styles.faqQuestion, pressed && styles.pressed]}><View style={styles.questionMark}><AppText style={styles.questionMarkText}>?</AppText></View><AppText style={styles.faqQuestionText}>{question}</AppText><AppText style={[styles.chevron, open && styles.chevronOpen]}>⌄</AppText></Pressable>
-              {open ? <View style={styles.faqAnswer}><AppText style={styles.faqAnswerText}>{answer}</AppText>{index === 2 && onRestore ? <Pressable accessibilityRole="button" disabled={disabled} onPress={onRestore} style={styles.faqUtility}><AppText style={styles.faqUtilityText}>購入履歴を復元する</AppText></Pressable> : null}{index === 6 ? <Pressable accessibilityRole="link" onPress={onTerms} style={styles.faqUtility}><AppText style={styles.faqUtilityText}>購入条件・返金について</AppText></Pressable> : null}</View> : null}
+              <Pressable testID={`upgrade-faq-${index}`} accessibilityRole="button" aria-expanded={open} accessibilityState={{ expanded: open }} accessibilityLabel={question} onPress={() => setExpanded(open ? null : index)} style={({ pressed }) => [styles.faqQuestion, desktop && desktopStyles.faqQuestion, pressed && styles.pressed]}><View style={styles.questionMark}><AppText style={styles.questionMarkText}>?</AppText></View><AppText style={[styles.faqQuestionText, desktop && desktopStyles.faqQuestionText]}>{question}</AppText><AppText style={[styles.chevron, open && styles.chevronOpen]}>⌄</AppText></Pressable>
+              {open ? <View style={styles.faqAnswer}><AppText style={[styles.faqAnswerText, desktop && desktopStyles.faqAnswerText]}>{answer}</AppText>{index === 2 && onRestore ? <Pressable accessibilityRole="button" disabled={disabled} onPress={onRestore} style={styles.faqUtility}><AppText style={styles.faqUtilityText}>購入履歴を復元する</AppText></Pressable> : null}{index === 6 ? <Pressable accessibilityRole="link" onPress={onTerms} style={styles.faqUtility}><AppText style={styles.faqUtilityText}>購入条件・返金について</AppText></Pressable> : null}</View> : null}
             </View>;
           })}</View>
         </View>
       </ScrollView>
 
       {/* Sibling of the scroll view: pinned to the viewport, never part of the LP. */}
-      <View testID="upgrade-fixed-purchase" onLayout={(event) => setBarHeight(event.nativeEvent.layout.height)} style={[styles.purchaseBar, { paddingBottom: Math.max(insets.bottom, 4) }]}>
+      <View testID="upgrade-fixed-purchase" onLayout={(event) => setBarHeight(event.nativeEvent.layout.height)} style={[styles.purchaseBar, desktop && desktopStyles.purchaseBar, desktop && { left: gutter, right: gutter }, { paddingBottom: Math.max(insets.bottom, desktop ? 10 : 4) }]}>
         {message ? <AppText accessibilityRole="alert" style={styles.statusMessage}>{message}</AppText> : null}
         {statusActions}
-        <View style={styles.purchaseRow}>
-          <View style={styles.purchasePrice}><AppText style={styles.purchaseLabel}>完全版（30日間）</AppText><AppText variant="serif" style={styles.purchaseAmount}>{price}</AppText><AppText style={styles.purchaseNote}>一回払い・自動更新なし</AppText></View>
+        <View style={[styles.purchaseRow, desktop && desktopStyles.purchaseRow]}>
+          <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}><AppText style={[styles.purchaseLabel, desktop && desktopStyles.purchaseLabel]}>完全版（30日間）</AppText><AppText variant="serif" style={[styles.purchaseAmount, desktop && desktopStyles.purchaseAmount]}>{price}</AppText><AppText style={[styles.purchaseNote, desktop && desktopStyles.purchaseNote]}>一回払い・自動更新なし</AppText></View>
           <View style={styles.purchaseDivider} />
-          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.purchaseButtonHighlight} /><AppText variant="serif" style={[styles.purchaseButtonText, narrow && { fontSize: 12 }]}>{purchaseLabel}</AppText><AppText style={styles.purchaseArrow}>→</AppText></Pressable>
+          {desktop ? <AppText style={desktopStyles.purchasePromise}>知識のつながりを、もっと広く。{'\n'}すべての人物像・処世術・理論・学習コンテンツへ。</AppText> : null}
+          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, desktop && desktopStyles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.purchaseButtonHighlight} /><AppText variant="serif" style={[styles.purchaseButtonText, narrow && { fontSize: 12 }, desktop && desktopStyles.purchaseButtonText]}>{purchaseLabel}</AppText><AppText style={styles.purchaseArrow}>→</AppText></Pressable>
         </View>
-        <View style={styles.legalLinks}><Pressable accessibilityRole="link" onPress={onTerms} style={styles.legalLink}><AppText style={styles.legalText}>購入条件・返金について</AppText></Pressable><View style={styles.legalDot} /><Pressable accessibilityRole="link" onPress={onCommerce} style={styles.legalLink}><AppText style={styles.legalText}>特定商取引法に基づく表記</AppText></Pressable></View>
+        <View style={styles.legalLinks}><Pressable accessibilityRole="link" onPress={onTerms} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>購入条件・返金について</AppText></Pressable><View style={styles.legalDot} /><Pressable accessibilityRole="link" onPress={onCommerce} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>特定商取引法に基づく表記</AppText></Pressable></View>
       </View>
     </View>
   </View>;
@@ -227,9 +237,59 @@ const styles = StyleSheet.create({
   faq: { paddingHorizontal: 22, paddingTop: 29, paddingBottom: 22, backgroundColor: '#FBF9F5' }, faqList: { marginTop: 15, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#DDDAD1' }, faqItem: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#DDDAD1' },
   faqQuestion: { minHeight: 53, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 10 }, questionMark: { width: 14, height: 14, borderWidth: 1, borderColor: '#35423E', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }, questionMarkText: { fontSize: 10, lineHeight: 12, fontWeight: '600', color: '#35423E' }, faqQuestionText: { flex: 1, fontSize: 12, lineHeight: 20, color: '#25332E', fontWeight: '600' }, chevron: { fontSize: 19, lineHeight: 22, color: '#35423E', paddingHorizontal: 3 }, chevronOpen: { transform: [{ rotate: '180deg' }] },
   faqAnswer: { paddingLeft: 24, paddingRight: 10, paddingBottom: 17 }, faqAnswerText: { fontSize: 12, lineHeight: 22, color: '#67716A' }, faqUtility: { minHeight: 36, justifyContent: 'center', marginTop: 7 }, faqUtilityText: { fontSize: 11, lineHeight: 18, color: '#81642F', textDecorationLine: 'underline' },
-  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 17, paddingTop: 10, backgroundColor: '#080B0C', ...Platform.select({ web: { backgroundImage: 'linear-gradient(115deg, #151918 0%, #090D0E 48%, #050809 100%)' } }), borderTopLeftRadius: 12, borderTopRightRadius: 12, borderTopWidth: 1, borderTopColor: '#B08C4C', shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 14, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
+  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 17, paddingTop: 10, backgroundColor: '#060808', ...Platform.select({ web: { backgroundImage: 'radial-gradient(ellipse at 75% 0%, rgba(204,164,76,.16), transparent 58%), linear-gradient(115deg, #181A16 0%, #080A0A 48%, #030505 100%)', boxShadow: '0 -5px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,227,151,.4)' } }), borderTopLeftRadius: 12, borderTopRightRadius: 12, borderTopWidth: 1, borderTopColor: '#D6B96F', shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 14, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
   purchaseRow: { flexDirection: 'row', alignItems: 'center', gap: 13 }, purchasePrice: { width: '35%' }, purchaseDivider: { width: 1, height: 42, backgroundColor: 'rgba(189,153,86,.5)' }, purchaseLabel: { fontSize: 10, lineHeight: 14, color: '#DAB877' }, purchaseAmount: { fontSize: 34, lineHeight: 36, letterSpacing: -0.7, color: '#EBC989', textShadowColor: 'rgba(222,175,75,.12)', textShadowRadius: 5 }, purchaseNote: { fontSize: 7.5, lineHeight: 11, color: '#D7D3C8' },
-  purchaseButton: { flex: 1, minHeight: 45, borderRadius: 24, overflow: 'hidden', backgroundColor: '#C29950', borderWidth: 1, borderColor: '#DEC187', ...Platform.select({ web: { backgroundImage: 'linear-gradient(165deg, #E4C27F 0%, #D2AE66 26%, #BE9346 65%, #A77C30 100%)', boxShadow: '0 2px 8px rgba(181,137,52,.16), inset 0 1px 0 rgba(255,242,204,.55)' } }), shadowColor: '#AC7D30', shadowOpacity: 0.14, shadowRadius: 6, shadowOffset: { width: 0, height: 2 }, elevation: 4, flexDirection: 'row', gap: 7, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 9 }, purchaseButtonHighlight: { position: 'absolute', top: 2, left: 17, right: 17, height: 1, backgroundColor: 'rgba(255,247,215,.45)' }, purchaseButtonText: { fontSize: 14, lineHeight: 21, color: '#37270D', fontWeight: '700' }, purchaseArrow: { color: '#37270D', fontSize: 18, lineHeight: 22 },
+  purchaseButton: { flex: 1, minHeight: 45, borderRadius: 24, overflow: 'hidden', backgroundColor: '#DAB25F', borderWidth: 1, borderColor: '#FAE1A2', ...Platform.select({ web: { backgroundImage: 'linear-gradient(115deg, transparent 5%, rgba(255,250,221,.4) 27%, transparent 47%), linear-gradient(180deg, #FFF0BE 0%, #EED08B 18%, #C69A46 46%, #EDCC80 50%, #D6AD59 70%, #AE7D31 100%)', boxShadow: '0 3px 17px rgba(218,170,68,.32), inset 0 1px 1px rgba(255,255,231,.95), inset 0 -2px 3px rgba(102,60,6,.2)' } }), shadowColor: '#D7AA46', shadowOpacity: 0.3, shadowRadius: 9, shadowOffset: { width: 0, height: 2 }, elevation: 4, flexDirection: 'row', gap: 7, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 9 }, purchaseButtonHighlight: { position: 'absolute', top: 2, left: 17, right: 17, height: 2, borderRadius: 2, backgroundColor: 'rgba(255,252,231,.7)' }, purchaseButtonText: { fontSize: 14, lineHeight: 21, color: '#37270D', fontWeight: '700' }, purchaseArrow: { color: '#37270D', fontSize: 18, lineHeight: 22 },
   legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 3 }, legalLink: { minHeight: 20, justifyContent: 'center' }, legalText: { color: '#B8B3A5', fontSize: 8, lineHeight: 13 }, legalDot: { width: 1, height: 9, backgroundColor: '#627067' },
   statusMessage: { fontSize: 11, lineHeight: 19, color: '#F2E8D1', paddingBottom: 9 }, pressed: { opacity: 0.76 }, disabled: { opacity: 0.5 },
+});
+
+// Desktop composition has its own content proportions and horizontal sections.
+// Native screens and narrow browsers retain the reference's single-column LP.
+const desktopStyles = StyleSheet.create({
+  frame: { maxWidth: 1600 },
+  header: { height: 64 },
+  heroWash: { bottom: 0, ...Platform.select({ web: { backgroundImage: 'linear-gradient(90deg, rgba(255,244,220,.78) 0%, rgba(255,244,220,.52) 33%, transparent 65%)' } }), backgroundColor: 'transparent' },
+  heroCopy: { paddingTop: 62 },
+  heroTitle: { marginTop: 27, fontSize: 52, lineHeight: 78, letterSpacing: 1 },
+  heroLead: { marginTop: 21, fontSize: 16, lineHeight: 30, letterSpacing: 1 },
+  phones: { left: 'auto', bottom: -24, gap: 28 },
+  heroPrice: { right: 'auto', bottom: 65, width: 280 },
+  heading: { fontSize: 36, lineHeight: 56, letterSpacing: 0.8 },
+  body: { fontSize: 15, lineHeight: 29, marginTop: 22 },
+  comparison: { flexDirection: 'row', alignItems: 'center', gap: 48, paddingTop: 80, paddingBottom: 80 },
+  comparisonCopy: { flex: 0.9, minWidth: 0 },
+  editions: { flex: 1.65, marginTop: 0, gap: 20 },
+  editionCard: { paddingHorizontal: 24, paddingTop: 24, paddingBottom: 23, borderRadius: 8, minHeight: 374 },
+  editionTitle: { fontSize: 30, lineHeight: 43, marginTop: 10 },
+  editionSubtitle: { fontSize: 12, lineHeight: 21 },
+  editionItems: { marginTop: 22 },
+  editionItem: { minHeight: 46, gap: 12 },
+  editionItemText: { fontSize: 14, lineHeight: 23 },
+  recommendation: { paddingTop: 75, paddingBottom: 90, minHeight: 480 },
+  recommendationWash: { backgroundColor: 'transparent', ...Platform.select({ web: { backgroundImage: 'linear-gradient(90deg, rgba(255,254,243,.98), rgba(255,254,243,.92) 38%, rgba(255,254,243,.22) 76%, rgba(255,254,243,.06))' } }) },
+  recommendationList: { width: '58%', marginTop: 28, gap: 25 },
+  recommendationText: { fontSize: 15, lineHeight: 28 },
+  knowledge: { flexDirection: 'row', alignItems: 'center', gap: 60, paddingTop: 85, paddingBottom: 85, minHeight: 510 },
+  knowledgeCopy: { flex: 1, minWidth: 0 },
+  knowledgeTitle: { textAlign: 'left', fontSize: 38, lineHeight: 60, letterSpacing: 1 },
+  knowledgeSubtitle: { textAlign: 'left', fontSize: 23, lineHeight: 36, marginTop: 20 },
+  knowledgeDescription: { fontSize: 15, lineHeight: 29, marginTop: 26 },
+  networkWrap: { marginTop: 0, flexShrink: 0 },
+  faq: { flexDirection: 'row', alignItems: 'flex-start', gap: 70, paddingTop: 80, paddingBottom: 80 },
+  faqHeading: { flex: 0.75 },
+  faqList: { flex: 1.5, marginTop: 0 },
+  faqQuestion: { minHeight: 62, gap: 14 },
+  faqQuestionText: { fontSize: 15, lineHeight: 25 },
+  faqAnswerText: { fontSize: 14, lineHeight: 26 },
+  purchaseBar: { bottom: 18, paddingHorizontal: 30, paddingTop: 14, borderRadius: 14, borderWidth: 1, borderColor: '#A78B50' },
+  purchaseRow: { gap: 28 },
+  purchasePrice: { width: 178, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 14 },
+  purchaseLabel: { width: '100%', fontSize: 11, lineHeight: 18 },
+  purchaseAmount: { fontSize: 38, lineHeight: 44 },
+  purchaseNote: { fontSize: 9, lineHeight: 14, width: '100%' },
+  purchasePromise: { flex: 1, color: '#E5DBC2', fontSize: 13, lineHeight: 24 },
+  purchaseButton: { flexGrow: 0, flexShrink: 0, flexBasis: 290, width: 290, minHeight: 56, borderRadius: 30 },
+  purchaseButtonText: { fontSize: 18, lineHeight: 27, letterSpacing: 0.5 },
+  legalText: { fontSize: 10, lineHeight: 16 },
 });
