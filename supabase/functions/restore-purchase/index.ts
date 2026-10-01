@@ -2,7 +2,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { json, optionsResponse } from '../_shared/http.ts';
 
 const PRODUCT_ID = 'complete-edition';
-const UNIT_AMOUNT = 280;
+// Keep receipts sold under the previous price restorable.
+const SUPPORTED_AMOUNTS = new Set([280, 320]);
 const CURRENCY = 'jpy';
 
 type StripePayment = {
@@ -33,7 +34,7 @@ function isMatchingPayment(payment: StripePayment, userId: string) {
   return linkedUserId === userId
     && payment.metadata?.product_id === PRODUCT_ID
     && paid
-    && amount === UNIT_AMOUNT
+    && typeof amount === 'number' && SUPPORTED_AMOUNTS.has(amount)
     && payment.currency === CURRENCY;
 }
 
@@ -55,7 +56,7 @@ function isGuestCheckoutClaim(session: StripePayment, email: string | null | und
     && session.metadata?.purchase_flow === 'guest_claim'
     && session.metadata?.product_id === PRODUCT_ID
     && session.payment_status === 'paid'
-    && amount === UNIT_AMOUNT
+    && typeof amount === 'number' && SUPPORTED_AMOUNTS.has(amount)
     && session.currency === CURRENCY
     && normalizedEmail(session.customer_details?.email) === normalizedEmail(email);
 }
@@ -66,7 +67,7 @@ function isUnrefundedGuestPaymentIntent(payment: StripePayment) {
   return payment.metadata?.purchase_flow === 'guest_claim'
     && payment.metadata?.product_id === PRODUCT_ID
     && payment.status === 'succeeded'
-    && amount === UNIT_AMOUNT
+    && typeof amount === 'number' && SUPPORTED_AMOUNTS.has(amount)
     && payment.currency === CURRENCY
     && charge?.paid === true
     && charge.refunded !== true
