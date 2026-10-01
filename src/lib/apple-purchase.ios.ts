@@ -5,7 +5,9 @@ import { purchaseTimeout } from './purchase-timeout';
 
 export const appleProductId = process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID ?? '';
 let connection: Promise<boolean> | null = null;
-const pending = new Map<string, Promise<void>>();
+const pending = new Map<string, Promise<boolean>>();
+export const APPLE_COMPLETE_EDITION_PRICE_JPY = 320;
+export const APPLE_COMPLETE_EDITION_PRICE_LABEL = `${APPLE_COMPLETE_EDITION_PRICE_JPY}円`;
 
 type PurchaseSubscriber = {
   onVerified: () => void;
@@ -21,7 +23,8 @@ let nativeListeners: { updated: { remove: () => void }; failed: { remove: () => 
 let purchaseRequest: Promise<unknown> | null = null;
 
 export function formatApplePurchaseError(error: unknown) {
-  const message = error instanceof Error ? error.message : String(error ?? '');
+  const message = error instanceof Error ? error.message
+    : error && typeof error === 'object' && 'message' in error ? String(error.message) : String(error ?? '');
   if (/unable to complete request|unexpectedexception/i.test(message)) {
     return 'App Storeで購入を開始できませんでした。App Storeにサインインしていることを確認して、もう一度お試しください。';
   }
@@ -40,15 +43,32 @@ function notifyError(message: string) {
   }
 }
 
+async function belongsToCurrentAppAccount(purchase: Purchase) {
+  // StoreKit replays unfinished transactions whenever the connection opens.
+  // A transaction belongs to the app account selected when its purchase was
+  // initiated, not necessarily the account currently shown on screen. Do not
+  // turn that replay into a misleading failure of a new purchase attempt.
+  const userId = (await supabase?.auth.getSession())?.data.session?.user?.id;
+  if (!userId) return false;
+  if (!('appAccountToken' in purchase) || !purchase.appAccountToken) return true;
+  return userId?.toLowerCase() === purchase.appAccountToken.toLowerCase();
+}
+
 function ensurePurchaseListeners() {
   if (nativeListeners) return;
   const updated = purchaseUpdatedListener(purchase => {
     if (purchase.productId !== appleProductId) return;
-    if (purchase.purchaseState === 'pending') {
-      notifyError('購入は承認待ちです。承認後に反映されます。');
-      return;
-    }
-    void verifyApplePurchase(purchase).then(notifyVerified).catch(error => notifyError(formatApplePurchaseError(error)));
+    void belongsToCurrentAppAccount(purchase).then(matches => {
+      // Leave another account's transaction in StoreKit for its rightful
+      // owner. Finishing it here could permanently hide a valid purchase.
+      if (!matches) return;
+      if (purchase.purchaseState === 'pending') {
+        notifyError('購入は承認待ちです。承認後に反映されます。');
+        return;
+      }
+      if (purchase.purchaseState !== 'purchased') return;
+      return verifyApplePurchase(purchase).then(verified => { if (verified) notifyVerified(); }).catch(error => notifyError(formatApplePurchaseError(error)));
+    }).catch(error => notifyError(formatApplePurchaseError(error)));
   }, { dedupeTransactionIOS: false });
   const failed = purchaseErrorListener(error => notifyError(
     String(error.code).includes('cancel')
@@ -71,10 +91,15 @@ export function connectAppleStore() {
 async function invoke(body: Record<string, unknown>) {
   if (!supabase) throw new Error('購入機能が設定されていません。');
   const { data, error } = await purchaseTimeout(supabase.functions.invoke('apple-purchase', { body }));
+  const response = error && 'context' in error && error.context instanceof Response
+    ? await error.context.clone().json().catch(() => null) : data;
+  if (response?.error === 'sandbox_account_not_allowed') throw new Error('このアカウントはTestFlight購入のテスト対象に登録されていません。運営に登録を依頼してください。');
+  if (response?.error === 'transaction_ownership_conflict') throw new Error('この購入は別の処世術禄アカウントに紐づいています。購入時のアカウントでログインしてください。');
   if (error || data?.verified !== true) throw new Error('購入を確認できませんでした。同じアカウントで「購入を復元」をお試しください。');
 }
 export async function verifyApplePurchase(purchase: Purchase) {
-  if (purchase.productId !== appleProductId || purchase.purchaseState !== 'purchased') return;
+  if (purchase.productId !== appleProductId || purchase.purchaseState !== 'purchased') return false;
+  if (!await belongsToCurrentAppAccount(purchase)) return false;
   const transactionId = purchase.transactionId;
   if (!transactionId) throw new Error('取引番号を確認できません。購入を復元してください。');
   if (pending.has(transactionId)) return pending.get(transactionId);
@@ -83,9 +108,10 @@ export async function verifyApplePurchase(purchase: Purchase) {
       environment: 'environmentIOS' in purchase ? purchase.environmentIOS : null });
     // Delivery is committed on the server before the StoreKit queue is finished.
     await finishTransaction({ purchase, isConsumable: false });
+    return true;
   })();
   pending.set(transactionId, task);
-  try { await task; } finally { pending.delete(transactionId); }
+  try { return await task; } finally { pending.delete(transactionId); }
 }
 export function listenToApplePurchases(onVerified: () => void, onError: (message: string) => void) {
   const subscriber = { onVerified, onError };
@@ -107,7 +133,8 @@ export async function buyAppleProduct(userId: string) {
   // Acquire the lock before awaiting the connection so two taps during
   // initConnection() cannot both reach StoreKit.requestPurchase().
   purchaseRequest = (async () => {
-    await connectAppleStore();
+    // Fetch again before purchasing: failed product loading must be retryable.
+    await loadAppleProduct();
     return requestPurchase({ type: 'in-app', request: { apple: {
       sku: appleProductId,
       quantity: 1,
@@ -128,8 +155,7 @@ export async function restoreApplePurchases() {
   for (const purchase of purchases) {
     if (purchase.productId !== appleProductId) continue;
     // Ignore another app account's StoreKit history; never reassign ownership.
-    const user = (await supabase?.auth.getSession())?.data.session?.user;
-    if ('appAccountToken' in purchase && purchase.appAccountToken?.toLowerCase() !== user?.id.toLowerCase()) continue;
+    if (!await belongsToCurrentAppAccount(purchase)) continue;
     await verifyApplePurchase(purchase);
   }
   await invoke({ restore: true });

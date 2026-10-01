@@ -11,7 +11,7 @@
     "primaryColor": "#9A7A3E",
     "ios": {
       "bundleIdentifier": "jp.shoseijutsuroku.app",
-      "buildNumber": "20",
+      "buildNumber": "21",
       "jsEngine": "jsc",
       "supportsTablet": false,
       "icon": "./assets/brand/icon.png",

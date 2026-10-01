@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Image, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { COMPLETE_LEARNING_CASE_COUNT, COMPLETE_TECHNIQUE_COUNT, COMPLETE_THEORY_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { AppText } from '@/components/ui';
-import { buyAppleProduct, formatApplePurchaseError, listenToApplePurchases, loadAppleProduct, restoreApplePurchases } from '@/lib/apple-purchase.ios';
-import { COMPLETE_EDITION_PRICE_JPY, fetchVerifiedAccess, formatAccessDateTime } from '@/lib/purchase';
+import { APPLE_COMPLETE_EDITION_PRICE_LABEL, buyAppleProduct, formatApplePurchaseError, listenToApplePurchases, loadAppleProduct, restoreApplePurchases } from '@/lib/apple-purchase.ios';
+import { fetchVerifiedAccess, formatAccessDateTime } from '@/lib/purchase';
 
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 const valuePoints = [
@@ -30,12 +30,11 @@ export default function AppleUpgradeScreen() {
   const [storePrice, setStorePrice] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
-  const fallbackPrice = useMemo(() => `¥${COMPLETE_EDITION_PRICE_JPY}`, []);
-  const price = storePrice || fallbackPrice;
+  const price = APPLE_COMPLETE_EDITION_PRICE_LABEL;
 
   const load = () => {
     setMessage('');
-    void loadAppleProduct().then((product) => setStorePrice(product.displayPrice)).catch((error) => setMessage(error instanceof Error ? error.message : '商品情報を取得できませんでした。'));
+    void loadAppleProduct().then((product) => setStorePrice(product.displayPrice)).catch((error) => setMessage(formatApplePurchaseError(error)));
   };
 
   useEffect(load, []);
@@ -64,7 +63,7 @@ export default function AppleUpgradeScreen() {
     if (!user) { router.push('/auth'); return; }
     setBusy(true); setMessage('購入を確認しています…');
     try { await restoreApplePurchases(); const state = await refreshAccess(); setMessage(state === 'paid' ? '有効な購入を復元しました。' : '有効な購入がありません。購入時と同じアカウントでログインしてください。'); }
-    catch (error) { setMessage(error instanceof Error ? error.message : '購入を復元できませんでした。'); }
+    catch (error) { setMessage(formatApplePurchaseError(error)); }
     finally { setBusy(false); }
   }
 
@@ -75,7 +74,7 @@ export default function AppleUpgradeScreen() {
     <View style={styles.editionComparison}><View style={[styles.editionOption, styles.freeEdition]}><AppText style={styles.editionBadge}>無料版・体系の抜粋</AppText><AppText variant="serif" style={styles.editionCount}>処世術{FREE_REEL_TECHNIQUE_IDS.length}件{`\n`}理論{FREE_THEORY_IDS.length}件</AppText></View><AppText style={styles.editionArrow}>›</AppText><View style={[styles.editionOption, styles.completeEdition]}><AppText style={[styles.editionBadge, styles.completeEditionBadge]}>完全版・全体系</AppText><AppText variant="serif" style={[styles.editionCount, styles.completeEditionCount]}>処世術{COMPLETE_TECHNIQUE_COUNT}件・{`\n`}理論{COMPLETE_THEORY_COUNT}件</AppText></View></View>
     <View style={styles.valueHeading}><View style={styles.valueHeadingLine} /><View><AppText variant="serif" style={styles.valueHeadingTitle}>迷ったとき、すぐ一手が見つかる</AppText><AppText style={styles.valueHeadingSub}>完全版で手に入る3つの強み。</AppText></View><View style={styles.valueHeadingLine} /></View>
     <View style={styles.featurePanel}>{valuePoints.map(([number, title, body], index) => <View key={title} style={[styles.featureRow, index !== valuePoints.length - 1 && styles.featureRowDivider]}><FeatureIcon index={index} /><View style={styles.featureCopy}><View style={styles.featureTitleRow}><AppText style={styles.featureNumber}>{number}</AppText><AppText variant="serif" style={styles.featureTitle}>{title}</AppText></View><AppText style={styles.featureBody}>{body}</AppText></View></View>)}</View>
-    <View style={styles.purchaseCard}><AppText variant="serif" style={styles.purchaseLabel}>完全版・30日間</AppText><View style={styles.priceRow}><AppText variant="serif" style={styles.purchasePrice}>{price}</AppText><AppText style={styles.tax}>（税込）</AppText></View><AppText style={styles.paymentType}>一回払い・自動更新なし</AppText>{isPaid ? <AppText style={styles.active}>完全版を利用中{accessInfo.accessExpiresAt ? `：${formatAccessDateTime(accessInfo.accessExpiresAt)}まで` : ''}</AppText> : null}{message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}<Pressable accessibilityRole="button" disabled={busy || (!isPaid && !storePrice)} onPress={() => isPaid ? router.replace('/(tabs)') : void purchase()} style={({ pressed }) => [styles.primary, (busy || (!isPaid && !storePrice)) && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.primarySheen} /><AppText variant="serif" style={styles.primaryText}>{primaryLabel}</AppText>{!isPaid ? <AppText style={styles.primaryArrow}>›</AppText> : null}</Pressable>{!storePrice && !message ? <Pressable accessibilityRole="button" disabled={busy} onPress={load} style={styles.reload}><AppText style={styles.reloadText}>商品情報を再読み込み</AppText></Pressable> : null}{!isPaid ? <AppText style={styles.preConfirmation}>{user ? '決済は次の画面で確定します' : 'アカウント作成またはログイン後に、決済へ進みます'}</AppText> : null}<View style={styles.utilityRow}>{!isPaid ? <Pressable accessibilityRole="button" disabled={busy} onPress={() => void restore()} style={styles.utilityButton}><AppText style={styles.utilityLink}>{busy ? '購入履歴を確認中…' : '購入済みの方は復元する'}</AppText></Pressable> : null}<Pressable accessibilityRole="button" onPress={() => router.push('/legal/terms')} style={styles.utilityButton}><AppText style={styles.utilityLink}>利用規約</AppText></Pressable><Pressable accessibilityRole="button" onPress={() => router.push('/legal/commerce')} style={styles.utilityButton}><AppText style={styles.utilityLink}>特商法表記</AppText></Pressable><Pressable accessibilityRole="button" onPress={() => router.push('/legal/faq')} style={styles.utilityButton}><AppText style={styles.utilityLink}>FAQ</AppText></Pressable></View></View>
+    <View style={styles.purchaseCard}><AppText variant="serif" style={styles.purchaseLabel}>完全版・30日間</AppText><View style={styles.priceRow}><AppText variant="serif" style={styles.purchasePrice}>{price}</AppText><AppText style={styles.tax}>（税込）</AppText></View><AppText style={styles.paymentType}>一回払い・自動更新なし</AppText>{isPaid ? <AppText style={styles.active}>完全版を利用中{accessInfo.accessExpiresAt ? `：${formatAccessDateTime(accessInfo.accessExpiresAt)}まで` : ''}</AppText> : null}{message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}<Pressable accessibilityRole="button" disabled={busy || (!isPaid && !storePrice)} onPress={() => isPaid ? router.replace('/(tabs)') : void purchase()} style={({ pressed }) => [styles.primary, (busy || (!isPaid && !storePrice)) && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.primarySheen} /><AppText variant="serif" style={styles.primaryText}>{primaryLabel}</AppText>{!isPaid ? <AppText style={styles.primaryArrow}>›</AppText> : null}</Pressable>{!storePrice ? <Pressable accessibilityRole="button" disabled={busy} onPress={load} style={styles.reload}><AppText style={styles.reloadText}>商品情報を再読み込み</AppText></Pressable> : null}{!isPaid ? <AppText style={styles.preConfirmation}>{user ? '日本での価格は320円です。決済はApp Storeの確認画面で確定します' : 'アカウント作成またはログイン後に、決済へ進みます'}</AppText> : null}<View style={styles.utilityRow}>{!isPaid ? <Pressable accessibilityRole="button" disabled={busy} onPress={() => void restore()} style={styles.utilityButton}><AppText style={styles.utilityLink}>{busy ? '購入履歴を確認中…' : '購入済みの方は復元する'}</AppText></Pressable> : null}<Pressable accessibilityRole="button" onPress={() => router.push('/legal/terms')} style={styles.utilityButton}><AppText style={styles.utilityLink}>利用規約</AppText></Pressable><Pressable accessibilityRole="button" onPress={() => router.push('/legal/commerce')} style={styles.utilityButton}><AppText style={styles.utilityLink}>特商法表記</AppText></Pressable><Pressable accessibilityRole="button" onPress={() => router.push('/legal/faq')} style={styles.utilityButton}><AppText style={styles.utilityLink}>FAQ</AppText></Pressable></View></View>
   </View></View></ScrollView></View>;
 }
 
