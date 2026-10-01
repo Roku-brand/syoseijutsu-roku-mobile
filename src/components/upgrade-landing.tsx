@@ -112,7 +112,7 @@ export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, o
   return <View style={styles.root} testID="upgrade-landing">
     <View style={styles.frame}>
       <View style={styles.header}>
-        <Pressable accessibilityRole="button" accessibilityLabel="前の画面に戻る" onPress={onBack} style={({ pressed }) => [styles.back, pressed && styles.pressed]}><AppText style={styles.backArrow}>‹</AppText><AppText style={styles.backText}>戻る</AppText></Pressable>
+        <Pressable accessibilityRole="button" accessibilityLabel="前の画面へ戻る" onPress={onBack} style={({ pressed }) => [styles.back, pressed && styles.pressed]}><AppText style={styles.backArrow}>‹</AppText><AppText style={styles.backText}>戻る</AppText></Pressable>
         <AppText style={styles.headerTitle}>完全版を購入</AppText><View style={styles.headerBalance} />
       </View>
       <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
