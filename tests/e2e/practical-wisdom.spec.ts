@@ -3,7 +3,7 @@ import fs from 'node:fs';
 
 const originals = JSON.parse(fs.readFileSync('docs/content/practical-wisdom-originals.json', 'utf8')) as { tagId:string; displayId:number; title:string; summary:string; provenance:object; accessTier:string; categoryId:string; categoryTitle:string }[];
 
-async function mockCompleteAccount(page: Page, owner = false) {
+async function mockCompleteAccount(page: Page, owner = false, publicReads = false) {
   const user = { id:'00000000-0000-4000-8000-000000000003', aud:'authenticated', role:'authenticated', email:'wisdom-test@example.invalid', app_metadata:{}, user_metadata:{}, created_at:'2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({sub:user.id,role:'authenticated',exp:4102444800})).toString('base64url');
   const session = {access_token:`eyJhbGciOiJIUzI1NiJ9.${payload}.test`,refresh_token:'test-refresh',token_type:'bearer',expires_at:4102444800,expires_in:3600,user};
@@ -17,6 +17,9 @@ async function mockCompleteAccount(page: Page, owner = false) {
     if (owner && url.includes('/theories')) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.summary,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.provenance,access_tier:item.accessTier,aliases:[],related_theory_ids:[],updated_at:'2026-10-02T00:00:00Z'}))});
     if (owner && url.includes('/content_categories')) return route.fulfill({json:[{kind:'theory',id:'practical-wisdom',title:'実践知',display_order:5}]});
     if (owner) return route.fulfill({json:[]});
+    if (publicReads && url.includes('/theories')) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.accessTier==='free'?item.summary:null,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.accessTier==='free'?item.provenance:null,access_tier:item.accessTier,aliases:[],related_theory_ids:[]}))});
+    if (publicReads && url.includes('/content_categories')) return route.fulfill({json:[{kind:'theory',id:'practical-wisdom',title:'実践知',display_order:5}]});
+    if (publicReads) return route.fulfill({json:[]});
     return route.fulfill({status:400,json:{message:'Use bundled catalogue'}});
   });
   await page.route('**/functions/v1/**', route => {
@@ -65,7 +68,7 @@ test('無料の実践知詳細にオリジナル出典を表示する', async ({
 
 test('完全版の新39件の詳細を表示でき、概要とオリジナル出典を保持する', async ({page}) => {
   test.setTimeout(180_000);
-  await mockCompleteAccount(page);
+  await mockCompleteAccount(page,false,true);
   for (const original of originals) {
     await page.goto(`/theory/${original.tagId}`);
     await expect(page.getByTestId('theory-title')).toContainText(original.title.slice(1,-1));
@@ -73,4 +76,12 @@ test('完全版の新39件の詳細を表示でき、概要とオリジナル出
     await expect(page.getByTestId('theory-information')).toContainText('処世術禄オリジナル');
   }
   await page.screenshot({path:test.info().outputPath('original-detail-a039.png'),fullPage:true});
+});
+
+test('公開APIや他の完全版データを取得できなくても取得済みの実践知本文を表示する', async ({page}) => {
+  await mockCompleteAccount(page);
+  const original=originals[10];
+  await page.goto(`/theory/${original.tagId}`);
+  await expect(page.getByTestId('theory-title')).toContainText(original.title.slice(1,-1));
+  await expect(page.getByTestId('theory-summary')).toContainText(original.summary.split('。')[0]);
 });

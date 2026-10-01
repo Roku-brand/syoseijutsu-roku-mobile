@@ -91,7 +91,7 @@
     "assets:web": "node ./scripts/optimize-web-assets.mjs",
     "store:assets": "node ./scripts/generate-store-assets.mjs",
     "lint": "eslint src scripts tests",
-    "test:practical-wisdom": "node --test tests/unit/practical-wisdom-refresh.test.mjs tests/unit/editor-schema.test.mjs"
+    "test:practical-wisdom": "node --test tests/unit/practical-wisdom-refresh.test.mjs tests/unit/editor-schema.test.mjs tests/unit/secure-theory-hydration.test.mjs"
   },
   "private": true
 }

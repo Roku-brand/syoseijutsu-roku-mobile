@@ -114,8 +114,10 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     if (!theories.length) {
       throw new Error('完全版データが不足しているため、端末への保存を中止しました。');
     }
+    if (generation !== secureGeneration) return;
     hydratePaidTheories(theories);
     hydratedUserId = userId;
+    onContentApplied?.();
     void hydrateRemainingContent(userId, theories, onContentApplied, generation);
   })().finally(() => {
     hydrationPromise = null;
