@@ -106,7 +106,7 @@
         "kb_706",
         "kb_625",
         "kb_543",
-        "kb_330",
+        "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
         "kb_599",
         "kb_762",
         "kb_738",
@@ -120,7 +120,6 @@
         "kb_175",
         "kb_326",
         "kb_620",
-        "kb_645",
         "kb_177",
         "kb_179",
         "kb_619",
@@ -166,20 +165,18 @@
         "自分らしく生きられる人"
       ],
       "theoryIds": [
-        "kb_669",
         "kb_618",
         "kb_736",
         "kb_268",
         "kb_612",
         "kb_604",
+        "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
         "kb_029",
         "kb_567",
         "kb_282",
         "kb_296",
         "kb_266",
-        "kb_634",
         "kb_315",
-        "kb_654",
         "kb_617",
         "kb_724",
         "kb_626",
@@ -228,8 +225,7 @@
         "kb_751",
         "kb_503",
         "kb_504",
-        "kb_627",
-        "kb_705"
+        "kb_627"
       ],
       "subtitle": "締切は完成日ではなく、事故が許されなくなる日である。",
       "displayOrder": 1,
@@ -253,7 +249,6 @@
       "importance": 3,
       "relatedTheoryIds": [
         "kb_553",
-        "kb_669",
         "kb_618"
       ],
       "subtitle": "成功にはすぐ慣れるが、人間関係や日常の満足は毎日の幸福を支える。",
@@ -804,13 +799,25 @@
       "displayId": 75
     },
     {
-      "tagId": "kb_330",
-      "title": "「形にして初めて、直す場所が見える」",
-      "summary": "完全になるまで待つより、まず完成させて現実の反応から改善する方が前進できるという原則。",
+      "tagId": "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
+      "displayId": 5,
+      "title": "「未完成は、まだ生きている。」",
+      "summary": "出来上がっていないものには、まだ問い直したり作り替えたりする余地がある。完成を待って抱え込むより、途中の形を外に出して反応を受け取ることで、考えは育ち続ける。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 14
+      "displayOrder": 5,
+      "accessTier": "free",
+      "provenance": {
+        "status": "オリジナル",
+        "attribution": "処世術禄",
+        "works": [
+          "処世術禄オリジナル"
+        ],
+        "sources": [],
+        "note": "処世術禄によるオリジナルの実践知です。"
+      }
     },
     {
       "tagId": "kb_599",
@@ -1011,15 +1018,6 @@
       "displayId": 39
     },
     {
-      "tagId": "kb_645",
-      "title": "「結果を案じるより、今日の一歩を整える」",
-      "summary": "結果を直接支配しようとせず、今できる行動に集中するという考え。",
-      "categoryId": "practical-wisdom",
-      "categoryTitle": "実践知",
-      "relatedTheoryIds": [],
-      "displayId": 21
-    },
-    {
       "tagId": "kb_177",
       "title": "デフォルト効果",
       "summary": "明示的に変更しない限り採用される初期設定が、そのまま選ばれやすい現象。",
@@ -1130,15 +1128,6 @@
       "displayId": 55
     },
     {
-      "tagId": "kb_669",
-      "title": "「成果の陰にある試行も、成功の一部と見る」",
-      "summary": "成功だけを切り取らず、その背後にある大量の試行錯誤を見る考え。",
-      "categoryId": "practical-wisdom",
-      "categoryTitle": "実践知",
-      "relatedTheoryIds": [],
-      "displayId": 33
-    },
-    {
       "tagId": "kb_618",
       "title": "足るを知る者は富む",
       "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
@@ -1235,6 +1224,27 @@
       "displayId": 29
     },
     {
+      "tagId": "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
+      "displayId": 6,
+      "title": "「急ぐな。でも、今日を逃すな。」",
+      "summary": "焦りに押されて大きな決断をする必要はないが、すべてを先送りしてよいわけでもない。今しか会えない人や今なら試せることに目を向け、落ち着いたまま今日の一歩を踏み出す。",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "displayOrder": 6,
+      "accessTier": "free",
+      "provenance": {
+        "status": "オリジナル",
+        "attribution": "処世術禄",
+        "works": [
+          "処世術禄オリジナル"
+        ],
+        "sources": [],
+        "note": "処世術禄によるオリジナルの実践知です。"
+      }
+    },
+    {
       "tagId": "kb_567",
       "title": "ポートフォリオ理論",
       "summary": "値動きや失敗要因の異なる資産を組み合わせ、全体の期待収益に対するリスクを管理する理論。人生設計では、収入源、技能、役割への依存を分散する比喩として応用される。",
@@ -1301,15 +1311,6 @@
       "displayId": 133
     },
     {
-      "tagId": "kb_634",
-      "title": "「時間の使い方に、自分の価値観を映す」",
-      "summary": "他人の期待に合わせるより、自分が望む人生を選ぶべきだという教え。",
-      "categoryId": "practical-wisdom",
-      "categoryTitle": "実践知",
-      "relatedTheoryIds": [],
-      "displayId": 25
-    },
-    {
       "tagId": "kb_315",
       "title": "鶏口となるも牛後となるなかれ",
       "summary": "大組織の末端にいるより、小さな組織でも主導権を持つ道を選ぶ価値を説く言葉。",
@@ -1324,15 +1325,6 @@
       },
       "relatedTheoryIds": [],
       "displayId": 19
-    },
-    {
-      "tagId": "kb_654",
-      "title": "「自分らしさを、周囲の型に押し込まない」",
-      "summary": "周囲に合わせるだけでなく、自分独自の価値観や異質さを守ることを勧める。",
-      "categoryId": "practical-wisdom",
-      "categoryTitle": "実践知",
-      "relatedTheoryIds": [],
-      "displayId": 30
     },
     {
       "tagId": "kb_617",

@@ -25,6 +25,9 @@ export function generateStaticParams() {
 }
 
 export default function TheoryDetailScreen() {
+  'use no memo';
+  // The catalogue is updated outside React. Preserve catalogRevision in the
+  // explicit useMemo below; compiler inference otherwise drops that dependency.
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
@@ -118,7 +121,7 @@ export default function TheoryDetailScreen() {
         />
 
         <View testID="theory-information" style={styles.informationSection}>
-          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>理論情報</AppText>
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>{theory.categoryId === 'practical-wisdom' ? '実践知の情報' : '理論情報'}</AppText>
           <TheoryInformation theory={theory} compact={compact} />
         </View>
       </DetailSwipe>
@@ -140,7 +143,7 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
     ['出典状態', provenance.status],
     ['提唱者・著者', provenance.attribution],
     ...(provenance.period ? [['発表・刊行時期', provenance.period]] : []),
-    ['著作・研究', provenance.works?.join('\n')],
+    [provenance.status === 'オリジナル' ? '出典' : '著作・研究', provenance.works?.join('\n')],
     ['注記', provenance.note],
   ];
   return (
@@ -163,7 +166,7 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
           </View>
         </View>
       )}
-      <AppText style={styles.sourceExplanation}>「書誌確認済み」は著者・文献・刊行情報を照合した状態です。出典状態は、効果の強さや再現性を示す評価ではありません。</AppText>
+      {provenance.status !== 'オリジナル' && <AppText style={styles.sourceExplanation}>「書誌確認済み」は著者・文献・刊行情報を照合した状態です。出典状態は、効果の強さや再現性を示す評価ではありません。</AppText>}
     </View>
   );
 }

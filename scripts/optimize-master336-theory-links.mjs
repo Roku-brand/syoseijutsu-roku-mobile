@@ -15,7 +15,6 @@ const finalMappingPaths = [
   path.join(root, 'docs', 'shoseijutsuroku_theory_mapping_master336_final.md'),
 ];
 const auditPath = path.join(root, 'docs', 'theory-link-audit', 'content-review-summary.json');
-const migrationPath = path.join(root, 'supabase', 'migrations', '20260903113000_comprehensive_theory_link_groups.sql');
 
 const catalog = JSON.parse(fs.readFileSync(techniquesPath, 'utf8'));
 const theories = JSON.parse(fs.readFileSync(theoriesPath, 'utf8'));
@@ -136,14 +135,10 @@ const audit = {
   supplementaryDistribution: Object.fromEntries([...new Set(supplementaryCounts)].sort((a, b) => a - b).map((count) => [String(count), supplementaryCounts.filter((value) => value === count).length])),
   wisdomSupportLinks: Object.values(wisdomSupportTechniqueIdsByTheoryId).reduce((sum, ids) => sum + ids.length, 0),
   categoryCoverage,
-  generatedAt: '2026-09-03',
+  practicalWisdomPolicy: 'Only independently reviewed semantic matches; zero related techniques is valid.',
+  generatedAt: '2026-10-02',
 };
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
-
-const sqlQuote = (value) => `'${String(value).replaceAll("'", "''")}'`;
-const valueRows = cards.map((card) => `    (${sqlQuote(card.id)}, ${sqlQuote(JSON.stringify(card.relatedTheoryIds))}::jsonb)`).join(',\n');
-const migration = `-- Restore comprehensive coverage and keep the 513-link version as a rollback snapshot.\nwith comprehensive(technique_id, theory_ids) as (\n  values\n${valueRows}\n)\ninsert into public.theory_link_optimization_backups (optimization_key, technique_id, previous_theory_ids, optimized_theory_ids)\nselect 'comprehensive-groups-20260903', technique.id, technique.theory_ids, comprehensive.theory_ids\nfrom comprehensive\njoin public.techniques as technique on technique.id = comprehensive.technique_id\non conflict (optimization_key, technique_id) do nothing;\n\nwith comprehensive(technique_id, theory_ids) as (\n  values\n${valueRows}\n)\nupdate public.techniques as technique\nset theory_ids = comprehensive.theory_ids, updated_at = now()\nfrom comprehensive\nwhere technique.id = comprehensive.technique_id\n  and technique.theory_ids is distinct from comprehensive.theory_ids;\n`;
-fs.writeFileSync(migrationPath, migration);
 
 console.log(`Grouped ${cards.length} technique→theory links for comprehensive reading.`);
 console.log(JSON.stringify(audit, null, 2));

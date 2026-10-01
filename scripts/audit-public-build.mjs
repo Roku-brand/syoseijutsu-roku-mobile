@@ -1,5 +1,8 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
+import { originalPracticalWisdomProvenance } from '../src/data/original-practical-wisdom.ts';
+import { isPublicCatalogIdentityField } from './public-catalog-identity.mjs';
 import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
@@ -36,6 +39,7 @@ function fingerprint(text) {
 }
 
 function collectTextFingerprints(value, label, fingerprints, publicSourceTexts = new Set()) {
+  if (isPublicCatalogIdentityField(label)) return;
   if (typeof value === 'string') {
     if ([...publicSourceTexts].some((text) => text.includes(value))) return;
     // Citation fragments (journal names, author surnames) are not unique.
@@ -175,7 +179,9 @@ if (lockedPublicTheories.length !== theories.length - freeTheoryIds.size) {
   throw new Error('Public theory catalog does not contain the expected locked shells.');
 }
 for (const shell of lockedPublicTheories) {
-  if (Object.hasOwn(shell, 'provenance')) throw new Error(`Paid provenance in public shell: ${shell.tagId}`);
+  // Only the exact, shared brand declaration is public metadata. Academic
+  // sources, paid summaries, and extra provenance fields remain prohibited.
+  if (Object.hasOwn(shell, 'provenance') && !(shell.categoryId === 'practical-wisdom' && isDeepStrictEqual(shell.provenance, originalPracticalWisdomProvenance()))) throw new Error(`Paid provenance in public shell: ${shell.tagId}`);
   const canonical = theories.find((theory) => theory.tagId === shell.tagId);
   if (!canonical || shell.title !== canonical.title || shell.categoryId !== canonical.categoryId || shell.categoryTitle !== canonical.categoryTitle) {
     throw new Error(`Public theory title shell is not canonical: ${shell.tagId}`);

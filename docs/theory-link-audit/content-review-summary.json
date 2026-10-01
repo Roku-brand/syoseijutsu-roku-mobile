@@ -1,29 +1,30 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 768,
-  "links": 1346,
+  "theories": 759,
+  "links": 1252,
   "primaryLinks": 431,
-  "linkedTheories": 641,
-  "unlinkedTheories": 127,
+  "supplementaryLinks": 821,
+  "linkedTheories": 622,
+  "unlinkedTheories": 137,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 28,
   "distribution": {
-    "1": 68,
-    "2": 78,
-    "3": 74,
-    "4": 37,
-    "5": 33,
-    "6": 18,
-    "7": 14,
-    "8": 8,
-    "9": 6,
-    "10": 9,
-    "11": 1,
-    "12": 2,
-    "13": 3,
+    "1": 73,
+    "2": 91,
+    "3": 72,
+    "4": 33,
+    "5": 29,
+    "6": 16,
+    "7": 18,
+    "8": 4,
+    "9": 4,
+    "10": 7,
+    "11": 2,
+    "12": 1,
+    "13": 1,
     "14": 2,
-    "18": 1,
+    "16": 1,
     "25": 1,
     "28": 1
   },
@@ -32,24 +33,24 @@
     "2": 75
   },
   "supplementaryDistribution": {
-    "0": 87,
-    "1": 74,
-    "2": 67,
-    "3": 39,
-    "4": 28,
+    "0": 93,
+    "1": 89,
+    "2": 60,
+    "3": 36,
+    "4": 25,
     "5": 20,
-    "6": 9,
-    "7": 9,
-    "8": 5,
+    "6": 11,
+    "7": 3,
+    "8": 4,
     "9": 7,
     "10": 1,
-    "11": 3,
-    "12": 4,
-    "17": 1,
+    "11": 1,
+    "12": 3,
+    "15": 1,
     "24": 1,
     "26": 1
   },
-  "wisdomSupportLinks": 306,
+  "wisdomSupportLinks": 175,
   "categoryCoverage": {
     "psychology": {
       "theories": 305,
@@ -71,17 +72,17 @@
       "linkedTheories": 76,
       "links": 123
     },
-    "practical-wisdom": {
-      "theories": 48,
-      "linkedTheories": 48,
-      "links": 128
-    },
     "classics-thought": {
       "theories": 61,
       "linkedTheories": 61,
       "links": 178
+    },
+    "practical-wisdom": {
+      "theories": 39,
+      "linkedTheories": 29,
+      "links": 34
     }
   },
-  "generatedAt": "2026-09-30",
-  "supplementaryLinks": 915
+  "practicalWisdomPolicy": "Only independently reviewed semantic matches; zero related techniques is valid.",
+  "generatedAt": "2026-10-02"
 }

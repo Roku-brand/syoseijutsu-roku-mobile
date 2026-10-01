@@ -1,7 +1,10 @@
+import fs from 'node:fs';
+const originals = JSON.parse(fs.readFileSync(new URL('../docs/content/practical-wisdom-originals.json', import.meta.url), 'utf8'));
 // 古典・名言は、現象を説明する「主要理論」としてではなく、処世術の
 // 結論・判断基準・実行理由を別の言葉で補強する「あわせて読む理論」として扱う。
 // 単語の一致ではなく、各組み合わせをカード単位で読み合わせた編集用データ。
 export const wisdomSupportTechniqueIdsByTheoryId = {
+  ...Object.fromEntries(originals.map((item) => [item.tagId, item.relatedTechniqueIds])),
   kb_549: ['master336-171', 'master336-199', 'master336-275'],
   kb_468: ['master336-217', 'master336-220', 'master336-249'],
   kb_469: ['master336-105', 'master336-135', 'master336-220'],
@@ -47,24 +50,5 @@ export const wisdomSupportTechniqueIdsByTheoryId = {
   kb_631: ['master336-322', 'master336-326', 'master336-327'],
   kb_632: ['master336-190', 'master336-281', 'master336-285'],
 
-  kb_638: ['master336-319', 'master336-320', 'master336-321'],
-  kb_640: ['master336-179', 'master336-212', 'master336-336'],
-  kb_642: ['master336-048', 'master336-066', 'master336-276', 'master336-297'],
-  kb_643: ['master336-179', 'master336-310', 'master336-319', 'master336-321'],
-  kb_645: ['master336-193', 'master336-214', 'master336-316'],
-  kb_646: ['master336-057', 'master336-179', 'master336-331'],
-  kb_649: ['master336-176', 'master336-319', 'master336-321'],
-  kb_651: ['master336-252', 'master336-257', 'master336-307', 'master336-316'],
-  kb_652: ['master336-185', 'master336-218', 'master336-270', 'master336-332'],
-  kb_655: ['master336-176', 'master336-193', 'master336-334'],
-  kb_656: ['master336-214', 'master336-215', 'master336-218', 'master336-331'],
-  kb_658: ['master336-046', 'master336-063', 'master336-260', 'master336-263'],
-  kb_664: ['master336-151', 'master336-193', 'master336-329'],
-  kb_666: ['master336-098', 'master336-102', 'master336-116', 'master336-128'],
-  kb_667: ['master336-310', 'master336-321'],
-  kb_668: ['master336-053', 'master336-201', 'master336-279', 'master336-281'],
-  kb_670: ['master336-162', 'master336-322', 'master336-327', 'master336-329'],
-  kb_671: ['master336-108', 'master336-190', 'master336-251', 'master336-285'],
   kb_702: ['master336-099', 'master336-135', 'master336-141', 'master336-278'],
-  kb_705: ['master336-172', 'master336-193', 'master336-294', 'master336-296'],
 };

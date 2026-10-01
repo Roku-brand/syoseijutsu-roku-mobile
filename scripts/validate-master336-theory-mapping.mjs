@@ -63,8 +63,8 @@ for (const card of cards) {
 }
 
 // 古典・名言は網羅数を稼ぐためではなく、個別に指定した処世術の判断を
-// 補強する層として全カードから到達可能にする。
-for (const theory of theories.filter((item) => ['practical-wisdom', 'classics-thought'].includes(item.categoryId))) {
+// 補強する層。実践知は意味が明確に対応するときだけリンクし、ゼロ件も許容する。
+for (const theory of theories.filter((item) => item.categoryId === 'classics-thought')) {
   if (!linkedTheoryIds.has(theory.tagId)) throw new Error(`Wisdom card remains unreachable: ${theory.tagId} ${theory.title}.`);
 }
 
@@ -74,7 +74,7 @@ if (audit.links !== links || audit.primaryLinks !== primaryLinks || audit.supple
   throw new Error('Audit link counts diverge from the generated catalogue.');
 }
 if (audit.linkedTheories !== linkedTheoryIds.size) throw new Error('Audit theory coverage diverges from the generated catalogue.');
-for (const category of ['classics-thought', 'practical-wisdom']) {
+for (const category of ['classics-thought']) {
   if (audit.categoryCoverage?.[category]?.linkedTheories !== theories.filter((theory) => theory.categoryId === category).length) {
     throw new Error(`All ${category} cards must remain reachable.`);
   }
