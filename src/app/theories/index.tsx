@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
@@ -36,10 +36,10 @@ export default function TheoryIndexScreen() {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const { isPaid, accessState, catalogRevision } = useAccess();
-  const browserSearch = Platform.OS === 'web' && typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : undefined;
-  const requestedCategory = browserSearch?.get('category') ?? params.category;
+  const requestedCategory = params.category;
+  const requestedPage = params.page;
   const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
-  const [page, setPage] = useState(Math.max(1, Number(browserSearch?.get('page') ?? params.page) || 1));
+  const [page, setPage] = useState(Math.max(1, Math.floor(Number(requestedPage)) || 1));
 
   const visibleCatalog = useMemo(
     () => theories.filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)),
@@ -55,8 +55,8 @@ export default function TheoryIndexScreen() {
 
   useEffect(() => {
     setCategory(safeCategory(requestedCategory));
-    setPage(1);
-  }, [requestedCategory]);
+    setPage(Math.max(1, Math.floor(Number(requestedPage)) || 1));
+  }, [requestedCategory, requestedPage]);
 
   useEffect(() => {
     if (page !== safePage) setPage(safePage);
@@ -79,6 +79,14 @@ export default function TheoryIndexScreen() {
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
+      {filtered.length > PAGE_SIZE ? (
+        <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
+          {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
+            ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
+            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
+        </View>
+      ) : null}
+
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
           {pageTheories.map((theory) => <TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
@@ -86,14 +94,6 @@ export default function TheoryIndexScreen() {
       ) : (
         <View style={styles.empty}><AppText style={styles.emptyTitle}>この分類の理論はまだありません。</AppText></View>
       )}
-
-      {filtered.length > PAGE_SIZE ? (
-        <View accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
-          {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
-            ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
-            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
-        </View>
-      ) : null}
     </BookScreen>
   );
 }
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   rowArrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.gold, fontFamily: fonts.serif, fontSize: 30, lineHeight: 32 },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
-  pagination: { marginTop: spacing.xl, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  pagination: { marginTop: spacing.md, marginBottom: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
   pageButton: { width: 38, height: 38, borderWidth: 1, borderColor: colors.line, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
   pageButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
   pageText: { color: colors.inkSoft, fontSize: 11 },
