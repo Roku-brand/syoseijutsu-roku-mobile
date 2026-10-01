@@ -4,7 +4,7 @@ import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
-import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatAccessDateTime, formatRemainingAccess } from '@/lib/purchase';
+import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { UpgradeLanding } from '@/components/upgrade-landing';
 
@@ -15,7 +15,6 @@ export default function UpgradeScreen() {
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
-  const [showWelcome, setShowWelcome] = useState(false);
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
   const checkoutReturnHandled = useRef(false);
 
@@ -30,7 +29,7 @@ export default function UpgradeScreen() {
       const result = await createCompleteEditionCheckout();
       if (result.alreadyPaid) {
         await refreshAccess();
-        setMessage('このアカウントはすでに完全版を利用できます。');
+        router.replace('/');
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '購入画面を開けませんでした。');
@@ -52,8 +51,7 @@ export default function UpgradeScreen() {
     try {
       const restored = await restorePurchase();
       if (restored && params.checkout === 'success') {
-        setShowWelcome(true);
-        setMessage('');
+        router.replace('/');
         return;
       }
       setMessage(restored
@@ -79,11 +77,9 @@ export default function UpgradeScreen() {
       setMessage('決済を確認しています。完了までこの画面を閉じずにお待ちください。');
       void restorePurchase(params.session_id).then((restored) => {
         if (restored) {
-          // Show the completion screen from the successful reconciliation
-          // itself. Waiting for a separate `isPaid` render can miss the
-          // one-time return state on a slow mobile browser.
-          setShowWelcome(true);
-          setMessage('');
+          // Return only after server reconciliation grants active access.
+          // Clearing the checkout query also restores the normal home chrome.
+          router.replace('/');
           return;
         }
         setMessage('決済の反映を待っています。しばらくしてから「購入を復元」を押してください。');
@@ -93,7 +89,7 @@ export default function UpgradeScreen() {
     } else if (params.checkout === 'cancelled') {
       setMessage('購入はキャンセルされました。完全版の利用権は付与されていません。');
     }
-  }, [params.checkout, params.session_id, restorePurchase, user]);
+  }, [params.checkout, params.session_id, restorePurchase, router, user]);
 
   const primaryLabel = isPaid
     ? '完全版を開く'
@@ -140,15 +136,6 @@ export default function UpgradeScreen() {
         </View>
       </Modal>
 
-      <Modal transparent visible={showWelcome} animationType="fade" onRequestClose={() => setShowWelcome(false)}>
-        <View style={styles.modalBackdrop}>
-          <View style={styles.welcomeCard}>
-            <AppText variant="serif" style={styles.welcomeTitle}>購入ありがとうございます</AppText>
-            <AppText style={styles.welcomeBody}>完全版が利用可能になりました。{accessInfo.accessExpiresAt ? `${`\n\n`}利用期限${`\n`}${formatAccessDateTime(accessInfo.accessExpiresAt)}まで` : ''}</AppText>
-            <Pressable onPress={() => { setShowWelcome(false); router.replace('/(tabs)'); }} style={({ pressed }) => [styles.welcomeButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.welcomeButtonText}>完全版を使い始める</AppText></Pressable>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -173,9 +160,4 @@ const styles = StyleSheet.create({
   confirmationButtonText: { color: '#FFF9ED', fontSize: 16, lineHeight: 23, fontWeight: '700' },
   cancelButton: { minHeight: 40, marginTop: 4, alignItems: 'center', justifyContent: 'center' },
   cancelText: { color: '#5E5548', fontSize: 13, lineHeight: 19, textDecorationLine: 'underline' },
-  welcomeCard: { width: '100%', maxWidth: 380, padding: 28, borderRadius: 20, backgroundColor: '#FFFDF8', alignItems: 'center' },
-  welcomeTitle: { color: '#2B241A', fontSize: 23, lineHeight: 32, fontWeight: '700', textAlign: 'center' },
-  welcomeBody: { marginTop: 13, color: '#574F44', fontSize: 14, lineHeight: 23, textAlign: 'center' },
-  welcomeButton: { alignSelf: 'stretch', minHeight: 52, marginTop: 24, borderRadius: 13, backgroundColor: '#C4881B', alignItems: 'center', justifyContent: 'center' },
-  welcomeButtonText: { color: '#FFF9ED', fontSize: 16, lineHeight: 23, fontWeight: '700' },
 });
