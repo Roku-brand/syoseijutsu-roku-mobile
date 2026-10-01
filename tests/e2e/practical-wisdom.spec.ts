@@ -17,7 +17,7 @@ async function mockCompleteAccount(page: Page, owner = false) {
     if (owner && url.includes('/theories')) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.summary,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.provenance,access_tier:item.accessTier,aliases:[],related_theory_ids:[],updated_at:'2026-10-02T00:00:00Z'}))});
     if (owner && url.includes('/content_categories')) return route.fulfill({json:[{kind:'theory',id:'practical-wisdom',title:'実践知',display_order:5}]});
     if (owner) return route.fulfill({json:[]});
-    return route.fulfill({status:503,json:{message:'Use bundled catalogue'}});
+    return route.fulfill({status:400,json:{message:'Use bundled catalogue'}});
   });
   await page.route('**/functions/v1/**', route => {
     if (route.request().url().includes('/access')) return route.fulfill({json:{access:'active',accessType:'thirty_day',accessExpiresAt:'2099-01-01T00:00:00Z'}});
@@ -47,7 +47,7 @@ test('CMSは新39件を読み込み、実践知の原文・概要・オリジナ
   await page.getByRole('button',{name:originals[0].title}).first().click();
   await expect(page.getByRole('textbox',{name:'理論名',exact:true})).toHaveValue(originals[0].title);
   await page.getByRole('button',{name:'本文',exact:true}).click();
-  await expect(page.getByRole('textbox',{name:'概要',exact:true})).toHaveValue(originals[0].summary);
+  await expect(page.getByRole('textbox',{name:'概要・本文',exact:true})).toHaveValue(originals[0].summary);
   await page.getByRole('button',{name:'補足メモ',exact:true}).click();
   await expect(page.getByText('出典：処世術禄オリジナル',{exact:true})).toBeVisible();
   await expect(page.getByRole('textbox',{name:'提唱者・著者',exact:true})).toHaveValue('処世術禄');

@@ -46,7 +46,7 @@ jobs:
       - name: Bound package download waits
         run: |
           printf 'Acquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::Retries "1";\n' | sudo tee /etc/apt/apt.conf.d/80-ci-download-timeouts > /dev/null
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright install chromium
       - run: pnpm test:e2e
       - name: Save browser test evidence
         if: always()
