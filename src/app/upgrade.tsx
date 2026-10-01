@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
@@ -11,12 +11,18 @@ import { UpgradeLanding } from '@/components/upgrade-landing';
 export default function UpgradeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
   const checkoutReturnHandled = useRef(false);
+  const returnHome = useCallback(() => {
+    // Both root entries share the same URL. Explicitly clear the return
+    // parameters so the root stops rendering the purchase screen.
+    router.setParams({ checkout: undefined, session_id: undefined });
+    router.replace('/');
+  }, [router]);
 
   const purchase = async () => {
     if (!user) {
@@ -29,7 +35,7 @@ export default function UpgradeScreen() {
       const result = await createCompleteEditionCheckout();
       if (result.alreadyPaid) {
         await refreshAccess();
-        router.replace('/');
+        returnHome();
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '購入画面を開けませんでした。');
@@ -51,7 +57,7 @@ export default function UpgradeScreen() {
     try {
       const restored = await restorePurchase();
       if (restored && params.checkout === 'success') {
-        router.replace('/');
+        returnHome();
         return;
       }
       setMessage(restored
@@ -67,6 +73,7 @@ export default function UpgradeScreen() {
   };
 
   useEffect(() => {
+    if (authLoading) return;
     if (params.checkout === 'success') {
       if (!user) {
         setMessage('決済を確認しました。決済に使用したメールアドレスでログインすると、完全版を有効にできます。');
@@ -79,7 +86,7 @@ export default function UpgradeScreen() {
         if (restored) {
           // Return only after server reconciliation grants active access.
           // Clearing the checkout query also restores the normal home chrome.
-          router.replace('/');
+          returnHome();
           return;
         }
         setMessage('決済の反映を待っています。しばらくしてから「購入を復元」を押してください。');
@@ -89,7 +96,7 @@ export default function UpgradeScreen() {
     } else if (params.checkout === 'cancelled') {
       setMessage('購入はキャンセルされました。完全版の利用権は付与されていません。');
     }
-  }, [params.checkout, params.session_id, restorePurchase, router, user]);
+  }, [authLoading, params.checkout, params.session_id, restorePurchase, returnHome, user]);
 
   const primaryLabel = isPaid
     ? '完全版を開く'
