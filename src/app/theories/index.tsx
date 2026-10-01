@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
@@ -36,9 +36,8 @@ export default function TheoryIndexScreen() {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const { isPaid, accessState, catalogRevision } = useAccess();
-  const browserSearch = Platform.OS === 'web' && typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : undefined;
-  const requestedCategory = browserSearch?.get('category') ?? params.category;
-  const requestedPage = browserSearch?.get('page') ?? params.page;
+  const requestedCategory = params.category;
+  const requestedPage = params.page;
   const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
   const [page, setPage] = useState(Math.max(1, Math.floor(Number(requestedPage)) || 1));
 
