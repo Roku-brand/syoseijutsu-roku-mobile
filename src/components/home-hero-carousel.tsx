@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
   theoryNodeTitle: { color: '#171A1E', fontFamily: fonts.serif, fontSize: 17, fontWeight: '500', lineHeight: 23, marginTop: 3 },
   theoryNodeTitleMobile: { fontSize: 9, lineHeight: 11, marginTop: 0 },
   systemContent: { alignItems: 'center', minHeight: 380, paddingHorizontal: 34, paddingVertical: 20 },
-  systemContentMobile: { flex: 1, justifyContent: 'center', minHeight: 205, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 28 },
+  systemContentMobile: { flex: 1, justifyContent: 'center', minHeight: 0, paddingHorizontal: 14, paddingTop: 4, paddingBottom: 30 },
   systemTitle: { color: '#1C1A17', fontFamily: fonts.serif, fontSize: 27, letterSpacing: 2, lineHeight: 38 },
   systemTitleMobile: { fontSize: 18, lineHeight: 23 },
   systemLead: { color: '#766B5A', fontFamily: fonts.serif, fontSize: 12, marginTop: 3 },
