@@ -25,6 +25,9 @@ export function generateStaticParams() {
 }
 
 export default function TheoryDetailScreen() {
+  'use no memo';
+  // The catalogue is updated outside React. Preserve catalogRevision in the
+  // explicit useMemo below; compiler inference otherwise drops that dependency.
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
