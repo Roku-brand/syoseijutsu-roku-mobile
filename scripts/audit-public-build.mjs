@@ -2,6 +2,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { originalPracticalWisdomProvenance } from '../src/data/original-practical-wisdom.ts';
+import { isPublicCatalogIdentityField } from './public-catalog-identity.mjs';
 import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
@@ -38,6 +39,7 @@ function fingerprint(text) {
 }
 
 function collectTextFingerprints(value, label, fingerprints, publicSourceTexts = new Set()) {
+  if (isPublicCatalogIdentityField(label)) return;
   if (typeof value === 'string') {
     if ([...publicSourceTexts].some((text) => text.includes(value))) return;
     // Citation fragments (journal names, author surnames) are not unique.

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import { auditTheoryRights } from '../../scripts/theory-rights-contract.mjs';
 import { originalPracticalWisdomProvenance } from '../../src/data/original-practical-wisdom.ts';
 import { validateTheoryForPublish } from '../../src/data/content-editor-schema.ts';
+import { isPublicCatalogIdentityField } from '../../scripts/public-catalog-identity.mjs';
 
 const load = (path) => JSON.parse(fs.readFileSync(new URL('../../' + path, import.meta.url), 'utf8'));
 const originals = load('docs/content/practical-wisdom-originals.json');
@@ -11,6 +12,11 @@ const old = load('docs/content/practical-wisdom-retired-20261002.json');
 const complete = load('src/data/generated/theories.json');
 const shells = load('src/data/generated/theories.public.json');
 const requestedTitles = fs.readFileSync(new URL('../../docs/content/practical-wisdom-requested-titles.txt', import.meta.url), 'utf8').trim().split(/\r?\n/);
+
+test('public UUID relation fields are metadata; summaries, titles and source text remain protected', () => {
+  for (const field of ['id','tagId','relatedTheoryIds[2]','primaryTheoryIds[0]','theoryTagIds[3]']) assert.equal(isPublicCatalogIdentityField(`technique:test.${field}`),true);
+  for (const field of ['summary','title','explanation','memo','provenance.note','provenance.sources[0].url','relatedTheoryIdsExtra']) assert.equal(isPublicCatalogIdentityField(`theory:test.${field}`),false);
+});
 
 test('replacement is exactly the 39 requested titles and new stable identities', () => {
   const practical = complete.filter((item) => item.categoryId === 'practical-wisdom').sort((a,b) => a.displayId-b.displayId);

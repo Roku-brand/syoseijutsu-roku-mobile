@@ -55,6 +55,11 @@ const clean = (value = '') => String(value).replace(/\*\*/g, '').replace(/\s+/g,
 const truncate = (value, max = 155) => [...clean(value)].length <= max ? clean(value) : `${[...clean(value)].slice(0, max - 1).join('')}…`;
 const escape = (value = '') => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 function theorySeoCopy(item) {
+  if (item.categoryId === 'practical-wisdom') return {
+    title: `${item.title}の意味・読み解き`,
+    description: `${item.summary} 処世術禄オリジナルの実践知を、日常の経験と結びつけて読み解きます。`,
+    summaryHeading: 'この言葉の意味',
+  };
   if (item.categoryId === 'classics-thought') return {
     title: `${item.title}の意味・現代語訳と現代での活かし方`,
     description: `${item.summary} 意味や背景を、現代の判断と処世術へのつながりから読み解きます。`,
