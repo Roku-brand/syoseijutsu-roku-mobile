@@ -51,6 +51,8 @@ test('mobile home titles, divider and system diagram fit narrow screens', async 
     }
     await expect(slide.getByText('知恵を「人の型」に整理')).toBeVisible();
     await expect(page.getByTestId('home-brand-system-cta')).toBeVisible();
+    const ctaBox = (await page.getByTestId('home-brand-system-cta').boundingBox())!;
+    expect(ctaBox.y + ctaBox.height).toBeLessThanOrEqual(box.y + box.height - 22);
     await page.screenshot({ path: test.info().outputPath(`system-${width}.png`) });
   }
 });
@@ -79,12 +81,15 @@ test('paid membership displays remaining access beside its badge', async ({ page
 });
 
 test('verified checkout return navigates home and clears the checkout query', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
   const calls = await mockAccount(page, false);
   await page.goto('/?checkout=success&session_id=cs_test_mobile');
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByTestId('persistent-bottom-navigation')).toBeVisible();
   expect(calls()).toBe(1);
+  expect(errors).toEqual([]);
 });
 
 test('unverified checkout stays on the purchase screen for restoration', async ({ page }) => {
