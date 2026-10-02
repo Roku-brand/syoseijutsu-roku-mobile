@@ -20,7 +20,7 @@ export default function LearnHomeScreen() {
   const router = useRouter();
   const { learningRecords } = useAppState();
   const { isPaid } = useAccess();
-  const { desktop } = useResponsiveLayout();
+  const { desktop, narrow } = useResponsiveLayout();
   const [expandedStages, setExpandedStages] = useState<number[]>([]);
   const completed = learningIndex.filter((item) => learningRecords[item.id]).length;
   const openCase = (id: string) => {
@@ -63,7 +63,7 @@ export default function LearnHomeScreen() {
               {cases.map((item) => <View key={item.id} testID={`learning-dot-${item.id}`} style={[styles.caseDot, learningRecords[item.id] && styles.caseDotComplete]} />)}
               <AppText style={styles.caseCount}>{completeCount} / {cases.length}</AppText>
             </View>
-            <View style={[styles.stageBottom, desktop && styles.stageBottomDesktop]}>
+            <View style={[styles.stageBottom, !narrow && styles.stageBottomDesktop]}>
               <View style={styles.caseList}>
                 {visibleCases.map((item, caseIndex) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => openCase(item.id)} style={({ pressed }) => [styles.caseRow, pressed && styles.pressed]}><AppText style={styles.caseNumber}>{String(caseIndex + 1).padStart(2, '0')}</AppText><AppText numberOfLines={1} style={styles.caseTitle}>{item.title}</AppText></Pressable>)}
                 {cases.length > 3 ? <Pressable accessibilityRole="button" accessibilityLabel={`ステージ${stage.number}の${expanded ? 'ケースを閉じる' : '残りのケースを見る'}`} accessibilityState={{ expanded }} aria-expanded={expanded} onPress={() => setExpandedStages((current) => expanded ? current.filter((number) => number !== stage.number) : [...current, stage.number])} style={styles.more}><AppText style={styles.moreText}>{expanded ? '閉じる' : `＋${cases.length - 3}件を見る`}　›</AppText></Pressable> : null}
@@ -80,15 +80,15 @@ export default function LearnHomeScreen() {
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 1050, alignSelf: 'center', paddingHorizontal: spacing.md, paddingTop: 0, paddingBottom: 32 },
   contentDesktop: { paddingHorizontal: spacing.xl },
-  hero: { minHeight: 220, overflow: 'hidden', marginHorizontal: -spacing.md, paddingHorizontal: spacing.lg, paddingTop: 26 },
+  hero: { minHeight: 210, overflow: 'hidden', marginHorizontal: -spacing.md, paddingHorizontal: spacing.lg, paddingTop: 26 },
   heroDesktop: { minHeight: 310, marginHorizontal: 0, paddingTop: 50 },
   heroCopy: { zIndex: 1 },
   heroTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, fontWeight: '700', letterSpacing: 0 },
   heroTitleDesktop: { fontSize: 36, lineHeight: 52 },
   heroLead: { marginTop: 9, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 24 },
-  guide: { position: 'absolute', width: 218, height: 175, right: -16, bottom: -5 },
+  guide: { position: 'absolute', width: 260, height: 194, right: -12, bottom: -4 },
   guideDesktop: { width: 430, height: 290, right: 20 },
-  bubble: { position: 'absolute', right: 13, top: 94, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: radius.md, backgroundColor: colors.surface, zIndex: 2 },
+  bubble: { position: 'absolute', right: 13, top: 65, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: radius.md, backgroundColor: colors.surface, zIndex: 2 },
   bubbleDesktop: { top: 28, right: 35 },
   bubbleText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
   overall: { minHeight: 64, paddingHorizontal: 12, paddingVertical: 12, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10 },
@@ -119,12 +119,12 @@ const styles = StyleSheet.create({
   stageBottom: { gap: 10, alignItems: 'flex-end' },
   stageBottomDesktop: { flexDirection: 'row', alignItems: 'flex-end', gap: 24 },
   caseList: { alignSelf: 'stretch', flex: 1, minWidth: 0, paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.sm, backgroundColor: 'rgba(241,236,225,0.5)' },
-  caseRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 28 },
+  caseRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 24 },
   caseNumber: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11 },
   caseTitle: { flex: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
   more: { minHeight: 30, justifyContent: 'center' },
   moreText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
-  challenge: { width: 132, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
   challengeText: { color: colors.white, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   pressed: { opacity: 0.75 },
 });

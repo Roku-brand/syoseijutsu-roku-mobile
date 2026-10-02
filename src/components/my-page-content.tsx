@@ -1,3 +1,6 @@
+'use no memo';
+
+// Catalogue maps are hydrated in place; retain the explicit revision dependency.
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';

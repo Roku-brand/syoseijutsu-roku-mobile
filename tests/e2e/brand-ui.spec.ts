@@ -8,7 +8,7 @@ const categories = JSON.parse(fs.readFileSync('src/data/generated/techniques.jso
 const techniques = categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items));
 const stateKey = '@shoseijutsu-roku/state/v1';
 
-async function account(page: Page, status: 'active' | 'expired' = 'active') {
+async function account(page: Page, status: 'active' | 'expired' = 'active', learningDelay = 0) {
   const user = { id: '00000000-0000-4000-8000-000000000021', aud: 'authenticated', role: 'authenticated', email: 'ui-qa@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
   const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${payload}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
@@ -18,16 +18,17 @@ async function account(page: Page, status: 'active' | 'expired' = 'active') {
   await page.route('**/rest/v1/**', route => route.request().url().includes('/profiles')
     ? route.fulfill({ json: { role: 'user', display_name: '学びの記録', avatar_url: null } })
     : route.fulfill({ status: 400, json: { message: 'Use bundled catalogue' } }));
-  await page.route('**/functions/v1/**', route => {
+  await page.route('**/functions/v1/**', async route => {
     if (route.request().url().includes('/access')) return route.fulfill({ json: { access: status, accessType: 'thirty_day', accessExpiresAt: status === 'active' ? new Date(Date.now() + 5 * 86400000).toISOString() : '2020-01-01T00:00:00Z' } });
     const type = new URL(route.request().url()).searchParams.get('type');
+    if (type === 'learning' && learningDelay) await new Promise(resolve => { setTimeout(resolve, learningDelay); });
     const items = type === 'theory' ? theories : type === 'technique' ? techniques : curriculum;
     return route.fulfill({ json: { items: items.map((item: any) => ({ content_type: type, content_id: item.id ?? item.tagId, payload: item })) } });
   });
 }
 
 test('学習ロードマップは正規21ケース・保存済み進捗・自由なステージ選択に連動する', async ({ page }) => {
-  await account(page);
+  await account(page, 'active', 2500);
   await page.addInitScript(({ key }) => localStorage.setItem(key, JSON.stringify({ learningCurriculumVersion: 2, learningRecords: { 'case-01': { caseId: 'case-01', choiceId: 'b', answeredAt: '2026-10-01T00:00:00Z' }, 'case-08': { caseId: 'case-08', choiceId: 'a', answeredAt: '2026-10-01T00:00:00Z' } } })), { key: stateKey });
   await page.goto('/learn');
   await expect(page.getByTestId('learning-overall-progress')).toContainText('2 / 21');
@@ -115,4 +116,11 @@ test('マイページは保存した実際の履歴・蔵書・完全版残期�
   await expect(page.getByRole('button', { name: `${technique.title}を開く` })).toBeVisible();
   await page.getByRole('button', { name: `${theory.title}を開く` }).click();
   await expect(page).toHaveURL(new RegExp(`/theory/${theory.tagId}`));
+});
+
+ test('完全版ケースへ取得中に移動しても、到着した実データが表示される', async ({ page }) => {
+  await account(page, 'active', 2500);
+  await page.goto('/learn/case-15');
+  await expect(page.getByText('学習ケースを読み込んでいます…')).toBeVisible();
+  await expect(page.getByTestId('learning-question-card')).toContainText(curriculum.find((item: any) => item.id === 'case-15').title);
 });

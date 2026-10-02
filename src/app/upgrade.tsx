@@ -111,8 +111,8 @@ export default function UpgradeScreen() {
       <UpgradeLanding
         isPaid={isPaid}
         price={`¥${COMPLETE_EDITION_PRICE_JPY}`}
-        onBack={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
-        onPurchase={() => isPaid ? router.replace('/(tabs)') : setShowCheckoutConfirmation(true)}
+        onBack={() => router.canGoBack() ? router.back() : router.replace('/')}
+        onPurchase={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
         onTerms={() => router.push('/legal/terms')}
         onCommerce={() => router.push('/legal/commerce')}
         onRestore={() => void restore()}
