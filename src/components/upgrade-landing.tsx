@@ -44,7 +44,7 @@ const iconPaths: Record<IconName, string> = {
   lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3"/>',
 };
 function svgSource(body: string, color: string, viewBox = '0 0 24 24') {
-  return { uri: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`)}` };
+  return { uri: `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" preserveAspectRatio="none" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`)}` };
 }
 function heroOverlay(desktop: boolean) {
   return svgSource(`<defs><linearGradient id="wash" x1="0" y1="0" x2="${desktop ? '1' : '0'}" y2="${desktop ? '0' : '1'}"><stop offset="0" stop-color="#FFFDF8" stop-opacity=".88"/><stop offset="${desktop ? '.52' : '.4'}" stop-color="#FFFDF8" stop-opacity=".66"/><stop offset="${desktop ? '.85' : '.67'}" stop-color="#FFFDF8" stop-opacity="0"/></linearGradient></defs><rect width="100" height="100" fill="url(#wash)" stroke="none"/>`, 'none', '0 0 100 100');

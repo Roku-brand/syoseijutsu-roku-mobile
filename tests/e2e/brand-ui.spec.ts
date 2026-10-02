@@ -5,7 +5,7 @@ const curriculum = JSON.parse(fs.readFileSync('src/data/generated/learning.full.
 const index = JSON.parse(fs.readFileSync('src/data/generated/learning.index.json', 'utf8'));
 const theories = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8'));
 const categories = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8')).categories;
-const techniques = categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items));
+const techniques = categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items.map((item: any) => ({ ...item, categoryKey: category.key, categoryName: category.name, subcategory: persona.name, articleTitle: persona.articleTitle ?? persona.name }))));
 const stateKey = '@shoseijutsu-roku/state/v1';
 
 async function account(page: Page, status: 'active' | 'expired' = 'active', learningDelay = 0) {
