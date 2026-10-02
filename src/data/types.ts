@@ -59,7 +59,7 @@ export type TheoryCard = {
 };
 
 export type TheoryProvenance = {
-  status: '確認済み' | '書誌確認済み' | '一部確認' | '出典不明';
+  status: 'オリジナル' | '確認済み' | '書誌確認済み' | '一部確認' | '出典不明';
   attribution?: string;
   /** 参照文献の発表・刊行時期。理論の初出年とは限らない。 */
   period?: string;

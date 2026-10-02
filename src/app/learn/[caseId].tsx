@@ -1,3 +1,5 @@
+'use no memo';
+
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useEffect, useState } from 'react';
@@ -7,6 +9,7 @@ import { Rokumaru } from '@/components/rokumaru';
 import { AppText } from '@/components/ui';
 import { colors, fonts, layout, radius } from '@/constants/theme';
 import { learningCases, learningStages, type LearningCase } from '@/data/learning';
+import learningIndex from '@/data/generated/learning.index.json';
 import {
   getTechniqueDisplayId,
   getTheoryDisplayId,
@@ -24,16 +27,18 @@ import {
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 
 export function generateStaticParams() {
-  return learningCases.map(({ id: caseId }) => ({ caseId }));
+  return learningIndex.map(({ id: caseId }) => ({ caseId }));
 }
 
 export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
   const { desktop } = useResponsiveLayout();
-  const { isPaid } = useAccess();
+  const { isPaid, secureContentStatus, refreshAccess } = useAccess();
   const [activeCaseId, setActiveCaseId] = useState<string | null>(null);
-  const [caseList] = useState<LearningCase[]>(() => [...learningCases]);
+  // Read the live catalogue after AccessProvider hydrates paid cases. A mount-
+  // time copy would permanently miss a case opened while its request is pending.
+  const caseList = learningCases;
   const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
   const [retryPending, setRetryPending] = useState(false);
   const [focusedChoice, setFocusedChoice] = useState<string | null>(null);
@@ -49,9 +54,13 @@ export default function LearningCaseScreen() {
   if (!activeCaseId) return null;
 
   if (!item) {
+    const knownCase = learningIndex.some((candidate) => candidate.id === activeCaseId);
+    const loading = knownCase && isPaid && (secureContentStatus === 'idle' || secureContentStatus === 'loading');
     return (
       <BookScreen contentContainerStyle={styles.notFound}>
-        <AppText style={styles.notFoundTitle}>このケースは現在利用できません。</AppText>
+        <AppText style={styles.notFoundTitle}>{loading ? '学習ケースを読み込んでいます…' : knownCase && !isPaid ? 'このケースは完全版でご利用いただけます。' : 'このケースは現在利用できません。'}</AppText>
+        {knownCase && isPaid && !loading ? <Pressable accessibilityRole="button" onPress={() => void refreshAccess()} style={styles.notFoundButton}><AppText style={styles.notFoundButtonText}>もう一度読み込む</AppText></Pressable> : null}
+        {knownCase && !isPaid ? <Pressable accessibilityRole="button" onPress={() => router.push({ pathname: '/upgrade', params: { source: 'learning' } })} style={styles.notFoundButton}><AppText style={styles.notFoundButtonText}>完全版を見る</AppText></Pressable> : null}
         <Pressable accessibilityRole="button" onPress={() => router.replace('/learn')} style={styles.notFoundButton}>
           <AppText style={styles.notFoundButtonText}>ステージへ戻る</AppText>
         </Pressable>

@@ -1,4 +1,5 @@
 import Constants from 'expo-constants';
+import { UsageSharingSetting } from '@/components/usage-sharing-setting';
 import { useRouter, type Href } from 'expo-router';
 import { Alert, Linking, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
@@ -30,7 +31,7 @@ export default function SettingsScreen() {
         />
         <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
-          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : Platform.OS === 'ios' ? '30日間・自動更新なし' : '30日間 ¥280・自動更新なし'}
+          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : Platform.OS === 'ios' ? '30日間・自動更新なし' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
           last
         />
@@ -60,14 +61,20 @@ export default function SettingsScreen() {
       <View style={styles.quietSection}>
         <SettingsSection title="規約・データ" subdued />
         <SettingsGroup subdued>
+          <UsageSharingSetting />
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
             <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
-            {Platform.OS === 'ios' && user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
+            {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"
             detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
-            onPress={() => Alert.alert(
+            onPress={() => Platform.OS === 'web' ? (
+              globalThis.confirm('この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。消去しますか？') && void clearPersonalData()
+            ) : Alert.alert(
               '端末内データをすべて消去',
               'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
               [

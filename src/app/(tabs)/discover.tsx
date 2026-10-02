@@ -72,7 +72,7 @@ export default function DiscoverScreen() {
             const title = theories.find((theory) => theory.categoryId === item.key)?.categoryTitle
               ?? getTheoryFilterOptions().find((option) => option.key === item.key)?.label;
             if (!title) return null;
-            return <CategoryCard key={item.key} title={title} icon={item.icon} narrow={narrow} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
+            return <CategoryCard key={item.key} title={title} icon={item.icon} narrow={narrow} wide={compact} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
           })}
         </View>
       </View>
@@ -104,9 +104,9 @@ function GroupHeading({ title, secondary = false }: { title: string; secondary?:
   return <View style={[styles.groupHeading, secondary && styles.groupHeadingSecondary]}><AppText accessibilityRole="header" aria-level={3} style={styles.groupTitle}>{title}</AppText><View style={styles.groupRule} /></View>;
 }
 
-function CategoryCard({ title, mark, icon, narrow, onPress }: { title: string; mark?: string; icon?: TheoryIconName; narrow: boolean; onPress: () => void }) {
-  return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
-    <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={2} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
+function CategoryCard({ title, mark, icon, narrow, wide = false, onPress }: { title: string; mark?: string; icon?: TheoryIconName; narrow: boolean; wide?: boolean; onPress: () => void }) {
+  return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, wide && styles.theoryCategoryCardCompact, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
+    <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
     <AppText accessibilityElementsHidden style={[styles.arrow, styles.categoryArrow, narrow && styles.categoryArrowNarrow]}>›</AppText>
   </Pressable>;
 }
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, minHeight: 58, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
   categoryCardNarrow: { minHeight: 64, paddingHorizontal: 5 },
+  theoryCategoryCardCompact: { width: '46%' },
   categoryTop: { flexDirection: 'row', alignItems: 'center', gap: 5, minWidth: 0, paddingRight: 4 },
   categoryIcon: { width: 29, height: 29, flexShrink: 0, borderRadius: 15, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
   categoryIconNarrow: { width: 24, height: 24, borderRadius: 12 },

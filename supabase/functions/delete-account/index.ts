@@ -16,6 +16,10 @@ Deno.serve(async request => {
     const { data: verified, error } = await auth.auth.signInWithPassword({ email: identity.user.email, password: body.password });
     if (error || verified.user?.id !== identity.user.id) return json({ error: 'password_verification_failed' }, 403);
     const id = identity.user.id;
+    // Revoke existing refresh sessions after successful password verification.
+    const revoked = await admin.auth.admin.signOut(token, 'global');
+    if (revoked.error) throw revoked.error;
+    await auth.auth.signOut();
     const files = await admin.storage.from('profile-avatars').list(id, { limit: 1000 });
     if (files.error) throw files.error;
     if (files.data.length) {
@@ -24,8 +28,8 @@ Deno.serve(async request => {
     }
     const events = await admin.from('content_events').delete().eq('user_id', id);
     if (events.error) throw events.error;
-    // Auth FK cascades erase profiles and both payment ledgers. Replayed Apple
-    // transactions still carry the original deleted user's signed account token.
+    // A private BEFORE DELETE trigger retains minimal transaction evidence.
+    // Auth cascades erase the active profile, entitlements and payment ledgers.
     const deleted = await admin.auth.admin.deleteUser(id);
     if (deleted.error) throw deleted.error;
     return json({ deleted: true });

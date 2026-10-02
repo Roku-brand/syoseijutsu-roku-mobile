@@ -65,7 +65,7 @@ export default function CardDetailScreen() {
   }
 
   if (card.status === 'locked') {
-    const failed = secureContentStatus === 'error';
+    const failed = secureContentStatus === 'error' || secureContentStatus === 'ready';
     return (
       <Screen contentContainerStyle={styles.screenContent}>
         <EmptyState title={failed ? '処世術を読み込めませんでした' : '処世術を読み込んでいます'} description={failed ? '通信を確認して、もう一度お試しください。' : '完全版の本文を確認しています。しばらくお待ちください。'} />

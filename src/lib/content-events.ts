@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from './supabase';
+import { isUsageSharingEnabled } from './usage-consent';
 import { createEventDeduplicator } from './event-deduplication';
 
 export type ContentType = 'technique' | 'theory';
@@ -8,7 +9,7 @@ export type TrendingContent = { contentType: ContentType; contentId: string; sco
 const ACTOR_KEY = '@shoseijutsu-roku/analytics-actor/v1';
 const TRENDING_CACHE_KEY = '@shoseijutsu-roku/trending/v2';
 const TRENDING_CACHE_MS = 30 * 60 * 1000;
-let actorPromise: Promise<string> | null = null;
+
 const trendingRequests = new Map<number, Promise<TrendingContent[] | null>>();
 
 function createActorId() {
@@ -19,30 +20,27 @@ function createActorId() {
 }
 
 async function getActorId() {
-  if (actorPromise) return actorPromise;
-  actorPromise = (async () => {
-    const stored = await AsyncStorage.getItem(ACTOR_KEY);
-    if (stored && stored.length >= 12) return stored;
-    const next = createActorId();
-    await AsyncStorage.setItem(ACTOR_KEY, next);
-    return next;
-  })();
-  return actorPromise;
+ const stored = await AsyncStorage.getItem(ACTOR_KEY);
+ if (stored && stored.length >= 12) return stored;
+ const next = createActorId();
+ await AsyncStorage.setItem(ACTOR_KEY, next);
+ return next;
 }
 
 const sendEvent = createEventDeduplicator(async (key) => {
-  if (!supabase) return;
+  if (!supabase || !(await isUsageSharingEnabled())) return;
   const [actor, contentType, contentId, eventType] = JSON.parse(key) as string[];
-  const { error } = await supabase.rpc('record_content_event', {
+  const { error } = await supabase.rpc('record_consented_content_event', {
     p_anonymous_session_id: actor, p_content_type: contentType, p_content_id: contentId, p_event_type: eventType,
   });
   if (error) throw error;
 });
 
 export async function recordContentEvent(contentType: ContentType, contentId: string, eventType: 'view' | 'save') {
-  if (!supabase || !contentId) return;
+  if (!supabase || !contentId || !(await isUsageSharingEnabled())) return;
   try {
     const actor = await getActorId();
+    if (!(await isUsageSharingEnabled())) { await AsyncStorage.removeItem(ACTOR_KEY); return; }
     await sendEvent(JSON.stringify([actor, contentType, contentId, eventType]), eventType);
   } catch { /* Analytics must never interrupt reading or saving. Failed events can retry. */ }
 }

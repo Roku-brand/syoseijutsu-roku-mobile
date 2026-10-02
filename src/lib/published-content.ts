@@ -14,7 +14,7 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
   if (!supabase) return { data: null, error: new Error('Supabase is unavailable') };
   const rows: Record<string, any>[] = [];
   for (let from = 0; ; from += PAGE_SIZE) {
-    let query = supabase.from(table).select(columns).eq('status', 'published');
+    let query = supabase.from(table === 'personas' ? table : `public_${table}`).select(columns).eq('status', 'published');
     if (tier) query = query.eq('access_tier', tier);
     if (table === 'theories') query = query.order('category_id').order('display_id').order('id');
     else query = query.order('display_order').order(table === 'personas' ? 'name' : 'id');
@@ -60,31 +60,38 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     const theoryResult = { data: snapshot.theories, error: null };
     const personaResult = { data: snapshot.personas, error: null };
     const categoryResult = { data: snapshot.categories, error: null };
-    const techniques: PaidTechniquePayload[] = data.map((row) => ({
-      ...(row.access_tier === 'complete' && techniqueById.get(row.id)?.status !== 'locked' ? techniqueById.get(row.id) : undefined),
-      id: row.id as string,
-      title: row.title ?? techniqueById.get(row.id)?.title ?? '完全版の処世術',
-      essence: row.essence ?? (row.access_tier === 'complete' ? techniqueById.get(row.id)?.essence : '') ?? '',
-      explanation: row.explanation ?? (row.access_tier === 'complete' ? techniqueById.get(row.id)?.explanation : '') ?? '',
-      memo: (row.memo as string) ?? '',
-      importance: row.importance as 1 | 2 | 3,
-      primaryTheoryIds: Array.isArray(row.primary_theory_ids) ? row.primary_theory_ids as string[] : [],
-      relatedTheoryIds: Array.isArray(row.theory_ids) ? row.theory_ids as string[] : [],
-      categoryKey: row.category as PaidTechniquePayload['categoryKey'],
-      categoryName: row.category as string,
-      subcategory: row.persona_id as string,
-      articleTitle: row.persona_id as string,
-      practicalActions: row.access_tier === 'complete' ? techniqueById.get(row.id)?.practicalActions : {
-        todayActions: Array.isArray(row.practices) ? row.practices as string[] : [],
-        examples: Array.isArray(row.examples) ? row.examples as string[] : [],
-        cautions: Array.isArray(row.cautions) ? row.cautions as string[] : [],
-      },
-      status: row.access_tier === 'free' || techniqueById.get(row.id)?.status === 'published' ? 'published' : 'locked',
-      displayOrder: row.display_order as number,
-      imagePath: typeof row.image_path === 'string' ? row.image_path : null,
-      accessTier: row.access_tier === 'free' ? 'free' : 'complete',
-      tags: Array.isArray(row.tags) ? row.tags as string[] : undefined,
-    }));
+    const techniques: PaidTechniquePayload[] = data.map((row) => {
+      const existing = techniqueById.get(row.id);
+      // Authenticated payloads need not include a publication status. Preserve
+      // their resolved body when public metadata is reapplied after paid sync.
+      const resolved = row.access_tier === 'complete' && existing?.status !== 'locked'
+        && existing?.explanation?.trim() ? existing : undefined;
+      return {
+        ...resolved,
+        id: row.id as string,
+        title: row.title ?? existing?.title ?? '完全版の処世術',
+        essence: row.essence ?? resolved?.essence ?? '',
+        explanation: row.explanation ?? resolved?.explanation ?? '',
+        memo: (row.memo as string) ?? '',
+        importance: row.importance as 1 | 2 | 3,
+        primaryTheoryIds: Array.isArray(row.primary_theory_ids) ? row.primary_theory_ids as string[] : [],
+        relatedTheoryIds: Array.isArray(row.theory_ids) ? row.theory_ids as string[] : [],
+        categoryKey: row.category as PaidTechniquePayload['categoryKey'],
+        categoryName: row.category as string,
+        subcategory: row.persona_id as string,
+        articleTitle: row.persona_id as string,
+        practicalActions: row.access_tier === 'complete' ? resolved?.practicalActions : {
+          todayActions: Array.isArray(row.practices) ? row.practices as string[] : [],
+          examples: Array.isArray(row.examples) ? row.examples as string[] : [],
+          cautions: Array.isArray(row.cautions) ? row.cautions as string[] : [],
+        },
+        status: row.access_tier === 'free' || resolved ? 'published' : 'locked',
+        displayOrder: row.display_order as number,
+        imagePath: typeof row.image_path === 'string' ? row.image_path : null,
+        accessTier: row.access_tier === 'free' ? 'free' : 'complete',
+        tags: Array.isArray(row.tags) ? row.tags as string[] : undefined,
+      };
+    });
     // The table is the source of truth for techniques. Keep every theory that
     // has already been resolved by the authenticated complete-edition sync;
     // passing an empty list here would reset those 585 records back to their

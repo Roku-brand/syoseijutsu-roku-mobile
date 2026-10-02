@@ -26,7 +26,10 @@ type DailyCandidateGroup = {
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const TOKYO_OFFSET_MS = 9 * 60 * 60 * 1000;
-const DAILY_DOMAINS = categoryOrder.filter((key) => key in homeBrandSource.dailyCandidates) as CategoryKey[];
+const configuredDomains = categoryOrder.filter((key) => key in homeBrandSource.dailyCandidates);
+// The home module can load after a CMS refresh clears an unavailable taxonomy.
+// Keep the bundled daily snapshots usable instead of rotating over zero domains.
+const DAILY_DOMAINS = (configuredDomains.length ? configuredDomains : Object.keys(homeBrandSource.dailyCandidates)) as CategoryKey[];
 
 function positiveModulo(value: number, length: number) {
   return ((value % length) + length) % length;

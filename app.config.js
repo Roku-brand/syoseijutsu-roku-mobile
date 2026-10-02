@@ -19,7 +19,7 @@ module.exports = ({ config }) => {
         NSPrivacyCollectedDataTypes: [
           ['EmailAddress', ['AppFunctionality']], ['Name', ['AppFunctionality']],
           ['UserID', ['AppFunctionality', 'Analytics']], ['DeviceID', ['Analytics']], ['PhotosorVideos', ['AppFunctionality']],
-          ['PurchaseHistory', ['AppFunctionality']], ['ProductInteraction', ['Analytics', 'ProductPersonalization']],
+          ['PurchaseHistory', ['AppFunctionality']], ['ProductInteraction', ['Analytics']],
         ].map(([type, purposes]) => ({ NSPrivacyCollectedDataType: `NSPrivacyCollectedDataType${type}`,
           NSPrivacyCollectedDataTypeLinked: true, NSPrivacyCollectedDataTypeTracking: false,
           NSPrivacyCollectedDataTypePurposes: purposes.map(p => `NSPrivacyCollectedDataTypePurpose${p}`) })),

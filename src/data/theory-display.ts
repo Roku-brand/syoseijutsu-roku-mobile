@@ -21,6 +21,13 @@ export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; catego
 
 export function getTheorySeoCopy(theory: Pick<{ title: string; summary: string; categoryId: string }, 'title' | 'summary' | 'categoryId'>) {
   const summary = normalizeDisplayText(theory.summary).replace(/\n+/g, ' ');
+  if (theory.categoryId === 'practical-wisdom') {
+    return {
+      title: `${theory.title}の意味・読み解き`,
+      description: `${summary} 処世術禄オリジナルの実践知を、日常の経験と結びつけて読み解きます。`,
+      summaryHeading: 'この言葉の意味',
+    };
+  }
   if (theory.categoryId === 'classics-thought') {
     return {
       title: `${theory.title}の意味・現代語訳と現代での活かし方`,

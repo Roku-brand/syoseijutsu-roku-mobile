@@ -35,8 +35,8 @@ function setup() {
     supabase: { auth:{getSession:async()=>({data:{session:{user:{id:'user'}, access_token:'token'}}})}, from(table) {
       let columns, tier;
       const query = { select(value){columns=value;return query;}, eq(key,value){if(key==='access_tier') tier=value;return query;}, order(){return query;}, range(){return Promise.resolve(query);}, then(resolve,reject) {
-        queries.push({table,columns,tier});
-        const data = tables[table].filter(row=>!tier||row.access_tier===tier).map(row=>Object.fromEntries(columns.split(',').map(key=>[key,row[key]])));
+        queries.push({table:table.replace(/^public_/,''),columns,tier});
+        const data = tables[table.replace(/^public_/,'')].filter(row=>!tier||row.access_tier===tier).map(row=>Object.fromEntries(columns.split(',').map(key=>[key,row[key]])));
         return Promise.resolve({data,error:null}).then(resolve,reject);
       } }; return query;
     } },
@@ -58,15 +58,24 @@ test('public sync omits paid bodies, shares requests, survives reload and preser
   const saved=[...s.disk.values()].join('');
   assert.doesNotMatch(saved,/PRIVATE/);
   assert.equal(s.applied.at(-1).theories[0].status,'locked');
-  s.techniqueById.set('paid',{id:'paid',title:'有料',explanation:'resolved technique',status:'published'});
+  assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').status,'locked');
+  assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').explanation,'');
+  // The authenticated paid-content payload contains the body but no status.
+  // A later public metadata refresh must not turn it back into a locked shell.
+  s.techniqueById.set('paid',{id:'paid',title:'有料',explanation:'resolved technique'});
   s.theories.push({tagId:'theory',title:'理論名',summary:'resolved theory',status:'published'});
   const reloaded=await load('published-content');
   await reloaded.hydratePublishedContent();
   assert.equal(s.queries.length,6);
   assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').explanation,'resolved technique');
+  assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').status,'published');
   assert.equal(s.applied.at(-1).theories[0].summary,'resolved theory');
   await reloaded.hydratePublishedContent(true);
   assert.equal(s.queries.length,12);
+  s.techniqueById.set('paid',{id:'paid',title:'有料',explanation:'locked shell',status:'locked'});
+  await reloaded.hydratePublishedContent(true);
+  assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').status,'locked');
+  assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').explanation,'');
 });
 
 test('secure cache restores only matching users and fresh data; purge wins over a slow storage read', async () => {

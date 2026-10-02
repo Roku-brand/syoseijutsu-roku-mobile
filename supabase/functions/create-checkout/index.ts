@@ -2,7 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { corsHeaders, json, optionsResponse } from '../_shared/http.ts';
 
 const PRODUCT_ID = 'complete-edition';
-const UNIT_AMOUNT = 280;
+const UNIT_AMOUNT = 320;
 const ACCESS_TYPE = 'thirty_day';
 const CURRENCY = 'jpy';
 // Return through the app shell instead of a generated route HTML file. The
@@ -67,20 +67,25 @@ Deno.serve(async (request) => {
   form.set('metadata[user_id]', user.id);
   form.set('metadata[product_id]', PRODUCT_ID);
   form.set('metadata[access_type]', ACCESS_TYPE);
+  form.set('metadata[terms_version]', '3.4');
+  form.set('locale', 'ja');
+  // The Stripe-hosted final payment screen must retain the key conditions;
+  // the preceding in-app explanation alone is not the final order screen.
+  form.set('custom_text[submit][message]', '完全版アクセス1件。決済成功から30日間（30×24時間）。一回払い・自動更新なし。確認後原則直ちに提供。通信費はお客様負担。申込期限なし。提供開始後の購入者都合の取消し・返品・返金は原則不可（重複決済・未提供・契約不適合・法令上の権利を除く）。購入前に[利用規約](https://shoseijutsuroku.com/legal/terms)と[特商法表記](https://shoseijutsuroku.com/legal/commerce)をご確認ください。訂正する場合は決済確定前に戻ってください。');
   form.set('line_items[0][quantity]', '1');
   // Deliberately do not send payment_method_types. Stripe Checkout then uses
   // the account's Dashboard payment-method configuration to show every
   // eligible method for this JPY one-time payment. This keeps card checkout
   // working while PayPay is pending review, and lets PayPay appear after it is
   // enabled in Stripe without a code or deployment change.
-  const configuredPriceId = Deno.env.get('STRIPE_PRICE_ID_30DAY');
+  const configuredPriceId = Deno.env.get('STRIPE_PRICE_ID_30DAY_320');
   if (configuredPriceId) {
     if (!(await validateConfiguredPrice(stripeSecretKey, configuredPriceId))) {
       return json({ error: 'invalid_30day_price_configuration' }, 503);
     }
     form.set('line_items[0][price]', configuredPriceId);
   } else {
-    // Safe fallback for the first deployment. Configure STRIPE_PRICE_ID_30DAY
+    // The former 280-yen Price is intentionally not reused. Configure STRIPE_PRICE_ID_30DAY_320
     // to use the dedicated, one-time Stripe Price without changing code.
     form.set('line_items[0][price_data][currency]', CURRENCY);
     form.set('line_items[0][price_data][unit_amount]', String(UNIT_AMOUNT));
@@ -91,10 +96,12 @@ Deno.serve(async (request) => {
   form.set('payment_intent_data[metadata][product_id]', PRODUCT_ID);
   form.set('payment_intent_data[metadata][access_type]', ACCESS_TYPE);
 
-  // Keep repeated taps within a short window idempotent. A key fixed to the account
-  // can make Stripe return a cancelled or expired first Session for up to its
-  // idempotency retention period, preventing the customer from retrying.
-  const idempotencySuffix = String(Math.floor(Date.now() / 10_000));
+  // Keep repeated taps within a short window idempotent, while allowing a
+  // customer whose previous 30-day access expired to start a fresh Checkout
+  // Session instead of receiving the old session forever.
+  const idempotencySuffix = currentAccess?.access_status === 'expired'
+    ? String(Math.floor(Date.now() / 10_000))
+    : String(currentAccess?.access_expires_at ?? 'first');
   const stripeResponse = await fetch('https://api.stripe.com/v1/checkout/sessions', {
     method: 'POST',
     headers: {
@@ -102,7 +109,7 @@ Deno.serve(async (request) => {
       'Content-Type': 'application/x-www-form-urlencoded',
       // Repeated taps and concurrent requests within Stripe's idempotency
       // window resolve to the same Checkout Session.
-      'Idempotency-Key': `complete-edition-30day-v1-${user.id}-${idempotencySuffix}`,
+      'Idempotency-Key': `complete-edition-30day-v2-${UNIT_AMOUNT}-${user.id}-${idempotencySuffix}`,
     },
     body: form,
   });

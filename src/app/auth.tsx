@@ -4,6 +4,7 @@ import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { SymbolView } from 'expo-symbols';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
+import { RegistrationConsent } from '@/components/registration-consent';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { checkoutConfirmationRedirectUrl, purchaseClaimRedirectUrl, useAuth } from '@/auth/auth-state';
 import { createCompleteEditionCheckout, reconcileCompleteEditionPurchase } from '@/lib/purchase';
@@ -19,6 +20,7 @@ export default function AuthScreen() {
   const { configured, user, signInWithEmail, signUpWithEmail, sendPasswordReset, updatePassword, signOut } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [registrationConsent, setRegistrationConsent] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const purchaseIntent = params.intent === 'checkout';
   const claimSessionId = typeof params.session_id === 'string' ? params.session_id : '';
@@ -127,6 +129,7 @@ export default function AuthScreen() {
       }
       return;
     }
+    if (mode === 'signup' && !registrationConsent) { setSubmitting(false); setMessage('利用規約とプライバシーポリシーを確認して同意してください。'); return; }
     const result = mode === 'signin'
       ? await signInWithEmail(email, password)
       : await signUpWithEmail(email, password, purchaseIntent
@@ -175,7 +178,7 @@ export default function AuthScreen() {
         ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。'
         : claimIntent
           ? '決済に使用したメールアドレスでアカウントを作成またはログインすると、完全版を安全に有効化できます。'
-          : '購入情報や保存した処世術・マイ処世術を、アカウントに紐づけて管理できます。';
+          : '購入情報とプロフィールをアカウントで管理できます。蔵書・マイ処世術・学習記録等は原則として端末内に保存され、別端末へ自動同期されません。';
   const submitLabel = submitting
     ? '確認中…'
     : mode === 'forgot'
@@ -185,7 +188,7 @@ export default function AuthScreen() {
         : mode === 'signin'
           ? purchaseIntent ? 'ログインして決済へ進む' : claimIntent ? 'ログインして完全版を有効にする' : 'ログイン'
           : purchaseIntent ? 'アカウントを作成して決済へ進む' : claimIntent ? 'アカウントを作成して完全版を有効にする' : 'アカウントを作成';
-  const disabled = submitting || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6);
+  const disabled = submitting || (mode === 'signup' && !registrationConsent) || (mode !== 'reset' && !email) || (mode !== 'forgot' && password.length < 6);
 
   return (
     <BookScreen contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
@@ -248,6 +251,7 @@ export default function AuthScreen() {
                     </Pressable>
                   </Field>
                 ) : null}
+                {mode === 'signup' ? <RegistrationConsent checked={registrationConsent} onChange={setRegistrationConsent} /> : null}
                 {message ? <AppText accessibilityRole="alert" style={styles.message}>{message}</AppText> : null}
                 <Pressable accessibilityRole="button" disabled={disabled} onPress={() => void submit()} style={({ pressed }) => [styles.primary, disabled && styles.disabled, pressed && !disabled && styles.pressed]}>
                   <AppText variant="serif" style={styles.primaryText}>{submitLabel}</AppText>
@@ -310,7 +314,7 @@ function LoggedInAccount({ email, onSignOut }: { email: string; onSignOut: () =>
       <AppText style={styles.loggedInLabel}>ログイン中</AppText>
       <AppText variant="serif" style={styles.accountEmail}>{email}</AppText>
       <View style={styles.shortRule} />
-      <AppText style={styles.loggedInLead}>購入情報や保存した処世術・マイ処世術は、このアカウントに紐づいています。</AppText>
+      <AppText style={styles.loggedInLead}>購入情報とプロフィールはこのアカウントに紐づきます。蔵書・マイ処世術・履歴等は原則として端末内に保存されます。</AppText>
       <Pressable accessibilityRole="button" onPress={onSignOut} style={({ pressed }) => [styles.primary, styles.logoutButton, pressed && styles.pressed]}>
         <AppText variant="serif" style={styles.primaryText}>ログアウト</AppText>
       </Pressable>

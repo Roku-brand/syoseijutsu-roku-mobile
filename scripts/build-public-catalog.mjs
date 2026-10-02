@@ -114,8 +114,9 @@ const publicTechniques = {
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
   ? theory
-  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, status: 'locked' });
+  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, ...(theory.provenance?.status === 'オリジナル' ? { provenance: theory.provenance } : {}), status: 'locked' });
 
+metadata.theoryCount = theories.length;
 metadata.categoryCounts = Object.fromEntries(
   theories.map((theory) => theory.categoryId).filter((id, index, ids) => ids.indexOf(id) === index)
     .map((id) => [id, theories.filter((theory) => theory.categoryId === id).length]),
@@ -128,6 +129,7 @@ await Promise.all([
   writeJson('techniques.public.json', publicTechniques),
   writeJson('theories.public.json', publicTheories),
   writeJson('learning.public.json', learning.filter((item) => freeLearningIds.has(item.id))),
+  writeJson('learning.index.json', learning.map(({ id, stage, number, title }) => ({ id, stage, number, title }))),
   writeJson('practical-actions.public.json', practicalActions.filter((item) => freeTechniqueIds.has(item.id))),
   writeJson('home-brand-content.json', homeBrandContent),
   writeJson('metadata.json', metadata),

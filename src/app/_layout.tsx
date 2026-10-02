@@ -32,13 +32,15 @@ function AppFrame() {
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   // Legacy entry URLs redirect to the home screen without flashing app chrome.
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
+  const isUpgrade = pathname === '/upgrade' || pathname === '/upgrade-preview';
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover
   // the purchase CTA at the bottom of the page.
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome && !isCheckoutReturn ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
       <KeyboardFrame><RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
@@ -53,7 +55,7 @@ function AppFrame() {
     </View>
   );
   const frame = <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
-  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={showPersistentNavigation ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
+  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={showPersistentNavigation || isUpgrade ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
 }
 
 function isFocusedScreen(pathname: string) {

@@ -25,6 +25,10 @@
     "build21": {
       "extends": "production",
       "autoIncrement": false
+    },
+    "build22": {
+      "extends": "production",
+      "autoIncrement": false
     }
   },
   "submit": {
