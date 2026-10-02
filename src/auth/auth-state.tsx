@@ -1,6 +1,7 @@
 import type { Session, User } from '@supabase/supabase-js';
+import { profileAvatarPath, signedProfileAvatar } from '@/lib/profile-avatar';
 import { TERMS_VERSION, PRIVACY_VERSION } from '@/data/legal-documents';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-content';
@@ -8,7 +9,7 @@ import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-conten
 export type AccountRole = 'user' | 'owner';
 export type AuthResult = { error: string | null; hasSession: boolean; session: Session | null };
 export type SignUpOptions = { emailRedirectTo?: string };
-export type AccountProfile = { displayName: string | null; avatarUrl: string | null };
+export type AccountProfile = { displayName: string | null; avatarUrl: string | null; avatarPath: string | null };
 export type ProfileImageUpload = { uri: string; mimeType?: string | null; fileName?: string | null };
 
 type AuthContextValue = {
@@ -48,6 +49,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AccountRole>('user');
   const [profile, setProfile] = useState<AccountProfile | null>(null);
+  const currentUserId = useRef(session?.user.id);
+  currentUserId.current = session?.user.id;
 
   const refreshProfile = useCallback(async () => {
     const userId = session?.user.id;
@@ -61,6 +64,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       .select('role, display_name, avatar_url')
       .eq('user_id', userId)
       .maybeSingle()), AUTH_TIMEOUT_MS);
+    if (currentUserId.current !== userId) return;
     if (!result) {
       setRole('user');
       setProfile(null);
@@ -69,7 +73,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const { data, error } = result;
     if (error) throw error;
     setRole(data?.role === 'owner' ? 'owner' : 'user');
-    setProfile(data ? { displayName: data.display_name ?? null, avatarUrl: data.avatar_url ?? null } : null);
+    const avatarPath = profileAvatarPath(data?.avatar_url, userId);
+    const avatarUrl = await settleWithin(signedProfileAvatar(avatarPath), AUTH_TIMEOUT_MS);
+    if (currentUserId.current !== userId) return;
+    setProfile(data ? { displayName: data.display_name ?? null, avatarPath, avatarUrl } : null);
   }, [session?.user.id]);
 
   useEffect(() => {
@@ -99,7 +106,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setRole('user');
       setProfile(null);
     });
-  }, [refreshProfile]);
+  }, [refreshProfile, session?.user.id]);
+
+  useEffect(() => {
+    if (!session?.user.id) return;
+    const timer = setInterval(() => { void refreshProfile().catch(() => {}); }, 30 * 60 * 1000);
+    return () => clearInterval(timer);
+  }, [refreshProfile, session?.user.id]);
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
     if (!supabase) return { error: 'Supabaseが未設定です。', hasSession: false, session: null };
@@ -148,7 +161,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (!trimmedName) return '表示名を入力してください。';
     if (trimmedName.length > 24) return '表示名は24文字以内にしてください。';
 
-    let avatarUrl = profile?.avatarUrl ?? null;
+    let avatarUrl = profile?.avatarPath ?? null;
     if (image) {
       const mimeType = image.mimeType && ['image/jpeg', 'image/png', 'image/webp'].includes(image.mimeType)
         ? image.mimeType
@@ -160,8 +173,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       const path = `${session.user.id}/avatar.${extension}`;
       const upload = await supabase.storage.from('profile-avatars').upload(path, bytes, { upsert: true, contentType: mimeType });
       if (upload.error) return upload.error.message;
-      const publicUrl = supabase.storage.from('profile-avatars').getPublicUrl(path).data.publicUrl;
-      avatarUrl = `${publicUrl}?v=${Date.now()}`;
+      avatarUrl = path;
     }
 
     const { error } = await supabase
@@ -170,7 +182,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (error) return error.message;
     await refreshProfile();
     return null;
-  }, [profile?.avatarUrl, refreshProfile, session?.user]);
+  }, [profile?.avatarPath, refreshProfile, session?.user]);
 
   const value = useMemo(() => ({
     configured: supabaseConfigured,

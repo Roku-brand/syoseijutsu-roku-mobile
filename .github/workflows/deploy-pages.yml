@@ -61,6 +61,7 @@ jobs:
           supabase functions deploy access --project-ref "$project_ref"
           supabase functions deploy paid-content --project-ref "$project_ref"
           supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"
+          supabase functions deploy delete-account --no-verify-jwt --project-ref "$project_ref"
           supabase functions deploy operations-mcp --no-verify-jwt --project-ref "$project_ref"
 
   build-and-sync:

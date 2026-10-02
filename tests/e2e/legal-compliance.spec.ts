@@ -38,7 +38,7 @@ test('規約は両決済手段・未成年者の権利・提供義務を説明�
 });
 test('プライバシーは画像・任意のイベント送信・国外取扱い・削除の実態を説明する', async ({ page }) => {
   await page.goto('/legal/privacy');
-  await expect(page.getByText(/現在の画像保存先は公開URL方式/)).toBeVisible();
+  await expect(page.getByText(/画像は非公開の保存先で管理/)).toBeVisible();
   await expect(page.getByText(/匿名情報とは扱いません/)).toBeVisible();
   await expect(page.getByText(/初期状態はオフ/)).toBeVisible();
   await expect(page.getByText(/国内リージョンだけを理由に国外での取扱いがないとは扱いません/)).toBeVisible();
@@ -56,7 +56,7 @@ test('登録への同意は任意集計とは別で、同意するまで登録�
 });
 test('利用状況の送信は初期オフで、任意に切り替えた設定が再起動後も反映する', async ({ page }) => {
   let events = 0;
-  await page.route('**/rest/v1/rpc/record_content_event', route => { events++; return route.fulfill({ json: null }); });
+  await page.route('**/rest/v1/rpc/record_consented_content_event', route => { events++; return route.fulfill({ json: null }); });
   await page.goto('/card/master336-001');
   await expect(page.getByText('清潔感で足切りを超える').first()).toBeVisible();
   await page.goto('/settings');

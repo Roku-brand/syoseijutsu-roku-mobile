@@ -65,6 +65,9 @@ export default function SettingsScreen() {
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
           <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
+          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
           {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"

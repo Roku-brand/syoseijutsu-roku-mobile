@@ -14,10 +14,10 @@ async function mockCompleteAccount(page: Page, owner = false, publicReads = fals
   await page.route('**/rest/v1/**', route => {
     const url = route.request().url();
     if (url.includes('/profiles')) return route.fulfill({json:{role:owner ? 'owner' : 'user',display_name:'検証利用者'}});
-    if (owner && url.includes('/theories')) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.summary,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.provenance,access_tier:item.accessTier,aliases:[],related_theory_ids:[],updated_at:'2026-10-02T00:00:00Z'}))});
+    if (owner && (url.includes('/theories') || url.includes('/public_theories'))) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.summary,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.provenance,access_tier:item.accessTier,aliases:[],related_theory_ids:[],updated_at:'2026-10-02T00:00:00Z'}))});
     if (owner && url.includes('/content_categories')) return route.fulfill({json:[{kind:'theory',id:'practical-wisdom',title:'実践知',display_order:5}]});
     if (owner) return route.fulfill({json:[]});
-    if (publicReads && url.includes('/theories')) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.accessTier==='free'?item.summary:null,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.accessTier==='free'?item.provenance:null,access_tier:item.accessTier,aliases:[],related_theory_ids:[]}))});
+    if (publicReads && (url.includes('/theories') || url.includes('/public_theories'))) return route.fulfill({json:originals.map(item=>({id:item.tagId,title:item.title,summary:item.accessTier==='free'?item.summary:null,category_id:item.categoryId,category_title:item.categoryTitle,display_id:item.displayId,display_order:item.displayId,status:'published',provenance:item.accessTier==='free'?item.provenance:null,access_tier:item.accessTier,aliases:[],related_theory_ids:[]}))});
     if (publicReads && url.includes('/content_categories')) return route.fulfill({json:[{kind:'theory',id:'practical-wisdom',title:'実践知',display_order:5}]});
     if (publicReads) return route.fulfill({json:[]});
     return route.fulfill({status:400,json:{message:'Use bundled catalogue'}});

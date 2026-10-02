@@ -487,7 +487,7 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
 });
 
 test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
-  await page.route('**/rest/v1/techniques*', async (route) => {
+  await page.route('**/rest/v1/public_techniques*', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -513,7 +513,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   // The public hydration now reads the linked theory and persona tables in
   // the same request cycle. Keep this test's fixture coherent rather than
   // accidentally treating unmocked endpoints as an authoritative empty set.
-  await page.route('**/rest/v1/theories*', async (route) => {
+  await page.route('**/rest/v1/public_theories*', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) });
   });
   await page.route('**/rest/v1/personas*', async (route) => {

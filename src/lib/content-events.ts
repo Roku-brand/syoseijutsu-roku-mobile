@@ -29,7 +29,7 @@ export async function recordContentEvent(contentType: ContentType, contentId: st
   if (!supabase || !contentId || !(await isUsageSharingEnabled())) return;
   const actor = await getActorId();
   if (!(await isUsageSharingEnabled())) { await AsyncStorage.removeItem(ACTOR_KEY); return; }
-  await supabase.rpc('record_content_event', {
+  await supabase.rpc('record_consented_content_event', {
     p_anonymous_session_id: actor,
     p_content_type: contentType,
     p_content_id: contentId,
