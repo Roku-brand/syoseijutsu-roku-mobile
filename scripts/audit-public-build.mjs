@@ -115,9 +115,15 @@ for (const theory of theories) {
 }
 for (const item of learning) {
   if (!freeLearningIds.has(item.id)) {
-    collectTextFingerprints(item, `learning:${item.id}`, fingerprints);
-    titleCandidates.push({ id: item.id, title: item.title, label: `learning:${item.id}:title` });
+    // The roadmap intentionally publishes case identities, never their content.
+    const { id, stage, number, title, ...protectedContent } = item;
+    collectTextFingerprints(protectedContent, `learning:${item.id}`, fingerprints);
   }
+}
+
+const learningIndex = await readJson('learning.index.json');
+if (!isDeepStrictEqual(learningIndex, learning.map(({ id, stage, number, title }) => ({ id, stage, number, title })))) {
+  throw new Error('Learning roadmap identities do not match the canonical curriculum.');
 }
 
 if (fingerprints.size === 0) throw new Error('No paid-content fingerprints were generated.');

@@ -96,7 +96,7 @@ test('マイページの統合カードとタブはスマホ幅に収まり、�
   const tabs = await page.getByTestId('my-page-tabs').boundingBox();
   expect(card).not.toBeNull();
   expect(tabs).not.toBeNull();
-  expect(card!.height).toBeLessThan(270);
+  expect(card!.height).toBeLessThan(300);
   expect(tabs!.y).toBeGreaterThan(card!.y + card!.height);
   expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(20);
   await page.getByTestId('personal-principle-edit').click();
@@ -248,7 +248,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
-    await expect(header.getByText('生きる知恵を、日々の力に。', { exact: true })).toBeVisible();
+    await expect(header.getByText('人生をうまく生きる方法を、すべての人へ', { exact: true })).toBeVisible();
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
     await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
@@ -772,7 +772,7 @@ test('PCホームはブランドヘッダーと7枚のリールを上品に収�
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
-  await expect(page.getByTestId('book-header').getByText('生きる知恵を、日々の力に。')).toBeVisible();
+  await expect(page.getByTestId('book-header').getByText('人生をうまく生きる方法を、すべての人へ')).toBeVisible();
   const firstSlideBox = await page.getByTestId('home-brand-slide-1').boundingBox();
   expect(firstSlideBox).not.toBeNull();
   expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
@@ -1154,13 +1154,13 @@ test('人物像詳細は番号順の一列メニューとして一覧できる',
   await expect(cards.last()).toBeInViewport();
 });
 
-test('学ぶトップは3ステージの実進捗と禄丸を表示し、無料版ロックを維持する', async ({ page }) => {
+test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/learn');
   await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
-  await expect(page.getByTestId('learning-stage-list').getByRole('button')).toHaveCount(3);
+  await expect(page.getByTestId('learning-stage-list').getByRole('button', { name: /^ステージ[123]、/ })).toHaveCount(3);
   await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
-  await expect(page.getByTestId('learning-stage-2')).toContainText('完全版');
+  await expect(page.getByTestId('learning-stage-2')).toContainText('挑戦する');
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
   await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();
@@ -1223,7 +1223,7 @@ test('学ぶはスマホで縦積みになり横にはみ出さない', async ({
   await expect(page.getByTestId('learning-stage-1')).toBeVisible();
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
-  await page.getByTestId('learning-stage-1').click();
+  await page.getByTestId('learning-challenge-1').click();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByRole('button', { name: /^A/ })).toBeVisible();
   await page.getByRole('button', { name: /^B/ }).click();

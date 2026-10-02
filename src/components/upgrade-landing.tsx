@@ -2,6 +2,8 @@ import { Image } from 'expo-image';
 import { useState, type ReactNode } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors, fonts, radius } from '@/constants/theme';
+import { FREE_LEARNING_CASE_IDS, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { AppText } from '@/components/ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -13,9 +15,9 @@ const photos = {
   network: require('../../assets/upgrade/dark-library.webp'),
 };
 const mark = require('../../assets/upgrade/complete-mark.png');
-const gold = '#C4A36B';
-const ink = '#14201F';
-const freeItems = ['4つの人物像', '95個の処世術', '151件の理論', '1ケースの学習コンテンツ'];
+const gold = colors.gold;
+const ink = colors.ink;
+const freeItems = ['4つの人物像', `${FREE_REEL_TECHNIQUE_IDS.length}個の処世術`, `${FREE_THEORY_IDS.length}件の理論`, `${FREE_LEARNING_CASE_IDS.length}ケースの学習コンテンツ`];
 const completeItems = ['すべての人物像', 'すべての処世術', 'すべての理論', 'すべての学習コンテンツ', '保存・関連知識もすべて'];
 const recommendations = [
   'もっと多くの網羅的な処世術を探したい方',
@@ -50,23 +52,6 @@ function LineIcon({ name, color = ink, size = 22 }: { name: IconName; color?: st
 function Check({ small = false }: { small?: boolean }) {
   return <View style={[styles.check, small && styles.checkSmall]} accessibilityElementsHidden><AppText style={[styles.checkText, small && styles.checkTextSmall]}>✓</AppText></View>;
 }
-function Phone({ complete, width, desktop = false }: { complete?: boolean; width: number; desktop?: boolean }) {
-  const rows = [['person', '人物像'], ['action', '処世術'], ['theory', '理論'], ['book', '学習ケース']] as const;
-  return <View style={[styles.phone, { width, height: width * 2.12, transform: [{ rotate: complete ? '3deg' : '-5deg' }] }, complete && styles.phoneComplete]} accessibilityLabel={complete ? 'すべての知識が開放された完全版のスマートフォン' : 'ロックのある無料版のスマートフォン'}>
-    <View style={styles.phoneNotch} />
-    <View style={[styles.phoneScreen, complete && styles.phoneScreenComplete]}>
-      <AppText style={[styles.phoneStatus, complete && styles.phoneStatusComplete]}>9:41</AppText>
-      {complete ? <Image loading="eager" source={mark} style={styles.phoneMark} contentFit="contain" /> : <View style={styles.phoneMarkSpace} />}
-      <AppText variant="serif" style={[styles.phoneTitle, desktop && { fontSize: 21, lineHeight: 32, marginTop: 5, marginBottom: 18 }, complete && styles.phoneTitleComplete]}> {complete ? '完全版' : '無料版'} </AppText>
-      <View style={[styles.phoneRows, complete && styles.phoneRowsComplete]}>{rows.map(([icon, title]) => <View key={title} style={[styles.phoneRow, desktop && { height: width * 0.27, gap: 8 }]}>
-        <LineIcon name={icon} size={width * 0.16} />
-        <View style={styles.phoneRowCopy}><AppText style={[styles.phoneRowTitle, { fontSize: width * 0.079 }, desktop && { lineHeight: 22 }]}>{title}</AppText>{complete ? <AppText style={[styles.phoneRowHint, { fontSize: width * 0.053 }, desktop && { lineHeight: 15 }]}>すべて利用可能</AppText> : null}</View>
-        {!complete ? <LineIcon name="lock" color="#B48B45" size={width * 0.1} /> : null}
-      </View>)}</View>
-      <View style={styles.phoneHome} />
-    </View>
-  </View>;
-}
 function EditionCard({ complete, desktop = false }: { complete?: boolean; desktop?: boolean }) {
   return <View testID={complete ? 'upgrade-complete-card' : 'upgrade-free-card'} style={[styles.editionCard, desktop && desktopStyles.editionCard, complete && styles.editionCardComplete]}>
     <View style={[styles.editionSeal, complete && styles.editionSealComplete]}><AppText variant="serif" style={styles.editionSealText}>禄</AppText></View>
@@ -92,6 +77,7 @@ function KnowledgeNetwork({ width }: { width: number }) {
 
 export type UpgradeLandingProps = {
   price?: string;
+  isPaid?: boolean;
   onBack: () => void;
   onPurchase: () => void;
   onTerms: () => void;
@@ -103,7 +89,7 @@ export type UpgradeLandingProps = {
   statusActions?: ReactNode;
 };
 
-export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
+export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
   const { width: viewportWidth } = useHydratedWindowDimensions();
   const insets = useSafeAreaInsets();
   const width = Math.min(viewportWidth || 390, 480);
@@ -121,7 +107,7 @@ export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, o
         <AppText style={styles.headerTitle}>完全版を購入</AppText><View style={styles.headerBalance} />
       </View>
       <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
-        <View style={[styles.hero, { height: desktop ? 660 : width * 1.27 }]}>
+        <View style={[styles.hero, { height: desktop ? 680 : Math.max(510, width * 1.48) }]}>
           <Image loading="eager" source={desktop ? photos.heroDesktop : photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={desktop ? { left: '50%', top: '45%' } : 'center'} accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
           <View style={[styles.heroWash, desktop && desktopStyles.heroWash]} />
           <View style={[styles.heroCopy, desktop && desktopStyles.heroCopy, desktop && sectionSpace]}>
@@ -130,8 +116,6 @@ export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, o
             <AppText style={[styles.heroLead, desktop && desktopStyles.heroLead]}>無料版では届かなかった処世術、{'\n'}その背景、その先の学びまで。</AppText>
           </View>
           <View style={styles.heroBottomShade} />
-          <View style={[styles.phones, desktop && desktopStyles.phones, desktop && { right: desktopWidth * 0.19 }]}><Phone desktop={desktop} width={desktop ? 165 : width * 0.265} /><AppText style={styles.upgradeArrow}>➜</AppText><Phone desktop={desktop} complete width={desktop ? 180 : width * 0.287} /></View>
-          <View style={[styles.heroPrice, desktop && desktopStyles.heroPrice, desktop && { left: gutter }]}><AppText variant="serif" style={[styles.heroPriceLabel, desktop && { fontSize: 15, lineHeight: 24, color: '#6C522B' }]}>完全版（30日間）</AppText><AppText variant="serif" style={[styles.heroPriceAmount, narrow && { fontSize: 32 }, desktop && { fontSize: 60, lineHeight: 78, color: '#17221C' }]}>{price}</AppText><AppText style={[styles.heroPriceNote, desktop && { fontSize: 11, lineHeight: 18, color: '#2D3A30' }]}>一回払い・自動更新なし</AppText></View>
         </View>
 
         <View style={[styles.comparison, desktop && desktopStyles.comparison, sectionSpace]}>
@@ -179,12 +163,13 @@ export function UpgradeLanding({ price = '¥320', onBack, onPurchase, onTerms, o
         {message ? <AppText accessibilityRole="alert" style={styles.statusMessage}>{message}</AppText> : null}
         {statusActions}
         <View style={[styles.purchaseRow, desktop && desktopStyles.purchaseRow]}>
-          <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}><AppText style={[styles.purchaseLabel, desktop && desktopStyles.purchaseLabel]}>完全版（30日間）</AppText><AppText variant="serif" style={[styles.purchaseAmount, desktop && desktopStyles.purchaseAmount]}>{price}</AppText><AppText style={[styles.purchaseNote, desktop && desktopStyles.purchaseNote]}>一回払い・自動更新なし</AppText></View>
+          <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}><AppText style={[styles.purchaseLabel, desktop && desktopStyles.purchaseLabel]}>{isPaid ? '完全版を利用中' : '完全版（30日間）'}</AppText>{!isPaid ? <AppText variant="serif" style={[styles.purchaseAmount, desktop && desktopStyles.purchaseAmount]}>{price}</AppText> : null}<AppText style={[styles.purchaseNote, desktop && desktopStyles.purchaseNote]}>{isPaid ? '知識の、その先へ。' : '一回払い・自動更新なし'}</AppText></View>
           <View style={styles.purchaseDivider} />
           {desktop ? <AppText style={desktopStyles.purchasePromise}>知識のつながりを、もっと広く。{'\n'}すべての人物像・処世術・理論・学習コンテンツへ。</AppText> : null}
-          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, desktop && desktopStyles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.purchaseButtonHighlight} /><AppText variant="serif" style={[styles.purchaseButtonText, narrow && { fontSize: 12 }, desktop && desktopStyles.purchaseButtonText]}>{purchaseLabel}</AppText><AppText style={styles.purchaseArrow}>→</AppText></Pressable>
+          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, desktop && desktopStyles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.purchaseButtonHighlight} /><AppText variant="serif" style={[styles.purchaseButtonText, narrow && { fontSize: 12 }, desktop && desktopStyles.purchaseButtonText]}>{isPaid ? '完全版を開く' : purchaseLabel}</AppText><AppText style={styles.purchaseArrow}>→</AppText></Pressable>
         </View>
         <View style={styles.legalLinks}><Pressable accessibilityRole="link" onPress={onTerms} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>購入条件・返金について</AppText></Pressable><View style={styles.legalDot} /><Pressable accessibilityRole="link" onPress={onCommerce} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>特定商取引法に基づく表記</AppText></Pressable></View>
+        {onRestore && !isPaid ? <Pressable testID="upgrade-restore" accessibilityRole="button" disabled={disabled} onPress={onRestore} style={styles.legalLink}><AppText style={[styles.legalText, { textAlign: 'center' }]}>購入を復元する</AppText></Pressable> : null}
       </View>
     </View>
   </View>;
@@ -199,28 +184,16 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 13, lineHeight: 20, fontWeight: '600', color: ink }, headerBalance: { width: 76 },
   scroll: { flex: 1, minHeight: 0 },
   hero: { overflow: 'hidden', backgroundColor: '#DDC7A7' },
-  heroWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: '48%', backgroundColor: 'rgba(255,246,227,0.12)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(100deg,rgba(255,244,223,.28),rgba(255,244,223,.10) 68%,transparent)' } }) },
-  heroCopy: { paddingHorizontal: 25, paddingTop: 16 },
+  heroWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: '48%', backgroundColor: 'rgba(255,253,248,0.62)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(180deg,rgba(255,253,248,.85),rgba(255,253,248,.64) 70%,rgba(255,253,248,.15))' } }) },
+  heroCopy: { paddingHorizontal: 24, paddingTop: 28 },
   brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 }, brandMark: { width: 33, height: 33, borderRadius: 17 }, brandName: { fontSize: 15, lineHeight: 22, color: '#111914', letterSpacing: 0.6 },
   heroTitle: { marginTop: 14, fontSize: 27, lineHeight: 40, letterSpacing: 0.1, color: '#101510', fontWeight: '800' },
   heroLead: { marginTop: 10, fontSize: 12, lineHeight: 21, letterSpacing: 0.5, color: '#263028' },
   heroBottomShade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '28%', backgroundColor: 'rgba(7,20,18,.25)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(0deg,rgba(7,20,18,.5),transparent)', backgroundColor: 'transparent' } }) },
-  phones: { position: 'absolute', left: 18, bottom: -12, flexDirection: 'row', gap: 15, alignItems: 'flex-end' },
-  upgradeArrow: { position: 'absolute', left: '44%', top: '43%', fontSize: 27, lineHeight: 36, color: '#E8C58A', zIndex: 2, transform: [{ rotate: '22deg' }] },
-  phone: { padding: 3, borderRadius: 20, borderWidth: 1.5, borderColor: '#AAA79F', backgroundColor: '#161B1B', shadowColor: '#000', shadowOpacity: 0.4, shadowRadius: 9, shadowOffset: { width: 2, height: 5 }, elevation: 7, overflow: 'hidden' },
-  phoneComplete: { borderColor: '#9B9482' }, phoneScreen: { flex: 1, paddingHorizontal: 5, backgroundColor: '#E1E0D9', borderRadius: 15, overflow: 'hidden' }, phoneScreenComplete: { backgroundColor: '#142221' },
-  phoneNotch: { position: 'absolute', zIndex: 2, top: 3, left: '25%', width: '50%', height: 11, backgroundColor: '#131817', borderBottomLeftRadius: 10, borderBottomRightRadius: 10 },
-  phoneStatus: { marginTop: 3, marginLeft: 4, fontSize: 4.5, lineHeight: 9, color: '#25302D' }, phoneStatusComplete: { color: '#D5D7CE' },
-  phoneMark: { width: 15, height: 15, alignSelf: 'center', marginTop: 5, borderRadius: 8 }, phoneMarkSpace: { height: 20 },
-  phoneTitle: { fontSize: 13, lineHeight: 18, color: '#1A2523', textAlign: 'center', marginBottom: 9 }, phoneTitleComplete: { color: '#D5BA7D' },
-  phoneRows: { backgroundColor: '#F4F3ED', borderRadius: 4, paddingHorizontal: 5, paddingVertical: 3 }, phoneRowsComplete: { backgroundColor: '#F5EFDF' },
-  phoneRow: { flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#DFDED6' }, phoneRowCopy: { flex: 1 }, phoneRowTitle: { color: '#25302D', lineHeight: 13 }, phoneRowHint: { color: '#786E5E', lineHeight: 8 },
-  phoneHome: { position: 'absolute', bottom: 5, left: '32%', width: '36%', height: 2, borderRadius: 2, backgroundColor: '#91998E' },
-  heroPrice: { position: 'absolute', right: 13, bottom: 31, width: '28%' }, heroPriceLabel: { fontSize: 11, lineHeight: 18, color: '#E2C388' }, heroPriceAmount: { color: '#FFF9EC', fontSize: 38, lineHeight: 50, letterSpacing: -1 }, heroPriceNote: { marginTop: 2, fontSize: 7.5, lineHeight: 12, color: '#FFF9EC' },
-  heading: { fontSize: 26, lineHeight: 38, color: '#141C19', letterSpacing: 0.25, fontWeight: '800' },
+  heading: { fontFamily: fonts.serif, fontSize: 26, lineHeight: 38, color: '#141C19', letterSpacing: 0.25, fontWeight: '800' },
   comparison: { paddingHorizontal: 22, paddingTop: 28, paddingBottom: 26, backgroundColor: '#F7F3EB', overflow: 'hidden' }, comparisonWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(251,248,241,.68)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(90deg,rgba(251,248,241,.97) 0%,rgba(251,248,241,.86) 57%,rgba(251,248,241,.12) 100%)', backgroundColor: 'transparent' } }) },
   comparisonLead: { marginTop: 10, fontSize: 12, lineHeight: 21, color: '#323A35' }, editions: { flexDirection: 'row', gap: 9, marginTop: 22 },
-  editionCard: { flex: 1, minWidth: 0, paddingHorizontal: 11, paddingTop: 15, paddingBottom: 16, borderRadius: 5, borderWidth: 1, borderColor: '#E6E0D5', backgroundColor: 'rgba(255,253,249,.97)', shadowColor: '#503E24', shadowOpacity: 0.1, shadowOffset: { width: 0, height: 2 }, shadowRadius: 5, elevation: 2 },
+  editionCard: { flex: 1, minWidth: 0, paddingHorizontal: 11, paddingTop: 15, paddingBottom: 16, borderRadius: 5, borderWidth: 1, borderColor: '#E6E0D5', backgroundColor: 'rgba(255,253,249,.97)',  },
   editionCardComplete: { backgroundColor: '#112422', borderColor: '#B49C68' },
   editionSeal: { width: 20, height: 20, borderWidth: 0.7, borderColor: '#D9BF91', borderRadius: 11, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }, editionSealComplete: { borderColor: '#C9AE77' }, editionSealText: { color: '#C3A369', fontSize: 13, lineHeight: 18 },
   editionTitle: { textAlign: 'center', marginTop: 5, fontSize: 22, lineHeight: 31, color: '#192321' }, editionTitleComplete: { color: '#D9BC7E' }, editionSubtitle: { textAlign: 'center', marginTop: 2, fontSize: 9, lineHeight: 15, color: '#28312B' }, editionSubtitleComplete: { color: '#E0C38E' },
@@ -237,10 +210,10 @@ const styles = StyleSheet.create({
   faq: { paddingHorizontal: 22, paddingTop: 29, paddingBottom: 22, backgroundColor: '#FBF9F5' }, faqList: { marginTop: 15, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#DDDAD1' }, faqItem: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#DDDAD1' },
   faqQuestion: { minHeight: 53, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 10 }, questionMark: { width: 14, height: 14, borderWidth: 1, borderColor: '#35423E', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }, questionMarkText: { fontSize: 10, lineHeight: 12, fontWeight: '600', color: '#35423E' }, faqQuestionText: { flex: 1, fontSize: 12, lineHeight: 20, color: '#25332E', fontWeight: '600' }, chevron: { fontSize: 19, lineHeight: 22, color: '#35423E', paddingHorizontal: 3 }, chevronOpen: { transform: [{ rotate: '180deg' }] },
   faqAnswer: { paddingLeft: 24, paddingRight: 10, paddingBottom: 17 }, faqAnswerText: { fontSize: 12, lineHeight: 22, color: '#67716A' }, faqUtility: { minHeight: 36, justifyContent: 'center', marginTop: 7 }, faqUtilityText: { fontSize: 11, lineHeight: 18, color: '#81642F', textDecorationLine: 'underline' },
-  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 17, paddingTop: 10, backgroundColor: '#060808', ...Platform.select({ web: { backgroundImage: 'radial-gradient(ellipse at 75% 0%, rgba(204,164,76,.16), transparent 58%), linear-gradient(115deg, #181A16 0%, #080A0A 48%, #030505 100%)', boxShadow: '0 -5px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,227,151,.4)' } }), borderTopLeftRadius: 12, borderTopRightRadius: 12, borderTopWidth: 1, borderTopColor: '#D6B96F', shadowColor: '#000', shadowOpacity: 0.28, shadowRadius: 14, shadowOffset: { width: 0, height: -3 }, elevation: 12 },
-  purchaseRow: { flexDirection: 'row', alignItems: 'center', gap: 13 }, purchasePrice: { width: '35%' }, purchaseDivider: { width: 1, height: 42, backgroundColor: 'rgba(189,153,86,.5)' }, purchaseLabel: { fontSize: 10, lineHeight: 14, color: '#DAB877' }, purchaseAmount: { fontSize: 34, lineHeight: 36, letterSpacing: -0.7, color: '#EBC989', textShadowColor: 'rgba(222,175,75,.12)', textShadowRadius: 5 }, purchaseNote: { fontSize: 7.5, lineHeight: 11, color: '#D7D3C8' },
-  purchaseButton: { flex: 1, minHeight: 45, borderRadius: 24, overflow: 'hidden', backgroundColor: '#DAB25F', borderWidth: 1, borderColor: '#FAE1A2', ...Platform.select({ web: { backgroundImage: 'linear-gradient(115deg, transparent 5%, rgba(255,250,221,.4) 27%, transparent 47%), linear-gradient(180deg, #FFF0BE 0%, #EED08B 18%, #C69A46 46%, #EDCC80 50%, #D6AD59 70%, #AE7D31 100%)', boxShadow: '0 3px 17px rgba(218,170,68,.32), inset 0 1px 1px rgba(255,255,231,.95), inset 0 -2px 3px rgba(102,60,6,.2)' } }), shadowColor: '#D7AA46', shadowOpacity: 0.3, shadowRadius: 9, shadowOffset: { width: 0, height: 2 }, elevation: 4, flexDirection: 'row', gap: 7, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 9 }, purchaseButtonHighlight: { position: 'absolute', top: 2, left: 17, right: 17, height: 2, borderRadius: 2, backgroundColor: 'rgba(255,252,231,.7)' }, purchaseButtonText: { fontSize: 14, lineHeight: 21, color: '#37270D', fontWeight: '700' }, purchaseArrow: { color: '#37270D', fontSize: 18, lineHeight: 22 },
-  legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 3 }, legalLink: { minHeight: 20, justifyContent: 'center' }, legalText: { color: '#B8B3A5', fontSize: 8, lineHeight: 13 }, legalDot: { width: 1, height: 9, backgroundColor: '#627067' },
+  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 16, paddingTop: 12, backgroundColor: colors.surfaceDark, borderTopLeftRadius: radius.md, borderTopRightRadius: radius.md, borderTopWidth: 1, borderTopColor: colors.gold },
+  purchaseRow: { flexDirection: 'row', alignItems: 'center', gap: 12 }, purchasePrice: { width: '38%' }, purchaseDivider: { width: 1, height: 44, backgroundColor: colors.goldDeep }, purchaseLabel: { fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, color: colors.goldSoft }, purchaseAmount: { fontFamily: fonts.serif, fontSize: 34, lineHeight: 42, color: colors.white }, purchaseNote: { fontSize: 10, lineHeight: 16, color: '#D7D3C8' },
+  purchaseButton: { flex: 1, minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.gold, flexDirection: 'row', gap: 7, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }, purchaseButtonHighlight: { display: 'none' }, purchaseButtonText: { fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, color: colors.white, fontWeight: '600' }, purchaseArrow: { color: colors.white, fontSize: 18, lineHeight: 22 },
+  legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 3 }, legalLink: { minHeight: 32, justifyContent: 'center' }, legalText: { color: '#D3CBBB', fontSize: 10, lineHeight: 16 }, legalDot: { width: 1, height: 9, backgroundColor: '#627067' },
   statusMessage: { fontSize: 11, lineHeight: 19, color: '#F2E8D1', paddingBottom: 9 }, pressed: { opacity: 0.76 }, disabled: { opacity: 0.5 },
 });
 
@@ -253,8 +226,6 @@ const desktopStyles = StyleSheet.create({
   heroCopy: { paddingTop: 62 },
   heroTitle: { marginTop: 27, fontSize: 52, lineHeight: 78, letterSpacing: 1 },
   heroLead: { marginTop: 21, fontSize: 16, lineHeight: 30, letterSpacing: 1 },
-  phones: { left: 'auto', bottom: -24, gap: 28 },
-  heroPrice: { right: 'auto', bottom: 65, width: 280 },
   heading: { fontSize: 36, lineHeight: 56, letterSpacing: 0.8 },
   body: { fontSize: 15, lineHeight: 29, marginTop: 22 },
   comparison: { flexDirection: 'row', alignItems: 'center', gap: 48, paddingTop: 80, paddingBottom: 80 },

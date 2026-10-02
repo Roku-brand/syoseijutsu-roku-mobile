@@ -109,6 +109,7 @@ export default function UpgradeScreen() {
   return (
     <View testID="upgrade-single-screen" style={styles.safe}>
       <UpgradeLanding
+        isPaid={isPaid}
         price={`¥${COMPLETE_EDITION_PRICE_JPY}`}
         onBack={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
         onPurchase={() => isPaid ? router.replace('/(tabs)') : setShowCheckoutConfirmation(true)}

@@ -144,7 +144,7 @@ export function BookHeader() {
             />
             <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
               <AppText style={styles.brandName}>処世術禄</AppText>
-              {primaryTabHeader ? <AppText style={styles.brandTagline}>生きる知恵を、日々の力に。</AppText> : null}
+              {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={styles.brandTagline}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
             </View>
           </View>
         )}
@@ -698,8 +698,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
-  brandCopy: { minWidth: 0, gap: 1 },
-  brandTagline: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, letterSpacing: 0.3 },
+  brandCopy: { flexShrink: 1, minWidth: 0, gap: 1 },
+  brandTagline: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, letterSpacing: -0.2 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',
