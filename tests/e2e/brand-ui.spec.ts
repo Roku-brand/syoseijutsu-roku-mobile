@@ -73,8 +73,8 @@ test('利用期間終了の表示は既存の期限判定を使う', async ({ pa
   await expect(page.getByTestId('account-membership-card')).toContainText('利用期間終了');
 });
 
-test('新UIの共有ヘッダー・ロードマップ・購入バーは小型iPhoneからPCまで収まる', async ({ page }) => {
-  for (const width of [320, 390, 430, 1440]) {
+for (const width of [320, 390, 430, 1440]) {
+  test(`新UIの共有ヘッダー・ロードマップ・購入バーは幅${width}pxに収まる`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/discover', '/learn', '/my-os']) {
       await page.goto(path);
@@ -99,8 +99,8 @@ test('新UIの共有ヘッダー・ロードマップ・購入バーは小型iPh
     expect(bar!.y + bar!.height).toBeLessThanOrEqual(901);
     expect(bar!.width).toBeLessThanOrEqual(width);
     await page.screenshot({ path: test.info().outputPath(`upgrade-${width}.png`) });
-  }
-});
+  });
+}
 
 test('マイページは保存した実際の履歴・蔵書・完全版残期間を表示する', async ({ page }) => {
   await account(page);
