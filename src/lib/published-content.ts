@@ -11,7 +11,7 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
   if (!supabase) return { data: null, error: new Error('Supabase is unavailable') };
   const rows: Record<string, any>[] = [];
   for (let from = 0; ; from += PAGE_SIZE) {
-    let query = supabase.from(table).select(columns).eq('status', 'published');
+    let query = supabase.from(table === 'personas' ? table : `public_${table}`).select(columns).eq('status', 'published');
     if (table === 'theories') query = query.order('category_id').order('display_id').order('id');
     else query = query.order('display_order').order(table === 'personas' ? 'name' : 'id');
     const { data, error } = await query.range(from, from + PAGE_SIZE - 1);

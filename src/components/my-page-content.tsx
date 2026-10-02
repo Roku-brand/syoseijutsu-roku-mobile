@@ -1,3 +1,6 @@
+'use no memo';
+
+// Catalogue maps are hydrated in place; retain the explicit revision dependency.
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
@@ -278,10 +281,10 @@ function formatMemoDate(value: string) {
 
 const styles = StyleSheet.create({
   content: { maxWidth: 860, paddingBottom: spacing.xl * 2 },
-  contentMobile: { paddingTop: spacing.md },
+  contentMobile: { paddingTop: spacing.md, paddingHorizontal: spacing.md },
   dashboard: { width: '100%' },
-  profileCard: { borderWidth: 1, borderColor: colors.line, borderRadius: radius.lg, backgroundColor: colors.surface, overflow: 'hidden' },
-  profileRow: { minHeight: 91, paddingHorizontal: spacing.lg, paddingVertical: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  profileCard: { backgroundColor: colors.paper },
+  profileRow: { minHeight: 105, paddingHorizontal: spacing.xs, paddingVertical: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   identity: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   identityCopy: { flex: 1, minWidth: 0, alignItems: 'flex-start' },
   profileMark: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#121A22', borderWidth: 1, borderColor: '#302B20', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
@@ -290,14 +293,14 @@ const styles = StyleSheet.create({
   profileHead: { width: 11, height: 11, borderWidth: 1.4, borderColor: '#D3A849', borderRadius: 6, marginBottom: 4 },
   profileShoulders: { width: 25, height: 14, borderTopWidth: 1.4, borderLeftWidth: 1.4, borderRightWidth: 1.4, borderColor: '#D3A849', borderTopLeftRadius: 13, borderTopRightRadius: 13 },
   profileName: { maxWidth: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '600', letterSpacing: 0.5 },
-  profileNameMobile: { fontSize: 17, lineHeight: 24 },
+  profileNameMobile: { fontSize: 22, lineHeight: 31 },
   membershipBadge: { marginTop: 4, paddingHorizontal: 9, paddingVertical: 2, borderWidth: 1, borderColor: '#D7C39C', borderRadius: radius.pill, backgroundColor: colors.surface },
   membershipBadgeText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 10, lineHeight: 15, fontWeight: '600' },
   profileEdit: { minHeight: 44, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center' },
   profileEditText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  profileDivider: { height: 1, marginHorizontal: spacing.lg, backgroundColor: colors.line },
+  profileDivider: { height: 1, marginHorizontal: spacing.xs, backgroundColor: colors.line },
   scrollWrap: { minHeight: 158, marginHorizontal: spacing.xs, marginTop: spacing.xs, marginBottom: spacing.sm, justifyContent: 'center' },
-  scrollWrapMobile: { minHeight: 126 },
+  scrollWrapMobile: { minHeight: 140, marginHorizontal: -spacing.md, marginTop: spacing.md },
   scrollArtwork: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
   scrollImage: { width: '100%', height: '100%' },
   scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: spacing.xl * 2, paddingVertical: spacing.lg },
@@ -305,13 +308,13 @@ const styles = StyleSheet.create({
   principleHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   principleLabel: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1 },
   principle: { maxWidth: '84%', marginTop: spacing.xs, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '600', letterSpacing: 1 },
-  principleMobile: { maxWidth: '78%', fontSize: 19, lineHeight: 27, letterSpacing: 0.4 },
+  principleMobile: { maxWidth: '100%', fontSize: 23, lineHeight: 34, letterSpacing: 0.2 },
   editPrinciple: { minHeight: 34, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#CEB583', borderRadius: radius.pill, backgroundColor: colors.surface },
   editIcon: { color: colors.gold, fontSize: 14, lineHeight: 18 },
   editText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
-  tabs: { marginTop: spacing.md, padding: 4, minHeight: 58, flexDirection: 'row', gap: 3, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  tabs: { marginTop: spacing.md, paddingVertical: 6, minHeight: 62, flexDirection: 'row', gap: 3, borderBottomWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
   tab: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderRadius: radius.pill, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
-  tabSelected: { backgroundColor: '#182027' },
+  tabSelected: { borderBottomWidth: 2, borderBottomColor: colors.gold, backgroundColor: '#182027' },
   tabIcon: { color: colors.ink, fontSize: 17, lineHeight: 22, fontWeight: '700' },
   tabIconSelected: { color: colors.goldLight },
   tabLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
@@ -329,7 +332,7 @@ const styles = StyleSheet.create({
   categoryLabel: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: radius.pill, backgroundColor: '#F5ECDc', color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 10, lineHeight: 15, fontWeight: '600' },
   theoryLabel: { backgroundColor: '#E8EDF0', color: '#536879' },
   rowTitle: { marginTop: 5, color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
-  rowDescription: { marginTop: 2, color: colors.muted, fontSize: 11, lineHeight: 17 },
+  rowDescription: { marginTop: 4, color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
   rowArrow: { color: colors.gold, fontSize: 26, lineHeight: 30 },
   quietEmpty: { minHeight: 74, paddingHorizontal: spacing.lg, paddingVertical: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, justifyContent: 'center' },
   quietEmptyText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },

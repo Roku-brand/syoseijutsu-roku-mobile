@@ -1,0 +1,128 @@
+[
+  {
+    "id": "case-01",
+    "stage": 1,
+    "number": 1,
+    "title": "最初の会話、何をする？"
+  },
+  {
+    "id": "case-02",
+    "stage": 1,
+    "number": 2,
+    "title": "助言する？ 聞く？"
+  },
+  {
+    "id": "case-03",
+    "stage": 1,
+    "number": 3,
+    "title": "秘密を共有された"
+  },
+  {
+    "id": "case-04",
+    "stage": 1,
+    "number": 4,
+    "title": "頼まれた連絡を忘れた"
+  },
+  {
+    "id": "case-05",
+    "stage": 1,
+    "number": 5,
+    "title": "からかいが強くなった"
+  },
+  {
+    "id": "case-06",
+    "stage": 1,
+    "number": 6,
+    "title": "言い方で傷つけた"
+  },
+  {
+    "id": "case-07",
+    "stage": 1,
+    "number": 7,
+    "title": "笑って流す？"
+  },
+  {
+    "id": "case-08",
+    "stage": 2,
+    "number": 8,
+    "title": "とりあえず資料を作って"
+  },
+  {
+    "id": "case-09",
+    "stage": 2,
+    "number": 9,
+    "title": "結論なく終わりそう"
+  },
+  {
+    "id": "case-10",
+    "stage": 2,
+    "number": 10,
+    "title": "間に合わないと分かった"
+  },
+  {
+    "id": "case-11",
+    "stage": 2,
+    "number": 11,
+    "title": "値下げを迫られた"
+  },
+  {
+    "id": "case-12",
+    "stage": 2,
+    "number": 12,
+    "title": "任せた仕事が遅い"
+  },
+  {
+    "id": "case-13",
+    "stage": 2,
+    "number": 13,
+    "title": "反対意見が出ない"
+  },
+  {
+    "id": "case-14",
+    "stage": 2,
+    "number": 14,
+    "title": "成果が評価に残っていない"
+  },
+  {
+    "id": "case-15",
+    "stage": 3,
+    "number": 15,
+    "title": "確認が止まらない"
+  },
+  {
+    "id": "case-16",
+    "stage": 3,
+    "number": 16,
+    "title": "決められない"
+  },
+  {
+    "id": "case-17",
+    "stage": 3,
+    "number": 17,
+    "title": "毎週、計画が崩れる"
+  },
+  {
+    "id": "case-18",
+    "stage": 3,
+    "number": 18,
+    "title": "今すぐ立て直す？"
+  },
+  {
+    "id": "case-19",
+    "stage": 3,
+    "number": 19,
+    "title": "いきなり辞める？"
+  },
+  {
+    "id": "case-20",
+    "stage": 3,
+    "number": 20,
+    "title": "続ける理由がなくなった"
+  },
+  {
+    "id": "case-21",
+    "stage": 3,
+    "number": 21,
+    "title": "良い縁を次につなぐ"
+  }
+]

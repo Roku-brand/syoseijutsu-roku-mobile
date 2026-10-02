@@ -72,6 +72,8 @@ export default function ProfileSettingsScreen() {
             </Pressable>
           </View>
 
+          <AppText style={styles.help}>選んだ画像と表示名はサーバーへ保存します。画像は非公開の保存先で管理し、ログインした本人のプロフィール表示に使用します。</AppText>
+          <Pressable accessibilityRole="button" onPress={() => router.push('/legal/privacy')} style={{ paddingVertical: 10 }}><AppText style={styles.help}>プロフィール情報の取扱いを確認する</AppText></Pressable>
           <AppText style={styles.label}>表示名</AppText>
           <TextInput
             value={displayName}

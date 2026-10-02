@@ -67,6 +67,11 @@ Deno.serve(async (request) => {
   form.set('metadata[user_id]', user.id);
   form.set('metadata[product_id]', PRODUCT_ID);
   form.set('metadata[access_type]', ACCESS_TYPE);
+  form.set('metadata[terms_version]', '3.4');
+  form.set('locale', 'ja');
+  // The Stripe-hosted final payment screen must retain the key conditions;
+  // the preceding in-app explanation alone is not the final order screen.
+  form.set('custom_text[submit][message]', '完全版アクセス1件。決済成功から30日間（30×24時間）。一回払い・自動更新なし。確認後原則直ちに提供。通信費はお客様負担。申込期限なし。提供開始後の購入者都合の取消し・返品・返金は原則不可（重複決済・未提供・契約不適合・法令上の権利を除く）。購入前に[利用規約](https://shoseijutsuroku.com/legal/terms)と[特商法表記](https://shoseijutsuroku.com/legal/commerce)をご確認ください。訂正する場合は決済確定前に戻ってください。');
   form.set('line_items[0][quantity]', '1');
   // Deliberately do not send payment_method_types. Stripe Checkout then uses
   // the account's Dashboard payment-method configuration to show every

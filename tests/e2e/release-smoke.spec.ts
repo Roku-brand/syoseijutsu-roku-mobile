@@ -96,7 +96,7 @@ test('マイページの統合カードとタブはスマホ幅に収まり、�
   const tabs = await page.getByTestId('my-page-tabs').boundingBox();
   expect(card).not.toBeNull();
   expect(tabs).not.toBeNull();
-  expect(card!.height).toBeLessThan(270);
+  expect(card!.height).toBeLessThan(300);
   expect(tabs!.y).toBeGreaterThan(card!.y + card!.height);
   expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(20);
   await page.getByTestId('personal-principle-edit').click();
@@ -248,7 +248,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
-    await expect(header.getByText('生きる知恵を、日々の力に。', { exact: true })).toBeVisible();
+    await expect(header.getByText('人生をうまく生きる方法を、すべての人へ', { exact: true })).toBeVisible();
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
     await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
@@ -431,6 +431,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/personas');
   const desktopCards = page.getByTestId('personas-grid').getByRole('button');
+  await expect(desktopCards.nth(4)).toBeVisible();
   const desktopBoxes = await Promise.all([0, 1, 2, 3, 4].map((index) => desktopCards.nth(index).boundingBox()));
   expect(new Set(desktopBoxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(desktopBoxes[4]!.y).toBeGreaterThan(desktopBoxes[0]!.y + 100);
@@ -486,7 +487,7 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
 });
 
 test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
-  await page.route('**/rest/v1/techniques*', async (route) => {
+  await page.route('**/rest/v1/public_techniques*', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -512,7 +513,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   // The public hydration now reads the linked theory and persona tables in
   // the same request cycle. Keep this test's fixture coherent rather than
   // accidentally treating unmocked endpoints as an authoritative empty set.
-  await page.route('**/rest/v1/theories*', async (route) => {
+  await page.route('**/rest/v1/public_theories*', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) });
   });
   await page.route('**/rest/v1/personas*', async (route) => {
@@ -606,10 +607,10 @@ test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購�
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
   await page.getByRole('link', { name: '購入条件・返金について' }).click();
-  await expect(page.getByText(/バージョン3\.3/)).toBeVisible();
-  await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
-  await expect(page.getByText(/購入時点の各文章、項目数および構成が将来にわたり同一のまま維持されることを保証するものではありません/)).toBeVisible();
-  await expect(page.getByText(/商品の主要な利用目的を損なう重大な不利益変更は行わず/)).toBeVisible();
+  await expect(page.getByText(/バージョン3\.4/).first()).toBeVisible();
+  await expect(page.getByText(/合理的な目的で、項目を追加・修正・統合・削除/)).toBeVisible();
+  await expect(page.getByText(/主要な利用目的を損なう重大な不利益変更は行いません/)).toBeVisible();
+  await expect(page.getByText(/運営者の故意・過失による責任/)).toBeVisible();
 });
 
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
@@ -772,7 +773,7 @@ test('PCホームはブランドヘッダーと7枚のリールを上品に収�
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
-  await expect(page.getByTestId('book-header').getByText('生きる知恵を、日々の力に。')).toBeVisible();
+  await expect(page.getByTestId('book-header').getByText('人生をうまく生きる方法を、すべての人へ')).toBeVisible();
   const firstSlideBox = await page.getByTestId('home-brand-slide-1').boundingBox();
   expect(firstSlideBox).not.toBeNull();
   expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
@@ -1078,7 +1079,7 @@ test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩�
   expect(third!.y).toBeGreaterThan(first!.y + 100);
 
   await page.goto('/learn');
-  await expect(page.getByText('3つのステージで、判断を少しずつ自分の力に。')).toBeVisible();
+  await expect(page.getByText(/3つのステージで、\s*判断を少しずつ自分の力に。/)).toBeVisible();
   await expect(page.getByText('\\u2060')).toHaveCount(0);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
@@ -1154,13 +1155,13 @@ test('人物像詳細は番号順の一列メニューとして一覧できる',
   await expect(cards.last()).toBeInViewport();
 });
 
-test('学ぶトップは3ステージの実進捗と禄丸を表示し、無料版ロックを維持する', async ({ page }) => {
+test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/learn');
   await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
-  await expect(page.getByTestId('learning-stage-list').getByRole('button')).toHaveCount(3);
+  await expect(page.getByTestId('learning-stage-list').getByRole('button', { name: /^ステージ[123]、/ })).toHaveCount(3);
   await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
-  await expect(page.getByTestId('learning-stage-2')).toContainText('完全版');
+  await expect(page.getByTestId('learning-stage-2')).toContainText('挑戦する');
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
   await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();
@@ -1223,7 +1224,7 @@ test('学ぶはスマホで縦積みになり横にはみ出さない', async ({
   await expect(page.getByTestId('learning-stage-1')).toBeVisible();
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
-  await page.getByTestId('learning-stage-1').click();
+  await page.getByTestId('learning-challenge-1').click();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByRole('button', { name: /^A/ })).toBeVisible();
   await page.getByRole('button', { name: /^B/ }).click();

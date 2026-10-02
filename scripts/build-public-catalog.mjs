@@ -129,6 +129,8 @@ await Promise.all([
   writeJson('techniques.public.json', publicTechniques),
   writeJson('theories.public.json', publicTheories),
   writeJson('learning.public.json', learning.filter((item) => freeLearningIds.has(item.id))),
+  // Roadmap identities only. Paid situations, choices and explanations stay private.
+  writeJson('learning.index.json', learning.map(({ id, stage, number, title }) => ({ id, stage, number, title }))),
   writeJson('practical-actions.public.json', practicalActions.filter((item) => freeTechniqueIds.has(item.id))),
   writeJson('home-brand-content.json', homeBrandContent),
   writeJson('metadata.json', metadata),
