@@ -8,7 +8,7 @@ const categories = JSON.parse(fs.readFileSync('src/data/generated/techniques.jso
 const techniques = categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items.map((item: any) => ({ ...item, categoryKey: category.key, categoryName: category.name, subcategory: persona.name, articleTitle: persona.articleTitle ?? persona.name }))));
 const stateKey = '@shoseijutsu-roku/state/v1';
 
-async function account(page: Page, status: 'active' | 'expired' = 'active', learningDelay = 0) {
+async function account(page: Page, status: 'active' | 'expired' = 'active', learningDelay: number | Promise<void> = 0) {
   const user = { id: '00000000-0000-4000-8000-000000000021', aud: 'authenticated', role: 'authenticated', email: 'ui-qa@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
   const payload = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
   const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${payload}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
@@ -21,7 +21,10 @@ async function account(page: Page, status: 'active' | 'expired' = 'active', lear
   await page.route('**/functions/v1/**', async route => {
     if (route.request().url().includes('/access')) return route.fulfill({ json: { access: status, accessType: 'thirty_day', accessExpiresAt: status === 'active' ? new Date(Date.now() + 5 * 86400000).toISOString() : '2020-01-01T00:00:00Z' } });
     const type = new URL(route.request().url()).searchParams.get('type');
-    if (type === 'learning' && learningDelay) await new Promise(resolve => { setTimeout(resolve, learningDelay); });
+    if (type === 'learning' && learningDelay) {
+      if (typeof learningDelay === 'number') await new Promise(resolve => { setTimeout(resolve, learningDelay); });
+      else await learningDelay;
+    }
     const items = type === 'theory' ? theories : type === 'technique' ? techniques : curriculum;
     return route.fulfill({ json: { items: items.map((item: any) => ({ content_type: type, content_id: item.id ?? item.tagId, payload: item })) } });
   });
@@ -119,8 +122,11 @@ test('マイページは保存した実際の履歴・蔵書・完全版残期�
 });
 
  test('完全版ケースへ取得中に移動しても、到着した実データが表示される', async ({ page }) => {
-  await account(page, 'active', 2500);
+  let releaseLearning!: () => void;
+  const learningGate = new Promise<void>(resolve => { releaseLearning = resolve; });
+  await account(page, 'active', learningGate);
   await page.goto('/learn/case-15');
-  await expect(page.getByText('学習ケースを読み込んでいます…')).toBeVisible();
+  try { await expect(page.getByText('学習ケースを読み込んでいます…')).toBeVisible(); }
+  finally { releaseLearning(); }
   await expect(page.getByTestId('learning-question-card')).toContainText(curriculum.find((item: any) => item.id === 'case-15').title);
 });

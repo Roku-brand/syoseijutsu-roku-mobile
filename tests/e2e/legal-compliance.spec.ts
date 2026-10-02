@@ -88,9 +88,8 @@ test('購入直前の確認に数量・期間・返金例外・訂正導線が�
 
 test('端末内データ消去は取消しでは保持し、確認後に実データを消去する', async ({ page }) => {
   const key = '@shoseijutsu-roku/state/v1';
+  await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ personalPrinciple: '消去検証用の座右の銘', savedIds: ['master336-001'] })), key);
   await page.goto('/settings');
-  await page.evaluate(key => localStorage.setItem(key, JSON.stringify({ personalPrinciple: '消去検証用の座右の銘', savedIds: ['master336-001'] })), key);
-  await page.reload();
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toContain('消去検証用');
   const before = await page.evaluate(key => localStorage.getItem(key), key);
   page.once('dialog', dialog => dialog.dismiss());

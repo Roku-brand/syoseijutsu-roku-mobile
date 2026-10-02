@@ -431,6 +431,7 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/personas');
   const desktopCards = page.getByTestId('personas-grid').getByRole('button');
+  await expect(desktopCards.nth(4)).toBeVisible();
   const desktopBoxes = await Promise.all([0, 1, 2, 3, 4].map((index) => desktopCards.nth(index).boundingBox()));
   expect(new Set(desktopBoxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(desktopBoxes[4]!.y).toBeGreaterThan(desktopBoxes[0]!.y + 100);

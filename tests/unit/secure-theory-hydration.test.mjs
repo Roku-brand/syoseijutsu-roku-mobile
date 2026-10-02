@@ -19,12 +19,37 @@ const theory = {tagId:'new',title:'「原文。」',summary:'完全版本文。'
 test('theory hydration notifies readers before secondary content succeeds', async () => {
   globalThis.__secureTheoryTest = {applied:[]};
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async url => new Response(JSON.stringify({items:String(url).includes('type=theory') ? [{payload:theory}] : []}),{status:200});
+  let releaseSecondary; let secondaryStarted;
+  const secondaryGate = new Promise(resolve => { releaseSecondary = resolve; });
+  const secondaryRequest = new Promise(resolve => { secondaryStarted = resolve; });
+  globalThis.fetch = async url => {
+    if (String(url).includes('type=theory')) return new Response(JSON.stringify({items:[{payload:theory}]}));
+    secondaryStarted(); await secondaryGate;
+    return new Response(JSON.stringify({items:[{payload:{id:'secondary'}}]}));
+  };
   try {
     const api = await load(); let notifications=0;
-    await api.hydrateSecureContent(()=>notifications++);
+    const hydration = api.hydrateSecureContent(()=>notifications++);
+    await secondaryRequest;
     assert.equal(notifications,1);
     assert.deepEqual(globalThis.__secureTheoryTest.applied,[[theory]]);
+    assert.equal(api.hasHydratedSecureContent('user'),false);
+    releaseSecondary(); await hydration;
+    assert.equal(notifications,2);
+    assert.equal(api.hasHydratedSecureContent('user'),true);
+  } finally {releaseSecondary();globalThis.fetch=originalFetch;}
+});
+
+test('incomplete secondary content reports failure and can be retried without hiding arrived theories', async () => {
+  globalThis.__secureTheoryTest = {applied:[]};
+  const originalFetch = globalThis.fetch; let complete = false;
+  globalThis.fetch = async url => new Response(JSON.stringify({items:String(url).includes('type=theory') ? [{payload:theory}] : complete ? [{payload:{id:'secondary'}}] : []}));
+  try {
+    const api = await load();
+    await assert.rejects(api.hydrateSecureContent(), /完全版データが不足/);
+    assert.deepEqual(globalThis.__secureTheoryTest.applied,[[theory]]);
+    assert.equal(api.hasHydratedSecureContent('user'),false);
+    complete = true; await api.hydrateSecureContent();
     assert.equal(api.hasHydratedSecureContent('user'),true);
   } finally {globalThis.fetch=originalFetch;}
 });

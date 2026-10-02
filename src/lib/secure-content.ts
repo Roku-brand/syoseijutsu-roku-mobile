@@ -14,6 +14,7 @@ type PaidContentRow<T> = {
 };
 
 let hydratedUserId: string | null = null;
+let completeHydration = false;
 let hydrationPromise: Promise<void> | null = null;
 let secureGeneration = 0;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
@@ -102,11 +103,11 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     purgeSecureContent();
     return;
   }
-  if (hydratedUserId === userId) return;
+  if (hasHydratedSecureContent(userId)) return;
   if (hydrationPromise) return hydrationPromise;
 
   const generation = secureGeneration;
-  hydrationPromise = (async () => {
+  const request = (async () => {
     // Theory metadata is the first complete-edition surface to render. Keep
     // it independent from the much larger technique and learning payloads.
     const theoryRows = await fetchRows<TheoryCard>('theory');
@@ -117,13 +118,13 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     if (generation !== secureGeneration) return;
     hydratePaidTheories(theories);
     hydratedUserId = userId;
+    completeHydration = false;
     onContentApplied?.();
-    void hydrateRemainingContent(userId, theories, onContentApplied, generation);
-  })().finally(() => {
-    hydrationPromise = null;
-  });
-
-  return hydrationPromise;
+    await hydrateRemainingContent(userId, theories, onContentApplied, generation);
+  })();
+  hydrationPromise = request;
+  try { await request; }
+  finally { if (hydrationPromise === request) hydrationPromise = null; }
 }
 
 /** Refetches the signed-in user's secure catalogue after an owner-side publish or reorder. */
@@ -136,6 +137,7 @@ export async function refreshSecureContent(onContentApplied?: () => void): Promi
   if (hydrationPromise) await hydrationPromise.catch(() => undefined);
   hydrationPromise = null;
   hydratedUserId = null;
+  completeHydration = false;
   await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
   try {
     const [techniqueRows, theoryRows, learningRows] = await Promise.all([
@@ -149,6 +151,7 @@ export async function refreshSecureContent(onContentApplied?: () => void): Promi
     const learning = learningRows.map((row) => row.payload);
     applyPaidContent(techniques, theories, learning);
     hydratedUserId = userId;
+    completeHydration = true;
     onContentApplied?.();
     const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
     await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
@@ -167,6 +170,7 @@ export async function restoreCachedSecureContent(expectedUserId: string): Promis
     if (!isSnapshot(snapshot) || snapshot.userId !== expectedUserId) return false;
     applyPaidContent(snapshot.techniques, snapshot.theories, snapshot.learning);
     hydratedUserId = snapshot.userId;
+    completeHydration = true;
     return true;
   } catch {
     return false;
@@ -182,11 +186,13 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[], o
     fetchRows<PaidTechniquePayload>('technique'),
     fetchRows<LearningCase>('learning'),
   ]);
-  if (hydratedUserId !== userId || generation !== secureGeneration || techniquesResult.status !== 'fulfilled' || learningResult.status !== 'fulfilled') return;
+  if (hydratedUserId !== userId || generation !== secureGeneration) return;
+  if (techniquesResult.status !== 'fulfilled' || learningResult.status !== 'fulfilled') throw new Error('完全版データを取得できませんでした。');
   const techniques = techniquesResult.value.map((row) => row.payload);
   const learning = learningResult.value.map((row) => row.payload);
-  if (!techniques.length || !learning.length) return;
+  if (!techniques.length || !learning.length) throw new Error('完全版データが不足しています。');
   applyPaidContent(techniques, theories, learning);
+  completeHydration = true;
   onContentApplied?.();
   if (generation !== secureGeneration) return;
   const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
@@ -195,12 +201,13 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[], o
 
 /** Whether the in-memory catalogue belongs to the currently verified user. */
 export function hasHydratedSecureContent(userId: string | null | undefined): boolean {
-  return Boolean(userId) && hydratedUserId === userId;
+  return Boolean(userId) && hydratedUserId === userId && completeHydration;
 }
 
 export function purgeSecureContent() {
   secureGeneration += 1;
   hydratedUserId = null;
+  completeHydration = false;
   hydrationPromise = null;
   resetCatalog();
   resetLearningCases();
