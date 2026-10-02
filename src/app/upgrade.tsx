@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { WEB_PURCHASE_NOTICE } from '@/data/legal-documents';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
@@ -125,6 +126,7 @@ export default function UpgradeScreen() {
       <Modal transparent visible={showCheckoutConfirmation} animationType="fade" onRequestClose={() => setShowCheckoutConfirmation(false)}>
         <View style={styles.modalBackdrop}>
           <View style={styles.confirmationCard}>
+            <ScrollView style={{ maxHeight: '100%' }} contentContainerStyle={{ paddingBottom: 4 }}>
             <AppText variant="serif" style={styles.confirmationTitle}>購入内容の確認</AppText>
             <View style={styles.confirmationRows}>
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>商品</AppText><AppText style={styles.confirmationValue}>処世術禄 完全版</AppText></View>
@@ -133,13 +135,16 @@ export default function UpgradeScreen() {
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
+            <AppText testID="checkout-return-conditions" style={styles.confirmationSupport}>{WEB_PURCHASE_NOTICE}</AppText>
+            <AppText style={styles.confirmationSupport}>申込期限なし。決済を確定する前に戻って内容を訂正できます。18歳未満の方は親権者等の同意を得てください。</AppText>
             <AppText style={styles.confirmationSupport}>{user
               ? 'クレジットカード・PayPay対応です。このアカウントに購入情報と30日間の利用権を紐づけます。利用可能な方法はStripeの決済画面に表示されます。'
               : '決済前にアカウントを作成またはログインします。購入情報と30日間の利用権は、そのアカウントに安全に紐づきます。クレジットカード・PayPayはStripeの決済画面で選べます。'}
             </AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
-            <Pressable disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>{user ? 'Stripe決済へ進む' : 'アカウント作成・ログインへ'}</AppText></Pressable>
-            <Pressable disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
+            <Pressable accessibilityRole="button" disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>{user ? 'Stripe決済へ進む' : 'アカウント作成・ログインへ'}</AppText></Pressable>
+            <Pressable accessibilityRole="button" disabled={submitting} onPress={() => setShowCheckoutConfirmation(false)} style={styles.cancelButton}><AppText style={styles.cancelText}>戻る</AppText></Pressable>
+            </ScrollView>
           </View>
         </View>
       </Modal>
@@ -154,7 +159,7 @@ const styles = StyleSheet.create({
   claimButtonText: { color: '#F2E8D1', fontSize: 11, lineHeight: 17, textAlign: 'center' },
   pressed: { opacity: 0.8 },
   modalBackdrop: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 20, backgroundColor: 'rgba(14,12,9,0.58)' },
-  confirmationCard: { width: '100%', maxWidth: 430, padding: 23, borderWidth: 1, borderColor: '#C39238', borderRadius: 20, backgroundColor: '#FFFDF8' },
+  confirmationCard: { width: '100%', maxWidth: 430, maxHeight: '94%', padding: 23, borderWidth: 1, borderColor: '#C39238', borderRadius: 20, backgroundColor: '#FFFDF8' },
   confirmationTitle: { color: '#2B241A', fontSize: 23, lineHeight: 32, fontWeight: '700', textAlign: 'center' },
   confirmationRows: { marginTop: 15, borderTopWidth: 1, borderTopColor: colors.line },
   confirmationRow: { minHeight: 43, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 14, borderBottomWidth: 1, borderBottomColor: colors.line },

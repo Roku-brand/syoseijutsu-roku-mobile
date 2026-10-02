@@ -72,6 +72,8 @@ export default function ProfileSettingsScreen() {
             </Pressable>
           </View>
 
+          <AppText style={styles.help}>選んだ画像と表示名はサーバーへ保存します。画像は公開URL方式のため、URLを知る第三者が閲覧できる場合があります。顔写真や機密情報を含む画像は避けてください。</AppText>
+          <Pressable accessibilityRole="button" onPress={() => router.push('/legal/privacy')} style={{ paddingVertical: 10 }}><AppText style={styles.help}>プロフィール情報の取扱いを確認する</AppText></Pressable>
           <AppText style={styles.label}>表示名</AppText>
           <TextInput
             value={displayName}

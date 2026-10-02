@@ -59,6 +59,14 @@ for (const invalid of [
 }
 const configured = await checkout({ configuredPrice: 'price_configured', price: { active: true, type: 'one_time', currency: 'jpy', unit_amount: 320 } });
 assert.equal(configured.calls[1].options.body.get('line_items[0][price]'), 'price_configured');
+for (const request of [inline.calls[0], configured.calls[1]]) {
+  const form = request.options.body;
+  assert.equal(form.get('metadata[terms_version]'), '3.4');
+  assert.equal(form.get('locale'), 'ja');
+  const conditions = form.get('custom_text[submit][message]');
+  for (const term of ['完全版アクセス1件', '30×24時間', '一回払い・自動更新なし', '原則直ちに提供', '申込期限なし', '重複決済・未提供・契約不適合・法令上の権利', '/legal/terms', '/legal/commerce', '決済確定前に戻って']) assert.ok(conditions.includes(term), term);
+  assert.ok(conditions.length <= 1200);
+}
 const unauthenticated = await checkout({ user: null });
 assert.equal(unauthenticated.response.status, 401);
 assert.equal(unauthenticated.calls.length, 0);

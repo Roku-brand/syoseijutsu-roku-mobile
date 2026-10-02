@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from './supabase';
+import { isUsageSharingEnabled } from './usage-consent';
 
 export type ContentType = 'technique' | 'theory';
 export type TrendingContent = { contentType: ContentType; contentId: string; score: number };
@@ -7,7 +8,7 @@ export type TrendingContent = { contentType: ContentType; contentId: string; sco
 const ACTOR_KEY = '@shoseijutsu-roku/analytics-actor/v1';
 const TRENDING_CACHE_KEY = '@shoseijutsu-roku/trending/v1';
 const TRENDING_CACHE_MS = 30 * 60 * 1000;
-let actorPromise: Promise<string> | null = null;
+
 
 function createActorId() {
   const random = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
@@ -17,20 +18,17 @@ function createActorId() {
 }
 
 async function getActorId() {
-  if (actorPromise) return actorPromise;
-  actorPromise = (async () => {
-    const stored = await AsyncStorage.getItem(ACTOR_KEY);
-    if (stored && stored.length >= 12) return stored;
-    const next = createActorId();
-    await AsyncStorage.setItem(ACTOR_KEY, next);
-    return next;
-  })();
-  return actorPromise;
+ const stored = await AsyncStorage.getItem(ACTOR_KEY);
+ if (stored && stored.length >= 12) return stored;
+ const next = createActorId();
+ await AsyncStorage.setItem(ACTOR_KEY, next);
+ return next;
 }
 
 export async function recordContentEvent(contentType: ContentType, contentId: string, eventType: 'view' | 'save') {
-  if (!supabase || !contentId) return;
+  if (!supabase || !contentId || !(await isUsageSharingEnabled())) return;
   const actor = await getActorId();
+  if (!(await isUsageSharingEnabled())) { await AsyncStorage.removeItem(ACTOR_KEY); return; }
   await supabase.rpc('record_content_event', {
     p_anonymous_session_id: actor,
     p_content_type: contentType,

@@ -1,4 +1,5 @@
 import type { Session, User } from '@supabase/supabase-js';
+import { TERMS_VERSION, PRIVACY_VERSION } from '@/data/legal-documents';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
@@ -111,7 +112,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     const { data, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
-      options: options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo } : undefined,
+      options: {
+        ...(options?.emailRedirectTo ? { emailRedirectTo: options.emailRedirectTo } : Platform.OS !== 'web' ? { emailRedirectTo: 'shoseijutsuroku://auth' } : {}),
+        data: { terms_version: TERMS_VERSION, privacy_version: PRIVACY_VERSION, terms_accepted_at: new Date().toISOString() },
+      },
     });
     return { error: error?.message ?? null, hasSession: Boolean(data.session), session: data.session };
   }, []);

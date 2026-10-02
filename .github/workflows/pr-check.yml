@@ -32,6 +32,7 @@ jobs:
       - run: pnpm content:audit-learning
       - run: pnpm lint
       - run: pnpm test:practical-wisdom
+      - run: node --test tests/unit/usage-consent.test.mjs
       - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck
       - run: node scripts/check-purchase-price.mjs
