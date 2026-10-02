@@ -29,6 +29,10 @@
     "build22": {
       "extends": "production",
       "autoIncrement": false
+    },
+    "build23": {
+      "extends": "production",
+      "autoIncrement": false
     }
   },
   "submit": {

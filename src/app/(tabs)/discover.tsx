@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   contentCompact: { paddingBottom: 22 },
   search: { width: '100%', minHeight: 82, marginTop: 8, paddingHorizontal: 26, flexDirection: 'row', alignItems: 'center', gap: 16, borderWidth: 1.2, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: colors.surface },
   searchCompact: { minHeight: 72, marginTop: 5, paddingHorizontal: 20, gap: 12 },
-  searchInput: { flex: 1, minWidth: 0, height: '100%', padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4, outlineStyle: 'none' } as object,
+  searchInput: { flex: 1, minWidth: 0, height: 52, padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4, outlineStyle: 'none' } as object,
   searchInputCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
   searchInputNarrow: { fontSize: 14 },
   searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },

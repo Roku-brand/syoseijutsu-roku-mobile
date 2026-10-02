@@ -1,4 +1,11 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+// Discover uses the shared category index. A stale platform route previously
+// shadowed this screen in an otherwise up-to-date iOS build.
+for (const platform of ['ios', 'native']) {
+  if (existsSync(new URL(`../src/app/(tabs)/discover.${platform}.tsx`, import.meta.url))) {
+    throw new Error('Discover must use the shared route; review any native override before release.');
+  }
+}
 const required = ['IOS_BUNDLE_IDENTIFIER','EXPO_PUBLIC_APPLE_PRODUCT_ID',
   'EXPO_PUBLIC_SUPABASE_URL','EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY'];
 const missing = required.filter(key => !process.env[key] || /YOUR_|REPLACE|PLACEHOLDER/.test(process.env[key]));
