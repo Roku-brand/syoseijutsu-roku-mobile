@@ -2,6 +2,7 @@ import { fetchProducts, finishTransaction, getAvailablePurchases, initConnection
   purchaseUpdatedListener, purchaseErrorListener, requestPurchase, restorePurchases, type Purchase } from 'expo-iap';
 import { supabase } from './supabase';
 import { purchaseTimeout } from './purchase-timeout';
+import { fetchVerifiedAccess } from './purchase';
 import { appleCompleteProductId, isCompleteAppleProduct } from '../../supabase/functions/_shared/apple-products';
 
 export const appleProductId = appleCompleteProductId;
@@ -178,6 +179,15 @@ export async function buyAppleProduct(userId: string) {
   }
 }
 export async function restoreApplePurchases() {
+  // Non-renewing access is persisted by our authenticated server. Revalidate
+  // its known Apple transactions first, including ownership and revocations.
+  // A device-side StoreKit sync must not block an already verified entitlement.
+  await invoke({ restore: true });
+  if ((await fetchVerifiedAccess()).status === 'active') return;
+
+  // A purchase interrupted before it reached the server still needs recovery
+  // from this device. Keep verification before finishTransaction and never
+  // attach another app account's StoreKit history to the signed-in user.
   await connectAppleStore();
   await purchaseTimeout(restorePurchases(), 60000);
   const purchases = await purchaseTimeout(getAvailablePurchases({ onlyIncludeActiveItemsIOS: false, alsoPublishToEventListenerIOS: false }));
@@ -186,5 +196,4 @@ export async function restoreApplePurchases() {
     // Ignore another app account's StoreKit history; never reassign ownership.
     await verifyApplePurchase(purchase);
   }
-  await invoke({ restore: true });
 }

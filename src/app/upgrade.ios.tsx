@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
@@ -10,17 +10,18 @@ import { fetchVerifiedAccess, formatAccessDateTime } from '@/lib/purchase';
 export default function AppleUpgradeScreen() {
   const router = useRouter();
   const { user } = useAuth();
-  const { isPaid, accessInfo, refreshAccess } = useAccess();
+  const { isPaid, accessState, accessInfo, refreshAccess } = useAccess();
   const [storePrice, setStorePrice] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
 
-  const load = () => {
+  const load = useCallback(() => {
+    if (isPaid || accessState === 'checking') return;
     setMessage('');
     void loadAppleProduct().then((product) => setStorePrice(product.displayPrice)).catch((error) => setMessage(formatApplePurchaseError(error)));
-  };
+  }, [isPaid, accessState]);
 
-  useEffect(load, []);
+  useEffect(load, [load]);
   useEffect(() => {
     if (!busy) return;
     const timer = setTimeout(() => { setBusy(false); setMessage('購入結果を確認できていません。購入済みの場合は再購入せず、「購入を復元」をお試しください。'); }, 60000);

@@ -12,6 +12,8 @@ let onRequest;
 let productError;
 let requestError;
 let finishError;
+let restoreError;
+let accessStatus = 'free';
 const calls = [];
 let response = { data: { verified: true }, error: null };
 globalThis.__appleFixture = {
@@ -29,18 +31,22 @@ globalThis.__appleFixture = {
     await onRequest?.();
     return purchaseResult;
   },
-  getAvailablePurchases: async () => [foreign, owned],
-  restorePurchases: async () => {},
+  getAvailablePurchases: async () => { calls.push(['history']); return [foreign, owned]; },
+  restorePurchases: async () => { calls.push(['restore-store']); if (restoreError) throw restoreError; },
+  fetchVerifiedAccess: async () => { calls.push(['access']); return { status: accessStatus }; },
 };
 registerHooks({ resolve(specifier, context, next) {
   if (specifier === 'expo-iap') return { url: 'data:text/javascript,' + encodeURIComponent(
-    Object.keys(globalThis.__appleFixture).filter(name => !['getSession', 'invoke'].includes(name))
+    Object.keys(globalThis.__appleFixture).filter(name => !['getSession', 'invoke', 'fetchVerifiedAccess'].includes(name))
       .map(name => `export const ${name}=(...args)=>globalThis.__appleFixture.${name}(...args);`).join('')
   ), shortCircuit: true };
   if (specifier === './supabase') return { url: 'data:text/javascript,' + encodeURIComponent(
     'export const supabase={auth:{getSession:globalThis.__appleFixture.getSession},functions:{invoke:globalThis.__appleFixture.invoke}};'
   ), shortCircuit: true };
   if (specifier === './purchase-timeout') return next(new URL('../../src/lib/purchase-timeout.ts', import.meta.url).href, context);
+  if (specifier === './purchase') return { url: 'data:text/javascript,' + encodeURIComponent(
+    'export const fetchVerifiedAccess=(...args)=>globalThis.__appleFixture.fetchVerifiedAccess(...args);'
+  ), shortCircuit: true };
   if (specifier === '../../supabase/functions/_shared/apple-products') return next(new URL('../../supabase/functions/_shared/apple-products.ts', import.meta.url).href, context);
   return next(specifier, context);
 } });
@@ -102,7 +108,46 @@ test('failed server verification leaves the transaction unfinished and reports o
 test('restoration skips foreign history and delivers owned history before finishing', async () => {
   calls.length = 0;
   await iap.restoreApplePurchases();
-  assert.deepEqual(calls.filter(call => call[0] !== 'connect'), [['verify', '2'], ['finish', '2'], ['verify', undefined]]);
+  assert.deepEqual(calls.filter(call => call[0] !== 'connect'), [
+    ['verify', undefined], ['access'], ['restore-store'], ['history'], ['verify', '2'], ['finish', '2'],
+  ]);
+});
+
+test('a server-verified active subscription restores even if device StoreKit restoration would fail', async () => {
+  calls.length = 0;
+  accessStatus = 'active';
+  restoreError = new Error('UnexpectedException: Unable to Complete Request');
+  try {
+    await iap.restoreApplePurchases();
+    assert.deepEqual(calls, [['verify', undefined], ['access']]);
+  } finally {
+    accessStatus = 'free';
+    restoreError = undefined;
+  }
+});
+
+test('restoration never trusts existing access when server Apple verification fails', async () => {
+  calls.length = 0;
+  accessStatus = 'active';
+  response = { data: { verified: false }, error: null };
+  try {
+    await assert.rejects(iap.restoreApplePurchases(), /購入を確認できませんでした/);
+    assert.deepEqual(calls, [['verify', undefined]]);
+  } finally {
+    accessStatus = 'free';
+    response = { data: { verified: true }, error: null };
+  }
+});
+
+test('expired access still attempts recovery of an unrecorded owned StoreKit purchase', async () => {
+  calls.length = 0;
+  accessStatus = 'expired';
+  try {
+    await iap.restoreApplePurchases();
+    assert.deepEqual(calls.filter(call => call[0] !== 'connect'), [
+      ['verify', undefined], ['access'], ['restore-store'], ['history'], ['verify', '2'], ['finish', '2'],
+    ]);
+  } finally { accessStatus = 'free'; }
 });
 
 test('simultaneous taps dispatch one purchase with the current account token', async () => {
