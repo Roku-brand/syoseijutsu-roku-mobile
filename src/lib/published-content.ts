@@ -28,7 +28,7 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
 
 type PublicSnapshot = { techniques: Record<string, any>[]; theories: Record<string, any>[]; personas: Record<string, any>[]; categories: Record<string, any>[] };
 const publishedCache = createResourceCache<PublicSnapshot>({
-  key: '@shoseijutsu-roku/published-content/v1', maxAgeMs: 60 * 60 * 1000, storage: AsyncStorage,
+  key: '@shoseijutsu-roku/published-content/v2', maxAgeMs: 60 * 60 * 1000, storage: AsyncStorage,
   validate: (value): value is PublicSnapshot => Boolean(value && typeof value === 'object'
     && ['techniques', 'theories', 'personas', 'categories'].every((key) => Array.isArray((value as Record<string, unknown>)[key]))),
   fetch: async () => {
