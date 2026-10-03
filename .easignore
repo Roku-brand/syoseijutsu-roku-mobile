@@ -15,7 +15,14 @@ ios-config-check.json
 *.pem
 *.key
 *.mobileprovision
-supabase
+# Only the public product identifiers are needed by the native client.
+# Keep server implementation, migrations and deployment files excluded.
+supabase/*
+!supabase/functions
+supabase/functions/*
+!supabase/functions/_shared
+supabase/functions/_shared/*
+!supabase/functions/_shared/apple-products.ts
 operations/*
 !operations/activity-log.json
 !operations/ai-tasks.json
