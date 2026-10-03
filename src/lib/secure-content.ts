@@ -20,7 +20,7 @@ let hydrationPromise: Promise<void> | null = null;
 let secureGeneration = 0;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v11';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v12';
 const PAID_CONTENT_CACHE_MS = 60 * 60 * 1000;
 
 type PaidContentSnapshot = {

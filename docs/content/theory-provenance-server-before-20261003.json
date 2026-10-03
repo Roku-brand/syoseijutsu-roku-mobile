@@ -1,0 +1,4898 @@
+[
+  {
+    "id": "kb_001",
+    "title": "初頭効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_002",
+    "title": "親近効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_003",
+    "title": "ハロー効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_004",
+    "title": "単純接触効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_005",
+    "title": "類似性魅力効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_006",
+    "title": "相補性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_007",
+    "title": "好意の返報性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_008",
+    "title": "自己開示の返報性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_009",
+    "title": "社会的浸透理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_010",
+    "title": "不確実性低減理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_011",
+    "title": "応答性理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_012",
+    "title": "知覚されたパートナー応答性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_013",
+    "title": "ラポールの三要素モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_014",
+    "title": "ミラーリング効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_015",
+    "title": "言語スタイル同調",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_016",
+    "title": "呼び名効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_017",
+    "title": "カクテルパーティー効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_018",
+    "title": "質問好意効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_019",
+    "title": "ベン・フランクリン効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_020",
+    "title": "自己検証理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_021",
+    "title": "自己拡張理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_022",
+    "title": "対人魅力の報酬理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_023",
+    "title": "感情伝染",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_024",
+    "title": "アクティブ・コンストラクティブ・レスポンディング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_025",
+    "title": "プラットフォール効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_026",
+    "title": "ゲイン・ロス効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_027",
+    "title": "誤帰属理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_028",
+    "title": "吊り橋効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_029",
+    "title": "ピーク・エンドの法則",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_030",
+    "title": "社会的交換理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_031",
+    "title": "衡平理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_032",
+    "title": "コミューナル関係・交換関係",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_033",
+    "title": "相互依存性理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_034",
+    "title": "投資モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_035",
+    "title": "最小関心原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_036",
+    "title": "愛着理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_037",
+    "title": "親密性平衡モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_038",
+    "title": "関係のエスカレーション・モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_039",
+    "title": "関係破綻・修復モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_040",
+    "title": "修復試行",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_041",
+    "title": "ゴットマンの四騎士",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_042",
+    "title": "要求・撤退パターン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_043",
+    "title": "ネガティブ感情の相互性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_044",
+    "title": "帰属的葛藤",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_045",
+    "title": "基本的帰属の誤り",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_046",
+    "title": "行為者・観察者バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_047",
+    "title": "返報性の原理",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_048",
+    "title": "間欠強化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_049",
+    "title": "消去バースト",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_050",
+    "title": "心理的リアクタンス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_051",
+    "title": "アサーション理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_052",
+    "title": "DESC法",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_053",
+    "title": "非暴力コミュニケーション",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_054",
+    "title": "DEAR MAN",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_055",
+    "title": "面子理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_056",
+    "title": "フェイスワーク",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_057",
+    "title": "許しのプロセスモデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_058",
+    "title": "社会的アイデンティティ理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_059",
+    "title": "自己カテゴリー化理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_060",
+    "title": "内集団バイアス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_061",
+    "title": "外集団同質性効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_062",
+    "title": "最小条件集団パラダイム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_063",
+    "title": "同調効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_064",
+    "title": "集団思考",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_065",
+    "title": "集団極性化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_066",
+    "title": "沈黙の螺旋",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_067",
+    "title": "多元的無知",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_068",
+    "title": "アビリーンのパラドックス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_069",
+    "title": "少数派影響",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_070",
+    "title": "社会的手抜き",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_071",
+    "title": "リンゲルマン効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_072",
+    "title": "傍観者効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_073",
+    "title": "責任の分散",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_074",
+    "title": "期待状態理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_075",
+    "title": "地位特性理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_076",
+    "title": "地位一般化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_077",
+    "title": "マタイ効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_078",
+    "title": "累積優位",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_079",
+    "title": "権力依存理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_080",
+    "title": "フレンチ＝レイヴンの権力基盤",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_081",
+    "title": "社会関係資本",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_082",
+    "title": "弱い紐帯の強さ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_083",
+    "title": "構造的空隙",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_084",
+    "title": "ブローカー理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_085",
+    "title": "ネットワーク中心性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_086",
+    "title": "コア・ペリフェリー構造",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_087",
+    "title": "トランザクティブ・メモリー",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_088",
+    "title": "信用獲得理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_089",
+    "title": "特異性信用",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_090",
+    "title": "ゴシップ理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_091",
+    "title": "評判カスケード",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_092",
+    "title": "境界線理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_093",
+    "title": "共依存",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_094",
+    "title": "ダブルバインド",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_095",
+    "title": "ガスライティング",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_096",
+    "title": "DARVO",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_097",
+    "title": "グレーロック法",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_098",
+    "title": "フット・イン・ザ・ドア",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_099",
+    "title": "ドア・イン・ザ・フェイス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_100",
+    "title": "ローボール・テクニック",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_101",
+    "title": "イエス・セット",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_102",
+    "title": "希少性の原理",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_103",
+    "title": "権威効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_104",
+    "title": "社会的証明",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_105",
+    "title": "バーナム効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_106",
+    "title": "情報カスケード",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_107",
+    "title": "シグナリング理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_108",
+    "title": "スクリーニング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_109",
+    "title": "情報の非対称性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_110",
+    "title": "プリンシパル＝エージェント理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_111",
+    "title": "印象管理理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_112",
+    "title": "自己呈示理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_113",
+    "title": "評判形成理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_114",
+    "title": "現実的正確性モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_115",
+    "title": "自他知識非対称性モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_116",
+    "title": "可視性バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_117",
+    "title": "成果帰属問題",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_118",
+    "title": "組織市民行動",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_119",
+    "title": "能力・好感トレードオフ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_120",
+    "title": "自己宣伝のジレンマ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_121",
+    "title": "ハンブルブラッグ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_122",
+    "title": "反射的栄光浴",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_123",
+    "title": "ピグマリオン効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_124",
+    "title": "ゴーレム効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_125",
+    "title": "リーダー・メンバー交換理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_126",
+    "title": "スポンサーシップ理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_127",
+    "title": "組織支援理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_128",
+    "title": "人・組織適合理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_129",
+    "title": "人・職務適合理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_130",
+    "title": "ジョブ・クラフティング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_131",
+    "title": "キャリア資本理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_132",
+    "title": "ピーターの法則",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_133",
+    "title": "プロスペクト理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_134",
+    "title": "損失回避",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_135",
+    "title": "保有効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_136",
+    "title": "現状維持バイアス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_137",
+    "title": "フレーミング効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_138",
+    "title": "アンカリング効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_139",
+    "title": "対比効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_140",
+    "title": "おとり効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_141",
+    "title": "妥協効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_142",
+    "title": "BATNA",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_143",
+    "title": "ZOPA",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_144",
+    "title": "留保価格",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_145",
+    "title": "固定パイ・バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_146",
+    "title": "反応的価値下げ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_147",
+    "title": "利益立脚型交渉",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_148",
+    "title": "原則立脚型交渉",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_149",
+    "title": "立場と利益の分離",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_150",
+    "title": "ログローリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_151",
+    "title": "パッケージ交渉",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_152",
+    "title": "MESO",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_153",
+    "title": "条件付き合意",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_154",
+    "title": "客観的基準",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_155",
+    "title": "手続的公正",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_156",
+    "title": "二重関心理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_157",
+    "title": "トーマス＝キルマン・モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_158",
+    "title": "感情＝社会的情報理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_159",
+    "title": "面子保存",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_160",
+    "title": "デエスカレーション",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_161",
+    "title": "調停理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_162",
+    "title": "囚人のジレンマ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_163",
+    "title": "反復ゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_164",
+    "title": "しっぺ返し戦略",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_165",
+    "title": "チキンゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_166",
+    "title": "コミットメント戦略",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_167",
+    "title": "目標設定理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_168",
+    "title": "期待理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_169",
+    "title": "自己効力感",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_170",
+    "title": "目標階層理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_171",
+    "title": "制御理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_172",
+    "title": "実行意図",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_173",
+    "title": "コミットメント装置",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_174",
+    "title": "プレコミットメント",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_175",
+    "title": "現在バイアス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_176",
+    "title": "双曲割引",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_177",
+    "title": "デフォルト効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_178",
+    "title": "選択アーキテクチャ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_179",
+    "title": "ナッジ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_180",
+    "title": "習慣ループ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_181",
+    "title": "行動摩擦",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_182",
+    "title": "誘惑バンドリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_183",
+    "title": "目標勾配効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_184",
+    "title": "新鮮なスタート効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_185",
+    "title": "進捗原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_186",
+    "title": "小さな勝利",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_187",
+    "title": "学習目標・遂行目標",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_188",
+    "title": "接近目標・回避目標",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_189",
+    "title": "促進焦点・予防焦点",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_190",
+    "title": "計画錯誤",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_191",
+    "title": "意思決定疲れ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_192",
+    "title": "パーキンソンの法則",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_193",
+    "title": "グッドハートの法則",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_194",
+    "title": "キャンベルの法則",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_195",
+    "title": "目標代替",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_196",
+    "title": "ボトルネック理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_197",
+    "title": "制約理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_198",
+    "title": "デリバレート・プラクティス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_199",
+    "title": "検索練習効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_200",
+    "title": "間隔効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_201",
+    "title": "望ましい困難",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_202",
+    "title": "行動活性化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_203",
+    "title": "不確実性不耐性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_204",
+    "title": "心配の回避理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_205",
+    "title": "メタ認知モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_206",
+    "title": "認知的注意症候群",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_207",
+    "title": "安全行動",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_208",
+    "title": "回避学習",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_209",
+    "title": "ネガティブ強化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_210",
+    "title": "曝露療法",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_211",
+    "title": "抑制学習モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_212",
+    "title": "感情推論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_213",
+    "title": "破局的思考",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_214",
+    "title": "確率過大評価",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_215",
+    "title": "コスト過大評価",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_216",
+    "title": "反すう理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_217",
+    "title": "具体性訓練",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_218",
+    "title": "アイロニック・プロセス理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_219",
+    "title": "白熊効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_220",
+    "title": "経験回避",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_221",
+    "title": "心理的柔軟性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_222",
+    "title": "アクセプタンス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_223",
+    "title": "認知的脱フュージョン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_224",
+    "title": "脱中心化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_225",
+    "title": "マインドフルネス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_226",
+    "title": "セルフ・ディスタンシング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_227",
+    "title": "感情ラベリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_228",
+    "title": "ストレス評価理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_229",
+    "title": "問題焦点型・感情焦点型コーピング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_230",
+    "title": "二次的コントロール",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_231",
+    "title": "コントロール幻想",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_232",
+    "title": "スポットライト効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_233",
+    "title": "透明性の錯覚",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_234",
+    "title": "感情予測の誤り",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_235",
+    "title": "インパクト・バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_236",
+    "title": "フォーカシング・イリュージョン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_237",
+    "title": "防衛的悲観主義",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_238",
+    "title": "ストレス接種訓練",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_239",
+    "title": "学習性無力感",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_240",
+    "title": "レジリエンス理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_241",
+    "title": "回復軌道モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_242",
+    "title": "心的外傷後成長",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_243",
+    "title": "意味生成モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_244",
+    "title": "仮定世界理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_245",
+    "title": "シャッタード・アサンプション",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_246",
+    "title": "ナラティブ・アイデンティティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_247",
+    "title": "償還物語",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_248",
+    "title": "汚染物語",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_249",
+    "title": "アイデンティティ喪失",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_250",
+    "title": "役割退出理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_251",
+    "title": "アイデンティティ移行",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_252",
+    "title": "リミナリティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_253",
+    "title": "二重過程モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_254",
+    "title": "曖昧な喪失",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_255",
+    "title": "権利を認められない悲嘆",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_256",
+    "title": "可能自己",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_257",
+    "title": "自己不一致理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_258",
+    "title": "自己複雑性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_259",
+    "title": "自己概念明確性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_260",
+    "title": "アイデンティティに基づく動機づけ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_261",
+    "title": "希望理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_262",
+    "title": "学習性楽観主義",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_263",
+    "title": "成長マインドセット",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_264",
+    "title": "セルフ・コンパッション",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_265",
+    "title": "認知的不協和",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_266",
+    "title": "社会的比較理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_267",
+    "title": "相対的剝奪",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_268",
+    "title": "快楽順応",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_269",
+    "title": "公正世界仮説",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_270",
+    "title": "補償的コントロール理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_271",
+    "title": "存在的真空",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_272",
+    "title": "ロゴセラピー",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_273",
+    "title": "サンクコスト効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_274",
+    "title": "機会費用",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_275",
+    "title": "選択のパラドックス",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_276",
+    "title": "最大化傾向",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_277",
+    "title": "十分化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_278",
+    "title": "オプション価値",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_279",
+    "title": "リアル・オプション理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_280",
+    "title": "分散戦略",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_281",
+    "title": "冗長性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_282",
+    "title": "バーベル戦略",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_283",
+    "title": "アンチフラジャイル",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_284",
+    "title": "OODAループ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_285",
+    "title": "創発戦略",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_286",
+    "title": "撤退戦略",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_287",
+    "title": "探索と活用",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_288",
+    "title": "経路依存性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_289",
+    "title": "ロックイン効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_290",
+    "title": "計画された偶発性理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_291",
+    "title": "キャリア・アダプタビリティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_292",
+    "title": "クランボルツの社会的学習理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_296",
+    "title": "情けは人の為ならず",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_298",
+    "title": "過ちて改めざる、是を過ちと謂う",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_299",
+    "title": "和して同ぜず",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_300",
+    "title": "親しき仲にも礼儀あり",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_301",
+    "title": "雨降って地固まる",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_304",
+    "title": "巧言令色、鮮なし仁",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_311",
+    "title": "知らざるを知らずと為す、是れ知るなり",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_312",
+    "title": "桃李もの言わざれども、下自ずから蹊を成す",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_315",
+    "title": "鶏口となるも牛後となるなかれ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_324",
+    "title": "巧遅は拙速に如かず",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_326",
+    "title": "為せば成る、為さねば成らぬ何事も",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_327",
+    "title": "継続は力なり",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_329",
+    "title": "完璧は善の敵",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_333",
+    "title": "人間万事塞翁が馬",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_334",
+    "title": "禍福は糾える縄の如し",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_335",
+    "title": "案ずるより産むが易し",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_336",
+    "title": "明日は明日の風が吹く",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_351",
+    "title": "狡兎三窟",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_352",
+    "title": "臥薪嘗胆",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_353",
+    "title": "捲土重来",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_359",
+    "title": "一つの籠にすべての卵を盛るな",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_387",
+    "title": "薄片判断",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_388",
+    "title": "非言語コミュニケーション",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_389",
+    "title": "メラビアンの法則",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_390",
+    "title": "行動同調",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_391",
+    "title": "カメレオン効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_392",
+    "title": "ネームコーリング効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_393",
+    "title": "自己関連づけ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_394",
+    "title": "具体的フィードバック",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_395",
+    "title": "特性称賛と過程称賛",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_396",
+    "title": "自己高揚バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_397",
+    "title": "脆弱性の相互性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_398",
+    "title": "同意形成としての許可取り",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_399",
+    "title": "印象形成理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_400",
+    "title": "情報ギャップ理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_401",
+    "title": "限界効用逓減",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_402",
+    "title": "心理的安全性",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_403",
+    "title": "ロジャーズの受容",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_404",
+    "title": "共感的理解",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_405",
+    "title": "感情焦点型コミュニケーション",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_406",
+    "title": "仮説提示効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_407",
+    "title": "精緻化質問",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_408",
+    "title": "価値観推定",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_409",
+    "title": "言語的顕著性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_410",
+    "title": "支援適合理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_411",
+    "title": "共感的傾聴",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_412",
+    "title": "アクティブリスニング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_413",
+    "title": "会話の連鎖",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_414",
+    "title": "連想ネットワーク",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_415",
+    "title": "精緻化リハーサル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_416",
+    "title": "沈黙耐性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_417",
+    "title": "認知的承認",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_418",
+    "title": "能動的・建設的反応",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_419",
+    "title": "ミケランジェロ現象",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_420",
+    "title": "自己知覚理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_421",
+    "title": "一貫性ヒューリスティック",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_422",
+    "title": "予測可能性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_423",
+    "title": "サービス・リカバリー・パラドックス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_424",
+    "title": "信頼修復理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_425",
+    "title": "順応水準理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_426",
+    "title": "関係維持行動",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_427",
+    "title": "境界設定",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_428",
+    "title": "葛藤回避の逆説",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_429",
+    "title": "ホット・コールド共感ギャップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_430",
+    "title": "感情ヒューリスティック",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_431",
+    "title": "境界調整",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_432",
+    "title": "接触頻度管理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_433",
+    "title": "不当な義務感",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_434",
+    "title": "期待違反理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_435",
+    "title": "期待管理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_436",
+    "title": "フェイス理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_437",
+    "title": "強化理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_438",
+    "title": "刺激統制",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_439",
+    "title": "信頼の段階的回復",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_440",
+    "title": "消去理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_441",
+    "title": "外部記憶",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_442",
+    "title": "顕示選好",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_443",
+    "title": "行動的一貫性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_444",
+    "title": "キック・ザ・ドッグ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_445",
+    "title": "権力の脱抑制",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_446",
+    "title": "三角関係化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_447",
+    "title": "情報境界理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_448",
+    "title": "境界尊重テスト",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_449",
+    "title": "ベースレート思考",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_450",
+    "title": "パターン認識",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_452",
+    "title": "権威バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_453",
+    "title": "集団規模効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_454",
+    "title": "社会的促進",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_455",
+    "title": "集団規範",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_456",
+    "title": "文化的適合理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_457",
+    "title": "同調行動",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_458",
+    "title": "内集団シグナル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_459",
+    "title": "規範的影響",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_460",
+    "title": "個人化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_461",
+    "title": "情報源効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_462",
+    "title": "互恵性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_463",
+    "title": "タイミング効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_464",
+    "title": "会話ターン取得",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_465",
+    "title": "社会的埋め込み",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_466",
+    "title": "ネットワーク冗長性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_467",
+    "title": "役割限定性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_468",
+    "title": "鳥尽きて良弓蔵れ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_469",
+    "title": "狡兎死して走狗烹らる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_470",
+    "title": "排斥理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_471",
+    "title": "負の紐帯管理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_472",
+    "title": "バランス理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_473",
+    "title": "自己成就予言",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_474",
+    "title": "非言語的地位表示",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_475",
+    "title": "服従シグナル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_476",
+    "title": "相互抑止",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_477",
+    "title": "一貫性原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_478",
+    "title": "自己注目理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_479",
+    "title": "自己卑下的呈示",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_480",
+    "title": "感情労働",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_481",
+    "title": "謙遜規範",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_482",
+    "title": "独立的同調",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_483",
+    "title": "アジェンダ設定",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_484",
+    "title": "同調圧力",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_485",
+    "title": "共通内集団アイデンティティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_486",
+    "title": "公正フレーミング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_487",
+    "title": "責任の明確化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_488",
+    "title": "漸進主義",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_490",
+    "title": "戦わずに目的を遂げる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_491",
+    "title": "強み理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_493",
+    "title": "認知負荷理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_495",
+    "title": "反復開発",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_496",
+    "title": "長引く戦いに、巧みな勝ち方はない",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_497",
+    "title": "統制範囲",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_498",
+    "title": "意思決定支援",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_499",
+    "title": "自己犠牲バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_500",
+    "title": "燃え尽き理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_501",
+    "title": "アウトカム評価",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_502",
+    "title": "正常性の不可視性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_503",
+    "title": "勝ちやすい条件を先に整える",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_504",
+    "title": "優れた勝利は、目立たない",
+    "provenance": {
+      "note": "現時点で、特定の提唱者・研究・著作を確実に確認できていません。",
+      "status": "出典不明"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_505",
+    "title": "危機を招かない備えを重ねる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_506",
+    "title": "組織学習",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_507",
+    "title": "標準化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_508",
+    "title": "目標置換",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_509",
+    "title": "インセンティブ設計",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_510",
+    "title": "信頼性理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_511",
+    "title": "ネガティビティ・バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_512",
+    "title": "評判ネットワーク",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_513",
+    "title": "代替可能性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_514",
+    "title": "希少性価値",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_515",
+    "title": "比較優位",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_516",
+    "title": "知識共有",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_517",
+    "title": "第三者証明",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_518",
+    "title": "代替困難性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_519",
+    "title": "スラック資源",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_520",
+    "title": "自己決定理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_521",
+    "title": "選択支持バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_522",
+    "title": "統合型交渉",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_523",
+    "title": "沈黙の圧力",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_524",
+    "title": "限界点シグナリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_525",
+    "title": "勝者の呪い回避",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_527",
+    "title": "取引費用理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_528",
+    "title": "環境デザイン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_529",
+    "title": "スモールステップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_530",
+    "title": "活性化エネルギー",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_531",
+    "title": "ツァイガルニク効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_532",
+    "title": "作業興奮",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_533",
+    "title": "習慣の下限設定",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_534",
+    "title": "連続性原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_535",
+    "title": "文脈依存習慣",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_536",
+    "title": "オペラント条件づけ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_537",
+    "title": "フィードバックループ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_538",
+    "title": "自己モニタリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_539",
+    "title": "プロセス目標",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_540",
+    "title": "回復理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_541",
+    "title": "アイデンティティ・ベース習慣",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_542",
+    "title": "破滅回避",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_543",
+    "title": "リーン・スタートアップ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_544",
+    "title": "選択と集中",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_545",
+    "title": "パレートの法則",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_546",
+    "title": "レバレッジ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_547",
+    "title": "タイムボックス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_548",
+    "title": "適応的計画",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_549",
+    "title": "水に常形無く",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_550",
+    "title": "新奇性効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_551",
+    "title": "到達錯誤",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_552",
+    "title": "セレンディピティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_553",
+    "title": "役割多元化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_554",
+    "title": "後悔最小化",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_555",
+    "title": "リスク・オブ・ルイン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_556",
+    "title": "忙しさバイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_557",
+    "title": "手段の目的化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_558",
+    "title": "自己更新",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_559",
+    "title": "場の理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_560",
+    "title": "目的論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_561",
+    "title": "バックキャスティング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_562",
+    "title": "有限性の自覚",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_563",
+    "title": "死の顕現性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_564",
+    "title": "社会的支援理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_565",
+    "title": "ストレス緩衝仮説",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_566",
+    "title": "相対的剥奪",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_567",
+    "title": "ポートフォリオ理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_568",
+    "title": "最適化の罠",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_569",
+    "title": "可逆性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_570",
+    "title": "ベイズ更新",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_571",
+    "title": "人的資本論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_572",
+    "title": "目標調整理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_573",
+    "title": "二分法的思考",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_574",
+    "title": "認知的柔軟性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_575",
+    "title": "複利効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_576",
+    "title": "過度の一般化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_577",
+    "title": "認知的オフローディング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_578",
+    "title": "筆記開示",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_579",
+    "title": "統制の二分法",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_580",
+    "title": "反すうの中断",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_581",
+    "title": "意味世界の崩壊",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_582",
+    "title": "基本的前提の動揺",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_583",
+    "title": "固定的自己観",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_584",
+    "title": "人的資本",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_585",
+    "title": "転移可能スキル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_586",
+    "title": "反実仮想",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_587",
+    "title": "選択されなかった道の理想化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_588",
+    "title": "喪失の二重過程モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_589",
+    "title": "アイデンティティ・フォークロージャー",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_590",
+    "title": "拙速な再同一化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_591",
+    "title": "評価の時間的不確実性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_592",
+    "title": "確率的機会",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_593",
+    "title": "機会認識",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_594",
+    "title": "幸運の表面積",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_595",
+    "title": "準備された心",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_596",
+    "title": "確証バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_597",
+    "title": "利用可能性ヒューリスティック",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_598",
+    "title": "心理的契約",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_599",
+    "title": "プレモーテム",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_600",
+    "title": "ライキング・ギャップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_601",
+    "title": "予期的味わい",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_602",
+    "title": "拡張・形成理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_603",
+    "title": "人は物事そのものではなく、それについての判断に悩まされる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_604",
+    "title": "自分にできることと、できないことを分ける",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_605",
+    "title": "自分で勝てない勝負には入らない",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_606",
+    "title": "与えられた役を、よく演じる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_607",
+    "title": "起きたことから利益を引き出せるかは自分次第である",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_608",
+    "title": "障害は、行動を前へ進める材料になる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_609",
+    "title": "外の出来事より、それに与える判断が自分を動かす",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_610",
+    "title": "今この瞬間を、最後の行為のように行う",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_611",
+    "title": "他人が何を考えているかより、自分の心を整える",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_612",
+    "title": "人生が短いのではない。多くを浪費している",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_613",
+    "title": "正しく使えば、人生は十分に長い",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_614",
+    "title": "苦しむ前から苦しむ者は、必要以上に苦しむ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_615",
+    "title": "運命は、従う者を導き、抗う者を引きずる",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_616",
+    "title": "われわれが恐れるものは、現実より想像の中に多い",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_617",
+    "title": "自分を知る者は明らかである",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_618",
+    "title": "足るを知る者は富む",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_619",
+    "title": "人に勝つ者は力があり、自分に勝つ者は強い",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_620",
+    "title": "千里の道も足下から始まる",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_621",
+    "title": "柔よく剛を制す",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_622",
+    "title": "三人行えば、必ず我が師あり",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_623",
+    "title": "過ぎたるは猶及ばざるが如し",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_624",
+    "title": "己の欲せざる所、人に施すこと勿れ",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_625",
+    "title": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_626",
+    "title": "知彼知己、百戦殆うからず",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_627",
+    "title": "勝兵は先ず勝ちて而る後に戦いを求む",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_628",
+    "title": "善く戦う者は、勝ち易きに勝つ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_629",
+    "title": "兵に常勢なく、水に常形なし",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_630",
+    "title": "小敵の堅は、大敵の擒なり",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_631",
+    "title": "井の中の蛙、大海を知らず",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_632",
+    "title": "無用の用",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_701",
+    "title": "生きることを引き受けて歩む",
+    "provenance": {
+      "note": "青空文庫の原文で該当表現を確認。見出しだけでなく作品の文脈と合わせて読みます。",
+      "works": [
+        "『倫敦塔』"
+      ],
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000148/files/1076_14974.html",
+          "title": "原典・公式資料"
+        }
+      ],
+      "attribution": "夏目漱石"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_702",
+    "title": "暮らしにくさの中で、視点を探す",
+    "provenance": {
+      "note": "青空文庫の原文と初出情報を確認。表記は現代の字体に合わせています。",
+      "works": [
+        "『草枕』冒頭"
+      ],
+      "period": "1906年9月（『新小説』）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000148/files/776_14941.html",
+          "title": "原典・公式資料"
+        }
+      ],
+      "attribution": "夏目漱石"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_706",
+    "title": "ダニング＝クルーガー効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_707",
+    "title": "偽の合意効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_708",
+    "title": "自己奉仕バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_709",
+    "title": "後知恵バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_710",
+    "title": "自信過剰効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_711",
+    "title": "生存者バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_712",
+    "title": "代表性ヒューリスティック",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_713",
+    "title": "ギャンブラーの誤謬",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_714",
+    "title": "ホットハンド効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_715",
+    "title": "連言錯誤",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_716",
+    "title": "小数の法則",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_717",
+    "title": "平均への回帰",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_718",
+    "title": "真実性錯覚",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_719",
+    "title": "バイアスの盲点",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_720",
+    "title": "正常性バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_721",
+    "title": "知識の呪い",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_722",
+    "title": "結果バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_723",
+    "title": "説明深度の錯覚",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_724",
+    "title": "Big Five／五因子モデル",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_725",
+    "title": "統制の所在／ローカス・オブ・コントロール",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_726",
+    "title": "HEXACOモデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_727",
+    "title": "インポスター現象",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_728",
+    "title": "セルフ・ハンディキャッピング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_729",
+    "title": "バンドワゴン効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_730",
+    "title": "所属欲求／Need to Belong",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_731",
+    "title": "ステレオタイプ脅威",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_732",
+    "title": "脱個人化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_733",
+    "title": "権威への服従",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_734",
+    "title": "情報的社会的影響",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_735",
+    "title": "観察学習／社会的学習理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_736",
+    "title": "フロー理論",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_737",
+    "title": "ヤーキーズ＝ドッドソンの法則",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_738",
+    "title": "エビングハウスの忘却曲線",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_739",
+    "title": "系列位置効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_740",
+    "title": "フォン・レストルフ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_741",
+    "title": "生成効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_742",
+    "title": "二重符号化理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_743",
+    "title": "符号化特定性原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_744",
+    "title": "処理水準理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_745",
+    "title": "ワーキングメモリ・モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_746",
+    "title": "チャンク化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_747",
+    "title": "インターリービング効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_748",
+    "title": "自己説明効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_749",
+    "title": "メンタル・コントラスティング／WOOP・MCII",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_750",
+    "title": "期待価値理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_751",
+    "title": "時間的動機づけ理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_752",
+    "title": "解釈レベル理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_753",
+    "title": "未来自己連続性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_754",
+    "title": "限定合理性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_755",
+    "title": "期待値",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_756",
+    "title": "期待効用理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_757",
+    "title": "メンタル・アカウンティング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_758",
+    "title": "曖昧性回避／エルズバーグ・パラドックス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_759",
+    "title": "確実性効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_760",
+    "title": "ゼロ価格効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_761",
+    "title": "支払いの痛み",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_762",
+    "title": "ホーソン効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_763",
+    "title": "職務要求‐資源モデル／JD-R",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_764",
+    "title": "職務特性モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_765",
+    "title": "組織コミットメント",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_766",
+    "title": "職務満足",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_767",
+    "title": "従業員エンゲージメント",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_768",
+    "title": "分配的公正",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_769",
+    "title": "相互作用的公正",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_770",
+    "title": "組織沈黙",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_771",
+    "title": "発言行動／Employee Voice",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_772",
+    "title": "資源保存理論／COR",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_773",
+    "title": "変革型リーダーシップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_774",
+    "title": "取引型リーダーシップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_775",
+    "title": "状況対応型リーダーシップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_776",
+    "title": "パス・ゴール理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_777",
+    "title": "共有メンタルモデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_778",
+    "title": "共有地の悲劇",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_779",
+    "title": "フリーライダー問題",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_780",
+    "title": "集合行為問題",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_781",
+    "title": "イノベーション普及理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_782",
+    "title": "閾値モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_783",
+    "title": "ネットワーク効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_784",
+    "title": "精緻化可能性モデル／ELM",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_785",
+    "title": "HSM／ヒューリスティック・システマティック・モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_786",
+    "title": "接種理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_787",
+    "title": "社会的判断理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_788",
+    "title": "コミュニケーション適応理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_789",
+    "title": "共通基盤理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_790",
+    "title": "ナッシュ均衡",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "kb_791",
+    "title": "支配戦略",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_792",
+    "title": "後方帰納法",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_793",
+    "title": "シェリングの焦点",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_794",
+    "title": "共通知識",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_795",
+    "title": "ゼロサム／非ゼロサムゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_796",
+    "title": "協調ゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_797",
+    "title": "スタグハント",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_798",
+    "title": "最後通牒ゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_799",
+    "title": "公共財ゲーム",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_800",
+    "title": "逆選択",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_801",
+    "title": "モラルハザード",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_802",
+    "title": "レモン市場",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_803",
+    "title": "ホランドのRIASECモデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_804",
+    "title": "社会的認知キャリア理論／SCCT",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_805",
+    "title": "キャリア構築理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_806",
+    "title": "キャリア・アンカー",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_807",
+    "title": "省略バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_808",
+    "title": "行動バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_809",
+    "title": "ゼロリスク・バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_810",
+    "title": "楽観バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_811",
+    "title": "第三者効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_812",
+    "title": "敵対的メディア効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_813",
+    "title": "エゴセントリック・バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_814",
+    "title": "偽の独自性効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_815",
+    "title": "ソシオメーター理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_816",
+    "title": "拒絶感受性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_817",
+    "title": "ダークトライアド",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_818",
+    "title": "心の理論／Theory of Mind",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_819",
+    "title": "プラセボ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_820",
+    "title": "ノセボ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_821",
+    "title": "近接性効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_822",
+    "title": "恋愛の三角理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_823",
+    "title": "マッチング仮説",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_824",
+    "title": "社会的ベースライン理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_825",
+    "title": "熟達者の直観／RPDモデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_826",
+    "title": "文脈依存記憶",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_827",
+    "title": "状態依存記憶",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_828",
+    "title": "プロテジェ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_829",
+    "title": "流暢性の錯覚",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_830",
+    "title": "転移適合処理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_831",
+    "title": "記憶の再固定化",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_832",
+    "title": "ゴール・シールディング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_833",
+    "title": "自己一致モデル",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_834",
+    "title": "エピソード的未来思考",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_835",
+    "title": "アレのパラドックス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_836",
+    "title": "識別可能な被害者効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_837",
+    "title": "IKEA効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_838",
+    "title": "ディドロ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_839",
+    "title": "情報回避／オーストリッチ効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_840",
+    "title": "希少性マインドセット／トンネリング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_841",
+    "title": "リスク補償／ペルツマン効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_842",
+    "title": "単位バイアス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_843",
+    "title": "分母無視",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_844",
+    "title": "確率無視",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_845",
+    "title": "サーバント・リーダーシップ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_846",
+    "title": "心理的所有感",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_847",
+    "title": "組織的両利き",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_848",
+    "title": "資源ベース理論／RBV",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_849",
+    "title": "ダイナミック・ケイパビリティ",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_850",
+    "title": "コア・コンピタンス",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_851",
+    "title": "ダンバー数",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_852",
+    "title": "メトカーフの法則",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_853",
+    "title": "経験曲線／学習曲線",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_854",
+    "title": "規模の経済",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_855",
+    "title": "範囲の経済",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_856",
+    "title": "ナラティブ・トランスポーテーション",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_857",
+    "title": "スリーパー効果",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_858",
+    "title": "認知的プライミング",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_859",
+    "title": "グライスの協調原理",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_860",
+    "title": "ポライトネス理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_861",
+    "title": "二段階流れ仮説",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_862",
+    "title": "ミニマックス／マキシミン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_863",
+    "title": "パレート効率性",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_864",
+    "title": "サブゲーム完全均衡",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_865",
+    "title": "メカニズム・デザイン",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_866",
+    "title": "オークション理論",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_867",
+    "title": "プロティアン・キャリア",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "kb_868",
+    "title": "境界なきキャリア",
+    "provenance": null,
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-0a93dca8-aa3d-4636-b42c-0d1db8f10aa0",
+    "title": "「才能は、放っておくとただの原石だ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-116d47d4-5388-45a1-b6d7-986369be20d0",
+    "title": "「欠点は、角度を変えると輪郭になる。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+    "title": "「嫌われない人生は、誰にも届かない。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-1789620805420-wbuepmtu",
+    "title": "ゴルディロックス効果",
+    "provenance": null,
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-18c606ea-e115-4971-9f3a-017fb6a6d753",
+    "title": "「最後まで残るものは、案外、誰と笑ったかだ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-196d34ef-6d9c-489a-9282-dc38243df12a",
+    "title": "「無傷で帰るつもりなら、遠くへは行けない。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-1a1a5e84-191d-4002-9d09-586f422e606a",
+    "title": "「自分を変えるより、机を変えろ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
+    "title": "「転ぶなら、前で転べ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-4f18f89d-592b-418d-a57e-9a5ab75a3ff8",
+    "title": "「何もしなかった日にも、値札はついている。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-5c03b393-8849-4e74-a58c-30ed430fcf4c",
+    "title": "「止まる日も、旅の途中だ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-65d2d01f-38fc-4557-b7f8-bb0665d07426",
+    "title": "「昔の自分を、他人みたいに嫌うな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-665760d5-914e-41d3-af31-7c74dd28d909",
+    "title": "「山頂ばかり見ていると、道端の花を見過ごす。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-6efbfb85-85f7-4978-8bfd-52cbe3cbf05e",
+    "title": "「傷は、消えなくても邪魔じゃなくなる。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-6f51e173-64ce-43d1-b64b-92aa5b9794c6",
+    "title": "「便利は借りても、軸は貸すな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-89aeaa0c-c78d-4ae6-9d5b-c0d4b2ca7d68",
+    "title": "「遠くを見る日は、足元を忘れるな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-8c2a3b15-0f6d-4225-abda-07eba8eccc4a",
+    "title": "「最後に振り返る自分を、今の会議に呼べ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-8cbf5a5e-3de7-4c97-be53-579fca58b5c0",
+    "title": "「自分のためだけに積んだものは、案外軽い。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-9ad49f9a-e7dd-4b4e-8014-abc9045dd0e3",
+    "title": "「答えは、靴の裏にくっついている。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-9aef21ca-b8ff-48d5-93cc-5adb7bd329dd",
+    "title": "「雑に扱われる場所に、長居するな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-a1d88571-e3f5-4383-b757-d4010025befa",
+    "title": "「失敗は、燃やすな。持って帰れ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-a3252859-1363-4fba-b94f-9bc4bdb752d8",
+    "title": "「道がないなら、曲がればいい。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-a750353b-c60f-44fc-b30b-54c1a1466079",
+    "title": "「他人の一枚と、自分の全部を比べるな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-ab322059-b04a-4e2f-8c43-141492063021",
+    "title": "「好きなら、少しくらい馬鹿になれ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-b181b908-e671-4dcc-b1ca-5acfab6dc431",
+    "title": "「なくしてから、名前がつくものもある。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-b6565cc5-277c-48c7-9129-68b2f4cbf0a0",
+    "title": "「一回負けただけだ。続きを勝手に負けるな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-b7f5750c-b9d7-485a-ac3e-42bafffb9be0",
+    "title": "「昨日に口はいらない。明日に手を出せ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-ba0ccc1b-92c5-48b9-9d1c-9810807d0416",
+    "title": "「安全な場所ほど、景色は変わらない。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-bc043984-1d19-4b66-9a5b-f16471ea9c76",
+    "title": "「満足は、たまに目を曇らせる。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-beebd375-bb7f-4aa0-b21d-8fbb4714c1b1",
+    "title": "「客席からなら、誰でも名将だ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-c1e25b20-5ff7-47b4-8585-72606829f758",
+    "title": "「頑張らないと続かない縁は、だいたい遠い。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
+    "title": "「急ぐな。でも、今日を逃すな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
+    "title": "「未完成は、まだ生きている。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-d923799a-26ec-4db9-b0ed-7777497244ae",
+    "title": "「頑張っても沈む船はある。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-d9f695d5-7595-4236-a991-b6a3cf5b7ddb",
+    "title": "「意味は、だいたい後から来る。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-de584411-ca8e-4a8e-a53c-e1f36436c42d",
+    "title": "「健康は、失ってから急に主役になる。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-ea328bdf-a483-4048-9a88-356239325011",
+    "title": "「持って帰るな。何か置いていけ。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
+    "title": "「財布より先に、時間がその人を語る。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-f7fc74ff-d2d1-4254-9135-a2772f36ccf3",
+    "title": "「ここにいていい理由を、毎日稼ぐな。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  },
+  {
+    "id": "theory-f8329abb-6906-47bb-8dff-85a98adedb64",
+    "title": "「考えているうちに、季節が変わる。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "free"
+  },
+  {
+    "id": "theory-f93822fd-a157-47e3-b766-45eb04f3aa87",
+    "title": "「一本の当たりの後ろに、墓場がある。」",
+    "provenance": {
+      "note": "処世術禄によるオリジナルの実践知です。",
+      "works": [
+        "処世術禄オリジナル"
+      ],
+      "status": "オリジナル",
+      "sources": [],
+      "attribution": "処世術禄"
+    },
+    "access_tier": "complete"
+  }
+]

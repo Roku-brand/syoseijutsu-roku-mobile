@@ -6,7 +6,27 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 1
+    "displayId": 1,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John Bowlby / Cindy Hazan / Phillip Shaver（基礎研究・参照研究の著者）",
+      "works": [
+        "Bowlby, J. (1958). The nature of the child's tie to his mother. International Journal of Psychoanalysis, 39, 350–373",
+        "Romantic love conceptualized as an attachment process. (1987). Journal of Personality and Social Psychology, 52(3), 511-524"
+      ],
+      "sources": [
+        {
+          "title": "Bowlbyの原著書誌（PubMed）",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/13610508/"
+        },
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1037/0022-3514.52.3.511"
+        }
+      ],
+      "note": "Bowlbyの愛着研究を基礎とし、Hazan・Shaverが成人の恋愛関係へ拡張した原著。幼少期の経験だけで成人の関係を決定・診断するものではありません。",
+      "period": "1958年（基礎研究）・1987年（成人の恋愛関係への拡張）"
+    }
   },
   {
     "tagId": "kb_251",
@@ -107,7 +127,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 11
+    "displayId": 11,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Brittany C. Speed / Brandon L. Goldstein / Marvin R. Goldfried（参照文献の著者）",
+      "works": [
+        "Assertiveness training: A forgotten evidence‐based treatment. (2018). Clinical Psychology: Science and Practice, 25(1)"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1111/cpsp.12216"
+        }
+      ],
+      "note": "アサーション訓練の歴史と研究を整理した論文。単一の「アサーション理論」の初出としては扱いません。",
+      "period": "2018年（参照文献）"
+    }
   },
   {
     "tagId": "kb_207",
@@ -471,7 +506,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 39
+    "displayId": 39,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Paige L. Sweet（参照文献の著者）",
+      "works": [
+        "The Sociology of Gaslighting (2019). American Sociological Review, 84(5), 851-875"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1177/0003122419874843"
+        }
+      ],
+      "note": "社会学的な権力・不平等の文脈でgaslightingを研究した原著。用語の歴史上の初出はこの論文ではありません。",
+      "period": "2019年（参照文献）"
+    }
   },
   {
     "tagId": "kb_406",
@@ -806,7 +856,21 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 68
+    "displayId": 68,
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）",
+      "works": [
+        "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/"
+        }
+      ],
+      "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。"
+    }
   },
   {
     "tagId": "kb_448",
@@ -1242,7 +1306,21 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 101
+    "displayId": 101,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John Gottman / The Gottman Institute（参照文献の著者）",
+      "works": [
+        "The Four Horsemen / Repair Checklist（公式解説）"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.gottman.com/product/intervention-handout/"
+        }
+      ],
+      "note": "研究者側の公式資料が四騎士と修復試行を明示。書誌確認は関係破綻の予測精度の保証ではありません。"
+    }
   },
   {
     "tagId": "kb_583",
@@ -2011,7 +2089,22 @@
     "relatedTheoryIds": [
       "kb_787"
     ],
-    "displayId": 158
+    "displayId": 158,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Christina Steindl / Eva Jonas / Sandra Sittenthaler / Eva Traut-Mattausch / Jeff Greenberg（参照文献の著者）",
+      "works": [
+        "Understanding Psychological Reactance (2015). Zeitschrift für Psychologie, 223(4), 205-214"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1027/2151-2604/a000222"
+        }
+      ],
+      "note": "心理的リアクタンスの理論・研究を整理した論文。Brehmによる1966年の提唱と、この2015年の参照論文を区別します。",
+      "period": "2015年（参照文献）"
+    }
   },
   {
     "tagId": "kb_731",
@@ -2523,7 +2616,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 194
+    "displayId": 194,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Gregory Bateson / Don D. Jackson / Jay Haley / John Weakland（参照文献の著者）",
+      "works": [
+        "Toward a theory of schizophrenia (1956). Behavioral Science, 1(4), 251-264"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1002/bs.3830010402"
+        }
+      ],
+      "note": "Batesonらのダブルバインド仮説の原著。出版社サイトの電子化日とは区別して原著年1956年を記載。統合失調症の原因として確立した説明とは扱いません。",
+      "period": "1956年（参照文献）"
+    }
   },
   {
     "tagId": "kb_004",
@@ -2787,7 +2895,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 212
+    "displayId": 212,
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Melody Beattie（関連文献の著者）",
+      "works": [
+        "Codependent No More, revised edition (2022)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.melodybeattie.com/codependentnomore"
+        }
+      ],
+      "note": "共依存を扱う著者本人の著作紹介。実践書の参照であり、単一の確立した医学的診断や用語の唯一の初出を意味しません。",
+      "period": "2022年（参照版）"
+    }
   },
   {
     "tagId": "kb_246",
@@ -2982,7 +3105,19 @@
       "effort justification"
     ],
     "provenance": {
-      "note": "努力正当化を同義・下位概念として統合。"
+      "status": "書誌確認済み",
+      "attribution": "Leon Festinger（参照著作の著者）",
+      "period": "1957年（参照著作）",
+      "works": [
+        "A Theory of Cognitive Dissonance (1957). Stanford University Press"
+      ],
+      "sources": [
+        {
+          "title": "原著出版社の書誌・著作解説",
+          "url": "https://doi.org/10.1515/9781503620766"
+        }
+      ],
+      "note": "努力正当化を同義・下位概念として統合。Festinger本人の認知的不協和の原著を参照し、態度・行動の矛盾とその低減を扱います。"
     },
     "relatedTheoryIds": [
       "kb_786",
@@ -3132,7 +3267,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 238
+    "displayId": 238,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Aaron T. Beck / A. John Rush / Brian F. Shaw / Gary Emery / Robert J. DeRubeis / Steven D. Hollon（参照文献の著者）",
+      "works": [
+        "Cognitive Therapy of Depression, 2nd ed. (2024)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.guilford.com/books/Cognitive-Therapy-of-Depression/Beck-Rush-Shaw-Emery/9781572305823"
+        }
+      ],
+      "note": "認知療法の著者らの著作・現行版を参照。初版1979年と第二版2024年を区別し、各認知の偏りの唯一の初出とは断定しません。",
+      "period": "2024年（参照版）"
+    }
   },
   {
     "tagId": "kb_387",
@@ -3336,7 +3486,22 @@
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "relatedTheoryIds": [],
-    "displayId": 251
+    "displayId": 251,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Marshall B. Rosenberg（参照文献の著者）",
+      "works": [
+        "Nonviolent Communication: A Language of Life, 3rd ed. (2015)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://nonviolentcommunication.com/product/nvc/"
+        }
+      ],
+      "note": "観察・感情・ニーズ・要求を扱う著者の代表著作。出版社の第三版案内を参照。",
+      "period": "2015年（参照版）"
+    }
   },
   {
     "tagId": "kb_591",
@@ -4436,7 +4601,22 @@
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "relatedTheoryIds": [],
-    "displayId": 20
+    "displayId": 20,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Robert B. Cialdini（参照文献の著者）",
+      "works": [
+        "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+        }
+      ],
+      "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+      "period": "2021年（参照版）"
+    }
   },
   {
     "tagId": "kb_840",
@@ -4729,7 +4909,22 @@
       "松竹梅の法則"
     ],
     "relatedTheoryIds": [],
-    "displayId": 38
+    "displayId": 38,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Itamar Simonson（参照文献の著者）",
+      "works": [
+        "Choice Based on Reasons: The Case of Attraction and Compromise Effects (1989). Journal of Consumer Research, 16(2), 158"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1086/209205"
+        }
+      ],
+      "note": "本カードの「中間の選択肢を選びやすい」説明はcompromise effectに対応します。同名の幼児の注意配分研究（Goldilocks effect）とは別の概念です。",
+      "period": "1989年（参照文献）"
+    }
   },
   {
     "tagId": "kb_276",
@@ -4926,7 +5121,22 @@
     "relatedTheoryIds": [
       "kb_729"
     ],
-    "displayId": 49
+    "displayId": 49,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Robert B. Cialdini（参照文献の著者）",
+      "works": [
+        "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+        }
+      ],
+      "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+      "period": "2021年（参照版）"
+    }
   },
   {
     "tagId": "kb_533",
@@ -4945,7 +5155,22 @@
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "relatedTheoryIds": [],
-    "displayId": 51
+    "displayId": 51,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Charles Duhigg（参照文献の著者）",
+      "works": [
+        "The Power of Habit (2012)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.penguinrandomhouse.com/books/202855/the-power-of-habit-by-charles-duhigg/"
+        }
+      ],
+      "note": "手掛かり・行動・報酬のループを実践向けに紹介した著作。習慣の研究史全体の最初の発明者としては扱いません。",
+      "period": "2012年（参照版）"
+    }
   },
   {
     "tagId": "kb_277",
@@ -5411,7 +5636,22 @@
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "relatedTheoryIds": [],
-    "displayId": 84
+    "displayId": 84,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Richard H. Thaler / Cass R. Sunstein（参照文献の著者）",
+      "works": [
+        "Nudge (2008) / Yale Press Podcast, Episode 15"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://yalebooks.yale.edu/2008/05/01/yale-press-podcast-episode-15/"
+        }
+      ],
+      "note": "原著出版社のThaler本人への取材で、選択環境による行動への働きかけを確認。",
+      "period": "2008年（参照版）"
+    }
   },
   {
     "tagId": "kb_201",
@@ -5930,7 +6170,22 @@
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "relatedTheoryIds": [],
-    "displayId": 7
+    "displayId": 7,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Mark R. Leary / Robin M. Kowalski（参照文献の著者）",
+      "works": [
+        "Impression management: A literature review and two-component model. (1990). Psychological Bulletin, 107(1), 34-47"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1037/0033-2909.107.1.34"
+        }
+      ],
+      "note": "印象管理の二要素モデルを提示した著者らの論文。",
+      "period": "1990年（参照文献）"
+    }
   },
   {
     "tagId": "kb_509",
@@ -6164,7 +6419,22 @@
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "relatedTheoryIds": [],
-    "displayId": 25
+    "displayId": 25,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "C. A. E. Goodhart（参照文献の著者）",
+      "works": [
+        "Problems of Monetary Management: The UK Experience (1984). Monetary Theory and Practice, 91-121"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1007/978-1-349-17295-5_4"
+        }
+      ],
+      "note": "Goodhart本人の論考を収めた1984年版。原著の発表時期と本カードの一般化された表現は区別します。",
+      "period": "1984年（参照文献）"
+    }
   },
   {
     "tagId": "kb_292",
@@ -6627,7 +6897,22 @@
     "relatedTheoryIds": [
       "kb_777"
     ],
-    "displayId": 61
+    "displayId": 61,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Irving L. Janis（参照文献の著者）",
+      "works": [
+        "Groupthink: Psychological Studies of Policy Decisions and Fiascoes, 2nd ed. (1982)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://nias.knaw.nl/books/groupthink-psychological-studies-of-policy-decisions-and-fiascoes/"
+        }
+      ],
+      "note": "著者の所属研究機関による出版情報で原著第二版を確認。初期の1972年の著作と区別します。",
+      "period": "1982年（参照版）"
+    }
   },
   {
     "tagId": "kb_775",
@@ -7651,7 +7936,22 @@
       "kb_735",
       "kb_762"
     ],
-    "displayId": 134
+    "displayId": 134,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Elisha Y. Babad / Jacinto Inbar / Robert Rosenthal（参照文献の著者）",
+      "works": [
+        "Pygmalion, Galatea, and the Golem: Investigations of biased and unbiased teachers. (1982). Journal of Educational Psychology, 74(4), 459-474"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1037/0022-0663.74.4.459"
+        }
+      ],
+      "note": "高い期待と低い期待の双方を扱う原著。ピグマリオン効果の歴史上の初出はこの論文より前です。",
+      "period": "1982年（参照文献）"
+    }
   },
   {
     "tagId": "kb_474",
@@ -8078,7 +8378,22 @@
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "relatedTheoryIds": [],
-    "displayId": 1
+    "displayId": 1,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nassim Nicholas Taleb（参照文献の著者）",
+      "works": [
+        "Antifragile: Things That Gain from Disorder (2012)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/"
+        }
+      ],
+      "note": "著者の代表著作と反脆弱性の概念を出版社で確認。",
+      "period": "2012年（参照版）"
+    }
   },
   {
     "tagId": "kb_284",
@@ -8087,7 +8402,21 @@
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "relatedTheoryIds": [],
-    "displayId": 2
+    "displayId": 2,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John R. Boyd（参照文献の著者）",
+      "works": [
+        "Patterns of Conflict（本人の講演・スライド記録）"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.pogo.org/analyses/colonel-john-boyds-patterns-of-conflict-online"
+        }
+      ],
+      "note": "Boydの遺族の許可を得て公開された本人の講演記録を参照。観察・状況判断・決定・行動の循環を扱い、日常や仕事への説明は応用です。"
+    }
   },
   {
     "tagId": "kb_866",
@@ -8466,7 +8795,22 @@
       "kb_791",
       "kb_797"
     ],
-    "displayId": 28
+    "displayId": 28,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Robert Axelrod / William D. Hamilton（参照文献の著者）",
+      "works": [
+        "The Evolution of Cooperation (1981). Science, 211(4489), 1390-1396"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1126/science.7466396"
+        }
+      ],
+      "note": "反復された囚人のジレンマで協力が成立する条件を扱う原著。囚人のジレンマ自体の初出は1950年代で、この論文が考案したゲームではありません。",
+      "period": "1981年（参照文献）"
+    }
   },
   {
     "tagId": "kb_595",
@@ -8593,7 +8937,21 @@
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "relatedTheoryIds": [],
-    "displayId": 39
+    "displayId": 39,
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Program on Negotiation, Harvard Law School（関連文献の著者）",
+      "works": [
+        "Reservation Price / Zone of Possible Agreement（公式教材）"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.pon.harvard.edu/tag/reservation-price/"
+        }
+      ],
+      "note": "留保価格と合意可能領域を教育資料で確認。歴史上の唯一の提唱者をこの教材へ帰属しません。"
+    }
   },
   {
     "tagId": "kb_149",
@@ -8781,7 +9139,22 @@
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "relatedTheoryIds": [],
-    "displayId": 53
+    "displayId": 53,
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Nassim Nicholas Taleb（関連文献の著者）",
+      "works": [
+        "Antifragile: Things That Gain from Disorder (2012)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/"
+        }
+      ],
+      "note": "反脆弱性の著作を、バーベル型のリスク配分・破滅回避を考える関連文献として提示。各一般概念の唯一の初出とは断定しません。",
+      "period": "2012年（参照版）"
+    }
   },
   {
     "tagId": "kb_561",
@@ -9065,7 +9438,22 @@
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "relatedTheoryIds": [],
-    "displayId": 75
+    "displayId": 75,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Eric Ries（参照文献の著者）",
+      "works": [
+        "The Lean Startup (2011)"
+      ],
+      "sources": [
+        {
+          "title": "著者・出版社による原著・書誌情報",
+          "url": "https://www.penguinrandomhouse.com/books/210088/the-lean-startup-by-eric-ries/9780307887894/"
+        }
+      ],
+      "note": "著者のBuild–Measure–Learnと検証された学習の枠組みを扱う原著。",
+      "period": "2011年（参照版）"
+    }
   },
   {
     "tagId": "kb_147",
@@ -9207,7 +9595,21 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
-    "displayId": 7
+    "displayId": 7,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "荘子（伝承・編纂）",
+      "works": [
+        "荘子・外篇「秋水」"
+      ],
+      "sources": [
+        {
+          "title": "原典本文・秋水",
+          "url": "https://ja.wikisource.org/wiki/%E8%8D%98%E5%AD%90/%E7%A7%8B%E6%B0%B4"
+        }
+      ],
+      "note": "井蛙と海を対比する原典の箇所を確認。現在の日本語は故事の慣用表現で、原文の逐語訳ではありません。"
+    }
   },
   {
     "tagId": "kb_610",
@@ -9303,7 +9705,22 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
-    "displayId": 15
+    "displayId": 15,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Voltaire（参照作品の著者）",
+      "works": [
+        "La Bégueule (1772), Contes en vers"
+      ],
+      "sources": [
+        {
+          "title": "原典本文・La Bégueule",
+          "url": "https://fr.wikisource.org/wiki/Contes_en_vers_%28Voltaire%29/La_B%C3%A9gueule"
+        }
+      ],
+      "note": "作品冒頭にある格言に対応する日本語の意訳。作中で以前の格言を引いているため、Voltaireが最初に発案したと断定しません。",
+      "period": "1772年（参照作品）"
+    }
   },
   {
     "tagId": "kb_505",
@@ -9421,7 +9838,21 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
-    "displayId": 23
+    "displayId": 23,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "孫武（伝統的帰属）",
+      "works": [
+        "孫子・作戦篇"
+      ],
+      "sources": [
+        {
+          "title": "原典本文・作戦篇",
+          "url": "https://zh.wikisource.org/wiki/%E5%AD%AB%E5%AD%90%E5%85%B5%E6%B3%95#%E4%BD%9C%E6%88%B0%E7%AC%AC%E4%BA%8C"
+        }
+      ],
+      "note": "作戦篇の迅速さと長期化を論じる箇所に対応。カードの日本語は要旨をまとめた慣用表現で、原文と完全一致する逐語訳ではありません。"
+    }
   },
   {
     "tagId": "kb_351",
@@ -9894,7 +10325,22 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
-    "displayId": 54
+    "displayId": 54,
+    "provenance": {
+      "status": "一部確認",
+      "attribution": "Harry Markowitz（関連文献の著者）",
+      "works": [
+        "PORTFOLIO SELECTION* (1952). The Journal of Finance, 7(1), 77-91"
+      ],
+      "sources": [
+        {
+          "title": "出版社登録の原著書誌・DOI",
+          "url": "https://doi.org/10.1111/j.1540-6261.1952.tb01525.x"
+        }
+      ],
+      "note": "Markowitzの分散投資の原著を関連文献として提示。ことわざの発案者をMarkowitzとするものではなく、生活全般への応用はアプリの整理です。",
+      "period": "1952年（参照文献）"
+    }
   },
   {
     "tagId": "kb_629",
@@ -9961,7 +10407,21 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "relatedTheoryIds": [],
-    "displayId": 58
+    "displayId": 58,
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "荘子（伝承・編纂）",
+      "works": [
+        "荘子・内篇「人間世」"
+      ],
+      "sources": [
+        {
+          "title": "原典本文・人間世",
+          "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E4%BA%BA%E9%96%93%E4%B8%96"
+        }
+      ],
+      "note": "人間世の末尾で、有用に見えるものと無用に見えるものの価値を論じる箇所を確認。現代的な価値判断への応用はアプリの整理です。"
+    }
   },
   {
     "tagId": "kb_628",

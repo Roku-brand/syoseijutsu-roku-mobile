@@ -1,5 +1,5 @@
 {
-  "reviewedAt": "2026-09-07",
+  "reviewedAt": "2026-10-03",
   "records": [
     {
       "tagId": "kb_001",
@@ -5250,6 +5250,4537 @@
         ],
         "note": "青空文庫の原典を参照し、直接引用を避けて作品の主題を自分の言葉で要約しています。",
         "period": "1906年9月（『新小説』）"
+      }
+    },
+    {
+      "tagId": "kb_036",
+      "title": "愛着理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John Bowlby / Cindy Hazan / Phillip Shaver（基礎研究・参照研究の著者）",
+        "works": [
+          "Bowlby, J. (1958). The nature of the child's tie to his mother. International Journal of Psychoanalysis, 39, 350–373",
+          "Romantic love conceptualized as an attachment process. (1987). Journal of Personality and Social Psychology, 52(3), 511-524"
+        ],
+        "sources": [
+          {
+            "title": "Bowlbyの原著書誌（PubMed）",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/13610508/"
+          },
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.52.3.511"
+          }
+        ],
+        "note": "Bowlbyの愛着研究を基礎とし、Hazan・Shaverが成人の恋愛関係へ拡張した原著。幼少期の経験だけで成人の関係を決定・診断するものではありません。",
+        "period": "1958年（基礎研究）・1987年（成人の恋愛関係への拡張）"
+      }
+    },
+    {
+      "tagId": "kb_158",
+      "title": "感情＝社会的情報理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Gerben A. Van Kleef（参照文献の著者）",
+        "works": [
+          "How Emotions Regulate Social Life (2009). Current Directions in Psychological Science, 18(3), 184-188"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1467-8721.2009.01633.x"
+          }
+        ],
+        "note": "EASIモデルを提示した著者本人の論文。感情から相手の意図を一意に断定できるという意味ではありません。",
+        "period": "2009年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_015",
+      "title": "言語スタイル同調",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Molly E. Ireland / Richard B. Slatcher / Paul W. Eastwick / Lauren E. Scissors / Eli J. Finkel / James W. Pennebaker（参照文献の著者）",
+        "works": [
+          "Language Style Matching Predicts Relationship Initiation and Stability (2011). Psychological Science, 22(1), 39-44"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0956797610392928"
+          }
+        ],
+        "note": "機能語の使用傾向の一致と関係の開始・安定の研究。語彙、速度など会話全般への説明は応用的な要約です。",
+        "period": "2011年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_227",
+      "title": "感情ラベリング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Matthew D. Lieberman / Naomi I. Eisenberger / Molly J. Crockett / Sabrina M. Tom / Jennifer H. Pfeifer / Baldwin M. Way（参照文献の著者）",
+        "works": [
+          "Putting Feelings Into Words (2007). Psychological Science, 18(5), 421-428"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1467-9280.2007.01916.x"
+          }
+        ],
+        "note": "感情に名前を付ける課題を扱う原著。誰でも必ず感情が鎮まるという保証ではありません。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_434",
+      "title": "期待違反理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "JUDEE K. BURGOON（参照文献の著者）",
+        "works": [
+          "A COMMUNICATION MODEL OF PERSONAL SPACE VIOLATIONS: EXPLICATION AND AN INITIAL TEST (1978). Human Communication Research, 4(2), 129-142"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1468-2958.1978.tb00603.x"
+          }
+        ],
+        "note": "対人距離の期待違反を扱う原著。言葉遣いやその他の場面へ一般化する際は文脈を考慮します。",
+        "period": "1978年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_426",
+      "title": "関係維持行動",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Laura Stafford / Daniel J. Canary（参照文献の著者）",
+        "works": [
+          "Maintenance Strategies and Romantic Relationship Type, Gender and Relational Characteristics (1991). Journal of Social and Personal Relationships, 8(2), 217-242"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0265407591082004"
+          }
+        ],
+        "note": "肯定、開放性、保証、ネットワーク、課題共有という関係維持方略を扱った原著。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_424",
+      "title": "信頼修復理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Peter H. Kim / Donald L. Ferrin / Cecily D. Cooper / Kurt T. Dirks（参照文献の著者）",
+        "works": [
+          "Removing the Shadow of Suspicion: The Effects of Apology Versus Denial for Repairing Competence- Versus Integrity-Based Trust Violations. (2004). Journal of Applied Psychology, 89(1), 104-118"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-9010.89.1.104"
+          }
+        ],
+        "note": "能力と誠実性への不信で、謝罪・否認による修復の働きが異なることを検討した原著。",
+        "period": "2004年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_439",
+      "title": "信頼の段階的回復",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Kurt T. Dirks / Roy J. Lewicki / Akbar Zaheer（関連文献の著者）",
+        "works": [
+          "Reparing Relationships Within and Between Organizations: Building A Conceptual Foundation (2009). Academy of Management Review, 34(1), 68-84"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.5465/amr.2009.35713285"
+          }
+        ],
+        "note": "関係修復の概念枠組みを参照。本カードの「段階的回復」は実践向けの整理で、単一の確立した段階モデルの名称ではありません。",
+        "period": "2009年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_410",
+      "title": "支援適合理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carolyn E. Cutrona（参照文献の著者）",
+        "works": [
+          "Stress and Social Support—in Search of Optimal Matching (1990). Journal of Social and Clinical Psychology, 9(1), 3-14"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1521/jscp.1990.9.1.3"
+          }
+        ],
+        "note": "状況に合う支援の種類を考える最適マッチングの研究。カード名を特定の唯一の理論名・初出と断定しません。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_021",
+      "title": "自己拡張理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Arthur Aron / Elaine N. Aron / Michael Tudor / Greg Nelson（参照文献の著者）",
+        "works": [
+          "Close relationships as including other in the self. (1991). Journal of Personality and Social Psychology, 60(2), 241-253"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.60.2.241"
+          }
+        ],
+        "note": "自己に他者を含める過程を検討した自己拡張研究の原著。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_020",
+      "title": "自己検証理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "William B Swann / Stephen J Read（参照文献の著者）",
+        "works": [
+          "Self-verification processes: How we sustain our self-conceptions (1981). Journal of Experimental Social Psychology, 17(4), 351-372"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0022-1031(81)90043-3"
+          }
+        ],
+        "note": "自己像を維持する自己検証過程の原著。",
+        "period": "1981年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_430",
+      "title": "感情ヒューリスティック",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Paul Slovic / Melissa L. Finucane / Ellen Peters / Donald G. MacGregor（参照文献の著者）",
+        "works": [
+          "The affect heuristic (2007). European Journal of Operational Research, 177(3), 1333-1352"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/j.ejor.2005.04.006"
+          }
+        ],
+        "note": "判断における感情ヒューリスティックを整理した著者らの論文。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_425",
+      "title": "順応水準理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Harry Helson（参照文献の著者）",
+        "works": [
+          "Current trends and issues in adaptation-level theory. (1964). American Psychologist, 19(1), 26-38"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/h0040013"
+          }
+        ],
+        "note": "Helson本人による順応水準理論の論文。対人関係への例示はアプリによる応用です。",
+        "period": "1964年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_049",
+      "title": "消去バースト",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Dorothea C. Lerman / Brian A. Iwata（参照文献の著者）",
+        "works": [
+          "PREVALENCE OF THE EXTINCTION BURST AND ITS ATTENUATION DURING TREATMENT (1995). Journal of Applied Behavior Analysis, 28(1), 93-94"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1901/jaba.1995.28-93"
+          }
+        ],
+        "note": "応用行動分析の消去バーストを扱う原著。対人関係に必ず同じ反応が出るとは断定できません。",
+        "period": "1995年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_224",
+      "title": "脱中心化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "David M. Fresco / Michael T. Moore / Manfred H.M. van Dulmen / Zindel V. Segal / S. Helen Ma / John D. Teasdale / J. Mark G. Williams（参照文献の著者）",
+        "works": [
+          "Initial Psychometric Properties of the Experiences Questionnaire: Validation of a Self-Report Measure of Decentering (2007). Behavior Therapy, 38(3), 234-246"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/j.beth.2006.08.003"
+          }
+        ],
+        "note": "脱中心化の測定・妥当性に関する原著。医療的な診断や治療効果の保証ではありません。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_094",
+      "title": "ダブルバインド",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Gregory Bateson / Don D. Jackson / Jay Haley / John Weakland（参照文献の著者）",
+        "works": [
+          "Toward a theory of schizophrenia (1956). Behavioral Science, 1(4), 251-264"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1002/bs.3830010402"
+          }
+        ],
+        "note": "Batesonらのダブルバインド仮説の原著。出版社サイトの電子化日とは区別して原著年1956年を記載。統合失調症の原因として確立した説明とは扱いません。",
+        "period": "1956年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_577",
+      "title": "認知的オフローディング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Evan F. Risko / Sam J. Gilbert（参照文献の著者）",
+        "works": [
+          "Cognitive Offloading (2016). Trends in Cognitive Sciences, 20(9), 676-688"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/j.tics.2016.07.002"
+          }
+        ],
+        "note": "認知処理を外部へ移す認知的オフローディングを整理した論文。",
+        "period": "2016年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_574",
+      "title": "認知的柔軟性",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Matthew M. Martin / Rebecca B. Rubin（参照文献の著者）",
+        "works": [
+          "A New Measure of Cognitive Flexibility (1995). Psychological Reports, 76(2), 623-626"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2466/pr0.1995.76.2.623"
+          }
+        ],
+        "note": "認知的柔軟性を測定する原著。概念全体の唯一の初出とは断定しません。",
+        "period": "1995年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_493",
+      "title": "認知負荷理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John Sweller（参照文献の著者）",
+        "works": [
+          "Cognitive Load During Problem Solving: Effects on Learning (1988). Cognitive Science, 12(2), 257-285"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1207/s15516709cog1202_4"
+          }
+        ],
+        "note": "認知負荷と問題解決・学習との関係を検討した原著。",
+        "period": "1988年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_586",
+      "title": "反実仮想",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Neal J. Roese（参照文献の著者）",
+        "works": [
+          "Counterfactual thinking. (1997). Psychological Bulletin, 121(1), 133-148"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.121.1.133"
+          }
+        ],
+        "note": "反実仮想を整理した研究論文。",
+        "period": "1997年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_587",
+      "title": "選択されなかった道の理想化",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Neal J. Roese（関連文献の著者）",
+        "works": [
+          "Counterfactual thinking. (1997). Psychological Bulletin, 121(1), 133-148"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.121.1.133"
+          }
+        ],
+        "note": "反実仮想の研究を関連文献として提示。「選択されなかった道の理想化」は本アプリの説明的名称で、論文の正式な効果名ではありません。",
+        "period": "1997年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_578",
+      "title": "筆記開示",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "James W. Pennebaker / Sandra K. Beall（参照文献の著者）",
+        "works": [
+          "Confronting a traumatic event: Toward an understanding of inhibition and disease. (1986). Journal of Abnormal Psychology, 95(3), 274-281"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-843x.95.3.274"
+          }
+        ],
+        "note": "感情的経験の筆記開示を扱う原著。すべての状況・人に同じ効果を保証するものではありません。",
+        "period": "1986年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_055",
+      "title": "面子理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Erving Goffman（参照文献の著者）",
+        "works": [
+          "On Face-Work (1955). Psychiatry, 18(3), 213-231"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1080/00332747.1955.11023008"
+          }
+        ],
+        "note": "Goffman本人によるfaceとface-workの原著。面子に関する諸理論のすべてをこの論文へ一括帰属するものではありません。",
+        "period": "1955年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_056",
+      "title": "フェイスワーク",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Erving Goffman（参照文献の著者）",
+        "works": [
+          "On Face-Work (1955). Psychiatry, 18(3), 213-231"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1080/00332747.1955.11023008"
+          }
+        ],
+        "note": "Goffman本人によるfaceとface-workの原著。面子に関する諸理論のすべてをこの論文へ一括帰属するものではありません。",
+        "period": "1955年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_436",
+      "title": "フェイス理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Erving Goffman（参照文献の著者）",
+        "works": [
+          "On Face-Work (1955). Psychiatry, 18(3), 213-231"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1080/00332747.1955.11023008"
+          }
+        ],
+        "note": "Goffman本人によるfaceとface-workの原著。面子に関する諸理論のすべてをこの論文へ一括帰属するものではありません。",
+        "period": "1955年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_159",
+      "title": "面子保存",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Erving Goffman（関連文献の著者）",
+        "works": [
+          "On Face-Work (1955). Psychiatry, 18(3), 213-231"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1080/00332747.1955.11023008"
+          }
+        ],
+        "note": "face-workを対立時の面子保存の理論的背景として参照。カードは交渉向けの応用的整理です。",
+        "period": "1955年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_429",
+      "title": "ホット・コールド共感ギャップ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "George Loewenstein（参照文献の著者）",
+        "works": [
+          "Hot-cold empathy gaps and medical decision making. (2005). Health Psychology, 24(4, Suppl), S49-S56"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0278-6133.24.4.s49"
+          }
+        ],
+        "note": "ホット・コールド共感ギャップを意思決定に応用した著者本人の論文。初出とは断定しません。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_419",
+      "title": "ミケランジェロ現象",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Stephen M. Drigotas / Caryl E. Rusbult / Jennifer Wieselquist / Sarah W. Whitton（参照文献の著者）",
+        "works": [
+          "Close partner as sculptor of the ideal self: Behavioral affirmation and the Michelangelo phenomenon. (1999). Journal of Personality and Social Psychology, 77(2), 293-323"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.77.2.293"
+          }
+        ],
+        "note": "親密な相手による理想自己の行動的肯定を検討した原著。",
+        "period": "1999年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_572",
+      "title": "目標調整理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carsten Wrosch / Michael F. Scheier / Gregory E. Miller / Richard Schulz / Charles S. Carver（参照文献の著者）",
+        "works": [
+          "Adaptive Self-Regulation of Unattainable Goals: Goal Disengagement, Goal Reengagement, and Subjective Well-Being (2003). Personality and Social Psychology Bulletin, 29(12), 1494-1508"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0146167203256921"
+          }
+        ],
+        "note": "達成不能な目標からの離脱と再関与を扱う原著。",
+        "period": "2003年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_563",
+      "title": "死の顕現性",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Abram Rosenblatt / Jeff Greenberg / Sheldon Solomon / Tom Pyszczynski / Deborah Lyon（参照文献の著者）",
+        "works": [
+          "Evidence for terror management theory: I. The effects of mortality salience on reactions to those who violate or uphold cultural values. (1989). Journal of Personality and Social Psychology, 57(4), 681-690"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.57.4.681"
+          }
+        ],
+        "note": "死の顕現性と文化的価値への反応を検討したテロ管理理論の原著。",
+        "period": "1989年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_562",
+      "title": "有限性の自覚",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Abram Rosenblatt / Jeff Greenberg / Sheldon Solomon / Tom Pyszczynski / Deborah Lyon（関連文献の著者）",
+        "works": [
+          "Evidence for terror management theory: I. The effects of mortality salience on reactions to those who violate or uphold cultural values. (1989). Journal of Personality and Social Psychology, 57(4), 681-690"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.57.4.681"
+          }
+        ],
+        "note": "死の顕現性の研究を関連文献として参照。「有限性の自覚」はより広い実践的概念で、両者を同一の心理効果とは扱いません。",
+        "period": "1989年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_267",
+      "title": "相対的剝奪",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Heather J. Smith / Thomas F. Pettigrew / Gina M. Pippin / Silvana Bialosiewicz（参照文献の著者）",
+        "works": [
+          "Relative Deprivation (2012). Personality and Social Psychology Review, 16(3), 203-232"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/1088868311430825"
+          }
+        ],
+        "note": "相対的剥奪の理論と研究を検討したメタ分析。概念の歴史上の初出をこの論文へ帰属するものではありません。",
+        "period": "2012年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_566",
+      "title": "相対的剥奪",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Heather J. Smith / Thomas F. Pettigrew / Gina M. Pippin / Silvana Bialosiewicz（参照文献の著者）",
+        "works": [
+          "Relative Deprivation (2012). Personality and Social Psychology Review, 16(3), 203-232"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/1088868311430825"
+          }
+        ],
+        "note": "相対的剥奪の理論と研究を検討したメタ分析。概念の歴史上の初出をこの論文へ帰属するものではありません。",
+        "period": "2012年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_556",
+      "title": "忙しさバイアス",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Christopher K. Hsee / Adelle X. Yang / Liangyan Wang（関連文献の著者）",
+        "works": [
+          "Idleness Aversion and the Need for Justifiable Busyness (2010). Psychological Science, 21(7), 926-930"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0956797610374738"
+          }
+        ],
+        "note": "暇を避け、正当化できる忙しさを選ぶ研究を関連文献として参照。仕事の評価全般を説明する単一の「忙しさバイアス」の原典ではありません。",
+        "period": "2010年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_444",
+      "title": "キック・ザ・ドッグ効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jenny M. Hoobler / Daniel J. Brass（関連文献の著者）",
+        "works": [
+          "Abusive supervision and family undermining as displaced aggression. (2006). Journal of Applied Psychology, 91(5), 1125-1133"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-9010.91.5.1125"
+          }
+        ],
+        "note": "攻撃が家庭へ転位する過程の研究。「キック・ザ・ドッグ」は通俗的な比喩で、原著の正式な効果名ではありません。",
+        "period": "2006年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_521",
+      "title": "選択支持バイアス",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Mara Mather / Eldar Shafir / Marcia K. Johnson（参照文献の著者）",
+        "works": [
+          "Misremembrance of Options Past: Source Monitoring and Choice (2000). Psychological Science, 11(2), 132-138"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/1467-9280.00228"
+          }
+        ],
+        "note": "選んだ・選ばなかった選択肢の記憶の偏りを扱った原著。",
+        "period": "2000年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_199",
+      "title": "検索練習効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Henry L. Roediger / Jeffrey D. Karpicke（参照文献の著者）",
+        "works": [
+          "Test-Enhanced Learning (2006). Psychological Science, 17(3), 249-255"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1467-9280.2006.01693.x"
+          }
+        ],
+        "note": "再学習と検索練習を比較し長期保持を調べた原著。",
+        "period": "2006年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_170",
+      "title": "目標階層理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Charles S. Carver / Michael F. Scheier（参照文献の著者）",
+        "works": [
+          "Control theory: A useful conceptual framework for personality–social, clinical, and health psychology. (1982). Psychological Bulletin, 92(1), 111-135"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.92.1.111"
+          }
+        ],
+        "note": "Carver・Scheierの自己制御・目標階層の理論を参照。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_188",
+      "title": "接近目標・回避目標",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Andrew J. Elliot / Marcy A. Church（参照文献の著者）",
+        "works": [
+          "A hierarchical model of approach and avoidance achievement motivation. (1997). Journal of Personality and Social Psychology, 72(1), 218-232"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.72.1.218"
+          }
+        ],
+        "note": "達成動機における接近・回避目標を扱う原著。",
+        "period": "1997年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_538",
+      "title": "自己モニタリング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Benjamin Harkin / Thomas L. Webb / Betty P. I. Chang / Andrew Prestwich / Mark Conner / Ian Kellar / Yael Benn / Paschal Sheeran（参照文献の著者）",
+        "works": [
+          "Does monitoring goal progress promote goal attainment? A meta-analysis of the experimental evidence. (2016). Psychological Bulletin, 142(2), 198-229"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/bul0000025"
+          }
+        ],
+        "note": "進捗モニタリングと目標達成の実験研究を統合した論文。人格特性としてのself-monitoringとは区別します。",
+        "period": "2016年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_528",
+      "title": "環境デザイン",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Wendy Wood / David T. Neal（関連文献の著者）",
+        "works": [
+          "A new look at habits and the habit-goal interface. (2007). Psychological Review, 114(4), 843-863"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-295x.114.4.843"
+          }
+        ],
+        "note": "習慣と目標、環境手掛かりの研究を参照。カード名は実践向けの整理で、単一の心理法則名やこの文献の初出概念ではありません。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_534",
+      "title": "連続性原理",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Wendy Wood / David T. Neal（関連文献の著者）",
+        "works": [
+          "A new look at habits and the habit-goal interface. (2007). Psychological Review, 114(4), 843-863"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-295x.114.4.843"
+          }
+        ],
+        "note": "習慣と目標、環境手掛かりの研究を参照。カード名は実践向けの整理で、単一の心理法則名やこの文献の初出概念ではありません。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_533",
+      "title": "習慣の下限設定",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Phillippa Lally / Cornelia H. M. van Jaarsveld / Henry W. W. Potts / Jane Wardle（関連文献の著者）",
+        "works": [
+          "How are habits formed: Modelling habit formation in the real world (2010). European Journal of Social Psychology, 40(6), 998-1009"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1002/ejsp.674"
+          }
+        ],
+        "note": "現実生活の習慣形成の研究を関連文献として参照。「習慣の下限設定」は本アプリの実践的整理であり、この論文がその手法を直接検証したとは示しません。",
+        "period": "2010年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_139",
+      "title": "対比効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carl I. Hovland / Muzafer Sherif（参照文献の著者）",
+        "works": [
+          "Judgmental phenomena and scales of attitude measurement: item displacement in Thurstone scales. (1952). The Journal of Abnormal and Social Psychology, 47(4), 822-832"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/h0056372"
+          }
+        ],
+        "note": "判断の対比・同化を扱ったSherif・Hovlandの原著。カードの例示は日常場面への応用です。",
+        "period": "1952年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_178",
+      "title": "選択アーキテクチャ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eric J. Johnson / Suzanne B. Shu / Benedict G. C. Dellaert / Craig Fox / Daniel G. Goldstein / Gerald Häubl / Richard P. Larrick / John W. Payne / Ellen Peters / David Schkade / Brian Wansink / Elke U. Weber（参照文献の著者）",
+        "works": [
+          "Beyond nudges: Tools of a choice architecture (2012). Marketing Letters, 23(2), 487-504"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1007/s11002-012-9186-1"
+          }
+        ],
+        "note": "選択アーキテクチャの設計手段を整理した論文。",
+        "period": "2012年（参照文献）"
+      }
+    },
+    {
+      "tagId": "theory-1789620805420-wbuepmtu",
+      "title": "ゴルディロックス効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Itamar Simonson（参照文献の著者）",
+        "works": [
+          "Choice Based on Reasons: The Case of Attraction and Compromise Effects (1989). Journal of Consumer Research, 16(2), 158"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1086/209205"
+          }
+        ],
+        "note": "本カードの「中間の選択肢を選びやすい」説明はcompromise effectに対応します。同名の幼児の注意配分研究（Goldilocks effect）とは別の概念です。",
+        "period": "1989年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_527",
+      "title": "取引費用理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "R. H. Coase（参照文献の著者）",
+        "works": [
+          "The Nature of the Firm (1937). Economica, 4(16), 386-405"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1468-0335.1937.tb00002.x"
+          }
+        ],
+        "note": "企業の境界を取引費用から説明したCoaseの原著。",
+        "period": "1937年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_061",
+      "title": "外集団同質性効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "George A. Quattrone / Edward E. Jones（参照文献の著者）",
+        "works": [
+          "The perception of variability within in-groups and out-groups: Implications for the law of small numbers. (1980). Journal of Personality and Social Psychology, 38(1), 141-152"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.38.1.141"
+          }
+        ],
+        "note": "内集団と外集団の多様性知覚を比較した原著。",
+        "period": "1980年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_423",
+      "title": "サービス・リカバリー・パラドックス",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Michael A. McCollough / Leonard L. Berry / Manjit S. Yadav（参照文献の著者）",
+        "works": [
+          "An Empirical Investigation of Customer Satisfaction after Service Failure and Recovery (2000). Journal of Service Research, 3(2), 121-137"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/109467050032002"
+          }
+        ],
+        "note": "サービス失敗と回復後の満足を検討した原著。回復によって必ず通常以上の満足になるとは断定しません。",
+        "period": "2000年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_123",
+      "title": "ピグマリオン効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Elisha Y. Babad / Jacinto Inbar / Robert Rosenthal（参照文献の著者）",
+        "works": [
+          "Pygmalion, Galatea, and the Golem: Investigations of biased and unbiased teachers. (1982). Journal of Educational Psychology, 74(4), 459-474"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-0663.74.4.459"
+          }
+        ],
+        "note": "高い期待と低い期待の双方を扱う原著。ピグマリオン効果の歴史上の初出はこの論文より前です。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_124",
+      "title": "ゴーレム効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Elisha Y. Babad / Jacinto Inbar / Robert Rosenthal（参照文献の著者）",
+        "works": [
+          "Pygmalion, Galatea, and the Golem: Investigations of biased and unbiased teachers. (1982). Journal of Educational Psychology, 74(4), 459-474"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-0663.74.4.459"
+          }
+        ],
+        "note": "高い期待と低い期待の双方を扱う原著。ピグマリオン効果の歴史上の初出はこの論文より前です。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_118",
+      "title": "組織市民行動",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "C. Ann Smith / Dennis W. Organ / Janet P. Near（参照文献の著者）",
+        "works": [
+          "Organizational citizenship behavior: Its nature and antecedents. (1983). Journal of Applied Psychology, 68(4), 653-663"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-9010.68.4.653"
+          }
+        ],
+        "note": "組織市民行動の性質・先行要因を検討した原著。",
+        "period": "1983年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_129",
+      "title": "人・職務適合理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "AMY L. KRISTOF‐BROWN / RYAN D. ZIMMERMAN / ERIN C. JOHNSON（参照文献の著者）",
+        "works": [
+          "CONSEQUENCES OF INDIVIDUALS' FIT AT WORK: A META‐ANALYSIS OF PERSON–JOB, PERSON–ORGANIZATION, PERSON–GROUP, AND PERSON–SUPERVISOR FIT (2005). Personnel Psychology, 58(2), 281-342"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1744-6570.2005.00672.x"
+          }
+        ],
+        "note": "人・職務、人・組織等の適合を検討したメタ分析。文化的適合はその関連領域として扱います。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_456",
+      "title": "文化的適合理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "AMY L. KRISTOF‐BROWN / RYAN D. ZIMMERMAN / ERIN C. JOHNSON（参照文献の著者）",
+        "works": [
+          "CONSEQUENCES OF INDIVIDUALS' FIT AT WORK: A META‐ANALYSIS OF PERSON–JOB, PERSON–ORGANIZATION, PERSON–GROUP, AND PERSON–SUPERVISOR FIT (2005). Personnel Psychology, 58(2), 281-342"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1744-6570.2005.00672.x"
+          }
+        ],
+        "note": "人・職務、人・組織等の適合を検討したメタ分析。文化的適合はその関連領域として扱います。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_080",
+      "title": "フレンチ＝レイヴンの権力基盤",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "J. R. P. FRENCH / B. RAVEN（参照文献の著者）",
+        "works": [
+          "The Bases of Social Power (1986). Political Leadership, 300-318"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/jj.12381759.38"
+          }
+        ],
+        "note": "French・Raven本人の論考の再録（1986年）。原著1959年の分類と後年追加された情報的権力を区別して参照します。",
+        "period": "1986年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_193",
+      "title": "グッドハートの法則",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "C. A. E. Goodhart（参照文献の著者）",
+        "works": [
+          "Problems of Monetary Management: The UK Experience (1984). Monetary Theory and Practice, 91-121"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1007/978-1-349-17295-5_4"
+          }
+        ],
+        "note": "Goodhart本人の論考を収めた1984年版。原著の発表時期と本カードの一般化された表現は区別します。",
+        "period": "1984年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_194",
+      "title": "キャンベルの法則",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Donald T. Campbell（参照文献の著者）",
+        "works": [
+          "Assessing the impact of planned social change (1979). Evaluation and Program Planning, 2(1), 67-90"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0149-7189(79)90048-x"
+          }
+        ],
+        "note": "Campbell本人による数値指標・社会変革の評価を扱う論考。",
+        "period": "1979年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_506",
+      "title": "組織学習",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Chris Argyris（参照文献の著者）",
+        "works": [
+          "Double-Loop Learning In Organizations A Theory Of Action Perspective (2005). Great Minds in Management, 261-279"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1093/oso/9780199276813.003.0013"
+          }
+        ],
+        "note": "Argyris本人による組織のダブルループ学習の論考。組織学習全体の唯一の初出としては扱いません。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_516",
+      "title": "知識共有",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Ikujiro Nonaka（参照文献の著者）",
+        "works": [
+          "A Dynamic Theory of Organizational Knowledge Creation (1994). Organization Science, 5(1), 14-37"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1287/orsc.5.1.14"
+          }
+        ],
+        "note": "組織的知識創造と知識の移転・共有を扱った原著。",
+        "period": "1994年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_519",
+      "title": "スラック資源",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "L. J. Bourgeois（参照文献の著者）",
+        "works": [
+          "On the Measurement of Organizational Slack (1981). The Academy of Management Review, 6(1), 29"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/257138"
+          }
+        ],
+        "note": "組織スラックの定義と測定を扱った原著。",
+        "period": "1981年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_509",
+      "title": "インセンティブ設計",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Bengt Holmstrom / Paul Milgrom（参照文献の著者）",
+        "works": [
+          "Multitask Principal–Agent Analyses: Incentive Contracts, Asset Ownership, and Job Design (1991). The Journal of Law, Economics, and Organization, 7(special_issue), 24-52"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1093/jleo/7.special_issue.24"
+          }
+        ],
+        "note": "複数業務のインセンティブ設計と測定可能な業務への偏りを扱う原著。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_453",
+      "title": "集団規模効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Steven J. Karau / Kipling D. Williams（関連文献の著者）",
+        "works": [
+          "Social loafing: A meta-analytic review and theoretical integration. (1993). Journal of Personality and Social Psychology, 65(4), 681-706"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.65.4.681"
+          }
+        ],
+        "note": "集団人数、調整・動機づけの研究を関連文献として参照。本カードは会話場面まで含む一般的整理で、すべてを一つの人数効果で説明しません。",
+        "period": "1993年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_071",
+      "title": "リンゲルマン効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "David A. Kravitz / Barbara Martin（参照文献の著者）",
+        "works": [
+          "Ringelmann rediscovered: The original article. (1986). Journal of Personality and Social Psychology, 50(5), 936-941"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.50.5.936"
+          }
+        ],
+        "note": "Ringelmannの原著を検討・紹介する研究論文。原著の著者と再検討の著者を区別します。",
+        "period": "1986年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_117",
+      "title": "成果帰属問題",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Lee D. Ross / Teresa M. Amabile / Julia L. Steinmetz（関連文献の著者）",
+        "works": [
+          "Social roles, social control, and biases in social-perception processes. (1977). Journal of Personality and Social Psychology, 35(7), 485-494"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.35.7.485"
+          }
+        ],
+        "note": "役割と状況を踏まえない能力判断の研究を、共同成果の帰属問題の関連文献として参照。カード名は固有の理論名ではありません。",
+        "period": "1977年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_195",
+      "title": "目標代替",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "R. K. Merton（参照文献の著者）",
+        "works": [
+          "Bureaucratic Structure and Personality (1940). Social Forces, 18(4), 560-568"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2570634"
+          }
+        ],
+        "note": "Mertonの官僚制と目標置換に関する原著。個人の習慣等への適用はアプリによる応用です。",
+        "period": "1940年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_508",
+      "title": "目標置換",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "R. K. Merton（参照文献の著者）",
+        "works": [
+          "Bureaucratic Structure and Personality (1940). Social Forces, 18(4), 560-568"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2570634"
+          }
+        ],
+        "note": "Mertonの官僚制と目標置換に関する原著。個人の習慣等への適用はアプリによる応用です。",
+        "period": "1940年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_557",
+      "title": "手段の目的化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "R. K. Merton（参照文献の著者）",
+        "works": [
+          "Bureaucratic Structure and Personality (1940). Social Forces, 18(4), 560-568"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2570634"
+          }
+        ],
+        "note": "Mertonの官僚制と目標置換に関する原著。個人の習慣等への適用はアプリによる応用です。",
+        "period": "1940年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_458",
+      "title": "内集団シグナル",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Lauren A. Rivera（関連文献の著者）",
+        "works": [
+          "Hiring as Cultural Matching (2012). American Sociological Review, 77(6), 999-1022"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0003122412463213"
+          }
+        ],
+        "note": "採用における文化的マッチングの研究を参照。「内集団シグナル」はより広い実践的整理で、単一の確立した効果名ではありません。",
+        "period": "2012年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_292",
+      "title": "クランボルツの社会的学習理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John D. Krumboltz / Anita M. Mitchell / G. Brian Jones（参照文献の著者）",
+        "works": [
+          "A Social Learning Theory of Career Selection (1976). The Counseling Psychologist, 6(1), 71-81"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/001100007600600117"
+          }
+        ],
+        "note": "Krumboltzらのキャリア選択の社会的学習理論の原著。",
+        "period": "1976年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_593",
+      "title": "機会認識",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "SCOTT Shane / S. Venkataraman（参照文献の著者）",
+        "works": [
+          "The Promise of Entrepreneurship as a Field of Research (2000). Academy of Management Review, 25(1), 217-226"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.5465/amr.2000.2791611"
+          }
+        ],
+        "note": "起業機会の発見・評価・利用を扱った原著。日常場面への説明は応用です。",
+        "period": "2000年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_488",
+      "title": "漸進主義",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Charles E. Lindblom（参照文献の著者）",
+        "works": [
+          "The Science of \"Muddling Through\" (1959). Public Administration Review, 19(2), 79"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/973677"
+          }
+        ],
+        "note": "政策決定の漸進主義を提示した原著。",
+        "period": "1959年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_561",
+      "title": "バックキャスティング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John B. Robinson（参照文献の著者）",
+        "works": [
+          "Futures under glass (1990). Futures, 22(8), 820-842"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0016-3287(90)90018-d"
+          }
+        ],
+        "note": "未来の望ましい状態から逆算するbackcastingを扱った原著。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_145",
+      "title": "固定パイ・バイアス",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Leigh Thompson / Reid Hastie（参照文献の著者）",
+        "works": [
+          "Social perception in negotiation (1990). Organizational Behavior and Human Decision Processes, 47(1), 98-123"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0749-5978(90)90048-e"
+          }
+        ],
+        "note": "交渉で相手の利益をどう推測するかを検討した原著。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_525",
+      "title": "勝者の呪い回避",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "E.C. Capen / R.V. Clapp / W.M. Campbell（参照文献の著者）",
+        "works": [
+          "Competitive Bidding in High-Risk Situations (1971). Journal of Petroleum Technology, 23(06), 641-653"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2118/2993-pa"
+          }
+        ],
+        "note": "高リスクの競争入札と勝者の過大評価を扱った原著。",
+        "period": "1971年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_146",
+      "title": "反応的価値下げ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Lee Ross / Constance Stillinger（参照文献の著者）",
+        "works": [
+          "Barriers to Conflict Resolution (1991). Negotiation Journal, 7(4), 389-404"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1571-9979.1991.tb00634.x"
+          }
+        ],
+        "note": "当事者間の価値下げ等、紛争解決の障壁を扱った著者本人らの論考。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_569",
+      "title": "可逆性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert K. Dixit / Robert S. Pindyck（関連文献の著者）",
+        "works": [
+          "Investment under Uncertainty (1994). "
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1515/9781400830176"
+          }
+        ],
+        "note": "不可逆性と不確実性を投資判断から扱った著作。カードの一般的な生活判断への適用は応用的整理です。",
+        "period": "1994年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_113",
+      "title": "評判形成理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "David M Kreps / Robert Wilson（参照文献の著者）",
+        "works": [
+          "Reputation and imperfect information (1982). Journal of Economic Theory, 27(2), 253-279"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0022-0531(82)90030-8"
+          }
+        ],
+        "note": "不完全情報ゲームにおける評判を扱う原著。日常の評判形成への説明は応用です。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_162",
+      "title": "囚人のジレンマ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert Axelrod / William D. Hamilton（参照文献の著者）",
+        "works": [
+          "The Evolution of Cooperation (1981). Science, 211(4489), 1390-1396"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1126/science.7466396"
+          }
+        ],
+        "note": "反復された囚人のジレンマで協力が成立する条件を扱う原著。囚人のジレンマ自体の初出は1950年代で、この論文が考案したゲームではありません。",
+        "period": "1981年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_163",
+      "title": "反復ゲーム",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert Axelrod / William D. Hamilton（参照文献の著者）",
+        "works": [
+          "The Evolution of Cooperation (1981). Science, 211(4489), 1390-1396"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1126/science.7466396"
+          }
+        ],
+        "note": "反復された囚人のジレンマで協力が成立する条件を扱う原著。囚人のジレンマ自体の初出は1950年代で、この論文が考案したゲームではありません。",
+        "period": "1981年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_205",
+      "title": "メタ認知モデル",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Adrian Wells / Gerald Matthews（参照文献の著者）",
+        "works": [
+          "Modelling cognition in emotional disorder: The S-REF model (1996). Behaviour Research and Therapy, 34(11-12), 881-888"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/s0005-7967(96)00050-2"
+          }
+        ],
+        "note": "Wells・MatthewsのS-REFモデルの原著。心配・反すう、脅威への注意とメタ認知的信念を扱います。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_206",
+      "title": "認知的注意症候群",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Adrian Wells / Gerald Matthews（参照文献の著者）",
+        "works": [
+          "Modelling cognition in emotional disorder: The S-REF model (1996). Behaviour Research and Therapy, 34(11-12), 881-888"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/s0005-7967(96)00050-2"
+          }
+        ],
+        "note": "Wells・MatthewsのS-REFモデルの原著。心配・反すう、脅威への注意とメタ認知的信念を扱います。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_095",
+      "title": "ガスライティング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Paige L. Sweet（参照文献の著者）",
+        "works": [
+          "The Sociology of Gaslighting (2019). American Sociological Review, 84(5), 851-875"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0003122419874843"
+          }
+        ],
+        "note": "社会学的な権力・不平等の文脈でgaslightingを研究した原著。用語の歴史上の初出はこの論文ではありません。",
+        "period": "2019年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_388",
+      "title": "非言語コミュニケーション",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Judith A. Hall / Erik J. Coats / Lavonia Smith LeBeau（参照文献の著者）",
+        "works": [
+          "Nonverbal Behavior and the Vertical Dimension of Social Relations: A Meta-Analysis. (2005). Psychological Bulletin, 131(6), 898-924"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.131.6.898"
+          }
+        ],
+        "note": "非言語行動と地位・権力の関係を統合した研究。個別のしぐさから地位や意図を断定できるという意味ではありません。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_474",
+      "title": "非言語的地位表示",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Judith A. Hall / Erik J. Coats / Lavonia Smith LeBeau（参照文献の著者）",
+        "works": [
+          "Nonverbal Behavior and the Vertical Dimension of Social Relations: A Meta-Analysis. (2005). Psychological Bulletin, 131(6), 898-924"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.131.6.898"
+          }
+        ],
+        "note": "非言語行動と地位・権力の関係を統合した研究。個別のしぐさから地位や意図を断定できるという意味ではありません。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_475",
+      "title": "服従シグナル",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Judith A. Hall / Erik J. Coats / Lavonia Smith LeBeau（関連文献の著者）",
+        "works": [
+          "Nonverbal Behavior and the Vertical Dimension of Social Relations: A Meta-Analysis. (2005). Psychological Bulletin, 131(6), 898-924"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.131.6.898"
+          }
+        ],
+        "note": "地位と非言語行動の研究を関連文献として参照。「服従シグナル」はアプリの実務語で、特定動作による必然的結果を示す法則ではありません。",
+        "period": "2005年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_482",
+      "title": "独立的同調",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Marilynn B. Brewer（関連文献の著者）",
+        "works": [
+          "The Social Self: On Being the Same and Different at the Same Time (1991). Personality and Social Psychology Bulletin, 17(5), 475-482"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0146167291175001"
+          }
+        ],
+        "note": "集団への所属と独自性の両立を扱う研究を参照。「独立的同調」は実践的な整理であり、原著の正式な理論名ではありません。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_460",
+      "title": "個人化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Susan T. Fiske / Steven L. Neuberg（参照文献の著者）",
+        "works": [
+          "A Continuum of Impression Formation, from Category-Based to Individuating Processes: Influences of Information and Motivation on Attention and Interpretation (1990). Advances in Experimental Social Psychology, 1-74"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/s0065-2601(08)60317-2"
+          }
+        ],
+        "note": "カテゴリに基づく印象と個別情報に基づく印象の連続体モデルを提示した原著。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_471",
+      "title": "負の紐帯管理",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Giuseppe Labianca / Daniel J. Brass（関連文献の著者）",
+        "works": [
+          "Exploring the Social Ledger: Negative Relationships and Negative Asymmetry in Social Networks in Organizations (2006). Academy of Management Review, 31(3), 596-614"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.5465/amr.2006.21318920"
+          }
+        ],
+        "note": "組織内ネットワークの負の関係を扱う研究。具体的管理手法はアプリによる実践向けの整理です。",
+        "period": "2006年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_487",
+      "title": "責任の明確化",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John M. Darley / Bibb Latane（関連文献の著者）",
+        "works": [
+          "Bystander intervention in emergencies: Diffusion of responsibility. (1968). Journal of Personality and Social Psychology, 8(4, Pt.1), 377-383"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/h0025589"
+          }
+        ],
+        "note": "責任の分散に関する研究を関連文献として参照。業務の責任割当そのものを実験検証した文献ではありません。",
+        "period": "1968年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_435",
+      "title": "期待管理",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Richard L. Oliver（関連文献の著者）",
+        "works": [
+          "A Cognitive Model of the Antecedents and Consequences of Satisfaction Decisions (1980). Journal of Marketing Research, 17(4), 460-469"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/002224378001700405"
+          }
+        ],
+        "note": "満足の期待・不一致モデルを関連文献として参照。「期待管理」は一般的な実務概念で、固有の理論の名称ではありません。",
+        "period": "1980年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_408",
+      "title": "価値観推定",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Shalom H. Schwartz（関連文献の著者）",
+        "works": [
+          "Universals in the Content and Structure of Values: Theoretical Advances and Empirical Tests in 20 Countries (1992). Advances in Experimental Social Psychology; Advances in Experimental Social Psychology Volume 25, 1-65"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/s0065-2601(08)60281-6"
+          }
+        ],
+        "note": "価値の構造を扱う原著を関連文献として参照。会話から価値を推定する特定の手法を検証・診断する文献ではありません。",
+        "period": "1992年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_568",
+      "title": "最適化の罠",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Barry Schwartz / Andrew Ward / John Monterosso / Sonja Lyubomirsky / Katherine White / Darrin R. Lehman（関連文献の著者）",
+        "works": [
+          "Maximizing versus satisficing: Happiness is a matter of choice. (2002). Journal of Personality and Social Psychology, 83(5), 1178-1197"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.83.5.1178"
+          }
+        ],
+        "note": "最大化と満足化の研究を関連文献として参照。「最適化の罠」は実践的な名称で、この論文の正式な効果名ではありません。",
+        "period": "2002年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_523",
+      "title": "沈黙の圧力",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jared R. Curhan / Jennifer R. Overbeck / Yeri Cho / Teng Zhang / Yu Yang（関連文献の著者）",
+        "works": [
+          "Silence is golden: Extended silence, deliberative mindset, and value creation in negotiation. (2022). Journal of Applied Psychology, 107(1), 78-94"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/apl0000877"
+          }
+        ],
+        "note": "交渉中の延長された沈黙を扱う原著。ただし研究は沈黙による熟慮・価値創出を検討しており、「相手が気まずさで必ず譲歩する」という説明を直接保証するものではありません。",
+        "period": "2022年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_051",
+      "title": "アサーション理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Brittany C. Speed / Brandon L. Goldstein / Marvin R. Goldfried（参照文献の著者）",
+        "works": [
+          "Assertiveness training: A forgotten evidence‐based treatment. (2018). Clinical Psychology: Science and Practice, 25(1)"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/cpsp.12216"
+          }
+        ],
+        "note": "アサーション訓練の歴史と研究を整理した論文。単一の「アサーション理論」の初出としては扱いません。",
+        "period": "2018年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_422",
+      "title": "予測可能性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Dan W. Grupe / Jack B. Nitschke（関連文献の著者）",
+        "works": [
+          "Uncertainty and anticipation in anxiety: an integrated neurobiological and psychological perspective (2013). Nature Reviews Neuroscience, 14(7), 488-501"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1038/nrn3524"
+          }
+        ],
+        "note": "不確実性・予期と不安の研究を関連文献として参照。カード名は一般概念・実践的整理で、固有の単一理論名ではありません。",
+        "period": "2013年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_591",
+      "title": "評価の時間的不確実性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Dan W. Grupe / Jack B. Nitschke（関連文献の著者）",
+        "works": [
+          "Uncertainty and anticipation in anxiety: an integrated neurobiological and psychological perspective (2013). Nature Reviews Neuroscience, 14(7), 488-501"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1038/nrn3524"
+          }
+        ],
+        "note": "不確実性・予期と不安の研究を関連文献として参照。カード名は一般概念・実践的整理で、固有の単一理論名ではありません。",
+        "period": "2013年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_550",
+      "title": "新奇性効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Nico Bunzeck / Emrah Düzel（関連文献の著者）",
+        "works": [
+          "Absolute Coding of Stimulus Novelty in the Human Substantia Nigra/VTA (2006). Neuron, 51(3), 369-379"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/j.neuron.2006.06.021"
+          }
+        ],
+        "note": "刺激の新奇性に関する神経科学研究を参照。注意・動機・記憶すべてに同一の持続的効果が出るとは断定しません。",
+        "period": "2006年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_477",
+      "title": "一貫性原理",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Jonathan L. Freedman / Scott C. Fraser（参照文献の著者）",
+        "works": [
+          "Compliance without pressure: The foot-in-the-door technique. (1966). Journal of Personality and Social Psychology, 4(2), 195-202"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/h0023552"
+          }
+        ],
+        "note": "小さな先行要求と後続の応諾を検討した原著を一貫性原理の関連研究として提示。",
+        "period": "1966年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_251",
+      "title": "アイデンティティ移行",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Herminia Ibarra（関連文献の著者）",
+        "works": [
+          "Provisional Selves: Experimenting with Image and Identity in Professional Adaptation (1999). Administrative Science Quarterly, 44(4), 764-791"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2667055"
+          }
+        ],
+        "note": "職業上の自己像を試しながら変える原著を参照。各カードは移行期への応用的整理で、原著に同名の固有の理論・効果があるとは主張しません。",
+        "period": "1999年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_558",
+      "title": "自己更新",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Herminia Ibarra（関連文献の著者）",
+        "works": [
+          "Provisional Selves: Experimenting with Image and Identity in Professional Adaptation (1999). Administrative Science Quarterly, 44(4), 764-791"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2667055"
+          }
+        ],
+        "note": "職業上の自己像を試しながら変える原著を参照。各カードは移行期への応用的整理で、原著に同名の固有の理論・効果があるとは主張しません。",
+        "period": "1999年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_590",
+      "title": "拙速な再同一化",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Herminia Ibarra（関連文献の著者）",
+        "works": [
+          "Provisional Selves: Experimenting with Image and Identity in Professional Adaptation (1999). Administrative Science Quarterly, 44(4), 764-791"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2667055"
+          }
+        ],
+        "note": "職業上の自己像を試しながら変える原著を参照。各カードは移行期への応用的整理で、原著に同名の固有の理論・効果があるとは主張しません。",
+        "period": "1999年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_539",
+      "title": "プロセス目標",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Barry J. Zimmerman / Anastasia Kitsantas（参照文献の著者）",
+        "works": [
+          "Developmental phases in self-regulation: Shifting from process goals to outcome goals. (1997). Journal of Educational Psychology, 89(1), 29-36"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-0663.89.1.29"
+          }
+        ],
+        "note": "プロセス目標から成果目標への移行を検討した原著。",
+        "period": "1997年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_499",
+      "title": "自己犠牲バイアス",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Christopher Y. Olivola / Eldar Shafir（関連文献の著者）",
+        "works": [
+          "The Martyrdom Effect: When Pain and Effort Increase Prosocial Contributions (2013). Journal of Behavioral Decision Making, 26(1), 91-105"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1002/bdm.767"
+          }
+        ],
+        "note": "痛みや努力が貢献に意味を与える研究を関連文献として参照。「自己犠牲バイアス」は実務的名称で、原著の正式な効果名ではありません。",
+        "period": "2013年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_570",
+      "title": "ベイズ更新",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Thomas Bayes（参照文献の著者）",
+        "works": [
+          "LII. An essay towards solving a problem in the doctrine of chances. By the late Rev. Mr. Bayes, F. R. S. communicated by Mr. Price, in a letter to John Canton, A. M. F. R. S (1763). Philosophical Transactions of the Royal Society of London, 370-418"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1098/rstl.1763.0053"
+          }
+        ],
+        "note": "Bayesの死後にRichard Priceが提出した原著。現在のベイズ推論の全体系をこの一篇へ帰属するものではありません。",
+        "period": "1763年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_432",
+      "title": "接触頻度管理",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert B. Zajonc（関連文献の著者）",
+        "works": [
+          "Attitudinal effects of mere exposure. (1968). Journal of Personality and Social Psychology, 9(2, Pt.2), 1-27"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/h0025848"
+          }
+        ],
+        "note": "単純接触の原著を関連文献として参照。連絡の最適回数や疲労管理の手法を直接検証したものではありません。",
+        "period": "1968年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_467",
+      "title": "役割限定性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Richard L. Moreland / John M. Levine（関連文献の著者）",
+        "works": [
+          "Socialization in Small Groups: Temporal Changes in Individual-Group Relations (1982). Advances in Experimental Social Psychology; Advances in Experimental Social Psychology Volume 15, 137-192"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/s0065-2601(08)60297-x"
+          }
+        ],
+        "note": "集団と成員の関係が時間と役割に応じて変化する研究を参照。「役割限定性」はアプリの説明的整理です。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_214",
+      "title": "確率過大評価",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Edna B. Foa / Martin E. Franklin / Kevin J. Perry / James D. Herbert（参照文献の著者）",
+        "works": [
+          "Cognitive biases in generalized social phobia. (1996). Journal of Abnormal Psychology, 105(3), 433-439"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-843x.105.3.433"
+          }
+        ],
+        "note": "社会不安での悪い出来事の確率・コストの見積もりを検討した原著。一般の判断すべてが同じ偏りを持つとは断定しません。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_215",
+      "title": "コスト過大評価",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Edna B. Foa / Martin E. Franklin / Kevin J. Perry / James D. Herbert（参照文献の著者）",
+        "works": [
+          "Cognitive biases in generalized social phobia. (1996). Journal of Abnormal Psychology, 105(3), 433-439"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-843x.105.3.433"
+          }
+        ],
+        "note": "社会不安での悪い出来事の確率・コストの見積もりを検討した原著。一般の判断すべてが同じ偏りを持つとは断定しません。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_585",
+      "title": "転移可能スキル",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Beryl Hesketh（関連文献の著者）",
+        "works": [
+          "Dilemmas in Training for Transfer and Retention (1997). Applied Psychology, 46(4), 317-339"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1464-0597.1997.tb01234.x"
+          }
+        ],
+        "note": "訓練から他の場面への学習の転移を扱う研究を参照。「転移可能スキル」は幅広いキャリア上の概念で、単一の発明者を持つ理論ではありません。",
+        "period": "1997年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_478",
+      "title": "自己注目理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert A Wicklund / Shelley Duval（参照文献の著者）",
+        "works": [
+          "Opinion change and performance facilitation as a result of objective self-awareness (1971). Journal of Experimental Social Psychology, 7(3), 319-342"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0022-1031(71)90032-1"
+          }
+        ],
+        "note": "客観的自己意識と遂行・意見変化を検討したDuval・Wicklund本人の原著。",
+        "period": "1971年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_204",
+      "title": "心配の回避理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "David York / T.D. Borkovec / Michael Vasey / Robert Stern（参照文献の著者）",
+        "works": [
+          "Effects of worry and somatic anxiety induction on thoughts, emotion and physiological activity (1987). Behaviour Research and Therapy, 25(6), 523-526"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0005-7967(87)90060-x"
+          }
+        ],
+        "note": "Borkovecらによる心配の感情・生理反応の研究。回避理論の関連原著として参照し、理論の全体系の初出とは断定しません。",
+        "period": "1987年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_536",
+      "title": "オペラント条件づけ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_048",
+      "title": "間欠強化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_437",
+      "title": "強化理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_438",
+      "title": "刺激統制",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_440",
+      "title": "消去理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_209",
+      "title": "ネガティブ強化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "Skinner本人の著作を財団の書誌で確認。強化・刺激統制・消去の基礎文献。特定の対人関係への応用は理論の直接検証と区別します。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_208",
+      "title": "回避学習",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "B. F. Skinner（参照文献の著者）",
+        "works": [
+          "Science and Human Behavior (1953)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.bfskinner.org/publications/full-bibliography/"
+          }
+        ],
+        "note": "負の強化・回避の学習を説明する基礎文献。回避学習の研究史をSkinnerだけへ帰属しません。",
+        "period": "1953年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_212",
+      "title": "感情推論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Aaron T. Beck / A. John Rush / Brian F. Shaw / Gary Emery / Robert J. DeRubeis / Steven D. Hollon（参照文献の著者）",
+        "works": [
+          "Cognitive Therapy of Depression, 2nd ed. (2024)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.guilford.com/books/Cognitive-Therapy-of-Depression/Beck-Rush-Shaw-Emery/9781572305823"
+          }
+        ],
+        "note": "認知療法の著者らの著作・現行版を参照。初版1979年と第二版2024年を区別し、各認知の偏りの唯一の初出とは断定しません。",
+        "period": "2024年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_213",
+      "title": "破局的思考",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Aaron T. Beck / A. John Rush / Brian F. Shaw / Gary Emery / Robert J. DeRubeis / Steven D. Hollon（参照文献の著者）",
+        "works": [
+          "Cognitive Therapy of Depression, 2nd ed. (2024)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.guilford.com/books/Cognitive-Therapy-of-Depression/Beck-Rush-Shaw-Emery/9781572305823"
+          }
+        ],
+        "note": "認知療法の著者らの著作・現行版を参照。初版1979年と第二版2024年を区別し、各認知の偏りの唯一の初出とは断定しません。",
+        "period": "2024年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_573",
+      "title": "二分法的思考",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Aaron T. Beck / A. John Rush / Brian F. Shaw / Gary Emery / Robert J. DeRubeis / Steven D. Hollon（参照文献の著者）",
+        "works": [
+          "Cognitive Therapy of Depression, 2nd ed. (2024)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.guilford.com/books/Cognitive-Therapy-of-Depression/Beck-Rush-Shaw-Emery/9781572305823"
+          }
+        ],
+        "note": "認知療法の著者らの著作・現行版を参照。初版1979年と第二版2024年を区別し、各認知の偏りの唯一の初出とは断定しません。",
+        "period": "2024年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_576",
+      "title": "過度の一般化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Aaron T. Beck / A. John Rush / Brian F. Shaw / Gary Emery / Robert J. DeRubeis / Steven D. Hollon（参照文献の著者）",
+        "works": [
+          "Cognitive Therapy of Depression, 2nd ed. (2024)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.guilford.com/books/Cognitive-Therapy-of-Depression/Beck-Rush-Shaw-Emery/9781572305823"
+          }
+        ],
+        "note": "認知療法の著者らの著作・現行版を参照。初版1979年と第二版2024年を区別し、各認知の偏りの唯一の初出とは断定しません。",
+        "period": "2024年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_228",
+      "title": "ストレス評価理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Richard S. Lazarus / Susan Folkman（参照文献の著者）",
+        "works": [
+          "Stress, Appraisal, and Coping (1984)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.springerpub.com/all-products/stress-and-emotion-9780826102614.html"
+          }
+        ],
+        "note": "著者の続編を刊行する出版社が基礎著作を明示。評価と問題焦点型・感情焦点型コーピングの基礎文献です。",
+        "period": "1984年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_229",
+      "title": "問題焦点型・感情焦点型コーピング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Richard S. Lazarus / Susan Folkman（参照文献の著者）",
+        "works": [
+          "Stress, Appraisal, and Coping (1984)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.springerpub.com/all-products/stress-and-emotion-9780826102614.html"
+          }
+        ],
+        "note": "著者の続編を刊行する出版社が基礎著作を明示。評価と問題焦点型・感情焦点型コーピングの基礎文献です。",
+        "period": "1984年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_254",
+      "title": "曖昧な喪失",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Pauline Boss（参照文献の著者）",
+        "works": [
+          "Ambiguous Loss: Learning to Live with Unresolved Grief (1999)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.sir.advancedleadership.harvard.edu/articles/ambiguous-loss-giving-a-name-to-global-disappearances"
+          }
+        ],
+        "note": "提唱者本人による解説と原著への参照を確認。",
+        "period": "1999年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_412",
+      "title": "アクティブリスニング",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carl R. Rogers / Richard E. Farson（参照文献の著者）",
+        "works": [
+          "Active Listening (1957)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gordontraining.com/free-workplace-articles/active-listening/"
+          }
+        ],
+        "note": "著者本人らの1957年の論考の再掲。相手の意味や感情を理解し、聴き方に反映する対話を扱います。",
+        "period": "1957年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_411",
+      "title": "共感的傾聴",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carl R. Rogers / Richard E. Farson（参照文献の著者）",
+        "works": [
+          "Active Listening (1957)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gordontraining.com/free-workplace-articles/active-listening/"
+          }
+        ],
+        "note": "著者本人らの1957年の論考の再掲。相手の意味や感情を理解し、聴き方に反映する対話を扱います。",
+        "period": "1957年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_405",
+      "title": "感情焦点型コミュニケーション",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Carl R. Rogers / Richard E. Farson（関連文献の著者）",
+        "works": [
+          "Active Listening (1957)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gordontraining.com/free-workplace-articles/active-listening/"
+          }
+        ],
+        "note": "傾聴における意味・感情の理解と確認を背景文献として提示。カード名は本アプリの実践的整理で、論文に同名の単一の効果があるとは示しません。",
+        "period": "1957年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_406",
+      "title": "仮説提示効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Carl R. Rogers / Richard E. Farson（関連文献の著者）",
+        "works": [
+          "Active Listening (1957)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gordontraining.com/free-workplace-articles/active-listening/"
+          }
+        ],
+        "note": "傾聴における意味・感情の理解と確認を背景文献として提示。カード名は本アプリの実践的整理で、論文に同名の単一の効果があるとは示しません。",
+        "period": "1957年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_052",
+      "title": "DESC法",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Sharon Anthony Bower / Gordon H. Bower（参照文献の著者）",
+        "works": [
+          "Asserting Yourself: A Practical Guide for Positive Change, Updated Edition (2004)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.hachettebookgroup.com/titles/sharon-anthony-bower/asserting-yourself-updated-edition/9780738209715/"
+          }
+        ],
+        "note": "出版社がDESC（describe, express, specify, consequences）の収録を明示している著作を参照。",
+        "period": "2004年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_427",
+      "title": "境界設定",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）",
+        "works": [
+          "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/"
+          }
+        ],
+        "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。"
+      }
+    },
+    {
+      "tagId": "kb_092",
+      "title": "境界線理論",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）",
+        "works": [
+          "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/"
+          }
+        ],
+        "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。"
+      }
+    },
+    {
+      "tagId": "kb_448",
+      "title": "境界尊重テスト",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）",
+        "works": [
+          "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/"
+          }
+        ],
+        "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。"
+      }
+    },
+    {
+      "tagId": "kb_431",
+      "title": "境界調整",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）",
+        "works": [
+          "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/"
+          }
+        ],
+        "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。"
+      }
+    },
+    {
+      "tagId": "kb_262",
+      "title": "学習性楽観主義",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Martin E. P. Seligman（参照文献の著者）",
+        "works": [
+          "Learned Optimism, Vintage edition (2006)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/163862/learned-optimism-by-martin-e-p-seligman-phd/"
+          }
+        ],
+        "note": "著者の代表著作を出版社の書誌で確認。参照した版の年を記載し、初版の刊行年とは区別します。",
+        "period": "2006年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_041",
+      "title": "ゴットマンの四騎士",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John Gottman / The Gottman Institute（参照文献の著者）",
+        "works": [
+          "The Four Horsemen / Repair Checklist（公式解説）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gottman.com/product/intervention-handout/"
+          }
+        ],
+        "note": "研究者側の公式資料が四騎士と修復試行を明示。書誌確認は関係破綻の予測精度の保証ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_040",
+      "title": "修復試行",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John Gottman / The Gottman Institute（関連文献の著者）",
+        "works": [
+          "Repair Checklist & The Four Horsemen（公式資料）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gottman.com/product/intervention-handout/"
+          }
+        ],
+        "note": "研究者側の修復・対立対処の公式資料を参照。ネガティブ感情の相互性・葛藤回避の説明は実践的整理で、各カード名の唯一の初出としては扱いません。"
+      }
+    },
+    {
+      "tagId": "kb_043",
+      "title": "ネガティブ感情の相互性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John Gottman / The Gottman Institute（関連文献の著者）",
+        "works": [
+          "Repair Checklist & The Four Horsemen（公式資料）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gottman.com/product/intervention-handout/"
+          }
+        ],
+        "note": "研究者側の修復・対立対処の公式資料を参照。ネガティブ感情の相互性・葛藤回避の説明は実践的整理で、各カード名の唯一の初出としては扱いません。"
+      }
+    },
+    {
+      "tagId": "kb_428",
+      "title": "葛藤回避の逆説",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John Gottman / The Gottman Institute（関連文献の著者）",
+        "works": [
+          "Repair Checklist & The Four Horsemen（公式資料）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gottman.com/product/intervention-handout/"
+          }
+        ],
+        "note": "研究者側の修復・対立対処の公式資料を参照。ネガティブ感情の相互性・葛藤回避の説明は実践的整理で、各カード名の唯一の初出としては扱いません。"
+      }
+    },
+    {
+      "tagId": "kb_250",
+      "title": "役割退出理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Helen Rose Fuchs Ebaugh（参照文献の著者）",
+        "works": [
+          "Becoming an Ex: The Process of Role Exit (1988)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://press.uchicago.edu/ucp/books/book/chicago/B/bo5952245.html"
+          }
+        ],
+        "note": "役割退出と退出後の自己像形成を扱う原著。アイデンティティ喪失のすべてを説明する唯一の理論ではありません。",
+        "period": "1988年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_249",
+      "title": "アイデンティティ喪失",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Helen Rose Fuchs Ebaugh（参照文献の著者）",
+        "works": [
+          "Becoming an Ex: The Process of Role Exit (1988)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://press.uchicago.edu/ucp/books/book/chicago/B/bo5952245.html"
+          }
+        ],
+        "note": "役割退出と退出後の自己像形成を扱う原著。アイデンティティ喪失のすべてを説明する唯一の理論ではありません。",
+        "period": "1988年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_252",
+      "title": "リミナリティ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Arnold van Gennep / Victor Turner（参照文献の著者）",
+        "works": [
+          "The Rites of Passage, 2nd ed.（出版社解説）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://press.uchicago.edu/dam/ucp/books/pdf/course_intro/978-0-226-62949-0_course_intro.pdf"
+          }
+        ],
+        "note": "van Gennepの分離・過渡・統合と、Turnerのリミナリティの展開を区別して参照します。役割変化への適用は原著の儀礼研究からの応用です。"
+      }
+    },
+    {
+      "tagId": "kb_271",
+      "title": "存在的真空",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Viktor E. Frankl（参照文献の著者）",
+        "works": [
+          "Man's Search for Meaning（Beacon Press版）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.beacon.org/Mans-Search-for-Meaning-P602.aspx"
+          }
+        ],
+        "note": "Franklの著作とロゴセラピーを出版社の著者紹介・著作解説で確認。意味への志向を扱う基礎文献です。"
+      }
+    },
+    {
+      "tagId": "kb_272",
+      "title": "ロゴセラピー",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Viktor E. Frankl（参照文献の著者）",
+        "works": [
+          "Man's Search for Meaning（Beacon Press版）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.beacon.org/Mans-Search-for-Meaning-P602.aspx"
+          }
+        ],
+        "note": "Franklの著作とロゴセラピーを出版社の著者紹介・著作解説で確認。意味への志向を扱う基礎文献です。"
+      }
+    },
+    {
+      "tagId": "kb_053",
+      "title": "非暴力コミュニケーション",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Marshall B. Rosenberg（参照文献の著者）",
+        "works": [
+          "Nonviolent Communication: A Language of Life, 3rd ed. (2015)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://nonviolentcommunication.com/product/nvc/"
+          }
+        ],
+        "note": "観察・感情・ニーズ・要求を扱う著者の代表著作。出版社の第三版案内を参照。",
+        "period": "2015年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_541",
+      "title": "アイデンティティ・ベース習慣",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "James Clear（参照文献の著者）",
+        "works": [
+          "Identity-Based Habits: How to Actually Stick to Your Goals This Year"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://jamesclear.com/identity-based-habits"
+          }
+        ],
+        "note": "著者本人の解説を参照。実用的な習慣形成の枠組みで、独立した単一の心理学的法則としては扱いません。"
+      }
+    },
+    {
+      "tagId": "kb_529",
+      "title": "スモールステップ",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "BJ Fogg（関連文献の著者）",
+        "works": [
+          "Tiny Habits: The Small Changes that Change Everything"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://tinyhabits.com/book/"
+          }
+        ],
+        "note": "行動を小さくし実行しやすくする著者の方法を参照。各カード名は一般的・実践的な整理で、化学の活性化エネルギーや単一の心理法則の初出と混同しません。"
+      }
+    },
+    {
+      "tagId": "kb_530",
+      "title": "活性化エネルギー",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "BJ Fogg（関連文献の著者）",
+        "works": [
+          "Tiny Habits: The Small Changes that Change Everything"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://tinyhabits.com/book/"
+          }
+        ],
+        "note": "行動を小さくし実行しやすくする著者の方法を参照。各カード名は一般的・実践的な整理で、化学の活性化エネルギーや単一の心理法則の初出と混同しません。"
+      }
+    },
+    {
+      "tagId": "kb_181",
+      "title": "行動摩擦",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "BJ Fogg（関連文献の著者）",
+        "works": [
+          "Tiny Habits: The Small Changes that Change Everything"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://tinyhabits.com/book/"
+          }
+        ],
+        "note": "行動を小さくし実行しやすくする著者の方法を参照。各カード名は一般的・実践的な整理で、化学の活性化エネルギーや単一の心理法則の初出と混同しません。"
+      }
+    },
+    {
+      "tagId": "kb_180",
+      "title": "習慣ループ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Charles Duhigg（参照文献の著者）",
+        "works": [
+          "The Power of Habit (2012)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/202855/the-power-of-habit-by-charles-duhigg/"
+          }
+        ],
+        "note": "手掛かり・行動・報酬のループを実践向けに紹介した著作。習慣の研究史全体の最初の発明者としては扱いません。",
+        "period": "2012年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_201",
+      "title": "望ましい困難",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert A. Bjork / Elizabeth L. Bjork（参照文献の著者）",
+        "works": [
+          "Making Things Hard on Yourself, But in a Good Way: Creating Desirable Difficulties (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://bjorklab.psych.ucla.edu/wp-content/uploads/sites/13/2016/11/Making-Things-Hard-on-Yourself-but-in-a-Good-Way-20111.pdf"
+          }
+        ],
+        "note": "著者研究室が公開する著作を参照。長期学習に有効な困難と、単なる負荷の増加を区別します。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_547",
+      "title": "タイムボックス",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Ken Schwaber / Jeff Sutherland（参照文献の著者）",
+        "works": [
+          "The Scrum Guide (2020)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://scrumguides.org/scrum-guide.html"
+          }
+        ],
+        "note": "著者本人らのガイドでtimeboxの運用を確認。タイムボックス一般の唯一の初出とは断定しません。",
+        "period": "2020年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_495",
+      "title": "反復開発",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Ken Schwaber / Jeff Sutherland（関連文献の著者）",
+        "works": [
+          "The Scrum Guide (2020)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://scrumguides.org/scrum-guide.html"
+          }
+        ],
+        "note": "反復・検査・適応を用いた開発の一次ガイドを参照。一般の計画・開発すべてをScrumと同一視しません。",
+        "period": "2020年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_548",
+      "title": "適応的計画",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Ken Schwaber / Jeff Sutherland（関連文献の著者）",
+        "works": [
+          "The Scrum Guide (2020)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://scrumguides.org/scrum-guide.html"
+          }
+        ],
+        "note": "反復・検査・適応を用いた開発の一次ガイドを参照。一般の計画・開発すべてをScrumと同一視しません。",
+        "period": "2020年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_584",
+      "title": "人的資本",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Gary S. Becker（参照文献の著者）",
+        "works": [
+          "Human Capital: A Theoretical and Empirical Analysis, with Special Reference to Education, 3rd ed. (1993)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://press.uchicago.edu/ucp/books/book/chicago/H/bo3684031.html"
+          }
+        ],
+        "note": "人的資本の代表的な原著の第三版。理論の発展に他の研究者も関わっており、初出を1993年とするものではありません。",
+        "period": "1993年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_571",
+      "title": "人的資本論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Gary S. Becker（参照文献の著者）",
+        "works": [
+          "Human Capital: A Theoretical and Empirical Analysis, with Special Reference to Education, 3rd ed. (1993)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://press.uchicago.edu/ucp/books/book/chicago/H/bo3684031.html"
+          }
+        ],
+        "note": "人的資本の代表的な原著の第三版。理論の発展に他の研究者も関わっており、初出を1993年とするものではありません。",
+        "period": "1993年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_197",
+      "title": "制約理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eliyahu M. Goldratt（参照文献の著者）",
+        "works": [
+          "The Goal: A Process of Ongoing Improvement (1984)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://northriverpress.com/eliyahu-m-goldratt/"
+          }
+        ],
+        "note": "出版社が制約理論と原著の初版年を明示。ボトルネックは制約理論に限らない一般概念でもあります。",
+        "period": "1984年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_196",
+      "title": "ボトルネック理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eliyahu M. Goldratt（参照文献の著者）",
+        "works": [
+          "The Goal: A Process of Ongoing Improvement (1984)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://northriverpress.com/eliyahu-m-goldratt/"
+          }
+        ],
+        "note": "出版社が制約理論と原著の初版年を明示。ボトルネックは制約理論に限らない一般概念でもあります。",
+        "period": "1984年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_168",
+      "title": "期待理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Victor H. Vroom（参照文献の著者）",
+        "works": [
+          "Work and Motivation (1964; 1994 edition)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://uat.store.wiley.com/en-us/work-and-motivation-p-9780787900304"
+          }
+        ],
+        "note": "出版社が1964年の初版と1994年版を区別して明示。期待・手段性・誘意性に基づく仕事の動機づけを扱います。",
+        "period": "1994年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_283",
+      "title": "アンチフラジャイル",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Nassim Nicholas Taleb（参照文献の著者）",
+        "works": [
+          "Antifragile: Things That Gain from Disorder (2012)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/"
+          }
+        ],
+        "note": "著者の代表著作と反脆弱性の概念を出版社で確認。",
+        "period": "2012年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_282",
+      "title": "バーベル戦略",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Nassim Nicholas Taleb（関連文献の著者）",
+        "works": [
+          "Antifragile: Things That Gain from Disorder (2012)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/"
+          }
+        ],
+        "note": "反脆弱性の著作を、バーベル型のリスク配分・破滅回避を考える関連文献として提示。各一般概念の唯一の初出とは断定しません。",
+        "period": "2012年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_542",
+      "title": "破滅回避",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Nassim Nicholas Taleb（関連文献の著者）",
+        "works": [
+          "Antifragile: Things That Gain from Disorder (2012)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/"
+          }
+        ],
+        "note": "反脆弱性の著作を、バーベル型のリスク配分・破滅回避を考える関連文献として提示。各一般概念の唯一の初出とは断定しません。",
+        "period": "2012年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_543",
+      "title": "リーン・スタートアップ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Eric Ries（参照文献の著者）",
+        "works": [
+          "The Lean Startup (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/210088/the-lean-startup-by-eric-ries/9780307887894/"
+          }
+        ],
+        "note": "著者のBuild–Measure–Learnと検証された学習の枠組みを扱う原著。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_157",
+      "title": "トーマス＝キルマン・モデル",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Kenneth W. Thomas / Ralph H. Kilmann（参照文献の著者）",
+        "works": [
+          "Thomas-Kilmann Conflict Mode Instrument (1974)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://kilmanndiagnostics.com/a-brief-history-of-the-thomas-kilmann-conflict-mode-instrument/"
+          }
+        ],
+        "note": "共同開発者本人が1974年の正式公開と五つの対立対応を解説。テスト問題そのものは転載していません。",
+        "period": "1974年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_156",
+      "title": "二重関心理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "DEAN G. PRUITT（参照文献の著者）",
+        "works": [
+          "Strategic Choice in Negotiation (1983). American Behavioral Scientist, 27(2), 167-194"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/000276483027002005"
+          }
+        ],
+        "note": "Pruitt本人による交渉方略と二重関心モデルを扱う論文。自己と他者への関心を二軸として扱います。",
+        "period": "1983年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_522",
+      "title": "統合型交渉",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Roger Fisher / William Ury / Bruce Patton（関連文献の著者）",
+        "works": [
+          "Getting to Yes, revised edition (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/324551/getting-to-yes-by-roger-fisher-and-william-ury/9781101539545/"
+          }
+        ],
+        "note": "立場ではなく利益に注目し、相互利益の選択肢を探す著者の交渉書を参照。統合型交渉・パッケージ・論点交換の唯一の初出とは断定しません。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_151",
+      "title": "パッケージ交渉",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Roger Fisher / William Ury / Bruce Patton（関連文献の著者）",
+        "works": [
+          "Getting to Yes, revised edition (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/324551/getting-to-yes-by-roger-fisher-and-william-ury/9781101539545/"
+          }
+        ],
+        "note": "立場ではなく利益に注目し、相互利益の選択肢を探す著者の交渉書を参照。統合型交渉・パッケージ・論点交換の唯一の初出とは断定しません。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_150",
+      "title": "ログローリング",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Roger Fisher / William Ury / Bruce Patton（関連文献の著者）",
+        "works": [
+          "Getting to Yes, revised edition (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.penguinrandomhouse.com/books/324551/getting-to-yes-by-roger-fisher-and-william-ury/9781101539545/"
+          }
+        ],
+        "note": "立場ではなく利益に注目し、相互利益の選択肢を探す著者の交渉書を参照。統合型交渉・パッケージ・論点交換の唯一の初出とは断定しません。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_421",
+      "title": "一貫性ヒューリスティック",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John K. Rempel / John G. Holmes / Mark P. Zanna（関連文献の著者）",
+        "works": [
+          "Trust in close relationships. (1985). Journal of Personality and Social Psychology, 49(1), 95-112"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.49.1.95"
+          }
+        ],
+        "note": "関係の信頼における予測可能性の研究を関連文献として提示。カード名の「一貫性」は実践向けの整理で、原著の正式なヒューリスティック名ではありません。",
+        "period": "1985年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_443",
+      "title": "行動的一貫性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "John K. Rempel / John G. Holmes / Mark P. Zanna（関連文献の著者）",
+        "works": [
+          "Trust in close relationships. (1985). Journal of Personality and Social Psychology, 49(1), 95-112"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.49.1.95"
+          }
+        ],
+        "note": "関係の信頼における予測可能性の研究を関連文献として提示。カード名の「一貫性」は実践向けの整理で、原著の正式なヒューリスティック名ではありません。",
+        "period": "1985年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_033",
+      "title": "相互依存性理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Caryl E. Rusbult / Paul A. M. Van Lange（参照文献の著者）",
+        "works": [
+          "Interdependence, Interaction, and Relationships (2003). Annual Review of Psychology, 54(1), 351-375"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1146/annurev.psych.54.101601.145059"
+          }
+        ],
+        "note": "相互依存性理論を整理した著者らの論文。理論の歴史上の初出とは区別します。",
+        "period": "2003年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_035",
+      "title": "最小関心原理",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Richard M. Emerson（関連文献の著者）",
+        "works": [
+          "Power-Dependence Relations (1962). American Sociological Review, 27(1), 31"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2089716"
+          }
+        ],
+        "note": "相手への依存と代替資源の関係を扱う原著を参照。「最小関心原理」の歴史上の初出や、あらゆる代替可能性をこの論文へ帰属しません。",
+        "period": "1962年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_513",
+      "title": "代替可能性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Richard M. Emerson（関連文献の著者）",
+        "works": [
+          "Power-Dependence Relations (1962). American Sociological Review, 27(1), 31"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/2089716"
+          }
+        ],
+        "note": "相手への依存と代替資源の関係を扱う原著を参照。「最小関心原理」の歴史上の初出や、あらゆる代替可能性をこの論文へ帰属しません。",
+        "period": "1962年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_044",
+      "title": "帰属的葛藤",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Thomas N. Bradbury / Frank D. Fincham（参照文献の著者）",
+        "works": [
+          "Attributions in marriage: Review and critique. (1990). Psychological Bulletin, 107(1), 3-33"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.107.1.3"
+          }
+        ],
+        "note": "婚姻関係での帰属と対立の研究を整理した論文を参照。対人関係一般への説明は応用です。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_111",
+      "title": "印象管理理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Mark R. Leary / Robin M. Kowalski（参照文献の著者）",
+        "works": [
+          "Impression management: A literature review and two-component model. (1990). Psychological Bulletin, 107(1), 34-47"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.107.1.34"
+          }
+        ],
+        "note": "印象管理の二要素モデルを提示した著者らの論文。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_479",
+      "title": "自己卑下的呈示",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Mark R. Leary / Robin M. Kowalski（関連文献の著者）",
+        "works": [
+          "Impression management: A literature review and two-component model. (1990). Psychological Bulletin, 107(1), 34-47"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0033-2909.107.1.34"
+          }
+        ],
+        "note": "自己呈示と印象管理の枠組みを関連文献として提示。自己卑下がどの文化・場面でも好印象を生むと示した文献ではありません。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_486",
+      "title": "公正フレーミング",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jason A. Colquitt（関連文献の著者）",
+        "works": [
+          "On the dimensionality of organizational justice: A construct validation of a measure. (2001). Journal of Applied Psychology, 86(3), 386-400"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0021-9010.86.3.386"
+          }
+        ],
+        "note": "組織的公正の構成概念を検証した原著を関連文献として提示。「公正フレーミング」はアプリの実践的整理です。",
+        "period": "2001年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_498",
+      "title": "意思決定支援",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Peeter J. Kirs / G. Lawrence Sanders / Robert P. Cerveny / Daniel Robey（参照文献の著者）",
+        "works": [
+          "An Experimental Validation of the Gorry and Scott Morton Framework (1989). MIS Quarterly, 13(2), 183-197"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.2307/248926"
+          }
+        ],
+        "note": "意思決定支援の枠組みを検証した原著。カードは意思決定支援一般の説明で、原著の枠組みに限定した定義ではありません。",
+        "period": "1989年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_116",
+      "title": "可視性バイアス",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Kimberly D Elsbach / Dan M Cable / Jeffrey W Sherman（関連文献の著者）",
+        "works": [
+          "How passive ‘face time’ affects perceptions of employees: Evidence of spontaneous trait inference (2010). Human Relations, 63(6), 735-760"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0018726709353139"
+          }
+        ],
+        "note": "職場で姿を見られることと人物評価の研究を参照。「可視性バイアス」はより広い説明的名称で、研究の対象と範囲を区別します。",
+        "period": "2010年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_510",
+      "title": "信頼性理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Richard E. Barlow / Frank Proschan（参照文献の著者）",
+        "works": [
+          "Mathematical Theory of Reliability (1996). "
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1137/1.9781611971194"
+          }
+        ],
+        "note": "Barlow・Proschanの信頼性理論の著作の1996年再刊版。初版1965年と参照版の刊行年を区別します。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_281",
+      "title": "冗長性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Richard E. Barlow / Frank Proschan（関連文献の著者）",
+        "works": [
+          "Mathematical Theory of Reliability (1996). "
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1137/1.9781611971194"
+          }
+        ],
+        "note": "システムの信頼性を扱う著作を冗長性の背景文献として参照。個人の備えへの適用は応用です。",
+        "period": "1996年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_059",
+      "title": "自己カテゴリー化理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Michael A. Hogg / John C. Turner（参照文献の著者）",
+        "works": [
+          "Intergroup behaviour, self‐stereotyping and the salience of social categories (1987). British Journal of Social Psychology, 26(4), 325-340"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.2044-8309.1987.tb00795.x"
+          }
+        ],
+        "note": "社会的カテゴリの顕著性と自己ステレオタイプ化を扱う著者らの原著。理論全体の唯一の初出ではありません。",
+        "period": "1987年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_455",
+      "title": "集団規範",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Cialdini / Raymond R. Reno / Carl A. Kallgren（参照文献の著者）",
+        "works": [
+          "A focus theory of normative conduct: Recycling the concept of norms to reduce littering in public places. (1990). Journal of Personality and Social Psychology, 58(6), 1015-1026"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-3514.58.6.1015"
+          }
+        ],
+        "note": "記述的規範と命令的規範を区別する原著。集団規範全体の最初の定義としては扱いません。",
+        "period": "1990年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_518",
+      "title": "代替困難性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jay Barney（関連文献の著者）",
+        "works": [
+          "Firm Resources and Sustained Competitive Advantage (1991). Journal of Management, 17(1), 99-120"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/014920639101700108"
+          }
+        ],
+        "note": "資源の模倣困難性・代替困難性を扱う原著を関連文献として提示。個人の人事評価や雇用継続を直接予測する理論ではありません。",
+        "period": "1991年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_512",
+      "title": "評判ネットワーク",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Ralf D. Sommerfeld / Hans-Jürgen Krambeck / Dirk Semmann / Manfred Milinski（関連文献の著者）",
+        "works": [
+          "Gossip as an alternative for direct observation in games of indirect reciprocity (2007). Proceedings of the National Academy of Sciences, 104(44), 17435-17440"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1073/pnas.0704598104"
+          }
+        ],
+        "note": "評判情報が第三者経由で伝わる研究を関連文献として参照。ネットワークの全体系をこの研究へ帰属しません。",
+        "period": "2007年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_447",
+      "title": "情報境界理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Sandra Petronio（参照文献の著者）",
+        "works": [
+          "Boundaries of Privacy: Dialectics of Disclosure (2002). "
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1353/book4588"
+          }
+        ],
+        "note": "Petronioのコミュニケーション・プライバシー管理を扱う原著。カードの「情報境界理論」という名称と正式な理論名の対応を区別します。",
+        "period": "2002年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_022",
+      "title": "対人魅力の報酬理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "GERALD L. CLORE / DONN BYRNE（参照文献の著者）",
+        "works": [
+          "A Reinforcement-Affect Model of Attraction (1974). Foundations of Interpersonal Attraction, 143-170"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/b978-0-12-362950-0.50013-6"
+          }
+        ],
+        "note": "Clore・Byrneの強化と感情に基づく対人魅力モデルの原著。",
+        "period": "1974年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_009",
+      "title": "社会的浸透理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "IRWIN ALTMAN（参照文献の著者）",
+        "works": [
+          "Reciprocity of Interpersonal Exchange1 (1973). Journal for the Theory of Social Behaviour, 3(2), 249-261"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1468-5914.1973.tb00325.x"
+          }
+        ],
+        "note": "Altman本人による対人交換と相互性の論文。Altman・Taylorの社会的浸透理論の展開と関連づけて参照します。",
+        "period": "1973年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_050",
+      "title": "心理的リアクタンス",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Christina Steindl / Eva Jonas / Sandra Sittenthaler / Eva Traut-Mattausch / Jeff Greenberg（参照文献の著者）",
+        "works": [
+          "Understanding Psychological Reactance (2015). Zeitschrift für Psychologie, 223(4), 205-214"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1027/2151-2604/a000222"
+          }
+        ],
+        "note": "心理的リアクタンスの理論・研究を整理した論文。Brehmによる1966年の提唱と、この2015年の参照論文を区別します。",
+        "period": "2015年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_238",
+      "title": "ストレス接種訓練",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Donald H. Meichenbaum / Jerry L. Deffenbacher（参照文献の著者）",
+        "works": [
+          "Stress Inoculation Training (1988). The Counseling Psychologist, 16(1), 69-90"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1177/0011000088161005"
+          }
+        ],
+        "note": "Meichenbaumらによるストレス接種訓練の論文。専門的な訓練の枠組みであり、アプリだけで治療を行うものではありません。",
+        "period": "1988年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_514",
+      "title": "希少性価値",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Theo M.M Verhallen（参照文献の著者）",
+        "works": [
+          "Scarcity and consumer choice behavior (1982). Journal of Economic Psychology, 2(4), 299-322"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0167-4870(82)90034-4"
+          }
+        ],
+        "note": "希少性と消費者の選択を検討した原著。希少であれば常に価値が高いという意味ではありません。",
+        "period": "1982年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_161",
+      "title": "調停理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Dean G. Pruitt / Kenneth Kressel（参照文献の著者）",
+        "works": [
+          "The Mediation of Social Conflict: An Introduction (1985). Journal of Social Issues, 41(2), 1-10"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1540-4560.1985.tb00851.x"
+          }
+        ],
+        "note": "Pruitt・Kressel本人による社会的紛争の調停の論文。調停は複数のモデルを含む分野で、単一の万能理論ではありません。",
+        "period": "1985年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_359",
+      "title": "一つの籠にすべての卵を盛るな",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Harry Markowitz（関連文献の著者）",
+        "works": [
+          "PORTFOLIO SELECTION* (1952). The Journal of Finance, 7(1), 77-91"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1111/j.1540-6261.1952.tb01525.x"
+          }
+        ],
+        "note": "Markowitzの分散投資の原著を関連文献として提示。ことわざの発案者をMarkowitzとするものではなく、生活全般への応用はアプリの整理です。",
+        "period": "1952年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_552",
+      "title": "セレンディピティ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert K. Merton / Elinor Barber（参照文献の著者）",
+        "works": [
+          "The Travels and Adventures of Serendipity (2011). "
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1515/9781400841523"
+          }
+        ],
+        "note": "Merton・Barberのセレンディピティの著作の電子版書誌。初版2004年と参照版の刊行情報を区別します。",
+        "period": "2011年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_407",
+      "title": "精緻化質問",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Michael Pressley / Sonya Symons / Mark A. McDaniel / Barbara L. Snyder / James E. Turnure（関連文献の著者）",
+        "works": [
+          "Elaborative interrogation facilitates acquisition of confusing facts. (1988). Journal of Educational Psychology, 80(3), 268-278"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/0022-0663.80.3.268"
+          }
+        ],
+        "note": "理由を考える精緻化質問による学習の原著を参照。会話での理解促進の説明は応用であり、すべての質問の効果を保証しません。",
+        "period": "1988年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_160",
+      "title": "デエスカレーション",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Janet Richmond / Jon Berlin / Avrim Fishkind / Garland Holloman / Scott Zeller / Michael Wilson / Muhamad Aly Rifai / Anthony Ng（関連文献の著者）",
+        "works": [
+          "Verbal De-escalation of the Agitated Patient: Consensus Statement of the American Association for Emergency Psychiatry Project BETA De-escalation Workgroup (2012). Western Journal of Emergency Medicine, 13(1), 17-25"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.5811/westjem.2011.9.6864"
+          }
+        ],
+        "note": "救急精神医療における言語的デエスカレーションの合意文書。日常の紛争全般への説明は応用で、臨床の手順をそのまま自己実践するための案内ではありません。",
+        "period": "2012年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_501",
+      "title": "アウトカム評価",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Donald T. Campbell（関連文献の著者）",
+        "works": [
+          "Assessing the impact of planned social change (1979). Evaluation and Program Planning, 2(1), 67-90"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1016/0149-7189(79)90048-x"
+          }
+        ],
+        "note": "社会施策の影響評価の論考を関連文献として参照。「アウトカム評価」は広い評価手法の名称で、この著者だけの発明とは示しません。",
+        "period": "1979年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_255",
+      "title": "権利を認められない悲嘆",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Kenneth J. Doka（編者）（参照文献の著者）",
+        "works": [
+          "Disenfranchised Grief: Recognizing Hidden Sorrow (1989)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://drkendoka.com/media/"
+          }
+        ],
+        "note": "提唱者本人の出版一覧で、周囲に認められず支援されにくい悲嘆を扱う著作を確認。",
+        "period": "1989年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_038",
+      "title": "関係のエスカレーション・モデル",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Mark L. Knapp / Anita L. Vangelisti / John P. Caughlin（参照文献の著者）",
+        "works": [
+          "Interpersonal Communication and Human Relationships, 8th ed. (2020), Chapter 2"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://he.kendallhunt.com/product/interpersonal-communication-and-human-relationships"
+          }
+        ],
+        "note": "出版社の目次に関係形成・解消の相互作用段階モデルを確認。関係が必ず直線的に進むとは限りません。",
+        "period": "2020年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_039",
+      "title": "関係破綻・修復モデル",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Mark L. Knapp / Anita L. Vangelisti / John P. Caughlin（関連文献の著者）",
+        "works": [
+          "Interpersonal Communication and Human Relationships, 8th ed. (2020), Chapters 2, 8, 10"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://he.kendallhunt.com/product/interpersonal-communication-and-human-relationships"
+          }
+        ],
+        "note": "関係の解消・維持を扱う著作を参照。カードは複数の研究領域をまとめた整理で、同名の単一の確立した破綻・修復モデルではありません。",
+        "period": "2020年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_446",
+      "title": "三角関係化",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Murray Bowen / The Bowen Center（参照文献の著者）",
+        "works": [
+          "Triangles（ボウエン理論の公式解説）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.thebowencenter.org/triangles"
+          }
+        ],
+        "note": "二者間の緊張に第三者が関与する三角関係を、理論を継承する機関の解説で確認。人を診断するためのラベルではありません。"
+      }
+    },
+    {
+      "tagId": "kb_102",
+      "title": "希少性の原理",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Cialdini（参照文献の著者）",
+        "works": [
+          "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+          }
+        ],
+        "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+        "period": "2021年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_103",
+      "title": "権威効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Cialdini（参照文献の著者）",
+        "works": [
+          "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+          }
+        ],
+        "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+        "period": "2021年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_104",
+      "title": "社会的証明",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Robert B. Cialdini（参照文献の著者）",
+        "works": [
+          "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+          }
+        ],
+        "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+        "period": "2021年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_452",
+      "title": "権威バイアス",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert B. Cialdini（関連文献の著者）",
+        "works": [
+          "The 7 Principles of Persuasion（公式解説）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+          }
+        ],
+        "note": "権威と社会的証明を背景として参照。カード名は判断の偏り・実務手段の整理で、独立した同名の法則の原典ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_517",
+      "title": "第三者証明",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Robert B. Cialdini（関連文献の著者）",
+        "works": [
+          "The 7 Principles of Persuasion（公式解説）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/"
+          }
+        ],
+        "note": "権威と社会的証明を背景として参照。カード名は判断の偏り・実務手段の整理で、独立した同名の法則の原典ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_185",
+      "title": "進捗原理",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Teresa M. Amabile / Steven J. Kramer（参照文献の著者）",
+        "works": [
+          "The Progress Principle (2011)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://store.hbr.org/product/the-progress-principle-using-small-wins-to-ignite-joy-engagement-and-creativity-at-work/10106"
+          }
+        ],
+        "note": "著者の原著を出版社の書誌で確認。",
+        "period": "2011年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_126",
+      "title": "スポンサーシップ理論",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Herminia Ibarra / Nancy M. Carter / Christine Silva（参照文献の著者）",
+        "works": [
+          "Why Men Still Get More Promotions Than Women (2010)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://hbr.org/2010/09/why-men-still-get-more-promotions-than-women"
+          }
+        ],
+        "note": "昇進を支えるスポンサーを扱う原著。",
+        "period": "2010年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_179",
+      "title": "ナッジ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Richard H. Thaler / Cass R. Sunstein（参照文献の著者）",
+        "works": [
+          "Nudge (2008) / Yale Press Podcast, Episode 15"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://yalebooks.yale.edu/2008/05/01/yale-press-podcast-episode-15/"
+          }
+        ],
+        "note": "原著出版社のThaler本人への取材で、選択環境による行動への働きかけを確認。",
+        "period": "2008年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_594",
+      "title": "幸運の表面積",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Jason Roberts（参照文献の著者）",
+        "works": [
+          "How to Increase Your Luck Surface Area"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.codusoperandi.com/posts/increasing-your-luck-surface-area"
+          }
+        ],
+        "note": "提唱者本人の解説。行動と共有を組み合わせる実用的な比喩で、偶然の確率を厳密に計算する法則ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_592",
+      "title": "確率的機会",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jason Roberts（関連文献の著者）",
+        "works": [
+          "How to Increase Your Luck Surface Area"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.codusoperandi.com/posts/increasing-your-luck-surface-area"
+          }
+        ],
+        "note": "行動・共有と機会の関係を背景として参照。「確率的機会」はアプリの整理で、この文献が数学的な確率法則を提示したとは示しません。"
+      }
+    },
+    {
+      "tagId": "kb_064",
+      "title": "集団思考",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Irving L. Janis（参照文献の著者）",
+        "works": [
+          "Groupthink: Psychological Studies of Policy Decisions and Fiascoes, 2nd ed. (1982)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://nias.knaw.nl/books/groupthink-psychological-studies-of-policy-decisions-and-fiascoes/"
+          }
+        ],
+        "note": "著者の所属研究機関による出版情報で原著第二版を確認。初期の1972年の著作と区別します。",
+        "period": "1982年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_132",
+      "title": "ピーターの法則",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Laurence J. Peter / Raymond Hull（参照文献の著者）",
+        "works": [
+          "The Peter Principle"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.harpercollins.com/products/the-peter-principle-laurence-j-peterraymond-hull"
+          }
+        ],
+        "note": "著者の代表著作を出版社で確認。組織についての批評的原理であり、すべての昇進が必ず失敗するという実証的法則ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_274",
+      "title": "機会費用",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "OpenStax（関連文献の著者）",
+        "works": [
+          "Principles of Economics 3e, 2.1 How Individuals Make Choices Based on Their Budget Constraint"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://openstax.org/books/principles-economics-3e/pages/2-1-how-individuals-make-choices-based-on-their-budget-constraint"
+          }
+        ],
+        "note": "機会費用の定義を参照教材で確認。歴史上の最初の提唱者をこの教材へ帰属しません。"
+      }
+    },
+    {
+      "tagId": "kb_401",
+      "title": "限界効用逓減",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "David Shapiro / Daniel MacDonald / Steven A. Greenlaw（関連文献の著者）",
+        "works": [
+          "Principles of Microeconomics 3e, 6.1 Consumption Choices (2022)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://openstax.org/books/principles-microeconomics-3e/pages/6-1-consumption-choices"
+          }
+        ],
+        "note": "限界効用逓減の定義を参照教材で確認。対人・生活上の例示はアプリの応用で、経済学上の初出とは区別します。",
+        "period": "2022年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_515",
+      "title": "比較優位",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "David Shapiro / Daniel MacDonald / Steven A. Greenlaw（関連文献の著者）",
+        "works": [
+          "Principles of Microeconomics 3e, 19.1 Absolute and Comparative Advantage (2022)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://openstax.org/books/principles-microeconomics-3e/pages/19-1-absolute-and-comparative-advantage"
+          }
+        ],
+        "note": "比較優位と機会費用の定義を参照教材で確認。個人の仕事の分担への応用と、国際貿易の原理の範囲を区別します。",
+        "period": "2022年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_575",
+      "title": "複利効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "OpenStax（関連文献の著者）",
+        "works": [
+          "Contemporary Mathematics, 6.4 Compound Interest"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://openstax.org/books/contemporary-mathematics/pages/6-4-compound-interest"
+          }
+        ],
+        "note": "複利計算の教材を参照。学習・信頼が同じ数学式で増えると実証したものではなく、カードの生活への説明は比喩的な応用です。"
+      }
+    },
+    {
+      "tagId": "kb_143",
+      "title": "ZOPA",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Program on Negotiation, Harvard Law School（関連文献の著者）",
+        "works": [
+          "Reservation Price / Zone of Possible Agreement（公式教材）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.pon.harvard.edu/tag/reservation-price/"
+          }
+        ],
+        "note": "留保価格と合意可能領域を教育資料で確認。歴史上の唯一の提唱者をこの教材へ帰属しません。"
+      }
+    },
+    {
+      "tagId": "kb_144",
+      "title": "留保価格",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Program on Negotiation, Harvard Law School（関連文献の著者）",
+        "works": [
+          "Reservation Price / Zone of Possible Agreement（公式教材）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.pon.harvard.edu/tag/reservation-price/"
+          }
+        ],
+        "note": "留保価格と合意可能領域を教育資料で確認。歴史上の唯一の提唱者をこの教材へ帰属しません。"
+      }
+    },
+    {
+      "tagId": "kb_153",
+      "title": "条件付き合意",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Program on Negotiation, Harvard Law School（関連文献の著者）",
+        "works": [
+          "Contingent Contracts in Business Negotiations: Agreeing to Disagree"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.pon.harvard.edu/daily/business-negotiations/contingency-contracts-in-business-negotiations-agreeing-to-disagree/"
+          }
+        ],
+        "note": "将来の条件に応じて合意内容を変える契約を参照。本カードの一般的な条件付き合意は、特定の法的契約のひな形ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_555",
+      "title": "リスク・オブ・ルイン",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Eric Lehman / F. Thomson Leighton / Albert R. Meyer（関連文献の著者）",
+        "works": [
+          "Mathematics for Computer Science (2015), Random Walks / Gambler’s Ruin"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-spring-2015/mit6_042js15_textbook.pdf"
+          }
+        ],
+        "note": "破産確率の数学的モデルを大学公開教材で確認。モデルの仮定と、実際の生活・投資のリスクは区別します。",
+        "period": "2015年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_544",
+      "title": "選択と集中",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Michael E. Porter（関連文献の著者）",
+        "works": [
+          "What Is Strategy? (1996)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://hbr.org/1996/11/what-is-strategy"
+          }
+        ],
+        "note": "戦略的選択を扱う関連文献。",
+        "period": "1996年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_546",
+      "title": "レバレッジ",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Naval Ravikant / Babak Nivi（関連文献の著者）",
+        "works": [
+          "How to Get Rich（著者本人の対談）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://nav.al/rich"
+          }
+        ],
+        "note": "人・資本・複製費用の小さい製品による拡張を関連文献として参照。実務的な考え方であり、単一の実証的法則ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_469",
+      "title": "狡兎死して走狗烹らる",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "司馬遷（記録した著者） / 范蠡（作中の発言者）",
+        "works": [
+          "史記・巻四十一「越王勾踐世家」"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・越王勾踐世家",
+            "url": "https://zh.wikisource.org/wiki/%E5%8F%B2%E8%A8%98/%E5%8D%B7041"
+          }
+        ],
+        "note": "范蠡が文種へ送った書簡として記録された表現を原典で確認。現在の日本語表記は訓読・要約で、現代の組織への説明は応用です。"
+      }
+    },
+    {
+      "tagId": "kb_468",
+      "title": "鳥尽きて良弓蔵れ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "司馬遷（記録した著者） / 范蠡（作中の発言者）",
+        "works": [
+          "史記・巻四十一「越王勾踐世家」"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・越王勾踐世家",
+            "url": "https://zh.wikisource.org/wiki/%E5%8F%B2%E8%A8%98/%E5%8D%B7041"
+          }
+        ],
+        "note": "范蠡が文種へ送った書簡として記録された表現を原典で確認。現在の日本語表記は訓読・要約で、現代の組織への説明は応用です。"
+      }
+    },
+    {
+      "tagId": "kb_324",
+      "title": "巧遅は拙速に如かず",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "孫武（伝統的帰属）",
+        "works": [
+          "孫子・作戦篇"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・作戦篇",
+            "url": "https://zh.wikisource.org/wiki/%E5%AD%AB%E5%AD%90%E5%85%B5%E6%B3%95#%E4%BD%9C%E6%88%B0%E7%AC%AC%E4%BA%8C"
+          }
+        ],
+        "note": "作戦篇の迅速さと長期化を論じる箇所に対応。カードの日本語は要旨をまとめた慣用表現で、原文と完全一致する逐語訳ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_632",
+      "title": "無用の用",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "荘子（伝承・編纂）",
+        "works": [
+          "荘子・内篇「人間世」"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・人間世",
+            "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E4%BA%BA%E9%96%93%E4%B8%96"
+          }
+        ],
+        "note": "人間世の末尾で、有用に見えるものと無用に見えるものの価値を論じる箇所を確認。現代的な価値判断への応用はアプリの整理です。"
+      }
+    },
+    {
+      "tagId": "kb_329",
+      "title": "完璧は善の敵",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Voltaire（参照作品の著者）",
+        "works": [
+          "La Bégueule (1772), Contes en vers"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・La Bégueule",
+            "url": "https://fr.wikisource.org/wiki/Contes_en_vers_%28Voltaire%29/La_B%C3%A9gueule"
+          }
+        ],
+        "note": "作品冒頭にある格言に対応する日本語の意訳。作中で以前の格言を引いているため、Voltaireが最初に発案したと断定しません。",
+        "period": "1772年（参照作品）"
+      }
+    },
+    {
+      "tagId": "kb_531",
+      "title": "ツァイガルニク効果",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Bluma Zeigarnik（元の研究者） / Hellmuth Metz-Göckel（参照解説の著者）",
+        "works": [
+          "Das Behalten von erledigten und unerledigten Handlungen (2016). Gestalttheorie und kognitive Psychologie, 131-137"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1007/978-3-658-12666-7_16"
+          }
+        ],
+        "note": "Zeigarnikの実験とLewinの背景理論を紹介する学術書の章。参照解説の著者Metz-Göckelと元の研究者Zeigarnikを区別し、未完了の仕事が必ず記憶に残ると保証しません。",
+        "period": "2016年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_093",
+      "title": "共依存",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Melody Beattie（関連文献の著者）",
+        "works": [
+          "Codependent No More, revised edition (2022)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.melodybeattie.com/codependentnomore"
+          }
+        ],
+        "note": "共依存を扱う著者本人の著作紹介。実践書の参照であり、単一の確立した医学的診断や用語の唯一の初出を意味しません。",
+        "period": "2022年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_491",
+      "title": "強み理論",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Don Clifton / Gallup（関連文献の著者）",
+        "works": [
+          "CliftonStrengths / Now, Discover Your Strengths（公式紹介）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.gallup.com/cliftonstrengths/en/286556/ndys.aspx"
+          }
+        ],
+        "note": "強みを育てる公式の実践的枠組みを関連資料として参照。「強み理論」すべてを一つのテストへ帰属しません。検査項目は転載していません。"
+      }
+    },
+    {
+      "tagId": "kb_284",
+      "title": "OODAループ",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "John R. Boyd（参照文献の著者）",
+        "works": [
+          "Patterns of Conflict（本人の講演・スライド記録）"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://www.pogo.org/analyses/colonel-john-boyds-patterns-of-conflict-online"
+          }
+        ],
+        "note": "Boydの遺族の許可を得て公開された本人の講演記録を参照。観察・状況判断・決定・行動の循環を扱い、日常や仕事への説明は応用です。"
+      }
+    },
+    {
+      "tagId": "kb_631",
+      "title": "井の中の蛙、大海を知らず",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "荘子（伝承・編纂）",
+        "works": [
+          "荘子・外篇「秋水」"
+        ],
+        "sources": [
+          {
+            "title": "原典本文・秋水",
+            "url": "https://ja.wikisource.org/wiki/%E8%8D%98%E5%AD%90/%E7%A7%8B%E6%B0%B4"
+          }
+        ],
+        "note": "井蛙と海を対比する原典の箇所を確認。現在の日本語は故事の慣用表現で、原文の逐語訳ではありません。"
+      }
+    },
+    {
+      "tagId": "kb_595",
+      "title": "準備された心",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Louis Pasteur（参照演説の発言者）",
+        "works": [
+          "Discours prononcé à Douai le 7 décembre 1854; Oeuvres de Pasteur, Tome 7"
+        ],
+        "sources": [
+          {
+            "title": "原典演説・フランス国立図書館所蔵資料",
+            "url": "https://gallica.bnf.fr/ark:/12148/bpt6k7363q/f135.image"
+          }
+        ],
+        "note": "観察の場における準備と偶然を論じた演説を参照。日常への説明は格言の応用で、数学的確率や効果を証明する理論ではありません。",
+        "period": "1854年（演説）"
+      }
+    },
+    {
+      "tagId": "kb_416",
+      "title": "沈黙耐性",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Jared R. Curhan / Jennifer R. Overbeck / Yeri Cho / Teng Zhang / Yu Yang（関連文献の著者）",
+        "works": [
+          "Silence is golden: Extended silence, deliberative mindset, and value creation in negotiation. (2022). Journal of Applied Psychology, 107(1), 78-94"
+        ],
+        "sources": [
+          {
+            "title": "出版社登録の原著書誌・DOI",
+            "url": "https://doi.org/10.1037/apl0000877"
+          }
+        ],
+        "note": "交渉中の沈黙と熟慮の研究を関連文献として提示。沈黙耐性はアプリの実践的な整理で、独立した同名の心理法則ではありません。",
+        "period": "2022年（参照文献）"
+      }
+    },
+    {
+      "tagId": "kb_166",
+      "title": "コミットメント戦略",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Thomas C. Schelling（参照文献の著者）",
+        "works": [
+          "The Strategy of Conflict (1960) / Bargaining as Binding Oneself (1993)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://garfield.library.upenn.edu/classics1993/A1993KH36300001.pdf"
+          }
+        ],
+        "note": "著者本人が原著とコミットメントの考え方を振り返った一次文献を参照。相手への拘束と自己への拘束を区別します。",
+        "period": "1960年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_476",
+      "title": "相互抑止",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Thomas C. Schelling（関連文献の著者）",
+        "works": [
+          "The Strategy of Conflict (1960) / Bargaining as Binding Oneself (1993)"
+        ],
+        "sources": [
+          {
+            "title": "著者・出版社による原著・書誌情報",
+            "url": "https://garfield.library.upenn.edu/classics1993/A1993KH36300001.pdf"
+          }
+        ],
+        "note": "著者本人の抑止と相互の関係についての論考を参照。カードの対人関係への説明は実践的な応用です。",
+        "period": "1960年（参照版）"
+      }
+    },
+    {
+      "tagId": "kb_165",
+      "title": "チキンゲーム",
+      "provenance": {
+        "status": "一部確認",
+        "attribution": "Thomas C. Schelling（参照著作の著者）",
+        "works": [
+          "The Strategy of Conflict (1960). Harvard University Press"
+        ],
+        "sources": [
+          {
+            "title": "原著のデジタル書誌・プレビュー",
+            "url": "https://books.google.com/books/about/The_Strategy_of_Conflict.html?id=fkxixT_A7_UC"
+          }
+        ],
+        "note": "危険を伴う競争と交渉を扱う代表的著作を関連文献として参照。チキンゲームの歴史上の最初の発案者をSchellingと断定しません。",
+        "period": "1960年（参照著作）"
+      }
+    },
+    {
+      "tagId": "kb_265",
+      "title": "認知的不協和",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Leon Festinger（参照著作の著者）",
+        "period": "1957年（参照著作）",
+        "works": [
+          "A Theory of Cognitive Dissonance (1957). Stanford University Press"
+        ],
+        "sources": [
+          {
+            "title": "原著出版社の書誌・著作解説",
+            "url": "https://doi.org/10.1515/9781503620766"
+          }
+        ],
+        "note": "努力正当化を同義・下位概念として統合。Festinger本人の認知的不協和の原著を参照し、態度・行動の矛盾とその低減を扱います。"
+      }
+    },
+    {
+      "tagId": "kb_461",
+      "title": "情報源効果",
+      "provenance": {
+        "status": "書誌確認済み",
+        "attribution": "Carl I. Hovland / Walter Weiss（参照文献の著者）",
+        "period": "1951年（参照文献）",
+        "works": [
+          "The Influence of Source Credibility on Communication Effectiveness (1951). Public Opinion Quarterly, 15(4), 635–650"
+        ],
+        "sources": [
+          {
+            "title": "原著出版社の書誌・DOI",
+            "url": "https://doi.org/10.1086/266350"
+          }
+        ],
+        "note": "情報源信頼性モデルを同義・下位概念として統合。情報源の信頼性と態度変化を検討した原著。好意や専門性など関連要素の全体系をこの一篇へ帰属しません。"
       }
     }
   ]
