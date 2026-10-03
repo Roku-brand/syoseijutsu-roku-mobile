@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { verifyAppleNotification, verifyAppleTransaction } from './apple-jws.ts';
+import { isCompleteAppleProduct } from './apple-products.ts';
 
 function required(name: string) {
   const value = Deno.env.get(name);
@@ -119,7 +120,7 @@ export async function verifyAndRecord(transactionId: string, environmentHint?: u
   // authority: try the hinted endpoint first, then verify the signed JWS on
   // the other endpoint instead of trusting or requiring the client hint.
   const { transaction, value } = await fetchVerifiedTransaction(transactionId, environmentHint);
-  if (transaction.transactionId !== transactionId || transaction.productId !== required('APPLE_PRODUCT_ID')
+  if (transaction.transactionId !== transactionId || !isCompleteAppleProduct(transaction.productId)
       || transaction.type !== 'Non-Renewing Subscription' || transaction.quantity !== 1
       || !transaction.purchaseDate || !transaction.signedDate || !transaction.originalTransactionId
       || !transaction.appAccountToken) throw new Error('invalid_transaction');

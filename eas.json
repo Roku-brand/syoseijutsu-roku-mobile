@@ -33,6 +33,13 @@
     "build23": {
       "extends": "production",
       "autoIncrement": false
+    },
+    "build24": {
+      "extends": "production",
+      "autoIncrement": false,
+      "env": {
+        "EXPO_PUBLIC_APPLE_PRODUCT_ID": "com.shoseijutsuroku.premium.30days.v2"
+      }
     }
   },
   "submit": {

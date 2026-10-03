@@ -2,8 +2,9 @@ import { fetchProducts, finishTransaction, getAvailablePurchases, initConnection
   purchaseUpdatedListener, purchaseErrorListener, requestPurchase, restorePurchases, type Purchase } from 'expo-iap';
 import { supabase } from './supabase';
 import { purchaseTimeout } from './purchase-timeout';
+import { appleCompleteProductId, isCompleteAppleProduct } from '../../supabase/functions/_shared/apple-products';
 
-export const appleProductId = process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID ?? '';
+export const appleProductId = appleCompleteProductId;
 let connection: Promise<boolean> | null = null;
 const pending = new Map<string, Promise<boolean>>();
 export const APPLE_COMPLETE_EDITION_PRICE_JPY = 320;
@@ -64,7 +65,7 @@ async function matchingAppAccount(purchase: Purchase) {
 }
 
 async function deliverPurchase(purchase: Purchase, requested = false) {
-  if (purchase.productId !== appleProductId) return false;
+  if (!isCompleteAppleProduct(purchase.productId)) return false;
   const account = await matchingAppAccount(purchase);
   // Ignore background replays for other accounts. A mismatched result of the
   // current request must give a concrete recovery message instead of timing out.
@@ -119,7 +120,7 @@ async function invoke(body: Record<string, unknown>) {
   if (error || data?.verified !== true) throw new Error('購入を確認できませんでした。同じアカウントで「購入を復元」をお試しください。');
 }
 export async function verifyApplePurchase(purchase: Purchase) {
-  if (purchase.productId !== appleProductId || purchase.purchaseState !== 'purchased') return false;
+  if (!isCompleteAppleProduct(purchase.productId) || purchase.purchaseState !== 'purchased') return false;
   const account = await matchingAppAccount(purchase);
   if (!account) return false;
   const transactionId = purchase.transactionId;
@@ -181,7 +182,7 @@ export async function restoreApplePurchases() {
   await purchaseTimeout(restorePurchases(), 60000);
   const purchases = await purchaseTimeout(getAvailablePurchases({ onlyIncludeActiveItemsIOS: false, alsoPublishToEventListenerIOS: false }));
   for (const purchase of purchases) {
-    if (purchase.productId !== appleProductId) continue;
+    if (!isCompleteAppleProduct(purchase.productId)) continue;
     // Ignore another app account's StoreKit history; never reassign ownership.
     await verifyApplePurchase(purchase);
   }

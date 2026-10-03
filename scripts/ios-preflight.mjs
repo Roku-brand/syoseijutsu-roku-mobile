@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { appleCompleteProductId } from '../supabase/functions/_shared/apple-products.ts';
 // Discover uses the shared category index. A stale platform route previously
 // shadowed this screen in an otherwise up-to-date iOS build.
 for (const platform of ['ios', 'native']) {
@@ -10,6 +11,9 @@ const required = ['IOS_BUNDLE_IDENTIFIER','EXPO_PUBLIC_APPLE_PRODUCT_ID',
   'EXPO_PUBLIC_SUPABASE_URL','EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY'];
 const missing = required.filter(key => !process.env[key] || /YOUR_|REPLACE|PLACEHOLDER/.test(process.env[key]));
 if (missing.length) throw new Error(`未設定: ${missing.join(', ')}。docs/IOS_RELEASE.mdを参照。`);
+if (process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID !== appleCompleteProductId) {
+  throw new Error(`Apple product must match the submitted non-renewing subscription: ${appleCompleteProductId}`);
+}
 if (!/^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(process.env.IOS_BUNDLE_IDENTIFIER)) throw new Error('Invalid bundle identifier');
 if (process.env.EAS_PROJECT_ID && !/^[a-f0-9-]{36}$/i.test(process.env.EAS_PROJECT_ID)) throw new Error('Invalid EAS project UUID');
 if (!process.env.EXPO_PUBLIC_SUPABASE_URL.startsWith('https://')) throw new Error('Production API must use HTTPS');

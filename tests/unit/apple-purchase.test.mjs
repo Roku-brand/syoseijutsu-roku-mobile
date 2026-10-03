@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 
-process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID = 'complete30days';
+const productId = 'com.shoseijutsuroku.premium.30days.v2';
+process.env.EXPO_PUBLIC_APPLE_PRODUCT_ID = productId;
 let currentUser = 'current-user';
 let updated;
 let failed;
@@ -20,8 +21,9 @@ globalThis.__appleFixture = {
   purchaseUpdatedListener: callback => { updated = callback; return { remove() {} }; },
   purchaseErrorListener: callback => { failed = callback; return { remove() {} }; },
   finishTransaction: async args => { calls.push(['finish', args.purchase.transactionId]); if (finishError) throw finishError; },
-  fetchProducts: async () => { if (productError) throw productError; return [{ id: 'complete30days' }]; },
+  fetchProducts: async args => { assert.deepEqual(args.skus, [productId]); if (productError) throw productError; return [{ id: productId }]; },
   requestPurchase: async args => {
+    assert.equal(args.request.apple.sku, productId);
     calls.push(['request', args.request.apple.appAccountToken]);
     if (requestError) throw requestError;
     await onRequest?.();
@@ -39,12 +41,28 @@ registerHooks({ resolve(specifier, context, next) {
     'export const supabase={auth:{getSession:globalThis.__appleFixture.getSession},functions:{invoke:globalThis.__appleFixture.invoke}};'
   ), shortCircuit: true };
   if (specifier === './purchase-timeout') return next(new URL('../../src/lib/purchase-timeout.ts', import.meta.url).href, context);
+  if (specifier === '../../supabase/functions/_shared/apple-products') return next(new URL('../../supabase/functions/_shared/apple-products.ts', import.meta.url).href, context);
   return next(specifier, context);
 } });
 const iap = await import('../../src/lib/apple-purchase.ios.ts');
-const foreign = { productId: 'complete30days', purchaseState: 'purchased', transactionId: '1', appAccountToken: 'other-user' };
+const foreign = { productId, purchaseState: 'purchased', transactionId: '1', appAccountToken: 'other-user' };
 const owned = { ...foreign, transactionId: '2', appAccountToken: 'CURRENT-USER' };
 const settle = () => new Promise(resolve => setImmediate(resolve));
+
+test('new purchases use the submitted v2 product', () => {
+  assert.equal(iap.appleProductId, productId);
+});
+
+test('legacy purchases remain verifiable, but the mistaken non-consumable is ignored', async () => {
+  calls.length = 0;
+  await iap.verifyApplePurchase({ ...owned, productId: 'jp.shoseijutsuroku.app.complete30days', transactionId: 'legacy-restore' });
+  assert.deepEqual(calls, [['verify', 'legacy-restore'], ['finish', 'legacy-restore']]);
+  calls.length = 0;
+  for (const invalid of ['com.shoseijutsuroku.premium.30days', 'unrelated.sku']) {
+    assert.equal(await iap.verifyApplePurchase({ ...owned, productId: invalid }), false);
+  }
+  assert.deepEqual(calls, []);
+});
 
 test('foreign StoreKit replay never verifies, finishes, or fails the current purchase', async () => {
   calls.length = 0;

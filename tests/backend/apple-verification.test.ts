@@ -7,6 +7,17 @@ import {
   appleEnvironmentCandidates,
   normalizeAppleEnvironment,
 } from '../../supabase/functions/_shared/apple.ts';
+import { appleCompleteProductId, isCompleteAppleProduct } from '../../supabase/functions/_shared/apple-products.ts';
+
+Deno.test('only the v2 product and existing legacy purchases are recognized', () => {
+  if (appleCompleteProductId !== 'com.shoseijutsuroku.premium.30days.v2') throw new Error('Wrong new purchase product');
+  for (const id of [appleCompleteProductId, 'jp.shoseijutsuroku.app.complete30days']) {
+    if (!isCompleteAppleProduct(id)) throw new Error('Known purchase cannot be restored');
+  }
+  for (const id of [undefined, null, '', 'com.shoseijutsuroku.premium.30days', `${appleCompleteProductId}.other`]) {
+    if (isCompleteAppleProduct(id)) throw new Error('Unrecognized product accepted');
+  }
+});
 
 const encode = (value: unknown) => btoa(JSON.stringify(value))
   .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');

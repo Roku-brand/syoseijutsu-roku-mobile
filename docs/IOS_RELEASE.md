@@ -1,5 +1,7 @@
 # 処世術禄 iOSリリース手順
 
+2026-10-03更新：新規購入は `com.shoseijutsuroku.premium.30days.v2`（非更新・日本320円）。購入商品とサーバー検証対象の正本は `supabase/functions/_shared/apple-products.ts`。旧 `jp.shoseijutsuroku.app.complete30days` は既存購入の復元互換用。誤作成された非消耗型 `com.shoseijutsuroku.premium.30days` は使用しない。従来のサーバーSecret `APPLE_PRODUCT_ID` は現在の共有設定からは参照しない。最新状況は `IOS_PRODUCT_V2_20261003.md` を参照。以下は初期リリース時の履歴。
+
 2026-09-11。実装対象は `syoseizyutsu-roku-mobile`。署名済みIPAのEAS BuildとApp Store Connectへのアップロードは完了。build 7の実機ログでHermes起動クラッシュを特定し、iOSのみJSCへ切り替えたbuild 8を送信済み。**build 8のTestFlight実機確認と審査提出・一般公開は未実施**。この文書の未完項目を満たすまで公開しない。監査根拠は `IOS_AUDIT_2026-09-09.md`、テスト記録は `IOS_VERIFICATION.md`。
 
 ## 実装とWeb保護
