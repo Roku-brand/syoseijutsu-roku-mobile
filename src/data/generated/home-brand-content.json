@@ -293,28 +293,35 @@
       "summary": "目立つ一つの長所や短所が、その人全体の評価にまで広がる傾向。見た目や肩書、最初の成果が他の判断まで左右する。逆に、一つの目立つ欠点が全体評価を引き下げるホーン効果も同じ印象波及の仕組みで説明できる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "E.L. Thorndike（参照文献の著者）",
-        "period": "1920年（参照文献）",
-        "works": [
-          "A constant error in psychological ratings. (1920). Journal of Applied Psychology, 4(1), 25-29"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/h0071663"
-          }
-        ],
-        "note": "評価に共通して入り込む誤差を扱った古典的論文。"
-      },
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 2,
+      "displayId": 243,
       "aliases": [
         "ホーン効果",
         "horn effect",
         "devil effect"
       ],
       "relatedTheoryIds": [],
-      "displayId": 243
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_003",
+      "accessTier": "free",
+      "provenance": {
+        "note": "評価に共通して入り込む誤差を扱った古典的論文。",
+        "works": [
+          "A constant error in psychological ratings. (1920). Journal of Applied Psychology, 4(1), 25-29"
+        ],
+        "period": "1920年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0071663",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "E.L. Thorndike（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_389",
@@ -322,23 +329,31 @@
       "summary": "感情や態度を伝える言葉と声・表情が食い違う場面では、受け手が声や表情を強く手掛かりにするという限定的な研究知見。あらゆる会話で「言葉は7％しか伝わらない」という法則ではない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-u",
+      "subcategoryTitle": "言語",
+      "sortOrder": 14,
+      "displayId": 279,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_389",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Albert Mehrabian / Susan R. Ferris（参照文献の著者）",
-        "period": "1967年（参照文献）",
+        "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。",
         "works": [
           "Inference of attitudes from nonverbal communication in two channels. (1967). Journal of Consulting Psychology, 31(3), 248-252"
         ],
+        "period": "1967年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/h0024648"
+            "url": "https://doi.org/10.1037/h0024648",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "態度の非言語的伝達を扱う限定的実験。全コミュニケーションに7・38・55を適用するものではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 279
+        "attribution": "Albert Mehrabian / Susan R. Ferris（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_402",
@@ -346,28 +361,36 @@
       "summary": "対人上のリスクを取って質問、異論、失敗を表明しても、侮辱や不利益を受けないと集団成員が共有して感じる状態。単なる仲の良さではなく、率直に学び合える条件を指す。",
       "categoryId": "organization-management",
       "categoryTitle": "組織・経営論",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Amy Edmondson（参照文献の著者）",
-        "period": "1999年（参照文献）",
-        "works": [
-          "Psychological Safety and Learning Behavior in Work Teams (1999). Administrative Science Quarterly, 44(2), 350-383"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.2307/2666999"
-          }
-        ],
-        "note": "チームにおける心理的安全性と学習行動の代表的研究。用語の最初の使用ではありません。"
-      },
+      "subcategoryId": "organization-management-t",
+      "subcategoryTitle": "チーム",
+      "sortOrder": 15,
+      "displayId": 75,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_770",
         "kb_771",
         "kb_773",
         "kb_845"
       ],
-      "displayId": 75
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_402",
+      "accessTier": "free",
+      "provenance": {
+        "note": "チームにおける心理的安全性と学習行動の代表的研究。用語の最初の使用ではありません。",
+        "works": [
+          "Psychological Safety and Learning Behavior in Work Teams (1999). Administrative Science Quarterly, 44(2), 350-383"
+        ],
+        "period": "1999年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.2307/2666999",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Amy Edmondson（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_014",
@@ -375,23 +398,31 @@
       "summary": "相手の姿勢や表情、動作を自然に同調させると、親近感や一体感が生まれやすくなる傾向。露骨な模倣は不信感を招くため、自然さが必要になる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 64,
+      "displayId": 276,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_014",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）",
-        "period": "1999年（参照文献）",
+        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。",
         "works": [
           "The chameleon effect: The perception–behavior link and social interaction. (1999). Journal of Personality and Social Psychology, 76(6), 893-910"
         ],
+        "period": "1999年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/0022-3514.76.6.893"
+            "url": "https://doi.org/10.1037/0022-3514.76.6.893",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 276
+        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_391",
@@ -399,23 +430,31 @@
       "summary": "相手の姿勢や身ぶりを無意識に模倣すると、相互作用が滑らかになり、好意や親近感が高まることがある現象。効果は自然な模倣に限られ、誇張した物まねとは異なる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 16,
+      "displayId": 46,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_391",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）",
-        "period": "1999年（参照文献）",
+        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。",
         "works": [
           "The chameleon effect: The perception–behavior link and social interaction. (1999). Journal of Personality and Social Psychology, 76(6), 893-910"
         ],
+        "period": "1999年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/0022-3514.76.6.893"
+            "url": "https://doi.org/10.1037/0022-3514.76.6.893",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "無意識的な行動模倣の実験。意図的な模倣全般や全ての行動同調の効果を保証しません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 46
+        "attribution": "Tanya L. Chartrand / John A. Bargh（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_007",
@@ -423,23 +462,31 @@
       "summary": "相手から好意を示されると、自分も好意を返したくなりやすい傾向。好意は待つより、先に示すことで循環が生まれる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 11,
+      "displayId": 92,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_007",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Alvin W. Gouldner（参照文献の著者）",
-        "period": "1960年（参照文献）",
+        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。",
         "works": [
           "The Norm of Reciprocity: A Preliminary Statement (1960). American Sociological Review, 25(2), 161"
         ],
+        "period": "1960年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.2307/2092623"
+            "url": "https://doi.org/10.2307/2092623",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 92
+        "attribution": "Alvin W. Gouldner（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_008",
@@ -447,23 +494,31 @@
       "summary": "自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。親密さは一方的ではなく段階的に深まる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 3,
+      "displayId": 111,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_008",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Nancy L. Collins / Lynn Carol Miller（参照文献の著者）",
-        "period": "1994年（参照文献）",
+        "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。",
         "works": [
           "Self-disclosure and liking: A meta-analytic review. (1994). Psychological Bulletin, 116(3), 457-475"
         ],
+        "period": "1994年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/0033-2909.116.3.457"
+            "url": "https://doi.org/10.1037/0033-2909.116.3.457",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 111
+        "attribution": "Nancy L. Collins / Lynn Carol Miller（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_623",
@@ -471,23 +526,31 @@
       "summary": "やりすぎは不足と同じく望ましくなく、適度が重要だという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 8,
+      "displayId": 37,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_623",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "孔子の言行／門人・後学による編纂",
-        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。",
         "works": [
           "『論語』先進篇"
         ],
+        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 37
+        "attribution": "孔子の言行／門人・後学による編纂"
+      }
     },
     {
       "tagId": "kb_025",
@@ -495,23 +558,31 @@
       "summary": "高い能力を持つ人が小さな失敗を見せると、親しみやすさが増すことがある現象。能力への信頼がない状態では、失敗はそのまま低評価になりうる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 60,
+      "displayId": 262,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_025",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Elliot Aronson / Ben Willerman / Joanne Floyd（参照文献の著者）",
-        "period": "1966年（参照文献）",
+        "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。",
         "works": [
           "The effect of a pratfall on increasing interpersonal attractiveness (1966). Psychonomic Science, 4(6), 227-228"
         ],
+        "period": "1966年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.3758/bf03342263"
+            "url": "https://doi.org/10.3758/bf03342263",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 262
+        "attribution": "Elliot Aronson / Ben Willerman / Joanne Floyd（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_001",
@@ -519,25 +590,33 @@
       "summary": "最初に得た情報が、その後の印象や評価の基準として強く残る傾向。第一印象は後から修正しにくいため、関係の入口ほど重要になる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "S. E. Asch（参照文献の著者）",
-        "period": "1946年（参照文献）",
-        "works": [
-          "Forming impressions of personality. (1946). The Journal of Abnormal and Social Psychology, 41(3), 258-290"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/h0055756"
-          }
-        ],
-        "note": "印象形成の代表的研究。記憶課題での初頭効果とは区別します。"
-      },
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 3,
+      "displayId": 146,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_739"
       ],
-      "displayId": 146
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_001",
+      "accessTier": "free",
+      "provenance": {
+        "note": "印象形成の代表的研究。記憶課題での初頭効果とは区別します。",
+        "works": [
+          "Forming impressions of personality. (1946). The Journal of Abnormal and Social Psychology, 41(3), 258-290"
+        ],
+        "period": "1946年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0055756",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "S. E. Asch（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_002",
@@ -545,25 +624,33 @@
       "summary": "最後に得た情報ほど記憶や判断に残りやすい傾向。会話や体験は、終わり方によって全体の印象が変わる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Bennet B. Murdock（参照文献の著者）",
-        "period": "1962年（参照文献）",
-        "works": [
-          "The serial position effect of free recall. (1962). Journal of Experimental Psychology, 64(5), 482-488"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/h0045106"
-          }
-        ],
-        "note": "自由再生課題の系列位置効果を扱う研究。会話全体の評価への適用まで直接検証した論文ではありません。"
-      },
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 4,
+      "displayId": 150,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_739"
       ],
-      "displayId": 150
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_002",
+      "accessTier": "free",
+      "provenance": {
+        "note": "自由再生課題の系列位置効果を扱う研究。会話全体の評価への適用まで直接検証した論文ではありません。",
+        "works": [
+          "The serial position effect of free recall. (1962). Journal of Experimental Psychology, 64(5), 482-488"
+        ],
+        "period": "1962年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0045106",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Bennet B. Murdock（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_029",
@@ -571,23 +658,31 @@
       "summary": "体験全体は、最も感情が強かった瞬間と最後の印象によって記憶されやすいという法則。平均的な質だけでなく、山場と終わり方が重要になる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 54,
+      "displayId": 247,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_029",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Daniel Kahneman / Barbara L. Fredrickson / Charles A. Schreiber / Donald A. Redelmeier（参照文献の著者）",
-        "period": "1993年（参照文献）",
+        "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。",
         "works": [
           "When More Pain Is Preferred to Less: Adding a Better End (1993). Psychological Science, 4(6), 401-405"
         ],
+        "period": "1993年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1111/j.1467-9280.1993.tb00589.x"
+            "url": "https://doi.org/10.1111/j.1467-9280.1993.tb00589.x",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "体験の終わりと回顧的評価を扱う代表的実験。あらゆる体験に同じ比重が当てはまる法則ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 247
+        "attribution": "Daniel Kahneman / Barbara L. Fredrickson / Charles A. Schreiber / Donald A. Redelmeier（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_047",
@@ -595,23 +690,31 @@
       "summary": "人は何かを受け取ると、同程度のものを返さなければならないと感じやすい原理。親切にも敵意にも働く。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 12,
+      "displayId": 268,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_047",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Alvin W. Gouldner（参照文献の著者）",
-        "period": "1960年（参照文献）",
+        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。",
         "works": [
           "The Norm of Reciprocity: A Preliminary Statement (1960). American Sociological Review, 25(2), 161"
         ],
+        "period": "1960年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.2307/2092623"
+            "url": "https://doi.org/10.2307/2092623",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 268
+        "attribution": "Alvin W. Gouldner（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_004",
@@ -619,26 +722,34 @@
       "summary": "接する回数が増えるほど、対象への親しみや好意が高まりやすくなる傾向。ただし、もともとの不快感が強い場合には逆効果になりうる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Robert B. Zajonc（参照文献の著者）",
-        "period": "1968年（参照文献）",
-        "works": [
-          "Attitudinal effects of mere exposure. (1968). Journal of Personality and Social Psychology, 9(2, Pt.2), 1-27"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/h0025848"
-          }
-        ],
-        "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。"
-      },
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 9,
+      "displayId": 195,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_718",
         "kb_821"
       ],
-      "displayId": 195
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_004",
+      "accessTier": "free",
+      "provenance": {
+        "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。",
+        "works": [
+          "Attitudinal effects of mere exposure. (1968). Journal of Personality and Social Psychology, 9(2, Pt.2), 1-27"
+        ],
+        "period": "1968年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0025848",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Robert B. Zajonc（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_019",
@@ -646,23 +757,31 @@
       "summary": "一度誰かを助けると、その行動と整合させるために相手への好意が高まりやすい傾向。小さな依頼が関係形成のきっかけになることがある。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 61,
+      "displayId": 267,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_019",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Jon Jecker / David Landy（参照文献の著者）",
-        "period": "1969年（参照文献）",
+        "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。",
         "works": [
           "Liking a Person as a Function of Doing Him a Favour (1969). Human Relations, 22(4), 371-378"
         ],
+        "period": "1969年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1177/001872676902200407"
+            "url": "https://doi.org/10.1177/001872676902200407",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 267
+        "attribution": "Jon Jecker / David Landy（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_093",
@@ -670,35 +789,66 @@
       "summary": "他者の問題を過度に引き受けることで自分の価値を保ち、互いの不健全な行動を支え合う関係。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 54,
+      "displayId": 212,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 212
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_093",
+      "accessTier": "free",
+      "provenance": {
+        "note": "共依存を扱う著者本人の著作紹介。実践書の参照であり、単一の確立した医学的診断や用語の唯一の初出を意味しません。",
+        "works": [
+          "Codependent No More, revised edition (2022)"
+        ],
+        "period": "2022年（参照版）",
+        "status": "一部確認",
+        "sources": [
+          {
+            "url": "https://www.melodybeattie.com/codependentnomore",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Melody Beattie（関連文献の著者）"
+      }
     },
     {
       "tagId": "kb_190",
       "title": "計画錯誤",
       "summary": "過去の遅延を無視し、作業に必要な時間や費用を楽観的に見積もりやすい傾向。",
-      "categoryId": "behavioral-science",
-      "categoryTitle": "行動科学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Roger Buehler / Dale Griffin / Michael Ross（参照文献の著者）",
-        "period": "1994年（参照文献）",
-        "works": [
-          "Exploring the \"planning fallacy\": Why people underestimate their task completion times. (1994). Journal of Personality and Social Psychology, 67(3), 366-381"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/0022-3514.67.3.366"
-          }
-        ],
-        "note": "課題の所要時間を過小評価する傾向を扱う実験。用語の初出ではありません。"
-      },
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 62,
+      "displayId": 23,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_710",
         "kb_810"
       ],
-      "displayId": 27
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_190",
+      "accessTier": "free",
+      "provenance": {
+        "note": "課題の所要時間を過小評価する傾向を扱う実験。用語の初出ではありません。",
+        "works": [
+          "Exploring the \"planning fallacy\": Why people underestimate their task completion times. (1994). Journal of Personality and Social Psychology, 67(3), 366-381"
+        ],
+        "period": "1994年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0022-3514.67.3.366",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Roger Buehler / Dale Griffin / Michael Ross（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_324",
@@ -706,8 +856,30 @@
       "summary": "完成度の高い遅い行動より、十分な水準で素早く動く方が価値を持つ場合が多いという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-p",
+      "subcategoryTitle": "ことわざ",
+      "sortOrder": 13,
+      "displayId": 23,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 23
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_324",
+      "accessTier": "free",
+      "provenance": {
+        "note": "作戦篇の迅速さと長期化を論じる箇所に対応。カードの日本語は要旨をまとめた慣用表現で、原文と完全一致する逐語訳ではありません。",
+        "works": [
+          "孫子・作戦篇"
+        ],
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://zh.wikisource.org/wiki/%E5%AD%AB%E5%AD%90%E5%85%B5%E6%B3%95#%E4%BD%9C%E6%88%B0%E7%AC%AC%E4%BA%8C",
+            "title": "原典本文・作戦篇"
+          }
+        ],
+        "attribution": "孫武（伝統的帰属）"
+      }
     },
     {
       "tagId": "kb_627",
@@ -715,55 +887,70 @@
       "summary": "戦う前に勝てる条件を整えることが、強い戦略だという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-b",
+      "subcategoryTitle": "兵法",
+      "sortOrder": 2,
+      "displayId": 34,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_627",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "孫武に伝統的に帰される『孫子』",
-        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。",
         "works": [
           "『孫子』軍形篇（第4篇）"
         ],
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 34
+        "attribution": "孫武に伝統的に帰される『孫子』"
+      }
     },
     {
       "tagId": "kb_706",
       "title": "ダニング＝クルーガー効果",
+      "summary": "技能が低い人ほど自分の誤りを見抜くための技能も不足し、自己評価を誤りやすいという研究知見。誰もが無知なら自信過剰になるという単純な序列ではなく、課題・測定法・統計的回帰の影響も議論されている。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知",
+      "sortOrder": 37,
+      "displayId": 193,
       "aliases": [
         "Dunning-Kruger effect",
         "ダニングクルーガー効果"
       ],
-      "summary": "技能が低い人ほど自分の誤りを見抜くための技能も不足し、自己評価を誤りやすいという研究知見。誰もが無知なら自信過剰になるという単純な序列ではなく、課題・測定法・統計的回帰の影響も議論されている。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "David Dunning / Justin Kruger",
-        "period": "1999年",
-        "works": [
-          "Unskilled and unaware of it (1999)"
-        ],
-        "sources": [
-          {
-            "title": "代表研究（DOI）",
-            "url": "https://doi.org/10.1037/0022-3514.77.6.1121"
-          }
-        ],
-        "note": "個人を侮辱するラベルとして使わず、校正されたフィードバックと技能測定に使う。"
-      },
       "relatedTheoryIds": [
         "kb_710",
         "kb_723",
         "kb_263"
       ],
-      "displayId": 193
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_706",
+      "accessTier": "free",
+      "provenance": {
+        "note": "個人を侮辱するラベルとして使わず、校正されたフィードバックと技能測定に使う。",
+        "works": [
+          "Unskilled and unaware of it (1999)"
+        ],
+        "period": "1999年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0022-3514.77.6.1121",
+            "title": "代表研究（DOI）"
+          }
+        ],
+        "attribution": "David Dunning / Justin Kruger"
+      }
     },
     {
       "tagId": "kb_625",
@@ -771,52 +958,88 @@
       "summary": "学ぶだけでも考えるだけでも足りず、知識と思考を往復することが重要。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 6,
+      "displayId": 56,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_625",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "孔子の言行／門人・後学による編纂",
-        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。",
         "works": [
           "『論語』為政篇"
         ],
+        "period": "古代中国（編纂・成立の単一年は未確定）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/3330/pg3330-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "伝承された古典の章句を参照しています。訓読・章番号には版による差があります。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 56
+        "attribution": "孔子の言行／門人・後学による編纂"
+      }
     },
     {
       "tagId": "kb_543",
       "title": "リーン・スタートアップ",
       "summary": "仮説を最小限の製品や実験で試し、計測から学び、継続・修正を決める事業開発手法。最初から完成度を上げるより、不確実な前提を早く検証する。",
-      "categoryId": "strategy",
-      "categoryTitle": "戦略論",
+      "categoryId": "organization-management",
+      "categoryTitle": "組織・経営論",
+      "subcategoryId": "organization-management-m",
+      "subcategoryTitle": "経営",
+      "sortOrder": 17,
+      "displayId": 9,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 75
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_543",
+      "accessTier": "free",
+      "provenance": {
+        "note": "著者のBuild–Measure–Learnと検証された学習の枠組みを扱う原著。",
+        "works": [
+          "The Lean Startup (2011)"
+        ],
+        "period": "2011年（参照版）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://www.penguinrandomhouse.com/books/210088/the-lean-startup-by-eric-ries/9780307887894/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Eric Ries（参照文献の著者）"
+      }
     },
     {
       "tagId": "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
-      "displayId": 5,
       "title": "「未完成は、まだ生きている。」",
       "summary": "出来上がっていないものには、まだ問い直したり作り替えたりする余地がある。完成を待って抱え込むより、途中の形を外に出して反応を受け取ることで、考えは育ち続ける。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
+      "subcategoryId": "practical-wisdom-a",
+      "subcategoryTitle": "行動",
+      "sortOrder": 8,
+      "displayId": 5,
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayOrder": 5,
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
       "accessTier": "free",
       "provenance": {
-        "status": "オリジナル",
-        "attribution": "処世術禄",
+        "note": "処世術禄によるオリジナルの実践知です。",
         "works": [
           "処世術禄オリジナル"
         ],
+        "status": "オリジナル",
         "sources": [],
-        "note": "処世術禄によるオリジナルの実践知です。"
+        "attribution": "処世術禄"
       }
     },
     {
@@ -825,65 +1048,90 @@
       "summary": "計画が失敗した未来を先に仮定し、その原因を洗い出す意思決定手法。失敗を恐れるためではなく、言いにくい懸念を計画段階で表に出すために使う。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
+      "subcategoryId": "strategy-r",
+      "subcategoryTitle": "リスク",
+      "sortOrder": 10,
+      "displayId": 66,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_599",
+      "accessTier": "free",
       "provenance": {
-        "status": "一部確認",
-        "attribution": "Gary Klein",
         "works": [
           "Performing a Project Premortem (2007)"
-        ]
-      },
-      "relatedTheoryIds": [],
-      "displayId": 66
+        ],
+        "status": "一部確認",
+        "attribution": "Gary Klein",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_762",
       "title": "ホーソン効果",
+      "summary": "観察されているという認識や研究参加が行動を変える可能性を指す呼称。原実験の再解釈が続いており、単純に注目すれば生産性が上がる法則として扱えない。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-v",
+      "subcategoryTitle": "社会心理",
+      "sortOrder": 27,
+      "displayId": 284,
       "aliases": [
         "Hawthorne effect",
         "ホーソン実験"
       ],
-      "summary": "観察されているという認識や研究参加が行動を変える可能性を指す呼称。原実験の再解釈が続いており、単純に注目すれば生産性が上がる法則として扱えない。",
-      "categoryId": "organization-management",
-      "categoryTitle": "組織・経営論",
-      "provenance": {
-        "status": "一部確認",
-        "attribution": "Elton Mayo / Henry Landsbergerほか",
-        "period": "1920〜1950年代",
-        "works": [
-          "Hawthorne Revisited (1958)"
-        ],
-        "note": "定義が研究ごとに異なり、原データの解釈にも議論がある。"
-      },
       "relatedTheoryIds": [
         "kb_538",
         "kb_123"
       ],
-      "displayId": 150
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_762",
+      "accessTier": "free",
+      "provenance": {
+        "note": "定義が研究ごとに異なり、原データの解釈にも議論がある。",
+        "works": [
+          "Hawthorne Revisited (1958)"
+        ],
+        "period": "1920〜1950年代",
+        "status": "一部確認",
+        "attribution": "Elton Mayo / Henry Landsbergerほか",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_738",
       "title": "エビングハウスの忘却曲線",
+      "summary": "学習後の記憶は初期に急速に失われ、その後ゆるやかになるという保持の時間変化。曲線の形は材料、個人、想起条件で変わり、固定の忘却率ではない。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-m",
+      "subcategoryTitle": "記憶",
+      "sortOrder": 2,
+      "displayId": 4,
       "aliases": [
         "Ebbinghaus forgetting curve",
         "忘却曲線"
       ],
-      "summary": "学習後の記憶は初期に急速に失われ、その後ゆるやかになるという保持の時間変化。曲線の形は材料、個人、想起条件で変わり、固定の忘却率ではない。",
-      "categoryId": "behavioral-science",
-      "categoryTitle": "行動科学",
-      "provenance": {
-        "status": "一部確認",
-        "attribution": "Hermann Ebbinghaus",
-        "period": "1885年",
-        "works": [
-          "Über das Gedächtnis (1885)"
-        ],
-        "note": "原研究は無意味綴りを用いた自己実験で、現実の知識へ同じ数値を当てはめない。"
-      },
       "relatedTheoryIds": [
         "kb_200",
         "kb_199"
       ],
-      "displayId": 9
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_738",
+      "accessTier": "free",
+      "provenance": {
+        "note": "原研究は無意味綴りを用いた自己実験で、現実の知識へ同じ数値を当てはめない。",
+        "works": [
+          "Über das Gedächtnis (1885)"
+        ],
+        "period": "1885年",
+        "status": "一部確認",
+        "attribution": "Hermann Ebbinghaus",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_545",
@@ -891,8 +1139,16 @@
       "summary": "成果の大部分が少数の原因や活動から生じることが多い、という経験則。常に80対20になる数学法則ではなく、影響の偏りを見つける分析の入口として使う。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
+      "subcategoryId": "strategy-a",
+      "subcategoryTitle": "分析",
+      "sortOrder": 8,
+      "displayId": 59,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 59
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_545",
+      "accessTier": "free"
     },
     {
       "tagId": "kb_329",
@@ -900,8 +1156,31 @@
       "summary": "完璧を求めることで、十分に良い成果の完成や公開まで妨げてしまうという戒め。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-q",
+      "subcategoryTitle": "格言",
+      "sortOrder": 1,
+      "displayId": 15,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 15
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_329",
+      "accessTier": "free",
+      "provenance": {
+        "note": "作品冒頭にある格言に対応する日本語の意訳。作中で以前の格言を引いているため、Voltaireが最初に発案したと断定しません。",
+        "works": [
+          "La Bégueule (1772), Contes en vers"
+        ],
+        "period": "1772年（参照作品）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://fr.wikisource.org/wiki/Contes_en_vers_%28Voltaire%29/La_B%C3%A9gueule",
+            "title": "原典本文・La Bégueule"
+          }
+        ],
+        "attribution": "Voltaire（参照作品の著者）"
+      }
     },
     {
       "tagId": "kb_051",
@@ -909,8 +1188,31 @@
       "summary": "自分と相手の権利をともに尊重しながら、意見や要求を率直に伝える考え方。攻撃でも我慢でもない表現を目指す。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-t",
+      "subcategoryTitle": "心理技法",
+      "sortOrder": 4,
+      "displayId": 11,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 11
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_051",
+      "accessTier": "free",
+      "provenance": {
+        "note": "アサーション訓練の歴史と研究を整理した論文。単一の「アサーション理論」の初出としては扱いません。",
+        "works": [
+          "Assertiveness training: A forgotten evidence‐based treatment. (2018). Clinical Psychology: Science and Practice, 25(1)"
+        ],
+        "period": "2018年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/cpsp.12216",
+            "title": "出版社登録の原著書誌・DOI"
+          }
+        ],
+        "attribution": "Brittany C. Speed / Brandon L. Goldstein / Marvin R. Goldfried（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_102",
@@ -918,17 +1220,63 @@
       "summary": "手に入りにくいものほど価値が高いと感じやすい傾向。期限や限定性は判断を急がせる。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
+      "subcategoryId": "behavioral-science-x",
+      "subcategoryTitle": "選択",
+      "sortOrder": 10,
+      "displayId": 20,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 20
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_102",
+      "accessTier": "free",
+      "provenance": {
+        "note": "著者の公式組織が希少性・権威・社会的証明を明示。条件によって働き方が異なる説得の原理です。",
+        "works": [
+          "Influence, New and Expanded (2021) / The 7 Principles of Persuasion"
+        ],
+        "period": "2021年（参照版）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://www.influenceatwork.com/7-principles-of-persuasion/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Robert B. Cialdini（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_111",
       "title": "印象管理理論",
       "summary": "他者からどう見られるかを意識し、言動や外見、情報の見せ方を調整する行動を説明する理論。",
-      "categoryId": "organization-management",
-      "categoryTitle": "組織・経営論",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-s",
+      "subcategoryTitle": "自己",
+      "sortOrder": 34,
+      "displayId": 89,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 7
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_111",
+      "accessTier": "free",
+      "provenance": {
+        "note": "印象管理の二要素モデルを提示した著者らの論文。",
+        "works": [
+          "Impression management: A literature review and two-component model. (1990). Psychological Bulletin, 107(1), 34-47"
+        ],
+        "period": "1990年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0033-2909.107.1.34",
+            "title": "出版社登録の原著書誌・DOI"
+          }
+        ],
+        "attribution": "Mark R. Leary / Robin M. Kowalski（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_632",
@@ -936,17 +1284,47 @@
       "summary": "一見役に立たないものにも、余白や自由を生む価値があるという考え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 14,
+      "displayId": 58,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 58
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_632",
+      "accessTier": "free",
+      "provenance": {
+        "note": "人間世の末尾で、有用に見えるものと無用に見えるものの価値を論じる箇所を確認。現代的な価値判断への応用はアプリの整理です。",
+        "works": [
+          "荘子・内篇「人間世」"
+        ],
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://zh.wikisource.org/wiki/%E8%8E%8A%E5%AD%90/%E4%BA%BA%E9%96%93%E4%B8%96",
+            "title": "原典本文・人間世"
+          }
+        ],
+        "attribution": "荘子（伝承・編纂）"
+      }
     },
     {
       "tagId": "kb_192",
       "title": "パーキンソンの法則",
       "summary": "仕事は、与えられた時間を満たすまで膨張しやすいという法則。",
-      "categoryId": "organization-management",
-      "categoryTitle": "組織・経営論",
+      "categoryId": "practical-wisdom",
+      "categoryTitle": "実践知",
+      "subcategoryId": "practical-wisdom-w",
+      "subcategoryTitle": "仕事",
+      "sortOrder": 2,
+      "displayId": 54,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 124
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_192",
+      "accessTier": "free"
     },
     {
       "tagId": "kb_175",
@@ -954,28 +1332,36 @@
       "summary": "将来の大きな利益より、目の前の小さな利益を過度に優先しやすい傾向。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "D. Laibson（参照文献の著者）",
-        "period": "1997年（参照文献）",
-        "works": [
-          "Golden Eggs and Hyperbolic Discounting (1997). The Quarterly Journal of Economics, 112(2), 443-478"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1162/003355397555253"
-          }
-        ],
-        "note": "現在と将来の選好の不整合を扱う代表的モデル。"
-      },
+      "subcategoryId": "behavioral-science-d",
+      "subcategoryTitle": "意思決定",
+      "sortOrder": 7,
+      "displayId": 30,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_751",
         "kb_753",
         "kb_761",
         "kb_840"
       ],
-      "displayId": 30
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_175",
+      "accessTier": "free",
+      "provenance": {
+        "note": "現在と将来の選好の不整合を扱う代表的モデル。",
+        "works": [
+          "Golden Eggs and Hyperbolic Discounting (1997). The Quarterly Journal of Economics, 112(2), 443-478"
+        ],
+        "period": "1997年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1162/003355397555253",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "D. Laibson（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_326",
@@ -983,15 +1369,24 @@
       "summary": "結果を生む第一条件は、能力の有無を考え続けることではなく、実際に着手することだという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-q",
+      "subcategoryTitle": "格言",
+      "sortOrder": 2,
+      "displayId": 50,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_326",
+      "accessTier": "free",
       "provenance": {
-        "status": "一部確認",
-        "attribution": "上杉鷹山",
         "works": [
           "広く知られる言葉"
-        ]
-      },
-      "relatedTheoryIds": [],
-      "displayId": 50
+        ],
+        "status": "一部確認",
+        "attribution": "上杉鷹山",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_620",
@@ -999,23 +1394,31 @@
       "summary": "大きな目標も、最初の小さな一歩からしか始まらないという教え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 12,
+      "displayId": 39,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_620",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "老子に伝統的に帰される『老子』",
-        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。",
         "works": [
           "『老子（道徳経）』第64章"
         ],
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 39
+        "attribution": "老子に伝統的に帰される『老子』"
+      }
     },
     {
       "tagId": "kb_177",
@@ -1023,25 +1426,33 @@
       "summary": "明示的に変更しない限り採用される初期設定が、そのまま選ばれやすい現象。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Eric J. Johnson / Daniel Goldstein（参照文献の著者）",
-        "period": "2003年（参照文献）",
-        "works": [
-          "Do Defaults Save Lives? (2003). Science, 302(5649), 1338-1339"
-        ],
-        "sources": [
-          {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1126/science.1091721"
-          }
-        ],
-        "note": "デフォルト設定と選択を扱う研究。全分野で同じ効果を保証するものではありません。"
-      },
+      "subcategoryId": "behavioral-science-e",
+      "subcategoryTitle": "行動設計",
+      "sortOrder": 5,
+      "displayId": 81,
+      "aliases": [],
       "relatedTheoryIds": [
         "kb_842"
       ],
-      "displayId": 81
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_177",
+      "accessTier": "free",
+      "provenance": {
+        "note": "デフォルト設定と選択を扱う研究。全分野で同じ効果を保証するものではありません。",
+        "works": [
+          "Do Defaults Save Lives? (2003). Science, 302(5649), 1338-1339"
+        ],
+        "period": "2003年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1126/science.1091721",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Eric J. Johnson / Daniel Goldstein（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_179",
@@ -1049,8 +1460,31 @@
       "summary": "選択の自由を残したまま、より望ましい行動を取りやすくする環境上の小さな工夫。",
       "categoryId": "behavioral-science",
       "categoryTitle": "行動科学",
+      "subcategoryId": "behavioral-science-e",
+      "subcategoryTitle": "行動設計",
+      "sortOrder": 2,
+      "displayId": 84,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 84
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_179",
+      "accessTier": "free",
+      "provenance": {
+        "note": "原著出版社のThaler本人への取材で、選択環境による行動への働きかけを確認。",
+        "works": [
+          "Nudge (2008) / Yale Press Podcast, Episode 15"
+        ],
+        "period": "2008年（参照版）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://yalebooks.yale.edu/2008/05/01/yale-press-podcast-episode-15/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Richard H. Thaler / Cass R. Sunstein（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_619",
@@ -1058,50 +1492,66 @@
       "summary": "他人との競争より、自分の欲望や弱さを制する方が本質的な強さだと説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 11,
+      "displayId": 52,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_619",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "老子に伝統的に帰される『老子』",
-        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。",
         "works": [
           "『老子（道徳経）』第33章"
         ],
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 52
+        "attribution": "老子に伝統的に帰される『老子』"
+      }
     },
     {
       "tagId": "kb_736",
       "title": "フロー理論",
+      "summary": "技能と挑戦の水準がともに高く釣り合うと、行為への深い没入と明確な手応えが生じやすいという理論。没入は幸福や高成果と同義ではなく、活動内容と回復も考慮する。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-e",
+      "subcategoryTitle": "感情",
+      "sortOrder": 6,
+      "displayId": 263,
       "aliases": [
         "flow theory",
         "flow state",
         "フロー状態",
         "ゾーン"
       ],
-      "summary": "技能と挑戦の水準がともに高く釣り合うと、行為への深い没入と明確な手応えが生じやすいという理論。没入は幸福や高成果と同義ではなく、活動内容と回復も考慮する。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学",
-      "provenance": {
-        "status": "一部確認",
-        "attribution": "Mihaly Csikszentmihalyi",
-        "period": "1975年以降",
-        "works": [
-          "Beyond Boredom and Anxiety (1975)"
-        ],
-        "note": "フローの測定と因果方向には課題がある。"
-      },
       "relatedTheoryIds": [
         "kb_737",
         "kb_520"
       ],
-      "displayId": 263
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_736",
+      "accessTier": "free",
+      "provenance": {
+        "note": "フローの測定と因果方向には課題がある。",
+        "works": [
+          "Beyond Boredom and Anxiety (1975)"
+        ],
+        "period": "1975年以降",
+        "status": "一部確認",
+        "attribution": "Mihaly Csikszentmihalyi",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_629",
@@ -1109,23 +1559,31 @@
       "summary": "状況に応じて形を変え、固定したやり方に執着しないことを説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-b",
+      "subcategoryTitle": "兵法",
+      "sortOrder": 10,
+      "displayId": 55,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_629",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "孫武に伝統的に帰される『孫子』",
-        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。",
         "works": [
           "『孫子』虚実篇（第6篇）"
         ],
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 55
+        "attribution": "孫武に伝統的に帰される『孫子』"
+      }
     },
     {
       "tagId": "kb_618",
@@ -1133,23 +1591,31 @@
       "summary": "持っていないものより、すでにあるものを知ることが豊かさにつながる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 10,
+      "displayId": 44,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_618",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "老子に伝統的に帰される『老子』",
-        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。",
         "works": [
           "『老子（道徳経）』第33章"
         ],
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 44
+        "attribution": "老子に伝統的に帰される『老子』"
+      }
     },
     {
       "tagId": "kb_268",
@@ -1157,23 +1623,31 @@
       "summary": "良い変化にも悪い変化にも次第に慣れ、幸福感が元の水準へ戻りやすい現象。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-e",
+      "subcategoryTitle": "感情",
+      "sortOrder": 5,
+      "displayId": 31,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_268",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Philip Brickman / Dan Coates / Ronnie Janoff-Bulman（参照文献の著者）",
-        "period": "1978年（参照文献）",
+        "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。",
         "works": [
           "Lottery winners and accident victims: Is happiness relative? (1978). Journal of Personality and Social Psychology, 36(8), 917-927"
         ],
+        "period": "1978年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1037/0022-3514.36.8.917"
+            "url": "https://doi.org/10.1037/0022-3514.36.8.917",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 31
+        "attribution": "Philip Brickman / Dan Coates / Ronnie Janoff-Bulman（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_612",
@@ -1181,23 +1655,31 @@
       "summary": "時間不足より、時間の使い方こそが人生の長さを左右すると説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-w",
+      "subcategoryTitle": "西洋思想",
+      "sortOrder": 12,
+      "displayId": 36,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_612",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "セネカ",
-        "period": "紀元1世紀（厳密な成立年は未確認）",
+        "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。",
         "works": [
           "人生の短さについて（De brevitate vitae）第1章"
         ],
+        "period": "紀元1世紀（厳密な成立年は未確認）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "対応本文（公開テキスト）",
-            "url": "https://www.thelatinlibrary.com/sen/sen.brevita.shtml"
+            "url": "https://www.thelatinlibrary.com/sen/sen.brevita.shtml",
+            "title": "対応本文（公開テキスト）"
           }
         ],
-        "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 36
+        "attribution": "セネカ"
+      }
     },
     {
       "tagId": "kb_604",
@@ -1205,43 +1687,56 @@
       "summary": "自分で変えられることに力を使い、変えられないことへの執着を減らす考え。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-w",
+      "subcategoryTitle": "西洋思想",
+      "sortOrder": 1,
+      "displayId": 29,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_604",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "エピクテトスの教え／アリアノス編",
-        "period": "2世紀（成立の正確な年は未確定）",
+        "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。",
         "works": [
           "『提要（Enchiridion）』第1節"
         ],
+        "period": "2世紀（成立の正確な年は未確定）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://classics.mit.edu/Epictetus/epicench.html"
+            "url": "https://classics.mit.edu/Epictetus/epicench.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の趣旨を日本語で要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 29
+        "attribution": "エピクテトスの教え／アリアノス編"
+      }
     },
     {
       "tagId": "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
-      "displayId": 6,
       "title": "「急ぐな。でも、今日を逃すな。」",
       "summary": "焦りに押されて大きな決断をする必要はないが、すべてを先送りしてよいわけでもない。今しか会えない人や今なら試せることに目を向け、落ち着いたまま今日の一歩を踏み出す。",
       "categoryId": "practical-wisdom",
       "categoryTitle": "実践知",
+      "subcategoryId": "practical-wisdom-a",
+      "subcategoryTitle": "行動",
+      "sortOrder": 9,
+      "displayId": 6,
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayOrder": 6,
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
       "accessTier": "free",
       "provenance": {
-        "status": "オリジナル",
-        "attribution": "処世術禄",
+        "note": "処世術禄によるオリジナルの実践知です。",
         "works": [
           "処世術禄オリジナル"
         ],
+        "status": "オリジナル",
         "sources": [],
-        "note": "処世術禄によるオリジナルの実践知です。"
+        "attribution": "処世術禄"
       }
     },
     {
@@ -1250,23 +1745,31 @@
       "summary": "値動きや失敗要因の異なる資産を組み合わせ、全体の期待収益に対するリスクを管理する理論。人生設計では、収入源、技能、役割への依存を分散する比喩として応用される。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
+      "subcategoryId": "strategy-r",
+      "subcategoryTitle": "リスク",
+      "sortOrder": 6,
+      "displayId": 68,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_567",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Harry Markowitz（参照文献の著者）",
-        "period": "1952年（参照文献）",
+        "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。",
         "works": [
           "PORTFOLIO SELECTION* (1952). The Journal of Finance, 7(1), 77-91"
         ],
+        "period": "1952年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1111/j.1540-6261.1952.tb01525.x"
+            "url": "https://doi.org/10.1111/j.1540-6261.1952.tb01525.x",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "分散とリスクの組み合わせを扱う投資理論。人生全般への適用は比喩・応用です。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 68
+        "attribution": "Harry Markowitz（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_282",
@@ -1274,8 +1777,31 @@
       "summary": "大部分を極めて安全な選択に置き、一部を大きな上振れが期待できる高リスクの試みに配分する戦略。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
+      "subcategoryId": "strategy-r",
+      "subcategoryTitle": "リスク",
+      "sortOrder": 12,
+      "displayId": 53,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 53
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_282",
+      "accessTier": "free",
+      "provenance": {
+        "note": "反脆弱性の著作を、バーベル型のリスク配分・破滅回避を考える関連文献として提示。各一般概念の唯一の初出とは断定しません。",
+        "works": [
+          "Antifragile: Things That Gain from Disorder (2012)"
+        ],
+        "period": "2012年（参照版）",
+        "status": "一部確認",
+        "sources": [
+          {
+            "url": "https://www.penguinrandomhouse.com/books/176227/antifragile-by-nassim-nicholas-taleb/9780679645276/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Nassim Nicholas Taleb（関連文献の著者）"
+      }
     },
     {
       "tagId": "kb_296",
@@ -1283,8 +1809,16 @@
       "summary": "人への親切は巡り巡って自分にも返るという教え。利他と自己利益は必ずしも対立しない。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-p",
+      "subcategoryTitle": "ことわざ",
+      "sortOrder": 7,
+      "displayId": 49,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 49
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_296",
+      "accessTier": "free"
     },
     {
       "tagId": "kb_266",
@@ -1292,23 +1826,31 @@
       "summary": "自分の能力や状況を判断するために、他者と比較するという理論。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-s",
+      "subcategoryTitle": "自己",
+      "sortOrder": 23,
+      "displayId": 133,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_266",
+      "accessTier": "free",
       "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Leon Festinger（参照文献の著者）",
-        "period": "1954年（参照文献）",
+        "note": "社会的比較の理論を示した原典。",
         "works": [
           "A Theory of Social Comparison Processes (1954). Human Relations, 7(2), 117-140"
         ],
+        "period": "1954年（参照文献）",
+        "status": "書誌確認済み",
         "sources": [
           {
-            "title": "文献情報・原文（DOI）",
-            "url": "https://doi.org/10.1177/001872675400700202"
+            "url": "https://doi.org/10.1177/001872675400700202",
+            "title": "文献情報・原文（DOI）"
           }
         ],
-        "note": "社会的比較の理論を示した原典。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 133
+        "attribution": "Leon Festinger（参照文献の著者）"
+      }
     },
     {
       "tagId": "kb_315",
@@ -1316,15 +1858,24 @@
       "summary": "大組織の末端にいるより、小さな組織でも主導権を持つ道を選ぶ価値を説く言葉。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-p",
+      "subcategoryTitle": "ことわざ",
+      "sortOrder": 14,
+      "displayId": 19,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_315",
+      "accessTier": "free",
       "provenance": {
-        "status": "一部確認",
-        "attribution": "史記",
         "works": [
           "蘇秦列伝"
-        ]
-      },
-      "relatedTheoryIds": [],
-      "displayId": 19
+        ],
+        "status": "一部確認",
+        "attribution": "史記",
+        "sources": []
+      }
     },
     {
       "tagId": "kb_617",
@@ -1332,59 +1883,76 @@
       "summary": "他人を知る以上に、自分自身を理解することが重要だと説く。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-e",
+      "subcategoryTitle": "東洋思想",
+      "sortOrder": 9,
+      "displayId": 30,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_617",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "老子に伝統的に帰される『老子』",
-        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。",
         "works": [
           "『老子（道徳経）』第33章"
         ],
+        "period": "古代中国（成立年代・著者の実像には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html"
+            "url": "https://www.gutenberg.org/cache/epub/216/pg216-images.html",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。特定の邦訳からの逐語引用ではありません。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 30
+        "attribution": "老子に伝統的に帰される『老子』"
+      }
     },
     {
       "tagId": "kb_724",
-      "title": "Big Five／五因子モデル",
+      "title": "ビッグ・ファイブ",
+      "summary": "人格特性を開放性、誠実性、外向性、協調性、神経症傾向の五次元で記述するモデル。人を五つの型へ分類する診断ではなく、連続的な傾向を比較する枠組みである。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-s",
+      "subcategoryTitle": "自己",
+      "sortOrder": 8,
+      "displayId": 250,
       "aliases": [
         "Big Five",
         "Five-Factor Model",
         "FFM",
         "ビッグファイブ",
         "五因子性格モデル",
-        "OCEAN"
+        "OCEAN",
+        "Big Five／五因子モデル",
+        "五因子モデル"
       ],
-      "summary": "人格特性を開放性、誠実性、外向性、協調性、神経症傾向の五次元で記述するモデル。人を五つの型へ分類する診断ではなく、連続的な傾向を比較する枠組みである。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学",
-      "provenance": {
-        "status": "書誌確認済み",
-        "attribution": "Paul Costa / Robert McCrae / Lewis Goldbergほか",
-        "period": "1980〜1990年代",
-        "works": [
-          "An introduction to the five-factor model and its applications (1992)"
-        ],
-        "sources": [
-          {
-            "title": "代表研究（DOI）",
-            "url": "https://doi.org/10.1111/j.1467-6494.1992.tb00970.x"
-          }
-        ],
-        "note": "測定尺度・文化・自己評定と他者評定によって結果が変わる。"
-      },
       "relatedTheoryIds": [
         "kb_726",
         "kb_129",
         "kb_817"
       ],
-      "displayId": 250
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_724",
+      "accessTier": "free",
+      "provenance": {
+        "note": "測定尺度・文化・自己評定と他者評定によって結果が変わる。",
+        "works": [
+          "An introduction to the five-factor model and its applications (1992)"
+        ],
+        "period": "1980〜1990年代",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/j.1467-6494.1992.tb00970.x",
+            "title": "代表研究（DOI）"
+          }
+        ],
+        "attribution": "Paul Costa / Robert McCrae / Lewis Goldbergほか"
+      }
     },
     {
       "tagId": "kb_626",
@@ -1392,23 +1960,31 @@
       "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
+      "subcategoryId": "classics-thought-b",
+      "subcategoryTitle": "兵法",
+      "sortOrder": 1,
+      "displayId": 45,
+      "aliases": [],
+      "relatedTheoryIds": [],
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_626",
+      "accessTier": "free",
       "provenance": {
-        "status": "確認済み",
-        "attribution": "孫武に伝統的に帰される『孫子』",
-        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。",
         "works": [
           "『孫子』謀攻篇（第3篇）"
         ],
+        "period": "古代中国（成立年代・編纂過程には議論があります）",
+        "status": "確認済み",
         "sources": [
           {
-            "title": "原典・公開資料",
-            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm"
+            "url": "https://www.gutenberg.org/files/132/132-h/132-h.htm",
+            "title": "原典・公開資料"
           }
         ],
-        "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。"
-      },
-      "relatedTheoryIds": [],
-      "displayId": 45
+        "attribution": "孫武に伝統的に帰される『孫子』"
+      }
     },
     {
       "tagId": "kb_092",
@@ -1416,8 +1992,30 @@
       "summary": "他者の責任と自分の責任、受け入れることと拒否することの境目を明確にする考え方。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "対人",
+      "sortOrder": 23,
+      "displayId": 68,
+      "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 68
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "canonicalId": "kb_092",
+      "accessTier": "free",
+      "provenance": {
+        "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。",
+        "works": [
+          "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships, 10th ed."
+        ],
+        "status": "一部確認",
+        "sources": [
+          {
+            "url": "https://www.newharbinger.com/9781626259621/your-perfect-right/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Robert Alberti / Michael Emmons（関連文献の著者）"
+      }
     }
   ],
   "techniqueTheoryMap": {

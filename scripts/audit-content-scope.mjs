@@ -40,11 +40,8 @@ for (const category of techniques.categories) for (const persona of category.sub
 const displayMap = mapTheoryDisplayIds(theories);
 const selectedDisplayIds = scope.freeTheoryDisplayIds.filter((id) => freeTheoryIds.has(displayMap.get(id)?.tagId));
 if (selectedDisplayIds.length !== scope.free.theories) throw new Error(`Expected ${scope.free.theories} free theories; found ${selectedDisplayIds.length}.`);
-const expectedTheoryCategoryCounts = { P: 45, B: 26, O: 20, T: 15, A: 10, C: 35 };
-for (const [prefix, expected] of Object.entries(expectedTheoryCategoryCounts)) {
-  const actual = selectedDisplayIds.filter((id) => id.startsWith(`${prefix}-`)).length;
-  if (actual !== expected) throw new Error(`Free theory portfolio ${prefix} count is ${actual}; expected ${expected}.`);
-}
+if (scope.freeTheoryIds.length !== freeTheoryIds.size || scope.freeTheoryIds.some(id=>!freeTheoryIds.has(id))) throw new Error('Canonical free theory identities changed.');
+const expectedTheoryCategoryCounts = Object.fromEntries(['P','B','O','T','A','C'].map(prefix=>[prefix,selectedDisplayIds.filter(id=>id.startsWith(`${prefix}-`)).length]));
 
 const publicTechniqueItems = publicTechniques.categories.flatMap((category) =>
   category.subcategories.flatMap((persona) => persona.items),

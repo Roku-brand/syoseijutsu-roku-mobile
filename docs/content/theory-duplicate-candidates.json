@@ -1,0 +1,456 @@
+{
+  "comparedPairs": 287661,
+  "method": "NFKC title/alias match; character bigram Dice title >= .64 or definition >= .62. Candidate generation only, never merge decisions.",
+  "pairs": [
+    {
+      "a": "kb_566",
+      "b": "kb_267",
+      "titleA": "相対的剥奪",
+      "titleB": "相対的剝奪",
+      "exact": true,
+      "titleSimilarity": 1,
+      "definitionSimilarity": 0.239
+    },
+    {
+      "a": "kb_124",
+      "b": "kb_123",
+      "titleA": "ゴーレム効果",
+      "titleB": "ピグマリオン効果",
+      "exact": false,
+      "titleSimilarity": 0.167,
+      "definitionSimilarity": 0.691
+    },
+    {
+      "a": "kb_588",
+      "b": "kb_253",
+      "titleA": "喪失の二重過程モデル",
+      "titleB": "二重過程モデル",
+      "exact": false,
+      "titleSimilarity": 0.8,
+      "definitionSimilarity": 0.36
+    },
+    {
+      "a": "kb_106",
+      "b": "kb_091",
+      "titleA": "情報カスケード",
+      "titleB": "評判カスケード",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.209
+    },
+    {
+      "a": "kb_174",
+      "b": "kb_166",
+      "titleA": "プレコミットメント",
+      "titleB": "コミットメント戦略",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.194
+    },
+    {
+      "a": "kb_116",
+      "b": "kb_720",
+      "titleA": "可視性バイアス",
+      "titleB": "正常性バイアス",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.19
+    },
+    {
+      "a": "kb_820",
+      "b": "kb_819",
+      "titleA": "ノセボ効果",
+      "titleB": "プラセボ効果",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.186
+    },
+    {
+      "a": "kb_584",
+      "b": "kb_571",
+      "titleA": "人的資本",
+      "titleB": "人的資本論",
+      "exact": false,
+      "titleSimilarity": 0.857,
+      "definitionSimilarity": 0.173
+    },
+    {
+      "a": "kb_460",
+      "b": "kb_732",
+      "titleA": "個人化",
+      "titleB": "脱個人化",
+      "exact": false,
+      "titleSimilarity": 0.8,
+      "definitionSimilarity": 0.162
+    },
+    {
+      "a": "kb_421",
+      "b": "kb_597",
+      "titleA": "一貫性ヒューリスティック",
+      "titleB": "利用可能性ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.148
+    },
+    {
+      "a": "kb_712",
+      "b": "kb_597",
+      "titleA": "代表性ヒューリスティック",
+      "titleB": "利用可能性ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.144
+    },
+    {
+      "a": "kb_712",
+      "b": "kb_421",
+      "titleA": "代表性ヒューリスティック",
+      "titleB": "一貫性ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.818,
+      "definitionSimilarity": 0.141
+    },
+    {
+      "a": "kb_107",
+      "b": "kb_524",
+      "titleA": "シグナリング理論",
+      "titleB": "限界点シグナリング",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.125
+    },
+    {
+      "a": "kb_251",
+      "b": "kb_246",
+      "titleA": "アイデンティティ移行",
+      "titleB": "ナラティブ・アイデンティティ",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.11
+    },
+    {
+      "a": "kb_148",
+      "b": "kb_147",
+      "titleA": "原則立脚型交渉",
+      "titleB": "利益立脚型交渉",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.1
+    },
+    {
+      "a": "kb_512",
+      "b": "kb_783",
+      "titleA": "評判ネットワーク",
+      "titleB": "ネットワーク効果",
+      "exact": false,
+      "titleSimilarity": 0.714,
+      "definitionSimilarity": 0.098
+    },
+    {
+      "a": "kb_421",
+      "b": "kb_430",
+      "titleA": "一貫性ヒューリスティック",
+      "titleB": "感情ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.762,
+      "definitionSimilarity": 0.094
+    },
+    {
+      "a": "kb_230",
+      "b": "kb_270",
+      "titleA": "二次的コントロール",
+      "titleB": "補償的コントロール理論",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.094
+    },
+    {
+      "a": "kb_173",
+      "b": "kb_166",
+      "titleA": "コミットメント装置",
+      "titleB": "コミットメント戦略",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.087
+    },
+    {
+      "a": "kb_231",
+      "b": "kb_230",
+      "titleA": "コントロール幻想",
+      "titleB": "二次的コントロール",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.086
+    },
+    {
+      "a": "kb_774",
+      "b": "kb_773",
+      "titleA": "取引型リーダーシップ",
+      "titleB": "変革型リーダーシップ",
+      "exact": false,
+      "titleSimilarity": 0.778,
+      "definitionSimilarity": 0.083
+    },
+    {
+      "a": "kb_512",
+      "b": "kb_414",
+      "titleA": "評判ネットワーク",
+      "titleB": "連想ネットワーク",
+      "exact": false,
+      "titleSimilarity": 0.714,
+      "definitionSimilarity": 0.081
+    },
+    {
+      "a": "kb_537",
+      "b": "kb_394",
+      "titleA": "フィードバックループ",
+      "titleB": "具体的フィードバック",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.078
+    },
+    {
+      "a": "kb_405",
+      "b": "kb_788",
+      "titleA": "感情焦点型コミュニケーション",
+      "titleB": "コミュニケーション適応理論",
+      "exact": false,
+      "titleSimilarity": 0.64,
+      "definitionSimilarity": 0.078
+    },
+    {
+      "a": "kb_085",
+      "b": "kb_414",
+      "titleA": "ネットワーク中心性",
+      "titleB": "連想ネットワーク",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.07
+    },
+    {
+      "a": "kb_466",
+      "b": "kb_414",
+      "titleA": "ネットワーク冗長性",
+      "titleB": "連想ネットワーク",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.069
+    },
+    {
+      "a": "kb_414",
+      "b": "kb_783",
+      "titleA": "連想ネットワーク",
+      "titleB": "ネットワーク効果",
+      "exact": false,
+      "titleSimilarity": 0.714,
+      "definitionSimilarity": 0.068
+    },
+    {
+      "a": "kb_775",
+      "b": "kb_773",
+      "titleA": "状況対応型リーダーシップ",
+      "titleB": "変革型リーダーシップ",
+      "exact": false,
+      "titleSimilarity": 0.7,
+      "definitionSimilarity": 0.068
+    },
+    {
+      "a": "kb_405",
+      "b": "kb_053",
+      "titleA": "感情焦点型コミュニケーション",
+      "titleB": "非暴力コミュニケーション",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.067
+    },
+    {
+      "a": "kb_173",
+      "b": "kb_174",
+      "titleA": "コミットメント装置",
+      "titleB": "プレコミットメント",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.066
+    },
+    {
+      "a": "kb_835",
+      "b": "kb_275",
+      "titleA": "アレのパラドックス",
+      "titleB": "選択のパラドックス",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.065
+    },
+    {
+      "a": "kb_712",
+      "b": "kb_430",
+      "titleA": "代表性ヒューリスティック",
+      "titleB": "感情ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.762,
+      "definitionSimilarity": 0.058
+    },
+    {
+      "a": "kb_251",
+      "b": "kb_249",
+      "titleA": "アイデンティティ移行",
+      "titleB": "アイデンティティ喪失",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.057
+    },
+    {
+      "a": "kb_466",
+      "b": "kb_512",
+      "titleA": "ネットワーク冗長性",
+      "titleB": "評判ネットワーク",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.056
+    },
+    {
+      "a": "kb_085",
+      "b": "kb_783",
+      "titleA": "ネットワーク中心性",
+      "titleB": "ネットワーク効果",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.056
+    },
+    {
+      "a": "kb_085",
+      "b": "kb_512",
+      "titleA": "ネットワーク中心性",
+      "titleB": "評判ネットワーク",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.054
+    },
+    {
+      "a": "kb_430",
+      "b": "kb_597",
+      "titleA": "感情ヒューリスティック",
+      "titleB": "利用可能性ヒューリスティック",
+      "exact": false,
+      "titleSimilarity": 0.696,
+      "definitionSimilarity": 0.045
+    },
+    {
+      "a": "kb_466",
+      "b": "kb_783",
+      "titleA": "ネットワーク冗長性",
+      "titleB": "ネットワーク効果",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.043
+    },
+    {
+      "a": "kb_775",
+      "b": "kb_774",
+      "titleA": "状況対応型リーダーシップ",
+      "titleB": "取引型リーダーシップ",
+      "exact": false,
+      "titleSimilarity": 0.7,
+      "definitionSimilarity": 0.042
+    },
+    {
+      "a": "kb_137",
+      "b": "kb_486",
+      "titleA": "フレーミング効果",
+      "titleB": "公正フレーミング",
+      "exact": false,
+      "titleSimilarity": 0.714,
+      "definitionSimilarity": 0.041
+    },
+    {
+      "a": "kb_788",
+      "b": "kb_388",
+      "titleA": "コミュニケーション適応理論",
+      "titleB": "非言語コミュニケーション",
+      "exact": false,
+      "titleSimilarity": 0.696,
+      "definitionSimilarity": 0.041
+    },
+    {
+      "a": "kb_388",
+      "b": "kb_053",
+      "titleA": "非言語コミュニケーション",
+      "titleB": "非暴力コミュニケーション",
+      "exact": false,
+      "titleSimilarity": 0.727,
+      "definitionSimilarity": 0.036
+    },
+    {
+      "a": "kb_405",
+      "b": "kb_388",
+      "titleA": "感情焦点型コミュニケーション",
+      "titleB": "非言語コミュニケーション",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0.027
+    },
+    {
+      "a": "kb_173",
+      "b": "kb_765",
+      "titleA": "コミットメント装置",
+      "titleB": "組織コミットメント",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.019
+    },
+    {
+      "a": "kb_765",
+      "b": "kb_166",
+      "titleA": "組織コミットメント",
+      "titleB": "コミットメント戦略",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0.019
+    },
+    {
+      "a": "kb_788",
+      "b": "kb_053",
+      "titleA": "コミュニケーション適応理論",
+      "titleB": "非暴力コミュニケーション",
+      "exact": false,
+      "titleSimilarity": 0.696,
+      "definitionSimilarity": 0.017
+    },
+    {
+      "a": "kb_174",
+      "b": "kb_765",
+      "titleA": "プレコミットメント",
+      "titleB": "組織コミットメント",
+      "exact": false,
+      "titleSimilarity": 0.75,
+      "definitionSimilarity": 0
+    },
+    {
+      "a": "kb_457",
+      "b": "kb_390",
+      "titleA": "同調行動",
+      "titleB": "行動同調",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0
+    },
+    {
+      "a": "kb_249",
+      "b": "kb_246",
+      "titleA": "アイデンティティ喪失",
+      "titleB": "ナラティブ・アイデンティティ",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0
+    },
+    {
+      "a": "kb_038",
+      "b": "kb_160",
+      "titleA": "関係のエスカレーション・モデル",
+      "titleB": "デエスカレーション",
+      "exact": false,
+      "titleSimilarity": 0.667,
+      "definitionSimilarity": 0
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import { getRelatedTheories, getTechniquesForTheory, getTheoryDisplayId, theorie
 import { getTheoryCategoryLabel, getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
+import { getTheoryPath } from '@/data/theory-taxonomy';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
@@ -94,7 +95,7 @@ export default function TheoryDetailScreen() {
         <View style={styles.titleRegion}>
           <View testID="theory-meta" style={styles.metaRow}>
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
-            <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryCategoryLabel(theory)}</AppText></View>
+            <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
           </View>
           <AppText accessibilityRole="header" aria-level={1} testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
             {normalizeDisplayText(theory.title)}

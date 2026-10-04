@@ -10,7 +10,7 @@ import {
   type PropsWithChildren,
 } from 'react';
 import type { CategoryKey } from '@/data/types';
-import { theoryById } from '@/data/catalog';
+import { resolveTheoryId, resolveTheoryIds } from '@/data/theory-taxonomy';
 import { recordContentEvent } from '@/lib/content-events';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
@@ -124,7 +124,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           onboardingCompleted?: unknown;
           collections?: unknown;
         };
-        const supportedState = { ...parsed };
+        const supportedState = { ...parsed, historyIds: resolveTheoryIds(parsed.historyIds) };
         delete supportedState.contentActivity;
         delete supportedState.welcomePageHidden;
         delete supportedState.homeWelcomeSeen;
@@ -137,9 +137,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
             CATEGORY_KEYS.includes(interest as CategoryKey),
         );
         if (!active) return;
-        const savedTheoryIds = Array.isArray(parsed.savedTheoryIds)
-          ? parsed.savedTheoryIds.filter((id): id is string => typeof id === 'string' && theoryById.has(id))
-          : [];
+        const savedTheoryIds = resolveTheoryIds(parsed.savedTheoryIds);
         const learningRecords = parsed.learningCurriculumVersion === LEARNING_CURRICULUM_VERSION
           ? parsed.learningRecords ?? {}
           : {};
@@ -227,6 +225,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   }, [state.savedIds]);
 
   const toggleSavedTheory = useCallback((id: string) => {
+    id = resolveTheoryId(id);
     haptic(Haptics.ImpactFeedbackStyle.Medium);
     if (!state.savedTheoryIds.includes(id)) void recordContentEvent('theory', id, 'save').catch(() => undefined);
     setState((current) => ({

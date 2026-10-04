@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { validateTheoryForPublish } from '../../src/data/content-editor-schema.ts';
 import { THEORY_CATEGORIES } from '../../src/data/theory-categories.ts';
 import { originalPracticalWisdomProvenance } from '../../src/data/original-practical-wisdom.ts';
-const valid = { tagId: 'test', title: '理論', summary: '概要', categoryId: 'psychology', categoryTitle: '心理学' };
+const valid = { tagId: 'test', title: '理論', summary: '概要', categoryId: 'psychology', categoryTitle: '心理学', subcategoryId: 'psychology-c', sortOrder: 1 };
 test('blank summaries and titles cannot be published', () => {
  assert.equal(validateTheoryForPublish({ ...valid, title: ' ', summary: '\n' }).length, 2);
 });

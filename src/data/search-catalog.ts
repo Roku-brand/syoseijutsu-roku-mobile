@@ -4,6 +4,7 @@ import { getPersonaPresentation } from '@/data/persona-presentation';
 import { getTechniqueSearchText } from '@/data/technique-tags';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
+import { getTheoryPath } from './theory-taxonomy';
 
 export type BrowseMode = 'personas' | 'techniques' | 'theories';
 
@@ -55,6 +56,7 @@ export function getSearchResults(query: string, isPaid: boolean) {
         theory.aliases?.join(' '),
         theory.summary,
         theory.categoryTitle,
+        getTheoryPath(theory),
         getTheoryCategoryLabel(theory.categoryId),
       ].filter(Boolean).join(' ').toLocaleLowerCase();
       return keywords.every((keyword) => matchesKeyword(source, keyword));

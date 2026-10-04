@@ -1,0 +1,247 @@
+{
+  "source": "Supabase psfexomjhivqieehcrzx / public.theories",
+  "before": 759,
+  "after": 754,
+  "mergedPairs": 5,
+  "retiredContents": 5,
+  "physicalDeletes": 0,
+  "unclassified": 0,
+  "other": 0,
+  "missingIds": 0,
+  "duplicateIds": [],
+  "duplicateTitles": [],
+  "aliasConflicts": [],
+  "legacyConflicts": [],
+  "lostPreviousIds": 0,
+  "linkFailures": [],
+  "orderFailures": [],
+  "categories": [
+    {
+      "title": "心理学",
+      "count": 303,
+      "subcategories": [
+        {
+          "title": "認知",
+          "count": 62
+        },
+        {
+          "title": "感情",
+          "count": 8
+        },
+        {
+          "title": "自己",
+          "count": 39
+        },
+        {
+          "title": "対人",
+          "count": 73
+        },
+        {
+          "title": "不安",
+          "count": 15
+        },
+        {
+          "title": "喪失",
+          "count": 12
+        },
+        {
+          "title": "記憶",
+          "count": 19
+        },
+        {
+          "title": "心理技法",
+          "count": 32
+        },
+        {
+          "title": "社会心理",
+          "count": 27
+        },
+        {
+          "title": "言語",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "title": "行動科学",
+      "count": 102,
+      "subcategories": [
+        {
+          "title": "意思決定",
+          "count": 29
+        },
+        {
+          "title": "選択",
+          "count": 19
+        },
+        {
+          "title": "習慣",
+          "count": 5
+        },
+        {
+          "title": "動機づけ",
+          "count": 13
+        },
+        {
+          "title": "目標達成",
+          "count": 14
+        },
+        {
+          "title": "行動設計",
+          "count": 7
+        },
+        {
+          "title": "学習",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "title": "組織・経営論",
+      "count": 120,
+      "subcategories": [
+        {
+          "title": "個人",
+          "count": 22
+        },
+        {
+          "title": "チーム",
+          "count": 15
+        },
+        {
+          "title": "リーダーシップ",
+          "count": 6
+        },
+        {
+          "title": "組織",
+          "count": 14
+        },
+        {
+          "title": "人事",
+          "count": 19
+        },
+        {
+          "title": "人脈",
+          "count": 17
+        },
+        {
+          "title": "権力",
+          "count": 10
+        },
+        {
+          "title": "経営",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "title": "戦略論",
+      "count": 83,
+      "subcategories": [
+        {
+          "title": "分析",
+          "count": 8
+        },
+        {
+          "title": "判断",
+          "count": 3
+        },
+        {
+          "title": "交渉",
+          "count": 22
+        },
+        {
+          "title": "競争",
+          "count": 4
+        },
+        {
+          "title": "ゲーム",
+          "count": 23
+        },
+        {
+          "title": "リスク",
+          "count": 13
+        },
+        {
+          "title": "適応",
+          "count": 6
+        },
+        {
+          "title": "実行",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "title": "実践知",
+      "count": 82,
+      "subcategories": [
+        {
+          "title": "会話",
+          "count": 11
+        },
+        {
+          "title": "人間関係",
+          "count": 10
+        },
+        {
+          "title": "思考",
+          "count": 1
+        },
+        {
+          "title": "判断",
+          "count": 11
+        },
+        {
+          "title": "行動",
+          "count": 16
+        },
+        {
+          "title": "仕事",
+          "count": 8
+        },
+        {
+          "title": "自己管理",
+          "count": 19
+        },
+        {
+          "title": "キャリア",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "title": "古典・思想",
+      "count": 64,
+      "subcategories": [
+        {
+          "title": "東洋思想",
+          "count": 15
+        },
+        {
+          "title": "西洋思想",
+          "count": 16
+        },
+        {
+          "title": "兵法",
+          "count": 11
+        },
+        {
+          "title": "ことわざ",
+          "count": 17
+        },
+        {
+          "title": "格言",
+          "count": 3
+        },
+        {
+          "title": "作品",
+          "count": 2
+        }
+      ]
+    }
+  ],
+  "classificationReviewCount": 23,
+  "duplicateReviewCount": 6,
+  "pairComparisonCount": 287661
+}

@@ -11,5 +11,5 @@ for (const [name, catalogue, source] of [['complete', theories, techniques], ['p
   const cards = source.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
   const failures = auditTheoryRights({ theories: catalogue, techniques: cards, retiredIds });
   if (failures.length) throw new Error(failures.join('\n'));
-  console.log(`Theory rights audit passed (${name}): ${catalogue.length} theories, ${catalogue.filter((item) => item.categoryId === 'practical-wisdom').length} original practical titles; dense IDs, 0 retired/dead references.`);
+  console.log(`Theory rights audit passed (${name}): ${catalogue.length} theories, ${catalogue.filter((item) => item.provenance?.status === 'オリジナル').length} original practical titles; dense IDs, 0 retired/dead references.`);
 }

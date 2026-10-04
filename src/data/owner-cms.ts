@@ -51,7 +51,7 @@ export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { dis
     payload: {
       title: theory.title,
       summary: theory.summary,
-      category_id: theory.categoryId,
+      category_id: theory.categoryId, subcategory_id: theory.subcategoryId, taxonomy_order: theory.sortOrder,
       aliases: theory.aliases ?? [],
       related_theory_ids: theory.relatedTheoryIds ?? [],
       provenance: theory.provenance ?? null,

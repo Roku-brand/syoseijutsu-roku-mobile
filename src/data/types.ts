@@ -45,6 +45,13 @@ export type TheoryCard = {
   summary: string;
   categoryId: string;
   categoryTitle: string;
+  subcategoryId?: string;
+  subcategoryTitle?: string;
+  /** Independent of the public display number. */
+  sortOrder?: number;
+  canonicalId?: string;
+  legacyIds?: string[];
+  mergedFromIds?: string[];
   /** 英語名・邦訳違い・略称など、同じ理論へ到達する検索語。 */
   aliases?: string[];
   /** 編集者が意味的な近さを確認した、次に読む価値の高い理論。 */

@@ -131,6 +131,9 @@ jobs:
       - name: Test practical wisdom contracts
         run: pnpm test:practical-wisdom
 
+      - name: Test canonical theory taxonomy and legacy compatibility
+        run: pnpm test:theory-taxonomy
+
       - name: Check types
         run: pnpm typecheck
 
