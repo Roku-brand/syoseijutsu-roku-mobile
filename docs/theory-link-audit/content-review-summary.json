@@ -1,19 +1,19 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 759,
-  "links": 1252,
+  "theories": 754,
+  "links": 1248,
   "primaryLinks": 431,
-  "supplementaryLinks": 821,
-  "linkedTheories": 622,
-  "unlinkedTheories": 137,
+  "supplementaryLinks": 817,
+  "linkedTheories": 619,
+  "unlinkedTheories": 135,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 28,
   "distribution": {
-    "1": 73,
-    "2": 91,
-    "3": 72,
-    "4": 33,
+    "1": 76,
+    "2": 88,
+    "3": 73,
+    "4": 32,
     "5": 29,
     "6": 16,
     "7": 18,
@@ -33,10 +33,10 @@
     "2": 75
   },
   "supplementaryDistribution": {
-    "0": 93,
-    "1": 89,
-    "2": 60,
-    "3": 36,
+    "0": 96,
+    "1": 86,
+    "2": 61,
+    "3": 35,
     "4": 25,
     "5": 20,
     "6": 11,
@@ -53,36 +53,36 @@
   "wisdomSupportLinks": 175,
   "categoryCoverage": {
     "psychology": {
-      "theories": 305,
-      "linkedTheories": 255,
-      "links": 550
+      "theories": 303,
+      "linkedTheories": 245,
+      "links": 519
     },
     "behavioral-science": {
-      "theories": 109,
-      "linkedTheories": 67,
-      "links": 111
+      "theories": 102,
+      "linkedTheories": 63,
+      "links": 107
     },
     "organization-management": {
-      "theories": 164,
-      "linkedTheories": 134,
-      "links": 256
+      "theories": 120,
+      "linkedTheories": 104,
+      "links": 195
     },
     "strategy": {
-      "theories": 81,
-      "linkedTheories": 76,
-      "links": 123
-    },
-    "classics-thought": {
-      "theories": 61,
-      "linkedTheories": 61,
-      "links": 178
+      "theories": 83,
+      "linkedTheories": 77,
+      "links": 126
     },
     "practical-wisdom": {
-      "theories": 39,
-      "linkedTheories": 29,
-      "links": 34
+      "theories": 82,
+      "linkedTheories": 67,
+      "links": 121
+    },
+    "classics-thought": {
+      "theories": 64,
+      "linkedTheories": 63,
+      "links": 180
     }
   },
   "practicalWisdomPolicy": "Only independently reviewed semantic matches; zero related techniques is valid.",
-  "generatedAt": "2026-10-02"
+  "generatedAt": "2026-10-04"
 }

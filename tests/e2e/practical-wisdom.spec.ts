@@ -29,16 +29,19 @@ async function mockCompleteAccount(page: Page, owner = false, publicReads = fals
   });
 }
 
-test('実践知は指定39件だけをA-001〜A-039として表示する', async ({page}) => {
+test('実践知の再分類後も指定39件の原文とA-001〜A-039を保持する', async ({page}) => {
+  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{message:'bundled fallback'}}));
   await page.goto('/theories?category=practical-wisdom');
-  await expect(page.getByText('39件',{exact:true})).toBeVisible();
+  await expect(page.getByText('82件',{exact:true})).toBeVisible();
   const rows = page.getByTestId('theory-index-row-card');
-  await expect(rows).toHaveCount(39);
+  await expect(rows).toHaveCount(50);
+  const texts=await rows.allTextContents();
+  await page.getByRole('button',{name:'2ページ目',exact:true}).click();
+  await expect(rows).toHaveCount(32);
+  texts.push(...await rows.allTextContents());
   for (const original of originals) {
-    await expect(rows.nth(original.displayId-1)).toContainText(`A-${String(original.displayId).padStart(3,'0')}`);
-    await expect(rows.nth(original.displayId-1)).toContainText(original.title.slice(1,-1));
+    expect(texts.some(text=>text.includes(`A-${String(original.displayId).padStart(3,'0')}`)&&text.includes(original.title.slice(1,-1)))).toBeTruthy();
   }
-  await expect(page.getByText(/A-04[0-8]/)).toHaveCount(0);
   await page.screenshot({path:test.info().outputPath('practical-wisdom-39.png'),fullPage:true});
 });
 

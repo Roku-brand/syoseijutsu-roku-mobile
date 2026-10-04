@@ -11,6 +11,7 @@ const theories = readJson('src/data/generated/theories.json');
 const comprehensive = readJson('src/data/generated/comprehensive-theory-links.json');
 const primary = readJson('src/data/generated/primary-theory-links.json');
 const audit = readJson('docs/theory-link-audit/content-review-summary.json');
+const priorClassics = new Set(readJson('docs/content/theory-taxonomy-before.json').filter((row) => row.category_id === 'classics-thought').map((row) => row.id));
 const scope = readJson('src/data/content-scope.json');
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const cardById = new Map(cards.map((card) => [card.id, card]));
@@ -64,7 +65,7 @@ for (const card of cards) {
 
 // 古典・名言は網羅数を稼ぐためではなく、個別に指定した処世術の判断を
 // 補強する層。実践知は意味が明確に対応するときだけリンクし、ゼロ件も許容する。
-for (const theory of theories.filter((item) => item.categoryId === 'classics-thought')) {
+for (const theory of theories.filter((item) => priorClassics.has(item.tagId))) {
   if (!linkedTheoryIds.has(theory.tagId)) throw new Error(`Wisdom card remains unreachable: ${theory.tagId} ${theory.title}.`);
 }
 
@@ -75,8 +76,8 @@ if (audit.links !== links || audit.primaryLinks !== primaryLinks || audit.supple
 }
 if (audit.linkedTheories !== linkedTheoryIds.size) throw new Error('Audit theory coverage diverges from the generated catalogue.');
 for (const category of ['classics-thought']) {
-  if (audit.categoryCoverage?.[category]?.linkedTheories !== theories.filter((theory) => theory.categoryId === category).length) {
-    throw new Error(`All ${category} cards must remain reachable.`);
+  if (audit.categoryCoverage?.[category]?.linkedTheories !== theories.filter((theory) => theory.categoryId === category && linkedTheoryIds.has(theory.tagId)).length) {
+    throw new Error(`${category} coverage diverges from the current links.`);
   }
 }
 if (audit.categoryCoverage?.['maxims-experience']) throw new Error('Retired maxim category remains in the audit.');

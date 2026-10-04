@@ -1,0 +1,284 @@
+[
+  {
+    "id": "psychology-c",
+    "categoryId": "psychology",
+    "title": "認知",
+    "displayOrder": 1
+  },
+  {
+    "id": "psychology-e",
+    "categoryId": "psychology",
+    "title": "感情",
+    "displayOrder": 2
+  },
+  {
+    "id": "psychology-s",
+    "categoryId": "psychology",
+    "title": "自己",
+    "displayOrder": 3
+  },
+  {
+    "id": "psychology-i",
+    "categoryId": "psychology",
+    "title": "対人",
+    "displayOrder": 4
+  },
+  {
+    "id": "psychology-a",
+    "categoryId": "psychology",
+    "title": "不安",
+    "displayOrder": 5
+  },
+  {
+    "id": "psychology-g",
+    "categoryId": "psychology",
+    "title": "喪失",
+    "displayOrder": 6
+  },
+  {
+    "id": "psychology-m",
+    "categoryId": "psychology",
+    "title": "記憶",
+    "displayOrder": 7
+  },
+  {
+    "id": "psychology-t",
+    "categoryId": "psychology",
+    "title": "心理技法",
+    "displayOrder": 8
+  },
+  {
+    "id": "psychology-v",
+    "categoryId": "psychology",
+    "title": "社会心理",
+    "displayOrder": 9
+  },
+  {
+    "id": "psychology-u",
+    "categoryId": "psychology",
+    "title": "言語",
+    "displayOrder": 10
+  },
+  {
+    "id": "behavioral-science-d",
+    "categoryId": "behavioral-science",
+    "title": "意思決定",
+    "displayOrder": 1
+  },
+  {
+    "id": "behavioral-science-x",
+    "categoryId": "behavioral-science",
+    "title": "選択",
+    "displayOrder": 2
+  },
+  {
+    "id": "behavioral-science-h",
+    "categoryId": "behavioral-science",
+    "title": "習慣",
+    "displayOrder": 3
+  },
+  {
+    "id": "behavioral-science-m",
+    "categoryId": "behavioral-science",
+    "title": "動機づけ",
+    "displayOrder": 4
+  },
+  {
+    "id": "behavioral-science-g",
+    "categoryId": "behavioral-science",
+    "title": "目標達成",
+    "displayOrder": 5
+  },
+  {
+    "id": "behavioral-science-e",
+    "categoryId": "behavioral-science",
+    "title": "行動設計",
+    "displayOrder": 6
+  },
+  {
+    "id": "behavioral-science-l",
+    "categoryId": "behavioral-science",
+    "title": "学習",
+    "displayOrder": 7
+  },
+  {
+    "id": "organization-management-i",
+    "categoryId": "organization-management",
+    "title": "個人",
+    "displayOrder": 1
+  },
+  {
+    "id": "organization-management-t",
+    "categoryId": "organization-management",
+    "title": "チーム",
+    "displayOrder": 2
+  },
+  {
+    "id": "organization-management-l",
+    "categoryId": "organization-management",
+    "title": "リーダーシップ",
+    "displayOrder": 3
+  },
+  {
+    "id": "organization-management-o",
+    "categoryId": "organization-management",
+    "title": "組織",
+    "displayOrder": 4
+  },
+  {
+    "id": "organization-management-h",
+    "categoryId": "organization-management",
+    "title": "人事",
+    "displayOrder": 5
+  },
+  {
+    "id": "organization-management-n",
+    "categoryId": "organization-management",
+    "title": "人脈",
+    "displayOrder": 6
+  },
+  {
+    "id": "organization-management-p",
+    "categoryId": "organization-management",
+    "title": "権力",
+    "displayOrder": 7
+  },
+  {
+    "id": "organization-management-m",
+    "categoryId": "organization-management",
+    "title": "経営",
+    "displayOrder": 8
+  },
+  {
+    "id": "strategy-a",
+    "categoryId": "strategy",
+    "title": "分析",
+    "displayOrder": 1
+  },
+  {
+    "id": "strategy-j",
+    "categoryId": "strategy",
+    "title": "判断",
+    "displayOrder": 2
+  },
+  {
+    "id": "strategy-n",
+    "categoryId": "strategy",
+    "title": "交渉",
+    "displayOrder": 3
+  },
+  {
+    "id": "strategy-c",
+    "categoryId": "strategy",
+    "title": "競争",
+    "displayOrder": 4
+  },
+  {
+    "id": "strategy-g",
+    "categoryId": "strategy",
+    "title": "ゲーム",
+    "displayOrder": 5
+  },
+  {
+    "id": "strategy-r",
+    "categoryId": "strategy",
+    "title": "リスク",
+    "displayOrder": 6
+  },
+  {
+    "id": "strategy-d",
+    "categoryId": "strategy",
+    "title": "適応",
+    "displayOrder": 7
+  },
+  {
+    "id": "strategy-e",
+    "categoryId": "strategy",
+    "title": "実行",
+    "displayOrder": 8
+  },
+  {
+    "id": "practical-wisdom-c",
+    "categoryId": "practical-wisdom",
+    "title": "会話",
+    "displayOrder": 1
+  },
+  {
+    "id": "practical-wisdom-r",
+    "categoryId": "practical-wisdom",
+    "title": "人間関係",
+    "displayOrder": 2
+  },
+  {
+    "id": "practical-wisdom-t",
+    "categoryId": "practical-wisdom",
+    "title": "思考",
+    "displayOrder": 3
+  },
+  {
+    "id": "practical-wisdom-j",
+    "categoryId": "practical-wisdom",
+    "title": "判断",
+    "displayOrder": 4
+  },
+  {
+    "id": "practical-wisdom-a",
+    "categoryId": "practical-wisdom",
+    "title": "行動",
+    "displayOrder": 5
+  },
+  {
+    "id": "practical-wisdom-w",
+    "categoryId": "practical-wisdom",
+    "title": "仕事",
+    "displayOrder": 6
+  },
+  {
+    "id": "practical-wisdom-s",
+    "categoryId": "practical-wisdom",
+    "title": "自己管理",
+    "displayOrder": 7
+  },
+  {
+    "id": "practical-wisdom-k",
+    "categoryId": "practical-wisdom",
+    "title": "キャリア",
+    "displayOrder": 8
+  },
+  {
+    "id": "classics-thought-e",
+    "categoryId": "classics-thought",
+    "title": "東洋思想",
+    "displayOrder": 1
+  },
+  {
+    "id": "classics-thought-w",
+    "categoryId": "classics-thought",
+    "title": "西洋思想",
+    "displayOrder": 2
+  },
+  {
+    "id": "classics-thought-b",
+    "categoryId": "classics-thought",
+    "title": "兵法",
+    "displayOrder": 3
+  },
+  {
+    "id": "classics-thought-p",
+    "categoryId": "classics-thought",
+    "title": "ことわざ",
+    "displayOrder": 4
+  },
+  {
+    "id": "classics-thought-q",
+    "categoryId": "classics-thought",
+    "title": "格言",
+    "displayOrder": 5
+  },
+  {
+    "id": "classics-thought-f",
+    "categoryId": "classics-thought",
+    "title": "作品",
+    "displayOrder": 6
+  }
+]

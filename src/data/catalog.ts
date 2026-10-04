@@ -7,6 +7,7 @@ import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
 import { isLockedTheoryShell } from './theory-display';
 import { THEORY_CATEGORIES } from './theory-categories';
+import { applyTheoryRedirects, compareTheoryTaxonomy, resolveTheoryId } from './theory-taxonomy';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
 const publicTheories = theoriesSource as TheoryCard[];
@@ -61,7 +62,7 @@ function rebuildIndexes() {
     category.subcategories.forEach((persona) => persona.items.sort(order));
   });
   theories.sort((a, b) => theoryCategoryOrder.indexOf(a.categoryId) - theoryCategoryOrder.indexOf(b.categoryId)
-    || (a.displayId ?? Number.MAX_SAFE_INTEGER) - (b.displayId ?? Number.MAX_SAFE_INTEGER)
+    || compareTheoryTaxonomy(a,b)
     || order(a, b)
     || a.tagId.localeCompare(b.tagId));
   techniqueCards.splice(0, techniqueCards.length, ...categories.flatMap((category) =>
@@ -74,7 +75,7 @@ function rebuildIndexes() {
           subcategory: subcategory.name,
           articleTitle,
         };
-        const theoryTagIds = context.relatedTheoryIds ?? context.theoryTagIds ?? [];
+        const theoryTagIds = [...new Set((context.relatedTheoryIds ?? context.theoryTagIds ?? []).map(resolveTheoryId))];
         const configuredPrimaryIds = context.primaryTheoryIds
           ?? primaryTheoryIdsByTechniqueId[context.id]
           ?? theoryTagIds;
@@ -85,7 +86,7 @@ function rebuildIndexes() {
           // Published rows currently store one comprehensive theory_ids list.
           // Reapply the editorial grouping locally, and intersect it so an
           // owner-side removal never leaves a stale primary relation visible.
-          primaryTheoryIds: configuredPrimaryIds.filter((id) => theoryTagIds.includes(id)),
+          primaryTheoryIds: [...new Set(configuredPrimaryIds.map(resolveTheoryId))].filter((id) => theoryTagIds.includes(id)),
           categoryKey: category.key,
           tags: context.tags ?? getTechniqueTags(context),
         };
@@ -110,7 +111,9 @@ function rebuildIndexes() {
   });
 
   theoryById.clear();
+  applyTheoryRedirects(theories);
   theories.forEach((theory) => theoryById.set(theory.tagId, theory));
+  theories.forEach((theory) => (theory.legacyIds ?? []).forEach(id=>theoryById.set(id,theory)));
 
   theoryDisplayIdByTagId.clear();
   const theoryNumbersByCategory = new Map<string, number>();
@@ -163,7 +166,19 @@ export function overlayPaidCatalog(techniques: PaidTechniquePayload[], paidTheor
  * when a larger secondary content sync is still in flight. */
 export function hydratePaidTheories(paidTheories: TheoryCard[]) {
   for (const theory of paidTheories) {
-    const next = { ...theory, provenance: getTheoryProvenance(theory) };
+    if (resolveTheoryId(theory.tagId) !== theory.tagId) continue;
+    const current = theoryById.get(theory.tagId);
+    const next = {
+      ...current, ...theory,
+      status: theory.status ?? (theory.summary?.trim() ? 'published' as const : current?.status),
+      ...(!theory.subcategoryId && current?.subcategoryId ? {
+        categoryId:current.categoryId,categoryTitle:current.categoryTitle,
+        subcategoryId:current.subcategoryId,subcategoryTitle:current.subcategoryTitle,
+        sortOrder:current.sortOrder,displayId:current.displayId,title:current.title,
+        aliases:current.aliases,legacyIds:current.legacyIds,
+      } : {}),
+      provenance: getTheoryProvenance(theory),
+    };
     const existingIndex = theories.findIndex((candidate) => candidate.tagId === theory.tagId);
     if (existingIndex === -1) theories.push(next);
     else theories[existingIndex] = next;
@@ -369,7 +384,7 @@ export function getTheoryDisplayId(theoryOrId: string | Pick<TheoryCard, 'tagId'
     return formatTheoryDisplayId(theoryOrId, theoryOrId.displayId ?? theoryOrId.draftDisplayId ?? 1);
   }
   const id = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
-  return theoryDisplayIdByTagId.get(id) ?? '—';
+  return theoryDisplayIdByTagId.get(resolveTheoryId(id)) ?? '—';
 }
 
 export function getRelatedCards(card: TechniqueCard, limit = 6) {
@@ -400,7 +415,7 @@ export function getRelatedTheories(theory: TheoryCard) {
 // loose similarity search. It is therefore the strict inverse of the links
 // displayed on every technique card.
 export function getTechniquesForTheory(theoryOrId: TheoryCard | string) {
-  const theoryId = typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId;
+  const theoryId = resolveTheoryId(typeof theoryOrId === 'string' ? theoryOrId : theoryOrId.tagId);
   return [...(techniqueCardsByTheoryId.get(theoryId) ?? [])]
     .sort((a, b) => {
       const primaryDifference = (a.theoryTagIds ?? []).indexOf(theoryId) - (b.theoryTagIds ?? []).indexOf(theoryId);

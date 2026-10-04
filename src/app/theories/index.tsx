@@ -10,6 +10,7 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
 import { getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
+import { groupTheorySections } from '@/data/theory-taxonomy';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const PAGE_SIZE = 50;
@@ -89,7 +90,11 @@ export default function TheoryIndexScreen() {
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
-          {pageTheories.map((theory) => <TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
+          {groupTheorySections(pageTheories).map((section,index,sections) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
+            {index === 0 || sections[index-1].categoryId !== section.categoryId ? <AppText accessibilityRole="header" style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
+            <View style={styles.subHeading}><AppText accessibilityRole="header" style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.subcategoryId===section.subcategoryId).length}件</AppText></View>
+            {section.items.map(theory=><TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
+          </View>)}
         </View>
       ) : (
         <View style={styles.empty}><AppText style={styles.emptyTitle}>この分類の理論はまだありません。</AppText></View>
@@ -124,6 +129,10 @@ const styles = StyleSheet.create({
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
   totalNote: { color: colors.gold, fontSize: 11, lineHeight: 18 },
   list: { width: '100%', gap: 12 },
+  section: { width: '100%', gap: 12, marginBottom: spacing.lg },
+  majorHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
+  subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.gold },
+  subTitle: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
   row: { position: 'relative', width: '100%', minHeight: 112, paddingVertical: 18, paddingRight: 48, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderRightWidth: 1, borderBottomWidth: 1, borderLeftWidth: 1, borderStyle: 'solid', borderColor: '#E0D0B8', borderRadius: radius.md, backgroundColor: '#FFFEFB' },
   rowCompact: { minHeight: 126, paddingVertical: 15, paddingRight: 37 },
   idColumn: { width: 108, flexShrink: 0, paddingHorizontal: 20, alignItems: 'flex-start', justifyContent: 'center', borderRightWidth: 1, borderRightColor: colors.line },
