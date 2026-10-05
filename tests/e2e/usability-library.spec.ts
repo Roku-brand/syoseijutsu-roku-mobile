@@ -77,6 +77,7 @@ test('既存の保存と旧理論IDを維持し、フォルダー作成・移動
   await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事の知恵');
   await page.getByRole('button', { name: '蔵書フォルダーを保存', exact: true }).click();
   await expect(page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true })).toHaveText('仕事の知恵 2');
+  await expect(page.getByRole('dialog', { name: '蔵書フォルダーの編集', exact: true })).toBeHidden();
   await page.screenshot({ path: test.info().outputPath('library-mobile.png') });
   await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
   await page.getByRole('button', { name: '蔵書フォルダーを削除', exact: true }).click();

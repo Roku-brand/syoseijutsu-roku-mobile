@@ -60,7 +60,7 @@ export function LibraryContent() {
       </Pressable>
       <Action label={`${item.title}の保存先を変更`} text="整理" onPress={() => setMoving(item)} />
     </View>) : <View style={styles.empty}><AppText style={styles.emptyTitle}>{items.length ? 'このフォルダーは空です' : '蔵書はまだ空です'}</AppText><AppText style={styles.lead}>{items.length ? '「すべて」で知識を選び、「整理」から保存先を変更できます。' : '処世術や理論の「保存」から、知恵を集められます。'}</AppText></View>}
-    <Modal transparent visible={editor !== null} animationType="fade" onRequestClose={closeEditor}>
+    <Modal transparent visible={editor !== null} animationType="none" onRequestClose={closeEditor}>
       <View style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel="蔵書フォルダーの編集" style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>{editor?.id ? 'フォルダーを編集' : 'フォルダーを追加'}</AppText>
         {deleting ? <>
@@ -73,7 +73,7 @@ export function LibraryContent() {
         </>}
       </View></View>
     </Modal>
-    <Modal transparent visible={moving !== null} animationType="fade" onRequestClose={() => setMoving(null)}>
+    <Modal transparent visible={moving !== null} animationType="none" onRequestClose={() => setMoving(null)}>
       <View style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel="蔵書の保存先" style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>保存先を変更</AppText>
         <AppText numberOfLines={2} style={styles.lead}>{moving?.title}</AppText>
