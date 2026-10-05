@@ -263,11 +263,11 @@ function MenuHeaderAction({ active }: { active: boolean }) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="メニューを開く"
+      accessibilityLabel="設定を開く"
       onPress={() => router.push('/settings')}
       style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}
     >
-      <MenuMark active={active} light />
+      <AppText accessibilityElementsHidden style={{ color: colors.goldDeep, fontSize: 23, lineHeight: 28 }}>⚙</AppText>
     </Pressable>
   );
 }
@@ -675,7 +675,7 @@ const styles = StyleSheet.create({
   },
   headerBackLight: { borderWidth: 1, justifyContent: 'center' },
   headerBackIcon: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontSize: 27,
     lineHeight: 28,
     marginTop: -2,
@@ -689,7 +689,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   headerBackTextCompact: { fontSize: 10, lineHeight: 14 },
-  headerBackIconLight: { color: colors.gold },
+  headerBackIconLight: { color: colors.goldDeep },
   headerBackTextLight: { color: colors.ink },
   headerAppIcon: {
     width: 34,
@@ -721,7 +721,7 @@ const styles = StyleSheet.create({
   },
   screenTitleLight: { color: colors.ink },
   personaScreenTitleCompact: { fontSize: 12, lineHeight: 15, letterSpacing: 0.2 },
-  screenSubtitle: { color: '#A77A25', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
+  screenSubtitle: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
   upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
@@ -738,8 +738,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  detailActionFallback: { color: colors.gold, fontSize: 20, lineHeight: 22 },
-  detailActionSaved: { color: colors.gold },
+  detailActionFallback: { color: colors.goldDeep, fontSize: 20, lineHeight: 22 },
+  detailActionSaved: { color: colors.goldDeep },
   headerAction: {
     width: 40,
     minHeight: 36,
@@ -754,7 +754,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(210,182,111,0.14)',
     opacity: 0.72,
   },
-  accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
+  accountMarkFallback: { color: colors.goldDeep, fontSize: 31, lineHeight: 32 },
   menuMark: { width: 25, height: 23, justifyContent: 'space-between', paddingVertical: 2 },
   menuMarkActive: { opacity: 1 },
   menuLine: { width: 25, height: 1.5, borderRadius: 2, alignSelf: 'center' },
@@ -895,7 +895,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   principleNumberText: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 12,
     lineHeight: 18,
@@ -917,7 +917,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   principleLabel: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontSize: 10,
     lineHeight: 16,
     letterSpacing: 0.5,
@@ -1007,7 +1007,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.serif,
     fontSize: 21,
     lineHeight: 28,
-    color: colors.gold,
+    color: colors.goldDeep,
     fontWeight: '700',
   },
   indexCopy: { flex: 1 },
@@ -1026,12 +1026,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   indexCount: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 24,
     lineHeight: 30,
   },
-  indexChevron: { color: colors.gold, fontSize: 32, lineHeight: 36 },
+  indexChevron: { color: colors.goldDeep, fontSize: 32, lineHeight: 36 },
   saveDiamondButton: {
     minHeight: 30,
     flexDirection: 'row',

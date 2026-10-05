@@ -74,7 +74,7 @@ test('マイページはプロフィールと座右の銘を統合し、実デ�
   await expect(page.getByText('最近見た処世術・理論')).toBeVisible();
   await page.getByRole('tab', { name: '蔵書' }).click();
   await expect(page.getByRole('tab', { name: '蔵書' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('まだ保存した処世術・理論はありません')).toBeVisible();
+  await expect(page.getByText('蔵書はまだ空です')).toBeVisible();
   await expect(page).toHaveURL(/my-os/);
   await page.getByRole('tab', { name: 'マイ処世術' }).click();
   await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
@@ -252,7 +252,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
     await expect(header.getByText('人生をうまく生きる方法を、すべての人へ', { exact: true })).toBeVisible();
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
-    await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+    await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
   }
   await page.getByTestId('book-header').getByRole('button', { name: '検索' }).click();
@@ -1185,7 +1185,7 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
   const header = page.getByTestId('book-header');
   await expect(header.getByRole('button', { name: '用語集を開く' })).toBeVisible();
-  await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+  await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
   await expect(header.getByText('用語集', { exact: true })).toHaveCount(0);
   await expect(header.getByText('設定', { exact: true })).toHaveCount(0);
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();

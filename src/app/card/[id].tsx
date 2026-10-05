@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
   number: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 15,
     lineHeight: 21,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     borderColor: '#D6B962',
   },
   summaryCopy: { width: '100%' },
-  summaryLabel: { color: colors.gold, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
+  summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
   summaryText: { color: '#141714', fontSize: 16, lineHeight: 29, fontWeight: '600' },
   section: { marginTop: 24 },
   sectionRuled: {
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     marginBottom: 13,
   },
   goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
-  sectionMark: { color: colors.gold, fontSize: 18, lineHeight: 23 },
+  sectionMark: { color: colors.goldDeep, fontSize: 18, lineHeight: 23 },
   sectionTitle: {
     color: '#24251F',
     fontSize: 17,

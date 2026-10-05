@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   step: { minHeight: 60, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center', gap: 12, borderBottomWidth: 1, borderBottomColor: colors.line },
   stepLast: { borderBottomWidth: 0 },
   stepNumber: { width: 30, height: 30, borderRadius: 15, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, backgroundColor: colors.paperDeep },
-  stepNumberText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
+  stepNumberText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
   stepText: { flex: 1, fontSize: 13, lineHeight: 20 },
   guideHint: { marginTop: 10, padding: 13, borderLeftWidth: 3, borderLeftColor: colors.gold, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
   guideHintTitle: { fontSize: 12, lineHeight: 19, fontWeight: '700' },
