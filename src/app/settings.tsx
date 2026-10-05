@@ -66,8 +66,6 @@ export default function SettingsScreen() {
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
           <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
           <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
           {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
   titleDanger: { color: '#674840' },
   detail: { marginTop: 2, color: '#69645C', fontSize: 12, lineHeight: 18 },
   detailDanger: { color: '#80665C' },
-  chevron: { width: 20, color: colors.gold, fontFamily: fonts.sans, fontSize: 27, lineHeight: 30, fontWeight: '300', textAlign: 'right' },
+  chevron: { width: 20, color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 27, lineHeight: 30, fontWeight: '300', textAlign: 'right' },
   chevronSubdued: { color: '#A59479' },
   chevronDanger: { color: '#98725B' },
   version: { marginTop: 32, color: '#938D84', fontSize: 12, lineHeight: 18, textAlign: 'center' },

@@ -32,7 +32,7 @@ function pageItems(current: number, total: number): Array<number | 'ellipsis'> {
 }
 
 export default function TheoryIndexScreen() {
-  const params = useLocalSearchParams<{ category?: string; page?: string }>();
+  const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
@@ -50,9 +50,12 @@ export default function TheoryIndexScreen() {
     () => visibleCatalog.filter((theory) => category === 'all' || theory.categoryId === category),
     [category, visibleCatalog],
   );
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const subcategories = groupTheorySections(filtered);
+  const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === params.subcategory) ? params.subcategory : undefined;
+  const selectedTheories = subcategory ? filtered.filter(theory => theory.subcategoryId === subcategory) : filtered;
+  const totalPages = Math.max(1, Math.ceil(selectedTheories.length / PAGE_SIZE));
   const safePage = Math.min(page, totalPages);
-  const pageTheories = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const pageTheories = selectedTheories.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
 
   useEffect(() => {
     setCategory(safeCategory(requestedCategory));
@@ -66,33 +69,43 @@ export default function TheoryIndexScreen() {
   const selectCategory = (value: TheoryFilterKey) => {
     setCategory(value);
     setPage(1);
-    router.setParams({ category: value === 'all' ? undefined : value, page: '1' });
+    router.setParams({ category: value === 'all' ? undefined : value, subcategory: undefined, page: '1' });
+  };
+  const selectSubcategory = (id?: string) => {
+    setPage(1);
+    router.setParams({ category, subcategory: id, page: '1' });
   };
 
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.filters}>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
+        {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
+          <AppText style={styles.subcategoryLabel}>内部分類</AppText>
+          <View style={styles.subcategoryOptions}>
+            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} onPress={() => selectSubcategory(section.subcategoryId)} style={[styles.subcategoryButton, section.subcategoryId === subcategory && styles.subcategoryActive]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title} {section.items.length}</AppText></Pressable>)}
+          </View>
+        </View> : null}
       </View>
 
       <View style={styles.resultHeading}>
-        <AppText style={styles.resultTitle}>{filtered.length}件</AppText>
+        <AppText style={styles.resultTitle}>{selectedTheories.length}件</AppText>
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
-      {filtered.length > PAGE_SIZE ? (
+      {selectedTheories.length > PAGE_SIZE ? (
         <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
           {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
             ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
-            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
+            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
         </View>
       ) : null}
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
           {groupTheorySections(pageTheories).map((section,index,sections) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
-            {index === 0 || sections[index-1].categoryId !== section.categoryId ? <AppText accessibilityRole="header" style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
-            <View style={styles.subHeading}><AppText accessibilityRole="header" style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.subcategoryId===section.subcategoryId).length}件</AppText></View>
+            {index === 0 || sections[index-1].categoryId !== section.categoryId ? <AppText accessibilityRole="header" aria-level={2} style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
+            <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.subcategoryId===section.subcategoryId).length}件</AppText></View>
             {section.items.map(theory=><TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
           </View>)}
         </View>
@@ -125,29 +138,36 @@ function TheoryListSkeleton() {
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
   filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
+  subcategoryFilters: { marginTop: spacing.md, gap: 8 },
+  subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
+  subcategoryOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
+  subcategoryButton: { minHeight: 44, paddingHorizontal: 12, justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  subcategoryActive: { backgroundColor: colors.goldDeep, borderColor: colors.goldDeep },
+  subcategoryText: { color: colors.goldDeep, fontSize: 13, lineHeight: 20 },
+  subcategoryTextActive: { color: colors.white },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
-  totalNote: { color: colors.gold, fontSize: 11, lineHeight: 18 },
+  totalNote: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },
   list: { width: '100%', gap: 12 },
   section: { width: '100%', gap: 12, marginBottom: spacing.lg },
   majorHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
   subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.gold },
-  subTitle: { color: colors.gold, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
+  subTitle: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
   row: { position: 'relative', width: '100%', minHeight: 112, paddingVertical: 18, paddingRight: 48, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderRightWidth: 1, borderBottomWidth: 1, borderLeftWidth: 1, borderStyle: 'solid', borderColor: '#E0D0B8', borderRadius: radius.md, backgroundColor: '#FFFEFB' },
   rowCompact: { minHeight: 126, paddingVertical: 15, paddingRight: 37 },
   idColumn: { width: 108, flexShrink: 0, paddingHorizontal: 20, alignItems: 'flex-start', justifyContent: 'center', borderRightWidth: 1, borderRightColor: colors.line },
   idColumnCompact: { width: 76, paddingHorizontal: 12 },
-  rowCode: { color: colors.gold, fontSize: 14, lineHeight: 20, fontWeight: '600', letterSpacing: 0.2 },
+  rowCode: { color: colors.goldDeep, fontSize: 14, lineHeight: 20, fontWeight: '600', letterSpacing: 0.2 },
   rowCopy: { flex: 1, minWidth: 0, paddingHorizontal: 24, justifyContent: 'center' },
   rowTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '700' },
   rowTitleCompact: { fontSize: 17, lineHeight: 25 },
   rowSummary: { marginTop: 5, color: colors.muted, fontSize: 13, lineHeight: 21 },
-  rowArrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.gold, fontFamily: fonts.serif, fontSize: 30, lineHeight: 32 },
+  rowArrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 30, lineHeight: 32 },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
   pagination: { marginTop: spacing.md, marginBottom: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
   pageButton: { width: 38, height: 38, borderWidth: 1, borderColor: colors.line, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
-  pageButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
+  pageButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
   pageText: { color: colors.inkSoft, fontSize: 11 },
   pageTextActive: { color: colors.surface, fontWeight: '700' },
   ellipsis: { color: colors.muted, paddingHorizontal: 3 },

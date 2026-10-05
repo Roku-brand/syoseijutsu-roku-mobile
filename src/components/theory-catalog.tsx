@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
   filterSpacer: { flex: 1, minWidth: 0 },
   filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { borderColor: colors.gold, backgroundColor: colors.gold },
+  filterButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 0.3, textAlign: 'center' },
   filterTextActive: { color: colors.surface },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },

@@ -20,11 +20,27 @@ registerHooks({resolve(specifier,context,next){
 }});
 const taxonomy=await import('../../src/data/theory-taxonomy.ts');
 const catalog=await import('../../src/data/catalog.ts');
+const {restoreLibraryFolders}=await import('../../src/state/library-folders.ts');
+const {getHomeBrandContent}=await import('../../src/data/home-brand-content.ts');
 const {getSearchResults}=await import('../../src/data/search-catalog.ts');
 const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-before.json'),'utf8'));
 const after=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-after.json'),'utf8'));
 const scope=JSON.parse(fs.readFileSync(path.join(root,'src/data/content-scope.json'),'utf8'));
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+
+test('home counts canonical cards while legacy ID resolution remains available',()=>{
+ assert.equal(getHomeBrandContent().counts.theories,catalog.theories.length);
+ assert.ok(catalog.theoryById.size>catalog.theories.length);
+});
+test('library folder restoration canonicalizes legacy IDs and excludes invalid or unsaved links',()=>{
+ const folders=[{id:'work',name:'  仕事  '},{id:'work',name:'重複'},{id:'empty',name:' '},null];
+ const links={'theory:kb_392':'work','theory:kb_016':'work','technique:master336-001':'work','theory:unsaved':'work','theory:kb_001':'missing',invalid:'work'};
+ const restored=restoreLibraryFolders(folders,links,['master336-001'],['kb_016','kb_001']);
+ assert.deepEqual(restored.libraryFolders,[{id:'work',name:'仕事',createdAt:new Date(0).toISOString()}]);
+ assert.deepEqual(restored.libraryFolderByItem,{'theory:kb_016':'work','technique:master336-001':'work'});
+ assert.deepEqual(restoreLibraryFolders(undefined,undefined,[],[]),{libraryFolders:[],libraryFolderByItem:{}});
+ assert.deepEqual(restoreLibraryFolders(restored.libraryFolders,restored.libraryFolderByItem,['master336-001'],['kb_016','kb_001']),restored);
+});
 test('all 759 historical IDs still resolve and both directions of links agree after additions',()=>{
  assert.equal(catalog.theories.length,scope.complete.theories);
  assert.ok(after.every(t=>catalog.theoryById.has(t.tagId)));

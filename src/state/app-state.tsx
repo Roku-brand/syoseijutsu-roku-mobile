@@ -12,6 +12,7 @@ import {
 import type { CategoryKey } from '@/data/types';
 import { resolveTheoryId, resolveTheoryIds } from '@/data/theory-taxonomy';
 import { recordContentEvent } from '@/lib/content-events';
+import { libraryItemKey, restoreLibraryFolders, type LibraryFolder, type LibraryItemKind } from './library-folders';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
 const STORAGE_HYDRATION_TIMEOUT_MS = 900;
@@ -49,6 +50,8 @@ type PersistedState = {
   interests: CategoryKey[];
   savedIds: string[];
   savedTheoryIds: string[];
+  libraryFolders: LibraryFolder[];
+  libraryFolderByItem: Record<string, string>;
   historyIds: string[];
   notes: Record<string, string>;
   practiceRecords: Record<string, PracticeRecord>;
@@ -63,6 +66,8 @@ const initialState: PersistedState = {
   interests: CATEGORY_KEYS,
   savedIds: [],
   savedTheoryIds: [],
+  libraryFolders: [],
+  libraryFolderByItem: {},
   historyIds: [],
   notes: {},
   practiceRecords: {},
@@ -77,6 +82,10 @@ type AppStateContextValue = PersistedState & {
   startFreeEdition: (interests: CategoryKey[]) => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
+  createLibraryFolder: (name: string) => string | null;
+  renameLibraryFolder: (id: string, name: string) => void;
+  deleteLibraryFolder: (id: string) => void;
+  moveLibraryItem: (kind: LibraryItemKind, id: string, folderId: string | null) => void;
   addHistory: (id: string) => void;
   saveNote: (id: string, note: string) => void;
   planPractice: (cardId: string) => void;
@@ -185,6 +194,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
           learningRecords,
           savedTheoryIds,
+          ...restoreLibraryFolders(parsed.libraryFolders, parsed.libraryFolderByItem, parsed.savedIds ?? [], savedTheoryIds),
           personalMemos,
           personalMemoFolders,
           interests: interests.length ? interests : initialState.interests,
@@ -221,6 +231,9 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       savedIds: current.savedIds.includes(id)
         ? current.savedIds.filter((savedId) => savedId !== id)
         : [id, ...current.savedIds],
+      libraryFolderByItem: current.savedIds.includes(id)
+        ? Object.fromEntries(Object.entries(current.libraryFolderByItem).filter(([key]) => key !== libraryItemKey('technique', id)))
+        : current.libraryFolderByItem,
     }));
   }, [state.savedIds]);
 
@@ -233,6 +246,9 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       savedTheoryIds: current.savedTheoryIds.includes(id)
         ? current.savedTheoryIds.filter((savedId) => savedId !== id)
         : [id, ...current.savedTheoryIds],
+      libraryFolderByItem: current.savedTheoryIds.includes(id)
+        ? Object.fromEntries(Object.entries(current.libraryFolderByItem).filter(([key]) => key !== libraryItemKey('theory', id)))
+        : current.libraryFolderByItem,
     }));
   }, [state.savedTheoryIds]);
 
@@ -244,6 +260,32 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         100,
       ),
     }));
+  }, []);
+
+  const createLibraryFolder = useCallback((name: string) => {
+    const value = name.trim().slice(0, 32);
+    if (!value) return null;
+    const id = `library-folder-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    setState(current => ({ ...current, libraryFolders: [...current.libraryFolders, { id, name: value, createdAt: new Date().toISOString() }] }));
+    return id;
+  }, []);
+  const renameLibraryFolder = useCallback((id: string, name: string) => {
+    const value = name.trim().slice(0, 32);
+    if (!value) return;
+    setState(current => ({ ...current, libraryFolders: current.libraryFolders.map(folder => folder.id === id ? { ...folder, name: value } : folder) }));
+  }, []);
+  const deleteLibraryFolder = useCallback((id: string) => {
+    setState(current => ({ ...current, libraryFolders: current.libraryFolders.filter(folder => folder.id !== id), libraryFolderByItem: Object.fromEntries(Object.entries(current.libraryFolderByItem).filter(([, folderId]) => folderId !== id)) }));
+  }, []);
+  const moveLibraryItem = useCallback((kind: LibraryItemKind, id: string, folderId: string | null) => {
+    const key = libraryItemKey(kind, id);
+    setState(current => {
+      if (!(kind === 'theory' ? current.savedTheoryIds : current.savedIds).includes(kind === 'theory' ? resolveTheoryId(id) : id)) return current;
+      const libraryFolderByItem = { ...current.libraryFolderByItem };
+      if (folderId && current.libraryFolders.some(folder => folder.id === folderId)) libraryFolderByItem[key] = folderId;
+      else delete libraryFolderByItem[key];
+      return { ...current, libraryFolderByItem };
+    });
   }, []);
 
   const saveNote = useCallback((id: string, note: string) => {
@@ -400,6 +442,10 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       startFreeEdition,
       toggleSaved,
       toggleSavedTheory,
+      createLibraryFolder,
+      renameLibraryFolder,
+      deleteLibraryFolder,
+      moveLibraryItem,
       addHistory,
       saveNote,
       planPractice,
@@ -422,6 +468,10 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       startFreeEdition,
       toggleSaved,
       toggleSavedTheory,
+      createLibraryFolder,
+      renameLibraryFolder,
+      deleteLibraryFolder,
+      moveLibraryItem,
       addHistory,
       saveNote,
       planPractice,

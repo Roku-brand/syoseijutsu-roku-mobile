@@ -92,7 +92,7 @@ export default function TheoryDetailScreen() {
           { label: getTheoryCategoryLabel(theory), href: { pathname: '/theories', params: { category: theory.categoryId } } },
           { label: normalizeDisplayText(theory.title) },
         ]} />
-        <View style={styles.titleRegion}>
+        <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
           <View testID="theory-meta" style={styles.metaRow}>
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
             <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
@@ -104,7 +104,7 @@ export default function TheoryDetailScreen() {
 
         {theory.imagePath && contentImageUrl(theory.imagePath) ? <Image source={{ uri: contentImageUrl(theory.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
 
-        <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact]}>
+        <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact, !compact && styles.readingWidth]}>
           <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
           <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
         </View>
@@ -121,7 +121,7 @@ export default function TheoryDetailScreen() {
           items={relatedTheories.map((relatedTheory) => ({ key: relatedTheory.tagId, title: relatedTheory.title, supportingText: relatedTheory.summary, href: { pathname: '/theory/[id]', params: { id: relatedTheory.tagId } } }))}
         />
 
-        <View testID="theory-information" style={styles.informationSection}>
+        <View testID="theory-information" style={[styles.informationSection, !compact && styles.readingWidth]}>
           <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>{theory.categoryId === 'practical-wisdom' ? '実践知の情報' : '理論情報'}</AppText>
           <TheoryInformation theory={theory} compact={compact} />
         </View>
@@ -185,8 +185,9 @@ const styles = StyleSheet.create({
   title: { marginTop: 10, color: '#11120F', fontFamily: fonts.serif, fontWeight: '700', letterSpacing: 1.2 },
   summaryBlock: { marginTop: 18, paddingHorizontal: 30, paddingVertical: 22, borderWidth: 1, borderColor: '#C99A42', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.72)' },
   summaryBlockCompact: { paddingHorizontal: 18, paddingVertical: 18 },
+  readingWidth: { width: '100%', maxWidth: 820, alignSelf: 'center' },
   summaryHeadingRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  summaryTitle: { color: '#9C6E1D', fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 1.2 },
+  summaryTitle: { color: colors.goldDeep, fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 1.2 },
   summaryRule: { width: 48, height: 1, backgroundColor: '#C99A42' },
   summaryText: { marginTop: 12, color: '#22231F', fontFamily: fonts.serif, fontSize: 17, lineHeight: 31, letterSpacing: 0.25 },
   summaryTextCompact: { fontSize: 15, lineHeight: 28 },
@@ -204,5 +205,5 @@ const styles = StyleSheet.create({
   sourceExplanation: { paddingHorizontal: 20, paddingVertical: 14, color: '#686155', fontSize: 12, lineHeight: 20 },
   pressed: { opacity: 0.58 },
   retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.gold, borderRadius: radius.pill },
-  retryButtonText: { color: colors.gold, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  retryButtonText: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
 });
