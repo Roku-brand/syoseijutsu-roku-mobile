@@ -121,4 +121,6 @@
 | kb_885 / kb_886 / kb_905 | 感情の歴史的理論 | 現代の神経科学への単純な一般化 | 歴史的モデルと明記し、それぞれ別カードで保持。 |
 | kb_902 / kb_903 | 発達段階の理論 | 年齢・文化・課題による違い | 固定した診断基準として扱わない。 |
 
-公開と実行した検証の結果は同日のvalidationファイルに記録する。Web公開の完了と、App Storeの新しいバイナリ配信は別工程である。
+本番DBと[Webの理論一覧](https://app.shoseijutsuroku.com/theories)への公開は完了した。[PR #132](https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/132)を統合し、[Pages公開](https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/37255548745)も成功。公開前と配信直前の全125件のブラウザテストを通過した。実サイトでも794件の総数、新規理論の別名検索、発達見出しと追加カードを確認した。
+
+詳しい検証結果は同日のvalidationファイルに記録した。今回の公開はWebと共通コンテンツDBへの反映であり、App Storeへの新しいバイナリ提出は行っていない。
