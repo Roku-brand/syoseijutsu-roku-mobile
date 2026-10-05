@@ -331,7 +331,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-u",
       "subcategoryTitle": "言語",
-      "sortOrder": 14,
+      "sortOrder": 15,
       "displayId": 279,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -363,14 +363,15 @@
       "categoryTitle": "組織・経営論",
       "subcategoryId": "organization-management-t",
       "subcategoryTitle": "チーム",
-      "sortOrder": 15,
+      "sortOrder": 16,
       "displayId": 75,
       "aliases": [],
       "relatedTheoryIds": [
         "kb_770",
         "kb_771",
         "kb_773",
-        "kb_845"
+        "kb_845",
+        "kb_889"
       ],
       "legacyIds": [],
       "mergedFromIds": [],
@@ -400,7 +401,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
       "subcategoryTitle": "対人",
-      "sortOrder": 64,
+      "sortOrder": 65,
       "displayId": 276,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -560,7 +561,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
       "subcategoryTitle": "対人",
-      "sortOrder": 60,
+      "sortOrder": 61,
       "displayId": 262,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -660,7 +661,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
       "subcategoryTitle": "認知",
-      "sortOrder": 54,
+      "sortOrder": 62,
       "displayId": 247,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -729,7 +730,8 @@
       "aliases": [],
       "relatedTheoryIds": [
         "kb_718",
-        "kb_821"
+        "kb_821",
+        "kb_896"
       ],
       "legacyIds": [],
       "mergedFromIds": [],
@@ -759,7 +761,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
       "subcategoryTitle": "対人",
-      "sortOrder": 61,
+      "sortOrder": 62,
       "displayId": 267,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -791,7 +793,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
       "subcategoryTitle": "対人",
-      "sortOrder": 54,
+      "sortOrder": 55,
       "displayId": 212,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -823,7 +825,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
       "subcategoryTitle": "認知",
-      "sortOrder": 62,
+      "sortOrder": 70,
       "displayId": 23,
       "aliases": [],
       "relatedTheoryIds": [
@@ -921,7 +923,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
       "subcategoryTitle": "認知",
-      "sortOrder": 37,
+      "sortOrder": 45,
       "displayId": 193,
       "aliases": [
         "Dunning-Kruger effect",
@@ -1075,7 +1077,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-v",
       "subcategoryTitle": "社会心理",
-      "sortOrder": 27,
+      "sortOrder": 28,
       "displayId": 284,
       "aliases": [
         "Hawthorne effect",
@@ -1116,7 +1118,8 @@
       ],
       "relatedTheoryIds": [
         "kb_200",
-        "kb_199"
+        "kb_199",
+        "kb_879"
       ],
       "legacyIds": [],
       "mergedFromIds": [],
@@ -1141,7 +1144,7 @@
       "categoryTitle": "戦略論",
       "subcategoryId": "strategy-a",
       "subcategoryTitle": "分析",
-      "sortOrder": 8,
+      "sortOrder": 9,
       "displayId": 59,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -1254,10 +1257,12 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-s",
       "subcategoryTitle": "自己",
-      "sortOrder": 34,
+      "sortOrder": 38,
       "displayId": 89,
       "aliases": [],
-      "relatedTheoryIds": [],
+      "relatedTheoryIds": [
+        "kb_869"
+      ],
       "legacyIds": [],
       "mergedFromIds": [],
       "canonicalId": "kb_111",
@@ -1334,7 +1339,7 @@
       "categoryTitle": "行動科学",
       "subcategoryId": "behavioral-science-d",
       "subcategoryTitle": "意思決定",
-      "sortOrder": 7,
+      "sortOrder": 9,
       "displayId": 30,
       "aliases": [],
       "relatedTheoryIds": [
@@ -1526,7 +1531,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-e",
       "subcategoryTitle": "感情",
-      "sortOrder": 6,
+      "sortOrder": 9,
       "displayId": 263,
       "aliases": [
         "flow theory",
@@ -1536,7 +1541,8 @@
       ],
       "relatedTheoryIds": [
         "kb_737",
-        "kb_520"
+        "kb_520",
+        "kb_906"
       ],
       "legacyIds": [],
       "mergedFromIds": [],
@@ -1625,7 +1631,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-e",
       "subcategoryTitle": "感情",
-      "sortOrder": 5,
+      "sortOrder": 8,
       "displayId": 31,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -1828,7 +1834,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-s",
       "subcategoryTitle": "自己",
-      "sortOrder": 23,
+      "sortOrder": 26,
       "displayId": 133,
       "aliases": [],
       "relatedTheoryIds": [],
@@ -1917,7 +1923,7 @@
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-s",
       "subcategoryTitle": "自己",
-      "sortOrder": 8,
+      "sortOrder": 11,
       "displayId": 250,
       "aliases": [
         "Big Five",

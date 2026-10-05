@@ -23,8 +23,11 @@ const catalog=await import('../../src/data/catalog.ts');
 const {getSearchResults}=await import('../../src/data/search-catalog.ts');
 const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-before.json'),'utf8'));
 const after=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-after.json'),'utf8'));
-test('all 759 previous IDs resolve to 754 canonical cards and both directions of links agree',()=>{
- assert.equal(catalog.theories.length,754);
+const scope=JSON.parse(fs.readFileSync(path.join(root,'src/data/content-scope.json'),'utf8'));
+const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+test('all 759 historical IDs still resolve and both directions of links agree after additions',()=>{
+ assert.equal(catalog.theories.length,scope.complete.theories);
+ assert.ok(after.every(t=>catalog.theoryById.has(t.tagId)));
  for(const old of before)assert.equal(catalog.theoryById.get(old.id)?.tagId,taxonomy.resolveTheoryId(old.id));
  for(const theory of catalog.theories)for(const card of catalog.getTechniquesForTheory(theory.tagId))assert.ok(card.theoryTagIds.includes(theory.tagId));
 });
@@ -34,7 +37,7 @@ test('saved IDs migrate once, deduplicate aliases, preserve unknown IDs and igno
 });
 test('search covers all majors and aliases, with independent contrast and parent/child concepts',()=>{
  for(const id of ['kb_001','kb_002','kb_133','kb_134'])assert.ok(catalog.theoryById.get(id));
- for(const theory of after)assert.ok(getSearchResults(theory.title,true).theoryMatches.some(t=>t.tagId===theory.tagId),theory.title);
+ for(const theory of current)assert.ok(getSearchResults(theory.title,true).theoryMatches.some(t=>t.tagId===theory.tagId),theory.title);
  for(const [alias,id] of [['能動的・建設的反応','kb_024'],['相対的剝奪','kb_566'],['HSM','kb_785']])assert.ok(getSearchResults(alias,true).theoryMatches.some(t=>t.tagId===id));
 });
 test('every card has one matching major and section, with dense pedagogical ordering',()=>{
@@ -49,10 +52,32 @@ test('every card has one matching major and section, with dense pedagogical orde
 test('old paid cache cannot restore duplicate cards or overwrite revised classification',()=>{
  const card=catalog.theoryById.get('kb_016');
  catalog.hydratePaidTheories([{...card,status:undefined,subcategoryId:undefined,categoryId:'psychology',title:'old title',summary:'cached paid text'}, {...card,tagId:'kb_392',title:'duplicate'}]);
- assert.equal(catalog.theories.length,754);
+ assert.equal(catalog.theories.length,scope.complete.theories);
  assert.equal(catalog.theoryById.get('kb_016').subcategoryId,card.subcategoryId);
  assert.equal(catalog.theoryById.get('kb_016').title,card.title);
  assert.equal(catalog.theoryById.get('kb_016').status,'published');
  assert.equal(catalog.theoryById.get('kb_392').tagId,'kb_016');
+ catalog.resetCatalog();
+});
+test('new complete-edition theories are searchable shells and hydrate without changing historical identities',()=>{
+ const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-expansion-20261005-before.json'),'utf8'));
+ const oldIds=new Set(snapshot.theories.map(t=>t.id));
+ const additions=current.filter(t=>!oldIds.has(t.tagId));
+ assert.equal(additions.length,40);
+ for(const old of snapshot.theories.filter(t=>t.status==='published')) {
+  const now=current.find(t=>t.tagId===old.id);
+  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['display_id','displayId'],['category_id','categoryId'],['access_tier','accessTier']])assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
+ }
+ for(const t of additions) {
+  const shell=catalog.theoryById.get(t.tagId);
+  assert.equal(shell.summary,'');
+  assert.equal(shell.provenance,undefined);
+  assert.equal(shell.accessTier,'complete');
+  assert.ok(t.provenance.sources.every(s=>s.url.startsWith('https://')));
+  for(const alias of t.aliases)assert.ok(getSearchResults(alias,true).theoryMatches.some(x=>x.tagId===t.tagId),alias);
+ }
+ catalog.hydratePaidTheories(additions);
+ for(const t of additions)assert.equal(catalog.theoryById.get(t.tagId).summary,t.summary);
+ assert.equal(catalog.theories.length,scope.complete.theories);
  catalog.resetCatalog();
 });
