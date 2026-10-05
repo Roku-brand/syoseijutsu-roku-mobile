@@ -1,4 +1,17 @@
 {
+  "integrity": {
+    "catalogHash": "186d7298d9cf5729a531fc7ebf507132",
+    "matchesRepository": true,
+    "orderGaps": 0,
+    "legacyBroken": 0,
+    "nameConflicts": 0,
+    "publicNewRows": 40,
+    "orderConflicts": 0,
+    "titleConflicts": 0,
+    "legacyConflicts": 0,
+    "publicNewBodies": 0,
+    "displayIdConflicts": 0
+  },
   "free": 151,
   "newRows": [
     {

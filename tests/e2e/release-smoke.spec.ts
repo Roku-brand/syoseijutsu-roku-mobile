@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import scope from '../../src/data/content-scope.json';
+import metadata from '../../src/data/generated/metadata.json';
 
 async function startFreeHome(page: Page) {
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
@@ -762,7 +763,7 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
   await page.goto('/theories');
   await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
   await expect(page.getByRole('button', { name: '行動科学で理論を絞り込む' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('102件', { exact: true })).toBeVisible();
+  await expect(page.getByText(`${metadata.categoryCounts['behavioral-science']}件`, { exact: true })).toBeVisible();
   const viewportInfo = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 });
