@@ -52,9 +52,9 @@ test('保存した旧IDを復元し、同義語の重複保存を解消する',a
 test('CMSが内部分類で絞り込み、選択・順番・分類管理を編集できる',async({page})=>{
  await page.setViewportSize({width:1440,height:1000});await mockOwner(page);
  await page.goto('/owner/content?kind=theory');
- await expect(page.getByText('754件',{exact:true})).toBeVisible();
+ await expect(page.getByText(`${rows.length}件`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'意思決定',exact:true}).first().click();
- await expect(page.getByText('29件',{exact:true})).toBeVisible();
+ await expect(page.getByText(`${rows.filter((t:any)=>t.subcategoryId==='behavioral-science-d').length}件`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
  await expect(page.getByRole('textbox',{name:'理論名',exact:true})).toHaveValue('プロスペクト理論');
  await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue('4');
@@ -64,4 +64,19 @@ test('CMSが内部分類で絞り込み、選択・順番・分類管理を編�
  await expect(page.getByRole('textbox',{name:'内部分類名',exact:true})).toBeVisible();
  await expect(page.locator('#roku-launch')).toBeHidden();
  await page.screenshot({path:test.info().outputPath('theory-taxonomy-cms.png'),fullPage:true});
+});
+
+test('追加した完全版理論を別名から検索して、本文・出典・発達分類を表示する',async({page})=>{
+ await mockOwner(page);
+ for(const [alias,title,id] of [['Proteus effect','プロテウス効果','kb_869'],['CBT','認知行動療法','kb_901'],['SWOT','SWOT分析','kb_908']]) {
+  await page.goto(`/search?mode=theories&q=${encodeURIComponent(alias)}`);
+  await expect(page.getByText(title,{exact:true})).toBeVisible();
+  await page.goto(`/theory/${id}`);
+  await expect(page.getByTestId('theory-title')).toHaveText(title);
+  await expect(page.getByText(rows.find((t:any)=>t.tagId===id).summary.split('。')[0]+'。',{exact:false}).first()).toBeVisible();
+  await expect(page.getByText('出典を読む',{exact:true})).toBeVisible();
+ }
+ await page.goto('/theories?category=psychology&page=7');
+ await expect(page.getByRole('heading',{name:'発達',exact:true})).toBeVisible();
+ await expect(page.getByText('ピアジェの認知発達理論',{exact:true})).toBeVisible();
 });

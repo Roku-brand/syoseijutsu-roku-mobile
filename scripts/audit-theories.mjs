@@ -18,7 +18,7 @@ const expectedCategories = new Map([
 const errors = [];
 const ids = new Set();
 const referencedIds = new Set(cards.flatMap((card) => card.relatedTheoryIds ?? []));
-const allowedTheoryKeys = new Set(['tagId', 'title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'relatedTheoryIds', 'displayId', 'displayOrder', 'accessTier']);
+const allowedTheoryKeys = new Set(['tagId', 'title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'relatedTheoryIds', 'displayId', 'displayOrder', 'accessTier', 'subcategoryId', 'subcategoryTitle', 'sortOrder', 'canonicalId', 'legacyIds', 'mergedFromIds']);
 
 for (const theory of theories) {
   if (ids.has(theory.tagId)) errors.push(`Duplicate id: ${theory.tagId}`);

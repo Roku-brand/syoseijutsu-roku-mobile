@@ -136,7 +136,7 @@ const audit = {
   wisdomSupportLinks: Object.values(wisdomSupportTechniqueIdsByTheoryId).reduce((sum, ids) => sum + ids.length, 0),
   categoryCoverage,
   practicalWisdomPolicy: 'Only independently reviewed semantic matches; zero related techniques is valid.',
-  generatedAt: '2026-10-04',
+  generatedAt: '2026-10-05',
 };
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 

@@ -1,30 +1,31 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 754,
-  "links": 1248,
+  "theories": 794,
+  "links": 1255,
   "primaryLinks": 431,
-  "supplementaryLinks": 817,
-  "linkedTheories": 619,
-  "unlinkedTheories": 135,
+  "supplementaryLinks": 824,
+  "linkedTheories": 625,
+  "unlinkedTheories": 169,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 28,
   "distribution": {
     "1": 76,
     "2": 88,
-    "3": 73,
-    "4": 32,
+    "3": 72,
+    "4": 33,
     "5": 29,
     "6": 16,
-    "7": 18,
-    "8": 4,
+    "7": 16,
+    "8": 6,
     "9": 4,
     "10": 7,
-    "11": 2,
-    "12": 1,
+    "11": 1,
+    "12": 2,
     "13": 1,
-    "14": 2,
+    "14": 1,
     "16": 1,
+    "17": 1,
     "25": 1,
     "28": 1
   },
@@ -35,40 +36,40 @@
   "supplementaryDistribution": {
     "0": 96,
     "1": 86,
-    "2": 61,
-    "3": 35,
+    "2": 60,
+    "3": 36,
     "4": 25,
-    "5": 20,
+    "5": 19,
     "6": 11,
-    "7": 3,
+    "7": 4,
     "8": 4,
-    "9": 7,
-    "10": 1,
+    "9": 6,
+    "10": 2,
     "11": 1,
-    "12": 3,
-    "15": 1,
+    "12": 2,
+    "15": 2,
     "24": 1,
     "26": 1
   },
   "wisdomSupportLinks": 175,
   "categoryCoverage": {
     "psychology": {
-      "theories": 303,
-      "linkedTheories": 245,
-      "links": 519
+      "theories": 329,
+      "linkedTheories": 248,
+      "links": 522
     },
     "behavioral-science": {
-      "theories": 102,
-      "linkedTheories": 63,
-      "links": 107
+      "theories": 108,
+      "linkedTheories": 64,
+      "links": 108
     },
     "organization-management": {
-      "theories": 120,
-      "linkedTheories": 104,
-      "links": 195
+      "theories": 127,
+      "linkedTheories": 106,
+      "links": 198
     },
     "strategy": {
-      "theories": 83,
+      "theories": 84,
       "linkedTheories": 77,
       "links": 126
     },
@@ -84,5 +85,5 @@
     }
   },
   "practicalWisdomPolicy": "Only independently reviewed semantic matches; zero related techniques is valid.",
-  "generatedAt": "2026-10-04"
+  "generatedAt": "2026-10-05"
 }

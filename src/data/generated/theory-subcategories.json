@@ -280,5 +280,11 @@
     "categoryId": "classics-thought",
     "title": "作品",
     "displayOrder": 6
+  },
+  {
+    "id": "psychology-d",
+    "categoryId": "psychology",
+    "title": "発達",
+    "displayOrder": 11
   }
 ]
