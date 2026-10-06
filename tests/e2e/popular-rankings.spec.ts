@@ -3,6 +3,7 @@ import defaults from '../../src/data/generated/popular-rankings.json';
 
 test('人気ランキングは両部門トップ10で、CMSの順位とカテゴリ画像を表示する', async ({ page }) => {
   const ranks = defaults.map((item) => ({ ...item, rank: 11 - item.rank }));
+  const categoryPhotos = new Map<string, string>();
   await page.route('**/rest/v1/rpc/get_popular_rankings', (route) => route.fulfill({ json: ranks }));
   await page.goto('/popular');
   await expect(page.getByTestId('popular-hero')).toBeVisible();
@@ -22,6 +23,13 @@ test('人気ランキングは両部門トップ10で、CMSの順位とカテゴ
     await expect(artwork).toHaveCount(10);
     const images = await artwork.evaluateAll((elements) => elements.map((el) => ({ category: el.getAttribute('data-testid'), image: el.querySelector('img')?.getAttribute('src'), position: el.firstElementChild?.getAttribute('style') })));
     for (const image of images) for (const other of images.filter((item) => item.category === image.category)) expect(other).toEqual(image);
+    if (division === 'technique') for (const image of images) categoryPhotos.set(image.category!.replace('ranking-art-', ''), image.image!);
+  }
+  await page.goto('/');
+  for (const [category, label] of [['interpersonal', '対人術'], ['work', '仕事術'], ['life', '人生術']]) {
+    const homePhoto = page.getByRole('img', { name: `${label}のイメージ写真`, exact: true }).first();
+    const source = await homePhoto.evaluate(el => el.querySelector('img')?.getAttribute('src') ?? el.getAttribute('src'));
+    expect(source).toBe(categoryPhotos.get(category));
   }
 });
 
