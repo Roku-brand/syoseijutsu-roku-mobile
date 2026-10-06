@@ -85,7 +85,7 @@ export default function TheoryIndexScreen() {
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
           <View style={styles.subcategoryOptions}>
-            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { width: compact ? '48%' : '31.5%' }, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText><AppText style={[styles.subcategoryCount, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}件収録</AppText></Pressable>)}
+            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText><AppText style={[styles.subcategoryCount, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText></Pressable>)}
           </View>
         </View> : null}
       </View>
@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
   subcategoryFilters: { marginTop: spacing.md, gap: 8 },
   subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
   subcategoryOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  subcategoryButton: { minHeight: 66, paddingHorizontal: 12, paddingVertical: 10, justifyContent: 'center', borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, backgroundColor: colors.surface },
+  subcategoryButton: { minWidth: 78, maxWidth: '100%', minHeight: 48, paddingHorizontal: spacing.sm, paddingVertical: spacing.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, backgroundColor: colors.surface },
   subcategoryActive: { backgroundColor: colors.goldDeep, borderColor: colors.goldDeep },
-  subcategoryText: { color: colors.inkSoft, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  subcategoryCount: { marginTop: 3, color: colors.muted, fontSize: 11, lineHeight: 16 },
+  subcategoryText: { flexShrink: 1, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5 },
+  subcategoryCount: { flexShrink: 0, color: colors.muted, fontSize: 11, lineHeight: 18 },
   filterPressed: { opacity: 0.8 },
   subcategoryTextActive: { color: colors.white },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
