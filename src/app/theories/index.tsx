@@ -10,10 +10,10 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
 import { getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
-import { groupTheorySections } from '@/data/theory-taxonomy';
+import { groupTheorySections, resolveTheorySubcategoryId } from '@/data/theory-taxonomy';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 100;
 
 function safeCategory(value: string | undefined): TheoryFilterKey {
   return getTheoryFilterOptions().some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
@@ -51,11 +51,13 @@ export default function TheoryIndexScreen() {
     [category, visibleCatalog],
   );
   const subcategories = groupTheorySections(filtered);
-  const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === params.subcategory) ? params.subcategory : undefined;
+  const requestedSubcategory = resolveTheorySubcategoryId(params.subcategory);
+  const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === requestedSubcategory) ? requestedSubcategory : undefined;
   const selectedTheories = subcategory ? filtered.filter(theory => theory.subcategoryId === subcategory) : filtered;
-  const totalPages = Math.max(1, Math.ceil(selectedTheories.length / PAGE_SIZE));
+  const paginated = category === 'all';
+  const totalPages = paginated ? Math.max(1, Math.ceil(selectedTheories.length / PAGE_SIZE)) : 1;
   const safePage = Math.min(page, totalPages);
-  const pageTheories = selectedTheories.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const pageTheories = paginated ? selectedTheories.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE) : selectedTheories;
 
   useEffect(() => {
     setCategory(safeCategory(requestedCategory));
@@ -69,11 +71,11 @@ export default function TheoryIndexScreen() {
   const selectCategory = (value: TheoryFilterKey) => {
     setCategory(value);
     setPage(1);
-    router.setParams({ category: value === 'all' ? undefined : value, subcategory: undefined, page: '1' });
+    router.setParams({ category: value === 'all' ? undefined : value, subcategory: undefined, page: undefined });
   };
   const selectSubcategory = (id?: string) => {
     setPage(1);
-    router.setParams({ category, subcategory: id, page: '1' });
+    router.setParams({ category, subcategory: id, page: undefined });
   };
 
   return (
@@ -83,7 +85,7 @@ export default function TheoryIndexScreen() {
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
           <View style={styles.subcategoryOptions}>
-            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} onPress={() => selectSubcategory(section.subcategoryId)} style={[styles.subcategoryButton, section.subcategoryId === subcategory && styles.subcategoryActive]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title} {section.items.length}</AppText></Pressable>)}
+            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { width: compact ? '48%' : '31.5%' }, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText><AppText style={[styles.subcategoryCount, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}件収録</AppText></Pressable>)}
           </View>
         </View> : null}
       </View>
@@ -93,7 +95,7 @@ export default function TheoryIndexScreen() {
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
-      {selectedTheories.length > PAGE_SIZE ? (
+      {paginated && selectedTheories.length > PAGE_SIZE ? (
         <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
           {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
             ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
@@ -140,10 +142,12 @@ const styles = StyleSheet.create({
   filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   subcategoryFilters: { marginTop: spacing.md, gap: 8 },
   subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
-  subcategoryOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 7 },
-  subcategoryButton: { minHeight: 44, paddingHorizontal: 12, justifyContent: 'center', borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
+  subcategoryOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  subcategoryButton: { minHeight: 66, paddingHorizontal: 12, paddingVertical: 10, justifyContent: 'center', borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, backgroundColor: colors.surface },
   subcategoryActive: { backgroundColor: colors.goldDeep, borderColor: colors.goldDeep },
-  subcategoryText: { color: colors.goldDeep, fontSize: 13, lineHeight: 20 },
+  subcategoryText: { color: colors.inkSoft, fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  subcategoryCount: { marginTop: 3, color: colors.muted, fontSize: 11, lineHeight: 16 },
+  filterPressed: { opacity: 0.8 },
   subcategoryTextActive: { color: colors.white },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
@@ -166,7 +170,7 @@ const styles = StyleSheet.create({
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
   pagination: { marginTop: spacing.md, marginBottom: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  pageButton: { width: 38, height: 38, borderWidth: 1, borderColor: colors.line, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
+  pageButton: { width: 44, height: 44, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
   pageButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
   pageText: { color: colors.inkSoft, fontSize: 11 },
   pageTextActive: { color: colors.surface, fontWeight: '700' },

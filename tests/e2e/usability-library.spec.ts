@@ -15,7 +15,7 @@ test('検索ボタン・各タブ件数・クリア・Enter・URL復元が連動
   await input.fill('ストレス');
   await page.getByRole('button', { name: '検索を実行', exact: true }).click();
   await expect(page.getByRole('tab', { name: '処世術', exact: true })).toHaveText('処世術 0');
-  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveText('理論 3');
+  await expect(page.getByRole('tab', { name: '理論', exact: true })).toHaveText(`理論 ${theories.filter((item: any) => item.subcategoryId === 'psychology-e').length}`);
   await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByTestId('search-page-results')).toContainText('ストレス評価理論');
   await page.getByRole('button', { name: '検索語を消す', exact: true }).click();
@@ -31,25 +31,45 @@ test('検索ボタン・各タブ件数・クリア・Enter・URL復元が連動
   await page.screenshot({ path: test.info().outputPath('search-mobile.png') });
 });
 
-test('内部分類の選択とページングはURL・分類切り替えに連動し、検索は全件を対象にする', async ({ page }) => {
+test('内部分類の選択はURL・分類切り替えに連動し、分類内は全件表示する', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText(`${theories.length}件`, { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '心理学で理論を絞り込む', exact: true }).click();
-  await page.getByRole('button', { name: '発達で内部分類を絞り込む', exact: true }).click();
-  const development = theories.filter((item: any) => item.categoryId === 'psychology' && item.subcategoryTitle === '発達');
+  await page.getByRole('button', { name: '自己理解・成長で内部分類を絞り込む', exact: true }).click();
+  const development = theories.filter((item: any) => item.categoryId === 'psychology' && item.subcategoryTitle === '自己理解・成長');
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(development.length);
-  await expect(page.getByRole('heading', { name: '発達', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(development.length);
-  await page.getByRole('button', { name: '認知で内部分類を絞り込む', exact: true }).click();
-  await page.getByRole('button', { name: '2ページ目', exact: true }).click();
-  expect(new URL(page.url()).searchParams.get('subcategory')).toBe(theories.find((item: any) => item.categoryId === 'psychology' && item.subcategoryTitle === '認知').subcategoryId);
+  await page.getByRole('button', { name: '人間関係・コミュニケーションで内部分類を絞り込む', exact: true }).click();
+  const interpersonal = theories.filter((item: any) => item.subcategoryId === 'psychology-i');
+  expect(interpersonal.length).toBeGreaterThan(100);
+  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(interpersonal.length);
+  await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
+  expect(new URL(page.url()).searchParams.get('subcategory')).toBe('psychology-i');
   await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
   expect(new URL(page.url()).searchParams.get('subcategory')).toBeNull();
   await page.getByRole('button', { name: '理論一覧を検索', exact: true }).click();
   await page.getByRole('textbox', { name: 'キーワードを検索' }).fill('ハロー効果');
   await page.getByRole('button', { name: '検索を実行', exact: true }).click();
   await expect(page.getByTestId('search-page-results')).toContainText('ハロー効果');
+});
+
+test('旧内部分類URLを新分類へ解決し、320pxでも四角い分類ボタンが収まる', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/theories?category=psychology&subcategory=psychology-d&page=7');
+  await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
+  await expect(page.getByText('ピアジェの認知発達理論', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
+  for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
+    for (const button of await page.getByTestId(testId).getByRole('button').all()) {
+      const size = await button.evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
+      expect(size.radius).toBeLessThanOrEqual(4);
+      expect(size.height).toBeGreaterThanOrEqual(44);
+    }
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+  await page.screenshot({ path: test.info().outputPath('theory-sections-mobile.png') });
 });
 
 test('既存の保存と旧理論IDを維持し、フォルダー作成・移動・復元・名前変更・削除を両画面で使える', async ({ page }) => {

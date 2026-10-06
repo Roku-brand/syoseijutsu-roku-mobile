@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
   filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
   filterSpacer: { flex: 1, minWidth: 0 },
-  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.xs, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, backgroundColor: colors.surface, alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 0.3, textAlign: 'center' },
   filterTextActive: { color: colors.surface },

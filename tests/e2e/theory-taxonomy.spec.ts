@@ -26,9 +26,10 @@ test('大分類と内部分類の見出しで一覧を表示し、モバイル�
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{message:'offline fallback'}}));
  await page.goto('/theories?category=behavioral-science&page=1');
  await expect(page.getByTestId('theory-index-list').getByRole('heading',{name:'行動科学',exact:true})).toBeVisible();
- await expect(page.getByRole('heading',{name:'意思決定',exact:true})).toBeVisible();
- await expect(page.getByRole('heading',{name:'選択',exact:true})).toBeVisible();
- await expect(page.getByTestId('theory-index-row-card')).toHaveCount(50);
+ await expect(page.getByRole('heading',{name:'意思決定・選択',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'習慣・行動設計',exact:true})).toBeVisible();
+ await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.filter((t:any)=>t.categoryId==='behavioral-science').length);
+ await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
  await expect(page.locator('#roku-launch')).toBeHidden();
  await page.screenshot({path:test.info().outputPath('theory-taxonomy-mobile.png')});
@@ -37,7 +38,7 @@ test('別名を全件検索し、旧ディープリンクを同じ正本へ解�
  await mockOwner(page);
  await page.goto('/search?mode=theories&q=能動的・建設的反応');
  await expect(page.getByText('アクティブ・コンストラクティブ・レスポンディング',{exact:true})).toBeVisible();
- await expect(page.getByText('心理学 > 心理技法',{exact:true})).toBeVisible();
+ await expect(page.getByText('心理学 > 人間関係・コミュニケーション',{exact:true})).toBeVisible();
  await page.goto('/theory/kb_418');
  await expect(page.getByTestId('theory-title')).toContainText('アクティブ・コンストラクティブ・レスポンディング');
  await page.goto('/theory/kb_001');await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
@@ -53,12 +54,12 @@ test('CMSが内部分類で絞り込み、選択・順番・分類管理を編�
  await page.setViewportSize({width:1440,height:1000});await mockOwner(page);
  await page.goto('/owner/content?kind=theory');
  await expect(page.getByText(`${rows.length}件`,{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'意思決定',exact:true}).first().click();
+ await page.getByRole('button',{name:'意思決定・選択',exact:true}).first().click();
  await expect(page.getByText(`${rows.filter((t:any)=>t.subcategoryId==='behavioral-science-d').length}件`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
  await expect(page.getByRole('textbox',{name:'理論名',exact:true})).toHaveValue('プロスペクト理論');
- await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue('4');
- await expect(page.getByRole('button',{name:'内部分類：意思決定',exact:true})).toHaveAttribute('aria-pressed','true');
+ await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue(String(rows.find((t:any)=>t.title==='プロスペクト理論').sortOrder));
+ await expect(page.getByRole('button',{name:'内部分類：意思決定・選択',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'内部分類を管理',exact:true}).nth(1).click();
  await page.getByRole('button',{name:'＋ 内部分類',exact:true}).click();
  await expect(page.getByRole('textbox',{name:'内部分類名',exact:true})).toBeVisible();
@@ -66,7 +67,7 @@ test('CMSが内部分類で絞り込み、選択・順番・分類管理を編�
  await page.screenshot({path:test.info().outputPath('theory-taxonomy-cms.png'),fullPage:true});
 });
 
-test('追加した完全版理論を別名から検索して、本文・出典・発達分類を表示する',async({page})=>{
+test('追加した完全版理論を別名から検索して、本文・出典・自己理解の分類を表示する',async({page})=>{
  await mockOwner(page);
  for(const [alias,title,id] of [['Proteus effect','プロテウス効果','kb_869'],['CBT','認知行動療法','kb_901'],['SWOT','SWOT分析','kb_908']]) {
   await page.goto(`/search?mode=theories&q=${encodeURIComponent(alias)}`);
@@ -77,6 +78,7 @@ test('追加した完全版理論を別名から検索して、本文・出典�
   await expect(page.getByText('出典を読む',{exact:true})).toBeVisible();
  }
  await page.goto('/theories?category=psychology&page=7');
- await expect(page.getByRole('heading',{name:'発達',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'自己理解・成長',exact:true})).toBeVisible();
+ await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
  await expect(page.getByText('ピアジェの認知発達理論',{exact:true})).toBeVisible();
 });
