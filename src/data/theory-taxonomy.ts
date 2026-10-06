@@ -1,9 +1,13 @@
 import bundledSubcategories from './generated/theory-subcategories.json';
 import bundledRedirects from './generated/theory-id-redirects.json';
+import subcategoryRedirects from './generated/theory-subcategory-redirects.json';
 import type { TheoryCard } from './types';
 
 export type TheorySubcategory = { id: string; categoryId: string; title: string; displayOrder: number };
 export const theorySubcategories: TheorySubcategory[] = [...bundledSubcategories];
+export function resolveTheorySubcategoryId(id?: string): string | undefined {
+ return id ? (subcategoryRedirects as Record<string, string>)[id] ?? id : undefined;
+}
 const redirects = new Map<string,string>(Object.entries(bundledRedirects));
 export function resolveTheoryId(id: string): string { return redirects.get(id) ?? id; }
 export function resolveTheoryIds(ids: unknown): string[] {

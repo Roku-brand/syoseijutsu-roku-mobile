@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { registerHooks } from 'node:module';
@@ -27,6 +28,19 @@ const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxo
 const after=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-after.json'),'utf8'));
 const scope=JSON.parse(fs.readFileSync(path.join(root,'src/data/content-scope.json'),'utf8'));
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+
+test('broad sections preserve all content and move techniques to their subject',()=>{
+ const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));
+ const text=[...current].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
+ assert.equal(createHash('md5').update(text).digest('hex'),snapshot.contentHash);
+ assert.deepEqual(new Set(current.map(t=>t.tagId)),new Set(snapshot.assignments.map(t=>t.tagId)));
+ assert.equal(taxonomy.theorySubcategories.length,33);
+ assert.equal(catalog.theoryById.get('kb_024').subcategoryId,'psychology-i');
+ assert.equal(catalog.theoryById.get('kb_901').subcategoryId,'psychology-e');
+ assert.equal(taxonomy.resolveTheorySubcategoryId('psychology-d'),'psychology-s');
+ assert.equal(taxonomy.resolveTheorySubcategoryId('behavioral-science-x'),'behavioral-science-d');
+ assert.equal(taxonomy.resolveTheorySubcategoryId('future'),'future');
+});
 
 test('home counts canonical cards while legacy ID resolution remains available',()=>{
  assert.equal(getHomeBrandContent().counts.theories,catalog.theories.length);

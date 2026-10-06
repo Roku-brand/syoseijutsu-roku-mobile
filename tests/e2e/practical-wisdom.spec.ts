@@ -34,11 +34,9 @@ test('実践知の再分類後も指定39件の原文とA-001〜A-039を保持�
   await page.goto('/theories?category=practical-wisdom');
   await expect(page.getByText('82件',{exact:true})).toBeVisible();
   const rows = page.getByTestId('theory-index-row-card');
-  await expect(rows).toHaveCount(50);
+  await expect(rows).toHaveCount(82);
+  await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
   const texts=await rows.allTextContents();
-  await page.getByRole('button',{name:'2ページ目',exact:true}).click();
-  await expect(rows).toHaveCount(32);
-  texts.push(...await rows.allTextContents());
   for (const original of originals) {
     expect(texts.some(text=>text.includes(`A-${String(original.displayId).padStart(3,'0')}`)&&text.includes(original.title.slice(1,-1)))).toBeTruthy();
   }

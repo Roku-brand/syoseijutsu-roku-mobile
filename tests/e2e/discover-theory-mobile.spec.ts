@@ -25,6 +25,7 @@ test('theory pagination is above the list and restores the selected page', async
   const pager = page.getByTestId('theory-index-pagination');
   const list = page.getByTestId('theory-index-list');
   await expect(pager).toHaveCount(1);
+  await expect(list.getByTestId('theory-index-row-card')).toHaveCount(100);
   const [pagerBox, listBox] = await Promise.all([pager.boundingBox(), list.boundingBox()]);
   expect(pagerBox!.y + pagerBox!.height).toBeLessThanOrEqual(listBox!.y);
   expect(pagerBox!.y + pagerBox!.height).toBeLessThan(844);
@@ -39,6 +40,10 @@ test('theory pagination is above the list and restores the selected page', async
   await expect(list.getByTestId('theory-index-row-card').first()).toHaveText(secondPageTitle!);
   await page.getByRole('button', { name: '心理学で理論を絞り込む', exact: true }).click();
   await expect(page).toHaveURL(/category=psychology/);
+  await expect(pager).toHaveCount(0);
+  await expect(page.getByTestId('theory-subcategory-filters')).toBeVisible();
+  await page.getByRole('button', { name: 'すべてで理論を絞り込む', exact: true }).click();
   await expect(pager.getByRole('button', { name: '1ページ目', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(list.getByTestId('theory-index-row-card')).toHaveCount(100);
   await page.screenshot({ path: test.info().outputPath('theory-pagination-top.png') });
 });

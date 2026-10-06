@@ -699,7 +699,7 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/theories');
   const rows = page.getByTestId('theory-index-list').getByRole('link');
-  await expect(rows).toHaveCount(50);
+  await expect(rows).toHaveCount(100);
   const [first, second] = await Promise.all([rows.nth(0).boundingBox(), rows.nth(1).boundingBox()]);
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
@@ -850,7 +850,7 @@ test('理論一覧の検索は右上から独立検索ページへ移る', async
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
   await expect(page.getByText(`${scope.complete.theories}件`, { exact: true })).toBeVisible();
-  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(100);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: '理論一覧を検索' }).click();
