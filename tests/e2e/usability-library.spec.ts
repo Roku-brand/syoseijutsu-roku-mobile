@@ -55,8 +55,10 @@ test('内部分類の選択はURL・分類切り替えに連動し、分類内�
   await expect(page.getByTestId('search-page-results')).toContainText('ハロー効果');
 });
 
-test('旧内部分類URLを新分類へ解決し、320pxでも四角い分類ボタンが収まる', async ({ page }) => {
+test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ形の分類ボタンが収まる', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
+  await page.goto('/personas');
+  const reference = await page.getByTestId('persona-category-filters').getByRole('button').first().evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
   await page.goto('/theories?category=psychology&subcategory=psychology-d&page=7');
   await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
   await expect(page.getByText('ピアジェの認知発達理論', { exact: true })).toBeVisible();
@@ -64,8 +66,7 @@ test('旧内部分類URLを新分類へ解決し、320pxでも四角い分類ボ
   for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
     for (const button of await page.getByTestId(testId).getByRole('button').all()) {
       const size = await button.evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
-      expect(size.radius).toBeLessThanOrEqual(4);
-      expect(size.height).toBeGreaterThanOrEqual(44);
+      expect(size).toEqual(reference);
     }
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
