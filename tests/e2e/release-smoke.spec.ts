@@ -739,6 +739,7 @@ test('詳細ヘッダーは保存・共有を維持し、設定や五大原則�
     await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
     await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
     await expect(header.getByRole('button', { name: '共有', exact: true })).toBeVisible();
+    await expect(header.getByTestId('header-share-symbol')).toBeVisible();
     await header.getByRole('button', { name: '蔵書に保存', exact: true }).click();
     await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
     await page.reload();

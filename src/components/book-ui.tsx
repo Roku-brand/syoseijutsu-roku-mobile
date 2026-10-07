@@ -306,13 +306,19 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
         onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
         style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
-        <SymbolView
+        {Platform.OS === 'web' ? (
+          <View testID="header-share-symbol" style={styles.shareMark} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            <View style={styles.shareBasket} />
+            <View style={styles.shareStem} />
+            <View style={styles.shareArrow} />
+          </View>
+        ) : <SymbolView
           name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
           fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
           size={20}
           tintColor={colors.gold}
           weight="regular"
-        />
+        />}
       </Pressable>
     </View>
   );
@@ -712,6 +718,10 @@ const styles = StyleSheet.create({
     gap: 3,
   },
   detailActionFallback: { color: colors.goldDeep, fontSize: 20, lineHeight: 22 },
+  shareMark: { width: 20, height: 24 },
+  shareBasket: { position: 'absolute', left: 2, bottom: 1, width: 16, height: 12, borderWidth: 1.5, borderTopWidth: 0, borderColor: colors.gold, borderRadius: 2 },
+  shareStem: { position: 'absolute', left: 9.25, top: 2, width: 1.5, height: 14, backgroundColor: colors.gold },
+  shareArrow: { position: 'absolute', left: 6.5, top: 2, width: 7, height: 7, borderLeftWidth: 1.5, borderTopWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }] },
   detailActionSaved: { color: colors.goldDeep },
   headerAction: {
     width: 44,
