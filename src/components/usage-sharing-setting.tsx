@@ -26,9 +26,9 @@ export function UsageSharingSetting() {
   </View>;
 }
 const styles = StyleSheet.create({
-  root: { padding: 16, borderBottomWidth: 1, borderColor: colors.line },
+  root: { paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderColor: '#E5E5E3' },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
-  title: { color: colors.ink, fontSize: 15, lineHeight: 22, flex: 1 },
+  title: { color: colors.inkSoft, fontSize: 16, lineHeight: 25, flex: 1 },
   description: { marginTop: 8, fontSize: 12, lineHeight: 19, color: colors.muted },
   link: { alignSelf: 'flex-start', paddingVertical: 10 }, linkText: { fontSize: 12, color: colors.goldDeep, textDecorationLine: 'underline' },
 });

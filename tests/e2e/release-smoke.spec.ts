@@ -731,6 +731,39 @@ test('詳細ページの階層リンクは探す配下の統合一覧へ戻る',
   await expect(page.getByRole('link', { name: '心理学へ移動' })).toHaveAttribute('href', '/theories?category=psychology');
 });
 
+test('詳細ヘッダーは保存・共有を維持し、設定や五大原則を表示しない', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  for (const route of ['/card/master336-001', '/theory/kb_001']) {
+    await page.goto(route);
+    const header = page.getByTestId('book-header');
+    await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
+    await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
+    await expect(header.getByRole('button', { name: '共有', exact: true })).toBeVisible();
+    await expect(header.getByTestId('header-share-symbol')).toBeVisible();
+    await header.getByRole('button', { name: '蔵書に保存', exact: true }).click();
+    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
+    await page.reload();
+    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
+    await header.getByRole('button', { name: '蔵書から外す', exact: true }).click();
+    await expect(header.getByRole('button', { name: '蔵書に保存', exact: true })).toBeVisible();
+    const buttons = await header.getByRole('button').evaluateAll(elements => elements.map(element => {
+      const rect = element.getBoundingClientRect();
+      return { width: rect.width, height: rect.height, right: rect.right };
+    }));
+    expect(buttons.every(rect => rect.width >= 44 && rect.height >= 44 && rect.right <= 320)).toBe(true);
+  }
+});
+
+test('学習ケースの直接アクセスからヘッダーで学ぶへ戻れる', async ({ page }) => {
+  await page.goto('/learn/case-01');
+  const header = page.getByTestId('book-header');
+  await expect(header.getByRole('button')).toHaveCount(1);
+  await header.getByTestId('book-header-back').click();
+  await expect(page).toHaveURL(/\/learn$/);
+  await expect(page.getByTestId('learning-stage-1')).toBeVisible();
+  await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
+});
+
 test('旧カテゴリ個別ページは削除されている', async ({ page }) => {
   const categoryResponse = await page.goto('/category/interpersonal');
   expect(categoryResponse?.status()).toBe(404);
@@ -1184,8 +1217,10 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
   const header = page.getByTestId('book-header');
-  await expect(header.getByRole('button', { name: '用語集を開く' })).toBeVisible();
-  await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
+  await expect(header.getByRole('button', { name: '用語集を開く' })).toHaveCount(0);
+  await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
+  await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
+  await expect(header.getByTestId('book-header-back')).toBeVisible();
   await expect(header.getByText('用語集', { exact: true })).toHaveCount(0);
   await expect(header.getByText('設定', { exact: true })).toHaveCount(0);
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();
