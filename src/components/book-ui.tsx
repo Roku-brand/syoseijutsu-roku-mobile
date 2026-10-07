@@ -1,5 +1,5 @@
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   Modal,
   Image,
@@ -90,7 +90,6 @@ export function BookHeader() {
   const { catalogRevision } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const [principlesVisible, setPrinciplesVisible] = useState(false);
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
@@ -98,117 +97,102 @@ export function BookHeader() {
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
   const learningCaseHeader = pathname.startsWith('/learn/');
+  // Keep focused screens free of unrelated actions while their catalog data loads.
+  const detailHeader = pathname.startsWith('/card/') || pathname.startsWith('/theory/');
+  const browsingHeader = ['category', 'subcategory', 'theme', 'theories', 'personas', 'search', 'popular'].includes(pathname.split('/')[1]);
   const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
   // The static web home is served through the root index route, so its first
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   const primaryTabHeader = segments[0] === '(tabs)' || (pathname === '/' && !isCheckoutReturn);
+  const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
+  const titleInset = Math.max(84, actionCount * 44 + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
       return;
     }
-    router.replace('/');
+    router.replace(learningCaseHeader ? '/learn' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
   };
 
   return (
-    <>
-      <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight]}>
-        {showBack ? (
-          <View style={styles.brandGroup}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="前の画面へ戻る"
-              testID="book-header-back"
-              onPress={handleBack}
-              hitSlop={8}
-              style={({ pressed }) => [
-                styles.headerBack,
-                compact && styles.headerBackCompact,
-                lightHeader && styles.headerBackLight,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <AppText style={[styles.headerBackIcon, compact && styles.headerBackIconCompact, lightHeader && styles.headerBackIconLight]}>‹</AppText>
-              <AppText style={[styles.headerBackText, compact && styles.headerBackTextCompact, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
-            </Pressable>
+    <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader]}>
+      {showBack ? (
+        <View style={styles.brandGroup}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="前の画面へ戻る"
+            testID="book-header-back"
+            onPress={handleBack}
+            hitSlop={8}
+            style={({ pressed }) => [
+              styles.headerBack,
+              compact && styles.headerBackCompact,
+              lightHeader && styles.headerBackLight,
+              pressed && styles.headerActionPressed,
+            ]}
+          >
+            <View style={styles.headerBackCircle}><AppText style={styles.headerBackArrow}>‹</AppText></View>
+            <AppText style={[styles.headerBackText, compact && styles.headerBackTextCompact, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.brandGroup}>
+          <Image
+            testID="book-header-app-icon"
+            accessibilityLabel="処世術禄のアプリアイコン"
+            source={appIcon}
+            style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
+          />
+          <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
+            <AppText style={styles.brandName}>処世術禄</AppText>
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={styles.brandTagline}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
-        ) : (
-          <View style={styles.brandGroup}>
-            <Image
-              testID="book-header-app-icon"
-              accessibilityLabel="処世術禄のアプリアイコン"
-              source={appIcon}
-              style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
-            />
-            <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
-              <AppText style={styles.brandName}>処世術禄</AppText>
-              {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={styles.brandTagline}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
-            </View>
-          </View>
-        )}
-        {primaryTabHeader ? null : (
-          <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, pathname === '/upgrade' && styles.upgradeScreenTitle]}>
-            <AppText
-              testID={personaHeader ? 'persona-header-title' : undefined}
-              accessibilityRole="header"
-              aria-level={1}
-              numberOfLines={compact && personaHeader ? 2 : 1}
-              adjustsFontSizeToFit={compact && personaHeader}
-              minimumFontScale={0.82}
-              style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
-            >{currentTitle}</AppText>
-            {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
-          </View>
-        )}
+        </View>
+      )}
+      {primaryTabHeader ? null : (
+        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, { left: titleInset, right: titleInset }]}>
+          <AppText
+            testID={personaHeader ? 'persona-header-title' : undefined}
+            accessibilityRole="header"
+            aria-level={1}
+            numberOfLines={compact && personaHeader ? 2 : 1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.85}
+            style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && detailHeader && styles.detailScreenTitleCompact, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
+          >{currentTitle}</AppText>
+          {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
+        </View>
+      )}
 
-        {primaryTabHeader ? (
-          <View testID="book-header-actions" style={styles.headerActions}>
-            <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
-              <SearchMark size={compact ? 25 : 27} color={colors.ink} />
-            </Pressable>
-            <MenuHeaderAction active={Boolean(user)} />
-          </View>
-        ) : detail ? (
-          <DetailHeaderActions detail={detail} menuActive={Boolean(user)} />
-        ) : catalogueSearchMode ? (
-          <View testID="book-header-actions" style={styles.headerActions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${currentTitle}を検索`}
-              onPress={() => router.push({ pathname: '/search', params: { mode: catalogueSearchMode } })}
-              style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
-            >
-              <SearchMark size={24} color={colors.gold} />
-            </Pressable>
-            <MenuHeaderAction active={Boolean(user)} />
-          </View>
-        ) : (
-          <View testID="book-header-actions" style={styles.headerActions}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={learningCaseHeader ? '用語集を開く' : '処世術の五大原則を開く'}
-              onPress={() => learningCaseHeader ? router.push('/theories') : setPrinciplesVisible(true)}
-              style={({ pressed }) => [
-                styles.headerAction,
-                lightHeader && styles.headerActionLight,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <PrincipleMark />
-            </Pressable>
-            {!isCheckoutReturn ? <MenuHeaderAction active={Boolean(user)} /> : null}
-          </View>
-        )}
-      </View>
-
-      <PrinciplesModal
-        visible={principlesVisible}
-        compact={compact}
-        onClose={() => setPrinciplesVisible(false)}
-      />
-    </>
+      {primaryTabHeader ? (
+        <View testID="book-header-actions" style={styles.headerActions}>
+          <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
+            <SearchMark size={compact ? 25 : 27} color={colors.ink} />
+          </Pressable>
+          <MenuHeaderAction active={Boolean(user)} />
+        </View>
+      ) : detailHeader ? (
+        detail ? <DetailHeaderActions detail={detail} /> : null
+      ) : catalogueSearchMode ? (
+        <View testID="book-header-actions" style={styles.headerActions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={`${currentTitle}を検索`}
+            onPress={() => router.push({ pathname: '/search', params: { mode: catalogueSearchMode } })}
+            style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
+          >
+            <SearchMark size={24} color={colors.gold} />
+          </Pressable>
+          <MenuHeaderAction active={Boolean(user)} />
+        </View>
+      ) : browsingHeader ? (
+        <View testID="book-header-actions" style={styles.headerActions}>
+          <MenuHeaderAction active={Boolean(user)} />
+        </View>
+      ) : null}
+    </View>
   );
 }
 
@@ -247,27 +231,29 @@ export function SaveDiamondButton({
   );
 }
 
-function MenuMark({ active, light }: { active: boolean; light: boolean }) {
-  const tone = light ? colors.gold : colors.goldLight;
+function MenuMark({ active, avatarUrl }: { active: boolean; avatarUrl?: string | null }) {
   return (
-    <View style={[styles.menuMark, active && styles.menuMarkActive]} accessibilityElementsHidden>
-      <View style={[styles.menuLine, { backgroundColor: tone }]} />
-      <View style={[styles.menuLine, { backgroundColor: tone }]} />
-      <View style={[styles.menuLine, { backgroundColor: tone }]} />
+    <View style={[styles.accountMark, active && styles.accountMarkActive]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      {active && avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.accountAvatar} /> : <>
+        <View style={styles.accountHead} />
+        <View style={styles.accountShoulders} />
+      </>}
     </View>
   );
 }
 
 function MenuHeaderAction({ active }: { active: boolean }) {
   const router = useRouter();
+  const { profile } = useAuth();
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="メニューを開く"
+      accessibilityLabel="設定を開く"
+      testID="settings-header-action"
       onPress={() => router.push('/settings')}
       style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}
     >
-      <MenuMark active={active} light />
+      <MenuMark active={active} avatarUrl={profile?.avatarUrl} />
     </Pressable>
   );
 }
@@ -291,13 +277,7 @@ function getDetail(pathname: string): DetailTarget | null {
   return null;
 }
 
-function DetailHeaderActions({
-  detail,
-  menuActive,
-}: {
-  detail: DetailTarget;
-  menuActive: boolean;
-}) {
+function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
   const showToast = useAppToast();
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const isSaved = detail.kind === 'card'
@@ -326,15 +306,20 @@ function DetailHeaderActions({
         onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
         style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
-        <SymbolView
+        {Platform.OS === 'web' ? (
+          <View testID="header-share-symbol" style={styles.shareMark} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+            <View style={styles.shareBasket} />
+            <View style={styles.shareStem} />
+            <View style={styles.shareArrow} />
+          </View>
+        ) : <SymbolView
           name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
           fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
           size={20}
           tintColor={colors.gold}
           weight="regular"
-        />
+        />}
       </Pressable>
-      <MenuHeaderAction active={menuActive} />
     </View>
   );
 }
@@ -657,30 +642,25 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   headerBack: {
-    minWidth: 68,
-    minHeight: 40,
-    paddingHorizontal: 9,
+    minWidth: 64,
+    minHeight: 44,
+    paddingHorizontal: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 4,
-    borderWidth: 1,
-    borderColor: colors.gold,
+    borderWidth: 0,
     borderRadius: radius.pill,
   },
   headerBackCompact: {
     minWidth: 52,
-    minHeight: 34,
-    paddingHorizontal: 7,
+    minHeight: 44,
+    paddingHorizontal: 0,
   },
-  headerBackLight: { borderWidth: 1, justifyContent: 'center' },
-  headerBackIcon: {
-    color: colors.gold,
-    fontSize: 27,
-    lineHeight: 28,
-    marginTop: -2,
-  },
-  headerBackIconCompact: { fontSize: 21, lineHeight: 22, marginTop: -1 },
+  headerBackLight: { borderWidth: 0, justifyContent: 'center' },
+  secondaryHeader: { minHeight: 64, paddingVertical: 10 },
+  headerBackCircle: { width: 40, height: 40, borderRadius: 20, borderWidth: StyleSheet.hairlineWidth, borderColor: '#DEDEDA', alignItems: 'center', justifyContent: 'center' },
+  headerBackArrow: { color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 34, lineHeight: 36, marginTop: -2 },
   headerBackText: {
     color: colors.ink,
     fontFamily: fonts.sans,
@@ -688,8 +668,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     fontWeight: '600',
   },
-  headerBackTextCompact: { fontSize: 10, lineHeight: 14 },
-  headerBackIconLight: { color: colors.gold },
+  headerBackTextCompact: { fontSize: 11, lineHeight: 16 },
   headerBackTextLight: { color: colors.ink },
   headerAppIcon: {
     width: 34,
@@ -720,10 +699,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   screenTitleLight: { color: colors.ink },
+  detailScreenTitleCompact: { fontSize: 15, lineHeight: 22, letterSpacing: 0.4 },
   personaScreenTitleCompact: { fontSize: 12, lineHeight: 15, letterSpacing: 0.2 },
-  screenSubtitle: { color: '#A77A25', fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
+  screenSubtitle: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1.1 },
   personaScreenSubtitleCompact: { fontSize: 9, lineHeight: 11, letterSpacing: 0.25 },
-  upgradeScreenTitle: { left: 96, right: 72 },
   upgradeScreenTitleText: { fontSize: 19, lineHeight: 27, letterSpacing: 0.6 },
   brandName: {
     color: colors.ink,
@@ -738,26 +717,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 3,
   },
-  detailActionFallback: { color: colors.gold, fontSize: 20, lineHeight: 22 },
-  detailActionSaved: { color: colors.gold },
+  detailActionFallback: { color: colors.goldDeep, fontSize: 20, lineHeight: 22 },
+  shareMark: { width: 20, height: 24 },
+  shareBasket: { position: 'absolute', left: 2, bottom: 1, width: 16, height: 12, borderWidth: 1.5, borderTopWidth: 0, borderColor: colors.gold, borderRadius: 2 },
+  shareStem: { position: 'absolute', left: 9.25, top: 2, width: 1.5, height: 14, backgroundColor: colors.gold },
+  shareArrow: { position: 'absolute', left: 6.5, top: 2, width: 7, height: 7, borderLeftWidth: 1.5, borderTopWidth: 1.5, borderColor: colors.gold, transform: [{ rotate: '45deg' }] },
+  detailActionSaved: { color: colors.goldDeep },
   headerAction: {
-    width: 40,
-    minHeight: 36,
+    width: 44,
+    minHeight: 44,
     borderRadius: radius.sm,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 2,
   },
-  homeMenuAction: { width: 38, height: 38, borderWidth: 1, borderColor: colors.gold, borderRadius: 19, alignItems: 'center', justifyContent: 'center' },
+  homeMenuAction: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  accountMark: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#ECECE9', overflow: 'hidden', alignItems: 'center' },
+  accountMarkActive: { backgroundColor: colors.paperDeep },
+  accountAvatar: { width: '100%', height: '100%' },
+  accountHead: { position: 'absolute', top: 5, width: 11, height: 11, borderRadius: 6, backgroundColor: '#A8A8A3' },
+  accountShoulders: { position: 'absolute', bottom: -3, width: 26, height: 16, borderTopLeftRadius: 14, borderTopRightRadius: 14, backgroundColor: '#A8A8A3' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',
     opacity: 0.72,
   },
-  accountMarkFallback: { color: colors.gold, fontSize: 31, lineHeight: 32 },
-  menuMark: { width: 25, height: 23, justifyContent: 'space-between', paddingVertical: 2 },
-  menuMarkActive: { opacity: 1 },
-  menuLine: { width: 25, height: 1.5, borderRadius: 2, alignSelf: 'center' },
   principleMark: {
     width: 25,
     height: 25,
@@ -1054,4 +1038,3 @@ const styles = StyleSheet.create({
   saveDiamondLabelSaved: { color: colors.goldLight },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });
-

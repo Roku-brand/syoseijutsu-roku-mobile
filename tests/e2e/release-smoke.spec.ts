@@ -250,7 +250,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
     await expect(header.getByText('生きる知恵を、日々の力に。', { exact: true })).toBeVisible();
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
-    await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+    await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
   }
   await page.getByTestId('book-header').getByRole('button', { name: '検索' }).click();
@@ -1139,8 +1139,8 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await page.goto('/learn');
   await page.getByRole('button', { name: 'ステージ1、人と、どう関わる？' }).click();
   const header = page.getByTestId('book-header');
-  await expect(header.getByRole('button', { name: '用語集を開く' })).toBeVisible();
-  await expect(header.getByRole('button', { name: 'メニューを開く' })).toBeVisible();
+  await expect(header.getByRole('button', { name: '用語集を開く' })).toHaveCount(0);
+  await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
   await expect(header.getByText('用語集', { exact: true })).toHaveCount(0);
   await expect(header.getByText('設定', { exact: true })).toHaveCount(0);
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();

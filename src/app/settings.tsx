@@ -3,7 +3,7 @@ import { UsageSharingSetting } from '@/components/usage-sharing-setting';
 import { useRouter, type Href } from 'expo-router';
 import { Alert, Linking, Platform, Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
-import { colors, fonts } from '@/constants/theme';
+import { colors, fonts, layout } from '@/constants/theme';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
@@ -119,25 +119,25 @@ function SettingLink({ title, detail, href, onPress, last = false, subdued = fal
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 660, alignSelf: 'center', paddingTop: 8, paddingBottom: 36 },
-  sectionTitle: { marginTop: 32, marginBottom: 10, color: colors.ink, fontSize: 19, lineHeight: 28, fontWeight: '700' },
-  sectionTitleSubdued: { color: '#5E5A53' },
-  group: { overflow: 'hidden', borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#D8C9B2', backgroundColor: 'rgba(255,253,248,0.56)' },
-  groupSubdued: { borderColor: '#E1D8CC', backgroundColor: 'rgba(248,244,236,0.48)' },
-  quietSection: { marginTop: 12, paddingTop: 10 },
-  row: { minHeight: 68, paddingVertical: 11, paddingLeft: 16, paddingRight: 13, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#E3D9CA' },
+  content: { width: '100%', maxWidth: 760, alignSelf: 'center', paddingHorizontal: 0, paddingTop: 0, paddingBottom: layout.bottomContentInset },
+  sectionTitle: { paddingHorizontal: 18, paddingVertical: 14, color: colors.ink, backgroundColor: '#F0F0ED', fontSize: 17, lineHeight: 26, fontWeight: '700' },
+  sectionTitleSubdued: { color: colors.inkSoft },
+  group: { overflow: 'hidden', paddingHorizontal: 18, backgroundColor: colors.surface },
+  groupSubdued: { backgroundColor: colors.surface },
+  quietSection: { marginTop: 0, paddingTop: 0 },
+  row: { minHeight: 64, paddingVertical: 16, paddingRight: 2, flexDirection: 'row', alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E5E5E3' },
   rowLast: { borderBottomWidth: 0 },
-  rowSubdued: { borderBottomColor: '#E9E2D8' },
-  rowDanger: { backgroundColor: '#F4EDE4', borderTopWidth: 1, borderTopColor: '#D8C1A8' },
+  rowSubdued: { borderBottomColor: '#E5E5E3' },
+  rowDanger: { backgroundColor: 'transparent' },
   copy: { flex: 1, minWidth: 0, paddingRight: 12 },
-  title: { color: colors.ink, fontSize: 15, lineHeight: 22, fontWeight: '600' },
-  titleSubdued: { color: '#4D4A44' },
-  titleDanger: { color: '#674840' },
-  detail: { marginTop: 2, color: '#69645C', fontSize: 12, lineHeight: 18 },
+  title: { color: colors.ink, fontSize: 16, lineHeight: 25, fontWeight: '400' },
+  titleSubdued: { color: colors.inkSoft },
+  titleDanger: { color: colors.danger },
+  detail: { marginTop: 4, color: colors.muted, fontSize: 12, lineHeight: 19 },
   detailDanger: { color: '#80665C' },
-  chevron: { width: 20, color: colors.gold, fontFamily: fonts.sans, fontSize: 27, lineHeight: 30, fontWeight: '300', textAlign: 'right' },
-  chevronSubdued: { color: '#A59479' },
-  chevronDanger: { color: '#98725B' },
+  chevron: { width: 20, color: '#A8A8A3', fontFamily: fonts.sans, fontSize: 30, lineHeight: 34, fontWeight: '300', textAlign: 'right' },
+  chevronSubdued: { color: '#A8A8A3' },
+  chevronDanger: { color: '#A8A8A3' },
   version: { marginTop: 32, color: '#938D84', fontSize: 12, lineHeight: 18, textAlign: 'center' },
-  pressed: { backgroundColor: '#F1EADC' },
+  pressed: { backgroundColor: '#F3F3EF' },
 });
