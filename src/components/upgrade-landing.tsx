@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { useState, type ReactNode } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, fonts, radius } from '@/constants/theme';
+import { colors, fonts } from '@/constants/theme';
 import { FREE_LEARNING_CASE_IDS, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { AppText } from '@/components/ui';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -102,7 +102,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
   const sectionSpace = desktop ? { paddingHorizontal: gutter } : undefined;
   const narrow = width < 360;
   const [expanded, setExpanded] = useState<number | null>(0);
-  const [barHeight, setBarHeight] = useState(100);
+  const [barHeight, setBarHeight] = useState(290);
   return <View style={styles.root} testID="upgrade-landing">
     <View testID={desktop ? 'upgrade-desktop-layout' : 'upgrade-mobile-layout'} style={[styles.frame, desktop && desktopStyles.frame]}>
       <View style={[styles.header, desktop && desktopStyles.header, desktop && sectionSpace]}>
@@ -162,17 +162,30 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
       </ScrollView>
 
       {/* Sibling of the scroll view: pinned to the viewport, never part of the LP. */}
-      <View testID="upgrade-fixed-purchase" onLayout={(event) => setBarHeight(event.nativeEvent.layout.height)} style={[styles.purchaseBar, desktop && desktopStyles.purchaseBar, desktop && { left: gutter, right: gutter }, { paddingBottom: Math.max(insets.bottom, desktop ? 10 : 4) }]}>
+      <View testID="upgrade-fixed-purchase" onLayout={(event) => setBarHeight(event.nativeEvent.layout.height)} style={[styles.purchaseBar, desktop && desktopStyles.purchaseBar, desktop && { left: gutter, right: gutter }, { paddingBottom: Math.max(insets.bottom, desktop ? 12 : 8) }]}>
+        <ScrollView testID="upgrade-purchase-scroll" style={styles.purchaseScroll} showsVerticalScrollIndicator={false}>
         {message ? <AppText accessibilityRole="alert" style={styles.statusMessage}>{message}</AppText> : null}
         {statusActions}
         <View style={[styles.purchaseRow, desktop && desktopStyles.purchaseRow]}>
-          <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}><AppText style={[styles.purchaseLabel, desktop && desktopStyles.purchaseLabel]}>{isPaid ? '完全版を利用中' : '完全版（30日間）'}</AppText>{!isPaid ? <AppText variant="serif" style={[styles.purchaseAmount, desktop && desktopStyles.purchaseAmount]}>{price}</AppText> : null}<AppText style={[styles.purchaseNote, desktop && desktopStyles.purchaseNote]}>{isPaid ? '知識の、その先へ。' : '一回払い・自動更新なし'}</AppText></View>
-          <View style={styles.purchaseDivider} />
+          <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}>
+            <View style={styles.purchasePriceHeading}>
+              <AppText style={styles.purchaseLabel}>{isPaid ? '完全版を利用中' : '完全版'}</AppText>
+              {!isPaid ? <AppText testID="upgrade-price" style={styles.purchaseAmount}>{price}</AppText> : null}
+            </View>
+            {!isPaid ? <AppText style={styles.purchaseDuration}>30日間利用できます</AppText> : null}
+            <AppText style={styles.purchaseNote}>{isPaid ? '知識の、その先へ。' : '一回払い・自動更新なし'}</AppText>
+          </View>
           {desktop ? <AppText style={desktopStyles.purchasePromise}>知識のつながりを、もっと広く。{'\n'}すべての人物像・処世術・理論・学習コンテンツへ。</AppText> : null}
-          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, desktop && desktopStyles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><View pointerEvents="none" style={styles.purchaseButtonHighlight} /><AppText variant="serif" style={[styles.purchaseButtonText, narrow && { fontSize: 12 }, desktop && desktopStyles.purchaseButtonText]}>{isPaid ? '完全版を開く' : purchaseLabel}</AppText><AppText style={styles.purchaseArrow}>→</AppText></Pressable>
+          <Pressable testID="upgrade-purchase-cta" accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={onPurchase} style={({ pressed }) => [styles.purchaseButton, desktop && desktopStyles.purchaseButton, disabled && styles.disabled, pressed && styles.pressed]}><AppText style={styles.purchaseButtonText}>{isPaid ? '完全版を開く' : purchaseLabel}</AppText></Pressable>
         </View>
-        <View style={styles.legalLinks}><Pressable accessibilityRole="link" onPress={onTerms} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>購入条件・返金について</AppText></Pressable><View style={styles.legalDot} /><Pressable accessibilityRole="link" onPress={onCommerce} style={styles.legalLink}><AppText style={[styles.legalText, desktop && desktopStyles.legalText]}>特定商取引法に基づく表記</AppText></Pressable>{onRestore && !isPaid ? <Pressable testID="upgrade-restore" accessibilityRole="button" disabled={disabled} onPress={onRestore} style={styles.legalLink}><AppText style={[styles.legalText, { textAlign: 'center' }]}>購入を復元する</AppText></Pressable> : null}</View>
-
+        <View style={[styles.purchaseUtilities, desktop && desktopStyles.purchaseUtilities]}>
+          {onRestore && !isPaid ? <Pressable testID="upgrade-restore" accessibilityRole="button" accessibilityState={{ disabled }} disabled={disabled} onPress={onRestore} style={({ pressed }) => [styles.restoreButton, desktop && desktopStyles.restoreButton, disabled && styles.disabled, pressed && styles.pressed]}><AppText style={styles.restoreText}>購入を復元する</AppText></Pressable> : null}
+          <View style={[styles.legalLinks, desktop && desktopStyles.legalLinks]}>
+            <Pressable testID="upgrade-terms" accessibilityRole="link" accessibilityLabel="購入条件・返金について" onPress={onTerms} style={({ pressed }) => [styles.legalLink, desktop && desktopStyles.legalLink, pressed && styles.pressed]}><AppText style={styles.legalText}>購入条件・返金について</AppText><Image source={svgSource('<path d="m9 5 7 7-7 7"/>', '#BDBEB9')} style={styles.legalChevron} accessibilityElementsHidden /></Pressable>
+            <Pressable testID="upgrade-commerce" accessibilityRole="link" accessibilityLabel="特定商取引法に基づく表記" onPress={onCommerce} style={({ pressed }) => [styles.legalLink, desktop && desktopStyles.legalLink, pressed && styles.pressed]}><AppText style={styles.legalText}>特定商取引法に基づく表記</AppText><Image source={svgSource('<path d="m9 5 7 7-7 7"/>', '#BDBEB9')} style={styles.legalChevron} accessibilityElementsHidden /></Pressable>
+          </View>
+        </View>
+        </ScrollView>
       </View>
     </View>
   </View>;
@@ -213,10 +226,12 @@ const styles = StyleSheet.create({
   faq: { paddingHorizontal: 22, paddingTop: 29, paddingBottom: 22, backgroundColor: '#FBF9F5' }, faqList: { marginTop: 15, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#DDDAD1' }, faqItem: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#DDDAD1' },
   faqQuestion: { minHeight: 53, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 10 }, questionMark: { width: 14, height: 14, borderWidth: 1, borderColor: '#35423E', borderRadius: 8, alignItems: 'center', justifyContent: 'center' }, questionMarkText: { fontSize: 10, lineHeight: 12, fontWeight: '600', color: '#35423E' }, faqQuestionText: { fontFamily: fonts.serif, flex: 1, fontSize: 12, lineHeight: 20, color: '#25332E', fontWeight: '600' }, chevron: { fontSize: 19, lineHeight: 22, color: '#35423E', paddingHorizontal: 3 }, chevronOpen: { transform: [{ rotate: '180deg' }] },
   faqAnswer: { paddingLeft: 24, paddingRight: 10, paddingBottom: 17 }, faqAnswerText: { fontFamily: fonts.serif, fontSize: 12, lineHeight: 22, color: '#67716A' }, faqUtility: { minHeight: 36, justifyContent: 'center', marginTop: 7 }, faqUtilityText: { fontSize: 11, lineHeight: 18, color: '#81642F', textDecorationLine: 'underline' },
-  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 16, paddingTop: 12, backgroundColor: colors.surfaceDark, borderTopLeftRadius: radius.md, borderTopRightRadius: radius.md, borderTopWidth: 1, borderTopColor: colors.gold },
-  purchaseRow: { flexDirection: 'row', alignItems: 'center', gap: 12 }, purchasePrice: { width: '38%' }, purchaseDivider: { width: 1, height: 44, backgroundColor: colors.goldDeep }, purchaseLabel: { fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, color: colors.goldSoft }, purchaseAmount: { fontFamily: fonts.serif, fontSize: 34, lineHeight: 42, color: colors.white }, purchaseNote: { fontSize: 10, lineHeight: 16, color: '#D7D3C8' },
-  purchaseButton: { flex: 1, minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.gold, flexDirection: 'row', gap: 7, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10 }, purchaseButtonHighlight: { display: 'none' }, purchaseButtonText: { fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, color: colors.white, fontWeight: '600' }, purchaseArrow: { color: colors.white, fontSize: 18, lineHeight: 22 },
-  legalLinks: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 10, marginTop: 3 }, legalLink: { minHeight: 32, justifyContent: 'center' }, legalText: { color: '#D3CBBB', fontSize: 10, lineHeight: 16 }, legalDot: { width: 1, height: 9, backgroundColor: '#627067' },
+  purchaseBar: { position: 'absolute', bottom: 0, left: 0, right: 0, maxHeight: '70%', paddingHorizontal: 21, paddingTop: 18, backgroundColor: '#1C1D1B', borderTopLeftRadius: 18, borderTopRightRadius: 18 },
+  purchaseScroll: { flexGrow: 0, flexShrink: 1 },
+  purchaseRow: { gap: 12 }, purchasePrice: { width: '100%' }, purchasePriceHeading: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }, purchaseLabel: { flexShrink: 1, fontSize: 18, lineHeight: 28, fontWeight: '700', color: '#F7F7F3' }, purchaseAmount: { fontSize: 30, lineHeight: 38, fontWeight: '600', color: '#F7F7F3', fontVariant: ['tabular-nums'] }, purchaseDuration: { fontSize: 14, lineHeight: 22, color: '#E6E6E0' }, purchaseNote: { fontSize: 12, lineHeight: 18, color: '#BDBEB9' },
+  purchaseButton: { width: '100%', minHeight: 48, borderRadius: 9, backgroundColor: '#B99352', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 }, purchaseButtonText: { fontSize: 16, lineHeight: 24, color: '#141612', fontWeight: '700', textAlign: 'center' },
+  purchaseUtilities: { marginTop: 4 }, restoreButton: { minHeight: 44, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, paddingVertical: 10 }, restoreText: { fontSize: 13, lineHeight: 20, color: '#E6E6E0' },
+  legalLinks: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#454640' }, legalLink: { minHeight: 44, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12, paddingVertical: 11, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#343630' }, legalText: { flexShrink: 1, color: '#D3D4CE', fontSize: 12, lineHeight: 20 }, legalChevron: { width: 16, height: 16, flexShrink: 0 },
   statusMessage: { fontSize: 11, lineHeight: 19, color: '#F2E8D1', paddingBottom: 9 }, pressed: { opacity: 0.76 }, disabled: { opacity: 0.5 },
 });
 
@@ -256,14 +271,13 @@ const desktopStyles = StyleSheet.create({
   faqQuestion: { minHeight: 62, gap: 14 },
   faqQuestionText: { fontSize: 15, lineHeight: 25 },
   faqAnswerText: { fontSize: 14, lineHeight: 26 },
-  purchaseBar: { bottom: 18, paddingHorizontal: 30, paddingTop: 14, borderRadius: 14, borderWidth: 1, borderColor: '#A78B50' },
-  purchaseRow: { gap: 28 },
-  purchasePrice: { width: 178, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'baseline', columnGap: 14 },
-  purchaseLabel: { width: '100%', fontSize: 11, lineHeight: 18 },
-  purchaseAmount: { fontSize: 38, lineHeight: 44 },
-  purchaseNote: { fontSize: 9, lineHeight: 14, width: '100%' },
+  purchaseBar: { bottom: 18, paddingHorizontal: 24, paddingTop: 16, borderRadius: 14 },
+  purchaseRow: { flexDirection: 'row', alignItems: 'center', gap: 28 },
+  purchasePrice: { width: 235 },
   purchasePromise: { flex: 1, color: '#E5DBC2', fontSize: 13, lineHeight: 24 },
-  purchaseButton: { flexGrow: 0, flexShrink: 0, flexBasis: 290, width: 290, minHeight: 56, borderRadius: 30 },
-  purchaseButtonText: { fontSize: 18, lineHeight: 27, letterSpacing: 0.5 },
-  legalText: { fontSize: 10, lineHeight: 16 },
+  purchaseButton: { flexShrink: 0, width: 290, minHeight: 52 },
+  purchaseUtilities: { flexDirection: 'row', alignItems: 'center', marginTop: 8, gap: 24, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#454640' },
+  restoreButton: { width: 235 },
+  legalLinks: { flex: 1, flexDirection: 'row', borderTopWidth: 0, gap: 24 },
+  legalLink: { flex: 1, borderBottomWidth: 0 },
 });

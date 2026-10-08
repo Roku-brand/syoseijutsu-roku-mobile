@@ -317,7 +317,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
   await expect(page.getByText('まずは処世術禄を体験', { exact: true })).toBeVisible();
   await expect(page.getByText(/完全版/).first()).toBeVisible();
-  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('完全版（30日間）');
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('30日間利用できます');
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -561,6 +561,38 @@ test('スマホの購入画面は初期表示から購入ボタンを押せる',
   await expect(page.getByTestId('upgrade-faq-1')).toHaveAttribute('aria-expanded', 'true');
   await expect(page.getByTestId('upgrade-faq-0')).toHaveAttribute('aria-expanded', 'false');
   await expect(page.getByText('されません。利用期間が終わった後に、自動で課金されることはありません。')).toBeVisible();
+});
+
+test('購入パネルは狭いスマホでも全操作が収まり、復元は購入用ログインに進まない', async ({ page }, testInfo) => {
+  for (const width of [320, 390, 480]) {
+    await page.setViewportSize({ width, height: 740 });
+    await page.goto('/upgrade');
+    const panel = page.getByTestId('upgrade-fixed-purchase');
+    await expect(panel.getByTestId('upgrade-price')).toHaveText('¥320');
+    await expect(panel).toContainText('30日間利用できます');
+    const panelBox = (await panel.boundingBox())!;
+    const buttonBox = (await page.getByTestId('upgrade-purchase-cta').boundingBox())!;
+    const priceBox = (await page.getByTestId('upgrade-price').boundingBox())!;
+    expect(priceBox.y + priceBox.height).toBeLessThan(buttonBox.y);
+    expect(buttonBox.width).toBeGreaterThan(panelBox.width * 0.8);
+    for (const id of ['upgrade-purchase-cta', 'upgrade-restore', 'upgrade-terms', 'upgrade-commerce']) {
+      const control = page.getByTestId(id);
+      await expect(control).toBeVisible();
+      const box = (await control.boundingBox())!;
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+      expect(box.y + box.height).toBeLessThanOrEqual(740);
+    }
+    expect(await panel.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`purchase-panel-${width}.png`) });
+  }
+  await page.getByTestId('upgrade-restore').click();
+  await expect(page).toHaveURL(/\/auth\?mode=signin$/);
+  await expect(page).not.toHaveURL(/intent=checkout/);
+  await page.goto('/upgrade');
+  await page.getByTestId('upgrade-commerce').click();
+  await expect(page).toHaveURL(/\/legal\/commerce$/);
 });
 
 test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }, testInfo) => {
