@@ -1,6 +1,6 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
@@ -36,6 +36,7 @@ export default function TheoryIndexScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
+  const desktopFilters = width >= 1000;
   const { isPaid, accessState, catalogRevision } = useAccess();
   const requestedCategory = params.category;
   const requestedPage = params.page;
@@ -51,6 +52,11 @@ export default function TheoryIndexScreen() {
     [category, visibleCatalog],
   );
   const subcategories = groupTheorySections(filtered);
+  const subcategoryOptions = [{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories];
+  const subcategoryRows = desktopFilters ? [subcategoryOptions] : [
+    subcategoryOptions.slice(0, Math.ceil(subcategoryOptions.length / 2)),
+    subcategoryOptions.slice(Math.ceil(subcategoryOptions.length / 2)),
+  ];
   const requestedSubcategory = resolveTheorySubcategoryId(params.subcategory);
   const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === requestedSubcategory) ? requestedSubcategory : undefined;
   const selectedTheories = subcategory ? filtered.filter(theory => theory.subcategoryId === subcategory) : filtered;
@@ -85,7 +91,12 @@ export default function TheoryIndexScreen() {
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
           <View style={styles.subcategoryOptions}>
-            {[{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories].map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}><AppText style={[styles.subcategoryText, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText><AppText style={[styles.subcategoryCount, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText></Pressable>)}
+            {subcategoryRows.map((row, index) => <View key={index} testID="theory-subcategory-row" style={styles.subcategoryRow}>
+              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
+                <AppText style={[styles.subcategoryText, !desktopFilters && styles.subcategoryTextMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText>
+                <AppText style={[styles.subcategoryCount, !desktopFilters && styles.subcategoryCountMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText>
+              </Pressable>)}
+            </View>)}
           </View>
         </View> : null}
       </View>
@@ -142,11 +153,15 @@ const styles = StyleSheet.create({
   filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   subcategoryFilters: { marginTop: spacing.md, gap: 8 },
   subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
-  subcategoryOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  subcategoryButton: { minWidth: 78, maxWidth: '100%', minHeight: 48, paddingHorizontal: spacing.sm, paddingVertical: spacing.sm, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
+  subcategoryOptions: { gap: 8 },
+  subcategoryRow: { flexDirection: 'row', gap: 4 },
+  subcategoryButton: { flexBasis: 0, flexShrink: 1, minWidth: 52, minHeight: 48, paddingHorizontal: 4, paddingVertical: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
+  subcategoryButtonMobile: { flexDirection: 'column', paddingVertical: 0, gap: 0 },
   subcategoryActive: { backgroundColor: colors.gold },
-  subcategoryText: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5 },
+  subcategoryText: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center', ...Platform.select({ web: { wordBreak: 'break-all' as const }, default: {} }) },
+  subcategoryTextMobile: { width: '100%', height: 34, fontSize: 12, lineHeight: 17 },
   subcategoryCount: { flexShrink: 0, color: colors.muted, fontSize: 11, lineHeight: 18 },
+  subcategoryCountMobile: { fontSize: 10, lineHeight: 12 },
   filterPressed: { opacity: 0.8 },
   subcategoryTextActive: { color: colors.surface, fontWeight: '700' },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
