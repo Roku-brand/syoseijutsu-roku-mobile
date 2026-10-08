@@ -22,7 +22,7 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="theme-color" content="#FFFDF8" />
         <meta name="application-name" content="処世術禄" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="処世術禄" />
         <link rel="canonical" href={`${siteUrl}/`} />
         <meta property="og:type" content="website" />
@@ -42,10 +42,9 @@ export default function Root({ children }: PropsWithChildren) {
         <ScrollViewStyleReset />
         <style>{`
           /*
-           * iOS PWA/Safari occasionally reports a shorter dynamic viewport than
-           * the physical display.  A height-only root then ends above the home
-           * indicator, leaving the page background under the bottom navigation.
-           * Anchor the application root to every physical viewport edge instead.
+           * Keep the shell within the available web viewport. With the opaque
+           * iOS status bar, part of screen.height belongs to the system UI;
+           * using the physical display height pushes navigation off-screen.
            */
           html {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
@@ -62,12 +61,14 @@ export default function Root({ children }: PropsWithChildren) {
             min-height: var(--roku-app-height, 100dvh) !important;
             background: #FFFDF8;
           }
-          /* A separate, short fixed top surface lets iOS sample a solid
-           * status-bar color instead of blurring the header below it. */
+          /* WebKit reads background-color from fixed boxes more than 10px deep.
+           * Clip an empty strip to text so it supplies the status-bar colour
+           * without painting over the first pixels of the application header. */
           #roku-status-bar-background {
             position: fixed; top: 0; left: 0; width: 100%;
-            height: max(6px, env(safe-area-inset-top, 0px));
-            background-color: #FFFDF8; z-index: 100000;
+            height: 11px;
+            background-color: #FFFDF8; z-index: 2147483647;
+            -webkit-background-clip: text; background-clip: text;
             pointer-events: none;
           }
           #roku-launch {
@@ -99,17 +100,13 @@ export default function Root({ children }: PropsWithChildren) {
             __html: `
               (() => {
                 /*
-                 * iOS standalone PWAs can expose a short visualViewport to
-                 * React Native Web even though the physical display is taller.
-                 * screen.height is stable in that mode.  Keep the native
-                 * root and its first React wrapper at the same physical height
-                 * so the navigation reaches the home-indicator safe area.
+                 * The opaque standalone status bar sits outside the page.
+                 * Follow the visible web viewport, including keyboard resize,
+                 * rather than expanding the shell into that system UI area.
                  */
                 const syncAppHeight = () => {
-                  const standalone = window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
                   const visualHeight = window.visualViewport?.height || window.innerHeight;
-                  const physicalHeight = standalone ? Math.max(visualHeight, window.screen?.height || 0) : visualHeight;
-                  document.documentElement.style.setProperty('--roku-app-height', physicalHeight + 'px');
+                  document.documentElement.style.setProperty('--roku-app-height', visualHeight + 'px');
                 };
                 syncAppHeight();
                 window.addEventListener('resize', syncAppHeight);
