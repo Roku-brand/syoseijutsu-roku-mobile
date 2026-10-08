@@ -14,7 +14,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 18,
+    "displayId": 1,
     "status": "locked"
   },
   {
@@ -26,7 +26,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 2,
-    "displayId": 243,
+    "displayId": 2,
     "aliases": [
       "ホーン効果",
       "horn effect",
@@ -62,7 +62,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 3,
-    "displayId": 146,
+    "displayId": 3,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_739"
@@ -96,7 +96,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 4,
-    "displayId": 150,
+    "displayId": 4,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_739"
@@ -141,7 +141,7 @@
       "kb_880",
       "kb_881"
     ],
-    "displayId": 35,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -166,7 +166,7 @@
       "kb_719",
       "kb_146"
     ],
-    "displayId": 317,
+    "displayId": 6,
     "status": "locked"
   },
   {
@@ -190,7 +190,7 @@
       "kb_596",
       "kb_203"
     ],
-    "displayId": 318,
+    "displayId": 7,
     "status": "locked"
   },
   {
@@ -202,7 +202,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 8,
-    "displayId": 65,
+    "displayId": 8,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -245,7 +245,7 @@
       "kb_858",
       "kb_875"
     ],
-    "displayId": 298,
+    "displayId": 9,
     "status": "locked"
   },
   {
@@ -269,7 +269,7 @@
       "kb_597",
       "kb_596"
     ],
-    "displayId": 312,
+    "displayId": 10,
     "status": "locked"
   },
   {
@@ -295,7 +295,7 @@
       "kb_561",
       "kb_834"
     ],
-    "displayId": 26,
+    "displayId": 11,
     "status": "locked"
   },
   {
@@ -313,7 +313,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 221,
+    "displayId": 12,
     "status": "locked"
   },
   {
@@ -325,7 +325,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 13,
-    "displayId": 227,
+    "displayId": 13,
     "aliases": [
       "努力正当化",
       "effort justification"
@@ -371,7 +371,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 7,
+    "displayId": 14,
     "status": "locked"
   },
   {
@@ -389,7 +389,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 13,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -407,7 +407,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 15,
+    "displayId": 16,
     "status": "locked"
   },
   {
@@ -431,7 +431,7 @@
       "kb_707",
       "kb_721"
     ],
-    "displayId": 22,
+    "displayId": 17,
     "status": "locked"
   },
   {
@@ -449,7 +449,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 44,
+    "displayId": 18,
     "status": "locked"
   },
   {
@@ -470,7 +470,7 @@
       "kb_836",
       "kb_887"
     ],
-    "displayId": 56,
+    "displayId": 19,
     "status": "locked"
   },
   {
@@ -497,7 +497,7 @@
       "kb_539",
       "kb_841"
     ],
-    "displayId": 84,
+    "displayId": 20,
     "status": "locked"
   },
   {
@@ -523,7 +523,7 @@
     "relatedTheoryIds": [
       "kb_733"
     ],
-    "displayId": 85,
+    "displayId": 21,
     "status": "locked"
   },
   {
@@ -543,7 +543,7 @@
     "relatedTheoryIds": [
       "kb_708"
     ],
-    "displayId": 91,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -555,7 +555,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 23,
-    "displayId": 93,
+    "displayId": 23,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -597,7 +597,7 @@
       "kb_886",
       "kb_905"
     ],
-    "displayId": 98,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -609,7 +609,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 25,
-    "displayId": 105,
+    "displayId": 25,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -647,7 +647,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 119,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -674,7 +674,7 @@
       "kb_727",
       "kb_814"
     ],
-    "displayId": 125,
+    "displayId": 27,
     "status": "locked"
   },
   {
@@ -701,7 +701,7 @@
       "kb_719",
       "kb_810"
     ],
-    "displayId": 126,
+    "displayId": 28,
     "status": "locked"
   },
   {
@@ -719,7 +719,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 138,
+    "displayId": 29,
     "status": "locked"
   },
   {
@@ -739,7 +739,7 @@
     "relatedTheoryIds": [
       "kb_898"
     ],
-    "displayId": 143,
+    "displayId": 30,
     "status": "locked"
   },
   {
@@ -751,7 +751,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 31,
-    "displayId": 148,
+    "displayId": 31,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -791,7 +791,7 @@
     "relatedTheoryIds": [
       "kb_740"
     ],
-    "displayId": 149,
+    "displayId": 32,
     "status": "locked"
   },
   {
@@ -820,7 +820,7 @@
       "kb_876",
       "kb_896"
     ],
-    "displayId": 151,
+    "displayId": 33,
     "status": "locked"
   },
   {
@@ -845,7 +845,7 @@
       "kb_718",
       "kb_004"
     ],
-    "displayId": 324,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -857,7 +857,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 35,
-    "displayId": 163,
+    "displayId": 35,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -900,7 +900,7 @@
     "relatedTheoryIds": [
       "kb_839"
     ],
-    "displayId": 166,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -925,7 +925,7 @@
       "kb_721",
       "kb_748"
     ],
-    "displayId": 175,
+    "displayId": 37,
     "status": "locked"
   },
   {
@@ -943,7 +943,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 180,
+    "displayId": 38,
     "status": "locked"
   },
   {
@@ -967,7 +967,7 @@
       "kb_719",
       "kb_812"
     ],
-    "displayId": 190,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -979,7 +979,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 40,
-    "displayId": 193,
+    "displayId": 40,
     "aliases": [
       "Dunning-Kruger effect",
       "ダニングクルーガー効果"
@@ -1032,7 +1032,7 @@
       "kb_813",
       "kb_818"
     ],
-    "displayId": 197,
+    "displayId": 41,
     "status": "locked"
   },
   {
@@ -1056,7 +1056,7 @@
       "kb_811",
       "kb_596"
     ],
-    "displayId": 202,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -1068,7 +1068,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 43,
-    "displayId": 210,
+    "displayId": 43,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -1113,7 +1113,7 @@
       "kb_067",
       "kb_814"
     ],
-    "displayId": 218,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -1137,7 +1137,7 @@
       "kb_707",
       "kb_708"
     ],
-    "displayId": 219,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -1155,7 +1155,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 222,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -1173,7 +1173,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 223,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -1198,7 +1198,7 @@
       "kb_414",
       "kb_877"
     ],
-    "displayId": 228,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -1218,7 +1218,7 @@
     "relatedTheoryIds": [
       "kb_878"
     ],
-    "displayId": 231,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -1242,7 +1242,7 @@
       "kb_819",
       "kb_137"
     ],
-    "displayId": 235,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -1267,7 +1267,7 @@
       "kb_722",
       "kb_586"
     ],
-    "displayId": 236,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -1293,7 +1293,7 @@
       "kb_811",
       "kb_880"
     ],
-    "displayId": 237,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -1311,7 +1311,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 239,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -1329,7 +1329,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 241,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -1347,7 +1347,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 242,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -1367,7 +1367,7 @@
     "relatedTheoryIds": [
       "kb_709"
     ],
-    "displayId": 244,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -1379,7 +1379,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 57,
-    "displayId": 247,
+    "displayId": 57,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -1417,7 +1417,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 255,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -1441,7 +1441,7 @@
       "kb_820",
       "kb_137"
     ],
-    "displayId": 261,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -1459,7 +1459,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 271,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -1483,7 +1483,7 @@
       "kb_190",
       "kb_710"
     ],
-    "displayId": 294,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -1508,7 +1508,7 @@
       "kb_714",
       "kb_717"
     ],
-    "displayId": 50,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -1532,7 +1532,7 @@
       "kb_715",
       "kb_449"
     ],
-    "displayId": 62,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -1544,7 +1544,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 64,
-    "displayId": 70,
+    "displayId": 64,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -1576,7 +1576,7 @@
     "subcategoryId": "psychology-c",
     "subcategoryTitle": "認知・判断",
     "sortOrder": 65,
-    "displayId": 23,
+    "displayId": 65,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_710",
@@ -1617,7 +1617,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 55,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -1643,7 +1643,7 @@
       "kb_886",
       "kb_905"
     ],
-    "displayId": 321,
+    "displayId": 67,
     "status": "locked"
   },
   {
@@ -1669,7 +1669,7 @@
       "kb_905",
       "kb_885"
     ],
-    "displayId": 322,
+    "displayId": 68,
     "status": "locked"
   },
   {
@@ -1695,7 +1695,7 @@
       "kb_886",
       "kb_885"
     ],
-    "displayId": 330,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -1713,7 +1713,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 70,
     "status": "locked"
   },
   {
@@ -1731,7 +1731,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 71,
     "status": "locked"
   },
   {
@@ -1749,7 +1749,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 19,
+    "displayId": 72,
     "status": "locked"
   },
   {
@@ -1761,7 +1761,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 8,
-    "displayId": 31,
+    "displayId": 73,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -1793,7 +1793,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 9,
-    "displayId": 263,
+    "displayId": 74,
     "aliases": [
       "flow theory",
       "flow state",
@@ -1835,7 +1835,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 52,
+    "displayId": 75,
     "status": "locked"
   },
   {
@@ -1853,7 +1853,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 289,
+    "displayId": 76,
     "status": "locked"
   },
   {
@@ -1865,7 +1865,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 12,
-    "displayId": 258,
+    "displayId": 77,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_758",
@@ -1906,7 +1906,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 153,
+    "displayId": 78,
     "status": "locked"
   },
   {
@@ -1924,7 +1924,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 226,
+    "displayId": 79,
     "status": "locked"
   },
   {
@@ -1942,7 +1942,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 278,
+    "displayId": 80,
     "status": "locked"
   },
   {
@@ -1954,7 +1954,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 16,
-    "displayId": 246,
+    "displayId": 81,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -1986,7 +1986,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 17,
-    "displayId": 238,
+    "displayId": 82,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_901"
@@ -2026,7 +2026,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 12,
+    "displayId": 83,
     "status": "locked"
   },
   {
@@ -2046,7 +2046,7 @@
     "relatedTheoryIds": [
       "kb_900"
     ],
-    "displayId": 27,
+    "displayId": 84,
     "status": "locked"
   },
   {
@@ -2064,7 +2064,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 38,
+    "displayId": 85,
     "status": "locked"
   },
   {
@@ -2082,7 +2082,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 54,
+    "displayId": 86,
     "status": "locked"
   },
   {
@@ -2100,7 +2100,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 81,
+    "displayId": 87,
     "status": "locked"
   },
   {
@@ -2118,7 +2118,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 100,
+    "displayId": 88,
     "status": "locked"
   },
   {
@@ -2136,7 +2136,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 160,
+    "displayId": 89,
     "status": "locked"
   },
   {
@@ -2158,7 +2158,7 @@
       "kb_886",
       "kb_905"
     ],
-    "displayId": 162,
+    "displayId": 90,
     "status": "locked"
   },
   {
@@ -2176,7 +2176,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 290,
+    "displayId": 91,
     "status": "locked"
   },
   {
@@ -2188,7 +2188,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 27,
-    "displayId": 300,
+    "displayId": 92,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -2226,7 +2226,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 6,
+    "displayId": 93,
     "status": "locked"
   },
   {
@@ -2244,7 +2244,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 90,
+    "displayId": 94,
     "status": "locked"
   },
   {
@@ -2270,7 +2270,7 @@
     "relatedTheoryIds": [
       "kb_825"
     ],
-    "displayId": 182,
+    "displayId": 95,
     "status": "locked"
   },
   {
@@ -2288,7 +2288,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 152,
+    "displayId": 96,
     "status": "locked"
   },
   {
@@ -2306,7 +2306,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 135,
+    "displayId": 97,
     "status": "locked"
   },
   {
@@ -2326,7 +2326,7 @@
     "relatedTheoryIds": [
       "kb_906"
     ],
-    "displayId": 16,
+    "displayId": 98,
     "status": "locked"
   },
   {
@@ -2344,7 +2344,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 17,
+    "displayId": 99,
     "status": "locked"
   },
   {
@@ -2362,7 +2362,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 25,
+    "displayId": 100,
     "status": "locked"
   },
   {
@@ -2380,7 +2380,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 29,
+    "displayId": 101,
     "status": "locked"
   },
   {
@@ -2400,7 +2400,7 @@
     "relatedTheoryIds": [
       "kb_882"
     ],
-    "displayId": 128,
+    "displayId": 102,
     "status": "locked"
   },
   {
@@ -2418,7 +2418,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 139,
+    "displayId": 103,
     "status": "locked"
   },
   {
@@ -2430,7 +2430,7 @@
     "subcategoryId": "psychology-e",
     "subcategoryTitle": "感情・ストレス",
     "sortOrder": 39,
-    "displayId": 273,
+    "displayId": 104,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -2470,7 +2470,7 @@
     "relatedTheoryIds": [
       "kb_901"
     ],
-    "displayId": 240,
+    "displayId": 105,
     "status": "locked"
   },
   {
@@ -2496,7 +2496,7 @@
       "kb_202",
       "kb_213"
     ],
-    "displayId": 326,
+    "displayId": 106,
     "status": "locked"
   },
   {
@@ -2514,7 +2514,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 161,
+    "displayId": 107,
     "status": "locked"
   },
   {
@@ -2532,7 +2532,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 303,
+    "displayId": 108,
     "status": "locked"
   },
   {
@@ -2550,7 +2550,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 8,
+    "displayId": 109,
     "status": "locked"
   },
   {
@@ -2568,7 +2568,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 58,
+    "displayId": 110,
     "status": "locked"
   },
   {
@@ -2586,7 +2586,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 77,
+    "displayId": 111,
     "status": "locked"
   },
   {
@@ -2604,7 +2604,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 177,
+    "displayId": 112,
     "status": "locked"
   },
   {
@@ -2622,7 +2622,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 192,
+    "displayId": 113,
     "status": "locked"
   },
   {
@@ -2642,7 +2642,7 @@
     "relatedTheoryIds": [
       "kb_725"
     ],
-    "displayId": 215,
+    "displayId": 114,
     "status": "locked"
   },
   {
@@ -2660,7 +2660,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 225,
+    "displayId": 115,
     "status": "locked"
   },
   {
@@ -2678,7 +2678,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 245,
+    "displayId": 116,
     "status": "locked"
   },
   {
@@ -2696,7 +2696,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 249,
+    "displayId": 117,
     "status": "locked"
   },
   {
@@ -2716,7 +2716,7 @@
     "relatedTheoryIds": [
       "kb_728"
     ],
-    "displayId": 269,
+    "displayId": 118,
     "status": "locked"
   },
   {
@@ -2734,7 +2734,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 283,
+    "displayId": 119,
     "status": "locked"
   },
   {
@@ -2754,7 +2754,7 @@
     "relatedTheoryIds": [
       "kb_901"
     ],
-    "displayId": 30,
+    "displayId": 120,
     "status": "locked"
   },
   {
@@ -2766,7 +2766,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 1,
-    "displayId": 40,
+    "displayId": 121,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_727",
@@ -2818,7 +2818,7 @@
       "kb_243",
       "kb_564"
     ],
-    "displayId": 331,
+    "displayId": 122,
     "status": "locked"
   },
   {
@@ -2838,7 +2838,7 @@
     "relatedTheoryIds": [
       "kb_806"
     ],
-    "displayId": 112,
+    "displayId": 123,
     "status": "locked"
   },
   {
@@ -2856,7 +2856,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 123,
+    "displayId": 124,
     "status": "locked"
   },
   {
@@ -2874,7 +2874,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 117,
+    "displayId": 125,
     "status": "locked"
   },
   {
@@ -2895,7 +2895,7 @@
       "kb_869",
       "kb_897"
     ],
-    "displayId": 120,
+    "displayId": 126,
     "status": "locked"
   },
   {
@@ -2919,7 +2919,7 @@
       "kb_420",
       "kb_111"
     ],
-    "displayId": 306,
+    "displayId": 127,
     "status": "locked"
   },
   {
@@ -2944,7 +2944,7 @@
       "kb_265",
       "kb_088"
     ],
-    "displayId": 320,
+    "displayId": 128,
     "status": "locked"
   },
   {
@@ -2956,7 +2956,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 9,
-    "displayId": 171,
+    "displayId": 129,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_706"
@@ -2996,7 +2996,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 102,
+    "displayId": 130,
     "status": "locked"
   },
   {
@@ -3008,7 +3008,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 11,
-    "displayId": 250,
+    "displayId": 131,
     "aliases": [
       "Big Five",
       "Five-Factor Model",
@@ -3066,7 +3066,7 @@
       "kb_724",
       "kb_817"
     ],
-    "displayId": 266,
+    "displayId": 132,
     "status": "locked"
   },
   {
@@ -3086,7 +3086,7 @@
     "relatedTheoryIds": [
       "kb_902"
     ],
-    "displayId": 2,
+    "displayId": 133,
     "status": "locked"
   },
   {
@@ -3104,7 +3104,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 3,
+    "displayId": 134,
     "status": "locked"
   },
   {
@@ -3124,7 +3124,7 @@
     "relatedTheoryIds": [
       "kb_902"
     ],
-    "displayId": 5,
+    "displayId": 135,
     "status": "locked"
   },
   {
@@ -3149,7 +3149,7 @@
       "kb_708",
       "kb_169"
     ],
-    "displayId": 20,
+    "displayId": 136,
     "status": "locked"
   },
   {
@@ -3161,7 +3161,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 17,
-    "displayId": 33,
+    "displayId": 137,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_725"
@@ -3201,7 +3201,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 43,
+    "displayId": 138,
     "status": "locked"
   },
   {
@@ -3219,7 +3219,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 45,
+    "displayId": 139,
     "status": "locked"
   },
   {
@@ -3237,7 +3237,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 66,
+    "displayId": 140,
     "status": "locked"
   },
   {
@@ -3255,7 +3255,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 113,
+    "displayId": 141,
     "status": "locked"
   },
   {
@@ -3273,7 +3273,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 118,
+    "displayId": 142,
     "status": "locked"
   },
   {
@@ -3291,7 +3291,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 121,
+    "displayId": 143,
     "status": "locked"
   },
   {
@@ -3309,7 +3309,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 122,
+    "displayId": 144,
     "status": "locked"
   },
   {
@@ -3327,7 +3327,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 124,
+    "displayId": 145,
     "status": "locked"
   },
   {
@@ -3339,7 +3339,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 26,
-    "displayId": 133,
+    "displayId": 146,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3377,7 +3377,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 174,
+    "displayId": 147,
     "status": "locked"
   },
   {
@@ -3389,7 +3389,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 28,
-    "displayId": 176,
+    "displayId": 148,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3433,7 +3433,7 @@
       "kb_237",
       "kb_169"
     ],
-    "displayId": 178,
+    "displayId": 149,
     "status": "locked"
   },
   {
@@ -3458,7 +3458,7 @@
       "kb_816",
       "kb_882"
     ],
-    "displayId": 186,
+    "displayId": 150,
     "status": "locked"
   },
   {
@@ -3476,7 +3476,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 187,
+    "displayId": 151,
     "status": "locked"
   },
   {
@@ -3504,7 +3504,7 @@
       "kb_239",
       "kb_230"
     ],
-    "displayId": 207,
+    "displayId": 152,
     "status": "locked"
   },
   {
@@ -3529,7 +3529,7 @@
       "kb_815",
       "kb_058"
     ],
-    "displayId": 319,
+    "displayId": 153,
     "status": "locked"
   },
   {
@@ -3550,7 +3550,7 @@
       "kb_805",
       "kb_902"
     ],
-    "displayId": 213,
+    "displayId": 154,
     "status": "locked"
   },
   {
@@ -3568,7 +3568,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 270,
+    "displayId": 155,
     "status": "locked"
   },
   {
@@ -3586,7 +3586,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 285,
+    "displayId": 156,
     "status": "locked"
   },
   {
@@ -3604,7 +3604,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 296,
+    "displayId": 157,
     "status": "locked"
   },
   {
@@ -3616,7 +3616,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 38,
-    "displayId": 89,
+    "displayId": 158,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_869"
@@ -3656,7 +3656,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 169,
+    "displayId": 159,
     "status": "locked"
   },
   {
@@ -3674,7 +3674,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 170,
+    "displayId": 160,
     "status": "locked"
   },
   {
@@ -3692,7 +3692,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 264,
+    "displayId": 161,
     "status": "locked"
   },
   {
@@ -3710,7 +3710,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 281,
+    "displayId": 162,
     "status": "locked"
   },
   {
@@ -3722,7 +3722,7 @@
     "subcategoryId": "psychology-s",
     "subcategoryTitle": "自己理解・成長",
     "sortOrder": 43,
-    "displayId": 157,
+    "displayId": 163,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3760,7 +3760,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 34,
+    "displayId": 164,
     "status": "locked"
   },
   {
@@ -3785,7 +3785,7 @@
       "kb_589",
       "kb_251"
     ],
-    "displayId": 327,
+    "displayId": 165,
     "status": "locked"
   },
   {
@@ -3810,7 +3810,7 @@
       "kb_493",
       "kb_904"
     ],
-    "displayId": 328,
+    "displayId": 166,
     "status": "locked"
   },
   {
@@ -3836,7 +3836,7 @@
       "kb_828",
       "kb_903"
     ],
-    "displayId": 329,
+    "displayId": 167,
     "status": "locked"
   },
   {
@@ -3848,7 +3848,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 1,
-    "displayId": 1,
+    "displayId": 168,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3891,7 +3891,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 131,
+    "displayId": 169,
     "status": "locked"
   },
   {
@@ -3903,7 +3903,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 3,
-    "displayId": 111,
+    "displayId": 170,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3941,7 +3941,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 129,
+    "displayId": 171,
     "status": "locked"
   },
   {
@@ -3959,7 +3959,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 96,
+    "displayId": 172,
     "status": "locked"
   },
   {
@@ -3979,7 +3979,7 @@
     "relatedTheoryIds": [
       "kb_822"
     ],
-    "displayId": 181,
+    "displayId": 173,
     "status": "locked"
   },
   {
@@ -3997,7 +3997,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 206,
+    "displayId": 174,
     "status": "locked"
   },
   {
@@ -4021,7 +4021,7 @@
       "kb_765",
       "kb_033"
     ],
-    "displayId": 301,
+    "displayId": 175,
     "status": "locked"
   },
   {
@@ -4033,7 +4033,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 9,
-    "displayId": 195,
+    "displayId": 176,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_718",
@@ -4077,7 +4077,7 @@
     "relatedTheoryIds": [
       "kb_823"
     ],
-    "displayId": 299,
+    "displayId": 177,
     "status": "locked"
   },
   {
@@ -4089,7 +4089,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 11,
-    "displayId": 92,
+    "displayId": 178,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4121,7 +4121,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 12,
-    "displayId": 268,
+    "displayId": 179,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4159,7 +4159,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 24,
+    "displayId": 180,
     "status": "locked"
   },
   {
@@ -4171,7 +4171,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 14,
-    "displayId": 39,
+    "displayId": 181,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4209,7 +4209,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 42,
+    "displayId": 182,
     "status": "locked"
   },
   {
@@ -4221,7 +4221,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 16,
-    "displayId": 46,
+    "displayId": 183,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4259,7 +4259,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 47,
+    "displayId": 184,
     "status": "locked"
   },
   {
@@ -4277,7 +4277,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 48,
+    "displayId": 185,
     "status": "locked"
   },
   {
@@ -4295,7 +4295,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 49,
+    "displayId": 186,
     "status": "locked"
   },
   {
@@ -4313,7 +4313,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 60,
+    "displayId": 187,
     "status": "locked"
   },
   {
@@ -4331,7 +4331,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 61,
+    "displayId": 188,
     "status": "locked"
   },
   {
@@ -4349,7 +4349,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 189,
     "status": "locked"
   },
   {
@@ -4361,7 +4361,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 23,
-    "displayId": 68,
+    "displayId": 190,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4398,7 +4398,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 73,
+    "displayId": 191,
     "status": "locked"
   },
   {
@@ -4422,7 +4422,7 @@
       "kb_815",
       "kb_730"
     ],
-    "displayId": 75,
+    "displayId": 192,
     "status": "locked"
   },
   {
@@ -4448,7 +4448,7 @@
       "kb_730",
       "kb_823"
     ],
-    "displayId": 76,
+    "displayId": 193,
     "status": "locked"
   },
   {
@@ -4466,7 +4466,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 83,
+    "displayId": 194,
     "status": "locked"
   },
   {
@@ -4484,7 +4484,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 87,
+    "displayId": 195,
     "status": "locked"
   },
   {
@@ -4502,7 +4502,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 95,
+    "displayId": 196,
     "status": "locked"
   },
   {
@@ -4527,7 +4527,7 @@
       "kb_789",
       "kb_721"
     ],
-    "displayId": 99,
+    "displayId": 197,
     "status": "locked"
   },
   {
@@ -4539,7 +4539,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 31,
-    "displayId": 101,
+    "displayId": 198,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4576,7 +4576,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 103,
+    "displayId": 199,
     "status": "locked"
   },
   {
@@ -4594,7 +4594,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 106,
+    "displayId": 200,
     "status": "locked"
   },
   {
@@ -4612,7 +4612,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 107,
+    "displayId": 201,
     "status": "locked"
   },
   {
@@ -4630,7 +4630,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 108,
+    "displayId": 202,
     "status": "locked"
   },
   {
@@ -4648,7 +4648,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 127,
+    "displayId": 203,
     "status": "locked"
   },
   {
@@ -4669,7 +4669,7 @@
       "kb_824",
       "kb_906"
     ],
-    "displayId": 130,
+    "displayId": 204,
     "status": "locked"
   },
   {
@@ -4693,7 +4693,7 @@
       "kb_730",
       "kb_564"
     ],
-    "displayId": 134,
+    "displayId": 205,
     "status": "locked"
   },
   {
@@ -4711,7 +4711,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 144,
+    "displayId": 206,
     "status": "locked"
   },
   {
@@ -4741,7 +4741,7 @@
       "kb_821",
       "kb_899"
     ],
-    "displayId": 145,
+    "displayId": 207,
     "status": "locked"
   },
   {
@@ -4759,7 +4759,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 154,
+    "displayId": 208,
     "status": "locked"
   },
   {
@@ -4777,7 +4777,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 155,
+    "displayId": 209,
     "status": "locked"
   },
   {
@@ -4795,7 +4795,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 156,
+    "displayId": 210,
     "status": "locked"
   },
   {
@@ -4807,7 +4807,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 44,
-    "displayId": 158,
+    "displayId": 211,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_787",
@@ -4851,7 +4851,7 @@
       "kb_050",
       "kb_400"
     ],
-    "displayId": 325,
+    "displayId": 212,
     "status": "locked"
   },
   {
@@ -4869,7 +4869,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 165,
+    "displayId": 213,
     "status": "locked"
   },
   {
@@ -4893,7 +4893,7 @@
       "相対的剝奪"
     ],
     "relatedTheoryIds": [],
-    "displayId": 183,
+    "displayId": 214,
     "status": "locked"
   },
   {
@@ -4911,7 +4911,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 185,
+    "displayId": 215,
     "status": "locked"
   },
   {
@@ -4935,7 +4935,7 @@
       "kb_726",
       "kb_724"
     ],
-    "displayId": 188,
+    "displayId": 216,
     "status": "locked"
   },
   {
@@ -4953,7 +4953,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 189,
+    "displayId": 217,
     "status": "locked"
   },
   {
@@ -4971,7 +4971,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 191,
+    "displayId": 218,
     "status": "locked"
   },
   {
@@ -4983,7 +4983,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 52,
-    "displayId": 194,
+    "displayId": 219,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5021,7 +5021,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 196,
+    "displayId": 220,
     "status": "locked"
   },
   {
@@ -5033,7 +5033,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 54,
-    "displayId": 200,
+    "displayId": 221,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_885"
@@ -5067,7 +5067,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 55,
-    "displayId": 212,
+    "displayId": 222,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5105,7 +5105,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 232,
+    "displayId": 223,
     "status": "locked"
   },
   {
@@ -5123,7 +5123,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 253,
+    "displayId": 224,
     "status": "locked"
   },
   {
@@ -5141,7 +5141,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 254,
+    "displayId": 225,
     "status": "locked"
   },
   {
@@ -5159,7 +5159,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 257,
+    "displayId": 226,
     "status": "locked"
   },
   {
@@ -5177,7 +5177,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 260,
+    "displayId": 227,
     "status": "locked"
   },
   {
@@ -5189,7 +5189,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 61,
-    "displayId": 262,
+    "displayId": 228,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5221,7 +5221,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 62,
-    "displayId": 267,
+    "displayId": 229,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5265,7 +5265,7 @@
       "kb_821",
       "kb_005"
     ],
-    "displayId": 274,
+    "displayId": 230,
     "status": "locked"
   },
   {
@@ -5283,7 +5283,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 275,
+    "displayId": 231,
     "status": "locked"
   },
   {
@@ -5295,7 +5295,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 65,
-    "displayId": 276,
+    "displayId": 232,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5333,7 +5333,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 287,
+    "displayId": 233,
     "status": "locked"
   },
   {
@@ -5351,7 +5351,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 288,
+    "displayId": 234,
     "status": "locked"
   },
   {
@@ -5369,7 +5369,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 291,
+    "displayId": 235,
     "status": "locked"
   },
   {
@@ -5387,7 +5387,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 293,
+    "displayId": 236,
     "status": "locked"
   },
   {
@@ -5405,7 +5405,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 295,
+    "displayId": 237,
     "status": "locked"
   },
   {
@@ -5423,7 +5423,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 109,
+    "displayId": 238,
     "status": "locked"
   },
   {
@@ -5441,7 +5441,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 115,
+    "displayId": 239,
     "status": "locked"
   },
   {
@@ -5459,7 +5459,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 116,
+    "displayId": 240,
     "status": "locked"
   },
   {
@@ -5477,7 +5477,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 252,
+    "displayId": 241,
     "status": "locked"
   },
   {
@@ -5495,7 +5495,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 304,
+    "displayId": 242,
     "status": "locked"
   },
   {
@@ -5515,7 +5515,7 @@
     "relatedTheoryIds": [
       "kb_789"
     ],
-    "displayId": 10,
+    "displayId": 243,
     "status": "locked"
   },
   {
@@ -5533,7 +5533,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 72,
+    "displayId": 244,
     "status": "locked"
   },
   {
@@ -5545,7 +5545,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 78,
-    "displayId": 11,
+    "displayId": 245,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5583,7 +5583,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 203,
+    "displayId": 246,
     "status": "locked"
   },
   {
@@ -5595,7 +5595,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 80,
-    "displayId": 251,
+    "displayId": 247,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5639,7 +5639,7 @@
       "能動的・建設的反応"
     ],
     "relatedTheoryIds": [],
-    "displayId": 9,
+    "displayId": 248,
     "status": "locked"
   },
   {
@@ -5657,7 +5657,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 53,
+    "displayId": 249,
     "status": "locked"
   },
   {
@@ -5675,7 +5675,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 67,
+    "displayId": 250,
     "status": "locked"
   },
   {
@@ -5693,7 +5693,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 80,
+    "displayId": 251,
     "status": "locked"
   },
   {
@@ -5711,7 +5711,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 136,
+    "displayId": 252,
     "status": "locked"
   },
   {
@@ -5729,7 +5729,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 201,
+    "displayId": 253,
     "status": "locked"
   },
   {
@@ -5741,7 +5741,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 87,
-    "displayId": 69,
+    "displayId": 254,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5773,7 +5773,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 88,
-    "displayId": 71,
+    "displayId": 255,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5805,7 +5805,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 89,
-    "displayId": 78,
+    "displayId": 256,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5845,7 +5845,7 @@
     "relatedTheoryIds": [
       "kb_871"
     ],
-    "displayId": 248,
+    "displayId": 257,
     "status": "locked"
   },
   {
@@ -5868,7 +5868,7 @@
     "relatedTheoryIds": [
       "kb_388"
     ],
-    "displayId": 308,
+    "displayId": 258,
     "status": "locked"
   },
   {
@@ -5893,7 +5893,7 @@
       "kb_789",
       "kb_860"
     ],
-    "displayId": 79,
+    "displayId": 259,
     "status": "locked"
   },
   {
@@ -5920,7 +5920,7 @@
       "kb_818",
       "kb_859"
     ],
-    "displayId": 74,
+    "displayId": 260,
     "status": "locked"
   },
   {
@@ -5944,7 +5944,7 @@
     "relatedTheoryIds": [
       "kb_860"
     ],
-    "displayId": 104,
+    "displayId": 261,
     "status": "locked"
   },
   {
@@ -5969,7 +5969,7 @@
       "kb_859",
       "kb_788"
     ],
-    "displayId": 272,
+    "displayId": 262,
     "status": "locked"
   },
   {
@@ -5987,7 +5987,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 280,
+    "displayId": 263,
     "status": "locked"
   },
   {
@@ -6015,7 +6015,7 @@
       "kb_786",
       "kb_856"
     ],
-    "displayId": 168,
+    "displayId": 264,
     "status": "locked"
   },
   {
@@ -6033,7 +6033,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 265,
     "status": "locked"
   },
   {
@@ -6058,7 +6058,7 @@
       "kb_138",
       "kb_050"
     ],
-    "displayId": 132,
+    "displayId": 266,
     "status": "locked"
   },
   {
@@ -6082,7 +6082,7 @@
       "kb_461",
       "kb_718"
     ],
-    "displayId": 164,
+    "displayId": 267,
     "status": "locked"
   },
   {
@@ -6106,7 +6106,7 @@
       "kb_265",
       "kb_784"
     ],
-    "displayId": 172,
+    "displayId": 268,
     "status": "locked"
   },
   {
@@ -6130,7 +6130,7 @@
       "kb_784",
       "kb_718"
     ],
-    "displayId": 214,
+    "displayId": 269,
     "status": "locked"
   },
   {
@@ -6154,7 +6154,7 @@
       "kb_781",
       "kb_783"
     ],
-    "displayId": 220,
+    "displayId": 270,
     "status": "locked"
   },
   {
@@ -6166,7 +6166,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 104,
-    "displayId": 279,
+    "displayId": 271,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6212,7 +6212,7 @@
       "kb_785",
       "kb_857"
     ],
-    "displayId": 179,
+    "displayId": 272,
     "status": "locked"
   },
   {
@@ -6239,7 +6239,7 @@
       "kb_784",
       "kb_461"
     ],
-    "displayId": 21,
+    "displayId": 273,
     "status": "locked"
   },
   {
@@ -6251,7 +6251,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 1,
-    "displayId": 173,
+    "displayId": 274,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_732",
@@ -6292,7 +6292,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 140,
+    "displayId": 275,
     "status": "locked"
   },
   {
@@ -6310,7 +6310,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 137,
+    "displayId": 276,
     "status": "locked"
   },
   {
@@ -6322,7 +6322,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 4,
-    "displayId": 233,
+    "displayId": 277,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6360,7 +6360,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 199,
+    "displayId": 278,
     "status": "locked"
   },
   {
@@ -6372,7 +6372,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 6,
-    "displayId": 216,
+    "displayId": 279,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_888"
@@ -6419,7 +6419,7 @@
       "kb_072",
       "kb_073"
     ],
-    "displayId": 323,
+    "displayId": 280,
     "status": "locked"
   },
   {
@@ -6439,7 +6439,7 @@
     "relatedTheoryIds": [
       "kb_734"
     ],
-    "displayId": 94,
+    "displayId": 281,
     "status": "locked"
   },
   {
@@ -6464,7 +6464,7 @@
       "kb_459",
       "kb_067"
     ],
-    "displayId": 184,
+    "displayId": 282,
     "status": "locked"
   },
   {
@@ -6476,7 +6476,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 10,
-    "displayId": 41,
+    "displayId": 283,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_729"
@@ -6510,7 +6510,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 11,
-    "displayId": 282,
+    "displayId": 284,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_888"
@@ -6550,7 +6550,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 14,
+    "displayId": 285,
     "status": "locked"
   },
   {
@@ -6575,7 +6575,7 @@
       "kb_452",
       "kb_073"
     ],
-    "displayId": 86,
+    "displayId": 286,
     "status": "locked"
   },
   {
@@ -6599,7 +6599,7 @@
       "kb_074",
       "kb_123"
     ],
-    "displayId": 159,
+    "displayId": 287,
     "status": "locked"
   },
   {
@@ -6620,7 +6620,7 @@
       "kb_729",
       "kb_782"
     ],
-    "displayId": 51,
+    "displayId": 288,
     "status": "locked"
   },
   {
@@ -6645,7 +6645,7 @@
       "kb_106",
       "kb_852"
     ],
-    "displayId": 88,
+    "displayId": 289,
     "status": "locked"
   },
   {
@@ -6663,7 +6663,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 97,
+    "displayId": 290,
     "status": "locked"
   },
   {
@@ -6681,7 +6681,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 110,
+    "displayId": 291,
     "status": "locked"
   },
   {
@@ -6699,7 +6699,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 141,
+    "displayId": 292,
     "status": "locked"
   },
   {
@@ -6711,7 +6711,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 20,
-    "displayId": 205,
+    "displayId": 293,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_707",
@@ -6758,7 +6758,7 @@
       "kb_058",
       "kb_073"
     ],
-    "displayId": 208,
+    "displayId": 294,
     "status": "locked"
   },
   {
@@ -6770,7 +6770,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 22,
-    "displayId": 209,
+    "displayId": 295,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6808,7 +6808,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 211,
+    "displayId": 296,
     "status": "locked"
   },
   {
@@ -6826,7 +6826,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 224,
+    "displayId": 297,
     "status": "locked"
   },
   {
@@ -6844,7 +6844,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 230,
+    "displayId": 298,
     "status": "locked"
   },
   {
@@ -6864,7 +6864,7 @@
     "relatedTheoryIds": [
       "kb_730"
     ],
-    "displayId": 234,
+    "displayId": 299,
     "status": "locked"
   },
   {
@@ -6876,7 +6876,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 27,
-    "displayId": 277,
+    "displayId": 300,
     "aliases": [
       "bandwagon effect",
       "バンドワゴン・エフェクト"
@@ -6914,7 +6914,7 @@
     "subcategoryId": "psychology-v",
     "subcategoryTitle": "集団心理・社会的影響",
     "sortOrder": 28,
-    "displayId": 284,
+    "displayId": 301,
     "aliases": [
       "Hawthorne effect",
       "ホーソン実験"
@@ -6947,7 +6947,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 1,
-    "displayId": 37,
+    "displayId": 302,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_870",
@@ -6995,7 +6995,7 @@
       "kb_493",
       "kb_017"
     ],
-    "displayId": 307,
+    "displayId": 303,
     "status": "locked"
   },
   {
@@ -7021,7 +7021,7 @@
       "kb_873",
       "kb_874"
     ],
-    "displayId": 309,
+    "displayId": 304,
     "status": "locked"
   },
   {
@@ -7046,7 +7046,7 @@
       "kb_745",
       "kb_872"
     ],
-    "displayId": 310,
+    "displayId": 305,
     "status": "locked"
   },
   {
@@ -7071,7 +7071,7 @@
       "kb_745",
       "kb_872"
     ],
-    "displayId": 311,
+    "displayId": 306,
     "status": "locked"
   },
   {
@@ -7099,7 +7099,7 @@
       "kb_874",
       "kb_903"
     ],
-    "displayId": 305,
+    "displayId": 307,
     "status": "locked"
   },
   {
@@ -7111,7 +7111,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 7,
-    "displayId": 4,
+    "displayId": 308,
     "aliases": [
       "Ebbinghaus forgetting curve",
       "忘却曲線"
@@ -7157,7 +7157,7 @@
       "kb_199",
       "kb_738"
     ],
-    "displayId": 316,
+    "displayId": 309,
     "status": "locked"
   },
   {
@@ -7182,7 +7182,7 @@
       "kb_002",
       "kb_740"
     ],
-    "displayId": 82,
+    "displayId": 310,
     "status": "locked"
   },
   {
@@ -7207,7 +7207,7 @@
       "kb_748",
       "kb_830"
     ],
-    "displayId": 147,
+    "displayId": 311,
     "status": "locked"
   },
   {
@@ -7233,7 +7233,7 @@
       "kb_827",
       "kb_830"
     ],
-    "displayId": 259,
+    "displayId": 312,
     "status": "locked"
   },
   {
@@ -7307,7 +7307,7 @@
       "kb_743",
       "kb_827"
     ],
-    "displayId": 265,
+    "displayId": 315,
     "status": "locked"
   },
   {
@@ -7332,7 +7332,7 @@
       "kb_826",
       "kb_878"
     ],
-    "displayId": 142,
+    "displayId": 316,
     "status": "locked"
   },
   {
@@ -7356,7 +7356,7 @@
       "kb_827",
       "kb_511"
     ],
-    "displayId": 315,
+    "displayId": 317,
     "status": "locked"
   },
   {
@@ -7380,7 +7380,7 @@
       "kb_743",
       "kb_493"
     ],
-    "displayId": 217,
+    "displayId": 318,
     "status": "locked"
   },
   {
@@ -7405,7 +7405,7 @@
       "kb_745",
       "kb_825"
     ],
-    "displayId": 198,
+    "displayId": 319,
     "status": "locked"
   },
   {
@@ -7423,7 +7423,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 28,
+    "displayId": 320,
     "status": "locked"
   },
   {
@@ -7449,7 +7449,7 @@
       "kb_876",
       "kb_877"
     ],
-    "displayId": 59,
+    "displayId": 321,
     "status": "locked"
   },
   {
@@ -7467,7 +7467,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 114,
+    "displayId": 322,
     "status": "locked"
   },
   {
@@ -7492,7 +7492,7 @@
       "kb_748",
       "kb_828"
     ],
-    "displayId": 167,
+    "displayId": 323,
     "status": "locked"
   },
   {
@@ -7516,7 +7516,7 @@
       "kb_744",
       "kb_743"
     ],
-    "displayId": 204,
+    "displayId": 324,
     "status": "locked"
   },
   {
@@ -7542,7 +7542,7 @@
       "kb_872",
       "kb_903"
     ],
-    "displayId": 229,
+    "displayId": 325,
     "status": "locked"
   },
   {
@@ -7567,7 +7567,7 @@
       "kb_550",
       "kb_739"
     ],
-    "displayId": 256,
+    "displayId": 326,
     "status": "locked"
   },
   {
@@ -7593,7 +7593,7 @@
       "kb_199",
       "kb_896"
     ],
-    "displayId": 297,
+    "displayId": 327,
     "status": "locked"
   },
   {
@@ -7613,7 +7613,7 @@
     "relatedTheoryIds": [
       "kb_858"
     ],
-    "displayId": 302,
+    "displayId": 328,
     "status": "locked"
   },
   {
@@ -7631,7 +7631,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 64,
+    "displayId": 329,
     "status": "locked"
   },
   {
@@ -7655,7 +7655,7 @@
       "kb_277",
       "kb_191"
     ],
-    "displayId": 83,
+    "displayId": 1,
     "status": "locked"
   },
   {
@@ -7682,7 +7682,7 @@
       "kb_758",
       "kb_835"
     ],
-    "displayId": 23,
+    "displayId": 2,
     "status": "locked"
   },
   {
@@ -7706,7 +7706,7 @@
     "relatedTheoryIds": [
       "kb_756"
     ],
-    "displayId": 24,
+    "displayId": 3,
     "status": "locked"
   },
   {
@@ -7718,7 +7718,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 4,
-    "displayId": 91,
+    "displayId": 4,
     "aliases": [
       "反射効果",
       "reflection effect"
@@ -7768,7 +7768,7 @@
       "kb_430",
       "kb_825"
     ],
-    "displayId": 110,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -7780,7 +7780,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 6,
-    "displayId": 71,
+    "displayId": 6,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7812,7 +7812,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 7,
-    "displayId": 41,
+    "displayId": 7,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_757",
@@ -7861,7 +7861,7 @@
       "kb_265",
       "kb_286"
     ],
-    "displayId": 111,
+    "displayId": 8,
     "status": "locked"
   },
   {
@@ -7873,7 +7873,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 9,
-    "displayId": 30,
+    "displayId": 9,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_751",
@@ -7916,7 +7916,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 69,
+    "displayId": 10,
     "status": "locked"
   },
   {
@@ -7934,7 +7934,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 39,
+    "displayId": 11,
     "status": "locked"
   },
   {
@@ -7954,7 +7954,7 @@
     "relatedTheoryIds": [
       "kb_754"
     ],
-    "displayId": 52,
+    "displayId": 12,
     "status": "locked"
   },
   {
@@ -7979,7 +7979,7 @@
       "kb_175",
       "kb_834"
     ],
-    "displayId": 74,
+    "displayId": 13,
     "status": "locked"
   },
   {
@@ -8004,7 +8004,7 @@
       "kb_756",
       "kb_203"
     ],
-    "displayId": 2,
+    "displayId": 14,
     "status": "locked"
   },
   {
@@ -8028,7 +8028,7 @@
       "kb_756",
       "kb_759"
     ],
-    "displayId": 3,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -8040,7 +8040,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 16,
-    "displayId": 7,
+    "displayId": 16,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_754"
@@ -8087,7 +8087,7 @@
       "kb_809",
       "kb_843"
     ],
-    "displayId": 14,
+    "displayId": 17,
     "status": "locked"
   },
   {
@@ -8132,7 +8132,7 @@
       "kb_175",
       "kb_493"
     ],
-    "displayId": 21,
+    "displayId": 19,
     "status": "locked"
   },
   {
@@ -8156,7 +8156,7 @@
       "kb_716",
       "kb_714"
     ],
-    "displayId": 26,
+    "displayId": 20,
     "status": "locked"
   },
   {
@@ -8174,7 +8174,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 21,
     "status": "locked"
   },
   {
@@ -8198,7 +8198,7 @@
       "kb_807",
       "kb_136"
     ],
-    "displayId": 35,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -8222,7 +8222,7 @@
       "kb_597",
       "kb_430"
     ],
-    "displayId": 43,
+    "displayId": 23,
     "status": "locked"
   },
   {
@@ -8247,7 +8247,7 @@
       "kb_265",
       "kb_720"
     ],
-    "displayId": 55,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -8271,7 +8271,7 @@
       "kb_136",
       "kb_808"
     ],
-    "displayId": 57,
+    "displayId": 25,
     "status": "locked"
   },
   {
@@ -8295,7 +8295,7 @@
       "kb_449",
       "kb_597"
     ],
-    "displayId": 62,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -8319,7 +8319,7 @@
       "kb_759",
       "kb_844"
     ],
-    "displayId": 65,
+    "displayId": 27,
     "status": "locked"
   },
   {
@@ -8344,7 +8344,7 @@
       "kb_844",
       "kb_715"
     ],
-    "displayId": 93,
+    "displayId": 28,
     "status": "locked"
   },
   {
@@ -8369,7 +8369,7 @@
       "kb_713",
       "kb_716"
     ],
-    "displayId": 98,
+    "displayId": 29,
     "status": "locked"
   },
   {
@@ -8394,7 +8394,7 @@
       "kb_273",
       "kb_838"
     ],
-    "displayId": 100,
+    "displayId": 30,
     "status": "locked"
   },
   {
@@ -8419,7 +8419,7 @@
       "kb_844",
       "kb_843"
     ],
-    "displayId": 107,
+    "displayId": 31,
     "status": "locked"
   },
   {
@@ -8431,7 +8431,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 32,
-    "displayId": 4,
+    "displayId": 32,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_787",
@@ -8466,7 +8466,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 33,
-    "displayId": 89,
+    "displayId": 33,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_820",
@@ -8501,7 +8501,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 34,
-    "displayId": 10,
+    "displayId": 34,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8539,7 +8539,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 76,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -8551,7 +8551,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 36,
-    "displayId": 33,
+    "displayId": 36,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_807",
@@ -8586,7 +8586,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 37,
-    "displayId": 99,
+    "displayId": 37,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_837",
@@ -8636,7 +8636,7 @@
       "kb_760",
       "kb_835"
     ],
-    "displayId": 12,
+    "displayId": 38,
     "status": "locked"
   },
   {
@@ -8660,7 +8660,7 @@
       "kb_273",
       "kb_135"
     ],
-    "displayId": 6,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -8678,7 +8678,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 19,
+    "displayId": 40,
     "status": "locked"
   },
   {
@@ -8690,7 +8690,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 41,
-    "displayId": 20,
+    "displayId": 41,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8728,7 +8728,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 29,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -8740,7 +8740,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 43,
-    "displayId": 38,
+    "displayId": 43,
     "aliases": [
       "松竹梅の法則"
     ],
@@ -8786,7 +8786,7 @@
       "kb_757",
       "kb_175"
     ],
-    "displayId": 48,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -8810,7 +8810,7 @@
       "kb_759",
       "kb_274"
     ],
-    "displayId": 64,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -8830,7 +8830,7 @@
     "relatedTheoryIds": [
       "kb_897"
     ],
-    "displayId": 67,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -8854,7 +8854,7 @@
       "kb_521",
       "kb_420"
     ],
-    "displayId": 112,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -8866,7 +8866,7 @@
     "subcategoryId": "behavioral-science-d",
     "subcategoryTitle": "意思決定・選択",
     "sortOrder": 48,
-    "displayId": 68,
+    "displayId": 48,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8904,7 +8904,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 73,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -8928,7 +8928,7 @@
       "kb_177",
       "kb_138"
     ],
-    "displayId": 77,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -8952,7 +8952,7 @@
       "kb_757",
       "kb_135"
     ],
-    "displayId": 80,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -8975,7 +8975,7 @@
       "kb_884",
       "kb_899"
     ],
-    "displayId": 49,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -8999,7 +8999,7 @@
       "kb_520",
       "kb_168"
     ],
-    "displayId": 109,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -9024,7 +9024,7 @@
       "kb_520",
       "kb_730"
     ],
-    "displayId": 113,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -9050,7 +9050,7 @@
       "kb_804",
       "kb_833"
     ],
-    "displayId": 22,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -9073,7 +9073,7 @@
       "kb_776",
       "kb_884"
     ],
-    "displayId": 25,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -9097,7 +9097,7 @@
       "kb_175",
       "kb_183"
     ],
-    "displayId": 42,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -9117,7 +9117,7 @@
     "relatedTheoryIds": [
       "kb_751"
     ],
-    "displayId": 103,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -9135,7 +9135,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 5,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -9153,7 +9153,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 28,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -9177,7 +9177,7 @@
       "kb_520",
       "kb_750"
     ],
-    "displayId": 46,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -9202,7 +9202,7 @@
       "kb_736",
       "kb_493"
     ],
-    "displayId": 79,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -9220,7 +9220,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 58,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -9238,7 +9238,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 59,
+    "displayId": 64,
     "status": "locked"
   },
   {
@@ -9256,7 +9256,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 70,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -9274,7 +9274,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 78,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -9286,7 +9286,7 @@
     "subcategoryId": "behavioral-science-m",
     "subcategoryTitle": "動機づけ・目標達成",
     "sortOrder": 16,
-    "displayId": 104,
+    "displayId": 67,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_749"
@@ -9328,7 +9328,7 @@
     "relatedTheoryIds": [
       "kb_832"
     ],
-    "displayId": 102,
+    "displayId": 68,
     "status": "locked"
   },
   {
@@ -9346,7 +9346,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 13,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -9364,7 +9364,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 70,
     "status": "locked"
   },
   {
@@ -9376,7 +9376,7 @@
     "subcategoryId": "behavioral-science-m",
     "subcategoryTitle": "動機づけ・目標達成",
     "sortOrder": 20,
-    "displayId": 47,
+    "displayId": 71,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_749",
@@ -9417,7 +9417,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 61,
+    "displayId": 72,
     "status": "locked"
   },
   {
@@ -9435,7 +9435,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 87,
+    "displayId": 73,
     "status": "locked"
   },
   {
@@ -9453,7 +9453,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 90,
+    "displayId": 74,
     "status": "locked"
   },
   {
@@ -9480,7 +9480,7 @@
       "kb_172",
       "kb_167"
     ],
-    "displayId": 101,
+    "displayId": 75,
     "status": "locked"
   },
   {
@@ -9504,7 +9504,7 @@
       "kb_170",
       "kb_172"
     ],
-    "displayId": 40,
+    "displayId": 76,
     "status": "locked"
   },
   {
@@ -9522,7 +9522,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 75,
+    "displayId": 77,
     "status": "locked"
   },
   {
@@ -9540,7 +9540,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 37,
+    "displayId": 78,
     "status": "locked"
   },
   {
@@ -9560,7 +9560,7 @@
     "relatedTheoryIds": [
       "kb_722"
     ],
-    "displayId": 92,
+    "displayId": 79,
     "status": "locked"
   },
   {
@@ -9584,7 +9584,7 @@
       "kb_753",
       "kb_752"
     ],
-    "displayId": 9,
+    "displayId": 80,
     "status": "locked"
   },
   {
@@ -9596,7 +9596,7 @@
     "subcategoryId": "behavioral-science-h",
     "subcategoryTitle": "習慣・行動設計",
     "sortOrder": 1,
-    "displayId": 51,
+    "displayId": 81,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -9634,7 +9634,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 94,
+    "displayId": 82,
     "status": "locked"
   },
   {
@@ -9652,7 +9652,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 1,
+    "displayId": 83,
     "status": "locked"
   },
   {
@@ -9670,7 +9670,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 50,
+    "displayId": 84,
     "status": "locked"
   },
   {
@@ -9688,7 +9688,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 108,
+    "displayId": 85,
     "status": "locked"
   },
   {
@@ -9706,7 +9706,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 66,
+    "displayId": 86,
     "status": "locked"
   },
   {
@@ -9718,7 +9718,7 @@
     "subcategoryId": "behavioral-science-h",
     "subcategoryTitle": "習慣・行動設計",
     "sortOrder": 7,
-    "displayId": 84,
+    "displayId": 87,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -9756,7 +9756,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 17,
+    "displayId": 88,
     "status": "locked"
   },
   {
@@ -9774,7 +9774,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 89,
     "status": "locked"
   },
   {
@@ -9786,7 +9786,7 @@
     "subcategoryId": "behavioral-science-h",
     "subcategoryTitle": "習慣・行動設計",
     "sortOrder": 10,
-    "displayId": 81,
+    "displayId": 90,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_842"
@@ -9826,7 +9826,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 105,
+    "displayId": 91,
     "status": "locked"
   },
   {
@@ -9844,7 +9844,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 44,
+    "displayId": 92,
     "status": "locked"
   },
   {
@@ -9864,7 +9864,7 @@
     "relatedTheoryIds": [
       "kb_900"
     ],
-    "displayId": 11,
+    "displayId": 93,
     "status": "locked"
   },
   {
@@ -9890,7 +9890,7 @@
       "kb_208",
       "kb_440"
     ],
-    "displayId": 114,
+    "displayId": 94,
     "status": "locked"
   },
   {
@@ -9908,7 +9908,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 34,
+    "displayId": 95,
     "status": "locked"
   },
   {
@@ -9929,7 +9929,7 @@
       "kb_831",
       "kb_900"
     ],
-    "displayId": 54,
+    "displayId": 96,
     "status": "locked"
   },
   {
@@ -9947,7 +9947,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 15,
+    "displayId": 97,
     "status": "locked"
   },
   {
@@ -9965,7 +9965,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 60,
+    "displayId": 98,
     "status": "locked"
   },
   {
@@ -9991,7 +9991,7 @@
       "kb_169",
       "kb_123"
     ],
-    "displayId": 27,
+    "displayId": 99,
     "status": "locked"
   },
   {
@@ -10011,7 +10011,7 @@
     "relatedTheoryIds": [
       "kb_738"
     ],
-    "displayId": 16,
+    "displayId": 100,
     "status": "locked"
   },
   {
@@ -10036,7 +10036,7 @@
       "kb_831",
       "kb_879"
     ],
-    "displayId": 31,
+    "displayId": 101,
     "status": "locked"
   },
   {
@@ -10056,7 +10056,7 @@
     "relatedTheoryIds": [
       "kb_747"
     ],
-    "displayId": 85,
+    "displayId": 102,
     "status": "locked"
   },
   {
@@ -10081,7 +10081,7 @@
       "kb_201",
       "kb_199"
     ],
-    "displayId": 8,
+    "displayId": 103,
     "status": "locked"
   },
   {
@@ -10107,7 +10107,7 @@
       "kb_744",
       "kb_828"
     ],
-    "displayId": 45,
+    "displayId": 104,
     "status": "locked"
   },
   {
@@ -10125,7 +10125,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 82,
+    "displayId": 105,
     "status": "locked"
   },
   {
@@ -10143,7 +10143,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 53,
+    "displayId": 106,
     "status": "locked"
   },
   {
@@ -10163,7 +10163,7 @@
     "relatedTheoryIds": [
       "kb_744"
     ],
-    "displayId": 56,
+    "displayId": 107,
     "status": "locked"
   },
   {
@@ -10188,7 +10188,7 @@
       "kb_741",
       "kb_904"
     ],
-    "displayId": 72,
+    "displayId": 108,
     "status": "locked"
   },
   {
@@ -10213,7 +10213,7 @@
       "kb_765",
       "kb_890"
     ],
-    "displayId": 68,
+    "displayId": 1,
     "status": "locked"
   },
   {
@@ -10237,7 +10237,7 @@
       "kb_766",
       "kb_764"
     ],
-    "displayId": 165,
+    "displayId": 2,
     "status": "locked"
   },
   {
@@ -10263,7 +10263,7 @@
       "kb_500",
       "kb_846"
     ],
-    "displayId": 57,
+    "displayId": 3,
     "status": "locked"
   },
   {
@@ -10284,7 +10284,7 @@
       "kb_767",
       "kb_907"
     ],
-    "displayId": 155,
+    "displayId": 4,
     "status": "locked"
   },
   {
@@ -10313,7 +10313,7 @@
       "kb_767",
       "kb_907"
     ],
-    "displayId": 69,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -10339,7 +10339,7 @@
       "kb_500",
       "kb_130"
     ],
-    "displayId": 170,
+    "displayId": 6,
     "status": "locked"
   },
   {
@@ -10357,7 +10357,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 2,
+    "displayId": 7,
     "status": "locked"
   },
   {
@@ -10384,7 +10384,7 @@
       "kb_763",
       "kb_228"
     ],
-    "displayId": 45,
+    "displayId": 8,
     "status": "locked"
   },
   {
@@ -10405,7 +10405,7 @@
       "kb_764",
       "kb_907"
     ],
-    "displayId": 70,
+    "displayId": 9,
     "status": "locked"
   },
   {
@@ -10425,7 +10425,7 @@
     "relatedTheoryIds": [
       "kb_805"
     ],
-    "displayId": 17,
+    "displayId": 10,
     "status": "locked"
   },
   {
@@ -10452,7 +10452,7 @@
       "kb_867",
       "kb_868"
     ],
-    "displayId": 19,
+    "displayId": 11,
     "status": "locked"
   },
   {
@@ -10476,7 +10476,7 @@
       "kb_803",
       "kb_259"
     ],
-    "displayId": 18,
+    "displayId": 12,
     "status": "locked"
   },
   {
@@ -10502,7 +10502,7 @@
       "kb_169",
       "kb_750"
     ],
-    "displayId": 56,
+    "displayId": 13,
     "status": "locked"
   },
   {
@@ -10520,7 +10520,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 11,
+    "displayId": 14,
     "status": "locked"
   },
   {
@@ -10538,7 +10538,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 20,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -10562,7 +10562,7 @@
       "kb_867",
       "kb_805"
     ],
-    "displayId": 22,
+    "displayId": 16,
     "status": "locked"
   },
   {
@@ -10580,7 +10580,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 26,
+    "displayId": 17,
     "status": "locked"
   },
   {
@@ -10598,7 +10598,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 27,
+    "displayId": 18,
     "status": "locked"
   },
   {
@@ -10616,7 +10616,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 48,
+    "displayId": 19,
     "status": "locked"
   },
   {
@@ -10642,7 +10642,7 @@
       "kb_766",
       "kb_822"
     ],
-    "displayId": 88,
+    "displayId": 20,
     "status": "locked"
   },
   {
@@ -10660,7 +10660,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 107,
+    "displayId": 21,
     "status": "locked"
   },
   {
@@ -10684,7 +10684,7 @@
       "kb_868",
       "kb_805"
     ],
-    "displayId": 145,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -10710,7 +10710,7 @@
       "kb_129",
       "kb_806"
     ],
-    "displayId": 152,
+    "displayId": 23,
     "status": "locked"
   },
   {
@@ -10736,7 +10736,7 @@
       "kb_766",
       "kb_890"
     ],
-    "displayId": 67,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -10762,7 +10762,7 @@
       "kb_794",
       "kb_889"
     ],
-    "displayId": 24,
+    "displayId": 25,
     "status": "locked"
   },
   {
@@ -10786,7 +10786,7 @@
       "kb_777",
       "kb_402"
     ],
-    "displayId": 164,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -10806,7 +10806,7 @@
     "relatedTheoryIds": [
       "kb_777"
     ],
-    "displayId": 114,
+    "displayId": 27,
     "status": "locked"
   },
   {
@@ -10818,7 +10818,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 4,
-    "displayId": 55,
+    "displayId": 28,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -10856,7 +10856,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 162,
+    "displayId": 29,
     "status": "locked"
   },
   {
@@ -10868,7 +10868,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 6,
-    "displayId": 61,
+    "displayId": 30,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_777",
@@ -10909,7 +10909,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 3,
+    "displayId": 31,
     "status": "locked"
   },
   {
@@ -10927,7 +10927,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 60,
+    "displayId": 32,
     "status": "locked"
   },
   {
@@ -10947,7 +10947,7 @@
     "relatedTheoryIds": [
       "kb_731"
     ],
-    "displayId": 13,
+    "displayId": 33,
     "status": "locked"
   },
   {
@@ -10965,7 +10965,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 54,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -10983,7 +10983,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 58,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -11001,7 +11001,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 59,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -11019,7 +11019,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 37,
     "status": "locked"
   },
   {
@@ -11031,7 +11031,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 14,
-    "displayId": 84,
+    "displayId": 38,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_732",
@@ -11082,7 +11082,7 @@
       "kb_770",
       "kb_402"
     ],
-    "displayId": 127,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -11094,7 +11094,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 16,
-    "displayId": 75,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_770",
@@ -11145,7 +11145,7 @@
       "kb_402",
       "kb_845"
     ],
-    "displayId": 148,
+    "displayId": 41,
     "status": "locked"
   },
   {
@@ -11169,7 +11169,7 @@
       "kb_773",
       "kb_168"
     ],
-    "displayId": 115,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -11193,7 +11193,7 @@
       "kb_773",
       "kb_402"
     ],
-    "displayId": 40,
+    "displayId": 43,
     "status": "locked"
   },
   {
@@ -11219,7 +11219,7 @@
       "kb_125",
       "kb_893"
     ],
-    "displayId": 62,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -11243,7 +11243,7 @@
       "kb_775",
       "kb_776"
     ],
-    "displayId": 168,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -11268,7 +11268,7 @@
       "kb_168",
       "kb_893"
     ],
-    "displayId": 126,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -11288,7 +11288,7 @@
     "relatedTheoryIds": [
       "kb_775"
     ],
-    "displayId": 161,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -11308,7 +11308,7 @@
     "relatedTheoryIds": [
       "kb_765"
     ],
-    "displayId": 76,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -11328,7 +11328,7 @@
     "relatedTheoryIds": [
       "kb_765"
     ],
-    "displayId": 89,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -11346,7 +11346,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 90,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -11371,7 +11371,7 @@
       "kb_771",
       "kb_402"
     ],
-    "displayId": 91,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -11393,7 +11393,7 @@
       "kb_891",
       "kb_892"
     ],
-    "displayId": 87,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -11418,7 +11418,7 @@
       "kb_516",
       "kb_892"
     ],
-    "displayId": 166,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -11443,7 +11443,7 @@
       "kb_193",
       "kb_891"
     ],
-    "displayId": 167,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -11467,7 +11467,7 @@
       "kb_064",
       "kb_285"
     ],
-    "displayId": 169,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -11485,7 +11485,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 136,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -11503,7 +11503,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 108,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -11530,7 +11530,7 @@
       "kb_847",
       "kb_861"
     ],
-    "displayId": 6,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -11548,7 +11548,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 74,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -11572,7 +11572,7 @@
       "kb_767",
       "kb_135"
     ],
-    "displayId": 77,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -11592,7 +11592,7 @@
     "relatedTheoryIds": [
       "kb_891"
     ],
-    "displayId": 103,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -11610,7 +11610,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 146,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -11628,7 +11628,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 156,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -11646,7 +11646,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 157,
+    "displayId": 64,
     "status": "locked"
   },
   {
@@ -11668,7 +11668,7 @@
       "kb_769",
       "kb_798"
     ],
-    "displayId": 106,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -11694,7 +11694,7 @@
       "kb_798",
       "kb_863"
     ],
-    "displayId": 147,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -11719,7 +11719,7 @@
       "kb_768",
       "kb_155"
     ],
-    "displayId": 86,
+    "displayId": 67,
     "status": "locked"
   },
   {
@@ -11731,7 +11731,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 21,
-    "displayId": 134,
+    "displayId": 68,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_731",
@@ -11773,7 +11773,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -11791,7 +11791,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 133,
+    "displayId": 70,
     "status": "locked"
   },
   {
@@ -11812,7 +11812,7 @@
       "kb_724",
       "kb_803"
     ],
-    "displayId": 119,
+    "displayId": 71,
     "status": "locked"
   },
   {
@@ -11830,7 +11830,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 120,
+    "displayId": 72,
     "status": "locked"
   },
   {
@@ -11848,7 +11848,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 71,
+    "displayId": 73,
     "status": "locked"
   },
   {
@@ -11866,7 +11866,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 72,
+    "displayId": 74,
     "status": "locked"
   },
   {
@@ -11884,7 +11884,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 5,
+    "displayId": 75,
     "status": "locked"
   },
   {
@@ -11902,7 +11902,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 1,
+    "displayId": 76,
     "status": "locked"
   },
   {
@@ -11922,7 +11922,7 @@
     "relatedTheoryIds": [
       "kb_865"
     ],
-    "displayId": 8,
+    "displayId": 77,
     "status": "locked"
   },
   {
@@ -11940,7 +11940,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 10,
+    "displayId": 78,
     "status": "locked"
   },
   {
@@ -11958,7 +11958,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 21,
+    "displayId": 79,
     "status": "locked"
   },
   {
@@ -11970,7 +11970,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 33,
-    "displayId": 25,
+    "displayId": 80,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_892"
@@ -12028,7 +12028,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 105,
+    "displayId": 82,
     "status": "locked"
   },
   {
@@ -12046,7 +12046,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 123,
+    "displayId": 83,
     "status": "locked"
   },
   {
@@ -12064,7 +12064,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 51,
+    "displayId": 84,
     "status": "locked"
   },
   {
@@ -12076,7 +12076,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 2,
-    "displayId": 160,
+    "displayId": 85,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -12116,7 +12116,7 @@
     "relatedTheoryIds": [
       "kb_851"
     ],
-    "displayId": 122,
+    "displayId": 86,
     "status": "locked"
   },
   {
@@ -12134,7 +12134,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 35,
+    "displayId": 87,
     "status": "locked"
   },
   {
@@ -12152,7 +12152,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 144,
+    "displayId": 88,
     "status": "locked"
   },
   {
@@ -12170,7 +12170,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 33,
+    "displayId": 89,
     "status": "locked"
   },
   {
@@ -12188,7 +12188,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 121,
+    "displayId": 90,
     "status": "locked"
   },
   {
@@ -12206,7 +12206,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 38,
+    "displayId": 91,
     "status": "locked"
   },
   {
@@ -12224,7 +12224,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 138,
+    "displayId": 92,
     "status": "locked"
   },
   {
@@ -12242,7 +12242,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 139,
+    "displayId": 93,
     "status": "locked"
   },
   {
@@ -12260,7 +12260,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 53,
+    "displayId": 94,
     "status": "locked"
   },
   {
@@ -12280,7 +12280,7 @@
     "relatedTheoryIds": [
       "kb_883"
     ],
-    "displayId": 73,
+    "displayId": 95,
     "status": "locked"
   },
   {
@@ -12298,7 +12298,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 79,
+    "displayId": 96,
     "status": "locked"
   },
   {
@@ -12322,7 +12322,7 @@
       "kb_783",
       "kb_085"
     ],
-    "displayId": 100,
+    "displayId": 97,
     "status": "locked"
   },
   {
@@ -12340,7 +12340,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 112,
+    "displayId": 98,
     "status": "locked"
   },
   {
@@ -12358,7 +12358,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 137,
+    "displayId": 99,
     "status": "locked"
   },
   {
@@ -12376,7 +12376,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 159,
+    "displayId": 100,
     "status": "locked"
   },
   {
@@ -12394,7 +12394,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 31,
+    "displayId": 101,
     "status": "locked"
   },
   {
@@ -12412,7 +12412,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 143,
+    "displayId": 102,
     "status": "locked"
   },
   {
@@ -12430,7 +12430,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 102,
+    "displayId": 103,
     "status": "locked"
   },
   {
@@ -12448,7 +12448,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 101,
+    "displayId": 104,
     "status": "locked"
   },
   {
@@ -12466,7 +12466,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 4,
+    "displayId": 105,
     "status": "locked"
   },
   {
@@ -12484,7 +12484,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 94,
+    "displayId": 106,
     "status": "locked"
   },
   {
@@ -12502,7 +12502,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 95,
+    "displayId": 107,
     "status": "locked"
   },
   {
@@ -12514,7 +12514,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 8,
-    "displayId": 153,
+    "displayId": 108,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -12552,7 +12552,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 163,
+    "displayId": 109,
     "status": "locked"
   },
   {
@@ -12570,7 +12570,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 135,
+    "displayId": 110,
     "status": "locked"
   },
   {
@@ -12594,7 +12594,7 @@
       "kb_849",
       "kb_781"
     ],
-    "displayId": 92,
+    "displayId": 111,
     "status": "locked"
   },
   {
@@ -12619,7 +12619,7 @@
       "kb_849",
       "kb_855"
     ],
-    "displayId": 32,
+    "displayId": 112,
     "status": "locked"
   },
   {
@@ -12646,7 +12646,7 @@
       "kb_849",
       "kb_908"
     ],
-    "displayId": 44,
+    "displayId": 113,
     "status": "locked"
   },
   {
@@ -12672,7 +12672,7 @@
       "kb_850",
       "kb_908"
     ],
-    "displayId": 96,
+    "displayId": 114,
     "status": "locked"
   },
   {
@@ -12690,7 +12690,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 83,
+    "displayId": 115,
     "status": "locked"
   },
   {
@@ -12708,7 +12708,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 151,
+    "displayId": 116,
     "status": "locked"
   },
   {
@@ -12726,7 +12726,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 116,
+    "displayId": 117,
     "status": "locked"
   },
   {
@@ -12750,7 +12750,7 @@
       "kb_853",
       "kb_855"
     ],
-    "displayId": 15,
+    "displayId": 118,
     "status": "locked"
   },
   {
@@ -12774,7 +12774,7 @@
       "kb_854",
       "kb_850"
     ],
-    "displayId": 129,
+    "displayId": 119,
     "status": "locked"
   },
   {
@@ -12802,7 +12802,7 @@
       "kb_851",
       "kb_861"
     ],
-    "displayId": 7,
+    "displayId": 120,
     "status": "locked"
   },
   {
@@ -12826,7 +12826,7 @@
       "kb_783",
       "kb_782"
     ],
-    "displayId": 154,
+    "displayId": 121,
     "status": "locked"
   },
   {
@@ -12844,7 +12844,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 12,
+    "displayId": 122,
     "status": "locked"
   },
   {
@@ -12869,7 +12869,7 @@
       "kb_854",
       "kb_506"
     ],
-    "displayId": 28,
+    "displayId": 123,
     "status": "locked"
   },
   {
@@ -12887,7 +12887,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 41,
+    "displayId": 124,
     "status": "locked"
   },
   {
@@ -12905,7 +12905,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 80,
+    "displayId": 125,
     "status": "locked"
   },
   {
@@ -12925,7 +12925,7 @@
     "relatedTheoryIds": [
       "kb_801"
     ],
-    "displayId": 142,
+    "displayId": 126,
     "status": "locked"
   },
   {
@@ -12937,7 +12937,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 17,
-    "displayId": 9,
+    "displayId": 127,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -12982,7 +12982,7 @@
       "kb_849",
       "kb_285"
     ],
-    "displayId": 84,
+    "displayId": 1,
     "status": "locked"
   },
   {
@@ -12994,7 +12994,7 @@
     "subcategoryId": "strategy-a",
     "subcategoryTitle": "状況分析・判断",
     "sortOrder": 2,
-    "displayId": 73,
+    "displayId": 2,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_800",
@@ -13029,7 +13029,7 @@
     "subcategoryId": "strategy-a",
     "subcategoryTitle": "状況分析・判断",
     "sortOrder": 3,
-    "displayId": 64,
+    "displayId": 3,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_802"
@@ -13069,7 +13069,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 75,
+    "displayId": 4,
     "status": "locked"
   },
   {
@@ -13094,7 +13094,7 @@
       "kb_802",
       "kb_866"
     ],
-    "displayId": 29,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -13119,7 +13119,7 @@
       "kb_109",
       "kb_841"
     ],
-    "displayId": 82,
+    "displayId": 6,
     "status": "locked"
   },
   {
@@ -13143,7 +13143,7 @@
       "kb_800",
       "kb_107"
     ],
-    "displayId": 83,
+    "displayId": 7,
     "status": "locked"
   },
   {
@@ -13167,7 +13167,7 @@
       "kb_716",
       "kb_722"
     ],
-    "displayId": 14,
+    "displayId": 8,
     "status": "locked"
   },
   {
@@ -13179,7 +13179,7 @@
     "subcategoryId": "strategy-a",
     "subcategoryTitle": "状況分析・判断",
     "sortOrder": 9,
-    "displayId": 59,
+    "displayId": 9,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -13205,7 +13205,7 @@
       "kb_711",
       "kb_712"
     ],
-    "displayId": 16,
+    "displayId": 10,
     "status": "locked"
   },
   {
@@ -13223,7 +13223,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 15,
+    "displayId": 11,
     "status": "locked"
   },
   {
@@ -13251,7 +13251,7 @@
       "kb_588",
       "kb_887"
     ],
-    "displayId": 6,
+    "displayId": 12,
     "status": "locked"
   },
   {
@@ -13263,7 +13263,7 @@
     "subcategoryId": "strategy-n",
     "subcategoryTitle": "交渉",
     "sortOrder": 1,
-    "displayId": 56,
+    "displayId": 13,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -13295,7 +13295,7 @@
     "subcategoryId": "strategy-n",
     "subcategoryTitle": "交渉",
     "sortOrder": 2,
-    "displayId": 39,
+    "displayId": 14,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -13332,7 +13332,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 78,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -13350,7 +13350,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 13,
+    "displayId": 16,
     "status": "locked"
   },
   {
@@ -13368,7 +13368,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 40,
+    "displayId": 17,
     "status": "locked"
   },
   {
@@ -13386,7 +13386,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 7,
+    "displayId": 18,
     "status": "locked"
   },
   {
@@ -13406,7 +13406,7 @@
     "relatedTheoryIds": [
       "kb_795"
     ],
-    "displayId": 48,
+    "displayId": 19,
     "status": "locked"
   },
   {
@@ -13424,7 +13424,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 80,
+    "displayId": 20,
     "status": "locked"
   },
   {
@@ -13442,7 +13442,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 55,
+    "displayId": 21,
     "status": "locked"
   },
   {
@@ -13460,7 +13460,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 71,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -13478,7 +13478,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 30,
+    "displayId": 23,
     "status": "locked"
   },
   {
@@ -13496,7 +13496,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 43,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -13514,7 +13514,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 49,
+    "displayId": 25,
     "status": "locked"
   },
   {
@@ -13532,7 +13532,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 51,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -13550,7 +13550,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 52,
+    "displayId": 27,
     "status": "locked"
   },
   {
@@ -13568,7 +13568,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 12,
+    "displayId": 28,
     "status": "locked"
   },
   {
@@ -13588,7 +13588,7 @@
     "relatedTheoryIds": [
       "kb_795"
     ],
-    "displayId": 19,
+    "displayId": 29,
     "status": "locked"
   },
   {
@@ -13606,7 +13606,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 44,
+    "displayId": 30,
     "status": "locked"
   },
   {
@@ -13624,7 +13624,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 45,
+    "displayId": 31,
     "status": "locked"
   },
   {
@@ -13644,7 +13644,7 @@
     "relatedTheoryIds": [
       "kb_880"
     ],
-    "displayId": 60,
+    "displayId": 32,
     "status": "locked"
   },
   {
@@ -13662,7 +13662,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 72,
+    "displayId": 33,
     "status": "locked"
   },
   {
@@ -13680,7 +13680,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 76,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -13698,7 +13698,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -13718,7 +13718,7 @@
     "relatedTheoryIds": [
       "kb_783"
     ],
-    "displayId": 81,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -13754,7 +13754,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 31,
+    "displayId": 38,
     "status": "locked"
   },
   {
@@ -13778,7 +13778,7 @@
       "kb_790",
       "kb_162"
     ],
-    "displayId": 26,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -13790,7 +13790,7 @@
     "subcategoryId": "strategy-g",
     "subcategoryTitle": "ゲーム理論",
     "sortOrder": 2,
-    "displayId": 50,
+    "displayId": 40,
     "aliases": [
       "Nash equilibrium",
       "ナッシュ・イクイリブリアム"
@@ -13842,7 +13842,7 @@
       "kb_790",
       "kb_792"
     ],
-    "displayId": 23,
+    "displayId": 41,
     "status": "locked"
   },
   {
@@ -13866,7 +13866,7 @@
       "kb_864",
       "kb_166"
     ],
-    "displayId": 18,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -13878,7 +13878,7 @@
     "subcategoryId": "strategy-g",
     "subcategoryTitle": "ゲーム理論",
     "sortOrder": 5,
-    "displayId": 28,
+    "displayId": 43,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_791",
@@ -13925,7 +13925,7 @@
       "kb_793",
       "kb_797"
     ],
-    "displayId": 8,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -13950,7 +13950,7 @@
       "kb_796",
       "kb_162"
     ],
-    "displayId": 33,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -13968,7 +13968,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 42,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -13986,7 +13986,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 62,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -14004,7 +14004,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 25,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -14028,7 +14028,7 @@
       "kb_768",
       "kb_155"
     ],
-    "displayId": 21,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -14052,7 +14052,7 @@
       "kb_778",
       "kb_779"
     ],
-    "displayId": 17,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -14076,7 +14076,7 @@
       "kb_793",
       "kb_777"
     ],
-    "displayId": 9,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -14103,7 +14103,7 @@
       "kb_522",
       "kb_862"
     ],
-    "displayId": 34,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -14128,7 +14128,7 @@
       "kb_790",
       "kb_768"
     ],
-    "displayId": 58,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -14152,7 +14152,7 @@
       "kb_866",
       "kb_509"
     ],
-    "displayId": 70,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -14177,7 +14177,7 @@
       "kb_795",
       "kb_790"
     ],
-    "displayId": 69,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -14201,7 +14201,7 @@
       "kb_865",
       "kb_800"
     ],
-    "displayId": 3,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -14225,7 +14225,7 @@
       "kb_799",
       "kb_780"
     ],
-    "displayId": 10,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -14245,7 +14245,7 @@
     "relatedTheoryIds": [
       "kb_792"
     ],
-    "displayId": 20,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -14270,7 +14270,7 @@
       "kb_796",
       "kb_794"
     ],
-    "displayId": 24,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -14294,7 +14294,7 @@
       "kb_778",
       "kb_779"
     ],
-    "displayId": 27,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -14318,7 +14318,7 @@
       "kb_799",
       "kb_780"
     ],
-    "displayId": 65,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -14336,7 +14336,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 77,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -14354,7 +14354,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -14366,7 +14366,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 3,
-    "displayId": 47,
+    "displayId": 64,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_895"
@@ -14391,7 +14391,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -14409,7 +14409,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 67,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -14421,7 +14421,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 6,
-    "displayId": 68,
+    "displayId": 67,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14453,7 +14453,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 7,
-    "displayId": 4,
+    "displayId": 68,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14491,7 +14491,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 74,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -14509,7 +14509,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 5,
+    "displayId": 70,
     "status": "locked"
   },
   {
@@ -14521,7 +14521,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 10,
-    "displayId": 66,
+    "displayId": 71,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14546,7 +14546,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 11,
-    "displayId": 1,
+    "displayId": 72,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14578,7 +14578,7 @@
     "subcategoryId": "strategy-r",
     "subcategoryTitle": "リスク・撤退",
     "sortOrder": 12,
-    "displayId": 53,
+    "displayId": 73,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14623,7 +14623,7 @@
       "kb_801",
       "kb_722"
     ],
-    "displayId": 22,
+    "displayId": 74,
     "status": "locked"
   },
   {
@@ -14635,7 +14635,7 @@
     "subcategoryId": "strategy-d",
     "subcategoryTitle": "計画・実行・適応",
     "sortOrder": 1,
-    "displayId": 2,
+    "displayId": 75,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14672,7 +14672,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 46,
+    "displayId": 76,
     "status": "locked"
   },
   {
@@ -14693,7 +14693,7 @@
       "kb_894",
       "kb_908"
     ],
-    "displayId": 38,
+    "displayId": 77,
     "status": "locked"
   },
   {
@@ -14705,7 +14705,7 @@
     "subcategoryId": "strategy-d",
     "subcategoryTitle": "計画・実行・適応",
     "sortOrder": 4,
-    "displayId": 41,
+    "displayId": 78,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14743,7 +14743,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 11,
+    "displayId": 79,
     "status": "locked"
   },
   {
@@ -14761,7 +14761,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 35,
+    "displayId": 80,
     "status": "locked"
   },
   {
@@ -14779,7 +14779,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 81,
     "status": "locked"
   },
   {
@@ -14799,7 +14799,7 @@
     "relatedTheoryIds": [
       "kb_752"
     ],
-    "displayId": 54,
+    "displayId": 82,
     "status": "locked"
   },
   {
@@ -14817,7 +14817,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 61,
+    "displayId": 83,
     "status": "locked"
   },
   {
@@ -14835,7 +14835,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 79,
+    "displayId": 84,
     "status": "locked"
   },
   {
@@ -14853,7 +14853,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 70,
+    "displayId": 1,
     "status": "locked"
   },
   {
@@ -14871,7 +14871,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 71,
+    "displayId": 2,
     "status": "locked"
   },
   {
@@ -14889,7 +14889,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 67,
+    "displayId": 3,
     "status": "locked"
   },
   {
@@ -14914,7 +14914,7 @@
       "ネームコーリング効果"
     ],
     "relatedTheoryIds": [],
-    "displayId": 76,
+    "displayId": 4,
     "status": "locked"
   },
   {
@@ -14934,7 +14934,7 @@
       "仮説提示効果"
     ],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -14952,7 +14952,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 58,
+    "displayId": 6,
     "status": "locked"
   },
   {
@@ -14970,7 +14970,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 40,
+    "displayId": 7,
     "status": "locked"
   },
   {
@@ -14988,7 +14988,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 8,
     "status": "locked"
   },
   {
@@ -15006,7 +15006,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 73,
+    "displayId": 9,
     "status": "locked"
   },
   {
@@ -15024,7 +15024,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 49,
+    "displayId": 10,
     "status": "locked"
   },
   {
@@ -15042,7 +15042,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 52,
+    "displayId": 11,
     "status": "locked"
   },
   {
@@ -15060,7 +15060,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 61,
+    "displayId": 12,
     "status": "locked"
   },
   {
@@ -15078,7 +15078,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 60,
+    "displayId": 13,
     "status": "locked"
   },
   {
@@ -15096,7 +15096,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 68,
+    "displayId": 14,
     "status": "locked"
   },
   {
@@ -15114,7 +15114,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 56,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -15132,7 +15132,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 31,
+    "displayId": 16,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15159,7 +15159,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 17,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15186,7 +15186,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 39,
+    "displayId": 18,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15213,7 +15213,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 11,
+    "displayId": 19,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15240,7 +15240,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 28,
+    "displayId": 20,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15267,7 +15267,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 30,
+    "displayId": 21,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15294,7 +15294,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 69,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -15312,7 +15312,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 66,
+    "displayId": 23,
     "status": "locked"
   },
   {
@@ -15330,7 +15330,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 80,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -15342,7 +15342,7 @@
     "subcategoryId": "practical-wisdom-j",
     "subcategoryTitle": "考え方・判断",
     "sortOrder": 4,
-    "displayId": 79,
+    "displayId": 25,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15380,7 +15380,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 74,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -15392,7 +15392,7 @@
     "subcategoryId": "practical-wisdom-j",
     "subcategoryTitle": "考え方・判断",
     "sortOrder": 6,
-    "displayId": 7,
+    "displayId": 27,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15424,7 +15424,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 24,
+    "displayId": 28,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15445,7 +15445,7 @@
     "subcategoryId": "practical-wisdom-j",
     "subcategoryTitle": "考え方・判断",
     "sortOrder": 8,
-    "displayId": 4,
+    "displayId": 29,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15477,7 +15477,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 23,
+    "displayId": 30,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15504,7 +15504,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 19,
+    "displayId": 31,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15525,7 +15525,7 @@
     "subcategoryId": "practical-wisdom-j",
     "subcategoryTitle": "考え方・判断",
     "sortOrder": 11,
-    "displayId": 10,
+    "displayId": 32,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15557,7 +15557,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 29,
+    "displayId": 33,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15584,7 +15584,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 44,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -15602,7 +15602,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 41,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -15620,7 +15620,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 42,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -15632,7 +15632,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 4,
-    "displayId": 8,
+    "displayId": 37,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15658,7 +15658,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 5,
-    "displayId": 1,
+    "displayId": 38,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15684,7 +15684,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 6,
-    "displayId": 2,
+    "displayId": 39,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15710,7 +15710,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 7,
-    "displayId": 3,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15736,7 +15736,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 8,
-    "displayId": 5,
+    "displayId": 41,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15762,7 +15762,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 9,
-    "displayId": 6,
+    "displayId": 42,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15788,7 +15788,7 @@
     "subcategoryId": "practical-wisdom-a",
     "subcategoryTitle": "行動・継続",
     "sortOrder": 10,
-    "displayId": 9,
+    "displayId": 43,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15820,7 +15820,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 14,
+    "displayId": 44,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15847,7 +15847,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 16,
+    "displayId": 45,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15874,7 +15874,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 33,
+    "displayId": 46,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15901,7 +15901,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 34,
+    "displayId": 47,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -15928,7 +15928,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 77,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -15946,7 +15946,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 78,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -15964,7 +15964,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 46,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -15976,7 +15976,7 @@
     "subcategoryId": "practical-wisdom-w",
     "subcategoryTitle": "仕事・キャリア",
     "sortOrder": 2,
-    "displayId": 54,
+    "displayId": 51,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15999,7 +15999,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 47,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -16017,7 +16017,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 48,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -16035,7 +16035,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 59,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -16053,7 +16053,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 51,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -16071,7 +16071,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 62,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -16089,7 +16089,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 50,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -16107,7 +16107,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 21,
+    "displayId": 58,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16134,7 +16134,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 26,
+    "displayId": 59,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16161,7 +16161,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 81,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -16179,7 +16179,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 53,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -16197,7 +16197,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 55,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -16215,7 +16215,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 45,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -16235,7 +16235,7 @@
     "relatedTheoryIds": [
       "kb_762"
     ],
-    "displayId": 43,
+    "displayId": 64,
     "status": "locked"
   },
   {
@@ -16253,7 +16253,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 64,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -16271,7 +16271,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 75,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -16289,7 +16289,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 82,
+    "displayId": 67,
     "status": "locked"
   },
   {
@@ -16307,7 +16307,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 65,
+    "displayId": 68,
     "status": "locked"
   },
   {
@@ -16325,7 +16325,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 72,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -16343,7 +16343,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 12,
+    "displayId": 70,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16370,7 +16370,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 13,
+    "displayId": 71,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16397,7 +16397,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 15,
+    "displayId": 72,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16424,7 +16424,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 17,
+    "displayId": 73,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16451,7 +16451,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 18,
+    "displayId": 74,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16478,7 +16478,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 20,
+    "displayId": 75,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16505,7 +16505,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 22,
+    "displayId": 76,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16532,7 +16532,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 25,
+    "displayId": 77,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16559,7 +16559,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 27,
+    "displayId": 78,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16586,7 +16586,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 35,
+    "displayId": 79,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16613,7 +16613,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 80,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16640,7 +16640,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 37,
+    "displayId": 81,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16667,7 +16667,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 38,
+    "displayId": 82,
     "provenance": {
       "note": "処世術禄によるオリジナルの実践知です。",
       "works": [
@@ -16688,7 +16688,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 1,
-    "displayId": 35,
+    "displayId": 1,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16720,7 +16720,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 2,
-    "displayId": 4,
+    "displayId": 2,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16752,7 +16752,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 3,
-    "displayId": 22,
+    "displayId": 3,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16784,7 +16784,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 4,
-    "displayId": 11,
+    "displayId": 4,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16822,7 +16822,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 26,
+    "displayId": 5,
     "status": "locked"
   },
   {
@@ -16834,7 +16834,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 6,
-    "displayId": 56,
+    "displayId": 6,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16866,7 +16866,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 7,
-    "displayId": 60,
+    "displayId": 7,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16898,7 +16898,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 8,
-    "displayId": 37,
+    "displayId": 8,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16930,7 +16930,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 9,
-    "displayId": 30,
+    "displayId": 9,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16962,7 +16962,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 10,
-    "displayId": 44,
+    "displayId": 10,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16994,7 +16994,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 11,
-    "displayId": 52,
+    "displayId": 11,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17026,7 +17026,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 12,
-    "displayId": 39,
+    "displayId": 12,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17058,7 +17058,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 13,
-    "displayId": 31,
+    "displayId": 13,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17090,7 +17090,7 @@
     "subcategoryId": "classics-thought-e",
     "subcategoryTitle": "東洋思想",
     "sortOrder": 14,
-    "displayId": 58,
+    "displayId": 14,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17127,7 +17127,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 46,
+    "displayId": 15,
     "status": "locked"
   },
   {
@@ -17139,7 +17139,7 @@
     "subcategoryId": "classics-thought-w",
     "subcategoryTitle": "西洋思想",
     "sortOrder": 1,
-    "displayId": 29,
+    "displayId": 16,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17177,7 +17177,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 62,
+    "displayId": 17,
     "status": "locked"
   },
   {
@@ -17195,7 +17195,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 53,
+    "displayId": 18,
     "status": "locked"
   },
   {
@@ -17213,7 +17213,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 2,
+    "displayId": 19,
     "status": "locked"
   },
   {
@@ -17231,7 +17231,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 28,
+    "displayId": 20,
     "status": "locked"
   },
   {
@@ -17249,7 +17249,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 10,
+    "displayId": 21,
     "status": "locked"
   },
   {
@@ -17267,7 +17267,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 9,
+    "displayId": 22,
     "status": "locked"
   },
   {
@@ -17285,7 +17285,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 23,
     "status": "locked"
   },
   {
@@ -17303,7 +17303,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 40,
+    "displayId": 24,
     "status": "locked"
   },
   {
@@ -17321,7 +17321,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 43,
+    "displayId": 25,
     "status": "locked"
   },
   {
@@ -17339,7 +17339,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 8,
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -17351,7 +17351,7 @@
     "subcategoryId": "classics-thought-w",
     "subcategoryTitle": "西洋思想",
     "sortOrder": 12,
-    "displayId": 36,
+    "displayId": 27,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17389,7 +17389,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 42,
+    "displayId": 28,
     "status": "locked"
   },
   {
@@ -17401,7 +17401,7 @@
     "subcategoryId": "classics-thought-w",
     "subcategoryTitle": "西洋思想",
     "sortOrder": 14,
-    "displayId": 18,
+    "displayId": 29,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17433,7 +17433,7 @@
     "subcategoryId": "classics-thought-w",
     "subcategoryTitle": "西洋思想",
     "sortOrder": 15,
-    "displayId": 61,
+    "displayId": 30,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17471,7 +17471,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 31,
     "status": "locked"
   },
   {
@@ -17483,7 +17483,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 1,
-    "displayId": 45,
+    "displayId": 32,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17515,7 +17515,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 2,
-    "displayId": 34,
+    "displayId": 33,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17553,7 +17553,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 13,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -17571,7 +17571,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 59,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -17589,7 +17589,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 38,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -17607,7 +17607,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 41,
+    "displayId": 37,
     "status": "locked"
   },
   {
@@ -17625,7 +17625,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 16,
+    "displayId": 38,
     "status": "locked"
   },
   {
@@ -17643,7 +17643,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 48,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -17661,7 +17661,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 33,
+    "displayId": 40,
     "status": "locked"
   },
   {
@@ -17673,7 +17673,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 10,
-    "displayId": 55,
+    "displayId": 41,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17711,7 +17711,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -17723,7 +17723,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 1,
-    "displayId": 51,
+    "displayId": 43,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17754,7 +17754,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 14,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -17766,7 +17766,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 3,
-    "displayId": 1,
+    "displayId": 45,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17783,7 +17783,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 4,
-    "displayId": 5,
+    "displayId": 46,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17800,7 +17800,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 5,
-    "displayId": 3,
+    "displayId": 47,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17817,7 +17817,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 6,
-    "displayId": 27,
+    "displayId": 48,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17851,7 +17851,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 8,
-    "displayId": 7,
+    "displayId": 50,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17888,7 +17888,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 24,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -17900,7 +17900,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 10,
-    "displayId": 12,
+    "displayId": 52,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17923,7 +17923,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 11,
-    "displayId": 21,
+    "displayId": 53,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17948,7 +17948,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 12,
-    "displayId": 20,
+    "displayId": 54,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17965,7 +17965,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 13,
-    "displayId": 23,
+    "displayId": 55,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17996,7 +17996,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 14,
-    "displayId": 19,
+    "displayId": 56,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18027,7 +18027,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 25,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -18045,7 +18045,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 47,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -18057,7 +18057,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 17,
-    "displayId": 54,
+    "displayId": 59,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18089,7 +18089,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 18,
-    "displayId": 15,
+    "displayId": 60,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18121,7 +18121,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 19,
-    "displayId": 50,
+    "displayId": 61,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18152,7 +18152,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 64,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -18170,7 +18170,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 6,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -18188,7 +18188,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 17,
+    "displayId": 64,
     "status": "locked"
   }
 ]

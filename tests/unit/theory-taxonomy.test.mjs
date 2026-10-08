@@ -81,10 +81,11 @@ test('every card has one matching major and section, with dense pedagogical orde
 });
 test('old paid cache cannot restore duplicate cards or overwrite revised classification',()=>{
  const card=catalog.theoryById.get('kb_016');
- catalog.hydratePaidTheories([{...card,status:undefined,subcategoryId:undefined,categoryId:'psychology',title:'old title',summary:'cached paid text'}, {...card,tagId:'kb_392',title:'duplicate'}]);
+ catalog.hydratePaidTheories([{...card,status:undefined,subcategoryId:undefined,categoryId:'psychology',displayId:999,title:'old title',summary:'cached paid text'}, {...card,tagId:'kb_392',title:'duplicate'}]);
  assert.equal(catalog.theories.length,scope.complete.theories);
  assert.equal(catalog.theoryById.get('kb_016').subcategoryId,card.subcategoryId);
  assert.equal(catalog.theoryById.get('kb_016').title,card.title);
+ assert.equal(catalog.theoryById.get('kb_016').displayId,card.displayId);
  assert.equal(catalog.theoryById.get('kb_016').status,'published');
  assert.equal(catalog.theoryById.get('kb_392').tagId,'kb_016');
  catalog.resetCatalog();
@@ -96,7 +97,7 @@ test('new complete-edition theories are searchable shells and hydrate without ch
  assert.equal(additions.length,40);
  for(const old of snapshot.theories.filter(t=>t.status==='published')) {
   const now=current.find(t=>t.tagId===old.id);
-  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['display_id','displayId'],['category_id','categoryId'],['access_tier','accessTier']])assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
+  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']])assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
  }
  for(const t of additions) {
   const shell=catalog.theoryById.get(t.tagId);
@@ -110,4 +111,15 @@ test('new complete-edition theories are searchable shells and hydrate without ch
  for(const t of additions)assert.equal(catalog.theoryById.get(t.tagId).summary,t.summary);
  assert.equal(catalog.theories.length,scope.complete.theories);
  catalog.resetCatalog();
+});
+
+test('display IDs follow the current taxonomy order within every major while all stable identities and content stay intact',()=>{
+ for(const category of catalog.theoryCategoryOrder) {
+  const rows=catalog.theories.filter(t=>t.categoryId===category);
+  assert.deepEqual(rows.map(t=>t.displayId),rows.map((_,i)=>i+1));
+  for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
+ }
+ const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));
+ const withoutNumbers=current.map(({displayId,displayOrder,...row})=>row);
+ assert.equal(createHash('sha256').update(JSON.stringify(withoutNumbers)).digest('hex'),snapshot.fingerprint);
 });
