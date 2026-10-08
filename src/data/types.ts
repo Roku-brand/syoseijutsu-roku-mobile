@@ -36,7 +36,7 @@ export type TechniqueCard = TechniqueSource & {
 
 export type TheoryCard = {
   tagId: string;
-  /** Stable, public sequence number. The route/relation key remains tagId. */
+  /** Public sequence within the major category. The stable route/relation key remains tagId. */
   displayId?: number | null;
   /** Requested number while an item is still a draft. */
   draftDisplayId?: number | null;

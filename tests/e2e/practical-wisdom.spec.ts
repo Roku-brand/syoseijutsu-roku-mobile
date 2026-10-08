@@ -1,7 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 import fs from 'node:fs';
 
-const originals = JSON.parse(fs.readFileSync('docs/content/practical-wisdom-originals.json', 'utf8')) as { tagId:string; displayId:number; title:string; summary:string; provenance:object; accessTier:string; categoryId:string; categoryTitle:string }[];
+const current = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8')) as { tagId:string; displayId:number; categoryId:string }[];
+const originals = (JSON.parse(fs.readFileSync('docs/content/practical-wisdom-originals.json', 'utf8')) as { tagId:string; displayId:number; title:string; summary:string; provenance:object; accessTier:string; categoryId:string; categoryTitle:string }[])
+  .map(item=>({...item,displayId:current.find(row=>row.tagId===item.tagId)!.displayId}));
 
 async function mockCompleteAccount(page: Page, owner = false, publicReads = false) {
   const user = { id:'00000000-0000-4000-8000-000000000003', aud:'authenticated', role:'authenticated', email:'wisdom-test@example.invalid', app_metadata:{}, user_metadata:{}, created_at:'2026-01-01T00:00:00Z' };
@@ -29,7 +31,7 @@ async function mockCompleteAccount(page: Page, owner = false, publicReads = fals
   });
 }
 
-test('実践知の再分類後も指定39件の原文とA-001〜A-039を保持する', async ({page}) => {
+test('実践知の再分類後も指定39件の原文を保持し、大分類全体を現行順の連番にする', async ({page}) => {
   await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{message:'bundled fallback'}}));
   await page.goto('/theories?category=practical-wisdom');
   await expect(page.getByText('82件',{exact:true})).toBeVisible();
@@ -37,6 +39,7 @@ test('実践知の再分類後も指定39件の原文とA-001〜A-039を保持�
   await expect(rows).toHaveCount(82);
   await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
   const texts=await rows.allTextContents();
+  expect(texts.map(text=>text.match(/^A-\d{3}/)?.[0])).toEqual(current.filter(row=>row.categoryId==='practical-wisdom').map((_,index)=>`A-${String(index+1).padStart(3,'0')}`));
   for (const original of originals) {
     expect(texts.some(text=>text.includes(`A-${String(original.displayId).padStart(3,'0')}`)&&text.includes(original.title.slice(1,-1)))).toBeTruthy();
   }

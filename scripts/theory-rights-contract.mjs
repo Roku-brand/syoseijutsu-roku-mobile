@@ -13,7 +13,7 @@ export function auditTheoryRights({ theories, techniques = [], retiredIds = [] }
     const p = theory.provenance;
     if (p?.status !== 'オリジナル' || p.attribution !== '処世術禄' || p.works?.length !== 1 || p.works[0] !== '処世術禄オリジナル' || p.note !== '処世術禄によるオリジナルの実践知です。' || !!p.sources?.length || !!p.period) failures.push(`invalid original provenance: ${theory.tagId}`);
   }
-  const practical = theories.filter((item) => item.provenance?.status === 'オリジナル' && item.status !== 'draft' && item.status !== 'archived');
+  const practical = theories.filter((item) => item.categoryId === 'practical-wisdom' && item.status !== 'draft' && item.status !== 'archived');
   const sequence = practical.map((item) => item.displayId).sort((a, b) => a - b);
   if (sequence.some((id, index) => id !== index + 1)) failures.push('practical display IDs must be dense within the category');
   for (const item of [...theories, ...techniques]) for (const field of ['relatedTheoryIds', 'primaryTheoryIds', 'theoryTagIds']) {

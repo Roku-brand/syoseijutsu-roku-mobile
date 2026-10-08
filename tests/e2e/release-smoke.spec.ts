@@ -165,7 +165,7 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   const title = page.getByTestId('theory-title');
   await expect(meta).toBeVisible();
   await expect(title).toBeVisible();
-  await expect(meta).toContainText('P-146');
+  await expect(meta).toContainText('P-003');
   await expect(title).not.toContainText('…');
 });
 

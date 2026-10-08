@@ -19,10 +19,11 @@ test('public UUID relation fields are metadata; summaries, titles and source tex
 });
 
 test('replacement is exactly the 39 requested titles and new stable identities', () => {
-  const practical = complete.filter((item) => item.provenance?.status === 'オリジナル').sort((a,b) => a.displayId-b.displayId);
+  const practical = originals.map(original => complete.find(item => item.tagId === original.tagId));
   assert.equal(practical.length, 39);
   assert.deepEqual(practical.map((item) => item.title), requestedTitles);
-  assert.deepEqual(practical.map((item) => item.displayId), Array.from({ length: 39 }, (_,i) => i+1));
+  assert.equal(new Set(practical.map((item) => item.displayId)).size, 39);
+  assert.ok(practical.every(item => Number.isInteger(item.displayId) && item.displayId > 0));
   for (const item of practical) {
     assert.ok(!old.some((retired) => retired.tagId === item.tagId));
     assert.deepEqual(item.provenance, originalPracticalWisdomProvenance());
