@@ -58,7 +58,7 @@ test('購入済みでは再購入を表示せずホームを開き、期限切�
   await page.route('**/functions/v1/create-checkout-session', route => { checkouts++; return route.abort(); });
   await page.goto('/upgrade');
   await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('完全版を利用中');
-  await expect(page.getByTestId('upgrade-purchase-cta')).toHaveText('完全版を開く→');
+  await expect(page.getByTestId('upgrade-purchase-cta')).toHaveText('完全版を開く');
   await expect(page.getByTestId('upgrade-fixed-purchase')).not.toContainText('¥320');
   await expect(page.getByLabel(/スマートフォン/)).toHaveCount(0);
   await page.getByTestId('upgrade-purchase-cta').click();
@@ -69,7 +69,7 @@ test('購入済みでは再購入を表示せずホームを開き、期限切�
 test('利用期間終了の表示は既存の期限判定を使う', async ({ page }) => {
   await account(page, 'expired');
   await page.goto('/upgrade');
-  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('完全版（30日間）');
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('30日間利用できます');
   await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('¥320');
   await expect(page.getByTestId('upgrade-purchase-cta')).toContainText('もう一度');
   await page.goto('/my-os');
