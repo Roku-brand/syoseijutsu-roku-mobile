@@ -95,8 +95,27 @@ test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ
         expect(label.textWidth).toBeLessThanOrEqual(label.width + 1);
       }
       expect(positions.size).toBe(width >= 1000 ? 1 : 2);
+      for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
+        for (const button of await page.getByTestId(testId).getByRole('button').all()) {
+          const label = await button.locator('div').first().evaluate(el => {
+            const bounds = el.getBoundingClientRect();
+            return Array.from(el.children).map(word => {
+              const range = document.createRange();
+              range.selectNodeContents(word);
+              const text = range.getBoundingClientRect();
+              return { text: word.textContent, lineHeight: parseFloat(getComputedStyle(word).lineHeight), height: text.height, left: text.left - bounds.left, right: text.right - bounds.right };
+            });
+          });
+          expect(label.length).toBeGreaterThan(0);
+          for (const word of label) {
+            expect(word.height, `${width}px ${word.text}`).toBeLessThanOrEqual(word.lineHeight + 1);
+            expect(word.left, `${width}px ${word.text}`).toBeGreaterThanOrEqual(-1);
+            expect(word.right, `${width}px ${word.text}`).toBeLessThanOrEqual(1);
+          }
+        }
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
-      if (category === 'psychology') await page.screenshot({ path: test.info().outputPath(`theory-subcategories-${width}.png`) });
+      if (category === 'psychology' || category === 'organization-management') await page.screenshot({ path: test.info().outputPath(`theory-subcategories-${category}-${width}.png`) });
     }
   }
 });
@@ -151,6 +170,15 @@ test('文字の濃い金色・拡大許可・設定アイコン・OSS重複解�
   const viewport = await page.locator('meta[name="viewport"]').getAttribute('content');
   expect(viewport).not.toContain('user-scalable=no');
   expect(viewport).not.toContain('maximum-scale=1');
+  await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', '#FFFDF8');
+  const topSurface = page.locator('#roku-status-bar-background');
+  await expect(topSurface).toHaveCSS('position', 'fixed');
+  await expect(topSurface).toHaveCSS('background-color', 'rgb(255, 253, 248)');
+  await expect(topSurface).toHaveCSS('pointer-events', 'none');
+  const topBounds = await topSurface.boundingBox();
+  expect(topBounds!.y).toBe(0);
+  expect(topBounds!.height).toBeGreaterThanOrEqual(6);
+  expect(topBounds!.width).toBe(page.viewportSize()!.width);
   await expect(page.getByText('151件を無料公開', { exact: true })).toHaveCSS('color', 'rgb(125, 89, 35)');
   await page.getByRole('button', { name: '設定を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings/);
