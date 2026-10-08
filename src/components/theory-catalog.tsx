@@ -8,6 +8,7 @@ import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } f
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
+import { CategoryFilterLabel } from './category-filter-label';
 
 export type TheoryFilterKey = string;
 
@@ -35,7 +36,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
       onPress={() => onSelect(option.key)}
       style={({ pressed }) => [styles.filterButton, active && styles.filterButtonActive, pressed && styles.pressed]}
     >
-      <AppText style={[styles.filterText, active && styles.filterTextActive]}>{label}</AppText>
+      <CategoryFilterLabel label={label} style={StyleSheet.flatten([styles.filterText, active && styles.filterTextActive])} />
     </Pressable>;
   };
 
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
   filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
   filterSpacer: { flex: 1, minWidth: 0 },
-  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: spacing.sm, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { backgroundColor: colors.gold },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5, textAlign: 'center' },
   filterTextActive: { color: colors.surface, fontWeight: '700' },

@@ -19,7 +19,7 @@ export default function Root({ children }: PropsWithChildren) {
         <title>{siteTitle}</title>
         <meta name="description" content={siteDescription} />
         <meta name="robots" content="index,follow,max-image-preview:large" />
-        <meta name="theme-color" content="#151714" />
+        <meta name="theme-color" content="#FFFDF8" />
         <meta name="application-name" content="処世術禄" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -62,6 +62,14 @@ export default function Root({ children }: PropsWithChildren) {
             min-height: var(--roku-app-height, 100dvh) !important;
             background: #FFFDF8;
           }
+          /* A separate, short fixed top surface lets iOS sample a solid
+           * status-bar color instead of blurring the header below it. */
+          #roku-status-bar-background {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: max(6px, env(safe-area-inset-top, 0px));
+            background-color: #FFFDF8; z-index: 100000;
+            pointer-events: none;
+          }
           #roku-launch {
             position: fixed; inset: 0; z-index: 99999; display: grid;
             place-items: center; background: #151714;
@@ -78,6 +86,7 @@ export default function Root({ children }: PropsWithChildren) {
         `}</style>
       </head>
       <body>
+        <div id="roku-status-bar-background" aria-hidden="true" />
         <div id="roku-launch" aria-label="処世術禄を起動中">
           <div>
             <div id="roku-launch-mark">禄</div>

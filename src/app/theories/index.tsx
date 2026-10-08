@@ -1,11 +1,12 @@
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
+import { CategoryFilterLabel, getCategoryLabelParts } from '@/components/category-filter-label';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
 import { getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
@@ -92,8 +93,8 @@ export default function TheoryIndexScreen() {
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
           <View style={styles.subcategoryOptions}>
             {subcategoryRows.map((row, index) => <View key={index} testID="theory-subcategory-row" style={styles.subcategoryRow}>
-              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
-                <AppText style={[styles.subcategoryText, !desktopFilters && styles.subcategoryTextMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.title}</AppText>
+              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2), minWidth: Math.max(52, Math.max(...getCategoryLabelParts(section.title).map(part => part.length)) * (desktopFilters ? 13 : 12) + 10) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
+                <CategoryFilterLabel label={section.title} stacked={!desktopFilters} style={StyleSheet.flatten([styles.subcategoryText, !desktopFilters && styles.subcategoryTextMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive])} />
                 <AppText style={[styles.subcategoryCount, !desktopFilters && styles.subcategoryCountMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText>
               </Pressable>)}
             </View>)}
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
   subcategoryButton: { flexBasis: 0, flexShrink: 1, minWidth: 52, minHeight: 48, paddingHorizontal: 4, paddingVertical: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
   subcategoryButtonMobile: { flexDirection: 'column', paddingVertical: 0, gap: 0 },
   subcategoryActive: { backgroundColor: colors.gold },
-  subcategoryText: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center', ...Platform.select({ web: { wordBreak: 'break-all' as const }, default: {} }) },
-  subcategoryTextMobile: { width: '100%', height: 34, fontSize: 12, lineHeight: 17 },
+  subcategoryText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
+  subcategoryTextMobile: { fontSize: 12, lineHeight: 17 },
   subcategoryCount: { flexShrink: 0, color: colors.muted, fontSize: 11, lineHeight: 18 },
   subcategoryCountMobile: { fontSize: 10, lineHeight: 12 },
   filterPressed: { opacity: 0.8 },
