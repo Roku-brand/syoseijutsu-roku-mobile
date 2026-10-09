@@ -51,3 +51,7 @@ example
 # generated native folders
 /ios
 /android
+
+# Local release artifacts and service diagnostics
+/release-evidence/
+/debug.log
