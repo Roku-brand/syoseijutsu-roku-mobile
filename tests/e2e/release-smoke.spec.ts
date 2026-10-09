@@ -490,11 +490,13 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
 
 test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
   await page.route('**/rest/v1/public_techniques*', async (route) => {
+    if (new URL(route.request().url()).searchParams.get('access_tier') === 'eq.complete') return route.fulfill({ json: [] });
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
       body: JSON.stringify([{
         id: 'master336-001',
+        access_tier: 'free',
         persona_id: '印象がいい人',
         category: 'interpersonal',
         title: '公開反映テスト',

@@ -97,7 +97,7 @@ test('端末内データ消去は取消しでは保持し、確認後に実デ�
   expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe(before);
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: /端末内データをすべて消去/ }).click();
-  await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).not.toContain('消去検証用');
+  await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toBeNull();
 });
 
 test('アカウント削除の最終確認を取り消すとサーバーへ送信しない', async ({ page }) => {
@@ -123,7 +123,7 @@ test('確認済み削除が成功した後はログアウトして端末デー�
   // The welcome route may immediately forward to the home screen.
   await expect(page).toHaveURL(/\/(?:welcome)?$/);
   expect(attempts()).toBe(1);
-  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).not.toContain('削除確認用');
+  expect(await page.evaluate(() => localStorage.getItem('@shoseijutsu-roku/state/v1'))).toBeNull();
   const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co').hostname.split('.')[0];
   expect(await page.evaluate(key => localStorage.getItem(key), `sb-${project}-auth-token`)).toBeNull();
 });

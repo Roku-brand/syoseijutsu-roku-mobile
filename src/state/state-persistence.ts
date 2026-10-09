@@ -10,6 +10,7 @@ type Options<State, Action> = {
   restore: (value: unknown) => State;
   reduce: (state: State, action: Action) => State;
   onError: (operation: 'read' | 'write' | 'clear', error: unknown) => void;
+  persistRestoredState?: boolean;
 };
 
 export type PersistenceSnapshot<State> = { state: State; hydrated: boolean };
@@ -60,7 +61,7 @@ export function createStatePersistence<State, Action>(options: Options<State, Ac
         settled = true;
         writable = true;
         emit(state, true);
-        if (hasEdits) persist();
+        if (hasEdits || (options.persistRestoredState && stored !== null && JSON.stringify(state) !== stored)) persist();
       }).catch((error) => {
         if (settled) return;
         settled = true;

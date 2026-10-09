@@ -11,7 +11,6 @@ import {
   type PropsWithChildren,
 } from 'react';
 import type { CategoryKey } from '@/data/types';
-import { theoryById } from '@/data/catalog';
 import { resolveTheoryId, resolveTheoryIds } from '@/data/theory-taxonomy';
 import { recordContentEvent } from '@/lib/content-events';
 import { createStatePersistence } from './state-persistence';
@@ -114,9 +113,9 @@ function haptic(style: Haptics.ImpactFeedbackStyle) {
 
 export function AppStateProvider({ children }: PropsWithChildren) {
   const [persistence] = useState(() => createStatePersistence<PersistedState, SetStateAction<PersistedState>>({
-    storage: AsyncStorage, key: STORAGE_KEY, initialState: () => initialState,
+    storage: AsyncStorage, key: STORAGE_KEY, initialState: () => initialState, persistRestoredState: true,
     restore: value => {
-      const restored = restoreAppState(value, id => theoryById.has(resolveTheoryId(id)));
+      const restored = restoreAppState(value, () => true);
       const raw = value && typeof value === 'object' ? value as Partial<PersistedState> : {};
       const savedTheoryIds = resolveTheoryIds(restored.savedTheoryIds);
       return { ...initialState, ...restored, savedTheoryIds, historyIds: resolveTheoryIds(restored.historyIds),

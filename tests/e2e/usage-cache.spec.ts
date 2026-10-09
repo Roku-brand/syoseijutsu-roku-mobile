@@ -5,12 +5,12 @@ test('公開カタログとランキングを再読み込みで再利用し、�
   let catalogueRequests = 0, rankingRequests = 0;
   await page.route('**/rest/v1/**', async (route) => {
     const url = new URL(route.request().url());
-    const table = url.pathname.split('/').at(-1);
+    const table = url.pathname.split('/').at(-1)?.replace(/^public_/, '');
     if (table === 'get_popular_rankings') {
       rankingRequests++;
       return route.fulfill({ json: defaults });
     }
-    if (['techniques', 'theories', 'personas', 'content_categories'].includes(table!)) {
+    if (['techniques', 'theories', 'personas', 'content_categories', 'theory_subcategories'].includes(table!)) {
       catalogueRequests++;
       const tier = url.searchParams.get('access_tier');
       const select = url.searchParams.get('select') ?? '';
@@ -26,19 +26,19 @@ test('公開カタログとランキングを再読み込みで再利用し、�
   });
   await page.goto('/popular');
   await expect(page.getByTestId('ranking-list-technique').getByTestId('ranking-card')).toHaveCount(10);
-  await expect.poll(() => catalogueRequests).toBe(6);
-  await expect.poll(() => page.evaluate(() => Boolean(localStorage.getItem('@shoseijutsu-roku/published-content/v1')))).toBe(true);
+  await expect.poll(() => catalogueRequests).toBe(7);
+  await expect.poll(() => page.evaluate(() => Boolean(localStorage.getItem('@shoseijutsu-roku/published-content/v3')))).toBe(true);
   await page.reload();
   await expect(page.getByTestId('ranking-list-technique').getByTestId('ranking-card')).toHaveCount(10);
-  expect(catalogueRequests).toBe(6);
+  expect(catalogueRequests).toBe(7);
   expect(rankingRequests).toBe(1);
   await page.evaluate(() => {
-    const key = '@shoseijutsu-roku/published-content/v1';
+    const key = '@shoseijutsu-roku/published-content/v3';
     const snapshot = JSON.parse(localStorage.getItem(key)!);
     snapshot.fetchedAt = Date.now() - 60 * 60 * 1000;
     localStorage.setItem(key, JSON.stringify(snapshot));
   });
   await page.reload();
-  await expect.poll(() => catalogueRequests).toBe(12);
+  await expect.poll(() => catalogueRequests).toBe(14);
   expect(rankingRequests).toBe(1);
 });

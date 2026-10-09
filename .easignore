@@ -45,3 +45,5 @@ site
 src/data/generated/theories.json
 src/data/generated/techniques.json
 src/data/generated/practical-actions.json
+
+*.log

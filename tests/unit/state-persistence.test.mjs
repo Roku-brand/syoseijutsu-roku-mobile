@@ -40,6 +40,28 @@ test('slow storage releases the UI without overwriting saved data, then replays 
   assert.deepEqual(writes, [state]);
 });
 
+test('normalized restoration is saved only after a successful read and not rewritten on the next load', async () => {
+  const read = deferred(), writes = [];
+  const storage = { getItem: () => read.promise, setItem: async (_, value) => { writes.push(value); }, removeItem: async () => {} };
+  const options = { storage, key: 'migration', initialState: createInitialAppState, restore: value => restoreAppState(value, () => true), reduce: reduceAppState, persistRestoredState: true, onError: () => {} };
+  const controller = createStatePersistence(options);
+  controller.start(1);
+  await delay(10);
+  assert.deepEqual(writes, []);
+  read.resolve(JSON.stringify({ savedIds: ['keep'], notes: { keep: 'preserved' } }));
+  await delay(0);
+  await controller.flush();
+  assert.equal(writes.length, 1);
+  assert.deepEqual(JSON.parse(writes[0]).savedIds, ['keep']);
+  assert.deepEqual(JSON.parse(writes[0]).notes, { keep: 'preserved' });
+  storage.getItem = async () => writes[0];
+  const reloaded = createStatePersistence(options);
+  reloaded.start();
+  await delay(0);
+  await reloaded.flush();
+  assert.equal(writes.length, 1);
+});
+
 test('corrupt JSON and read failures preserve the original storage until explicit clear', async () => {
   for (const getItem of [async () => '{broken', async () => { throw new Error('storage blocked'); }]) {
     const { controller, writes, errors } = setup({ getItem });
