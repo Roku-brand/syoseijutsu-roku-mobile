@@ -37,6 +37,11 @@ src/data/generated/*.full.json
 
 .expo
 release-evidence
+.technique-release-worktree
+site
+*.tgz
+*.ipa
+*.zip
 src/data/generated/theories.json
 src/data/generated/techniques.json
 src/data/generated/practical-actions.json
