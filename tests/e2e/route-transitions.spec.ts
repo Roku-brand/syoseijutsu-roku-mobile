@@ -40,7 +40,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await nav.getByRole('link', { name: /^学ぶ/ }).click();
   await expect(page).toHaveURL(/\/learn$/);
 
-  await page.getByRole('button', { name: 'メニューを開く', exact: true }).click();
+  await page.getByRole('button', { name: '設定を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings$/);
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(16px\)/);
   await expect(content).toHaveAttribute('data-last-motion-duration', '300');

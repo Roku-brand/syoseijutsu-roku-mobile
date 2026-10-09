@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-10-05T02:37:07.447Z",
+  "base": "https://app.shoseijutsuroku.com",
+  "searches": [
+    {
+      "alias": "Proteus effect",
+      "title": "プロテウス効果",
+      "status": 200,
+      "visible": true
+    },
+    {
+      "alias": "CBT",
+      "title": "認知行動療法",
+      "status": 200,
+      "visible": true
+    },
+    {
+      "alias": "SWOT",
+      "title": "SWOT分析",
+      "status": 200,
+      "visible": true
+    },
+    {
+      "alias": "カリギュラ効果",
+      "title": "カリギュラ効果",
+      "status": 200,
+      "visible": true
+    }
+  ],
+  "developmentSectionVisible": true,
+  "noHorizontalOverflow": true,
+  "totalCountVisible": 794,
+  "totalCheckedAt": "2026-10-05T02:38:12.393Z"
+}

@@ -168,5 +168,5 @@ const styles = StyleSheet.create({
   personHead: { width: 8, height: 8, borderRadius: 4, marginBottom: 2 },
   personShoulders: { width: 20, height: 10, borderTopLeftRadius: 10, borderTopRightRadius: 10 },
   label: { color: '#44423E', fontSize: 10, lineHeight: 14, fontWeight: '600' },
-  labelActive: { color: colors.gold },
+  labelActive: { color: colors.goldDeep },
 });

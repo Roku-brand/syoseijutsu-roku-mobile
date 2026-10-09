@@ -9,6 +9,7 @@ import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/bo
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { categoryMeta, techniqueById, techniqueCards, theories, theoryById } from '../../data/catalog';
+import { techniqueCategoryImages } from '../../data/category-images';
 import { isLockedTheoryShell } from '../../data/theory-display';
 import type { CategoryKey, TechniqueCard, TheoryCard } from '../../data/types';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
@@ -17,9 +18,7 @@ import { colors, fonts } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 
 const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
-  interpersonal: require('../../../assets/home/interpersonal-v2.webp'),
-  work: require('../../../assets/home/work-v2.webp'),
-  life: require('../../../assets/home/life-v2.webp'),
+  ...techniqueCategoryImages,
   theory: require('../../../assets/home/theory-v2.webp'),
 };
 const premiumImage = require('../../../assets/home/premium-banner-v2.webp');

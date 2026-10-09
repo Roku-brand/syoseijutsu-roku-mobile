@@ -36,7 +36,7 @@ export type TechniqueCard = TechniqueSource & {
 
 export type TheoryCard = {
   tagId: string;
-  /** Stable, public sequence number. The route/relation key remains tagId. */
+  /** Public sequence within the major category. The stable route/relation key remains tagId. */
   displayId?: number | null;
   /** Requested number while an item is still a draft. */
   draftDisplayId?: number | null;
@@ -45,6 +45,13 @@ export type TheoryCard = {
   summary: string;
   categoryId: string;
   categoryTitle: string;
+  subcategoryId?: string;
+  subcategoryTitle?: string;
+  /** Independent of the public display number. */
+  sortOrder?: number;
+  canonicalId?: string;
+  legacyIds?: string[];
+  mergedFromIds?: string[];
   /** 英語名・邦訳違い・略称など、同じ理論へ到達する検索語。 */
   aliases?: string[];
   /** 編集者が意味的な近さを確認した、次に読む価値の高い理論。 */

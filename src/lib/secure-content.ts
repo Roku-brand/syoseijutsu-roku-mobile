@@ -16,11 +16,12 @@ type PaidContentRow<T> = {
 
 let hydratedUserId: string | null = null;
 let hydratedAt = 0;
+let completeHydration = false;
 let hydrationPromise: Promise<void> | null = null;
 let secureGeneration = 0;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
-const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v12';
+const PAID_CONTENT_CACHE_KEY = '@shoseijutsu-roku/paid-content/v13';
 const PAID_CONTENT_CACHE_MS = 60 * 60 * 1000;
 
 type PaidContentSnapshot = {
@@ -131,6 +132,7 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     hydratePaidTheories(theories);
     hydratedUserId = userId;
     hydratedAt = 0;
+    completeHydration = false;
     onContentApplied?.();
     await hydrateRemainingContent(userId, theories, onContentApplied, generation);
   })();
@@ -163,6 +165,7 @@ export async function refreshSecureContent(onContentApplied?: () => void): Promi
     applyPaidContent(techniques, theories, learning);
     hydratedUserId = userId;
     hydratedAt = Date.now();
+    completeHydration = true;
     onContentApplied?.();
     const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
     await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(snapshot)));
@@ -185,6 +188,7 @@ export async function restoreCachedSecureContent(expectedUserId: string, freshOn
     applyPaidContent(snapshot.techniques, snapshot.theories, snapshot.learning);
     hydratedUserId = snapshot.userId;
     hydratedAt = Date.parse(snapshot.savedAt);
+    completeHydration = true;
     return true;
   } catch {
     return false;
@@ -207,6 +211,7 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[], o
   if (!techniques.length || !learning.length) throw new Error('完全版データが不足しています。');
   applyPaidContent(techniques, theories, learning);
   hydratedAt = Date.now();
+    completeHydration = true;
   onContentApplied?.();
   if (generation !== secureGeneration) return;
   const snapshot: PaidContentSnapshot = { version: 9, userId, savedAt: new Date().toISOString(), techniques, theories, learning };
@@ -215,13 +220,14 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[], o
 
 /** Whether the in-memory catalogue belongs to the currently verified user. */
 export function hasHydratedSecureContent(userId: string | null | undefined, freshOnly = false): boolean {
-  return Boolean(userId) && hydratedUserId === userId && (!freshOnly || isFreshTimestamp(hydratedAt, PAID_CONTENT_CACHE_MS));
+  return Boolean(userId) && hydratedUserId === userId && completeHydration && (!freshOnly || isFreshTimestamp(hydratedAt, PAID_CONTENT_CACHE_MS));
 }
 
 export function purgeSecureContent() {
   secureGeneration += 1;
   hydratedUserId = null;
   hydratedAt = 0;
+    completeHydration = false;
   hydrationPromise = null;
   resetCatalog();
   resetLearningCases();

@@ -1,3 +1,5 @@
+import theoryRedirects from '../src/data/generated/theory-id-redirects.json' with { type: 'json' };
+
 // Curated, one-way source of truth for theory links in the master catalog.
 // The original 336 IDs remain immutable; additions continue the same sequence.
 // A card receives only theories that explain its operative mechanism directly.
@@ -73,7 +75,7 @@ if (rows.length !== 356) {
 export const master336PrimaryTheoryLinks = Object.fromEntries(
   rows.map((ids, index) => [
     `master336-${String(index + 1).padStart(3, '0')}`,
-    ids.map((id) => `kb_${id}`),
+    [...new Set(ids.map((id) => theoryRedirects[`kb_${id}`] ?? `kb_${id}`))],
   ]),
 );
 

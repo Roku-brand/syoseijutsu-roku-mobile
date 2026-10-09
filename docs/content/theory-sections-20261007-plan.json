@@ -1,0 +1,6575 @@
+{
+  "contentHash": "186d7298d9cf5729a531fc7ebf507132",
+  "classificationHash": "04daa5ab98d52d348a2507a820c73bea",
+  "subcategories": [
+    {
+      "id": "psychology-c",
+      "categoryId": "psychology",
+      "title": "認知・判断",
+      "displayOrder": 1
+    },
+    {
+      "id": "psychology-e",
+      "categoryId": "psychology",
+      "title": "感情・ストレス",
+      "displayOrder": 2
+    },
+    {
+      "id": "psychology-s",
+      "categoryId": "psychology",
+      "title": "自己理解・成長",
+      "displayOrder": 3
+    },
+    {
+      "id": "psychology-i",
+      "categoryId": "psychology",
+      "title": "人間関係・コミュニケーション",
+      "displayOrder": 4
+    },
+    {
+      "id": "psychology-v",
+      "categoryId": "psychology",
+      "title": "集団心理・社会的影響",
+      "displayOrder": 5
+    },
+    {
+      "id": "psychology-m",
+      "categoryId": "psychology",
+      "title": "記憶・注意",
+      "displayOrder": 6
+    },
+    {
+      "id": "behavioral-science-d",
+      "categoryId": "behavioral-science",
+      "title": "意思決定・選択",
+      "displayOrder": 1
+    },
+    {
+      "id": "behavioral-science-m",
+      "categoryId": "behavioral-science",
+      "title": "動機づけ・目標達成",
+      "displayOrder": 2
+    },
+    {
+      "id": "behavioral-science-h",
+      "categoryId": "behavioral-science",
+      "title": "習慣・行動設計",
+      "displayOrder": 3
+    },
+    {
+      "id": "behavioral-science-l",
+      "categoryId": "behavioral-science",
+      "title": "学習・強化",
+      "displayOrder": 4
+    },
+    {
+      "id": "organization-management-i",
+      "categoryId": "organization-management",
+      "title": "働き方・キャリア",
+      "displayOrder": 1
+    },
+    {
+      "id": "organization-management-t",
+      "categoryId": "organization-management",
+      "title": "チーム・リーダーシップ",
+      "displayOrder": 2
+    },
+    {
+      "id": "organization-management-o",
+      "categoryId": "organization-management",
+      "title": "組織運営・人材育成",
+      "displayOrder": 3
+    },
+    {
+      "id": "organization-management-n",
+      "categoryId": "organization-management",
+      "title": "人脈・評判",
+      "displayOrder": 4
+    },
+    {
+      "id": "organization-management-p",
+      "categoryId": "organization-management",
+      "title": "権力・地位",
+      "displayOrder": 5
+    },
+    {
+      "id": "organization-management-m",
+      "categoryId": "organization-management",
+      "title": "経営・事業",
+      "displayOrder": 6
+    },
+    {
+      "id": "strategy-a",
+      "categoryId": "strategy",
+      "title": "状況分析・判断",
+      "displayOrder": 1
+    },
+    {
+      "id": "strategy-n",
+      "categoryId": "strategy",
+      "title": "交渉",
+      "displayOrder": 2
+    },
+    {
+      "id": "strategy-c",
+      "categoryId": "strategy",
+      "title": "競争・協力",
+      "displayOrder": 3
+    },
+    {
+      "id": "strategy-g",
+      "categoryId": "strategy",
+      "title": "ゲーム理論",
+      "displayOrder": 4
+    },
+    {
+      "id": "strategy-r",
+      "categoryId": "strategy",
+      "title": "リスク・撤退",
+      "displayOrder": 5
+    },
+    {
+      "id": "strategy-d",
+      "categoryId": "strategy",
+      "title": "計画・実行・適応",
+      "displayOrder": 6
+    },
+    {
+      "id": "practical-wisdom-c",
+      "categoryId": "practical-wisdom",
+      "title": "会話・伝え方",
+      "displayOrder": 1
+    },
+    {
+      "id": "practical-wisdom-r",
+      "categoryId": "practical-wisdom",
+      "title": "人付き合い・距離感",
+      "displayOrder": 2
+    },
+    {
+      "id": "practical-wisdom-j",
+      "categoryId": "practical-wisdom",
+      "title": "考え方・判断",
+      "displayOrder": 3
+    },
+    {
+      "id": "practical-wisdom-a",
+      "categoryId": "practical-wisdom",
+      "title": "行動・継続",
+      "displayOrder": 4
+    },
+    {
+      "id": "practical-wisdom-w",
+      "categoryId": "practical-wisdom",
+      "title": "仕事・キャリア",
+      "displayOrder": 5
+    },
+    {
+      "id": "practical-wisdom-s",
+      "categoryId": "practical-wisdom",
+      "title": "心と生活の整え方",
+      "displayOrder": 6
+    },
+    {
+      "id": "classics-thought-e",
+      "categoryId": "classics-thought",
+      "title": "東洋思想",
+      "displayOrder": 1
+    },
+    {
+      "id": "classics-thought-w",
+      "categoryId": "classics-thought",
+      "title": "西洋思想",
+      "displayOrder": 2
+    },
+    {
+      "id": "classics-thought-b",
+      "categoryId": "classics-thought",
+      "title": "兵法",
+      "displayOrder": 3
+    },
+    {
+      "id": "classics-thought-p",
+      "categoryId": "classics-thought",
+      "title": "ことわざ・格言",
+      "displayOrder": 4
+    },
+    {
+      "id": "classics-thought-f",
+      "categoryId": "classics-thought",
+      "title": "文学",
+      "displayOrder": 5
+    }
+  ],
+  "redirects": {
+    "psychology-a": "psychology-e",
+    "psychology-g": "psychology-e",
+    "psychology-d": "psychology-s",
+    "psychology-u": "psychology-i",
+    "psychology-t": "psychology-e",
+    "behavioral-science-x": "behavioral-science-d",
+    "behavioral-science-g": "behavioral-science-m",
+    "behavioral-science-e": "behavioral-science-h",
+    "organization-management-l": "organization-management-t",
+    "organization-management-h": "organization-management-o",
+    "strategy-j": "strategy-a",
+    "strategy-e": "strategy-d",
+    "practical-wisdom-t": "practical-wisdom-j",
+    "practical-wisdom-k": "practical-wisdom-w",
+    "classics-thought-q": "classics-thought-p"
+  },
+  "assignments": [
+    {
+      "tagId": "kb_399",
+      "title": "印象形成理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 1,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_003",
+      "title": "ハロー効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 2,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_001",
+      "title": "初頭効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 3,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_002",
+      "title": "親近効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 4,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_596",
+      "title": "確証バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 5,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_880",
+      "title": "素朴実在論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 6,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_881",
+      "title": "認知的閉鎖欲求",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 7,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_045",
+      "title": "基本的帰属の誤り",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 8,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_597",
+      "title": "利用可能性ヒューリスティック",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 9,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_875",
+      "title": "錯誤相関",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 10,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_752",
+      "title": "解釈レベル理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 11,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_573",
+      "title": "二分法的思考",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 12,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_265",
+      "title": "認知的不協和",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 13,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_218",
+      "title": "アイロニック・プロセス理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 14,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_556",
+      "title": "忙しさバイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 15,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_421",
+      "title": "一貫性ヒューリスティック",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 16,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_813",
+      "title": "エゴセントリック・バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 17,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_017",
+      "title": "カクテルパーティー効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 1,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_870",
+      "title": "ストループ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 2,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_872",
+      "title": "非注意性盲目",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 3,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_873",
+      "title": "変化盲",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 4,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_874",
+      "title": "注意の瞬き",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 5,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_576",
+      "title": "過度の一般化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 18,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_430",
+      "title": "感情ヒューリスティック",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 19,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_722",
+      "title": "結果バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 20,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_452",
+      "title": "権威バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 21,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_046",
+      "title": "行為者・観察者バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 22,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_269",
+      "title": "公正世界仮説",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 23,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_027",
+      "title": "誤帰属理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 24,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_231",
+      "title": "コントロール幻想",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 25,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_396",
+      "title": "自己高揚バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 26,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_708",
+      "title": "自己奉仕バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 27,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_710",
+      "title": "自信過剰効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 28,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_425",
+      "title": "順応水準理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 29,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_400",
+      "title": "情報ギャップ理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 30,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_219",
+      "title": "白熊効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 31,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_550",
+      "title": "新奇性効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 32,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_718",
+      "title": "真実性錯覚",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 33,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_896",
+      "title": "処理流暢性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 34,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_232",
+      "title": "スポットライト効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 35,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_720",
+      "title": "正常性バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 36,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_723",
+      "title": "説明深度の錯覚",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 37,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_587",
+      "title": "選択されなかった道の理想化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 38,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_811",
+      "title": "第三者効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 39,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_706",
+      "title": "ダニング＝クルーガー効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 40,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_721",
+      "title": "知識の呪い",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 41,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_812",
+      "title": "敵対的メディア効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 42,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_233",
+      "title": "透明性の錯覚",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 43,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_707",
+      "title": "偽の合意効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 44,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_814",
+      "title": "偽の独自性効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 45,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_577",
+      "title": "認知的オフローディング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 46,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_574",
+      "title": "認知的柔軟性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 47,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_858",
+      "title": "認知的プライミング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 48,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_511",
+      "title": "ネガティビティ・バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 49,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_820",
+      "title": "ノセボ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 50,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_709",
+      "title": "後知恵バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 51,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_719",
+      "title": "バイアスの盲点",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 52,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_387",
+      "title": "薄片判断",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 53,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_450",
+      "title": "パターン認識",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 54,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_559",
+      "title": "場の理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 55,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_586",
+      "title": "反実仮想",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 56,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_029",
+      "title": "ピーク・エンドの法則",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 57,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_236",
+      "title": "フォーカシング・イリュージョン",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 58,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_819",
+      "title": "プラセボ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 59,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_429",
+      "title": "ホット・コールド共感ギャップ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 60,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_810",
+      "title": "楽観バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 61,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_716",
+      "title": "小数の法則",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 62,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_712",
+      "title": "代表性ヒューリスティック",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 63,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_105",
+      "title": "バーナム効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 64,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_190",
+      "title": "計画錯誤",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-c",
+      "sortOrder": 65,
+      "subcategoryTitle": "認知・判断"
+    },
+    {
+      "tagId": "kb_023",
+      "title": "感情伝染",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 1,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_885",
+      "title": "感情の二要因理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 2,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_886",
+      "title": "ジェームズ＝ランゲ理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 3,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_905",
+      "title": "キャノン＝バード理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 4,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_602",
+      "title": "拡張・形成理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 5,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_234",
+      "title": "感情予測の誤り",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 6,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_235",
+      "title": "インパクト・バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 7,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_268",
+      "title": "快楽順応",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 8,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_736",
+      "title": "フロー理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 9,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_158",
+      "title": "感情＝社会的情報理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 10,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_601",
+      "title": "予期的味わい",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 11,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_169",
+      "title": "自己効力感",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 1,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_906",
+      "title": "PERMAモデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 2,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_259",
+      "title": "自己概念明確性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 3,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_257",
+      "title": "自己不一致理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 4,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_020",
+      "title": "自己検証理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 5,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_420",
+      "title": "自己知覚理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 6,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_869",
+      "title": "プロテウス効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 7,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_883",
+      "title": "モラル・ライセンシング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 8,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_263",
+      "title": "成長マインドセット",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 9,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_583",
+      "title": "固定的自己観",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 10,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_724",
+      "title": "ビッグ・ファイブ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 11,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_726",
+      "title": "HEXACOモデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 12,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_251",
+      "title": "アイデンティティ移行",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 13,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_249",
+      "title": "アイデンティティ喪失",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 14,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_589",
+      "title": "アイデンティティ・フォークロージャー",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 15,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_727",
+      "title": "インポスター現象",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 16,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_239",
+      "title": "学習性無力感",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 17,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_244",
+      "title": "仮定世界理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 18,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_256",
+      "title": "可能自己",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 19,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_582",
+      "title": "基本的前提の動揺",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 20,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_021",
+      "title": "自己拡張理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 21,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_558",
+      "title": "自己更新",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 22,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_478",
+      "title": "自己注目理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 23,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_479",
+      "title": "自己卑下的呈示",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 24,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_258",
+      "title": "自己複雑性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 25,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_266",
+      "title": "社会的比較理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 26,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_590",
+      "title": "拙速な再同一化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 27,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_264",
+      "title": "セルフ・コンパッション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 28,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_728",
+      "title": "セルフ・ハンディキャッピング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 29,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_815",
+      "title": "ソシオメーター理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 30,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_271",
+      "title": "存在的真空",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 31,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_725",
+      "title": "統制の所在",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 32,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_882",
+      "title": "テロ管理理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 33,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_246",
+      "title": "ナラティブ・アイデンティティ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 34,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_270",
+      "title": "補償的コントロール理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 35,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_250",
+      "title": "役割退出理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 36,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_252",
+      "title": "リミナリティ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 37,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_111",
+      "title": "印象管理理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 38,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_112",
+      "title": "自己呈示理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 39,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_115",
+      "title": "自他知識非対称性モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 40,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_122",
+      "title": "反射的栄光浴",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 41,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_121",
+      "title": "ハンブルブラッグ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 42,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_221",
+      "title": "心理的柔軟性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 43,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_036",
+      "title": "愛着理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 1,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_009",
+      "title": "社会的浸透理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 2,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_008",
+      "title": "自己開示の返報性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 3,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_030",
+      "title": "社会的交換理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 4,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_031",
+      "title": "衡平理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 5,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_033",
+      "title": "相互依存性理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 6,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_034",
+      "title": "投資モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 7,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_822",
+      "title": "恋愛の三角理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 8,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_004",
+      "title": "単純接触効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 9,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_005",
+      "title": "類似性魅力効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 10,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_007",
+      "title": "好意の返報性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 11,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_047",
+      "title": "返報性の原理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 12,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_011",
+      "title": "応答性理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 13,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_095",
+      "title": "ガスライティング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 14,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_428",
+      "title": "葛藤回避の逆説",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 15,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_391",
+      "title": "カメレオン効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 16,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_426",
+      "title": "関係維持行動",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 17,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_038",
+      "title": "関係のエスカレーション・モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 18,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_039",
+      "title": "関係破綻・修復モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 19,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_044",
+      "title": "帰属的葛藤",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 20,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_434",
+      "title": "期待違反理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 21,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_444",
+      "title": "キック・ザ・ドッグ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 22,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_092",
+      "title": "境界線理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 23,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_404",
+      "title": "共感的理解",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 24,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_816",
+      "title": "拒絶感受性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 25,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_821",
+      "title": "近接性効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 26,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_026",
+      "title": "ゲイン・ロス効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 27,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_015",
+      "title": "言語スタイル同調",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 28,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_390",
+      "title": "行動同調",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 29,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_818",
+      "title": "心の理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 30,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_041",
+      "title": "ゴットマンの四騎士",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 31,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_032",
+      "title": "コミューナル関係・交換関係",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 32,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_035",
+      "title": "最小関心原理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 33,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_446",
+      "title": "三角関係化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 34,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_410",
+      "title": "支援適合理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 35,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_018",
+      "title": "質問好意効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 36,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_564",
+      "title": "社会的支援理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 37,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_824",
+      "title": "社会的ベースライン理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 38,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_447",
+      "title": "情報境界理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 39,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_730",
+      "title": "所属欲求",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 40,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_037",
+      "title": "親密性平衡モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 41,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_424",
+      "title": "信頼修復理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 42,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_439",
+      "title": "信頼の段階的回復",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 43,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_050",
+      "title": "心理的リアクタンス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 44,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_898",
+      "title": "カリギュラ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 45,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_397",
+      "title": "脆弱性の相互性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 46,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_566",
+      "title": "相対的剥奪",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 47,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_006",
+      "title": "相補性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 48,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_817",
+      "title": "ダークトライアド",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 49,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_096",
+      "title": "DARVO",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 50,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_022",
+      "title": "対人魅力の報酬理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 51,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_094",
+      "title": "ダブルバインド",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 52,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_012",
+      "title": "知覚されたパートナー応答性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 53,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_028",
+      "title": "吊り橋効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 54,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_093",
+      "title": "共依存",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 55,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_043",
+      "title": "ネガティブ感情の相互性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 56,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_436",
+      "title": "フェイス理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 57,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_056",
+      "title": "フェイスワーク",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 58,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_010",
+      "title": "不確実性低減理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 59,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_433",
+      "title": "不当な義務感",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 60,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_025",
+      "title": "プラットフォール効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 61,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_019",
+      "title": "ベン・フランクリン効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 62,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_823",
+      "title": "マッチング仮説",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 63,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_419",
+      "title": "ミケランジェロ現象",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 64,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_014",
+      "title": "ミラーリング効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 65,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_057",
+      "title": "許しのプロセスモデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 66,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_042",
+      "title": "要求・撤退パターン",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 67,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_422",
+      "title": "予測可能性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 68,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_600",
+      "title": "ライキング・ギャップ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 69,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_013",
+      "title": "ラポールの三要素モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 70,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_114",
+      "title": "現実的正確性モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 71,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_462",
+      "title": "互恵性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 72,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_460",
+      "title": "個人化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 73,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_472",
+      "title": "バランス理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 74,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_203",
+      "title": "不確実性不耐性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 12,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_204",
+      "title": "心配の回避理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 13,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_206",
+      "title": "認知的注意症候群",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 14,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_205",
+      "title": "メタ認知モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 15,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_216",
+      "title": "反すう理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 16,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_213",
+      "title": "破局的思考",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 17,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_207",
+      "title": "安全行動",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 18,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_208",
+      "title": "回避学習",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 19,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_214",
+      "title": "確率過大評価",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 20,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_212",
+      "title": "感情推論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 21,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_220",
+      "title": "経験回避",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 22,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_215",
+      "title": "コスト過大評価",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 23,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_565",
+      "title": "ストレス緩衝仮説",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 24,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_228",
+      "title": "ストレス評価理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 25,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_211",
+      "title": "抑制学習モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 26,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_240",
+      "title": "レジリエンス理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 27,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_254",
+      "title": "曖昧な喪失",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 28,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_255",
+      "title": "権利を認められない悲嘆",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 29,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_588",
+      "title": "喪失の二重過程モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 30,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_242",
+      "title": "心的外傷後成長",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 31,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_245",
+      "title": "シャッタード・アサンプション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 32,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_243",
+      "title": "意味生成モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 33,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_581",
+      "title": "意味世界の崩壊",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 34,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_248",
+      "title": "汚染物語",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 35,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_241",
+      "title": "回復軌道モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 36,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_563",
+      "title": "死の顕現性",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 37,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_247",
+      "title": "償還物語",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 38,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_745",
+      "title": "ワーキングメモリ・モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 6,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_738",
+      "title": "エビングハウスの忘却曲線",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 7,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_879",
+      "title": "検索誘導性忘却",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 8,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_739",
+      "title": "系列位置効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 9,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_744",
+      "title": "処理水準理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 10,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_743",
+      "title": "符号化特定性原理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 11,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_876",
+      "title": "誤情報効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 12,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_877",
+      "title": "ソースモニタリング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 13,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_826",
+      "title": "文脈依存記憶",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 14,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_827",
+      "title": "状態依存記憶",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 15,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_878",
+      "title": "気分一致記憶",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 16,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_742",
+      "title": "二重符号化理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 17,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_746",
+      "title": "チャンク化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 18,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_441",
+      "title": "外部記憶",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 19,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_831",
+      "title": "記憶の再固定化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 20,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_393",
+      "title": "自己関連づけ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 21,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_741",
+      "title": "生成効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 22,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_830",
+      "title": "転移適合処理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 23,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_493",
+      "title": "認知負荷理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 24,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_740",
+      "title": "フォン・レストルフ効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 25,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_829",
+      "title": "流暢性の錯覚",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 26,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_414",
+      "title": "連想ネットワーク",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 27,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_531",
+      "title": "ツァイガルニク効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-m",
+      "sortOrder": 28,
+      "subcategoryTitle": "記憶・注意"
+    },
+    {
+      "tagId": "kb_403",
+      "title": "ロジャーズの受容",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 75,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_412",
+      "title": "アクティブリスニング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 76,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_411",
+      "title": "共感的傾聴",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 77,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_051",
+      "title": "アサーション理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 78,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_052",
+      "title": "DESC法",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 79,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_053",
+      "title": "非暴力コミュニケーション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 80,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_225",
+      "title": "マインドフルネス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 39,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_210",
+      "title": "曝露療法",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 40,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_901",
+      "title": "認知行動療法",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 41,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_238",
+      "title": "ストレス接種訓練",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 42,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_272",
+      "title": "ロゴセラピー",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 43,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_222",
+      "title": "アクセプタンス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 44,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_024",
+      "title": "アクティブ・コンストラクティブ・レスポンディング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 81,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_262",
+      "title": "学習性楽観主義",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 44,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_405",
+      "title": "感情焦点型コミュニケーション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 82,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_227",
+      "title": "感情ラベリング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 45,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_427",
+      "title": "境界設定",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 83,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_217",
+      "title": "具体性訓練",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 46,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_097",
+      "title": "グレーロック法",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 84,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_040",
+      "title": "修復試行",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 85,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_226",
+      "title": "セルフ・ディスタンシング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 47,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_224",
+      "title": "脱中心化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 48,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_054",
+      "title": "DEAR MAN",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 86,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_230",
+      "title": "二次的コントロール",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 49,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_223",
+      "title": "認知的脱フュージョン",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 50,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_580",
+      "title": "反すうの中断",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 51,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_578",
+      "title": "筆記開示",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 52,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_237",
+      "title": "防衛的悲観主義",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 53,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_229",
+      "title": "問題焦点型・感情焦点型コーピング",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 54,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_202",
+      "title": "行動活性化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-e",
+      "sortOrder": 55,
+      "subcategoryTitle": "感情・ストレス"
+    },
+    {
+      "tagId": "kb_099",
+      "title": "ドア・イン・ザ・フェイス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 87,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_098",
+      "title": "フット・イン・ザ・ドア",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 88,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_100",
+      "title": "ローボール・テクニック",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 89,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_058",
+      "title": "社会的アイデンティティ理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 1,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_059",
+      "title": "自己カテゴリー化理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 2,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_062",
+      "title": "最小条件集団パラダイム",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 3,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_060",
+      "title": "内集団バイアス",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 4,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_061",
+      "title": "外集団同質性効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 5,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_063",
+      "title": "同調効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 6,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_888",
+      "title": "社会的インパクト理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 7,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_459",
+      "title": "規範的影響",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 8,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_734",
+      "title": "情報的社会的影響",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 9,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_104",
+      "title": "社会的証明",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 10,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_072",
+      "title": "傍観者効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 11,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_477",
+      "title": "一貫性原理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 12,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_733",
+      "title": "権威への服従",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 13,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_731",
+      "title": "ステレオタイプ脅威",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 14,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_106",
+      "title": "情報カスケード",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 15,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_782",
+      "title": "閾値モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 16,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_485",
+      "title": "共通内集団アイデンティティ",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 17,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_481",
+      "title": "謙遜規範",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 18,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_473",
+      "title": "自己成就予言",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 19,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_067",
+      "title": "多元的無知",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 20,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_732",
+      "title": "脱個人化",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 21,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_066",
+      "title": "沈黙の螺旋",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 22,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_484",
+      "title": "同調圧力",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 23,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_457",
+      "title": "同調行動",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 24,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_458",
+      "title": "内集団シグナル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 25,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_470",
+      "title": "排斥理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 26,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_729",
+      "title": "バンドワゴン効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 27,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_762",
+      "title": "ホーソン効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-v",
+      "sortOrder": 28,
+      "subcategoryTitle": "集団心理・社会的影響"
+    },
+    {
+      "tagId": "kb_388",
+      "title": "非言語コミュニケーション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 90,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_871",
+      "title": "マガーク効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 91,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_859",
+      "title": "グライスの協調原理",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 92,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_789",
+      "title": "共通基盤理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 93,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_788",
+      "title": "コミュニケーション適応理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 94,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_860",
+      "title": "ポライトネス理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 95,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_055",
+      "title": "面子理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 96,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_784",
+      "title": "精緻化可能性モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 97,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_413",
+      "title": "会話の連鎖",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 98,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_787",
+      "title": "社会的判断理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 99,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_857",
+      "title": "スリーパー効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 100,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_786",
+      "title": "接種理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 101,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_856",
+      "title": "ナラティブ・トランスポーテーション",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 102,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_861",
+      "title": "二段階流れ仮説",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 103,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_389",
+      "title": "メラビアンの法則",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 104,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_461",
+      "title": "情報源効果",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 105,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_785",
+      "title": "ヒューリスティック・システマティック・モデル",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-i",
+      "sortOrder": 106,
+      "subcategoryTitle": "人間関係・コミュニケーション"
+    },
+    {
+      "tagId": "kb_754",
+      "title": "限定合理性",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 1,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_756",
+      "title": "期待効用理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 2,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_755",
+      "title": "期待値",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 3,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_133",
+      "title": "プロスペクト理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 4,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_887",
+      "title": "ソマティック・マーカー仮説",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 5,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_134",
+      "title": "損失回避",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 6,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_273",
+      "title": "サンクコスト効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 7,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_895",
+      "title": "コミットメントのエスカレーション",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 8,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_175",
+      "title": "現在バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 9,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_176",
+      "title": "双曲割引",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 10,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_276",
+      "title": "最大化傾向",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 11,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_277",
+      "title": "十分化",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 12,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_753",
+      "title": "未来自己連続性",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 13,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_758",
+      "title": "曖昧性回避／エルズバーグ・パラドックス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 14,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_835",
+      "title": "アレのパラドックス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 15,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_191",
+      "title": "意思決定疲れ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 16,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_844",
+      "title": "確率無視",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 17,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_274",
+      "title": "機会費用",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 18,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_840",
+      "title": "希少性マインドセット／トンネリング",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 19,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_713",
+      "title": "ギャンブラーの誤謬",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 20,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_442",
+      "title": "顕示選好",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 21,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_808",
+      "title": "行動バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 22,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_836",
+      "title": "識別可能な被害者効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 23,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_839",
+      "title": "情報回避／オーストリッチ効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 24,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_807",
+      "title": "省略バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 25,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_711",
+      "title": "生存者バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 26,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_809",
+      "title": "ゼロリスク・バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 27,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_843",
+      "title": "分母無視",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 28,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_714",
+      "title": "ホットハンド効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 29,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_757",
+      "title": "メンタル・アカウンティング",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 30,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_715",
+      "title": "連言錯誤",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 31,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_138",
+      "title": "アンカリング効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 32,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_137",
+      "title": "フレーミング効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 33,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_140",
+      "title": "おとり効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 34,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_141",
+      "title": "妥協効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 35,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_136",
+      "title": "現状維持バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 36,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_135",
+      "title": "保有効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 37,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_759",
+      "title": "確実性効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 38,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_837",
+      "title": "IKEA効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 39,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_514",
+      "title": "希少性価値",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 40,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_102",
+      "title": "希少性の原理",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 41,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_401",
+      "title": "限界効用逓減",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 42,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "theory-1789620805420-wbuepmtu",
+      "title": "ゴルディロックス効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 43,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_761",
+      "title": "支払いの痛み",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 44,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_760",
+      "title": "ゼロ価格効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 45,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_521",
+      "title": "選択支持バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 46,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_897",
+      "title": "選択盲",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 47,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_275",
+      "title": "選択のパラドックス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 48,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_139",
+      "title": "対比効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 49,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_842",
+      "title": "単位バイアス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 50,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_838",
+      "title": "ディドロ効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-d",
+      "sortOrder": 51,
+      "subcategoryTitle": "意思決定・選択"
+    },
+    {
+      "tagId": "kb_180",
+      "title": "習慣ループ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 1,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_535",
+      "title": "文脈依存習慣",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 2,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_541",
+      "title": "アイデンティティ・ベース習慣",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 3,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_533",
+      "title": "習慣の下限設定",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 4,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_534",
+      "title": "連続性原理",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 5,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_520",
+      "title": "自己決定理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 1,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_884",
+      "title": "過剰正当化効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 2,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_899",
+      "title": "マズローの欲求階層説",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 3,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_750",
+      "title": "期待価値理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 4,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_168",
+      "title": "期待理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 5,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_751",
+      "title": "時間的動機づけ理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 6,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_183",
+      "title": "目標勾配効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 7,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_260",
+      "title": "アイデンティティに基づく動機づけ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 8,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_261",
+      "title": "希望理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 9,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_833",
+      "title": "自己一致モデル",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 10,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_737",
+      "title": "ヤーキーズ＝ドッドソンの法則",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 11,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_184",
+      "title": "新鮮なスタート効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 12,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_185",
+      "title": "進捗原理",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 13,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_189",
+      "title": "促進焦点・予防焦点",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 14,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_186",
+      "title": "小さな勝利",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 15,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_167",
+      "title": "目標設定理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 16,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_170",
+      "title": "目標階層理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 17,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_187",
+      "title": "学習目標・遂行目標",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 18,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_188",
+      "title": "接近目標・回避目標",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 19,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_172",
+      "title": "実行意図",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 20,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_171",
+      "title": "制御理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 21,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_537",
+      "title": "フィードバックループ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 22,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_174",
+      "title": "プレコミットメント",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 23,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_749",
+      "title": "メンタル・コントラスティング／WOOP・MCII",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 24,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_832",
+      "title": "ゴール・シールディング",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 25,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_572",
+      "title": "目標調整理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 26,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_173",
+      "title": "コミットメント装置",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 27,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_539",
+      "title": "プロセス目標",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 28,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_834",
+      "title": "エピソード的未来思考",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-m",
+      "sortOrder": 29,
+      "subcategoryTitle": "動機づけ・目標達成"
+    },
+    {
+      "tagId": "kb_178",
+      "title": "選択アーキテクチャ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 6,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_179",
+      "title": "ナッジ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 7,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_528",
+      "title": "環境デザイン",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 8,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_181",
+      "title": "行動摩擦",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 9,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_177",
+      "title": "デフォルト効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 10,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_182",
+      "title": "誘惑バンドリング",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 11,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_438",
+      "title": "刺激統制",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-h",
+      "sortOrder": 12,
+      "subcategoryTitle": "習慣・行動設計"
+    },
+    {
+      "tagId": "kb_536",
+      "title": "オペラント条件づけ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 1,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_900",
+      "title": "古典的条件づけ",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 2,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_437",
+      "title": "強化理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 3,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_440",
+      "title": "消去理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 4,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_048",
+      "title": "間欠強化",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 5,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_209",
+      "title": "ネガティブ強化",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 6,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_735",
+      "title": "観察学習／社会的学習理論",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 7,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_200",
+      "title": "間隔効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 8,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_199",
+      "title": "検索練習効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 9,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_201",
+      "title": "望ましい困難",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 10,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_747",
+      "title": "インターリービング効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 11,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_748",
+      "title": "自己説明効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 12,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_198",
+      "title": "デリバレート・プラクティス",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 13,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_049",
+      "title": "消去バースト",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 14,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_415",
+      "title": "精緻化リハーサル",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 15,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_828",
+      "title": "プロテジェ効果",
+      "categoryId": "behavioral-science",
+      "subcategoryId": "behavioral-science-l",
+      "sortOrder": 16,
+      "subcategoryTitle": "学習・強化"
+    },
+    {
+      "tagId": "kb_766",
+      "title": "職務満足",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 1,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_890",
+      "title": "ハーズバーグの二要因理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 2,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_767",
+      "title": "従業員エンゲージメント",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 3,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_500",
+      "title": "燃え尽き理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 4,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_763",
+      "title": "職務要求資源モデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 5,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_907",
+      "title": "職務要求度・コントロールモデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 6,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_540",
+      "title": "回復理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 7,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_772",
+      "title": "資源保存理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 8,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_130",
+      "title": "ジョブ・クラフティング",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 9,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_291",
+      "title": "キャリア・アダプタビリティ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 10,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_805",
+      "title": "キャリア構築理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 11,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_806",
+      "title": "キャリア・アンカー",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 12,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_804",
+      "title": "社会的認知キャリア理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 13,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_480",
+      "title": "感情労働",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 14,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_131",
+      "title": "キャリア資本理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 15,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_868",
+      "title": "境界なきキャリア",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 16,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_292",
+      "title": "クランボルツの社会的学習理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 17,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_290",
+      "title": "計画された偶発性理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 18,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_120",
+      "title": "自己宣伝のジレンマ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 19,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_765",
+      "title": "組織コミットメント",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 20,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_585",
+      "title": "転移可能スキル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 21,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_867",
+      "title": "プロティアン・キャリア",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 22,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_803",
+      "title": "ホランドのRIASECモデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 23,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_764",
+      "title": "職務特性モデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-i",
+      "sortOrder": 24,
+      "subcategoryTitle": "働き方・キャリア"
+    },
+    {
+      "tagId": "kb_777",
+      "title": "共有メンタルモデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 1,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_889",
+      "title": "タックマンモデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 2,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_087",
+      "title": "トランザクティブ・メモリー",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 3,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_070",
+      "title": "社会的手抜き",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 4,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_071",
+      "title": "リンゲルマン効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 5,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_064",
+      "title": "集団思考",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 6,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_068",
+      "title": "アビリーンのパラドックス",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 7,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_065",
+      "title": "集団極性化",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 8,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_074",
+      "title": "期待状態理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 9,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_454",
+      "title": "社会的促進",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 10,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_455",
+      "title": "集団規範",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 11,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_453",
+      "title": "集団規模効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 12,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_069",
+      "title": "少数派影響",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 13,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_073",
+      "title": "責任の分散",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 14,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_771",
+      "title": "従業員の発言行動",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 15,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_402",
+      "title": "心理的安全性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 16,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_773",
+      "title": "変革型リーダーシップ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 17,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_774",
+      "title": "取引型リーダーシップ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 18,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_845",
+      "title": "サーバント・リーダーシップ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 19,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_775",
+      "title": "状況対応型リーダーシップ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 20,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_893",
+      "title": "フィードラーのコンティンジェンシー理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 21,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_776",
+      "title": "パス・ゴール理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 22,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_125",
+      "title": "リーダー・メンバー交換理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-t",
+      "sortOrder": 23,
+      "subcategoryTitle": "チーム・リーダーシップ"
+    },
+    {
+      "tagId": "kb_598",
+      "title": "心理的契約",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 1,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_127",
+      "title": "組織支援理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 2,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_118",
+      "title": "組織市民行動",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 3,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_770",
+      "title": "組織沈黙",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 4,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_506",
+      "title": "組織学習",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 5,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_891",
+      "title": "SECIモデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 6,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_892",
+      "title": "ダブルループ学習",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 7,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_894",
+      "title": "ゴミ箱モデル",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 8,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_507",
+      "title": "標準化",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 9,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_497",
+      "title": "統制範囲",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 10,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_781",
+      "title": "イノベーション普及理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 11,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_510",
+      "title": "信頼性理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 12,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_846",
+      "title": "心理的所有感",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 13,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_516",
+      "title": "知識共有",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 14,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_456",
+      "title": "文化的適合理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 15,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_195",
+      "title": "目標代替",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 16,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_508",
+      "title": "目標置換",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 17,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_155",
+      "title": "手続的公正",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 18,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_768",
+      "title": "分配的公正",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 19,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_769",
+      "title": "相互作用的公正",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 20,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_123",
+      "title": "ピグマリオン効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 21,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_124",
+      "title": "ゴーレム効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 22,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_132",
+      "title": "ピーターの法則",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 23,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_129",
+      "title": "人・職務適合理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 24,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_128",
+      "title": "人・組織適合理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 25,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_584",
+      "title": "人的資本",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 26,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_571",
+      "title": "人的資本論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 27,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_395",
+      "title": "特性称賛と過程称賛",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 28,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_501",
+      "title": "アウトカム評価",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 29,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_509",
+      "title": "インセンティブ設計",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 30,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_116",
+      "title": "可視性バイアス",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 31,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_194",
+      "title": "キャンベルの法則",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 32,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_193",
+      "title": "グッドハートの法則",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 33,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_117",
+      "title": "成果帰属問題",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 34,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_491",
+      "title": "強み理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 35,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_119",
+      "title": "能力・好感トレードオフ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-o",
+      "sortOrder": 36,
+      "subcategoryTitle": "組織運営・人材育成"
+    },
+    {
+      "tagId": "kb_081",
+      "title": "社会関係資本",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 1,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_082",
+      "title": "弱い紐帯の強さ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 2,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_085",
+      "title": "ネットワーク中心性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 3,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_083",
+      "title": "構造的空隙",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 4,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_084",
+      "title": "ブローカー理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 5,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_086",
+      "title": "コア・ペリフェリー構造",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 6,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_466",
+      "title": "ネットワーク冗長性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 7,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_090",
+      "title": "ゴシップ理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 8,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_113",
+      "title": "評判形成理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 9,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_512",
+      "title": "評判ネットワーク",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 10,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_465",
+      "title": "社会的埋め込み",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 11,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_088",
+      "title": "信用獲得理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 12,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_126",
+      "title": "スポンサーシップ理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 13,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_851",
+      "title": "ダンバー数",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 14,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_089",
+      "title": "特異性信用",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 15,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_091",
+      "title": "評判カスケード",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 16,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_467",
+      "title": "役割限定性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-n",
+      "sortOrder": 17,
+      "subcategoryTitle": "人脈・評判"
+    },
+    {
+      "tagId": "kb_079",
+      "title": "権力依存理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 1,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_080",
+      "title": "フレンチ＝レイヴンの権力基盤",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 2,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_075",
+      "title": "地位特性理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 3,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_076",
+      "title": "地位一般化",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 4,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_445",
+      "title": "権力の脱抑制",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 5,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_513",
+      "title": "代替可能性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 6,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_518",
+      "title": "代替困難性",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 7,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_077",
+      "title": "マタイ効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 8,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_078",
+      "title": "累積優位",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 9,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_474",
+      "title": "非言語的地位表示",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-p",
+      "sortOrder": 10,
+      "subcategoryTitle": "権力・地位"
+    },
+    {
+      "tagId": "kb_847",
+      "title": "組織的両利き",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 1,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_850",
+      "title": "コア・コンピタンス",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 2,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_848",
+      "title": "資源ベース理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 3,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_849",
+      "title": "ダイナミック・ケイパビリティ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 4,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_197",
+      "title": "制約理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 5,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_196",
+      "title": "ボトルネック理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 6,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_527",
+      "title": "取引費用理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 7,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_854",
+      "title": "規模の経済",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 8,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_855",
+      "title": "範囲の経済",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 9,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_783",
+      "title": "ネットワーク効果",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 10,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_852",
+      "title": "メトカーフの法則",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 11,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_593",
+      "title": "機会認識",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 12,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_853",
+      "title": "経験曲線／学習曲線",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 13,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_423",
+      "title": "サービス・リカバリー・パラドックス",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 14,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_519",
+      "title": "スラック資源",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 15,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_110",
+      "title": "プリンシパル＝エージェント理論",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 16,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_543",
+      "title": "リーン・スタートアップ",
+      "categoryId": "organization-management",
+      "subcategoryId": "organization-management-m",
+      "sortOrder": 17,
+      "subcategoryTitle": "経営・事業"
+    },
+    {
+      "tagId": "kb_908",
+      "title": "SWOT分析",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 1,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_109",
+      "title": "情報の非対称性",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 2,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_107",
+      "title": "シグナリング理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 3,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_108",
+      "title": "スクリーニング",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 4,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_800",
+      "title": "逆選択",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 5,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_801",
+      "title": "モラルハザード",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 6,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_802",
+      "title": "レモン市場",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 7,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_717",
+      "title": "平均への回帰",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 8,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_545",
+      "title": "パレートの法則",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 9,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_449",
+      "title": "ベースレート思考",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 10,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_570",
+      "title": "ベイズ更新",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 11,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_825",
+      "title": "再認主導意思決定モデル",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-a",
+      "sortOrder": 12,
+      "subcategoryTitle": "状況分析・判断"
+    },
+    {
+      "tagId": "kb_142",
+      "title": "BATNA",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 1,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_143",
+      "title": "ZOPA",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 2,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_144",
+      "title": "留保価格",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 3,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_148",
+      "title": "原則立脚型交渉",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 4,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_149",
+      "title": "立場と利益の分離",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 5,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_154",
+      "title": "客観的基準",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 6,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_522",
+      "title": "統合型交渉",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 7,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_150",
+      "title": "ログローリング",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 8,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_151",
+      "title": "パッケージ交渉",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 9,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_152",
+      "title": "MESO",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 10,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_153",
+      "title": "条件付き合意",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 11,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_161",
+      "title": "調停理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 12,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_157",
+      "title": "トーマス＝キルマン・モデル",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 13,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_156",
+      "title": "二重関心理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 14,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_486",
+      "title": "公正フレーミング",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 15,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_524",
+      "title": "限界点シグナリング",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 16,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_145",
+      "title": "固定パイ・バイアス",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 17,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_523",
+      "title": "沈黙の圧力",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 18,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_160",
+      "title": "デエスカレーション",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 19,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_146",
+      "title": "反応的価値下げ",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 20,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_159",
+      "title": "面子保存",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 21,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_147",
+      "title": "利益立脚型交渉",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-n",
+      "sortOrder": 22,
+      "subcategoryTitle": "交渉"
+    },
+    {
+      "tagId": "kb_515",
+      "title": "比較優位",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-c",
+      "sortOrder": 1,
+      "subcategoryTitle": "競争・協力"
+    },
+    {
+      "tagId": "kb_289",
+      "title": "ロックイン効果",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-c",
+      "sortOrder": 2,
+      "subcategoryTitle": "競争・協力"
+    },
+    {
+      "tagId": "kb_476",
+      "title": "相互抑止",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-c",
+      "sortOrder": 3,
+      "subcategoryTitle": "競争・協力"
+    },
+    {
+      "tagId": "kb_525",
+      "title": "勝者の呪い回避",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-c",
+      "sortOrder": 4,
+      "subcategoryTitle": "競争・協力"
+    },
+    {
+      "tagId": "kb_791",
+      "title": "支配戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 1,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_790",
+      "title": "ナッシュ均衡",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 2,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_864",
+      "title": "サブゲーム完全均衡",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 3,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_792",
+      "title": "後方帰納法",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 4,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_162",
+      "title": "囚人のジレンマ",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 5,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_796",
+      "title": "協調ゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 6,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_797",
+      "title": "スタグハント",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 7,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_165",
+      "title": "チキンゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 8,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_163",
+      "title": "反復ゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 9,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_164",
+      "title": "しっぺ返し戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 10,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_798",
+      "title": "最後通牒ゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 11,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_799",
+      "title": "公共財ゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 12,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_794",
+      "title": "共通知識",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 13,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_795",
+      "title": "ゼロサム／非ゼロサムゲーム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 14,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_863",
+      "title": "パレート効率性",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 15,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_865",
+      "title": "メカニズム・デザイン",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 16,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_862",
+      "title": "ミニマックス／マキシミン",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 17,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_866",
+      "title": "オークション理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 18,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_778",
+      "title": "共有地の悲劇",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 19,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_166",
+      "title": "コミットメント戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 20,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_793",
+      "title": "シェリングの焦点",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 21,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_780",
+      "title": "集合行為問題",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 22,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_779",
+      "title": "フリーライダー問題",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-g",
+      "sortOrder": 23,
+      "subcategoryTitle": "ゲーム理論"
+    },
+    {
+      "tagId": "kb_555",
+      "title": "リスク・オブ・ルイン",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 1,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_542",
+      "title": "破滅回避",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 2,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_286",
+      "title": "撤退戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 3,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_281",
+      "title": "冗長性",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 4,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_280",
+      "title": "分散戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 5,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_567",
+      "title": "ポートフォリオ理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 6,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_278",
+      "title": "オプション価値",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 7,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_279",
+      "title": "リアル・オプション理論",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 8,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_569",
+      "title": "可逆性",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 9,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_599",
+      "title": "プレモーテム",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 10,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_283",
+      "title": "アンチフラジャイル",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 11,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_282",
+      "title": "バーベル戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 12,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_841",
+      "title": "リスク補償／ペルツマン効果",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-r",
+      "sortOrder": 13,
+      "subcategoryTitle": "リスク・撤退"
+    },
+    {
+      "tagId": "kb_284",
+      "title": "OODAループ",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 1,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_548",
+      "title": "適応的計画",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 2,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_285",
+      "title": "創発戦略",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 3,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_287",
+      "title": "探索と活用",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 4,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_288",
+      "title": "経路依存性",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 5,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_488",
+      "title": "漸進主義",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 6,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_544",
+      "title": "選択と集中",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 7,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_561",
+      "title": "バックキャスティング",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 8,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_495",
+      "title": "反復開発",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 9,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_546",
+      "title": "レバレッジ",
+      "categoryId": "strategy",
+      "subcategoryId": "strategy-d",
+      "sortOrder": 10,
+      "subcategoryTitle": "計画・実行・適応"
+    },
+    {
+      "tagId": "kb_416",
+      "title": "沈黙耐性",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 1,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_398",
+      "title": "同意形成としての許可取り",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 2,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_407",
+      "title": "精緻化質問",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 3,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_016",
+      "title": "呼び名の活用",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 4,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_406",
+      "title": "暫定的な理解の提示",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 5,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_408",
+      "title": "価値観推定",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 6,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_101",
+      "title": "イエス・セット",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 7,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_409",
+      "title": "言語的顕著性",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 8,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_417",
+      "title": "認知的承認",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 9,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_464",
+      "title": "会話ターン取得",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 10,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_463",
+      "title": "タイミング効果",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-c",
+      "sortOrder": 11,
+      "subcategoryTitle": "会話・伝え方"
+    },
+    {
+      "tagId": "kb_431",
+      "title": "境界調整",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 1,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "kb_448",
+      "title": "境界尊重テスト",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 2,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "kb_432",
+      "title": "接触頻度管理",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 3,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "kb_471",
+      "title": "負の紐帯管理",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 4,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-9aef21ca-b8ff-48d5-93cc-5adb7bd329dd",
+      "title": "「雑に扱われる場所に、長居するな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 5,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-c1e25b20-5ff7-47b4-8585-72606829f758",
+      "title": "「頑張らないと続かない縁は、だいたい遠い。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 6,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-18c606ea-e115-4971-9f3a-017fb6a6d753",
+      "title": "「最後まで残るものは、案外、誰と笑ったかだ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 7,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+      "title": "「嫌われない人生は、誰にも届かない。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 8,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-f7fc74ff-d2d1-4254-9135-a2772f36ccf3",
+      "title": "「ここにいていい理由を、毎日稼ぐな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 9,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "theory-ea328bdf-a483-4048-9a88-356239325011",
+      "title": "「持って帰るな。何か置いていけ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-r",
+      "sortOrder": 10,
+      "subcategoryTitle": "人付き合い・距離感"
+    },
+    {
+      "tagId": "kb_552",
+      "title": "セレンディピティ",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 1,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "kb_557",
+      "title": "手段の目的化",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 2,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "kb_568",
+      "title": "最適化の罠",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 3,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "kb_554",
+      "title": "後悔最小化",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 4,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "kb_591",
+      "title": "評価の時間的不確実性",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 5,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-f8329abb-6906-47bb-8dff-85a98adedb64",
+      "title": "「考えているうちに、季節が変わる。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 6,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-6f51e173-64ce-43d1-b64b-92aa5b9794c6",
+      "title": "「便利は借りても、軸は貸すな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 7,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-4f18f89d-592b-418d-a57e-9a5ab75a3ff8",
+      "title": "「何もしなかった日にも、値札はついている。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 8,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-8c2a3b15-0f6d-4225-abda-07eba8eccc4a",
+      "title": "「最後に振り返る自分を、今の会議に呼べ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 9,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-f93822fd-a157-47e3-b766-45eb04f3aa87",
+      "title": "「一本の当たりの後ろに、墓場がある。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 10,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-beebd375-bb7f-4aa0-b21d-8fbb4714c1b1",
+      "title": "「客席からなら、誰でも名将だ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 11,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "theory-bc043984-1d19-4b66-9a5b-f16471ea9c76",
+      "title": "「満足は、たまに目を曇らせる。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-j",
+      "sortOrder": 12,
+      "subcategoryTitle": "考え方・判断"
+    },
+    {
+      "tagId": "kb_529",
+      "title": "スモールステップ",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 1,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "kb_530",
+      "title": "活性化エネルギー",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 2,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "kb_532",
+      "title": "作業興奮",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 3,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-9ad49f9a-e7dd-4b4e-8014-abc9045dd0e3",
+      "title": "「答えは、靴の裏にくっついている。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 4,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
+      "title": "「転ぶなら、前で転べ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 5,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-ba0ccc1b-92c5-48b9-9d1c-9810807d0416",
+      "title": "「安全な場所ほど、景色は変わらない。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 6,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-a3252859-1363-4fba-b94f-9bc4bdb752d8",
+      "title": "「道がないなら、曲がればいい。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 7,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42",
+      "title": "「未完成は、まだ生きている。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 8,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
+      "title": "「急ぐな。でも、今日を逃すな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 9,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-196d34ef-6d9c-489a-9282-dc38243df12a",
+      "title": "「無傷で帰るつもりなら、遠くへは行けない。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 10,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-b7f5750c-b9d7-485a-ac3e-42bafffb9be0",
+      "title": "「昨日に口はいらない。明日に手を出せ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 11,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-a1d88571-e3f5-4383-b757-d4010025befa",
+      "title": "「失敗は、燃やすな。持って帰れ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 12,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-1a1a5e84-191d-4002-9d09-586f422e606a",
+      "title": "「自分を変えるより、机を変えろ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 13,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "theory-0a93dca8-aa3d-4636-b42c-0d1db8f10aa0",
+      "title": "「才能は、放っておくとただの原石だ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 14,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "kb_592",
+      "title": "確率的機会",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 15,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "kb_594",
+      "title": "幸運の表面積",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-a",
+      "sortOrder": 16,
+      "subcategoryTitle": "行動・継続"
+    },
+    {
+      "tagId": "kb_547",
+      "title": "タイムボックス",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 1,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_192",
+      "title": "パーキンソンの法則",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 2,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_483",
+      "title": "アジェンダ設定",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 3,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_498",
+      "title": "意思決定支援",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 4,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_435",
+      "title": "期待管理",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 5,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_487",
+      "title": "責任の明確化",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 6,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_394",
+      "title": "具体的フィードバック",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 7,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_502",
+      "title": "正常性の不可視性",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 8,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_538",
+      "title": "自己モニタリング",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 1,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "kb_443",
+      "title": "行動的一貫性",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 2,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "kb_562",
+      "title": "有限性の自覚",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 3,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "kb_553",
+      "title": "役割多元化",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 4,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "kb_499",
+      "title": "自己犠牲バイアス",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 5,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "kb_551",
+      "title": "到達錯誤",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 6,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-b6565cc5-277c-48c7-9129-68b2f4cbf0a0",
+      "title": "「一回負けただけだ。続きを勝手に負けるな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 7,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-6efbfb85-85f7-4978-8bfd-52cbe3cbf05e",
+      "title": "「傷は、消えなくても邪魔じゃなくなる。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 8,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-d9f695d5-7595-4236-a991-b6a3cf5b7ddb",
+      "title": "「意味は、だいたい後から来る。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 9,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-b181b908-e671-4dcc-b1ca-5acfab6dc431",
+      "title": "「なくしてから、名前がつくものもある。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 10,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-65d2d01f-38fc-4557-b7f8-bb0665d07426",
+      "title": "「昔の自分を、他人みたいに嫌うな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 11,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-89aeaa0c-c78d-4ae6-9d5b-c0d4b2ca7d68",
+      "title": "「遠くを見る日は、足元を忘れるな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 12,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-a750353b-c60f-44fc-b30b-54c1a1466079",
+      "title": "「他人の一枚と、自分の全部を比べるな。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 13,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
+      "title": "「財布より先に、時間がその人を語る。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 14,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-ab322059-b04a-4e2f-8c43-141492063021",
+      "title": "「好きなら、少しくらい馬鹿になれ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 15,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-5c03b393-8849-4e74-a58c-30ed430fcf4c",
+      "title": "「止まる日も、旅の途中だ。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 16,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-665760d5-914e-41d3-af31-7c74dd28d909",
+      "title": "「山頂ばかり見ていると、道端の花を見過ごす。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 17,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-8cbf5a5e-3de7-4c97-be53-579fca58b5c0",
+      "title": "「自分のためだけに積んだものは、案外軽い。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 18,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-de584411-ca8e-4a8e-a53c-e1f36436c42d",
+      "title": "「健康は、失ってから急に主役になる。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-s",
+      "sortOrder": 19,
+      "subcategoryTitle": "心と生活の整え方"
+    },
+    {
+      "tagId": "theory-d923799a-26ec-4db9-b0ed-7777497244ae",
+      "title": "「頑張っても沈む船はある。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 9,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "theory-116d47d4-5388-45a1-b6d7-986369be20d0",
+      "title": "「欠点は、角度を変えると輪郭になる。」",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 10,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_575",
+      "title": "複利効果",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 11,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_482",
+      "title": "独立的同調",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 12,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_475",
+      "title": "服従シグナル",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 13,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_517",
+      "title": "第三者証明",
+      "categoryId": "practical-wisdom",
+      "subcategoryId": "practical-wisdom-w",
+      "sortOrder": 14,
+      "subcategoryTitle": "仕事・キャリア"
+    },
+    {
+      "tagId": "kb_311",
+      "title": "知らざるを知らずと為す、是れ知るなり",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 1,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_298",
+      "title": "過ちて改めざる、是を過ちと謂う",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 2,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_304",
+      "title": "巧言令色、鮮なし仁",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 3,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_624",
+      "title": "己の欲せざる所、人に施すこと勿れ",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 4,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_622",
+      "title": "三人行えば、必ず我が師あり",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 5,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_625",
+      "title": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 6,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_299",
+      "title": "和して同ぜず",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 7,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_623",
+      "title": "過ぎたるは猶及ばざるが如し",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 8,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_617",
+      "title": "自分を知る者は明らかである",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 9,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_618",
+      "title": "足るを知る者は富む",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 10,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_619",
+      "title": "人に勝つ者は力があり、自分に勝つ者は強い",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 11,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_620",
+      "title": "千里の道も足下から始まる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 12,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_621",
+      "title": "柔よく剛を制す",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 13,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_632",
+      "title": "無用の用",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 14,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_312",
+      "title": "桃李もの言わざれども、下自ずから蹊を成す",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-e",
+      "sortOrder": 15,
+      "subcategoryTitle": "東洋思想"
+    },
+    {
+      "tagId": "kb_604",
+      "title": "自分にできることと、できないことを分ける",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 1,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_579",
+      "title": "統制の二分法",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 2,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_603",
+      "title": "人は物事そのものではなく、それについての判断に悩まされる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 3,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_606",
+      "title": "与えられた役を、よく演じる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 4,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_605",
+      "title": "自分で勝てない勝負には入らない",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 5,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_607",
+      "title": "起きたことから利益を引き出せるかは自分次第である",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 6,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_615",
+      "title": "運命は、従う者を導き、抗う者を引きずる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 7,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_608",
+      "title": "障害は、行動を前へ進める材料になる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 8,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_609",
+      "title": "外の出来事より、それに与える判断が自分を動かす",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 9,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_611",
+      "title": "他人が何を考えているかより、自分の心を整える",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 10,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_610",
+      "title": "今この瞬間を、最後の行為のように行う",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 11,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_612",
+      "title": "人生が短いのではない。多くを浪費している",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 12,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_613",
+      "title": "正しく使えば、人生は十分に長い",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 13,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_614",
+      "title": "苦しむ前から苦しむ者は、必要以上に苦しむ",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 14,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_616",
+      "title": "われわれが恐れるものは、現実より想像の中に多い",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 15,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_560",
+      "title": "目的論",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-w",
+      "sortOrder": 16,
+      "subcategoryTitle": "西洋思想"
+    },
+    {
+      "tagId": "kb_626",
+      "title": "知彼知己、百戦殆うからず",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 1,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_627",
+      "title": "勝兵は先ず勝ちて而る後に戦いを求む",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 2,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_503",
+      "title": "勝ちやすい条件を先に整える",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 3,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_628",
+      "title": "善く戦う者は、勝ち易きに勝つ",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 4,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_504",
+      "title": "優れた勝利は、目立たない",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 5,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_490",
+      "title": "戦わずに目的を遂げる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 6,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_505",
+      "title": "危機を招かない備えを重ねる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 7,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_496",
+      "title": "長引く戦いに、巧みな勝ち方はない",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 8,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_630",
+      "title": "小敵の堅は、大敵の擒なり",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 9,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_629",
+      "title": "兵に常勢なく、水に常形なし",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 10,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_549",
+      "title": "水に常形無く",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-b",
+      "sortOrder": 11,
+      "subcategoryTitle": "兵法"
+    },
+    {
+      "tagId": "kb_333",
+      "title": "人間万事塞翁が馬",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 1,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_334",
+      "title": "禍福は糾える縄の如し",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 2,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_336",
+      "title": "明日は明日の風が吹く",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 3,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_335",
+      "title": "案ずるより産むが易し",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 4,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_301",
+      "title": "雨降って地固まる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 5,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_300",
+      "title": "親しき仲にも礼儀あり",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 6,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_296",
+      "title": "情けは人の為ならず",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 7,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_631",
+      "title": "井の中の蛙、大海を知らず",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 8,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_351",
+      "title": "狡兎三窟",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 9,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_352",
+      "title": "臥薪嘗胆",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 10,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_353",
+      "title": "捲土重来",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 11,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_327",
+      "title": "継続は力なり",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 12,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_324",
+      "title": "巧遅は拙速に如かず",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 13,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_315",
+      "title": "鶏口となるも牛後となるなかれ",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 14,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_469",
+      "title": "狡兎死して走狗烹らる",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 15,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_468",
+      "title": "鳥尽きて良弓蔵れ",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 16,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_359",
+      "title": "一つの籠にすべての卵を盛るな",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 17,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_329",
+      "title": "完璧は善の敵",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 18,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_326",
+      "title": "為せば成る、為さねば成らぬ何事も",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 19,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_595",
+      "title": "準備された心",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-p",
+      "sortOrder": 20,
+      "subcategoryTitle": "ことわざ・格言"
+    },
+    {
+      "tagId": "kb_701",
+      "title": "生きることを引き受けて歩む",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-f",
+      "sortOrder": 1,
+      "subcategoryTitle": "文学"
+    },
+    {
+      "tagId": "kb_702",
+      "title": "暮らしにくさの中で、視点を探す",
+      "categoryId": "classics-thought",
+      "subcategoryId": "classics-thought-f",
+      "sortOrder": 2,
+      "subcategoryTitle": "文学"
+    },
+    {
+      "tagId": "kb_902",
+      "title": "エリクソンの心理社会的発達理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 45,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_903",
+      "title": "ピアジェの認知発達理論",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 46,
+      "subcategoryTitle": "自己理解・成長"
+    },
+    {
+      "tagId": "kb_904",
+      "title": "最近接発達領域",
+      "categoryId": "psychology",
+      "subcategoryId": "psychology-s",
+      "sortOrder": 47,
+      "subcategoryTitle": "自己理解・成長"
+    }
+  ]
+}

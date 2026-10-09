@@ -7,10 +7,8 @@
     "@supabase/supabase-js": "^2.0.0",
     "expo": "~57.0.21",
     "expo-constants": "~57.0.17",
-    "expo-dev-client": "~57.0.18",
     "expo-font": "~57.0.3",
     "expo-haptics": "~57.0.2",
-    "expo-iap": "5.5.1",
     "expo-image": "~57.0.4",
     "expo-image-picker": "~57.0.16",
     "expo-linking": "~57.0.9",
@@ -28,17 +26,21 @@
     "react-native-screens": "~4.26.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.21.0",
-    "react-native-worklets": "0.10.1"
+    "react-native-worklets": "0.10.1",
+    "expo-dev-client": "~57.0.18",
+    "expo-iap": "5.5.1"
   },
   "devDependencies": {
-    "@apple/app-store-server-library": "3.1.0",
-    "@electric-sql/pglite": "0.3.14",
     "@playwright/test": "^1.62.1",
     "@types/react": "~19.2.2",
-    "deno": "2.7.4",
-    "jsrsasign": "11.1.5",
     "sharp": "^0.35.3",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "eslint": "^9.39.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "@apple/app-store-server-library": "3.1.0",
+    "@electric-sql/pglite": "0.3.14",
+    "deno": "2.7.4",
+    "jsrsasign": "11.1.5"
   },
   "scripts": {
     "ios:preflight": "node --env-file=.env.local scripts/ios-preflight.mjs",
@@ -100,7 +102,10 @@
     "assets:web": "node ./scripts/optimize-web-assets.mjs",
     "store:assets": "node ./scripts/generate-store-assets.mjs",
     "test:unit": "node --experimental-strip-types --test tests/unit/*.test.mjs",
-    "check": "pnpm typecheck && pnpm test:unit && pnpm operations:validate"
+    "check": "pnpm typecheck && pnpm test:unit && pnpm operations:validate",
+    "lint": "eslint src scripts tests",
+    "test:practical-wisdom": "node --test tests/unit/practical-wisdom-refresh.test.mjs tests/unit/editor-schema.test.mjs tests/unit/secure-theory-hydration.test.mjs",
+    "test:theory-taxonomy": "node --test tests/unit/theory-taxonomy.test.mjs"
   },
   "private": true
 }

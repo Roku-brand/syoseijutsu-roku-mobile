@@ -70,8 +70,7 @@
   {
     "id": "master336-011",
     "relatedTheoryIds": [
-      "kb_025",
-      "kb_648"
+      "kb_025"
     ]
   },
   {
@@ -178,8 +177,7 @@
   {
     "id": "master336-027",
     "relatedTheoryIds": [
-      "kb_416",
-      "kb_662"
+      "kb_416"
     ]
   },
   {
@@ -666,8 +664,7 @@
     "id": "master336-098",
     "relatedTheoryIds": [
       "kb_051",
-      "kb_092",
-      "kb_662"
+      "kb_092"
     ]
   },
   {
@@ -1161,10 +1158,8 @@
   {
     "id": "master336-175",
     "relatedTheoryIds": [
-      "kb_330",
       "kb_495",
-      "kb_543",
-      "kb_648"
+      "kb_543"
     ]
   },
   {
@@ -1649,8 +1644,7 @@
   {
     "id": "master336-250",
     "relatedTheoryIds": [
-      "kb_553",
-      "kb_669"
+      "kb_553"
     ]
   },
   {
@@ -1682,8 +1676,7 @@
   {
     "id": "master336-255",
     "relatedTheoryIds": [
-      "kb_562",
-      "kb_703"
+      "kb_562"
     ]
   },
   {
@@ -1703,10 +1696,8 @@
   {
     "id": "master336-258",
     "relatedTheoryIds": [
-      "kb_703",
       "kb_029",
-      "kb_550",
-      "kb_641"
+      "kb_550"
     ]
   },
   {
@@ -1738,8 +1729,7 @@
   {
     "id": "master336-263",
     "relatedTheoryIds": [
-      "kb_296",
-      "kb_674"
+      "kb_296"
     ]
   },
   {
@@ -1758,33 +1748,25 @@
   {
     "id": "master336-266",
     "relatedTheoryIds": [
-      "kb_338",
-      "kb_259",
-      "kb_634",
-      "kb_644"
+      "kb_259"
     ]
   },
   {
     "id": "master336-267",
     "relatedTheoryIds": [
-      "kb_267",
-      "kb_672"
+      "kb_267"
     ]
   },
   {
     "id": "master336-268",
     "relatedTheoryIds": [
-      "kb_338",
       "kb_315",
-      "kb_259",
-      "kb_644",
-      "kb_654"
+      "kb_259"
     ]
   },
   {
     "id": "master336-269",
     "relatedTheoryIds": [
-      "kb_653",
       "kb_315",
       "kb_128",
       "kb_491"
@@ -1794,8 +1776,7 @@
     "id": "master336-270",
     "relatedTheoryIds": [
       "kb_315",
-      "kb_491",
-      "kb_659"
+      "kb_491"
     ]
   },
   {
@@ -1808,7 +1789,6 @@
   {
     "id": "master336-272",
     "relatedTheoryIds": [
-      "kb_338",
       "kb_701",
       "kb_274"
     ]
@@ -1838,19 +1818,14 @@
     "id": "master336-276",
     "relatedTheoryIds": [
       "kb_315",
-      "kb_020",
-      "kb_653"
+      "kb_020"
     ]
   },
   {
     "id": "master336-277",
     "relatedTheoryIds": [
       "kb_315",
-      "kb_338",
-      "kb_634",
-      "kb_433",
-      "kb_644",
-      "kb_660"
+      "kb_433"
     ]
   },
   {
@@ -1906,9 +1881,7 @@
   {
     "id": "master336-286",
     "relatedTheoryIds": [
-      "kb_663",
-      "kb_283",
-      "kb_633"
+      "kb_283"
     ]
   },
   {
@@ -1928,10 +1901,7 @@
     "relatedTheoryIds": [
       "kb_335",
       "kb_222",
-      "kb_641",
-      "kb_687",
-      "kb_662",
-      "kb_661"
+      "kb_687"
     ]
   },
   {
@@ -1965,8 +1935,7 @@
     "id": "master336-294",
     "relatedTheoryIds": [
       "kb_335",
-      "kb_580",
-      "kb_703"
+      "kb_580"
     ]
   },
   {
@@ -1979,16 +1948,13 @@
     "id": "master336-296",
     "relatedTheoryIds": [
       "kb_336",
-      "kb_203",
-      "kb_648"
+      "kb_203"
     ]
   },
   {
     "id": "master336-297",
     "relatedTheoryIds": [
-      "kb_211",
-      "kb_661",
-      "kb_662"
+      "kb_211"
     ]
   },
   {
@@ -2009,8 +1975,6 @@
     "relatedTheoryIds": [
       "kb_277",
       "kb_695",
-      "kb_648",
-      "kb_634",
       "kb_690"
     ]
   },
@@ -2024,8 +1988,7 @@
   {
     "id": "master336-302",
     "relatedTheoryIds": [
-      "kb_554",
-      "kb_635"
+      "kb_554"
     ]
   },
   {
@@ -2037,31 +2000,25 @@
   {
     "id": "master336-304",
     "relatedTheoryIds": [
-      "kb_661",
       "kb_570"
     ]
   },
   {
     "id": "master336-305",
     "relatedTheoryIds": [
-      "kb_547",
-      "kb_647"
+      "kb_547"
     ]
   },
   {
     "id": "master336-306",
     "relatedTheoryIds": [
-      "kb_273",
-      "kb_665",
-      "kb_657",
-      "kb_704"
+      "kb_273"
     ]
   },
   {
     "id": "master336-307",
     "relatedTheoryIds": [
-      "kb_562",
-      "kb_657"
+      "kb_562"
     ]
   },
   {
@@ -2081,8 +2038,7 @@
   {
     "id": "master336-310",
     "relatedTheoryIds": [
-      "kb_264",
-      "kb_654"
+      "kb_264"
     ]
   },
   {
@@ -2090,11 +2046,7 @@
     "relatedTheoryIds": [
       "kb_333",
       "kb_264",
-      "kb_338",
-      "kb_644",
-      "kb_583",
-      "kb_654",
-      "kb_636"
+      "kb_583"
     ]
   },
   {
@@ -2102,9 +2054,7 @@
     "relatedTheoryIds": [
       "kb_333",
       "kb_334",
-      "kb_576",
-      "kb_637",
-      "kb_639"
+      "kb_576"
     ]
   },
   {
@@ -2116,8 +2066,7 @@
   {
     "id": "master336-314",
     "relatedTheoryIds": [
-      "kb_588",
-      "kb_703"
+      "kb_588"
     ]
   },
   {
@@ -2143,7 +2092,6 @@
     "id": "master336-318",
     "relatedTheoryIds": [
       "kb_694",
-      "kb_331",
       "kb_559"
     ]
   },
@@ -2169,8 +2117,7 @@
   {
     "id": "master336-322",
     "relatedTheoryIds": [
-      "kb_571",
-      "kb_653"
+      "kb_571"
     ]
   },
   {
@@ -2184,18 +2131,14 @@
     "id": "master336-324",
     "relatedTheoryIds": [
       "kb_567",
-      "kb_639",
       "kb_359",
-      "kb_637",
-      "kb_700",
-      "kb_673"
+      "kb_700"
     ]
   },
   {
     "id": "master336-325",
     "relatedTheoryIds": [
-      "kb_279",
-      "kb_647"
+      "kb_279"
     ]
   },
   {
@@ -2220,9 +2163,7 @@
     "id": "master336-329",
     "relatedTheoryIds": [
       "kb_329",
-      "kb_543",
-      "kb_650",
-      "kb_636"
+      "kb_543"
     ]
   },
   {
@@ -2247,8 +2188,7 @@
   {
     "id": "master336-333",
     "relatedTheoryIds": [
-      "kb_593",
-      "kb_672"
+      "kb_593"
     ]
   },
   {
@@ -2261,8 +2201,7 @@
   {
     "id": "master336-335",
     "relatedTheoryIds": [
-      "kb_555",
-      "kb_636"
+      "kb_555"
     ]
   },
   {

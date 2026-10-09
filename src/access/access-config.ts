@@ -1,5 +1,6 @@
 import { categories, techniqueCards, theories } from '@/data/catalog';
 import contentScope from '@/data/content-scope.json';
+import { resolveTheoryId } from '@/data/theory-taxonomy';
 
 export const COMPLETE_TECHNIQUE_COUNT = contentScope.complete.techniques;
 export const COMPLETE_THEORY_COUNT = contentScope.complete.theories;
@@ -60,7 +61,7 @@ export function isFreePersona(name: string) {
 }
 
 export function canReadTheory(access: 'guest' | 'free' | 'paid', id: string) {
-  return access === 'paid' || FREE_THEORY_ID_SET.has(id);
+  return access === 'paid' || FREE_THEORY_ID_SET.has(resolveTheoryId(id));
 }
 
 export function canPlayLearningCase(access: 'guest' | 'free' | 'paid', id: string) {

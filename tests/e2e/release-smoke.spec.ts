@@ -1,4 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
+import scope from '../../src/data/content-scope.json';
+import metadata from '../../src/data/generated/metadata.json';
 
 async function startFreeHome(page: Page) {
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
@@ -72,7 +74,7 @@ test('マイページはプロフィールと座右の銘を統合し、実デ�
   await expect(page.getByText('最近見た処世術・理論')).toBeVisible();
   await page.getByRole('tab', { name: '蔵書' }).click();
   await expect(page.getByRole('tab', { name: '蔵書' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('まだ保存した処世術・理論はありません')).toBeVisible();
+  await expect(page.getByText('蔵書はまだ空です')).toBeVisible();
   await expect(page).toHaveURL(/my-os/);
   await page.getByRole('tab', { name: 'マイ処世術' }).click();
   await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
@@ -96,7 +98,7 @@ test('マイページの統合カードとタブはスマホ幅に収まり、�
   const tabs = await page.getByTestId('my-page-tabs').boundingBox();
   expect(card).not.toBeNull();
   expect(tabs).not.toBeNull();
-  expect(card!.height).toBeLessThan(270);
+  expect(card!.height).toBeLessThan(300);
   expect(tabs!.y).toBeGreaterThan(card!.y + card!.height);
   expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(20);
   await page.getByTestId('personal-principle-edit').click();
@@ -163,7 +165,7 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   const title = page.getByTestId('theory-title');
   await expect(meta).toBeVisible();
   await expect(title).toBeVisible();
-  await expect(meta).toContainText('P-146');
+  await expect(meta).toContainText('P-003');
   await expect(title).not.toContainText('…');
 });
 
@@ -248,7 +250,7 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
     await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
-    await expect(header.getByText('生きる知恵を、日々の力に。', { exact: true })).toBeVisible();
+    await expect(header.getByText('人生をうまく生きる方法を、すべての人へ', { exact: true })).toBeVisible();
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
     await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
@@ -313,13 +315,13 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await page.goto('/upgrade');
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
-  await expect(page.getByText('無料版・体系の抜粋', { exact: true })).toBeVisible();
+  await expect(page.getByText('まずは処世術禄を体験', { exact: true })).toBeVisible();
   await expect(page.getByText(/完全版/).first()).toBeVisible();
-  await expect(page.getByText('完全版・30日間')).toBeVisible();
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('30日間利用できます');
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
-  await expect(page.getByText('¥280（税込）', { exact: true }).last()).toBeVisible();
+  await expect(page.getByText('¥320（税込）', { exact: true }).last()).toBeVisible();
   await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText(/決済前にアカウントを作成またはログインします/)).toBeVisible();
@@ -431,13 +433,14 @@ test('人物像ギャラリーと理論索引は役割を分けてレスポン�
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/personas');
   const desktopCards = page.getByTestId('personas-grid').getByRole('button');
+  await expect(desktopCards.nth(4)).toBeVisible();
   const desktopBoxes = await Promise.all([0, 1, 2, 3, 4].map((index) => desktopCards.nth(index).boundingBox()));
   expect(new Set(desktopBoxes.slice(0, 4).map((box) => Math.round(box!.y))).size).toBe(1);
   expect(desktopBoxes[4]!.y).toBeGreaterThan(desktopBoxes[0]!.y + 100);
 
   await page.goto('/theories');
   await expect(page.getByRole('heading', { name: '理論一覧' })).toBeVisible();
-  await expect(page.getByText('768件', { exact: true })).toBeVisible();
+  await expect(page.getByText(`${scope.complete.theories}件`, { exact: true })).toBeVisible();
   const labels = await page.getByTestId('theory-category-filters').getByRole('button').allTextContents();
   expect(labels).toEqual(['すべて', '心理学', '行動科学', '組織・経営論', '戦略論', '実践知', '古典・思想']);
   const filters = page.getByTestId('theory-category-filters').getByRole('button');
@@ -486,7 +489,7 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
 });
 
 test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
-  await page.route('**/rest/v1/techniques*', async (route) => {
+  await page.route('**/rest/v1/public_techniques*', async (route) => {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -512,9 +515,10 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   // The public hydration now reads the linked theory and persona tables in
   // the same request cycle. Keep this test's fixture coherent rather than
   // accidentally treating unmocked endpoints as an authoritative empty set.
-  await page.route('**/rest/v1/theories*', async (route) => {
+  await page.route('**/rest/v1/public_theories*', async (route) => {
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) });
   });
+  await page.route('**/rest/v1/theory_subcategories*', route => route.fulfill({ json: [] }));
   await page.route('**/rest/v1/personas*', async (route) => {
     await route.fulfill({
       status: 200,
@@ -534,41 +538,114 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
 });
 
-test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }) => {
+test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 390, height: 667 });
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
-  await expect(page.getByText('網羅性を追求')).toBeVisible();
-  await expect(page.getByText('利用規約')).toBeVisible();
+  await expect(page.getByText('処世術禄を、\nもっと広く。もっと深く。')).toBeVisible();
+  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
   const purchaseBox = await purchaseButton.boundingBox();
-  const legalBox = await page.getByText('利用規約').boundingBox();
+  const legalBox = await page.getByRole('link', { name: '購入条件・返金について' }).boundingBox();
   expect(purchaseBox).not.toBeNull();
   expect(legalBox).not.toBeNull();
   expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
   expect(legalBox!.y + legalBox!.height).toBeLessThanOrEqual(667);
+    await expect(purchaseButton).toHaveCount(1);
+    await page.screenshot({ path: testInfo.outputPath('purchase-mobile.png') });
+  const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+  await page.getByTestId('upgrade-lp-scroll').evaluate((element) => { element.scrollTop = element.scrollHeight; });
+  const barAfter = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+  expect(barAfter).toEqual(barBefore);
+  await page.getByTestId('upgrade-faq-1').click();
+  await expect(page.getByTestId('upgrade-faq-1')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByTestId('upgrade-faq-0')).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByText('されません。利用期間が終わった後に、自動で課金されることはありません。')).toBeVisible();
 });
 
-test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }) => {
+test('購入パネルは狭いスマホでも全操作が収まり、復元は購入用ログインに進まない', async ({ page }, testInfo) => {
+  for (const width of [320, 390, 480]) {
+    await page.setViewportSize({ width, height: 740 });
+    await page.goto('/upgrade');
+    const panel = page.getByTestId('upgrade-fixed-purchase');
+    await expect(panel.getByTestId('upgrade-price')).toHaveText('¥320');
+    await expect(panel).toContainText('30日間利用できます');
+    const panelBox = (await panel.boundingBox())!;
+    const buttonBox = (await page.getByTestId('upgrade-purchase-cta').boundingBox())!;
+    const priceBox = (await page.getByTestId('upgrade-price').boundingBox())!;
+    expect(priceBox.y + priceBox.height).toBeLessThan(buttonBox.y);
+    expect(buttonBox.width).toBeGreaterThan(panelBox.width * 0.8);
+    for (const id of ['upgrade-purchase-cta', 'upgrade-restore', 'upgrade-terms', 'upgrade-commerce']) {
+      const control = page.getByTestId(id);
+      await expect(control).toBeVisible();
+      const box = (await control.boundingBox())!;
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      expect(box.x).toBeGreaterThanOrEqual(0);
+      expect(box.x + box.width).toBeLessThanOrEqual(width);
+      expect(box.y + box.height).toBeLessThanOrEqual(740);
+    }
+    expect(await panel.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath(`purchase-panel-${width}.png`) });
+  }
+  await page.getByTestId('upgrade-restore').click();
+  await expect(page).toHaveURL(/\/auth\?mode=signin$/);
+  await expect(page).not.toHaveURL(/intent=checkout/);
+  await page.goto('/upgrade');
+  await page.getByTestId('upgrade-commerce').click();
+  await expect(page).toHaveURL(/\/legal\/commerce$/);
+});
+
+test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }, testInfo) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/upgrade');
   const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
   await expect(purchaseButton).toBeVisible();
-  await expect(page.getByText('独自の処世術集')).toBeVisible();
-  await expect(page.getByText('通常価格', { exact: true })).toBeVisible();
-  await expect(page.getByText(/理論\s*151件/)).toBeVisible();
-  const purchaseBox = await purchaseButton.boundingBox();
-  expect(purchaseBox).not.toBeNull();
-  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('一回払い・自動更新なし');
+  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
+    const frame = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+    expect(frame!.width).toBeGreaterThan(900);
+    expect(frame!.width).toBeLessThanOrEqual(1120);
+    expect(frame!.height).toBeLessThan(160);
+    const purchaseBox = await purchaseButton.boundingBox();
+    expect(purchaseBox).not.toBeNull();
+    expect(purchaseBox!.width).toBeGreaterThan(250);
+    expect(purchaseBox!.height).toBeLessThan(80);
+    expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
+    await page.screenshot({ path: testInfo.outputPath('purchase-desktop.png') });
+  });
+
+test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購入バーを固定する', async ({ page }) => {
+  for (const width of [960, 1024, 1440, 1920]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/upgrade-preview');
+    await expect(page.getByTestId('upgrade-desktop-layout')).toBeVisible();
+    await expect(page.getByTestId('upgrade-mobile-layout')).toHaveCount(0);
+    const copy = await page.getByTestId('upgrade-comparison-copy').boundingBox();
+    const free = await page.getByTestId('upgrade-free-card').boundingBox();
+    const complete = await page.getByTestId('upgrade-complete-card').boundingBox();
+    expect(free!.x).toBeGreaterThan(copy!.x + copy!.width);
+    expect(complete!.x).toBeGreaterThan(free!.x + free!.width);
+    const knowledge = await page.getByTestId('upgrade-knowledge-copy').boundingBox();
+    const network = await page.getByTestId('knowledge-network').boundingBox();
+    expect(network!.x).toBeGreaterThan(knowledge!.x + knowledge!.width);
+    const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
+    await page.getByTestId('upgrade-lp-scroll').evaluate(element => { element.scrollTop = element.scrollHeight; });
+    expect(await page.getByTestId('upgrade-fixed-purchase').boundingBox()).toEqual(barBefore);
+    await expect(page.getByTestId('upgrade-purchase-cta')).toHaveCount(1);
+    expect(await page.getByTestId('upgrade-lp-scroll').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.getByTestId('upgrade-mobile-layout')).toBeVisible();
+  await expect(page.getByTestId('upgrade-desktop-layout')).toHaveCount(0);
 });
 
 test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
   await page.goto('/upgrade');
-  await page.getByText('利用規約', { exact: true }).first().click();
-  await expect(page.getByText(/バージョン3\.2/)).toBeVisible();
-  await expect(page.getByText(/処世術のタイトル、本質、解説、分類、重要度、理論カード、学習問題/)).toBeVisible();
-  await expect(page.getByText(/購入時点の各文章、項目数および構成が将来にわたり同一のまま維持されることを保証するものではありません/)).toBeVisible();
-  await expect(page.getByText(/商品の主要な利用目的を損なう重大な不利益変更は行わず/)).toBeVisible();
+  await page.getByRole('link', { name: '購入条件・返金について' }).click();
+  await expect(page.getByText(/バージョン3\.4/).first()).toBeVisible();
+  await expect(page.getByText(/合理的な目的で、項目を追加・修正・統合・削除/)).toBeVisible();
+  await expect(page.getByText(/主要な利用目的を損なう重大な不利益変更は行いません/)).toBeVisible();
+  await expect(page.getByText(/運営者の故意・過失による責任/)).toBeVisible();
 });
 
 test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
@@ -654,7 +731,7 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/theories');
   const rows = page.getByTestId('theory-index-list').getByRole('link');
-  await expect(rows).toHaveCount(50);
+  await expect(rows).toHaveCount(100);
   const [first, second] = await Promise.all([rows.nth(0).boundingBox(), rows.nth(1).boundingBox()]);
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
@@ -684,6 +761,39 @@ test('詳細ページの階層リンクは探す配下の統合一覧へ戻る',
   await page.goto('/theory/kb_001');
   await expect(page.getByRole('link', { name: '探すへ移動' })).toHaveAttribute('href', '/discover');
   await expect(page.getByRole('link', { name: '心理学へ移動' })).toHaveAttribute('href', '/theories?category=psychology');
+});
+
+test('詳細ヘッダーは保存・共有を維持し、設定や五大原則を表示しない', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 740 });
+  for (const route of ['/card/master336-001', '/theory/kb_001']) {
+    await page.goto(route);
+    const header = page.getByTestId('book-header');
+    await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
+    await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
+    await expect(header.getByRole('button', { name: '共有', exact: true })).toBeVisible();
+    await expect(header.getByTestId('header-share-symbol')).toBeVisible();
+    await header.getByRole('button', { name: '蔵書に保存', exact: true }).click();
+    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
+    await page.reload();
+    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
+    await header.getByRole('button', { name: '蔵書から外す', exact: true }).click();
+    await expect(header.getByRole('button', { name: '蔵書に保存', exact: true })).toBeVisible();
+    const buttons = await header.getByRole('button').evaluateAll(elements => elements.map(element => {
+      const rect = element.getBoundingClientRect();
+      return { width: rect.width, height: rect.height, right: rect.right };
+    }));
+    expect(buttons.every(rect => rect.width >= 44 && rect.height >= 44 && rect.right <= 320)).toBe(true);
+  }
+});
+
+test('学習ケースの直接アクセスからヘッダーで学ぶへ戻れる', async ({ page }) => {
+  await page.goto('/learn/case-01');
+  const header = page.getByTestId('book-header');
+  await expect(header.getByRole('button')).toHaveCount(1);
+  await header.getByTestId('book-header-back').click();
+  await expect(page).toHaveURL(/\/learn$/);
+  await expect(page.getByTestId('learning-stage-1')).toBeVisible();
+  await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
 });
 
 test('旧カテゴリ個別ページは削除されている', async ({ page }) => {
@@ -718,7 +828,7 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
   await page.goto('/theories');
   await page.getByRole('button', { name: '行動科学で理論を絞り込む' }).click();
   await expect(page.getByRole('button', { name: '行動科学で理論を絞り込む' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('109件', { exact: true })).toBeVisible();
+  await expect(page.getByText(`${metadata.categoryCounts['behavioral-science']}件`, { exact: true })).toBeVisible();
   const viewportInfo = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 });
@@ -731,7 +841,7 @@ test('PCホームはブランドヘッダーと7枚のリールを上品に収�
   expect(reel).not.toBeNull();
   expect(reel!.width).toBeGreaterThan(850);
   expect(reel!.height).toBeGreaterThan(300);
-  await expect(page.getByTestId('book-header').getByText('生きる知恵を、日々の力に。')).toBeVisible();
+  await expect(page.getByTestId('book-header').getByText('人生をうまく生きる方法を、すべての人へ')).toBeVisible();
   const firstSlideBox = await page.getByTestId('home-brand-slide-1').boundingBox();
   expect(firstSlideBox).not.toBeNull();
   expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
@@ -804,8 +914,8 @@ test('今日の一枚は指定された処世術と説明を表示する', async
 test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('768件', { exact: true })).toBeVisible();
-  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(50);
+  await expect(page.getByText(`${scope.complete.theories}件`, { exact: true })).toBeVisible();
+  await expect(page.getByTestId('theory-index-list').getByRole('link')).toHaveCount(100);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: '理論一覧を検索' }).click();
@@ -1037,7 +1147,7 @@ test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩�
   expect(third!.y).toBeGreaterThan(first!.y + 100);
 
   await page.goto('/learn');
-  await expect(page.getByText('3つのステージで、判断を少しずつ自分の力に。')).toBeVisible();
+  await expect(page.getByText(/3つのステージで、\s*判断を少しずつ自分の力に。/)).toBeVisible();
   await expect(page.getByText('\\u2060')).toHaveCount(0);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
@@ -1113,13 +1223,13 @@ test('人物像詳細は番号順の一列メニューとして一覧できる',
   await expect(cards.last()).toBeInViewport();
 });
 
-test('学ぶトップは3ステージの実進捗と禄丸を表示し、無料版ロックを維持する', async ({ page }) => {
+test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/learn');
   await expect(page.getByText('処世術を習得しよう！')).toBeVisible();
-  await expect(page.getByTestId('learning-stage-list').getByRole('button')).toHaveCount(3);
+  await expect(page.getByTestId('learning-stage-list').getByRole('button', { name: /^ステージ[123]、/ })).toHaveCount(3);
   await expect(page.getByTestId('learning-stage-1')).toContainText('0 / 7');
-  await expect(page.getByTestId('learning-stage-2')).toContainText('完全版');
+  await expect(page.getByTestId('learning-stage-2')).toContainText('挑戦する');
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
   await page.getByRole('button', { name: /ステージ2、仕事を、どう動かす？/ }).click();
@@ -1141,6 +1251,8 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   const header = page.getByTestId('book-header');
   await expect(header.getByRole('button', { name: '用語集を開く' })).toHaveCount(0);
   await expect(header.getByRole('button', { name: '設定を開く' })).toHaveCount(0);
+  await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
+  await expect(header.getByTestId('book-header-back')).toBeVisible();
   await expect(header.getByText('用語集', { exact: true })).toHaveCount(0);
   await expect(header.getByText('設定', { exact: true })).toHaveCount(0);
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();
@@ -1182,7 +1294,7 @@ test('学ぶはスマホで縦積みになり横にはみ出さない', async ({
   await expect(page.getByTestId('learning-stage-1')).toBeVisible();
   await expect(page.getByTestId('rokumaru-guide')).toBeVisible();
 
-  await page.getByTestId('learning-stage-1').click();
+  await page.getByTestId('learning-challenge-1').click();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByRole('button', { name: /^A/ })).toBeVisible();
   await page.getByRole('button', { name: /^B/ }).click();

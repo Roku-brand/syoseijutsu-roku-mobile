@@ -2,7 +2,7 @@ import { Linking, Platform } from 'react-native';
 import { supabase } from './supabase';
 
 export const COMPLETE_EDITION_PRODUCT_ID = 'complete-edition';
-export const COMPLETE_EDITION_PRICE_JPY = 280;
+export const COMPLETE_EDITION_PRICE_JPY = 320;
 export const COMPLETE_EDITION_ACCESS_DAYS = 30;
 const ACCESS_CHECK_TIMEOUT_MS = 12_000;
 

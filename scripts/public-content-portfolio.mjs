@@ -40,6 +40,16 @@ export function resolveFreeTheoryIds(theories) {
     throw new Error(`Free theory portfolio must contain ${FREE_THEORY_COUNT} unique display IDs.`);
   }
   const byDisplayId = mapTheoryDisplayIds(theories);
+  if (theories.every(t=>t.accessTier === 'free' || t.accessTier === 'complete')) {
+    const ids = new Set(theories.filter(t=>t.accessTier==='free').map(t=>t.tagId));
+    if(ids.size!==FREE_THEORY_COUNT) throw new Error('Canonical free tier count mismatch.');
+    return ids;
+  }
+  if (scope.freeTheoryIds?.length === FREE_THEORY_COUNT) {
+    const ids=new Set(theories.map(t=>t.tagId));
+    if(scope.freeTheoryIds.some(id=>!ids.has(id))) throw new Error('Unknown free theory identity.');
+    return new Set(scope.freeTheoryIds);
+  }
   const missing = FREE_THEORY_DISPLAY_IDS.filter((id) => !byDisplayId.has(id));
   if (missing.length) throw new Error(`Unknown free theory display IDs: ${missing.join(', ')}`);
   return new Set(FREE_THEORY_DISPLAY_IDS.map((id) => byDisplayId.get(id).tagId));

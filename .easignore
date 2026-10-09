@@ -36,3 +36,7 @@ tests
 src/data/generated/*.full.json
 
 .expo
+release-evidence
+src/data/generated/theories.json
+src/data/generated/techniques.json
+src/data/generated/practical-actions.json

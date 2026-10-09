@@ -19,9 +19,14 @@ export function getTheoryCategoryLabel(theory: Pick<{ categoryId: string; catego
   return normalizeDisplayText(theory.categoryTitle);
 }
 
-export function getTheorySeoCopy(theory: Pick<{ title: string; summary: string; categoryId: string }, 'title' | 'summary' | 'categoryId'>) {
+export function getTheorySeoCopy(theory: { title: string; summary: string; categoryId: string; provenance?: {status: string} }) {
   const summary = normalizeDisplayText(theory.summary).replace(/\n+/g, ' ');
   if (theory.categoryId === 'practical-wisdom') {
+    if(theory.provenance?.status!=='オリジナル') return {
+      title: `${theory.title}の意味・使い方`,
+      description: `${summary} 日々の行動や判断につなげる実践知を紹介します。`,
+      summaryHeading: '考え方・使い方',
+    };
     return {
       title: `${theory.title}の意味・読み解き`,
       description: `${summary} 処世術禄オリジナルの実践知を、日常の経験と結びつけて読み解きます。`,

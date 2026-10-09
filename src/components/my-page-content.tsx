@@ -1,10 +1,12 @@
 'use no memo';
 
+// Catalogue maps are hydrated in place; retain the explicit revision dependency.
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
+import { LibraryContent } from '@/components/library-content';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
@@ -29,7 +31,7 @@ export default function MyPageContent() {
   const { user, profile, loading: authLoading } = useAuth();
   const { accessState, accessInfo, catalogRevision, isPaid } = useAccess();
   const {
-    savedIds, savedTheoryIds, historyIds, personalPrinciple, updatePersonalPrinciple,
+    historyIds, personalPrinciple, updatePersonalPrinciple,
     personalMemos, personalMemoFolders, addPersonalMemo, updatePersonalMemo,
     removePersonalMemo, movePersonalMemo, createPersonalMemoFolder, deletePersonalMemoFolder,
   } = useAppState();
@@ -53,16 +55,10 @@ export default function MyPageContent() {
     () => historyIds.map(resolveRow).filter((row): row is ContentRow => Boolean(row)),
     [catalogRevision, historyIds],
   );
-  const libraryRows = useMemo(
-    () => [...savedIds.map(resolveTechnique), ...savedTheoryIds.map(resolveTheory)]
-      .filter((row): row is ContentRow => Boolean(row)),
-    [catalogRevision, savedIds, savedTheoryIds],
-  );
   const pendingHistory = isPaid && historyIds.some((id) => {
     const theory = theoryById.get(id);
     return Boolean(theory && isLockedTheoryShell(theory));
   });
-  const unresolvedSavedCount = savedIds.length + savedTheoryIds.length - libraryRows.length;
   const visibleMemos = personalMemos.filter((memo) =>
     folderFilter === 'all' || (folderFilter === 'unfiled' ? !memo.folderId : memo.folderId === folderFilter));
 
@@ -154,12 +150,7 @@ export default function MyPageContent() {
               {pendingHistory && historyRows.length ? <QuietEmpty>完全版データを確認中</QuietEmpty> : null}
             </>
           ) : tab === 'library' ? (
-            <>
-              <SectionHeading title="蔵書" subtitle="保存した処世術・理論" />
-              {libraryRows.length ? libraryRows.map((row) => <ContentListRow key={`${row.kind}-${row.id}`} row={row} onPress={() => openRow(row)} />)
-                : unresolvedSavedCount === 0 ? <QuietEmpty>まだ保存した処世術・理論はありません</QuietEmpty> : null}
-              {unresolvedSavedCount > 0 ? <Pressable accessibilityRole="button" onPress={() => { if (!isPaid) router.push(upgradeRoute('my-page-library')); }} style={styles.unresolvedRow}><AppText style={styles.unresolvedText}>{isPaid ? '保存した完全版データを確認中' : '保存した完全版コンテンツがあります'}</AppText>{!isPaid ? <AppText style={styles.rowArrow}>›</AppText> : null}</Pressable> : null}
-            </>
+            <LibraryContent />
           ) : (
             <>
               <SectionHeading title="マイ処世術" subtitle="自分の言葉で残した処世術" actionLabel="＋ 作る" onAction={() => openMemoEditor()} />
@@ -296,7 +287,7 @@ const styles = StyleSheet.create({
   membershipBadge: { marginTop: 4, paddingHorizontal: 9, paddingVertical: 2, borderWidth: 1, borderColor: '#D7C39C', borderRadius: radius.pill, backgroundColor: colors.surface },
   membershipBadgeText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 10, lineHeight: 15, fontWeight: '600' },
   profileEdit: { minHeight: 44, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center' },
-  profileEditText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  profileEditText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   profileDivider: { height: 1, marginHorizontal: spacing.xs, backgroundColor: colors.line },
   scrollWrap: { minHeight: 158, marginHorizontal: spacing.xs, marginTop: spacing.xs, marginBottom: spacing.sm, justifyContent: 'center' },
   scrollWrapMobile: { minHeight: 140, marginHorizontal: -spacing.md, marginTop: spacing.md },
@@ -309,8 +300,8 @@ const styles = StyleSheet.create({
   principle: { maxWidth: '84%', marginTop: spacing.xs, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '600', letterSpacing: 1 },
   principleMobile: { maxWidth: '100%', fontSize: 23, lineHeight: 34, letterSpacing: 0.2 },
   editPrinciple: { minHeight: 34, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#CEB583', borderRadius: radius.pill, backgroundColor: colors.surface },
-  editIcon: { color: colors.gold, fontSize: 14, lineHeight: 18 },
-  editText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
+  editIcon: { color: colors.goldDeep, fontSize: 14, lineHeight: 18 },
+  editText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   tabs: { marginTop: spacing.md, paddingVertical: 6, minHeight: 62, flexDirection: 'row', gap: 3, borderBottomWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
   tab: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderRadius: radius.pill, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
   tabSelected: { borderBottomWidth: 2, borderBottomColor: colors.gold, backgroundColor: '#182027' },
@@ -324,7 +315,7 @@ const styles = StyleSheet.create({
   sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 34, fontWeight: '700', letterSpacing: 0.4 },
   sectionSubtitle: { marginTop: 1, color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
   sectionAction: { minHeight: 38, paddingHorizontal: 13, borderWidth: 1, borderColor: '#D2B77F', borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  sectionActionText: { color: colors.gold, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
+  sectionActionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   listRow: { minHeight: 90, marginBottom: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   rowPressed: { backgroundColor: colors.paperDeep },
   rowCopy: { flex: 1, minWidth: 0, alignItems: 'flex-start' },
@@ -332,7 +323,7 @@ const styles = StyleSheet.create({
   theoryLabel: { backgroundColor: '#E8EDF0', color: '#536879' },
   rowTitle: { marginTop: 5, color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
   rowDescription: { marginTop: 4, color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
-  rowArrow: { color: colors.gold, fontSize: 26, lineHeight: 30 },
+  rowArrow: { color: colors.goldDeep, fontSize: 26, lineHeight: 30 },
   quietEmpty: { minHeight: 74, paddingHorizontal: spacing.lg, paddingVertical: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, justifyContent: 'center' },
   quietEmptyText: { color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   unresolvedRow: { minHeight: 66, marginBottom: spacing.sm, paddingHorizontal: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
@@ -343,7 +334,7 @@ const styles = StyleSheet.create({
   folderButtonText: { color: colors.inkSoft, fontSize: 11, lineHeight: 16 },
   folderButtonTextSelected: { color: colors.goldDeep, fontWeight: '700' },
   folderAdd: { minHeight: 34, paddingHorizontal: 10, justifyContent: 'center' },
-  folderAddText: { color: colors.gold, fontSize: 11, fontWeight: '700' },
+  folderAddText: { color: colors.goldDeep, fontSize: 11, fontWeight: '700' },
   folderDeleteText: { color: colors.danger, fontSize: 11, fontWeight: '700' },
   memoMeta: { color: colors.goldDeep, fontSize: 10, lineHeight: 16 },
   modalBackdrop: { flex: 1, padding: spacing.lg, backgroundColor: 'rgba(17,18,17,0.58)', alignItems: 'center', justifyContent: 'center' },

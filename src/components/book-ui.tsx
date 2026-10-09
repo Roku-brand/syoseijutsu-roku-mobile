@@ -879,7 +879,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   principleNumberText: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 12,
     lineHeight: 18,
@@ -901,7 +901,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   principleLabel: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontSize: 10,
     lineHeight: 16,
     letterSpacing: 0.5,
@@ -991,7 +991,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.serif,
     fontSize: 21,
     lineHeight: 28,
-    color: colors.gold,
+    color: colors.goldDeep,
     fontWeight: '700',
   },
   indexCopy: { flex: 1 },
@@ -1010,12 +1010,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   indexCount: {
-    color: colors.gold,
+    color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 24,
     lineHeight: 30,
   },
-  indexChevron: { color: colors.gold, fontSize: 32, lineHeight: 36 },
+  indexChevron: { color: colors.goldDeep, fontSize: 32, lineHeight: 36 },
   saveDiamondButton: {
     minHeight: 30,
     flexDirection: 'row',

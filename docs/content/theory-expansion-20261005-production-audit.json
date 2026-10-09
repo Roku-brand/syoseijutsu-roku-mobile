@@ -1,0 +1,1858 @@
+{
+  "integrity": {
+    "catalogHash": "186d7298d9cf5729a531fc7ebf507132",
+    "matchesRepository": true,
+    "orderGaps": 0,
+    "legacyBroken": 0,
+    "nameConflicts": 0,
+    "publicNewRows": 40,
+    "orderConflicts": 0,
+    "titleConflicts": 0,
+    "legacyConflicts": 0,
+    "publicNewBodies": 0,
+    "displayIdConflicts": 0
+  },
+  "free": 151,
+  "newRows": [
+    {
+      "id": "kb_869",
+      "title": "プロテウス効果",
+      "status": "published",
+      "aliases": [
+        "Proteus effect",
+        "プロテウス・エフェクト"
+      ],
+      "summary": "仮想空間で使うアバターの外見や特徴に沿って、利用者の振る舞いが変わる現象。初期研究では、アバターの魅力や身長と、対人距離、自己開示、交渉行動との関係が調べられた。自己表象が行動へ影響する手がかりになるが、現実の服装や外見を変えれば人格全体が変わるという主張ではない。",
+      "display_id": 306,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "アバターを使う実験の結果と、日常の外見一般への推測を区別する。",
+        "works": [
+          "The Proteus Effect: The Effect of Transformed Self-Representation on Behavior. Human Communication Research, 33(3), 271–290."
+        ],
+        "period": "2007年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/j.1468-2958.2007.00299.x",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Nick Yee / Jeremy Bailenson"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_869",
+      "display_order": 306,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-s",
+      "taxonomy_order": 7,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_420",
+        "kb_111"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_870",
+      "title": "ストループ効果",
+      "status": "published",
+      "aliases": [
+        "Stroop effect"
+      ],
+      "summary": "文字の意味と印字の色が食い違うと、色を答える反応が遅くなり、誤りも起こりやすくなる現象。自動化された読みと、課題で求められる色の判断が干渉することを示す。表示や指示に競合する情報を重ねない設計の参考になるが、単独の成績だけで注意力や疾患を診断することはできない。",
+      "display_id": 307,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著書誌とAPAのStroop effectの定義を照合した。",
+        "works": [
+          "Studies of interference in serial verbal reactions. Journal of Experimental Psychology, 18(6), 643–662."
+        ],
+        "period": "1935年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0054651",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "J. Ridley Stroop"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_870",
+      "display_order": 307,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 19,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_493",
+        "kb_017"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_871",
+      "title": "マガーク効果",
+      "status": "published",
+      "aliases": [
+        "McGurk effect",
+        "マクガーク効果"
+      ],
+      "summary": "音声と、それとは異なる発音をする口の動きを同時に示すと、音声だけとは違う音節として聞こえることがある現象。発話の知覚には聴覚だけでなく視覚情報も関わる。映像と音声の同期や字幕・口元の見え方を点検する理由になるが、視覚が常に聴覚に勝つわけではなく、刺激や個人によって起こり方が異なる。",
+      "display_id": 308,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "音声知覚の原著。一般的な人物評価の効果とは区別する。",
+        "works": [
+          "Hearing lips and seeing voices. Nature, 264, 746–748."
+        ],
+        "period": "1976年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1038/264746a0",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Harry McGurk / John MacDonald"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_871",
+      "display_order": 308,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-u",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_388"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_872",
+      "title": "非注意性盲目",
+      "status": "published",
+      "aliases": [
+        "inattentional blindness",
+        "不注意盲"
+      ],
+      "summary": "別の課題へ注意を集中していると、視野に入った予期しない対象に気づかないことがある現象。パスの回数を数える最中に、画面を横切る目立つ人物を見落とす実験が知られる。見ていたという事実だけでは、重要なものを認識した保証にならない。既に見た場面の変化を見逃す変化盲とは、検出する対象が異なる。",
+      "display_id": 309,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "予期しない対象の検出を扱い、変化盲と統合しない。",
+        "works": [
+          "Gorillas in Our Midst: Sustained Inattentional Blindness for Dynamic Events. Perception, 28(9), 1059–1074."
+        ],
+        "period": "1999年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1068/p281059",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Daniel J. Simons / Christopher F. Chabris"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_872",
+      "display_order": 309,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 20,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_017",
+        "kb_493",
+        "kb_873",
+        "kb_874"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_873",
+      "title": "変化盲",
+      "status": "published",
+      "aliases": [
+        "change blindness",
+        "変化盲目"
+      ],
+      "summary": "場面の切り替えや短い遮蔽を挟むと、前後で大きな変化があっても検出しにくくなる現象。見える情報をすべて精密に保持し、比較しているわけではないことを示す。改訂箇所を明示したり、変更前後を並べたりすると確認しやすい。予期しない対象そのものを見落とす非注意性盲目とは別の現象である。",
+      "display_id": 310,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著の場面変更実験を参照。非注意性盲目とは別カードにする。",
+        "works": [
+          "To See or not to See: The Need for Attention to Perceive Changes in Scenes. Psychological Science, 8(5), 368–373."
+        ],
+        "period": "1997年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/j.1467-9280.1997.tb00427.x",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Ronald A. Rensink / J. Kevin O’Regan / James J. Clark"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_873",
+      "display_order": 310,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 21,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_017",
+        "kb_745",
+        "kb_872"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_874",
+      "title": "注意の瞬き",
+      "status": "published",
+      "aliases": [
+        "attentional blink",
+        "アテンショナル・ブリンク"
+      ],
+      "summary": "刺激が高速で続く課題で、一つ目の標的を処理した直後の短い時間帯に、二つ目の標的を報告しにくくなる現象。重要な情報を短い間隔で続けて提示すると、後の情報が処理から漏れる場合がある。文字や警告の提示間隔を考える手がかりになるが、実験課題の時間幅を、そのまま日常のあらゆる会話へ当てはめない。",
+      "display_id": 311,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "高速逐次視覚提示課題の原著を参照。",
+        "works": [
+          "Temporary suppression of visual processing in an RSVP task: An attentional blink? Journal of Experimental Psychology: Human Perception and Performance, 18(3), 849–860."
+        ],
+        "period": "1992年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0096-1523.18.3.849",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Jane E. Raymond / Kimron L. Shapiro / Karen M. Arnell"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_874",
+      "display_order": 311,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 22,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_017",
+        "kb_745",
+        "kb_872"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_875",
+      "title": "錯誤相関",
+      "status": "published",
+      "aliases": [
+        "illusory correlation",
+        "幻想相関"
+      ],
+      "summary": "実際には弱い、または存在しない関係を、二つの出来事の間に見いだす傾向。珍しい集団と珍しい行動が重なると印象に残り、両者の結びつきを過大評価することがある。目立つ事例だけで人物や集団を判断せず、各集団の総数と行動の割合を比べることが重要になる。因果関係の証明とも、単なる相関の発見とも区別する。",
+      "display_id": 312,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "稀な出来事の共起と集団判断の原著を参照。",
+        "works": [
+          "Illusory correlation in interpersonal perception: A cognitive basis of stereotypic judgments. Journal of Experimental Social Psychology, 12(4), 392–407."
+        ],
+        "period": "1976年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/S0022-1031(76)80006-6",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "David L. Hamilton / Robert K. Gifford"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_875",
+      "display_order": 312,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 10,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_597",
+        "kb_596"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_876",
+      "title": "誤情報効果",
+      "status": "published",
+      "aliases": [
+        "misinformation effect",
+        "事後情報効果"
+      ],
+      "summary": "出来事を経験した後に受け取った誤った情報が、後の記憶報告に入り込むことがある現象。質問の言い方や他者の説明によって、見た内容の再生が影響を受ける。記録を先に残し、確認では誘導的な質問を避ける手がかりになる。記憶の誤りには複数の仕組みがあり、事後情報が常に元の記憶を消すと断定しない。",
+      "display_id": 313,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著の質問表現と記憶報告の実験を参照。",
+        "works": [
+          "Reconstruction of automobile destruction: An example of the interaction between language and memory. Journal of Verbal Learning and Verbal Behavior, 13(5), 585–589."
+        ],
+        "period": "1974年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/S0022-5371(74)80011-3",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Elizabeth F. Loftus / John C. Palmer"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_876",
+      "display_order": 313,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-m",
+      "taxonomy_order": 7,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_831",
+        "kb_718",
+        "kb_877"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_877",
+      "title": "ソースモニタリング",
+      "status": "published",
+      "aliases": [
+        "source monitoring",
+        "情報源モニタリング"
+      ],
+      "summary": "覚えている情報が、実際の経験、他者の発言、想像などのどこから来たのかを判断する過程。内容が鮮明でも、その出所を正しく思い出せるとは限らない。見聞きした事実と推測を記録時に分けると、後から出所を確かめやすい。誤情報効果などを理解する枠組みだが、それら個別の記憶現象と同一ではない。",
+      "display_id": 314,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "著者の大学公開原稿と原著書誌を参照。",
+        "works": [
+          "Source monitoring. Psychological Bulletin, 114(1), 3–28."
+        ],
+        "period": "1993年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0033-2909.114.1.3",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Marcia K. Johnson / Shahin Hashtroudi / D. Stephen Lindsay"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_877",
+      "display_order": 314,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-m",
+      "taxonomy_order": 8,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_831",
+        "kb_858",
+        "kb_876"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_878",
+      "title": "気分一致記憶",
+      "status": "published",
+      "aliases": [
+        "mood-congruent memory",
+        "気分一致効果"
+      ],
+      "summary": "現在の気分と感情的な方向が合う情報を、思い出しやすくなることがある現象。落ち込んでいると失敗の記憶が浮かびやすく、評価が一方向へ偏る場合がある。大切な判断では、反対の事例や当時の記録も確認する。学習時と想起時の状態が同じだと再生しやすい状態依存記憶とは、気分の一致を比べる対象が異なる。",
+      "display_id": 315,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "状態依存と気分一致を別の現象として扱う。",
+        "works": [
+          "Mood and memory. American Psychologist, 36(2), 129–148."
+        ],
+        "period": "1981年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0003-066X.36.2.129",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Gordon H. Bower"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_878",
+      "display_order": 315,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-m",
+      "taxonomy_order": 11,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_827",
+        "kb_511"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_879",
+      "title": "検索誘導性忘却",
+      "status": "published",
+      "aliases": [
+        "retrieval-induced forgetting",
+        "想起誘導性忘却"
+      ],
+      "summary": "ある情報を繰り返し思い出すと、関連しているが練習しなかった情報を後で思い出しにくくなることがある現象。原著では同じカテゴリー内の一部だけを検索練習した後、未練習項目の再生が低下した。検索練習そのものを否定する結果ではなく、練習する範囲や手がかりも考える必要があることを示す。",
+      "display_id": 316,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "検索練習の利点と競合項目への影響を区別する。",
+        "works": [
+          "Remembering can cause forgetting: Retrieval dynamics in long-term memory. Journal of Experimental Psychology: Learning, Memory, and Cognition, 20(5), 1063–1087."
+        ],
+        "period": "1994年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0278-7393.20.5.1063",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Michael C. Anderson / Robert A. Bjork / Elizabeth L. Bjork"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_879",
+      "display_order": 316,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-m",
+      "taxonomy_order": 3,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_199",
+        "kb_738"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_880",
+      "title": "素朴実在論",
+      "status": "published",
+      "aliases": [
+        "naive realism",
+        "naïve realism"
+      ],
+      "summary": "自分の見方は事実をそのまま映していると思い、同じ情報を持つ合理的な他者も同意するはずだと考える傾向。意見が違う相手を、知識不足や偏見の持ち主と解釈しやすくなる。対立を検討する際は、事実の違いだけでなく解釈や重視する価値の違いも確かめる。哲学上の実在論そのものとは区別する。",
+      "display_id": 317,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "心理学上の対立と判断の枠組みを扱う著者原稿。",
+        "works": [
+          "Naive Realism in Everyday Life: Implications for Social Conflict and Misunderstanding. Values and Knowledge, 103–135."
+        ],
+        "period": "1996年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://web.mit.edu/curhan/www/docs/Articles/15341_Readings/Negotiation_and_Conflict_Management/required_reading/2Ross_Ward_Naive_Realism.pdf",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Lee Ross / Andrew Ward"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_880",
+      "display_order": 317,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 6,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_596",
+        "kb_719",
+        "kb_146"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_881",
+      "title": "認知的閉鎖欲求",
+      "status": "published",
+      "aliases": [
+        "need for cognitive closure",
+        "認知的完結欲求"
+      ],
+      "summary": "曖昧な状態を避け、ある問題について確かな答えを早く得て、それを保ちたいという動機。個人差だけでなく、時間圧力などの状況によっても高まる。早く結論をつかむ傾向と、一度つかんだ結論を維持する傾向が、情報探索や集団判断に影響する。確証バイアスという判断の偏りと、動機づけの構成概念を区別する。",
+      "display_id": 318,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著の理論枠組みと抄録を参照。",
+        "works": [
+          "Motivated closing of the mind: Seizing and freezing. Psychological Review, 103(2), 263–283."
+        ],
+        "period": "1996年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0033-295X.103.2.263",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Arie W. Kruglanski / Donna M. Webster"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_881",
+      "display_order": 318,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 7,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_596",
+        "kb_203"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_882",
+      "title": "テロ管理理論",
+      "status": "published",
+      "aliases": [
+        "terror management theory",
+        "恐怖管理理論"
+      ],
+      "summary": "人が自分の死の不可避性を意識できることと、その不安を抑える文化的な世界観、自尊心への依存を結びつける理論。価値観や所属集団を守る反応を説明しようとする。死を意識させる操作である死の顕現性は、この理論を検討する個別概念であり、理論全体とは別に扱う。死の意識が全員に同じ反応を起こすという法則ではない。",
+      "display_id": 319,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "理論全体と死の顕現性という検討概念を区別する。",
+        "works": [
+          "The Causes and Consequences of a Need for Self-Esteem: A Terror Management Theory. Public Self and Private Self, 189–212."
+        ],
+        "period": "1986年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1007/978-1-4613-9564-5_10",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Jeff Greenberg / Tom Pyszczynski / Sheldon Solomon"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_882",
+      "display_order": 319,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-s",
+      "taxonomy_order": 33,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_563",
+        "kb_815",
+        "kb_058"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_883",
+      "title": "モラル・ライセンシング",
+      "status": "published",
+      "aliases": [
+        "moral licensing",
+        "moral self-licensing",
+        "道徳的ライセンシング"
+      ],
+      "summary": "過去の善い行動や、自分は道徳的だという感覚が、その後の問題ある選択を許容する理由になることがある現象。自分の実績を免罪符にする判断を説明する。次の行動を個別に点検する視点が役立つが、善行の後には一貫した善行が続くこともあり、必ず悪い行動へ向かうわけではない。経済学のモラルハザードとは仕組みが異なる。",
+      "display_id": 320,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "総説。行動の一貫性とライセンシングの両方向を区別する。",
+        "works": [
+          "Moral Self-Licensing: When Being Good Frees Us to Be Bad. Social and Personality Psychology Compass, 4(5), 344–357."
+        ],
+        "period": "2010年（参照総説）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/j.1751-9004.2010.00263.x",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Anna C. Merritt / Daniel A. Effron / Benoît Monin"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_883",
+      "display_order": 320,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-s",
+      "taxonomy_order": 8,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_265",
+        "kb_088"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_884",
+      "title": "過剰正当化効果",
+      "status": "published",
+      "aliases": [
+        "overjustification effect",
+        "オーバージャスティフィケーション効果"
+      ],
+      "summary": "もともと楽しんでいた活動に外的な報酬の理由が加わると、報酬のない場面での自発的な関心が弱まることがある現象。原著では、予告された報酬と予告されない報酬などを比べた。すべての報酬が意欲を損なうわけではなく、報酬の予期、伝え方、活動の性質が重要になる。自己決定理論全体と、個別の実験現象を同義語にしない。",
+      "display_id": 109,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "報酬一般の禁止ではない。広い呼称であるアンダーマイニングを同義の別名へ無条件に含めない。",
+        "works": [
+          "Undermining children’s intrinsic interest with extrinsic reward: A test of the overjustification hypothesis. Journal of Personality and Social Psychology, 28(1), 129–137."
+        ],
+        "period": "1973年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0035519",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Mark R. Lepper / David Greene / Richard E. Nisbett"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_884",
+      "display_order": 109,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-m",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_520",
+        "kb_168"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_885",
+      "title": "感情の二要因理論",
+      "status": "published",
+      "aliases": [
+        "two-factor theory of emotion",
+        "シャクター＝シンガー理論"
+      ],
+      "summary": "感情経験を、生理的な覚醒と、その覚醒を状況に照らして意味づける認知の二つから説明する理論。同じ身体の高まりでも、文脈によって不安や喜びとして理解され得ると考える。身体反応だけで感情の種類を決めない視点を与える。動機づけを扱うハーズバーグの二要因理論とは別であり、感情全体を説明する確定した唯一のモデルでもない。",
+      "display_id": 321,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著書誌とAPAの感情理論教材を照合。",
+        "works": [
+          "Cognitive, social, and physiological determinants of emotional state. Psychological Review, 69(5), 379–399."
+        ],
+        "period": "1962年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0046234",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Stanley Schachter / Jerome E. Singer"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_885",
+      "display_order": 321,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-e",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_027",
+        "kb_028",
+        "kb_886",
+        "kb_905"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_886",
+      "title": "ジェームズ＝ランゲ理論",
+      "status": "published",
+      "aliases": [
+        "James–Lange theory",
+        "James-Lange theory"
+      ],
+      "summary": "出来事に伴って生じる身体反応を知覚することが、感情経験を形づくるとする歴史的な理論。身体と感情の関係を考える重要な出発点になった。身体反応と感情経験を並行して捉えるキャノン＝バード理論や、状況の解釈を重視する二要因理論と比較して理解できる。現代の感情研究をこの説明だけへ還元することはできない。",
+      "display_id": 322,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "参照論文はJamesによるもの。Langeとの共著ではない。",
+        "works": [
+          "What is an Emotion? Mind, 9(34), 188–205."
+        ],
+        "period": "1884年（Jamesの参照論文）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1093/mind/os-IX.34.188",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "William James / Carl Georg Lange"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_886",
+      "display_order": 322,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-e",
+      "taxonomy_order": 3,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_027",
+        "kb_228",
+        "kb_905",
+        "kb_885"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_887",
+      "title": "ソマティック・マーカー仮説",
+      "status": "published",
+      "aliases": [
+        "somatic marker hypothesis",
+        "身体標識仮説"
+      ],
+      "summary": "過去の経験と結びついた身体状態の信号や、その脳内の表象が、選択肢の評価や意思決定を方向づけるという仮説。感情は合理的判断の邪魔にしかならないという見方を見直す手がかりになる。ただし、身体の感覚が常に正しい選択を教えるという主張ではない。信号と、確率や根拠を使った検討を併せて評価する必要がある。",
+      "display_id": 110,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "仮説として紹介し、前頭葉の全機能を説明するモデルとはしない。",
+        "works": [
+          "The somatic marker hypothesis and the possible functions of the prefrontal cortex. Philosophical Transactions of the Royal Society B, 351, 1413–1420."
+        ],
+        "period": "1996年（参照論文）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1098/rstb.1996.0125",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Antonio R. Damasio"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_887",
+      "display_order": 110,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-d",
+      "taxonomy_order": 5,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_430",
+        "kb_825"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_888",
+      "title": "社会的インパクト理論",
+      "status": "published",
+      "aliases": [
+        "social impact theory",
+        "社会的影響力理論"
+      ],
+      "summary": "他者から受ける影響の大きさを、影響源の強さ、心理的・物理的な近さ、人数などから捉える理論。影響を受ける側が複数いる場合の分散も考える。単に人数が多ければよいという説明ではなく、相手の地位や距離も重要になる。同調や責任の分散を比較する枠組みであり、それぞれの現象の詳しい仕組みを置き換えるものではない。",
+      "display_id": 323,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著とAPA Dictionaryの定義を参照。",
+        "works": [
+          "The psychology of social impact. American Psychologist, 36(4), 343–356."
+        ],
+        "period": "1981年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0003-066X.36.4.343",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Bibb Latané"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_888",
+      "display_order": 323,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-v",
+      "taxonomy_order": 7,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_063",
+        "kb_072",
+        "kb_073"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_889",
+      "title": "タックマンモデル",
+      "status": "published",
+      "aliases": [
+        "Tuckman model",
+        "タックマンの集団発達モデル"
+      ],
+      "summary": "小集団の発達を、形成、混乱、規範形成、機能という段階で捉えるモデル。後の論文では散会の段階が加えられた。立ち上げ時の対立を直ちに失敗とせず、役割や協働のルールを整える視点を与える。ただし、すべてのチームが同じ順序を一度だけ通るわけではなく、状況による戻りや重なりも考慮する。",
+      "display_id": 164,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著は四段階。散会はTuckman / Jensenの1977年の後続論文で追加。",
+        "works": [
+          "Developmental sequence in small groups. Psychological Bulletin, 63(6), 384–399."
+        ],
+        "period": "1965年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0022100",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Bruce W. Tuckman"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_889",
+      "display_order": 164,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-t",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_777",
+        "kb_402"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_890",
+      "title": "ハーズバーグの二要因理論",
+      "status": "published",
+      "aliases": [
+        "Herzberg two-factor theory",
+        "動機づけ・衛生理論"
+      ],
+      "summary": "仕事の満足を高める要因と、不満を防ぐ要因を分ける理論。達成や仕事自体などの動機づけ要因と、待遇や管理などの衛生要因を区別する。",
+      "display_id": 165,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "1950〜1960年代の研究を背景とする著者の記事。賃金の重要性を否定するものではない。",
+        "works": [
+          "One More Time: How Do You Motivate Employees? Harvard Business Review, January 2003."
+        ],
+        "period": "2003年（参照記事の再掲載）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://hbr.org/2003/01/one-more-time-how-do-you-motivate-employees",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Frederick Herzberg"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_890",
+      "display_order": 165,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-i",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_766",
+        "kb_764"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_891",
+      "title": "SECIモデル",
+      "status": "published",
+      "aliases": [
+        "SECI model",
+        "知識創造モデル"
+      ],
+      "summary": "組織の知識創造を、暗黙知と形式知の相互作用から捉えるモデル。経験を共有する共同化、言葉や概念にする表出化、明示された知識を組み合わせる連結化、実践を通じて身につける内面化を区別する。資料を作るだけで知識共有が完了すると考えず、対話と実践の循環まで設計する。組織学習全体とは説明の焦点が異なる。",
+      "display_id": 166,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "暗黙知・形式知の四つの変換過程を扱う原著。",
+        "works": [
+          "A Dynamic Theory of Organizational Knowledge Creation. Organization Science, 5(1), 14–37."
+        ],
+        "period": "1994年（参照論文）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1287/orsc.5.1.14",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Ikujiro Nonaka"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_891",
+      "display_order": 166,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-o",
+      "taxonomy_order": 6,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_506",
+        "kb_516",
+        "kb_892"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_892",
+      "title": "ダブルループ学習",
+      "status": "published",
+      "aliases": [
+        "double-loop learning",
+        "二重ループ学習"
+      ],
+      "summary": "行動の誤りを直すだけでなく、その行動を生む目標、規則、前提まで問い直す学習。既定の目標へ近づける修正を行うシングルループ学習と区別する。同じ失敗が繰り返される場合、努力や手順の変更に加えて、何を成果とみなすかを検討する。組織学習という広い過程の一つであり、親概念と統合しない。",
+      "display_id": 167,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "著者論考の出版社による内容説明を参照。",
+        "works": [
+          "Double Loop Learning in Organizations. Harvard Business Review, September 1977."
+        ],
+        "period": "1977年（参照論考）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://store.hbr.org/product/double-loop-learning-in-organizations/77502",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Chris Argyris"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_892",
+      "display_order": 167,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-o",
+      "taxonomy_order": 7,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_506",
+        "kb_193",
+        "kb_891"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_893",
+      "title": "フィードラーのコンティンジェンシー理論",
+      "status": "published",
+      "aliases": [
+        "Fiedler contingency model",
+        "フィードラーの条件適合理論"
+      ],
+      "summary": "リーダーの有効性は一つの万能なスタイルではなく、比較的安定したリーダーの志向と状況の適合で決まるとする理論。リーダーとメンバーの関係、課題の構造、地位に伴う権限などを重視する。状況に合う人材配置や条件調整を考える枠組みであり、部下の成熟度に応じて行動を変える状況対応型リーダーシップとは別のモデルである。",
+      "display_id": 168,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "コンティンジェンシー論一般でなくFiedlerのリーダーシップモデルを扱う。",
+        "works": [
+          "A Contingency Model of Leadership Effectiveness. Advances in Experimental Social Psychology, 1, 149–190."
+        ],
+        "period": "1964年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/S0065-2601(08)60051-9",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Fred E. Fiedler"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_893",
+      "display_order": 168,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-l",
+      "taxonomy_order": 5,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_775",
+        "kb_776"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_894",
+      "title": "ゴミ箱モデル",
+      "status": "published",
+      "aliases": [
+        "garbage can model",
+        "ガーベッジ・カン・モデル"
+      ],
+      "summary": "組織の意思決定を、問題、解決策、参加者、選択機会という比較的独立した流れが、タイミングによって結びつく過程として捉えるモデル。目標が曖昧で、手段が不明確で、参加者が入れ替わる組織を主な対象にする。会議の結論が合理的な問題解決の順序だけで決まらない理由を考えるが、すべての組織に無秩序を勧めるものではない。",
+      "display_id": 169,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "組織化された無政府状態を対象にする原著モデル。",
+        "works": [
+          "A Garbage Can Model of Organizational Choice. Administrative Science Quarterly, 17(1), 1–25."
+        ],
+        "period": "1972年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.2307/2392088",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Michael D. Cohen / James G. March / Johan P. Olsen"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_894",
+      "display_order": 169,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-o",
+      "taxonomy_order": 8,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_064",
+        "kb_285"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_895",
+      "title": "コミットメントのエスカレーション",
+      "status": "published",
+      "aliases": [
+        "escalation of commitment",
+        "コミットメント・エスカレーション"
+      ],
+      "summary": "悪い結果が出たにもかかわらず、自分が選んだ方針へさらに資源を投入し、関与を強めることがある過程。原著では、否定的結果への本人の責任と追加投資の関係を検討した。撤退基準を先に決め、第三者に見直しを頼む判断の参考になる。埋没費用を惜しむサンクコスト効果と重なるが、自己正当化や責任、追加投入の過程まで含むため別に扱う。",
+      "display_id": 111,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "サンクコスト効果と範囲が違うため統合しない。",
+        "works": [
+          "Knee-deep in the big muddy: A study of escalating commitment to a chosen course of action. Organizational Behavior and Human Performance, 16(1), 27–44."
+        ],
+        "period": "1976年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/0030-5073(76)90005-2",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Barry M. Staw"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_895",
+      "display_order": 111,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-d",
+      "taxonomy_order": 8,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_273",
+        "kb_265",
+        "kb_286"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_896",
+      "title": "処理流暢性",
+      "status": "published",
+      "aliases": [
+        "processing fluency",
+        "認知的流暢性"
+      ],
+      "summary": "情報を知覚したり理解したりする際の、処理のしやすさという主観的な経験。反復、見やすさ、形のまとまりなどが、その対象への評価に影響する場合がある。読みやすい説明を作るうえで役立つ一方、読みやすさを真実性や根拠の強さと混同しないことが大切になる。学習の習熟を過大評価する流暢性の錯覚は、これと関連する個別現象である。",
+      "display_id": 324,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "参照総説は主に美的評価を扱う。真実性の効果とは関連リンクで区別する。",
+        "works": [
+          "Processing Fluency and Aesthetic Pleasure: Is Beauty in the Perceiver’s Processing Experience? Personality and Social Psychology Review, 8(4), 364–382."
+        ],
+        "period": "2004年（参照総説）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1207/s15327957pspr0804_3",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Rolf Reber / Norbert Schwarz / Piotr Winkielman"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_896",
+      "display_order": 324,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-c",
+      "taxonomy_order": 39,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_829",
+        "kb_718",
+        "kb_004"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_897",
+      "title": "選択盲",
+      "status": "published",
+      "aliases": [
+        "choice blindness",
+        "選択盲目"
+      ],
+      "summary": "自分が選んだものと提示された結果がすり替わっていても、その不一致に気づかず、結果を選んだ理由を説明することがある現象。原著は顔写真の魅力による選択課題を使った。選択の理由を後から述べた言葉だけで確定せず、実際に選んだ記録とも照合する必要を示す。すべての好みが不安定だという主張ではなく、気づき方は条件に左右される。",
+      "display_id": 112,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著の実験と抄録を参照。",
+        "works": [
+          "Failure to detect mismatches between intention and outcome in a simple decision task. Science, 310(5745), 116–119."
+        ],
+        "period": "2005年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1126/science.1111709",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Petter Johansson / Lars Hall / Sverker Sikström / Andreas Olsson"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_897",
+      "display_order": 112,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-x",
+      "taxonomy_order": 16,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_521",
+        "kb_420"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_898",
+      "title": "カリギュラ効果",
+      "status": "published",
+      "aliases": [],
+      "summary": "見る・知ることを禁止されると、かえってその対象への関心や接触したい気持ちが強まることを指す俗称。検閲された情報を聞きたいという欲求の増加は、心理的リアクタンスに関連する研究で扱われている。ただし、禁止する人への信頼や元の態度によって反応は異なる。自由への反発を広く説明する理論と、禁止された情報への関心という場面を区別する。",
+      "display_id": 325,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "一部確認：「カリギュラ効果」という俗称の初出・命名者は未確認。原著はこの日本語名を提唱した文献ではなく、禁止と接触欲求を扱う関連研究。",
+        "works": [
+          "The Effects of Censorship on Attitude Change: The Influence of Censor and Communication Characteristics. Journal of Applied Social Psychology, 5(3), 227–239."
+        ],
+        "period": "1975年（関連研究）",
+        "status": "一部確認",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1111/j.1559-1816.1975.tb00678.x",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Stephen Worchel / Susan Arnold / Michael Baker（関連研究の著者）"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_898",
+      "display_order": 325,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-i",
+      "taxonomy_order": 45,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_050",
+        "kb_400"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_899",
+      "title": "マズローの欲求階層説",
+      "status": "published",
+      "aliases": [
+        "Maslow hierarchy of needs",
+        "欲求階層理論",
+        "欲求五段階説"
+      ],
+      "summary": "人の欲求を、生理、安全、愛と所属、承認、自己実現などの階層から理解する理論。満たされていない基礎的欲求が動機づけに関わるという視点を与える。生活や仕事の困難を本人の意欲だけへ帰さず、条件を確かめる参考になる。ただし、全員が固定の順番を通るわけではなく、原著にも例外や複数の欲求が同時に働くことへの言及がある。",
+      "display_id": 113,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "原著は普及したピラミッド図そのものを提示した文献ではない。",
+        "works": [
+          "A theory of human motivation. Psychological Review, 50(4), 370–396."
+        ],
+        "period": "1943年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/h0054346",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Abraham H. Maslow"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_899",
+      "display_order": 113,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-m",
+      "taxonomy_order": 3,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_520",
+        "kb_730"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_900",
+      "title": "古典的条件づけ",
+      "status": "published",
+      "aliases": [
+        "classical conditioning",
+        "レスポンデント条件づけ",
+        "パブロフ型条件づけ"
+      ],
+      "summary": "ある刺激が別の刺激を予告する経験を通じて、以前はその反応を起こさなかった刺激が反応を引き出すようになる学習。食物と結びついた合図に対する唾液反応が代表例である。行動の後に生じる結果で行動の頻度が変わるオペラント条件づけとは、学習する関係が異なる。感情反応や回避を理解する基礎になるが、日常行動のすべてを一つの条件づけで説明しない。",
+      "display_id": 114,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "Oxfordの原著翻訳・論文集の書誌を参照。1927年だけを実験の初出とはしない。",
+        "works": [
+          "Conditioned Reflexes: An Investigation of the Physiological Activity of the Cerebral Cortex. Oxford University Press."
+        ],
+        "period": "1927年（参照著作）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://academic.oup.com/book/46525",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Ivan P. Pavlov"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "behavioral-science",
+      "canonical_id": "kb_900",
+      "display_order": 114,
+      "category_title": "行動科学",
+      "subcategory_id": "behavioral-science-l",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_536",
+        "kb_208",
+        "kb_440"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_901",
+      "title": "認知行動療法",
+      "status": "published",
+      "aliases": [
+        "cognitive behavioral therapy",
+        "cognitive behaviour therapy",
+        "CBT"
+      ],
+      "summary": "思考、感情、身体反応、行動の関係を整理し、認知と行動の両面から困難への対応を検討する心理療法の総称。考えを吟味する方法や行動実験などを、目的に応じて組み合わせる。単に前向きな考えへ置き換える方法ではない。曝露や行動活性化などの個別技法と区別し、対象とする問題に応じた評価や専門的な支援のもとで用いる。",
+      "display_id": 326,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "認知療法と行動療法の関係を扱う原著。CBT全体を一人がこの年に発明したとはしない。",
+        "works": [
+          "Cognitive therapy: Nature and relation to behavior therapy. Behavior Therapy, 1(2), 184–200."
+        ],
+        "period": "1970年（参照論文）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/S0005-7894(70)80030-2",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Aaron T. Beck（参照論文の著者）"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_901",
+      "display_order": 326,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-t",
+      "taxonomy_order": 9,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_210",
+        "kb_202",
+        "kb_213"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_902",
+      "title": "エリクソンの心理社会的発達理論",
+      "status": "published",
+      "aliases": [
+        "Erikson psychosocial development theory",
+        "心理社会的発達段階説"
+      ],
+      "summary": "人の生涯発達を、基本的信頼、自律性、アイデンティティ、親密性など、各段階での心理社会的な課題から捉える理論。自己の形成を幼少期だけに限定せず、他者や社会との関係の中で理解する。年齢だけで発達を判定するための尺度ではなく、各課題は後の時期にも再び問題になり得る。文化や生活条件による違いも考慮する。",
+      "display_id": 327,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "出版社の著作書誌を確認。段階の年齢を厳密な診断基準として扱わない。",
+        "works": [
+          "Childhood and Society. W. W. Norton."
+        ],
+        "period": "1950年（初版）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://wwnorton.co.uk/books/9780393310689-childhood-and-society",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Erik H. Erikson"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_902",
+      "display_order": 327,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-d",
+      "taxonomy_order": 1,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_246",
+        "kb_589",
+        "kb_251"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_903",
+      "title": "ピアジェの認知発達理論",
+      "status": "published",
+      "aliases": [
+        "Piaget theory of cognitive development",
+        "ピアジェ理論"
+      ],
+      "summary": "子どもが経験を既存の理解へ取り込む同化と、理解の枠組みを変える調節を通じて、認知を発達させるとする理論。感覚運動、前操作、具体的操作、形式的操作という段階が知られる。年齢だけで能力を決めつけず、課題の提示や経験の違いも確かめる必要がある。段階の普遍性や、幼い子どもの能力の見積もりには後続研究から検討が加えられている。",
+      "display_id": 328,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "理論の歴史的枠組みと、後続研究による修正を区別する。",
+        "works": [
+          "The Psychology of Intelligence. Routledge & Kegan Paul."
+        ],
+        "period": "1947年（原著）／1950年（英訳）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.4324/9780203164730",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Jean Piaget"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_903",
+      "display_order": 328,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-d",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_745",
+        "kb_493",
+        "kb_904"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_904",
+      "title": "最近接発達領域",
+      "status": "published",
+      "aliases": [
+        "zone of proximal development",
+        "ZPD",
+        "発達の最近接領域"
+      ],
+      "summary": "自力でできる課題の水準と、大人の助言やより熟達した相手との協働によってできる課題の水準との間を捉える概念。既に一人でできることだけでなく、支援を受けて学べる範囲を見る。支援の量を調整する教育の参考になるが、本人に代わって答えを出すこととは異なる。足場かけという後の支援概念を、同じ名称の同義語として扱わない。",
+      "display_id": 329,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "没後に編集された著作の刊行年であり、概念の初出年とはしない。",
+        "works": [
+          "Mind in Society: The Development of Higher Psychological Processes. Harvard University Press."
+        ],
+        "period": "1978年（編集・英訳刊行）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.2307/j.ctvjf9vz4",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Lev S. Vygotsky"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_904",
+      "display_order": 329,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-d",
+      "taxonomy_order": 3,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_169",
+        "kb_828",
+        "kb_903"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_905",
+      "title": "キャノン＝バード理論",
+      "status": "published",
+      "aliases": [
+        "Cannon–Bard theory",
+        "Cannon-Bard theory"
+      ],
+      "summary": "情動を生む刺激に対して、感情経験と身体反応が並行して生じるとする歴史的な理論。身体反応の知覚から感情が生じるとするジェームズ＝ランゲ理論への批判から発展した。感情と身体の関係を比較するための基礎になるが、当時の神経機構の説明を、現在の脳科学がそのまま確定した事実として採用しているわけではない。",
+      "display_id": 330,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "参照論文はCannonによるもの。Bardとの共同論文とはしない。",
+        "works": [
+          "The James-Lange Theory of Emotions: A Critical Examination and an Alternative Theory. American Journal of Psychology, 39, 106–124."
+        ],
+        "period": "1927年（Cannonの参照論文）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.2307/1415404",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Walter B. Cannon / Philip Bard"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_905",
+      "display_order": 330,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-e",
+      "taxonomy_order": 4,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_027",
+        "kb_228",
+        "kb_886",
+        "kb_885"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_906",
+      "title": "PERMAモデル",
+      "status": "published",
+      "aliases": [
+        "PERMA model",
+        "パーマモデル"
+      ],
+      "summary": "ウェルビーイングを、肯定的感情、没頭、関係性、意味、達成という五つの要素から捉えるモデル。楽しい気分だけを幸福の尺度にせず、生活のどこが充実し、どこが不足しているかを振り返る枠組みになる。五つを同じ重みで満たす義務や、個人の価値を採点する尺度ではない。各要素の独立性や測定方法は研究上の検討対象である。",
+      "display_id": 331,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "提唱者所属の研究センターによるモデルの説明を参照。",
+        "works": [
+          "Flourish. Free Press."
+        ],
+        "period": "2011年（参照著作）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://ppc.sas.upenn.edu/node/708",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Martin E. P. Seligman"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "psychology",
+      "canonical_id": "kb_906",
+      "display_order": 331,
+      "category_title": "心理学",
+      "subcategory_id": "psychology-s",
+      "taxonomy_order": 2,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_736",
+        "kb_243",
+        "kb_564"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_907",
+      "title": "職務要求度・コントロールモデル",
+      "status": "published",
+      "aliases": [
+        "job demand-control model",
+        "要求度・裁量度モデル",
+        "JDCモデル"
+      ],
+      "summary": "仕事の心理的な要求度が高く、判断や技能の使用に関する裁量が低い組み合わせで、緊張が高まりやすいとするモデル。負荷の量だけでなく、仕事の進め方を本人がどれだけ決められるかに着目する。職務設計を見直す視点を与えるが、要求と資源を広く扱う職務要求資源モデルとは範囲が違う。個人の健康状態をこの二軸だけで診断しない。",
+      "display_id": 170,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "要求度と裁量を扱う原著モデル。職務要求資源モデルと同義ではない。",
+        "works": [
+          "Job Demands, Job Decision Latitude, and Mental Strain: Implications for Job Redesign. Administrative Science Quarterly, 24(2), 285–308."
+        ],
+        "period": "1979年",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.2307/2392498",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Robert A. Karasek Jr."
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "organization-management",
+      "canonical_id": "kb_907",
+      "display_order": 170,
+      "category_title": "組織・経営論",
+      "subcategory_id": "organization-management-i",
+      "taxonomy_order": 6,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_763",
+        "kb_500",
+        "kb_130"
+      ],
+      "draft_technique_ids": []
+    },
+    {
+      "id": "kb_908",
+      "title": "SWOT分析",
+      "status": "published",
+      "aliases": [
+        "SWOT analysis",
+        "スウォット分析"
+      ],
+      "summary": "内部の強みと弱み、外部の機会と脅威を整理し、戦略を検討する分析枠組み。四つの欄を埋めること自体ではなく、根拠を確認し、それらの組み合わせから優先する行動を選ぶことが目的になる。同じ特徴でも状況によって強みにも弱みにもなるため、対象と期間を明確にする。単独の人物が特定の年に発明したという帰属には歴史研究上の注意が必要である。",
+      "display_id": 84,
+      "image_path": null,
+      "legacy_ids": [],
+      "provenance": {
+        "note": "参照論文は成立史を調べた一次研究であり、SWOTの初出・提唱論文ではない。",
+        "works": [
+          "The origins of SWOT analysis. Long Range Planning, 56, 102304."
+        ],
+        "period": "2023年（歴史研究）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1016/j.lrp.2023.102304",
+            "title": "参照文献・原著の確認先"
+          }
+        ],
+        "attribution": "Richard W. Puyt / Finn Birger Lie / Celeste P. M. Wilderom（参照研究の著者）"
+      },
+      "updated_at": "2026-10-05T02:09:03.528017+00:00",
+      "updated_by": null,
+      "access_tier": "complete",
+      "category_id": "strategy",
+      "canonical_id": "kb_908",
+      "display_order": 84,
+      "category_title": "戦略論",
+      "subcategory_id": "strategy-a",
+      "taxonomy_order": 1,
+      "draft_display_id": null,
+      "related_theory_ids": [
+        "kb_848",
+        "kb_849",
+        "kb_285"
+      ],
+      "draft_technique_ids": []
+    }
+  ],
+  "physical": 799,
+  "published": 794,
+  "checked_at": "2026-10-05T02:09:56.112915+00:00",
+  "unclassified": 0,
+  "subcategories": 48,
+  "categoryCounts": {
+    "strategy": 84,
+    "psychology": 329,
+    "classics-thought": 64,
+    "practical-wisdom": 82,
+    "behavioral-science": 108,
+    "organization-management": 127
+  },
+  "newPaidProjected": 40,
+  "targetTechniques": [
+    {
+      "id": "master336-176",
+      "theory_ids": [
+        "kb_506",
+        "kb_599",
+        "kb_763",
+        "kb_770",
+        "kb_771",
+        "kb_809",
+        "kb_810",
+        "kb_839",
+        "kb_841",
+        "kb_844",
+        "kb_892",
+        "kb_505"
+      ]
+    },
+    {
+      "id": "master336-179",
+      "theory_ids": [
+        "kb_506",
+        "kb_708",
+        "kb_709",
+        "kb_728",
+        "kb_738",
+        "kb_747",
+        "kb_892",
+        "theory-a1d88571-e3f5-4383-b757-d4010025befa"
+      ]
+    },
+    {
+      "id": "master336-184",
+      "theory_ids": [
+        "kb_441",
+        "kb_087",
+        "kb_507",
+        "kb_516",
+        "kb_764",
+        "kb_777",
+        "kb_891",
+        "kb_505"
+      ]
+    },
+    {
+      "id": "master336-205",
+      "theory_ids": [
+        "kb_224",
+        "kb_596",
+        "kb_064",
+        "kb_707",
+        "kb_718",
+        "kb_719",
+        "kb_785",
+        "kb_786",
+        "kb_811",
+        "kb_812",
+        "kb_814",
+        "kb_857",
+        "kb_858",
+        "kb_861",
+        "kb_875",
+        "kb_880",
+        "kb_881"
+      ]
+    },
+    {
+      "id": "master336-306",
+      "theory_ids": [
+        "kb_273",
+        "kb_288",
+        "kb_289",
+        "kb_895"
+      ]
+    }
+  ],
+  "theoryLinkFailures": 0,
+  "techniqueLinkFailures": 0
+}

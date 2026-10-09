@@ -114,7 +114,7 @@ const publicTechniques = {
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
   ? theory
-  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, ...(theory.provenance?.status === 'オリジナル' ? { provenance: theory.provenance } : {}), status: 'locked' });
+  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, subcategoryId: theory.subcategoryId, subcategoryTitle: theory.subcategoryTitle, sortOrder: theory.sortOrder, canonicalId: theory.canonicalId, legacyIds: theory.legacyIds, mergedFromIds: theory.mergedFromIds, accessTier: theory.accessTier, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, ...(theory.provenance?.status === 'オリジナル' ? { provenance: theory.provenance } : {}), status: 'locked' });
 
 metadata.theoryCount = theories.length;
 metadata.categoryCounts = Object.fromEntries(
@@ -129,6 +129,7 @@ await Promise.all([
   writeJson('techniques.public.json', publicTechniques),
   writeJson('theories.public.json', publicTheories),
   writeJson('learning.public.json', learning.filter((item) => freeLearningIds.has(item.id))),
+  // Roadmap identities only. Paid situations, choices and explanations stay private.
   writeJson('learning.index.json', learning.map(({ id, stage, number, title }) => ({ id, stage, number, title }))),
   writeJson('practical-actions.public.json', practicalActions.filter((item) => freeTechniqueIds.has(item.id))),
   writeJson('home-brand-content.json', homeBrandContent),

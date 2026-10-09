@@ -62,6 +62,7 @@ jobs:
           supabase functions deploy access --project-ref "$project_ref"
           supabase functions deploy paid-content --project-ref "$project_ref"
           supabase functions deploy stripe-webhook --no-verify-jwt --project-ref "$project_ref"
+          supabase functions deploy delete-account --no-verify-jwt --project-ref "$project_ref"
           supabase functions deploy operations-mcp --no-verify-jwt --project-ref "$project_ref"
 
   build-and-sync:
@@ -125,6 +126,15 @@ jobs:
       - name: Audit learning curriculum
         run: pnpm content:audit-learning
 
+      - name: Lint source
+        run: pnpm lint
+
+      - name: Test practical wisdom contracts
+        run: pnpm test:practical-wisdom
+
+      - name: Test canonical theory taxonomy and legacy compatibility
+        run: pnpm test:theory-taxonomy
+
       - name: Check types
         run: pnpm typecheck
 
@@ -137,8 +147,12 @@ jobs:
       - name: Audit public build for paid content
         run: node scripts/audit-public-build.mjs
 
+      - name: Bound package download waits
+        run: |
+          printf 'Acquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::Retries "1";\n' | sudo tee /etc/apt/apt.conf.d/80-ci-download-timeouts > /dev/null
+
       - name: Install browser for release smoke test
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
 
       - name: Run release smoke test
         run: pnpm test:e2e

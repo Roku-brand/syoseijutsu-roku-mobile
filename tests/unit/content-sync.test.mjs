@@ -13,6 +13,7 @@ const modules = {
   '@/access/access-config': 'export const hydrateContentAccessScope=()=>{};',
   '@/data/persona-presentation': 'export const hydratePersonaPresentations=()=>{};',
   '@/data/theory-display': 'export const isLockedTheoryShell=(item)=>item.status==="locked";',
+  '@/data/theory-taxonomy': 'export const applyTheorySubcategories=(rows)=>{globalThis.__contentSync.subcategories=rows;};',
   '@/data/learning': 'export const learningCases=[]; export const replaceLearningCases=()=>{}; export const resetLearningCases=()=>{};',
 };
 registerHooks({ resolve(specifier, context, next) {
@@ -27,7 +28,7 @@ function setup() {
   const tables = {
     techniques: [{ id:'free', access_tier:'free', title:'無料', explanation:'無料本文', persona_id:'p', category:'c' }, { id:'paid', access_tier:'complete', title:'有料', explanation:'PRIVATE', persona_id:'p', category:'c' }],
     theories: [{ id:'theory', access_tier:'complete', title:'理論名', summary:'PRIVATE', category_id:'c', category_title:'カテゴリ' }],
-    personas: [{ name:'p', category:'c', access_tier:'free' }], content_categories: [],
+    personas: [{ name:'p', category:'c', access_tier:'free' }], content_categories: [], theory_subcategories: [{id:'section',category_id:'c',title:'分類',display_order:1}],
   };
   fixture = {
     disk, queries, applied, theories:[], techniqueById:new Map(),
@@ -53,7 +54,8 @@ const load = (name) => import(new URL(`../../src/lib/${name}.ts?case=${++moduleI
 test('public sync omits paid bodies, shares requests, survives reload and preserves resolved paid cards', async () => {
   const s=setup(), api=await load('published-content');
   assert.deepEqual(await Promise.all([api.hydratePublishedContent(),api.hydratePublishedContent()]),[true,true]);
-  assert.equal(s.queries.length,6);
+  assert.equal(s.queries.length,7);
+  assert.deepEqual(s.subcategories,[{id:'section',categoryId:'c',title:'分類',displayOrder:1}]);
   for(const query of s.queries.filter(item=>item.tier==='complete')) assert.doesNotMatch(query.columns,/explanation|summary|provenance/);
   const saved=[...s.disk.values()].join('');
   assert.doesNotMatch(saved,/PRIVATE/);
@@ -66,12 +68,12 @@ test('public sync omits paid bodies, shares requests, survives reload and preser
   s.theories.push({tagId:'theory',title:'理論名',summary:'resolved theory',status:'published'});
   const reloaded=await load('published-content');
   await reloaded.hydratePublishedContent();
-  assert.equal(s.queries.length,6);
+  assert.equal(s.queries.length,7);
   assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').explanation,'resolved technique');
   assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').status,'published');
   assert.equal(s.applied.at(-1).theories[0].summary,'resolved theory');
   await reloaded.hydratePublishedContent(true);
-  assert.equal(s.queries.length,12);
+  assert.equal(s.queries.length,14);
   s.techniqueById.set('paid',{id:'paid',title:'有料',explanation:'locked shell',status:'locked'});
   await reloaded.hydratePublishedContent(true);
   assert.equal(s.applied.at(-1).techniques.find(item=>item.id==='paid').status,'locked');
@@ -80,7 +82,7 @@ test('public sync omits paid bodies, shares requests, survives reload and preser
 
 test('secure cache restores only matching users and fresh data; purge wins over a slow storage read', async () => {
   const s=setup(), api=await load('secure-content');
-  const key='@shoseijutsu-roku/paid-content/v11';
+  const key='@shoseijutsu-roku/paid-content/v13';
   const snapshot={version:9,userId:'user',savedAt:new Date().toISOString(),techniques:[{id:'paid'}],theories:[{tagId:'theory'}],learning:[{id:'case'}]};
   s.disk.set(key,JSON.stringify(snapshot));
   assert.equal(await api.restoreCachedSecureContent('different',true),false);
@@ -112,7 +114,7 @@ test('expired secure cache fetches each domain once, waits for all bodies and th
     await Promise.all([api.hydrateSecureContent(),api.hydrateSecureContent()]);
     assert.deepEqual(requests.sort(),['learning','technique','theory']);
     assert.equal(api.hasHydratedSecureContent('user',true),true);
-    const saved=JSON.parse(s.disk.get('@shoseijutsu-roku/paid-content/v11'));
+    const saved=JSON.parse(s.disk.get('@shoseijutsu-roku/paid-content/v13'));
     assert.equal(saved.techniques.length,1);
     assert.equal(saved.theories.length,1);
     assert.equal(saved.learning.length,1);
@@ -126,7 +128,7 @@ test('a secondary content failure allows retry instead of marking a partial cata
   try {
     await assert.rejects(api.hydrateSecureContent(),/完全版データ/);
     assert.equal(api.hasHydratedSecureContent('user',true),false);
-    assert.equal(s.disk.has('@shoseijutsu-roku/paid-content/v11'),false);
+    assert.equal(s.disk.has('@shoseijutsu-roku/paid-content/v13'),false);
   } finally {globalThis.fetch=originalFetch;}
 });
 

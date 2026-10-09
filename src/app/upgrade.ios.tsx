@@ -64,7 +64,7 @@ export default function AppleUpgradeScreen() {
   const primaryLabel = isPaid ? '完全版を開く' : busy ? '購入を確認中…' : '完全版を購入する';
   return <View style={styles.safe}><UpgradeLanding
     isPaid={isPaid}
-    price="¥320"
+    price={storePrice || '¥320'}
     onBack={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
     onPurchase={() => isPaid ? router.replace('/(tabs)') : void purchase()}
     onRestore={() => void restore()}
@@ -72,7 +72,7 @@ export default function AppleUpgradeScreen() {
     onCommerce={() => router.push('/legal/commerce')}
     purchaseLabel={primaryLabel}
     disabled={busy || (!isPaid && !storePrice)}
-    message={message || (isPaid && accessInfo.accessExpiresAt ? '利用期限：' + formatAccessDateTime(accessInfo.accessExpiresAt) : !isPaid ? '日本での価格は320円です。決済はApp Storeの確認画面で確定します。' : '')}
+    message={message || (isPaid && accessInfo.accessExpiresAt ? '利用期限：' + formatAccessDateTime(accessInfo.accessExpiresAt) : '')}
     statusActions={!storePrice && !isPaid ? <Pressable accessibilityRole="button" disabled={busy} onPress={load} style={styles.reload}><AppText style={styles.reloadText}>商品情報を再読み込み</AppText></Pressable> : undefined}
   /></View>;
 }

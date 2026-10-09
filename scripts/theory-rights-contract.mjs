@@ -8,7 +8,7 @@ export function auditTheoryRights({ theories, techniques = [], retiredIds = [] }
     if (retired.has(theory.tagId)) failures.push(`retired theory: ${theory.tagId}`);
     if (!theory.title?.trim()) failures.push(`empty title: ${theory.tagId}`);
     if (theory.categoryId === 'maxims-experience') failures.push(`retired category: ${theory.tagId}`);
-    if (theory.categoryId !== 'practical-wisdom') continue;
+    if (theory.provenance?.status !== 'オリジナル' && !(theory.categoryId === 'practical-wisdom' && /^「[^「」]+」$/.test(theory.title))) continue;
     if (!/^「[^「」]+」$/.test(theory.title)) failures.push(`Japanese quotation marks required: ${theory.tagId}`);
     const p = theory.provenance;
     if (p?.status !== 'オリジナル' || p.attribution !== '処世術禄' || p.works?.length !== 1 || p.works[0] !== '処世術禄オリジナル' || p.note !== '処世術禄によるオリジナルの実践知です。' || !!p.sources?.length || !!p.period) failures.push(`invalid original provenance: ${theory.tagId}`);

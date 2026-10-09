@@ -1,5 +1,5 @@
 import homeBrandSource from './generated/home-brand-content.json';
-import { categories, categoryOrder, techniqueById, theoryById } from './catalog';
+import { categories, categoryOrder, techniqueById, theoryById, theories } from './catalog';
 import { guidedTopics } from './guided-topics';
 import type { CategoryKey, TechniqueCard, TheoryCard } from './types';
 
@@ -105,7 +105,7 @@ export function getHomeBrandContent(now = new Date()) {
       domainNames: categories.map((category) => category.name),
       personas: categories.reduce((count, category) => count + category.subcategories.length, 0),
       techniques: [...techniqueById.values()].length,
-      theories: [...theoryById.values()].length,
+      theories: theories.length,
     },
   };
 }

@@ -1,8 +1,8 @@
-# 完全版バックエンド設定（280円・30日間アクセス）
+# 完全版バックエンド設定（320円・30日間アクセス）
 
 ## 実装済み
 
-- 商品価格をサーバー側で280円に固定
+- 商品価格をサーバー側で320円に固定
 - Stripe Checkout Session作成（Dashboard管理のカード・PayPay対応）
 - 新規購入はアカウント作成・ログイン後に開始するCheckout
 - 切り替え前のゲスト購入を、購入完了URLのSession IDと確認済みメールアドレスで安全に引き換える旧フロー
@@ -27,7 +27,7 @@
 3. Edge Function Secretsへ次を登録する。
    - `STRIPE_SECRET_KEY`
    - `STRIPE_WEBHOOK_SECRET`
-   - `STRIPE_PRICE_ID_30DAY`（商品名「処世術禄 完全版｜30日間アクセス」、JPY 280、`one_time`の本番Price ID。未設定時は同条件の`price_data`へ安全にフォールバック）
+   - `STRIPE_PRICE_ID_30DAY_320`（商品名「処世術禄 完全版｜30日間アクセス」、JPY 320、`one_time`の本番Price ID。未設定時は同条件の`price_data`へ安全にフォールバック）
    - 購入完了・キャンセル時の戻り先は、関数内で公開URL
      `https://shoseijutsuroku.com/` に固定済みです。
      `checkout`クエリを受け取ったトップ画面が、アプリ内の購入完了画面へ転送します。
@@ -46,7 +46,7 @@
 
 ## PayPayのテストと冪等性
 
-- StripeテストモードでPayPayを有効にできる場合は、JPY 280のCheckoutを開き、PayPayを選んでStripe公式のテスト手順で決済する。成功時は`checkout.session.completed`または`checkout.session.async_payment_succeeded`から、カードと同じ`grant_complete_edition_access`を実行する。
+- StripeテストモードでPayPayを有効にできる場合は、JPY 320のCheckoutを開き、PayPayを選んでStripe公式のテスト手順で決済する。成功時は`checkout.session.completed`または`checkout.session.async_payment_succeeded`から、カードと同じ`grant_complete_edition_access`を実行する。
 - 同じWebhookイベントは`payment_events(provider, event_id)`で、同じCheckout Session／Payment Intentは`access_purchases`の一意制約でそれぞれ重複を拒否する。Webhook再送、ブラウザの再読み込み、成功イベントの重複配信では30日間を加算しない。
 - Checkoutからの取消しと`checkout.session.async_payment_failed`では権限を付与しない。購入完了ページの「購入を復元する」はStripe側の成功済みPayment Intentを再検証してから同じ権限付与関数を呼ぶため、Webhook到達が遅れた場合だけを安全に補完する。
 - 切り替え前のゲスト購入では、Stripe Checkoutで取得したメールアドレスと一致する**確認済み**Supabaseアカウントからのみ、購入完了URLのSession IDを使って完全版を引き換えられる。新規CheckoutはアカウントIDをSession／Payment Intentのmetadataへ保存して即時に紐づける。Webhookは旧ゲスト購入に即時の権限を付与しないため、Session IDだけを知る第三者に権限は渡らない。

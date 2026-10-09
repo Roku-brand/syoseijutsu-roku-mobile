@@ -31,7 +31,7 @@ export default function SettingsScreen() {
         />
         <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
-          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : Platform.OS === 'ios' ? '30日間・自動更新なし' : '30日間 ¥320・自動更新なし'}
+          detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
           last
         />
@@ -39,7 +39,7 @@ export default function SettingsScreen() {
 
       <SettingsSection title="アプリ設定" />
       <SettingsGroup>
-        {Platform.OS === 'web' ? <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last /> : null}
+        <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last />
       </SettingsGroup>
 
       {role === 'owner' ? <>
@@ -64,11 +64,9 @@ export default function SettingsScreen() {
           <UsageSharingSetting />
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />
-            <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
+          <SettingLink title="プライバシーポリシー" href={APP_ROUTES.privacy} subdued />
           <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-          <SettingLink title="オープンソースの通知" href={'/legal/oss' as Href} subdued />
-            {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
+          {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"
             detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
@@ -79,7 +77,7 @@ export default function SettingsScreen() {
               'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
               [
                 { text: 'キャンセル', style: 'cancel' },
-                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData().catch(() => Alert.alert('消去できませんでした', '端末の保存領域にアクセスできません。時間をおいてもう一度お試しください。')) },
+                { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },
               ],
             )}
             danger

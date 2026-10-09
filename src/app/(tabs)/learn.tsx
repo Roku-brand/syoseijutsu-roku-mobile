@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   stageCard: { flex: 1, minWidth: 0, paddingHorizontal: 14, paddingVertical: 13, overflow: 'hidden', borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
   stageCardDesktop: { paddingHorizontal: 24, paddingVertical: 22 },
   stageArtwork: { position: 'absolute', top: 0, bottom: 0, right: 0, width: '48%', height: '100%', opacity: 0.1 },
-  stageNumber: { color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19 },
+  stageNumber: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19 },
   stageTitle: { marginTop: 2, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 28, fontWeight: '700', letterSpacing: -0.3 },
   stageTitleDesktop: { fontSize: 26, lineHeight: 38 },
   stageIntro: { marginTop: 2, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   caseTitle: { flex: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 11, lineHeight: 17 },
   more: { minHeight: 30, justifyContent: 'center' },
   moreText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18 },
-  challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.gold, alignItems: 'center', justifyContent: 'center' },
+  challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
   challengeText: { color: colors.white, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   pressed: { opacity: 0.75 },
 });

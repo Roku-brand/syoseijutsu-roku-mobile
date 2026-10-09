@@ -7,7 +7,7 @@ import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
 const generated = path.join(root, 'src', 'data', 'generated');
-const distDir = path.join(root, 'dist');
+const distDir = path.resolve(root, process.env.PUBLIC_AUDIT_DIR || 'dist');
 
 async function readJson(name) {
   return JSON.parse(await readFile(path.join(generated, name), 'utf8'));
@@ -87,20 +87,6 @@ for (const theory of theories) {
 }
 const fingerprints = new Map();
 const titleCandidates = [];
-// The roadmap exposes only the real case identity, position and title.
-// Validate the entire index before allowing these titles in a public bundle.
-const learningIndex = await readJson('learning.index.json');
-if (learningIndex.length !== learning.length) throw new Error('Learning index is incomplete.');
-const publicLearningTitleIds = new Set();
-for (const entry of learningIndex) {
-  const canonical = learning.find(item => item.id === entry.id);
-  if (!canonical || publicLearningTitleIds.has(entry.id)
-    || Object.keys(entry).some(key => !['id', 'stage', 'number', 'title'].includes(key))
-    || ['id', 'stage', 'number', 'title'].some(key => entry[key] !== canonical[key])) {
-    throw new Error('Learning index contains noncanonical data or a protected field.');
-  }
-  publicLearningTitleIds.add(entry.id);
-}
 const publicPreviewTheories = [
   ...homeBrandContent.theorySnapshots,
   ...homeBrandContent.techniqueTheoryMap.theories,
@@ -129,9 +115,15 @@ for (const theory of theories) {
 }
 for (const item of learning) {
   if (!freeLearningIds.has(item.id)) {
-    collectTextFingerprints(item, `learning:${item.id}`, fingerprints);
-    if (!publicLearningTitleIds.has(item.id)) titleCandidates.push({ id: item.id, title: item.title, label: `learning:${item.id}:title` });
+    // The roadmap intentionally publishes case identities, never their content.
+    const { id, stage, number, title, ...protectedContent } = item;
+    collectTextFingerprints(protectedContent, `learning:${item.id}`, fingerprints);
   }
+}
+
+const learningIndex = await readJson('learning.index.json');
+if (!isDeepStrictEqual(learningIndex, learning.map(({ id, stage, number, title }) => ({ id, stage, number, title })))) {
+  throw new Error('Learning roadmap identities do not match the canonical curriculum.');
 }
 
 if (fingerprints.size === 0) throw new Error('No paid-content fingerprints were generated.');

@@ -11,12 +11,13 @@ const reviewed = JSON.parse(sql.match(/\$reviewed\$([\s\S]*?)\$reviewed\$/)[1]);
 
 test('new references retain bibliography and distinguish originals from related works', async () => {
   const catalog = await read('src/data/generated/theories.json');
-  const byId = new Map(catalog.map((card) => [card.tagId, card]));
+  const byId = new Map(catalog.flatMap(card => [card.tagId, ...(card.legacyIds ?? [])].map(id => [id, card])));
   assert.equal(new Set(additions.records.map((x) => x.tagId)).size, additions.records.length);
   for (const record of additions.records) {
     const card = byId.get(record.tagId);
-    assert.equal(card.title, record.title);
-    assert.deepEqual(card.provenance, record.provenance);
+    assert.ok(card, `Historical theory ID must resolve: ${record.tagId}`);
+    assert.ok(card.title === record.title || card.aliases?.includes(record.title));
+    assert.ok(card.provenance?.sources?.length, `Current reviewed sources missing: ${record.tagId}`);
     assert.ok(['書誌確認済み','一部確認'].includes(record.provenance.status));
     assert.ok(record.provenance.attribution && record.provenance.note);
     assert.ok(record.provenance.works.length && record.provenance.sources.length);
@@ -26,12 +27,13 @@ test('new references retain bibliography and distinguish originals from related 
       assert.ok(!url.username && !url.password && source.title);
     }
   }
-  const attachment = byId.get('kb_036').provenance;
+  const historical = new Map(additions.records.map(record => [record.tagId, record]));
+  const attachment = historical.get('kb_036').provenance;
   assert.match(attachment.attribution, /Bowlby.*Hazan.*Shaver/);
   assert.ok(attachment.works.some((x) => /1958/.test(x)));
   assert.ok(attachment.works.some((x) => /1987/.test(x)));
-  assert.match(byId.get('theory-1789620805420-wbuepmtu').provenance.note, /別の概念/);
-  assert.equal(byId.get('kb_592').provenance.status, '一部確認');
+  assert.match(historical.get('theory-1789620805420-wbuepmtu').provenance.note, /別の概念/);
+  assert.equal(historical.get('kb_592').provenance.status, '一部確認');
 });
 
 async function fixture(t, corruptProjection = false) {

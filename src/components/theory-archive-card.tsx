@@ -9,6 +9,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { useAppState } from '@/state/app-state';
 import { useAppToast } from './app-toast';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
+import { getTheoryPath } from '@/data/theory-taxonomy';
 
 export function TheoryArchiveCard({
   theory,
@@ -37,7 +38,7 @@ export function TheoryArchiveCard({
           </AppText>
           <View style={styles.theoryPill}>
             <AppText variant="caption" style={styles.theoryPillText}>
-              {getTheoryCategoryLabel(theory)}
+              {getTheoryPath(theory) || getTheoryCategoryLabel(theory)}
             </AppText>
           </View>
         </View>

@@ -1,4 +1,6 @@
-import { originalPracticalWisdomProvenance } from '@/data/original-practical-wisdom';
+import { TheorySubcategoryFields, TheorySubcategoryManager } from './owner-theory-taxonomy';
+import { theorySubcategories } from '@/data/theory-taxonomy';
+import { fetchTheorySubcategories, reorderSubcategoryTheories } from '@/data/owner-theory-taxonomy';
 import { Redirect, router, useLocalSearchParams, type Href } from 'expo-router';
 import { Image } from 'expo-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -66,7 +68,7 @@ export default function OwnerCmsScreen() {
   const reload = useCallback(async () => {
     setFetching(true);
     try {
-      const [p, t, h, c] = await Promise.all([fetchOwnerPersonas(), fetchOwnerTechniques(), fetchOwnerTheories(), fetchContentCategories()]);
+      const [p, t, h, c] = await Promise.all([fetchOwnerPersonas(), fetchOwnerTechniques(), fetchOwnerTheories(), fetchContentCategories(), fetchTheorySubcategories()]);
       setPersonas(p); setTechniques(t); setTheories(h); setCategories(c);
       return true;
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'コンテンツを読み込めませんでした。'); return false; }
@@ -104,7 +106,7 @@ export default function OwnerCmsScreen() {
   const allRows = useMemo(() => [
     ...personas.map((item) => ({ kind: 'persona' as const, id: item.id, title: item.name, category: categoryTitle('technique', item.category, categories), status: item.status, order: item.display_order, displayLabel: undefined, updated: item.updated_at, subtitle: item.subtitle, searchBody: '', image: item.image_path, reference: techniques.filter((t) => t.persona_id === item.name && t.status !== 'archived').length, detail: item.category })),
     ...techniques.map((item) => ({ kind: 'technique' as const, id: item.id, title: item.title || '無題の処世術', category: item.persona_id, status: item.status, order: item.display_order ?? item.draft_display_order, displayLabel: undefined, updated: item.updated_at, subtitle: item.essence, searchBody: [item.explanation,item.memo,...item.practices,...item.examples,...item.cautions].join(' '), image: item.image_path, reference: item.importance, detail: item.category })),
-    ...theories.map((item) => ({ kind: 'theory' as const, id: item.tagId, title: item.title || '無題の理論', category: categoryTitle('theory', item.categoryId, categories), status: item.status, order: item.displayId ?? item.draftDisplayId ?? item.displayOrder, displayLabel: getTheoryDisplayId(item), updated: item.updatedAt, subtitle: item.summary, searchBody: (item.aliases ?? []).join(' '), image: item.imagePath, reference: techniques.filter((t) => t.theory_ids.includes(item.tagId) && t.status !== 'archived').length, detail: item.categoryId })),
+    ...theories.map((item) => ({ kind: 'theory' as const, id: item.tagId, title: item.title || '無題の理論', category: [categoryTitle('theory', item.categoryId, categories),theorySubcategories.find(s=>s.id===item.subcategoryId)?.title].filter(Boolean).join(' > '), status: item.status, order: item.sortOrder ?? item.displayId ?? item.draftDisplayId ?? item.displayOrder, displayLabel: getTheoryDisplayId(item), updated: item.updatedAt, subtitle: item.summary, searchBody: (item.aliases ?? []).join(' '), image: item.imagePath, reference: techniques.filter((t) => t.theory_ids.includes(item.tagId) && t.status !== 'archived').length, detail: item.categoryId })),
   ], [personas, techniques, theories, categories]);
   const words = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
   const techniquePersonaList = mode === 'technique' && (!scope || scope.startsWith('category:') || !personas.some((persona) => persona.name === scope));
@@ -112,13 +114,14 @@ export default function OwnerCmsScreen() {
     ? words.every((word) => [row.id, row.title, row.category, row.subtitle, row.searchBody, row.detail].join(' ').toLocaleLowerCase().includes(word))
     : techniquePersonaList
       ? row.kind === 'persona' && (!scope || (scope.startsWith('category:') ? row.detail === scope.slice(9) : true))
-      : row.kind === mode && (!scope || (mode === 'technique' ? row.category === scope : row.detail === scope)));
+      : row.kind === mode && (!scope || (mode === 'technique' ? row.category === scope : scope.startsWith('sub:') ? theories.find(t=>t.tagId===row.id)?.subcategoryId===scope.slice(4) : row.detail === scope)));
   const theoryCategoryOrder = new Map(categories.filter((item) => item.kind === 'theory').sort((a, b) => a.display_order - b.display_order).map((item, index) => [item.id, index]));
   const rows = [...visibleRows].sort((a, b) => listSort === 'title'
     ? a.title.localeCompare(b.title, 'ja')
     : mode === 'theory' ? ((theoryCategoryOrder.get(a.detail) ?? Number.MAX_SAFE_INTEGER)
       - (theoryCategoryOrder.get(b.detail) ?? Number.MAX_SAFE_INTEGER))
       || (listSort === 'status' ? a.status.localeCompare(b.status) : 0)
+      || ((theorySubcategories.find(s=>s.id===theories.find(t=>t.tagId===a.id)?.subcategoryId)?.displayOrder ?? Number.MAX_SAFE_INTEGER) - (theorySubcategories.find(s=>s.id===theories.find(t=>t.tagId===b.id)?.subcategoryId)?.displayOrder ?? Number.MAX_SAFE_INTEGER))
       || ((a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER))
       || a.title.localeCompare(b.title, 'ja')
     : listSort === 'status'
@@ -128,7 +131,7 @@ export default function OwnerCmsScreen() {
     : selection?.kind === 'technique' ? (draft as TechniqueContent).title
       : selection?.kind === 'theory' ? (draft as OwnerTheory).title : (draft as ContentCategory).title : '';
   const selectedRow = selection && selection.kind !== 'category' ? allRows.find((row) => row.kind === selection.kind && row.id === selection.id) : undefined;
-  const scopeLabel = !scope ? '' : mode === 'theory' ? categoryTitle('theory',scope,categories)
+  const scopeLabel = !scope ? '' : mode === 'theory' ? scope.startsWith('sub:') ? theorySubcategories.find(s=>s.id===scope.slice(4))?.title ?? '' : categoryTitle('theory',scope,categories)
     : scope.startsWith('category:') ? categoryTitle('technique',scope.slice(9),categories)
       : techniquePersonaList ? '人物像'
         : `${categoryTitle('technique',personas.find((p) => p.name === scope)?.category ?? '',categories)}　›　${scope}`;
@@ -217,10 +220,12 @@ export default function OwnerCmsScreen() {
         const item = await createTechnique(persona.name);
         await reload(); setDraft(item); setSelection({ kind: 'technique', id: item.id }); setRelatedIds([]); setImageAsset(null); setDirty(false); setScope(persona.name); setEditorTab('basic');
       } else {
-        const category = categories.find((c) => c.kind === 'theory' && c.id === scope) ?? categories.find((c) => c.kind === 'theory');
+        const subcategory = scope.startsWith('sub:') ? theorySubcategories.find(s=>s.id===scope.slice(4)) : undefined;
+        const category = categories.find((c) => c.kind === 'theory' && c.id === (subcategory?.categoryId ?? scope)) ?? categories.find((c) => c.kind === 'theory');
         if (!category) throw new Error('理論カテゴリがありません。');
         const item = await createTheoryDraft(category);
-        await reload(); setDraft(item); setSelection({ kind: 'theory', id: item.tagId }); setRelatedIds([]); setImageAsset(null); setDirty(false); setScope(category.id); setEditorTab('basic');
+        if (subcategory) Object.assign(item,{subcategoryId:subcategory.id,subcategoryTitle:subcategory.title,sortOrder:theories.filter(t=>t.subcategoryId===subcategory.id).length+1});
+        await reload(); setDraft(item); setSelection({ kind: 'theory', id: item.tagId }); setRelatedIds([]); setImageAsset(null); setDirty(Boolean(subcategory)); setScope(subcategory ? `sub:${subcategory.id}` : category.id); setEditorTab('basic');
       }
     } catch (cause) { setError(cause instanceof Error ? cause.message : '追加できませんでした。'); }
     finally { setBusy(false); }
@@ -257,7 +262,7 @@ export default function OwnerCmsScreen() {
     if (source < 0 || target < 0) return;
     ordered.splice(source, 1); ordered.splice(ordered.indexOf(targetId), 0, rowId);
     setBusy(true);
-    try { await reorderContent(orderKind, orderScope, ordered); await reload(); await refreshPublishedContent(); setNotice('並び順を保存しました。'); }
+    try { if (mode==='theory') { if(!scope.startsWith('sub:')) throw new Error('内部分類を選択して並べ替えてください。'); await reorderSubcategoryTheories(scope.slice(4),ordered); } else await reorderContent(orderKind, orderScope, ordered); await reload(); await refreshPublishedContent(); setNotice('並び順を保存しました。'); }
     catch (cause) { setError(cause instanceof Error ? cause.message : '並び順を保存できませんでした。'); }
     finally { setBusy(false); }
   };
@@ -454,6 +459,8 @@ export default function OwnerCmsScreen() {
               { label: '下へ並び替え', onPress: () => { void moveCategory('theory',category.id,1); setTreeMenu(null); } },
               { label: '削除', danger: true, onPress: () => requestCategoryDelete(category) },
             ]} /> : null}
+            {theorySubcategories.filter(s=>s.categoryId===category.id).map(s=><TreeRow key={s.id} label={'　'+s.title} count={String(theories.filter(t=>t.subcategoryId===s.id && t.status!=='archived').length)} active={scope==='sub:'+s.id && !query} onPress={()=>navigateTree('theory','sub:'+s.id)} />)}
+            <TheorySubcategoryManager categoryId={category.id} onSaved={async()=>{await reload();await refreshPublishedContent();}} />
           </View>;
         })}
       </ScrollView>
@@ -471,7 +478,7 @@ export default function OwnerCmsScreen() {
           renderItem={({ item: row }) => {
             const reorderable = !query && listSort === 'display' && (techniquePersonaList
               ? scope.startsWith('category:') && row.kind === 'persona' && row.status !== 'archived'
-              : row.kind === mode && row.status === 'published' && Boolean(scope));
+              : row.kind === mode && row.status === 'published' && Boolean(scope) && (mode !== 'theory' || scope.startsWith('sub:')));
             const active = selection?.kind === row.kind && selection.id === row.id;
             const menuKey = `${row.kind}:${row.id}`;
             return <View>
@@ -479,7 +486,7 @@ export default function OwnerCmsScreen() {
                 <AppText style={[styles.handle, !reorderable && styles.handleDisabled]}>⠿</AppText>
                 <AppText style={styles.number}>{row.displayLabel ?? (row.order == null ? '—' : String(row.order).padStart(2,'0'))}</AppText>
                 {row.image ? <Image source={row.kind === 'persona' ? getPersonaPresentation(row.title)?.image : { uri: contentImageUrl(row.image) ?? '' }} style={styles.thumb} /> : null}
-                <Pressable accessibilityRole="button" accessibilityState={{ selected: active }} onPress={() => choose({ kind: row.kind, id: row.id })} style={styles.rowCopy}>
+                <Pressable accessibilityRole="button" accessibilityLabel={row.title} accessibilityState={{ selected: active }} onPress={() => choose({ kind: row.kind, id: row.id })} style={styles.rowCopy}>
                   <AppText numberOfLines={1} style={styles.rowTitle}>{row.title}</AppText>
                   {row.subtitle ? <AppText numberOfLines={1} style={styles.rowSummary}>{row.subtitle}</AppText> : null}
                   <AppText numberOfLines={1} style={styles.muted}>{row.kind === 'technique' ? `${categoryTitle('technique',row.detail,categories)}　›　${row.category}` : row.category}{row.kind === 'technique' ? `　·　重要度 ${'★'.repeat(Number(row.reference))}` : `　·　関連 ${row.reference}件`}</AppText>
@@ -521,7 +528,7 @@ export default function OwnerCmsScreen() {
           {selection.kind === 'technique' && editorTab === 'body' ? <Section title="本文"><Field label="解説" value={(draft as TechniqueContent).explanation} onChange={(explanation) => patch({ explanation })} multi /><ListField label="今日からできる実践" items={(draft as TechniqueContent).practices} onChange={(practices) => patch({ practices })} /><ListField label="具体例" items={(draft as TechniqueContent).examples} onChange={(examples) => patch({ examples })} /><ListField label="注意点" items={(draft as TechniqueContent).cautions} onChange={(cautions) => patch({ cautions })} /></Section> : null}
           {selection.kind === 'technique' && editorTab === 'memo' ? <Section title="補足メモ"><Field label="メモ" value={(draft as TechniqueContent).memo} onChange={(memo) => patch({ memo })} multi /></Section> : null}
           {selection.kind === 'technique' && editorTab === 'publish' ? <><MediaEditor path={imagePath} asset={imageAsset} onPick={selectImage} onRemove={() => { patch({ image_path: null }); setImageAsset(null); }} /><Section title="公開設定"><Choice label="公開範囲" value={(draft as TechniqueContent).access_tier} options={[["free","無料版"],["complete","完全版"]]} onChange={(access_tier) => patch({ access_tier })} /><Choice label="重要度" value={String((draft as TechniqueContent).importance)} options={[["1","★"],["2","★★"],["3","★★★"]]} onChange={(importance) => patch({ importance: Number(importance) })} /><CmsButton onPress={() => { const path=techniqueRoute(selection.id); if (dirty) setPendingPreview(path); else router.push(path); }}>アプリで確認 ↗</CmsButton></Section><Section title="関連付け"><AppText variant="label">主要理論</AppText><MultiPicker options={theories.filter((item) => item.status === 'published').map((item) => ({ id: item.tagId, title: item.title }))} ids={(draft as TechniqueContent).primary_theory_ids} onChange={(ids) => patch({ primary_theory_ids: ids, theory_ids: [...new Set([...ids,...(draft as TechniqueContent).theory_ids])] })} /><AppText variant="label">あわせて読む理論</AppText><MultiPicker options={theories.filter((item) => item.status === 'published').map((item) => ({ id: item.tagId, title: item.title }))} ids={(draft as TechniqueContent).theory_ids.filter((id) => !(draft as TechniqueContent).primary_theory_ids.includes(id))} onChange={(ids) => patch({ theory_ids: [...(draft as TechniqueContent).primary_theory_ids,...ids] })} /></Section></> : null}
-          {selection.kind === 'theory' && editorTab === 'basic' ? <Section title="基本情報"><Field label="理論名" value={(draft as OwnerTheory).title} onChange={(title) => patch({ title })} /><Choice label="カテゴリ" value={(draft as OwnerTheory).categoryId} options={categories.filter((c) => c.kind === 'theory').sort((a,b) => a.display_order-b.display_order).map((c) => [c.id,c.title])} onChange={(categoryId) => patch({ categoryId, categoryTitle: categoryTitle('theory',categoryId,categories), ...(categoryId === 'practical-wisdom' ? { provenance: originalPracticalWisdomProvenance() } : {}) })} /><IntegerField label="表示ID" value={(draft as OwnerTheory).displayId ?? (draft as OwnerTheory).draftDisplayId ?? (draft as OwnerTheory).displayOrder ?? 1} onChange={(display_id) => patch((draft as OwnerTheory).status === 'published' ? { displayId: display_id, displayOrder: display_id } : { draftDisplayId: display_id, displayOrder: display_id })} /></Section> : null}
+          {selection.kind === 'theory' && editorTab === 'basic' ? <Section title="基本情報"><Field label="理論名" value={(draft as OwnerTheory).title} onChange={(title) => patch({ title })} /><Choice label="カテゴリ" value={(draft as OwnerTheory).categoryId} options={categories.filter((c) => c.kind === 'theory').sort((a,b) => a.display_order-b.display_order).map((c) => [c.id,c.title])} onChange={(categoryId) => patch({ categoryId, categoryTitle: categoryTitle('theory',categoryId,categories), subcategoryId: undefined, subcategoryTitle: undefined })} /><TheorySubcategoryFields value={draft as OwnerTheory} onChange={patch} /><IntegerField label="表示ID" value={(draft as OwnerTheory).displayId ?? (draft as OwnerTheory).draftDisplayId ?? (draft as OwnerTheory).displayOrder ?? 1} onChange={(display_id) => patch((draft as OwnerTheory).status === 'published' ? { displayId: display_id, displayOrder: display_id } : { draftDisplayId: display_id, displayOrder: display_id })} /></Section> : null}
           {selection.kind === 'theory' && editorTab === 'body' ? <Section title="本文"><Field label="概要・本文" value={(draft as OwnerTheory).summary} onChange={(summary) => patch({ summary })} multi /></Section> : null}
           {selection.kind === 'theory' && editorTab === 'memo' ? <Section title="補足メモ・別名"><Field label="別名（1行に1件）" value={((draft as OwnerTheory).aliases ?? []).join('\n')} onChange={(value) => patch({ aliases: value.split('\n').map((item) => item.trim()).filter(Boolean) })} multi /><TheoryDetailsEditor value={draft as OwnerTheory} options={theories.filter((item) => item.status === 'published')} disabled={busy} onChange={patch} /></Section> : null}
           {selection.kind === 'theory' && editorTab === 'publish' ? <><MediaEditor path={imagePath} asset={imageAsset} onPick={selectImage} onRemove={() => { patch({ imagePath: null }); setImageAsset(null); }} /><Section title="公開設定"><Choice label="公開範囲" value={(draft as OwnerTheory).accessTier ?? 'complete'} options={[["free","無料版"],["complete","完全版"]]} onChange={(accessTier) => patch({ accessTier })} /><AppText style={styles.muted}>URLと関連付けには内部IDを使い、ここで変更する表示IDとは分離しています。</AppText><AppText variant="label">関連する処世術</AppText><MultiPicker options={techniques.filter((item) => item.status !== 'archived').map((item) => ({ id: item.id, title: item.title || '無題の処世術' }))} ids={relatedIds} onChange={(ids) => { setRelatedIds(ids); setDirty(true); }} /><CmsButton onPress={() => { const path=theoryRoute(selection.id); if (dirty) setPendingPreview(path); else router.push(path); }}>アプリで確認 ↗</CmsButton></Section></> : null}
@@ -540,7 +547,7 @@ function StatusBadge({ status }: { status: string }) { return <AppText style={[s
 type MenuAction = { label: string; onPress: () => void; danger?: boolean };
 function ActionMenu({ actions }: { actions: MenuAction[] }) { return <View style={styles.menu}>{actions.map((action) => <Pressable key={action.label} accessibilityRole="button" onPress={action.onPress} style={[styles.menuItem,action.danger && styles.menuItemDanger]}><AppText style={action.danger ? styles.menuTextDanger : styles.menuText}>{action.label}</AppText></Pressable>)}</View>; }
 function Section({ title, children }: { title: string; children: React.ReactNode }) { return <View style={styles.section}><AppText style={styles.sectionTitle}>{title}</AppText>{children}</View>; }
-function TreeRow({ label, count, active, expanded, nested, onPress, onMenu, onExpand, onDragStart, onDrop }: { label: string; count: string; active: boolean; expanded?: boolean; nested?: boolean; onPress: () => void; onMenu: () => void; onExpand?: () => void; onDragStart?: () => void; onDrop?: () => void }) { return <View style={[styles.treeRow,active && styles.treeActive,nested && { paddingLeft: 23 }]} {...(Platform.OS === 'web' && onDragStart ? { draggable: true, onDragStart, onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(), onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); onDrop?.(); } } as any : {})}>{onExpand ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}を${expanded ? '閉じる' : '開く'}`} onPress={onExpand} style={styles.treeDisclosure}><AppText style={styles.treeDisclosure}>{expanded ? '⌄' : '›'}</AppText></Pressable> : <AppText style={styles.handle}>⠿</AppText>}<Pressable accessibilityRole="button" onPress={onPress} style={{ flex: 1, minWidth: 0 }}><AppText numberOfLines={1} style={styles.treeText}>{label}</AppText></Pressable><AppText style={styles.treeCount}>{count}</AppText><Pressable accessibilityRole="button" accessibilityLabel={`${label}の操作`} onPress={onMenu} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable></View>; }
+function TreeRow({ label, count, active, expanded, nested, onPress, onMenu, onExpand, onDragStart, onDrop }: { label: string; count: string; active: boolean; expanded?: boolean; nested?: boolean; onPress: () => void; onMenu?: () => void; onExpand?: () => void; onDragStart?: () => void; onDrop?: () => void }) { return <View style={[styles.treeRow,active && styles.treeActive,nested && { paddingLeft: 23 }]} {...(Platform.OS === 'web' && onDragStart ? { draggable: true, onDragStart, onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(), onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); onDrop?.(); } } as any : {})}>{onExpand ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}を${expanded ? '閉じる' : '開く'}`} onPress={onExpand} style={styles.treeDisclosure}><AppText style={styles.treeDisclosure}>{expanded ? '⌄' : '›'}</AppText></Pressable> : <AppText style={styles.handle}>⠿</AppText>}<Pressable accessibilityRole="button" onPress={onPress} style={{ flex: 1, minWidth: 0 }}><AppText numberOfLines={1} style={styles.treeText}>{label}</AppText></Pressable><AppText style={styles.treeCount}>{count}</AppText>{onMenu ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}の操作`} onPress={onMenu} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable> : null}</View>; }
 function Field({ label, value, onChange, multi }: { label: string; value: string; onChange: (value: string) => void; multi?: boolean }) { return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} value={value} onChangeText={onChange} multiline={multi} style={[styles.input, multi && styles.multi]} /></View>; }
 function IntegerField({ label, value, onChange }: { label: string; value: number | null | undefined; onChange: (value: number) => void }) { const [text,setText] = useState(value == null ? '' : String(value)); useEffect(() => { setText(value == null ? '' : String(value)); }, [value]); return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} keyboardType="number-pad" value={text} onChangeText={setText} onBlur={() => { const parsed=Number.parseInt(text,10); const next=Number.isFinite(parsed) && parsed > 0 ? parsed : Math.max(1,value ?? 1); setText(String(next)); onChange(next); }} style={[styles.input,{ maxWidth: 130 }]} /><AppText style={styles.muted}>{label === '表示ID' ? '選択中カテゴリ内の表示番号です。移動時は同じカテゴリ内で自動採番します。' : '同じ人物像内の表示順です。保存時に周囲を自動調整します。'}</AppText></View>; }
 function Choice({ label, value, options, onChange }: { label: string; value: string; options: string[][]; onChange: (value: string) => void }) { return <View style={styles.field}>{label ? <AppText variant="label">{label}</AppText> : null}<View style={styles.actions}>{options.map(([id,title]) => <Pressable key={id} accessibilityRole="button" accessibilityState={{ selected: value === id }} onPress={() => onChange(id)} style={[styles.choice,value === id && styles.choiceActive]}><AppText style={styles.buttonText}>{title}</AppText></Pressable>)}</View></View>; }

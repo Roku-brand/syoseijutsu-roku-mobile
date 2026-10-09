@@ -11,7 +11,7 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   const simulated = isOwner && previewMode !== 'actual';
 
-  if (isWelcome) return <>{children}</>;
+  if (isWelcome || pathname === '/upgrade-preview') return <>{children}</>;
 
   // Owner tools must remain usable while simulating a public access state.
   // Otherwise selecting 「確認中」/「認証エラー」 replaces the owner

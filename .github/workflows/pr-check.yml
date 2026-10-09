@@ -30,8 +30,30 @@ jobs:
       - run: pnpm content:validate-master336
       - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning
+      - run: pnpm lint
+      - run: pnpm test:practical-wisdom
+      - run: pnpm test:theory-taxonomy
+      - run: node --test tests/unit/usage-consent.test.mjs
+      - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck
+      - run: node scripts/check-purchase-price.mjs
       - run: pnpm export:pages
       - run: node scripts/audit-public-build.mjs
-      - run: pnpm exec playwright install --with-deps chromium
+      - name: Save audited web preview for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: audited-web-preview
+          path: dist
+          retention-days: 3
+      - name: Bound package download waits
+        run: |
+          printf 'Acquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::Retries "1";\n' | sudo tee /etc/apt/apt.conf.d/80-ci-download-timeouts > /dev/null
+      - run: pnpm exec playwright install chromium
       - run: pnpm test:e2e
+      - name: Save browser test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-evidence
+          path: test-results
+          retention-days: 3

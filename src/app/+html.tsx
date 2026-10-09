@@ -14,15 +14,15 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <title>{siteTitle}</title>
         <meta name="description" content={siteDescription} />
         <meta name="robots" content="index,follow,max-image-preview:large" />
-        <meta name="theme-color" content="#151714" />
+        <meta name="theme-color" content="#FFFDF8" />
         <meta name="application-name" content="処世術禄" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="処世術禄" />
         <link rel="canonical" href={`${siteUrl}/`} />
         <meta property="og:type" content="website" />
@@ -42,10 +42,9 @@ export default function Root({ children }: PropsWithChildren) {
         <ScrollViewStyleReset />
         <style>{`
           /*
-           * iOS PWA/Safari occasionally reports a shorter dynamic viewport than
-           * the physical display.  A height-only root then ends above the home
-           * indicator, leaving the page background under the bottom navigation.
-           * Anchor the application root to every physical viewport edge instead.
+           * Keep the shell within the available web viewport. With the opaque
+           * iOS status bar, part of screen.height belongs to the system UI;
+           * using the physical display height pushes navigation off-screen.
            */
           html {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
@@ -61,6 +60,16 @@ export default function Root({ children }: PropsWithChildren) {
             width: 100%; height: var(--roku-app-height, 100dvh) !important;
             min-height: var(--roku-app-height, 100dvh) !important;
             background: #FFFDF8;
+          }
+          /* WebKit reads background-color from fixed boxes more than 10px deep.
+           * Clip an empty strip to text so it supplies the status-bar colour
+           * without painting over the first pixels of the application header. */
+          #roku-status-bar-background {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 11px;
+            background-color: #FFFDF8; z-index: 2147483647;
+            -webkit-background-clip: text; background-clip: text;
+            pointer-events: none;
           }
           #roku-launch {
             position: fixed; inset: 0; z-index: 99999; display: grid;
@@ -78,6 +87,7 @@ export default function Root({ children }: PropsWithChildren) {
         `}</style>
       </head>
       <body>
+        <div id="roku-status-bar-background" aria-hidden="true" />
         <div id="roku-launch" aria-label="処世術禄を起動中">
           <div>
             <div id="roku-launch-mark">禄</div>
@@ -90,17 +100,13 @@ export default function Root({ children }: PropsWithChildren) {
             __html: `
               (() => {
                 /*
-                 * iOS standalone PWAs can expose a short visualViewport to
-                 * React Native Web even though the physical display is taller.
-                 * screen.height is stable in that mode.  Keep the native
-                 * root and its first React wrapper at the same physical height
-                 * so the navigation reaches the home-indicator safe area.
+                 * The opaque standalone status bar sits outside the page.
+                 * Follow the visible web viewport, including keyboard resize,
+                 * rather than expanding the shell into that system UI area.
                  */
                 const syncAppHeight = () => {
-                  const standalone = window.matchMedia?.('(display-mode: standalone)').matches || navigator.standalone === true;
                   const visualHeight = window.visualViewport?.height || window.innerHeight;
-                  const physicalHeight = standalone ? Math.max(visualHeight, window.screen?.height || 0) : visualHeight;
-                  document.documentElement.style.setProperty('--roku-app-height', physicalHeight + 'px');
+                  document.documentElement.style.setProperty('--roku-app-height', visualHeight + 'px');
                 };
                 syncAppHeight();
                 window.addEventListener('resize', syncAppHeight);

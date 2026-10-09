@@ -9,14 +9,14 @@ export function TheoryDetailsEditor({ value, onChange, options, disabled }: {
  value: Omit<TheoryCard, 'status'>; onChange: (patch: Partial<Omit<TheoryCard, 'status'>>) => void; options: Omit<TheoryCard, 'status'>[]; disabled: boolean;
 }) {
  const [query, setQuery] = useState('');
- const p: TheoryProvenance = value.provenance ?? (value.categoryId === 'practical-wisdom' ? originalPracticalWisdomProvenance() : { status: '出典不明' });
+ const p: TheoryProvenance = value.provenance ?? { status: '出典不明' };
  const update = (patch: Partial<TheoryProvenance>) => onChange({ provenance: { ...p, ...patch } });
  const ids = value.relatedTheoryIds ?? [];
  const results = options.filter((item) => item.tagId !== value.tagId && !ids.includes(item.tagId) && item.title.includes(query.trim())).slice(0, 12);
  return <View style={styles.section}>
   <AppText variant="label">出典情報（公開画面に表示）</AppText>
-  <AppText style={styles.hint}>実践知は処世術禄オリジナルです。学術理論は確認できた情報だけ入力してください。</AppText>
-  <View style={styles.wrap}>{(value.categoryId === 'practical-wisdom' ? ['オリジナル'] as const : ['オリジナル','確認済み','書誌確認済み','一部確認','出典不明'] as const).map((status) =>
+  <AppText style={styles.hint}>出典には確認できた情報を入力してください。処世術禄の創作にはオリジナルを指定します。</AppText>
+  <View style={styles.wrap}>{(value.provenance?.status === 'オリジナル' ? ['オリジナル'] as const : ['オリジナル','確認済み','書誌確認済み','一部確認','出典不明'] as const).map((status) =>
    <Pressable key={status} accessibilityRole="button" accessibilityState={{ selected: p.status === status }} disabled={disabled} style={[styles.choice, p.status === status && styles.selected]} onPress={() => status === 'オリジナル' ? onChange({ provenance: originalPracticalWisdomProvenance() }) : update({ status })}><AppText>{status}</AppText></Pressable>)}</View>
   <Field label="提唱者・著者" value={p.attribution ?? ''} onChange={(attribution) => update({ attribution })} disabled={disabled} />
   {p.status !== 'オリジナル' ? <><Field label="発表・刊行時期" value={p.period ?? ''} onChange={(period) => update({ period })} disabled={disabled} />
