@@ -28,6 +28,55 @@ const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxo
 const after=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-after.json'),'utf8'));
 const scope=JSON.parse(fs.readFileSync(path.join(root,'src/data/content-scope.json'),'utf8'));
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
+const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
+
+test('fatigue-free persona has all twenty complete-edition shells in the offline product',()=>{
+ const persona=catalog.categories.find(c=>c.key==='interpersonal').subcategories.find(p=>p.name==='一緒にいて疲れない人');
+ assert.equal(persona.items.length,20);
+ assert.deepEqual(persona.items.map(t=>t.id),Array.from({length:20},(_,i)=>`master336-${337+i}`));
+ for(const item of persona.items){
+  assert.equal(item.status,'locked');
+  assert.equal(item.explanation,undefined);
+  assert.ok(!scope.excludedTechniqueIds.includes(item.id));
+ }
+ assert.equal(catalog.techniqueCards.length,scope.complete.techniques);
+});
+
+test('restored explanations address their own principles rather than the other articles',()=>{
+ const choice=techniqueRows.find(t=>t.id==='master336-309');
+ const hindsight=techniqueRows.find(t=>t.id==='master336-310');
+ assert.equal(choice.title,'進んだ道を正解にする覚悟を持つ');
+ assert.match(choice.essence,/その後どう生きたか/);
+ assert.match(choice.explanation,/選んだ後に経験を積み、工夫し、結果を作っていけば/);
+ assert.match(choice.explanation,/何を改善できるか/);
+ assert.doesNotMatch(choice.explanation,/予定に入れないまま/);
+ assert.equal(hindsight.title,'過去の自分を今の情報だけで裁かない');
+ assert.match(hindsight.essence,/当時の自分も知っていた前提/);
+ assert.match(hindsight.explanation,/当時の判断材料/);
+ assert.match(hindsight.explanation,/その時点で何を知っていたか/);
+ assert.doesNotMatch(hindsight.explanation,/集団に馴染|個別に話せる相手/);
+});
+
+test('published refresh and complete overlay keep fatigue-free rows and corrected article identities',()=>{
+ try {
+  const publicRows=techniqueRows.map(({essence,explanation,...row})=>({
+   ...row,status:'published',essence:'',explanation:'',
+  }));
+  catalog.hydratePaidCatalog(publicRows,[]);
+  const fatigue=techniqueRows.filter(t=>t.subcategory==='一緒にいて疲れない人');
+  const corrected=techniqueRows.filter(t=>['master336-309','master336-310'].includes(t.id));
+  catalog.overlayPaidCatalog([...fatigue,...corrected],[]);
+  for(const item of [...fatigue,...corrected]) {
+   assert.equal(catalog.techniqueById.get(item.id).title,item.title);
+   assert.equal(catalog.techniqueById.get(item.id).essence,item.essence);
+   assert.equal(catalog.techniqueById.get(item.id).explanation,item.explanation);
+   assert.equal(catalog.techniqueById.get(item.id).subcategory,item.subcategory);
+  }
+  assert.equal(catalog.techniqueCards.filter(t=>t.subcategory==='一緒にいて疲れない人').length,20);
+  assert.equal(catalog.techniqueCards.length,scope.complete.techniques);
+ } finally { catalog.resetCatalog(); }
+});
 
 test('broad sections preserve all content and move techniques to their subject',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));

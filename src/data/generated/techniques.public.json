@@ -12,7 +12,7 @@
               "id": "master336-001",
               "field": "対人術",
               "persona": "印象がいい人",
-              "title": "清潔感で足切りを超える",
+              "title": "清潔感を意識する",
               "essence": "清潔感は、加点ではなく足切りに使われる。",
               "explanation": "鏡の前で、前髪の浮きや襟元のよれに小さな違和感を覚えることがある。こうした乱れは一つひとつなら些細でも、相手には「自分の状態を整える意識が低い」という印象としてまとめて処理されやすい。人は初対面で相手を細かく評価する前に、近づいて不快ではないか、安心して接してよいかを短時間で判定するため、清潔感の不足は長所を見てもらう前の減点になる。\n友人との食事に、話が面白く気配りもできる人が来たとしても、爪の汚れ、口元の荒れ、汗や衣服の臭いが目につけば、それだけで距離を取りたくなることがある。逆に髪型や服装が特別しゃれていなくても、髪が整い、服に汚れや強いしわがなく、爪や口元まで手入れされていれば違和感は残らない。その状態ではじめて、表情や話し方、性格といった別の魅力が評価の対象に入る。\n外出前に考えるべきなのは、「もっと格好よく見せるには何を足すか」より、「相手が引っかかる要素が残っていないか」である。高価な服や流行の髪型を増やす前に、鏡で髪・服・爪・口元を確認し、最後に臭いや服の乱れまで確かめる。清潔感では目立つ必要はなく、気になる点を残さないことを優先する。それだけで、本来持っている魅力が外見の一要素だけで審査から落とされるのを防げる。",
               "importance": 3,
@@ -1614,6 +1614,132 @@
               "id": "master336-171",
               "title": "完全版の処世術",
               "displayOrder": 13,
+              "status": "locked"
+            }
+          ]
+        },
+        {
+          "name": "一緒にいて疲れない人",
+          "articleTitle": "一緒にいて疲れない人",
+          "items": [
+            {
+              "id": "master336-337",
+              "title": "完全版の処世術",
+              "displayOrder": 1,
+              "status": "locked"
+            },
+            {
+              "id": "master336-338",
+              "title": "完全版の処世術",
+              "displayOrder": 2,
+              "status": "locked"
+            },
+            {
+              "id": "master336-339",
+              "title": "完全版の処世術",
+              "displayOrder": 3,
+              "status": "locked"
+            },
+            {
+              "id": "master336-340",
+              "title": "完全版の処世術",
+              "displayOrder": 4,
+              "status": "locked"
+            },
+            {
+              "id": "master336-341",
+              "title": "完全版の処世術",
+              "displayOrder": 5,
+              "status": "locked"
+            },
+            {
+              "id": "master336-342",
+              "title": "完全版の処世術",
+              "displayOrder": 6,
+              "status": "locked"
+            },
+            {
+              "id": "master336-343",
+              "title": "完全版の処世術",
+              "displayOrder": 7,
+              "status": "locked"
+            },
+            {
+              "id": "master336-344",
+              "title": "完全版の処世術",
+              "displayOrder": 8,
+              "status": "locked"
+            },
+            {
+              "id": "master336-345",
+              "title": "完全版の処世術",
+              "displayOrder": 9,
+              "status": "locked"
+            },
+            {
+              "id": "master336-346",
+              "title": "完全版の処世術",
+              "displayOrder": 10,
+              "status": "locked"
+            },
+            {
+              "id": "master336-347",
+              "title": "完全版の処世術",
+              "displayOrder": 11,
+              "status": "locked"
+            },
+            {
+              "id": "master336-348",
+              "title": "完全版の処世術",
+              "displayOrder": 12,
+              "status": "locked"
+            },
+            {
+              "id": "master336-349",
+              "title": "完全版の処世術",
+              "displayOrder": 13,
+              "status": "locked"
+            },
+            {
+              "id": "master336-350",
+              "title": "完全版の処世術",
+              "displayOrder": 14,
+              "status": "locked"
+            },
+            {
+              "id": "master336-351",
+              "title": "完全版の処世術",
+              "displayOrder": 15,
+              "status": "locked"
+            },
+            {
+              "id": "master336-352",
+              "title": "完全版の処世術",
+              "displayOrder": 16,
+              "status": "locked"
+            },
+            {
+              "id": "master336-353",
+              "title": "完全版の処世術",
+              "displayOrder": 17,
+              "status": "locked"
+            },
+            {
+              "id": "master336-354",
+              "title": "完全版の処世術",
+              "displayOrder": 18,
+              "status": "locked"
+            },
+            {
+              "id": "master336-355",
+              "title": "完全版の処世術",
+              "displayOrder": 19,
+              "status": "locked"
+            },
+            {
+              "id": "master336-356",
+              "title": "完全版の処世術",
+              "displayOrder": 20,
               "status": "locked"
             }
           ]
