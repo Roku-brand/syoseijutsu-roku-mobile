@@ -58,7 +58,7 @@ test('利用状況の送信は初期オフで、任意に切り替えた設定�
   let events = 0;
   await page.route('**/rest/v1/rpc/record_consented_content_event', route => { events++; return route.fulfill({ json: null }); });
   await page.goto('/card/master336-001');
-  await expect(page.getByText('清潔感で足切りを超える').first()).toBeVisible();
+  await expect(page.getByText('清潔感を意識する').first()).toBeVisible();
   await page.goto('/settings');
   const toggle = page.getByRole('switch', { name: '利用状況の送信' });
   await expect(toggle).not.toBeChecked();
@@ -72,7 +72,7 @@ test('利用状況の送信は初期オフで、任意に切り替えた設定�
   await page.goto('/settings');
   await toggle.uncheck();
   await page.goto('/card/master336-001');
-  await expect(page.getByText('清潔感で足切りを超える').first()).toBeVisible();
+  await expect(page.getByText('清潔感を意識する').first()).toBeVisible();
   expect(events).toBe(1);
 });
 test('購入直前の確認に数量・期間・返金例外・訂正導線がある', async ({ page }) => {

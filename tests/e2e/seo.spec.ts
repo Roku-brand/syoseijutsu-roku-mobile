@@ -14,10 +14,10 @@ test('top page exposes the requested search and social metadata', async ({ page 
 test('detail metadata changes on SPA navigation and returns with browser back', async ({ page }) => {
   await page.goto('/subcategory/interpersonal/印象がいい人');
   await expect(page).toHaveTitle(/印象がいい人になるための処世術/);
-  const firstTechnique = page.getByRole('link', { name: /清潔感で足切りを超えるを開く/ });
+  const firstTechnique = page.getByRole('link', { name: /清潔感を意識するを開く/ });
   await expect(firstTechnique).toHaveAttribute('href', /\/card\/master336-001/);
   await firstTechnique.click();
-  await expect(page).toHaveTitle('清潔感で足切りを超える｜印象がいい人の処世術｜処世術禄');
+  await expect(page).toHaveTitle('清潔感を意識する｜印象がいい人の処世術｜処世術禄');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://app.shoseijutsuroku.com/card/master336-001');
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
   await page.goBack();
@@ -70,7 +70,7 @@ test('short numeric technique URLs redirect to their canonical detail page witho
 
   await page.goto('/card/master336-1');
   await expect(page).toHaveURL(/\/card\/master336-001$/);
-  await expect(page.getByText('清潔感で足切りを超える', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('清潔感を意識する', { exact: true }).first()).toBeVisible();
 
   await page.goto('/card/master336-999');
   await expect(page).toHaveURL(/\/\+not-found$/);
