@@ -1,6 +1,15 @@
 import { expect, test, type Page } from '@playwright/test';
 import fs from 'node:fs';
 
+async function advanceToRevisionCheck(page: Page) {
+  const response = page.waitForResponse(row => row.url().includes('/rest/v1/content_revision'));
+  await page.clock.fastForward(10*60*1000);
+  await (await response).finished();
+  // Let the client's response microtasks settle before jumping ten more
+  // minutes; otherwise the fake clock can abort a still-arriving response.
+  await page.evaluate(() => Promise.resolve());
+}
+
 async function mockCatalog(page: Page, complete = false) {
   let revision = 1;
   let offline = false;
@@ -48,15 +57,15 @@ test('開いたままの無料本文は変更時だけ更新し、接続復帰�
   await expect(page.getByText('更新解説1。',{exact:true})).toBeVisible();
   const initialReads=db.publicReads();
   const initialRevisionReads=db.revisionReads();
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   await expect.poll(db.revisionReads).toBeGreaterThan(initialRevisionReads);
   expect(db.publicReads()).toBe(initialReads);
   db.edit();
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   await expect(page.getByRole('heading',{name:'更新タイトル2',level:1})).toBeVisible();
   await expect(page.getByText('更新解説2。',{exact:true})).toBeVisible();
   db.setOffline(true);db.edit();
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   await expect(page.getByText('更新解説2。',{exact:true})).toBeVisible();
   db.setOffline(false);
   await page.clock.fastForward(60*1000);
@@ -71,15 +80,15 @@ test('完全版の本文も再取得し、公開用の空本文や通信失敗�
   await expect(page.getByText('更新解説1。',{exact:true})).toBeVisible();
   const initialReads=db.secureReads();
   const initialPublicReads=db.publicReads();
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   expect(db.secureReads()).toBe(initialReads);
   expect(db.publicReads()).toBe(initialPublicReads);
   db.edit();
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   await expect(page.getByText('更新解説2。',{exact:true})).toBeVisible();
   expect(db.secureReads()).toBeGreaterThan(initialReads);
   db.setOffline(true);
-  await page.clock.fastForward(10*60*1000);
+  await advanceToRevisionCheck(page);
   await expect(page.getByText('更新解説2。',{exact:true})).toBeVisible();
   db.setOffline(false);db.edit();
   await page.clock.fastForward(60*1000);
