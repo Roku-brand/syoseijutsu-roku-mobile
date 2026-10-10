@@ -489,6 +489,8 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
 });
 
 test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
+  // A failed revision check must not delay the independently readable body.
+  await page.route('**/rest/v1/content_revision*', route => route.fulfill({status:503,json:{message:'Revision unavailable'}}));
   await page.route('**/rest/v1/public_techniques*', async (route) => {
     await route.fulfill({
       status: 200,

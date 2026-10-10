@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
 
 registerHooks({resolve(specifier,context,next){
-  if(specifier==='@/lib/supabase') return {url:'data:text/javascript,'+encodeURIComponent('export const supabase={from:()=>({select:()=>({eq:()=>({single:()=>globalThis.__revisionTest.read()})})})};'),shortCircuit:true};
+  if(specifier==='@/lib/supabase') return {url:'data:text/javascript,'+encodeURIComponent('export const supabase={from:()=>({select:()=>({eq:()=>({abortSignal:()=>({single:()=>globalThis.__revisionTest.read()})})})})};'),shortCircuit:true};
   return next(specifier,context);
 }});
 let instance=0;

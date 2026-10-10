@@ -15,12 +15,15 @@ export async function readContentRevision(force = false): Promise<string | null>
   if (!force && checkedAt && Date.now() - checkedAt < MIN_CHECK_INTERVAL_MS) return lastRevision;
   checkedAt = Date.now();
   const request = (async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2_000);
     try {
-      const { data, error } = await supabase!.from('content_revision').select('revision').eq('id', true).single();
+      const { data, error } = await supabase!.from('content_revision').select('revision').eq('id', true).abortSignal(controller.signal).single();
       if (error || data?.revision == null) return null;
       lastRevision = String(data.revision);
       return lastRevision;
     } catch { return null; }
+    finally { clearTimeout(timeout); }
   })();
   pending = request;
   try { return await request; }

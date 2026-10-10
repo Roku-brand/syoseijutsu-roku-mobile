@@ -79,19 +79,21 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, [user?.id]);
 
   const checkPublishedContent = useCallback(async (force = false, revision?: string | null) => {
-    const requestedRevision = revision === undefined ? await readContentRevision() : revision;
+    const revisionRequest = revision === undefined ? readContentRevision() : Promise.resolve(revision);
     const changed = await hydratePublishedContent(force);
-    if (changed) publicRevision.current = requestedRevision;
     // A forced check can overlap another catalog sync. Refresh consumers even
     // if this call reports no change, so they read the latest catalog objects.
     if (changed || force) setCatalogRevision((value) => value + 1);
+    const requestedRevision = await revisionRequest;
+    if (changed) publicRevision.current = requestedRevision;
   }, []);
 
   const synchronizeSecureContent = useCallback(async (userId: string) => {
     // Capture the revision before fetching bodies so an edit made during the
     // request remains detectable on the next check.
-    const revision = await readContentRevision();
+    const revisionRequest = readContentRevision();
     if (hasHydratedSecureContent(userId)) {
+      const revision = await revisionRequest;
       // An already unlocked catalogue still needs fresh bodies after a DB edit.
       // Keep the readable catalogue and its cache if the network is unavailable.
       if (revision !== null && revision !== publicRevision.current) await checkPublishedContent(true, revision);
@@ -105,6 +107,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
     setSecureContentStatus('loading');
     try {
       await hydrateSecureContent(() => setCatalogRevision((value) => value + 1));
+      const revision = await revisionRequest;
       secureRevision.current = revision;
       setSecureContentStatus('ready');
       await checkPublishedContent(true, revision);
