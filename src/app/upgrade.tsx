@@ -8,12 +8,14 @@ import { AppText } from '@/components/ui';
 import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { UpgradeLanding } from '@/components/upgrade-landing';
+import { useGuides } from '@/onboarding/guide-provider';
 
 export default function UpgradeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string; session_id?: string }>();
   const { user, loading: authLoading } = useAuth();
   const { isPaid, accessInfo, accessStatus, refreshAccess, restorePurchase } = useAccess();
+  const { requestPurchaseGuide } = useGuides();
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [showCheckoutConfirmation, setShowCheckoutConfirmation] = useState(false);
@@ -58,6 +60,7 @@ export default function UpgradeScreen() {
     try {
       const restored = await restorePurchase();
       if (restored && params.checkout === 'success') {
+        requestPurchaseGuide();
         returnHome();
         return;
       }
@@ -85,6 +88,7 @@ export default function UpgradeScreen() {
       setMessage('決済を確認しています。完了までこの画面を閉じずにお待ちください。');
       void restorePurchase(params.session_id).then((restored) => {
         if (restored) {
+          requestPurchaseGuide();
           // Return only after server reconciliation grants active access.
           // Clearing the checkout query also restores the normal home chrome.
           returnHome();
@@ -97,7 +101,7 @@ export default function UpgradeScreen() {
     } else if (params.checkout === 'cancelled') {
       setMessage('購入はキャンセルされました。完全版の利用権は付与されていません。');
     }
-  }, [authLoading, params.checkout, params.session_id, restorePurchase, returnHome, user]);
+  }, [authLoading, params.checkout, params.session_id, requestPurchaseGuide, restorePurchase, returnHome, user]);
 
   const primaryLabel = isPaid
     ? '完全版を開く'
