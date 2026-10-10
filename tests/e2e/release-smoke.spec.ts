@@ -1137,7 +1137,7 @@ test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩�
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto('/personas');
   const cards = page.getByTestId('personas-grid').getByRole('button');
-  await expect(cards).toHaveCount(26);
+  await expect(cards).toHaveCount(metadata.productPersonaCount);
   const [first, second, third] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox(), cards.nth(2).boundingBox()]);
   expect(first).not.toBeNull();
   expect(second).not.toBeNull();
@@ -1153,11 +1153,12 @@ test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩�
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
 
-test('26人物像カードは一覧の最終行まで同じ寸法で表示する', async ({ page }) => {
+test('人物像カードは一覧の最終行まで同じ寸法で表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/personas');
   const cards = page.getByTestId('personas-grid').getByRole('button');
-  await expect(cards).toHaveCount(26);
+  await expect(cards).toHaveCount(metadata.productPersonaCount);
+  await expect(page.getByRole('button', { name: '一緒にいて疲れない人は完全版で利用できます', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '人たらしの人、23処世術を開く' })).toBeVisible();
   const sizes = await cards.evaluateAll((elements) => elements.map((element) => {
     const rect = element.getBoundingClientRect();

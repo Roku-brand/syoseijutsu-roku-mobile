@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "complete": {
-    "techniques": 336,
+    "techniques": 356,
     "theories": 794
   },
   "free": {
@@ -16,28 +16,7 @@
       "自分らしく生きられる人"
     ]
   },
-  "excludedTechniqueIds": [
-    "master336-337",
-    "master336-338",
-    "master336-339",
-    "master336-340",
-    "master336-341",
-    "master336-342",
-    "master336-343",
-    "master336-344",
-    "master336-345",
-    "master336-346",
-    "master336-347",
-    "master336-348",
-    "master336-349",
-    "master336-350",
-    "master336-351",
-    "master336-352",
-    "master336-353",
-    "master336-354",
-    "master336-355",
-    "master336-356"
-  ],
+  "excludedTechniqueIds": [],
   "freeTheoryDisplayIds": [
     "P-002",
     "P-003",
