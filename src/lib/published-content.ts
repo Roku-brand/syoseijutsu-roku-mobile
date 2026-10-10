@@ -1,4 +1,4 @@
-import { applyManagedCategories, categoryOrder, hydratePaidCatalog, reconcilePublishedStructure, theories, type PaidTechniquePayload } from '@/data/catalog';
+import { applyManagedCategories, categoryOrder, hydratePaidCatalog, reconcilePublishedStructure, techniqueById, theories, type PaidTechniquePayload } from '@/data/catalog';
 import { hydrateContentAccessScope } from '@/access/access-config';
 import { hydratePersonaPresentations } from '@/data/persona-presentation';
 import { isLockedTheoryShell } from '@/data/theory-display';
@@ -39,11 +39,17 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     ]);
     if (error || !data) return false;
     if (!subcategoryResult.error && subcategoryResult.data) applyTheorySubcategories(subcategoryResult.data.map(row=>({ id: row.id, categoryId: row.category_id, title: row.title, displayOrder: row.display_order })));
-    const techniques: PaidTechniquePayload[] = data.map((row) => ({
+    const techniques: PaidTechniquePayload[] = data.map((row) => {
+      // A public read may contain protected shells. Retain the current user's
+      // already verified body until the secure refresh succeeds; sign-out and
+      // entitlement loss purge these objects before any subsequent hydration.
+      const existing = techniqueById.get(String(row.id));
+      const resolved = row.access_tier === 'complete' && !row.explanation && existing?.explanation ? existing : undefined;
+      return {
       id: row.id as string,
-      title: row.title as string,
-      essence: (row.essence as string) ?? '',
-      explanation: (row.explanation as string) ?? '',
+      title: resolved?.title ?? row.title as string,
+      essence: resolved?.essence ?? (row.essence as string) ?? '',
+      explanation: resolved?.explanation ?? (row.explanation as string) ?? '',
       memo: (row.memo as string) ?? '',
       importance: row.importance as 1 | 2 | 3,
       primaryTheoryIds: Array.isArray(row.primary_theory_ids) ? row.primary_theory_ids as string[] : [],
@@ -52,7 +58,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       categoryName: row.category as string,
       subcategory: row.persona_id as string,
       articleTitle: row.persona_id as string,
-      practicalActions: {
+      practicalActions: resolved?.practicalActions ?? {
         todayActions: Array.isArray(row.practices) ? row.practices as string[] : [],
         examples: Array.isArray(row.examples) ? row.examples as string[] : [],
         cautions: Array.isArray(row.cautions) ? row.cautions as string[] : [],
@@ -62,7 +68,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       imagePath: typeof row.image_path === 'string' ? row.image_path : null,
       accessTier: row.access_tier === 'free' ? 'free' : 'complete',
       tags: Array.isArray(row.tags) ? row.tags as string[] : undefined,
-    }));
+    }; });
     // The table is the source of truth for techniques. Keep every theory that
     // has already been resolved by the authenticated complete-edition sync;
     // passing an empty list here would reset those 585 records back to their
@@ -70,7 +76,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     const remoteTheories = (theoryResult.data ?? []).filter(row=>!row.canonical_id || row.canonical_id===row.id).map((row) => {
       const existing = theories.find((item) => item.tagId === row.id);
       const resolved = row.access_tier === 'complete' && existing && !isLockedTheoryShell(existing) ? existing : undefined;
-      return { subcategoryId: row.subcategory_id, subcategoryTitle: row.subcategory_title, sortOrder: row.taxonomy_order, canonicalId: row.canonical_id, legacyIds: row.legacy_ids ?? [], provenance: row.provenance ?? resolved?.provenance, tagId: String(row.id), displayId: typeof row.display_id === 'number' ? row.display_id : Number(row.display_order ?? 0), title: String(row.title ?? resolved?.title ?? ''), summary: String(row.summary ?? resolved?.summary ?? ''), categoryId: String(row.category_id ?? ''), categoryTitle: String(row.category_title ?? ''), aliases: Array.isArray(row.aliases) ? row.aliases as string[] : [], relatedTheoryIds: Array.isArray(row.related_theory_ids) ? row.related_theory_ids as string[] : [], status: row.access_tier === 'free' || resolved ? 'published' as const : 'locked' as const, displayOrder: Number(row.display_id ?? row.display_order ?? 0), imagePath: typeof row.image_path === 'string' ? row.image_path : null, accessTier: row.access_tier === 'free' ? 'free' as const : 'complete' as const };
+      return { subcategoryId: row.subcategory_id, subcategoryTitle: row.subcategory_title, sortOrder: row.taxonomy_order, canonicalId: row.canonical_id, legacyIds: row.legacy_ids ?? [], provenance: row.provenance ?? resolved?.provenance, tagId: String(row.id), displayId: typeof row.display_id === 'number' ? row.display_id : Number(row.display_order ?? 0), title: String(row.title ?? resolved?.title ?? ''), summary: String(row.summary || resolved?.summary || ''), categoryId: String(row.category_id ?? ''), categoryTitle: String(row.category_title ?? ''), aliases: Array.isArray(row.aliases) ? row.aliases as string[] : [], relatedTheoryIds: Array.isArray(row.related_theory_ids) ? row.related_theory_ids as string[] : [], status: row.access_tier === 'free' || resolved ? 'published' as const : 'locked' as const, displayOrder: Number(row.display_id ?? row.display_order ?? 0), imagePath: typeof row.image_path === 'string' ? row.image_path : null, accessTier: row.access_tier === 'free' ? 'free' as const : 'complete' as const };
     });
     const resolvedTheories = !theoryResult.error ? remoteTheories : theories.filter((theory) => !isLockedTheoryShell(theory));
     hydratePaidCatalog(techniques, resolvedTheories);
@@ -79,7 +85,9 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
     if (!personaResult.error && personaResult.data) hydratePersonaPresentations(personaResult.data as Array<{ name: string; category?: string; subtitle?: string; image_path?: string | null; display_order?: number }>, categoryOrder);
     if (!personaResult.error && !theoryResult.error) hydrateContentAccessScope({ personas: (personaResult.data ?? []) as Array<{ name: string; access_tier?: string }>, techniques: data as Array<{ id: string; access_tier?: string }>, theories: (theoryResult.data ?? []).filter(row=>!row.canonical_id || row.canonical_id===row.id) as Array<{ id: string; access_tier?: string }> });
     loaded = true;
-    return true;
+    // Do not acknowledge a revision when part of the catalogue failed to load.
+    // A later lightweight check must be able to retry that incomplete refresh.
+    return !theoryResult.error && !personaResult.error && !categoryResult.error && !subcategoryResult.error;
   } catch (error) {
     console.warn('Published content hydration failed', error);
     return false;

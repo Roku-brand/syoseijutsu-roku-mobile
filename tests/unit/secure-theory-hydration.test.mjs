@@ -4,8 +4,8 @@ import { registerHooks } from 'node:module';
 
 globalThis.__secureTheoryTest = {};
 const mocks = {
-  '@react-native-async-storage/async-storage': 'export default {getItem:async()=>null,setItem:async()=>{},removeItem:async()=>{}};',
-  '@/data/catalog': 'export const hydratePaidTheories=(rows)=>globalThis.__secureTheoryTest.applied.push(rows);export const overlayPaidCatalog=()=>{};export const resetCatalog=()=>{};',
+  '@react-native-async-storage/async-storage': 'export default {getItem:async()=>globalThis.__secureTheoryTest.cache??null,setItem:async(_key,value)=>{globalThis.__secureTheoryTest.cache=value;},removeItem:async()=>{globalThis.__secureTheoryTest.cache=null;}};',
+  '@/data/catalog': 'export const hydratePaidTheories=(rows)=>globalThis.__secureTheoryTest.applied.push(rows);export const overlayPaidCatalog=(techniques,theories)=>globalThis.__secureTheoryTest.overlays?.push({techniques,theories});export const resetCatalog=()=>{};',
   '@/data/learning': 'export const learningCases=[];export const replaceLearningCases=()=>{};export const resetLearningCases=()=>{};',
   './supabase': 'export const supabase={auth:{getSession:async()=>({data:{session:{user:{id:"user"},access_token:"token"}}})}};export const supabaseUrl="https://example.invalid";export const supabasePublishableKey="public";',
 };
@@ -68,4 +68,56 @@ test('a response received after sign-out cannot hydrate the previous user', asyn
     assert.deepEqual(globalThis.__secureTheoryTest.applied,[]);
     assert.equal(api.hasHydratedSecureContent('user'),false);
   } finally {globalThis.fetch=originalFetch;}
+});
+
+test('refresh replaces bodies and cache only on success; offline failure can be retried', async () => {
+  globalThis.__secureTheoryTest = {applied:[],overlays:[]};
+  const originalFetch=globalThis.fetch;
+  let revision=1; let offline=false;
+  globalThis.fetch=async url=>{
+    if(offline) throw new Error('offline');
+    const payload=String(url).includes('type=theory') ? {...theory,summary:`概要${revision}`} : {id:'secondary',explanation:`本文${revision}`};
+    return new Response(JSON.stringify({items:[{payload}]}));
+  };
+  try {
+    const api=await load();
+    await api.hydrateSecureContent();
+    const saved=globalThis.__secureTheoryTest.cache;
+    offline=true;
+    assert.equal(await api.refreshSecureContent(),false);
+    assert.equal(api.hasHydratedSecureContent('user'),true);
+    assert.equal(globalThis.__secureTheoryTest.cache,saved);
+    assert.equal(globalThis.__secureTheoryTest.overlays.length,1);
+    offline=false; revision=2;
+    assert.equal(await api.refreshSecureContent(),true);
+    assert.equal(globalThis.__secureTheoryTest.overlays.at(-1).techniques[0].explanation,'本文2');
+    assert.equal(JSON.parse(globalThis.__secureTheoryTest.cache).theories[0].summary,'概要2');
+    assert.equal(api.hasHydratedSecureContent('user'),true);
+  } finally {globalThis.fetch=originalFetch;}
+});
+
+test('concurrent refreshes share requests and sign-out invalidates their response', async () => {
+  globalThis.__secureTheoryTest = {applied:[],overlays:[]};
+  const originalFetch=globalThis.fetch;
+  const response=()=>new Response(JSON.stringify({items:[{payload:theory}]}));
+  globalThis.fetch=async()=>response();
+  let release;
+  try {
+    const api=await load();
+    await api.hydrateSecureContent();
+    const saved=globalThis.__secureTheoryTest.cache;
+    let requests=0; let started;
+    const gate=new Promise(resolve=>{release=resolve;});
+    const allStarted=new Promise(resolve=>{started=resolve;});
+    globalThis.fetch=async()=>{requests++;if(requests===3)started();await gate;return response();};
+    const first=api.refreshSecureContent();
+    const second=api.refreshSecureContent();
+    await allStarted;
+    api.purgeSecureContent();release();
+    assert.deepEqual(await Promise.all([first,second]),[false,false]);
+    assert.equal(requests,3);
+    assert.equal(globalThis.__secureTheoryTest.overlays.length,1);
+    assert.equal(globalThis.__secureTheoryTest.cache,saved);
+    assert.equal(api.hasHydratedSecureContent('user'),false);
+  } finally {release?.();globalThis.fetch=originalFetch;}
 });
