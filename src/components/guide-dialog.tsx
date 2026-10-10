@@ -82,7 +82,7 @@ export function GuideDialog(props: Props) {
         </View>
         <ScrollView ref={scroll} style={styles.body} contentContainerStyle={[styles.bodyContent, desktop && styles.bodyDesktop]} showsVerticalScrollIndicator={false}>
           <View {...swipe.panHandlers} testID="guide-artwork" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.artwork, { height: stackedActions ? compact ? 132 : 174 : compact ? 162 : 226 }, desktop && styles.artworkDesktop]}>
-            <GuideArtwork type={slide.art} complete={props.kind === 'complete'} />
+            <GuideArtwork type={slide.art} complete={props.kind === 'complete'} compact={compact} />
           </View>
           <View style={[styles.copy, compact && styles.copyCompact, desktop && styles.copyDesktop]}>
             <AppText style={styles.eyebrow}>{slide.label}</AppText>
@@ -115,7 +115,7 @@ export function GuideDialog(props: Props) {
   </Modal>;
 }
 
-function GuideArtwork({ type, complete: isComplete }: { type: Artwork; complete: boolean }) {
+function GuideArtwork({ type, complete: isComplete, compact }: { type: Artwork; complete: boolean; compact: boolean }) {
   if (type === 'welcome' || type === 'complete') return <View style={styles.cover} accessible={false}>
     <Image source={type === 'welcome' ? require('../../assets/home/machiya-night-hero.webp') : require('../../assets/upgrade/dark-library.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
     <View style={[StyleSheet.absoluteFill, styles.coverWash]} />
@@ -125,9 +125,9 @@ function GuideArtwork({ type, complete: isComplete }: { type: Artwork; complete:
     </View>
     {type === 'welcome' ? <Image source={require('../../assets/learn/rokumaru-roadmap.webp')} contentFit="contain" style={styles.mascot} /> : <View style={styles.completeRule} />}
   </View>;
-  if (type === 'personas') return <View style={styles.personaArt} accessible={false}>
-    <AppText style={styles.artKicker}>{isComplete ? 'すべての人物像へ' : 'あなたは、どんな人になりたい？'}</AppText>
-    <View style={styles.personaRow}>
+  if (type === 'personas') return <View style={[styles.personaArt, compact && styles.artCompact]} accessible={false}>
+    <AppText style={[styles.artKicker, compact && styles.artKickerCompact]}>{isComplete ? 'すべての人物像へ' : 'あなたは、どんな人になりたい？'}</AppText>
+    <View style={[styles.personaRow, compact && styles.personaRowCompact]}>
       {[
         { name: '印象が\nいい人', category: '人間関係', image: require('../../assets/personas/persona-01.webp') },
         { name: '仕事が\nできる人', category: '仕事', image: require('../../assets/personas/persona-14.webp') },
@@ -139,24 +139,30 @@ function GuideArtwork({ type, complete: isComplete }: { type: Artwork; complete:
     </View>
   </View>;
   if (type === 'editions') return <View style={styles.editionsArt} accessible={false}>
-    <AppText style={styles.artKicker}>あなたのペースで、学びを。</AppText>
+    {!compact ? <AppText style={styles.artKicker}>あなたのペースで、学びを。</AppText> : null}
     <View style={styles.editionRow}>
       <View style={styles.edition}><AppText style={styles.editionLabel}>無料版</AppText><AppText style={styles.editionTitle}>{'気軽に、\n無料で体験'}</AppText><AppText style={styles.editionNote}>基本の体験</AppText></View>
       <View style={[styles.edition, styles.editionComplete]}><AppText style={[styles.editionLabel, styles.goldText]}>完全版</AppText><AppText style={styles.editionTitle}>{'すべてを、\n深く学ぶ。'}</AppText><AppText style={styles.editionNote}>全コンテンツ</AppText></View>
     </View>
   </View>;
-  if (type === 'learning') return <View style={styles.learningArt} accessible={false}>
-    <AppText style={styles.artKicker}>学びを、日々の判断へ。</AppText>
-    {['人間関係', '仕事', '人生'].map((label, index) => <View key={label} style={styles.stageRow}><AppText style={styles.stageNumber}>0{index + 1}</AppText><View style={styles.stageCopy}><AppText style={styles.stageTitle}>{label}</AppText><AppText style={styles.stageNote}>ケースから、判断を学ぶ</AppText></View><AppText style={styles.stageArrow}>→</AppText></View>)}
+  if (type === 'learning') return <View style={[styles.learningArt, compact && styles.artCompact]} accessible={false}>
+    <AppText style={[styles.artKicker, compact && styles.artKickerCompact]}>学びを、日々の判断へ。</AppText>
+    {['人間関係', '仕事', '人生'].map((label, index) => <View key={label} style={[styles.stageRow, compact && styles.stageRowCompact]}><AppText style={[styles.stageNumber, compact && styles.stageNumberCompact]}>0{index + 1}</AppText><View style={styles.stageCopy}><AppText style={styles.stageTitle}>{label}</AppText>{!compact ? <AppText style={styles.stageNote}>ケースから、判断を学ぶ</AppText> : null}</View><AppText style={styles.stageArrow}>→</AppText></View>)}
   </View>;
-  if (type === 'knowledge') return <View style={styles.knowledgeArt} accessible={false}>
+  if (type === 'knowledge') return <View style={[styles.knowledgeArt, compact && styles.artCompact]} accessible={false}>
     <Image source={require('../../assets/home/theory-lineage-washi.webp')} style={StyleSheet.absoluteFill} contentFit="cover" />
     <View style={[StyleSheet.absoluteFill, styles.knowledgeWash]} />
-    <View style={styles.knowledgeNode}><AppText style={styles.nodeLabel}>処世術</AppText><AppText style={styles.nodeTitle}>日常で使える知恵</AppText></View>
-    <View style={styles.connector} />
-    <View style={[styles.knowledgeNode, styles.knowledgeNodeGold]}><AppText style={styles.nodeLabel}>背景の理論</AppText><AppText style={styles.nodeTitle}>なぜ役立つのかを知る</AppText></View>
-    <View style={styles.connector} />
+    <View style={[styles.knowledgeNode, compact && styles.knowledgeNodeCompact]}><AppText style={styles.nodeLabel}>処世術</AppText><AppText style={[styles.nodeTitle, compact && styles.nodeTitleCompact]}>日常で使える知恵</AppText></View>
+    <View style={[styles.connector, compact && styles.connectorCompact]} />
+    <View style={[styles.knowledgeNode, styles.knowledgeNodeGold, compact && styles.knowledgeNodeCompact]}><AppText style={styles.nodeLabel}>背景の理論</AppText><AppText style={[styles.nodeTitle, compact && styles.nodeTitleCompact]}>なぜ役立つのかを知る</AppText></View>
+    <View style={[styles.connector, compact && styles.connectorCompact]} />
     <AppText style={styles.knowledgeEnd}>関連する知識へ、学びがつながる</AppText>
+  </View>;
+  if (compact) return <View style={styles.practiceCompact} accessible={false}>
+    <AppText style={[styles.artKicker, styles.artKickerCompact]}>知恵を、あなたのものに。</AppText>
+    <View style={styles.practiceConceptRow}>{[
+      ['学ぶ', 'ケースに挑戦'], ['保存', '蔵書で読み返す'], ['記す', 'マイ処世術へ'],
+    ].map(([label, note], index) => <View key={label} style={styles.practiceConcept}><AppText style={styles.conceptNumber}>0{index + 1}</AppText><AppText style={styles.conceptLabel}>{label}</AppText><AppText style={styles.conceptNote}>{note}</AppText></View>)}</View>
   </View>;
   return <View style={styles.practiceArt} accessible={false}>
     <View style={styles.libraryPreview}><View style={styles.previewHeading}><AppText style={styles.previewTitle}>蔵書</AppText><AppText style={styles.previewTag}>気に入った知恵を、手元に</AppText></View>
@@ -231,7 +237,10 @@ const styles = StyleSheet.create({
   completeRule: { width: 44, height: 1, backgroundColor: '#BD9B60', marginTop: 6 },
   personaArt: { flex: 1, padding: 16, justifyContent: 'center' },
   artKicker: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, textAlign: 'center', marginBottom: 14 },
+  artKickerCompact: { fontSize: 10, lineHeight: 16, marginBottom: 8 },
+  artCompact: { paddingVertical: 10 },
   personaRow: { flexDirection: 'row', gap: 8, height: '72%', maxHeight: 220, minHeight: 115 },
+  personaRowCompact: { height: '70%', minHeight: 96, maxHeight: 110 },
   personaTile: { flex: 1, overflow: 'hidden', borderRadius: 9, backgroundColor: '#E5DCC9' },
   personaLabel: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 8, backgroundColor: 'rgba(255,253,248,0.94)' },
   personaCategory: { color: colors.goldDeep, fontSize: 9, lineHeight: 14 },
@@ -245,8 +254,10 @@ const styles = StyleSheet.create({
   editionTitle: { marginTop: 8, fontFamily: fonts.serif, color: colors.ink, fontSize: 13, lineHeight: 20 },
   editionNote: { marginTop: 8, color: '#625D53', fontSize: 9, lineHeight: 16 },
   learningArt: { flex: 1, justifyContent: 'center', paddingHorizontal: 24, paddingVertical: 14 },
-  stageRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#D7CBB6' },
+  stageRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 8, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#D7CBB6' },
+  stageRowCompact: { paddingVertical: 5 },
   stageNumber: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 22, lineHeight: 30 },
+  stageNumberCompact: { fontSize: 19, lineHeight: 24 },
   stageCopy: { flex: 1 },
   stageTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 15, lineHeight: 22 },
   stageNote: { color: '#625D53', fontSize: 9, lineHeight: 16 },
@@ -254,22 +265,31 @@ const styles = StyleSheet.create({
   knowledgeArt: { flex: 1, padding: 20, alignItems: 'center', justifyContent: 'center' },
   knowledgeWash: { backgroundColor: 'rgba(246,240,229,0.84)' },
   knowledgeNode: { width: '90%', paddingVertical: 12, paddingHorizontal: 16, borderRadius: 10, borderWidth: 1, borderColor: '#D9CDB8', backgroundColor: colors.surface },
+  knowledgeNodeCompact: { paddingVertical: 6 },
   knowledgeNodeGold: { borderColor: '#B69460', backgroundColor: '#FBF3E1' },
   nodeLabel: { color: colors.goldDeep, fontSize: 10, lineHeight: 15 },
   nodeTitle: { marginTop: 3, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 22 },
+  nodeTitleCompact: { fontSize: 12, lineHeight: 18 },
   connector: { width: 1, height: 15, backgroundColor: '#B69460' },
+  connectorCompact: { height: 8 },
   knowledgeEnd: { color: colors.goldDeep, fontSize: 10, lineHeight: 18 },
-  practiceArt: { flex: 1, justifyContent: 'center', padding: 18, gap: 12 },
+  practiceArt: { flex: 1, justifyContent: 'center', padding: 14, gap: 8 },
+  practiceCompact: { flex: 1, paddingHorizontal: 14, paddingVertical: 10, justifyContent: 'center' },
+  practiceConceptRow: { flexDirection: 'row', gap: 8 },
+  practiceConcept: { flex: 1, paddingHorizontal: 6, paddingVertical: 12, borderWidth: 1, borderColor: '#D7CBB6', borderRadius: 10, backgroundColor: colors.surface, alignItems: 'center' },
+  conceptNumber: { color: colors.goldDeep, fontSize: 10, lineHeight: 15 },
+  conceptLabel: { marginTop: 6, fontFamily: fonts.serif, color: colors.ink, fontSize: 17, lineHeight: 25 },
+  conceptNote: { marginTop: 6, fontSize: 8, lineHeight: 14, color: '#625D53' },
   libraryPreview: { borderWidth: 1, borderColor: '#DFD5C6', borderRadius: 10, backgroundColor: colors.surface, paddingHorizontal: 14, paddingVertical: 9 },
   previewHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 },
   previewTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 22 },
   previewTag: { color: '#625D53', fontSize: 8, lineHeight: 14 },
-  bookRow: { flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 7, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line },
+  bookRow: { flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 4, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.line },
   bookNumber: { color: colors.goldDeep, fontSize: 10 },
   bookTitle: { flex: 1, color: '#5A554B', fontSize: 10, lineHeight: 18 },
   bookMark: { width: 6, height: 10, backgroundColor: '#B19361', borderBottomLeftRadius: 2, borderBottomRightRadius: 2 },
-  memoPreview: { paddingHorizontal: 18, paddingVertical: 10, borderLeftWidth: 2, borderLeftColor: '#AE8F55', backgroundColor: '#ECE2CF' },
+  memoPreview: { paddingHorizontal: 18, paddingVertical: 8, borderLeftWidth: 2, borderLeftColor: '#AE8F55', backgroundColor: '#ECE2CF' },
   memoLabel: { color: colors.goldDeep, fontSize: 9, lineHeight: 15 },
-  memoTitle: { marginTop: 3, color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23 },
+  memoTitle: { marginTop: 3, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21 },
   memoCaption: { marginTop: 5, color: '#625D53', fontSize: 9, lineHeight: 15 },
 });

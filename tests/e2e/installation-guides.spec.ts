@@ -31,6 +31,17 @@ async function account(page: Page, active = false, restored = true, stamp = '202
 
 async function next(page: Page) { await page.getByTestId('guide-primary').click(); }
 
+async function expectArtworkFits(page: Page) {
+  const clipped = await page.getByTestId('guide-artwork').evaluate((art) => {
+    const bounds = art.getBoundingClientRect();
+    return [...art.querySelectorAll('[dir="auto"]')].filter((text) => {
+      const box = text.getBoundingClientRect();
+      return box.height > 0 && (box.top < bounds.top - 1 || box.bottom > bounds.bottom + 1 || box.left < bounds.left - 1 || box.right > bounds.right + 1);
+    }).map((text) => text.textContent);
+  });
+  expect(clipped).toEqual([]);
+}
+
 for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }, { width: 1440, height: 900 }]) {
   test(`初回の4ページと操作が画面内に収まる ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport);
@@ -43,6 +54,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
       await expect(page.getByTestId('guide-later')).toBeVisible();
       await expect(page.getByTestId('guide-login')).toBeVisible();
       await expect(page.getByTestId('guide-dialog')).not.toContainText('\\n');
+      await expectArtworkFits(page);
       const dialog = await page.getByTestId('guide-dialog').boundingBox();
       const action = await page.getByTestId('guide-primary').boundingBox();
       expect(dialog).not.toBeNull(); expect(action).not.toBeNull();
@@ -166,6 +178,20 @@ test('購入後の全4ページと最終人物像ボタン・設定での再閲�
   await page.goto('/settings');
   await page.getByRole('button', { name: /完全版の使い方/ }).click();
   await expect(page.getByTestId('guide-counter')).toHaveText('1 / 4');
+});
+
+test('購入後の説明図と操作ボタンは小型端末でも切れない', async ({ page }) => {
+  await account(page);
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto('/?checkout=success&session_id=cs_test_small');
+  await expect(page.getByText('完全版へようこそ', { exact: true })).toBeVisible();
+  for (let index = 1; index <= 4; index++) {
+    await expect(page.getByTestId('guide-counter')).toHaveText(`${index} / 4`);
+    await expectArtworkFits(page);
+    const action = await page.getByTestId('guide-primary').boundingBox();
+    expect(action!.y + action!.height).toBeLessThanOrEqual(568);
+    if (index < 4) await next(page);
+  }
 });
 
 test('通常の購入済みログインと復元では購入案内を表示しない', async ({ page }) => {
