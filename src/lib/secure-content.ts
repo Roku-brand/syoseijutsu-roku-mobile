@@ -16,6 +16,7 @@ type PaidContentRow<T> = {
 let hydratedUserId: string | null = null;
 let completeHydration = false;
 let hydrationPromise: Promise<void> | null = null;
+let refreshPromise: Promise<boolean> | null = null;
 let secureGeneration = 0;
 const PAID_CONTENT_TIMEOUT_MS = 30_000;
 const STORAGE_TIMEOUT_MS = 2_000;
@@ -127,18 +128,23 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
   finally { if (hydrationPromise === request) hydrationPromise = null; }
 }
 
-/** Refetches the signed-in user's secure catalogue after an owner-side publish or reorder. */
+/** Refetches the signed-in user's catalogue without discarding readable offline data. */
 export async function refreshSecureContent(onContentApplied?: () => void): Promise<boolean> {
+  if (refreshPromise) return refreshPromise;
+  const request = refetchSecureContent(onContentApplied);
+  refreshPromise = request;
+  try { return await request; }
+  finally { if (refreshPromise === request) refreshPromise = null; }
+}
+
+async function refetchSecureContent(onContentApplied?: () => void): Promise<boolean> {
   if (!supabase) return false;
   const { data } = await supabase.auth.getSession();
   const userId = data.session?.user.id;
   if (!userId || hydratedUserId !== userId) return false;
-  const generation = ++secureGeneration;
+  const generation = secureGeneration;
   if (hydrationPromise) await hydrationPromise.catch(() => undefined);
-  hydrationPromise = null;
-  hydratedUserId = null;
-  completeHydration = false;
-  await settleWithin(AsyncStorage.removeItem(PAID_CONTENT_CACHE_KEY));
+  if (generation !== secureGeneration || hydratedUserId !== userId) return false;
   try {
     const [techniqueRows, theoryRows, learningRows] = await Promise.all([
       fetchRows<PaidTechniquePayload>('technique'),
@@ -209,6 +215,7 @@ export function purgeSecureContent() {
   hydratedUserId = null;
   completeHydration = false;
   hydrationPromise = null;
+  refreshPromise = null;
   resetCatalog();
   resetLearningCases();
 }
