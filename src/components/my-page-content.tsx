@@ -80,7 +80,6 @@ export default function MyPageContent() {
     setMemoEditing(false);
   };
   const selectTab = (next: Tab) => {
-    void Haptics.selectionAsync().catch(() => undefined);
     setTab(next);
   };
   const openRow = (row: ContentRow) => router.push(row.kind === 'technique' ? techniqueRoute(row.id) : theoryRoute(row.id));
