@@ -9,11 +9,13 @@ import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
 import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
+import { useGuides } from '@/onboarding/guide-provider';
 
 export default function SettingsScreen() {
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const { clearPersonalData } = useAppState();
+  const { openGuide } = useGuides();
   const version = Constants.expoConfig?.version ?? '1.0.0';
   const profileDetail = user
     ? profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'
@@ -53,6 +55,8 @@ export default function SettingsScreen() {
 
       <SettingsSection title="ヘルプ・サポート" />
       <SettingsGroup>
+        <SettingLink title="はじめての方へ" detail="処世術禄の使い方を、4ページでご案内" onPress={() => openGuide('welcome')} />
+        {isPaid ? <SettingLink title="完全版の使い方" detail="解放された人物像・処世術・理論・学習のご案内" onPress={() => openGuide('complete')} /> : null}
         <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
         <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
