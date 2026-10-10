@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
@@ -7,10 +7,13 @@ import { AppText } from '@/components/ui';
 import { UpgradeLanding } from '@/components/upgrade-landing';
 import { buyAppleProduct, formatApplePurchaseError, listenToApplePurchases, loadAppleProduct, restoreApplePurchases } from '@/lib/apple-purchase.ios';
 import { fetchVerifiedAccess, formatAccessDateTime } from '@/lib/purchase';
+import { useGuides } from '@/onboarding/guide-provider';
 export default function AppleUpgradeScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const { isPaid, accessState, accessInfo, refreshAccess } = useAccess();
+  const { requestPurchaseGuide } = useGuides();
+  const purchaseInitiated = useRef(false);
   const [storePrice, setStorePrice] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -30,12 +33,18 @@ export default function AppleUpgradeScreen() {
   useEffect(() => listenToApplePurchases(() => {
     void refreshAccess()
       .then((state) => {
-        if (state === 'paid') router.replace('/(tabs)');
+        if (state === 'paid') {
+          if (purchaseInitiated.current) {
+            purchaseInitiated.current = false;
+            requestPurchaseGuide();
+          }
+          router.replace('/(tabs)');
+        }
         else setMessage('購入履歴を確認しました。利用期間が終了している場合は再購入できます。');
       })
       .catch((error) => setMessage(formatApplePurchaseError(error)))
       .finally(() => setBusy(false));
-  }, (error) => { setMessage(error); setBusy(false); }), [refreshAccess, router]);
+  }, (error) => { purchaseInitiated.current = false; setMessage(error); setBusy(false); }), [refreshAccess, requestPurchaseGuide, router]);
 
   async function purchase() {
     if (!user) { router.push({ pathname: '/auth', params: { intent: 'checkout', mode: 'signup' } }); return; }
@@ -49,11 +58,22 @@ export default function AppleUpgradeScreen() {
         return;
       }
       if (current.status === 'processing') throw new Error('既存の購入を確認中です。通信を確認して購入を復元してください。');
-      await buyAppleProduct(user.id);
-    } catch (error) { setMessage(formatApplePurchaseError(error)); setBusy(false); }
+      purchaseInitiated.current = true;
+      const verified = await buyAppleProduct(user.id);
+      if (verified && purchaseInitiated.current) {
+        const state = await refreshAccess();
+        if (state === 'paid') {
+          purchaseInitiated.current = false;
+          requestPurchaseGuide();
+          router.replace('/(tabs)');
+        }
+        setBusy(false);
+      }
+    } catch (error) { purchaseInitiated.current = false; setMessage(formatApplePurchaseError(error)); setBusy(false); }
   }
 
   async function restore() {
+    purchaseInitiated.current = false;
     if (!user) { router.push('/auth'); return; }
     setBusy(true); setMessage('購入を確認しています…');
     try { await restoreApplePurchases(); const state = await refreshAccess(); setMessage(state === 'paid' ? '有効な購入を復元しました。' : '有効な購入がありません。購入時と同じアカウントでログインしてください。'); }

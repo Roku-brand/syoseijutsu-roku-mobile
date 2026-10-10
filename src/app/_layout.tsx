@@ -18,6 +18,7 @@ import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
+import { GuideProvider } from '@/onboarding/guide-provider';
 
 function KeyboardFrame({ children }: { children: React.ReactNode }) {
   return Platform.OS === 'ios' ? <KeyboardAvoidingView style={styles.contentColumn} behavior="padding">{children}</KeyboardAvoidingView> : children;
@@ -67,7 +68,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><ApplePurchaseObserver /><AccessBoundary><AppToastProvider><AppFrame /></AppToastProvider></AccessBoundary></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><ApplePurchaseObserver /><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
