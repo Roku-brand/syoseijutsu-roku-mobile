@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { SymbolView } from 'expo-symbols';
 import { useGlobalSearchParams, usePathname, useRouter, type Href } from 'expo-router';
 import { useRef } from 'react';
@@ -37,7 +36,6 @@ export function PersistentBottomNav() {
     const isCurrent = selected === item.key && (item.key === 'main' ? pathname === '/' : pathname === item.href);
     const isDoubleTap = isCurrent && now - (lastTap.current[item.key] ?? 0) < 320;
     lastTap.current[item.key] = now;
-    void Haptics.selectionAsync().catch(() => undefined);
     if (isDoubleTap) return router.replace(item.href);
     if (!isCurrent) router.replace(item.href);
   };
