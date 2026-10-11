@@ -35,7 +35,7 @@ export default function LearnHomeScreen() {
       <Image source={guide} resizeMode="contain" accessibilityLabel="学びを案内する禄丸" testID="rokumaru-guide" style={[styles.guide, desktop && styles.guideDesktop]} />
       <View style={styles.heroCopy}>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.heroTitle, desktop && styles.heroTitleDesktop]}>処世術を習得しよう！</AppText>
-        <AppText style={styles.heroLead}>3つのステージで、{'\n'}判断を少しずつ自分の力に。</AppText>
+        <AppText style={styles.heroLead}>1問60秒。その場で活きる判断を、{'\n'}3つのステージで自分の力に。</AppText>
       </View>
       <View style={[styles.bubble, desktop && styles.bubbleDesktop]}><AppText style={styles.bubbleText}>今日はどこから{'\n'}始める？</AppText></View>
     </View>
