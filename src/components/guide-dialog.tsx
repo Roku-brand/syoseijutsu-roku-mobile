@@ -12,7 +12,7 @@ export type GuideKind = 'welcome' | 'complete';
 type Artwork = 'welcome' | 'personas' | 'practice' | 'editions' | 'complete' | 'knowledge' | 'learning';
 type Slide = { label: string; title: string; body: string; art: Artwork };
 const welcome: Slide[] = [
-  { label: 'ようこそ、処世術禄へ', title: '日々の判断に、\nあなたの知恵を。', body: '人間関係、仕事、人生。\n毎日に役立つ処世術と、その背景にある理論を、あなたの手元に。', art: 'welcome' },
+  { label: 'ようこそ、処世術禄へ！', title: '処世術の専門メディア', body: '人間関係、仕事、人生。\n毎日に役立つ処世術と、その背景にある理論を、あなたの手元に。', art: 'welcome' },
   { label: '人物像から、見つける', title: 'なりたい自分から、\n知恵を探そう。', body: '「仕事ができる人」「自分らしく生きられる人」。人物像や気になる言葉から、今の自分に合う処世術を探せます。', art: 'personas' },
   { label: '学びを、自分のものに', title: '学んで、試して、\n自分の言葉で残す。', body: 'ケースに挑戦し、気に入った知恵は「蔵書」へ。日常での気づきは「マイ処世術」に残せます。', art: 'practice' },
   { label: 'さあ、はじめましょう', title: 'あなたに合った\n始め方で。', body: 'まずは無料で体験。\nもっと広く、深く学びたくなったら、完全版ですべての知恵を辿れます。', art: 'editions' },
@@ -82,11 +82,11 @@ export function GuideDialog(props: Props) {
         </View>
         <ScrollView ref={scroll} style={styles.body} contentContainerStyle={[styles.bodyContent, desktop && styles.bodyDesktop]} showsVerticalScrollIndicator={false}>
           <View {...swipe.panHandlers} testID="guide-artwork" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.artwork, { height: stackedActions ? compact ? 132 : 174 : compact ? 162 : 226 }, desktop && styles.artworkDesktop]}>
-            <GuideArtwork type={slide.art} complete={props.kind === 'complete'} compact={compact} />
+            <GuideArtwork type={slide.art} complete={props.kind === 'complete'} compact={compact} desktop={desktop} />
           </View>
           <View style={[styles.copy, compact && styles.copyCompact, desktop && styles.copyDesktop]}>
-            <AppText style={styles.eyebrow}>{slide.label}</AppText>
-            <AppText testID="guide-title" accessibilityRole="header" aria-level={2} accessibilityLiveRegion="polite" style={[styles.title, compact && styles.titleCompact, desktop && styles.titleDesktop]}>{slide.title}</AppText>
+            <AppText style={[styles.eyebrow, slide.art === 'welcome' && styles.welcomeHeading, slide.art === 'welcome' && (compact || width < 360) && styles.welcomeHeadingCompact, slide.art === 'welcome' && desktop && styles.welcomeHeadingDesktop]}>{slide.label}</AppText>
+            <AppText testID="guide-title" accessibilityRole="header" aria-level={2} accessibilityLiveRegion="polite" style={[styles.title, compact && styles.titleCompact, desktop && styles.titleDesktop, slide.art === 'welcome' && width < 360 && styles.welcomeTitleNarrow]}>{slide.title}</AppText>
             <AppText style={[styles.description, compact && styles.descriptionCompact]}>{slide.body}</AppText>
             {props.kind === 'complete' && page === 0 && props.accessInfo.accessType === 'thirty_day' && props.accessInfo.accessExpiresAt ? <View testID="guide-entitlement" style={styles.entitlement}>
               <AppText style={styles.expiryLabel}>利用期限</AppText><AppText style={styles.expiryDate}>{formatAccessDateTime(props.accessInfo.accessExpiresAt)}</AppText>
@@ -115,15 +115,15 @@ export function GuideDialog(props: Props) {
   </Modal>;
 }
 
-function GuideArtwork({ type, complete: isComplete, compact }: { type: Artwork; complete: boolean; compact: boolean }) {
+function GuideArtwork({ type, complete: isComplete, compact, desktop }: { type: Artwork; complete: boolean; compact: boolean; desktop: boolean }) {
   if (type === 'welcome' || type === 'complete') return <View style={styles.cover} accessible={false}>
     <Image source={type === 'welcome' ? require('../../assets/home/machiya-night-hero.webp') : require('../../assets/upgrade/dark-library.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
     <View style={[StyleSheet.absoluteFill, styles.coverWash]} />
-    <View style={styles.coverBrand}>
-      <View style={styles.coverSeal}><AppText style={styles.coverSealText}>禄</AppText></View>
-      <AppText style={styles.coverTitle}>処世術禄</AppText><AppText style={styles.coverCaption}>{type === 'complete' ? '完全版' : '人生をうまく生きる方法を。'}</AppText>
+    <View style={[styles.coverBrand, type === 'welcome' && !desktop && styles.welcomeCoverBrandMobile]}>
+      <View style={[styles.coverSeal, type === 'welcome' && compact && styles.welcomeSealCompact]}><AppText style={[styles.coverSealText, type === 'welcome' && compact && styles.welcomeSealTextCompact]}>禄</AppText></View>
+      <AppText style={[styles.coverTitle, type === 'welcome' && compact && styles.welcomeCoverTitleCompact]}>処世術禄</AppText><AppText style={[styles.coverCaption, type === 'welcome' && styles.welcomeCoverCaption, type === 'welcome' && !desktop && styles.welcomeCoverCaptionMobile]}>{type === 'complete' ? '完全版' : '人生をうまく生きる方法を、すべての人へ。'}</AppText>
     </View>
-    {type === 'welcome' ? <Image source={require('../../assets/learn/rokumaru-roadmap.webp')} contentFit="contain" style={styles.mascot} /> : <View style={styles.completeRule} />}
+    {type === 'welcome' ? <Image source={require('../../assets/learn/rokumaru-roadmap.webp')} contentFit="contain" style={[styles.mascot, !desktop && styles.welcomeMascotMobile, compact && styles.welcomeMascotCompact]} /> : <View style={styles.completeRule} />}
   </View>;
   if (type === 'personas') return <View style={[styles.personaArt, compact && styles.artCompact]} accessible={false}>
     <AppText style={[styles.artKicker, compact && styles.artKickerCompact]}>{isComplete ? 'すべての人物像へ' : 'あなたは、どんな人になりたい？'}</AppText>
@@ -193,6 +193,10 @@ const styles = StyleSheet.create({
   copyCompact: { paddingHorizontal: 22, paddingTop: 18, paddingBottom: 14 },
   copyDesktop: { flex: 1, paddingHorizontal: 36, paddingVertical: 36, justifyContent: 'center' },
   eyebrow: { fontSize: 11, lineHeight: 18, fontWeight: '600', letterSpacing: 1, color: colors.goldDeep },
+  welcomeHeading: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, fontWeight: '700', letterSpacing: 0.4 },
+  welcomeHeadingCompact: { fontSize: 20, lineHeight: 29, letterSpacing: 0.2 },
+  welcomeHeadingDesktop: { fontSize: 26, lineHeight: 38, letterSpacing: 0.5 },
+  welcomeTitleNarrow: { fontSize: 22, lineHeight: 34 },
   title: { marginTop: 10, fontFamily: fonts.serif, fontSize: 29, lineHeight: 43, color: colors.ink, letterSpacing: 0.2 },
   titleCompact: { fontSize: 25, lineHeight: 36, marginTop: 8 },
   titleDesktop: { fontSize: 32, lineHeight: 48 },
@@ -233,6 +237,14 @@ const styles = StyleSheet.create({
   coverSealText: { fontFamily: fonts.serif, color: '#E9D5AD', fontSize: 34, lineHeight: 43 },
   coverTitle: { marginTop: 15, fontFamily: fonts.serif, fontSize: 24, lineHeight: 34, letterSpacing: 6, color: '#FFF7E9' },
   coverCaption: { marginTop: 8, color: '#E4D2AF', fontSize: 10, lineHeight: 18, letterSpacing: 2 },
+  welcomeCoverCaption: { maxWidth: '100%', paddingHorizontal: 16, letterSpacing: 0.2, textAlign: 'center' },
+  welcomeCoverCaptionMobile: { paddingHorizontal: 0 },
+  welcomeCoverBrandMobile: { width: '100%', paddingHorizontal: 8, marginBottom: 38 },
+  welcomeSealCompact: { width: 40, height: 40, borderRadius: 10 },
+  welcomeSealTextCompact: { fontSize: 26, lineHeight: 34 },
+  welcomeCoverTitleCompact: { marginTop: 8, fontSize: 20, lineHeight: 28 },
+  welcomeMascotMobile: { width: 90, height: 62, bottom: -3, right: -4 },
+  welcomeMascotCompact: { width: 60, height: 41 },
   mascot: { position: 'absolute', width: 145, height: 99, bottom: -5, right: -7 },
   completeRule: { width: 44, height: 1, backgroundColor: '#BD9B60', marginTop: 6 },
   personaArt: { flex: 1, padding: 16, justifyContent: 'center' },
