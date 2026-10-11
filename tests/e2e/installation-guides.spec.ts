@@ -101,7 +101,7 @@ test('再インストール相当の端末記録消去後はログイン済み�
   await page.evaluate((key) => localStorage.removeItem(key), welcomeKey);
   await page.reload();
   await expect(page.getByTestId('guide-counter')).toHaveText('1 / 4');
-  await expect(page.getByText('ようこそ、処世術禄へ')).toBeVisible();
+  await expect(page.getByText('ようこそ、処世術禄へ！')).toBeVisible();
   await expect(page.getByTestId('guide-login')).toHaveCount(0);
   await next(page); await next(page); await next(page);
   await expect(page.getByTestId('guide-primary')).toContainText('アプリをはじめる');
