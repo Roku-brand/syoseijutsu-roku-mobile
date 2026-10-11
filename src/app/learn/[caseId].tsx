@@ -25,6 +25,9 @@ import {
   FREE_THEORY_ID_SET,
 } from '@/access/access-config';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { LearningCountdown } from '@/components/learning-countdown';
+import { useLearningFeedback } from '@/hooks/use-learning-feedback';
+import { useLearningRound } from '@/hooks/use-learning-round';
 
 export function generateStaticParams() {
   return learningIndex.map(({ id: caseId }) => ({ caseId }));
@@ -39,10 +42,12 @@ export default function LearningCaseScreen() {
   // Read the live catalogue after AccessProvider hydrates paid cases. A mount-
   // time copy would permanently miss a case opened while its request is pending.
   const caseList = learningCases;
-  const { learningRecords, answerLearningCase, resetLearningCase } = useAppState();
+  const { hydrated, learningRecords, answerLearningCase, resetLearningCase } = useAppState();
   const [retryPending, setRetryPending] = useState(false);
   const [focusedChoice, setFocusedChoice] = useState<string | null>(null);
   const [hoveredChoice, setHoveredChoice] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  const feedback = useLearningFeedback();
 
   useEffect(() => {
     setActiveCaseId(caseId ?? null);
@@ -50,6 +55,9 @@ export default function LearningCaseScreen() {
   }, [caseId, retry]);
 
   const item = activeCaseId ? caseList.find((candidate) => candidate.id === activeCaseId) : undefined;
+  const record = item && !retryPending ? learningRecords[item.id] : undefined;
+  const round = useLearningRound(item ? `${item.id}:${retry ?? ''}:${attempt}` : '', hydrated && feedback.soundReady && Boolean(item) && !record, feedback.playCue, feedback.stopSounds);
+  const timedOut = !record && round.timedOut;
 
   if (!activeCaseId) return null;
 
@@ -68,7 +76,6 @@ export default function LearningCaseScreen() {
     );
   }
 
-  const record = retryPending ? undefined : learningRecords[item.id];
   const selected = record?.choiceId;
   const isBestMove = selected === item.goodChoiceId;
   const next = caseList.find((candidate) => candidate.stage === item.stage && candidate.number === item.number + 1)
@@ -94,6 +101,9 @@ export default function LearningCaseScreen() {
   const retryCase = () => {
     resetLearningCase(item.id);
     setRetryPending(true);
+    setAttempt((value) => value + 1);
+    setFocusedChoice(null);
+    setHoveredChoice(null);
   };
 
   return (
@@ -107,7 +117,9 @@ export default function LearningCaseScreen() {
         desktop={desktop}
       />
 
-      {!record ? (
+      {!record && !timedOut ? (
+        <>
+        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} />
         <View style={[styles.questionCard, !desktop && styles.questionCardMobile]} testID="learning-question-card">
           <View style={[styles.sceneColumn, !desktop && styles.sceneColumnMobile]}>
             <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
@@ -129,6 +141,7 @@ export default function LearningCaseScreen() {
                   onHoverIn={() => setHoveredChoice(choice.id)}
                   onHoverOut={() => setHoveredChoice(null)}
                   onPress={() => {
+                    if (!round.finish(choice.id === item.goodChoiceId)) return;
                     answerLearningCase(item.id, choice.id);
                     setRetryPending(false);
                   }}
@@ -141,12 +154,13 @@ export default function LearningCaseScreen() {
                 </Pressable>
               );
             })}
-            <AppText style={styles.answerHint}>選ぶと、禄丸と一緒に理由を振り返ります。</AppText>
+            <AppText style={styles.answerHint}>60秒以内に選ぼう。選ぶと、禄丸と理由を振り返ります。</AppText>
           </View>
 
           <View style={[styles.questionMascotHalo, !desktop && styles.questionMascotHaloMobile]} accessibilityElementsHidden />
           <Rokumaru mood="guide" style={[styles.questionMascot, !desktop && styles.questionMascotMobile]} />
         </View>
+        </>
       ) : (
         <View style={[styles.resultCard, !desktop && styles.resultCardMobile]} testID="learning-result-card">
           <View style={[
@@ -155,7 +169,7 @@ export default function LearningCaseScreen() {
             isBestMove ? styles.resultBandGood : styles.resultBandImprove,
           ]}>
             <View style={[styles.resultMark, !desktop && styles.resultMarkMobile, isBestMove ? styles.resultMarkGood : styles.resultMarkImprove]}>
-              <AppText style={[styles.resultMarkText, !desktop && styles.resultMarkTextMobile, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextImprove]}>{isBestMove ? '✓' : '×'}</AppText>
+              <AppText style={[styles.resultMarkText, !desktop && styles.resultMarkTextMobile, isBestMove ? styles.resultMarkTextGood : styles.resultMarkTextImprove]}>{timedOut ? '⌛' : isBestMove ? '✓' : '×'}</AppText>
             </View>
             <View style={[styles.resultHeading, !desktop && styles.resultHeadingMobile]}>
               <AppText
@@ -164,15 +178,15 @@ export default function LearningCaseScreen() {
                 minimumFontScale={0.82}
                 style={[styles.resultStatusTitle, !desktop && styles.resultStatusTitleMobile, isBestMove ? styles.goodInk : styles.improveInk]}
               >
-                {isBestMove ? '正解！' : 'おしい！'}
+                {timedOut ? '時間切れ' : isBestMove ? '正解！' : 'おしい！'}
               </AppText>
               <AppText style={[styles.resultStatusCopy, !desktop && styles.resultStatusCopyMobile]}>
-                {isBestMove ? 'いい判断です。' : 'ここで違いを覚えましょう。'}
+                {timedOut ? '未回答です。解説で判断を磨こう。' : isBestMove ? 'いい判断です。' : 'ここで違いを覚えましょう。'}
               </AppText>
             </View>
             <View style={[styles.bandMascotGroup, !desktop && styles.bandMascotGroupMobile]}>
               <View style={[styles.speechBubble, !desktop && styles.speechBubbleMobile, isBestMove ? styles.speechBubbleGood : styles.speechBubbleImprove]}>
-                <AppText style={styles.speechText}>{isBestMove ? 'いい判断です。\nその調子！' : '大丈夫。\nここで覚えれば\n次に活かせます。'}</AppText>
+                <AppText style={styles.speechText}>{timedOut ? '焦らなくて大丈夫。\nもう一度、\n挑戦してみよう！' : isBestMove ? 'いい判断です。\nその調子！' : '大丈夫。\nここで覚えれば\n次に活かせます。'}</AppText>
               </View>
               <Rokumaru mood={isBestMove ? 'happy' : 'encourage'} style={[styles.bandMascot, !desktop && styles.bandMascotMobile]} />
             </View>

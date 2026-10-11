@@ -126,7 +126,17 @@
           "imageWidth": 180,
           "resizeMode": "contain"
         }
-      ]
+      ],
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      "expo-asset"
     ],
     "experiments": {
       "typedRoutes": true,
