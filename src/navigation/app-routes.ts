@@ -9,6 +9,8 @@ export const APP_ROUTES = {
   myPage: '/my-os',
   personas: '/personas',
   library: '/library',
+  features: '/features',
+  ownerFeatures: '/owner/features',
   history: '/history',
   myTechniques: '/my-techniques',
   auth: '/auth',
@@ -67,6 +69,10 @@ export function techniqueRoute(id: string): Href {
 
 export function theoryRoute(id: string): Href {
   return { pathname: '/theory/[id]', params: { id } };
+}
+
+export function featureRoute(slug: string): Href {
+  return { pathname: '/features/[slug]', params: { slug } };
 }
 
 export function personaRoute(category: string, name: string): Href {

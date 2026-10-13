@@ -50,6 +50,7 @@ type PersistedState = {
   interests: CategoryKey[];
   savedIds: string[];
   savedTheoryIds: string[];
+  savedFeatureIds: string[];
   libraryFolders: LibraryFolder[];
   libraryFolderByItem: Record<string, string>;
   historyIds: string[];
@@ -66,6 +67,7 @@ const initialState: PersistedState = {
   interests: CATEGORY_KEYS,
   savedIds: [],
   savedTheoryIds: [],
+  savedFeatureIds: [],
   libraryFolders: [],
   libraryFolderByItem: {},
   historyIds: [],
@@ -82,6 +84,7 @@ type AppStateContextValue = PersistedState & {
   startFreeEdition: (interests: CategoryKey[]) => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
+  toggleSavedFeature: (id: string) => void;
   createLibraryFolder: (name: string) => string | null;
   renameLibraryFolder: (id: string, name: string) => void;
   deleteLibraryFolder: (id: string) => void;
@@ -194,7 +197,8 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
           learningRecords,
           savedTheoryIds,
-          ...restoreLibraryFolders(parsed.libraryFolders, parsed.libraryFolderByItem, parsed.savedIds ?? [], savedTheoryIds),
+          savedFeatureIds: Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : [],
+          ...restoreLibraryFolders(parsed.libraryFolders, parsed.libraryFolderByItem, parsed.savedIds ?? [], savedTheoryIds, Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : []),
           personalMemos,
           personalMemoFolders,
           interests: interests.length ? interests : initialState.interests,
@@ -252,6 +256,13 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, [state.savedTheoryIds]);
 
+  const toggleSavedFeature = useCallback((id: string) => {
+    setState(current => ({ ...current,
+      savedFeatureIds: current.savedFeatureIds.includes(id) ? current.savedFeatureIds.filter(item => item !== id) : [id, ...current.savedFeatureIds],
+      libraryFolderByItem: current.savedFeatureIds.includes(id) ? Object.fromEntries(Object.entries(current.libraryFolderByItem).filter(([key]) => key !== libraryItemKey('feature', id))) : current.libraryFolderByItem,
+    }));
+  }, []);
+
   const addHistory = useCallback((id: string) => {
     setState((current) => ({
       ...current,
@@ -280,7 +291,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   const moveLibraryItem = useCallback((kind: LibraryItemKind, id: string, folderId: string | null) => {
     const key = libraryItemKey(kind, id);
     setState(current => {
-      if (!(kind === 'theory' ? current.savedTheoryIds : current.savedIds).includes(kind === 'theory' ? resolveTheoryId(id) : id)) return current;
+      if (!(kind === 'feature' ? current.savedFeatureIds : kind === 'theory' ? current.savedTheoryIds : current.savedIds).includes(kind === 'theory' ? resolveTheoryId(id) : id)) return current;
       const libraryFolderByItem = { ...current.libraryFolderByItem };
       if (folderId && current.libraryFolders.some(folder => folder.id === folderId)) libraryFolderByItem[key] = folderId;
       else delete libraryFolderByItem[key];
@@ -442,6 +453,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       startFreeEdition,
       toggleSaved,
       toggleSavedTheory,
+      toggleSavedFeature,
       createLibraryFolder,
       renameLibraryFolder,
       deleteLibraryFolder,
@@ -468,6 +480,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       startFreeEdition,
       toggleSaved,
       toggleSavedTheory,
+      toggleSavedFeature,
       createLibraryFolder,
       renameLibraryFolder,
       deleteLibraryFolder,

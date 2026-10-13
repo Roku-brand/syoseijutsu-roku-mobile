@@ -1,0 +1,6 @@
+[
+  { "id": "five-guidelines", "slug": "five-guidelines", "title": "押さえておくべき5つの処世術指針", "image_path": "bundled:feature-coast", "image_alt": "夕日が差す岩礁の海岸", "is_featured": true, "show_in_list": false, "display_order": 0 },
+  { "id": "mastering-tilt", "slug": "mastering-tilt", "title": "ティルトを使いこなせ！", "image_path": "bundled:feature-coast", "image_alt": "波が寄せる静かな海岸", "is_featured": false, "show_in_list": true, "display_order": 10 },
+  { "id": "meta-comments", "slug": "meta-comments", "title": "メタ発言はなぜ気分を害するのか", "image_path": "bundled:feature-forest", "image_alt": "木漏れ日の差す森の小道", "is_featured": false, "show_in_list": true, "display_order": 20 },
+  { "id": "passion-and-cynicism", "slug": "passion-and-cynicism", "title": "熱血と冷笑の本質", "image_path": "bundled:feature-mountain", "image_alt": "朝日に照らされた山の稜線", "is_featured": false, "show_in_list": true, "display_order": 30 }
+]

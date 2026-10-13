@@ -4,6 +4,7 @@ import { Platform } from 'react-native';
 import { categories, techniqueById, theoryById } from '@/data/catalog';
 import { guidedTopicBySlug } from '@/data/guided-topics';
 import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
+import { useFeatures, type FeatureArticle } from '@/data/features';
 
 const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
@@ -29,6 +30,7 @@ const categoryCopy: Record<string, [string, string]> = {
 };
 
 const fixed: Record<string, [string, string, boolean]> = {
+  '/features': ['特集', 'テーマを深く掘り下げ、折々の問いを考える処世術禄の読み物。特集記事を無料で読めます。', true],
   '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', true],
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
   '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。', true],
@@ -50,10 +52,12 @@ const encodePath = (value: string) => {
 const canonical = (path: string) => `${siteUrl}${path === '/' ? '/' : encodePath(path)}`;
 const crumb = (name: string, path: string) => ({ name, path });
 
-function getMeta(rawPathname: string): PageMeta {
+function getMeta(rawPathname: string, featureArticles: FeatureArticle[] = []): PageMeta {
   const pathname = decode(rawPathname.replace(/\/$/, '') || '/');
   const fallback: PageMeta = { title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', canonicalPath: pathname, crumbs: [crumb('ホーム', '/')] };
   if (pathname === '/') return { ...fallback, title: homeTitle, indexable: true };
+  const feature = featureArticles.find(article => pathname === `/features/${article.slug}`);
+  if (feature) return { ...fallback, title: `${feature.title}｜${brand}`, description: feature.lead, indexable: true, type: 'article', pageType: 'Article', entity: { headline: feature.title, description: feature.lead }, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(feature.title, pathname)] };
   if (pathname === '/catalog') return {
     ...fallback,
     title: `処世術を探す｜${brand}`,
@@ -151,7 +155,8 @@ function setJsonLd(meta: PageMeta) {
 
 export function SeoMeta() {
   const pathname = usePathname();
-  const meta = useMemo(() => getMeta(pathname || '/'), [pathname]);
+  const { articles } = useFeatures(pathname === '/features' || pathname.startsWith('/features/'));
+  const meta = useMemo(() => getMeta(pathname || '/', articles), [pathname, articles]);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
