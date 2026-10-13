@@ -126,11 +126,16 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   expect(server.drafts()).toHaveLength(0);
   await page.getByRole('button', { name: '公開画面を見る', exact: true }).click();
   await expect(page.getByTestId('features-grid')).toContainText('ティルトと向き合う');
-  await page.setViewportSize({ width: 390, height: 950 });
   await page.goto('/owner/features');
   await page.getByRole('button', { name: 'ティルトと向き合うを編集', exact: true }).click();
   await expect(title).toHaveValue('ティルトと向き合う');
+  await page.getByRole('textbox', { name: '導入文', exact: true }).fill('幅を変えても編集中の内容を保つ');
+  await page.setViewportSize({ width: 390, height: 950 });
+  await expect(title).toHaveValue('ティルトと向き合う');
+  await expect(page.getByRole('textbox', { name: '導入文', exact: true })).toHaveValue('幅を変えても編集中の内容を保つ');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+  await page.getByRole('button', { name: '下書きを保存', exact: true }).click();
+  await expect(page.getByText('下書きを保存しました。公開中の内容は変わりません。')).toBeVisible();
   await page.getByRole('button', { name: '非公開にする', exact: true }).click();
   await page.getByRole('button', { name: 'この特集を非公開にする', exact: true }).click();
   await expect(page.getByText('記事を非公開にしました。本文と下書きは保持されています。')).toBeVisible();

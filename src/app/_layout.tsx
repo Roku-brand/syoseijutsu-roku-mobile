@@ -51,7 +51,9 @@ function AppFrame() {
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
-  return <View style={styles.container}><StatusBar style="dark" />{desktop ? <View style={styles.desktopFrame}>{showPersistentNavigation ? <PersistentBottomNav /> : null}{appContent}</View> : appContent}</View>;
+  // Keep the route tree mounted when the window crosses the sidebar breakpoint.
+  // Otherwise resizing a CMS form discards its selected article and edits.
+  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
 }
 
 function isFocusedScreen(pathname: string) {
@@ -68,6 +70,7 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   desktopFrame: { flex: 1, minHeight: 0, flexDirection: 'row' },
+  mobileFrame: { flexDirection: 'column' },
   contentColumn: { flex: 1, minWidth: 0, minHeight: 0 },
   headerSafeArea: { flexShrink: 0, backgroundColor: colors.surface },
 });
