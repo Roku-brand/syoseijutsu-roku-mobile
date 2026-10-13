@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import fs from 'node:fs';
 
 const initial = JSON.parse(fs.readFileSync('content/features/manifest.json', 'utf8')).map((row: any) => {
-  const source = fs.readFileSync(`content/features/${row.slug}.md`, 'utf8').trim();
+  const source = fs.readFileSync(`content/features/${row.slug}.md`, 'utf8').replace(/\r\n/g, '\n').trim();
   const split = source.indexOf('\n\n');
   return { ...row, lead: source.slice(0, split), body: source.slice(split + 2), related_technique_ids: [], related_theory_ids: [], status: 'published', updated_at: '2026-10-13T00:00:00Z' };
 });
@@ -77,6 +77,12 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     await page.setViewportSize({ width, height: 950 });
     await page.goto('/features');
     await expect(page.getByTestId('feature-card')).toHaveCount(3);
+    const heroBounds = await page.getByTestId('features-hero').boundingBox();
+    expect(heroBounds!.height).toBeLessThanOrEqual(width >= 1100 ? 370 : 460);
+    for (const card of await page.getByTestId('feature-card').all()) {
+      const bounds = await card.boundingBox();
+      expect(bounds!.width).toBeLessThanOrEqual(320);
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
     await expect(page.getByTestId('features-hero').locator('img')).toHaveJSProperty('complete', true);
     const read = page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true });
@@ -89,6 +95,9 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     await page.screenshot({ path: test.info().outputPath(`features-${width}.png`), fullPage: true });
     await page.goto('/features/five-guidelines');
     await expect(page.getByTestId('feature-body')).toBeVisible();
+    await expect(page.getByRole('heading', { name: '1．選べる側になる', exact: true })).toBeVisible();
+    const headingLine = await page.getByTestId('feature-section-heading').first().evaluate(element => ({ width: parseFloat(getComputedStyle(element).borderLeftWidth), color: getComputedStyle(element).borderLeftColor }));
+    expect(headingLine).toEqual({ width: 1, color: 'rgb(165, 123, 53)' });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
     await page.screenshot({ path: test.info().outputPath(`article-${width}.png`), fullPage: true });
   }
