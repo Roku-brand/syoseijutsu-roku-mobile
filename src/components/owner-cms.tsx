@@ -399,6 +399,7 @@ export default function OwnerCmsScreen() {
     </View>
     {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
     <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/rankings'); else router.push('/owner/rankings'); }}>人気ランキングを編集</CmsButton>
+    <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/features'); else router.push('/owner/features'); }}>特集を編集</CmsButton>
     {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {pending ? <View style={styles.confirm}><AppText>未保存の変更があります。{pendingDelete ? '破棄して削除しますか？' : '破棄して移動しますか？'}</AppText><View style={styles.actions}><CmsButton onPress={() => { setPending(null); setPendingDelete(false); }}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { chooseNow(pending); if (pendingDelete) setDeleting(true); setPendingDelete(false); }}>{pendingDelete ? '破棄して削除' : '破棄して移動'}</CmsButton></View></View> : null}
     {pendingLocation ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して階層を移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingLocation(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { setDirty(false); setMode(pendingLocation.kind === 'theory' ? 'theory' : 'technique'); setScope(pendingLocation.scope); setSelection(null); setDraft(null); setQuery(''); setPendingLocation(null); }}>破棄して移動</CmsButton></View></View> : null}

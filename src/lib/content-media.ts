@@ -27,7 +27,7 @@ function decodeBase64(source: string): Uint8Array<ArrayBuffer> {
   return bytes;
 }
 
-export async function uploadContentImage(asset: ContentImageAsset, kind: 'persona' | 'technique' | 'theory', id: string): Promise<string> {
+export async function uploadContentImage(asset: ContentImageAsset, kind: 'persona' | 'technique' | 'theory' | 'feature', id: string): Promise<string> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const mime = asset.mimeType ?? 'image/jpeg';
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(mime)) throw new Error('JPEG・PNG・WebP画像を選択してください。');
@@ -42,7 +42,7 @@ export async function uploadContentImage(asset: ContentImageAsset, kind: 'person
 
 export async function countImageReferences(path: string): Promise<number> {
   if (!supabase || !path || path.startsWith('bundled:')) return 0;
-  const rows = await Promise.all(['personas', 'techniques', 'theories'].map((table) =>
+  const rows = await Promise.all(['personas', 'techniques', 'theories', 'feature_articles', 'feature_article_drafts'].map((table) =>
     supabase!.from(table).select('*', { count: 'exact', head: true }).eq('image_path', path)));
   for (const row of rows) if (row.error) throw row.error;
   return rows.reduce((count, row) => count + (row.count ?? 0), 0);

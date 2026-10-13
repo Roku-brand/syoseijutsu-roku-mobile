@@ -105,7 +105,7 @@ export function BookHeader() {
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
-  const primaryTabHeader = segments[0] === '(tabs)' || (pathname === '/' && !isCheckoutReturn);
+  const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
   const titleInset = Math.max(84, actionCount * 44 + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
@@ -340,6 +340,8 @@ function getCurrentTitle(pathname: string) {
   if (segments[0] === 'personas') return '人物像一覧';
   if (segments[0] === 'search') return 'キーワード検索';
   if (segments[0] === 'popular') return '人気ランキング';
+  if (segments[0] === 'features') return '特集';
+  if (pathname === '/owner/features') return '特集管理';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||
@@ -368,7 +370,7 @@ function getHeaderSubtitle(pathname: string) {
 }
 
 function shouldShowHeaderBack(pathname: string) {
-  return !['/', '/discover', '/learn', '/my-os', '/welcome', '/onboarding'].includes(pathname);
+  return !['/', '/discover', '/learn', '/my-os', '/welcome', '/onboarding', '/features'].includes(pathname);
 }
 
 function PrincipleMark() {

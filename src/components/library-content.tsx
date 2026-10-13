@@ -7,6 +7,8 @@ import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { libraryItemKey, type LibraryItemKind } from '@/state/library-folders';
 import { AppText } from './ui';
+import { useFeatures } from '@/data/features';
+import { featureRoute } from '@/navigation/app-routes';
 
 type SavedItem = { kind: LibraryItemKind; id: string; title: string; description: string };
 
@@ -14,7 +16,8 @@ export function LibraryContent() {
   'use no memo';
   const router = useRouter();
   useAccess();
-  const { savedIds, savedTheoryIds, libraryFolders, libraryFolderByItem, createLibraryFolder, renameLibraryFolder, deleteLibraryFolder, moveLibraryItem } = useAppState();
+  const { savedIds, savedTheoryIds, savedFeatureIds, libraryFolders, libraryFolderByItem, createLibraryFolder, renameLibraryFolder, deleteLibraryFolder, moveLibraryItem } = useAppState();
+  const { articles: featureArticles } = useFeatures();
   const [folder, setFolder] = useState('all');
   const [editor, setEditor] = useState<{ id?: string } | null>(null);
   const [name, setName] = useState('');
@@ -22,6 +25,7 @@ export function LibraryContent() {
   const [deleting, setDeleting] = useState(false);
   // Catalogue maps are hydrated in place: derive rows again after every revision.
   const items: SavedItem[] = [
+    ...savedFeatureIds.map(id => { const article = featureArticles.find(item => item.id === id); return { kind: 'feature' as const, id, title: article?.title ?? '保存した特集', description: article?.lead ?? '' }; }),
     ...savedIds.map(id => {
       const card = techniqueById.get(id);
       return { kind: 'technique' as const, id, title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '保存したコンテンツ' };
@@ -45,7 +49,7 @@ export function LibraryContent() {
   };
   return <View testID="library-organizer" style={styles.content}>
     <View style={styles.heading}>
-      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={styles.title}>蔵書</AppText><AppText style={styles.lead}>保存した処世術・理論 {items.length}件</AppText></View>
+      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={styles.title}>蔵書</AppText><AppText style={styles.lead}>保存した処世術・理論・特集 {items.length}件</AppText></View>
       <Action label="フォルダーを追加" onPress={() => { setName(''); setEditor({}); }} text="＋ フォルダー" />
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filters}>
@@ -53,8 +57,8 @@ export function LibraryContent() {
     </ScrollView>
     {currentFolder ? <View style={styles.folderHeading}><AppText style={styles.folderName}>{currentFolder.name}</AppText><Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /></View> : null}
     {visible.length ? visible.map(item => <View key={libraryItemKey(item.kind, item.id)} style={styles.row}>
-      <Pressable accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => router.push(item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })} style={styles.rowCopy}>
-        <AppText style={styles.meta}>{item.kind === 'theory' ? '理論' : '処世術'} · {libraryFolders.find(value => value.id === assignedFolder(item))?.name ?? '未整理'}</AppText>
+      <Pressable accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => router.push(item.kind === 'feature' ? featureRoute(featureArticles.find(article => article.id === item.id)?.slug ?? item.id) : item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })} style={styles.rowCopy}>
+        <AppText style={styles.meta}>{item.kind === 'feature' ? '特集' : item.kind === 'theory' ? '理論' : '処世術'} · {libraryFolders.find(value => value.id === assignedFolder(item))?.name ?? '未整理'}</AppText>
         <AppText numberOfLines={2} style={styles.rowTitle}>{item.title}</AppText>
         {item.description ? <AppText numberOfLines={2} style={styles.description}>{item.description}</AppText> : null}
       </Pressable>
