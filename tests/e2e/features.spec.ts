@@ -57,7 +57,8 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
   await expect(page).toHaveURL(/\/features$/);
   await expect(page.getByTestId('features-hero').getByRole('heading', { name: initial[0].title, exact: true })).toBeVisible();
   await expect(page.getByTestId('feature-card')).toHaveCount(3);
-  await expect(page.getByTestId('features-page')).not.toContainText(/新着|特集記事|\d+分前|\d+時間前|読了|2026年/);
+  await expect(page.getByRole('heading', { name: 'ふかぼり処世術記事', exact: true })).toBeVisible();
+  await expect(page.getByTestId('features-page')).not.toContainText(/厳選セレクション|新着|特集記事|\d+分前|\d+時間前|読了|2026年/);
   await page.getByRole('link', { name: 'メタ発言はなぜ気分を害するのかを読む', exact: true }).click();
   await expect(page.getByTestId('feature-body')).toContainText(initial[2].body.split('\n\n')[1]);
   await expect(page.getByRole('heading', { name: initial[2].title, exact: true })).toBeVisible();
@@ -73,7 +74,7 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
 
 test('320pxからデスクトップまで記事とヒーローが収まり、写真が表示される', async ({ page }) => {
   await mockFeatures(page);
-  for (const width of [320, 390, 1440]) {
+  for (const width of [320, 390, 700, 1000, 1280, 1440]) {
     await page.setViewportSize({ width, height: 950 });
     await page.goto('/features');
     await expect(page.getByTestId('feature-card')).toHaveCount(3);
@@ -85,11 +86,16 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
     await expect(page.getByTestId('features-hero').locator('img')).toHaveJSProperty('complete', true);
+    const photo = await page.getByTestId('features-hero').locator('img').boundingBox();
+    expect(photo!.height).toBeGreaterThan(100);
+    const cardBounds = await Promise.all((await page.getByTestId('feature-card').all()).map(card => card.boundingBox()));
+    if (width >= 700) expect(cardBounds[0]!.y).toBe(cardBounds[1]!.y);
+    if (width >= 1280) expect(cardBounds[1]!.y).toBe(cardBounds[2]!.y);
+    await expect(page.getByTestId('features-section-sidebar')).toHaveCount(width >= 1000 ? 1 : 0);
     const read = page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true });
     await expect(read).toBeVisible();
     if (width < 700) {
       const button = await read.boundingBox();
-      const photo = await page.getByTestId('features-hero').locator('img').boundingBox();
       expect(button!.y + button!.height).toBeLessThanOrEqual(photo!.y);
     }
     await page.screenshot({ path: test.info().outputPath(`features-${width}.png`), fullPage: true });
