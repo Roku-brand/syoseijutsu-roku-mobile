@@ -19,10 +19,14 @@ export default function OwnerFeaturesScreen() {
   if (role !== 'owner') return <Screen><EmptyState title="オーナー権限が必要です" description="特集の編集はオーナー専用です。" /></Screen>;
   return <FeatureEditor />;
 }
+import { fetchEditorialCharacterEditor, type EditorialCharacter } from '@/data/editorial-characters';
+
 const causeMessage = (cause: unknown) => cause && typeof cause === 'object' && 'message' in cause ? String(cause.message) : '操作を完了できませんでした。';
 function FeatureEditor() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
+  const [characters, setCharacters] = useState<EditorialCharacter[]>([]);
+  const [charactersError, setCharactersError] = useState('');
   const [articles, setArticles] = useState<FeatureArticle[]>([]);
   const [drafts, setDrafts] = useState<FeatureDraft[]>([]);
   const [id, setId] = useState<string | null>(null);
@@ -53,7 +57,7 @@ function FeatureEditor() {
     finally { setLoading(false); }
     // Reload selects a fresh server snapshot, not an in-progress form.
   }, []);
-  useEffect(() => { void reload(); }, [reload]);
+  useEffect(() => { void reload(); void fetchEditorialCharacterEditor().then(setCharacters).catch(() => setCharactersError('案内人を読み込めませんでした。設定は保持されます。画面を再読み込みしてください。')); }, [reload]);
   useEffect(() => {
     if (Platform.OS !== 'web' || !dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
@@ -78,7 +82,7 @@ function FeatureEditor() {
   };
   const previewArticle: FeatureArticle = { ...payload, id: id ?? 'preview', status: 'draft', updated_at: '', image_path: asset?.uri ?? payload.image_path };
   return <Screen testID="feature-editor" contentContainerStyle={styles.page}>
-    <View style={styles.top}><View style={styles.topCopy}><AppText style={styles.pageTitle}>特集管理</AppText><AppText style={styles.muted}>記事・画像・掲載順を編集し、下書きを確認してから公開できます。</AppText></View><Button disabled={busy || dirty} onPress={() => router.push('/features')}>公開画面を見る</Button></View>
+    <View style={styles.top}><View style={styles.topCopy}><AppText style={styles.pageTitle}>特集管理</AppText><AppText style={styles.muted}>記事・画像・掲載順を編集し、下書きを確認してから公開できます。</AppText></View><Button disabled={busy || dirty} onPress={() => router.push('/features')}>公開画面を見る</Button><Button disabled={busy || dirty} onPress={() => router.push('/owner/editorial-characters')}>編集案内人を管理</Button></View>
     {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}{notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {pending !== undefined ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して記事を切り替えますか？</AppText><View style={styles.actions}><Button onPress={() => setPending(undefined)}>編集を続ける</Button><Button onPress={() => choose(pending)}>破棄して切り替える</Button></View></View> : null}
     {loading ? <AppText>特集を読み込んでいます。</AppText> : <View style={[styles.workspace, width < 1000 && styles.workspaceCompact]}>
@@ -94,7 +98,7 @@ function FeatureEditor() {
         })}
       </View>
       <View style={styles.editor}><View style={styles.actions}><Button disabled={busy} onPress={() => setPreview(false)} primary={!preview}>編集</Button><Button disabled={busy} onPress={() => setPreview(true)} primary={preview}>プレビュー</Button>{dirty ? <AppText style={styles.unsaved}>未保存</AppText> : null}</View>
-        {preview ? <FeatureArticleContent article={previewArticle} preview /> : <>
+        {preview ? <FeatureArticleContent article={previewArticle} characters={characters} others={articles.filter(item => item.id !== id && item.status === 'published')} preview /> : <>
           <Field label="タイトル" value={payload.title} onChange={title => patch({ title })} disabled={busy} />
           <View style={styles.field}>
             <AppText style={styles.fieldLabel}>主カテゴリ</AppText>
@@ -106,6 +110,7 @@ function FeatureEditor() {
             </View>
             {payload.category_id ? <AppText style={styles.muted}>{FEATURE_CATEGORIES.find(category => category.id === payload.category_id)?.description}</AppText> : <AppText style={styles.muted}>カテゴリが未設定の記事も「すべて」に表示されます。</AppText>}
           </View>
+          <View style={styles.field}><AppText style={styles.fieldLabel}>編集案内人（任意）</AppText><AppText style={styles.muted}>制作主体は処世術禄編集部です。案内人は架空の編集キャラクターとして表示します。</AppText>{charactersError ? <AppText style={styles.error}>{charactersError}</AppText> : null}<View accessibilityRole="radiogroup" accessibilityLabel="編集案内人" style={styles.actions}>{[{ id: null, name: '設定なし' }, ...characters].map(character => <Pressable key={character.id ?? 'none'} accessibilityRole="radio" accessibilityLabel={character.name} aria-checked={payload.editorial_character_id === character.id} accessibilityState={{ checked: payload.editorial_character_id === character.id }} disabled={busy} onPress={() => patch({ editorial_character_id: character.id })} style={[styles.button, payload.editorial_character_id === character.id && styles.primary]}><AppText style={[styles.buttonText, payload.editorial_character_id === character.id && styles.primaryText]}>{character.name}{'status' in character && character.status !== 'published' ? '（非公開）' : ''}</AppText></Pressable>)}</View></View>
           <Field label="記事のURL名" hint="半角英数字とハイフンで指定します。公開後は固定されます。" value={payload.slug} onChange={slug => patch({ slug })} disabled={busy || Boolean(selected && selected.status !== 'draft')} />
           <Field label="導入文" value={payload.lead} onChange={lead => patch({ lead })} multiline disabled={busy} />
           <View style={styles.field}><AppText style={styles.fieldLabel}>写真</AppText><Image source={asset ? { uri: asset.uri } : featureImage(payload.image_path)} contentFit="cover" style={styles.image} /><View style={styles.actions}><Button disabled={busy} onPress={() => { void pickContentImage().then(picked => { if (picked) { setAsset(picked); setDirty(true); } }).catch(cause => setError(causeMessage(cause))); }}>画像をアップロード</Button>{Object.keys(FEATURE_IMAGES).map((key, index) => <Button key={key} disabled={busy} primary={!asset && payload.image_path === key} onPress={() => { setAsset(null); patch({ image_path: key }); }}>{['海', '森', '山'][index]}</Button>)}</View></View>
@@ -117,6 +122,8 @@ function FeatureEditor() {
           <Field label="掲載順" hint="小さい番号から並びます。ヒーローの順序にも使います。" value={String(payload.display_order)} onChange={value => patch({ display_order: Math.max(0, Math.min(100000, Number.parseInt(value, 10) || 0)) })} disabled={busy} />
           <RelatedPicker label="関連する処世術" ids={payload.related_technique_ids} choices={[...techniqueById.values()].filter(item => item.title !== '完全版の処世術').map(item => ({ id: item.id, title: item.title }))} disabled={busy} onChange={related_technique_ids => patch({ related_technique_ids })} />
           <RelatedPicker label="関連する理論" ids={payload.related_theory_ids} choices={[...theoryById.values()].filter(item => item.title !== '完全版の理論').map(item => ({ id: item.tagId, title: item.title }))} disabled={busy} onChange={related_theory_ids => patch({ related_theory_ids })} />
+          <RelatedPicker label="関連する特集" ids={payload.related_feature_ids} choices={articles.filter(item => item.id !== id && item.status === 'published').map(item => ({ id: item.id, title: item.title }))} disabled={busy} onChange={related_feature_ids => patch({ related_feature_ids })} />
+          <View style={styles.field}><AppText style={styles.fieldLabel}>参考文献・出典（任意）</AppText><AppText style={styles.muted}>確認できた出典のみ設定します。対象年や適用範囲は補足に記載できます。URLは http / https のみです。</AppText>{payload.source_references.map((reference, index) => <View key={index} style={styles.confirm}><Field label={`出典${index + 1}の名称`} value={reference.title} disabled={busy} onChange={title => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, title } : item) })} /><Field label={`出典${index + 1}のURL`} value={reference.url ?? ''} disabled={busy} onChange={url => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, url: url.trim() || null } : item) })} /><Field label={`出典${index + 1}の補足`} value={reference.note} multiline disabled={busy} onChange={note => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, note } : item) })} /><Button disabled={busy} onPress={() => patch({ source_references: payload.source_references.filter((_, n) => n !== index) })}>{`出典${index + 1}を外す`}</Button></View>)}<Button disabled={busy || payload.source_references.length >= 12} onPress={() => patch({ source_references: [...payload.source_references, { title: '', url: null, note: '' }] })}>＋ 出典を追加</Button></View>
         </>}
         {confirm ? <View style={styles.confirm}><AppText>{confirm === 'publish' ? 'この内容を無料公開します。公開画面の本文・画像・掲載設定が更新されます。' : 'この記事を非公開にします。保存した本文と下書きは残ります。'}</AppText><View style={styles.actions}><Button disabled={busy} onPress={() => setConfirm(null)}>取り消す</Button><Button primary disabled={busy} onPress={() => void perform(confirm)}>{confirm === 'publish' ? 'この内容で公開' : 'この特集を非公開にする'}</Button></View></View> : null}
         <View style={styles.actions}><Button disabled={busy || !payload.title.trim()} onPress={() => void perform('save')}>{busy ? '保存中…' : '下書きを保存'}</Button><Button primary disabled={busy || !payload.title.trim() || !payload.body.trim()} onPress={() => setConfirm('publish')}>公開する</Button>{selected?.status === 'published' ? <Button disabled={busy || dirty} onPress={() => setConfirm('archive')}>非公開にする</Button> : null}</View>

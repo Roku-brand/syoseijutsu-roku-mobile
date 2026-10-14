@@ -4,6 +4,7 @@ import path from 'node:path';
 const root = process.cwd();
 const dist = path.join(root, 'dist');
 const siteUrl = 'https://app.shoseijutsuroku.com';
+const editorialPolicy = JSON.parse(await readFile(path.join(root, 'src/data/editorial-policy.json'), 'utf8'));
 const brand = '処世術禄';
 const homeTitle = '処世術禄｜処世術を人生・仕事・人間関係に使える体系へ';
 const homeDescription = '処世術を、人間関係・仕事・人生で使える知恵へ。心理学・行動科学などの理論と結びつけ、流れていく知恵を何度でも使える体系として届けます。';
@@ -11,6 +12,7 @@ const image = `${siteUrl}/og.png`;
 
 // Fetch only public headings, never editorial drafts or a static copy of bodies.
 let featureArticles = [];
+let editorialCharacters = [];
 const featureUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const featureKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 if (featureUrl && featureKey && !featureUrl.includes('example.supabase.co')) {
@@ -21,6 +23,13 @@ if (featureUrl && featureKey && !featureUrl.includes('example.supabase.co')) {
   } catch { console.warn('Feature SEO headings could not be loaded; live articles remain available.'); }
 }
 
+if (featureUrl && featureKey && !featureUrl.includes('example.supabase.co')) {
+  try {
+    const response = await fetch(`${featureUrl}/rest/v1/editorial_characters?select=id,name,bio&status=eq.published`, { headers: { apikey: featureKey }, signal: AbortSignal.timeout(10000) });
+    if (!response.ok) throw new Error('Guide metadata unavailable');
+    editorialCharacters = (await response.json()).filter(item => /^[a-z0-9][a-z0-9-]{0,79}$/.test(item.id));
+  } catch { console.warn('Public guide metadata could not be loaded; live profiles remain available.'); }
+}
 const techniqueSource = JSON.parse(await readFile(path.join(root, 'src/data/generated/techniques.public.json'), 'utf8'));
 const theories = JSON.parse(await readFile(path.join(root, 'src/data/generated/theories.public.json'), 'utf8'));
 const practicalActions = JSON.parse(await readFile(path.join(root, 'src/data/generated/practical-actions.public.json'), 'utf8'));
@@ -100,7 +109,8 @@ function metaFor(rawRoute) {
   if (route === '/404' || route === '/+not-found') return { ...base, title: `ページが見つかりません｜${brand}`, description: 'お探しのページは移動または削除された可能性があります。処世術禄のホームから目的の処世術や理論を探せます。' };
   if (route === '/catalog') return { ...base, canonicalRoute: '/discover', title: `処世術を探す｜${brand}`, description: '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', crumbs: [crumb('ホーム', '/'), crumb('処世術を探す', '/discover')] };
   const fixed = {
-    '/features': ['特集', 'テーマを深く掘り下げ、折々の問いを考える処世術禄の読み物。特集記事を無料で読めます。'],
+    '/features/editorial-policy': ['処世術禄の編集方針', editorialPolicy.philosophy],
+    '/features': ['特集', editorialPolicy.introduction],
     '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。'],
     '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。'],
     '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。'],
@@ -111,6 +121,8 @@ function metaFor(rawRoute) {
     '/legal/faq': ['よくある質問', '処世術禄の使い方、無料版と完全版、データの保存や利用環境についてのよくある質問です。'],
   };
   if (fixed[route]) return { ...base, canonicalRoute: route === '/legal/about' ? '/about/shoseijutsu' : route, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: route !== '/legal/about', type: route === '/about/shoseijutsu' ? 'article' : 'website', pageType: route === '/about/shoseijutsu' ? 'Article' : 'WebPage', crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0].split('｜')[0], route)] };
+  const guide = editorialCharacters.find(item => route === `/features/guides/${item.id}`);
+  if (guide) return { ...base, title: `${guide.name}｜編集案内人｜${brand}`, description: truncate(`${guide.bio} 架空の編集キャラクターです。記事は処世術禄編集部が制作しています。`), indexable: true, pageType: 'WebPage', crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, route)] };
   const feature = featureArticles.find(item => route === `/features/${item.slug}`);
   if (feature) return { ...base, title: `${feature.title}｜${brand}`, description: truncate(feature.lead || feature.title), indexable: true, type: 'article', pageType: 'Article', feature, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(feature.title, route)] };
   const personaMatch = route.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);
@@ -154,7 +166,7 @@ function jsonLd(meta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.route) })) },
   ];
   if (meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.item.title, description: meta.description, inLanguage: 'ja', about: [meta.item.categoryName, meta.item.persona, ...(meta.item.tags ?? [])], isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.route === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, dateModified: meta.route === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.item?.title ?? meta.title, description: meta.item?.summary ?? meta.description, inLanguage: 'ja', about: meta.route === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.item?.categoryTitle ? [meta.item.categoryTitle] : undefined, dateModified: meta.route === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, author: meta.feature ? { '@type': 'Organization', name: editorialPolicy.producer } : undefined, publisher: { '@id': `${siteUrl}/#organization` } });
   if (meta.route === '/about/shoseijutsu') graph.push({ '@type': 'DefinedTerm', '@id': `${url}#term`, url, name: '処世術', alternateName: ['世渡り術', '処世の知恵'], description: '社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法。' });
   if (meta.route === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: brand, applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replaceAll('<', '\\u003c');
@@ -198,6 +210,7 @@ function shoseijutsuStaticContent(meta) {
   let body = `<section class="seo-hero">${aboutParagraph('処世術とは、社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法のことです。', true)}${aboutParagraph('人間関係、コミュニケーション、仕事での立ち回り、感情のコントロール、失敗への対処など、社会生活をよりよくする幅広い知恵を含みます。')}${aboutParagraph('流れていく知恵を、ここで使える体系にする。', true)}${aboutParagraph('聞いたことがある、で終わらせない。処世術禄は、散らばった知恵を整理し、必要なときに取り出して使える形へ変える場所です。')}</section>`;
   body += sections.map(([title, paragraphs, emphasis]) => aboutSection(title, paragraphs, emphasis)).join('');
   body += `<section><h2>場面別に処世術を学ぶ</h2><p>処世術は、置かれた場面によって使い方が変わります。今の課題に近い入口から、具体的な方法とその背景にある理論をたどれます。</p><ul><li><a href="/personas?category=interpersonal">人間関係の処世術</a>—会話・信頼・距離感を整える</li><li><a href="/personas?category=work">仕事の処世術</a>—評価・合意・実行を成果につなげる</li><li><a href="/personas?category=life">人生の処世術</a>—選択・不安・立て直しの軸を持つ</li><li><a href="/theories">処世術を支える理論</a>—心理学・行動科学などから理解する</li></ul></section>`;
+  body += aboutSection('蓄積型・不朽型の知識メディア', [editorialPolicy.philosophy, editorialPolicy.lastingValue, ...editorialPolicy.paragraphs.slice(0, 2), editorialPolicy.paragraphs.at(-1)]);
   body += aboutSection('なぜ、処世術禄なのか', [
     '人生に役立つ知恵は、すでに世の中に数多く存在します。問題は、それらが散らばっていることです。',
     '人間関係の知恵は心理学の本にあり、仕事の進め方はビジネス書にあり、感情との付き合い方は哲学や行動科学にあり、人生についての知恵は誰かの経験談の中にある。',
@@ -237,6 +250,7 @@ function shoseijutsuStaticContent(meta) {
 }
 function staticContent(meta) {
   if (!meta.indexable) return meta.route === '/404' || meta.route === '/+not-found' ? '<noscript><main><article><h1>ページが見つかりません</h1><p>URLをご確認いただくか、<a href="/">処世術禄のホーム</a>へ戻ってください。</p></article></main></noscript>' : '';
+  if (meta.route === '/features/editorial-policy') return `<noscript><main><h1>処世術禄の編集方針</h1>${[editorialPolicy.philosophy, editorialPolicy.lastingValue, ...editorialPolicy.paragraphs].map(text => aboutParagraph(text)).join('')}</main></noscript>`;
   if (meta.route === '/about/shoseijutsu') return shoseijutsuStaticContent(meta);
   if (meta.route === '/app') return `<noscript><main>${breadcrumbs(meta)}<article><h1>処世術禄アプリ</h1><p>知識を、迷ったときに使える判断へ。処世術禄のiOSアプリは、処世術と理論を保存・学習・ケース問題で自分の判断にしていくためのアプリです。</p><p><a href="https://apps.apple.com/app/id6810376658">App Storeで処世術禄を見る</a></p><section><h2>Webで知り、アプリで身につける</h2><ul><li>体系から探す：処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件の無料公開コンテンツを人物像や場面からたどれます。</li><li>保存して戻る：必要だった知恵を保存し、迷ったときに読み返せます。</li><li>ケースで考える：ケース問題を通じて、知識を状況に応じた判断へつなげます。</li></ul></section><section><h2>無料版と完全版</h2><p>無料版では処世術${techniques.filter(isPublicTechnique).length}件・理論${theories.filter(isPublicTheory).length}件を公開しています。完全版では、正本に収録された処世術${techniques.length}件・理論${theories.length}件と全ケース問題を利用できます。価格・利用条件はアプリ内の完全版画面で確認できます。</p></section><section><h2>大切な注意</h2><p>本アプリは一般的な情報と判断の視点を提供するもので、医療・法律・金融その他の専門的助言を代替しません。</p></section></article></main></noscript>`;
   let body = `<p>${escape(meta.description)}</p>`;
@@ -292,9 +306,18 @@ function routeFor(file) {
 }
 
 // Give newly created CMS slugs their own clean URL on the next deployment.
+async function featurePageTemplate() {
+  try { return await readFile(path.join(dist, 'features.html')); }
+  catch { return readFile(path.join(dist, 'features', 'index.html')); }
+}
 for (const feature of featureArticles) {
   const file = path.join(dist, 'features', `${feature.slug}.html`);
-  try { await readFile(file); } catch { await writeFile(file, await readFile(path.join(dist, 'features.html'))); }
+  try { await readFile(file); } catch { await writeFile(file, await featurePageTemplate()); }
+}
+for (const guide of editorialCharacters) {
+  const file = path.join(dist, 'features', 'guides', `${guide.id}.html`);
+  await mkdir(path.dirname(file), { recursive: true });
+  try { await readFile(file); } catch { await writeFile(file, await featurePageTemplate()); }
 }
 const files = await htmlFiles(dist);
 const indexable = new Set();

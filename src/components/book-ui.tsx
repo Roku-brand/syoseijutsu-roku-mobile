@@ -340,6 +340,9 @@ function getCurrentTitle(pathname: string) {
   if (segments[0] === 'personas') return '人物像一覧';
   if (segments[0] === 'search') return 'キーワード検索';
   if (segments[0] === 'popular') return '人気ランキング';
+  if (pathname === '/owner/editorial-characters') return '編集案内人の管理';
+  if (pathname === '/features/editorial-policy') return '編集方針';
+  if (pathname.startsWith('/features/guides/')) return '編集案内人';
   if (segments[0] === 'features') return '特集';
   if (pathname === '/owner/features') return '特集管理';
   if (segments[0] === 'theory') return '理論カード';

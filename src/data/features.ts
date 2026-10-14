@@ -1,6 +1,7 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { supabase } from '@/lib/supabase';
 import { featureCategoryId, type FeatureCategoryId } from './feature-categories';
+import { featureReferences, type FeatureReference } from './feature-editorial';
 
 export type FeatureArticle = {
   id: string;
@@ -9,6 +10,9 @@ export type FeatureArticle = {
   lead: string;
   body: string;
   category_id: FeatureCategoryId | null;
+  editorial_character_id: string | null;
+  related_feature_ids: string[];
+  source_references: FeatureReference[];
   image_path: string | null;
   image_alt: string;
   is_featured: boolean;
@@ -60,16 +64,19 @@ export async function fetchFeatureEditor() {
   const changes = ((drafts.data ?? []) as FeatureDraft[]).map(draft => ({ ...draft, payload: {
     ...draft.payload,
     category_id: Object.prototype.hasOwnProperty.call(draft.payload, 'category_id') ? featureCategoryId(draft.payload.category_id) : rows.find(article => article.id === draft.article_id)?.category_id ?? null,
+    editorial_character_id: Object.prototype.hasOwnProperty.call(draft.payload, 'editorial_character_id') ? draft.payload.editorial_character_id : rows.find(article => article.id === draft.article_id)?.editorial_character_id ?? null,
+    related_feature_ids: Array.isArray(draft.payload.related_feature_ids) ? draft.payload.related_feature_ids : rows.find(article => article.id === draft.article_id)?.related_feature_ids ?? [],
+    source_references: featureReferences(draft.payload.source_references ?? rows.find(article => article.id === draft.article_id)?.source_references),
   } }));
   return { articles: rows, drafts: changes };
 }
-function normalizeFeature(article: FeatureArticle): FeatureArticle { return { ...article, category_id: featureCategoryId(article.category_id) }; }
+function normalizeFeature(article: FeatureArticle): FeatureArticle { return { ...article, category_id: featureCategoryId(article.category_id), editorial_character_id: typeof article.editorial_character_id === 'string' ? article.editorial_character_id : null, related_feature_ids: Array.isArray(article.related_feature_ids) ? article.related_feature_ids : [], source_references: featureReferences(article.source_references) }; }
 export function featurePayload(article: FeatureArticle): FeaturePayload {
   const { slug, title, lead, body, category_id, image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids } = article;
-  return { slug, title, lead, body, category_id: featureCategoryId(category_id), image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
+  return { slug, title, lead, body, category_id: featureCategoryId(category_id), editorial_character_id: article.editorial_character_id ?? null, related_feature_ids: article.related_feature_ids ?? [], source_references: featureReferences(article.source_references), image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
 }
 export function blankFeature(): FeaturePayload {
-  return { slug: '', title: '', lead: '', body: '', category_id: null, image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
+  return { slug: '', title: '', lead: '', body: '', category_id: null, editorial_character_id: null, related_feature_ids: [], source_references: [], image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
 }
 export async function saveFeatureDraft(id: string | null, payload: FeaturePayload, baseUpdatedAt: string | null, expectedRevision: number | null) {
   if (!supabase) throw new Error('Supabaseが未設定です。');

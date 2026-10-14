@@ -49,6 +49,7 @@ export default function SettingsScreen() {
         <SettingsGroup>
           <SettingLink title="運用ダッシュボード" detail="問い合わせ・SNS・AIタスクを一元確認します" href={APP_ROUTES.ownerOperations} />
           <SettingLink title="コンテンツ管理" detail="処世術と主要・補助理論を編集・公開します" href={APP_ROUTES.ownerContent} />
+          <SettingLink title="編集案内人の管理" detail="架空の編集案内人・プロフィール・公開状態を管理します" href={APP_ROUTES.ownerEditorialCharacters} />
           <SettingLink title="特集管理" detail="特集の記事・画像・ヒーローを編集・公開します" href={APP_ROUTES.ownerFeatures} />
           <SettingLink title="オーナープレビュー" detail="無料版・完全版・未ログインの表示を確認" href={APP_ROUTES.ownerPreview} last />
         </SettingsGroup>

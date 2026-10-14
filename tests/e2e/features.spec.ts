@@ -4,10 +4,12 @@ import fs from 'node:fs';
 const initial = JSON.parse(fs.readFileSync('content/features/manifest.json', 'utf8')).map((row: any) => {
   const source = fs.readFileSync(`content/features/${row.slug}.md`, 'utf8').replace(/\r\n/g, '\n').trim();
   const split = source.indexOf('\n\n');
-  return { ...row, lead: source.slice(0, split), body: source.slice(split + 2), related_technique_ids: [], related_theory_ids: [], status: 'published', updated_at: '2026-10-13T00:00:00Z' };
+  return { ...row, lead: source.slice(0, split), body: source.slice(split + 2), related_technique_ids: [], related_theory_ids: [], editorial_character_id: 'sumino-haruka', related_feature_ids: [], source_references: [], status: 'published', updated_at: '2026-10-13T00:00:00Z' };
 });
+const initialGuide = { id: 'sumino-haruka', name: '澄野 遥', role: '処世術禄 編集案内人', bio: '人はなぜ、そう考え、そう行動するのか。身近な疑問を出発点に、心理学や社会科学の知見から、人間と人生の仕組みを探ります。', interests: ['人間関係', '心理学', '自己理解'], image_path: 'bundled:sumino-haruka', image_alt: '架空の案内人のイラスト', status: 'published', display_order: 10, updated_at: '2026-10-14T00:00:00Z' };
 async function mockFeatures(page: Page, owner = false) {
   let articles = structuredClone(initial);
+  let characters = [structuredClone(initialGuide)];
   let drafts: any[] = [];
   if (owner) {
     const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'owner@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
@@ -19,9 +21,21 @@ async function mockFeatures(page: Page, owner = false) {
   await page.route('**/rest/v1/**', async route => {
     const url = new URL(route.request().url());
     const path = url.pathname;
+    // Keep the real bundled catalog for this focused CMS fixture. A successful
+    // empty response would authoritatively remove all catalog entries.
+    if (['public_techniques', 'public_theories', 'personas', 'content_categories', 'theory_subcategories'].some(table => path.endsWith(`/${table}`))) return route.fulfill({ status: 503, json: {} });
     if (path.endsWith('/profiles')) return route.fulfill({ json: { role: owner ? 'owner' : 'user', display_name: '検証利用者' } });
     if (path.endsWith('/feature_articles')) return route.fulfill({ json: url.searchParams.has('status') ? articles.filter((row: any) => row.status === 'published') : articles });
     if (path.endsWith('/feature_article_drafts')) return route.fulfill({ json: drafts });
+    if (path.endsWith('/editorial_characters')) return route.fulfill({ json: url.searchParams.has('status') ? characters.filter(row => row.status === 'published') : characters });
+    if (path.endsWith('/save_editorial_character')) {
+      const params = route.request().postDataJSON();
+      const existing = characters.find(row => row.id === params.target_id);
+      if (existing && params.expected_updated_at !== existing.updated_at) return route.fulfill({ status: 409, json: { message: '案内人が別の画面で変更されています。再読み込みしてください。' } });
+      const row = { ...params.content, id: params.target_id ?? 'new-guide', updated_at: '2026-10-14T01:00:00Z' };
+      characters = [...characters.filter(item => item.id !== row.id), row];
+      return route.fulfill({ json: row });
+    }
     if (path.endsWith('/save_feature_article_draft')) {
       const params = route.request().postDataJSON();
       const id = params.target_id ?? 'new-article';
@@ -47,7 +61,7 @@ async function mockFeatures(page: Page, owner = false) {
     }
     return route.fulfill({ json: [] });
   });
-  return { articles: () => articles, drafts: () => drafts };
+  return { articles: () => articles, drafts: () => drafts, characters: () => characters };
 }
 
 test('ホームから無料の特集に入り、指針と3記事を日付なしで読める', async ({ page }) => {
@@ -228,4 +242,101 @@ test('新規特集の主カテゴリを選び、公開後に該当タブで読�
   await page.getByRole('tab', { name: '生き方・選択', exact: true }).click();
   await expect(page.getByTestId('feature-card')).toHaveCount(2);
   await expect(page.getByTestId('features-grid')).toContainText('選択と向き合う');
+});
+
+
+test('編集部名義と架空の案内人からプロフィールに進み、記事と編集方針を読める', async ({ page }) => {
+  await mockFeatures(page);
+  for (const width of [320, 390, 1280]) {
+    await page.setViewportSize({ width, height: 950 });
+    await page.goto('/features/meta-comments');
+    await expect(page.getByTestId('editorial-byline')).toContainText('制作：処世術禄編集部');
+    await page.getByRole('link', { name: '澄野 遥のプロフィール', exact: true }).click();
+    await expect(page).toHaveURL(/features\/guides\/sumino-haruka$/);
+    await expect(page.getByRole('heading', { name: '澄野 遥', exact: true })).toBeVisible();
+    await expect(page.getByTestId('editorial-profile')).toContainText('架空の編集キャラクターです。記事は処世術禄編集部が制作しています。');
+    await expect(page.getByTestId('feature-card')).toHaveCount(4);
+    await expect(page).toHaveTitle('澄野 遥｜編集案内人｜処世術禄');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+    await page.screenshot({ path: test.info().outputPath('guide-' + width + '.png'), fullPage: true });
+  }
+  await page.getByRole('link', { name: '編集方針 →', exact: true }).click();
+  await expect(page.getByTestId('editorial-policy')).toContainText('蓄積型・不朽型');
+  await expect(page.getByTestId('editorial-policy')).toContainText('公開日や更新日によって価値を評価しません');
+  await page.goto('/about/shoseijutsu');
+  await expect(page.getByRole('heading', { name: '蓄積型・不朽型の知識メディア', exact: true })).toBeVisible();
+});
+
+test('案内人が未設定・非公開・取得失敗でも記事本文と編集部名義を表示する', async ({ page }) => {
+  const server = await mockFeatures(page);
+  server.articles()[1].editorial_character_id = null;
+  server.characters()[0].status = 'archived';
+  await page.goto('/features/mastering-tilt');
+  await expect(page.getByTestId('feature-body')).toContainText(initial[1].body.split('\n\n')[1]);
+  await expect(page.getByTestId('editorial-byline')).toHaveText('制作：処世術禄編集部');
+  await page.goto('/features/guides/sumino-haruka');
+  await expect(page.getByText('この案内人は現在公開されていません', { exact: true })).toBeVisible();
+  await page.route('**/rest/v1/editorial_characters*', route => route.fulfill({ status: 503, json: {} }));
+  await page.goto('/features/meta-comments');
+  await expect(page.getByTestId('feature-body')).toBeVisible();
+  await expect(page.getByTestId('editorial-byline')).toHaveText('制作：処世術禄編集部');
+});
+
+test('CMSで案内人・出典・関連特集を編集し、知識への導線と安全な出典を表示する', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  await page.goto('/owner/features');
+  await page.getByRole('button', { name: initial[1].title + 'を編集', exact: true }).click();
+  await expect(page.getByRole('radio', { name: '澄野 遥', exact: true })).toBeChecked();
+  await page.getByRole('button', { name: '＋ 出典を追加', exact: true }).click();
+  await page.getByRole('textbox', { name: '出典1の名称', exact: true }).fill('確認した参考資料');
+  await page.getByRole('textbox', { name: '出典1のURL', exact: true }).fill('https://example.org/source');
+  await page.getByRole('textbox', { name: '出典1の補足', exact: true }).fill('対象年と適用範囲を確認');
+  await page.getByRole('textbox', { name: '関連する特集を検索', exact: true }).fill('熱血');
+  await page.getByRole('button', { name: '＋ 熱血と冷笑の本質', exact: true }).click();
+  await page.getByRole('textbox', { name: '関連する理論を検索', exact: true }).fill('認知的柔軟性');
+  await page.getByRole('button', { name: '＋ 認知的柔軟性', exact: true }).click();
+  await page.getByRole('button', { name: '公開する', exact: true }).click();
+  await page.getByRole('button', { name: 'この内容で公開', exact: true }).click();
+  await expect(page.getByText('特集を公開しました。')).toBeVisible();
+  expect(server.articles()[1].body).toBe(initial[1].body);
+  expect(server.articles()[1].related_feature_ids).toEqual(['passion-and-cynicism']);
+  await page.goto('/features/mastering-tilt');
+  await expect(page.getByTestId('feature-references')).toContainText('対象年と適用範囲を確認');
+  await expect(page.getByRole('link', { name: '確認した参考資料', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'この記事に関連する知識', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: '認知的柔軟性 →', exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: '熱血と冷笑の本質 →', exact: true })).toBeVisible();
+  await page.getByRole('link', { name: '認知的柔軟性 →', exact: true }).click();
+  await expect(page).toHaveURL(/theory\/kb_574$/);
+  server.articles()[1].source_references.push({ title: '危険なURL', url: 'javascript:alert(1)', note: '' });
+  await page.goto('/features/mastering-tilt');
+  await expect(page.getByTestId('feature-references')).toContainText('危険なURL');
+  await expect(page.getByRole('link', { name: '危険なURL', exact: true })).toHaveCount(0);
+});
+
+test('案内人の追加・名前変更・無効化を管理でき、記事とURLを維持する', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  await page.goto('/owner/editorial-characters');
+  await expect(page.getByRole('textbox', { name: '名前', exact: true })).toHaveValue('澄野 遥');
+  await page.getByRole('textbox', { name: '名前', exact: true }).fill('澄野 はるか');
+  await page.getByRole('button', { name: '案内人を保存', exact: true }).click();
+  await expect(page.getByText('編集案内人を保存しました。')).toBeVisible();
+  await page.getByRole('button', { name: 'プロフィールを見る', exact: true }).click();
+  await expect(page).toHaveURL(/features\/guides\/sumino-haruka$/);
+  await expect(page.getByRole('heading', { name: '澄野 はるか', exact: true })).toBeVisible();
+  await page.goto('/owner/editorial-characters');
+  await page.getByRole('button', { name: '無効化する', exact: true }).click();
+  await expect(page.getByText('案内人を無効化しました。既存の記事は編集部名義で引き続き表示されます。')).toBeVisible();
+  await page.goto('/features/meta-comments');
+  await expect(page.getByTestId('editorial-byline')).toHaveText('制作：処世術禄編集部');
+  expect(server.articles()[2].body).toBe(initial[2].body);
+  await page.goto('/owner/editorial-characters');
+  await page.getByRole('button', { name: '＋ 案内人を追加', exact: true }).click();
+  await page.getByRole('textbox', { name: '名前', exact: true }).fill('追加案内人');
+  await page.getByRole('radio', { name: '公開', exact: true }).click();
+  await page.getByRole('button', { name: '案内人を保存', exact: true }).click();
+  await expect(page.getByText('編集案内人を保存しました。')).toBeVisible();
+  expect(server.characters()).toHaveLength(2);
+  await page.setViewportSize({ width: 320, height: 950 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
 });

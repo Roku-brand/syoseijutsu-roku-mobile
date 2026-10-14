@@ -42,7 +42,7 @@ export async function uploadContentImage(asset: ContentImageAsset, kind: 'person
 
 export async function countImageReferences(path: string): Promise<number> {
   if (!supabase || !path || path.startsWith('bundled:')) return 0;
-  const rows = await Promise.all(['personas', 'techniques', 'theories', 'feature_articles', 'feature_article_drafts'].map((table) =>
+  const rows = await Promise.all(['personas', 'techniques', 'theories', 'feature_articles', 'feature_article_drafts', 'editorial_characters'].map((table) =>
     supabase!.from(table).select('*', { count: 'exact', head: true }).eq('image_path', path)));
   for (const row of rows) if (row.error) throw row.error;
   return rows.reduce((count, row) => count + (row.count ?? 0), 0);
