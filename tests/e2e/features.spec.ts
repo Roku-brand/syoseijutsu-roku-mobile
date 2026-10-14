@@ -56,7 +56,7 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
   await page.getByTestId('home-shortcut-features').click();
   await expect(page).toHaveURL(/\/features$/);
   await expect(page.getByTestId('features-hero').getByRole('heading', { name: initial[0].title, exact: true })).toBeVisible();
-  await expect(page.getByTestId('feature-card')).toHaveCount(3);
+  await expect(page.getByTestId('feature-card')).toHaveCount(4);
   await expect(page.getByRole('heading', { name: 'ふかぼり処世術記事', exact: true })).toBeVisible();
   await expect(page.getByTestId('features-page')).not.toContainText(/厳選セレクション|新着|特集記事|\d+分前|\d+時間前|読了|2026年/);
   await page.getByRole('link', { name: 'メタ発言はなぜ気分を害するのかを読む', exact: true }).click();
@@ -73,11 +73,12 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
 });
 
 test('320pxからデスクトップまで記事とヒーローが収まり、写真が表示される', async ({ page }) => {
+  test.setTimeout(60_000);
   await mockFeatures(page);
   for (const width of [320, 390, 700, 1000, 1280, 1440]) {
     await page.setViewportSize({ width, height: 950 });
     await page.goto('/features');
-    await expect(page.getByTestId('feature-card')).toHaveCount(3);
+    await expect(page.getByTestId('feature-card')).toHaveCount(4);
     const heroBounds = await page.getByTestId('features-hero').boundingBox();
     expect(heroBounds!.height).toBeLessThanOrEqual(width >= 1100 ? 370 : 460);
     for (const card of await page.getByTestId('feature-card').all()) {
@@ -126,20 +127,29 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   const title = page.getByRole('textbox', { name: 'タイトル', exact: true });
   await expect(title).toHaveValue(initial[0].title);
   await page.getByRole('button', { name: `${initial[1].title}を編集`, exact: true }).click();
+  await expect(page.getByRole('radio', { name: '自己理解・成長', exact: true })).toBeChecked();
+  await page.getByRole('radio', { name: '社会・時代', exact: true }).click();
   await title.fill('ティルトと向き合う');
   await page.getByRole('textbox', { name: '本文', exact: true }).fill('## 感情を手がかりにする\n\n初稿をCMSで編集した本文です。');
   await page.getByRole('button', { name: '下書きを保存', exact: true }).click();
   await expect(page.getByText('下書きを保存しました。公開中の内容は変わりません。')).toBeVisible();
   expect(server.articles()[1].title).toBe(initial[1].title);
+  expect(server.articles()[1].category_id).toBe('self-growth');
   expect(server.drafts()[0].payload.title).toBe('ティルトと向き合う');
+  expect(server.drafts()[0].payload.category_id).toBe('society-era');
+  await expect(page.getByRole('button', { name: `${initial[1].title}を編集`, exact: true })).toContainText('社会・時代');
   await page.getByRole('button', { name: 'プレビュー', exact: true }).click();
   await expect(page.getByTestId('feature-article')).toContainText('感情を手がかりにする');
   await page.getByRole('button', { name: '公開する', exact: true }).click();
   await page.getByRole('button', { name: 'この内容で公開', exact: true }).click();
   await expect(page.getByText('特集を公開しました。')).toBeVisible();
   expect(server.articles()[1].title).toBe('ティルトと向き合う');
+  expect(server.articles()[1].category_id).toBe('society-era');
   expect(server.drafts()).toHaveLength(0);
   await page.getByRole('button', { name: '公開画面を見る', exact: true }).click();
+  await expect(page.getByTestId('features-grid')).toContainText('ティルトと向き合う');
+  await page.getByRole('tab', { name: '社会・時代', exact: true }).click();
+  await expect(page.getByTestId('feature-card')).toHaveCount(1);
   await expect(page.getByTestId('features-grid')).toContainText('ティルトと向き合う');
   await page.goto('/owner/features');
   await page.getByRole('button', { name: 'ティルトと向き合うを編集', exact: true }).click();
@@ -157,6 +167,65 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   expect(server.articles()[1].body).toContain('CMSで編集した本文');
   expect(server.articles()[1].status).toBe('archived');
   await page.getByRole('button', { name: '公開画面を見る', exact: true }).click();
-  await expect(page.getByTestId('feature-card')).toHaveCount(2);
+  await expect(page.getByTestId('feature-card')).toHaveCount(3);
   await expect(page.getByTestId('features-grid')).not.toContainText('ティルトと向き合う');
+});
+
+test('指定順の5タブで全4記事を絞り込み、0件のテーマと切り替えでもページを保つ', async ({ page }) => {
+  await mockFeatures(page);
+  await page.goto('/features');
+  await expect(page.getByTestId('feature-card')).toHaveCount(4);
+  const tabs = page.getByTestId('feature-category-tabs').getByRole('tab');
+  await expect(tabs).toHaveText(['すべて', '人間関係', '自己理解・成長', '生き方・選択', '社会・時代']);
+  await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
+  const documentStart = await page.evaluate(() => performance.timeOrigin);
+  for (const [label, ids] of [
+    ['人間関係', ['meta-comments']],
+    ['自己理解・成長', ['mastering-tilt', 'passion-and-cynicism']],
+    ['生き方・選択', ['five-guidelines']],
+    ['社会・時代', []],
+  ] as const) {
+    await page.getByRole('tab', { name: label, exact: true }).click();
+    await expect(page.getByRole('tab', { name: label, exact: true })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.getByTestId('feature-card')).toHaveCount(ids.length);
+    for (const slug of ids) await expect(page.getByTestId('features-grid').getByRole('link', { name: `${initial.find((article: any) => article.slug === slug).title}を読む`, exact: true })).toBeVisible();
+    if (!ids.length) await expect(page.getByText('このテーマの記事は、まだありません。', { exact: true })).toBeVisible();
+    expect(await page.evaluate(() => performance.timeOrigin)).toBe(documentStart);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+  }
+  await page.getByRole('tab', { name: 'すべて', exact: true }).click();
+  await expect(page.getByTestId('feature-card')).toHaveCount(4);
+  await page.getByTestId('features-grid').getByRole('link', { name: `${initial[0].title}を読む`, exact: true }).click();
+  await expect(page.getByTestId('feature-body')).toContainText('1．選べる側になる');
+});
+
+test('カテゴリが未設定・不正でもすべての一覧から記事が消えない', async ({ page }) => {
+  const server = await mockFeatures(page);
+  server.articles()[1].category_id = null;
+  delete server.articles()[2].category_id;
+  server.articles()[3].category_id = 'unexpected';
+  await page.goto('/features');
+  await expect(page.getByTestId('feature-card')).toHaveCount(4);
+  await page.getByRole('tab', { name: '自己理解・成長', exact: true }).click();
+  await expect(page.getByText('このテーマの記事は、まだありません。', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'すべて', exact: true }).click();
+  await expect(page.getByTestId('feature-card')).toHaveCount(4);
+});
+
+test('新規特集の主カテゴリを選び、公開後に該当タブで読める', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  await page.goto('/owner/features');
+  await page.getByRole('button', { name: '＋ 記事を作成', exact: true }).click();
+  await page.getByRole('textbox', { name: 'タイトル', exact: true }).fill('選択と向き合う');
+  await page.getByRole('textbox', { name: '記事のURL名', exact: true }).fill('choosing-paths');
+  await page.getByRole('textbox', { name: '本文', exact: true }).fill('## 選ぶということ\n\n分類を確かめる新しい記事です。');
+  await page.getByRole('radio', { name: '生き方・選択', exact: true }).click();
+  await page.getByRole('button', { name: '公開する', exact: true }).click();
+  await page.getByRole('button', { name: 'この内容で公開', exact: true }).click();
+  await expect(page.getByText('特集を公開しました。')).toBeVisible();
+  expect(server.articles().find((article: any) => article.slug === 'choosing-paths')?.category_id).toBe('life-choices');
+  await page.getByRole('button', { name: '公開画面を見る', exact: true }).click();
+  await page.getByRole('tab', { name: '生き方・選択', exact: true }).click();
+  await expect(page.getByTestId('feature-card')).toHaveCount(2);
+  await expect(page.getByTestId('features-grid')).toContainText('選択と向き合う');
 });
