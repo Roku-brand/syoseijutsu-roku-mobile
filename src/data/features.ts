@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore } from 'react';
 import { supabase } from '@/lib/supabase';
+import { featureCategoryId, type FeatureCategoryId } from './feature-categories';
 
 export type FeatureArticle = {
   id: string;
@@ -7,6 +8,7 @@ export type FeatureArticle = {
   title: string;
   lead: string;
   body: string;
+  category_id: FeatureCategoryId | null;
   image_path: string | null;
   image_alt: string;
   is_featured: boolean;
@@ -34,7 +36,7 @@ export async function refreshFeatures() {
       if (!supabase) throw new Error('記事を読み込めませんでした。通信環境をご確認ください。');
       const { data, error } = await supabase.from('feature_articles').select('*').eq('status', 'published').order('display_order').order('id');
       if (error) throw error;
-      snapshot = { articles: (data ?? []) as FeatureArticle[], loading: false, error: '' };
+      snapshot = { articles: ((data ?? []) as FeatureArticle[]).map(normalizeFeature), loading: false, error: '' };
     } catch {
       snapshot = { ...snapshot, loading: false, error: '記事を読み込めませんでした。もう一度お試しください。' };
     } finally { inflight = null; notify(); }
@@ -54,14 +56,20 @@ export async function fetchFeatureEditor() {
   ]);
   if (articles.error) throw articles.error;
   if (drafts.error) throw drafts.error;
-  return { articles: (articles.data ?? []) as FeatureArticle[], drafts: (drafts.data ?? []) as FeatureDraft[] };
+  const rows = ((articles.data ?? []) as FeatureArticle[]).map(normalizeFeature);
+  const changes = ((drafts.data ?? []) as FeatureDraft[]).map(draft => ({ ...draft, payload: {
+    ...draft.payload,
+    category_id: Object.prototype.hasOwnProperty.call(draft.payload, 'category_id') ? featureCategoryId(draft.payload.category_id) : rows.find(article => article.id === draft.article_id)?.category_id ?? null,
+  } }));
+  return { articles: rows, drafts: changes };
 }
+function normalizeFeature(article: FeatureArticle): FeatureArticle { return { ...article, category_id: featureCategoryId(article.category_id) }; }
 export function featurePayload(article: FeatureArticle): FeaturePayload {
-  const { slug, title, lead, body, image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids } = article;
-  return { slug, title, lead, body, image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
+  const { slug, title, lead, body, category_id, image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids } = article;
+  return { slug, title, lead, body, category_id: featureCategoryId(category_id), image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
 }
 export function blankFeature(): FeaturePayload {
-  return { slug: '', title: '', lead: '', body: '', image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
+  return { slug: '', title: '', lead: '', body: '', category_id: null, image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
 }
 export async function saveFeatureDraft(id: string | null, payload: FeaturePayload, baseUpdatedAt: string | null, expectedRevision: number | null) {
   if (!supabase) throw new Error('Supabaseが未設定です。');

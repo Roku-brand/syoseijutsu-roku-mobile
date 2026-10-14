@@ -10,6 +10,7 @@ import { archiveFeature, blankFeature, featureCharacterCount, featurePayload, fe
 import { techniqueById, theoryById } from '@/data/catalog';
 import { pickContentImage, uploadContentImage, type ContentImageAsset } from '@/lib/content-media';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { FEATURE_CATEGORIES, featureCategoryLabel } from '@/data/feature-categories';
 
 export default function OwnerFeaturesScreen() {
   const { loading, user, role } = useAuth();
@@ -81,10 +82,30 @@ function FeatureEditor() {
     {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}{notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {pending !== undefined ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して記事を切り替えますか？</AppText><View style={styles.actions}><Button onPress={() => setPending(undefined)}>編集を続ける</Button><Button onPress={() => choose(pending)}>破棄して切り替える</Button></View></View> : null}
     {loading ? <AppText>特集を読み込んでいます。</AppText> : <View style={[styles.workspace, width < 1000 && styles.workspaceCompact]}>
-      <View style={[styles.articleList, width < 1000 && styles.articleListCompact]}><Button primary disabled={busy} onPress={() => navigate(null)}>＋ 記事を作成</Button>{articles.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`${article.title || '無題の記事'}を編集`} accessibilityState={{ selected: article.id === id }} disabled={busy} onPress={() => navigate(article.id)} style={[styles.listItem, article.id === id && styles.listSelected]}><AppText style={styles.listTitle}>{drafts.find(item => item.article_id === article.id)?.payload.title || article.title || '無題の記事'}</AppText><AppText style={styles.muted}>{article.status === 'published' ? '公開中' : article.status === 'archived' ? '非公開' : '下書き'}{drafts.some(item => item.article_id === article.id) ? ' · 下書きあり' : ''}{article.is_featured ? ' · ヒーロー' : ''}</AppText></Pressable>)}</View>
+      <View style={[styles.articleList, width < 1000 && styles.articleListCompact]}>
+        <Button primary disabled={busy} onPress={() => navigate(null)}>＋ 記事を作成</Button>
+        {articles.map(article => {
+          const draft = drafts.find(item => item.article_id === article.id);
+          return <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`${article.title || '無題の記事'}を編集`} accessibilityState={{ selected: article.id === id }} disabled={busy} onPress={() => navigate(article.id)} style={[styles.listItem, article.id === id && styles.listSelected]}>
+            <AppText style={styles.listTitle}>{draft?.payload.title || article.title || '無題の記事'}</AppText>
+            <AppText style={styles.muted}>{featureCategoryLabel(draft ? draft.payload.category_id : article.category_id)}</AppText>
+            <AppText style={styles.muted}>{article.status === 'published' ? '公開中' : article.status === 'archived' ? '非公開' : '下書き'}{draft ? ' · 下書きあり' : ''}{article.is_featured ? ' · ヒーロー' : ''}</AppText>
+          </Pressable>;
+        })}
+      </View>
       <View style={styles.editor}><View style={styles.actions}><Button disabled={busy} onPress={() => setPreview(false)} primary={!preview}>編集</Button><Button disabled={busy} onPress={() => setPreview(true)} primary={preview}>プレビュー</Button>{dirty ? <AppText style={styles.unsaved}>未保存</AppText> : null}</View>
         {preview ? <FeatureArticleContent article={previewArticle} preview /> : <>
           <Field label="タイトル" value={payload.title} onChange={title => patch({ title })} disabled={busy} />
+          <View style={styles.field}>
+            <AppText style={styles.fieldLabel}>主カテゴリ</AppText>
+            <AppText style={styles.muted}>記事の中心となる問いに合うものを一つ選びます。</AppText>
+            <View accessibilityRole="radiogroup" accessibilityLabel="主カテゴリ" style={styles.actions}>
+              {FEATURE_CATEGORIES.map(category => <Pressable key={category.id} accessibilityRole="radio" accessibilityLabel={category.label} accessibilityState={{ checked: payload.category_id === category.id, disabled: busy }} aria-checked={payload.category_id === category.id} disabled={busy} onPress={() => patch({ category_id: category.id })} style={[styles.button, payload.category_id === category.id && styles.primary, busy && styles.disabled]}>
+                <AppText style={[styles.buttonText, payload.category_id === category.id && styles.primaryText]}>{category.label}</AppText>
+              </Pressable>)}
+            </View>
+            {payload.category_id ? <AppText style={styles.muted}>{FEATURE_CATEGORIES.find(category => category.id === payload.category_id)?.description}</AppText> : <AppText style={styles.muted}>カテゴリが未設定の記事も「すべて」に表示されます。</AppText>}
+          </View>
           <Field label="記事のURL名" hint="半角英数字とハイフンで指定します。公開後は固定されます。" value={payload.slug} onChange={slug => patch({ slug })} disabled={busy || Boolean(selected && selected.status !== 'draft')} />
           <Field label="導入文" value={payload.lead} onChange={lead => patch({ lead })} multiline disabled={busy} />
           <View style={styles.field}><AppText style={styles.fieldLabel}>写真</AppText><Image source={asset ? { uri: asset.uri } : featureImage(payload.image_path)} contentFit="cover" style={styles.image} /><View style={styles.actions}><Button disabled={busy} onPress={() => { void pickContentImage().then(picked => { if (picked) { setAsset(picked); setDirty(true); } }).catch(cause => setError(causeMessage(cause))); }}>画像をアップロード</Button>{Object.keys(FEATURE_IMAGES).map((key, index) => <Button key={key} disabled={busy} primary={!asset && payload.image_path === key} onPress={() => { setAsset(null); patch({ image_path: key }); }}>{['海', '森', '山'][index]}</Button>)}</View></View>

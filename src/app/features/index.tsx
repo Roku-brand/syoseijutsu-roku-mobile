@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText, EmptyState } from '@/components/ui';
 import { featureImage, FeatureBookmark } from '@/components/feature-article';
@@ -9,6 +9,7 @@ import { colors, fonts } from '@/constants/theme';
 import { useFeatures, refreshFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { featureRoute } from '@/navigation/app-routes';
+import { FEATURE_CATEGORIES, type FeatureCategoryFilter } from '@/data/feature-categories';
 
 const ARTICLE_SECTION = 'ふかぼり処世術記事';
 
@@ -17,12 +18,14 @@ export default function FeaturesScreen() {
   const { width } = useHydratedWindowDimensions();
   const { articles, loading, error } = useFeatures();
   const [selected, setSelected] = useState<string | null>(null);
+  const [category, setCategory] = useState<FeatureCategoryFilter>('all');
   const compact = width < 700;
   const sidebar = width >= 1000;
   const columns = width >= 1280 ? 3 : width >= 700 ? 2 : 1;
   const featured = articles.filter(article => article.is_featured);
   const hero = featured.find(article => article.id === selected) ?? featured[0];
   const listed = articles.filter(article => article.show_in_list);
+  const filtered = category === 'all' ? listed : listed.filter(article => article.category_id === category);
   useEffect(() => { if (selected && !featured.some(item => item.id === selected)) setSelected(null); }, [selected, featured]);
   return <BookScreen contentContainerStyle={styles.page} testID="features-page">
     {loading ? <EmptyState title="特集を読み込んでいます" description="少しお待ちください。" /> : error ? <View style={styles.status}><EmptyState title="特集を読み込めませんでした" description={error} /><Pressable accessibilityRole="button" onPress={() => void refreshFeatures()} style={styles.retry}><AppText style={styles.gold}>もう一度読み込む</AppText></Pressable></View> : !articles.length ? <EmptyState title="特集" description="現在公開中の特集はありません。" /> : <>
@@ -45,13 +48,19 @@ export default function FeaturesScreen() {
         </View> : null}
         <View style={styles.articleSection}>
           <AppText style={[styles.sectionTitle, compact && styles.sectionTitleCompact]} accessibilityRole="header" aria-level={2}>{ARTICLE_SECTION}</AppText>
-          <View style={[styles.grid, compact && styles.gridCompact]} testID="features-grid">{listed.map(article => <View key={article.id} style={[styles.card, compact && styles.cardCompact, { width: `${100 / columns - (columns > 1 ? 1.8 : 0)}%` }]} testID="feature-card">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="記事の主題" style={styles.tabs} contentContainerStyle={styles.tabContent}>
+            {[{ id: 'all' as const, label: 'すべて' }, ...FEATURE_CATEGORIES].map(item => <Pressable key={item.id} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: category === item.id }} aria-selected={category === item.id} onPress={() => setCategory(item.id)} style={[styles.tab, category === item.id && styles.tabSelected]}>
+              <AppText style={[styles.tabText, category === item.id && styles.tabTextSelected]}>{item.label}</AppText>
+            </Pressable>)}
+          </ScrollView>
+          <View style={[styles.grid, compact && styles.gridCompact]} testID="features-grid">{filtered.map(article => <View key={article.id} style={[styles.card, compact && styles.cardCompact, { width: `${100 / columns - (columns > 1 ? 1.8 : 0)}%` }]} testID="feature-card">
             <Pressable accessibilityRole="link" accessibilityLabel={`${article.title}を読む`} onPress={() => router.push(featureRoute(article.slug))}>
               <Image source={featureImage(article.image_path)} accessibilityLabel={article.image_alt || article.title} contentFit="cover" style={styles.cover} />
               <View style={styles.cardCopy}><AppText style={styles.cardTitle}>{article.title}</AppText>{article.lead ? <AppText style={styles.cardLead} numberOfLines={2}>{article.lead}</AppText> : null}</View>
             </Pressable>
             <View style={styles.cardFooter}><FeatureBookmark article={article} /></View>
           </View>)}</View>
+          {!filtered.length ? <View style={styles.emptyCategory} accessibilityLiveRegion="polite"><AppText style={styles.emptyText}>このテーマの記事は、まだありません。</AppText></View> : null}
         </View>
       </View> : null}
     </>}
@@ -86,6 +95,14 @@ const styles = StyleSheet.create({
   articleSection: { flex: 1, minWidth: 0 },
   sectionTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 26, lineHeight: 40, fontWeight: '700', marginBottom: 20 },
   sectionTitleCompact: { fontSize: 23, lineHeight: 35, marginBottom: 16 },
+  tabs: { flexGrow: 0, marginBottom: 24, borderBottomWidth: 1, borderBottomColor: colors.line },
+  tabContent: { gap: 22 },
+  tab: { minHeight: 46, justifyContent: 'center', paddingHorizontal: 3, paddingBottom: 10, paddingTop: 6, borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabSelected: { borderBottomColor: colors.gold },
+  tabText: { fontFamily: fonts.serif, fontSize: 15, lineHeight: 25, color: colors.muted },
+  tabTextSelected: { color: colors.goldDeep, fontWeight: '700' },
+  emptyCategory: { paddingVertical: 34 },
+  emptyText: { fontFamily: fonts.serif, color: colors.muted, fontSize: 15, lineHeight: 27 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 20, alignItems: 'stretch' },
   gridCompact: { alignItems: 'center', justifyContent: 'center' },
   card: { minWidth: 0, maxWidth: 288, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 4, overflow: 'hidden' },
