@@ -59,10 +59,49 @@ async function mockFeatures(page: Page, owner = false) {
       articles = articles.map((row: any) => row.id === params.target_id ? { ...row, status: 'archived', updated_at: '2026-10-13T02:00:00Z' } : row);
       return route.fulfill({ status: 204 });
     }
+    if (path.endsWith('/delete_feature_article')) {
+      const params = route.request().postDataJSON();
+      const row = articles.find((item: any) => item.id === params.target_id);
+      const draft = drafts.find(item => item.article_id === params.target_id);
+      if (!row || row.updated_at !== params.expected_updated_at || (draft?.revision ?? null) !== params.expected_revision) return route.fulfill({ status: 409, json: { message: '記事または下書きが別の画面で変更されています。再読み込みしてください。' } });
+      articles = articles.filter((item: any) => item.id !== row.id).map((item: any) => ({ ...item, related_feature_ids: item.related_feature_ids.filter((id: string) => id !== row.id) }));
+      drafts = drafts.filter(item => item.article_id !== row.id);
+      return route.fulfill({ status: 204 });
+    }
     return route.fulfill({ json: [] });
   });
   return { articles: () => articles, drafts: () => drafts, characters: () => characters };
 }
+
+for (const status of ['published', 'archived', 'draft'] as const) {
+  test(`CMSで${status}の記事を確認・取り消し後に削除し、他の記事を保持する`, async ({ page }) => {
+    const server = await mockFeatures(page, true);
+    server.articles()[0].status = status;
+    const otherArticles = structuredClone(server.articles().slice(1));
+    await page.goto('/owner/features');
+    await expect(page.getByRole('button', { name: '削除する', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: '削除する', exact: true }).click();
+    await expect(page.getByTestId('feature-action-confirm')).toContainText(initial[0].title);
+    await page.getByRole('button', { name: '取り消す', exact: true }).click();
+    expect(server.articles()).toHaveLength(4);
+    await page.getByRole('button', { name: '削除する', exact: true }).click();
+    await page.getByRole('button', { name: 'この特集を完全に削除する', exact: true }).click();
+    await expect(page.getByText('特集を削除しました。', { exact: true })).toBeVisible();
+    expect(server.articles()).toEqual(otherArticles);
+    await page.goto('/features');
+    await expect(page.getByTestId('features-grid').getByTestId('feature-card')).toHaveCount(3);
+  });
+}
+test('CMSは別画面で変更された下書きを削除しない', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  await page.goto('/owner/features');
+  await page.getByRole('button', { name: '削除する', exact: true }).click();
+  server.drafts().push({ article_id: initial[0].id, revision: 1, payload: initial[0], base_updated_at: initial[0].updated_at });
+  await page.getByRole('button', { name: 'この特集を完全に削除する', exact: true }).click();
+  await expect(page.getByRole('alert')).toContainText('別の画面で変更');
+  expect(server.articles()).toHaveLength(4);
+  expect(server.drafts()).toHaveLength(1);
+});
 
 test('ホームから無料の特集に入り、指針と3記事を日付なしで読める', async ({ page }) => {
   await mockFeatures(page);

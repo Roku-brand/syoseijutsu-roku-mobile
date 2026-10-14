@@ -6,7 +6,7 @@ import { useAuth } from '@/auth/auth-state';
 import { Screen, AppText, EmptyState } from '@/components/ui';
 import { FeatureArticleContent, FEATURE_IMAGES, featureImage } from '@/components/feature-article';
 import { colors, fonts } from '@/constants/theme';
-import { archiveFeature, blankFeature, featureCharacterCount, featurePayload, fetchFeatureEditor, publishFeature, saveFeatureDraft, type FeatureArticle, type FeatureDraft, type FeaturePayload } from '@/data/features';
+import { archiveFeature, deleteFeature, blankFeature, featureCharacterCount, featurePayload, fetchFeatureEditor, publishFeature, saveFeatureDraft, type FeatureArticle, type FeatureDraft, type FeaturePayload } from '@/data/features';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { pickContentImage, uploadContentImage, type ContentImageAsset } from '@/lib/content-media';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -38,7 +38,7 @@ function FeatureEditor() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState(false);
-  const [confirm, setConfirm] = useState<'publish' | 'archive' | null>(null);
+  const [confirm, setConfirm] = useState<'publish' | 'archive' | 'delete' | null>(null);
   const [pending, setPending] = useState<string | null | undefined>(undefined);
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
@@ -72,10 +72,11 @@ function FeatureEditor() {
     setId(saved.id); setBase(saved.base_updated_at); setRevision(saved.revision); setPayload(next); setDirty(false); setAsset(null);
     return saved;
   };
-  const perform = async (action: 'save' | 'publish' | 'archive') => {
+  const perform = async (action: 'save' | 'publish' | 'archive' | 'delete') => {
     setBusy(true); setError(''); setNotice(''); setConfirm(null);
     try {
       if (action === 'archive') { if (!selected) return; await archiveFeature(selected); await reload(selected.id); setNotice('記事を非公開にしました。本文と下書きは保持されています。'); }
+      else if (action === 'delete') { if (!selected) return; await deleteFeature(selected, revision); await reload(null); setNotice('特集を削除しました。'); }
       else { const saved = await save(); if (action === 'publish') { await publishFeature(saved.id, saved.revision); await reload(saved.id); setNotice('特集を公開しました。'); } else { const data = await fetchFeatureEditor(); setArticles(data.articles); setDrafts(data.drafts); setNotice('下書きを保存しました。公開中の内容は変わりません。'); } }
     } catch (cause) { setError(causeMessage(cause)); }
     finally { setBusy(false); }
@@ -125,8 +126,9 @@ function FeatureEditor() {
           <RelatedPicker label="関連する特集" ids={payload.related_feature_ids} choices={articles.filter(item => item.id !== id && item.status === 'published').map(item => ({ id: item.id, title: item.title }))} disabled={busy} onChange={related_feature_ids => patch({ related_feature_ids })} />
           <View style={styles.field}><AppText style={styles.fieldLabel}>参考文献・出典（任意）</AppText><AppText style={styles.muted}>確認できた出典のみ設定します。対象年や適用範囲は補足に記載できます。URLは http / https のみです。</AppText>{payload.source_references.map((reference, index) => <View key={index} style={styles.confirm}><Field label={`出典${index + 1}の名称`} value={reference.title} disabled={busy} onChange={title => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, title } : item) })} /><Field label={`出典${index + 1}のURL`} value={reference.url ?? ''} disabled={busy} onChange={url => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, url: url.trim() || null } : item) })} /><Field label={`出典${index + 1}の補足`} value={reference.note} multiline disabled={busy} onChange={note => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, note } : item) })} /><Button disabled={busy} onPress={() => patch({ source_references: payload.source_references.filter((_, n) => n !== index) })}>{`出典${index + 1}を外す`}</Button></View>)}<Button disabled={busy || payload.source_references.length >= 12} onPress={() => patch({ source_references: [...payload.source_references, { title: '', url: null, note: '' }] })}>＋ 出典を追加</Button></View>
         </>}
-        {confirm ? <View style={styles.confirm}><AppText>{confirm === 'publish' ? 'この内容を無料公開します。公開画面の本文・画像・掲載設定が更新されます。' : 'この記事を非公開にします。保存した本文と下書きは残ります。'}</AppText><View style={styles.actions}><Button disabled={busy} onPress={() => setConfirm(null)}>取り消す</Button><Button primary disabled={busy} onPress={() => void perform(confirm)}>{confirm === 'publish' ? 'この内容で公開' : 'この特集を非公開にする'}</Button></View></View> : null}
-        <View style={styles.actions}><Button disabled={busy || !payload.title.trim()} onPress={() => void perform('save')}>{busy ? '保存中…' : '下書きを保存'}</Button><Button primary disabled={busy || !payload.title.trim() || !payload.body.trim()} onPress={() => setConfirm('publish')}>公開する</Button>{selected?.status === 'published' ? <Button disabled={busy || dirty} onPress={() => setConfirm('archive')}>非公開にする</Button> : null}</View>
+        {confirm ? <View testID="feature-action-confirm" style={styles.confirm}><AppText>{confirm === 'publish' ? 'この内容を無料公開します。公開画面の本文・画像・掲載設定が更新されます。' : confirm === 'archive' ? `「${selected?.title}」を非公開にします。保存した本文と下書きは残ります。` : `「${selected?.title}」と保存済みの下書きを完全に削除します。元に戻せません。残したい場合は非公開にしてください。他の記事からの関連記事リンクも外れます。`}</AppText><View style={styles.actions}><Button disabled={busy} onPress={() => setConfirm(null)}>取り消す</Button><Button primary disabled={busy} onPress={() => void perform(confirm)}>{confirm === 'publish' ? 'この内容で公開' : confirm === 'archive' ? 'この特集を非公開にする' : 'この特集を完全に削除する'}</Button></View></View> : null}
+        <View style={styles.actions}><Button disabled={busy || !payload.title.trim()} onPress={() => void perform('save')}>{busy ? '保存中…' : '下書きを保存'}</Button><Button primary disabled={busy || !payload.title.trim() || !payload.body.trim()} onPress={() => setConfirm('publish')}>公開する</Button>{selected?.status === 'published' ? <Button disabled={busy || dirty} onPress={() => setConfirm('archive')}>非公開にする</Button> : null}{selected ? <Button disabled={busy || dirty} onPress={() => setConfirm('delete')}>削除する</Button> : null}</View>
+        {selected ? <AppText style={styles.muted}>非公開は本文と下書きを保持します。削除は記事と下書きを完全に消去します。未保存の変更がある場合は、先に下書きを保存してください。</AppText> : null}
         <AppText style={styles.muted}>特集は無料公開です。日付・更新時刻・読了時間は読者画面に表示されません。</AppText>
       </View>
     </View>}

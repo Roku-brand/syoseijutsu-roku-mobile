@@ -63,6 +63,12 @@ try {
       console.log('All three guides seeded; only intended guide associations changed.');
     }
   }
+  if (process.argv[6]) {
+    const before = (await db.query('select * from public.feature_articles order by id')).rows;
+    await db.exec(await readFile(process.argv[6], 'utf8'));
+    assert.deepEqual((await db.query('select * from public.feature_articles order by id')).rows, before, 'Deletion migration must not delete or change existing articles');
+    console.log((await db.exec(await readFile('supabase/tests/feature-deletion.sql','utf8'))).at(-1).rows);
+  }
   console.log((await db.query('select count(*)::integer as initial_articles from public.feature_articles')).rows);
 } catch (cause) { console.error(cause.message, cause.detail ?? ''); process.exitCode = 1; }
 finally { await db.close(); }
