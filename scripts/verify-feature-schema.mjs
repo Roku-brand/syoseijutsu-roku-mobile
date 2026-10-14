@@ -47,6 +47,21 @@ try {
     console.log((await db.exec(await readFile('supabase/tests/feature-editorial.sql','utf8'))).at(-1).rows);
     console.log((await db.exec(await readFile('supabase/tests/feature-categories.sql','utf8'))).at(-1).rows);
     console.log((await db.exec(await readFile('supabase/tests/features.sql','utf8'))).at(-1).rows);
+    if (process.argv[5]) {
+      const beforeExpansion = (await db.query('select * from public.feature_articles order by display_order,id')).rows;
+      await db.exec(await readFile(process.argv[5], 'utf8'));
+      const afterExpansion = (await db.query('select * from public.feature_articles order by display_order,id')).rows;
+      for (const [index, row] of afterExpansion.entries()) {
+        const { editorial_character_id, ...unchanged } = row;
+        const { editorial_character_id: previousGuide, ...previous } = beforeExpansion[index];
+        assert.equal(previousGuide, 'sumino-haruka');
+        assert.deepEqual(unchanged, previous, 'Guide expansion must preserve all article content, media, categories, relations and versions');
+        assert.equal(editorial_character_id, ['five-guidelines', 'passion-and-cynicism'].includes(row.slug) ? 'sakaki-naoto' : row.slug === 'the-secret-behind-age' ? 'onose-tsumugi' : 'sumino-haruka');
+      }
+      assert.equal((await db.query('select count(*)::integer as count from public.editorial_characters')).rows[0].count, 3);
+      console.log((await db.exec(await readFile('supabase/tests/feature-editorial.sql','utf8'))).at(-1).rows);
+      console.log('All three guides seeded; only intended guide associations changed.');
+    }
   }
   console.log((await db.query('select count(*)::integer as initial_articles from public.feature_articles')).rows);
 } catch (cause) { console.error(cause.message, cause.detail ?? ''); process.exitCode = 1; }

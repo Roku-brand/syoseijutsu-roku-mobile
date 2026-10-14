@@ -122,7 +122,7 @@ function metaFor(rawRoute) {
   };
   if (fixed[route]) return { ...base, canonicalRoute: route === '/legal/about' ? '/about/shoseijutsu' : route, title: `${fixed[route][0]}｜${brand}`, description: fixed[route][1], indexable: route !== '/legal/about', type: route === '/about/shoseijutsu' ? 'article' : 'website', pageType: route === '/about/shoseijutsu' ? 'Article' : 'WebPage', crumbs: [crumb('ホーム', '/'), crumb(fixed[route][0].split('｜')[0], route)] };
   const guide = editorialCharacters.find(item => route === `/features/guides/${item.id}`);
-  if (guide) return { ...base, title: `${guide.name}｜編集案内人｜${brand}`, description: truncate(`${guide.bio} 架空の編集キャラクターです。記事は処世術禄編集部が制作しています。`), indexable: true, pageType: 'WebPage', crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, route)] };
+  if (guide) return { ...base, title: `${guide.name}｜編集案内人｜${brand}`, description: truncate(`${guide.bio} 処世術禄の編集案内人。記事は処世術禄編集部が制作しています。`), indexable: true, pageType: 'WebPage', crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, route)] };
   const feature = featureArticles.find(item => route === `/features/${item.slug}`);
   if (feature) return { ...base, title: `${feature.title}｜${brand}`, description: truncate(feature.lead || feature.title), indexable: true, type: 'article', pageType: 'Article', feature, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(feature.title, route)] };
   const personaMatch = route.match(/^\/subcategory\/(interpersonal|work|life)\/(.+)$/);

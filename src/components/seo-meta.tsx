@@ -7,7 +7,7 @@ import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
 import { useEditorialCharacters, type EditorialCharacter } from '@/data/editorial-characters';
-import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER, fictionalGuideNotice } from '@/data/editorial-policy';
+import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER } from '@/data/editorial-policy';
 
 const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
@@ -33,7 +33,7 @@ const categoryCopy: Record<string, [string, string]> = {
 };
 
 const fixed: Record<string, [string, string, boolean]> = {
-  '/features/editorial-policy': ['処世術禄の編集方針', '知識を蓄積し、つなぎ、繰り返し活用するための編集方針。制作主体と架空の編集案内人について紹介します。', true],
+  '/features/editorial-policy': ['処世術禄の編集方針', '知識を蓄積し、つなぎ、繰り返し活用するための編集方針。制作主体と編集案内人について紹介します。', true],
   '/features': ['特集', EDITORIAL_INTRODUCTION, true],
   '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', true],
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
@@ -63,7 +63,7 @@ function getMeta(rawPathname: string, featureArticles: FeatureArticle[] = [], ch
   const feature = featureArticles.find(article => pathname === `/features/${article.slug}`);
   if (feature) return { ...fallback, title: `${feature.title}｜${brand}`, description: feature.lead, indexable: true, type: 'article', pageType: 'Article', entity: { headline: feature.title, description: feature.lead }, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(feature.title, pathname)] };
   const guide = characters.find(character => pathname === `/features/guides/${character.id}`);
-  if (guide) return { ...fallback, title: `${guide.name}｜編集案内人｜${brand}`, description: `${guide.bio} ${fictionalGuideNotice(guide.name)}`, indexable: true, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, pathname)] };
+  if (guide) return { ...fallback, title: `${guide.name}｜編集案内人｜${brand}`, description: `${guide.bio} 処世術禄の編集案内人。記事は処世術禄編集部が制作しています。`, indexable: true, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, pathname)] };
   if (pathname === '/catalog') return {
     ...fallback,
     title: `処世術を探す｜${brand}`,

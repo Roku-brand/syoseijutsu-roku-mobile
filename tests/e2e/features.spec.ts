@@ -9,7 +9,7 @@ const initial = JSON.parse(fs.readFileSync('content/features/manifest.json', 'ut
 const initialGuide = { id: 'sumino-haruka', name: '澄野 遥', role: '処世術禄 編集案内人', bio: '人はなぜ、そう考え、そう行動するのか。身近な疑問を出発点に、心理学や社会科学の知見から、人間と人生の仕組みを探ります。', interests: ['人間関係', '心理学', '自己理解'], image_path: 'bundled:sumino-haruka', image_alt: '架空の案内人のイラスト', status: 'published', display_order: 10, updated_at: '2026-10-14T00:00:00Z' };
 async function mockFeatures(page: Page, owner = false) {
   let articles = structuredClone(initial);
-  let characters = [structuredClone(initialGuide)];
+  let characters = [structuredClone(initialGuide), { ...structuredClone(initialGuide), id: 'sakaki-naoto', name: '榊 直人', image_path: 'bundled:sakaki-naoto', display_order: 20 }, { ...structuredClone(initialGuide), id: 'onose-tsumugi', name: '小野瀬 紬', image_path: 'bundled:onose-tsumugi', display_order: 30 }];
   let drafts: any[] = [];
   if (owner) {
     const user = { id: '00000000-0000-4000-8000-000000000001', aud: 'authenticated', role: 'authenticated', email: 'owner@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
@@ -107,6 +107,16 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     if (width >= 700) expect(cardBounds[0]!.y).toBe(cardBounds[1]!.y);
     if (width >= 1280) expect(cardBounds[1]!.y).toBe(cardBounds[2]!.y);
     await expect(page.getByTestId('features-section-sidebar')).toHaveCount(width >= 1000 ? 1 : 0);
+    await expect(page.getByTestId('feature-category-tabs')).toHaveAttribute('aria-orientation', width >= 1000 ? 'vertical' : 'horizontal');
+    if (width >= 1000) {
+      const sidebar = page.getByTestId('features-section-sidebar');
+      await expect(sidebar.getByRole('link')).toHaveCount(0);
+      const tabBounds = await Promise.all((await sidebar.getByRole('tab').all()).map(tab => tab.boundingBox()));
+      expect(tabBounds[0]!.x).toBe(tabBounds[1]!.x);
+      expect(tabBounds[1]!.y).toBeGreaterThan(tabBounds[0]!.y);
+      const grid = await page.getByTestId('features-grid').boundingBox();
+      expect(grid!.y - (heroBounds!.y + heroBounds!.height)).toBeLessThan(145);
+    }
     const read = page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true });
     await expect(read).toBeVisible();
     if (width < 700) {
@@ -245,7 +255,7 @@ test('新規特集の主カテゴリを選び、公開後に該当タブで読�
 });
 
 
-test('編集部名義と架空の案内人からプロフィールに進み、記事と編集方針を読める', async ({ page }) => {
+test('編集部名義と案内人からプロフィールに進み、記事と編集方針を読める', async ({ page }) => {
   await mockFeatures(page);
   for (const width of [320, 390, 1280]) {
     await page.setViewportSize({ width, height: 950 });
@@ -254,7 +264,8 @@ test('編集部名義と架空の案内人からプロフィールに進み、�
     await page.getByRole('link', { name: '澄野 遥のプロフィール', exact: true }).click();
     await expect(page).toHaveURL(/features\/guides\/sumino-haruka$/);
     await expect(page.getByRole('heading', { name: '澄野 遥', exact: true })).toBeVisible();
-    await expect(page.getByTestId('editorial-profile')).toContainText('架空の編集キャラクターです。記事は処世術禄編集部が制作しています。');
+    await expect(page.getByTestId('editorial-profile')).not.toContainText('架空');
+    await expect(page.getByTestId('editorial-profile')).toContainText('制作：処世術禄編集部');
     await expect(page.getByTestId('feature-card')).toHaveCount(4);
     await expect(page).toHaveTitle('澄野 遥｜編集案内人｜処世術禄');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
@@ -336,7 +347,27 @@ test('案内人の追加・名前変更・無効化を管理でき、記事とUR
   await page.getByRole('radio', { name: '公開', exact: true }).click();
   await page.getByRole('button', { name: '案内人を保存', exact: true }).click();
   await expect(page.getByText('編集案内人を保存しました。')).toBeVisible();
-  expect(server.characters()).toHaveLength(2);
+  expect(server.characters()).toHaveLength(4);
   await page.setViewportSize({ width: 320, height: 950 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
+});
+
+test('3名のプロフィールと担当記事を表示し、記事上の説明を簡潔に保つ', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  server.articles()[0].editorial_character_id = 'sakaki-naoto';
+  server.articles()[3].editorial_character_id = 'sakaki-naoto';
+  await page.goto('/features/five-guidelines');
+  await expect(page.getByTestId('editorial-byline')).toContainText('案内人：榊 直人');
+  await expect(page.getByTestId('editorial-byline')).not.toContainText('架空');
+  await page.getByRole('link', { name: '榊 直人のプロフィール', exact: true }).click();
+  await expect(page.getByRole('heading', { name: '榊 直人', exact: true })).toBeVisible();
+  await expect(page.getByTestId('editorial-profile').getByTestId('feature-card')).toHaveCount(2);
+  await expect(page.getByTestId('editorial-profile')).not.toContainText('架空');
+  await page.goto('/features/guides/onose-tsumugi');
+  await expect(page.getByRole('heading', { name: '小野瀬 紬', exact: true })).toBeVisible();
+  await expect(page.getByText('この案内人が設定された特集は、まだありません。', { exact: true })).toBeVisible();
+  await page.goto('/features/editorial-policy');
+  for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('link', { name: name + 'のプロフィール', exact: true })).toBeVisible();
+  await page.goto('/owner/features');
+  for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('radio', { name, exact: true })).toBeVisible();
 });
