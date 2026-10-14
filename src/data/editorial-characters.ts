@@ -7,7 +7,7 @@ export type EditorialCharacter = {
   status: 'draft' | 'published' | 'archived'; display_order: number; updated_at: string;
 };
 export type EditorialCharacterPayload = Omit<EditorialCharacter, 'id' | 'updated_at'>;
-export const INITIAL_EDITORIAL_CHARACTER_IDS = ['sumino-haruka'];
+export const INITIAL_EDITORIAL_CHARACTER_IDS = ['sumino-haruka', 'sakaki-naoto', 'onose-tsumugi'];
 type Snapshot = { characters: EditorialCharacter[]; loading: boolean; error: string };
 const serverSnapshot: Snapshot = { characters: [], loading: true, error: '' };
 let snapshot = serverSnapshot;

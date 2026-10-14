@@ -96,4 +96,10 @@ export async function archiveFeature(article: FeatureArticle) {
   if (error) throw error;
   await refreshFeatures();
 }
+export async function deleteFeature(article: FeatureArticle, expectedRevision: number | null) {
+  if (!supabase) throw new Error('Supabaseが未設定です。');
+  const { error } = await supabase.rpc('delete_feature_article', { target_id: article.id, expected_updated_at: article.updated_at, expected_revision: expectedRevision });
+  if (error) throw error;
+  await refreshFeatures();
+}
 export function featureCharacterCount(body: string) { return Array.from(body.replace(/^#{1,6}\s+/gm, '').replace(/\*\*/g, '').replace(/\s/g, '')).length; }
