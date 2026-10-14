@@ -30,6 +30,24 @@ try {
   }
   const results = await db.exec(await readFile('supabase/tests/features.sql','utf8'));
   console.log(results.at(-1).rows);
+  if (process.argv[4]) {
+    await db.exec(`insert into public.techniques values ('master336-004','published'),('master336-269','published'),('master336-275','published'); insert into public.theories values ('kb_280','published'),('kb_553','published'),('kb_574','published'),('kb_480','published'),('kb_417','published'),('kb_266','published'),('kb_735','published'); insert into public.feature_articles(id,slug,title,body,category_id,status) values('the-secret-behind-age','the-secret-behind-age','後から追加された記事','CMSで書いた本文を保護','society-era','published');`);
+    const before = (await db.query('select * from public.feature_articles order by display_order,id')).rows;
+    await db.exec(await readFile(process.argv[4], 'utf8'));
+    const after = (await db.query('select * from public.feature_articles order by display_order,id')).rows;
+    for (const [index, row] of after.entries()) {
+      const { editorial_character_id, related_feature_ids, source_references, related_technique_ids, related_theory_ids, ...unchanged } = row;
+      const { related_technique_ids: previousTechniques, related_theory_ids: previousTheories, ...previous } = before[index];
+      assert.deepEqual(unchanged, previous, 'Editorial migration must preserve every existing content and version field');
+      assert.equal(editorial_character_id, 'sumino-haruka');
+      assert.deepEqual(related_feature_ids, []); assert.deepEqual(source_references, []);
+      if (previousTechniques.length) assert.deepEqual(related_technique_ids, previousTechniques);
+      if (previousTheories.length) assert.deepEqual(related_theory_ids, previousTheories);
+    }
+    console.log((await db.exec(await readFile('supabase/tests/feature-editorial.sql','utf8'))).at(-1).rows);
+    console.log((await db.exec(await readFile('supabase/tests/feature-categories.sql','utf8'))).at(-1).rows);
+    console.log((await db.exec(await readFile('supabase/tests/features.sql','utf8'))).at(-1).rows);
+  }
   console.log((await db.query('select count(*)::integer as initial_articles from public.feature_articles')).rows);
 } catch (cause) { console.error(cause.message, cause.detail ?? ''); process.exitCode = 1; }
 finally { await db.close(); }

@@ -4,12 +4,15 @@ import { Image } from 'expo-image';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText, EmptyState } from '@/components/ui';
-import { featureImage, FeatureBookmark } from '@/components/feature-article';
+import { featureImage } from '@/components/feature-article';
 import { colors, fonts } from '@/constants/theme';
 import { useFeatures, refreshFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { featureRoute } from '@/navigation/app-routes';
 import { FEATURE_CATEGORIES, type FeatureCategoryFilter } from '@/data/feature-categories';
+
+import { FeatureCard } from '@/components/feature-card';
+import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER } from '@/data/editorial-policy';
 
 const ARTICLE_SECTION = 'ふかぼり処世術記事';
 
@@ -48,18 +51,13 @@ export default function FeaturesScreen() {
         </View> : null}
         <View style={styles.articleSection}>
           <AppText style={[styles.sectionTitle, compact && styles.sectionTitleCompact]} accessibilityRole="header" aria-level={2}>{ARTICLE_SECTION}</AppText>
+          <View style={styles.introduction}><AppText style={styles.introductionText}>{EDITORIAL_INTRODUCTION}</AppText><Pressable accessibilityRole="link" accessibilityLabel="処世術禄の編集方針" onPress={() => router.push('/features/editorial-policy')} style={styles.policyLink}><AppText style={styles.policyText}>{EDITORIAL_PRODUCER} · 編集方針 →</AppText></Pressable></View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="記事の主題" style={styles.tabs} contentContainerStyle={styles.tabContent}>
             {[{ id: 'all' as const, label: 'すべて' }, ...FEATURE_CATEGORIES].map(item => <Pressable key={item.id} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: category === item.id }} aria-selected={category === item.id} onPress={() => setCategory(item.id)} style={[styles.tab, category === item.id && styles.tabSelected]}>
               <AppText style={[styles.tabText, category === item.id && styles.tabTextSelected]}>{item.label}</AppText>
             </Pressable>)}
           </ScrollView>
-          <View style={[styles.grid, compact && styles.gridCompact]} testID="features-grid">{filtered.map(article => <View key={article.id} style={[styles.card, compact && styles.cardCompact, { width: `${100 / columns - (columns > 1 ? 1.8 : 0)}%` }]} testID="feature-card">
-            <Pressable accessibilityRole="link" accessibilityLabel={`${article.title}を読む`} onPress={() => router.push(featureRoute(article.slug))}>
-              <Image source={featureImage(article.image_path)} accessibilityLabel={article.image_alt || article.title} contentFit="cover" style={styles.cover} />
-              <View style={styles.cardCopy}><AppText style={styles.cardTitle}>{article.title}</AppText>{article.lead ? <AppText style={styles.cardLead} numberOfLines={2}>{article.lead}</AppText> : null}</View>
-            </Pressable>
-            <View style={styles.cardFooter}><FeatureBookmark article={article} /></View>
-          </View>)}</View>
+          <View style={[styles.grid, compact && styles.gridCompact]} testID="features-grid">{filtered.map(article => <FeatureCard key={article.id} article={article} compact={compact} style={{ width: `${100 / columns - (columns > 1 ? 1.8 : 0)}%` }} />)}</View>
           {!filtered.length ? <View style={styles.emptyCategory} accessibilityLiveRegion="polite"><AppText style={styles.emptyText}>このテーマの記事は、まだありません。</AppText></View> : null}
         </View>
       </View> : null}
@@ -67,6 +65,7 @@ export default function FeaturesScreen() {
   </BookScreen>;
 }
 const styles = StyleSheet.create({
+  introduction: { gap: 6, marginBottom: 18 }, introductionText: { fontFamily: fonts.serif, fontSize: 14, lineHeight: 26, color: colors.inkSoft }, policyLink: { minHeight: 36, justifyContent: 'center', alignSelf: 'flex-start' }, policyText: { fontSize: 12, lineHeight: 22, color: colors.muted },
   page: { paddingHorizontal: 0, paddingTop: 0, width: '100%', maxWidth: 1520, alignSelf: 'center', paddingBottom: 40 },
   hero: { backgroundColor: '#26271F', flexDirection: 'row', alignItems: 'stretch', minHeight: 300 },
   heroCompact: { flexDirection: 'column', padding: 18, gap: 18 },

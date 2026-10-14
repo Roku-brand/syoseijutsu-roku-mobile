@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Screen } from '@/components/ui';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { colors, fonts } from '@/constants/theme';
+import { KNOWLEDGE_PHILOSOPHY, LASTING_KNOWLEDGE_VALUE } from '@/data/editorial-policy';
 
 const chapters = [
   {
@@ -132,6 +133,15 @@ export default function ShoseijutsuAboutScreen() {
             ))}
           </View>
           <Paragraph emphasis>網羅する。体系にする。理論につなぐ。実践に落とす。何度でも使える。</Paragraph>
+        </View>
+
+        <View style={styles.chapter}>
+          <Heading>蓄積型・不朽型の知識メディア</Heading>
+          <Paragraph>{KNOWLEDGE_PHILOSOPHY}</Paragraph>
+          <Paragraph>{LASTING_KNOWLEDGE_VALUE}</Paragraph>
+          <Paragraph>処世術は「どう行動すべきか」、理論は「なぜそうなるのか」を整理します。特集は、その知識を横断し、一つの問いを掘り下げる独立した読み物です。</Paragraph>
+          <Paragraph>不朽型とは、内容を固定して改訂しないという意味ではありません。誤りや重要な知見の変化があれば見直しながら、必要なときに戻ってこられる知識資産として育てます。</Paragraph>
+          <Link href="/features/editorial-policy"><AppText style={styles.settingsLinkText}>編集部と編集方針について ›</AppText></Link>
         </View>
 
         <View style={styles.chapter}>

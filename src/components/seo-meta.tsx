@@ -6,6 +6,9 @@ import { guidedTopicBySlug } from '@/data/guided-topics';
 import { getTheorySeoCopy, isLockedTheoryShell } from '@/data/theory-display';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
+import { useEditorialCharacters, type EditorialCharacter } from '@/data/editorial-characters';
+import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER, fictionalGuideNotice } from '@/data/editorial-policy';
+
 const siteUrl = 'https://app.shoseijutsuroku.com';
 const brand = '処世術禄';
 const homeTitle = '処世術禄｜処世術を人生・仕事・人間関係に使える体系へ';
@@ -30,7 +33,8 @@ const categoryCopy: Record<string, [string, string]> = {
 };
 
 const fixed: Record<string, [string, string, boolean]> = {
-  '/features': ['特集', 'テーマを深く掘り下げ、折々の問いを考える処世術禄の読み物。特集記事を無料で読めます。', true],
+  '/features/editorial-policy': ['処世術禄の編集方針', '知識を蓄積し、つなぎ、繰り返し活用するための編集方針。制作主体と架空の編集案内人について紹介します。', true],
+  '/features': ['特集', EDITORIAL_INTRODUCTION, true],
   '/discover': ['処世術を探す', '悩み、人物像、対人術・仕事術・人生術の体系から、今の自分に必要な処世術を探せます。', true],
   '/personas': ['人物像から処世術を探す', '対人術・仕事術・人生術の人物像から、目指したい姿に結びつく処世術を体系的に探せます。', true],
   '/theories': ['心理学・行動科学などの理論一覧', '心理学、行動科学、組織・経営、戦略、古典・思想、経験則を、実践できる処世術とのつながりから探せます。', true],
@@ -52,12 +56,14 @@ const encodePath = (value: string) => {
 const canonical = (path: string) => `${siteUrl}${path === '/' ? '/' : encodePath(path)}`;
 const crumb = (name: string, path: string) => ({ name, path });
 
-function getMeta(rawPathname: string, featureArticles: FeatureArticle[] = []): PageMeta {
+function getMeta(rawPathname: string, featureArticles: FeatureArticle[] = [], characters: EditorialCharacter[] = []): PageMeta {
   const pathname = decode(rawPathname.replace(/\/$/, '') || '/');
   const fallback: PageMeta = { title: `${brand}｜人生・仕事・人間関係の処世術`, description: homeDescription, indexable: false, type: 'website', canonicalPath: pathname, crumbs: [crumb('ホーム', '/')] };
   if (pathname === '/') return { ...fallback, title: homeTitle, indexable: true };
   const feature = featureArticles.find(article => pathname === `/features/${article.slug}`);
   if (feature) return { ...fallback, title: `${feature.title}｜${brand}`, description: feature.lead, indexable: true, type: 'article', pageType: 'Article', entity: { headline: feature.title, description: feature.lead }, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(feature.title, pathname)] };
+  const guide = characters.find(character => pathname === `/features/guides/${character.id}`);
+  if (guide) return { ...fallback, title: `${guide.name}｜編集案内人｜${brand}`, description: `${guide.bio} ${fictionalGuideNotice(guide.name)}`, indexable: true, crumbs: [crumb('ホーム', '/'), crumb('特集', '/features'), crumb(guide.name, pathname)] };
   if (pathname === '/catalog') return {
     ...fallback,
     title: `処世術を探す｜${brand}`,
@@ -140,7 +146,7 @@ function setJsonLd(meta: PageMeta) {
     { '@type': 'BreadcrumbList', '@id': `${url}#breadcrumb`, itemListElement: meta.crumbs.map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: canonical(item.path) })) },
   ];
   if (meta.entity && meta.pageType === 'CreativeWork') graph.push({ '@type': 'CreativeWork', '@id': `${url}#creativework`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.entity.about, isPartOf: { '@id': `${siteUrl}/#website` } });
-  if (meta.entity && meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.canonicalPath === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.entity.about, dateModified: meta.canonicalPath === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, publisher: { '@id': `${siteUrl}/#organization` } });
+  if (meta.entity && meta.pageType === 'Article') graph.push({ '@type': 'Article', '@id': `${url}#article`, headline: meta.entity.headline, description: meta.entity.description, inLanguage: 'ja', about: meta.canonicalPath === '/about/shoseijutsu' ? { '@id': `${url}#term` } : meta.entity.about, dateModified: meta.canonicalPath === '/about/shoseijutsu' ? '2026-09-22' : undefined, mainEntityOfPage: { '@id': `${url}#webpage` }, author: meta.canonicalPath.startsWith('/features/') ? { '@type': 'Organization', name: EDITORIAL_PRODUCER } : undefined, publisher: { '@id': `${siteUrl}/#organization` } });
   if (meta.canonicalPath === '/about/shoseijutsu') graph.push({ '@type': 'DefinedTerm', '@id': `${url}#term`, url, name: '処世術', alternateName: ['世渡り術', '処世の知恵'], description: '社会の中で人や状況とうまく関わりながら、自分の目的や生活を成り立たせていくための知恵や方法。' });
   if (meta.canonicalPath === '/app') graph.push({ '@type': 'SoftwareApplication', '@id': `${url}#software`, name: '処世術禄', applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS', url, installUrl: 'https://apps.apple.com/app/id6810376658', inLanguage: 'ja', description: meta.description, publisher: { '@id': `${siteUrl}/#organization` } });
   let element = document.head.querySelector<HTMLScriptElement>('script[data-seo-jsonld]');
@@ -156,7 +162,8 @@ function setJsonLd(meta: PageMeta) {
 export function SeoMeta() {
   const pathname = usePathname();
   const { articles } = useFeatures(pathname === '/features' || pathname.startsWith('/features/'));
-  const meta = useMemo(() => getMeta(pathname || '/', articles), [pathname, articles]);
+  const { characters } = useEditorialCharacters(pathname.startsWith('/features/guides/'));
+  const meta = useMemo(() => getMeta(pathname || '/', articles, characters), [pathname, articles, characters]);
 
   useEffect(() => {
     if (Platform.OS !== 'web') return;
