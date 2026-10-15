@@ -1,3 +1,5 @@
+import { FolderBack, FolderFronts, MoreCards } from './folder-fronts';
+import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
@@ -5,46 +7,50 @@ import { useAccess } from '@/access/access-state';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
-import { libraryItemKey, type LibraryItemKind } from '@/state/library-folders';
+import { libraryItemKey } from '@/state/library-folders';
 import { AppText } from './ui';
 import { useFeatures } from '@/data/features';
 import { featureRoute } from '@/navigation/app-routes';
 
-type SavedItem = { kind: LibraryItemKind; id: string; title: string; description: string };
+type SavedItem = PersonalContentRow;
 
 export function LibraryContent() {
   'use no memo';
   const router = useRouter();
   useAccess();
   const { savedIds, savedTheoryIds, savedFeatureIds, libraryFolders, libraryFolderByItem, createLibraryFolder, renameLibraryFolder, deleteLibraryFolder, moveLibraryItem } = useAppState();
-  const { articles: featureArticles } = useFeatures();
-  const [folder, setFolder] = useState('all');
+  const { articles: featureArticles } = useFeatures(savedFeatureIds.length > 0);
+  const [folder, setFolder] = useState<string | null>(null);
+  const [limit, setLimit] = useState(20);
+  const openFolder = (id: string | null) => { setFolder(id); setLimit(20); };
   const [editor, setEditor] = useState<{ id?: string } | null>(null);
   const [name, setName] = useState('');
   const [moving, setMoving] = useState<SavedItem | null>(null);
   const [deleting, setDeleting] = useState(false);
   // Catalogue maps are hydrated in place: derive rows again after every revision.
   const items: SavedItem[] = [
-    ...savedFeatureIds.map(id => { const article = featureArticles.find(item => item.id === id); return { kind: 'feature' as const, id, title: article?.title ?? '保存した特集', description: article?.lead ?? '' }; }),
+    ...savedFeatureIds.map(id => { const article = featureArticles.find(item => item.id === id); return { kind: 'feature' as const, id, label: '特集', category: 'feature', article, title: article?.title ?? '保存した特集', description: article?.lead ?? '' }; }),
     ...savedIds.map(id => {
       const card = techniqueById.get(id);
-      return { kind: 'technique' as const, id, title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '保存したコンテンツ' };
+      return { kind: 'technique' as const, id, label: card?.categoryName ?? '処世術', category: card?.categoryKey ?? 'interpersonal', title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '保存したコンテンツ' };
     }),
     ...savedTheoryIds.map(id => {
       const theory = theoryById.get(id);
-      return { kind: 'theory' as const, id, title: theory?.title ?? '保存済みの理論', description: [theory?.categoryTitle, theory?.subcategoryTitle].filter(Boolean).join(' > ') };
+      return { kind: 'theory' as const, id, label: theory?.categoryTitle ?? '理論', category: theory?.categoryId ?? 'psychology', title: theory?.title ?? '保存済みの理論', description: [theory?.categoryTitle, theory?.subcategoryTitle].filter(Boolean).join(' > ') };
     }),
   ];
   const currentFolder = libraryFolders.find(value => value.id === folder);
   const assignedFolder = (item: SavedItem) => libraryFolderByItem[libraryItemKey(item.kind, item.id)];
   const visible = items.filter(item => folder === 'all' || (folder === 'unfiled' ? !assignedFolder(item) : assignedFolder(item) === folder));
-  const count = (id: string) => items.filter(item => id === 'all' || (id === 'unfiled' ? !assignedFolder(item) : assignedFolder(item) === id)).length;
-  useEffect(() => { if (folder !== 'all' && folder !== 'unfiled' && !currentFolder) setFolder('unfiled'); }, [folder, currentFolder]);
+  const counts = new Map<string, number>([['all', items.length]]);
+  items.forEach(item => { const id = assignedFolder(item) ?? 'unfiled'; counts.set(id, (counts.get(id) ?? 0) + 1); });
+  const folders = [{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...libraryFolders].map(value => ({ ...value, count: counts.get(value.id) ?? 0 }));
+  useEffect(() => { if (folder !== null && folder !== 'all' && folder !== 'unfiled' && !currentFolder) setFolder('unfiled'); }, [folder, currentFolder]);
   const closeEditor = () => { setEditor(null); setDeleting(false); };
   const saveFolder = () => {
     if (!name.trim()) return;
     if (editor?.id) renameLibraryFolder(editor.id, name);
-    else { const id = createLibraryFolder(name); if (id) setFolder(id); }
+    else { const id = createLibraryFolder(name); if (id) openFolder(id); }
     closeEditor();
   };
   return <View testID="library-organizer" style={styles.content}>
@@ -52,26 +58,23 @@ export function LibraryContent() {
       <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={styles.title}>蔵書</AppText><AppText style={styles.lead}>保存した処世術・理論・特集 {items.length}件</AppText></View>
       <Action label="フォルダーを追加" onPress={() => { setName(''); setEditor({}); }} text="＋ フォルダー" />
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filters}>
-      {[{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...libraryFolders].map(value => <Pressable key={value.id} accessibilityRole="button" accessibilityLabel={`蔵書：${value.name}`} accessibilityState={{ selected: folder === value.id }} onPress={() => setFolder(value.id)} style={[styles.chip, folder === value.id && styles.chipActive]}><AppText style={[styles.chipText, folder === value.id && styles.chipTextActive]}>{value.name} {count(value.id)}</AppText></Pressable>)}
-    </ScrollView>
-    {currentFolder ? <View style={styles.folderHeading}><AppText style={styles.folderName}>{currentFolder.name}</AppText><Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /></View> : null}
-    {visible.length ? visible.map(item => <View key={libraryItemKey(item.kind, item.id)} style={styles.row}>
-      <Pressable accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => router.push(item.kind === 'feature' ? featureRoute(featureArticles.find(article => article.id === item.id)?.slug ?? item.id) : item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })} style={styles.rowCopy}>
-        <AppText style={styles.meta}>{item.kind === 'feature' ? '特集' : item.kind === 'theory' ? '理論' : '処世術'} · {libraryFolders.find(value => value.id === assignedFolder(item))?.name ?? '未整理'}</AppText>
-        <AppText numberOfLines={2} style={styles.rowTitle}>{item.title}</AppText>
-        {item.description ? <AppText numberOfLines={2} style={styles.description}>{item.description}</AppText> : null}
-      </Pressable>
-      <Action label={`${item.title}の保存先を変更`} text="整理" onPress={() => setMoving(item)} />
-    </View>) : <View style={styles.empty}><AppText style={styles.emptyTitle}>{items.length ? 'このフォルダーは空です' : '蔵書はまだ空です'}</AppText><AppText style={styles.lead}>{items.length ? '「すべて」で知識を選び、「整理」から保存先を変更できます。' : '処世術や理論の「保存」から、知恵を集められます。'}</AppText></View>}
+    {folder === null ? <FolderFronts folders={folders} label="蔵書" onOpen={openFolder} /> : <>
+      <FolderBack onPress={() => openFolder(null)} />
+      <View style={styles.folderHeading}><AppText style={styles.folderName}>{folders.find(value => value.id === folder)?.name} · {visible.length}件</AppText>{currentFolder ? <Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /> : null}</View>
+      {visible.length ? visible.slice(0, limit).map(item => <PersonalContentCard key={libraryItemKey(item.kind, item.id)} row={item}
+        onPress={() => router.push(item.kind === 'feature' ? featureRoute(item.article?.slug ?? item.id) : item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })}
+        action={<Action label={item.title + 'の保存先を変更'} text="整理" onPress={() => setMoving(item)} />} />)
+        : <View style={styles.empty}><AppText style={styles.emptyTitle}>このフォルダーは空です</AppText><AppText style={styles.lead}>保存した知恵の「整理」から、ここへ移動できます。</AppText></View>}
+      <MoreCards remaining={visible.length - limit} onPress={() => setLimit(value => value + 20)} />
+    </>}
     <Modal transparent visible={editor !== null} animationType="none" onRequestClose={closeEditor}>
-      <View style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel="蔵書フォルダーの編集" style={styles.dialog}>
+      <View style={styles.backdrop}><View role="dialog" aria-modal tabIndex={-1} accessibilityLabel="蔵書フォルダーの編集" style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>{editor?.id ? 'フォルダーを編集' : 'フォルダーを追加'}</AppText>
         {deleting ? <>
-          <AppText style={styles.lead}>フォルダーを削除します。保存した処世術・理論は「未整理」に戻ります。</AppText>
+          <AppText style={styles.lead}>フォルダーを削除します。保存した処世術・理論・特集は「未整理」に戻ります。</AppText>
           <View style={styles.actions}><Action label="フォルダー削除を取り消す" text="取り消す" onPress={() => setDeleting(false)} /><Action label="フォルダーだけ削除" text="フォルダーだけ削除" onPress={() => { if (editor?.id) deleteLibraryFolder(editor.id); setFolder('unfiled'); closeEditor(); }} /></View>
         </> : <>
-          <TextInput autoFocus maxLength={32} value={name} onChangeText={setName} onSubmitEditing={saveFolder} accessibilityLabel="蔵書フォルダー名" placeholder="例：仕事で使う知恵" placeholderTextColor={colors.muted} style={styles.input} />
+          <TextInput maxLength={32} value={name} onChangeText={setName} onSubmitEditing={saveFolder} accessibilityLabel="蔵書フォルダー名" placeholder="例：仕事で使う知恵" placeholderTextColor={colors.muted} style={styles.input} />
           <View style={styles.actions}><Action label="フォルダー編集を閉じる" text="閉じる" onPress={closeEditor} /><Pressable accessibilityRole="button" accessibilityLabel="蔵書フォルダーを保存" disabled={!name.trim()} onPress={saveFolder} style={[styles.primary, !name.trim() && styles.disabled]}><AppText style={styles.primaryText}>保存する</AppText></Pressable></View>
           {editor?.id ? <Action label="蔵書フォルダーを削除" text="フォルダーを削除" onPress={() => setDeleting(true)} /> : null}
         </>}

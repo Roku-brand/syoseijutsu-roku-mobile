@@ -125,6 +125,7 @@ test('特集の保存と共有は処世術と同じヘッダーで操作でき�
   await page.reload();
   await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
   await page.goto('/library');
+  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
   await expect(page.getByText(features[0].title, { exact: true })).toBeVisible();
   await page.goto(`/features/${features[0].slug}`);
   await header.getByRole('button', { name: '蔵書から外す', exact: true }).click();

@@ -1,3 +1,4 @@
+import { FolderBack, FolderFronts, MoreCards } from '@/components/folder-fronts';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
@@ -6,7 +7,7 @@ import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { useAppState, type PersonalMemo } from '@/state/app-state';
 
-type FolderFilter = 'all' | 'unfiled' | string;
+type FolderFilter = string | null;
 
 export default function MyTechniquesScreen() {
   const router = useRouter();
@@ -21,7 +22,9 @@ export default function MyTechniquesScreen() {
     deletePersonalMemoFolder,
     movePersonalMemo,
   } = useAppState();
-  const [filter, setFilter] = useState<FolderFilter>('all');
+  const [filter, setFilter] = useState<FolderFilter>(null);
+  const [limit, setLimit] = useState(20);
+  const openFolder = (id: string | null) => { setFilter(id); setLimit(20); };
   const [composerOpen, setComposerOpen] = useState(false);
   const [folderComposerOpen, setFolderComposerOpen] = useState(false);
   const [movingMemoId, setMovingMemoId] = useState<string | null>(null);
@@ -40,9 +43,13 @@ export default function MyTechniquesScreen() {
   }, [compose, router]);
 
   const visibleMemos = personalMemos.filter((memo) => filter === 'all' || (filter === 'unfiled' ? !memo.folderId : memo.folderId === filter));
+  const folderCounts = new Map<string, number>([['all', personalMemos.length]]);
+  personalMemos.forEach(memo => { const id = memo.folderId ?? 'unfiled'; folderCounts.set(id, (folderCounts.get(id) ?? 0) + 1); });
+  const folders = [{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...personalMemoFolders].map(folder => ({ ...folder, count: folderCounts.get(folder.id) ?? 0 }));
   const addMemo = () => {
     if (!draft.trim()) return;
     addPersonalMemo(draft, draftFolderId);
+    openFolder(draftFolderId ?? 'unfiled');
     setDraft('');
     setDraftFolderId(null);
     setComposerOpen(false);
@@ -52,26 +59,24 @@ export default function MyTechniquesScreen() {
     if (!id) return;
     setFolderDraft('');
     setFolderComposerOpen(false);
-    setFilter(id);
+    openFolder(id);
   };
   const folderName = (folderId: string | null) => personalMemoFolders.find((folder) => folder.id === folderId)?.name ?? '未整理';
 
   return <BookScreen contentContainerStyle={styles.content}>
     <View style={styles.listHeader}>
       <View><AppText variant="label" style={styles.eyebrow}>MY TECHNIQUES</AppText><AppText variant="serif" style={styles.listTitle}>マイ処世術一覧</AppText></View>
-      <Pressable accessibilityRole="button" accessibilityLabel="マイ処世術を新規作成" onPress={() => setComposerOpen(true)} style={({ pressed }) => [styles.createButton, pressed && styles.pressed]}><AppText style={styles.createButtonText}>＋</AppText><AppText style={styles.createButtonLabel}>新規作成</AppText></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel="マイ処世術を新規作成" onPress={() => { setDraftFolderId(filter && filter !== 'all' && filter !== 'unfiled' ? filter : null); setComposerOpen(true); }} style={({ pressed }) => [styles.createButton, pressed && styles.pressed]}><AppText style={styles.createButtonText}>＋</AppText><AppText style={styles.createButtonLabel}>新規作成</AppText></Pressable>
     </View>
 
     <View style={styles.folderBar}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.folderScroll}>
-        <FolderTab label="すべて" selected={filter === 'all'} onPress={() => setFilter('all')} />
-        <FolderTab label="未整理" selected={filter === 'unfiled'} onPress={() => setFilter('unfiled')} />
-        {personalMemoFolders.map((folder) => <FolderTab key={folder.id} label={folder.name} selected={filter === folder.id} onPress={() => setFilter(folder.id)} onDelete={() => { deletePersonalMemoFolder(folder.id); if (filter === folder.id) setFilter('unfiled'); }} />)}
-        <Pressable accessibilityRole="button" accessibilityLabel="フォルダーを追加" onPress={() => setFolderComposerOpen(true)} style={({ pressed }) => [styles.folderAdd, pressed && styles.pressed]}><AppText style={styles.folderAddText}>＋ フォルダー</AppText></Pressable>
-      </ScrollView>
+      <Pressable accessibilityRole="button" accessibilityLabel="フォルダーを追加" onPress={() => setFolderComposerOpen(true)} style={({ pressed }) => [styles.folderAdd, pressed && styles.pressed]}><AppText style={styles.folderAddText}>＋ フォルダー</AppText></Pressable>
+      {filter === null ? <FolderFronts folders={folders} label="マイ処世術" onOpen={openFolder} /> : <>
+        <FolderBack onPress={() => openFolder(null)} />
+        <View style={styles.listHeader}><AppText variant="serif" style={styles.folderHeading}>{folders.find(folder => folder.id === filter)?.name} · {visibleMemos.length}件</AppText>{filter !== 'all' && filter !== 'unfiled' ? <Pressable accessibilityRole="button" accessibilityLabel={folderName(filter) + 'フォルダーを削除'} onPress={() => { deletePersonalMemoFolder(filter); openFolder('unfiled'); }} style={styles.folderAdd}><AppText style={styles.deleteText}>削除</AppText></Pressable> : null}</View>
+      </>}
     </View>
-
-    {visibleMemos.length ? <View style={styles.memoList}>{visibleMemos.map((memo, index) => <MemoCard key={memo.id} memo={memo} index={index} folderName={folderName(memo.folderId)} folders={personalMemoFolders.map((folder) => ({ id: folder.id, name: folder.name }))} moving={movingMemoId === memo.id} onMove={() => setMovingMemoId(movingMemoId === memo.id ? null : memo.id)} onChooseFolder={(folderId) => { movePersonalMemo(memo.id, folderId); setMovingMemoId(null); }} onDelete={() => removePersonalMemo(memo.id)} />)}</View> : <View style={styles.emptyCard}><AppText variant="serif" style={styles.emptyTitle}>このフォルダーはまだ空です。</AppText><AppText style={styles.emptyLead}>右上の「＋ 新規作成」から、自分の処世術を残せます。</AppText></View>}
+    {filter !== null ? <>{visibleMemos.length ? <View style={styles.memoList}>{visibleMemos.slice(0, limit).map((memo, index) => <MemoCard key={memo.id} memo={memo} index={index} folderName={folderName(memo.folderId)} folders={personalMemoFolders.map(folder => ({ id: folder.id, name: folder.name }))} moving={movingMemoId === memo.id} onMove={() => setMovingMemoId(movingMemoId === memo.id ? null : memo.id)} onChooseFolder={folderId => { movePersonalMemo(memo.id, folderId); setMovingMemoId(null); }} onDelete={() => removePersonalMemo(memo.id)} />)}</View> : <View style={styles.emptyCard}><AppText variant="serif" style={styles.emptyTitle}>このフォルダーはまだ空です。</AppText><AppText style={styles.emptyLead}>右上の「＋ 新規作成」から、自分の処世術を残せます。</AppText></View>}<MoreCards remaining={visibleMemos.length - limit} onPress={() => setLimit(value => value + 20)} /></> : null}
 
     <Modal transparent visible={composerOpen} animationType="fade" onRequestClose={() => setComposerOpen(false)}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalKeyboard}>
@@ -99,10 +104,6 @@ export default function MyTechniquesScreen() {
   </BookScreen>;
 }
 
-function FolderTab({ label, selected, onPress, onDelete }: { label: string; selected: boolean; onPress: () => void; onDelete?: () => void }) {
-  return <View style={[styles.folderTab, selected && styles.folderTabSelected]}><Pressable accessibilityRole="tab" accessibilityLabel={`${label}フォルダー`} accessibilityState={{ selected }} onPress={onPress} style={styles.folderTabPress}><AppText style={[styles.folderTabText, selected && styles.folderTabTextSelected]}>{label}</AppText></Pressable>{onDelete ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}フォルダーを削除`} onPress={onDelete} hitSlop={8} style={styles.folderDelete}><AppText style={styles.folderDeleteText}>×</AppText></Pressable> : null}</View>;
-}
-
 function Picker({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="radio" accessibilityState={{ checked: selected }} onPress={onPress} style={[styles.picker, selected && styles.pickerSelected]}><AppText style={[styles.pickerText, selected && styles.pickerTextSelected]}>{label}</AppText></Pressable>;
 }
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
   createButton: { minHeight: 42, paddingHorizontal: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: radius.pill, backgroundColor: colors.charcoal },
   createButtonText: { color: colors.goldLight, fontSize: 22, lineHeight: 24, fontWeight: '300' },
   createButtonLabel: { color: '#FFF8EA', fontSize: 12, lineHeight: 18, fontWeight: '700' },
+  folderHeading: { fontSize: 20, lineHeight: 30, color: '#8F452B' },
   folderBar: { width: '100%', maxWidth: 840, alignSelf: 'center', marginTop: spacing.xl, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   folderScroll: { gap: 7, paddingRight: spacing.md },
   folderTab: { minHeight: 36, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#D5C7B3', borderRadius: radius.sm, backgroundColor: '#FCFAF6' },

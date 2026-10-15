@@ -31,6 +31,7 @@ type Snapshot = { articles: FeatureArticle[]; loading: boolean; error: string };
 const serverSnapshot: Snapshot = { articles: [], loading: true, error: '' };
 let snapshot = serverSnapshot;
 let inflight: Promise<void> | null = null;
+let lastLoadedAt = 0;
 const listeners = new Set<() => void>();
 const notify = () => listeners.forEach(listener => listener());
 export async function refreshFeatures() {
@@ -40,6 +41,7 @@ export async function refreshFeatures() {
       if (!supabase) throw new Error('記事を読み込めませんでした。通信環境をご確認ください。');
       const { data, error } = await supabase.from('feature_articles').select('*').eq('status', 'published').order('display_order').order('id');
       if (error) throw error;
+      lastLoadedAt = Date.now();
       snapshot = { articles: ((data ?? []) as FeatureArticle[]).map(normalizeFeature), loading: false, error: '' };
     } catch {
       snapshot = { ...snapshot, loading: false, error: '記事を読み込めませんでした。もう一度お試しください。' };
@@ -49,7 +51,7 @@ export async function refreshFeatures() {
 }
 export function useFeatures(enabled = true) {
   const result = useSyncExternalStore(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, () => snapshot, () => serverSnapshot);
-  useEffect(() => { if (enabled) void refreshFeatures(); }, [enabled]);
+  useEffect(() => { if (enabled && (snapshot.loading || Date.now() - lastLoadedAt >= 60_000)) void refreshFeatures(); }, [enabled]);
   return result;
 }
 export async function fetchFeatureEditor() {

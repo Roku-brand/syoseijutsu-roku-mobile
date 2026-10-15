@@ -114,8 +114,10 @@ test('マイページは保存した実際の履歴・蔵書・完全版残期�
   await expect(page.getByTestId('account-membership-card')).toContainText('残り');
   await expect(page.getByTestId('personal-principle-card')).toContainText('静かに考え、一歩を選ぶ。');
   await expect(page.getByRole('button', { name: `${technique.title}を開く` })).toBeVisible();
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByRole('button', { name: `${theory.title}を開く` })).toBeVisible();
   await page.getByRole('tab', { name: '蔵書' }).click();
+  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
   await expect(page.getByRole('button', { name: `${technique.title}を開く` })).toBeVisible();
   await page.getByRole('button', { name: `${theory.title}を開く` }).click();
   await expect(page).toHaveURL(new RegExp(`/theory/${theory.tagId}`));
