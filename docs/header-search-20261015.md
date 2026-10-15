@@ -24,3 +24,9 @@
 ![特集のヘッダー操作](ui/header-search-20261015/feature-header.png)
 
 iOS実機でのソフトウェアキーボード・ネイティブ共有シートは未確認。実装はReact Native共通コンポーネントで、ネイティブの戻る操作とiOSのキーボード回避に対応する。
+
+## 保存・公開状況
+
+ローカルの `codex/header-search-popover-20261015` へコミット済み。最新 `origin/main` も統合済み。
+
+`origin` の既存リポジトリ `Roku-brand/syoseijutsu-roku-mobile` へのブランチ送信は、自動承認レビューで拒否された。理由は、ソースコードと画像のGitHubへの外部転送先・公開に明示的な承認がないこと。別経路で送信していない。GitHubへの送信、PR作成、本番Web公開は未実施であり、ユーザーの承認後に続行する。
