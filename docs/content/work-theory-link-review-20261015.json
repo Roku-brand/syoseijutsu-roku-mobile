@@ -1,0 +1,551 @@
+[
+  {
+    "id": "master336-188",
+    "primary": [
+      "kb_547"
+    ],
+    "add": [
+      "kb_547"
+    ],
+    "remove": [],
+    "reason": "重要な仕事の固定時間枠を守る本文に、タイムボックスという実践手法を入口として置く。パレートは補助に残す。",
+    "title": "緊急より重要を先に守る",
+    "beforeTheoryIds": [
+      "kb_545"
+    ],
+    "beforePrimaryIds": [
+      "kb_545"
+    ],
+    "afterTheoryIds": [
+      "kb_545",
+      "kb_547"
+    ],
+    "afterPrimaryIds": [
+      "kb_547"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_545",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_547",
+        "role": "実践手法"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-195",
+    "primary": [
+      "kb_493"
+    ],
+    "add": [
+      "kb_493"
+    ],
+    "remove": [],
+    "reason": "中断時に前提を再構成する負荷を本文が扱うため、認知負荷理論を背景に置く。行動摩擦は補助に残す。",
+    "title": "切り替えコストを増やさない",
+    "beforeTheoryIds": [
+      "kb_181"
+    ],
+    "beforePrimaryIds": [
+      "kb_181"
+    ],
+    "afterTheoryIds": [
+      "kb_181",
+      "kb_493"
+    ],
+    "afterPrimaryIds": [
+      "kb_493"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_181",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_493",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-196",
+    "primary": [
+      "kb_181",
+      "kb_493"
+    ],
+    "add": [
+      "kb_181",
+      "kb_493"
+    ],
+    "remove": [
+      "kb_192"
+    ],
+    "reason": "期限に応じて仕事が膨張する法則ではなく、再準備の摩擦と認知負荷を減らす説明へ対応させる。",
+    "title": "似た作業はまとめて処理する",
+    "beforeTheoryIds": [
+      "kb_192"
+    ],
+    "beforePrimaryIds": [
+      "kb_192"
+    ],
+    "afterTheoryIds": [
+      "kb_181",
+      "kb_493"
+    ],
+    "afterPrimaryIds": [
+      "kb_181",
+      "kb_493"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_181",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_493",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-198",
+    "primary": [
+      "kb_274",
+      "kb_515"
+    ],
+    "add": [
+      "kb_274",
+      "kb_515"
+    ],
+    "remove": [],
+    "reason": "自分が抱える機会費用と相対的な分担の利点を主要な背景に置き、知識分担・役割・裁量は適用条件として残す。",
+    "title": "自分でなくていい仕事は手放す",
+    "beforeTheoryIds": [
+      "kb_087",
+      "kb_939",
+      "kb_941"
+    ],
+    "beforePrimaryIds": [
+      "kb_087"
+    ],
+    "afterTheoryIds": [
+      "kb_087",
+      "kb_939",
+      "kb_941",
+      "kb_274",
+      "kb_515"
+    ],
+    "afterPrimaryIds": [
+      "kb_274",
+      "kb_515"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_087",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_939",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_941",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_274",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_515",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-202",
+    "primary": [
+      "kb_723"
+    ],
+    "add": [
+      "kb_723"
+    ],
+    "remove": [
+      "kb_205"
+    ],
+    "reason": "臨床上の心配・反すうのメタ認知モデルを一般的な理解確認へ流用しない。知ったつもりの検査と問答法へつなぐ。",
+    "title": "知ったかぶりしない",
+    "beforeTheoryIds": [
+      "kb_205",
+      "kb_952"
+    ],
+    "beforePrimaryIds": [
+      "kb_205"
+    ],
+    "afterTheoryIds": [
+      "kb_952",
+      "kb_723"
+    ],
+    "afterPrimaryIds": [
+      "kb_723"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_952",
+        "role": "補完する思想"
+      },
+      {
+        "theoryId": "kb_723",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-203",
+    "primary": [
+      "kb_931",
+      "kb_789"
+    ],
+    "add": [
+      "kb_789"
+    ],
+    "remove": [
+      "kb_449",
+      "kb_622"
+    ],
+    "reason": "省略された前提を推測して確認する本文には、仮説推論と共通基盤が直接対応する。頻度の基礎率や誰からも学ぶ格言は外す。",
+    "title": "1を聞いて10理解できる",
+    "beforeTheoryIds": [
+      "kb_449",
+      "kb_622",
+      "kb_929",
+      "kb_931"
+    ],
+    "beforePrimaryIds": [
+      "kb_449"
+    ],
+    "afterTheoryIds": [
+      "kb_929",
+      "kb_931",
+      "kb_789"
+    ],
+    "afterPrimaryIds": [
+      "kb_931",
+      "kb_789"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_929",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_931",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_789",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-204",
+    "primary": [
+      "kb_748",
+      "kb_930"
+    ],
+    "add": [
+      "kb_748"
+    ],
+    "remove": [
+      "kb_217",
+      "kb_937"
+    ],
+    "reason": "理由を自分の言葉で説明し、事例から条件を抜き出す本文へ対応。臨床の具体性訓練と循環論法は今回の説明の中心ではない。",
+    "title": "結論より構造を見る",
+    "beforeTheoryIds": [
+      "kb_217",
+      "kb_625",
+      "kb_929",
+      "kb_930",
+      "kb_934",
+      "kb_937"
+    ],
+    "beforePrimaryIds": [
+      "kb_217"
+    ],
+    "afterTheoryIds": [
+      "kb_625",
+      "kb_929",
+      "kb_930",
+      "kb_934",
+      "kb_748"
+    ],
+    "afterPrimaryIds": [
+      "kb_748",
+      "kb_930"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_625",
+        "role": "補完する思想"
+      },
+      {
+        "theoryId": "kb_929",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_930",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_934",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_748",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-206",
+    "primary": [
+      "kb_930",
+      "kb_929"
+    ],
+    "add": [
+      "kb_929"
+    ],
+    "remove": [
+      "kb_217"
+    ],
+    "reason": "事例から原則を取り出し別事例へ適用する、帰納と演繹の往復を入口にする。反すうへの具体性訓練とは区別する。",
+    "title": "具体と抽象を往復する",
+    "beforeTheoryIds": [
+      "kb_217",
+      "kb_625",
+      "kb_930",
+      "kb_950"
+    ],
+    "beforePrimaryIds": [
+      "kb_217"
+    ],
+    "afterTheoryIds": [
+      "kb_625",
+      "kb_930",
+      "kb_950",
+      "kb_929"
+    ],
+    "afterPrimaryIds": [
+      "kb_930",
+      "kb_929"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_625",
+        "role": "補完する思想"
+      },
+      {
+        "theoryId": "kb_930",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_950",
+        "role": "補完する思想"
+      },
+      {
+        "theoryId": "kb_929",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-207",
+    "primary": [
+      "kb_933"
+    ],
+    "add": [],
+    "remove": [
+      "kb_449"
+    ],
+    "reason": "相関・交絡・逆因果を明示する本文に一致する理論を主要にする。一般的な基礎率思考は外す。",
+    "title": "相関関係と因果関係を混同しない",
+    "beforeTheoryIds": [
+      "kb_449",
+      "kb_933",
+      "kb_938"
+    ],
+    "beforePrimaryIds": [
+      "kb_449"
+    ],
+    "afterTheoryIds": [
+      "kb_933",
+      "kb_938"
+    ],
+    "afterPrimaryIds": [
+      "kb_933"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_933",
+        "role": "背景原理"
+      },
+      {
+        "theoryId": "kb_938",
+        "role": "補足・適用条件"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-225",
+    "primary": [
+      "kb_152",
+      "kb_108"
+    ],
+    "add": [],
+    "remove": [],
+    "reason": "複数提案で相手の優先順位を探るMESOを実践手法、スクリーニングを背景原理として示す。",
+    "title": "相手の優先順位は、似た複数案で測る",
+    "beforeTheoryIds": [
+      "kb_108",
+      "kb_152"
+    ],
+    "beforePrimaryIds": [
+      "kb_108"
+    ],
+    "afterTheoryIds": [
+      "kb_108",
+      "kb_152"
+    ],
+    "afterPrimaryIds": [
+      "kb_152",
+      "kb_108"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_108",
+        "role": "実践手法"
+      },
+      {
+        "theoryId": "kb_152",
+        "role": "実践手法"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-230",
+    "primary": [
+      "kb_150"
+    ],
+    "add": [
+      "kb_150"
+    ],
+    "remove": [
+      "kb_153"
+    ],
+    "reason": "将来の不確実な条件を契約化する手法と、論点を交換する譲歩を混同しない。本文はログローリングに対応する。",
+    "title": "譲歩するときは必ず何かと交換する",
+    "beforeTheoryIds": [
+      "kb_153"
+    ],
+    "beforePrimaryIds": [
+      "kb_153"
+    ],
+    "afterTheoryIds": [
+      "kb_150"
+    ],
+    "afterPrimaryIds": [
+      "kb_150"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_150",
+        "role": "実践手法"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-233",
+    "primary": [
+      "kb_523"
+    ],
+    "add": [],
+    "remove": [],
+    "reason": "本文は交渉で沈黙が圧力になる仕組みを説明するため、沈黙の圧力を主要、沈黙耐性を実践上の補助とする。",
+    "title": "沈黙は圧力として使われる",
+    "beforeTheoryIds": [
+      "kb_416",
+      "kb_523"
+    ],
+    "beforePrimaryIds": [
+      "kb_416"
+    ],
+    "afterTheoryIds": [
+      "kb_416",
+      "kb_523"
+    ],
+    "afterPrimaryIds": [
+      "kb_523"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_416",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_523",
+        "role": "背景原理"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  },
+  {
+    "id": "master336-238",
+    "primary": [
+      "kb_161"
+    ],
+    "add": [],
+    "remove": [],
+    "reason": "中立者が争点を整理し決定は当事者に残す本文に、調停を主要な説明として置く。仲介ネットワークは補助とする。",
+    "title": "膠着したら第三者を入れて構図を変える",
+    "beforeTheoryIds": [
+      "kb_084",
+      "kb_161"
+    ],
+    "beforePrimaryIds": [
+      "kb_084"
+    ],
+    "afterTheoryIds": [
+      "kb_084",
+      "kb_161"
+    ],
+    "afterPrimaryIds": [
+      "kb_161"
+    ],
+    "roles": [
+      {
+        "theoryId": "kb_084",
+        "role": "補足・適用条件"
+      },
+      {
+        "theoryId": "kb_161",
+        "role": "実践手法"
+      }
+    ],
+    "reviewedOn": "2026-10-15"
+  }
+]

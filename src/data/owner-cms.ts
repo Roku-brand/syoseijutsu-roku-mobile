@@ -44,17 +44,19 @@ export async function createTheoryDraft(category: ContentCategory): Promise<Retu
   return toTheory((Array.isArray(data) ? data[0] : data) as Record<string, unknown>);
 }
 
-export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { displayOrder?: number | null; draftTechniqueIds?: string[] }): Promise<void> {
+export async function saveTheoryDraft(theory: Omit<TheoryCard, 'status'> & { displayOrder?: number | null; draftTechniqueIds?: string[]; updatedAt?: string }): Promise<void> {
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const { error } = await supabase.rpc('save_theory_draft', {
     target_theory_id: theory.tagId,
     payload: {
+      ...(theory.updatedAt ? {expected_updated_at:theory.updatedAt} : {}),
+      ...(theory.relations !== undefined ? {relations:theory.relations} : {}),
       title: theory.title,
       summary: theory.summary,
       category_id: theory.categoryId, subcategory_id: theory.subcategoryId, taxonomy_order: theory.sortOrder,
       aliases: theory.aliases ?? [],
       related_theory_ids: theory.relatedTheoryIds ?? [],
-      provenance: theory.provenance ?? null,
+      knowledge_type: theory.knowledgeType ?? 'unspecified', quotation: theory.quotation ?? null, provenance: theory.provenance ?? null,
       image_path: theory.imagePath ?? null,
       access_tier: theory.accessTier ?? 'complete',
       display_id: theory.displayId ?? theory.draftDisplayId ?? theory.displayOrder ?? undefined,

@@ -33,6 +33,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm test:practical-wisdom
       - run: pnpm test:theory-taxonomy
+      - run: pnpm test:theory-network
       - run: node --test tests/unit/usage-consent.test.mjs
       - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck

@@ -178,9 +178,10 @@ test('理論詳細は概要・処世術・理論・情報の順で、概要を2�
   await expect(summary).toBeVisible();
   expect(await summary.innerText()).toContain('自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。\n親密さは一方的ではなく段階的に深まる。');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
-  expect(article.indexOf('初頭効果とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
-  expect(article.indexOf('この考え方を実生活でどう使う？')).toBeLessThan(article.indexOf('関連する理論'));
-  expect(article.indexOf('関連する理論')).toBeLessThan(article.indexOf('理論情報'));
+  expect(article.indexOf('自己開示の返報性とは')).toBeGreaterThan(0);
+  expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
+  expect(article.indexOf('この考え方を実生活でどう使う？')).toBeLessThan(article.indexOf('関連する知識'));
+  expect(article.indexOf('関連する知識')).toBeLessThan(article.indexOf('理論情報'));
   await expect(page.getByTestId('theory-information')).toContainText('出典状態');
   await expect(page.getByTestId('theory-information')).toContainText('提唱者');
   await expect(page.getByTestId('theory-information')).toContainText('著作・研究');
@@ -475,7 +476,9 @@ test('追加理論は詳細・出典・関連導線まで表示される', async
   await expect(page.getByTestId('theory-title')).toHaveText('ダニング＝クルーガー効果');
   await expect(page.getByTestId('theory-summary')).toContainText('自己評価');
   await expect(page.getByTestId('theory-information')).toContainText('David Dunning');
-  await expect(page.getByTestId('theory-related-techniques').getByRole('link').first()).toBeVisible();
+  // The authoritative DB has no technique links for kb_706. Do not restore
+  // outdated generated-only associations just to fill the section.
+  await expect(page.getByTestId('theory-related-techniques')).toHaveCount(0);
   await expect(page.getByTestId('theory-related-theories').getByRole('link').first()).toBeVisible();
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
@@ -693,7 +696,7 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   const mapSlide = page.getByTestId('home-brand-slide-4');
   await expect(mapSlide).toContainText('人物像｜人たらしの人');
   await expect(mapSlide).toContainText('名残惜しいくらいで去る');
-  await expect(mapSlide).toContainText('親近効果');
+  await expect(mapSlide).toContainText('新近効果');
   await expect(mapSlide).toContainText('ピーク・エンドの法則');
   await expect(mapSlide).toContainText('限界効用逓減');
   await expect(mapSlide).toContainText('希少性価値');

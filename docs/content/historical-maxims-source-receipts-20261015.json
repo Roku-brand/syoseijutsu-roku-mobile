@@ -1,0 +1,170 @@
+[
+  {
+    "candidateId": "01",
+    "url": "https://www.centraliens-lille.org/fr/article/louis-pasteur-et-l-ecole-discours-du-7-decembre-1854-aux-les-jeunes-gens-destines-a-la-carriere-industrielle/23/11/2014/131",
+    "originalSha256": "232fd641eef878bf8cfdced09136d31adb9f567fa72d6d079aa6ee98a61cdaa4",
+    "sourceTextSha256": "5915e35fed57de868481bee00a54676f6a261f72ec9a18bb36ef06eac615ea04",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "07",
+    "url": "https://zh.wikisource.org/wiki/無花的薔薇之二",
+    "originalSha256": "86c63ecf4abcba641b3e1aba87f50cb596eb42ee73f92b53eec18cddb2fe21b5",
+    "sourceTextSha256": "dcaa86adf8a651ed11cce20836a811d6f9da9dd4ee0d4782712ed42eeb463dce",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "09",
+    "url": "https://www.aozora.gr.jp/cards/000879/files/43751_27955.html",
+    "originalSha256": "d0e93b01420bc4b4fcdbacff10c007246f821be57defd382754c3ff119841872",
+    "sourceTextSha256": "24f817b85e1440bde84557cb2140411e9fe8a01288a442d7ccb0bbe32501b573",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "10",
+    "url": "https://www.gutenberg.org/cache/epub/174/pg174.txt",
+    "originalSha256": "450681062e9756214298c743d5f43720a60ee952355bec465b57eab137eaabd7",
+    "sourceTextSha256": "38f36b510417177aa87a6a24c968e3ec63a447b7df36a9c1a7c5a3f2d9e51547",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "13",
+    "url": "https://www.aozora.gr.jp/cards/000035/files/2282_15074.html",
+    "originalSha256": "70f3c1c7c5aec8f544391b9f5fc24825d91f10c91ae03a3ac363ae6f8cd04d0b",
+    "sourceTextSha256": "ad37b2c2304b8f625970c3de9f25da06f8dd40fbf13318a466d55723a39e30d9",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "14",
+    "url": "https://ru.wikisource.org/wiki/Бесы_(Достоевский)/Часть_2/Глава_1",
+    "originalSha256": "dc7110fd3283845e13f38b3546b51886dd6c736c12401ba97abb742f3ab9e05a",
+    "sourceTextSha256": "a03c9195f9b2ee9cb930bbaf667792ca618c7cc34befa6956bbfc7ab62d939c1",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "16",
+    "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
+    "originalSha256": "a7fe7981a4f1fd99c8ef438116c27c6c241628bb165752389868ba6e17a3fdbf",
+    "sourceTextSha256": "c55c0661f97ea2c5a097f11dfa4bfe8db2f528ab74415a789d539dc2e8fa66cc",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "17",
+    "url": "https://www.gutenberg.org/cache/epub/2407/pg2407-images.html",
+    "originalSha256": "22eafa165fdfd3a6d9ffcd0401a1e452345981dd8e765f545c0727c707566a5f",
+    "sourceTextSha256": "c24d35ffc5ed716e8dd50dcfcd51b825d60651b7f720c92e2ea8284b2e3f1d1a",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "19",
+    "url": "https://de.wikisource.org/wiki/Wer_nie_sein_Brot_mit_Tränen_aß",
+    "originalSha256": "d299bf375a84143fd24ff2b552d9cf20a1204c3eb98adacf2d4ed6d0176ae6b3",
+    "sourceTextSha256": "f5108bffd696552e05bf51260ddec682d85137f162b1ccd9e6df21306491b2ad",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "22",
+    "url": "https://www.gutenberg.org/cache/epub/7634/pg7634.html",
+    "originalSha256": "8821fb039a8fd6df58f29cc7fccb2e3586e6bdf6eae42978e555c08c20f39dff",
+    "sourceTextSha256": "0085fe693f94a91f691dcf0a97345d62ea9b96dbb9450034aa1ddc3372f29c01",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "25",
+    "url": "https://www.aozora.gr.jp/cards/000035/files/1577_8581.html",
+    "originalSha256": "e3b62dbf5a19e5913352661d03f6636fbd8e7eb32f2af526e409d36f1353991b",
+    "sourceTextSha256": "346b2927248064c897dc8b989f702883cd3c9eec3f766367dfe29e01712ab491",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "26",
+    "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
+    "originalSha256": "c92976fcc751b30b5a46795b24cec64dee3093d882f129c1656193ae911e1218",
+    "sourceTextSha256": "c55c0661f97ea2c5a097f11dfa4bfe8db2f528ab74415a789d539dc2e8fa66cc",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "27",
+    "url": "https://fr.wikisource.org/wiki/Premières_Poésies_(Musset,_éd._1863)/Mardoche",
+    "originalSha256": "15a7598725c948138b8fede47f9b14d7ddd61dede3a4d02c084c0904106d4073",
+    "sourceTextSha256": "e8f09eb421364227deb44a41dafbb8eea04c2dc0ad2890f1c7a88fab9d0fd98f",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "31",
+    "url": "https://www.gutenberg.org/cache/epub/30990/pg30990.txt",
+    "originalSha256": "43060042c0e9e275fd5aa35effeec614c503139266bb8f5c14352564fd423a69",
+    "sourceTextSha256": "4db3197bbd8efd2b5c73e2876ad32241bc24e10ffdd114b08732a5ed3d5c0047",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "33",
+    "url": "https://ru.wikisource.org/wiki/Идиот_(Достоевский)/Часть_III/Глава_V",
+    "originalSha256": "70d819269fe4c1cab7b86e6bca0c803064af86fff6db44a16948c785ada03257",
+    "sourceTextSha256": "03bb3a9db6a1313da4042ad621709e1ab744bcc535f804cbb92ecff7b5e9be7f",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "37",
+    "url": "https://fr.wikisource.org/wiki/Les_Caractères/Édition_Flammarion_1880/Du_Cœur",
+    "originalSha256": "5c51591c9ba9cb8809f22e947a765341bd8133deda3ddb3b79f5b65207d3715b",
+    "sourceTextSha256": "100db4c193b5d54d78cbf66b6340223949c55b8dbf1c28a16b19fff928751a05",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "41",
+    "url": "https://fr.wikisource.org/wiki/Pensées,_essais_et_maximes_(Joubert)/Texte_entier",
+    "originalSha256": "ea9cb9fc093327876d4188a308e57ee3547eaa1a6593b3a06b66db140875b7f8",
+    "sourceTextSha256": "79b7f4a9037b5160a5c699edbb8c0183862d46e862d1c98db29e2dad7d02b8e7",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "43",
+    "url": "https://fr.wikisource.org/wiki/Page:Montaigne_-_Essais,_Éd_de_Bordeaux,_3.djvu/174",
+    "originalSha256": "4e0c716d2e43db75de7881c30836b5026c384786e767d6140b4cab6f433387cf",
+    "sourceTextSha256": "f3f81eedb2f73a9ab0bc9e1c58215166228908470e14e0dc38a4daf2c3bb0d21",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "44",
+    "url": "https://fr.wikisource.org/wiki/Maximes_et_Réflexions_morales/Réflexions_morales",
+    "originalSha256": "1589238e19658aba55e9b4daae062982f170b0d04ccae65f8048d81f7b90bf66",
+    "sourceTextSha256": "8dd251abd657288ae0c141e3c6fa9885e63e8e148c42938570c84efd43cb1f0e",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "46",
+    "url": "https://fr.wikisource.org/wiki/Maximes_et_Réflexions_morales/Réflexions_morales",
+    "originalSha256": "3a9324ee79aeb123cdb1440b2dd7c6117ac765fd21a1d25aecfbc0e93a2a2da4",
+    "sourceTextSha256": "8dd251abd657288ae0c141e3c6fa9885e63e8e148c42938570c84efd43cb1f0e",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  },
+  {
+    "candidateId": "49",
+    "url": "https://www.gutenberg.org/cache/epub/1524/pg1524.txt",
+    "originalSha256": "8bca88b87de87c454c48f07973c18a6087bc17801174daa52ee9acd30d563668",
+    "sourceTextSha256": "31584c19795779431b5933499a45b9cecb03e8c246b6ea7e245a2b6d65e8e784",
+    "verified": true,
+    "checkedOn": "2026-10-15"
+  }
+]

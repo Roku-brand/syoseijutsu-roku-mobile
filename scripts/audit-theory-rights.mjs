@@ -6,10 +6,11 @@ const [theories, publicTheories, techniques, publicTechniques] = await Promise.a
   load('theories.json'), load('theories.public.json'), load('techniques.json'), load('techniques.public.json'),
 ]);
 const old = JSON.parse(await fs.readFile('docs/content/practical-wisdom-retired-20261002.json', 'utf8'));
-const retiredIds = [...old.map((item) => item.tagId), ...Array.from({ length: 26 }, (_, i) => `kb_${675 + i}`), 'theory-1789343197612-6d9ahj0r'];
+const newlyRetired = JSON.parse(await fs.readFile('src/data/generated/retired-theory-ids.json', 'utf8'));
+const retiredIds = [...newlyRetired, ...old.map((item) => item.tagId), ...Array.from({ length: 26 }, (_, i) => `kb_${675 + i}`), 'theory-1789343197612-6d9ahj0r'];
 for (const [name, catalogue, source] of [['complete', theories, techniques], ['public', publicTheories, publicTechniques]]) {
   const cards = source.categories.flatMap((category) => category.subcategories.flatMap((persona) => persona.items));
   const failures = auditTheoryRights({ theories: catalogue, techniques: cards, retiredIds });
   if (failures.length) throw new Error(failures.join('\n'));
-  console.log(`Theory rights audit passed (${name}): ${catalogue.length} theories, ${catalogue.filter((item) => item.provenance?.status === 'オリジナル').length} original practical titles; dense IDs, 0 retired/dead references.`);
+  console.log(`Theory rights audit passed (${name}): ${catalogue.length} theories, ${catalogue.filter((item) => item.provenance?.status === 'オリジナル').length} original practical titles; stable display IDs, 0 retired/dead references.`);
 }

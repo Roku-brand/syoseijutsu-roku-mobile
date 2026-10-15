@@ -1,9 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { registerHooks } from 'node:module';
+import fs from 'node:fs';
+const retiredIds=JSON.parse(fs.readFileSync('src/data/generated/retired-theory-ids.json','utf8'));
+
 
 globalThis.__secureTheoryTest = {};
 const mocks = {
+  '@/data/theory-knowledge': 'const ids='+JSON.stringify(retiredIds)+';export const isRetiredTheoryId=id=>ids.includes(id);',
   '@react-native-async-storage/async-storage': 'export default {getItem:async()=>globalThis.__secureTheoryTest.cache??null,setItem:async(_key,value)=>{globalThis.__secureTheoryTest.cache=value;},removeItem:async()=>{globalThis.__secureTheoryTest.cache=null;}};',
   '@/data/catalog': 'export const hydratePaidTheories=(rows)=>globalThis.__secureTheoryTest.applied.push(rows);export const overlayPaidCatalog=(techniques,theories)=>globalThis.__secureTheoryTest.overlays?.push({techniques,theories});export const resetCatalog=()=>{};',
   '@/data/learning': 'export const learningCases=[];export const replaceLearningCases=()=>{};export const resetLearningCases=()=>{};',
@@ -16,6 +20,16 @@ registerHooks({ resolve(specifier, context, next) {
 let instance = 0;
 const load = () => import(new URL(`../../src/lib/secure-content.ts?case=${++instance}`,import.meta.url));
 const theory = {tagId:'new',title:'「原文。」',summary:'完全版本文。'};
+
+test('restoring an old snapshot removes retired prose and links while preserving other cached content',async()=>{
+ const retiredId=retiredIds[0];
+ globalThis.__secureTheoryTest={applied:[],overlays:[],cache:JSON.stringify({version:9,userId:'user',savedAt:'2026-10-01',theories:[theory,{tagId:retiredId,title:'removed',summary:'removed'}],techniques:[{id:'t',relatedTheoryIds:['new',retiredId],primaryTheoryIds:[retiredId],theoryTagIds:[retiredId]}],learning:[]})};
+ const api=await load();assert.equal(await api.restoreCachedSecureContent('user'),true);
+ const snapshot=JSON.parse(globalThis.__secureTheoryTest.cache);
+ assert.deepEqual(snapshot.theories,[theory]);assert.deepEqual(snapshot.techniques[0].relatedTheoryIds,['new']);
+ assert.deepEqual(snapshot.techniques[0].primaryTheoryIds,[]);assert.equal(snapshot.savedAt,'2026-10-01');
+ assert.equal(await api.restoreCachedSecureContent('another-user'),false);
+});
 test('theory hydration notifies readers before secondary content succeeds', async () => {
   globalThis.__secureTheoryTest = {applied:[]};
   const originalFetch = globalThis.fetch;

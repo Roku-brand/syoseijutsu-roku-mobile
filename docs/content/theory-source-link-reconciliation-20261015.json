@@ -1,0 +1,2739 @@
+{
+  "policy": "Supabase正本を優先。過去の生成物だけに存在する関連は無審査で再投入しない。",
+  "canonicalBeforeLinkCount": 1092,
+  "generatedBeforeLinkCount": 1388,
+  "differences": [
+    {
+      "id": "master336-007",
+      "title": "相手のテンポに寄せる",
+      "canonicalTheoryIds": [
+        "kb_014",
+        "kb_015",
+        "kb_390",
+        "kb_391"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_014",
+        "kb_015",
+        "kb_390",
+        "kb_391",
+        "kb_821",
+        "kb_823"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_015",
+        "kb_390"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_015",
+        "kb_390"
+      ]
+    },
+    {
+      "id": "master336-010",
+      "title": "親しみやすさと馴れ馴れしさは違う",
+      "canonicalTheoryIds": [
+        "kb_037",
+        "kb_038"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_037",
+        "kb_038",
+        "kb_815",
+        "kb_816"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_038",
+        "kb_037"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_038",
+        "kb_037"
+      ]
+    },
+    {
+      "id": "master336-013",
+      "title": "自分らしさのキーワードを残す",
+      "canonicalTheoryIds": [
+        "kb_001",
+        "kb_003",
+        "kb_393"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_001",
+        "kb_003",
+        "kb_393",
+        "kb_740"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_393"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_393"
+      ]
+    },
+    {
+      "id": "master336-014",
+      "title": "別れ際を重視する",
+      "canonicalTheoryIds": [
+        "kb_002",
+        "kb_029"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_002",
+        "kb_029",
+        "kb_739"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_029",
+        "kb_002"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_029",
+        "kb_002"
+      ]
+    },
+    {
+      "id": "master336-015",
+      "title": "会話は内容よりテンポ",
+      "canonicalTheoryIds": [
+        "kb_013",
+        "kb_015"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_013",
+        "kb_015",
+        "kb_821"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_015",
+        "kb_013"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_015",
+        "kb_013"
+      ]
+    },
+    {
+      "id": "master336-017",
+      "title": "固有名詞を拾う",
+      "canonicalTheoryIds": [
+        "kb_017",
+        "kb_413"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_017",
+        "kb_413",
+        "kb_784"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_017",
+        "kb_413"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_017",
+        "kb_413"
+      ]
+    },
+    {
+      "id": "master336-018",
+      "title": "一つの話題を深く広げる",
+      "canonicalTheoryIds": [
+        "kb_407",
+        "kb_952"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_407",
+        "kb_744",
+        "kb_952"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_407"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_407"
+      ]
+    },
+    {
+      "id": "master336-020",
+      "title": "質問より仮定で聞く",
+      "canonicalTheoryIds": [
+        "kb_407"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_407",
+        "kb_721",
+        "kb_789",
+        "kb_818",
+        "kb_856",
+        "kb_859",
+        "kb_860"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_407"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_407"
+      ]
+    },
+    {
+      "id": "master336-031",
+      "title": "分かったふりをしない",
+      "canonicalTheoryIds": [
+        "kb_011",
+        "kb_928",
+        "kb_936"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_011",
+        "kb_789",
+        "kb_928",
+        "kb_936"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_011"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_011"
+      ]
+    },
+    {
+      "id": "master336-038",
+      "title": "小さな約束や時間を守る",
+      "canonicalTheoryIds": [
+        "kb_422",
+        "kb_439",
+        "kb_443",
+        "kb_477",
+        "kb_311"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_422",
+        "kb_439",
+        "kb_443",
+        "kb_477",
+        "kb_311",
+        "kb_765",
+        "kb_797",
+        "kb_801",
+        "kb_845",
+        "kb_846"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_422",
+        "kb_443"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_422",
+        "kb_443"
+      ]
+    },
+    {
+      "id": "master336-040",
+      "title": "親しくても礼儀を崩さない",
+      "canonicalTheoryIds": [
+        "kb_443",
+        "kb_477",
+        "kb_109",
+        "kb_300",
+        "kb_311"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_443",
+        "kb_477",
+        "kb_109",
+        "kb_300",
+        "kb_311",
+        "kb_815",
+        "kb_816",
+        "kb_822",
+        "kb_823",
+        "kb_824",
+        "kb_851",
+        "kb_860"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_443"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_443"
+      ]
+    },
+    {
+      "id": "master336-044",
+      "title": "間違えたらすぐに認める",
+      "canonicalTheoryIds": [
+        "kb_424"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_424",
+        "kb_708",
+        "kb_719",
+        "kb_813",
+        "kb_814"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_424"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_424"
+      ]
+    },
+    {
+      "id": "master336-055",
+      "title": "以前の会話の内容を覚えている",
+      "canonicalTheoryIds": [
+        "kb_012",
+        "kb_417"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_012",
+        "kb_417",
+        "kb_743"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_417",
+        "kb_012"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_417",
+        "kb_012"
+      ]
+    },
+    {
+      "id": "master336-057",
+      "title": "結果より過程を褒める",
+      "canonicalTheoryIds": [
+        "kb_395",
+        "kb_918",
+        "kb_947",
+        "kb_948"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_395",
+        "kb_735",
+        "kb_918",
+        "kb_947",
+        "kb_948"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_395"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_395"
+      ]
+    },
+    {
+      "id": "master336-072",
+      "title": "全員に好かれようとしない",
+      "canonicalTheoryIds": [
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+        "kb_005",
+        "kb_114",
+        "kb_115"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_005",
+        "kb_114",
+        "kb_115",
+        "kb_817"
+      ],
+      "canonicalPrimaryIds": [
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_005"
+      ]
+    },
+    {
+      "id": "master336-077",
+      "title": "例えが独特で分かりやすい",
+      "canonicalTheoryIds": [
+        "kb_414"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_414",
+        "kb_742"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_414"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_414"
+      ]
+    },
+    {
+      "id": "master336-088",
+      "title": "本性は言葉より行動に表れる",
+      "canonicalTheoryIds": [
+        "kb_443",
+        "kb_304"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_443",
+        "kb_712",
+        "kb_726",
+        "kb_800",
+        "kb_304"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_443"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_443"
+      ]
+    },
+    {
+      "id": "master336-089",
+      "title": "愛想の良さと誠実さは違う",
+      "canonicalTheoryIds": [
+        "kb_443",
+        "kb_304"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_443",
+        "kb_802",
+        "kb_866",
+        "kb_304"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_443"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_443"
+      ]
+    },
+    {
+      "id": "master336-098",
+      "title": "嫌われないことを基準にしない",
+      "canonicalTheoryIds": [
+        "kb_051",
+        "kb_092",
+        "kb_611",
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+        "kb_923"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_051",
+        "kb_092",
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+        "kb_611",
+        "kb_923"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_092"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_092"
+      ]
+    },
+    {
+      "id": "master336-101",
+      "title": "不機嫌に負けない",
+      "canonicalTheoryIds": [
+        "kb_092"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_092",
+        "kb_842"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_092"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_092"
+      ]
+    },
+    {
+      "id": "master336-109",
+      "title": "コミュニティを複数もつ",
+      "canonicalTheoryIds": [
+        "kb_081",
+        "kb_082",
+        "kb_351"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_081",
+        "kb_082",
+        "kb_730",
+        "kb_819",
+        "kb_820",
+        "kb_831",
+        "kb_351"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_081",
+        "kb_082"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_081",
+        "kb_082"
+      ]
+    },
+    {
+      "id": "master336-113",
+      "title": "褒め言葉は素直に受け取る",
+      "canonicalTheoryIds": [
+        "kb_420"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_420",
+        "kb_727"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_420"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_420"
+      ]
+    },
+    {
+      "id": "master336-136",
+      "title": "集団は内容より一体感を楽しむ場であると知る",
+      "canonicalTheoryIds": [
+        "kb_058"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_058",
+        "kb_729",
+        "kb_732",
+        "kb_780",
+        "kb_782"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_058"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_058"
+      ]
+    },
+    {
+      "id": "master336-138",
+      "title": "集団全体の共通点を話題にする",
+      "canonicalTheoryIds": [
+        "kb_058",
+        "kb_485",
+        "kb_926"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_058",
+        "kb_485",
+        "kb_707",
+        "kb_734",
+        "kb_793",
+        "kb_813",
+        "kb_818",
+        "kb_836",
+        "kb_858",
+        "kb_859",
+        "kb_926"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_058"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_058"
+      ]
+    },
+    {
+      "id": "master336-142",
+      "title": "最初から全部の自分を出さない",
+      "canonicalTheoryIds": [
+        "kb_038"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_038",
+        "kb_822"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_038"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_038"
+      ]
+    },
+    {
+      "id": "master336-143",
+      "title": "人によって態度を変えない",
+      "canonicalTheoryIds": [
+        "kb_443"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_443",
+        "kb_732"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_443"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_443"
+      ]
+    },
+    {
+      "id": "master336-148",
+      "title": "馴染んでも同調しすぎない",
+      "canonicalTheoryIds": [
+        "kb_050",
+        "kb_089",
+        "kb_455",
+        "kb_457",
+        "kb_459",
+        "kb_482",
+        "kb_484"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_050",
+        "kb_089",
+        "kb_455",
+        "kb_457",
+        "kb_459",
+        "kb_482",
+        "kb_484",
+        "kb_729",
+        "kb_734"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_089"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_089"
+      ]
+    },
+    {
+      "id": "master336-150",
+      "title": "表情・視線・姿勢・声を安定させる",
+      "canonicalTheoryIds": [
+        "kb_474"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_474",
+        "kb_735",
+        "kb_775"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_474"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_474"
+      ]
+    },
+    {
+      "id": "master336-152",
+      "title": "最初に方針を言語化する",
+      "canonicalTheoryIds": [
+        "kb_058",
+        "kb_483",
+        "kb_942"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_058",
+        "kb_483",
+        "kb_773",
+        "kb_776",
+        "kb_794",
+        "kb_796",
+        "kb_942"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_058",
+        "kb_483"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_058",
+        "kb_483"
+      ]
+    },
+    {
+      "id": "master336-153",
+      "title": "議論の流れを簡潔に要約する",
+      "canonicalTheoryIds": [
+        "kb_068",
+        "kb_498",
+        "kb_936",
+        "kb_942"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_068",
+        "kb_498",
+        "kb_777",
+        "kb_936",
+        "kb_942"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_498"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_498"
+      ]
+    },
+    {
+      "id": "master336-154",
+      "title": "役割と期待を明示する",
+      "canonicalTheoryIds": [
+        "kb_070",
+        "kb_071",
+        "kb_073",
+        "kb_110",
+        "kb_123",
+        "kb_453",
+        "kb_467",
+        "kb_487",
+        "kb_497",
+        "kb_509",
+        "kb_939",
+        "kb_941"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_070",
+        "kb_071",
+        "kb_073",
+        "kb_110",
+        "kb_123",
+        "kb_453",
+        "kb_467",
+        "kb_487",
+        "kb_497",
+        "kb_509",
+        "kb_731",
+        "kb_750",
+        "kb_764",
+        "kb_766",
+        "kb_774",
+        "kb_775",
+        "kb_776",
+        "kb_779",
+        "kb_780",
+        "kb_799",
+        "kb_801",
+        "kb_824",
+        "kb_840",
+        "kb_845",
+        "kb_846",
+        "kb_851",
+        "kb_863",
+        "kb_865",
+        "kb_939",
+        "kb_941"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_487",
+        "kb_123"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_487",
+        "kb_123"
+      ]
+    },
+    {
+      "id": "master336-157",
+      "title": "人前で指摘せず、個別で修正する",
+      "canonicalTheoryIds": [
+        "kb_055",
+        "kb_394",
+        "kb_436"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_055",
+        "kb_394",
+        "kb_436",
+        "kb_731",
+        "kb_769"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_055",
+        "kb_394"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_055",
+        "kb_394"
+      ]
+    },
+    {
+      "id": "master336-162",
+      "title": "人より大きな旗を掲げる",
+      "canonicalTheoryIds": [
+        "kb_058"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_058",
+        "kb_773"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_058"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_058"
+      ]
+    },
+    {
+      "id": "master336-165",
+      "title": "不安な場面でも態度を安定させる",
+      "canonicalTheoryIds": [
+        "kb_023"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_023",
+        "kb_737"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_023"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_023"
+      ]
+    },
+    {
+      "id": "master336-168",
+      "title": "期待を実力で回収する",
+      "canonicalTheoryIds": [
+        "kb_168",
+        "kb_113",
+        "kb_473",
+        "kb_312"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_168",
+        "kb_113",
+        "kb_473",
+        "kb_774",
+        "kb_312"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_113"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_113"
+      ]
+    },
+    {
+      "id": "master336-169",
+      "title": "自分を語り切らない",
+      "canonicalTheoryIds": [
+        "kb_400"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_400",
+        "kb_833"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_400"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_400"
+      ]
+    },
+    {
+      "id": "master336-170",
+      "title": "予想できない一面を残す",
+      "canonicalTheoryIds": [
+        "kb_400"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_400",
+        "kb_832",
+        "kb_834"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_400"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_400"
+      ]
+    },
+    {
+      "id": "master336-172",
+      "title": "締切より早く期限を持つ",
+      "canonicalTheoryIds": [
+        "kb_190",
+        "kb_547",
+        "kb_324",
+        "kb_503",
+        "kb_504",
+        "kb_627"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_190",
+        "kb_547",
+        "kb_324",
+        "kb_751",
+        "kb_503",
+        "kb_504",
+        "kb_627"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_190",
+        "kb_547"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_190",
+        "kb_547"
+      ]
+    },
+    {
+      "id": "master336-173",
+      "title": "分からないことは分からないと言う",
+      "canonicalTheoryIds": [
+        "kb_435"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_435",
+        "kb_706",
+        "kb_733",
+        "kb_770",
+        "kb_825"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_435"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_435"
+      ]
+    },
+    {
+      "id": "master336-174",
+      "title": "質問には仮説を持っていく",
+      "canonicalTheoryIds": [
+        "kb_498",
+        "kb_625"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_498",
+        "kb_710",
+        "kb_723",
+        "kb_741",
+        "kb_748",
+        "kb_786",
+        "kb_625"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_498"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_498"
+      ]
+    },
+    {
+      "id": "master336-175",
+      "title": "完成品ではなく60点段階で一度確認する",
+      "canonicalTheoryIds": [
+        "kb_543",
+        "kb_495",
+        "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_543",
+        "kb_495",
+        "kb_781",
+        "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_543",
+        "kb_495"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_543",
+        "kb_495"
+      ]
+    },
+    {
+      "id": "master336-177",
+      "title": "報告は事実だけでなく、意見・対処案まで入れる",
+      "canonicalTheoryIds": [
+        "kb_441",
+        "kb_087",
+        "kb_498",
+        "kb_939"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_441",
+        "kb_087",
+        "kb_498",
+        "kb_721",
+        "kb_722",
+        "kb_771",
+        "kb_807",
+        "kb_808",
+        "kb_837",
+        "kb_838",
+        "kb_939"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_498"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_498"
+      ]
+    },
+    {
+      "id": "master336-178",
+      "title": "数字で話す",
+      "canonicalTheoryIds": [
+        "kb_501"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_501",
+        "kb_713",
+        "kb_714",
+        "kb_716",
+        "kb_717",
+        "kb_740",
+        "kb_762",
+        "kb_826",
+        "kb_827",
+        "kb_830"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_501"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_501"
+      ]
+    },
+    {
+      "id": "master336-183",
+      "title": "目上にも物怖じしない",
+      "canonicalTheoryIds": [
+        "kb_051",
+        "kb_452"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_051",
+        "kb_452",
+        "kb_733"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_051"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_051"
+      ]
+    },
+    {
+      "id": "master336-186",
+      "title": "忙しいアピールをしない",
+      "canonicalTheoryIds": [
+        "kb_111"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_111",
+        "kb_767"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_111"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_111"
+      ]
+    },
+    {
+      "id": "master336-187",
+      "title": "やることを頭の外に出す",
+      "canonicalTheoryIds": [
+        "kb_577"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_577",
+        "kb_738",
+        "kb_739",
+        "kb_743",
+        "kb_745"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_577"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_577"
+      ]
+    },
+    {
+      "id": "master336-190",
+      "title": "予定に余白を作る",
+      "canonicalTheoryIds": [
+        "kb_190",
+        "kb_500",
+        "kb_519",
+        "kb_632",
+        "kb_921",
+        "kb_922"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_190",
+        "kb_500",
+        "kb_519",
+        "kb_763",
+        "kb_772",
+        "kb_632",
+        "kb_921",
+        "kb_922"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_190"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_190"
+      ]
+    },
+    {
+      "id": "master336-191",
+      "title": "締切の前に安全日を置く",
+      "canonicalTheoryIds": [
+        "kb_190",
+        "kb_503",
+        "kb_627"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_190",
+        "kb_751",
+        "kb_503",
+        "kb_627"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_190"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_190"
+      ]
+    },
+    {
+      "id": "master336-196",
+      "title": "似た作業はまとめて処理する",
+      "canonicalTheoryIds": [
+        "kb_192"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_192",
+        "kb_746"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_192"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_192"
+      ]
+    },
+    {
+      "id": "master336-199",
+      "title": "タスクに応じて力の入れ具合を調整する",
+      "canonicalTheoryIds": [
+        "kb_545",
+        "kb_549",
+        "kb_623",
+        "kb_629",
+        "kb_911"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_545",
+        "kb_736",
+        "kb_737",
+        "kb_767",
+        "kb_549",
+        "kb_623",
+        "kb_629",
+        "kb_911"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_545"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_545"
+      ]
+    },
+    {
+      "id": "master336-200",
+      "title": "必要十分で止める",
+      "canonicalTheoryIds": [
+        "kb_277",
+        "kb_544",
+        "kb_623"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_277",
+        "kb_544",
+        "kb_754",
+        "kb_623"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_277"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_277"
+      ]
+    },
+    {
+      "id": "master336-202",
+      "title": "知ったかぶりしない",
+      "canonicalTheoryIds": [
+        "kb_205",
+        "kb_952"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_205",
+        "kb_706",
+        "kb_723",
+        "kb_828",
+        "kb_829",
+        "kb_952"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_205"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_205"
+      ]
+    },
+    {
+      "id": "master336-203",
+      "title": "1を聞いて10理解できる",
+      "canonicalTheoryIds": [
+        "kb_449",
+        "kb_622",
+        "kb_929",
+        "kb_931"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_449",
+        "kb_741",
+        "kb_744",
+        "kb_747",
+        "kb_748",
+        "kb_622",
+        "kb_929",
+        "kb_931"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_449"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_449"
+      ]
+    },
+    {
+      "id": "master336-204",
+      "title": "結論より構造を見る",
+      "canonicalTheoryIds": [
+        "kb_217",
+        "kb_625",
+        "kb_929",
+        "kb_930",
+        "kb_934",
+        "kb_937"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_217",
+        "kb_746",
+        "kb_625",
+        "kb_929",
+        "kb_930",
+        "kb_934",
+        "kb_937"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_217"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_217"
+      ]
+    },
+    {
+      "id": "master336-206",
+      "title": "具体と抽象を往復する",
+      "canonicalTheoryIds": [
+        "kb_217",
+        "kb_625",
+        "kb_930",
+        "kb_950"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_217",
+        "kb_715",
+        "kb_752",
+        "kb_625",
+        "kb_930",
+        "kb_950"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_217"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_217"
+      ]
+    },
+    {
+      "id": "master336-207",
+      "title": "相関関係と因果関係を混同しない",
+      "canonicalTheoryIds": [
+        "kb_449",
+        "kb_933",
+        "kb_938"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_449",
+        "kb_711",
+        "kb_712",
+        "kb_715",
+        "kb_717",
+        "kb_809",
+        "kb_835",
+        "kb_836",
+        "kb_843",
+        "kb_844",
+        "kb_933",
+        "kb_938"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_449"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_449"
+      ]
+    },
+    {
+      "id": "master336-208",
+      "title": "極端な考え方をしない",
+      "canonicalTheoryIds": [
+        "kb_573",
+        "kb_574",
+        "kb_065",
+        "kb_619",
+        "kb_936",
+        "kb_953"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_573",
+        "kb_574",
+        "kb_065",
+        "kb_716",
+        "kb_619",
+        "kb_936",
+        "kb_953"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_573",
+        "kb_574"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_573",
+        "kb_574"
+      ]
+    },
+    {
+      "id": "master336-209",
+      "title": "たとえ話がうまい",
+      "canonicalTheoryIds": [
+        "kb_414"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_414",
+        "kb_742"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_414"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_414"
+      ]
+    },
+    {
+      "id": "master336-210",
+      "title": "話が短い",
+      "canonicalTheoryIds": [
+        "kb_493"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_493",
+        "kb_745"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_493"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_493"
+      ]
+    },
+    {
+      "id": "master336-211",
+      "title": "評価者の物差しを先に読む",
+      "canonicalTheoryIds": [
+        "kb_154",
+        "kb_626"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_154",
+        "kb_817",
+        "kb_626"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_154"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_154"
+      ]
+    },
+    {
+      "id": "master336-214",
+      "title": "頑張りではなく成果で話す",
+      "canonicalTheoryIds": [
+        "kb_193",
+        "kb_194",
+        "kb_195",
+        "kb_501",
+        "kb_508",
+        "kb_312",
+        "kb_933",
+        "kb_938"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_193",
+        "kb_194",
+        "kb_195",
+        "kb_501",
+        "kb_508",
+        "kb_727",
+        "kb_762",
+        "kb_768",
+        "kb_312",
+        "kb_933",
+        "kb_938"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_501"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_501"
+      ]
+    },
+    {
+      "id": "master336-215",
+      "title": "努力より評価される仕事を選ぶ",
+      "canonicalTheoryIds": [
+        "kb_116",
+        "kb_605",
+        "kb_628",
+        "kb_940"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_116",
+        "kb_711",
+        "kb_766",
+        "kb_605",
+        "kb_628",
+        "kb_940"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_116"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_116"
+      ]
+    },
+    {
+      "id": "master336-220",
+      "title": "いつでも出られる状態を作る",
+      "canonicalTheoryIds": [
+        "kb_035",
+        "kb_239",
+        "kb_142",
+        "kb_286",
+        "kb_468",
+        "kb_469",
+        "kb_940"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_035",
+        "kb_239",
+        "kb_142",
+        "kb_286",
+        "kb_765",
+        "kb_468",
+        "kb_469",
+        "kb_940"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_035",
+        "kb_142"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_035",
+        "kb_142"
+      ]
+    },
+    {
+      "id": "master336-221",
+      "title": "最低ラインを先に決めておく",
+      "canonicalTheoryIds": [
+        "kb_144",
+        "kb_524"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_144",
+        "kb_524",
+        "kb_791",
+        "kb_792"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_144"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_144"
+      ]
+    },
+    {
+      "id": "master336-222",
+      "title": "交渉は離れられる側が圧倒的に強い",
+      "canonicalTheoryIds": [
+        "kb_035",
+        "kb_079",
+        "kb_527",
+        "kb_142",
+        "kb_143",
+        "kb_165",
+        "kb_630"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_035",
+        "kb_079",
+        "kb_527",
+        "kb_142",
+        "kb_143",
+        "kb_165",
+        "kb_790",
+        "kb_791",
+        "kb_630"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_142",
+        "kb_035"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_142",
+        "kb_035"
+      ]
+    },
+    {
+      "id": "master336-223",
+      "title": "相手に先に希望を話させる",
+      "canonicalTheoryIds": [
+        "kb_147"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_147",
+        "kb_784",
+        "kb_785",
+        "kb_787"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_147"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_147"
+      ]
+    },
+    {
+      "id": "master336-224",
+      "title": "相手の優先順位を把握する",
+      "canonicalTheoryIds": [
+        "kb_147",
+        "kb_148",
+        "kb_149",
+        "kb_522",
+        "kb_626"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_147",
+        "kb_148",
+        "kb_149",
+        "kb_522",
+        "kb_795",
+        "kb_626"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_147"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_147"
+      ]
+    },
+    {
+      "id": "master336-230",
+      "title": "譲歩するときは必ず何かと交換する",
+      "canonicalTheoryIds": [
+        "kb_153"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_153",
+        "kb_798"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_153"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_153"
+      ]
+    },
+    {
+      "id": "master336-232",
+      "title": "期限を交渉材料にする",
+      "canonicalTheoryIds": [
+        "kb_166",
+        "kb_496"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_166",
+        "kb_792",
+        "kb_496"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_166"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_166"
+      ]
+    },
+    {
+      "id": "master336-235",
+      "title": "感情と市場基準を混同しない",
+      "canonicalTheoryIds": [
+        "kb_154",
+        "kb_525"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_154",
+        "kb_525",
+        "kb_760",
+        "kb_761"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_154"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_154"
+      ]
+    },
+    {
+      "id": "master336-236",
+      "title": "相手の面子が残る出口を用意する",
+      "canonicalTheoryIds": [
+        "kb_056",
+        "kb_159"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_056",
+        "kb_159",
+        "kb_787"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_159",
+        "kb_056"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_159",
+        "kb_056"
+      ]
+    },
+    {
+      "id": "master336-237",
+      "title": "結果だけでなく手続きの公平感も重視する",
+      "canonicalTheoryIds": [
+        "kb_486",
+        "kb_155",
+        "kb_954",
+        "kb_955",
+        "kb_956"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_486",
+        "kb_155",
+        "kb_768",
+        "kb_769",
+        "kb_798",
+        "kb_954",
+        "kb_955",
+        "kb_956"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_155"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_155"
+      ]
+    },
+    {
+      "id": "master336-239",
+      "title": "勝ち切らず次も組める余地を残す",
+      "canonicalTheoryIds": [
+        "kb_157",
+        "kb_162",
+        "kb_163",
+        "kb_490",
+        "kb_496",
+        "kb_621",
+        "kb_630",
+        "kb_926",
+        "kb_953"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_157",
+        "kb_162",
+        "kb_163",
+        "kb_778",
+        "kb_779",
+        "kb_790",
+        "kb_795",
+        "kb_797",
+        "kb_847",
+        "kb_848",
+        "kb_849",
+        "kb_850",
+        "kb_852",
+        "kb_853",
+        "kb_854",
+        "kb_855",
+        "kb_862",
+        "kb_863",
+        "kb_864",
+        "kb_865",
+        "kb_866",
+        "kb_490",
+        "kb_496",
+        "kb_621",
+        "kb_630",
+        "kb_926",
+        "kb_953"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_163"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_163"
+      ]
+    },
+    {
+      "id": "master336-241",
+      "title": "情報を持つ人を肩書で軽視しない",
+      "canonicalTheoryIds": [
+        "kb_080",
+        "kb_084",
+        "kb_085"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_080",
+        "kb_084",
+        "kb_085",
+        "kb_800",
+        "kb_802"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_084"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_084"
+      ]
+    },
+    {
+      "id": "master336-242",
+      "title": "自分の影響力が何から来るか知る",
+      "canonicalTheoryIds": [
+        "kb_080",
+        "kb_085",
+        "kb_606",
+        "kb_617",
+        "kb_626"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_080",
+        "kb_085",
+        "kb_832",
+        "kb_606",
+        "kb_617",
+        "kb_626"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_080"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_080"
+      ]
+    },
+    {
+      "id": "master336-243",
+      "title": "味方は必要になる前に平時から作っておく",
+      "canonicalTheoryIds": [
+        "kb_081"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_081",
+        "kb_778",
+        "kb_799",
+        "kb_847",
+        "kb_849",
+        "kb_852"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_081"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_081"
+      ]
+    },
+    {
+      "id": "master336-245",
+      "title": "情報の結節点になる",
+      "canonicalTheoryIds": [
+        "kb_106",
+        "kb_083",
+        "kb_084"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_106",
+        "kb_083",
+        "kb_084",
+        "kb_783"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_084",
+        "kb_083"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_084",
+        "kb_083"
+      ]
+    },
+    {
+      "id": "master336-246",
+      "title": "決定前に根回しを終える",
+      "canonicalTheoryIds": [
+        "kb_084",
+        "kb_483",
+        "kb_159",
+        "kb_627"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_084",
+        "kb_483",
+        "kb_159",
+        "kb_793",
+        "kb_794",
+        "kb_796",
+        "kb_627"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_084",
+        "kb_483"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_084",
+        "kb_483"
+      ]
+    },
+    {
+      "id": "master336-252",
+      "title": "幸福を未来の達成日に預けない",
+      "canonicalTheoryIds": [
+        "kb_551",
+        "kb_618",
+        "theory-665760d5-914e-41d3-af31-7c74dd28d909"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_551",
+        "kb_736",
+        "theory-665760d5-914e-41d3-af31-7c74dd28d909",
+        "kb_618"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_551"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_551"
+      ]
+    },
+    {
+      "id": "master336-253",
+      "title": "足りないものばかり数えない",
+      "canonicalTheoryIds": [
+        "kb_425",
+        "kb_268",
+        "kb_618"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_268",
+        "kb_425",
+        "kb_618"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_425"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_425"
+      ]
+    },
+    {
+      "id": "master336-254",
+      "title": "大きな目標ばかりを見ていると、人生は過ぎ去っていく",
+      "canonicalTheoryIds": [
+        "kb_551",
+        "kb_612",
+        "kb_613",
+        "theory-665760d5-914e-41d3-af31-7c74dd28d909"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_551",
+        "theory-665760d5-914e-41d3-af31-7c74dd28d909",
+        "kb_612",
+        "kb_613"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_551"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_551"
+      ]
+    },
+    {
+      "id": "master336-255",
+      "title": "大事なことから時間を使わないと取り返しがつかなくなる",
+      "canonicalTheoryIds": [
+        "kb_562",
+        "kb_176",
+        "kb_610",
+        "kb_612",
+        "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
+        "kb_912"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_562",
+        "kb_176",
+        "kb_753",
+        "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
+        "kb_610",
+        "kb_612",
+        "kb_912"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_562"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_562"
+      ]
+    },
+    {
+      "id": "master336-256",
+      "title": "お金より時間の使い道を考える",
+      "canonicalTheoryIds": [
+        "kb_274",
+        "kb_612",
+        "theory-ea4dfb6c-4442-477a-aa71-a3581d201131"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_274",
+        "kb_757",
+        "kb_760",
+        "kb_761",
+        "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
+        "kb_612"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_274"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_274"
+      ]
+    },
+    {
+      "id": "master336-257",
+      "title": "今しかできないことを優先する",
+      "canonicalTheoryIds": [
+        "kb_562",
+        "kb_604",
+        "kb_610",
+        "kb_613",
+        "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_562",
+        "kb_604",
+        "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
+        "kb_610",
+        "kb_613"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_562"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_562"
+      ]
+    },
+    {
+      "id": "master336-268",
+      "title": "自分の価値観を言語化する",
+      "canonicalTheoryIds": [
+        "kb_259",
+        "kb_617",
+        "theory-6f51e173-64ce-43d1-b64b-92aa5b9794c6"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_259",
+        "kb_315",
+        "kb_725",
+        "kb_750",
+        "kb_805",
+        "kb_806",
+        "kb_833",
+        "kb_867",
+        "kb_868",
+        "theory-6f51e173-64ce-43d1-b64b-92aa5b9794c6",
+        "kb_617"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_259"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_259"
+      ]
+    },
+    {
+      "id": "master336-269",
+      "title": "関心・能力・環境から戦う場所を決める",
+      "canonicalTheoryIds": [
+        "kb_128",
+        "kb_130",
+        "kb_491",
+        "kb_315",
+        "kb_605",
+        "kb_617",
+        "kb_626",
+        "kb_628",
+        "theory-d923799a-26ec-4db9-b0ed-7777497244ae"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_128",
+        "kb_130",
+        "kb_491",
+        "kb_315",
+        "kb_724",
+        "kb_726",
+        "kb_803",
+        "kb_804",
+        "kb_806",
+        "theory-d923799a-26ec-4db9-b0ed-7777497244ae",
+        "kb_605",
+        "kb_617",
+        "kb_626",
+        "kb_628"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_128",
+        "kb_491"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_128",
+        "kb_491"
+      ]
+    },
+    {
+      "id": "master336-270",
+      "title": "人と違うことを弱みではなく、強みにする",
+      "canonicalTheoryIds": [
+        "kb_491",
+        "kb_605",
+        "theory-116d47d4-5388-45a1-b6d7-986369be20d0"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_491",
+        "kb_315",
+        "theory-116d47d4-5388-45a1-b6d7-986369be20d0",
+        "kb_605"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_491"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_491"
+      ]
+    },
+    {
+      "id": "master336-271",
+      "title": "自分で決めた進路は、納得できる",
+      "canonicalTheoryIds": [
+        "kb_520",
+        "kb_913"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_520",
+        "kb_848",
+        "kb_850",
+        "kb_854",
+        "kb_855",
+        "kb_913"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_520"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_520"
+      ]
+    },
+    {
+      "id": "master336-273",
+      "title": "違和感を進路変更の手掛かりにする",
+      "canonicalTheoryIds": [
+        "kb_559",
+        "kb_915"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_559",
+        "kb_805",
+        "kb_915"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_559"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_559"
+      ]
+    },
+    {
+      "id": "master336-274",
+      "title": "停滞したら環境との相性も疑う",
+      "canonicalTheoryIds": [
+        "kb_559",
+        "kb_128",
+        "kb_129",
+        "kb_315",
+        "kb_914"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_559",
+        "kb_128",
+        "kb_129",
+        "kb_315",
+        "kb_803",
+        "kb_804",
+        "kb_867",
+        "kb_868",
+        "kb_914"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_128",
+        "kb_559"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_128",
+        "kb_559"
+      ]
+    },
+    {
+      "id": "master336-275",
+      "title": "環境によってキャラクターが変わることを受け入れる",
+      "canonicalTheoryIds": [
+        "kb_258",
+        "kb_315",
+        "kb_549",
+        "kb_606",
+        "kb_615",
+        "kb_629",
+        "kb_914"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_258",
+        "kb_315",
+        "kb_724",
+        "kb_549",
+        "kb_606",
+        "kb_615",
+        "kb_629",
+        "kb_914"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_258"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_258"
+      ]
+    },
+    {
+      "id": "master336-276",
+      "title": "演じなくていい場所を持つ",
+      "canonicalTheoryIds": [
+        "kb_020",
+        "kb_257",
+        "kb_315",
+        "theory-f7fc74ff-d2d1-4254-9135-a2772f36ccf3"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_020",
+        "kb_257",
+        "kb_315",
+        "kb_730",
+        "theory-f7fc74ff-d2d1-4254-9135-a2772f36ccf3"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_020"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_020"
+      ]
+    },
+    {
+      "id": "master336-278",
+      "title": "全員の理解を取りにいかない",
+      "canonicalTheoryIds": [
+        "kb_092",
+        "kb_702",
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_092",
+        "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
+        "kb_702"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_092"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_092"
+      ]
+    },
+    {
+      "id": "master336-281",
+      "title": "趣味を役立つかどうかで判断しない",
+      "canonicalTheoryIds": [
+        "kb_568",
+        "kb_632",
+        "theory-ab322059-b04a-4e2f-8c43-141492063021"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_568",
+        "theory-ab322059-b04a-4e2f-8c43-141492063021",
+        "kb_632"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_568"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_568"
+      ]
+    },
+    {
+      "id": "master336-291",
+      "title": "心配を事実と予測に分解する",
+      "canonicalTheoryIds": [
+        "kb_212",
+        "kb_213",
+        "kb_223",
+        "kb_603",
+        "kb_609",
+        "kb_614",
+        "kb_616"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_212",
+        "kb_213",
+        "kb_223",
+        "kb_725",
+        "kb_811",
+        "kb_812",
+        "kb_856",
+        "kb_857",
+        "kb_861",
+        "kb_603",
+        "kb_609",
+        "kb_614",
+        "kb_616"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_212"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_212"
+      ]
+    },
+    {
+      "id": "master336-292",
+      "title": "最悪の想定と対策を考える",
+      "canonicalTheoryIds": [
+        "kb_213",
+        "kb_237",
+        "kb_502",
+        "kb_599"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_213",
+        "kb_237",
+        "kb_502",
+        "kb_599",
+        "kb_713",
+        "kb_749",
+        "kb_758",
+        "kb_759",
+        "kb_819",
+        "kb_820"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_599"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_599"
+      ]
+    },
+    {
+      "id": "master336-293",
+      "title": "情報を集めすぎない",
+      "canonicalTheoryIds": [
+        "kb_204",
+        "kb_206",
+        "kb_207"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_204",
+        "kb_206",
+        "kb_207",
+        "kb_718",
+        "kb_826",
+        "kb_827",
+        "kb_828",
+        "kb_829",
+        "kb_830",
+        "kb_831"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_206"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_206"
+      ]
+    },
+    {
+      "id": "master336-295",
+      "title": "感情が強い日は重大判断を避ける",
+      "canonicalTheoryIds": [
+        "kb_027",
+        "kb_212",
+        "kb_234",
+        "kb_429",
+        "kb_430"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_027",
+        "kb_212",
+        "kb_234",
+        "kb_429",
+        "kb_430",
+        "kb_714",
+        "kb_853"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_212"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_212"
+      ]
+    },
+    {
+      "id": "master336-296",
+      "title": "完璧な確信を待たない",
+      "canonicalTheoryIds": [
+        "kb_203",
+        "kb_336",
+        "kb_326"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_203",
+        "kb_336",
+        "kb_710",
+        "kb_758",
+        "kb_810",
+        "kb_834",
+        "kb_840",
+        "kb_326"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_203"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_203"
+      ]
+    },
+    {
+      "id": "master336-299",
+      "title": "人生の終わりから今を見る",
+      "canonicalTheoryIds": [
+        "kb_562",
+        "kb_554",
+        "kb_561",
+        "kb_610",
+        "theory-8c2a3b15-0f6d-4225-abda-07eba8eccc4a",
+        "kb_912"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_562",
+        "kb_554",
+        "kb_561",
+        "kb_752",
+        "kb_753",
+        "theory-8c2a3b15-0f6d-4225-abda-07eba8eccc4a",
+        "kb_610",
+        "kb_912"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_554",
+        "kb_562"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_554",
+        "kb_562"
+      ]
+    },
+    {
+      "id": "master336-301",
+      "title": "得るものと失うもの両方を考慮する",
+      "canonicalTheoryIds": [
+        "kb_274",
+        "kb_133",
+        "kb_134",
+        "kb_955"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_133",
+        "kb_134",
+        "kb_274",
+        "kb_756",
+        "kb_757",
+        "kb_759",
+        "kb_955"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_274"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_274"
+      ]
+    },
+    {
+      "id": "master336-303",
+      "title": "迷ったら後戻りできるか考える",
+      "canonicalTheoryIds": [
+        "kb_569",
+        "kb_548",
+        "kb_278"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_569",
+        "kb_548",
+        "kb_278",
+        "kb_756"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_569"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_569"
+      ]
+    },
+    {
+      "id": "master336-304",
+      "title": "小さく試してから決める",
+      "canonicalTheoryIds": [
+        "kb_220",
+        "kb_570",
+        "kb_548",
+        "kb_284",
+        "kb_620",
+        "theory-9ad49f9a-e7dd-4b4e-8014-abc9045dd0e3",
+        "kb_931",
+        "kb_932"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_220",
+        "kb_570",
+        "kb_548",
+        "kb_284",
+        "theory-9ad49f9a-e7dd-4b4e-8014-abc9045dd0e3",
+        "kb_620",
+        "kb_931",
+        "kb_932"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_570"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_570"
+      ]
+    },
+    {
+      "id": "master336-305",
+      "title": "決断の期限を決める",
+      "canonicalTheoryIds": [
+        "kb_216",
+        "kb_547",
+        "theory-f8329abb-6906-47bb-8dff-85a98adedb64"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_216",
+        "kb_547",
+        "kb_754",
+        "theory-f8329abb-6906-47bb-8dff-85a98adedb64"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_547"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_547"
+      ]
+    },
+    {
+      "id": "master336-310",
+      "title": "過去の自分を今の情報だけで裁かない",
+      "canonicalTheoryIds": [
+        "kb_264",
+        "theory-65d2d01f-38fc-4557-b7f8-bb0665d07426",
+        "kb_915",
+        "kb_951"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_264",
+        "kb_709",
+        "kb_722",
+        "kb_807",
+        "kb_808",
+        "kb_825",
+        "kb_835",
+        "kb_837",
+        "kb_838",
+        "kb_839",
+        "kb_841",
+        "kb_842",
+        "kb_843",
+        "kb_862",
+        "kb_864",
+        "theory-65d2d01f-38fc-4557-b7f8-bb0665d07426",
+        "kb_915",
+        "kb_951"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_264"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_264"
+      ]
+    },
+    {
+      "id": "master336-317",
+      "title": "落ちたときほど人との線を切らない",
+      "canonicalTheoryIds": [
+        "kb_240",
+        "kb_241",
+        "kb_564",
+        "kb_565"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_240",
+        "kb_241",
+        "kb_564",
+        "kb_565",
+        "kb_772"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_564",
+        "kb_565"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_564",
+        "kb_565"
+      ]
+    },
+    {
+      "id": "master336-318",
+      "title": "環境を変えて流れを変える",
+      "canonicalTheoryIds": [
+        "kb_239",
+        "kb_559",
+        "kb_136",
+        "kb_353",
+        "theory-1a1a5e84-191d-4002-9d09-586f422e606a",
+        "kb_914"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_239",
+        "kb_559",
+        "kb_136",
+        "theory-1a1a5e84-191d-4002-9d09-586f422e606a",
+        "kb_353",
+        "kb_914"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_559"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_559"
+      ]
+    },
+    {
+      "id": "master336-323",
+      "title": "将来像を複数同時に持つ",
+      "canonicalTheoryIds": [
+        "kb_256",
+        "kb_280",
+        "kb_281",
+        "kb_351"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_256",
+        "kb_280",
+        "kb_281",
+        "kb_315",
+        "kb_351"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_256"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_256"
+      ]
+    },
+    {
+      "id": "master336-327",
+      "title": "未経験の場所へ自分を運ぶ",
+      "canonicalTheoryIds": [
+        "kb_290",
+        "kb_291",
+        "kb_592",
+        "kb_285",
+        "kb_287",
+        "kb_631",
+        "theory-ba0ccc1b-92c5-48b9-9d1c-9810807d0416",
+        "kb_950"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_290",
+        "kb_291",
+        "kb_592",
+        "kb_285",
+        "kb_287",
+        "theory-ba0ccc1b-92c5-48b9-9d1c-9810807d0416",
+        "kb_631",
+        "kb_950"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_290"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_290"
+      ]
+    },
+    {
+      "id": "master336-329",
+      "title": "完璧を待たず小さく挑戦する",
+      "canonicalTheoryIds": [
+        "kb_169",
+        "kb_543",
+        "kb_284",
+        "kb_329",
+        "kb_326",
+        "kb_620",
+        "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
+        "kb_943",
+        "kb_944"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_169",
+        "kb_543",
+        "kb_284",
+        "kb_329",
+        "kb_728",
+        "kb_749",
+        "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
+        "kb_326",
+        "kb_620",
+        "kb_943",
+        "kb_944"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_543"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_543"
+      ]
+    },
+    {
+      "id": "master336-330",
+      "title": "迷ったら経験値が残る方を見る",
+      "canonicalTheoryIds": [
+        "kb_220",
+        "kb_242",
+        "kb_554",
+        "kb_608",
+        "theory-1e056acd-4b69-40d2-95ce-3182dc15315a"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_220",
+        "kb_242",
+        "kb_554",
+        "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
+        "kb_608"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_554"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_554"
+      ]
+    },
+    {
+      "id": "master336-332",
+      "title": "3つの強みを掛け合わせて希少化する",
+      "canonicalTheoryIds": [
+        "kb_491"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_491",
+        "kb_783"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_491"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_491"
+      ]
+    },
+    {
+      "id": "master336-333",
+      "title": "欲しい機会を周囲に言語化する",
+      "canonicalTheoryIds": [
+        "kb_593"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_593",
+        "kb_781",
+        "kb_782"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_593"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_593"
+      ]
+    },
+    {
+      "id": "master336-336",
+      "title": "人生を複利で考える",
+      "canonicalTheoryIds": [
+        "kb_575",
+        "kb_352",
+        "theory-0a93dca8-aa3d-4636-b42c-0d1db8f10aa0",
+        "kb_947"
+      ],
+      "previousGeneratedTheoryIds": [
+        "kb_575",
+        "theory-0a93dca8-aa3d-4636-b42c-0d1db8f10aa0",
+        "kb_352",
+        "kb_947"
+      ],
+      "canonicalPrimaryIds": [
+        "kb_575"
+      ],
+      "previousGeneratedPrimaryIds": [
+        "kb_575"
+      ]
+    }
+  ]
+}

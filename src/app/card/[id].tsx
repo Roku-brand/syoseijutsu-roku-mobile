@@ -79,7 +79,7 @@ export default function CardDetailScreen() {
   const toTheoryItem = (theory: (typeof relatedTheories)[number]) => ({
     key: theory.tagId,
     title: theory.title,
-    supportingText: theory.summary,
+    supportingText: `${theory.quotation || theory.categoryId === 'classics-thought' ? '思想・言葉による補完｜' : theory.knowledgeType === 'method' ? '実践手法｜' : ''}${theory.quotation?.contextNote ?? theory.summary}`,
     href: canReadTheory(effectiveAccess, theory.tagId) ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
   });
   const explanation = splitExplanation(card.explanation, card.subtitle);

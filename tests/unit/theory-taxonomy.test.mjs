@@ -27,6 +27,9 @@ const {getSearchResults}=await import('../../src/data/search-catalog.ts');
 const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-before.json'),'utf8'));
 const after=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-after.json'),'utf8'));
 const scope=JSON.parse(fs.readFileSync(path.join(root,'src/data/content-scope.json'),'utf8'));
+const retired=new Set(JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/retired-theory-ids.json'),'utf8')));
+const preReform=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-coverage-20261015-catalog-before.json'),'utf8'));
+const canonicalBefore=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/theory-reform-catalog-before.json'),'utf8')).theories;
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
 const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
 const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
@@ -81,7 +84,7 @@ test('published refresh and complete overlay keep fatigue-free rows and correcte
 test('broad sections preserve all content and move techniques to their subject',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));
  const historicalIds=new Set(snapshot.assignments.map(t=>t.tagId));
- const historical=current.filter(t=>historicalIds.has(t.tagId));
+ const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>['kb_002','kb_595'].includes(t.tagId)?preReform.find(x=>x.tagId===t.tagId):t);
  const text=[...historical].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
  assert.equal(createHash('md5').update(text).digest('hex'),snapshot.contentHash);
  assert.deepEqual(new Set(historical.map(t=>t.tagId)),historicalIds);
@@ -108,8 +111,8 @@ test('library folder restoration canonicalizes legacy IDs and excludes invalid o
 });
 test('all 759 historical IDs still resolve and both directions of links agree after additions',()=>{
  assert.equal(catalog.theories.length,scope.complete.theories);
- assert.ok(after.every(t=>catalog.theoryById.has(t.tagId)));
- for(const old of before)assert.equal(catalog.theoryById.get(old.id)?.tagId,taxonomy.resolveTheoryId(old.id));
+ assert.ok(after.filter(t=>!retired.has(t.tagId)).every(t=>catalog.theoryById.has(t.tagId)));
+ for(const old of before.filter(t=>!retired.has(t.id)))assert.equal(catalog.theoryById.get(old.id)?.tagId,taxonomy.resolveTheoryId(old.id));
  for(const theory of catalog.theories)for(const card of catalog.getTechniquesForTheory(theory.tagId))assert.ok(card.theoryTagIds.includes(theory.tagId));
 });
 test('saved IDs migrate once, deduplicate aliases, preserve unknown IDs and ignore malformed values',()=>{
@@ -146,9 +149,9 @@ test('new complete-edition theories are searchable shells and hydrate without ch
  const oldIds=new Set(snapshot.theories.map(t=>t.id));
  const additions=current.filter(t=>!oldIds.has(t.tagId) && /^kb_(869|8[7-9][0-9]|90[0-8])$/.test(t.tagId));
  assert.equal(additions.length,40);
- for(const old of snapshot.theories.filter(t=>t.status==='published')) {
+ for(const old of snapshot.theories.filter(t=>t.status==='published'&&!retired.has(t.id))) {
   const now=current.find(t=>t.tagId===old.id);
-  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']])assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
+  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']]){if(old.id==='kb_002'&&cardKey==='title'){assert.ok(now.aliases.includes(old.title));continue;}if(old.id==='kb_595'&&['title','summary'].includes(cardKey)){assert.ok(now.quotation);continue;}assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);}
  }
  for(const t of additions) {
   const shell=catalog.theoryById.get(t.tagId);
@@ -167,7 +170,8 @@ test('new complete-edition theories are searchable shells and hydrate without ch
 test('display IDs follow the current taxonomy order within every major while all stable identities and content stay intact',()=>{
  for(const category of catalog.theoryCategoryOrder) {
   const rows=catalog.theories.filter(t=>t.categoryId===category);
-  assert.deepEqual(rows.map(t=>t.displayId),rows.map((_,i)=>i+1));
+  assert.equal(new Set(rows.map(t=>t.displayId)).size,rows.length);
+  for(const row of rows){const old=canonicalBefore.find(t=>t.id===row.tagId);if(old)assert.equal(row.displayId,old.display_id);}
   for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
  }
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));

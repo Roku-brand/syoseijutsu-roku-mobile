@@ -1,0 +1,26 @@
+{
+  "baselinePublicTheoryCatalog": {
+    "rawBytes": 426854,
+    "gzipBytes": 67328
+  },
+  "publicTheoryCatalog": {
+    "rawBytes": 433514,
+    "gzipBytes": 67052
+  },
+  "bundledFreeRelations": {
+    "rawBytes": 1678,
+    "gzipBytes": 702
+  },
+  "freeRelationCount": 8,
+  "relationCount": 574,
+  "maxAdjacentRelations": 8,
+  "largestNeighborhood": {
+    "id": "kb_763",
+    "rawBytes": 1404,
+    "gzipBytes": 533
+  },
+  "graphNodeLimit": 6,
+  "detailQueryLimit": 100,
+  "newProductionDependencies": 0,
+  "newImages": 0
+}

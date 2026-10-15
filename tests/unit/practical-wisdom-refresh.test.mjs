@@ -1,62 +1,71 @@
+import './register-data.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { auditTheoryRights } from '../../scripts/theory-rights-contract.mjs';
-import { originalPracticalWisdomProvenance } from '../../src/data/original-practical-wisdom.ts';
-import { validateTheoryForPublish } from '../../src/data/content-editor-schema.ts';
-import { isPublicCatalogIdentityField } from '../../scripts/public-catalog-identity.mjs';
-
-const load = (path) => JSON.parse(fs.readFileSync(new URL('../../' + path, import.meta.url), 'utf8'));
-const originals = load('docs/content/practical-wisdom-originals.json');
-const old = load('docs/content/practical-wisdom-retired-20261002.json');
-const complete = load('src/data/generated/theories.json');
-const shells = load('src/data/generated/theories.public.json');
-const requestedTitles = fs.readFileSync(new URL('../../docs/content/practical-wisdom-requested-titles.txt', import.meta.url), 'utf8').trim().split(/\r?\n/);
-
-test('public UUID relation fields are metadata; summaries, titles and source text remain protected', () => {
-  for (const field of ['id','tagId','relatedTheoryIds[2]','primaryTheoryIds[0]','theoryTagIds[3]']) assert.equal(isPublicCatalogIdentityField(`technique:test.${field}`),true);
-  for (const field of ['summary','title','explanation','memo','provenance.note','provenance.sources[0].url','relatedTheoryIdsExtra']) assert.equal(isPublicCatalogIdentityField(`theory:test.${field}`),false);
+const {validateTheoryForPublish}=await import('../../src/data/content-editor-schema.ts');
+const catalog=await import('../../src/data/catalog.ts');
+const {relationLabel}=await import('../../src/data/theory-knowledge.ts');
+const {theoryNetworkPoints}=await import('../../src/data/theory-network-layout.ts');
+const load=p=>JSON.parse(fs.readFileSync(new URL('../../'+p,import.meta.url),'utf8'));
+const retired=load('docs/content/retired-original-maxims-20261015.json');
+const complete=load('src/data/generated/theories.json');
+const shells=load('src/data/generated/theories.public.json');
+const audit=load('docs/content/historical-maxims-audit-20261015.json');
+const cards=load('src/data/generated/techniques.json').categories.flatMap(c=>c.subcategories.flatMap(p=>p.items));
+const retiredIds=new Set(load('src/data/generated/retired-theory-ids.json'));
+test('39 originals disappear without reusing stable IDs or leaving references',()=>{
+ assert.equal(retired.length,39);assert.equal(retiredIds.size,39);assert.equal(complete.length,821);
+ for(const t of [...complete,...shells]){
+  assert.ok(!retiredIds.has(t.tagId));assert.notEqual(t.provenance?.status,'オリジナル');
+  assert.ok(!(t.relatedTheoryIds??[]).some(id=>retiredIds.has(id)));
+ }
+ for(const t of cards)assert.ok(![...t.relatedTheoryIds,...t.primaryTheoryIds].some(id=>retiredIds.has(id)));
+ assert.deepEqual(auditTheoryRights({theories:complete,techniques:cards,retiredIds:[...retiredIds]}),[]);
 });
-
-test('replacement is exactly the 39 requested titles and new stable identities', () => {
-  const practical = originals.map(original => complete.find(item => item.tagId === original.tagId));
-  assert.equal(practical.length, 39);
-  assert.deepEqual(practical.map((item) => item.title), requestedTitles);
-  assert.equal(new Set(practical.map((item) => item.displayId)).size, 39);
-  assert.ok(practical.every(item => Number.isInteger(item.displayId) && item.displayId > 0));
-  for (const item of practical) {
-    assert.ok(!old.some((retired) => retired.tagId === item.tagId));
-    assert.deepEqual(item.provenance, originalPracticalWisdomProvenance());
-    assert.equal(item.summary.split('。').filter(Boolean).length <= 3, true);
-    assert.deepEqual(validateTheoryForPublish(item), []);
-  }
+test('all fifty candidates have individual decisions and uncertain entries stay unpublished',()=>{
+ assert.deepEqual(audit.map(a=>a.candidateId),Array.from({length:50},(_,i)=>String(i+1).padStart(2,'0')));
+ assert.equal(audit.filter(a=>a.decision==='hold').length,31);
+ for(const a of audit){
+  for(const k of ['collectionUrl','author','reason','rightsReview','originalVerification','translationReview','duplicateReview'])assert.ok(a[k],a.candidateId+'/'+k);
+  if(a.decision==='hold'){assert.equal(a.theoryId,null);continue;}
+  const t=complete.find(t=>t.tagId===a.theoryId);assert.ok(t);
+  assert.equal(t.quotation.originalText,a.originalText);assert.equal(t.quotation.translationText,a.displayText);
+  assert.deepEqual(validateTheoryForPublish(t),[]);assert.match(t.summary,/—/);
+ }
 });
-
-test('public identities match complete edition without exposing paid summaries', () => {
-  assert.deepEqual(shells.map(({tagId,title,categoryId,displayId}) => ({tagId,title,categoryId,displayId})), complete.map(({tagId,title,categoryId,displayId}) => ({tagId,title,categoryId,displayId})));
-  for (const item of originals) {
-    const shell = shells.find((row) => row.tagId === item.tagId);
-    assert.deepEqual(shell.provenance, item.provenance);
-    assert.equal(shell.summary, item.accessTier === 'free' ? item.summary : '');
-  }
+test('public shells never contain protected quotation bodies or private relation rationales',()=>{
+ assert.deepEqual(shells.map(t=>t.tagId),complete.map(t=>t.tagId));
+ for(const t of complete.filter(t=>t.accessTier==='complete')){
+  const shell=shells.find(s=>s.tagId===t.tagId);assert.equal(shell.summary,'');assert.equal(shell.quotation,undefined);assert.equal(shell.provenance,undefined);
+  if(t.quotation)assert.notEqual(t.title,t.quotation.translationText);
+ }
+ const free=new Set(complete.filter(t=>t.accessTier==='free').map(t=>t.tagId));
+ for(const r of load('src/data/generated/theory-relations.public.json'))assert.ok(free.has(r.sourceId)&&free.has(r.targetId));
 });
-
-test('rights contract accepts a future 40th item and rejects provenance, sequence, identity, or dead-link errors', () => {
-  const base = originals.map(({relatedTechniqueIds, ...item}) => item);
-  const forty = [...base, {...base[0],tagId:'future-original',displayId:40,title:'「明日には、明日の風がある。」'}];
-  assert.deepEqual(auditTheoryRights({theories:forty}), []);
-  for (const patch of [{title:'引用'}, {displayId:41}, {tagId:base[0].tagId}, {provenance:{status:'書誌確認済み'}}, {relatedTheoryIds:['deleted']}]) {
-    assert.ok(auditTheoryRights({theories:[...base,{...forty[39],...patch}]}).length > 0);
-  }
-  assert.ok(validateTheoryForPublish({...base[0],provenance:{...base[0].provenance,sources:[{title:'引用',url:'https://example.com'}]}}).length > 0);
+test('stale paid hydration cannot resurrect archived IDs',()=>{
+ const id=[...retiredIds][0];catalog.hydratePaidTheories([{tagId:id,title:'stale',summary:'stale'}]);
+ assert.equal(catalog.theoryById.has(id),false);catalog.resetCatalog();
 });
-
-test('every technique link is alive and the new semantic choices are exact, including intentionally unlinked originals', () => {
-  const catalog = load('src/data/generated/techniques.json');
-  const cards = catalog.categories.flatMap((c) => c.subcategories.flatMap((p) => p.items));
-  assert.deepEqual(auditTheoryRights({theories:complete,techniques:cards,retiredIds:old.map((item) => item.tagId)}), []);
-  for (const original of originals) {
-    assert.deepEqual(cards.filter((card) => card.relatedTheoryIds?.includes(original.tagId)).map((card) => card.id).sort(), original.relatedTechniqueIds.slice().sort());
+test('all 803 retained theories have an editorial record and taxonomy remains six by thirty-six',()=>{
+ assert.equal(load('docs/content/theory-editorial-review-20261015.json').length,803);
+ assert.equal(new Set(complete.map(t=>t.categoryId)).size,6);
+ assert.equal(load('src/data/generated/theory-subcategories.json').length,36);
+ assert.equal(new Set(complete.map(t=>t.tagId)).size,821);
+});
+test('directed relationship labels reverse without implying evidentiary support for sayings',()=>{
+ assert.equal(relationLabel({sourceId:'a',targetId:'b',type:'contains'},'a'),'構成要素');
+ assert.equal(relationLabel({sourceId:'a',targetId:'b',type:'contains'},'b'),'上位の知識');
+ const rows=load('src/data/generated/theory-relations.json');assert.equal(rows.length,574);
+ assert.equal(rows.filter(r=>r.reviewStatus==='confirmed').length,128);
+ assert.equal(rows.filter(r=>r.reviewStatus==='legacy').length,446);
+ for(const r of rows){assert.notEqual(r.sourceId,r.targetId);assert.ok(complete.some(t=>t.tagId===r.sourceId));assert.ok(complete.some(t=>t.tagId===r.targetId));}
+});
+test('one through six graph nodes never overlap each other or the current theory at mobile widths',()=>{
+ for(const width of [272,296,320,360,560])for(let count=1;count<=6;count++){
+  const boxes=[{x:width/2-55,y:205,w:110,h:90},...theoryNetworkPoints(width,count).map(p=>({x:p.x-50,y:p.y-36,w:100,h:72}))];
+  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+   const a=boxes[i],b=boxes[j];assert.ok(a.x+a.w<=b.x||b.x+b.w<=a.x||a.y+a.h<=b.y||b.y+b.h<=a.y,`${width}px / ${count} / ${i},${j}`);
   }
-  assert.ok(originals.some((item) => !item.relatedTechniqueIds.length));
+ }
 });

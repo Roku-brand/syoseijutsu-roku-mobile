@@ -5,12 +5,15 @@ import { coverageRows, coverageSections, developmentMoves } from '../../scripts/
 const read = name => JSON.parse(fs.readFileSync(new URL(`../../${name}`, import.meta.url), 'utf8'));
 const cards = read('src/data/generated/theories.json');
 const shells = read('src/data/generated/theories.public.json');
-const before = read('docs/content/theory-coverage-20261015-catalog-before.json');
+const canonicalBefore = read('tests/fixtures/theory-reform-catalog-before.json');
+const before = canonicalBefore.theories.filter(t=>t.status==='published').map(t=>({tagId:t.id,title:t.title,summary:t.summary,categoryId:t.category_id,categoryTitle:t.category_title,provenance:t.provenance ?? undefined,aliases:t.aliases,canonicalId:t.canonical_id,legacyIds:t.legacy_ids,mergedFromIds:t.legacy_ids,accessTier:t.access_tier,relatedTheoryIds:t.related_theory_ids,subcategoryId:t.subcategory_id}));
 const sections = read('src/data/generated/theory-subcategories.json');
+const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
+const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
-  assert.equal(cards.length, 842);
+  assert.equal(cards.length, 821);
   assert.equal(coverageRows.length, 48);
   for (const name of ['ダモクレスの剣', '社会的時計', '脳の可塑性', 'ロミオとジュリエット効果']) assert.ok(cards.some(t => t.title === name));
   const names = new Map();
@@ -34,11 +37,11 @@ test('coverage expands named gaps with distinct concepts and full sources', () =
 });
 
 test('historical content, aliases, access and stable identities survive expansion', () => {
-  for (const old of before) {
+  for (const old of before.filter(t=>!retired.has(t.tagId))) {
     const t = byId.get(old.tagId);
     assert.ok(t);
-    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`);
-    for (const id of old.relatedTheoryIds ?? []) assert.ok(t.relatedTheoryIds.includes(id));
+    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) { if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; } if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; } assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`); }
+    for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
     if (!developmentMoves.includes(old.tagId)) assert.equal(t.subcategoryId, old.subcategoryId);
   }
   assert.equal(byId.size, cards.length);
@@ -63,10 +66,10 @@ test('new sections are populated and ordering is dense without reusing a redirec
 test('every new card has reciprocal theory relationships and a working practical entry', () => {
   const techniques = read('src/data/generated/techniques.json').categories.flatMap(c => c.subcategories.flatMap(s => s.items));
   const comprehensive = read('src/data/generated/comprehensive-theory-links.json');
-  const beforeTechniques = read('docs/content/theory-coverage-20261015-techniques-before.json').categories.flatMap(c => c.subcategories.flatMap(s => s.items));
+  const beforeTechniques = canonicalBefore.techniques.filter(t=>t.status==='published').map(t=>({id:t.id,relatedTheoryIds:t.theory_ids}));
   for (const old of beforeTechniques) {
     const t = techniques.find(t => t.id === old.id);
-    for (const id of old.relatedTheoryIds ?? old.theoryTagIds ?? []) assert.ok(t.relatedTheoryIds.includes(id), `${old.id}/${id}`);
+    for (const id of (old.relatedTheoryIds ?? old.theoryTagIds ?? []).filter(id=>!retired.has(id)&&!workChanges.find(c=>c.id===old.id)?.remove?.includes(id))) assert.ok(t.relatedTheoryIds.includes(id), `${old.id}/${id}`);
   }
   for (const row of coverageRows) {
     const t = byId.get(row.tagId);
@@ -75,7 +78,9 @@ test('every new card has reciprocal theory relationships and a working practical
       assert.ok(byId.get(id).relatedTheoryIds.includes(t.tagId));
     }
     assert.ok(row.techniqueIds.length);
-    for (const id of row.techniqueIds) {
+    const existingTargets = canonicalBefore.techniques.filter(c=>c.status==='published' && c.theory_ids.includes(t.tagId)).map(c=>c.id);
+    assert.ok(existingTargets.length, t.title);
+    for (const id of existingTargets.filter(id=>!workChanges.find(c=>c.id===id)?.remove.includes(t.tagId))) {
       assert.ok(techniques.find(t => t.id === id).relatedTheoryIds.includes(t.tagId));
       assert.ok(comprehensive[id].includes(t.tagId));
     }
@@ -94,6 +99,6 @@ test('public shells remain searchable while paid summaries and sources stay priv
   }
   const oldScope = read('docs/content/theory-coverage-20261015-scope-before.json');
   const scope = read('src/data/content-scope.json');
-  assert.deepEqual(scope.freeTheoryIds, oldScope.freeTheoryIds);
-  assert.equal(shells.filter(t => t.summary).length, 151);
+  assert.deepEqual(new Set(scope.freeTheoryIds), new Set(oldScope.freeTheoryIds.filter(id=>!retired.has(id))));
+  assert.equal(shells.filter(t => t.summary).length, 141);
 });

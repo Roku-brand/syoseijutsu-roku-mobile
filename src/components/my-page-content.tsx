@@ -1,3 +1,4 @@
+import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
 'use no memo';
 
 import { FolderBack, FolderFronts, MoreCards } from './folder-fronts';
@@ -239,6 +240,7 @@ function resolveTechnique(id: string): ContentRow | null {
 }
 
 function resolveTheory(id: string): ContentRow | null {
+  if (isRetiredTheoryId(id)) return {kind:'theory',id,category:'practical-wisdom',label:'公開終了',title:RETIRED_THEORY_TITLE,description:'閲覧履歴の記録は保持されています。'};
   const theory = theoryById.get(id);
   return theory && !isLockedTheoryShell(theory)
     ? { kind: 'theory', id: theory.tagId, category: theory.categoryId, label: theory.categoryTitle, title: theory.title, description: theory.summary || theory.categoryTitle }

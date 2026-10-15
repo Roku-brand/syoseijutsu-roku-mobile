@@ -1,3 +1,4 @@
+import { isRetiredTheoryId } from './theory-knowledge';
 import techniquesSource from './generated/techniques.public.json';
 import theoriesSource from './generated/theories.public.json';
 import practicalActionsSource from './generated/practical-actions.public.json';
@@ -10,7 +11,7 @@ import { THEORY_CATEGORIES } from './theory-categories';
 import { applyTheoryRedirects, compareTheoryTaxonomy, resolveTheoryId } from './theory-taxonomy';
 
 const publicCategories = techniquesSource.categories as CatalogCategory[];
-const publicTheories = theoriesSource as TheoryCard[];
+const publicTheories = (theoriesSource as TheoryCard[]).filter(t => !isRetiredTheoryId(t.tagId));
 const practicalActionsById = new Map(
   (practicalActionsSource as Array<TechniquePracticalActions & { id: string; title: string }>).map((item) => [item.id, item]),
 );
@@ -75,7 +76,7 @@ function rebuildIndexes() {
           subcategory: subcategory.name,
           articleTitle,
         };
-        const theoryTagIds = [...new Set((context.relatedTheoryIds ?? context.theoryTagIds ?? []).map(resolveTheoryId))];
+        const theoryTagIds = [...new Set((context.relatedTheoryIds ?? context.theoryTagIds ?? []).map(resolveTheoryId))].filter(id => !isRetiredTheoryId(id));
         const configuredPrimaryIds = context.primaryTheoryIds
           ?? primaryTheoryIdsByTechniqueId[context.id]
           ?? theoryTagIds;
@@ -166,7 +167,7 @@ export function overlayPaidCatalog(techniques: PaidTechniquePayload[], paidTheor
  * when a larger secondary content sync is still in flight. */
 export function hydratePaidTheories(paidTheories: TheoryCard[]) {
   for (const theory of paidTheories) {
-    if (resolveTheoryId(theory.tagId) !== theory.tagId) continue;
+    if (isRetiredTheoryId(theory.tagId) || resolveTheoryId(theory.tagId) !== theory.tagId) continue;
     const current = theoryById.get(theory.tagId);
     const next = {
       ...current, ...theory,

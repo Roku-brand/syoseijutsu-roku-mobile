@@ -9,6 +9,9 @@ supabase/.temp/
 dist/
 dist-secure-content/
 test-results/
+.local-theory-backups/
+theory-export-check.log
+theory-e2e-full.log
 web-build/
 expo-env.d.ts
 
