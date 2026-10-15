@@ -38,6 +38,11 @@ kb_706への処世術リンクは改修前の正本にも存在しないため�
 
 ## 公開
 
-Web公開とCIの最終結果をここに追記する。
+- Web公開の変更：[PR #159](https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/159)
+- 全CIの結果：[PRの検証一覧](https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/159/checks)
+- Web配信の結果：[Pages公開履歴](https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/workflows/deploy-pages.yml)
+- 公開先：[処世術禄](https://app.shoseijutsuroku.com/)
+
+上記のリンクから、この変更に対する最新の検証・公開状態を確認できる。全CIの成功を確認してからマージし、Web配信後に本番の公開終了URL・無料理論・格言のアクセス制限・関連図を確認する手順。
 
 変更ファイルは [ファイル一覧](theory-reform-changed-files-20261015.txt) を参照。

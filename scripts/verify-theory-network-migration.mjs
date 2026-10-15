@@ -100,4 +100,3 @@ try{
  await db.exec('reset role;set role anon');await assert.rejects(db.query('select * from public.theory_quote_reviews'));
  console.log(JSON.stringify({passed:true,legacyEdges:initialCount,freeEdges:exposed.length,checks:['retirement','stable IDs','cycles','duplicates','dead IDs','NULL rights','reciprocal legacy arrays','owner RPC','anonymous RLS','paid quotation projection','private backup']}));
 }catch(error){console.error(error.message);process.exitCode=1;}finally{await db.close();}
-
