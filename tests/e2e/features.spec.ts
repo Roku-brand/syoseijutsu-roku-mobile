@@ -27,7 +27,9 @@ async function mockFeatures(page: Page, owner = false) {
     if (path.endsWith('/profiles')) return route.fulfill({ json: { role: owner ? 'owner' : 'user', display_name: '検証利用者' } });
     if (path.endsWith('/feature_articles')) return route.fulfill({ json: url.searchParams.has('status') ? articles.filter((row: any) => row.status === 'published') : articles });
     if (path.endsWith('/feature_article_drafts')) return route.fulfill({ json: drafts });
-    if (path.endsWith('/editorial_characters')) return route.fulfill({ json: url.searchParams.has('status') ? characters.filter(row => row.status === 'published') : characters });
+    if (path.endsWith('/editorial_characters')) return route.fulfill({ json: characters
+      .filter(item => !url.searchParams.has('status') || item.status === 'published')
+      .sort((left, right) => left.display_order - right.display_order || left.id.localeCompare(right.id)) });
     if (path.endsWith('/save_editorial_character')) {
       const params = route.request().postDataJSON();
       const existing = characters.find(row => row.id === params.target_id);
@@ -116,9 +118,9 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
   await expect(page.getByTestId('feature-body')).toContainText(initial[2].body.split('\n\n')[1]);
   await expect(page.getByRole('heading', { name: initial[2].title, exact: true })).toBeVisible();
   await expect(page).toHaveTitle(`${initial[2].title}｜処世術禄`);
-  await page.getByTestId('feature-article').getByTestId('feature-save-meta-comments').click();
+  await page.getByTestId('book-header').getByRole('button', { name: '蔵書に保存', exact: true }).click();
   await page.reload();
-  await expect(page.getByTestId('feature-save-meta-comments')).toContainText('保存済み');
+  await expect(page.getByTestId('book-header').getByRole('button', { name: '蔵書から外す', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/library');
   await expect(page.getByText(initial[2].title, { exact: true })).toBeVisible();
   await page.getByText(initial[2].title, { exact: true }).click();

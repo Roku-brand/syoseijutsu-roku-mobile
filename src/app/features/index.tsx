@@ -5,6 +5,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText, EmptyState } from '@/components/ui';
 import { featureImage } from '@/components/feature-article';
+import { featureCover } from '@/data/feature-covers';
 import { colors, fonts } from '@/constants/theme';
 import { useFeatures, refreshFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -44,8 +45,8 @@ export default function FeaturesScreen() {
           {!compact && hero.lead ? <AppText style={styles.heroLead} numberOfLines={2}>{hero.lead}</AppText> : null}
           <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を読む`} onPress={() => router.push(featureRoute(hero.slug))} style={styles.read}><AppText style={styles.readText}>読む →</AppText></Pressable>
         </View>
-        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><Image source={featureImage(hero.image_path)} accessibilityLabel={hero.image_alt || hero.title} contentFit="cover" style={styles.heroImage} /></Pressable>
-        {featured.length > 1 ? <View style={styles.previews}>{featured.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`ヒーローに${article.title}を表示`} accessibilityState={{ selected: article.id === hero.id }} onPress={() => setSelected(article.id)} style={[styles.preview, article.id === hero.id && styles.previewActive]}><Image source={featureImage(article.image_path)} accessibilityLabel={article.title} contentFit="cover" style={styles.previewImage} /></Pressable>)}</View> : null}
+        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><Image source={featureCover(hero)?.source ?? featureImage(hero.image_path)} accessibilityLabel={featureCover(hero)?.alt ?? (hero.image_alt || hero.title)} contentFit="cover" style={styles.heroImage} /></Pressable>
+        {featured.length > 1 ? <View style={styles.previews}>{featured.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`ヒーローに${article.title}を表示`} accessibilityState={{ selected: article.id === hero.id }} onPress={() => setSelected(article.id)} style={[styles.preview, article.id === hero.id && styles.previewActive]}><Image source={featureCover(article)?.source ?? featureImage(article.image_path)} accessibilityLabel={article.title} contentFit="cover" style={styles.previewImage} /></Pressable>)}</View> : null}
       </View> : <AppText accessibilityRole="header" aria-level={1} style={styles.pageTitle}>特集</AppText>}
       {listed.length ? <View style={[styles.collection, compact && styles.collectionCompact]}>
         {sidebar ? <View style={styles.sidebar} testID="features-section-sidebar">{categoryTabs}</View> : null}

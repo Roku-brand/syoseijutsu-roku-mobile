@@ -3,13 +3,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
-import { PersonaCard } from '@/components/persona-catalog';
+import { FeatureCard } from '@/components/feature-card';
 import { SearchMark } from '@/components/search-mark';
 import { TechniqueRow } from '@/components/technique-row';
 import { TheoryArchiveCard } from '@/components/theory-archive-card';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getSearchResults, type BrowseMode } from '@/data/search-catalog';
+import { getFeatureSearchResults, getSearchMode, getSearchResults, SEARCH_MODES, type BrowseMode } from '@/data/search-catalog';
+import { refreshFeatures, useFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 function getParam(value: string | string[] | undefined) {
@@ -26,21 +27,23 @@ export default function SearchScreen() {
   const [query, setQuery] = useState(initialQuery);
   const [submittedQuery, setSubmittedQuery] = useState(initialQuery);
   const requestedMode = getParam(params.mode);
-  const [mode, setMode] = useState<BrowseMode>(requestedMode === 'personas' || requestedMode === 'theories' ? requestedMode : 'techniques');
+  const [mode, setMode] = useState<BrowseMode>(getSearchMode(requestedMode));
+  const { articles, loading: featuresLoading, error: featuresError } = useFeatures();
   useEffect(() => {
     setQuery(initialQuery);
     setSubmittedQuery(initialQuery);
   }, [initialQuery]);
   useEffect(() => {
-    setMode(requestedMode === 'personas' || requestedMode === 'theories' ? requestedMode : 'techniques');
+    setMode(getSearchMode(requestedMode));
   }, [requestedMode]);
-  const { personaMatches, techniqueMatches, theoryMatches } = useMemo(
+  const { techniqueMatches, theoryMatches } = useMemo(
     () => getSearchResults(submittedQuery, isPaid),
     [catalogRevision, isPaid, submittedQuery],
   );
-  const count = mode === 'personas' ? personaMatches.length : mode === 'techniques' ? techniqueMatches.length : theoryMatches.length;
-  const resultKind = mode === 'personas' ? '人物像' : mode === 'techniques' ? '処世術' : '理論';
-  const personaColumns: 2 | 3 | 4 = compact ? 2 : width >= 1120 ? 4 : 3;
+  const featureMatches = useMemo(() => getFeatureSearchResults(articles, submittedQuery), [articles, submittedQuery]);
+  const counts = { techniques: techniqueMatches.length, theories: theoryMatches.length, features: featureMatches.length };
+  const count = counts[mode];
+  const resultKind = SEARCH_MODES.find(item => item.id === mode)?.label;
 
   const submitSearch = () => {
     const trimmed = query.trim();
@@ -63,7 +66,7 @@ export default function SearchScreen() {
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.intro}>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>キーワード検索</AppText>
-        <AppText style={styles.subtitle}>人物像・処世術・理論を横断して探せます</AppText>
+        <AppText style={styles.subtitle}>処世術・理論・特集を横断して探せます</AppText>
       </View>
 
       <View style={[styles.searchBox, compact && styles.searchBoxCompact]} testID="independent-search-box">
@@ -83,20 +86,20 @@ export default function SearchScreen() {
       </View>
 
       <View accessibilityRole="tablist" style={styles.modeTabs}>
-        <ModeTab label="人物像" count={submittedQuery ? personaMatches.length : undefined} selected={mode === 'personas'} onPress={() => changeMode('personas')} />
-        <ModeTab label="処世術" count={submittedQuery ? techniqueMatches.length : undefined} selected={mode === 'techniques'} onPress={() => changeMode('techniques')} />
-        <ModeTab label="理論" count={submittedQuery ? theoryMatches.length : undefined} selected={mode === 'theories'} onPress={() => changeMode('theories')} />
+        {SEARCH_MODES.map(item => <ModeTab key={item.id} label={item.label} count={submittedQuery && (item.id !== 'features' || (!featuresLoading && !featuresError)) ? counts[item.id] : undefined} selected={mode === item.id} onPress={() => changeMode(item.id)} />)}
       </View>
 
       {submittedQuery ? (
         <View testID="search-page-results" style={styles.results}>
           <View style={styles.resultHeading}>
             <AppText style={styles.resultTitle}>「{submittedQuery}」の検索結果</AppText>
-            <AppText style={styles.resultNote}>{resultKind} {count}件</AppText>
+            <AppText style={styles.resultNote}>{resultKind}{mode === 'features' && (featuresLoading || featuresError) ? '' : ` ${count}件`}</AppText>
           </View>
-          {count ? (
-            mode === 'personas'
-              ? <View style={styles.personaGrid}>{personaMatches.map((entry) => <PersonaCard key={`${entry.category.key}-${entry.persona.name}`} entry={entry} variant="grid" gridColumns={personaColumns} />)}</View>
+          {mode === 'features' && featuresLoading ? <View accessibilityLiveRegion="polite" style={styles.empty}><AppText style={styles.emptyText}>特集を読み込んでいます…</AppText></View>
+            : mode === 'features' && featuresError ? <View accessibilityLiveRegion="polite" style={styles.empty}><AppText style={styles.emptyText}>{featuresError}</AppText><Pressable accessibilityRole="button" accessibilityLabel="特集を再読み込み" onPress={() => void refreshFeatures()} style={styles.retry}><AppText style={styles.clearText}>再読み込み</AppText></Pressable></View>
+            : count ? (
+            mode === 'features'
+              ? <View style={styles.featureGrid}>{featureMatches.map(article => <FeatureCard key={article.id} article={article} compact={compact} style={{ width: compact ? '100%' : '31%' }} />)}</View>
               : <View>{mode === 'techniques'
                 ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
                 : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
@@ -110,7 +113,7 @@ export default function SearchScreen() {
 }
 
 function ModeTab({ label, count, selected, onPress }: { label: string; count?: number; selected: boolean; onPress: () => void }) {
-  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} onPress={onPress} style={[styles.modeTab, selected && styles.modeTabActive]}><AppText style={[styles.modeText, selected && styles.modeTextActive]}>{label}{count !== undefined ? ` ${count}` : ''}</AppText></Pressable>;
+  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} aria-selected={selected} onPress={onPress} style={[styles.modeTab, selected && styles.modeTabActive]}><AppText style={[styles.modeText, selected && styles.modeTextActive]}>{label}{count !== undefined ? ` ${count}` : ''}</AppText></Pressable>;
 }
 
 const styles = StyleSheet.create({
@@ -133,7 +136,8 @@ const styles = StyleSheet.create({
   modeText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, fontWeight: '600' },
   modeTextActive: { color: colors.goldLight },
   results: { marginTop: spacing.xl },
-  personaGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', gap: 12 },
+  featureGrid: { width: '100%', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', justifyContent: 'center', gap: 20 },
+  retry: { minHeight: 44, padding: spacing.md, justifyContent: 'center' },
   resultHeading: { minHeight: 38, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: spacing.md, flexWrap: 'wrap' },
   resultTitle: { flex: 1, minWidth: 220, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '600' },
   resultNote: { color: colors.muted, fontFamily: fonts.serif, fontSize: 12 },

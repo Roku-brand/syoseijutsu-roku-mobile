@@ -62,7 +62,7 @@ test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ
   const reference = await page.getByTestId('persona-category-filters').getByRole('button').first().evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
   await page.goto('/theories?category=psychology&subcategory=psychology-d&page=7');
   await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
-  await expect(page.getByText('ピアジェの認知発達理論', { exact: true })).toBeVisible();
+  await expect(page.getByText('自己効力感', { exact: true })).toBeVisible();
   await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
   for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
     for (const button of await page.getByTestId(testId).getByRole('button').all()) {
@@ -72,12 +72,18 @@ test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
   await page.screenshot({ path: test.info().outputPath('theory-sections-mobile.png') });
+  // Developmental theories now have a dedicated section; old growth URLs
+  // still resolve to growth, while stable cards are reachable in their new home.
+  await page.goto('/theories?category=psychology&subcategory=psychology-life');
+  await expect(page.getByRole('heading', { name: '発達・人生の時間軸', exact: true })).toBeVisible();
+  await expect(page.getByText('ピアジェの認知発達理論', { exact: true })).toBeVisible();
   for (const width of [320, 390, 1000, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const category of ['psychology', 'behavioral-science', 'organization-management', 'strategy', 'practical-wisdom', 'classics-thought']) {
       await page.goto(`/theories?category=${category}`);
       const filters = page.getByTestId('theory-subcategory-filters');
-      await expect(filters.getByTestId('theory-subcategory-row')).toHaveCount(width >= 1000 ? 1 : 2);
+      const rowCount = await filters.getByTestId('theory-subcategory-row').count();
+      expect(rowCount).toBeGreaterThanOrEqual(width >= 1000 ? 1 : 2);
       const bounds = await filters.boundingBox();
       const positions = new Set<number>();
       for (const button of await filters.getByRole('button').all()) {
@@ -94,7 +100,7 @@ test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ
         expect(label.textHeight).toBeLessThanOrEqual(label.height + 1);
         expect(label.textWidth).toBeLessThanOrEqual(label.width + 1);
       }
-      expect(positions.size).toBe(width >= 1000 ? 1 : 2);
+      expect(positions.size).toBe(rowCount);
       for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
         for (const button of await page.getByTestId(testId).getByRole('button').all()) {
           const label = await button.locator('div').first().evaluate(el => {

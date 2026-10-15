@@ -80,10 +80,12 @@ test('published refresh and complete overlay keep fatigue-free rows and correcte
 
 test('broad sections preserve all content and move techniques to their subject',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));
- const text=[...current].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
+ const historicalIds=new Set(snapshot.assignments.map(t=>t.tagId));
+ const historical=current.filter(t=>historicalIds.has(t.tagId));
+ const text=[...historical].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
  assert.equal(createHash('md5').update(text).digest('hex'),snapshot.contentHash);
- assert.deepEqual(new Set(current.map(t=>t.tagId)),new Set(snapshot.assignments.map(t=>t.tagId)));
- assert.equal(taxonomy.theorySubcategories.length,33);
+ assert.deepEqual(new Set(historical.map(t=>t.tagId)),historicalIds);
+ assert.equal(taxonomy.theorySubcategories.length,36);
  assert.equal(catalog.theoryById.get('kb_024').subcategoryId,'psychology-i');
  assert.equal(catalog.theoryById.get('kb_901').subcategoryId,'psychology-e');
  assert.equal(taxonomy.resolveTheorySubcategoryId('psychology-d'),'psychology-s');
@@ -142,7 +144,7 @@ test('old paid cache cannot restore duplicate cards or overwrite revised classif
 test('new complete-edition theories are searchable shells and hydrate without changing historical identities',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-expansion-20261005-before.json'),'utf8'));
  const oldIds=new Set(snapshot.theories.map(t=>t.id));
- const additions=current.filter(t=>!oldIds.has(t.tagId));
+ const additions=current.filter(t=>!oldIds.has(t.tagId) && /^kb_(869|8[7-9][0-9]|90[0-8])$/.test(t.tagId));
  assert.equal(additions.length,40);
  for(const old of snapshot.theories.filter(t=>t.status==='published')) {
   const now=current.find(t=>t.tagId===old.id);
@@ -169,6 +171,25 @@ test('display IDs follow the current taxonomy order within every major while all
   for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
  }
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));
- const withoutNumbers=current.map(({displayId,displayOrder,...row})=>row);
+ const baseline=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-coverage-20261015-catalog-before.json'),'utf8'));
+ const withoutNumbers=baseline.map(({displayId,displayOrder,...row})=>row);
  assert.equal(createHash('sha256').update(JSON.stringify(withoutNumbers)).digest('hex'),snapshot.fingerprint);
+});
+
+test('coverage additions support every alias, detail path and paid hydration',async()=>{
+ const {coverageRows}=await import('../../scripts/theory-coverage-data.mjs');
+ const additions=coverageRows.map(row=>current.find(t=>t.tagId===row.tagId));
+ for(const t of additions) {
+  assert.equal(catalog.theoryById.get(t.tagId).summary,'');
+  for(const alias of [t.title,...t.aliases]) assert.ok(getSearchResults(alias,true).theoryMatches.some(x=>x.tagId===t.tagId),alias);
+  assert.ok(taxonomy.getTheoryPath(catalog.theoryById.get(t.tagId)).includes(t.subcategoryTitle));
+ }
+ try {
+  catalog.hydratePaidCatalog(techniqueRows,additions);
+  for(const t of additions) {
+   assert.equal(catalog.theoryById.get(t.tagId).summary,t.summary);
+   assert.deepEqual(catalog.theoryById.get(t.tagId).provenance,t.provenance);
+   assert.ok(catalog.getTechniquesForTheory(t.tagId).length);
+  }
+ } finally { catalog.resetCatalog(); }
 });

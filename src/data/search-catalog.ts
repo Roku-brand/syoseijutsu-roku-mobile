@@ -5,8 +5,25 @@ import { getTechniqueSearchText } from '@/data/technique-tags';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { getTheoryPath } from './theory-taxonomy';
+import type { FeatureArticle } from './features';
+import { featureCategoryLabel } from './feature-categories';
 
-export type BrowseMode = 'personas' | 'techniques' | 'theories';
+export type BrowseMode = 'techniques' | 'theories' | 'features';
+export const SEARCH_MODES: Array<{ id: BrowseMode; label: string }> = [
+  { id: 'techniques', label: '処世術' }, { id: 'theories', label: '理論' }, { id: 'features', label: '特集' },
+];
+export function getSearchMode(value: string): BrowseMode {
+  return value === 'theories' || value === 'features' ? value : 'techniques';
+}
+export function getFeatureSearchResults(articles: FeatureArticle[], query: string) {
+  const keywords = getSearchKeywords(query);
+  if (!keywords.length) return [];
+  return articles.filter(article => article.status === 'published')
+    .filter(article => {
+      const source = [article.title, article.lead, article.body, featureCategoryLabel(article.category_id)].join(' ').toLocaleLowerCase();
+      return keywords.every(keyword => matchesKeyword(source, keyword));
+    }).sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id));
+}
 
 const searchAliases: Record<string, string[]> = {
   友達: ['友達', '人間関係', '関係'],

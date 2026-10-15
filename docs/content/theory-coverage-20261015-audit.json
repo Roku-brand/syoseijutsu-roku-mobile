@@ -1,0 +1,296 @@
+{
+  "date": "2026-10-15",
+  "before": 794,
+  "added": 48,
+  "after": 842,
+  "free": 151,
+  "completeOnly": 691,
+  "sections": 36,
+  "moved": [
+    "kb_902",
+    "kb_903",
+    "kb_904"
+  ],
+  "techniqueLinks": 133,
+  "relatedTheoryLinks": 159,
+  "categories": [
+    {
+      "id": "psychology",
+      "title": "心理学",
+      "before": 329,
+      "after": 349
+    },
+    {
+      "id": "behavioral-science",
+      "title": "行動科学",
+      "before": 108,
+      "after": 114
+    },
+    {
+      "id": "organization-management",
+      "title": "組織・経営論",
+      "before": 127,
+      "after": 131
+    },
+    {
+      "id": "strategy",
+      "title": "戦略論",
+      "before": 84,
+      "after": 94
+    },
+    {
+      "id": "practical-wisdom",
+      "title": "実践知",
+      "before": 82,
+      "after": 82
+    },
+    {
+      "id": "classics-thought",
+      "title": "古典・思想",
+      "before": 64,
+      "after": 72
+    }
+  ],
+  "additions": [
+    {
+      "id": "kb_909",
+      "title": "社会的時計",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_910",
+      "title": "生涯発達理論",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_911",
+      "title": "選択・最適化・補償モデル",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_912",
+      "title": "社会情動的選択性理論",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_913",
+      "title": "成人形成期",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_914",
+      "title": "生態学的システム理論",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_915",
+      "title": "ライフコース理論",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_916",
+      "title": "流動性知能・結晶性知能",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_917",
+      "title": "脳の可塑性",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_918",
+      "title": "ヘッブの法則",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_919",
+      "title": "長期増強",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_920",
+      "title": "敏感期",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_921",
+      "title": "睡眠と記憶の固定化",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_922",
+      "title": "アロスタティック負荷",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_923",
+      "title": "ロミオとジュリエット効果",
+      "section": "人間関係・コミュニケーション"
+    },
+    {
+      "id": "kb_924",
+      "title": "成人愛着スタイル",
+      "section": "人間関係・コミュニケーション"
+    },
+    {
+      "id": "kb_925",
+      "title": "接触仮説",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_926",
+      "title": "現実的葛藤理論",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_927",
+      "title": "ステレオタイプ内容モデル",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_928",
+      "title": "共感的正確性",
+      "section": "人間関係・コミュニケーション"
+    },
+    {
+      "id": "kb_929",
+      "title": "演繹推論",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_930",
+      "title": "帰納推論",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_931",
+      "title": "アブダクション",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_932",
+      "title": "反証可能性",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_933",
+      "title": "相関と因果の区別",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_934",
+      "title": "必要条件・十分条件",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_935",
+      "title": "人身攻撃の誤謬",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_936",
+      "title": "藁人形論法",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_937",
+      "title": "循環論法",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_938",
+      "title": "シンプソンのパラドックス",
+      "section": "論理・因果推論"
+    },
+    {
+      "id": "kb_939",
+      "title": "役割葛藤・役割曖昧性",
+      "section": "働き方・キャリア"
+    },
+    {
+      "id": "kb_940",
+      "title": "努力報酬不均衡モデル",
+      "section": "働き方・キャリア"
+    },
+    {
+      "id": "kb_941",
+      "title": "心理的エンパワーメント",
+      "section": "組織運営・人材育成"
+    },
+    {
+      "id": "kb_942",
+      "title": "センスメイキング",
+      "section": "組織運営・人材育成"
+    },
+    {
+      "id": "kb_943",
+      "title": "フォッグ行動モデル",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_944",
+      "title": "行動変容ステージモデル",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_945",
+      "title": "馴化",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_946",
+      "title": "鋭敏化",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_947",
+      "title": "学習性勤勉さ",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_948",
+      "title": "足場かけ",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_949",
+      "title": "ダモクレスの剣",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_950",
+      "title": "洞窟の比喩",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_951",
+      "title": "テセウスの船",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_952",
+      "title": "ソクラテス式問答法",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_953",
+      "title": "アリストテレスの中庸",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_954",
+      "title": "定言命法",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_955",
+      "title": "功利主義",
+      "section": "西洋思想"
+    },
+    {
+      "id": "kb_956",
+      "title": "無知のヴェール",
+      "section": "西洋思想"
+    }
+  ]
+}

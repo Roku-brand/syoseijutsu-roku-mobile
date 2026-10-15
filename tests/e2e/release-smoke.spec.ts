@@ -256,7 +256,8 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
   }
   await page.getByTestId('book-header').getByRole('button', { name: '検索' }).click();
-  await expect(page).toHaveURL(/\/search$/);
+  await expect(page.getByTestId('header-search-popup')).toBeVisible();
+  await expect(page).toHaveURL(/\/my-os$/);
 });
 
 test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
@@ -379,7 +380,7 @@ test('理論の閲覧もマイページの履歴タブへ蓄積される', async
 
 test('探すは検索と人物像・理論への入口から始まる', async ({ page }) => {
   await page.goto('/discover');
-  await expect(page.getByRole('button', { name: '処世術・人物像・理論を検索' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '処世術・理論・特集を検索' })).toBeVisible();
   await expect(page.getByRole('link', { name: '人物像から探す' })).toBeVisible();
   await expect(page.getByRole('link', { name: '理論から探す' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'よく見られる検索' })).toBeVisible();
@@ -421,7 +422,7 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
 
 test('探すの検索欄は独立検索ページを開く', async ({ page }) => {
   await page.goto('/discover');
-  await page.getByRole('button', { name: '処世術・人物像・理論を検索' }).click();
+  await page.getByRole('button', { name: '処世術・理論・特集を検索' }).click();
   await expect(page).toHaveURL(/\/search\?mode=techniques/);
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('聞き上手');
@@ -913,7 +914,7 @@ test('今日の一枚は指定された処世術と説明を表示する', async
   await expect(hero.getByTestId('home-brand-technique-cta')).toContainText('読む →');
 });
 
-test('理論一覧の検索は右上から独立検索ページへ移る', async ({ page }) => {
+test('理論一覧の検索は右上からポップアップを開く', async ({ page }) => {
   await page.goto('/theories');
   await expect(page.getByText('理論一覧', { exact: true }).last()).toBeVisible();
   await expect(page.getByText(`${scope.complete.theories}件`, { exact: true })).toBeVisible();
@@ -921,7 +922,8 @@ test('理論一覧の検索は右上から独立検索ページへ移る', async
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await expect(page.getByText('あいうえお順', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: '理論一覧を検索' }).click();
-  await expect(page).toHaveURL(/\/search\?mode=theories/);
+  await expect(page).toHaveURL(/\/theories$/);
+  await expect(page.getByTestId('header-search-popup').getByRole('tab', { name: '理論', exact: true })).toHaveAttribute('aria-selected', 'true');
   const input = page.getByRole('textbox', { name: 'キーワードを検索' });
   await input.fill('初頭');
   await input.press('Enter');

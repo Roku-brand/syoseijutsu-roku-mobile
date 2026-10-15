@@ -1,5 +1,5 @@
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import {
   Modal,
   Image,
@@ -29,7 +29,8 @@ import { useAuth } from '@/auth/auth-state';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
-import { SearchMark } from './search-mark';
+import { HeaderSearchAction } from './header-search-action';
+import { useFeatures, type FeatureArticle } from '@/data/features';
 
 const appIcon = require('../../assets/brand/icon.png');
 
@@ -82,9 +83,12 @@ export function BookScreen({
 }
 
 export function BookHeader() {
+  const headerRef = useRef<View>(null);
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
+  const featureDetailHeader = /^\/features\/[^/]+$/.test(pathname) && pathname !== '/features/editorial-policy';
+  const { articles } = useFeatures(featureDetailHeader);
   const segments = useSegments();
   const { user } = useAuth();
   const { catalogRevision } = useAccess();
@@ -93,14 +97,14 @@ export function BookHeader() {
   const currentTitle = getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
-  const detail = useMemo(() => getDetail(pathname), [catalogRevision, pathname]);
+  const detail = useMemo(() => getDetail(pathname, articles), [articles, catalogRevision, pathname]);
   const headerSubtitle = getHeaderSubtitle(pathname);
   const personaHeader = pathname.startsWith('/subcategory/');
   const learningCaseHeader = pathname.startsWith('/learn/');
   // Keep focused screens free of unrelated actions while their catalog data loads.
-  const detailHeader = pathname.startsWith('/card/') || pathname.startsWith('/theory/');
+  const detailHeader = pathname.startsWith('/card/') || pathname.startsWith('/theory/') || featureDetailHeader;
   const browsingHeader = ['category', 'subcategory', 'theme', 'theories', 'personas', 'search', 'popular'].includes(pathname.split('/')[1]);
-  const catalogueSearchMode = pathname === '/personas' ? 'personas' : pathname === '/theories' ? 'theories' : null;
+  const catalogueSearchMode = pathname === '/personas' ? 'techniques' : pathname === '/theories' ? 'theories' : null;
   // The static web home is served through the root index route, so its first
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
@@ -113,11 +117,11 @@ export function BookHeader() {
       router.back();
       return;
     }
-    router.replace(learningCaseHeader ? '/learn' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
+    router.replace(learningCaseHeader ? '/learn' : featureDetailHeader ? '/features' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
   };
 
   return (
-    <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader]}>
+    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader]}>
       {showBack ? (
         <View style={styles.brandGroup}>
           <Pressable
@@ -168,23 +172,14 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <Pressable accessibilityRole="button" accessibilityLabel="検索" onPress={() => router.push('/search')} style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}>
-            <SearchMark size={compact ? 25 : 27} color={colors.ink} />
-          </Pressable>
+          <HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} size={compact ? 25 : 27} />
           <MenuHeaderAction active={Boolean(user)} />
         </View>
       ) : detailHeader ? (
         detail ? <DetailHeaderActions detail={detail} /> : null
       ) : catalogueSearchMode ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`${currentTitle}を検索`}
-            onPress={() => router.push({ pathname: '/search', params: { mode: catalogueSearchMode } })}
-            style={({ pressed }) => [styles.headerAction, styles.headerActionLight, pressed && styles.headerActionPressed]}
-          >
-            <SearchMark size={24} color={colors.gold} />
-          </Pressable>
+          <HeaderSearchAction anchorRef={headerRef} label={`${currentTitle}を検索`} initialMode={catalogueSearchMode} size={24} color={colors.gold} />
           <MenuHeaderAction active={Boolean(user)} />
         </View>
       ) : browsingHeader ? (
@@ -260,9 +255,10 @@ function MenuHeaderAction({ active }: { active: boolean }) {
 
 type DetailTarget =
   | { kind: 'card'; id: string; title: string }
-  | { kind: 'theory'; id: string; title: string };
+  | { kind: 'theory'; id: string; title: string }
+  | { kind: 'feature'; id: string; slug: string; title: string };
 
-function getDetail(pathname: string): DetailTarget | null {
+function getDetail(pathname: string, articles: FeatureArticle[]): DetailTarget | null {
   const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
   const [kind, id] = segments;
   if (!id) return null;
@@ -274,19 +270,38 @@ function getDetail(pathname: string): DetailTarget | null {
     const theory = theoryById.get(id);
     return theory ? { kind, id, title: isLockedTheoryShell(theory) ? '理論を読み込み中' : theory.title } : null;
   }
+  if (kind === 'features') {
+    const article = articles.find(item => item.slug === id && item.status === 'published');
+    return article ? { kind: 'feature', id: article.id, slug: article.slug, title: article.title } : null;
+  }
   return null;
 }
 
 function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
   const showToast = useAppToast();
-  const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
+  const { savedIds, savedTheoryIds, savedFeatureIds, toggleSaved, toggleSavedTheory, toggleSavedFeature } = useAppState();
   const isSaved = detail.kind === 'card'
     ? savedIds.includes(detail.id)
-    : savedTheoryIds.includes(detail.id);
+    : detail.kind === 'feature' ? savedFeatureIds.includes(detail.id) : savedTheoryIds.includes(detail.id);
   const toggle = () => {
     if (detail.kind === 'card') toggleSaved(detail.id);
+    else if (detail.kind === 'feature') toggleSavedFeature(detail.id);
     else toggleSavedTheory(detail.id);
     showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
+  };
+  const share = async () => {
+    const path = detail.kind === 'feature' ? `features/${encodeURIComponent(detail.slug)}` : `${detail.kind}/${encodeURIComponent(detail.id)}`;
+    const url = `https://app.shoseijutsuroku.com/${path}`;
+    try {
+      if (Platform.OS === 'web' && typeof navigator !== 'undefined' && !navigator.share) {
+        await navigator.clipboard.writeText(url);
+        showToast('共有リンクをコピーしました');
+      } else {
+        await Share.share({ title: detail.title, message: `${detail.title}\n\n処世術禄${Platform.OS === 'android' ? `\n${url}` : ''}`, ...(Platform.OS !== 'android' ? { url } : {}) });
+      }
+    } catch (error) {
+      if (!(error instanceof Error && error.name === 'AbortError')) showToast('共有できませんでした');
+    }
   };
 
   return (
@@ -294,7 +309,7 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
-        accessibilityState={{ selected: isSaved }}
+        accessibilityState={{ selected: isSaved }} aria-pressed={isSaved}
         onPress={toggle}
         style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
@@ -303,7 +318,7 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="共有"
-        onPress={() => void Share.share({ title: '処世術禄', message: `${detail.title}\n\n処世術禄` })}
+        onPress={() => void share()}
         style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
         {Platform.OS === 'web' ? (

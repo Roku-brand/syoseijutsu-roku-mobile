@@ -1,24 +1,17 @@
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { SearchMark } from './search-mark';
+import { useRef } from 'react';
+import { HeaderSearchAction } from './header-search-action';
 import { AppText } from './ui';
 
 export function CatalogTitleBar({ title, searchMode }: { title: string; searchMode: 'personas' | 'techniques' | 'theories' }) {
-  const router = useRouter();
+  const anchorRef = useRef<View>(null);
   return (
-    <View style={styles.titleBar}>
+    <View ref={anchorRef} style={styles.titleBar}>
       <View style={styles.titleSpacer} />
       <AppText accessibilityRole="header" aria-level={1} style={styles.title}>{title}</AppText>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={`${title}を検索`}
-        onPress={() => router.push({ pathname: '/search', params: { mode: searchMode } })}
-        hitSlop={8}
-        style={({ pressed }) => [styles.searchButton, pressed && styles.pressed]}
-      >
-        <SearchMark size={29} color={colors.gold} />
-      </Pressable>
+      <HeaderSearchAction anchorRef={anchorRef} label={`${title}を検索`} initialMode={searchMode === 'personas' ? 'techniques' : searchMode} size={29} color={colors.gold} />
     </View>
   );
 }

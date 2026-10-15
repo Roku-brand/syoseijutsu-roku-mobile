@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
 import { Linking, Pressable, StyleSheet, View, type ImageSourcePropType } from 'react-native';
 import { EditorialByline } from '@/components/editorial-guide';
 import { useEditorialCharacters, type EditorialCharacter } from '@/data/editorial-characters';
@@ -11,7 +10,6 @@ import { type FeatureArticle } from '@/data/features';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { contentImageUrl } from '@/lib/content-media';
 import { featureRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
-import { useAppState } from '@/state/app-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export const FEATURE_IMAGES: Record<string, ImageSourcePropType> = {
@@ -20,11 +18,6 @@ export const FEATURE_IMAGES: Record<string, ImageSourcePropType> = {
   'bundled:feature-mountain': require('../../assets/features/mountain.webp'),
 };
 export function featureImage(path: string | null) { return (path && FEATURE_IMAGES[path]) || { uri: path && /^(?:https?:|blob:|data:|file:)/.test(path) ? path : contentImageUrl(path) ?? '' }; }
-export function FeatureBookmark({ article }: { article: FeatureArticle }) {
-  const { savedFeatureIds, toggleSavedFeature } = useAppState();
-  const saved = savedFeatureIds.includes(article.id);
-  return <Pressable accessibilityRole="button" accessibilityLabel={`${article.title}を${saved ? '保存から外す' : '保存する'}`} accessibilityState={{ selected: saved }} testID={`feature-save-${article.slug}`} onPress={() => toggleSavedFeature(article.id)} hitSlop={8} style={styles.bookmark}><SymbolView name={{ ios: saved ? 'bookmark.fill' : 'bookmark', android: saved ? 'bookmark' : 'bookmark_border', web: saved ? 'bookmark' : 'bookmark_border' }} fallback={<AppText style={styles.bookmarkText}>{saved ? '▣' : '▯'}</AppText>} size={22} tintColor={colors.gold} /><AppText style={styles.bookmarkLabel}>{saved ? '保存済み' : '保存'}</AppText></Pressable>;
-}
 function InlineText({ text }: { text: string }) {
   return <AppText style={styles.paragraph}>{text.split(/(\*\*[^*]+\*\*)/g).map((part, index) => <AppText key={index} style={part.startsWith('**') ? styles.bold : styles.paragraph}>{part.startsWith('**') ? part.slice(2, -2) : part}</AppText>)}</AppText>;
 }
@@ -47,7 +40,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   const techniques = article.related_technique_ids.map(id => techniqueById.get(id)).filter(item => item && item.title !== '完全版の処世術');
   const theories = article.related_theory_ids.map(id => theoryById.get(id)).filter(item => item && item.title !== '完全版の理論');
   return <View style={styles.article} testID="feature-article">
-    <View style={styles.articleHeader}>{article.category_id ? <AppText style={styles.category}>{featureCategoryLabel(article.category_id)}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}{!preview ? <FeatureBookmark article={article} /> : null}</View>
+    <View style={styles.articleHeader}>{article.category_id ? <AppText style={styles.category}>{featureCategoryLabel(article.category_id)}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}</View>
     <Image source={featureImage(article.image_path)} accessibilityLabel={article.image_alt || article.title} contentFit="cover" style={[styles.articleImage, compact && styles.articleImageCompact]} />
     <View style={styles.readingColumn}><EditorialByline character={character} preview={preview} /><FeatureBody body={article.body} />
       {article.source_references.length ? <View style={styles.related} testID="feature-references"><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>参考文献・出典</AppText>{article.source_references.map((reference, index) => <View key={index} style={styles.reference}><Pressable accessibilityRole={reference.url ? 'link' : undefined} accessibilityLabel={reference.title} disabled={!reference.url || preview} onPress={() => reference.url && void Linking.openURL(reference.url)}><AppText style={[styles.relatedTitle, reference.url && styles.category]}>{reference.title}{reference.url ? ' ↗' : ''}</AppText></Pressable>{reference.note ? <AppText style={styles.referenceNote}>{reference.note}</AppText> : null}</View>)}</View> : null}

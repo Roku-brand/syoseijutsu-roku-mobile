@@ -16,6 +16,23 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 
 const PAGE_SIZE = 100;
 
+function subcategoryMinimumWidth(title: string, desktop: boolean) {
+  return Math.max(52, Math.max(...getCategoryLabelParts(title).map(part => part.length)) * (desktop ? 13 : 12) + (desktop ? 36 : 12));
+}
+
+function fitSubcategoryRows<T extends { title: string }>(options: T[], width: number, desktop: boolean): T[][] {
+  const preferred = desktop ? [options] : [options.slice(0, Math.ceil(options.length / 2)), options.slice(Math.ceil(options.length / 2))];
+  const rowWidth = (row: T[]) => row.reduce((total, item) => total + subcategoryMinimumWidth(item.title, desktop), 0) + Math.max(0, row.length - 1) * 4;
+  if (preferred.every(row => rowWidth(row) <= width)) return preferred;
+  const rows: T[][] = [];
+  for (const option of options) {
+    const last = rows[rows.length - 1];
+    if (!last || rowWidth([...last, option]) > width) rows.push([option]);
+    else last.push(option);
+  }
+  return rows;
+}
+
 function safeCategory(value: string | undefined): TheoryFilterKey {
   return getTheoryFilterOptions().some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
 }
@@ -43,6 +60,7 @@ export default function TheoryIndexScreen() {
   const requestedPage = params.page;
   const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
   const [page, setPage] = useState(Math.max(1, Math.floor(Number(requestedPage)) || 1));
+  const [subcategoryWidth, setSubcategoryWidth] = useState(0);
 
   const visibleCatalog = useMemo(
     () => theories.filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)),
@@ -54,10 +72,7 @@ export default function TheoryIndexScreen() {
   );
   const subcategories = groupTheorySections(filtered);
   const subcategoryOptions = [{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories];
-  const subcategoryRows = desktopFilters ? [subcategoryOptions] : [
-    subcategoryOptions.slice(0, Math.ceil(subcategoryOptions.length / 2)),
-    subcategoryOptions.slice(Math.ceil(subcategoryOptions.length / 2)),
-  ];
+  const subcategoryRows = fitSubcategoryRows(subcategoryOptions, subcategoryWidth || Math.min(width - 24, 956), desktopFilters);
   const requestedSubcategory = resolveTheorySubcategoryId(params.subcategory);
   const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === requestedSubcategory) ? requestedSubcategory : undefined;
   const selectedTheories = subcategory ? filtered.filter(theory => theory.subcategoryId === subcategory) : filtered;
@@ -91,9 +106,9 @@ export default function TheoryIndexScreen() {
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
-          <View style={styles.subcategoryOptions}>
+          <View style={styles.subcategoryOptions} onLayout={event => setSubcategoryWidth(event.nativeEvent.layout.width)}>
             {subcategoryRows.map((row, index) => <View key={index} testID="theory-subcategory-row" style={styles.subcategoryRow}>
-              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2), minWidth: Math.max(52, Math.max(...getCategoryLabelParts(section.title).map(part => part.length)) * (desktopFilters ? 13 : 12) + 10) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
+              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2), minWidth: subcategoryMinimumWidth(section.title, desktopFilters) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
                 <CategoryFilterLabel label={section.title} stacked={!desktopFilters} style={StyleSheet.flatten([styles.subcategoryText, !desktopFilters && styles.subcategoryTextMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive])} />
                 <AppText style={[styles.subcategoryCount, !desktopFilters && styles.subcategoryCountMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText>
               </Pressable>)}

@@ -12,7 +12,8 @@ test('ホーム画面追加用の上部設定は不透明で、色の補助要�
   const intercepts = await page.evaluate(() => document.elementFromPoint(innerWidth / 2, 4)?.id === 'roku-status-bar-background');
   expect(intercepts).toBe(false);
   await page.getByRole('button', { name: '検索', exact: true }).click();
-  await expect(page).toHaveURL(/\/search/);
+  await expect(page.getByTestId('header-search-popup')).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
 });
 
 test('ホーム起動でも画面全体の高さを使わず、システムバーを除く領域にヘッダーとナビが収まる', async ({ browser }) => {

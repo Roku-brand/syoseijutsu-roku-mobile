@@ -32,7 +32,9 @@
       "horn effect",
       "devil effect"
     ],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_927"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_003",
@@ -139,7 +141,11 @@
       "kb_812",
       "kb_875",
       "kb_880",
-      "kb_881"
+      "kb_881",
+      "kb_931",
+      "kb_932",
+      "kb_937",
+      "kb_950"
     ],
     "displayId": 5,
     "status": "locked"
@@ -164,7 +170,8 @@
     "relatedTheoryIds": [
       "kb_596",
       "kb_719",
-      "kb_146"
+      "kb_146",
+      "kb_950"
     ],
     "displayId": 6,
     "status": "locked"
@@ -267,7 +274,8 @@
     ],
     "relatedTheoryIds": [
       "kb_597",
-      "kb_596"
+      "kb_596",
+      "kb_933"
     ],
     "displayId": 10,
     "status": "locked"
@@ -312,7 +320,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_936",
+      "kb_953"
+    ],
     "displayId": 12,
     "status": "locked"
   },
@@ -521,7 +532,8 @@
       "権威効果"
     ],
     "relatedTheoryIds": [
-      "kb_733"
+      "kb_733",
+      "kb_935"
     ],
     "displayId": 21,
     "status": "locked"
@@ -1070,7 +1082,9 @@
     "sortOrder": 43,
     "displayId": 43,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_928"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_233",
@@ -1346,7 +1360,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_914"
+    ],
     "displayId": 55,
     "status": "locked"
   },
@@ -1506,7 +1522,8 @@
     "relatedTheoryIds": [
       "kb_713",
       "kb_714",
-      "kb_717"
+      "kb_717",
+      "kb_930"
     ],
     "displayId": 62,
     "status": "locked"
@@ -1763,7 +1780,9 @@
     "sortOrder": 8,
     "displayId": 73,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_945"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_268",
@@ -2156,7 +2175,8 @@
     "relatedTheoryIds": [
       "kb_772",
       "kb_886",
-      "kb_905"
+      "kb_905",
+      "kb_922"
     ],
     "displayId": 90,
     "status": "locked"
@@ -2175,7 +2195,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_945",
+      "kb_946"
+    ],
     "displayId": 91,
     "status": "locked"
   },
@@ -2774,7 +2797,9 @@
       "kb_735",
       "kb_750",
       "kb_804",
-      "kb_904"
+      "kb_904",
+      "kb_941",
+      "kb_948"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -2959,7 +2984,8 @@
     "displayId": 129,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_706"
+      "kb_706",
+      "kb_917"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -3022,7 +3048,8 @@
     "relatedTheoryIds": [
       "kb_726",
       "kb_129",
-      "kb_817"
+      "kb_817",
+      "kb_916"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -3084,7 +3111,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_902"
+      "kb_902",
+      "kb_951"
     ],
     "displayId": 133,
     "status": "locked"
@@ -3122,7 +3150,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_902"
+      "kb_902",
+      "kb_913"
     ],
     "displayId": 135,
     "status": "locked"
@@ -3218,7 +3247,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_913"
+    ],
     "displayId": 139,
     "status": "locked"
   },
@@ -3341,7 +3372,9 @@
     "sortOrder": 26,
     "displayId": 146,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_909"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_266",
@@ -3548,7 +3581,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_805",
-      "kb_902"
+      "kb_902",
+      "kb_951"
     ],
     "displayId": 154,
     "status": "locked"
@@ -3764,82 +3798,6 @@
     "status": "locked"
   },
   {
-    "tagId": "kb_902",
-    "title": "エリクソンの心理社会的発達理論",
-    "summary": "",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "sortOrder": 45,
-    "canonicalId": "kb_902",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "aliases": [
-      "Erikson psychosocial development theory",
-      "心理社会的発達段階説"
-    ],
-    "relatedTheoryIds": [
-      "kb_246",
-      "kb_589",
-      "kb_251"
-    ],
-    "displayId": 165,
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_903",
-    "title": "ピアジェの認知発達理論",
-    "summary": "",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "sortOrder": 46,
-    "canonicalId": "kb_903",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "aliases": [
-      "Piaget theory of cognitive development",
-      "ピアジェ理論"
-    ],
-    "relatedTheoryIds": [
-      "kb_745",
-      "kb_493",
-      "kb_904"
-    ],
-    "displayId": 166,
-    "status": "locked"
-  },
-  {
-    "tagId": "kb_904",
-    "title": "最近接発達領域",
-    "summary": "",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "sortOrder": 47,
-    "canonicalId": "kb_904",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "aliases": [
-      "zone of proximal development",
-      "ZPD",
-      "発達の最近接領域"
-    ],
-    "relatedTheoryIds": [
-      "kb_169",
-      "kb_828",
-      "kb_903"
-    ],
-    "displayId": 167,
-    "status": "locked"
-  },
-  {
     "tagId": "kb_036",
     "title": "愛着理論",
     "summary": "幼少期から形成される他者への信頼や不安のパターンが、成人後の親密な関係にも影響するという理論。",
@@ -3848,9 +3806,11 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 1,
-    "displayId": 168,
+    "displayId": 165,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_924"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_036",
@@ -3891,7 +3851,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 169,
+    "displayId": 166,
     "status": "locked"
   },
   {
@@ -3903,7 +3863,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 3,
-    "displayId": 170,
+    "displayId": 167,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -3941,7 +3901,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 171,
+    "displayId": 168,
     "status": "locked"
   },
   {
@@ -3959,7 +3919,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 172,
+    "displayId": 169,
     "status": "locked"
   },
   {
@@ -3979,7 +3939,7 @@
     "relatedTheoryIds": [
       "kb_822"
     ],
-    "displayId": 173,
+    "displayId": 170,
     "status": "locked"
   },
   {
@@ -3996,8 +3956,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 174,
+    "relatedTheoryIds": [
+      "kb_923"
+    ],
+    "displayId": 171,
     "status": "locked"
   },
   {
@@ -4019,9 +3981,10 @@
     ],
     "relatedTheoryIds": [
       "kb_765",
-      "kb_033"
+      "kb_033",
+      "kb_923"
     ],
-    "displayId": 175,
+    "displayId": 172,
     "status": "locked"
   },
   {
@@ -4033,12 +3996,13 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 9,
-    "displayId": 176,
+    "displayId": 173,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_718",
       "kb_821",
-      "kb_896"
+      "kb_896",
+      "kb_925"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4077,7 +4041,7 @@
     "relatedTheoryIds": [
       "kb_823"
     ],
-    "displayId": 177,
+    "displayId": 174,
     "status": "locked"
   },
   {
@@ -4089,7 +4053,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 11,
-    "displayId": 178,
+    "displayId": 175,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4121,7 +4085,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 12,
-    "displayId": 179,
+    "displayId": 176,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4159,7 +4123,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 180,
+    "displayId": 177,
     "status": "locked"
   },
   {
@@ -4171,7 +4135,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 14,
-    "displayId": 181,
+    "displayId": 178,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4209,7 +4173,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 182,
+    "displayId": 179,
     "status": "locked"
   },
   {
@@ -4221,7 +4185,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 16,
-    "displayId": 183,
+    "displayId": 180,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4259,7 +4223,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 184,
+    "displayId": 181,
     "status": "locked"
   },
   {
@@ -4277,7 +4241,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 185,
+    "displayId": 182,
     "status": "locked"
   },
   {
@@ -4295,7 +4259,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 186,
+    "displayId": 183,
     "status": "locked"
   },
   {
@@ -4313,7 +4277,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 187,
+    "displayId": 184,
     "status": "locked"
   },
   {
@@ -4331,7 +4295,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 188,
+    "displayId": 185,
     "status": "locked"
   },
   {
@@ -4349,7 +4313,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 189,
+    "displayId": 186,
     "status": "locked"
   },
   {
@@ -4361,7 +4325,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 23,
-    "displayId": 190,
+    "displayId": 187,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4397,8 +4361,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 191,
+    "relatedTheoryIds": [
+      "kb_928"
+    ],
+    "displayId": 188,
     "status": "locked"
   },
   {
@@ -4420,9 +4386,10 @@
     ],
     "relatedTheoryIds": [
       "kb_815",
-      "kb_730"
+      "kb_730",
+      "kb_924"
     ],
-    "displayId": 192,
+    "displayId": 189,
     "status": "locked"
   },
   {
@@ -4448,7 +4415,7 @@
       "kb_730",
       "kb_823"
     ],
-    "displayId": 193,
+    "displayId": 190,
     "status": "locked"
   },
   {
@@ -4466,7 +4433,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 194,
+    "displayId": 191,
     "status": "locked"
   },
   {
@@ -4484,7 +4451,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 195,
+    "displayId": 192,
     "status": "locked"
   },
   {
@@ -4502,7 +4469,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 196,
+    "displayId": 193,
     "status": "locked"
   },
   {
@@ -4525,9 +4492,10 @@
     ],
     "relatedTheoryIds": [
       "kb_789",
-      "kb_721"
+      "kb_721",
+      "kb_928"
     ],
-    "displayId": 197,
+    "displayId": 194,
     "status": "locked"
   },
   {
@@ -4539,7 +4507,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 31,
-    "displayId": 198,
+    "displayId": 195,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -4576,7 +4544,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 199,
+    "displayId": 196,
     "status": "locked"
   },
   {
@@ -4594,7 +4562,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 200,
+    "displayId": 197,
     "status": "locked"
   },
   {
@@ -4612,7 +4580,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 201,
+    "displayId": 198,
     "status": "locked"
   },
   {
@@ -4630,7 +4598,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 202,
+    "displayId": 199,
     "status": "locked"
   },
   {
@@ -4648,7 +4616,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 203,
+    "displayId": 200,
     "status": "locked"
   },
   {
@@ -4669,7 +4637,7 @@
       "kb_824",
       "kb_906"
     ],
-    "displayId": 204,
+    "displayId": 201,
     "status": "locked"
   },
   {
@@ -4693,7 +4661,7 @@
       "kb_730",
       "kb_564"
     ],
-    "displayId": 205,
+    "displayId": 202,
     "status": "locked"
   },
   {
@@ -4711,7 +4679,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 206,
+    "displayId": 203,
     "status": "locked"
   },
   {
@@ -4741,7 +4709,7 @@
       "kb_821",
       "kb_899"
     ],
-    "displayId": 207,
+    "displayId": 204,
     "status": "locked"
   },
   {
@@ -4759,7 +4727,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 208,
+    "displayId": 205,
     "status": "locked"
   },
   {
@@ -4777,7 +4745,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 209,
+    "displayId": 206,
     "status": "locked"
   },
   {
@@ -4795,7 +4763,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 210,
+    "displayId": 207,
     "status": "locked"
   },
   {
@@ -4807,11 +4775,12 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 44,
-    "displayId": 211,
+    "displayId": 208,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_787",
-      "kb_898"
+      "kb_898",
+      "kb_923"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4849,9 +4818,10 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_050",
-      "kb_400"
+      "kb_400",
+      "kb_923"
     ],
-    "displayId": 212,
+    "displayId": 209,
     "status": "locked"
   },
   {
@@ -4869,7 +4839,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 213,
+    "displayId": 210,
     "status": "locked"
   },
   {
@@ -4893,7 +4863,7 @@
       "相対的剝奪"
     ],
     "relatedTheoryIds": [],
-    "displayId": 214,
+    "displayId": 211,
     "status": "locked"
   },
   {
@@ -4911,7 +4881,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 215,
+    "displayId": 212,
     "status": "locked"
   },
   {
@@ -4935,7 +4905,7 @@
       "kb_726",
       "kb_724"
     ],
-    "displayId": 216,
+    "displayId": 213,
     "status": "locked"
   },
   {
@@ -4953,7 +4923,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 217,
+    "displayId": 214,
     "status": "locked"
   },
   {
@@ -4971,7 +4941,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 218,
+    "displayId": 215,
     "status": "locked"
   },
   {
@@ -4983,7 +4953,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 52,
-    "displayId": 219,
+    "displayId": 216,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5020,8 +4990,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 220,
+    "relatedTheoryIds": [
+      "kb_924"
+    ],
+    "displayId": 217,
     "status": "locked"
   },
   {
@@ -5033,7 +5005,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 54,
-    "displayId": 221,
+    "displayId": 218,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_885"
@@ -5067,7 +5039,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 55,
-    "displayId": 222,
+    "displayId": 219,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5105,7 +5077,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 223,
+    "displayId": 220,
     "status": "locked"
   },
   {
@@ -5123,7 +5095,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 224,
+    "displayId": 221,
     "status": "locked"
   },
   {
@@ -5141,7 +5113,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 225,
+    "displayId": 222,
     "status": "locked"
   },
   {
@@ -5159,7 +5131,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 226,
+    "displayId": 223,
     "status": "locked"
   },
   {
@@ -5177,7 +5149,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 227,
+    "displayId": 224,
     "status": "locked"
   },
   {
@@ -5189,7 +5161,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 61,
-    "displayId": 228,
+    "displayId": 225,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5221,7 +5193,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 62,
-    "displayId": 229,
+    "displayId": 226,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5265,7 +5237,7 @@
       "kb_821",
       "kb_005"
     ],
-    "displayId": 230,
+    "displayId": 227,
     "status": "locked"
   },
   {
@@ -5283,7 +5255,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 231,
+    "displayId": 228,
     "status": "locked"
   },
   {
@@ -5295,7 +5267,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 65,
-    "displayId": 232,
+    "displayId": 229,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5333,7 +5305,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 233,
+    "displayId": 230,
     "status": "locked"
   },
   {
@@ -5351,7 +5323,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 234,
+    "displayId": 231,
     "status": "locked"
   },
   {
@@ -5369,7 +5341,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 235,
+    "displayId": 232,
     "status": "locked"
   },
   {
@@ -5387,7 +5359,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 236,
+    "displayId": 233,
     "status": "locked"
   },
   {
@@ -5405,7 +5377,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 237,
+    "displayId": 234,
     "status": "locked"
   },
   {
@@ -5423,7 +5395,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 238,
+    "displayId": 235,
     "status": "locked"
   },
   {
@@ -5441,7 +5413,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 239,
+    "displayId": 236,
     "status": "locked"
   },
   {
@@ -5459,7 +5431,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 240,
+    "displayId": 237,
     "status": "locked"
   },
   {
@@ -5477,7 +5449,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 241,
+    "displayId": 238,
     "status": "locked"
   },
   {
@@ -5495,7 +5467,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 242,
+    "displayId": 239,
     "status": "locked"
   },
   {
@@ -5515,7 +5487,7 @@
     "relatedTheoryIds": [
       "kb_789"
     ],
-    "displayId": 243,
+    "displayId": 240,
     "status": "locked"
   },
   {
@@ -5533,7 +5505,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 244,
+    "displayId": 241,
     "status": "locked"
   },
   {
@@ -5545,7 +5517,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 78,
-    "displayId": 245,
+    "displayId": 242,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5583,7 +5555,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 246,
+    "displayId": 243,
     "status": "locked"
   },
   {
@@ -5595,7 +5567,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 80,
-    "displayId": 247,
+    "displayId": 244,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5639,7 +5611,7 @@
       "能動的・建設的反応"
     ],
     "relatedTheoryIds": [],
-    "displayId": 248,
+    "displayId": 245,
     "status": "locked"
   },
   {
@@ -5657,7 +5629,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 249,
+    "displayId": 246,
     "status": "locked"
   },
   {
@@ -5675,7 +5647,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 250,
+    "displayId": 247,
     "status": "locked"
   },
   {
@@ -5693,7 +5665,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 251,
+    "displayId": 248,
     "status": "locked"
   },
   {
@@ -5711,7 +5683,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 252,
+    "displayId": 249,
     "status": "locked"
   },
   {
@@ -5729,7 +5701,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 253,
+    "displayId": 250,
     "status": "locked"
   },
   {
@@ -5741,7 +5713,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 87,
-    "displayId": 254,
+    "displayId": 251,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5773,7 +5745,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 88,
-    "displayId": 255,
+    "displayId": 252,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5805,7 +5777,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 89,
-    "displayId": 256,
+    "displayId": 253,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5845,7 +5817,7 @@
     "relatedTheoryIds": [
       "kb_871"
     ],
-    "displayId": 257,
+    "displayId": 254,
     "status": "locked"
   },
   {
@@ -5868,7 +5840,7 @@
     "relatedTheoryIds": [
       "kb_388"
     ],
-    "displayId": 258,
+    "displayId": 255,
     "status": "locked"
   },
   {
@@ -5893,7 +5865,7 @@
       "kb_789",
       "kb_860"
     ],
-    "displayId": 259,
+    "displayId": 256,
     "status": "locked"
   },
   {
@@ -5918,9 +5890,10 @@
       "kb_721",
       "kb_412",
       "kb_818",
-      "kb_859"
+      "kb_859",
+      "kb_936"
     ],
-    "displayId": 260,
+    "displayId": 257,
     "status": "locked"
   },
   {
@@ -5944,7 +5917,7 @@
     "relatedTheoryIds": [
       "kb_860"
     ],
-    "displayId": 261,
+    "displayId": 258,
     "status": "locked"
   },
   {
@@ -5969,7 +5942,7 @@
       "kb_859",
       "kb_788"
     ],
-    "displayId": 262,
+    "displayId": 259,
     "status": "locked"
   },
   {
@@ -5987,7 +5960,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 263,
+    "displayId": 260,
     "status": "locked"
   },
   {
@@ -6015,7 +5988,7 @@
       "kb_786",
       "kb_856"
     ],
-    "displayId": 264,
+    "displayId": 261,
     "status": "locked"
   },
   {
@@ -6033,7 +6006,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 265,
+    "displayId": 262,
     "status": "locked"
   },
   {
@@ -6058,7 +6031,7 @@
       "kb_138",
       "kb_050"
     ],
-    "displayId": 266,
+    "displayId": 263,
     "status": "locked"
   },
   {
@@ -6082,7 +6055,7 @@
       "kb_461",
       "kb_718"
     ],
-    "displayId": 267,
+    "displayId": 264,
     "status": "locked"
   },
   {
@@ -6106,7 +6079,7 @@
       "kb_265",
       "kb_784"
     ],
-    "displayId": 268,
+    "displayId": 265,
     "status": "locked"
   },
   {
@@ -6130,7 +6103,7 @@
       "kb_784",
       "kb_718"
     ],
-    "displayId": 269,
+    "displayId": 266,
     "status": "locked"
   },
   {
@@ -6154,7 +6127,7 @@
       "kb_781",
       "kb_783"
     ],
-    "displayId": 270,
+    "displayId": 267,
     "status": "locked"
   },
   {
@@ -6166,7 +6139,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 104,
-    "displayId": 271,
+    "displayId": 268,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6210,9 +6183,10 @@
     "relatedTheoryIds": [
       "kb_784",
       "kb_785",
-      "kb_857"
+      "kb_857",
+      "kb_935"
     ],
-    "displayId": 272,
+    "displayId": 269,
     "status": "locked"
   },
   {
@@ -6238,6 +6212,84 @@
     "relatedTheoryIds": [
       "kb_784",
       "kb_461"
+    ],
+    "displayId": 270,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_923",
+    "title": "ロミオとジュリエット効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "sortOrder": 107,
+    "canonicalId": "kb_923",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "ロミオ・ジュリエット効果",
+      "Romeo and Juliet effect",
+      "ロミオとジュリエット効果"
+    ],
+    "relatedTheoryIds": [
+      "kb_050",
+      "kb_898",
+      "kb_034",
+      "kb_822"
+    ],
+    "displayId": 271,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_924",
+    "title": "成人愛着スタイル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "sortOrder": 108,
+    "canonicalId": "kb_924",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "adult attachment styles",
+      "成人の愛着スタイル",
+      "恋愛の愛着スタイル"
+    ],
+    "relatedTheoryIds": [
+      "kb_036",
+      "kb_816",
+      "kb_012"
+    ],
+    "displayId": 272,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_928",
+    "title": "共感的正確性",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "sortOrder": 109,
+    "canonicalId": "kb_928",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "empathic accuracy",
+      "共感的精度"
+    ],
+    "relatedTheoryIds": [
+      "kb_404",
+      "kb_818",
+      "kb_233"
     ],
     "displayId": 273,
     "status": "locked"
@@ -6309,7 +6361,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_926"
+    ],
     "displayId": 276,
     "status": "locked"
   },
@@ -6324,7 +6378,11 @@
     "sortOrder": 4,
     "displayId": 277,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_925",
+      "kb_926",
+      "kb_927"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_060",
@@ -6662,7 +6720,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_925"
+    ],
     "displayId": 290,
     "status": "locked"
   },
@@ -6921,7 +6981,8 @@
     ],
     "relatedTheoryIds": [
       "kb_538",
-      "kb_123"
+      "kb_123",
+      "kb_933"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -6939,6 +7000,84 @@
     }
   },
   {
+    "tagId": "kb_925",
+    "title": "接触仮説",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "sortOrder": 29,
+    "canonicalId": "kb_925",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "contact hypothesis",
+      "intergroup contact theory",
+      "集団間接触理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_060",
+      "kb_485",
+      "kb_004",
+      "kb_926"
+    ],
+    "displayId": 302,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_926",
+    "title": "現実的葛藤理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "sortOrder": 30,
+    "canonicalId": "kb_926",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "realistic conflict theory",
+      "現実的集団葛藤理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_062",
+      "kb_060",
+      "kb_925",
+      "kb_795"
+    ],
+    "displayId": 303,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_927",
+    "title": "ステレオタイプ内容モデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "sortOrder": 31,
+    "canonicalId": "kb_927",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "stereotype content model",
+      "SCM"
+    ],
+    "relatedTheoryIds": [
+      "kb_060",
+      "kb_119",
+      "kb_003"
+    ],
+    "displayId": 304,
+    "status": "locked"
+  },
+  {
     "tagId": "kb_017",
     "title": "カクテルパーティー効果",
     "summary": "多くの音や情報の中でも、自分の名前や関心の高い情報には注意が向きやすい現象。人は自分に関係する情報を優先して拾う。",
@@ -6947,7 +7086,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 1,
-    "displayId": 302,
+    "displayId": 305,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_870",
@@ -6995,7 +7134,7 @@
       "kb_493",
       "kb_017"
     ],
-    "displayId": 303,
+    "displayId": 306,
     "status": "locked"
   },
   {
@@ -7021,7 +7160,7 @@
       "kb_873",
       "kb_874"
     ],
-    "displayId": 304,
+    "displayId": 307,
     "status": "locked"
   },
   {
@@ -7046,7 +7185,7 @@
       "kb_745",
       "kb_872"
     ],
-    "displayId": 305,
+    "displayId": 308,
     "status": "locked"
   },
   {
@@ -7071,7 +7210,7 @@
       "kb_745",
       "kb_872"
     ],
-    "displayId": 306,
+    "displayId": 309,
     "status": "locked"
   },
   {
@@ -7099,7 +7238,7 @@
       "kb_874",
       "kb_903"
     ],
-    "displayId": 307,
+    "displayId": 310,
     "status": "locked"
   },
   {
@@ -7111,7 +7250,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 7,
-    "displayId": 308,
+    "displayId": 311,
     "aliases": [
       "Ebbinghaus forgetting curve",
       "忘却曲線"
@@ -7157,7 +7296,7 @@
       "kb_199",
       "kb_738"
     ],
-    "displayId": 309,
+    "displayId": 312,
     "status": "locked"
   },
   {
@@ -7182,7 +7321,7 @@
       "kb_002",
       "kb_740"
     ],
-    "displayId": 310,
+    "displayId": 313,
     "status": "locked"
   },
   {
@@ -7207,7 +7346,7 @@
       "kb_748",
       "kb_830"
     ],
-    "displayId": 311,
+    "displayId": 314,
     "status": "locked"
   },
   {
@@ -7233,7 +7372,7 @@
       "kb_827",
       "kb_830"
     ],
-    "displayId": 312,
+    "displayId": 315,
     "status": "locked"
   },
   {
@@ -7258,7 +7397,7 @@
       "kb_718",
       "kb_877"
     ],
-    "displayId": 313,
+    "displayId": 316,
     "status": "locked"
   },
   {
@@ -7283,7 +7422,7 @@
       "kb_858",
       "kb_876"
     ],
-    "displayId": 314,
+    "displayId": 317,
     "status": "locked"
   },
   {
@@ -7307,7 +7446,7 @@
       "kb_743",
       "kb_827"
     ],
-    "displayId": 315,
+    "displayId": 318,
     "status": "locked"
   },
   {
@@ -7332,7 +7471,7 @@
       "kb_826",
       "kb_878"
     ],
-    "displayId": 316,
+    "displayId": 319,
     "status": "locked"
   },
   {
@@ -7356,7 +7495,7 @@
       "kb_827",
       "kb_511"
     ],
-    "displayId": 317,
+    "displayId": 320,
     "status": "locked"
   },
   {
@@ -7380,7 +7519,7 @@
       "kb_743",
       "kb_493"
     ],
-    "displayId": 318,
+    "displayId": 321,
     "status": "locked"
   },
   {
@@ -7405,7 +7544,7 @@
       "kb_745",
       "kb_825"
     ],
-    "displayId": 319,
+    "displayId": 322,
     "status": "locked"
   },
   {
@@ -7423,7 +7562,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 320,
+    "displayId": 323,
     "status": "locked"
   },
   {
@@ -7447,9 +7586,11 @@
       "kb_440",
       "kb_199",
       "kb_876",
-      "kb_877"
+      "kb_877",
+      "kb_919",
+      "kb_921"
     ],
-    "displayId": 321,
+    "displayId": 324,
     "status": "locked"
   },
   {
@@ -7467,7 +7608,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 322,
+    "displayId": 325,
     "status": "locked"
   },
   {
@@ -7492,7 +7633,7 @@
       "kb_748",
       "kb_828"
     ],
-    "displayId": 323,
+    "displayId": 326,
     "status": "locked"
   },
   {
@@ -7516,7 +7657,7 @@
       "kb_744",
       "kb_743"
     ],
-    "displayId": 324,
+    "displayId": 327,
     "status": "locked"
   },
   {
@@ -7542,7 +7683,7 @@
       "kb_872",
       "kb_903"
     ],
-    "displayId": 325,
+    "displayId": 328,
     "status": "locked"
   },
   {
@@ -7567,7 +7708,7 @@
       "kb_550",
       "kb_739"
     ],
-    "displayId": 326,
+    "displayId": 329,
     "status": "locked"
   },
   {
@@ -7593,7 +7734,7 @@
       "kb_199",
       "kb_896"
     ],
-    "displayId": 327,
+    "displayId": 330,
     "status": "locked"
   },
   {
@@ -7611,9 +7752,10 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_858"
+      "kb_858",
+      "kb_918"
     ],
-    "displayId": 328,
+    "displayId": 331,
     "status": "locked"
   },
   {
@@ -7631,7 +7773,461 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 329,
+    "displayId": 332,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_902",
+    "title": "エリクソンの心理社会的発達理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 1,
+    "canonicalId": "kb_902",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Erikson psychosocial development theory",
+      "心理社会的発達段階説"
+    ],
+    "relatedTheoryIds": [
+      "kb_246",
+      "kb_589",
+      "kb_251",
+      "kb_909",
+      "kb_910",
+      "kb_913"
+    ],
+    "displayId": 333,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_903",
+    "title": "ピアジェの認知発達理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 2,
+    "canonicalId": "kb_903",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Piaget theory of cognitive development",
+      "ピアジェ理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_745",
+      "kb_493",
+      "kb_904",
+      "kb_914",
+      "kb_920"
+    ],
+    "displayId": 334,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_904",
+    "title": "最近接発達領域",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 3,
+    "canonicalId": "kb_904",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "zone of proximal development",
+      "ZPD",
+      "発達の最近接領域"
+    ],
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_828",
+      "kb_903",
+      "kb_948"
+    ],
+    "displayId": 335,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_909",
+    "title": "社会的時計",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 4,
+    "canonicalId": "kb_909",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "social clock",
+      "ソーシャル・クロック",
+      "社会時計"
+    ],
+    "relatedTheoryIds": [
+      "kb_266",
+      "kb_902",
+      "kb_915",
+      "kb_913"
+    ],
+    "displayId": 336,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_910",
+    "title": "生涯発達理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 5,
+    "canonicalId": "kb_910",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "life-span developmental psychology",
+      "ライフスパン発達心理学"
+    ],
+    "relatedTheoryIds": [
+      "kb_902",
+      "kb_911",
+      "kb_916",
+      "kb_917",
+      "kb_912",
+      "kb_951"
+    ],
+    "displayId": 337,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_911",
+    "title": "選択・最適化・補償モデル",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 6,
+    "canonicalId": "kb_911",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "SOCモデル",
+      "selective optimization with compensation"
+    ],
+    "relatedTheoryIds": [
+      "kb_910",
+      "kb_572",
+      "kb_569"
+    ],
+    "displayId": 338,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_912",
+    "title": "社会情動的選択性理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 7,
+    "canonicalId": "kb_912",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "socioemotional selectivity theory",
+      "SST",
+      "社会情緒的選択性理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_753",
+      "kb_562",
+      "kb_910"
+    ],
+    "displayId": 339,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_913",
+    "title": "成人形成期",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 8,
+    "canonicalId": "kb_913",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "emerging adulthood",
+      "エマージング・アダルトフッド"
+    ],
+    "relatedTheoryIds": [
+      "kb_256",
+      "kb_589",
+      "kb_902",
+      "kb_909"
+    ],
+    "displayId": 340,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_914",
+    "title": "生態学的システム理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 9,
+    "canonicalId": "kb_914",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "ecological systems theory",
+      "ブロンフェンブレンナーの生態学的理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_559",
+      "kb_903",
+      "kb_915",
+      "kb_920"
+    ],
+    "displayId": 341,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_915",
+    "title": "ライフコース理論",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 10,
+    "canonicalId": "kb_915",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "life course theory",
+      "ライフコース・アプローチ"
+    ],
+    "relatedTheoryIds": [
+      "kb_909",
+      "kb_288",
+      "kb_914"
+    ],
+    "displayId": 342,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_916",
+    "title": "流動性知能・結晶性知能",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "sortOrder": 11,
+    "canonicalId": "kb_916",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "fluid and crystallized intelligence",
+      "流動性知能",
+      "結晶性知能",
+      "Gf・Gc"
+    ],
+    "relatedTheoryIds": [
+      "kb_910",
+      "kb_825",
+      "kb_724"
+    ],
+    "displayId": 343,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_917",
+    "title": "脳の可塑性",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 1,
+    "canonicalId": "kb_917",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "神経可塑性",
+      "脳可塑性",
+      "neuroplasticity",
+      "brain plasticity"
+    ],
+    "relatedTheoryIds": [
+      "kb_263",
+      "kb_198",
+      "kb_918",
+      "kb_920",
+      "kb_921",
+      "kb_910",
+      "kb_919"
+    ],
+    "displayId": 344,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_918",
+    "title": "ヘッブの法則",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 2,
+    "canonicalId": "kb_918",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Hebbian learning",
+      "Hebbの法則",
+      "ヘッブ学習"
+    ],
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_919",
+      "kb_414"
+    ],
+    "displayId": 345,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_919",
+    "title": "長期増強",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 3,
+    "canonicalId": "kb_919",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "long-term potentiation",
+      "LTP",
+      "シナプス長期増強"
+    ],
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_918",
+      "kb_831"
+    ],
+    "displayId": 346,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_920",
+    "title": "敏感期",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 4,
+    "canonicalId": "kb_920",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "sensitive period",
+      "感受性期"
+    ],
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_903",
+      "kb_914"
+    ],
+    "displayId": 347,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_921",
+    "title": "睡眠と記憶の固定化",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 5,
+    "canonicalId": "kb_921",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "sleep-dependent memory consolidation",
+      "睡眠依存性記憶固定"
+    ],
+    "relatedTheoryIds": [
+      "kb_831",
+      "kb_200",
+      "kb_917",
+      "kb_540"
+    ],
+    "displayId": 348,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_922",
+    "title": "アロスタティック負荷",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "sortOrder": 6,
+    "canonicalId": "kb_922",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "allostatic load",
+      "アロスタシス負荷",
+      "アロスタティック・ロード"
+    ],
+    "relatedTheoryIds": [
+      "kb_228",
+      "kb_763",
+      "kb_540",
+      "kb_940",
+      "kb_946"
+    ],
+    "displayId": 349,
     "status": "locked"
   },
   {
@@ -7704,7 +8300,8 @@
       "数学的期待値"
     ],
     "relatedTheoryIds": [
-      "kb_756"
+      "kb_756",
+      "kb_955"
     ],
     "displayId": 3,
     "status": "locked"
@@ -7977,7 +8574,8 @@
     "relatedTheoryIds": [
       "kb_752",
       "kb_175",
-      "kb_834"
+      "kb_834",
+      "kb_912"
     ],
     "displayId": 13,
     "status": "locked"
@@ -8293,7 +8891,8 @@
     ],
     "relatedTheoryIds": [
       "kb_449",
-      "kb_597"
+      "kb_597",
+      "kb_930"
     ],
     "displayId": 26,
     "status": "locked"
@@ -8342,7 +8941,8 @@
     ],
     "relatedTheoryIds": [
       "kb_844",
-      "kb_715"
+      "kb_715",
+      "kb_938"
     ],
     "displayId": 28,
     "status": "locked"
@@ -8538,7 +9138,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_953"
+    ],
     "displayId": 35,
     "status": "locked"
   },
@@ -8973,7 +9575,8 @@
       "kb_736",
       "kb_833",
       "kb_884",
-      "kb_899"
+      "kb_899",
+      "kb_941"
     ],
     "displayId": 52,
     "status": "locked"
@@ -8997,7 +9600,8 @@
     ],
     "relatedTheoryIds": [
       "kb_520",
-      "kb_168"
+      "kb_168",
+      "kb_947"
     ],
     "displayId": 53,
     "status": "locked"
@@ -9380,7 +9984,9 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_749",
-      "kb_832"
+      "kb_832",
+      "kb_943",
+      "kb_944"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -9521,7 +10127,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_911"
+    ],
     "displayId": 77,
     "status": "locked"
   },
@@ -9598,7 +10206,9 @@
     "sortOrder": 1,
     "displayId": 81,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_944"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_180",
@@ -9755,7 +10365,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_943"
+    ],
     "displayId": 88,
     "status": "locked"
   },
@@ -9773,7 +10385,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_943"
+    ],
     "displayId": 89,
     "status": "locked"
   },
@@ -9848,6 +10462,60 @@
     "status": "locked"
   },
   {
+    "tagId": "kb_943",
+    "title": "フォッグ行動モデル",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-h",
+    "subcategoryTitle": "習慣・行動設計",
+    "sortOrder": 13,
+    "canonicalId": "kb_943",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Fogg Behavior Model",
+      "FBM",
+      "B=MAP"
+    ],
+    "relatedTheoryIds": [
+      "kb_181",
+      "kb_528",
+      "kb_172",
+      "kb_944"
+    ],
+    "displayId": 93,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_944",
+    "title": "行動変容ステージモデル",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-h",
+    "subcategoryTitle": "習慣・行動設計",
+    "sortOrder": 14,
+    "canonicalId": "kb_944",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "transtheoretical model",
+      "TTM",
+      "トランスセオレティカル・モデル",
+      "変化のステージモデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_180",
+      "kb_943",
+      "kb_172"
+    ],
+    "displayId": 94,
+    "status": "locked"
+  },
+  {
     "tagId": "kb_536",
     "title": "オペラント条件づけ",
     "summary": "",
@@ -9864,7 +10532,7 @@
     "relatedTheoryIds": [
       "kb_900"
     ],
-    "displayId": 93,
+    "displayId": 95,
     "status": "locked"
   },
   {
@@ -9890,7 +10558,7 @@
       "kb_208",
       "kb_440"
     ],
-    "displayId": 94,
+    "displayId": 96,
     "status": "locked"
   },
   {
@@ -9907,8 +10575,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 95,
+    "relatedTheoryIds": [
+      "kb_947"
+    ],
+    "displayId": 97,
     "status": "locked"
   },
   {
@@ -9927,9 +10597,10 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_831",
-      "kb_900"
+      "kb_900",
+      "kb_945"
     ],
-    "displayId": 96,
+    "displayId": 98,
     "status": "locked"
   },
   {
@@ -9947,7 +10618,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 97,
+    "displayId": 99,
     "status": "locked"
   },
   {
@@ -9965,7 +10636,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 98,
+    "displayId": 100,
     "status": "locked"
   },
   {
@@ -9991,7 +10662,7 @@
       "kb_169",
       "kb_123"
     ],
-    "displayId": 99,
+    "displayId": 101,
     "status": "locked"
   },
   {
@@ -10009,9 +10680,10 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_738"
+      "kb_738",
+      "kb_921"
     ],
-    "displayId": 100,
+    "displayId": 102,
     "status": "locked"
   },
   {
@@ -10036,7 +10708,7 @@
       "kb_831",
       "kb_879"
     ],
-    "displayId": 101,
+    "displayId": 103,
     "status": "locked"
   },
   {
@@ -10056,7 +10728,7 @@
     "relatedTheoryIds": [
       "kb_747"
     ],
-    "displayId": 102,
+    "displayId": 104,
     "status": "locked"
   },
   {
@@ -10081,7 +10753,7 @@
       "kb_201",
       "kb_199"
     ],
-    "displayId": 103,
+    "displayId": 105,
     "status": "locked"
   },
   {
@@ -10107,7 +10779,7 @@
       "kb_744",
       "kb_828"
     ],
-    "displayId": 104,
+    "displayId": 106,
     "status": "locked"
   },
   {
@@ -10124,8 +10796,11 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 105,
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_947"
+    ],
+    "displayId": 107,
     "status": "locked"
   },
   {
@@ -10143,7 +10818,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 106,
+    "displayId": 108,
     "status": "locked"
   },
   {
@@ -10163,7 +10838,7 @@
     "relatedTheoryIds": [
       "kb_744"
     ],
-    "displayId": 107,
+    "displayId": 109,
     "status": "locked"
   },
   {
@@ -10186,9 +10861,112 @@
     "relatedTheoryIds": [
       "kb_748",
       "kb_741",
-      "kb_904"
+      "kb_904",
+      "kb_948"
     ],
-    "displayId": 108,
+    "displayId": 110,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_945",
+    "title": "馴化",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "sortOrder": 17,
+    "canonicalId": "kb_945",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "habituation",
+      "慣れの学習"
+    ],
+    "relatedTheoryIds": [
+      "kb_946",
+      "kb_440",
+      "kb_211",
+      "kb_268"
+    ],
+    "displayId": 111,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_946",
+    "title": "鋭敏化",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "sortOrder": 18,
+    "canonicalId": "kb_946",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "sensitization",
+      "感作"
+    ],
+    "relatedTheoryIds": [
+      "kb_945",
+      "kb_211",
+      "kb_922"
+    ],
+    "displayId": 112,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_947",
+    "title": "学習性勤勉さ",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "sortOrder": 19,
+    "canonicalId": "kb_947",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "learned industriousness",
+      "学習性勤勉性"
+    ],
+    "relatedTheoryIds": [
+      "kb_437",
+      "kb_198",
+      "kb_884"
+    ],
+    "displayId": 113,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_948",
+    "title": "足場かけ",
+    "summary": "",
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "sortOrder": 20,
+    "canonicalId": "kb_948",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "scaffolding",
+      "スキャフォールディング"
+    ],
+    "relatedTheoryIds": [
+      "kb_904",
+      "kb_169",
+      "kb_828",
+      "kb_952"
+    ],
+    "displayId": 114,
     "status": "locked"
   },
   {
@@ -10311,7 +11089,10 @@
     "relatedTheoryIds": [
       "kb_772",
       "kb_767",
-      "kb_907"
+      "kb_907",
+      "kb_922",
+      "kb_939",
+      "kb_940"
     ],
     "displayId": 5,
     "status": "locked"
@@ -10356,7 +11137,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_921",
+      "kb_922"
+    ],
     "displayId": 7,
     "status": "locked"
   },
@@ -10734,9 +11518,62 @@
     "relatedTheoryIds": [
       "kb_130",
       "kb_766",
-      "kb_890"
+      "kb_890",
+      "kb_941"
     ],
     "displayId": 24,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_939",
+    "title": "役割葛藤・役割曖昧性",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-i",
+    "subcategoryTitle": "働き方・キャリア",
+    "sortOrder": 25,
+    "canonicalId": "kb_939",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "role conflict and role ambiguity",
+      "役割葛藤",
+      "役割曖昧性"
+    ],
+    "relatedTheoryIds": [
+      "kb_435",
+      "kb_487",
+      "kb_763"
+    ],
+    "displayId": 25,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_940",
+    "title": "努力報酬不均衡モデル",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-i",
+    "subcategoryTitle": "働き方・キャリア",
+    "sortOrder": 26,
+    "canonicalId": "kb_940",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "effort-reward imbalance model",
+      "ERIモデル",
+      "努力・報酬不均衡"
+    ],
+    "relatedTheoryIds": [
+      "kb_763",
+      "kb_768",
+      "kb_922"
+    ],
+    "displayId": 26,
     "status": "locked"
   },
   {
@@ -10760,9 +11597,10 @@
       "kb_087",
       "kb_064",
       "kb_794",
-      "kb_889"
+      "kb_889",
+      "kb_942"
     ],
-    "displayId": 25,
+    "displayId": 27,
     "status": "locked"
   },
   {
@@ -10786,7 +11624,7 @@
       "kb_777",
       "kb_402"
     ],
-    "displayId": 26,
+    "displayId": 28,
     "status": "locked"
   },
   {
@@ -10806,7 +11644,7 @@
     "relatedTheoryIds": [
       "kb_777"
     ],
-    "displayId": 27,
+    "displayId": 29,
     "status": "locked"
   },
   {
@@ -10818,7 +11656,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 4,
-    "displayId": 28,
+    "displayId": 30,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -10856,7 +11694,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 29,
+    "displayId": 31,
     "status": "locked"
   },
   {
@@ -10868,7 +11706,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 6,
-    "displayId": 30,
+    "displayId": 32,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_777",
@@ -10909,7 +11747,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 31,
+    "displayId": 33,
     "status": "locked"
   },
   {
@@ -10927,7 +11765,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 32,
+    "displayId": 34,
     "status": "locked"
   },
   {
@@ -10947,7 +11785,7 @@
     "relatedTheoryIds": [
       "kb_731"
     ],
-    "displayId": 33,
+    "displayId": 35,
     "status": "locked"
   },
   {
@@ -10965,7 +11803,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 34,
+    "displayId": 36,
     "status": "locked"
   },
   {
@@ -10983,7 +11821,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 35,
+    "displayId": 37,
     "status": "locked"
   },
   {
@@ -11001,7 +11839,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 38,
     "status": "locked"
   },
   {
@@ -11019,7 +11857,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 37,
+    "displayId": 39,
     "status": "locked"
   },
   {
@@ -11031,7 +11869,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 14,
-    "displayId": 38,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_732",
@@ -11082,7 +11920,7 @@
       "kb_770",
       "kb_402"
     ],
-    "displayId": 39,
+    "displayId": 41,
     "status": "locked"
   },
   {
@@ -11094,7 +11932,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 16,
-    "displayId": 40,
+    "displayId": 42,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_770",
@@ -11145,7 +11983,7 @@
       "kb_402",
       "kb_845"
     ],
-    "displayId": 41,
+    "displayId": 43,
     "status": "locked"
   },
   {
@@ -11169,7 +12007,7 @@
       "kb_773",
       "kb_168"
     ],
-    "displayId": 42,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -11193,7 +12031,7 @@
       "kb_773",
       "kb_402"
     ],
-    "displayId": 43,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -11219,7 +12057,7 @@
       "kb_125",
       "kb_893"
     ],
-    "displayId": 44,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -11243,7 +12081,7 @@
       "kb_775",
       "kb_776"
     ],
-    "displayId": 45,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -11268,7 +12106,7 @@
       "kb_168",
       "kb_893"
     ],
-    "displayId": 46,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -11288,7 +12126,7 @@
     "relatedTheoryIds": [
       "kb_775"
     ],
-    "displayId": 47,
+    "displayId": 49,
     "status": "locked"
   },
   {
@@ -11308,7 +12146,7 @@
     "relatedTheoryIds": [
       "kb_765"
     ],
-    "displayId": 48,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -11328,7 +12166,7 @@
     "relatedTheoryIds": [
       "kb_765"
     ],
-    "displayId": 49,
+    "displayId": 51,
     "status": "locked"
   },
   {
@@ -11346,7 +12184,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 50,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -11371,7 +12209,7 @@
       "kb_771",
       "kb_402"
     ],
-    "displayId": 51,
+    "displayId": 53,
     "status": "locked"
   },
   {
@@ -11391,9 +12229,10 @@
     "relatedTheoryIds": [
       "kb_853",
       "kb_891",
-      "kb_892"
+      "kb_892",
+      "kb_942"
     ],
-    "displayId": 52,
+    "displayId": 54,
     "status": "locked"
   },
   {
@@ -11418,7 +12257,7 @@
       "kb_516",
       "kb_892"
     ],
-    "displayId": 53,
+    "displayId": 55,
     "status": "locked"
   },
   {
@@ -11443,7 +12282,7 @@
       "kb_193",
       "kb_891"
     ],
-    "displayId": 54,
+    "displayId": 56,
     "status": "locked"
   },
   {
@@ -11465,9 +12304,10 @@
     ],
     "relatedTheoryIds": [
       "kb_064",
-      "kb_285"
+      "kb_285",
+      "kb_942"
     ],
-    "displayId": 55,
+    "displayId": 57,
     "status": "locked"
   },
   {
@@ -11485,7 +12325,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 56,
+    "displayId": 58,
     "status": "locked"
   },
   {
@@ -11503,7 +12343,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -11530,7 +12370,7 @@
       "kb_847",
       "kb_861"
     ],
-    "displayId": 58,
+    "displayId": 60,
     "status": "locked"
   },
   {
@@ -11548,7 +12388,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 59,
+    "displayId": 61,
     "status": "locked"
   },
   {
@@ -11572,7 +12412,7 @@
       "kb_767",
       "kb_135"
     ],
-    "displayId": 60,
+    "displayId": 62,
     "status": "locked"
   },
   {
@@ -11592,7 +12432,7 @@
     "relatedTheoryIds": [
       "kb_891"
     ],
-    "displayId": 61,
+    "displayId": 63,
     "status": "locked"
   },
   {
@@ -11610,7 +12450,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 62,
+    "displayId": 64,
     "status": "locked"
   },
   {
@@ -11628,7 +12468,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -11646,7 +12486,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 64,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -11666,9 +12506,10 @@
     "relatedTheoryIds": [
       "kb_768",
       "kb_769",
-      "kb_798"
+      "kb_798",
+      "kb_956"
     ],
-    "displayId": 65,
+    "displayId": 67,
     "status": "locked"
   },
   {
@@ -11692,9 +12533,11 @@
       "kb_155",
       "kb_769",
       "kb_798",
-      "kb_863"
+      "kb_863",
+      "kb_940",
+      "kb_956"
     ],
-    "displayId": 66,
+    "displayId": 68,
     "status": "locked"
   },
   {
@@ -11719,7 +12562,7 @@
       "kb_768",
       "kb_155"
     ],
-    "displayId": 67,
+    "displayId": 69,
     "status": "locked"
   },
   {
@@ -11731,7 +12574,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 21,
-    "displayId": 68,
+    "displayId": 70,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_731",
@@ -11773,7 +12616,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 69,
+    "displayId": 71,
     "status": "locked"
   },
   {
@@ -11791,7 +12634,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 70,
+    "displayId": 72,
     "status": "locked"
   },
   {
@@ -11812,7 +12655,7 @@
       "kb_724",
       "kb_803"
     ],
-    "displayId": 71,
+    "displayId": 73,
     "status": "locked"
   },
   {
@@ -11830,7 +12673,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 72,
+    "displayId": 74,
     "status": "locked"
   },
   {
@@ -11848,7 +12691,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 73,
+    "displayId": 75,
     "status": "locked"
   },
   {
@@ -11866,7 +12709,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 74,
+    "displayId": 76,
     "status": "locked"
   },
   {
@@ -11884,7 +12727,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 75,
+    "displayId": 77,
     "status": "locked"
   },
   {
@@ -11902,7 +12745,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 76,
+    "displayId": 78,
     "status": "locked"
   },
   {
@@ -11922,7 +12765,7 @@
     "relatedTheoryIds": [
       "kb_865"
     ],
-    "displayId": 77,
+    "displayId": 79,
     "status": "locked"
   },
   {
@@ -11940,7 +12783,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 78,
+    "displayId": 80,
     "status": "locked"
   },
   {
@@ -11958,7 +12801,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 79,
+    "displayId": 81,
     "status": "locked"
   },
   {
@@ -11970,7 +12813,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 33,
-    "displayId": 80,
+    "displayId": 82,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_892"
@@ -12010,7 +12853,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 81,
+    "displayId": 83,
     "status": "locked"
   },
   {
@@ -12028,7 +12871,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 82,
+    "displayId": 84,
     "status": "locked"
   },
   {
@@ -12045,8 +12888,61 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 83,
+    "relatedTheoryIds": [
+      "kb_927"
+    ],
+    "displayId": 85,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_941",
+    "title": "心理的エンパワーメント",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-o",
+    "subcategoryTitle": "組織運営・人材育成",
+    "sortOrder": 37,
+    "canonicalId": "kb_941",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "psychological empowerment",
+      "心理的権限委譲"
+    ],
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_520",
+      "kb_764"
+    ],
+    "displayId": 86,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_942",
+    "title": "センスメイキング",
+    "summary": "",
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-o",
+    "subcategoryTitle": "組織運営・人材育成",
+    "sortOrder": 38,
+    "canonicalId": "kb_942",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "sensemaking",
+      "意味づけの過程"
+    ],
+    "relatedTheoryIds": [
+      "kb_506",
+      "kb_894",
+      "kb_777",
+      "kb_933"
+    ],
+    "displayId": 87,
     "status": "locked"
   },
   {
@@ -12064,7 +12960,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 84,
+    "displayId": 88,
     "status": "locked"
   },
   {
@@ -12076,7 +12972,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 2,
-    "displayId": 85,
+    "displayId": 89,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -12116,7 +13012,7 @@
     "relatedTheoryIds": [
       "kb_851"
     ],
-    "displayId": 86,
+    "displayId": 90,
     "status": "locked"
   },
   {
@@ -12134,7 +13030,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 87,
+    "displayId": 91,
     "status": "locked"
   },
   {
@@ -12152,7 +13048,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 88,
+    "displayId": 92,
     "status": "locked"
   },
   {
@@ -12170,7 +13066,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 89,
+    "displayId": 93,
     "status": "locked"
   },
   {
@@ -12188,7 +13084,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 90,
+    "displayId": 94,
     "status": "locked"
   },
   {
@@ -12206,7 +13102,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 91,
+    "displayId": 95,
     "status": "locked"
   },
   {
@@ -12224,7 +13120,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 92,
+    "displayId": 96,
     "status": "locked"
   },
   {
@@ -12242,7 +13138,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 93,
+    "displayId": 97,
     "status": "locked"
   },
   {
@@ -12260,7 +13156,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 94,
+    "displayId": 98,
     "status": "locked"
   },
   {
@@ -12280,7 +13176,7 @@
     "relatedTheoryIds": [
       "kb_883"
     ],
-    "displayId": 95,
+    "displayId": 99,
     "status": "locked"
   },
   {
@@ -12298,7 +13194,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 96,
+    "displayId": 100,
     "status": "locked"
   },
   {
@@ -12322,7 +13218,7 @@
       "kb_783",
       "kb_085"
     ],
-    "displayId": 97,
+    "displayId": 101,
     "status": "locked"
   },
   {
@@ -12340,7 +13236,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 98,
+    "displayId": 102,
     "status": "locked"
   },
   {
@@ -12358,7 +13254,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 99,
+    "displayId": 103,
     "status": "locked"
   },
   {
@@ -12376,7 +13272,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 100,
+    "displayId": 104,
     "status": "locked"
   },
   {
@@ -12393,8 +13289,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 101,
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
+    "displayId": 105,
     "status": "locked"
   },
   {
@@ -12412,7 +13310,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 102,
+    "displayId": 106,
     "status": "locked"
   },
   {
@@ -12430,7 +13328,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 103,
+    "displayId": 107,
     "status": "locked"
   },
   {
@@ -12448,7 +13346,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 104,
+    "displayId": 108,
     "status": "locked"
   },
   {
@@ -12465,8 +13363,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 105,
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
+    "displayId": 109,
     "status": "locked"
   },
   {
@@ -12484,7 +13384,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 106,
+    "displayId": 110,
     "status": "locked"
   },
   {
@@ -12502,7 +13402,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 107,
+    "displayId": 111,
     "status": "locked"
   },
   {
@@ -12514,7 +13414,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 8,
-    "displayId": 108,
+    "displayId": 112,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -12552,7 +13452,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 109,
+    "displayId": 113,
     "status": "locked"
   },
   {
@@ -12570,7 +13470,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 110,
+    "displayId": 114,
     "status": "locked"
   },
   {
@@ -12594,7 +13494,7 @@
       "kb_849",
       "kb_781"
     ],
-    "displayId": 111,
+    "displayId": 115,
     "status": "locked"
   },
   {
@@ -12619,7 +13519,7 @@
       "kb_849",
       "kb_855"
     ],
-    "displayId": 112,
+    "displayId": 116,
     "status": "locked"
   },
   {
@@ -12646,7 +13546,7 @@
       "kb_849",
       "kb_908"
     ],
-    "displayId": 113,
+    "displayId": 117,
     "status": "locked"
   },
   {
@@ -12672,7 +13572,7 @@
       "kb_850",
       "kb_908"
     ],
-    "displayId": 114,
+    "displayId": 118,
     "status": "locked"
   },
   {
@@ -12690,7 +13590,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 115,
+    "displayId": 119,
     "status": "locked"
   },
   {
@@ -12708,7 +13608,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 116,
+    "displayId": 120,
     "status": "locked"
   },
   {
@@ -12726,7 +13626,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 117,
+    "displayId": 121,
     "status": "locked"
   },
   {
@@ -12750,7 +13650,7 @@
       "kb_853",
       "kb_855"
     ],
-    "displayId": 118,
+    "displayId": 122,
     "status": "locked"
   },
   {
@@ -12774,7 +13674,7 @@
       "kb_854",
       "kb_850"
     ],
-    "displayId": 119,
+    "displayId": 123,
     "status": "locked"
   },
   {
@@ -12802,7 +13702,7 @@
       "kb_851",
       "kb_861"
     ],
-    "displayId": 120,
+    "displayId": 124,
     "status": "locked"
   },
   {
@@ -12826,7 +13726,7 @@
       "kb_783",
       "kb_782"
     ],
-    "displayId": 121,
+    "displayId": 125,
     "status": "locked"
   },
   {
@@ -12844,7 +13744,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 122,
+    "displayId": 126,
     "status": "locked"
   },
   {
@@ -12869,7 +13769,7 @@
       "kb_854",
       "kb_506"
     ],
-    "displayId": 123,
+    "displayId": 127,
     "status": "locked"
   },
   {
@@ -12887,7 +13787,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 124,
+    "displayId": 128,
     "status": "locked"
   },
   {
@@ -12905,7 +13805,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 125,
+    "displayId": 129,
     "status": "locked"
   },
   {
@@ -12925,7 +13825,7 @@
     "relatedTheoryIds": [
       "kb_801"
     ],
-    "displayId": 126,
+    "displayId": 130,
     "status": "locked"
   },
   {
@@ -12937,7 +13837,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 17,
-    "displayId": 127,
+    "displayId": 131,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -13203,7 +14103,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_711",
-      "kb_712"
+      "kb_712",
+      "kb_938"
     ],
     "displayId": 10,
     "status": "locked"
@@ -13222,7 +14123,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_933"
+    ],
     "displayId": 11,
     "status": "locked"
   },
@@ -13249,7 +14152,8 @@
     "relatedTheoryIds": [
       "kb_746",
       "kb_588",
-      "kb_887"
+      "kb_887",
+      "kb_916"
     ],
     "displayId": 12,
     "status": "locked"
@@ -14101,7 +15005,8 @@
     "relatedTheoryIds": [
       "kb_145",
       "kb_522",
-      "kb_862"
+      "kb_862",
+      "kb_926"
     ],
     "displayId": 52,
     "status": "locked"
@@ -14335,7 +15240,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
     "displayId": 62,
     "status": "locked"
   },
@@ -14508,7 +15415,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_911"
+    ],
     "displayId": 70,
     "status": "locked"
   },
@@ -14523,7 +15432,9 @@
     "sortOrder": 10,
     "displayId": 71,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_932"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_599",
@@ -14742,7 +15653,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_915"
+    ],
     "displayId": 79,
     "status": "locked"
   },
@@ -14836,6 +15749,268 @@
     "aliases": [],
     "relatedTheoryIds": [],
     "displayId": 84,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_929",
+    "title": "演繹推論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 1,
+    "canonicalId": "kb_929",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "deductive reasoning",
+      "演繹法"
+    ],
+    "relatedTheoryIds": [
+      "kb_930",
+      "kb_931",
+      "kb_934",
+      "kb_937",
+      "kb_952"
+    ],
+    "displayId": 85,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_930",
+    "title": "帰納推論",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 2,
+    "canonicalId": "kb_930",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "inductive reasoning",
+      "帰納法"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_931",
+      "kb_716",
+      "kb_711"
+    ],
+    "displayId": 86,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_931",
+    "title": "アブダクション",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 3,
+    "canonicalId": "kb_931",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "abduction",
+      "仮説的推論",
+      "最良の説明への推論"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_930",
+      "kb_596",
+      "kb_932"
+    ],
+    "displayId": 87,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_932",
+    "title": "反証可能性",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 4,
+    "canonicalId": "kb_932",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "falsifiability",
+      "反証主義"
+    ],
+    "relatedTheoryIds": [
+      "kb_596",
+      "kb_931",
+      "kb_599",
+      "kb_937",
+      "kb_950",
+      "kb_952"
+    ],
+    "displayId": 88,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_933",
+    "title": "相関と因果の区別",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 5,
+    "canonicalId": "kb_933",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "correlation and causation",
+      "相関は因果を意味しない"
+    ],
+    "relatedTheoryIds": [
+      "kb_875",
+      "kb_762",
+      "kb_938",
+      "kb_570",
+      "kb_934",
+      "kb_942"
+    ],
+    "displayId": 89,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_934",
+    "title": "必要条件・十分条件",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 6,
+    "canonicalId": "kb_934",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "necessary and sufficient conditions",
+      "必要条件",
+      "十分条件"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_933"
+    ],
+    "displayId": 90,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_935",
+    "title": "人身攻撃の誤謬",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 7,
+    "canonicalId": "kb_935",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "ad hominem",
+      "人格攻撃"
+    ],
+    "relatedTheoryIds": [
+      "kb_452",
+      "kb_461",
+      "kb_936"
+    ],
+    "displayId": 91,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_936",
+    "title": "藁人形論法",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 8,
+    "canonicalId": "kb_936",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "straw man fallacy",
+      "ストローマン論法",
+      "わら人形論法"
+    ],
+    "relatedTheoryIds": [
+      "kb_935",
+      "kb_789",
+      "kb_573"
+    ],
+    "displayId": 92,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_937",
+    "title": "循環論法",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 9,
+    "canonicalId": "kb_937",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "circular reasoning"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_932",
+      "kb_596"
+    ],
+    "displayId": 93,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_938",
+    "title": "シンプソンのパラドックス",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 10,
+    "canonicalId": "kb_938",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Simpson’s paradox",
+      "Simpson paradox",
+      "Simpsonのパラドックス"
+    ],
+    "relatedTheoryIds": [
+      "kb_933",
+      "kb_449",
+      "kb_843"
+    ],
+    "displayId": 94,
     "status": "locked"
   },
   {
@@ -16034,7 +17209,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_939"
+    ],
     "displayId": 54,
     "status": "locked"
   },
@@ -16052,7 +17229,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_939"
+    ],
     "displayId": 55,
     "status": "locked"
   },
@@ -16270,7 +17449,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_912",
+      "kb_949"
+    ],
     "displayId": 66,
     "status": "locked"
   },
@@ -16690,7 +17872,9 @@
     "sortOrder": 1,
     "displayId": 1,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_952"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_311",
@@ -16786,7 +17970,9 @@
     "sortOrder": 4,
     "displayId": 4,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_954"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_624",
@@ -16900,7 +18086,9 @@
     "sortOrder": 8,
     "displayId": 8,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_953"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_623",
@@ -17475,6 +18663,210 @@
     "status": "locked"
   },
   {
+    "tagId": "kb_949",
+    "title": "ダモクレスの剣",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 17,
+    "canonicalId": "kb_949",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Sword of Damocles",
+      "ダモクレスのつるぎ"
+    ],
+    "relatedTheoryIds": [
+      "kb_079",
+      "kb_445",
+      "kb_555",
+      "kb_562"
+    ],
+    "displayId": 32,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_950",
+    "title": "洞窟の比喩",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 18,
+    "canonicalId": "kb_950",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "allegory of the cave",
+      "プラトンの洞窟"
+    ],
+    "relatedTheoryIds": [
+      "kb_880",
+      "kb_596",
+      "kb_932"
+    ],
+    "displayId": 33,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_951",
+    "title": "テセウスの船",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 19,
+    "canonicalId": "kb_951",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Ship of Theseus",
+      "テセウスのパラドックス"
+    ],
+    "relatedTheoryIds": [
+      "kb_246",
+      "kb_251",
+      "kb_910"
+    ],
+    "displayId": 34,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_952",
+    "title": "ソクラテス式問答法",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 20,
+    "canonicalId": "kb_952",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "Socratic method",
+      "ソクラテス問答",
+      "エレンコス"
+    ],
+    "relatedTheoryIds": [
+      "kb_311",
+      "kb_929",
+      "kb_932",
+      "kb_948"
+    ],
+    "displayId": 35,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_953",
+    "title": "アリストテレスの中庸",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 21,
+    "canonicalId": "kb_953",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "doctrine of the mean",
+      "徳としての中庸"
+    ],
+    "relatedTheoryIds": [
+      "kb_623",
+      "kb_141",
+      "kb_573"
+    ],
+    "displayId": 36,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_954",
+    "title": "定言命法",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 22,
+    "canonicalId": "kb_954",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "categorical imperative",
+      "カントの定言命法"
+    ],
+    "relatedTheoryIds": [
+      "kb_624",
+      "kb_955",
+      "kb_956"
+    ],
+    "displayId": 37,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_955",
+    "title": "功利主義",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 23,
+    "canonicalId": "kb_955",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "utilitarianism",
+      "最大幸福原理"
+    ],
+    "relatedTheoryIds": [
+      "kb_954",
+      "kb_956",
+      "kb_755"
+    ],
+    "displayId": 38,
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_956",
+    "title": "無知のヴェール",
+    "summary": "",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "sortOrder": 24,
+    "canonicalId": "kb_956",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "veil of ignorance",
+      "無知のベール"
+    ],
+    "relatedTheoryIds": [
+      "kb_155",
+      "kb_768",
+      "kb_954",
+      "kb_955"
+    ],
+    "displayId": 39,
+    "status": "locked"
+  },
+  {
     "tagId": "kb_626",
     "title": "知彼知己、百戦殆うからず",
     "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
@@ -17483,7 +18875,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 1,
-    "displayId": 32,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17515,7 +18907,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 2,
-    "displayId": 33,
+    "displayId": 41,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17553,7 +18945,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 34,
+    "displayId": 42,
     "status": "locked"
   },
   {
@@ -17571,7 +18963,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 35,
+    "displayId": 43,
     "status": "locked"
   },
   {
@@ -17589,7 +18981,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 36,
+    "displayId": 44,
     "status": "locked"
   },
   {
@@ -17607,7 +18999,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 37,
+    "displayId": 45,
     "status": "locked"
   },
   {
@@ -17625,7 +19017,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 38,
+    "displayId": 46,
     "status": "locked"
   },
   {
@@ -17643,7 +19035,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 39,
+    "displayId": 47,
     "status": "locked"
   },
   {
@@ -17661,7 +19053,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 40,
+    "displayId": 48,
     "status": "locked"
   },
   {
@@ -17673,7 +19065,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 10,
-    "displayId": 41,
+    "displayId": 49,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17711,7 +19103,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 42,
+    "displayId": 50,
     "status": "locked"
   },
   {
@@ -17723,7 +19115,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 1,
-    "displayId": 43,
+    "displayId": 51,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17754,7 +19146,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 44,
+    "displayId": 52,
     "status": "locked"
   },
   {
@@ -17766,7 +19158,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 3,
-    "displayId": 45,
+    "displayId": 53,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17783,7 +19175,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 4,
-    "displayId": 46,
+    "displayId": 54,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17800,7 +19192,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 5,
-    "displayId": 47,
+    "displayId": 55,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17817,7 +19209,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 6,
-    "displayId": 48,
+    "displayId": 56,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17834,7 +19226,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 7,
-    "displayId": 49,
+    "displayId": 57,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17851,7 +19243,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 8,
-    "displayId": 50,
+    "displayId": 58,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17888,7 +19280,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 51,
+    "displayId": 59,
     "status": "locked"
   },
   {
@@ -17900,7 +19292,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 10,
-    "displayId": 52,
+    "displayId": 60,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17923,7 +19315,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 11,
-    "displayId": 53,
+    "displayId": 61,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17948,7 +19340,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 12,
-    "displayId": 54,
+    "displayId": 62,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17965,7 +19357,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 13,
-    "displayId": 55,
+    "displayId": 63,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17996,7 +19388,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 14,
-    "displayId": 56,
+    "displayId": 64,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18027,7 +19419,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 57,
+    "displayId": 65,
     "status": "locked"
   },
   {
@@ -18045,7 +19437,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 58,
+    "displayId": 66,
     "status": "locked"
   },
   {
@@ -18057,7 +19449,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 17,
-    "displayId": 59,
+    "displayId": 67,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18089,7 +19481,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 18,
-    "displayId": 60,
+    "displayId": 68,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18121,7 +19513,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 19,
-    "displayId": 61,
+    "displayId": 69,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18152,7 +19544,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 62,
+    "displayId": 70,
     "status": "locked"
   },
   {
@@ -18170,7 +19562,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 63,
+    "displayId": 71,
     "status": "locked"
   },
   {
@@ -18188,7 +19580,7 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [],
-    "displayId": 64,
+    "displayId": 72,
     "status": "locked"
   }
 ]

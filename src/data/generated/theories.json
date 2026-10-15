@@ -46,7 +46,9 @@
       "horn effect",
       "devil effect"
     ],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_927"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_003",
@@ -150,7 +152,11 @@
       "kb_812",
       "kb_875",
       "kb_880",
-      "kb_881"
+      "kb_881",
+      "kb_931",
+      "kb_932",
+      "kb_937",
+      "kb_950"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -188,7 +194,8 @@
     "relatedTheoryIds": [
       "kb_596",
       "kb_719",
-      "kb_146"
+      "kb_146",
+      "kb_950"
     ],
     "canonicalId": "kb_880",
     "legacyIds": [],
@@ -326,7 +333,8 @@
     ],
     "relatedTheoryIds": [
       "kb_597",
-      "kb_596"
+      "kb_596",
+      "kb_933"
     ],
     "canonicalId": "kb_875",
     "legacyIds": [],
@@ -400,7 +408,10 @@
     "sortOrder": 12,
     "displayId": 12,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_936",
+      "kb_953"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_573",
@@ -717,7 +728,8 @@
       "権威効果"
     ],
     "relatedTheoryIds": [
-      "kb_733"
+      "kb_733",
+      "kb_935"
     ],
     "legacyIds": [
       "kb_103"
@@ -1506,7 +1518,9 @@
     "sortOrder": 43,
     "displayId": 43,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_928"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_233",
@@ -1903,7 +1917,9 @@
     "sortOrder": 55,
     "displayId": 55,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_914"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_559",
@@ -2147,7 +2163,8 @@
     "relatedTheoryIds": [
       "kb_713",
       "kb_714",
-      "kb_717"
+      "kb_717",
+      "kb_930"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -2526,7 +2543,9 @@
     "sortOrder": 8,
     "displayId": 73,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_945"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_268",
@@ -3077,7 +3096,8 @@
     "relatedTheoryIds": [
       "kb_772",
       "kb_886",
-      "kb_905"
+      "kb_905",
+      "kb_922"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -3110,7 +3130,10 @@
     "sortOrder": 26,
     "displayId": 91,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_945",
+      "kb_946"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_211",
@@ -4107,7 +4130,9 @@
       "kb_735",
       "kb_750",
       "kb_804",
-      "kb_904"
+      "kb_904",
+      "kb_941",
+      "kb_948"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4390,7 +4415,8 @@
     "displayId": 129,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_706"
+      "kb_706",
+      "kb_917"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4467,7 +4493,8 @@
     "relatedTheoryIds": [
       "kb_726",
       "kb_129",
-      "kb_817"
+      "kb_817",
+      "kb_916"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4540,7 +4567,8 @@
     "displayId": 133,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_902"
+      "kb_902",
+      "kb_951"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4606,7 +4634,8 @@
     "displayId": 135,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_902"
+      "kb_902",
+      "kb_913"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -4739,7 +4768,9 @@
     "sortOrder": 19,
     "displayId": 139,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_913"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_256",
@@ -4963,7 +4994,9 @@
     "sortOrder": 26,
     "displayId": 146,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_909"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_266",
@@ -5250,7 +5283,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_805",
-      "kb_902"
+      "kb_902",
+      "kb_951"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -5594,124 +5628,6 @@
     }
   },
   {
-    "tagId": "kb_902",
-    "title": "エリクソンの心理社会的発達理論",
-    "summary": "人の生涯発達を、基本的信頼、自律性、アイデンティティ、親密性など、各段階での心理社会的な課題から捉える理論。自己の形成を幼少期だけに限定せず、他者や社会との関係の中で理解する。年齢だけで発達を判定するための尺度ではなく、各課題は後の時期にも再び問題になり得る。文化や生活条件による違いも考慮する。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "displayId": 165,
-    "aliases": [
-      "Erikson psychosocial development theory",
-      "心理社会的発達段階説"
-    ],
-    "relatedTheoryIds": [
-      "kb_246",
-      "kb_589",
-      "kb_251"
-    ],
-    "canonicalId": "kb_902",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Erik H. Erikson",
-      "period": "1950年（初版）",
-      "works": [
-        "Childhood and Society. W. W. Norton."
-      ],
-      "sources": [
-        {
-          "title": "参照文献・原著の確認先",
-          "url": "https://wwnorton.co.uk/books/9780393310689-childhood-and-society"
-        }
-      ],
-      "note": "出版社の著作書誌を確認。段階の年齢を厳密な診断基準として扱わない。"
-    },
-    "sortOrder": 45
-  },
-  {
-    "tagId": "kb_903",
-    "title": "ピアジェの認知発達理論",
-    "summary": "子どもが経験を既存の理解へ取り込む同化と、理解の枠組みを変える調節を通じて、認知を発達させるとする理論。感覚運動、前操作、具体的操作、形式的操作という段階が知られる。年齢だけで能力を決めつけず、課題の提示や経験の違いも確かめる必要がある。段階の普遍性や、幼い子どもの能力の見積もりには後続研究から検討が加えられている。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "displayId": 166,
-    "aliases": [
-      "Piaget theory of cognitive development",
-      "ピアジェ理論"
-    ],
-    "relatedTheoryIds": [
-      "kb_745",
-      "kb_493",
-      "kb_904"
-    ],
-    "canonicalId": "kb_903",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Jean Piaget",
-      "period": "1947年（原著）／1950年（英訳）",
-      "works": [
-        "The Psychology of Intelligence. Routledge & Kegan Paul."
-      ],
-      "sources": [
-        {
-          "title": "参照文献・原著の確認先",
-          "url": "https://doi.org/10.4324/9780203164730"
-        }
-      ],
-      "note": "理論の歴史的枠組みと、後続研究による修正を区別する。"
-    },
-    "sortOrder": 46
-  },
-  {
-    "tagId": "kb_904",
-    "title": "最近接発達領域",
-    "summary": "自力でできる課題の水準と、大人の助言やより熟達した相手との協働によってできる課題の水準との間を捉える概念。既に一人でできることだけでなく、支援を受けて学べる範囲を見る。支援の量を調整する教育の参考になるが、本人に代わって答えを出すこととは異なる。足場かけという後の支援概念を、同じ名称の同義語として扱わない。",
-    "categoryId": "psychology",
-    "categoryTitle": "心理学",
-    "subcategoryId": "psychology-s",
-    "subcategoryTitle": "自己理解・成長",
-    "displayId": 167,
-    "aliases": [
-      "zone of proximal development",
-      "ZPD",
-      "発達の最近接領域"
-    ],
-    "relatedTheoryIds": [
-      "kb_169",
-      "kb_828",
-      "kb_903"
-    ],
-    "canonicalId": "kb_904",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "provenance": {
-      "status": "書誌確認済み",
-      "attribution": "Lev S. Vygotsky",
-      "period": "1978年（編集・英訳刊行）",
-      "works": [
-        "Mind in Society: The Development of Higher Psychological Processes. Harvard University Press."
-      ],
-      "sources": [
-        {
-          "title": "参照文献・原著の確認先",
-          "url": "https://doi.org/10.2307/j.ctvjf9vz4"
-        }
-      ],
-      "note": "没後に編集された著作の刊行年であり、概念の初出年とはしない。"
-    },
-    "sortOrder": 47
-  },
-  {
     "tagId": "kb_036",
     "title": "愛着理論",
     "summary": "幼少期から形成される他者への信頼や不安のパターンが、成人後の親密な関係にも影響するという理論。",
@@ -5720,9 +5636,11 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 1,
-    "displayId": 168,
+    "displayId": 165,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_924"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_036",
@@ -5757,7 +5675,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 2,
-    "displayId": 169,
+    "displayId": 166,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5789,7 +5707,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 3,
-    "displayId": 170,
+    "displayId": 167,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5821,7 +5739,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 4,
-    "displayId": 171,
+    "displayId": 168,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5853,7 +5771,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 5,
-    "displayId": 172,
+    "displayId": 169,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -5885,7 +5803,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 6,
-    "displayId": 173,
+    "displayId": 170,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_822"
@@ -5919,9 +5837,11 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 7,
-    "displayId": 174,
+    "displayId": 171,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_923"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_034",
@@ -5951,14 +5871,15 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 8,
-    "displayId": 175,
+    "displayId": 172,
     "aliases": [
       "triangular theory of love",
       "愛情の三角理論"
     ],
     "relatedTheoryIds": [
       "kb_765",
-      "kb_033"
+      "kb_033",
+      "kb_923"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -5989,12 +5910,13 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 9,
-    "displayId": 176,
+    "displayId": 173,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_718",
       "kb_821",
-      "kb_896"
+      "kb_896",
+      "kb_925"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -6025,7 +5947,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 10,
-    "displayId": 177,
+    "displayId": 174,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_823"
@@ -6059,7 +5981,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 11,
-    "displayId": 178,
+    "displayId": 175,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6091,7 +6013,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 12,
-    "displayId": 179,
+    "displayId": 176,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6123,7 +6045,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 13,
-    "displayId": 180,
+    "displayId": 177,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6155,7 +6077,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 14,
-    "displayId": 181,
+    "displayId": 178,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6187,7 +6109,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 15,
-    "displayId": 182,
+    "displayId": 179,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6218,7 +6140,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 16,
-    "displayId": 183,
+    "displayId": 180,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6250,7 +6172,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 17,
-    "displayId": 184,
+    "displayId": 181,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6282,7 +6204,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 18,
-    "displayId": 185,
+    "displayId": 182,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6314,7 +6236,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 19,
-    "displayId": 186,
+    "displayId": 183,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6346,7 +6268,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 20,
-    "displayId": 187,
+    "displayId": 184,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6378,7 +6300,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 21,
-    "displayId": 188,
+    "displayId": 185,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6410,7 +6332,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 22,
-    "displayId": 189,
+    "displayId": 186,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6442,7 +6364,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 23,
-    "displayId": 190,
+    "displayId": 187,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6473,9 +6395,11 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 24,
-    "displayId": 191,
+    "displayId": 188,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_928"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_404",
@@ -6505,14 +6429,15 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 25,
-    "displayId": 192,
+    "displayId": 189,
     "aliases": [
       "rejection sensitivity",
       "拒否感受性"
     ],
     "relatedTheoryIds": [
       "kb_815",
-      "kb_730"
+      "kb_730",
+      "kb_924"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -6543,7 +6468,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 26,
-    "displayId": 193,
+    "displayId": 190,
     "aliases": [
       "proximity effect",
       "propinquity effect",
@@ -6578,7 +6503,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 27,
-    "displayId": 194,
+    "displayId": 191,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6610,7 +6535,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 28,
-    "displayId": 195,
+    "displayId": 192,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6642,7 +6567,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 29,
-    "displayId": 196,
+    "displayId": 193,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6674,7 +6599,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 30,
-    "displayId": 197,
+    "displayId": 194,
     "aliases": [
       "theory of mind",
       "ToM",
@@ -6682,7 +6607,8 @@
     ],
     "relatedTheoryIds": [
       "kb_789",
-      "kb_721"
+      "kb_721",
+      "kb_928"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -6713,7 +6639,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 31,
-    "displayId": 198,
+    "displayId": 195,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6744,7 +6670,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 32,
-    "displayId": 199,
+    "displayId": 196,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6776,7 +6702,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 33,
-    "displayId": 200,
+    "displayId": 197,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6808,7 +6734,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 34,
-    "displayId": 201,
+    "displayId": 198,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6839,7 +6765,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 35,
-    "displayId": 202,
+    "displayId": 199,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6871,7 +6797,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 36,
-    "displayId": 203,
+    "displayId": 200,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -6903,7 +6829,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 37,
-    "displayId": 204,
+    "displayId": 201,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_824",
@@ -6938,7 +6864,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 38,
-    "displayId": 205,
+    "displayId": 202,
     "aliases": [
       "social baseline theory",
       "SBT"
@@ -6976,7 +6902,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 39,
-    "displayId": 206,
+    "displayId": 203,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7008,7 +6934,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 40,
-    "displayId": 207,
+    "displayId": 204,
     "aliases": [
       "need to belong",
       "belongingness hypothesis",
@@ -7052,7 +6978,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 41,
-    "displayId": 208,
+    "displayId": 205,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7084,7 +7010,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 42,
-    "displayId": 209,
+    "displayId": 206,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7116,7 +7042,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 43,
-    "displayId": 210,
+    "displayId": 207,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7148,11 +7074,12 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 44,
-    "displayId": 211,
+    "displayId": 208,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_787",
-      "kb_898"
+      "kb_898",
+      "kb_923"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -7182,11 +7109,12 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
-    "displayId": 212,
+    "displayId": 209,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_050",
-      "kb_400"
+      "kb_400",
+      "kb_923"
     ],
     "canonicalId": "kb_898",
     "legacyIds": [],
@@ -7218,7 +7146,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 46,
-    "displayId": 213,
+    "displayId": 210,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7250,7 +7178,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 47,
-    "displayId": 214,
+    "displayId": 211,
     "aliases": [
       "相対的剝奪"
     ],
@@ -7288,7 +7216,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 48,
-    "displayId": 215,
+    "displayId": 212,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7320,7 +7248,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 49,
-    "displayId": 216,
+    "displayId": 213,
     "aliases": [
       "Dark Triad",
       "暗黒の三徴"
@@ -7358,7 +7286,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 50,
-    "displayId": 217,
+    "displayId": 214,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7390,7 +7318,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 51,
-    "displayId": 218,
+    "displayId": 215,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7422,7 +7350,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 52,
-    "displayId": 219,
+    "displayId": 216,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7454,9 +7382,11 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 53,
-    "displayId": 220,
+    "displayId": 217,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_924"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_012",
@@ -7486,7 +7416,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 54,
-    "displayId": 221,
+    "displayId": 218,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_885"
@@ -7520,7 +7450,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 55,
-    "displayId": 222,
+    "displayId": 219,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7552,7 +7482,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 56,
-    "displayId": 223,
+    "displayId": 220,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7583,7 +7513,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 57,
-    "displayId": 224,
+    "displayId": 221,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7615,7 +7545,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 58,
-    "displayId": 225,
+    "displayId": 222,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7647,7 +7577,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 59,
-    "displayId": 226,
+    "displayId": 223,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7679,7 +7609,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 60,
-    "displayId": 227,
+    "displayId": 224,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7696,7 +7626,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 61,
-    "displayId": 228,
+    "displayId": 225,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7728,7 +7658,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 62,
-    "displayId": 229,
+    "displayId": 226,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7760,7 +7690,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 63,
-    "displayId": 230,
+    "displayId": 227,
     "aliases": [
       "matching hypothesis",
       "適合仮説"
@@ -7793,7 +7723,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 64,
-    "displayId": 231,
+    "displayId": 228,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7825,7 +7755,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 65,
-    "displayId": 232,
+    "displayId": 229,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7857,7 +7787,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 66,
-    "displayId": 233,
+    "displayId": 230,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7889,7 +7819,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 67,
-    "displayId": 234,
+    "displayId": 231,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7921,7 +7851,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 68,
-    "displayId": 235,
+    "displayId": 232,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7953,7 +7883,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 69,
-    "displayId": 236,
+    "displayId": 233,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -7985,7 +7915,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 70,
-    "displayId": 237,
+    "displayId": 234,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8017,7 +7947,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 71,
-    "displayId": 238,
+    "displayId": 235,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8049,7 +7979,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 72,
-    "displayId": 239,
+    "displayId": 236,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8081,7 +8011,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 73,
-    "displayId": 240,
+    "displayId": 237,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8113,7 +8043,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 74,
-    "displayId": 241,
+    "displayId": 238,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8145,7 +8075,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 75,
-    "displayId": 242,
+    "displayId": 239,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8177,7 +8107,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 76,
-    "displayId": 243,
+    "displayId": 240,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_789"
@@ -8211,7 +8141,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 77,
-    "displayId": 244,
+    "displayId": 241,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8243,7 +8173,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 78,
-    "displayId": 245,
+    "displayId": 242,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8275,7 +8205,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 79,
-    "displayId": 246,
+    "displayId": 243,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8307,7 +8237,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 80,
-    "displayId": 247,
+    "displayId": 244,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8339,7 +8269,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 81,
-    "displayId": 248,
+    "displayId": 245,
     "aliases": [
       "能動的・建設的反応"
     ],
@@ -8377,7 +8307,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 82,
-    "displayId": 249,
+    "displayId": 246,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8409,7 +8339,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 83,
-    "displayId": 250,
+    "displayId": 247,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8440,7 +8370,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 84,
-    "displayId": 251,
+    "displayId": 248,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8457,7 +8387,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 85,
-    "displayId": 252,
+    "displayId": 249,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8488,7 +8418,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 86,
-    "displayId": 253,
+    "displayId": 250,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8520,7 +8450,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 87,
-    "displayId": 254,
+    "displayId": 251,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8552,7 +8482,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 88,
-    "displayId": 255,
+    "displayId": 252,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8584,7 +8514,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 89,
-    "displayId": 256,
+    "displayId": 253,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8616,7 +8546,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 90,
-    "displayId": 257,
+    "displayId": 254,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_871"
@@ -8649,7 +8579,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
-    "displayId": 258,
+    "displayId": 255,
     "aliases": [
       "McGurk effect",
       "マクガーク効果"
@@ -8687,7 +8617,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 92,
-    "displayId": 259,
+    "displayId": 256,
     "aliases": [
       "cooperative principle",
       "Gricean maxims",
@@ -8721,7 +8651,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 93,
-    "displayId": 260,
+    "displayId": 257,
     "aliases": [
       "common ground theory",
       "grounding in communication",
@@ -8731,7 +8661,8 @@
       "kb_721",
       "kb_412",
       "kb_818",
-      "kb_859"
+      "kb_859",
+      "kb_936"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -8757,7 +8688,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 94,
-    "displayId": 261,
+    "displayId": 258,
     "aliases": [
       "communication accommodation theory",
       "CAT",
@@ -8790,7 +8721,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 95,
-    "displayId": 262,
+    "displayId": 259,
     "aliases": [
       "politeness theory",
       "Brown and Levinson politeness theory",
@@ -8824,7 +8755,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 96,
-    "displayId": 263,
+    "displayId": 260,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8856,7 +8787,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 97,
-    "displayId": 264,
+    "displayId": 261,
     "aliases": [
       "elaboration likelihood model",
       "ELM",
@@ -8893,7 +8824,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 98,
-    "displayId": 265,
+    "displayId": 262,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -8925,7 +8856,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 99,
-    "displayId": 266,
+    "displayId": 263,
     "aliases": [
       "social judgment theory",
       "SJT",
@@ -8959,7 +8890,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 100,
-    "displayId": 267,
+    "displayId": 264,
     "aliases": [
       "sleeper effect",
       "睡眠者効果"
@@ -8997,7 +8928,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 101,
-    "displayId": 268,
+    "displayId": 265,
     "aliases": [
       "inoculation theory",
       "態度接種理論"
@@ -9030,7 +8961,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 102,
-    "displayId": 269,
+    "displayId": 266,
     "aliases": [
       "narrative transportation",
       "物語への移入"
@@ -9068,7 +8999,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 103,
-    "displayId": 270,
+    "displayId": 267,
     "aliases": [
       "two-step flow of communication",
       "二段階の流れ"
@@ -9101,7 +9032,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 104,
-    "displayId": 271,
+    "displayId": 268,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -9133,7 +9064,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 105,
-    "displayId": 272,
+    "displayId": 269,
     "aliases": [
       "情報源信頼性モデル",
       "source credibility model",
@@ -9142,7 +9073,8 @@
     "relatedTheoryIds": [
       "kb_784",
       "kb_785",
-      "kb_857"
+      "kb_857",
+      "kb_935"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -9173,7 +9105,7 @@
     "subcategoryId": "psychology-i",
     "subcategoryTitle": "人間関係・コミュニケーション",
     "sortOrder": 106,
-    "displayId": 273,
+    "displayId": 270,
     "aliases": [
       "heuristic-systematic model",
       "HSM",
@@ -9204,6 +9136,127 @@
       ],
       "attribution": "Shelly Chaiken"
     }
+  },
+  {
+    "tagId": "kb_923",
+    "title": "ロミオとジュリエット効果",
+    "aliases": [
+      "ロミオ・ジュリエット効果",
+      "Romeo and Juliet effect",
+      "ロミオとジュリエット効果"
+    ],
+    "summary": "親などから恋愛を妨げられることが、かえって相手への思いを強める場合があるという仮説。自由を制限される反発との関連から説明されてきた。一方、後続の追試では同じ結果が支持されず、周囲の反対が関係を弱める場合もある。反対されるほど本当の愛だとは判断せず、反発と関係の安全性を分けて見る。",
+    "relatedTheoryIds": [
+      "kb_050",
+      "kb_898",
+      "kb_034",
+      "kb_822"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Richard Driscoll / Keith E. Davis / Milton E. Lipetz（原研究）／H. Colleen Sinclair / Kristina B. Hood / Brittany L. Wright（追試）",
+      "works": [
+        "Parental interference and romantic love: The Romeo and Juliet effect (1972); Revisiting the Romeo and Juliet Effect (2014)"
+      ],
+      "sources": [
+        {
+          "title": "原研究（1972）",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/5079550/"
+        },
+        {
+          "title": "追試・再検討（2014）",
+          "url": "https://doi.org/10.1027/1864-9335/a000181"
+        }
+      ],
+      "note": "原研究と2014年の追試を併記。普遍的・確定的な効果として扱わない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "canonicalId": "kb_923",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 107,
+    "displayId": 271
+  },
+  {
+    "tagId": "kb_924",
+    "title": "成人愛着スタイル",
+    "aliases": [
+      "adult attachment styles",
+      "成人の愛着スタイル",
+      "恋愛の愛着スタイル"
+    ],
+    "summary": "親密な相手への安心感、見捨てられる不安、近づくことへの回避などの傾向を捉える枠組み。連絡頻度や距離の希望が違うとき、相手の悪意だけでなく関係で感じる不安を考えられる。乳幼児の愛着理論を成人の恋愛へ展開した研究に由来するが、自己診断で固定した性格や関係の運命を決めるものではない。",
+    "relatedTheoryIds": [
+      "kb_036",
+      "kb_816",
+      "kb_012"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Cindy Hazan / Phillip Shaver",
+      "works": [
+        "Romantic love conceptualized as an attachment process (1987)"
+      ],
+      "sources": [
+        {
+          "title": "Romantic love conceptualized as an attachment process (1987)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/3572722/"
+        }
+      ],
+      "note": "成人の恋愛への展開を扱う。歴史的な類型と後の連続的な不安・回避の尺度を区別する。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "canonicalId": "kb_924",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 108,
+    "displayId": 272
+  },
+  {
+    "tagId": "kb_928",
+    "title": "共感的正確性",
+    "aliases": [
+      "empathic accuracy",
+      "共感的精度"
+    ],
+    "summary": "相手が実際に考えたり感じたりしていることを、どれほど正確に推測できるかという概念。優しく接することや自分も同じ感情になることとは区別される。理解したつもりのときほど、推測を仮のものとして本人に確かめる。非言語的な手掛かりも使えるが、表情だけで内面を断定できるわけではない。",
+    "relatedTheoryIds": [
+      "kb_404",
+      "kb_818",
+      "kb_233"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "William Ickes / Linda Stinson / Victor Bissonnette / Stella Garcia",
+      "works": [
+        "Naturalistic social cognition: Empathic accuracy in mixed-sex dyads (1990)"
+      ],
+      "sources": [
+        {
+          "title": "Naturalistic social cognition: Empathic accuracy in mixed-sex dyads (1990)",
+          "url": "https://doi.org/10.1037/0022-3514.59.4.730"
+        }
+      ],
+      "note": "相手の報告と推測を比較する研究概念。思いやりや感情共有の程度と同一にしない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "canonicalId": "kb_928",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 109,
+    "displayId": 273
   },
   {
     "tagId": "kb_058",
@@ -9283,7 +9336,9 @@
     "sortOrder": 3,
     "displayId": 276,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_926"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_062",
@@ -9315,7 +9370,11 @@
     "sortOrder": 4,
     "displayId": 277,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_925",
+      "kb_926",
+      "kb_927"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_060",
@@ -9776,7 +9835,9 @@
     "sortOrder": 17,
     "displayId": 290,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_925"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_485",
@@ -10130,7 +10191,8 @@
     ],
     "relatedTheoryIds": [
       "kb_538",
-      "kb_123"
+      "kb_123",
+      "kb_933"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -10148,6 +10210,123 @@
     }
   },
   {
+    "tagId": "kb_925",
+    "title": "接触仮説",
+    "aliases": [
+      "contact hypothesis",
+      "intergroup contact theory",
+      "集団間接触理論"
+    ],
+    "summary": "異なる集団の人同士の接触が、偏見を減らしうるという仮説。対等な立場、共通目標、協力、制度の支えなど、接触の質が重要になる。違う世代や文化の人と協働する設計に役立つ。単に同じ場所へ集めればよいわけではなく、敵対的な経験は逆効果にもなりうる。単純接触効果とは対象と説明範囲が異なる。",
+    "relatedTheoryIds": [
+      "kb_060",
+      "kb_485",
+      "kb_004",
+      "kb_926"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Gordon W. Allport（提唱）／Thomas F. Pettigrew / Linda R. Tropp（参照研究）",
+      "works": [
+        "A Meta-Analytic Test of Intergroup Contact Theory (2006)"
+      ],
+      "sources": [
+        {
+          "title": "A Meta-Analytic Test of Intergroup Contact Theory (2006)",
+          "url": "https://doi.org/10.1037/0022-3514.90.5.751"
+        }
+      ],
+      "note": "Allportの条件を参照し、メタ分析による検討を併記。条件を絶対的な必要条件とはしない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "canonicalId": "kb_925",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 29,
+    "displayId": 302
+  },
+  {
+    "tagId": "kb_926",
+    "title": "現実的葛藤理論",
+    "aliases": [
+      "realistic conflict theory",
+      "現実的集団葛藤理論"
+    ],
+    "summary": "集団同士が限られた資源や報酬を競うと、相手集団への敵意や偏見が強まりうるという理論。共同でしか達成できない上位目標は、関係を変える手掛かりになる。職場の対立では性格だけでなく報酬や予算の配分を見る。すべての偏見が資源競争だけで生じるわけではなく、集団の区分だけでも起こる影響と区別する。",
+    "relatedTheoryIds": [
+      "kb_062",
+      "kb_060",
+      "kb_925",
+      "kb_795"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Muzafer Sherif / O. J. Harvey / B. Jack White / William R. Hood / Carolyn W. Sherif",
+      "works": [
+        "Intergroup Conflict and Cooperation: The Robbers Cave Experiment (1961)"
+      ],
+      "sources": [
+        {
+          "title": "Intergroup Conflict and Cooperation: The Robbers Cave Experiment (1961)",
+          "url": "https://psychclassics.yorku.ca/Sherif/index.htm"
+        }
+      ],
+      "note": "原報告の再録を参照。限られた実験参加者からあらゆる集団へ一般化しない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "canonicalId": "kb_926",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 30,
+    "displayId": 303
+  },
+  {
+    "tagId": "kb_927",
+    "title": "ステレオタイプ内容モデル",
+    "aliases": [
+      "stereotype content model",
+      "SCM"
+    ],
+    "summary": "集団への固定観念を、主に温かさと有能さの二つの評価軸で捉えるモデル。好意と能力の評価は同じ方向とは限らず、羨望や同情を含む複雑な偏見が生じる。人を「良い・悪い」の一軸で決める前に、何を推測しているかを振り返る。実際の能力や人格を判定する尺度ではなく、評価者側の認知を説明する。",
+    "relatedTheoryIds": [
+      "kb_060",
+      "kb_119",
+      "kb_003"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Susan T. Fiske / Amy J. C. Cuddy / Peter Glick / Jun Xu",
+      "works": [
+        "A model of (often mixed) stereotype content: Competence and warmth respectively follow from perceived status and competition (2002)"
+      ],
+      "sources": [
+        {
+          "title": "A model of (often mixed) stereotype content: Competence and warmth respectively follow from perceived status and competition (2002)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/12051578/"
+        }
+      ],
+      "note": "集団に対する知覚を説明するモデル。属性から個人の性質を決めつけない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-v",
+    "subcategoryTitle": "集団心理・社会的影響",
+    "canonicalId": "kb_927",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 31,
+    "displayId": 304
+  },
+  {
     "tagId": "kb_017",
     "title": "カクテルパーティー効果",
     "summary": "多くの音や情報の中でも、自分の名前や関心の高い情報には注意が向きやすい現象。人は自分に関係する情報を優先して拾う。",
@@ -10156,7 +10335,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 1,
-    "displayId": 302,
+    "displayId": 305,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_870",
@@ -10192,7 +10371,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 303,
+    "displayId": 306,
     "aliases": [
       "Stroop effect"
     ],
@@ -10229,7 +10408,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 304,
+    "displayId": 307,
     "aliases": [
       "inattentional blindness",
       "不注意盲"
@@ -10269,7 +10448,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 305,
+    "displayId": 308,
     "aliases": [
       "change blindness",
       "変化盲目"
@@ -10308,7 +10487,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 306,
+    "displayId": 309,
     "aliases": [
       "attentional blink",
       "アテンショナル・ブリンク"
@@ -10348,7 +10527,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 6,
-    "displayId": 307,
+    "displayId": 310,
     "aliases": [
       "working memory model",
       "作業記憶モデル",
@@ -10385,7 +10564,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 7,
-    "displayId": 308,
+    "displayId": 311,
     "aliases": [
       "Ebbinghaus forgetting curve",
       "忘却曲線"
@@ -10418,7 +10597,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 309,
+    "displayId": 312,
     "aliases": [
       "retrieval-induced forgetting",
       "想起誘導性忘却"
@@ -10457,7 +10636,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 9,
-    "displayId": 310,
+    "displayId": 313,
     "aliases": [
       "serial position effect",
       "初頭・新近性効果"
@@ -10496,7 +10675,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 10,
-    "displayId": 311,
+    "displayId": 314,
     "aliases": [
       "levels of processing framework",
       "処理水準モデル"
@@ -10535,7 +10714,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 11,
-    "displayId": 312,
+    "displayId": 315,
     "aliases": [
       "encoding specificity principle",
       "符号化特定性"
@@ -10574,7 +10753,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 313,
+    "displayId": 316,
     "aliases": [
       "misinformation effect",
       "事後情報効果"
@@ -10613,7 +10792,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 314,
+    "displayId": 317,
     "aliases": [
       "source monitoring",
       "情報源モニタリング"
@@ -10653,7 +10832,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 14,
-    "displayId": 315,
+    "displayId": 318,
     "aliases": [
       "context-dependent memory",
       "文脈依存効果"
@@ -10691,7 +10870,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 15,
-    "displayId": 316,
+    "displayId": 319,
     "aliases": [
       "state-dependent memory",
       "状態依存学習"
@@ -10729,7 +10908,7 @@
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
-    "displayId": 317,
+    "displayId": 320,
     "aliases": [
       "mood-congruent memory",
       "気分一致効果"
@@ -10768,7 +10947,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 17,
-    "displayId": 318,
+    "displayId": 321,
     "aliases": [
       "dual coding theory",
       "デュアルコーディング"
@@ -10801,7 +10980,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 18,
-    "displayId": 319,
+    "displayId": 322,
     "aliases": [
       "chunking",
       "チャンキング",
@@ -10840,7 +11019,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 19,
-    "displayId": 320,
+    "displayId": 323,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -10872,7 +11051,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 20,
-    "displayId": 321,
+    "displayId": 324,
     "aliases": [
       "memory reconsolidation",
       "記憶再固定化"
@@ -10881,7 +11060,9 @@
       "kb_440",
       "kb_199",
       "kb_876",
-      "kb_877"
+      "kb_877",
+      "kb_919",
+      "kb_921"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -10912,7 +11093,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 21,
-    "displayId": 322,
+    "displayId": 325,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -10944,7 +11125,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 22,
-    "displayId": 323,
+    "displayId": 326,
     "aliases": [
       "generation effect",
       "自己生成効果"
@@ -10983,7 +11164,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 23,
-    "displayId": 324,
+    "displayId": 327,
     "aliases": [
       "transfer-appropriate processing",
       "転移適切処理"
@@ -11021,7 +11202,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 24,
-    "displayId": 325,
+    "displayId": 328,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_737",
@@ -11061,7 +11242,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 25,
-    "displayId": 326,
+    "displayId": 329,
     "aliases": [
       "Von Restorff effect",
       "isolation effect",
@@ -11095,7 +11276,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 26,
-    "displayId": 327,
+    "displayId": 330,
     "aliases": [
       "illusion of fluency",
       "fluency illusion",
@@ -11130,10 +11311,11 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 27,
-    "displayId": 328,
+    "displayId": 331,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_858"
+      "kb_858",
+      "kb_918"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -11164,7 +11346,7 @@
     "subcategoryId": "psychology-m",
     "subcategoryTitle": "記憶・注意",
     "sortOrder": 28,
-    "displayId": 329,
+    "displayId": 332,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -11186,6 +11368,685 @@
       ],
       "attribution": "Bluma Zeigarnik（元の研究者） / Hellmuth Metz-Göckel（参照解説の著者）"
     }
+  },
+  {
+    "tagId": "kb_902",
+    "title": "エリクソンの心理社会的発達理論",
+    "summary": "人の生涯発達を、基本的信頼、自律性、アイデンティティ、親密性など、各段階での心理社会的な課題から捉える理論。自己の形成を幼少期だけに限定せず、他者や社会との関係の中で理解する。年齢だけで発達を判定するための尺度ではなく、各課題は後の時期にも再び問題になり得る。文化や生活条件による違いも考慮する。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "displayId": 333,
+    "aliases": [
+      "Erikson psychosocial development theory",
+      "心理社会的発達段階説"
+    ],
+    "relatedTheoryIds": [
+      "kb_246",
+      "kb_589",
+      "kb_251",
+      "kb_909",
+      "kb_910",
+      "kb_913"
+    ],
+    "canonicalId": "kb_902",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Erik H. Erikson",
+      "period": "1950年（初版）",
+      "works": [
+        "Childhood and Society. W. W. Norton."
+      ],
+      "sources": [
+        {
+          "title": "参照文献・原著の確認先",
+          "url": "https://wwnorton.co.uk/books/9780393310689-childhood-and-society"
+        }
+      ],
+      "note": "出版社の著作書誌を確認。段階の年齢を厳密な診断基準として扱わない。"
+    },
+    "sortOrder": 1
+  },
+  {
+    "tagId": "kb_903",
+    "title": "ピアジェの認知発達理論",
+    "summary": "子どもが経験を既存の理解へ取り込む同化と、理解の枠組みを変える調節を通じて、認知を発達させるとする理論。感覚運動、前操作、具体的操作、形式的操作という段階が知られる。年齢だけで能力を決めつけず、課題の提示や経験の違いも確かめる必要がある。段階の普遍性や、幼い子どもの能力の見積もりには後続研究から検討が加えられている。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "displayId": 334,
+    "aliases": [
+      "Piaget theory of cognitive development",
+      "ピアジェ理論"
+    ],
+    "relatedTheoryIds": [
+      "kb_745",
+      "kb_493",
+      "kb_904",
+      "kb_914",
+      "kb_920"
+    ],
+    "canonicalId": "kb_903",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Jean Piaget",
+      "period": "1947年（原著）／1950年（英訳）",
+      "works": [
+        "The Psychology of Intelligence. Routledge & Kegan Paul."
+      ],
+      "sources": [
+        {
+          "title": "参照文献・原著の確認先",
+          "url": "https://doi.org/10.4324/9780203164730"
+        }
+      ],
+      "note": "理論の歴史的枠組みと、後続研究による修正を区別する。"
+    },
+    "sortOrder": 2
+  },
+  {
+    "tagId": "kb_904",
+    "title": "最近接発達領域",
+    "summary": "自力でできる課題の水準と、大人の助言やより熟達した相手との協働によってできる課題の水準との間を捉える概念。既に一人でできることだけでなく、支援を受けて学べる範囲を見る。支援の量を調整する教育の参考になるが、本人に代わって答えを出すこととは異なる。足場かけという後の支援概念を、同じ名称の同義語として扱わない。",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "displayId": 335,
+    "aliases": [
+      "zone of proximal development",
+      "ZPD",
+      "発達の最近接領域"
+    ],
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_828",
+      "kb_903",
+      "kb_948"
+    ],
+    "canonicalId": "kb_904",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Lev S. Vygotsky",
+      "period": "1978年（編集・英訳刊行）",
+      "works": [
+        "Mind in Society: The Development of Higher Psychological Processes. Harvard University Press."
+      ],
+      "sources": [
+        {
+          "title": "参照文献・原著の確認先",
+          "url": "https://doi.org/10.2307/j.ctvjf9vz4"
+        }
+      ],
+      "note": "没後に編集された著作の刊行年であり、概念の初出年とはしない。"
+    },
+    "sortOrder": 3
+  },
+  {
+    "tagId": "kb_909",
+    "title": "社会的時計",
+    "aliases": [
+      "social clock",
+      "ソーシャル・クロック",
+      "社会時計"
+    ],
+    "summary": "就職、結婚、子育て、退職などを「何歳ごろに行うべきか」と社会が期待する時間表。周囲より遅れているという焦りは、能力だけでなく年齢への規範からも生まれる。文化や時代、生活条件で変わるため、自分の希望と社会の予定表を分けて考える。生物学的な体内時計とは異なる。",
+    "relatedTheoryIds": [
+      "kb_266",
+      "kb_902",
+      "kb_915",
+      "kb_913"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Bernice L. Neugarten / Joan W. Moore / John C. Lowe",
+      "works": [
+        "Age Norms, Age Constraints, and Adult Socialization (1965)"
+      ],
+      "sources": [
+        {
+          "title": "Age Norms, Age Constraints, and Adult Socialization (1965)",
+          "url": "https://www.journals.uchicago.edu/doi/10.1086/223965"
+        }
+      ],
+      "note": "年齢規範を扱う原著。特定年齢の出来事を全員に求める基準ではない。",
+      "period": "1965年（参照文献）"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_909",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 4,
+    "displayId": 336
+  },
+  {
+    "tagId": "kb_910",
+    "title": "生涯発達理論",
+    "aliases": [
+      "life-span developmental psychology",
+      "ライフスパン発達心理学"
+    ],
+    "summary": "発達を子どもの成長だけでなく、生涯にわたる変化として捉える枠組み。能力や役割には伸びる側面と失われる側面が同時にあり、環境や歴史によって経路も変わる。年齢だけで可能性を決めず、今ある資源と学び直せる範囲を見る。あらゆる能力が無制限に向上するという意味ではない。",
+    "relatedTheoryIds": [
+      "kb_902",
+      "kb_911",
+      "kb_916",
+      "kb_917",
+      "kb_912",
+      "kb_951"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Paul B. Baltes",
+      "works": [
+        "Theoretical Propositions of Life-Span Developmental Psychology: On the Dynamics Between Growth and Decline (1987)"
+      ],
+      "sources": [
+        {
+          "title": "Theoretical Propositions of Life-Span Developmental Psychology: On the Dynamics Between Growth and Decline (1987)",
+          "url": "https://www.imprs-life.mpg.de/25277/022_baltes_1987.pdf"
+        }
+      ],
+      "note": "成長と衰退、多方向性、可塑性を含む枠組み。固定した年齢段階表ではない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_910",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 5,
+    "displayId": 337
+  },
+  {
+    "tagId": "kb_911",
+    "title": "選択・最適化・補償モデル",
+    "aliases": [
+      "SOCモデル",
+      "selective optimization with compensation"
+    ],
+    "summary": "限られた資源の中で、重視する目標を選び、その遂行を磨き、失われた手段を別の方法で補うという適応モデル。例えば活動を絞って練習し、補助道具を使って続ける。単なる諦めや効率化ではなく、本人にとって大切な活動を維持する見方である。補償がすべての損失を解消するとは限らない。",
+    "relatedTheoryIds": [
+      "kb_910",
+      "kb_572",
+      "kb_569"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Paul B. Baltes",
+      "works": [
+        "On the incomplete architecture of human ontogeny: Selection, optimization, and compensation as foundation of developmental theory (1997)"
+      ],
+      "sources": [
+        {
+          "title": "On the incomplete architecture of human ontogeny: Selection, optimization, and compensation as foundation of developmental theory (1997)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/9109347/"
+        }
+      ],
+      "note": "SOCの理論的整理を参照。成功した老いを単一尺度で決めない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_911",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 6,
+    "displayId": 338
+  },
+  {
+    "tagId": "kb_912",
+    "title": "社会情動的選択性理論",
+    "aliases": [
+      "socioemotional selectivity theory",
+      "SST",
+      "社会情緒的選択性理論"
+    ],
+    "summary": "残された時間をどう感じるかによって、人との関わりで優先する目標が変わるという理論。時間が広く開けていると知識や新しい縁を、限られていると意味ある関係や感情的充足を重視しやすい。暦年齢だけでなく時間の捉え方を見る。高齢者が必ず交流を減らすという法則ではない。",
+    "relatedTheoryIds": [
+      "kb_753",
+      "kb_562",
+      "kb_910"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Laura L. Carstensen / Derek M. Isaacowitz / Susan T. Charles",
+      "works": [
+        "Taking time seriously: A theory of socioemotional selectivity (1999)"
+      ],
+      "sources": [
+        {
+          "title": "Taking time seriously: A theory of socioemotional selectivity (1999)",
+          "url": "https://doi.org/10.1037/0003-066X.54.3.165"
+        }
+      ],
+      "note": "時間展望に関する理論。年齢と主観的な残り時間を区別する。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_912",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 7,
+    "displayId": 339
+  },
+  {
+    "tagId": "kb_913",
+    "title": "成人形成期",
+    "aliases": [
+      "emerging adulthood",
+      "エマージング・アダルトフッド"
+    ],
+    "summary": "青年期を過ぎても成人の役割が定まらない時期を、仕事、恋愛、価値観を探索する発達上の期間として捉える考え方。進路の揺れを直ちに未熟さと決めず、試行の機会と生活条件を見直す手掛かりになる。教育や経済、文化に左右される枠組みで、すべての人が同じ年齢で経験する段階ではない。",
+    "relatedTheoryIds": [
+      "kb_256",
+      "kb_589",
+      "kb_902",
+      "kb_909"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Jeffrey Jensen Arnett",
+      "works": [
+        "Emerging adulthood: A theory of development from the late teens through the twenties (2000)"
+      ],
+      "sources": [
+        {
+          "title": "Emerging adulthood: A theory of development from the late teens through the twenties (2000)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/10842426/"
+        }
+      ],
+      "note": "文化による条件差を含む理論。年齢から人格の成熟度を判定しない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_913",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 8,
+    "displayId": 340
+  },
+  {
+    "tagId": "kb_914",
+    "title": "生態学的システム理論",
+    "aliases": [
+      "ecological systems theory",
+      "ブロンフェンブレンナーの生態学的理論"
+    ],
+    "summary": "発達を、家庭や学校といった身近な環境、そのつながり、職場や制度、文化などが重なって作用する過程として見る理論。本人の努力だけで説明できない変化を、環境の層ごとに考えられる。困り事を個人の性格に還元せず、支援先や環境調整を探す。後の生物生態学的モデルと完全な同義ではない。",
+    "relatedTheoryIds": [
+      "kb_559",
+      "kb_903",
+      "kb_915",
+      "kb_920"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Urie Bronfenbrenner",
+      "works": [
+        "The Ecology of Human Development: Experiments by Nature and Design (1979)"
+      ],
+      "sources": [
+        {
+          "title": "The Ecology of Human Development: Experiments by Nature and Design (1979)",
+          "url": "https://doi.org/10.4159/9780674028845"
+        }
+      ],
+      "note": "1979年の環境システムの枠組みを参照。後年のモデル拡張と区別。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_914",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 9,
+    "displayId": 341
+  },
+  {
+    "tagId": "kb_915",
+    "title": "ライフコース理論",
+    "aliases": [
+      "life course theory",
+      "ライフコース・アプローチ"
+    ],
+    "summary": "人生の経路を、歴史的な時代、出来事が起きる時期、他者とのつながり、本人の選択の組み合わせで捉える枠組み。同じ転職や進学でも、それまでの経験と社会条件によって意味は変わる。人生を一律の年齢表で評価せず、転機の文脈を読む。自由な選択も制度や資源の制約の中で行われる。",
+    "relatedTheoryIds": [
+      "kb_909",
+      "kb_288",
+      "kb_914"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Glen H. Elder Jr.",
+      "works": [
+        "The Life Course as Developmental Theory (1998)"
+      ],
+      "sources": [
+        {
+          "title": "The Life Course as Developmental Theory (1998)",
+          "url": "https://doi.org/10.1111/j.1467-8624.1998.tb06128.x"
+        }
+      ],
+      "note": "社会的時間と結びついた人生の経路を扱う。生涯発達心理学とは説明の焦点が異なる。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_915",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 10,
+    "displayId": 342
+  },
+  {
+    "tagId": "kb_916",
+    "title": "流動性知能・結晶性知能",
+    "aliases": [
+      "fluid and crystallized intelligence",
+      "流動性知能",
+      "結晶性知能",
+      "Gf・Gc"
+    ],
+    "summary": "新しい課題の関係を見抜いて解く能力と、経験を通じて蓄積した知識を使う能力を区別する知能の枠組み。未知の道具の操作と、熟知した仕事の判断では求められる資源が異なる。年齢に伴う変化も一つの能力だけで測らない。二種類ですべての能力を説明できるわけではなく、個人差も大きい。",
+    "relatedTheoryIds": [
+      "kb_910",
+      "kb_825",
+      "kb_724"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Raymond B. Cattell",
+      "works": [
+        "Theory of fluid and crystallized intelligence: A critical experiment (1963)"
+      ],
+      "sources": [
+        {
+          "title": "Theory of fluid and crystallized intelligence: A critical experiment (1963)",
+          "url": "https://doi.org/10.1037/h0046743"
+        }
+      ],
+      "note": "原著の書誌を確認。平均的な年齢傾向を個人の能力上限へ置き換えない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-life",
+    "subcategoryTitle": "発達・人生の時間軸",
+    "canonicalId": "kb_916",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 11,
+    "displayId": 343
+  },
+  {
+    "tagId": "kb_917",
+    "title": "脳の可塑性",
+    "aliases": [
+      "神経可塑性",
+      "脳可塑性",
+      "neuroplasticity",
+      "brain plasticity"
+    ],
+    "summary": "経験や学習、環境の変化に応じて、神経系の働きや構造が変わりうる性質。成人でも技能練習に伴う変化が観察され、学び直しの可能性を支える。反復だけでなく課題、休息、環境を考える手掛かりになる。ただし変化の範囲には条件があり、努力すれば何でも治る、何歳でも同じ速度で習得できるという意味ではない。",
+    "relatedTheoryIds": [
+      "kb_263",
+      "kb_198",
+      "kb_918",
+      "kb_920",
+      "kb_921",
+      "kb_910",
+      "kb_919"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Bogdan Draganskiほか（参照研究の著者）",
+      "works": [
+        "Changes in grey matter induced by training (2004)"
+      ],
+      "sources": [
+        {
+          "title": "Changes in grey matter induced by training (2004)",
+          "url": "https://www.nature.com/articles/427311a"
+        }
+      ],
+      "note": "成人の学習に伴う構造変化の研究を参照。可塑性の唯一の初出でも万能な回復の証明でもない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_917",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 1,
+    "displayId": 344
+  },
+  {
+    "tagId": "kb_918",
+    "title": "ヘッブの法則",
+    "aliases": [
+      "Hebbian learning",
+      "Hebbの法則",
+      "ヘッブ学習"
+    ],
+    "summary": "ある神経細胞が別の細胞の活動を繰り返し助けると、その結びつきが強まるとする学習の仮説。経験を神経回路の変化として説明する基礎となった。複数の要素を一緒に学ぶ見方につながるが、日常の反復すべてが同じ神経機構で起きるわけではない。神経可塑性全体と同義にはせず、仮説と観察された現象を分ける。",
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_919",
+      "kb_414"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Donald O. Hebb（原著）／T. V. P. Bliss / G. L. Collingridge（参照レビュー）",
+      "works": [
+        "The Organization of Behavior (1949); A synaptic model of memory: Long-term potentiation in the hippocampus (1993)"
+      ],
+      "sources": [
+        {
+          "title": "The Organization of Behavior (1949); A synaptic model of memory: Long-term potentiation in the hippocampus (1993)",
+          "url": "https://www.nature.com/articles/361031a0"
+        }
+      ],
+      "note": "レビューに原著を参照する。通俗的な短句を原著の逐語引用とはしない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_918",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 2,
+    "displayId": 345
+  },
+  {
+    "tagId": "kb_919",
+    "title": "長期増強",
+    "aliases": [
+      "long-term potentiation",
+      "LTP",
+      "シナプス長期増強"
+    ],
+    "summary": "一定の活動の後に、神経細胞間の伝達の効き方が持続的に強くなる現象。学習や記憶を支えるシナプス変化を研究する重要なモデルとなった。練習と記憶の生物学的基盤を考える入口になるが、動物実験で観察された変化を、そのまま特定の勉強法の効果や人間のすべての記憶の説明にしない。",
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_918",
+      "kb_831"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "T. V. P. Bliss / G. L. Collingridge",
+      "works": [
+        "A synaptic model of memory: Long-term potentiation in the hippocampus (1993)"
+      ],
+      "sources": [
+        {
+          "title": "A synaptic model of memory: Long-term potentiation in the hippocampus (1993)",
+          "url": "https://www.nature.com/articles/361031a0"
+        }
+      ],
+      "note": "原著の単なる紹介でなく機構を整理した参照レビュー。ヘッブの仮説と実験現象を区別する。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_919",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 3,
+    "displayId": 346
+  },
+  {
+    "tagId": "kb_920",
+    "title": "敏感期",
+    "aliases": [
+      "sensitive period",
+      "感受性期"
+    ],
+    "summary": "特定の経験が神経系や能力の発達に強く影響しやすい期間。視覚や言語などで対象と時期が異なり、早期の環境が重要になる理由を考えられる。幼少期の機会を支える一方、時期を過ぎたら学習できないと一括して決めない。より厳しい条件を指す臨界期と区別し、すべての技能に同じ期限を当てはめない。",
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_903",
+      "kb_914"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Eric I. Knudsen",
+      "works": [
+        "Sensitive periods in the development of the brain and behavior (2004)"
+      ],
+      "sources": [
+        {
+          "title": "Sensitive periods in the development of the brain and behavior (2004)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/15509387/"
+        }
+      ],
+      "note": "敏感期と臨界期の概念差を保持。研究対象ごとに適用範囲が違う。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_920",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 4,
+    "displayId": 347
+  },
+  {
+    "tagId": "kb_921",
+    "title": "睡眠と記憶の固定化",
+    "aliases": [
+      "sleep-dependent memory consolidation",
+      "睡眠依存性記憶固定"
+    ],
+    "summary": "学習した記憶が睡眠中の処理を通じて安定し、既存の知識と結びついていく過程。学んだ直後の成績と、後日使える状態を分けて考える助けになる。練習と睡眠の両方を学習計画に含める。効果は記憶の種類や睡眠の条件によって異なり、眠るだけで未学習の内容を覚えられるという意味ではない。",
+    "relatedTheoryIds": [
+      "kb_831",
+      "kb_200",
+      "kb_917",
+      "kb_540"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Björn Rasch / Jan Born",
+      "works": [
+        "About Sleep’s Role in Memory (2013)"
+      ],
+      "sources": [
+        {
+          "title": "About Sleep’s Role in Memory (2013)",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3768102/"
+        }
+      ],
+      "note": "記憶の種類と睡眠段階による違いを整理したレビュー。睡眠中の新規学習の保証ではない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_921",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 5,
+    "displayId": 348
+  },
+  {
+    "tagId": "kb_922",
+    "title": "アロスタティック負荷",
+    "aliases": [
+      "allostatic load",
+      "アロスタシス負荷",
+      "アロスタティック・ロード"
+    ],
+    "summary": "ストレスに対処する身体の調整が繰り返され、終わりにくくなることで蓄積する負担を捉える概念。短期の適応に役立つ反応でも、長期にはコストを持ちうる。頑張る時間だけでなく回復や環境の負荷を見る手掛かりになる。主観的な疲れそのものや一つの診断名と同義ではなく、単一の指標だけで判定しない。",
+    "relatedTheoryIds": [
+      "kb_228",
+      "kb_763",
+      "kb_540",
+      "kb_940",
+      "kb_946"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Bruce S. McEwen / Eliot Stellar",
+      "works": [
+        "Stress and the individual: Mechanisms leading to disease (1993)"
+      ],
+      "sources": [
+        {
+          "title": "Stress and the individual: Mechanisms leading to disease (1993)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/8379800/"
+        }
+      ],
+      "note": "慢性・反復ストレスの身体的負荷の枠組み。個人への医学的診断基準として使わない。"
+    },
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-n",
+    "subcategoryTitle": "脳・学習の基盤",
+    "canonicalId": "kb_922",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 6,
+    "displayId": 349
   },
   {
     "tagId": "kb_754",
@@ -11272,7 +12133,8 @@
       "数学的期待値"
     ],
     "relatedTheoryIds": [
-      "kb_756"
+      "kb_756",
+      "kb_955"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -11624,7 +12486,8 @@
     "relatedTheoryIds": [
       "kb_752",
       "kb_175",
-      "kb_834"
+      "kb_834",
+      "kb_912"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -12097,7 +12960,8 @@
     ],
     "relatedTheoryIds": [
       "kb_449",
-      "kb_597"
+      "kb_597",
+      "kb_930"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -12164,7 +13028,8 @@
     ],
     "relatedTheoryIds": [
       "kb_844",
-      "kb_715"
+      "kb_715",
+      "kb_938"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -12416,7 +13281,9 @@
     "sortOrder": 35,
     "displayId": 35,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_953"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_141",
@@ -13014,7 +13881,8 @@
       "kb_736",
       "kb_833",
       "kb_884",
-      "kb_899"
+      "kb_899",
+      "kb_941"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -13051,7 +13919,8 @@
     ],
     "relatedTheoryIds": [
       "kb_520",
-      "kb_168"
+      "kb_168",
+      "kb_947"
     ],
     "canonicalId": "kb_884",
     "legacyIds": [],
@@ -13671,7 +14540,9 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_749",
-      "kb_832"
+      "kb_832",
+      "kb_943",
+      "kb_944"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -13874,7 +14745,9 @@
     "sortOrder": 26,
     "displayId": 77,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_911"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_572",
@@ -14010,7 +14883,9 @@
     "sortOrder": 1,
     "displayId": 81,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_944"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_180",
@@ -14233,7 +15108,9 @@
     "sortOrder": 8,
     "displayId": 88,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_943"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_528",
@@ -14265,7 +15142,9 @@
     "sortOrder": 9,
     "displayId": 89,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_943"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_181",
@@ -14384,6 +15263,86 @@
     }
   },
   {
+    "tagId": "kb_943",
+    "title": "フォッグ行動モデル",
+    "aliases": [
+      "Fogg Behavior Model",
+      "FBM",
+      "B=MAP"
+    ],
+    "summary": "行動が起こるには、動機、実行のしやすさ、きっかけが同じ時点で揃うとする設計モデル。続かないときは意欲を責める前に、作業の難しさや合図の位置を調整する。例えば行動を小さくし、いつもの行動の後に置く。数式は設計の見方を表すもので、行動の発生を数値で必ず予測する法則ではない。",
+    "relatedTheoryIds": [
+      "kb_181",
+      "kb_528",
+      "kb_172",
+      "kb_944"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "B. J. Fogg",
+      "works": [
+        "Fogg Behavior Model（提唱者の現行解説）"
+      ],
+      "sources": [
+        {
+          "title": "Fogg Behavior Model（提唱者の現行解説）",
+          "url": "https://www.behaviormodel.org/"
+        }
+      ],
+      "note": "現行のMotivation / Ability / Promptを参照。旧称Triggerとの名称変更を区別する。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-h",
+    "subcategoryTitle": "習慣・行動設計",
+    "canonicalId": "kb_943",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 13,
+    "displayId": 93
+  },
+  {
+    "tagId": "kb_944",
+    "title": "行動変容ステージモデル",
+    "aliases": [
+      "transtheoretical model",
+      "TTM",
+      "トランスセオレティカル・モデル",
+      "変化のステージモデル"
+    ],
+    "summary": "行動を変える準備を、無関心、関心、準備、実行、維持などの段階で捉えるモデル。まだ変える意図がない人と、実行後に続けたい人では支援の内容が違う。押しつける前に本人の準備や障壁を確認する。実際の変化は行き戻りがあり、あらゆる行動が同じ段階を必ず順番に通るわけではない。",
+    "relatedTheoryIds": [
+      "kb_180",
+      "kb_943",
+      "kb_172"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "James O. Prochaska / Carlo C. DiClemente",
+      "works": [
+        "Stages and processes of self-change of smoking: Toward an integrative model of change (1983)"
+      ],
+      "sources": [
+        {
+          "title": "Stages and processes of self-change of smoking: Toward an integrative model of change (1983)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/6863699/"
+        }
+      ],
+      "note": "禁煙の原研究と後のモデル拡張を区別。段階だけで介入の効果を保証しない。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-h",
+    "subcategoryTitle": "習慣・行動設計",
+    "canonicalId": "kb_944",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 14,
+    "displayId": 94
+  },
+  {
     "tagId": "kb_536",
     "title": "オペラント条件づけ",
     "summary": "行動の後に起きる結果によって、その行動の将来の頻度が変わる学習過程。報酬で増える強化と、不利益や強化の停止によって減る過程を区別する。",
@@ -14392,7 +15351,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 1,
-    "displayId": 93,
+    "displayId": 95,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_900"
@@ -14425,7 +15384,7 @@
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
-    "displayId": 94,
+    "displayId": 96,
     "aliases": [
       "classical conditioning",
       "レスポンデント条件づけ",
@@ -14466,9 +15425,11 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 3,
-    "displayId": 95,
+    "displayId": 97,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_947"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_437",
@@ -14498,11 +15459,12 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 4,
-    "displayId": 96,
+    "displayId": 98,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_831",
-      "kb_900"
+      "kb_900",
+      "kb_945"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14533,7 +15495,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 5,
-    "displayId": 97,
+    "displayId": 99,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14565,7 +15527,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 6,
-    "displayId": 98,
+    "displayId": 100,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14597,7 +15559,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 7,
-    "displayId": 99,
+    "displayId": 101,
     "aliases": [
       "observational learning",
       "social learning theory",
@@ -14632,10 +15594,11 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 8,
-    "displayId": 100,
+    "displayId": 102,
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_738"
+      "kb_738",
+      "kb_921"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14666,7 +15629,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 9,
-    "displayId": 101,
+    "displayId": 103,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_738",
@@ -14705,7 +15668,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 10,
-    "displayId": 102,
+    "displayId": 104,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_747"
@@ -14739,7 +15702,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 11,
-    "displayId": 103,
+    "displayId": 105,
     "aliases": [
       "interleaving effect",
       "交互学習",
@@ -14778,7 +15741,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 12,
-    "displayId": 104,
+    "displayId": 106,
     "aliases": [
       "self-explanation effect",
       "自己説明学習"
@@ -14818,9 +15781,12 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 13,
-    "displayId": 105,
+    "displayId": 107,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_917",
+      "kb_947"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_198",
@@ -14850,7 +15816,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 14,
-    "displayId": 106,
+    "displayId": 108,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -14882,7 +15848,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 15,
-    "displayId": 107,
+    "displayId": 109,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_744"
@@ -14916,7 +15882,7 @@
     "subcategoryId": "behavioral-science-l",
     "subcategoryTitle": "学習・強化",
     "sortOrder": 16,
-    "displayId": 108,
+    "displayId": 110,
     "aliases": [
       "protégé effect",
       "プロテジェ・エフェクト"
@@ -14924,7 +15890,8 @@
     "relatedTheoryIds": [
       "kb_748",
       "kb_741",
-      "kb_904"
+      "kb_904",
+      "kb_948"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14940,6 +15907,160 @@
       "attribution": "John Bargh / Aloysius Schulほか",
       "sources": []
     }
+  },
+  {
+    "tagId": "kb_945",
+    "title": "馴化",
+    "aliases": [
+      "habituation",
+      "慣れの学習"
+    ],
+    "summary": "同じ刺激を繰り返し経験すると、その刺激への反応が弱まりうる非連合学習。初めは気になった日常の物音に反応しにくくなる例がある。新しい環境での反応の変化を理解する手掛かりになる。感覚器の順応や疲労、強化がなくなる消去とは区別する。反復すればすべての恐怖や不快感が消えるとは限らない。",
+    "relatedTheoryIds": [
+      "kb_946",
+      "kb_440",
+      "kb_211",
+      "kb_268"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Catharine H. Rankinほか",
+      "works": [
+        "Habituation revisited: An updated and revised description of the behavioral characteristics of habituation (2009)"
+      ],
+      "sources": [
+        {
+          "title": "Habituation revisited: An updated and revised description of the behavioral characteristics of habituation (2009)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/18854219/"
+        }
+      ],
+      "note": "非連合学習の研究上の定義。疲労・感覚順応・消去とは区別する。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "canonicalId": "kb_945",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 17,
+    "displayId": 111
+  },
+  {
+    "tagId": "kb_946",
+    "title": "鋭敏化",
+    "aliases": [
+      "sensitization",
+      "感作"
+    ],
+    "summary": "強い刺激などの経験後に、後続の刺激への反応が強くなることがある非連合学習。反復していれば必ず慣れるとは限らず、刺激の強さや経験によって逆方向の変化も起こる。試す負荷を調整し、反応の変化を見ながら進む。馴化の反対概念として理解できるが、両者は同じ場面で並行して作用することもある。",
+    "relatedTheoryIds": [
+      "kb_945",
+      "kb_211",
+      "kb_922"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Richard F. Thompson / William A. Spencer",
+      "works": [
+        "Habituation: A model phenomenon for the study of neuronal substrates of behavior (1966)"
+      ],
+      "sources": [
+        {
+          "title": "Habituation: A model phenomenon for the study of neuronal substrates of behavior (1966)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/5324565/"
+        }
+      ],
+      "note": "非連合学習の機構を扱う原著レビュー。強い刺激への反応を一律の臨床判断へ置き換えない。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "canonicalId": "kb_946",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 18,
+    "displayId": 112
+  },
+  {
+    "tagId": "kb_947",
+    "title": "学習性勤勉さ",
+    "aliases": [
+      "learned industriousness",
+      "学習性勤勉性"
+    ],
+    "summary": "努力を要する活動で報われる経験が、努力そのものへの抵抗を弱め、別の課題での粘り強さにもつながりうるという理論。才能や根性だけで継続を説明せず、難しさと成果の結びつきを考える。無理を長く続ければよいという教訓ではなく、報酬の与え方や課題の条件によって転移は異なる。",
+    "relatedTheoryIds": [
+      "kb_437",
+      "kb_198",
+      "kb_884"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Robert Eisenberger",
+      "works": [
+        "Learned Industriousness (1992)／提唱者による理論の説明"
+      ],
+      "sources": [
+        {
+          "title": "Learned Industriousness (1992)／提唱者による理論の説明",
+          "url": "https://www1.udel.edu/psych/fingerle/eisenber.htm"
+        }
+      ],
+      "note": "提唱者自身の説明と原著の書誌を参照。努力正当化とは異なる理論。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "canonicalId": "kb_947",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 19,
+    "displayId": 113
+  },
+  {
+    "tagId": "kb_948",
+    "title": "足場かけ",
+    "aliases": [
+      "scaffolding",
+      "スキャフォールディング"
+    ],
+    "summary": "学習者が一人では難しい課題へ取り組めるよう、必要な部分を支援し、できるようになるにつれて支援を減らす方法。手順の一部を示し、残りを本人が試すような支援が含まれる。教える側がすべてを代行せず、本人の理解に合わせる。最近接発達領域は学べる範囲の概念であり、足場かけという支援方法と同義ではない。",
+    "relatedTheoryIds": [
+      "kb_904",
+      "kb_169",
+      "kb_828",
+      "kb_952"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "David Wood / Jerome S. Bruner / Gail Ross",
+      "works": [
+        "The role of tutoring in problem solving (1976)"
+      ],
+      "sources": [
+        {
+          "title": "The role of tutoring in problem solving (1976)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/932126/"
+        }
+      ],
+      "note": "支援の機能を扱う原研究。発達領域という説明概念と区別する。"
+    },
+    "categoryId": "behavioral-science",
+    "categoryTitle": "行動科学",
+    "subcategoryId": "behavioral-science-l",
+    "subcategoryTitle": "学習・強化",
+    "canonicalId": "kb_948",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 20,
+    "displayId": 114
   },
   {
     "tagId": "kb_766",
@@ -15109,7 +16230,10 @@
     "relatedTheoryIds": [
       "kb_772",
       "kb_767",
-      "kb_907"
+      "kb_907",
+      "kb_922",
+      "kb_939",
+      "kb_940"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -15182,7 +16306,10 @@
     "sortOrder": 7,
     "displayId": 7,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_921",
+      "kb_922"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_540",
@@ -15773,7 +16900,8 @@
     "relatedTheoryIds": [
       "kb_130",
       "kb_766",
-      "kb_890"
+      "kb_890",
+      "kb_941"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -15796,6 +16924,84 @@
     }
   },
   {
+    "tagId": "kb_939",
+    "title": "役割葛藤・役割曖昧性",
+    "aliases": [
+      "role conflict and role ambiguity",
+      "役割葛藤",
+      "役割曖昧性"
+    ],
+    "summary": "両立しにくい期待を同時に求められる状態と、何を期待されているか分からない状態の区別。複数の上司の指示が衝突する場合と、担当範囲が決まっていない場合では必要な調整が異なる。優先順位、権限、評価基準を明確にする入口になる。本人の意欲不足だけに還元せず、職場の構造も確認する。",
+    "relatedTheoryIds": [
+      "kb_435",
+      "kb_487",
+      "kb_763"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John R. Rizzo / Robert J. House / Sidney I. Lirtzman",
+      "works": [
+        "Role Conflict and Ambiguity in Complex Organizations (1970)"
+      ],
+      "sources": [
+        {
+          "title": "Role Conflict and Ambiguity in Complex Organizations (1970)",
+          "url": "https://doi.org/10.2307/2391486"
+        }
+      ],
+      "note": "異なる二概念を比較するカード。別名を同義とはみなさない。"
+    },
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-i",
+    "subcategoryTitle": "働き方・キャリア",
+    "canonicalId": "kb_939",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 25,
+    "displayId": 25
+  },
+  {
+    "tagId": "kb_940",
+    "title": "努力報酬不均衡モデル",
+    "aliases": [
+      "effort-reward imbalance model",
+      "ERIモデル",
+      "努力・報酬不均衡"
+    ],
+    "summary": "仕事へ投入する努力に対して、賃金、承認、安定性や昇進などの報酬が乏しい状態を、ストレスの要因として捉えるモデル。忙しさだけでなく報われ方を点検できる。個人の頑張り方に加え、待遇や評価の仕組みを検討する。病気の原因を一つに決める診断法ではなく、職務要求資源モデルとは着目する関係が異なる。",
+    "relatedTheoryIds": [
+      "kb_763",
+      "kb_768",
+      "kb_922"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Johannes Siegrist",
+      "works": [
+        "Adverse health effects of high-effort/low-reward conditions (1996)"
+      ],
+      "sources": [
+        {
+          "title": "Adverse health effects of high-effort/low-reward conditions (1996)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/9547031/"
+        }
+      ],
+      "note": "原著モデルの書誌を参照。報酬は金銭だけに限定しない。"
+    },
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-i",
+    "subcategoryTitle": "働き方・キャリア",
+    "canonicalId": "kb_940",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 26,
+    "displayId": 26
+  },
+  {
     "tagId": "kb_777",
     "title": "共有メンタルモデル",
     "summary": "チーム成員が課題、役割、装備、協働方法について共有する知識構造。共通理解は連携を速めるが、同じ思い込みを強めないよう更新と異論が必要になる。",
@@ -15804,7 +17010,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 1,
-    "displayId": 25,
+    "displayId": 27,
     "aliases": [
       "shared mental models",
       "チーム認知"
@@ -15813,7 +17019,8 @@
       "kb_087",
       "kb_064",
       "kb_794",
-      "kb_889"
+      "kb_889",
+      "kb_942"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -15838,7 +17045,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
-    "displayId": 26,
+    "displayId": 28,
     "aliases": [
       "Tuckman model",
       "タックマンの集団発達モデル"
@@ -15877,7 +17084,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 3,
-    "displayId": 27,
+    "displayId": 29,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_777"
@@ -15911,7 +17118,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 4,
-    "displayId": 28,
+    "displayId": 30,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15943,7 +17150,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 5,
-    "displayId": 29,
+    "displayId": 31,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -15975,7 +17182,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 6,
-    "displayId": 30,
+    "displayId": 32,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_777",
@@ -16010,7 +17217,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 7,
-    "displayId": 31,
+    "displayId": 33,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16042,7 +17249,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 8,
-    "displayId": 32,
+    "displayId": 34,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16074,7 +17281,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 9,
-    "displayId": 33,
+    "displayId": 35,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_731"
@@ -16108,7 +17315,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 10,
-    "displayId": 34,
+    "displayId": 36,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16140,7 +17347,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 11,
-    "displayId": 35,
+    "displayId": 37,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16172,7 +17379,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 12,
-    "displayId": 36,
+    "displayId": 38,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16204,7 +17411,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 13,
-    "displayId": 37,
+    "displayId": 39,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16236,7 +17443,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 14,
-    "displayId": 38,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_732",
@@ -16272,7 +17479,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 15,
-    "displayId": 39,
+    "displayId": 41,
     "aliases": [
       "employee voice",
       "voice behavior",
@@ -16313,7 +17520,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 16,
-    "displayId": 40,
+    "displayId": 42,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_770",
@@ -16351,7 +17558,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 17,
-    "displayId": 41,
+    "displayId": 43,
     "aliases": [
       "transformational leadership",
       "変革的リーダーシップ"
@@ -16385,7 +17592,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 18,
-    "displayId": 42,
+    "displayId": 44,
     "aliases": [
       "transactional leadership",
       "交換型リーダーシップ"
@@ -16418,7 +17625,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 19,
-    "displayId": 43,
+    "displayId": 45,
     "aliases": [
       "servant leadership",
       "奉仕型リーダーシップ"
@@ -16451,7 +17658,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 20,
-    "displayId": 44,
+    "displayId": 46,
     "aliases": [
       "situational leadership",
       "SLII",
@@ -16485,7 +17692,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
-    "displayId": 45,
+    "displayId": 47,
     "aliases": [
       "Fiedler contingency model",
       "フィードラーの条件適合理論"
@@ -16524,7 +17731,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 22,
-    "displayId": 46,
+    "displayId": 48,
     "aliases": [
       "path-goal theory",
       "パスゴール理論"
@@ -16563,7 +17770,7 @@
     "subcategoryId": "organization-management-t",
     "subcategoryTitle": "チーム・リーダーシップ",
     "sortOrder": 23,
-    "displayId": 47,
+    "displayId": 49,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_775"
@@ -16597,7 +17804,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 1,
-    "displayId": 48,
+    "displayId": 50,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_765"
@@ -16631,7 +17838,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 2,
-    "displayId": 49,
+    "displayId": 51,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_765"
@@ -16665,7 +17872,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 3,
-    "displayId": 50,
+    "displayId": 52,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16697,7 +17904,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 4,
-    "displayId": 51,
+    "displayId": 53,
     "aliases": [
       "organizational silence",
       "employee silence",
@@ -16736,12 +17943,13 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 5,
-    "displayId": 52,
+    "displayId": 54,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_853",
       "kb_891",
-      "kb_892"
+      "kb_892",
+      "kb_942"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -16771,7 +17979,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
-    "displayId": 53,
+    "displayId": 55,
     "aliases": [
       "SECI model",
       "知識創造モデル"
@@ -16810,7 +18018,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
-    "displayId": 54,
+    "displayId": 56,
     "aliases": [
       "double-loop learning",
       "二重ループ学習"
@@ -16849,14 +18057,15 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
-    "displayId": 55,
+    "displayId": 57,
     "aliases": [
       "garbage can model",
       "ガーベッジ・カン・モデル"
     ],
     "relatedTheoryIds": [
       "kb_064",
-      "kb_285"
+      "kb_285",
+      "kb_942"
     ],
     "canonicalId": "kb_894",
     "legacyIds": [],
@@ -16888,7 +18097,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 9,
-    "displayId": 56,
+    "displayId": 58,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16905,7 +18114,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 10,
-    "displayId": 57,
+    "displayId": 59,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16922,7 +18131,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 11,
-    "displayId": 58,
+    "displayId": 60,
     "aliases": [
       "diffusion of innovations",
       "innovation diffusion theory",
@@ -16958,7 +18167,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 12,
-    "displayId": 59,
+    "displayId": 61,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -16990,7 +18199,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 13,
-    "displayId": 60,
+    "displayId": 62,
     "aliases": [
       "psychological ownership",
       "心理的オーナーシップ"
@@ -17023,7 +18232,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 14,
-    "displayId": 61,
+    "displayId": 63,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_891"
@@ -17057,7 +18266,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 15,
-    "displayId": 62,
+    "displayId": 64,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17089,7 +18298,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 16,
-    "displayId": 63,
+    "displayId": 65,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17121,7 +18330,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 17,
-    "displayId": 64,
+    "displayId": 66,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17153,12 +18362,13 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 18,
-    "displayId": 65,
+    "displayId": 67,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_768",
       "kb_769",
-      "kb_798"
+      "kb_798",
+      "kb_956"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -17189,7 +18399,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 19,
-    "displayId": 66,
+    "displayId": 68,
     "aliases": [
       "distributive justice",
       "分配公平性"
@@ -17198,7 +18408,9 @@
       "kb_155",
       "kb_769",
       "kb_798",
-      "kb_863"
+      "kb_863",
+      "kb_940",
+      "kb_956"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -17224,7 +18436,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 20,
-    "displayId": 67,
+    "displayId": 69,
     "aliases": [
       "interactional justice",
       "対人的公正",
@@ -17258,7 +18470,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 21,
-    "displayId": 68,
+    "displayId": 70,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_731",
@@ -17294,7 +18506,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 22,
-    "displayId": 69,
+    "displayId": 71,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17326,7 +18538,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 23,
-    "displayId": 70,
+    "displayId": 72,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17357,7 +18569,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 24,
-    "displayId": 71,
+    "displayId": 73,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_724",
@@ -17392,7 +18604,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 25,
-    "displayId": 72,
+    "displayId": 74,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17424,7 +18636,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 26,
-    "displayId": 73,
+    "displayId": 75,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17456,7 +18668,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 27,
-    "displayId": 74,
+    "displayId": 76,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17488,7 +18700,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 28,
-    "displayId": 75,
+    "displayId": 77,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17520,7 +18732,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 29,
-    "displayId": 76,
+    "displayId": 78,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17552,7 +18764,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 30,
-    "displayId": 77,
+    "displayId": 79,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_865"
@@ -17586,7 +18798,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 31,
-    "displayId": 78,
+    "displayId": 80,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17618,7 +18830,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 32,
-    "displayId": 79,
+    "displayId": 81,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17650,7 +18862,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 33,
-    "displayId": 80,
+    "displayId": 82,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_892"
@@ -17684,7 +18896,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 34,
-    "displayId": 81,
+    "displayId": 83,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17716,7 +18928,7 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 35,
-    "displayId": 82,
+    "displayId": 84,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17747,9 +18959,11 @@
     "subcategoryId": "organization-management-o",
     "subcategoryTitle": "組織運営・人材育成",
     "sortOrder": 36,
-    "displayId": 83,
+    "displayId": 85,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_927"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_119",
@@ -17771,6 +18985,83 @@
     }
   },
   {
+    "tagId": "kb_941",
+    "title": "心理的エンパワーメント",
+    "aliases": [
+      "psychological empowerment",
+      "心理的権限委譲"
+    ],
+    "summary": "仕事に意味があり、遂行でき、自分で選べ、結果へ影響を及ぼせると感じる状態を捉える枠組み。形式的に任せるだけでなく、本人が裁量と手応えを持てるかを見る。役割を渡すときは資源や情報、意思決定の余地も整える。権限委譲という制度そのものと同義ではなく、負担を増やすことだけでは高まらない。",
+    "relatedTheoryIds": [
+      "kb_169",
+      "kb_520",
+      "kb_764"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Gretchen M. Spreitzer",
+      "works": [
+        "Psychological Empowerment in the Workplace: Dimensions, Measurement, and Validation (1995)"
+      ],
+      "sources": [
+        {
+          "title": "Psychological Empowerment in the Workplace: Dimensions, Measurement, and Validation (1995)",
+          "url": "https://webuser.bus.umich.edu/spreitze/Pdfs/PsychEmpowerment.pdf"
+        }
+      ],
+      "note": "意味、有能感、自己決定、影響の四側面を参照。制度と心理状態を区別する。"
+    },
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-o",
+    "subcategoryTitle": "組織運営・人材育成",
+    "canonicalId": "kb_941",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 37,
+    "displayId": 86
+  },
+  {
+    "tagId": "kb_942",
+    "title": "センスメイキング",
+    "aliases": [
+      "sensemaking",
+      "意味づけの過程"
+    ],
+    "summary": "曖昧な出来事について手掛かりを選び、言葉や行動を通じて、次に動ける理解を作っていく過程。障害や組織変更の場面では、何が起きているかの捉え方自体が行動を左右する。説明を共有しつつ新しい事実で更新する。もっともらしく話をまとめることと、原因を正確に検証したことは別に扱う。",
+    "relatedTheoryIds": [
+      "kb_506",
+      "kb_894",
+      "kb_777",
+      "kb_933"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Karl E. Weick / Kathleen M. Sutcliffe / David Obstfeld",
+      "works": [
+        "Organizing and the Process of Sensemaking (2005)"
+      ],
+      "sources": [
+        {
+          "title": "Organizing and the Process of Sensemaking (2005)",
+          "url": "https://doi.org/10.1287/orsc.1050.0133"
+        }
+      ],
+      "note": "組織化との関係を整理した著者論考。説明のもっともらしさと事実の正確さを分ける。"
+    },
+    "categoryId": "organization-management",
+    "categoryTitle": "組織・経営論",
+    "subcategoryId": "organization-management-o",
+    "subcategoryTitle": "組織運営・人材育成",
+    "canonicalId": "kb_942",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 38,
+    "displayId": 87
+  },
+  {
     "tagId": "kb_081",
     "title": "社会関係資本",
     "summary": "信頼、互酬性、人脈など、人とのつながりから得られる資源。関係の数だけでなく質や構造も価値を左右する。",
@@ -17779,7 +19070,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 1,
-    "displayId": 84,
+    "displayId": 88,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17811,7 +19102,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 2,
-    "displayId": 85,
+    "displayId": 89,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17843,7 +19134,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 3,
-    "displayId": 86,
+    "displayId": 90,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_851"
@@ -17877,7 +19168,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 4,
-    "displayId": 87,
+    "displayId": 91,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17909,7 +19200,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 5,
-    "displayId": 88,
+    "displayId": 92,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17941,7 +19232,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 6,
-    "displayId": 89,
+    "displayId": 93,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -17973,7 +19264,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 7,
-    "displayId": 90,
+    "displayId": 94,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18005,7 +19296,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 8,
-    "displayId": 91,
+    "displayId": 95,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18037,7 +19328,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 9,
-    "displayId": 92,
+    "displayId": 96,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18069,7 +19360,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 10,
-    "displayId": 93,
+    "displayId": 97,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18101,7 +19392,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 11,
-    "displayId": 94,
+    "displayId": 98,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18133,7 +19424,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 12,
-    "displayId": 95,
+    "displayId": 99,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_883"
@@ -18167,7 +19458,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 13,
-    "displayId": 96,
+    "displayId": 100,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18199,7 +19490,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 14,
-    "displayId": 97,
+    "displayId": 101,
     "aliases": [
       "Dunbar's number",
       "ダンバーズ・ナンバー"
@@ -18237,7 +19528,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 15,
-    "displayId": 98,
+    "displayId": 102,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18269,7 +19560,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 16,
-    "displayId": 99,
+    "displayId": 103,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18301,7 +19592,7 @@
     "subcategoryId": "organization-management-n",
     "subcategoryTitle": "人脈・評判",
     "sortOrder": 17,
-    "displayId": 100,
+    "displayId": 104,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18333,9 +19624,11 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 1,
-    "displayId": 101,
+    "displayId": 105,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_079",
@@ -18365,7 +19658,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 2,
-    "displayId": 102,
+    "displayId": 106,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18397,7 +19690,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 3,
-    "displayId": 103,
+    "displayId": 107,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18429,7 +19722,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 4,
-    "displayId": 104,
+    "displayId": 108,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18461,9 +19754,11 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 5,
-    "displayId": 105,
+    "displayId": 109,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_445",
@@ -18493,7 +19788,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 6,
-    "displayId": 106,
+    "displayId": 110,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18525,7 +19820,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 7,
-    "displayId": 107,
+    "displayId": 111,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18557,7 +19852,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 8,
-    "displayId": 108,
+    "displayId": 112,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18589,7 +19884,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 9,
-    "displayId": 109,
+    "displayId": 113,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18621,7 +19916,7 @@
     "subcategoryId": "organization-management-p",
     "subcategoryTitle": "権力・地位",
     "sortOrder": 10,
-    "displayId": 110,
+    "displayId": 114,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18653,7 +19948,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 1,
-    "displayId": 111,
+    "displayId": 115,
     "aliases": [
       "organizational ambidexterity",
       "両利きの経営"
@@ -18686,7 +19981,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 2,
-    "displayId": 112,
+    "displayId": 116,
     "aliases": [
       "core competence",
       "中核能力"
@@ -18720,7 +20015,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 3,
-    "displayId": 113,
+    "displayId": 117,
     "aliases": [
       "resource-based view",
       "RBV",
@@ -18761,7 +20056,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 4,
-    "displayId": 114,
+    "displayId": 118,
     "aliases": [
       "dynamic capabilities",
       "動的能力論"
@@ -18801,7 +20096,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 5,
-    "displayId": 115,
+    "displayId": 119,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18833,7 +20128,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 6,
-    "displayId": 116,
+    "displayId": 120,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18865,7 +20160,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 7,
-    "displayId": 117,
+    "displayId": 121,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -18897,7 +20192,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 8,
-    "displayId": 118,
+    "displayId": 122,
     "aliases": [
       "economies of scale",
       "スケールメリット"
@@ -18930,7 +20225,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 9,
-    "displayId": 119,
+    "displayId": 123,
     "aliases": [
       "economies of scope",
       "スコープ・エコノミー"
@@ -18968,7 +20263,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 10,
-    "displayId": 120,
+    "displayId": 124,
     "aliases": [
       "network effect",
       "network externality",
@@ -19010,7 +20305,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 11,
-    "displayId": 121,
+    "displayId": 125,
     "aliases": [
       "Metcalfe's law",
       "メトカーフ則"
@@ -19048,7 +20343,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 12,
-    "displayId": 122,
+    "displayId": 126,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -19080,7 +20375,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 13,
-    "displayId": 123,
+    "displayId": 127,
     "aliases": [
       "experience curve",
       "learning curve",
@@ -19114,7 +20409,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 14,
-    "displayId": 124,
+    "displayId": 128,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -19146,7 +20441,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 15,
-    "displayId": 125,
+    "displayId": 129,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -19178,7 +20473,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 16,
-    "displayId": 126,
+    "displayId": 130,
     "aliases": [],
     "relatedTheoryIds": [
       "kb_801"
@@ -19212,7 +20507,7 @@
     "subcategoryId": "organization-management-m",
     "subcategoryTitle": "経営・事業",
     "sortOrder": 17,
-    "displayId": 127,
+    "displayId": 131,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -19544,7 +20839,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_711",
-      "kb_712"
+      "kb_712",
+      "kb_938"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -19577,7 +20873,9 @@
     "sortOrder": 11,
     "displayId": 11,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_933"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_570",
@@ -19618,7 +20916,8 @@
     "relatedTheoryIds": [
       "kb_746",
       "kb_588",
-      "kb_887"
+      "kb_887",
+      "kb_916"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -20922,7 +22221,8 @@
     "relatedTheoryIds": [
       "kb_145",
       "kb_522",
-      "kb_862"
+      "kb_862",
+      "kb_926"
     ],
     "legacyIds": [],
     "mergedFromIds": [],
@@ -21266,7 +22566,9 @@
     "sortOrder": 1,
     "displayId": 62,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_949"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_555",
@@ -21509,7 +22811,9 @@
     "sortOrder": 9,
     "displayId": 70,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_911"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_569",
@@ -21541,7 +22845,9 @@
     "sortOrder": 10,
     "displayId": 71,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_932"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_599",
@@ -21799,7 +23105,9 @@
     "sortOrder": 5,
     "displayId": 79,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_915"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_288",
@@ -21980,6 +23288,398 @@
       ],
       "attribution": "Naval Ravikant / Babak Nivi（関連文献の著者）"
     }
+  },
+  {
+    "tagId": "kb_929",
+    "title": "演繹推論",
+    "aliases": [
+      "deductive reasoning",
+      "演繹法"
+    ],
+    "summary": "前提が正しく、推論の形が妥当なら、結論も必ず成り立つ推論。「すべての提出物は署名が必要、この書類は提出物」から署名の必要性を導く。説明を読むときは前提の正しさと推論の妥当性を別々に確認する。結論が偶然正しいだけでは、そこへ至る理由まで正しいとは限らない。",
+    "relatedTheoryIds": [
+      "kb_930",
+      "kb_931",
+      "kb_934",
+      "kb_937",
+      "kb_952"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-3-arguments"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-3-arguments",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-3-arguments"
+        }
+      ],
+      "note": "妥当性と前提の真偽の区別を参照。本文の例は独自作成。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_929",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 1,
+    "displayId": 85
+  },
+  {
+    "tagId": "kb_930",
+    "title": "帰納推論",
+    "aliases": [
+      "inductive reasoning",
+      "帰納法"
+    ],
+    "summary": "観察した事例から、まだ観察していない事例や一般的な傾向を推測する推論。何度も同じ結果になった経験は予測を支えるが、次も必ず同じとは限らない。仕事の経験則を使うときは、事例の数と偏り、例外の条件を確認する。数学的帰納法とは意味が異なり、確率的な支持と論理的な保証を分ける。",
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_931",
+      "kb_716",
+      "kb_711"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-3-arguments"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-3-arguments",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-3-arguments"
+        }
+      ],
+      "note": "一般的な帰納推論を扱い、数学の証明法と区別する。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_930",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 2,
+    "displayId": 86
+  },
+  {
+    "tagId": "kb_931",
+    "title": "アブダクション",
+    "aliases": [
+      "abduction",
+      "仮説的推論",
+      "最良の説明への推論"
+    ],
+    "summary": "観察された事実を説明できる仮説を考え、候補の中から有力な説明を選ぶ推論。例えば遅延の原因を一つに決めず、設備、手順、情報の候補を比べる。新しい仮説を作る入口になるが、もっともらしい説明は真実の保証ではない。説明力、別の仮説、検証できる予測を照らし合わせる。",
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_930",
+      "kb_596",
+      "kb_932"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Igor Douven（参照論考の著者）",
+      "works": [
+        "Abduction, Stanford Encyclopedia of Philosophy"
+      ],
+      "sources": [
+        {
+          "title": "Abduction, Stanford Encyclopedia of Philosophy",
+          "url": "https://plato.stanford.edu/entries/abduction/"
+        }
+      ],
+      "note": "仮説形成と最良の説明への推論を扱う論考。確実な証明とは区別。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_931",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 3,
+    "displayId": 87
+  },
+  {
+    "tagId": "kb_932",
+    "title": "反証可能性",
+    "aliases": [
+      "falsifiability",
+      "反証主義"
+    ],
+    "summary": "主張が誤っているなら、どの観察によってそれが分かるかを示せる性質。成功しても失敗しても正しいと説明する主張は、経験による検討が難しい。計画では「何が起きたら仮説を見直すか」を先に決める。反証可能だから正しいとは限らず、一つの反例の解釈にも測定や補助仮定の吟味が必要になる。",
+    "relatedTheoryIds": [
+      "kb_596",
+      "kb_931",
+      "kb_599",
+      "kb_937",
+      "kb_950",
+      "kb_952"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Karl R. Popper（理論）／Stephen Thornton（参照論考）",
+      "works": [
+        "Karl Popper, Stanford Encyclopedia of Philosophy"
+      ],
+      "sources": [
+        {
+          "title": "Karl Popper, Stanford Encyclopedia of Philosophy",
+          "url": "https://plato.stanford.edu/entries/popper/"
+        }
+      ],
+      "note": "科学の境界をめぐる哲学的立場を参照。唯一の合意済み判定基準ではない。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_932",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 4,
+    "displayId": 88
+  },
+  {
+    "tagId": "kb_933",
+    "title": "相関と因果の区別",
+    "aliases": [
+      "correlation and causation",
+      "相関は因果を意味しない"
+    ],
+    "summary": "二つの事柄が一緒に変化することと、一方を変えると他方が変わることは別である。売上と会議回数が同時に増えても、需要など別の要因が両方を動かしている可能性がある。逆方向の因果や交絡も考え、介入や研究設計を確認する。相関が役立たないという意味ではなく、予測と原因の主張を分ける。",
+    "relatedTheoryIds": [
+      "kb_875",
+      "kb_762",
+      "kb_938",
+      "kb_570",
+      "kb_934",
+      "kb_942"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Judea Pearl",
+      "works": [
+        "Causal inference in statistics: An overview (2009)"
+      ],
+      "sources": [
+        {
+          "title": "Causal inference in statistics: An overview (2009)",
+          "url": "https://doi.org/10.1214/09-SS057"
+        }
+      ],
+      "note": "相関と介入による因果の違いを整理した論考。本文の例は独自作成。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_933",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 5,
+    "displayId": 89
+  },
+  {
+    "tagId": "kb_934",
+    "title": "必要条件・十分条件",
+    "aliases": [
+      "necessary and sufficient conditions",
+      "必要条件",
+      "十分条件"
+    ],
+    "summary": "ある結果に欠かせない条件と、その条件があれば結果を保証する条件の区別。応募資格があっても採用が保証されるとは限らず、必要であることと十分であることを混同しない。「AならB」の逆が成り立つかは別に確認する。議論では、条件を満たさない例と満たしても結果が出ない例の両方を探す。",
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_933"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-2-logical-statements"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-2-logical-statements",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-2-logical-statements"
+        }
+      ],
+      "note": "条件文の向きと条件の役割を参照。応募の例は独自作成。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_934",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 6,
+    "displayId": 90
+  },
+  {
+    "tagId": "kb_935",
+    "title": "人身攻撃の誤謬",
+    "aliases": [
+      "ad hominem",
+      "人格攻撃"
+    ],
+    "summary": "主張への反論の代わりに、発言者の人格や属性を攻撃して主張を退ける推論の誤り。嫌いな人の提案でも、根拠は独立に検討する必要がある。議論では人の評価と内容の評価を分ける。ただし証言の信用や利益相反が論点に直接関係する場合、その確認まで常に誤謬になるわけではない。",
+    "relatedTheoryIds": [
+      "kb_452",
+      "kb_461",
+      "kb_936"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-5-informal-fallacies"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-5-informal-fallacies",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-5-informal-fallacies"
+        }
+      ],
+      "note": "主張と関係のない人格攻撃を扱う。証言の信頼性の検討と区別する。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_935",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 7,
+    "displayId": 91
+  },
+  {
+    "tagId": "kb_936",
+    "title": "藁人形論法",
+    "aliases": [
+      "straw man fallacy",
+      "ストローマン論法",
+      "わら人形論法"
+    ],
+    "summary": "相手の主張を弱い形や極端な形に置き換え、それを批判して元の主張を退けたように見せる論法。一部の改善案を「すべてを否定している」と言い換える場合などが当たる。反論の前に、相手が実際に言った範囲を確かめる。要約の違いをすべて故意の歪曲と決めつけず、理解を確認することも大切になる。",
+    "relatedTheoryIds": [
+      "kb_935",
+      "kb_789",
+      "kb_573"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-5-informal-fallacies"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-5-informal-fallacies",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-5-informal-fallacies"
+        }
+      ],
+      "note": "誤った再構成への反論を扱う。本文の例は独自作成。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_936",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 8,
+    "displayId": 92
+  },
+  {
+    "tagId": "kb_937",
+    "title": "循環論法",
+    "aliases": [
+      "circular reasoning"
+    ],
+    "summary": "証明したい結論を、既に正しいものとして前提に入れてしまう論法。「信頼できるから正しい、正しいから信頼できる」だけでは独立した根拠にならない。説明をたどり、結論を言い換えただけの理由がないか確認する。定義を置くこと自体とは区別し、その定義から現実についての正しさまで証明したと考えない。",
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_932",
+      "kb_596"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Nathan Smith（参照教材の著者）",
+      "works": [
+        "Introduction to Philosophy (2022), 5-5-informal-fallacies"
+      ],
+      "sources": [
+        {
+          "title": "Introduction to Philosophy (2022), 5-5-informal-fallacies",
+          "url": "https://openstax.org/books/introduction-philosophy/pages/5-5-informal-fallacies"
+        }
+      ],
+      "note": "論点先取の一形態として循環を扱う。二つの概念が完全な同義という扱いではない。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_937",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 9,
+    "displayId": 93
+  },
+  {
+    "tagId": "kb_938",
+    "title": "シンプソンのパラドックス",
+    "aliases": [
+      "Simpson’s paradox",
+      "Simpson paradox",
+      "Simpsonのパラドックス"
+    ],
+    "summary": "集団別では同じ方向に見える割合の関係が、集計すると逆転することがある現象。構成比や条件の違いを無視した全体平均は、比較を誤らせうる。部署や利用者層の内訳を確認する手掛かりになる。ただし分ければ常に正しいわけではなく、何を比較したいかと因果関係に応じて集計方法を選ぶ必要がある。",
+    "relatedTheoryIds": [
+      "kb_933",
+      "kb_449",
+      "kb_843"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Edward H. Simpson（原著）",
+      "works": [
+        "The Interpretation of Interaction in Contingency Tables (1951)"
+      ],
+      "sources": [
+        {
+          "title": "The Interpretation of Interaction in Contingency Tables (1951)",
+          "url": "https://doi.org/10.1111/j.2517-6161.1951.tb00088.x"
+        }
+      ],
+      "note": "原著の現象と因果的な解釈を区別する。どの層を調整するかは研究設計に依存。"
+    },
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "canonicalId": "kb_938",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 10,
+    "displayId": 94
   },
   {
     "tagId": "kb_416",
@@ -23427,7 +25127,9 @@
     "sortOrder": 5,
     "displayId": 54,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_939"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_435",
@@ -23459,7 +25161,9 @@
     "sortOrder": 6,
     "displayId": 55,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_939"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_487",
@@ -23784,7 +25488,10 @@
     "sortOrder": 3,
     "displayId": 66,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_912",
+      "kb_949"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_562",
@@ -24220,7 +25927,9 @@
     "sortOrder": 1,
     "displayId": 1,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_952"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_311",
@@ -24316,7 +26025,9 @@
     "sortOrder": 4,
     "displayId": 4,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_954"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_624",
@@ -24444,7 +26155,9 @@
     "sortOrder": 8,
     "displayId": 8,
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_953"
+    ],
     "legacyIds": [],
     "mergedFromIds": [],
     "canonicalId": "kb_623",
@@ -25179,6 +26892,315 @@
     "accessTier": "complete"
   },
   {
+    "tagId": "kb_949",
+    "title": "ダモクレスの剣",
+    "aliases": [
+      "Sword of Damocles",
+      "ダモクレスのつるぎ"
+    ],
+    "summary": "栄華を味わうダモクレスの頭上に、細い毛で吊られた剣が置かれるという古典の寓話。外からは恵まれて見える地位にも、常に危険や恐れが伴いうることを示す。成功を羨むときは、その人の責任や失うものも考える。実験で確認された心理効果ではなく、権力と幸福を考えるための比喩として読む。",
+    "relatedTheoryIds": [
+      "kb_079",
+      "kb_445",
+      "kb_555",
+      "kb_562"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Marcus Tullius Cicero（伝承を記した著者）",
+      "works": [
+        "Tusculanae Disputationes, Book V, 61–62"
+      ],
+      "sources": [
+        {
+          "title": "Tusculanae Disputationes, Book V, 61–62",
+          "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A2007.01.0044%3Abook%3D5"
+        }
+      ],
+      "note": "キケロによる伝承の記述を参照。本人が寓話を創作したと断定しない。",
+      "period": "紀元前45年ごろ（著作）"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_949",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 17,
+    "displayId": 32
+  },
+  {
+    "tagId": "kb_950",
+    "title": "洞窟の比喩",
+    "aliases": [
+      "allegory of the cave",
+      "プラトンの洞窟"
+    ],
+    "summary": "洞窟の壁に映る影しか見ていない人々を通じて、見慣れたものを真実の全体だと思い込む危うさを描く比喩。教育や認識の転換には、慣れた見方から離れる難しさが伴う。情報を読むときは、自分が見ている範囲と外にある条件を考える。自分だけが真実を知ると宣言する根拠にはしない。",
+    "relatedTheoryIds": [
+      "kb_880",
+      "kb_596",
+      "kb_932"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Plato",
+      "works": [
+        "Republic, Book VII, 514a–520a"
+      ],
+      "sources": [
+        {
+          "title": "Republic, Book VII, 514a–520a",
+          "url": "https://classics.mit.edu/Plato/republic.8.vii.html"
+        }
+      ],
+      "note": "原著の英訳を参照。心理学の実験効果とは区別する。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_950",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 18,
+    "displayId": 33
+  },
+  {
+    "tagId": "kb_951",
+    "title": "テセウスの船",
+    "aliases": [
+      "Ship of Theseus",
+      "テセウスのパラドックス"
+    ],
+    "summary": "船の部材を順に交換し、すべてが新しくなっても同じ船と言えるかを問う同一性の問題。材料、形、機能、歴史の連続性など、何を同じとみなすかで答えは変わる。組織や自分が変化したとき、何を受け継ぎたいかを考える入口になる。特定の答えが実験で証明された問題ではなく、基準を明らかにする思考実験である。",
+    "relatedTheoryIds": [
+      "kb_246",
+      "kb_251",
+      "kb_910"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Plutarch（古典の記述）",
+      "works": [
+        "Life of Theseus, 23.1"
+      ],
+      "sources": [
+        {
+          "title": "Life of Theseus, 23.1",
+          "url": "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A2008.01.0067%3Achapter%3D23%3Asection%3D1"
+        }
+      ],
+      "note": "部材交換についての原典を参照。後世の拡張した設定とは区別する。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_951",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 19,
+    "displayId": 34
+  },
+  {
+    "tagId": "kb_952",
+    "title": "ソクラテス式問答法",
+    "aliases": [
+      "Socratic method",
+      "ソクラテス問答",
+      "エレンコス"
+    ],
+    "summary": "答えを一方的に教えるのでなく、問いを重ねて定義や前提、考え同士の整合性を検討する対話の方法。例えば「良い判断とは何か」を具体例と反例で確かめる。分かったつもりの言葉をほどく助けになるが、相手を追い詰める詰問とは区別する。現代の教育や臨床への応用は、古代の対話と同一ではない。",
+    "relatedTheoryIds": [
+      "kb_311",
+      "kb_929",
+      "kb_932",
+      "kb_948"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Plato（ソクラテスの対話を描いた著者）",
+      "works": [
+        "Euthyphro"
+      ],
+      "sources": [
+        {
+          "title": "Euthyphro",
+          "url": "https://classics.mit.edu/Plato/euthyfro.html"
+        }
+      ],
+      "note": "原著の英訳に見られる反駁の対話を参照。現代の各技法をすべてソクラテス本人に帰属しない。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_952",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 20,
+    "displayId": 35
+  },
+  {
+    "tagId": "kb_953",
+    "title": "アリストテレスの中庸",
+    "aliases": [
+      "doctrine of the mean",
+      "徳としての中庸"
+    ],
+    "summary": "徳を過剰と不足の間にある、状況にふさわしいあり方として捉える考え方。勇気は無謀でも臆病でもなく、何を恐れどう行動するかの判断を含む。両極端を避けるだけでなく、目的、相手、時機を考える。単なる平均や妥協ではなく、どんな行為にも善い中間があるとする主張でもない。",
+    "relatedTheoryIds": [
+      "kb_623",
+      "kb_141",
+      "kb_573"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Aristotle",
+      "works": [
+        "Nicomachean Ethics, Book II"
+      ],
+      "sources": [
+        {
+          "title": "Nicomachean Ethics, Book II",
+          "url": "https://classics.mit.edu/Aristotle/nicomachaen.2.ii.html"
+        }
+      ],
+      "note": "東洋思想の中庸や選択の妥協効果とは別カード。訳文を転載せず説明する。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_953",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 21,
+    "displayId": 36
+  },
+  {
+    "tagId": "kb_954",
+    "title": "定言命法",
+    "aliases": [
+      "categorical imperative",
+      "カントの定言命法"
+    ],
+    "summary": "特定の欲望を実現するための条件つき命令と区別し、無条件に従うべき道徳原理を考えるカントの概念。自分の行動規則を誰もが用いてよいか、人を単なる手段として扱っていないかを問う。目的のために例外を作る前に規則を点検する。道徳哲学上の立場であり、社会で必ず支持される行動の予測法ではない。",
+    "relatedTheoryIds": [
+      "kb_624",
+      "kb_955",
+      "kb_956"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "Immanuel Kant",
+      "works": [
+        "Groundwork of the Metaphysics of Morals (1785)"
+      ],
+      "sources": [
+        {
+          "title": "Groundwork of the Metaphysics of Morals (1785)",
+          "url": "https://www.gutenberg.org/files/5682/5682-h/5682-h.htm"
+        }
+      ],
+      "note": "原著の英訳を参照。仮言命法と区別し、他の倫理学の唯一の答えとしない。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_954",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 22,
+    "displayId": 37
+  },
+  {
+    "tagId": "kb_955",
+    "title": "功利主義",
+    "aliases": [
+      "utilitarianism",
+      "最大幸福原理"
+    ],
+    "summary": "行動や制度を、それによって生じる幸福や苦痛などの帰結から評価する倫理学の立場。自分の利益だけでなく影響を受ける人々の利益を考える。選択肢を比べるときは、誰に何が起きるかを広く見る。単なる多数決や目先の得と同義ではなく、利益の測り方や権利の扱いをめぐって議論がある。",
+    "relatedTheoryIds": [
+      "kb_954",
+      "kb_956",
+      "kb_755"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John Stuart Mill（参照著作の著者）",
+      "works": [
+        "Utilitarianism, Chapter II"
+      ],
+      "sources": [
+        {
+          "title": "Utilitarianism, Chapter II",
+          "url": "https://www.gutenberg.org/files/11224/11224-h/11224-h.htm"
+        }
+      ],
+      "note": "ミルの著作を参照。功利主義全体を唯一の著者に帰属せず、思想と心理効果を区別する。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_955",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 23,
+    "displayId": 38
+  },
+  {
+    "tagId": "kb_956",
+    "title": "無知のヴェール",
+    "aliases": [
+      "veil of ignorance",
+      "無知のベール"
+    ],
+    "summary": "自分が社会でどの地位、能力、境遇に置かれるかを知らない立場から、公正な制度の原則を考える思考実験。ルールを決める際、得をする側にいるという前提を外して見直す手掛かりになる。実際に全情報を捨てる方法ではなく、ロールズの正義論で用いる仮定である。公平感の心理モデルや功利主義とは区別する。",
+    "relatedTheoryIds": [
+      "kb_155",
+      "kb_768",
+      "kb_954",
+      "kb_955"
+    ],
+    "provenance": {
+      "status": "書誌確認済み",
+      "attribution": "John Rawls",
+      "works": [
+        "A Theory of Justice (1971), §§24–25"
+      ],
+      "sources": [
+        {
+          "title": "A Theory of Justice (1971), §§24–25",
+          "url": "https://doi.org/10.4159/9780674042605"
+        }
+      ],
+      "note": "原著の書誌を参照。原初状態という設定の中の情報制約として扱う。"
+    },
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-w",
+    "subcategoryTitle": "西洋思想",
+    "canonicalId": "kb_956",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "sortOrder": 24,
+    "displayId": 39
+  },
+  {
     "tagId": "kb_626",
     "title": "知彼知己、百戦殆うからず",
     "summary": "相手と自分の双方を正しく理解すれば、無謀な戦いを避けられる。",
@@ -25187,7 +27209,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 1,
-    "displayId": 32,
+    "displayId": 40,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25219,7 +27241,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 2,
-    "displayId": 33,
+    "displayId": 41,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25251,7 +27273,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 3,
-    "displayId": 34,
+    "displayId": 42,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25283,7 +27305,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 4,
-    "displayId": 35,
+    "displayId": 43,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25315,7 +27337,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 5,
-    "displayId": 36,
+    "displayId": 44,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25347,7 +27369,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 6,
-    "displayId": 37,
+    "displayId": 45,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25379,7 +27401,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 7,
-    "displayId": 38,
+    "displayId": 46,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25411,7 +27433,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 8,
-    "displayId": 39,
+    "displayId": 47,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25443,7 +27465,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 9,
-    "displayId": 40,
+    "displayId": 48,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25475,7 +27497,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 10,
-    "displayId": 41,
+    "displayId": 49,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25507,7 +27529,7 @@
     "subcategoryId": "classics-thought-b",
     "subcategoryTitle": "兵法",
     "sortOrder": 11,
-    "displayId": 42,
+    "displayId": 50,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25539,7 +27561,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 1,
-    "displayId": 43,
+    "displayId": 51,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25564,7 +27586,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 2,
-    "displayId": 44,
+    "displayId": 52,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25589,7 +27611,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 3,
-    "displayId": 45,
+    "displayId": 53,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25606,7 +27628,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 4,
-    "displayId": 46,
+    "displayId": 54,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25623,7 +27645,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 5,
-    "displayId": 47,
+    "displayId": 55,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25640,7 +27662,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 6,
-    "displayId": 48,
+    "displayId": 56,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25657,7 +27679,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 7,
-    "displayId": 49,
+    "displayId": 57,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25674,7 +27696,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 8,
-    "displayId": 50,
+    "displayId": 58,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25705,7 +27727,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 9,
-    "displayId": 51,
+    "displayId": 59,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25728,7 +27750,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 10,
-    "displayId": 52,
+    "displayId": 60,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25751,7 +27773,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 11,
-    "displayId": 53,
+    "displayId": 61,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25776,7 +27798,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 12,
-    "displayId": 54,
+    "displayId": 62,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25793,7 +27815,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 13,
-    "displayId": 55,
+    "displayId": 63,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25824,7 +27846,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 14,
-    "displayId": 56,
+    "displayId": 64,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25849,7 +27871,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 15,
-    "displayId": 57,
+    "displayId": 65,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25880,7 +27902,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 16,
-    "displayId": 58,
+    "displayId": 66,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25911,7 +27933,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 17,
-    "displayId": 59,
+    "displayId": 67,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25943,7 +27965,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 18,
-    "displayId": 60,
+    "displayId": 68,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -25975,7 +27997,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 19,
-    "displayId": 61,
+    "displayId": 69,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -26000,7 +28022,7 @@
     "subcategoryId": "classics-thought-p",
     "subcategoryTitle": "ことわざ・格言",
     "sortOrder": 20,
-    "displayId": 62,
+    "displayId": 70,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -26032,7 +28054,7 @@
     "subcategoryId": "classics-thought-f",
     "subcategoryTitle": "文学",
     "sortOrder": 1,
-    "displayId": 63,
+    "displayId": 71,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
@@ -26063,7 +28085,7 @@
     "subcategoryId": "classics-thought-f",
     "subcategoryTitle": "文学",
     "sortOrder": 2,
-    "displayId": 64,
+    "displayId": 72,
     "aliases": [],
     "relatedTheoryIds": [],
     "legacyIds": [],
