@@ -70,5 +70,23 @@ try{
  assert.equal((await db.query("select count(*)::int n from public.public_theories where access_tier='complete' and(summary<>'' or quotation is not null or provenance is not null)")).rows[0].n,0);
  await assert.rejects(db.query('select * from public.theory_quote_reviews'));
  await db.exec('reset role;set role authenticated');assert.equal((await db.query('select count(*)::int n from public.theory_quote_reviews')).rows[0].n,0);
- console.log(JSON.stringify({passed:true,published:published.length,quoted:19,retired:39,typed:finalEdges.filter(r=>r.review_status==='confirmed').length,general:finalEdges.filter(r=>r.review_status==='legacy').length,totalEdges:finalEdges.length,candidates:50,stableIds:true,paidBodiesProtected:true,oldEdgesPreserved:true,classificationLock:true}));
+ await db.exec('reset role');
+ const headlines=fs.readFileSync('supabase/migrations/20261015174824_theory_quote_headlines.sql','utf8');
+ await db.exec('begin;'+headlines+';commit;');
+ const renamed=(await db.query("select * from public.theories where status='published'")).rows;
+ assert.equal(renamed.length,821);
+ for(const old of published){const now=renamed.find(t=>t.id===old.id);assert.equal(now.display_id,old.display_id);assert.equal(now.access_tier,old.access_tier);assert.deepEqual(now.related_theory_ids,old.related_theory_ids);assert.deepEqual(now.quotation,old.quotation);if(old.quotation){assert.equal(now.title,'「'+old.quotation.translationText+'」');assert.equal(now.subcategory_id,'classics-thought-f');}else assert.equal(now.title,old.title);}
+ assert.equal((await db.query("select title from public.theory_subcategories where id='classics-thought-p'")).rows[0].title,'ことわざ');
+ assert.equal((await db.query("select title from public.theory_subcategories where id='classics-thought-f'")).rows[0].title,'格言');
+ for(const id of ['classics-thought-p','classics-thought-f']){const order=renamed.filter(t=>t.subcategory_id===id).map(t=>t.taxonomy_order).sort((a,b)=>a-b);assert.deepEqual(order,order.map((_,i)=>i+1));}
+ await db.exec("update public.theories set title='obsolete paraphrase' where id='kb_595'");
+ assert.equal((await db.query("select title from public.theories where id='kb_595'")).rows[0].title,'「'+renamed.find(t=>t.id==='kb_595').quotation.translationText+'」');
+ await assert.rejects(db.exec("update public.theories set quotation=jsonb_set(quotation,'{rightsStatus}','\"pending\"') where id='kb_595'"),/原典と権利/);
+ await db.exec(fs.readFileSync('supabase/migrations/20261015175353_distinguish_literary_commentary.sql','utf8'));
+ assert.equal((await db.query("select count(*)::int n from public.theories where status='published' and subcategory_id='classics-thought-f' and quotation is null")).rows[0].n,0);
+ for(const id of ['kb_701','kb_702'])assert.equal((await db.query('select subcategory_id from public.theories where id=$1',[id])).rows[0].subcategory_id,'classics-thought-e');
+ await db.exec('set role anon');
+ assert.equal((await db.query("select count(*)::int n from public.public_theories where access_tier='complete' and(summary<>'' or quotation is not null or provenance is not null)")).rows[0].n,0);
+ assert.equal((await db.query("select title from public.public_theories where id='kb_595'")).rows[0].title,renamed.find(t=>t.id==='kb_595').title);
+ console.log(JSON.stringify({passed:true,published:published.length,quoted:19,retired:39,typed:finalEdges.filter(r=>r.review_status==='confirmed').length,general:finalEdges.filter(r=>r.review_status==='legacy').length,totalEdges:finalEdges.length,candidates:50,stableIds:true,paidBodiesProtected:true,oldEdgesPreserved:true,classificationLock:true,publicQuoteHeadlines:true}));
 }catch(error){console.error(error.message);process.exitCode=1;}finally{await db.close();}

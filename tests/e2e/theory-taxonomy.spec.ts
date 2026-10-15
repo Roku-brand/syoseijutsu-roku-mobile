@@ -3,6 +3,44 @@ import fs from 'node:fs';
 const rows=JSON.parse(fs.readFileSync('src/data/generated/theories.json','utf8'));
 const subcategories=JSON.parse(fs.readFileSync('src/data/generated/theory-subcategories.json','utf8'));
 const categories=[...new Map(rows.map((t:any)=>[t.categoryId,{kind:'theory',id:t.categoryId,title:t.categoryTitle,display_order:['psychology','behavioral-science','organization-management','strategy','practical-wisdom','classics-thought'].indexOf(t.categoryId)+1}])).values()];
+
+for(const width of [320,390,1440])test(`全9ページを丸ボタンで省略せず表示し分類の列を揃える（${width}px）`,async({page})=>{
+ await page.setViewportSize({width,height:1000});
+ await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{}}));
+ await page.goto('/theories');
+ const pagination=page.getByTestId('theory-index-pagination');
+ await expect(pagination.getByRole('button')).toHaveCount(9);
+ await expect(pagination).not.toContainText('…');
+ for(let n=1;n<=9;n++){
+  const button=pagination.getByRole('button',{name:`${n}ページ目`,exact:true});await expect(button).toBeVisible();
+  expect(await button.evaluate(el=>{const r=el.getBoundingClientRect();return r.width===r.height&&parseFloat(getComputedStyle(el).borderTopLeftRadius)>=r.width/2;})).toBeTruthy();
+ }
+ const boxes=await page.getByTestId('theory-category-filters').getByRole('button').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};}));
+ expect(boxes).toHaveLength(7);
+ for(let n=0;n<3;n++){expect(Math.abs(boxes[n+1].x-boxes[n+4].x)).toBeLessThan(1);expect(Math.abs(boxes[n+1].w-boxes[n+4].w)).toBeLessThan(1);expect(boxes[n+4].y).toBe(boxes[4].y);expect(boxes[n].y).toBe(boxes[0].y);}
+ await page.screenshot({path:test.info().outputPath(`theory-index-controls-${width}.png`)});
+ await pagination.getByRole('button',{name:'5ページ目',exact:true}).click();
+ await expect(pagination.getByRole('button',{name:'5ページ目',exact:true})).toHaveAttribute('aria-selected','true');
+ await expect(page.getByTestId('theory-index-row-card')).toHaveCount(100);
+ await pagination.getByRole('button',{name:'9ページ目',exact:true}).click();
+ await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.length-800);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+});
+
+test('格言は承認済みの言葉を見出しにし、ことわざと格言を別々に絞り込む',async({page})=>{
+ await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{}}));
+ await page.goto('/theories?category=classics-thought&subcategory=classics-thought-f');
+ await expect(page.getByRole('button',{name:'ことわざで内部分類を絞り込む',exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'格言で内部分類を絞り込む',exact:true})).toHaveAttribute('aria-selected','true');
+ const cards=page.getByTestId('theory-index-row-card');
+ for(const t of rows.filter((t:any)=>t.quotation))await expect(cards.getByText(t.title,{exact:true})).toHaveCount(1);
+ await expect(cards.getByText('準備された心',{exact:true})).toHaveCount(0);
+ await expect(cards.getByText('友情と恋を変える時間',{exact:true})).toHaveCount(0);
+ await page.screenshot({path:test.info().outputPath('quotation-headlines-mobile.png')});
+ await page.getByRole('button',{name:'ことわざで内部分類を絞り込む',exact:true}).click();
+ await expect(cards).toHaveCount(rows.filter((t:any)=>t.subcategoryId==='classics-thought-p').length);
+ await expect(cards.getByText('人間万事塞翁が馬',{exact:true})).toBeVisible();
+});
 async function mockOwner(page:any){
  const user={id:'00000000-0000-4000-8000-000000000003',aud:'authenticated',role:'authenticated',email:'taxonomy@example.invalid',app_metadata:{},user_metadata:{},created_at:'2026-01-01T00:00:00Z'};
  const token='eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify({sub:user.id,role:'authenticated',exp:4102444800})).toString('base64url')+'.test';

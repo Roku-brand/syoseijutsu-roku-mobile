@@ -17,7 +17,7 @@ export function TheoryDetailsEditor({ value, onChange, options, disabled }: {
   // Switching records starts a new read; edits remain local until draft/save/publish.
  }, [value.tagId]);
  const q: TheoryQuotation = value.quotation ?? { originalText: '', translationText: '', author: '', work: '', locator: '', translationKind: 'independent_translation', verification: 'pending', rightsStatus: 'pending', rightsBasis: '', sourceUrls: [], checkedOn: '' };
- const quote = (patch: Partial<TheoryQuotation>) => onChange({ quotation: { ...q, ...patch } });
+ const quote = (patch: Partial<TheoryQuotation>) => onChange({ quotation: { ...q, ...patch }, ...(patch.translationText !== undefined ? { title: '「'+patch.translationText+'」' } : {}) });
  const relationRows = value.relations ?? [];
  const updateRelation = (index: number, patch: Partial<TheoryRelation>) => onChange({ relations: relationRows.map((r,i) => i === index ? { ...r,...patch } : r) });
  const p: TheoryProvenance = value.provenance ?? { status: '出典不明' };
@@ -31,6 +31,7 @@ export function TheoryDetailsEditor({ value, onChange, options, disabled }: {
   {value.knowledgeType === 'aphorism' || value.quotation ? <>
    <AppText variant="label">格言の原典・権利監査</AppText>
    <Field label="表示用日本語（独自訳・原文）" value={q.translationText} onChange={translationText => quote({translationText})} disabled={disabled} multi />
+   <AppText style={styles.hint}>この言葉が一覧・検索の公開見出しになります。原文・出典・解説は設定した公開範囲で配信します。</AppText>
    <Field label="著作者・発言者" value={q.author} onChange={author => quote({author})} disabled={disabled} />
    <Field label="著作者の死亡年" value={q.authorDeathYear == null ? '' : String(q.authorDeathYear)} onChange={year => quote({authorDeathYear: /^-?\d+$/.test(year) ? Number(year) : null})} disabled={disabled} />
    <Field label="作品・原典" value={q.work} onChange={work => quote({work})} disabled={disabled} />

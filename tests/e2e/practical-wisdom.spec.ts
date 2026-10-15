@@ -47,9 +47,9 @@ test('公開終了URLは本文を再表示せず、保存IDは保持する',asyn
  await expect(page.getByText(retired[0].title,{exact:true})).toHaveCount(0);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('@shoseijutsu-roku/state/v1')!).savedTheoryIds)).toContain(id);
 });
-test('有料格言は無料のHTML・ページに原文や訳文を含めない',async({page,request})=>{
+test('格言の公開見出しを許可し、有料の原文・解説・権利情報を保護する',async({page,request})=>{
  const response=await request.get('/theory/'+quote.tagId);const html=await response.text();
- expect(html).not.toContain(quote.quotation.translationText);expect(html).not.toContain(quote.quotation.originalText);
+ expect(html).not.toContain(quote.quotation.originalText);expect(html).not.toContain(quote.quotation.contextNote);expect(html).not.toContain(quote.quotation.rightsBasis);
  await page.goto('/theory/'+quote.tagId);
  await expect(page.getByTestId('theory-title')).toHaveCount(0);
  await expect(page.getByText(quote.quotation.translationText,{exact:false})).toHaveCount(0);

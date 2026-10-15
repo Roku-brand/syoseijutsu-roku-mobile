@@ -108,11 +108,14 @@ for (const theory of theories) {
     // Paid theory titles are intentionally public so free technique pages can
     // show the complete relationship map. The summary and provenance remain
     // protected and must never enter the public bundle.
-    collectTextFingerprints(theory.summary, `theory:${theory.tagId}.summary`, fingerprints);
-    collectTextFingerprints(theory.quotation, `theory:${theory.tagId}.quotation`, fingerprints, publicSourceTexts);
-    // Even a very short complete-edition saying is protected by the access boundary.
+    // Only the exact approved quotation headline is public. Never exempt its
+    // surrounding legacy summary, commentary, source or rights metadata.
+    collectTextFingerprints(theory.summary.replace(theory.title, ''), `theory:${theory.tagId}.summary`, fingerprints);
+    const protectedQuotation = theory.quotation ? Object.fromEntries(Object.entries(theory.quotation).filter(([field, value]) => !(['originalText','translationText'].includes(field) && typeof value === 'string' && theory.title === '「'+value+'」'))) : undefined;
+    collectTextFingerprints(protectedQuotation, `theory:${theory.tagId}.quotation`, fingerprints, publicSourceTexts);
+    // Short original-language text remains protected unless identical to the public Japanese headline.
     for (const field of ['originalText','translationText']) if (theory.quotation?.[field]) {
-      fingerprints.set(theory.quotation[field], `theory:${theory.tagId}.quotation.${field}`);
+      if (theory.title !== '「'+theory.quotation[field]+'」') fingerprints.set(theory.quotation[field], `theory:${theory.tagId}.quotation.${field}`);
     }
     collectTextFingerprints(theory.provenance, `theory:${theory.tagId}.provenance`, fingerprints, publicSourceTexts);
   }

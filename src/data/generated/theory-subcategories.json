@@ -36,6 +36,18 @@
     "displayOrder": 6
   },
   {
+    "id": "psychology-life",
+    "categoryId": "psychology",
+    "title": "発達・人生の時間軸",
+    "displayOrder": 7
+  },
+  {
+    "id": "psychology-n",
+    "categoryId": "psychology",
+    "title": "脳・学習の基盤",
+    "displayOrder": 8
+  },
+  {
     "id": "behavioral-science-d",
     "categoryId": "behavioral-science",
     "title": "意思決定・選択",
@@ -132,6 +144,12 @@
     "displayOrder": 6
   },
   {
+    "id": "strategy-l",
+    "categoryId": "strategy",
+    "title": "論理・因果推論",
+    "displayOrder": 7
+  },
+  {
     "id": "practical-wisdom-c",
     "categoryId": "practical-wisdom",
     "title": "会話・伝え方",
@@ -188,31 +206,13 @@
   {
     "id": "classics-thought-p",
     "categoryId": "classics-thought",
-    "title": "ことわざ・格言",
+    "title": "ことわざ",
     "displayOrder": 4
   },
   {
     "id": "classics-thought-f",
     "categoryId": "classics-thought",
-    "title": "文学",
+    "title": "格言",
     "displayOrder": 5
-  },
-  {
-    "id": "psychology-life",
-    "categoryId": "psychology",
-    "title": "発達・人生の時間軸",
-    "displayOrder": 7
-  },
-  {
-    "id": "psychology-n",
-    "categoryId": "psychology",
-    "title": "脳・学習の基盤",
-    "displayOrder": 8
-  },
-  {
-    "id": "strategy-l",
-    "categoryId": "strategy",
-    "title": "論理・因果推論",
-    "displayOrder": 7
   }
 ]
