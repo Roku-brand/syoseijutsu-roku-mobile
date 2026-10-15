@@ -1,0 +1,462 @@
+{
+  "label": "after",
+  "cache": "HTTP cache disabled by API fixture; conservative cold image payloads",
+  "fixture": {
+    "saved": 204,
+    "history": 100,
+    "memos": 300
+  },
+  "bundles": [
+    {
+      "bytes": 5763790,
+      "gzip": 1176383
+    }
+  ],
+  "results": [
+    {
+      "name": "discover",
+      "run": 0,
+      "dom": 341,
+      "heapMiB": 14.133724212646484,
+      "taskMs": 852.012,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        },
+        {
+          "name": "/assets/assets/categories/work.57173585a222c59af6c49fceace75689.webp",
+          "bytes": 10866
+        },
+        {
+          "name": "/assets/assets/categories/life.05304e659051cecf081f4d9f6b375eef.webp",
+          "bytes": 29026
+        },
+        {
+          "name": "/assets/assets/categories/theory-sheet.23bb643abbdb83069a0566b7a3c98338.webp",
+          "bytes": 60010
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "history",
+      "run": 0,
+      "dom": 446,
+      "heapMiB": 25.143447875976562,
+      "taskMs": 763.673,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "library",
+      "run": 0,
+      "dom": 230,
+      "heapMiB": 26.653610229492188,
+      "taskMs": 887.165,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        28
+      ]
+    },
+    {
+      "name": "mine",
+      "run": 0,
+      "dom": 229,
+      "heapMiB": 27.435474395751953,
+      "taskMs": 920.606,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        28,
+        19.799999952316284
+      ]
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 0,
+      "dom": 229,
+      "heapMiB": 15.34048080444336,
+      "taskMs": 1329.256,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        28,
+        19.799999952316284,
+        35.5,
+        22.200000047683716,
+        25.59999990463257,
+        24.799999952316284,
+        22.5,
+        24,
+        27,
+        16.899999976158142,
+        32.60000002384186,
+        19.699999928474426,
+        23,
+        24.399999976158142,
+        26.100000023841858,
+        22.5,
+        24.399999976158142
+      ],
+      "additionalFeatureRequests": 0
+    },
+    {
+      "name": "discover",
+      "run": 1,
+      "dom": 341,
+      "heapMiB": 14.238468170166016,
+      "taskMs": 691.41,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        },
+        {
+          "name": "/assets/assets/categories/work.57173585a222c59af6c49fceace75689.webp",
+          "bytes": 10866
+        },
+        {
+          "name": "/assets/assets/categories/life.05304e659051cecf081f4d9f6b375eef.webp",
+          "bytes": 29026
+        },
+        {
+          "name": "/assets/assets/categories/theory-sheet.23bb643abbdb83069a0566b7a3c98338.webp",
+          "bytes": 60010
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "history",
+      "run": 1,
+      "dom": 446,
+      "heapMiB": 25.187305450439453,
+      "taskMs": 530.5980000000001,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "library",
+      "run": 1,
+      "dom": 230,
+      "heapMiB": 26.697479248046875,
+      "taskMs": 579.075,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        23.5
+      ]
+    },
+    {
+      "name": "mine",
+      "run": 1,
+      "dom": 229,
+      "heapMiB": 27.474369049072266,
+      "taskMs": 615.5169999999999,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        23.5,
+        19.699999928474426
+      ]
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 1,
+      "dom": 229,
+      "heapMiB": 21.001876831054688,
+      "taskMs": 1048.482,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        23.5,
+        19.699999928474426,
+        23.399999976158142,
+        22.399999976158142,
+        23.399999976158142,
+        22.600000023841858,
+        24.600000023841858,
+        32.39999997615814,
+        26.899999976158142,
+        21.700000047683716,
+        138.29999995231628,
+        22.799999952316284,
+        22.699999928474426,
+        26.799999952316284,
+        19.600000023841858,
+        24.200000047683716,
+        24.799999952316284
+      ],
+      "additionalFeatureRequests": 0
+    },
+    {
+      "name": "discover",
+      "run": 2,
+      "dom": 341,
+      "heapMiB": 14.308910369873047,
+      "taskMs": 683.228,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        },
+        {
+          "name": "/assets/assets/categories/work.57173585a222c59af6c49fceace75689.webp",
+          "bytes": 10866
+        },
+        {
+          "name": "/assets/assets/categories/life.05304e659051cecf081f4d9f6b375eef.webp",
+          "bytes": 29026
+        },
+        {
+          "name": "/assets/assets/categories/theory-sheet.23bb643abbdb83069a0566b7a3c98338.webp",
+          "bytes": 60010
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "history",
+      "run": 2,
+      "dom": 446,
+      "heapMiB": 25.279010772705078,
+      "taskMs": 564.01,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 0,
+      "tabPaintMs": []
+    },
+    {
+      "name": "library",
+      "run": 2,
+      "dom": 230,
+      "heapMiB": 26.78731918334961,
+      "taskMs": 610.043,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        21.799999952316284
+      ]
+    },
+    {
+      "name": "mine",
+      "run": 2,
+      "dom": 229,
+      "heapMiB": 27.566368103027344,
+      "taskMs": 644.3539999999999,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        21.799999952316284,
+        16.699999928474426
+      ]
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 2,
+      "dom": 229,
+      "heapMiB": 15.36733627319336,
+      "taskMs": 1078.7649999999999,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.c2a840c2963cd2a7f15517577102398d.webp",
+          "bytes": 48112
+        },
+        {
+          "name": "/assets/assets/categories/interpersonal.2ff19cd054e462bd9ef783a1fdc7da61.webp",
+          "bytes": 13476
+        }
+      ],
+      "featureRequests": 1,
+      "tabPaintMs": [
+        21.799999952316284,
+        16.699999928474426,
+        21.699999928474426,
+        21.699999928474426,
+        24.100000023841858,
+        23.299999952316284,
+        26.700000047683716,
+        23.399999976158142,
+        29.199999928474426,
+        22,
+        24.100000023841858,
+        24.100000023841858,
+        21.09999990463257,
+        24.799999952316284,
+        25.399999976158142,
+        23.799999952316284,
+        32.300000071525574
+      ],
+      "additionalFeatureRequests": 0
+    }
+  ]
+}

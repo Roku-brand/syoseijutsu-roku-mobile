@@ -131,11 +131,12 @@ test('既存の保存と旧理論IDを維持し、フォルダー作成・移動
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ savedIds: ['master336-001'], savedTheoryIds: ['kb_392', 'kb_016'], libraryFolders: [{ id: 'old', name: '以前の蔵書', createdAt: '2026-01-01T00:00:00Z' }], libraryFolderByItem: { 'theory:kb_392': 'old' } }));
   }, { key: stateKey });
   await page.goto('/library');
-  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toHaveText('すべて 2');
-  await expect(page.getByRole('button', { name: '蔵書：以前の蔵書', exact: true })).toHaveText('以前の蔵書 1');
+  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toContainText('2件');
+  await expect(page.getByRole('button', { name: '蔵書：以前の蔵書', exact: true })).toContainText('1件');
   await page.getByRole('button', { name: 'フォルダーを追加', exact: true }).click();
   await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事で使う知恵');
   await page.getByRole('button', { name: '蔵書フォルダーを保存', exact: true }).click();
+  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
   await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
   const moves = page.getByRole('button', { name: /の保存先を変更$/ });
   for (let index = 0; index < 2; index++) {
@@ -143,20 +144,23 @@ test('既存の保存と旧理論IDを維持し、フォルダー作成・移動
     await page.getByRole('button', { name: '保存先：仕事で使う知恵', exact: true }).click();
   }
   await page.reload();
-  await expect(page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true })).toHaveText('仕事で使う知恵 2');
+  await expect(page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true })).toContainText('2件');
   await page.goto('/my-os');
   await page.getByRole('tab', { name: '蔵書', exact: true }).click();
   await page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true }).click();
   await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
   await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事の知恵');
   await page.getByRole('button', { name: '蔵書フォルダーを保存', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true })).toHaveText('仕事の知恵 2');
+  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
+  await expect(page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true })).toContainText('2件');
+  await page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true }).click();
   await expect(page.getByRole('dialog', { name: '蔵書フォルダーの編集', exact: true })).toBeHidden();
   await page.screenshot({ path: test.info().outputPath('library-mobile.png') });
   await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
   await page.getByRole('button', { name: '蔵書フォルダーを削除', exact: true }).click();
   await page.getByRole('button', { name: 'フォルダーだけ削除', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：未整理', exact: true })).toHaveText('未整理 2');
+  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
+  await expect(page.getByRole('button', { name: '蔵書：未整理', exact: true })).toContainText('2件');
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '{}'), stateKey);
   expect(stored.savedIds).toEqual(['master336-001']);
   expect(stored.savedTheoryIds).toEqual(['kb_016']);
@@ -166,6 +170,7 @@ test('既存の保存と旧理論IDを維持し、フォルダー作成・移動
 test('保存した完全版のタイトルは整理できても、有料本文は購入案内で保護する', async ({ page }) => {
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ savedTheoryIds: ['kb_869'] })), stateKey);
   await page.goto('/library');
+  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
   await page.getByRole('button', { name: 'プロテウス効果を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/upgrade/);
   await expect(page.getByTestId('theory-summary')).toHaveCount(0);

@@ -7,3 +7,10 @@ export const techniqueCategoryImages: Record<CategoryKey, ImageSourcePropType> =
   work: require('../../assets/home/work-office.webp'),
   life: require('../../assets/home/life-crossroads.webp'),
 };
+
+// Small renditions of the very same ranking photographs, shared by discovery and personal cards.
+export const compactTechniqueCategoryImages: Record<CategoryKey, ImageSourcePropType> = {
+  interpersonal: require('../../assets/categories/interpersonal.webp'),
+  work: require('../../assets/categories/work.webp'),
+  life: require('../../assets/categories/life.webp'),
+};

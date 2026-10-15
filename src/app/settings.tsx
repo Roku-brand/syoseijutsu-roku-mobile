@@ -39,11 +39,6 @@ export default function SettingsScreen() {
         />
       </SettingsGroup>
 
-      <SettingsSection title="アプリ設定" />
-      <SettingsGroup>
-        <SettingLink title="ホーム画面に追加" detail="アプリのように、すぐ開けるようにする" href={APP_ROUTES.install} last />
-      </SettingsGroup>
-
       {role === 'owner' ? <>
         <SettingsSection title="オーナー機能" />
         <SettingsGroup>

@@ -54,6 +54,7 @@ type PersistedState = {
   libraryFolders: LibraryFolder[];
   libraryFolderByItem: Record<string, string>;
   historyIds: string[];
+  featureHistoryIds: string[];
   notes: Record<string, string>;
   practiceRecords: Record<string, PracticeRecord>;
   personalPrinciple: string;
@@ -71,6 +72,7 @@ const initialState: PersistedState = {
   libraryFolders: [],
   libraryFolderByItem: {},
   historyIds: [],
+  featureHistoryIds: [],
   notes: {},
   practiceRecords: {},
   personalPrinciple: '志は高く、腰は低く。',
@@ -90,6 +92,7 @@ type AppStateContextValue = PersistedState & {
   deleteLibraryFolder: (id: string) => void;
   moveLibraryItem: (kind: LibraryItemKind, id: string, folderId: string | null) => void;
   addHistory: (id: string) => void;
+  addFeatureHistory: (id: string) => void;
   saveNote: (id: string, note: string) => void;
   planPractice: (cardId: string) => void;
   completePractice: (cardId: string) => void;
@@ -197,6 +200,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
           learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
           learningRecords,
           savedTheoryIds,
+          featureHistoryIds: Array.isArray(parsed.featureHistoryIds) ? [...new Set(parsed.featureHistoryIds.filter((id): id is string => typeof id === 'string'))].slice(0, 100) : [],
           savedFeatureIds: Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : [],
           ...restoreLibraryFolders(parsed.libraryFolders, parsed.libraryFolderByItem, parsed.savedIds ?? [], savedTheoryIds, Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : []),
           personalMemos,
@@ -271,6 +275,10 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         100,
       ),
     }));
+  }, []);
+
+  const addFeatureHistory = useCallback((id: string) => {
+    setState(current => ({ ...current, featureHistoryIds: [id, ...current.featureHistoryIds.filter(value => value !== id)].slice(0, 100) }));
   }, []);
 
   const createLibraryFolder = useCallback((name: string) => {
@@ -459,6 +467,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       deleteLibraryFolder,
       moveLibraryItem,
       addHistory,
+      addFeatureHistory,
       saveNote,
       planPractice,
       completePractice,
@@ -486,6 +495,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       deleteLibraryFolder,
       moveLibraryItem,
       addHistory,
+      addFeatureHistory,
       saveNote,
       planPractice,
       completePractice,

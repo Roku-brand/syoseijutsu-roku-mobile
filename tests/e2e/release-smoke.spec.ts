@@ -33,10 +33,11 @@ test('ホームが初期画面になり、旧ウェルカムURLもホームへ�
   }
 });
 
-test('設定からウェルカム関連項目を外し、ホーム画面への追加は残す', async ({ page }) => {
+test('設定からアプリ設定とホーム画面への追加を削除する', async ({ page }) => {
   await page.goto('/settings');
   await expect(page.getByText('ウェルカムページを非表示にする')).toHaveCount(0);
-  await expect(page.getByRole('button', { name: 'ホーム画面に追加' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'ホーム画面に追加' })).toHaveCount(0);
+  await expect(page.getByText('アプリ設定', { exact: true })).toHaveCount(0);
 });
 
 test('my page keeps the guest profile entry compact', async ({ page }) => {
@@ -69,21 +70,22 @@ test('マイページはプロフィールと座右の銘を統合し、実デ�
   await expect(profileCard).toContainText('無料版を利用中');
   await expect(profileCard).not.toContainText('無料公開分');
   await expect(profileCard).not.toContainText('完全版を見る');
-  await expect(page.getByRole('tab')).toHaveCount(3);
+  await expect(page.getByTestId('my-page-tabs').getByRole('tab')).toHaveCount(3);
   await expect(page.getByRole('tab', { name: '閲覧履歴' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('最近見た処世術・理論')).toBeVisible();
+  await expect(page.getByText('読んだ知恵を、種類ごとに振り返る')).toBeVisible();
   await page.getByRole('tab', { name: '蔵書' }).click();
   await expect(page.getByRole('tab', { name: '蔵書' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('蔵書はまだ空です')).toBeVisible();
+  await expect(page.getByRole('button', { name: '蔵書：未整理', exact: true })).toContainText('0件');
   await expect(page).toHaveURL(/my-os/);
   await page.getByRole('tab', { name: 'マイ処世術' }).click();
-  await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'マイ処世術：すべて', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '＋ 作る' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、相手の話を聞く。');
   await page.getByRole('button', { name: '保存する' }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
   await page.reload();
   await page.getByRole('tab', { name: 'マイ処世術' }).click();
+  await page.getByRole('button', { name: 'マイ処世術：すべて', exact: true }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
   await page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、最後まで話を聞く。');
@@ -360,7 +362,7 @@ test('マイ処世術はマイページ内で作成・フォルダー整理・�
   await expect(page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' })).toContainText('仕事');
   await page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' }).click();
   await page.getByRole('button', { name: 'このマイ処世術を削除' }).click();
-  await expect(page.getByText('まだマイ処世術はありません')).toBeVisible();
+  await expect(page.getByText('このフォルダーはまだ空です')).toBeVisible();
 });
 
 test('閲覧履歴はマイページ内で確認できる', async ({ page }) => {
@@ -373,7 +375,8 @@ test('理論の閲覧もマイページの履歴タブへ蓄積される', async
   await page.goto('/theory/kb_001');
   await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
   await page.goto('/my-os');
-  await expect(page.getByText('最近見た処世術・理論', { exact: true })).toBeVisible();
+  await expect(page.getByText('読んだ知恵を、種類ごとに振り返る', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByRole('button', { name: '初頭効果を開く' })).toBeVisible();
   await expect(page).toHaveURL(/\/my-os/);
 });

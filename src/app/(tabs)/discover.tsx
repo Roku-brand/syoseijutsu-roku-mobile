@@ -1,3 +1,4 @@
+import { CategoryArt } from '@/components/ranking-art';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
@@ -64,7 +65,7 @@ export default function DiscoverScreen() {
         <BrandSectionHeading title="カテゴリから探す" actionLabel="人物像一覧 →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
         <GroupHeading title="人物像" />
         <View testID="discover-technique-grid" style={styles.categoryGrid}>
-          {categoryOrder.map((key) => <CategoryCard key={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
+          {categoryOrder.map((key) => <CategoryCard key={key} category={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
         </View>
         <GroupHeading title="理論" secondary />
         <View testID="discover-theory-grid" style={styles.categoryGrid}>
@@ -72,7 +73,7 @@ export default function DiscoverScreen() {
             const title = theories.find((theory) => theory.categoryId === item.key)?.categoryTitle
               ?? getTheoryFilterOptions().find((option) => option.key === item.key)?.label;
             if (!title) return null;
-            return <CategoryCard key={item.key} title={title} icon={item.icon} narrow={narrow} wide={compact} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
+            return <CategoryCard key={item.key} category={item.key} title={title} icon={item.icon} narrow={narrow} wide={compact} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
           })}
         </View>
       </View>
@@ -104,8 +105,9 @@ function GroupHeading({ title, secondary = false }: { title: string; secondary?:
   return <View style={[styles.groupHeading, secondary && styles.groupHeadingSecondary]}><AppText accessibilityRole="header" aria-level={3} style={styles.groupTitle}>{title}</AppText><View style={styles.groupRule} /></View>;
 }
 
-function CategoryCard({ title, mark, icon, narrow, wide = false, onPress }: { title: string; mark?: string; icon?: TheoryIconName; narrow: boolean; wide?: boolean; onPress: () => void }) {
+function CategoryCard({ title, category, mark, icon, narrow, wide = false, onPress }: { title: string; category: string; mark?: string; icon?: TheoryIconName; narrow: boolean; wide?: boolean; onPress: () => void }) {
   return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, wide && styles.theoryCategoryCardCompact, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
+    <CategoryArt category={category} compact /><View style={styles.categoryShade} />
     <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
     <AppText accessibilityElementsHidden style={[styles.arrow, styles.categoryArrow, narrow && styles.categoryArrowNarrow]}>›</AppText>
   </Pressable>;
@@ -149,18 +151,19 @@ const styles = StyleSheet.create({
   groupTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   groupRule: { flex: 1, height: 1, backgroundColor: colors.line },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, minHeight: 58, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
-  categoryCardNarrow: { minHeight: 64, paddingHorizontal: 5 },
+  categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, overflow: 'hidden', minHeight: 90, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
+  categoryCardNarrow: { minHeight: 84, paddingHorizontal: 5 },
   theoryCategoryCardCompact: { width: '46%' },
+  categoryShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(12,27,28,0.56)' },
   categoryTop: { flexDirection: 'row', alignItems: 'center', gap: 5, minWidth: 0, paddingRight: 4 },
   categoryIcon: { width: 29, height: 29, flexShrink: 0, borderRadius: 15, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
   categoryIconNarrow: { width: 24, height: 24, borderRadius: 12 },
   theoryIcon: { backgroundColor: '#FDFBF7', borderWidth: 1, borderColor: softGold },
   categoryMark: { color: '#DDB867', fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
   categoryMarkNarrow: { fontSize: 15, lineHeight: 20 },
-  categoryTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
+  categoryTitle: { flexShrink: 1, color: '#FFFDF5', fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
   categoryTitleNarrow: { fontSize: 12, lineHeight: 16 },
-  categoryArrow: { position: 'absolute', right: 2, bottom: 2, fontSize: 16, lineHeight: 18 },
+  categoryArrow: { color: '#FFE1A3', position: 'absolute', right: 2, bottom: 2, fontSize: 16, lineHeight: 18 },
   categoryArrowNarrow: { right: 1, fontSize: 14 },
   popularSection: { marginTop: 34 }, popularSectionCompact: { marginTop: 28 },
   popularGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },

@@ -1,0 +1,278 @@
+{
+  "label": "before",
+  "cache": "HTTP cache disabled by API fixture; conservative cold image payloads",
+  "fixture": {
+    "saved": 204,
+    "history": 100,
+    "memos": 300
+  },
+  "bundles": [
+    {
+      "bytes": 5752418,
+      "gzip": 1172070
+    }
+  ],
+  "results": [
+    {
+      "name": "discover",
+      "run": 0,
+      "dom": 296,
+      "heapMiB": 14.156856536865234,
+      "taskMs": 440.62800000000004,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "history",
+      "run": 0,
+      "dom": 563,
+      "heapMiB": 26.759078979492188,
+      "taskMs": 428.339,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "library",
+      "run": 0,
+      "dom": 1638,
+      "heapMiB": 23.578536987304688,
+      "taskMs": 681.335,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "mine",
+      "run": 0,
+      "dom": 1709,
+      "heapMiB": 33.20585250854492,
+      "taskMs": 752.684,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 0,
+      "dom": 1709,
+      "heapMiB": 20.482868194580078,
+      "taskMs": 1619.828,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 6,
+      "additionalFeatureRequests": 5
+    },
+    {
+      "name": "discover",
+      "run": 1,
+      "dom": 296,
+      "heapMiB": 14.149368286132812,
+      "taskMs": 379.041,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "history",
+      "run": 1,
+      "dom": 563,
+      "heapMiB": 26.71795654296875,
+      "taskMs": 509.27299999999997,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "library",
+      "run": 1,
+      "dom": 1638,
+      "heapMiB": 23.565818786621094,
+      "taskMs": 714.819,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "mine",
+      "run": 1,
+      "dom": 1709,
+      "heapMiB": 33.20284652709961,
+      "taskMs": 783.3480000000001,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 1,
+      "dom": 1709,
+      "heapMiB": 42.36186981201172,
+      "taskMs": 1771.243,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 6,
+      "additionalFeatureRequests": 5
+    },
+    {
+      "name": "discover",
+      "run": 2,
+      "dom": 296,
+      "heapMiB": 14.212348937988281,
+      "taskMs": 378.386,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "history",
+      "run": 2,
+      "dom": 563,
+      "heapMiB": 26.782752990722656,
+      "taskMs": 313.286,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 0
+    },
+    {
+      "name": "library",
+      "run": 2,
+      "dom": 1638,
+      "heapMiB": 29.202564239501953,
+      "taskMs": 465.981,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "mine",
+      "run": 2,
+      "dom": 1709,
+      "heapMiB": 38.8865966796875,
+      "taskMs": 536.1,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 1
+    },
+    {
+      "name": "five-tab-cycles",
+      "run": 2,
+      "dom": 1709,
+      "heapMiB": 42.30303955078125,
+      "taskMs": 1419.2720000000002,
+      "images": [
+        {
+          "name": "/assets/assets/brand/icon.e7e9ea59ae254ac049f55414ff96c7ee.png",
+          "bytes": 64653
+        },
+        {
+          "name": "/assets/assets/my-page/personal-principle-scroll-refined.6773e7a30be4ac81ce8686c1a8e704c7.png",
+          "bytes": 1373416
+        }
+      ],
+      "featureRequests": 6,
+      "additionalFeatureRequests": 5
+    }
+  ]
+}

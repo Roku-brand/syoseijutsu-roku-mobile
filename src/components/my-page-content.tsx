@@ -1,9 +1,14 @@
 'use no memo';
 
+import { FolderBack, FolderFronts, MoreCards } from './folder-fronts';
+import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
+import { useFeatures } from '@/data/features';
+
+
 // Catalogue maps are hydrated in place; retain the explicit revision dependency.
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { LibraryContent } from '@/components/library-content';
@@ -15,14 +20,14 @@ import { useAppState, type PersonalMemo } from '@/state/app-state';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
-import { APP_ROUTES, signInRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { APP_ROUTES, featureRoute, signInRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { formatRemainingAccess } from '@/lib/purchase';
 
-const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.png');
+const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.webp');
 
 type Tab = 'history' | 'library' | 'mine';
-type ContentRow = { kind: 'technique' | 'theory'; id: string; label: string; title: string; description: string };
-type FolderFilter = 'all' | 'unfiled' | string;
+type ContentRow = PersonalContentRow;
+type FolderFilter = string | null;
 
 export default function MyPageContent() {
   const router = useRouter();
@@ -31,18 +36,22 @@ export default function MyPageContent() {
   const { user, profile, loading: authLoading } = useAuth();
   const { accessState, accessInfo, catalogRevision, isPaid } = useAccess();
   const {
-    historyIds, personalPrinciple, updatePersonalPrinciple,
+    historyIds, featureHistoryIds, personalPrinciple, updatePersonalPrinciple,
     personalMemos, personalMemoFolders, addPersonalMemo, updatePersonalMemo,
     removePersonalMemo, movePersonalMemo, createPersonalMemoFolder, deletePersonalMemoFolder,
   } = useAppState();
   const [tab, setTab] = useState<Tab>('history');
+  const [historyKind, setHistoryKind] = useState<ContentRow['kind']>('technique');
+  const [historyLimit, setHistoryLimit] = useState(20);
+  const [memoLimit, setMemoLimit] = useState(20);
+  const { articles: featureArticles, loading: featuresLoading, error: featuresError } = useFeatures(tab === 'history' && historyKind === 'feature' && featureHistoryIds.length > 0);
   const [principleEditing, setPrincipleEditing] = useState(false);
   const [principleDraft, setPrincipleDraft] = useState(personalPrinciple);
   const [memoEditing, setMemoEditing] = useState(false);
   const [editingMemoId, setEditingMemoId] = useState<string | null>(null);
   const [memoDraft, setMemoDraft] = useState('');
   const [memoFolderId, setMemoFolderId] = useState<string | null>(null);
-  const [folderFilter, setFolderFilter] = useState<FolderFilter>('all');
+  const [folderFilter, setFolderFilter] = useState<FolderFilter>(null);
   const [folderEditing, setFolderEditing] = useState(false);
   const [folderDraft, setFolderDraft] = useState('');
   const displayName = authLoading ? 'プロフィールを確認中' : profile?.displayName ?? suggestedName(user?.email);
@@ -51,16 +60,24 @@ export default function MyPageContent() {
     : accessInfo.status === 'expired' ? '利用期間終了'
     : accessState === 'paid' ? `完全版を利用中${accessInfo.accessType === 'thirty_day' && accessInfo.accessExpiresAt ? `・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : ''}` : '無料版を利用中';
 
-  const historyRows = useMemo(
-    () => historyIds.map(resolveRow).filter((row): row is ContentRow => Boolean(row)),
-    [catalogRevision, historyIds],
-  );
-  const pendingHistory = isPaid && historyIds.some((id) => {
+  const historyRows = useMemo(() => historyKind === 'feature'
+    ? featureHistoryIds.map(id => featureArticles.find(article => article.id === id)).filter(article => Boolean(article)).map(article => ({ kind: 'feature' as const, id: article!.id, title: article!.title, label: '特集', description: article!.lead, category: 'feature', article: article! }))
+    : historyIds.map(resolveRow).filter((row): row is ContentRow => Boolean(row && row.kind === historyKind)),
+    [catalogRevision, historyIds, historyKind, featureHistoryIds, featureArticles]);
+  const pendingHistory = historyKind === 'theory' && isPaid && historyIds.some((id) => {
     const theory = theoryById.get(id);
     return Boolean(theory && isLockedTheoryShell(theory));
   });
   const visibleMemos = personalMemos.filter((memo) =>
     folderFilter === 'all' || (folderFilter === 'unfiled' ? !memo.folderId : memo.folderId === folderFilter));
+
+  const memoCounts = new Map<string, number>([['all', personalMemos.length]]);
+  personalMemos.forEach(memo => { const id = memo.folderId ?? 'unfiled'; memoCounts.set(id, (memoCounts.get(id) ?? 0) + 1); });
+  const memoFolders = [{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...personalMemoFolders].map(folder => ({ ...folder, count: memoCounts.get(folder.id) ?? 0 }));
+  const openMemoFolder = (id: string | null) => { setFolderFilter(id); setMemoLimit(20); };
+  useEffect(() => {
+    if (folderFilter && folderFilter !== 'all' && folderFilter !== 'unfiled' && !personalMemoFolders.some(folder => folder.id === folderFilter)) setFolderFilter('unfiled');
+  }, [folderFilter, personalMemoFolders]);
 
   const openPrincipleEditor = () => {
     void Haptics.selectionAsync().catch(() => undefined);
@@ -78,11 +95,13 @@ export default function MyPageContent() {
     if (editingMemoId) updatePersonalMemo(editingMemoId, memoDraft, memoFolderId);
     else addPersonalMemo(memoDraft, memoFolderId);
     setMemoEditing(false);
+    openMemoFolder(memoFolderId ?? 'unfiled');
   };
   const selectTab = (next: Tab) => {
     setTab(next);
+    if (next === 'mine' && tab !== 'mine') openMemoFolder(null);
   };
-  const openRow = (row: ContentRow) => router.push(row.kind === 'technique' ? techniqueRoute(row.id) : theoryRoute(row.id));
+  const openRow = (row: ContentRow) => router.push(row.kind === 'feature' ? featureRoute(row.article?.slug ?? row.id) : row.kind === 'technique' ? techniqueRoute(row.id) : theoryRoute(row.id));
 
   return (
     <BookScreen contentContainerStyle={[styles.content, mobile && styles.contentMobile]}>
@@ -143,32 +162,24 @@ export default function MyPageContent() {
         <View testID="my-page-tab-content" style={styles.tabContent}>
           {tab === 'history' ? (
             <>
-              <SectionHeading title="閲覧履歴" subtitle="最近見た処世術・理論" />
-              {historyRows.length ? historyRows.map((row) => <ContentListRow key={`${row.kind}-${row.id}`} row={row} onPress={() => openRow(row)} />)
-                : <QuietEmpty>{pendingHistory ? '完全版データを確認中' : 'まだ閲覧履歴はありません'}</QuietEmpty>}
-              {pendingHistory && historyRows.length ? <QuietEmpty>完全版データを確認中</QuietEmpty> : null}
+              <SectionHeading title="閲覧履歴" subtitle="読んだ知恵を、種類ごとに振り返る" />
+              <View accessibilityRole="tablist" accessibilityLabel="閲覧履歴の種類" style={styles.historyTabs}>{([{ kind: 'technique', name: '処世術' }, { kind: 'theory', name: '理論' }, { kind: 'feature', name: '特集' }] as const).map(item => <Pressable key={item.kind} accessibilityRole="tab" accessibilityLabel={item.name} aria-selected={historyKind === item.kind} accessibilityState={{ selected: historyKind === item.kind }} onPress={() => { setHistoryKind(item.kind); setHistoryLimit(20); }} style={[styles.historyTab, historyKind === item.kind && styles.historyTabSelected]}><AppText style={[styles.historyTabText, historyKind === item.kind && styles.historyTabTextSelected]}>{item.name}</AppText></Pressable>)}</View>
+              {historyRows.length ? historyRows.slice(0, historyLimit).map(row => <PersonalContentCard key={row.kind + row.id} row={row} onPress={() => openRow(row)} />)
+                : <QuietEmpty>{pendingHistory ? '完全版データを確認中' : historyKind === 'feature' && featureHistoryIds.length > 0 ? featuresLoading ? '特集を確認中' : featuresError ? '特集を読み込めませんでした。通信環境をご確認ください。' : '閲覧した特集は現在公開されていません' : 'まだ閲覧履歴はありません'}</QuietEmpty>}
+              <MoreCards remaining={historyRows.length - historyLimit} onPress={() => setHistoryLimit(value => value + 20)} />
             </>
           ) : tab === 'library' ? (
             <LibraryContent />
           ) : (
             <>
               <SectionHeading title="マイ処世術" subtitle="自分の言葉で残した処世術" actionLabel="＋ 作る" onAction={() => openMemoEditor()} />
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.folderTabs}>
-                <FolderButton label="すべて" selected={folderFilter === 'all'} onPress={() => setFolderFilter('all')} />
-                <FolderButton label="未整理" selected={folderFilter === 'unfiled'} onPress={() => setFolderFilter('unfiled')} />
-                {personalMemoFolders.map((folder) => <FolderButton key={folder.id} label={folder.name} selected={folderFilter === folder.id} onPress={() => setFolderFilter(folder.id)} />)}
-                <Pressable accessibilityRole="button" accessibilityLabel="フォルダーを追加" onPress={() => { setFolderDraft(''); setFolderEditing(true); }} style={styles.folderAdd}><AppText style={styles.folderAddText}>＋ フォルダー</AppText></Pressable>
-                {folderFilter !== 'all' && folderFilter !== 'unfiled' ? <Pressable accessibilityRole="button" accessibilityLabel="選択中のフォルダーを削除" onPress={() => { deletePersonalMemoFolder(folderFilter); setFolderFilter('unfiled'); }} style={styles.folderAdd}><AppText style={styles.folderDeleteText}>フォルダーを削除</AppText></Pressable> : null}
-              </ScrollView>
-              {visibleMemos.length ? visibleMemos.map((memo) => (
-                <Pressable key={memo.id} accessibilityRole="button" accessibilityLabel={`${memo.text}を編集`} onPress={() => openMemoEditor(memo)} style={({ pressed }) => [styles.listRow, pressed && styles.rowPressed]}>
-                  <View style={styles.rowCopy}>
-                    <AppText style={styles.memoMeta}>{formatMemoDate(memo.createdAt)}　{personalMemoFolders.find((folder) => folder.id === memo.folderId)?.name ?? '未整理'}</AppText>
-                    <AppText numberOfLines={2} style={styles.rowTitle}>{memo.text}</AppText>
-                  </View>
-                  <AppText style={styles.rowArrow}>›</AppText>
-                </Pressable>
-              )) : <QuietEmpty>まだマイ処世術はありません</QuietEmpty>}
+              <Pressable accessibilityRole="button" accessibilityLabel="フォルダーを追加" onPress={() => { setFolderDraft(''); setFolderEditing(true); }} style={styles.folderAdd}><AppText style={styles.folderAddText}>＋ フォルダー</AppText></Pressable>
+              {folderFilter === null ? <FolderFronts folders={memoFolders} label="マイ処世術" onOpen={openMemoFolder} /> : <>
+                <FolderBack onPress={() => openMemoFolder(null)} />
+                <View style={styles.sectionHeading}><AppText style={styles.sectionTitle}>{memoFolders.find(folder => folder.id === folderFilter)?.name} · {visibleMemos.length}件</AppText>{folderFilter !== 'all' && folderFilter !== 'unfiled' ? <Pressable accessibilityRole="button" accessibilityLabel="選択中のフォルダーを削除" onPress={() => { deletePersonalMemoFolder(folderFilter); openMemoFolder('unfiled'); }} style={styles.folderAdd}><AppText style={styles.folderDeleteText}>削除</AppText></Pressable> : null}</View>
+                {visibleMemos.length ? visibleMemos.slice(0, memoLimit).map(memo => <Pressable key={memo.id} accessibilityRole="button" accessibilityLabel={memo.text + 'を編集'} onPress={() => openMemoEditor(memo)} style={({ pressed }) => [styles.listRow, pressed && styles.rowPressed]}><View style={styles.memoAccent}><AppText style={styles.memoAccentText}>✎</AppText></View><View style={styles.rowCopy}><AppText style={styles.memoMeta}>{formatMemoDate(memo.createdAt)}　{personalMemoFolders.find(folder => folder.id === memo.folderId)?.name ?? '未整理'}</AppText><AppText numberOfLines={2} style={styles.rowTitle}>{memo.text}</AppText></View><AppText style={styles.rowArrow}>›</AppText></Pressable>) : <QuietEmpty>このフォルダーはまだ空です</QuietEmpty>}
+                <MoreCards remaining={visibleMemos.length - memoLimit} onPress={() => setMemoLimit(value => value + 20)} />
+              </>}
             </>
           )}
         </View>
@@ -209,7 +220,7 @@ export default function MyPageContent() {
           <TextInput maxLength={32} value={folderDraft} onChangeText={setFolderDraft} accessibilityLabel="フォルダー名" style={styles.folderInput} />
           <View style={styles.modalActions}>
             <Pressable accessibilityRole="button" onPress={() => setFolderEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
-            <Pressable accessibilityRole="button" disabled={!folderDraft.trim()} onPress={() => { const id = createPersonalMemoFolder(folderDraft); if (id) { setFolderFilter(id); setFolderEditing(false); } }} style={[styles.save, !folderDraft.trim() && styles.saveDisabled]}><AppText style={styles.saveText}>作成する</AppText></Pressable>
+            <Pressable accessibilityRole="button" disabled={!folderDraft.trim()} onPress={() => { const id = createPersonalMemoFolder(folderDraft); if (id) { openMemoFolder(id); setFolderEditing(false); } }} style={[styles.save, !folderDraft.trim() && styles.saveDisabled]}><AppText style={styles.saveText}>作成する</AppText></Pressable>
           </View>
         </View></View>
       </Modal>
@@ -224,13 +235,13 @@ function suggestedName(email?: string | null) {
 
 function resolveTechnique(id: string): ContentRow | null {
   const card = techniqueById.get(id);
-  return card ? { kind: 'technique', id: card.id, label: card.categoryName, title: card.title, description: card.essence || card.subtitle || card.subcategory } : null;
+  return card ? { kind: 'technique', id: card.id, category: card.categoryKey, label: card.categoryName, title: card.title, description: card.essence || card.subtitle || card.subcategory } : null;
 }
 
 function resolveTheory(id: string): ContentRow | null {
   const theory = theoryById.get(id);
   return theory && !isLockedTheoryShell(theory)
-    ? { kind: 'theory', id: theory.tagId, label: '理論', title: theory.title, description: theory.summary || theory.categoryTitle }
+    ? { kind: 'theory', id: theory.tagId, category: theory.categoryId, label: theory.categoryTitle, title: theory.title, description: theory.summary || theory.categoryTitle }
     : null;
 }
 
@@ -243,15 +254,12 @@ function ProfileMark({ avatarUrl }: { avatarUrl?: string | null }) {
 }
 
 function TabButton({ label, icon, selected, onPress }: { label: string; icon: string; selected: boolean; onPress: () => void }) {
-  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} aria-selected={selected} onPress={onPress} style={({ pressed }) => [styles.tab, selected && styles.tabSelected, pressed && styles.pressed]}><AppText style={[styles.tabIcon, selected && styles.tabIconSelected]}>{icon}</AppText><AppText numberOfLines={1} style={[styles.tabLabel, selected && styles.tabLabelSelected]}>{label}</AppText></Pressable>;
+  const tone = label === '閲覧履歴' ? '#267261' : label === '蔵書' ? '#4666A0' : '#B35A38';
+  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} aria-selected={selected} onPress={onPress} style={({ pressed }) => [styles.tab, { backgroundColor: tone + '16' }, selected && [styles.tabSelected, { backgroundColor: tone, borderBottomColor: tone }], pressed && styles.pressed]}><AppText style={[styles.tabIcon, selected && styles.tabIconSelected]}>{icon}</AppText><AppText numberOfLines={1} style={[styles.tabLabel, selected && styles.tabLabelSelected]}>{label}</AppText></Pressable>;
 }
 
 function SectionHeading({ title, subtitle, actionLabel, onAction }: { title: string; subtitle: string; actionLabel?: string; onAction?: () => void }) {
   return <View style={styles.sectionHeading}><View style={styles.sectionCopy}><AppText style={styles.sectionTitle}>{title}</AppText><AppText style={styles.sectionSubtitle}>{subtitle}</AppText></View>{actionLabel && onAction ? <Pressable accessibilityRole="button" accessibilityLabel={actionLabel} onPress={onAction} style={({ pressed }) => [styles.sectionAction, pressed && styles.pressed]}><AppText style={styles.sectionActionText}>{actionLabel}</AppText></Pressable> : null}</View>;
-}
-
-function ContentListRow({ row, onPress }: { row: ContentRow; onPress: () => void }) {
-  return <Pressable accessibilityRole="button" accessibilityLabel={`${row.title}を開く`} onPress={onPress} style={({ pressed }) => [styles.listRow, pressed && styles.rowPressed]}><View style={styles.rowCopy}><AppText style={[styles.categoryLabel, row.kind === 'theory' && styles.theoryLabel]}>{row.label}</AppText><AppText numberOfLines={2} style={styles.rowTitle}>{row.title}</AppText><AppText numberOfLines={1} style={styles.rowDescription}>{row.description}</AppText></View><AppText style={styles.rowArrow}>›</AppText></Pressable>;
 }
 
 function FolderButton({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
@@ -308,6 +316,11 @@ const styles = StyleSheet.create({
   tabIconSelected: { color: colors.goldLight },
   tabLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   tabLabelSelected: { color: colors.white },
+  historyTabs: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  historyTab: { flex: 1, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 12, borderWidth: 1, borderColor: '#CCDCD4', backgroundColor: '#EBF5F0' },
+  historyTabSelected: { backgroundColor: '#267261', borderColor: '#267261' },
+  historyTabText: { color: '#267261', fontSize: 13, fontWeight: '600' }, historyTabTextSelected: { color: '#FFFFFF' },
+  memoAccent: { width: 38, height: 48, borderRadius: 9, backgroundColor: '#F9DDCE', alignItems: 'center', justifyContent: 'center' }, memoAccentText: { color: '#B35A38', fontSize: 24 },
   tabContent: { marginTop: spacing.lg },
   sectionHeading: { minHeight: 62, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   sectionCopy: { flex: 1, minWidth: 0 },
