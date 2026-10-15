@@ -80,7 +80,7 @@ export function getLegalDocuments(channel: 'web' | 'ios' = 'web'): Record<LegalD
       title: '利用規約', lead: `バージョン${TERMS_VERSION}／${LEGAL_REVISED_DATE}改定。今回の改定は公開日から適用し、過去の購入条件を遡って不利益に変更しません。`,
       sections: [
         { title: '1. 適用・契約成立', paragraphs: [
-          '本規約は大南翼（屋号：禄ブランド）が提供する「処世術禄」の利用条件を定めます。個人情報の取扱いはプライバシーポリシーに従います。アカウント登録・購入に際して、表示された条件を確認してください。',
+          '本規約は、末尾の「運営者・お問い合わせ」に記載する運営者が提供する「処世術禄」の利用条件を定めます。個人情報の取扱いはプライバシーポリシーに従います。アカウント登録・購入に際して、表示された条件を確認してください。',
           '完全版の購入契約は、利用者が購入内容を確認して申し込み、決済が成功した時点で、当該購入画面・確認画面・本規約・特商法表示に示す条件で成立します。Apple購入にはAppleが提示する適用条件も従います。',
         ] },
         { title: '2. アカウント・未成年者', paragraphs: [
@@ -116,7 +116,7 @@ export function getLegalDocuments(channel: 'web' | 'ios' = 'web'): Record<LegalD
     'terms-history': { title: '利用規約の履歴', lead: '購入時点の条件を確認するための旧版です。現在の購入条件ではありません。', sections: channel === 'ios' ? [...iosTermsHistory, ...termsHistory] : termsHistory },
     commerce: {
       title: '特定商取引法に基づく表記', lead: `「処世術禄 完全版｜30日間アクセス」の販売条件。${LEGAL_REVISED_DATE}改定（公開日から適用）。`,
-      sections: [contact,
+      sections: [
         { title: '商品・価格・追加費用', paragraphs: [
           '商品：処世術禄 完全版｜30日間アクセス。数量：アクセス1件。価格：320円（税込、日本）。デジタル提供のため送料なし。通信料金・インターネット接続料金は購入者負担です。',
           '一回払い・自動更新なし。期間終了後の追加課金はありません。有効な完全版を利用中の場合は重ねて購入する必要はありません。',
@@ -132,6 +132,7 @@ export function getLegalDocuments(channel: 'web' | 'ios' = 'web'): Record<LegalD
           '購入前に無料版で表示・操作を確認してください。端末・OS・ブラウザ・通信環境・外部サービスにより一部機能が使えない場合があります。将来の全環境への対応を保証しませんが、契約上・法令上必要な対応を免除するものではありません。',
         ] },
         { title: '提供終了・購入条件の保存', paragraphs: [serviceEnd, '購入時の規約は履歴として保存します。終了時にも、既存取引への対応と法令上必要な範囲で購入条件・連絡窓口を案内します。'] },
+        contact,
       ],
     },
     faq: { title: '購入・完全版 FAQ', lead: '価格・利用期間・復元・返金・データの取扱い。', sections: [

@@ -110,11 +110,24 @@ type SlideShellProps = {
   desktop: boolean;
   testID: string;
   tone?: 'paper' | 'dark' | 'navy';
+  onPress: () => void;
+  label: string;
 };
 
-function SlideShell({ children, desktop, testID, tone = 'paper' }: SlideShellProps) {
+function SlideShell({ children, desktop, testID, tone = 'paper', onPress, label }: SlideShellProps) {
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const draggedAt = useRef(0);
   return (
-    <View
+    <Pressable
+      accessibilityRole="link"
+      accessibilityLabel={label}
+      accessible={Platform.OS === 'web' || testID !== 'home-brand-slide-4'}
+      onTouchStart={(event) => { touch.current = getTouchPoint(event); }}
+      onTouchMove={(event) => {
+        const point = getTouchPoint(event);
+        if (touch.current && Math.hypot(point.x - touch.current.x, point.y - touch.current.y) > 10) draggedAt.current = Date.now();
+      }}
+      onPress={() => { if (Date.now() - draggedAt.current > 500) onPress(); }}
       testID={testID}
       style={[
         styles.slide,
@@ -124,28 +137,21 @@ function SlideShell({ children, desktop, testID, tone = 'paper' }: SlideShellPro
       ]}
     >
       {children}
-    </View>
+    </Pressable>
   );
 }
 
-function Cta({ label, onPress, dark = false, compact = false, centered = false, testID }: { label: string; onPress: () => void; dark?: boolean; compact?: boolean; centered?: boolean; testID?: string }) {
-  return (
-    <Pressable
-      accessibilityRole="link"
-      accessibilityLabel={label.replace(/\s*→$/, '')}
-      testID={testID}
-      onPress={onPress}
-      style={({ pressed }) => [styles.cta, compact && styles.ctaCompact, centered && styles.ctaCentered, dark && styles.ctaDark, pressed && styles.pressed]}
-    >
-      <Text style={[styles.ctaText, compact && styles.ctaTextCompact, dark && styles.ctaTextDark]}>{label}</Text>
-    </Pressable>
-  );
+// The whole slide owns the primary link; its CTA is a visual label.
+function Cta({ label, dark = false, compact = false, centered = false, testID }: { label: string; dark?: boolean; compact?: boolean; centered?: boolean; testID?: string }) {
+  return <View testID={testID} style={[styles.cta, compact && styles.ctaCompact, centered && styles.ctaCentered, dark && styles.ctaDark]}>
+    <Text style={[styles.ctaText, compact && styles.ctaTextCompact, dark && styles.ctaTextDark]}>{label}</Text>
+  </View>;
 }
 
 export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; desktop: boolean }) {
   const router = useRouter();
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-1" tone="dark">
+    <SlideShell desktop={desktop} testID="home-brand-slide-1" tone="dark" label={`${card.title}を読む`} onPress={() => router.push(techniqueRoute(card.id))}>
       <Image source={techniqueImage} resizeMode="cover" accessibilityLabel="静かな部屋で、得意分野について相談する二人" style={styles.fullImage} />
       <View style={styles.techniqueShade} />
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
@@ -168,7 +174,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
         <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
-          <Cta label="読む →" dark compact={!desktop} onPress={() => router.push(techniqueRoute(card.id))} testID="home-brand-technique-cta" />
+          <Cta label="読む →" dark compact={!desktop} testID="home-brand-technique-cta" />
         </View>
       </View>
     </SlideShell>
@@ -178,7 +184,7 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
 export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; desktop: boolean }) {
   const router = useRouter();
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-2">
+    <SlideShell desktop={desktop} testID="home-brand-slide-2" label={`${persona.name}の人物像を見る`} onPress={() => router.push(personaRoute(persona.categoryKey, persona.name))}>
       <Image source={personaImage} resizeMode="cover" accessibilityLabel="和紙と墨で描いた人物像の横顔" style={styles.fullImage} />
       <View style={[styles.paperCopy, !desktop && styles.paperCopyMobile]}>
         <Text testID="home-brand-persona-domain" style={styles.goldEyebrow}>人物像｜{persona.categoryName}</Text>
@@ -191,7 +197,6 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
         <Cta
           label="人物像を見る　→"
           compact={!desktop}
-          onPress={() => router.push(personaRoute(persona.categoryKey, persona.name))}
           testID="home-brand-persona-cta"
         />
       </View>
@@ -206,7 +211,7 @@ function firstDefinitionSentence(summary: string) {
 export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: TheoryCard; domainLabel: string; desktop: boolean }) {
   const router = useRouter();
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-3" tone="navy">
+    <SlideShell desktop={desktop} testID="home-brand-slide-3" tone="navy" label={`${theory.title}の理論を見る`} onPress={() => router.push(theoryRoute(theory.tagId))}>
       <View style={styles.theoryFrame} />
       <View style={[styles.theoryCopy, !desktop && styles.theoryCopyMobile]}>
         <View style={styles.theoryMetaRow}>
@@ -219,7 +224,7 @@ export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: Theo
         <HeroTitle title={theory.title} desktop={desktop} mobileSize={22} style={[styles.theoryTitle, ...(desktop ? [] : [styles.theoryTitleMobile])]} />
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
         <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
-        <Cta label="理論を見る　→" dark compact={!desktop} centered onPress={() => router.push(theoryRoute(theory.tagId))} testID="home-brand-theory-cta" />
+        <Cta label="理論を見る　→" dark compact={!desktop} centered testID="home-brand-theory-cta" />
       </View>
     </SlideShell>
   );
@@ -231,7 +236,7 @@ function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem
       accessibilityRole="link"
       accessibilityLabel={`${item.title}を開く`}
       testID={`home-brand-map-theory-${index + 1}`}
-      onPress={onPress}
+      onPress={(event) => { event.stopPropagation(); onPress(); }}
       style={({ pressed }) => [styles.theoryNode, compact && styles.theoryNodeMobile, pressed && styles.pressed]}
     >
       <View accessibilityElementsHidden style={[styles.theoryNodeEdge, compact && styles.theoryNodeEdgeMobile]} />
@@ -261,7 +266,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
     ? techniqueRoute(techniqueId)
     : upgradeRoute('discover_technique');
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-4">
+    <SlideShell desktop={desktop} testID="home-brand-slide-4" label={`${techniqueTitle}を開く`} onPress={() => router.push(techniqueDestination)}>
       <Image source={lineageImage} resizeMode="cover" accessibilityLabel="和紙に細い金線で描いた知識の系譜" style={styles.fullImage} />
       <View accessibilityElementsHidden style={[styles.paperTextureWash, styles.mapTextureWash]} />
       <View style={[styles.mapContent, !desktop && styles.mapContentMobile]}>
@@ -276,7 +281,7 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             accessibilityRole="link"
             accessibilityLabel={`${techniqueTitle}を開く`}
             testID="home-brand-map-technique-cta"
-            onPress={() => router.push(techniqueDestination)}
+            onPress={(event) => { event.stopPropagation(); router.push(techniqueDestination); }}
             style={({ pressed }) => [styles.mapTechnique, !desktop && styles.mapTechniqueMobile, pressed && styles.pressed]}
           >
             <View accessibilityElementsHidden style={[styles.mapTechniqueInnerFrame, !desktop && styles.mapTechniqueInnerFrameMobile]} />
@@ -333,7 +338,7 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
     { value: counts.theories, label: '理論', note: '背景の原理まで深く読む' },
   ];
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-5">
+    <SlideShell desktop={desktop} testID="home-brand-slide-5" label="処世術禄の体系を見る" onPress={() => router.push(APP_ROUTES.personas)}>
       <Image source={systemImage} resizeMode="cover" accessibilityLabel="和紙に描かれた知識地図と山並み" style={styles.fullImage} />
       <View accessibilityElementsHidden style={styles.paperTextureWash} />
       <View style={[styles.systemContent, !desktop && styles.systemContentMobile]}>
@@ -353,7 +358,7 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
             </View>
           ))}
         </View>
-        <Cta label="体系を見る　→" compact={!desktop} centered={!desktop} onPress={() => router.push(APP_ROUTES.personas)} testID="home-brand-system-cta" />
+        <Cta label="体系を見る　→" compact={!desktop} centered={!desktop} testID="home-brand-system-cta" />
       </View>
     </SlideShell>
   );
@@ -362,7 +367,7 @@ export function SystemMapSlide({ desktop, counts }: { desktop: boolean; counts: 
 export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts: { techniques: number; theories: number } }) {
   const router = useRouter();
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-6">
+    <SlideShell desktop={desktop} testID="home-brand-slide-6" label="完全版を見る" onPress={() => router.push(upgradeRoute('home_carousel'))}>
       <View style={[styles.premiumOrnament, !desktop && styles.premiumOrnamentMobile]} />
       <View style={[styles.premiumContent, !desktop && styles.premiumContentMobile]}>
         <View style={styles.premiumCopy}>
@@ -381,7 +386,7 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
           ) : (
             <Text style={styles.premiumMobileSummary}>{counts.techniques}処世術・{counts.theories}理論・全{COMPLETE_LEARNING_CASE_COUNT}ケース</Text>
           )}
-          <Cta label="完全版を見る　→" compact={!desktop} onPress={() => router.push(upgradeRoute('home_carousel'))} testID="home-brand-premium-cta" />
+          <Cta label="完全版を見る　→" compact={!desktop} testID="home-brand-premium-cta" />
         </View>
         <View style={[styles.premiumMarkWrap, !desktop && styles.premiumMarkWrapMobile]}>
           <Image source={completeMark} resizeMode="contain" accessibilityLabel="処世術禄完全版の禄マーク" style={[styles.premiumMark, !desktop && styles.premiumMarkMobile]} />
@@ -392,8 +397,9 @@ export function PremiumHeroSlide({ desktop, counts }: { desktop: boolean; counts
 }
 
 export function RokumaruSlide({ desktop }: { desktop: boolean }) {
+  const router = useRouter();
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-7">
+    <SlideShell desktop={desktop} testID="home-brand-slide-7" label="学ぶを開く" onPress={() => router.push(APP_ROUTES.learn)}>
       <View style={[styles.rokumaruHalo, !desktop && styles.rokumaruHaloMobile]} />
       <View style={[styles.rokumaruCopy, !desktop && styles.rokumaruCopyMobile]}>
         <Text style={styles.rokumaruEyebrow}>禄丸からひと言</Text>

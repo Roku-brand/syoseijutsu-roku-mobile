@@ -35,7 +35,7 @@ export default function LearnHomeScreen() {
       <Image source={guide} resizeMode="contain" accessibilityLabel="学びを案内する禄丸" testID="rokumaru-guide" style={[styles.guide, desktop && styles.guideDesktop]} />
       <View style={styles.heroCopy}>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.heroTitle, desktop && styles.heroTitleDesktop]}>処世術を習得しよう！</AppText>
-        <AppText style={styles.heroLead}>1問60秒。その場で活きる判断を、{'\n'}3つのステージで自分の力に。</AppText>
+        <AppText testID="learning-hero-lead" style={[styles.heroLead, desktop && styles.heroLeadDesktop]}>1問60秒。{'\n'}その場で活きる判断を、{'\n'}3つのステージで{!desktop ? '\n' : ''}自分の力に。</AppText>
       </View>
       <View style={[styles.bubble, desktop && styles.bubbleDesktop]}><AppText style={styles.bubbleText}>今日はどこから{'\n'}始める？</AppText></View>
     </View>
@@ -85,8 +85,9 @@ const styles = StyleSheet.create({
   heroCopy: { zIndex: 1 },
   heroTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, fontWeight: '700', letterSpacing: 0 },
   heroTitleDesktop: { fontSize: 36, lineHeight: 52 },
-  heroLead: { marginTop: 9, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 24 },
-  guide: { position: 'absolute', width: 260, height: 194, right: -12, bottom: -4 },
+  heroLead: { marginTop: 14, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 27 },
+  heroLeadDesktop: { marginTop: 18, fontSize: 20, lineHeight: 34 },
+  guide: { position: 'absolute', width: '48%', height: 166, right: 0, bottom: -4 },
   guideDesktop: { width: 430, height: 290, right: 20 },
   bubble: { position: 'absolute', right: 13, top: 65, paddingHorizontal: 12, paddingVertical: 8, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: radius.md, backgroundColor: colors.surface, zIndex: 2 },
   bubbleDesktop: { top: 28, right: 35 },
