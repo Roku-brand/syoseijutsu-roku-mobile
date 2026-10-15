@@ -27,7 +27,9 @@ async function mockFeatures(page: Page, owner = false) {
     if (path.endsWith('/profiles')) return route.fulfill({ json: { role: owner ? 'owner' : 'user', display_name: '検証利用者' } });
     if (path.endsWith('/feature_articles')) return route.fulfill({ json: url.searchParams.has('status') ? articles.filter((row: any) => row.status === 'published') : articles });
     if (path.endsWith('/feature_article_drafts')) return route.fulfill({ json: drafts });
-    if (path.endsWith('/editorial_characters')) return route.fulfill({ json: url.searchParams.has('status') ? characters.filter(row => row.status === 'published') : characters });
+    if (path.endsWith('/editorial_characters')) return route.fulfill({ json: characters
+      .filter(item => !url.searchParams.has('status') || item.status === 'published')
+      .sort((left, right) => left.display_order - right.display_order || left.id.localeCompare(right.id)) });
     if (path.endsWith('/save_editorial_character')) {
       const params = route.request().postDataJSON();
       const existing = characters.find(row => row.id === params.target_id);
