@@ -91,6 +91,9 @@ write('src/data/generated/theory-subcategories.json', sections);
 write('src/data/generated/techniques.json', techniqueTree);
 write('src/data/generated/comprehensive-theory-links.json', comprehensive);
 write('src/data/content-scope.json', scope);
+// Keep the review counts and human-readable link inventory in step with the
+// added relationships, using the same generator as the release audit.
+await import('./optimize-master336-theory-links.mjs');
 
 const q = s => s == null ? 'null' : "'" + String(s).replaceAll("'", "''") + "'";
 const json = v => q(JSON.stringify(v)) + '::jsonb';
