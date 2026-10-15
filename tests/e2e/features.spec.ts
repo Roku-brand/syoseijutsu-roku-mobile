@@ -116,9 +116,9 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
   await expect(page.getByTestId('feature-body')).toContainText(initial[2].body.split('\n\n')[1]);
   await expect(page.getByRole('heading', { name: initial[2].title, exact: true })).toBeVisible();
   await expect(page).toHaveTitle(`${initial[2].title}｜処世術禄`);
-  await page.getByTestId('feature-article').getByTestId('feature-save-meta-comments').click();
+  await page.getByTestId('book-header').getByRole('button', { name: '蔵書に保存', exact: true }).click();
   await page.reload();
-  await expect(page.getByTestId('feature-save-meta-comments')).toContainText('保存済み');
+  await expect(page.getByTestId('book-header').getByRole('button', { name: '蔵書から外す', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/library');
   await expect(page.getByText(initial[2].title, { exact: true })).toBeVisible();
   await page.getByText(initial[2].title, { exact: true }).click();

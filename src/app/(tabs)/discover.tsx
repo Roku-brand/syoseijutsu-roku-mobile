@@ -39,7 +39,7 @@ export default function DiscoverScreen() {
       <View style={[styles.search, compact && styles.searchCompact]} testID="discover-search">
         <SearchMark size={compact ? 27 : 30} color={colors.gold} />
         <TextInput
-          accessibilityLabel="処世術・人物像・理論を検索"
+          accessibilityLabel="処世術・理論・特集を検索"
           testID="discover-search-input"
           value={query}
           onChangeText={setQuery}
@@ -47,11 +47,11 @@ export default function DiscoverScreen() {
           returnKeyType="search"
           autoCapitalize="none"
           autoCorrect={false}
-          placeholder="処世術・人物像・理論を探す"
+          placeholder="処世術・理論・特集を探す"
           placeholderTextColor="#898680"
           style={[styles.searchInput, compact && styles.searchInputCompact, narrow && styles.searchInputNarrow]}
         />
-        <Pressable accessibilityRole="button" accessibilityLabel="処世術・人物像・理論を検索" testID="discover-search-submit" onPress={() => openSearch()} style={({ pressed }) => [styles.searchSubmit, pressed && styles.pressed]}>
+        <Pressable accessibilityRole="button" accessibilityLabel="処世術・理論・特集を検索" testID="discover-search-submit" onPress={() => openSearch()} style={({ pressed }) => [styles.searchSubmit, pressed && styles.pressed]}>
           <AppText style={styles.searchSubmitText}>検索</AppText>
         </Pressable>
       </View>
