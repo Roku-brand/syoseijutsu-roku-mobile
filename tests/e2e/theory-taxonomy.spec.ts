@@ -42,7 +42,7 @@ test('別名を全件検索し、旧ディープリンクを同じ正本へ解�
  await page.goto('/theory/kb_418');
  await expect(page.getByTestId('theory-title')).toContainText('アクティブ・コンストラクティブ・レスポンディング');
  await page.goto('/theory/kb_001');await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
- await page.goto('/theory/kb_002');await expect(page.getByTestId('theory-title')).toHaveText('親近効果');
+ await page.goto('/theory/kb_002');await expect(page.getByTestId('theory-title')).toHaveText('新近効果');
 });
 test('保存した旧IDを復元し、同義語の重複保存を解消する',async({page})=>{
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{message:'offline fallback'}}));
@@ -61,7 +61,8 @@ test('CMSが内部分類で絞り込み、選択・順番・分類管理を編�
  await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue(String(rows.find((t:any)=>t.title==='プロスペクト理論').sortOrder));
  await expect(page.getByRole('button',{name:'内部分類：意思決定・選択',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.getByRole('button',{name:'内部分類を管理',exact:true}).nth(1).click();
- await page.getByRole('button',{name:'＋ 内部分類',exact:true}).click();
+ await expect(page.getByRole('button',{name:'＋ 内部分類',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'意思決定・選択',exact:true}).last().click();
  await expect(page.getByRole('textbox',{name:'内部分類名',exact:true})).toBeVisible();
  await expect(page.locator('#roku-launch')).toBeHidden();
  await page.screenshot({path:test.info().outputPath('theory-taxonomy-cms.png'),fullPage:true});

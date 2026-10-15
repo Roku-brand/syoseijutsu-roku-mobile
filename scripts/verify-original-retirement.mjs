@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { pathToFileURL } from 'node:url';
+const {PGlite}=process.argv[2] ? await import(pathToFileURL(process.argv[2]).href) : await import('@electric-sql/pglite');
+const b=JSON.parse(fs.readFileSync('tests/fixtures/theory-reform-catalog-before.json','utf8'));
+const file=fs.readdirSync('supabase/migrations').find(f=>f.endsWith('_retire_original_maxims.sql'));
+const sql=fs.readFileSync('supabase/migrations/'+file,'utf8');
+const db=new PGlite();
+const q=x=>"'"+JSON.stringify(x).replaceAll("'","''")+"'::jsonb";
+const retired=new Set(b.theories.filter(t=>t.provenance?.status==='オリジナル').map(t=>t.id));
+try{
+ await db.exec(`set timezone='UTC';create role anon;create role authenticated;create role service_role;create schema private;
+ create function public.can_read_complete_content() returns boolean language sql as 'select false';
+ create table public.content_categories(kind text,id text,title text,display_order integer,updated_at timestamptz);
+ create table public.theory_subcategories(id text primary key,category_id text,title text,display_order integer);
+ create table public.theories(id text primary key,title text,summary text,category_id text,category_title text,aliases jsonb,related_theory_ids jsonb,status text,display_order integer,updated_at timestamptz,updated_by uuid,provenance jsonb,image_path text,draft_technique_ids jsonb,access_tier text,display_id integer,draft_display_id integer,subcategory_id text,taxonomy_order integer,canonical_id text,legacy_ids jsonb);
+ create table public.techniques(id text primary key,persona_id text,category text,title text,essence text,explanation text,memo text,importance smallint,practices jsonb,examples jsonb,cautions jsonb,theory_ids jsonb,status text,display_order integer,created_at timestamptz,updated_at timestamptz,updated_by uuid,primary_theory_ids jsonb,image_path text,tags jsonb,access_tier text,draft_display_order integer);
+ create table public.technique_drafts(technique_id text,snapshot jsonb);
+ create table public.popular_rankings(division text,content_ids jsonb check(jsonb_typeof(content_ids)='array' and jsonb_array_length(content_ids)=10));
+ create table public.feature_articles(related_theory_ids text[]);
+ create table public.feature_article_drafts(payload jsonb);
+ create table public.operation_social_posts(source_theory_id text);
+ create table public.paid_content(content_type text,content_id text,payload jsonb,sort_order integer,updated_at timestamptz,primary key(content_type,content_id));`);
+ for(const [name,data] of [['theories',b.theories],['techniques',b.techniques],['content_categories',b.categories],['theory_subcategories',b.subcategories]]) await db.exec(`insert into public.${name} select * from jsonb_populate_recordset(null::public.${name},${q(data)});`);
+ await db.exec(`insert into public.popular_rankings select x.division,x.content_ids from jsonb_to_recordset(${q(b.rankings)}) x(division text,content_ids jsonb);
+ create unique index theory_display on public.theories(category_id,display_id) where status='published';
+ create view public.public_theories as ${b.view};`);
+ for(const name of ['validate_theory_content','validate_theory_relations','sync_taxonomy_paid_theory']) await db.exec(b.functions.find(f=>f.name===name).definition);
+ await db.exec(`create trigger theory_content_integrity before insert or update on public.theories for each row execute function public.validate_theory_content();create trigger theory_relations_integrity before insert or update on public.theories for each row execute function public.validate_theory_relations();create trigger sync_canonical_paid_theory after insert or update on public.theories for each row execute function public.sync_taxonomy_paid_theory();insert into public.paid_content select 'theory',id,'{}',display_id,now() from public.theories where status='published' and access_tier='complete';`);
+ console.log((await db.query("select md5(string_agg((to_jsonb(t)-'updated_at'-'updated_by')::text,'|' order by id)) as fingerprint from public.theories t")).rows);
+ await db.exec('begin;update public.theories set title=title||\' CMS edit\' where id=\'kb_001\';');
+ await assert.rejects(db.exec(sql),/snapshot changed/);await db.exec('rollback;');
+ await db.exec('begin;'+sql+';commit;');
+ const after=(await db.query('select to_jsonb(t) as item from public.theories t order by id')).rows.map(r=>r.item);
+ assert.equal(after.filter(t=>t.status==='published').length,803);
+ assert.equal(after.filter(t=>retired.has(t.id)&&t.status==='archived').length,39);
+ assert.equal((await db.query("select jsonb_array_length(content_ids)::int n from public.popular_rankings where division='theory'")).rows[0].n,10);
+ assert.equal((await db.query('select count(*)::int n from public.theory_subcategories')).rows[0].n,36);
+ for(const t of after)if(!retired.has(t.id))assert.deepEqual(t,b.theories.find(x=>x.id===t.id),`Unrelated row must remain unchanged: ${t.id}`);
+ for(const t of (await db.query('select * from public.techniques')).rows){const old=b.techniques.find(x=>x.id===t.id);assert.deepEqual(t.theory_ids,old.theory_ids.filter(id=>!retired.has(id)));assert.deepEqual(t.primary_theory_ids,old.primary_theory_ids.filter(id=>!retired.has(id)));}
+ for(const t of after.filter(t=>retired.has(t.id))) await assert.rejects(db.query('update public.theories set status=\'draft\' where id=$1',[t.id]),/独自作成の名言/);
+ assert.equal((await db.query('select count(*)::int n from private.theory_reform_backups')).rows[0].n,b.theories.length+b.techniques.length+b.rankings.length+1);
+ console.log('Retirement passed: 39 archived, 803 published, 36 categories, stable/display IDs preserved, links removed, private backups, concurrent-edit rejection, republish rejected.');
+}catch(error){console.error(error.message);process.exitCode=1;}finally{await db.close();}

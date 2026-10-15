@@ -1,87 +1,80 @@
 {
   "reviewPolicy": "Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.",
   "techniques": 356,
-  "theories": 842,
-  "links": 1388,
-  "primaryLinks": 431,
-  "supplementaryLinks": 957,
-  "linkedTheories": 673,
-  "unlinkedTheories": 169,
+  "theories": 821,
+  "links": 1075,
+  "primaryLinks": 436,
+  "supplementaryLinks": 639,
+  "linkedTheories": 526,
+  "unlinkedTheories": 295,
   "minimumLinksPerTechnique": 1,
-  "maximumLinksPerTechnique": 30,
+  "maximumLinksPerTechnique": 27,
   "distribution": {
-    "1": 68,
-    "2": 72,
-    "3": 81,
-    "4": 33,
-    "5": 29,
-    "6": 17,
-    "7": 17,
-    "8": 16,
-    "9": 4,
-    "10": 5,
-    "11": 5,
-    "12": 2,
-    "13": 2,
-    "14": 1,
-    "18": 1,
-    "27": 2,
-    "30": 1
+    "1": 92,
+    "2": 85,
+    "3": 84,
+    "4": 29,
+    "5": 27,
+    "6": 10,
+    "7": 14,
+    "8": 9,
+    "9": 2,
+    "10": 1,
+    "12": 1,
+    "13": 1,
+    "27": 1
   },
   "primaryDistribution": {
-    "1": 281,
-    "2": 75
+    "0": 1,
+    "1": 274,
+    "2": 81
   },
   "supplementaryDistribution": {
-    "0": 84,
-    "1": 77,
-    "2": 67,
-    "3": 33,
-    "4": 24,
-    "5": 24,
+    "0": 117,
+    "1": 81,
+    "2": 70,
+    "3": 32,
+    "4": 19,
+    "5": 14,
     "6": 13,
-    "7": 14,
-    "8": 2,
-    "9": 4,
-    "10": 5,
-    "11": 3,
-    "12": 2,
-    "17": 1,
-    "25": 1,
-    "26": 1,
-    "28": 1
+    "7": 5,
+    "8": 1,
+    "9": 1,
+    "10": 1,
+    "11": 1,
+    "25": 1
   },
-  "wisdomSupportLinks": 175,
+  "wisdomSupportLinks": 157,
   "categoryCoverage": {
     "psychology": {
       "theories": 349,
-      "linkedTheories": 268,
-      "links": 577
+      "linkedTheories": 217,
+      "links": 460
     },
     "behavioral-science": {
       "theories": 114,
-      "linkedTheories": 70,
-      "links": 124
+      "linkedTheories": 40,
+      "links": 61
     },
     "organization-management": {
       "theories": 131,
-      "linkedTheories": 110,
-      "links": 210
+      "linkedTheories": 81,
+      "links": 147
     },
     "strategy": {
       "theories": 94,
-      "linkedTheories": 87,
-      "links": 153
+      "linkedTheories": 63,
+      "links": 105
     },
     "practical-wisdom": {
-      "theories": 82,
-      "linkedTheories": 67,
-      "links": 121
+      "theories": 43,
+      "linkedTheories": 38,
+      "links": 87
     },
     "classics-thought": {
-      "theories": 72,
-      "linkedTheories": 71,
-      "links": 203
+      "theories": 90,
+      "linkedTheories": 87,
+      "links": 215
     }
   },
   "practicalWisdomPolicy": "Only independently reviewed semantic matches; zero related techniques is valid.",

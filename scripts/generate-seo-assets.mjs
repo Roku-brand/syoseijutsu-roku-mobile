@@ -78,7 +78,7 @@ const escape = (value = '') => String(value).replaceAll('&', '&amp;').replaceAll
 function theorySeoCopy(item) {
   if (item.categoryId === 'practical-wisdom') return {
     title: `${item.title}の意味・読み解き`,
-    description: `${item.summary} 処世術禄オリジナルの実践知を、日常の経験と結びつけて読み解きます。`,
+    description: `${item.summary} 判断の原理や実務の手法を、日常の経験と結びつけて読み解きます。`,
     summaryHeading: 'この言葉の意味',
   };
   if (item.categoryId === 'classics-thought') return {

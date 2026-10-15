@@ -63,6 +63,9 @@ export type TheoryCard = {
   accessTier?: 'free' | 'complete';
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
   provenance?: TheoryProvenance;
+  knowledgeType?: KnowledgeType;
+  quotation?: TheoryQuotation;
+  relations?: TheoryRelation[];
 };
 
 export type TheoryProvenance = {
@@ -84,4 +87,18 @@ export type CatalogCategory = {
     displayOrder?: number;
     items: TechniqueSource[];
   }[];
+};
+
+export type KnowledgeType = 'unspecified' | 'theory' | 'principle' | 'phenomenon' | 'model' | 'method' | 'heuristic' | 'thought' | 'aphorism';
+export type TheoryQuotation = {
+  candidateId?: string; originalText: string; translationText: string; author: string;
+  authorDeathYear?: number | null; work: string; locator: string; publicationYear?: number | null;
+  originalLanguage?: string; translationKind: 'original_japanese' | 'independent_translation' | 'classical_transcription';
+  verification: 'pending' | 'verified' | 'rejected'; rightsStatus: 'pending' | 'cleared' | 'blocked';
+  rightsBasis: string; sourceUrls: string[]; checkedOn: string; contextNote?: string;
+};
+export type TheoryRelationType = 'contains' | 'explains' | 'applies' | 'contrasts' | 'complements' | 'related';
+export type TheoryRelation = {
+  sourceId: string; targetId: string; type: TheoryRelationType;
+  reviewStatus: 'draft' | 'confirmed' | 'legacy'; rationale: string; priority: number;
 };

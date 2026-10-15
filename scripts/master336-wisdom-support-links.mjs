@@ -1,10 +1,9 @@
-import fs from 'node:fs';
-const originals = JSON.parse(fs.readFileSync(new URL('../docs/content/practical-wisdom-originals.json', import.meta.url), 'utf8'));
 // 古典・名言は、現象を説明する「主要理論」としてではなく、処世術の
 // 結論・判断基準・実行理由を別の言葉で補強する「あわせて読む理論」として扱う。
 // 単語の一致ではなく、各組み合わせをカード単位で読み合わせた編集用データ。
+import reviews from '../docs/content/historical-maxims-audit-20261015.json' with { type: 'json' };
+import { workLinkChanges } from './reviewed-work-theory-links.mjs';
 export const wisdomSupportTechniqueIdsByTheoryId = {
-  ...Object.fromEntries(originals.map((item) => [item.tagId, item.relatedTechniqueIds])),
   kb_549: ['master336-171', 'master336-199', 'master336-275'],
   kb_468: ['master336-217', 'master336-220', 'master336-249'],
   kb_469: ['master336-105', 'master336-135', 'master336-220'],
@@ -52,3 +51,9 @@ export const wisdomSupportTechniqueIdsByTheoryId = {
 
   kb_702: ['master336-099', 'master336-135', 'master336-141', 'master336-278'],
 };
+for (const review of reviews.filter(r => r.decision !== 'hold')) {
+  wisdomSupportTechniqueIdsByTheoryId[review.theoryId] = [...new Set([...(wisdomSupportTechniqueIdsByTheoryId[review.theoryId] ?? []), ...review.relatedTechniqueIds])];
+}
+for (const change of workLinkChanges) for (const theoryId of change.remove) {
+  if (wisdomSupportTechniqueIdsByTheoryId[theoryId]) wisdomSupportTechniqueIdsByTheoryId[theoryId] = wisdomSupportTechniqueIdsByTheoryId[theoryId].filter(id => id !== change.id);
+}

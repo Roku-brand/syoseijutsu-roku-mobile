@@ -1,4 +1,5 @@
 import theoryRedirects from '../src/data/generated/theory-id-redirects.json' with { type: 'json' };
+import { workLinkChanges } from './reviewed-work-theory-links.mjs';
 
 // Curated, one-way source of truth for theory links in the master catalog.
 // The original 336 IDs remain immutable; additions continue the same sequence.
@@ -78,6 +79,10 @@ export const master336PrimaryTheoryLinks = Object.fromEntries(
     [...new Set(ids.map((id) => theoryRedirects[`kb_${id}`] ?? `kb_${id}`))],
   ]),
 );
+for (const change of workLinkChanges) master336PrimaryTheoryLinks[change.id] = change.primary;
+
+// Preserve the authoritative pre-reform CMS value; this card has no primary selection.
+master336PrimaryTheoryLinks['master336-072'] = [];
 
 // Backward-compatible name for older audit tools. It now intentionally means
 // the representative set, not the complete reading list.

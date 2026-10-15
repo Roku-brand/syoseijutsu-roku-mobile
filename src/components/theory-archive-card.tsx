@@ -43,8 +43,9 @@ export function TheoryArchiveCard({
           </View>
         </View>
 
-        <AppText variant="serif" style={styles.title}>{theory.title}</AppText>
-        {theory.summary ? (
+        <AppText variant="serif" style={styles.title}>{theory.quotation ? '「'+theory.quotation.translationText+'」' : theory.title}</AppText>
+        {theory.quotation ? <AppText style={styles.summary}>— {theory.quotation.author} · {theory.quotation.work}</AppText> : null}
+        {!theory.quotation && theory.summary ? (
           <AppText style={styles.summary}>
             {getTheoryCoverSummary(theory.summary)}
           </AppText>

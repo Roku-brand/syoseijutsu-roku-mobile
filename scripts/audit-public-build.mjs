@@ -1,7 +1,6 @@
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
-import { originalPracticalWisdomProvenance } from '../src/data/original-practical-wisdom.ts';
 import { isPublicCatalogIdentityField } from './public-catalog-identity.mjs';
 import { selectPublicContent } from './public-content-selection.mjs';
 
@@ -110,6 +109,11 @@ for (const theory of theories) {
     // show the complete relationship map. The summary and provenance remain
     // protected and must never enter the public bundle.
     collectTextFingerprints(theory.summary, `theory:${theory.tagId}.summary`, fingerprints);
+    collectTextFingerprints(theory.quotation, `theory:${theory.tagId}.quotation`, fingerprints, publicSourceTexts);
+    // Even a very short complete-edition saying is protected by the access boundary.
+    for (const field of ['originalText','translationText']) if (theory.quotation?.[field]) {
+      fingerprints.set(theory.quotation[field], `theory:${theory.tagId}.quotation.${field}`);
+    }
     collectTextFingerprints(theory.provenance, `theory:${theory.tagId}.provenance`, fingerprints, publicSourceTexts);
   }
 }
@@ -187,7 +191,7 @@ if (lockedPublicTheories.length !== theories.length - freeTheoryIds.size) {
 for (const shell of lockedPublicTheories) {
   // Only the exact, shared brand declaration is public metadata. Academic
   // sources, paid summaries, and extra provenance fields remain prohibited.
-  if (Object.hasOwn(shell, 'provenance') && !(shell.categoryId === 'practical-wisdom' && isDeepStrictEqual(shell.provenance, originalPracticalWisdomProvenance()))) throw new Error(`Paid provenance in public shell: ${shell.tagId}`);
+  if (Object.hasOwn(shell, 'provenance') || Object.hasOwn(shell, 'quotation') || Object.hasOwn(shell, 'relations')) throw new Error(`Paid provenance in public shell: ${shell.tagId}`);
   const canonical = theories.find((theory) => theory.tagId === shell.tagId);
   if (!canonical || shell.title !== canonical.title || shell.categoryId !== canonical.categoryId || shell.categoryTitle !== canonical.categoryTitle) {
     throw new Error(`Public theory title shell is not canonical: ${shell.tagId}`);
@@ -206,6 +210,10 @@ const bundleFiles = await Promise.all(files.map(async (filePath) => ({
   filePath,
   text: decodeBundleText(await readFile(filePath, 'utf8').catch(() => '')),
 })));
+const retired = JSON.parse(await readFile(path.join(root, 'docs/content/retired-original-maxims-20261015.json'), 'utf8'));
+for (const item of retired) for (const file of bundleFiles) if (file.text.includes(item.title)) {
+  throw new Error(`Retired maxim text in public build: ${item.id ?? item.tagId} ${path.relative(root,file.filePath)}`);
+}
 const candidates = [...fingerprints.entries()];
 const leaks = [];
 for (let index = 0; index < candidates.length; index += 120) {

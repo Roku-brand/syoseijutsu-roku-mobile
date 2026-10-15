@@ -26,6 +26,10 @@
               "primaryTheoryIds": [
                 "kb_003",
                 "kb_387"
+              ],
+              "theoryTagIds": [
+                "kb_003",
+                "kb_387"
               ]
             },
             {
@@ -45,6 +49,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_388"
+              ],
+              "theoryTagIds": [
+                "kb_388",
+                "kb_389"
               ]
             },
             {
@@ -66,6 +74,11 @@
               "primaryTheoryIds": [
                 "kb_023",
                 "kb_388"
+              ],
+              "theoryTagIds": [
+                "kb_023",
+                "kb_388",
+                "kb_480"
               ]
             },
             {
@@ -86,6 +99,10 @@
               "primaryTheoryIds": [
                 "kb_010",
                 "kb_387"
+              ],
+              "theoryTagIds": [
+                "kb_010",
+                "kb_387"
               ]
             },
             {
@@ -103,6 +120,9 @@
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_402"
+              ],
+              "theoryTagIds": [
                 "kb_402"
               ]
             },
@@ -122,6 +142,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012"
               ]
             },
             {
@@ -136,9 +159,7 @@
                 "kb_014",
                 "kb_015",
                 "kb_390",
-                "kb_391",
-                "kb_821",
-                "kb_823"
+                "kb_391"
               ],
               "subtitle": "「なんとなく合う」は、会話のリズムから生まれる。",
               "displayOrder": 7,
@@ -146,6 +167,12 @@
               "primaryTheoryIds": [
                 "kb_015",
                 "kb_390"
+              ],
+              "theoryTagIds": [
+                "kb_014",
+                "kb_015",
+                "kb_390",
+                "kb_391"
               ]
             },
             {
@@ -163,6 +190,9 @@
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_007"
+              ],
+              "theoryTagIds": [
                 "kb_007"
               ]
             },
@@ -186,6 +216,12 @@
               "primaryTheoryIds": [
                 "kb_008",
                 "kb_018"
+              ],
+              "theoryTagIds": [
+                "kb_008",
+                "kb_018",
+                "kb_412",
+                "kb_623"
               ]
             },
             {
@@ -198,9 +234,7 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_037",
-                "kb_038",
-                "kb_815",
-                "kb_816"
+                "kb_038"
               ],
               "subtitle": "好意も、相手より速く距離を詰めれば侵入になる。",
               "displayOrder": 10,
@@ -208,6 +242,10 @@
               "primaryTheoryIds": [
                 "kb_038",
                 "kb_037"
+              ],
+              "theoryTagIds": [
+                "kb_037",
+                "kb_038"
               ]
             },
             {
@@ -225,6 +263,9 @@
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_025"
+              ],
+              "theoryTagIds": [
                 "kb_025"
               ]
             },
@@ -244,6 +285,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_246"
+              ],
+              "theoryTagIds": [
+                "kb_246"
               ]
             },
             {
@@ -257,13 +301,17 @@
               "relatedTheoryIds": [
                 "kb_001",
                 "kb_003",
-                "kb_393",
-                "kb_740"
+                "kb_393"
               ],
               "subtitle": "人は「一言で何者か」が分かる人ほど覚えやすい。",
               "displayOrder": 13,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_393"
+              ],
+              "theoryTagIds": [
+                "kb_001",
+                "kb_003",
                 "kb_393"
               ]
             },
@@ -277,8 +325,7 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_002",
-                "kb_029",
-                "kb_739"
+                "kb_029"
               ],
               "subtitle": "最後の感情が、その人との時間全体を上書きする。",
               "displayOrder": 14,
@@ -286,6 +333,10 @@
               "primaryTheoryIds": [
                 "kb_029",
                 "kb_002"
+              ],
+              "theoryTagIds": [
+                "kb_002",
+                "kb_029"
               ]
             }
           ]
@@ -304,8 +355,7 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_013",
-                "kb_015",
-                "kb_821"
+                "kb_015"
               ],
               "subtitle": "会話の心地よさは、内容より「噛み合っている感覚」に宿る。",
               "displayOrder": 1,
@@ -313,6 +363,10 @@
               "primaryTheoryIds": [
                 "kb_015",
                 "kb_013"
+              ],
+              "theoryTagIds": [
+                "kb_013",
+                "kb_015"
               ]
             },
             {
@@ -333,6 +387,10 @@
               "primaryTheoryIds": [
                 "kb_413",
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012",
+                "kb_413"
               ]
             },
             {
@@ -345,13 +403,16 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_017",
-                "kb_413",
-                "kb_784"
+                "kb_413"
               ],
               "subtitle": "具体を聞くほど、ただの情報がその人だけの話になる。",
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_017",
+                "kb_413"
+              ],
+              "theoryTagIds": [
                 "kb_017",
                 "kb_413"
               ]
@@ -366,7 +427,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_407",
-                "kb_744",
                 "kb_952"
               ],
               "subtitle": "話題の多さより、一つを掘る方がその人らしさが見えてくる。",
@@ -374,6 +434,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_407"
+              ],
+              "theoryTagIds": [
+                "kb_407",
+                "kb_952"
               ]
             },
             {
@@ -395,6 +459,11 @@
               "primaryTheoryIds": [
                 "kb_404",
                 "kb_411"
+              ],
+              "theoryTagIds": [
+                "kb_404",
+                "kb_411",
+                "kb_928"
               ]
             },
             {
@@ -406,18 +475,15 @@
               "explanation": "「それって大変だった？」と尋ねるだけでは、相手が「うん」で終えてしまうことがある。問いだけを置くと、こちらは情報の受け手に回り、相手に説明の負担が残るからだ。一方で「もしかして、予定が崩れたことより周りに気を遣った方が疲れた？」と仮に置けば、こちらが話を材料に相手の内側まで考えていることが伝わる。正解かどうかより、理解しようと踏み込んだ痕跡が会話を深くする。\n仕事の愚痴を聞いていて、相手が「急に担当を変えられてさ」とこぼした場面なら、「なんで嫌だったの？」より「準備してた分、急に変えられたのが一番きつかった？」の方が返事は具体的になりやすい。「いや、そこじゃなくて、新しい担当者と合わないんだよ」と否定されても問題はない。その訂正自体が、相手の本当の引っかかりを示してくれる。仮定は答えを狭めるためではなく、説明を始めやすくする足場になる。\n会話で意識したいのは、質問数を増やすことではなく、聞く前に一度だけ自分なりの見立てを置くことだ。「もしかして〜？」「〜なのが嫌だった？」と差し出し、外れたら弁明せず「そっちなんだ」と相手の説明へ戻る。当てようとすると観察が採点に変わり、相手は理解される側ではなく見抜かれる側になる。仮説は結論ではなく、相手が自分の話を続けるための暫定的な入口として使う。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_407",
-                "kb_721",
-                "kb_789",
-                "kb_818",
-                "kb_856",
-                "kb_859",
-                "kb_860"
+                "kb_407"
               ],
               "subtitle": "質問は情報を求めるが、仮説は「理解しようとしている」を伝える。",
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_407"
+              ],
+              "theoryTagIds": [
                 "kb_407"
               ]
             },
@@ -437,6 +503,10 @@
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_008",
+                "kb_018"
+              ],
+              "theoryTagIds": [
                 "kb_008",
                 "kb_018"
               ]
@@ -460,6 +530,11 @@
               "primaryTheoryIds": [
                 "kb_008",
                 "kb_413"
+              ],
+              "theoryTagIds": [
+                "kb_008",
+                "kb_413",
+                "kb_464"
               ]
             },
             {
@@ -477,6 +552,9 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_005"
+              ],
+              "theoryTagIds": [
                 "kb_005"
               ]
             },
@@ -498,6 +576,10 @@
               "primaryTheoryIds": [
                 "kb_426",
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012",
+                "kb_426"
               ]
             },
             {
@@ -517,6 +599,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_020"
+              ],
+              "theoryTagIds": [
+                "kb_010",
+                "kb_020"
               ]
             },
             {
@@ -535,6 +621,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_416"
+              ],
+              "theoryTagIds": [
+                "kb_416"
               ]
             },
             {
@@ -552,6 +641,9 @@
               "displayOrder": 13,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_416"
+              ],
+              "theoryTagIds": [
                 "kb_416"
               ]
             }
@@ -578,6 +670,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_402"
+              ],
+              "theoryTagIds": [
+                "kb_403",
+                "kb_402"
               ]
             },
             {
@@ -597,6 +693,11 @@
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_412"
+              ],
+              "theoryTagIds": [
+                "kb_406",
+                "kb_407",
                 "kb_412"
               ]
             },
@@ -618,6 +719,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_412"
+              ],
+              "theoryTagIds": [
+                "kb_406",
+                "kb_407",
+                "kb_412"
               ]
             },
             {
@@ -630,7 +736,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_011",
-                "kb_789",
                 "kb_928",
                 "kb_936"
               ],
@@ -639,6 +744,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_011"
+              ],
+              "theoryTagIds": [
+                "kb_011",
+                "kb_928",
+                "kb_936"
               ]
             },
             {
@@ -660,6 +770,11 @@
               "primaryTheoryIds": [
                 "kb_411",
                 "kb_404"
+              ],
+              "theoryTagIds": [
+                "kb_403",
+                "kb_404",
+                "kb_411"
               ]
             },
             {
@@ -680,6 +795,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_404"
+              ],
+              "theoryTagIds": [
+                "kb_227",
+                "kb_404",
+                "kb_405"
               ]
             },
             {
@@ -697,6 +817,9 @@
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_411"
+              ],
+              "theoryTagIds": [
                 "kb_411"
               ]
             },
@@ -716,6 +839,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_408"
+              ],
+              "theoryTagIds": [
+                "kb_408"
               ]
             },
             {
@@ -733,6 +859,9 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_009"
+              ],
+              "theoryTagIds": [
                 "kb_009"
               ]
             },
@@ -752,6 +881,10 @@
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_009",
+                "kb_037"
+              ],
+              "theoryTagIds": [
                 "kb_009",
                 "kb_037"
               ]
@@ -775,12 +908,7 @@
                 "kb_439",
                 "kb_443",
                 "kb_477",
-                "kb_311",
-                "kb_765",
-                "kb_797",
-                "kb_801",
-                "kb_845",
-                "kb_846"
+                "kb_311"
               ],
               "subtitle": "信頼は、大事な約束より「破っても困らない約束」で測られる。",
               "displayOrder": 1,
@@ -788,6 +916,13 @@
               "primaryTheoryIds": [
                 "kb_422",
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_422",
+                "kb_439",
+                "kb_443",
+                "kb_477",
+                "kb_311"
               ]
             },
             {
@@ -811,6 +946,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_010",
+                "kb_421",
+                "kb_422",
+                "kb_443",
+                "kb_477",
+                "kb_164"
               ]
             },
             {
@@ -826,20 +969,20 @@
                 "kb_477",
                 "kb_109",
                 "kb_300",
-                "kb_311",
-                "kb_815",
-                "kb_816",
-                "kb_822",
-                "kb_823",
-                "kb_824",
-                "kb_851",
-                "kb_860"
+                "kb_311"
               ],
               "subtitle": "親しさは、尊重を省略していい許可ではない。",
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_477",
+                "kb_109",
+                "kb_300",
+                "kb_311"
               ]
             },
             {
@@ -860,6 +1003,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_447"
+              ],
+              "theoryTagIds": [
+                "kb_447",
+                "kb_109",
+                "kb_311"
               ]
             },
             {
@@ -883,6 +1031,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_397"
+              ],
+              "theoryTagIds": [
+                "kb_397",
+                "kb_506",
+                "kb_507",
+                "kb_311",
+                "kb_624",
+                "kb_954"
               ]
             },
             {
@@ -903,6 +1059,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_477",
+                "kb_109"
               ]
             },
             {
@@ -914,16 +1075,15 @@
               "explanation": "数字を一桁間違えたと気づいたのに、「たぶん大丈夫だろう」と黙って進めると、後で訂正されたときに問題は誤りそのものでは済まなくなる。失敗は誰にでも起こるが、発覚を恐れて隠すと、相手は「また同じことがあっても知らせないかもしれない」と考える。信用を大きく傷つけるのは、間違いよりも、事実を自分に都合よく扱う姿勢の方である。\n会議資料を送った後、売上額の記載ミスに気づいたなら、「さっき送った資料、金額を間違えていました。すみません」とその場で認める。その直後に「正しくは○円です。修正版をすぐ送ります」と続ければ、相手は訂正に必要な行動をすぐ取れる。そこで「元データが分かりにくくて」「急いでいたので」と先に説明を重ねると、謝罪より責任回避の印象が強くなり、訂正そのものまで素直に受け取られにくくなる。\n間違いに気づいたときは、「どれだけ小さいか」ではなく、「今知らせた方が相手の判断を早く修正できるか」で動くとよい。まず事実を認め、次に謝罪し、その後に修正案を出す。原因説明が必要なら最後で足りる。失敗をゼロに見せることより、誤りが起きた後に情報を止めないことを優先する。その順序を守れば、間違えない人ではなく、間違えても任せられる人として信用を残しやすい。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_424",
-                "kb_708",
-                "kb_719",
-                "kb_813",
-                "kb_814"
+                "kb_424"
               ],
               "subtitle": "失敗そのものより、失敗を隠す姿勢が信用を壊す。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_424"
+              ],
+              "theoryTagIds": [
                 "kb_424"
               ]
             },
@@ -946,6 +1106,11 @@
               "primaryTheoryIds": [
                 "kb_424",
                 "kb_040"
+              ],
+              "theoryTagIds": [
+                "kb_040",
+                "kb_424",
+                "kb_298"
               ]
             },
             {
@@ -964,6 +1129,10 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_564"
+              ],
+              "theoryTagIds": [
+                "kb_410",
                 "kb_564"
               ]
             },
@@ -988,6 +1157,13 @@
               "primaryTheoryIds": [
                 "kb_426",
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012",
+                "kb_426",
+                "kb_443",
+                "kb_477",
+                "kb_311"
               ]
             },
             {
@@ -1006,6 +1182,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_397"
+              ],
+              "theoryTagIds": [
+                "kb_397"
               ]
             },
             {
@@ -1023,6 +1202,9 @@
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_402"
+              ],
+              "theoryTagIds": [
                 "kb_402"
               ]
             }
@@ -1050,6 +1232,10 @@
               "primaryTheoryIds": [
                 "kb_022",
                 "kb_023"
+              ],
+              "theoryTagIds": [
+                "kb_022",
+                "kb_023"
               ]
             },
             {
@@ -1068,6 +1254,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_007"
+              ],
+              "theoryTagIds": [
+                "kb_007"
               ]
             },
             {
@@ -1085,6 +1274,9 @@
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_016"
+              ],
+              "theoryTagIds": [
                 "kb_016"
               ]
             },
@@ -1106,6 +1298,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012",
+                "kb_035",
+                "kb_520"
               ]
             },
             {
@@ -1124,6 +1321,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012"
               ]
             },
             {
@@ -1136,8 +1336,7 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_012",
-                "kb_417",
-                "kb_743"
+                "kb_417"
               ],
               "subtitle": "覚えているだけで、「自分はその他大勢ではない」が伝わる。",
               "displayOrder": 6,
@@ -1145,6 +1344,10 @@
               "primaryTheoryIds": [
                 "kb_417",
                 "kb_012"
+              ],
+              "theoryTagIds": [
+                "kb_012",
+                "kb_417"
               ]
             },
             {
@@ -1167,6 +1370,12 @@
               "primaryTheoryIds": [
                 "kb_047",
                 "kb_394"
+              ],
+              "theoryTagIds": [
+                "kb_047",
+                "kb_394",
+                "kb_114",
+                "kb_115"
               ]
             },
             {
@@ -1179,7 +1388,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_395",
-                "kb_735",
                 "kb_918",
                 "kb_947",
                 "kb_948"
@@ -1189,6 +1397,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_395"
+              ],
+              "theoryTagIds": [
+                "kb_395",
+                "kb_918",
+                "kb_947",
+                "kb_948"
               ]
             },
             {
@@ -1207,6 +1421,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_024"
+              ],
+              "theoryTagIds": [
+                "kb_024"
               ]
             },
             {
@@ -1220,13 +1437,20 @@
               "relatedTheoryIds": [
                 "kb_402",
                 "kb_114",
-                "kb_115"
+                "kb_115",
+                "theory-22667bdf-940f-4226-b7ea-28a72128af6b"
               ],
               "subtitle": "人は自分をよく見せられる場所より、よく見せなくていい場所に戻ってくる。",
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_402"
+              ],
+              "theoryTagIds": [
+                "kb_402",
+                "kb_114",
+                "kb_115",
+                "theory-22667bdf-940f-4226-b7ea-28a72128af6b"
               ]
             },
             {
@@ -1244,6 +1468,9 @@
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_004"
+              ],
+              "theoryTagIds": [
                 "kb_004"
               ]
             },
@@ -1265,6 +1492,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_006"
+              ],
+              "theoryTagIds": [
+                "kb_006",
+                "kb_114",
+                "kb_115"
               ]
             },
             {
@@ -1282,6 +1514,9 @@
               "displayOrder": 13,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_019"
+              ],
+              "theoryTagIds": [
                 "kb_019"
               ]
             },
@@ -1301,6 +1536,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_047"
+              ],
+              "theoryTagIds": [
+                "kb_047"
               ]
             },
             {
@@ -1318,6 +1556,9 @@
               "displayOrder": 15,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_021"
+              ],
+              "theoryTagIds": [
                 "kb_021"
               ]
             },
@@ -1339,6 +1580,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_026"
+              ],
+              "theoryTagIds": [
+                "kb_026",
+                "kb_035",
+                "kb_520"
               ]
             },
             {
@@ -1359,6 +1605,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_025"
+              ],
+              "theoryTagIds": [
+                "kb_025",
+                "kb_258",
+                "kb_112"
               ]
             },
             {
@@ -1382,6 +1633,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_400"
+              ],
+              "theoryTagIds": [
+                "kb_258",
+                "kb_400",
+                "kb_600",
+                "kb_112",
+                "kb_114",
+                "kb_115"
               ]
             },
             {
@@ -1402,6 +1661,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_026"
+              ],
+              "theoryTagIds": [
+                "kb_026",
+                "kb_419",
+                "kb_917"
               ]
             },
             {
@@ -1424,6 +1688,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_400"
+              ],
+              "theoryTagIds": [
+                "kb_035",
+                "kb_400",
+                "kb_520",
+                "kb_114",
+                "kb_115"
               ]
             },
             {
@@ -1438,13 +1709,21 @@
                 "kb_033",
                 "kb_035",
                 "kb_093",
-                "kb_520"
+                "kb_520",
+                "theory-acb4311e-b6ca-416c-8d06-06cff53444b2"
               ],
               "subtitle": "相手中心に生きるほど、関係は重くなり魅力は薄れる。",
               "displayOrder": 21,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_093"
+              ],
+              "theoryTagIds": [
+                "kb_033",
+                "kb_035",
+                "kb_093",
+                "kb_520",
+                "theory-acb4311e-b6ca-416c-8d06-06cff53444b2"
               ]
             },
             {
@@ -1465,6 +1744,10 @@
               "primaryTheoryIds": [
                 "kb_029",
                 "kb_002"
+              ],
+              "theoryTagIds": [
+                "kb_002",
+                "kb_029"
               ]
             },
             {
@@ -1478,14 +1761,16 @@
               "relatedTheoryIds": [
                 "kb_005",
                 "kb_114",
-                "kb_115",
-                "kb_817"
+                "kb_115"
               ],
               "subtitle": "誰にでも合わせる人ほど、誰にも深く刺さらない。",
               "displayOrder": 23,
               "status": "published",
-              "primaryTheoryIds": [
-                "kb_005"
+              "primaryTheoryIds": [],
+              "theoryTagIds": [
+                "kb_005",
+                "kb_114",
+                "kb_115"
               ]
             }
           ]
@@ -1510,6 +1795,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_409"
+              ],
+              "theoryTagIds": [
+                "kb_409"
               ]
             },
             {
@@ -1527,6 +1815,9 @@
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_479"
+              ],
+              "theoryTagIds": [
                 "kb_479"
               ]
             },
@@ -1546,6 +1837,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_413"
+              ],
+              "theoryTagIds": [
+                "kb_413"
               ]
             },
             {
@@ -1564,6 +1858,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_413"
+              ],
+              "theoryTagIds": [
+                "kb_413"
               ]
             },
             {
@@ -1575,13 +1872,15 @@
               "explanation": "「すごく静かだった」と説明されても様子は分かるが、耳に残る感じまでは伝わりにくい。そこで「図書館というより、試験開始三分前の教室みたいだった」と言われると、急に場面が浮かぶ。例えが効くのは、知らないものを珍しいものへ置き換えるからではない。誰もが知っている感覚を借りながら、そこへ少し予想外の組み合わせを持ち込むことで、理解と面白さが同時に立ち上がる。\n友人が「今日の会議、全然話が進まなかった」とこぼしたとき、「同じところをぐるぐる回る回転寿司みたいだった？」と返してみる。進まない感覚はすぐ伝わる一方、会議と回転寿司の組み合わせには少し意外性がある。相手が「まさにそれ」と笑えば、その後も「皿だけ増えて何も決まらない」と話を広げられる。難しい比喩を持ち出さなくても、身近なものとの共通点を一つ見つけるだけで、抽象的な感想が具体的な映像に変わる。\n例えを考えるときは、「珍しい表現か」ではなく、「聞いた瞬間に絵が浮かび、そのうえで少しズレているか」を基準にするといい。まず相手も知っていそうな物や場面を選び、似ている特徴を一つだけ重ねる。分かりにくければすぐ普通の説明に戻せばよく、比喩そのものを披露する必要はない。伝わる土台があるからこそ意外さが笑いになるのであって、意外さだけを追えばただの謎になる。分かりやすさを先に置き、そこへ半歩だけずらすのが使いやすい。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_414",
-                "kb_742"
+                "kb_414"
               ],
               "subtitle": "笑える例えは、「分かる」と「意外」を同時につくる。",
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_414"
+              ],
+              "theoryTagIds": [
                 "kb_414"
               ]
             },
@@ -1601,6 +1900,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_409"
+              ],
+              "theoryTagIds": [
+                "kb_409"
               ]
             },
             {
@@ -1619,6 +1921,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_246"
+              ],
+              "theoryTagIds": [
+                "kb_246"
               ]
             },
             {
@@ -1636,6 +1941,9 @@
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_023"
+              ],
+              "theoryTagIds": [
                 "kb_023"
               ]
             },
@@ -1656,6 +1964,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_402"
+              ],
+              "theoryTagIds": [
+                "kb_402",
+                "kb_624"
               ]
             },
             {
@@ -1673,6 +1985,9 @@
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_388"
+              ],
+              "theoryTagIds": [
                 "kb_388"
               ]
             },
@@ -1692,6 +2007,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_409"
+              ],
+              "theoryTagIds": [
+                "kb_409"
               ]
             },
             {
@@ -1709,6 +2027,9 @@
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_246"
+              ],
+              "theoryTagIds": [
                 "kb_246"
               ]
             },
@@ -1728,6 +2049,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_400"
+              ],
+              "theoryTagIds": [
+                "kb_400"
               ]
             },
             {
@@ -1745,6 +2069,9 @@
               "displayOrder": 14,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_400"
+              ],
+              "theoryTagIds": [
                 "kb_400"
               ]
             },
@@ -1764,6 +2091,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_023"
+              ],
+              "theoryTagIds": [
+                "kb_023"
               ]
             }
           ]
@@ -1782,9 +2112,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_443",
-                "kb_712",
-                "kb_726",
-                "kb_800",
                 "kb_304"
               ],
               "subtitle": "人は言葉では理想を語れても、行動では優先順位を隠せない。",
@@ -1792,6 +2119,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_304"
               ]
             },
             {
@@ -1804,8 +2135,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_443",
-                "kb_802",
-                "kb_866",
                 "kb_304"
               ],
               "subtitle": "感じの良さは対人技術であり、誠実さの証明ではない。",
@@ -1813,6 +2142,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_304"
               ]
             },
             {
@@ -1834,6 +2167,11 @@
               "primaryTheoryIds": [
                 "kb_003",
                 "kb_449"
+              ],
+              "theoryTagIds": [
+                "kb_003",
+                "kb_449",
+                "kb_927"
               ]
             },
             {
@@ -1853,6 +2191,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_445"
+              ],
+              "theoryTagIds": [
+                "kb_445",
+                "kb_956"
               ]
             },
             {
@@ -1870,6 +2212,9 @@
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_442"
+              ],
+              "theoryTagIds": [
                 "kb_442"
               ]
             },
@@ -1890,6 +2235,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_927"
               ]
             },
             {
@@ -1907,6 +2256,9 @@
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_447"
+              ],
+              "theoryTagIds": [
                 "kb_447"
               ]
             },
@@ -1926,6 +2278,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_408"
+              ],
+              "theoryTagIds": [
+                "kb_408"
               ]
             },
             {
@@ -1944,6 +2299,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_038"
+              ],
+              "theoryTagIds": [
+                "kb_038"
               ]
             },
             {
@@ -1961,6 +2319,9 @@
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_012"
+              ],
+              "theoryTagIds": [
                 "kb_012"
               ]
             }
@@ -1981,7 +2342,6 @@
               "relatedTheoryIds": [
                 "kb_051",
                 "kb_092",
-                "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
                 "kb_611",
                 "kb_923"
               ],
@@ -1990,6 +2350,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_092"
+              ],
+              "theoryTagIds": [
+                "kb_051",
+                "kb_092",
+                "kb_611",
+                "kb_923"
               ]
             },
             {
@@ -2009,6 +2375,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_092"
+              ],
+              "theoryTagIds": [
+                "kb_092",
+                "kb_702"
               ]
             },
             {
@@ -2030,6 +2400,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_046"
+              ],
+              "theoryTagIds": [
+                "kb_046",
+                "kb_609",
+                "kb_611",
+                "kb_928"
               ]
             },
             {
@@ -2041,13 +2417,15 @@
               "explanation": "こちらが断った途端、相手が黙り込んだり、露骨にため息をついたりすると、「面倒になるくらいなら譲ろう」と考えやすい。そこで毎回こちらが折れると、話の中身ではなく不機嫌そのものが交渉手段になる。相手に悪意がなくても、「機嫌を悪くすれば通る」という経験だけは残るからだ。その繰り返しが続くほど、こちらも相手の表情を先回りして判断するようになり、必要な主張まで引っ込めやすくなる。\n友人から急な予定変更を頼まれ、こちらには外せない用事があるとする。断った途端に相手が不機嫌になっても、「今日は無理。別の日なら合わせられる」と内容だけを返せばいい。機嫌を直すために予定まで変えなければ、相手にも「不満を見せても結論は変わらない」と伝わる。一方で、こちらの伝え方が雑だったなら謝る、代案が出せるなら出すなど、必要な配慮は残せる。譲らないことと冷たくすることは別である。\n判断するときは、「相手が不機嫌か」ではなく、「要求そのものに妥当性があるか」で考えるといい。こちらに非があるなら修正するし、事情を聞けば譲る合理的な理由が見つかることもある。反対に、内容は変わっていないのに機嫌だけで結論を動かす必要はない。表情や態度ではなく、理由と条件を見て決める。その基準を保つことで、不機嫌を受け止めつつも、自分の判断まで相手の感情に預けずに済む。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_092",
-                "kb_842"
+                "kb_092"
               ],
               "subtitle": "不機嫌に従うたび、相手は「機嫌で動かせる」と学習する。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_092"
+              ],
+              "theoryTagIds": [
                 "kb_092"
               ]
             },
@@ -2070,6 +2448,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_433"
+              ],
+              "theoryTagIds": [
+                "kb_051",
+                "kb_092",
+                "kb_427",
+                "kb_433"
               ]
             },
             {
@@ -2087,6 +2471,9 @@
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_092"
+              ],
+              "theoryTagIds": [
                 "kb_092"
               ]
             },
@@ -2113,6 +2500,15 @@
               "primaryTheoryIds": [
                 "kb_097",
                 "kb_049"
+              ],
+              "theoryTagIds": [
+                "kb_049",
+                "kb_051",
+                "kb_092",
+                "kb_097",
+                "kb_440",
+                "kb_621",
+                "kb_630"
               ]
             },
             {
@@ -2129,13 +2525,23 @@
                 "kb_092",
                 "kb_435",
                 "kb_469",
-                "kb_924"
+                "kb_924",
+                "theory-8cd3b27e-6948-4ad0-b961-46eb047b1b67"
               ],
               "subtitle": "期待が大きいほど、自分の機嫌を相手の行動に預けることになる。",
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_435"
+              ],
+              "theoryTagIds": [
+                "kb_033",
+                "kb_051",
+                "kb_092",
+                "kb_435",
+                "kb_469",
+                "kb_924",
+                "theory-8cd3b27e-6948-4ad0-b961-46eb047b1b67"
               ]
             },
             {
@@ -2156,6 +2562,12 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_431",
+                "kb_432"
+              ],
+              "theoryTagIds": [
+                "kb_230",
+                "kb_239",
                 "kb_431",
                 "kb_432"
               ]
@@ -2179,6 +2591,11 @@
               "primaryTheoryIds": [
                 "kb_431",
                 "kb_432"
+              ],
+              "theoryTagIds": [
+                "kb_431",
+                "kb_432",
+                "kb_471"
               ]
             },
             {
@@ -2193,13 +2610,23 @@
                 "kb_051",
                 "kb_092",
                 "kb_579",
-                "kb_611"
+                "kb_611",
+                "theory-386c4608-d46d-4782-b912-36c85aa8024d",
+                "theory-4e128612-e3f0-4eb9-9c09-e3503466521d"
               ],
               "subtitle": "他人といる時間だけでは、自分の感情と他人の感情を分けにくい。",
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_579"
+              ],
+              "theoryTagIds": [
+                "kb_051",
+                "kb_092",
+                "kb_579",
+                "kb_611",
+                "theory-386c4608-d46d-4782-b912-36c85aa8024d",
+                "theory-4e128612-e3f0-4eb9-9c09-e3503466521d"
               ]
             },
             {
@@ -2213,10 +2640,6 @@
               "relatedTheoryIds": [
                 "kb_081",
                 "kb_082",
-                "kb_730",
-                "kb_819",
-                "kb_820",
-                "kb_831",
                 "kb_351"
               ],
               "subtitle": "居場所が一つしかないと、その場所に嫌われるコストが高くなる。",
@@ -2225,6 +2648,11 @@
               "primaryTheoryIds": [
                 "kb_081",
                 "kb_082"
+              ],
+              "theoryTagIds": [
+                "kb_081",
+                "kb_082",
+                "kb_351"
               ]
             }
           ]
@@ -2251,6 +2679,10 @@
               "primaryTheoryIds": [
                 "kb_474",
                 "kb_388"
+              ],
+              "theoryTagIds": [
+                "kb_388",
+                "kb_474"
               ]
             },
             {
@@ -2268,6 +2700,9 @@
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_474"
+              ],
+              "theoryTagIds": [
                 "kb_474"
               ]
             },
@@ -2288,6 +2723,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_051"
+              ],
+              "theoryTagIds": [
+                "kb_051",
+                "kb_475"
               ]
             },
             {
@@ -2299,13 +2738,15 @@
               "explanation": "「すごいね」と言われた瞬間に、「いや全然」「たまたまだよ」と反射的に打ち消すと、謙虚に見せたつもりでも、自分への評価まで一緒に下げてしまう。相手は本人の反応も材料にして、その人をどう見るかを調整している。褒めるたびに否定されれば、「そこまで評価しなくていいのかもしれない」と受け取られやすい。自分で自分の価値を何度も引っ込める態度は、周囲にも同じ扱い方を覚えさせていく。\n発表を終えたあとに「説明が分かりやすかった」と言われたなら、すぐ「いや、かなり失敗したよ」と返すのではなく、まず「ありがとう」と受け取る。それだけで十分である。嬉しければ「そう言ってもらえるとうれしい」と続けてもいい。そこで急に実績を並べたり、「前から得意なんだよね」と自慢へ切り替える必要はない。褒め言葉を否定せず受け取ることと、自分を大きく見せることは別である。\n受け取り方の基準は、「謙虚に見えるか」ではなく、「相手が差し出した評価を自分から取り下げていないか」に置くとよい。褒められたら、まず感謝を返し、一度その評価をそのまま置いておく。事実と違うなら後から補足すればよいが、照れだけで即座に否定する必要はない。自分の価値を過剰に盛らず、かといって毎回小さくもしない。その安定した受け取り方が、周囲の評価の基準も少しずつ整えていく。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_420",
-                "kb_727"
+                "kb_420"
               ],
               "subtitle": "自分の価値を引っ込める癖は、周囲にもその評価を学習させる。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_420"
+              ],
+              "theoryTagIds": [
                 "kb_420"
               ]
             },
@@ -2325,6 +2766,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_435"
+              ],
+              "theoryTagIds": [
+                "kb_435"
               ]
             },
             {
@@ -2343,6 +2787,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_433"
+              ],
+              "theoryTagIds": [
+                "kb_433"
               ]
             },
             {
@@ -2355,13 +2802,16 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_427",
-                "kb_448",
-                "theory-9aef21ca-b8ff-48d5-93cc-5adb7bd329dd"
+                "kb_448"
               ],
               "subtitle": "小さな無礼を止める勇気が、その後の扱いを決める。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_448"
+              ],
+              "theoryTagIds": [
+                "kb_427",
                 "kb_448"
               ]
             },
@@ -2381,6 +2831,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_051"
+              ],
+              "theoryTagIds": [
+                "kb_051"
               ]
             },
             {
@@ -2398,6 +2851,9 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_092"
+              ],
+              "theoryTagIds": [
                 "kb_092"
               ]
             },
@@ -2419,6 +2875,10 @@
               "primaryTheoryIds": [
                 "kb_081",
                 "kb_082"
+              ],
+              "theoryTagIds": [
+                "kb_081",
+                "kb_082"
               ]
             },
             {
@@ -2438,6 +2898,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_474"
+              ],
+              "theoryTagIds": [
+                "kb_474",
+                "kb_351"
               ]
             },
             {
@@ -2455,6 +2919,9 @@
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_443"
+              ],
+              "theoryTagIds": [
                 "kb_443"
               ]
             }
@@ -2483,6 +2950,11 @@
               "primaryTheoryIds": [
                 "kb_426",
                 "kb_032"
+              ],
+              "theoryTagIds": [
+                "kb_032",
+                "kb_426",
+                "kb_446"
               ]
             },
             {
@@ -2502,6 +2974,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_300"
               ]
             },
             {
@@ -2519,6 +2995,9 @@
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_426"
+              ],
+              "theoryTagIds": [
                 "kb_426"
               ]
             },
@@ -2541,6 +3020,11 @@
               "primaryTheoryIds": [
                 "kb_043",
                 "kb_024"
+              ],
+              "theoryTagIds": [
+                "kb_024",
+                "kb_043",
+                "kb_623"
               ]
             },
             {
@@ -2561,6 +3045,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_093"
+              ],
+              "theoryTagIds": [
+                "kb_093",
+                "kb_923",
+                "kb_924"
               ]
             },
             {
@@ -2579,6 +3068,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_009"
+              ],
+              "theoryTagIds": [
+                "kb_009"
               ]
             },
             {
@@ -2592,14 +3084,18 @@
               "relatedTheoryIds": [
                 "kb_030",
                 "kb_031",
-                "kb_499",
-                "theory-c1e25b20-5ff7-47b4-8585-72606829f758"
+                "kb_499"
               ],
               "subtitle": "与える側が固定されると、好意は少しずつ負債感に変わる。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_031"
+              ],
+              "theoryTagIds": [
+                "kb_030",
+                "kb_031",
+                "kb_499"
               ]
             },
             {
@@ -2625,6 +3121,15 @@
               "primaryTheoryIds": [
                 "kb_039",
                 "kb_040"
+              ],
+              "theoryTagIds": [
+                "kb_039",
+                "kb_040",
+                "kb_041",
+                "kb_042",
+                "kb_428",
+                "kb_923",
+                "kb_924"
               ]
             },
             {
@@ -2642,7 +3147,8 @@
                 "kb_053",
                 "kb_096",
                 "kb_624",
-                "kb_935"
+                "kb_935",
+                "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf"
               ],
               "subtitle": "人格を責められると、人は反省より自分を守ることを優先する。",
               "displayOrder": 9,
@@ -2650,6 +3156,16 @@
               "primaryTheoryIds": [
                 "kb_045",
                 "kb_053"
+              ],
+              "theoryTagIds": [
+                "kb_041",
+                "kb_044",
+                "kb_045",
+                "kb_053",
+                "kb_096",
+                "kb_624",
+                "kb_935",
+                "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf"
               ]
             },
             {
@@ -2670,6 +3186,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_212"
+              ],
+              "theoryTagIds": [
+                "kb_027",
+                "kb_212",
+                "kb_430"
               ]
             },
             {
@@ -2695,6 +3216,16 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_040"
+              ],
+              "theoryTagIds": [
+                "kb_040",
+                "kb_041",
+                "kb_042",
+                "kb_439",
+                "kb_157",
+                "kb_160",
+                "kb_301",
+                "kb_621"
               ]
             },
             {
@@ -2715,6 +3246,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_045"
+              ],
+              "theoryTagIds": [
+                "kb_034",
+                "kb_045",
+                "kb_301"
               ]
             },
             {
@@ -2736,6 +3272,11 @@
               "primaryTheoryIds": [
                 "kb_040",
                 "kb_039"
+              ],
+              "theoryTagIds": [
+                "kb_039",
+                "kb_040",
+                "kb_301"
               ]
             },
             {
@@ -2756,6 +3297,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_037"
+              ],
+              "theoryTagIds": [
+                "kb_037",
+                "kb_469",
+                "kb_702"
               ]
             }
           ]
@@ -2773,16 +3319,15 @@
               "explanation": "数人で話している場で、自分だけ内容を吟味してから反応していると、間違ったことはしていなくても少し外側にいるように見えることがある。集団では、何を話したかだけでなく、笑う、驚く、うなずくといった反応の重なりが「一緒にいる感覚」を作る。話題そのものが特別面白くなくても、同じ瞬間に反応することで、その場の空気に参加していることが伝わり、所属感が生まれやすくなる。\n職場の休憩中に皆が昨日の出来事で盛り上がっているなら、詳しく知らなくても「それ聞きました」「そんなことあったんですね」と一度話題に乗ってみる。誰かが冗談を言って周囲が笑った時も、自分だけ無反応で別の話を始めるより、同じタイミングで笑ったり相づちを入れたりする。内容への深い関心より、同じ場面を一緒に受け取っていることが伝わると、周囲も話しかけやすくなる。\n集団にいるときは、「面白いことを言えているか」だけでなく、「今この場と同じ空気を共有できているか」を見るとよい。共通話題に一度入り、周囲の反応のタイミングにも少し合わせる。ただし、賛成できないことまで同調したり、自分の好みや意見を全部消したりする必要はない。個性を保ちながら、場の喜怒哀楽には参加することが、集団の中で自然に馴染む基準になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_058",
-                "kb_729",
-                "kb_732",
-                "kb_780",
-                "kb_782"
+                "kb_058"
               ],
               "subtitle": "集団では、話の面白さ以上に「同じ空気を共有しているか」が所属を決める。",
               "displayOrder": 1,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_058"
+              ],
+              "theoryTagIds": [
                 "kb_058"
               ]
             },
@@ -2803,6 +3348,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_063"
+              ],
+              "theoryTagIds": [
+                "kb_060",
+                "kb_063"
               ]
             },
             {
@@ -2816,14 +3365,6 @@
               "relatedTheoryIds": [
                 "kb_058",
                 "kb_485",
-                "kb_707",
-                "kb_734",
-                "kb_793",
-                "kb_813",
-                "kb_818",
-                "kb_836",
-                "kb_858",
-                "kb_859",
                 "kb_926"
               ],
               "subtitle": "「自分たち」という感覚が、個人の集まりを一つの集団に変える。",
@@ -2831,6 +3372,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_058"
+              ],
+              "theoryTagIds": [
+                "kb_058",
+                "kb_485",
+                "kb_926"
               ]
             },
             {
@@ -2851,6 +3397,10 @@
               "primaryTheoryIds": [
                 "kb_004",
                 "kb_081"
+              ],
+              "theoryTagIds": [
+                "kb_004",
+                "kb_081"
               ]
             },
             {
@@ -2868,6 +3418,9 @@
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_081"
+              ],
+              "theoryTagIds": [
                 "kb_081"
               ]
             },
@@ -2888,6 +3441,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_086"
+              ],
+              "theoryTagIds": [
+                "kb_086",
+                "kb_702"
               ]
             },
             {
@@ -2899,13 +3456,15 @@
               "explanation": "会って間もない相手に、家族の悩みや強い不安、過去の傷まで一気に話すと、内容そのものより「まだこの距離でそこまで話すのか」と戸惑わせることがある。自己開示は親しさを生む一方、関係の深さを飛び越えて出されると、相手に受け止める準備がない。何を話すかだけでなく、今どこまで近づいている相手なのかに合わせて量を調整することが、自然な親密さにつながる。\n初対面に近い相手と食事をしているなら、まず趣味、最近あったこと、仕事や学校で感じたことなど、軽い話から自分を見せればいい。相手も少し個人的な話を返してきたら、その分だけこちらも一段深める。反対に、相手がまだ表面的な話にとどまっているのに、自分だけ重い悩みを続けて出すと、会話の温度差が大きくなる。自己開示は、一度に深くするより、互いの出し方を見ながら進める方が関係に馴染みやすい。\n話すか迷ったときは、「本音だから出すべきか」ではなく、「今の関係で相手もこの深さを受け取れるか」を見るとよい。最初は軽い話から始め、相手の開示量や反応に合わせて少しずつ深める。自分を隠し続ける必要はないが、早く分かってもらおうとして全部を一度に出す必要もない。自己開示の内容と関係の深さが釣り合っているかを意識することで、無理なく距離を縮めやすくなる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_038",
-                "kb_822"
+                "kb_038"
               ],
               "subtitle": "自己開示は、内容より「今の関係でそこまで出してよいか」でも評価される。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_038"
+              ],
+              "theoryTagIds": [
                 "kb_038"
               ]
             },
@@ -2918,13 +3477,15 @@
               "explanation": "目上の人には丁寧なのに、後輩や店員には急に言葉が雑になる人を見ると、自分には親切でも少し警戒したくなる。集団の中では、自分がどう扱われるかだけでなく、その人が立場の弱い相手をどう扱うかも見られている。相手によって尊重の量まで変わると、「今は感じがよくても、立場が変われば自分も雑に扱われるかもしれない」という不安を生みやすい。\n職場で上司には笑顔で話す一方、後輩の質問には面倒そうに答え、店員への言葉だけ強くなるなら、その態度差は周囲にも伝わる。役割上、上司には敬語を使い、後輩には指示を出すといった違いはあって当然である。問題は形式の差ではなく、相手の立場によって感謝を省く、話を遮る、ぞんざいに扱うなど、尊重そのものまで変わっていないかにある。\n自分の態度を振り返るときは、「全員に同じ話し方をしているか」ではなく、「立場が違っても相手を一人の人として同じように扱えているか」を見るとよい。役割によって言葉遣いや距離感が変わることまで不自然にそろえる必要はない。確認したいのは、上には慎重で下には雑という落差である。誰に対しても尊重が一定なら、周囲はその一貫性から安心して付き合える相手だと判断しやすくなる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_443",
-                "kb_732"
+                "kb_443"
               ],
               "subtitle": "集団では、他人への態度まで含めて「この人は安全か」が判断される。",
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_443"
+              ],
+              "theoryTagIds": [
                 "kb_443"
               ]
             },
@@ -2945,6 +3506,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_090"
+              ],
+              "theoryTagIds": [
+                "kb_090",
+                "kb_935"
               ]
             },
             {
@@ -2964,6 +3529,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_081"
+              ],
+              "theoryTagIds": [
+                "kb_081",
+                "kb_490"
               ]
             },
             {
@@ -2985,6 +3554,11 @@
               "primaryTheoryIds": [
                 "kb_059",
                 "kb_087"
+              ],
+              "theoryTagIds": [
+                "kb_059",
+                "kb_087",
+                "kb_606"
               ]
             },
             {
@@ -2998,13 +3572,20 @@
               "relatedTheoryIds": [
                 "kb_081",
                 "kb_299",
-                "kb_927"
+                "kb_927",
+                "theory-b16cc75c-68d0-4873-b989-2ed788bd404b"
               ],
               "subtitle": "みんなに好かれる力と、一人から深く信用される力は別物である。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_081"
+              ],
+              "theoryTagIds": [
+                "kb_081",
+                "kb_299",
+                "kb_927",
+                "theory-b16cc75c-68d0-4873-b989-2ed788bd404b"
               ]
             },
             {
@@ -3022,15 +3603,22 @@
                 "kb_457",
                 "kb_459",
                 "kb_482",
-                "kb_484",
-                "kb_729",
-                "kb_734"
+                "kb_484"
               ],
               "subtitle": "所属には似ている部分が要るが、存在価値には違いも要る。",
               "displayOrder": 13,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_089"
+              ],
+              "theoryTagIds": [
+                "kb_050",
+                "kb_089",
+                "kb_455",
+                "kb_457",
+                "kb_459",
+                "kb_482",
+                "kb_484"
               ]
             },
             {
@@ -3051,6 +3639,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_082"
+              ],
+              "theoryTagIds": [
+                "kb_082",
+                "kb_484",
+                "kb_299"
               ]
             }
           ]
@@ -3068,14 +3661,15 @@
               "explanation": "予定外の問題が起きた場面では、内容より先に、その人がどう立っているか、どんな声で話すかが目に入る。視線が泳ぎ、声量が落ち、語尾が消えると、本人が状況をつかめていないように見えやすい。反対に、表情や姿勢が大きく崩れず、声が一定だと、それだけで「この人は何か見えているのかもしれない」という印象が生まれる。不安定な場面ほど、落ち着きそのものが情報として強く働く。\n会議中に急なトラブルが起き、皆が一斉に話し始めたとする。そこで慌てて早口になるより、一度姿勢を整え、聞こえる声量で「まず確認したいのは二点です」と話し始める。相手の目を時々見ながら、語尾まで落とさず言えば、それだけで発言は通りやすくなる。全部を知っている必要はない。分からない部分があっても、見えている範囲を落ち着いて伝えることで、場の中で軸のある人として受け取られやすい。\n整えるときの基準は、「自信があるように演じられているか」ではなく、「不安がそのまま所作に漏れていないか」と考えるとよい。話す前に姿勢と声量を整え、視線を時々合わせ、最後まで言葉を届ける。それだけで十分で、常に無表情でいる、低い声を作る、相手を見続けるといった演出は必要ない。状況が揺れている時ほど、自然な範囲で所作を安定させることが、周囲に安心と判断力を感じさせる基準になる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_474",
-                "kb_735",
-                "kb_775"
+                "kb_474"
               ],
               "subtitle": "状況が不安定なほど、落ち着いている人は「何か分かっている人」に見える。",
               "displayOrder": 1,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_474"
+              ],
+              "theoryTagIds": [
                 "kb_474"
               ]
             },
@@ -3097,6 +3691,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_074"
+              ],
+              "theoryTagIds": [
+                "kb_072",
+                "kb_074",
+                "kb_941"
               ]
             },
             {
@@ -3110,10 +3709,6 @@
               "relatedTheoryIds": [
                 "kb_058",
                 "kb_483",
-                "kb_773",
-                "kb_776",
-                "kb_794",
-                "kb_796",
                 "kb_942"
               ],
               "subtitle": "不安な集団ほど、「何を基準に動けばいいか」を示す人を頼りにする。",
@@ -3122,6 +3717,11 @@
               "primaryTheoryIds": [
                 "kb_058",
                 "kb_483"
+              ],
+              "theoryTagIds": [
+                "kb_058",
+                "kb_483",
+                "kb_942"
               ]
             },
             {
@@ -3135,7 +3735,6 @@
               "relatedTheoryIds": [
                 "kb_068",
                 "kb_498",
-                "kb_777",
                 "kb_936",
                 "kb_942"
               ],
@@ -3144,6 +3743,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_498"
+              ],
+              "theoryTagIds": [
+                "kb_068",
+                "kb_498",
+                "kb_936",
+                "kb_942"
               ]
             },
             {
@@ -3165,24 +3770,6 @@
                 "kb_487",
                 "kb_497",
                 "kb_509",
-                "kb_731",
-                "kb_750",
-                "kb_764",
-                "kb_766",
-                "kb_774",
-                "kb_775",
-                "kb_776",
-                "kb_779",
-                "kb_780",
-                "kb_799",
-                "kb_801",
-                "kb_824",
-                "kb_840",
-                "kb_845",
-                "kb_846",
-                "kb_851",
-                "kb_863",
-                "kb_865",
                 "kb_939",
                 "kb_941"
               ],
@@ -3192,6 +3779,20 @@
               "primaryTheoryIds": [
                 "kb_487",
                 "kb_123"
+              ],
+              "theoryTagIds": [
+                "kb_070",
+                "kb_071",
+                "kb_073",
+                "kb_110",
+                "kb_123",
+                "kb_453",
+                "kb_467",
+                "kb_487",
+                "kb_497",
+                "kb_509",
+                "kb_939",
+                "kb_941"
               ]
             },
             {
@@ -3211,6 +3812,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_087"
+              ],
+              "theoryTagIds": [
+                "kb_087",
+                "kb_948"
               ]
             },
             {
@@ -3231,6 +3836,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_125"
+              ],
+              "theoryTagIds": [
+                "kb_125",
+                "kb_925",
+                "kb_926"
               ]
             },
             {
@@ -3244,9 +3854,7 @@
               "relatedTheoryIds": [
                 "kb_055",
                 "kb_394",
-                "kb_436",
-                "kb_731",
-                "kb_769"
+                "kb_436"
               ],
               "subtitle": "相手の面子まで守れる人には、「この人の下なら失敗しても大丈夫」が生まれる。",
               "displayOrder": 8,
@@ -3254,6 +3862,11 @@
               "primaryTheoryIds": [
                 "kb_055",
                 "kb_394"
+              ],
+              "theoryTagIds": [
+                "kb_055",
+                "kb_394",
+                "kb_436"
               ]
             },
             {
@@ -3274,6 +3887,10 @@
               "primaryTheoryIds": [
                 "kb_125",
                 "kb_402"
+              ],
+              "theoryTagIds": [
+                "kb_402",
+                "kb_125"
               ]
             }
           ]
@@ -3298,6 +3915,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_259"
+              ],
+              "theoryTagIds": [
+                "kb_259"
               ]
             },
             {
@@ -3318,6 +3938,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_259"
+              ],
+              "theoryTagIds": [
+                "kb_259",
+                "kb_611",
+                "kb_619"
               ]
             },
             {
@@ -3336,6 +3961,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_093"
+              ],
+              "theoryTagIds": [
+                "kb_093"
               ]
             },
             {
@@ -3347,13 +3975,15 @@
               "explanation": "能力が高く、話も上手いのに、なぜその人についていくのかが見えない人はいる。反対に、「この人となら、今より面白い未来に参加できそうだ」と感じさせる人には、個人への好意を超えた力が生まれる。人は人物だけを見て動くのではなく、その人物がどこへ向かおうとしているか、自分もそこに加われるかを見ている。目指す未来が本人だけの成功ではなく、周囲も入れる物語になったとき、旗は人を集める。\n新しい企画を始めるなら、「自分が一番になる」ではなく、「この地域で若い人が挑戦できる場を増やす」と未来を一文で示す。そのうえで、「企画が得意ならイベントを、発信が得意なら広報をお願いしたい」と参加の余地を作る。大きな言葉を掲げるだけでは、聞く側は何をすればよいか分からない。未来像と、自分がそこにどう加われるかがつながって初めて、その旗は他人にとっても意味を持つ。\n掲げる内容を考えるときは、「自分を大きく見せられるか」ではなく、「他人が自分事として参加できる未来になっているか」を見るとよい。目指す状態を一文で言い切り、そこへ加わる役割まで見える形にする。抽象的な理想だけを繰り返しても、人は動きにくい。誰と、何を変え、どんな状態を作りたいのかが伝わるほど、人物そのものではなく、その先にある物語へ人が集まるようになる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_058",
-                "kb_773"
+                "kb_058"
               ],
               "subtitle": "人は人物そのものより、「自分も参加したい物語」を持つ人物についていく。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_058"
+              ],
+              "theoryTagIds": [
                 "kb_058"
               ]
             },
@@ -3375,6 +4005,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_246"
+              ],
+              "theoryTagIds": [
+                "kb_243",
+                "kb_246",
+                "kb_247"
               ]
             },
             {
@@ -3395,6 +4030,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_443"
+              ],
+              "theoryTagIds": [
+                "kb_443",
+                "kb_304",
+                "kb_954"
               ]
             },
             {
@@ -3406,13 +4046,15 @@
               "explanation": "予定外のトラブルが起きると、周囲の声が速くなり、確認できていない情報まで飛び交いやすい。そんな時に一緒になって慌てれば、不安はさらに広がる。反対に、分かっていることと分からないことを分け、落ち着いた声で話す人がいると、場の温度も下がりやすい。状況そのものが不安定なほど、誰か一人の態度が周囲の感情の基準として強く働く。\n予定していた作業が急に止まり、原因もまだ分からないとする。そこで「まず確認できているのはここまでです。原因はまだ不明です」と整理し、必要な確認事項を順に出す。声量を必要以上に上げず、話す速度も少し落とせば、それだけで周囲は次に何をすればよいか見えやすくなる。分からない部分まで「大丈夫です」と断言する必要はなく、不明な点は不明なまま示した方が、かえって落ち着きは伝わる。\n判断するときは、「不安を見せないこと」ではなく、「不安な状況でも情報と態度を乱さないこと」を基準にするとよい。話す前に不明点を整理し、確かな部分だけを落ち着いた声と速度で伝える。分からないことは分からないと言い、その上で次に確認することを示す。感情を消す必要はないが、慌てた反応をそのまま周囲へ広げない。周囲が揺れる場面ほど、自分の安定が集団全体の基準になっていく。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_023",
-                "kb_737"
+                "kb_023"
               ],
               "subtitle": "周囲が揺れるほど、揺れない人が集団の感情の基準になる。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_023"
+              ],
+              "theoryTagIds": [
                 "kb_023"
               ]
             },
@@ -3431,6 +4073,9 @@
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_474"
+              ],
+              "theoryTagIds": [
                 "kb_474"
               ]
             },
@@ -3453,6 +4098,11 @@
               "primaryTheoryIds": [
                 "kb_080",
                 "kb_487"
+              ],
+              "theoryTagIds": [
+                "kb_080",
+                "kb_487",
+                "kb_949"
               ]
             },
             {
@@ -3467,7 +4117,6 @@
                 "kb_168",
                 "kb_113",
                 "kb_473",
-                "kb_774",
                 "kb_312"
               ],
               "subtitle": "期待が何度も現実になると、評価はやがて「この人なら」という信仰に近づく。",
@@ -3475,6 +4124,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_113"
+              ],
+              "theoryTagIds": [
+                "kb_168",
+                "kb_113",
+                "kb_473",
+                "kb_312"
               ]
             },
             {
@@ -3486,13 +4141,15 @@
               "explanation": "初対面や久しぶりの再会で、自分の経歴や考え方を一度に説明し尽くすと、相手は理解しやすい反面、「もうだいたい分かった」と感じやすい。反対に、必要な部分だけ話して少し余白が残ると、その人が他に何を考え、どんな経験をしてきたのかに関心が向く。人物像は与えられた情報だけで作られるのではなく、分からない部分を相手が想像で埋めることで広がる。その空白が、次に知りたいという感覚を残す。\n仕事について聞かれたなら、学生時代から現在までの経歴を全部説明するのではなく、「今は企画に関わっています」とまず答える。相手が「なぜその仕事を？」と聞いてきたら、その時に理由や転機を一段深く話せばいい。趣味や過去の経験も同じで、聞かれていない部分まで先回りして説明しない。一度の会話で全部を理解してもらおうとせず、相手の質問に応じて少しずつ情報を開いていく方が、人物像に奥行きが残りやすい。\n話す量を決めるときは、「自分を正確に全部伝えられたか」ではなく、「今の質問に必要な範囲は十分に返せたか」を基準にするとよい。聞かれたことには自然に答え、それ以上は次の会話に残す。ただし、わざと濁したり、意味深に秘密を作ったりする必要はない。隠すのではなく、説明しすぎないだけである。自分を一度で完成させず、関係が進むごとに少しずつ見える部分が増える状態が、相手の想像と関心を長く残す。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_400",
-                "kb_833"
+                "kb_400"
               ],
               "subtitle": "情報の空白があるほど、人はその人物像を想像で補完する。",
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_400"
+              ],
+              "theoryTagIds": [
                 "kb_400"
               ]
             },
@@ -3505,14 +4162,15 @@
               "explanation": "いつも冷静な人が意外とくだらないことで笑ったり、仕事一筋に見える人が休日には全く別の趣味へ没頭していたりすると、それまでの印象に奥行きが生まれる。相手の行動がすべて予測できるようになると安心感は増える一方で、新しく知る余地は減っていく。そこで普段の軸は崩さず、ときどき別の一面が見えると、「まだ知らない部分がある」という感覚が残り、関心も続きやすくなる。\n普段は真面目に話す人が、雑談では意外な趣味の話をしたり、いつも聞き役の人が得意分野では熱く語ったりする。それだけでも十分に意外性は出る。わざと突飛な行動をしたり、昨日と今日で態度を大きく変えたりする必要はない。普段の価値観や約束の守り方は変えず、場面によって違う表情や関心を自然に見せることで、「この人はこういう人」と一言では収まらない余白ができる。\n判断するときは、「相手を驚かせられるか」ではなく、「自分の軸を保ったまま、まだ見せていない自然な一面があるか」を見るとよい。一貫性を捨てて予測不能になると、関心より不安が生まれる。変えるのは信頼の土台ではなく、見せ方や話題、行動の幅である。普段の自分と矛盾しない範囲で少し違う面を残しておくことが、安心感を壊さずに「まだ知りたい」と思われる状態につながる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_400",
-                "kb_832",
-                "kb_834"
+                "kb_400"
               ],
               "subtitle": "一貫性は信頼をつくり、少しの予測不能さは関心を持続させる。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_400"
+              ],
+              "theoryTagIds": [
                 "kb_400"
               ]
             },
@@ -3534,6 +4192,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_558"
+              ],
+              "theoryTagIds": [
+                "kb_558",
+                "kb_549",
+                "kb_629"
               ]
             }
           ]
@@ -3559,7 +4222,11 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "共感のつもりでも、毎回自分の話に置き換えると相手は話す気を失う。",
               "displayOrder": 1,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_412",
+                "kb_413"
+              ]
             },
             {
               "id": "master336-338",
@@ -3578,7 +4245,11 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "会話で優位を示すほど、相手には比較された感覚が残る。",
               "displayOrder": 2,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_266",
+                "kb_055"
+              ]
             },
             {
               "id": "master336-339",
@@ -3597,7 +4268,11 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "褒め言葉を反射的に否定すると、相手にもう一度肯定する役割を負わせる。",
               "displayOrder": 3,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_479",
+                "kb_047"
+              ]
             },
             {
               "id": "master336-340",
@@ -3617,7 +4292,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "うれしい報告でも、実績や周囲の評価を重ねるほど相手に称賛役を求める形になる。",
               "displayOrder": 4,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_112",
+                "kb_266",
+                "kb_481"
+              ]
             },
             {
               "id": "master336-341",
@@ -3635,7 +4315,10 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "喜んでいる相手に欠点や現実論を足すと、祝福ではなく採点になる。",
               "displayOrder": 5,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_024"
+              ]
             },
             {
               "id": "master336-342",
@@ -3654,7 +4337,11 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "知識差を優劣に変えると、相手は質問も発言もしづらくなる。",
               "displayOrder": 6,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_402",
+                "kb_055"
+              ]
             },
             {
               "id": "master336-343",
@@ -3674,7 +4361,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "恋愛・仕事・服・趣味まで評価すると、会話が交流ではなく審査になる。",
               "displayOrder": 7,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_436",
+                "kb_050",
+                "kb_403"
+              ]
             },
             {
               "id": "master336-344",
@@ -3694,7 +4386,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "失敗した相手への結果論は、助言よりも自分の正しさの証明として伝わりやすい。",
               "displayOrder": 8,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_396",
+                "kb_055",
+                "kb_427"
+              ]
             },
             {
               "id": "master336-345",
@@ -3714,7 +4411,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "同じ相手に感情処理を任せ続けると、友情が感情労働に変わる。",
               "displayOrder": 9,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_398",
+                "kb_030",
+                "kb_431"
+              ]
             },
             {
               "id": "master336-346",
@@ -3734,7 +4436,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "解決しない話を反復すると、相手に同じ負担を繰り返し背負わせる。",
               "displayOrder": 10,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_023",
+                "kb_030",
+                "kb_229"
+              ]
             },
             {
               "id": "master336-347",
@@ -3754,7 +4461,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "自分を下げ続けると、相手に否定と励ましを繰り返させることになる。",
               "displayOrder": 11,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_479",
+                "kb_047",
+                "kb_480"
+              ]
             },
             {
               "id": "master336-348",
@@ -3774,7 +4486,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "相手が求めているものを外すと、善意でも会話は負担になる。",
               "displayOrder": 12,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_410",
+                "kb_229",
+                "kb_398"
+              ]
             },
             {
               "id": "master336-349",
@@ -3794,7 +4511,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "正しい助言でも、頼まれていなければ管理や干渉として伝わる。",
               "displayOrder": 13,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_050",
+                "kb_410",
+                "kb_520"
+              ]
             },
             {
               "id": "master336-350",
@@ -3805,7 +4527,8 @@
               "relatedTheoryIds": [
                 "kb_023",
                 "kb_233",
-                "kb_053"
+                "kb_053",
+                "theory-62543145-f91d-448d-aece-2a44802164f8"
               ],
               "primaryTheoryIds": [
                 "kb_233"
@@ -3814,7 +4537,13 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "不機嫌を言葉にせず示すと、周囲に原因探しと感情監視をさせる。",
               "displayOrder": 14,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_023",
+                "kb_233",
+                "kb_053",
+                "theory-62543145-f91d-448d-aece-2a44802164f8"
+              ]
             },
             {
               "id": "master336-351",
@@ -3834,7 +4563,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "言葉にしない要求が増えるほど、親しさは気楽さではなく緊張に変わる。",
               "displayOrder": 15,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_233",
+                "kb_053",
+                "kb_434"
+              ]
             },
             {
               "id": "master336-352",
@@ -3854,7 +4588,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "他人や自分と比較して軽く扱うと、相手は悩みより話したことを後悔する。",
               "displayOrder": 16,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_403",
+                "kb_404",
+                "kb_266"
+              ]
             },
             {
               "id": "master336-353",
@@ -3874,7 +4613,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "場が笑っても、本人には次も狙われるという警戒が残る。",
               "displayOrder": 17,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_402",
+                "kb_055",
+                "kb_436"
+              ]
             },
             {
               "id": "master336-354",
@@ -3894,7 +4638,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "第三者の前でのからかいや暴露は、冗談以上に立場を傷つける。",
               "displayOrder": 18,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_055",
+                "kb_056",
+                "kb_159"
+              ]
             },
             {
               "id": "master336-355",
@@ -3914,7 +4663,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "仲がいいほど雑に扱ってよいわけではなく、小さな無礼ほど蓄積する。",
               "displayOrder": 19,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_300",
+                "kb_434",
+                "kb_092"
+              ]
             },
             {
               "id": "master336-356",
@@ -3934,7 +4688,12 @@
               "persona": "一緒にいて疲れない人",
               "subtitle": "「これだけしたのに」が増えるほど、好意は相手にとって借金になる。",
               "displayOrder": 20,
-              "status": "published"
+              "status": "published",
+              "theoryTagIds": [
+                "kb_047",
+                "kb_433",
+                "kb_030"
+              ]
             }
           ]
         }
@@ -3960,7 +4719,6 @@
                 "kb_190",
                 "kb_547",
                 "kb_324",
-                "kb_751",
                 "kb_503",
                 "kb_504",
                 "kb_627"
@@ -3971,6 +4729,14 @@
               "primaryTheoryIds": [
                 "kb_190",
                 "kb_547"
+              ],
+              "theoryTagIds": [
+                "kb_190",
+                "kb_547",
+                "kb_324",
+                "kb_503",
+                "kb_504",
+                "kb_627"
               ]
             },
             {
@@ -3982,16 +4748,15 @@
               "explanation": "説明を聞いた直後、少し曖昧な部分が残っていても、その場の流れを止めたくなくて「分かりました」と答えてしまうことがある。けれど、そのまま作業や判断を進めると、認識のずれは後ろの工程ほど大きくなる。知らないこと自体は一か所で済んでも、分かったつもりで進めれば、誤った前提が複数の判断に入り込む。早い段階で不明点を切り出す方が、結果として手戻りも小さくなる。\n仕事の指示を受けて、「資料の構成は分かりました。ただ、数字は最新月だけ使うのか、過去分も入れるのかが分かりません」と聞けば、相手も答えやすい。何も整理せず「全部分かりません」と投げるのではなく、自分が理解した範囲と、残っている一点を分けて伝える。先に資料や過去例を確認して、それでも判断できない箇所だけ聞けば、自分で考えた上で確認していることも伝わる。\n聞くか迷ったときは、「質問すると能力が低く見えるか」ではなく、「この不明点を残したまま進めると判断を誤るか」で考えるとよい。まず自分で調べ、分かった範囲を整理し、それでも残る一点だけを聞く。何でもすぐ人に渡す必要はないが、重要な前提まで推測で埋める必要もない。理解できていない箇所を明確に止めることが、誤ったまま速く進むより安全で正確な仕事につながる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_435",
-                "kb_706",
-                "kb_733",
-                "kb_770",
-                "kb_825"
+                "kb_435"
               ],
               "subtitle": "無知より危険なのは、分かったつもりで判断を進めることだ。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_435"
+              ],
+              "theoryTagIds": [
                 "kb_435"
               ]
             },
@@ -4005,11 +4770,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_498",
-                "kb_710",
-                "kb_723",
-                "kb_741",
-                "kb_748",
-                "kb_786",
                 "kb_625"
               ],
               "subtitle": "質問の質は、答えを聞く前にどこまで考えたかで決まる。",
@@ -4017,6 +4777,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_498"
+              ],
+              "theoryTagIds": [
+                "kb_498",
+                "kb_625"
               ]
             },
             {
@@ -4029,14 +4793,16 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_543",
-                "kb_495",
-                "kb_781",
-                "theory-d412a6b9-22f8-4007-b96c-43e7061c4b42"
+                "kb_495"
               ],
               "subtitle": "完成度が上がるほど、方向修正のコストも大きくなる。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_543",
+                "kb_495"
+              ],
+              "theoryTagIds": [
                 "kb_543",
                 "kb_495"
               ]
@@ -4070,6 +4836,21 @@
               "primaryTheoryIds": [
                 "kb_599",
                 "kb_506"
+              ],
+              "theoryTagIds": [
+                "kb_506",
+                "kb_599",
+                "kb_763",
+                "kb_770",
+                "kb_771",
+                "kb_809",
+                "kb_810",
+                "kb_839",
+                "kb_841",
+                "kb_844",
+                "kb_892",
+                "kb_505",
+                "kb_940"
               ]
             },
             {
@@ -4084,20 +4865,21 @@
                 "kb_441",
                 "kb_087",
                 "kb_498",
-                "kb_721",
-                "kb_722",
-                "kb_771",
-                "kb_807",
-                "kb_808",
-                "kb_837",
-                "kb_838",
-                "kb_939"
+                "kb_939",
+                "theory-8989915e-3d28-4fad-9521-1bdece206b3f"
               ],
               "subtitle": "仕事では、情報を渡すだけでなく判断できる形まで加工する。",
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_498"
+              ],
+              "theoryTagIds": [
+                "kb_441",
+                "kb_087",
+                "kb_498",
+                "kb_939",
+                "theory-8989915e-3d28-4fad-9521-1bdece206b3f"
               ]
             },
             {
@@ -4109,21 +4891,15 @@
               "explanation": "「かなり遅れています」「多くの人が反対しています」と言われても、聞き手によって受け取る大きさは変わる。曖昧な言葉だけでは、少し注意すればよいのか、すぐ対応すべきなのかまで共有できない。数字に置き換えると、状況の大きさが同じ尺度で見えるようになり、複数の問題がある時も優先順位を比べやすくなる。さらに過去や目標との差まで示せば、数字単体より意味が明確になる。\n進捗を報告するなら、「かなり遅れています」ではなく、「予定では今日八割ですが、現在は五割です」と伝える。「問い合わせが増えています」なら、「先週十件だったものが今週は二十五件です」と比較対象まで添える。これなら、十五件増えたことや進捗が三割分遅れていることを全員が同じように把握できる。曖昧語を一つ数字へ変えるだけでも、次にどれほど急いで動くべきか判断しやすくなる。\n話すときは、「数字を入れたか」ではなく、「その数字で問題の大きさや比較が分かるか」を見るとよい。件数、割合、期間、金額など測れるものは具体化し、できれば前回値や目標値も一緒に置く。一方、信頼感や納得感のように簡単には測れないものまで、無理に数値へ押し込む必要はない。数字は説得力を飾るためではなく、曖昧さを減らし、同じ状況認識から判断を始めるために使う。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_501",
-                "kb_713",
-                "kb_714",
-                "kb_716",
-                "kb_717",
-                "kb_740",
-                "kb_762",
-                "kb_826",
-                "kb_827",
-                "kb_830"
+                "kb_501"
               ],
               "subtitle": "曖昧な言葉では、問題の大きさも優先順位も共有できない。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_501"
+              ],
+              "theoryTagIds": [
                 "kb_501"
               ]
             },
@@ -4142,14 +4918,22 @@
                 "kb_728",
                 "kb_738",
                 "kb_747",
-                "kb_892",
-                "theory-a1d88571-e3f5-4383-b757-d4010025befa"
+                "kb_892"
               ],
               "subtitle": "失敗は一度目より、仕組みに残さなかった二度目で評価される。",
               "displayOrder": 8,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_506"
+              ],
+              "theoryTagIds": [
+                "kb_506",
+                "kb_708",
+                "kb_709",
+                "kb_728",
+                "kb_738",
+                "kb_747",
+                "kb_892"
               ]
             },
             {
@@ -4173,6 +4957,13 @@
               "primaryTheoryIds": [
                 "kb_545",
                 "kb_546"
+              ],
+              "theoryTagIds": [
+                "kb_544",
+                "kb_545",
+                "kb_546",
+                "kb_329",
+                "kb_628"
               ]
             },
             {
@@ -4193,6 +4984,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_087"
+              ],
+              "theoryTagIds": [
+                "kb_087",
+                "kb_196",
+                "kb_197"
               ]
             },
             {
@@ -4211,6 +5007,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_417"
+              ],
+              "theoryTagIds": [
+                "kb_417"
               ]
             },
             {
@@ -4223,14 +5022,17 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_051",
-                "kb_452",
-                "kb_733"
+                "kb_452"
               ],
               "subtitle": "役職への敬意と、自分を下に置くことは別物である。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_051"
+              ],
+              "theoryTagIds": [
+                "kb_051",
+                "kb_452"
               ]
             },
             {
@@ -4257,6 +5059,16 @@
               "primaryTheoryIds": [
                 "kb_087",
                 "kb_516"
+              ],
+              "theoryTagIds": [
+                "kb_441",
+                "kb_087",
+                "kb_507",
+                "kb_516",
+                "kb_764",
+                "kb_777",
+                "kb_891",
+                "kb_505"
               ]
             },
             {
@@ -4280,6 +5092,13 @@
               "primaryTheoryIds": [
                 "kb_102",
                 "kb_518"
+              ],
+              "theoryTagIds": [
+                "kb_102",
+                "kb_584",
+                "kb_131",
+                "kb_518",
+                "kb_515"
               ]
             },
             {
@@ -4291,13 +5110,15 @@
               "explanation": "仕事が立て込んだとき、「今めちゃくちゃ忙しくて」「やることが多すぎる」と繰り返すと、努力していることは伝わっても、同時に仕事を整理できていない印象も残る。周囲が知りたいのは、本人がどれほど大変かより、何がどこまで進み、何が遅れそうなのかである。忙しさそのものを前面に出すより、状況を処理可能な形で示せる人の方が、仕事をコントロールしているように見える。\n締切が重なっているなら、「今かなり忙しいです」とだけ言うのではなく、「Aは今日中、Bは明日までに進めます。Cだけ予定より一日遅れそうです」と伝える。間に合わない見込みがあるなら、「金曜ではなく月曜提出にできるか相談したいです」と期限を調整する。これなら相手は状況を判断しやすい。大変さを隠す必要はないが、感情的な忙しさの報告を、進捗と相談に置き換えることで仕事は前に進みやすくなる。\n見るべきなのは、「忙しく見せているか」ではなく、「忙しい時ほど進捗と限界を具体的に示せているか」である。余裕がないなら、何が終わり、何が難しいかを整理し、必要なら早めに期限を相談する。無理に平然として抱え込み、最後に遅れるのも違う。忙しさを能力の証明として使うのではなく、処理状況を共有し、調整まで含めて扱うことが、タスクを安定して回せる人の基準になる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_111",
-                "kb_767"
+                "kb_111"
               ],
               "subtitle": "忙しさは努力の証明にもなるが、処理能力不足の証拠にも見える。",
               "displayOrder": 15,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_111"
+              ],
+              "theoryTagIds": [
                 "kb_111"
               ]
             }
@@ -4316,16 +5137,15 @@
               "explanation": "作業中に「あとで返信しよう」「あの資料も直さないと」と何度も思い出していると、目の前の仕事に集中していても頭の一部が常に未処理の予定を抱えることになる。覚えておこうとするほど、忘れないための確認が何度も発生し、そのたびに思考が中断される。やることを頭の中で保持するのではなく、外に置いて必要な時に確認できる形にすると、考えるための余力を残しやすい。\n仕事中に新しい依頼が来たら、その場で一か所のタスクリストへ書き、「覚えておく」状態を終わらせる。買う物、返信、確認事項も同じ場所に入れておけば、後で何があったか思い出す必要はない。次に何をするか迷った時は、記憶を探るのではなく、その一覧を見る。メモ帳、付箋、アプリへ別々に散らすと今度は探す負担が増えるため、入口を一つにそろえる方が扱いやすい。\n基準にしたいのは、「全部覚えられているか」ではなく、「忘れても困らない仕組みになっているか」である。思いついたタスクは一か所に出し、決まったタイミングでそこを確認する。便利そうな管理ツールを増やし続ける必要はなく、むしろ確認先が増えるほど抜けやすくなる。頭は予定を保管する場所ではなく、何を優先し、どう進めるかを考えるために使う。その役割分担ができるほど、タスク処理は軽くなる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_577",
-                "kb_738",
-                "kb_739",
-                "kb_743",
-                "kb_745"
+                "kb_577"
               ],
               "subtitle": "脳は記憶装置として使うほど、思考する余力を失う。",
               "displayOrder": 1,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_577"
+              ],
+              "theoryTagIds": [
                 "kb_577"
               ]
             },
@@ -4338,13 +5158,18 @@
               "explanation": "朝から届いた連絡や急な依頼に順番に反応していると、一日中動いていたのに、本当に進めたかった仕事だけ残ることがある。緊急な案件は相手や期限によって自然に目の前へ割り込んでくるが、重要でも急がない仕事は、自分で時間を確保しなければ後回しになりやすい。放っておけば、将来の成果につながる準備や改善より、今すぐ反応を求められる仕事だけで一日が埋まっていく。\n大事な企画書を進めたい日なら、朝一の一時間を先にその作業へ置いておく。メールや細かな依頼は、その後にまとめて確認する。来月の提案準備や業務改善のように、今日やらなくても困らない重要事項も、空いた時にやるのではなく予定表へ入れる。もちろん、本当に今すぐ対応しなければ損失が出る案件が来たならそちらを優先する。ただ、何でも緊急扱いして重要な仕事を毎回押し出さないことが必要になる。\n判断するときは、「今すぐ返事が必要そうか」だけでなく、「後回しにすると重要な仕事がまた消えないか」を見るとよい。重要なタスクは朝一や固定枠で先に守り、緊急でない重要事項も予定化する。その上で、本当に緊急なものが入れば調整する。緊急を無視するのではなく、緊急だけに一日の主導権を渡さない。自分で守らなければ消える仕事へ先に時間を配ることが、長期的な成果を残す基準になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_545"
+                "kb_545",
+                "kb_547"
               ],
               "subtitle": "緊急な仕事は勝手に割り込むが、重要な仕事は守らなければ消える。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_545"
+                "kb_547"
+              ],
+              "theoryTagIds": [
+                "kb_545",
+                "kb_547"
               ]
             },
             {
@@ -4365,6 +5190,10 @@
               "primaryTheoryIds": [
                 "kb_173",
                 "kb_547"
+              ],
+              "theoryTagIds": [
+                "kb_173",
+                "kb_547"
               ]
             },
             {
@@ -4379,8 +5208,6 @@
                 "kb_190",
                 "kb_500",
                 "kb_519",
-                "kb_763",
-                "kb_772",
                 "kb_632",
                 "kb_921",
                 "kb_922"
@@ -4390,6 +5217,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_190"
+              ],
+              "theoryTagIds": [
+                "kb_190",
+                "kb_500",
+                "kb_519",
+                "kb_632",
+                "kb_921",
+                "kb_922"
               ]
             },
             {
@@ -4402,7 +5237,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_190",
-                "kb_751",
                 "kb_503",
                 "kb_627"
               ],
@@ -4411,6 +5245,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_190"
+              ],
+              "theoryTagIds": [
+                "kb_190",
+                "kb_503",
+                "kb_627"
               ]
             },
             {
@@ -4430,6 +5269,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_192"
+              ],
+              "theoryTagIds": [
+                "kb_192",
+                "kb_496"
               ]
             },
             {
@@ -4453,6 +5296,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_532"
+              ],
+              "theoryTagIds": [
+                "kb_175",
+                "kb_532",
+                "kb_326",
+                "kb_620",
+                "kb_943",
+                "kb_944"
               ]
             },
             {
@@ -4479,6 +5330,16 @@
               "primaryTheoryIds": [
                 "kb_528",
                 "kb_438"
+              ],
+              "theoryTagIds": [
+                "kb_438",
+                "kb_174",
+                "kb_177",
+                "kb_178",
+                "kb_179",
+                "kb_528",
+                "kb_619",
+                "kb_943"
               ]
             },
             {
@@ -4490,13 +5351,18 @@
               "explanation": "資料を書いている途中で通知を確認し、返信してから元の作業へ戻ると、止まったのは数分でも、どこまで考えていたかを取り戻すのに時間がかかる。仕事を切り替えるたび、手を動かす対象だけでなく、頭の中に置いていた論点や前提までいったんほどける。細かな中断が重なるほど、一日中動いているのに深いところまで進まない状態になりやすい。\n企画書を作るなら、まず二十五分はその作業だけを続ける。途中でメール通知が来ても、緊急でなければ開かず、区切りの時間にまとめて確認する。返信、チャット、資料修正を数分おきに行き来するより、「今は企画書」「次に連絡確認」と時間を分けた方が、毎回考え直す回数を減らせる。切り替えをなくすのではなく、同じ種類の仕事をある程度まとめて扱うことで、思考の文脈を保ちやすくなる。\n判断するときは、「今すぐ処理できるか」ではなく、「ここで切り替えることで、元の仕事の文脈を失わないか」を見るとよい。一つの作業を二十五分ほど続け、通知や返信は確認時間をまとめる。ただし、急ぎの連絡まで機械的に遮断する必要はない。重要なのは集中時間を守りつつ、本当に割り込むべきものだけを例外にすることだ。仕事の数ではなく切り替えの回数を減らすことで、同じ時間でも深く進めやすくなる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_181"
+                "kb_181",
+                "kb_493"
               ],
               "subtitle": "仕事を変えるたび、時間だけでなく思考の文脈まで失われる。",
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_181"
+                "kb_493"
+              ],
+              "theoryTagIds": [
+                "kb_181",
+                "kb_493"
               ]
             },
             {
@@ -4508,14 +5374,19 @@
               "explanation": "メールを一通返すたびに別の作業を止め、資料を一枚直すたびにまた元の仕事へ戻ると、実際の処理時間以上に疲れやすい。作業には着手する前の準備や、頭を切り替えるための時間があり、種類が変わるたびにその固定費が発生する。細かい仕事を一件ずつ散発的に処理すると、短い作業でも切り替えが積み重なり、一日の中で使える集中力が削られていく。\n返信が五件あるなら、届くたびに一件ずつ返すのではなく、決めた時間にまとめて処理する。経費精算、データ入力、ファイル整理のような事務作業も、同じ種類を連続させた方が、画面や資料を何度も開き直さずに済む。一度その作業モードに入ったまま進めれば、準備と切り替えの回数を減らせる。似た仕事をまとめるだけで、同じ件数でも実際に必要な時間と疲労は小さくなりやすい。\n判断するときは、「今すぐ一件終わらせられるか」ではなく、「同じ種類の作業を後でまとめた方が切り替えを減らせないか」を見るとよい。返信や事務処理は一定量をまとめ、同じ種類を続けて終わらせる。ただし、何日分も大量に溜めれば、今度は未処理の管理が負担になる。まとめる目的は先延ばしではなく、準備と切り替えの固定費を減らすことにある。適度な単位で束ねることが、処理効率を安定させる基準になる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_192",
-                "kb_746"
+                "kb_181",
+                "kb_493"
               ],
               "subtitle": "作業には実行時間とは別に、準備と切り替えの固定費がある。",
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_192"
+                "kb_181",
+                "kb_493"
+              ],
+              "theoryTagIds": [
+                "kb_181",
+                "kb_493"
               ]
             },
             {
@@ -4534,6 +5405,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_190"
+              ],
+              "theoryTagIds": [
+                "kb_190"
               ]
             },
             {
@@ -4547,13 +5421,23 @@
               "relatedTheoryIds": [
                 "kb_087",
                 "kb_939",
-                "kb_941"
+                "kb_941",
+                "kb_274",
+                "kb_515"
               ],
               "subtitle": "抱えられる仕事量には限界があり、委任しないことにも機会費用がある。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_087"
+                "kb_274",
+                "kb_515"
+              ],
+              "theoryTagIds": [
+                "kb_087",
+                "kb_939",
+                "kb_941",
+                "kb_274",
+                "kb_515"
               ]
             },
             {
@@ -4566,9 +5450,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_545",
-                "kb_736",
-                "kb_737",
-                "kb_767",
                 "kb_549",
                 "kb_623",
                 "kb_629",
@@ -4579,6 +5460,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_545"
+              ],
+              "theoryTagIds": [
+                "kb_545",
+                "kb_549",
+                "kb_623",
+                "kb_629",
+                "kb_911"
               ]
             },
             {
@@ -4592,7 +5480,6 @@
               "relatedTheoryIds": [
                 "kb_277",
                 "kb_544",
-                "kb_754",
                 "kb_623"
               ],
               "subtitle": "品質には、追加労力に見合う改善が急減する地点がある。",
@@ -4600,6 +5487,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_277"
+              ],
+              "theoryTagIds": [
+                "kb_277",
+                "kb_544",
+                "kb_623"
               ]
             }
           ]
@@ -4625,6 +5517,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_602"
+              ],
+              "theoryTagIds": [
+                "kb_602",
+                "kb_622"
               ]
             },
             {
@@ -4636,18 +5532,18 @@
               "explanation": "会話の途中で知らない言葉が出たとき、分かったふりをしてうなずくと、その場は止まらなくても、その後の理解がずれていく。曖昧なまま話を進めるほど、どこから分かっていないのか自分でも見えにくくなり、誤った前提の上にさらに理解を重ねることになる。賢く見せるために隠した無知が、かえって判断の精度を落とす。分からない部分をその場で切り分けられる人ほど、理解の土台を崩しにくい。\n聞き慣れない専門用語が出たなら、「その言葉の意味だけ確認してもいい？」と一度止める。説明を受けた後も、全部分かったふりをせず、「ここまでは理解できました。違いがまだ分かりません」と範囲を限定して伝える。こうすれば、相手も必要な部分だけ補足できる。逆に、曖昧な理解のまま自分の意見まで広げると、後で前提の誤りが見つかった時に、話全体をやり直すことになりやすい。\n判断するときは、「知らないと言うと恥ずかしいか」ではなく、「今の理解で話を進めても大丈夫か」を見るとよい。分からない言葉はその場で確認し、自分が理解できた範囲だけを使って考える。無知そのものは問題ではなく、無知を隠して分かったつもりになることの方が危ない。理解の穴を正確に認めて埋める習慣があるほど、知識の量以上に、考え方の精度は高くなる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_205",
-                "kb_706",
-                "kb_723",
-                "kb_828",
-                "kb_829",
-                "kb_952"
+                "kb_952",
+                "kb_723"
               ],
               "subtitle": "頭がいい人ほど、「分かっていないこと」を雑にごまかさない。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_205"
+                "kb_723"
+              ],
+              "theoryTagIds": [
+                "kb_952",
+                "kb_723"
               ]
             },
             {
@@ -4659,20 +5555,21 @@
               "explanation": "「この数字だけ確認しておいて」と言われたとき、指示された箇所だけを見る人と、その数字が何に使われ、次に何が必要になるかまで考える人では、その後の動きが変わる。言葉には省略された前提や目的が含まれていることが多く、表面の指示だけを受け取ると、毎回細かな説明が必要になる。背景まで推測できれば、一つの情報から複数の意味を引き出し、次の行動まで先回りしやすくなる。\n上司から「来月の売上を確認して」と言われたなら、数字だけを返す前に、前月比や目標との差も必要になるかもしれないと考える。さらに、その数字を会議で使うなら簡単な理由分析も求められそうだと予測できる。ただし、自分の想像だけで資料を大きく作り込むのではなく、「前月比も出しておいた方がいいですか」と一度確認する。言われていない部分を補いながら、重要な推測だけ事実と照合することで理解の精度が上がる。\n話を聞くときは、「何を言われたか」で止まらず、「なぜそれが必要で、その次に何が起こるか」まで一段先を考えるとよい。省略されている前提を一つ探し、次に必要になるものを一つ予測する。その推測が判断を左右するなら確認を取る。何でも勝手に決めることが賢さなのではない。少ない情報から背景と先を読み、それを適切に検証できることが、一を聞いて十まで理解する力になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_449",
-                "kb_741",
-                "kb_744",
-                "kb_747",
-                "kb_748",
-                "kb_622",
                 "kb_929",
-                "kb_931"
+                "kb_931",
+                "kb_789"
               ],
               "subtitle": "頭がいい人は、言われていない部分まで勝手に補って理解する。",
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_449"
+                "kb_931",
+                "kb_789"
+              ],
+              "theoryTagIds": [
+                "kb_929",
+                "kb_931",
+                "kb_789"
               ]
             },
             {
@@ -4684,19 +5581,25 @@
               "explanation": "成功事例を見て「この方法を使えばうまくいく」と覚えても、条件が少し変わるだけで通用しなくなることがある。目に見える結論だけを持ち帰ると、その場面に依存した知識になるからである。反対に、なぜその方法が効いたのか、どの要素が結果を生んだのかまで分けて考えると、表面の形が違う状況でも同じ仕組みを見つけやすくなる。\nある店で「入口に人気商品を置いたら売上が伸びた」という事例を見たなら、「入口に置けば売れる」とだけ覚えず、「最初に目に入る場所へ選択肢を置くと、注目と接触回数が増える」と理由を一行で整理する。すると、ウェブサイトなら最上部に重要な商品を置く、資料なら冒頭に要点を出すといった別の場面にも応用できる。事例そのものではなく、結果を生んだ構造を抜き出すことで使える範囲が広がる。\n学ぶときは、「答えを覚えたか」ではなく、「なぜその答えになったかを別の言葉で説明できるか」を確認するとよい。事例から効いた理由を一行で書き、その仕組みを別の場面へ一度当てはめてみる。うまく適用できなければ、まだ構造を十分に捉えられていない可能性がある。結論は一つの結果として覚え、再利用したいなら、その下にある因果や条件まで見ることが必要になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_217",
-                "kb_746",
                 "kb_625",
                 "kb_929",
                 "kb_930",
                 "kb_934",
-                "kb_937"
+                "kb_748"
               ],
               "subtitle": "答えだけ覚える人はその場限り、仕組みを見る人は別の場面でも使える。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_217"
+                "kb_748",
+                "kb_930"
+              ],
+              "theoryTagIds": [
+                "kb_625",
+                "kb_929",
+                "kb_930",
+                "kb_934",
+                "kb_748"
               ]
             },
             {
@@ -4742,6 +5645,35 @@
               "primaryTheoryIds": [
                 "kb_596",
                 "kb_224"
+              ],
+              "theoryTagIds": [
+                "kb_224",
+                "kb_596",
+                "kb_064",
+                "kb_707",
+                "kb_718",
+                "kb_719",
+                "kb_785",
+                "kb_786",
+                "kb_811",
+                "kb_812",
+                "kb_814",
+                "kb_857",
+                "kb_858",
+                "kb_861",
+                "kb_875",
+                "kb_880",
+                "kb_881",
+                "kb_929",
+                "kb_930",
+                "kb_931",
+                "kb_932",
+                "kb_934",
+                "kb_935",
+                "kb_937",
+                "kb_942",
+                "kb_950",
+                "kb_952"
               ]
             },
             {
@@ -4753,18 +5685,23 @@
               "explanation": "一度うまくいった経験を「この場面ではこうする」とだけ覚えると、状況が変わった途端に使えなくなる。反対に、その経験の中から「つまり、何が効いたのか」を抜き出せれば、表面が違う場面にも持ち運べる。具体的な出来事は材料であり、そこから原則を取り出すことで再利用できる知識になる。ただし、抽象化しただけでは不十分で、別の具体例に当てて初めて理解が確かめられる。\nプレゼンで冒頭に結論を置いたら反応が良かったなら、「結論を先に言うと伝わる」で止めず、「相手が全体像を先につかめると、その後の情報を整理しやすい」と一段抽象化する。すると、メールでは要件を先に書く、会議では目的を最初に共有する、と別の場面にも使える。そこで本当に機能するか試せば、その原則がどこまで通用するのかも見えてくる。\n考えるときは、「この経験から何を学んだか」だけでなく、「その学びを別の場面で使える形にできたか」を見るとよい。経験から一つ原則を抜き、その原則を別の具体例に当てる。うまく説明できなければ、抽象化が粗い可能性がある。逆に、抽象論だけを増やして行動に戻さなければ、知識は浮いたままになる。具体から抽象へ上がり、また具体へ降ろす往復が、経験を使える知恵に変える。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_217",
-                "kb_715",
-                "kb_752",
                 "kb_625",
                 "kb_930",
-                "kb_950"
+                "kb_950",
+                "kb_929"
               ],
               "subtitle": "一つの経験から「つまりこういうことか」を抜き出せる人は伸びるのが速い。",
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_217"
+                "kb_930",
+                "kb_929"
+              ],
+              "theoryTagIds": [
+                "kb_625",
+                "kb_930",
+                "kb_950",
+                "kb_929"
               ]
             },
             {
@@ -4776,16 +5713,6 @@
               "explanation": "売上が伸びた月に広告費も増えていると、「広告を増やしたから売れた」と考えたくなる。二つの変化が同じ時期に起きると、片方をもう片方の原因として結びつけやすいからである。けれど、同時に動いていることと、実際に原因になっていることは別である。季節や景気など第三の要因が両方を動かしている場合もあれば、想定していたものとは逆向きの因果が働いている場合もある。\n「勉強時間が長い学生ほど成績が高い」という結果を見ても、すぐに長時間勉強だけが原因だとは決められない。もともと学習意欲が高い人ほど、勉強時間も長く成績も高い可能性がある。さらに、成績が上がって手応えを得たから勉強時間が増えたという逆方向も考えられる。そこで「両方に影響する別の要因はないか」「原因と結果を逆にしても説明できないか」と一度考えると、単純な結論を避けやすい。\nデータを見るときは、「二つが一緒に動いているか」で止まらず、「片方を変えれば本当にもう片方も変わるのか」を考えるとよい。第三の要因を一つ探し、逆方向の因果も検討する。それでも原因だと言える材料があるかを見てから結論を出す。一緒に起きた事実は重要な手掛かりだが、それだけで原因の証明にはならない。相関を入口として扱い、因果は別に確かめることが、データから早合点しないための基準になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_449",
-                "kb_711",
-                "kb_712",
-                "kb_715",
-                "kb_717",
-                "kb_809",
-                "kb_835",
-                "kb_836",
-                "kb_843",
-                "kb_844",
                 "kb_933",
                 "kb_938"
               ],
@@ -4793,7 +5720,11 @@
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_449"
+                "kb_933"
+              ],
+              "theoryTagIds": [
+                "kb_933",
+                "kb_938"
               ]
             },
             {
@@ -4808,7 +5739,6 @@
                 "kb_573",
                 "kb_574",
                 "kb_065",
-                "kb_716",
                 "kb_619",
                 "kb_936",
                 "kb_953"
@@ -4819,6 +5749,14 @@
               "primaryTheoryIds": [
                 "kb_573",
                 "kb_574"
+              ],
+              "theoryTagIds": [
+                "kb_573",
+                "kb_574",
+                "kb_065",
+                "kb_619",
+                "kb_936",
+                "kb_953"
               ]
             },
             {
@@ -4830,13 +5768,15 @@
               "explanation": "専門的な説明をそのまま聞いても、言葉の意味は追えているのに全体像がつかめないことがある。理解が浅いままでは、元の表現を言い換える程度しかできないが、仕組みまで捉えていれば、相手が知っている別のものへ置き換えられる。難しい話を身近な例に移すには、表面の形ではなく「何と何の関係が同じなのか」を見抜く必要がある。その抽出ができるほど、説明は短くても伝わりやすくなる。\n通信回線の混雑を説明するなら、「道路の渋滞みたいなものです」と言うだけで終わらせず、「通れる量に限界があり、利用者が一度に集中すると遅くなる点が同じです」と添える。これなら相手は、知らない仕組みを知っている現象に重ねて理解できる。一方で、道路には車線変更があるが通信には同じ仕組みがないように、たとえと元の話が完全に一致するわけではない。共通点と違いを分けることで、誤解も減らせる。\nたとえを使うときは、「面白い例を思いつけたか」ではなく、「元の話の重要な構造を保ったまま身近なものへ移せているか」を見るとよい。何が同じなのかを一言で示し、必要なら違う部分も補足する。似ている雰囲気だけで例えると、かえって理解をずらしてしまう。難しい概念を身近な経験へ置き換え、それでも構造が崩れていないか確認することが、分かりやすいたとえを作る基準になる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_414",
-                "kb_742"
+                "kb_414"
               ],
               "subtitle": "本当に分かっている人ほど、難しい話を身近なものに置き換えられる。",
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_414"
+              ],
+              "theoryTagIds": [
                 "kb_414"
               ]
             },
@@ -4849,13 +5789,15 @@
               "explanation": "説明を始めると、背景や経緯まで全部伝えたくなり、結論にたどり着く前に相手の集中が切れることがある。情報量が多いほど丁寧に見えるとは限らず、何が重要なのかが埋もれると、考えまで曖昧に見えやすい。短く話せる人は内容を削っているのではなく、相手が理解するために必要な量を見極めている。どこまで言えば十分かを判断できるほど、話の輪郭ははっきりする。\n上司に進捗を聞かれたなら、「結論としては金曜までに終わります」と先に言う。その後、「主要部分は完了していて、残りは確認だけです」と必要な根拠を添えれば足りる。最初から作業の経緯や細かな苦労まで説明すると、聞き手は結論を探しながら聞くことになる。不要な前提を一つ削り、相手が追加で知りたそうならそこで補う方が、短くても説明不足にはなりにくい。\n話す前は、「全部正確に伝えられるか」ではなく、「相手が次の判断をするために何が必要か」を基準にするとよい。まず結論を一文で置き、その結論を理解するのに必要な前提だけ残す。短さを優先して理由まで消せば、今度は雑な説明になる。必要な情報は残しつつ、相手がすでに知っていることや判断に使わない部分は削る。その見極めができるほど、短いのに分かりやすい話し方になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_493",
-                "kb_745"
+                "kb_493"
               ],
               "subtitle": "頭がいい人は、全部話すのではなく「どこまで言えば伝わるか」を読んでいる。",
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_493"
+              ],
+              "theoryTagIds": [
                 "kb_493"
               ]
             }
@@ -4875,7 +5817,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_154",
-                "kb_817",
                 "kb_626"
               ],
               "subtitle": "評価は「何を頑張ったか」ではなく、評価者が何を成果と見なすかで決まる。",
@@ -4883,6 +5824,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_154"
+              ],
+              "theoryTagIds": [
+                "kb_154",
+                "kb_626"
               ]
             },
             {
@@ -4904,6 +5849,11 @@
               "primaryTheoryIds": [
                 "kb_088",
                 "kb_113"
+              ],
+              "theoryTagIds": [
+                "kb_088",
+                "kb_113",
+                "kb_327"
               ]
             },
             {
@@ -4927,6 +5877,13 @@
               "primaryTheoryIds": [
                 "kb_113",
                 "kb_422"
+              ],
+              "theoryTagIds": [
+                "kb_422",
+                "kb_113",
+                "kb_510",
+                "kb_504",
+                "kb_312"
               ]
             },
             {
@@ -4943,9 +5900,6 @@
                 "kb_195",
                 "kb_501",
                 "kb_508",
-                "kb_727",
-                "kb_762",
-                "kb_768",
                 "kb_312",
                 "kb_933",
                 "kb_938"
@@ -4955,6 +5909,16 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_501"
+              ],
+              "theoryTagIds": [
+                "kb_193",
+                "kb_194",
+                "kb_195",
+                "kb_501",
+                "kb_508",
+                "kb_312",
+                "kb_933",
+                "kb_938"
               ]
             },
             {
@@ -4967,8 +5931,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_116",
-                "kb_711",
-                "kb_766",
                 "kb_605",
                 "kb_628",
                 "kb_940"
@@ -4978,6 +5940,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_116"
+              ],
+              "theoryTagIds": [
+                "kb_116",
+                "kb_605",
+                "kb_628",
+                "kb_940"
               ]
             },
             {
@@ -4997,6 +5965,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_126"
+              ],
+              "theoryTagIds": [
+                "kb_126",
+                "kb_512"
               ]
             },
             {
@@ -5017,6 +5989,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_518"
+              ],
+              "theoryTagIds": [
+                "kb_513",
+                "kb_518",
+                "kb_468"
               ]
             },
             {
@@ -5037,6 +6014,10 @@
               "primaryTheoryIds": [
                 "kb_491",
                 "kb_102"
+              ],
+              "theoryTagIds": [
+                "kb_102",
+                "kb_491"
               ]
             },
             {
@@ -5058,6 +6039,11 @@
               "primaryTheoryIds": [
                 "kb_077",
                 "kb_091"
+              ],
+              "theoryTagIds": [
+                "kb_077",
+                "kb_091",
+                "kb_512"
               ]
             },
             {
@@ -5073,7 +6059,6 @@
                 "kb_239",
                 "kb_142",
                 "kb_286",
-                "kb_765",
                 "kb_468",
                 "kb_469",
                 "kb_940"
@@ -5084,6 +6069,15 @@
               "primaryTheoryIds": [
                 "kb_035",
                 "kb_142"
+              ],
+              "theoryTagIds": [
+                "kb_035",
+                "kb_239",
+                "kb_142",
+                "kb_286",
+                "kb_468",
+                "kb_469",
+                "kb_940"
               ]
             }
           ]
@@ -5102,15 +6096,17 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_144",
-                "kb_524",
-                "kb_791",
-                "kb_792"
+                "kb_524"
               ],
               "subtitle": "交渉中は「ここまで来たから」が判断を鈍らせるため、撤退条件は先に決める。",
               "displayOrder": 1,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_144"
+              ],
+              "theoryTagIds": [
+                "kb_144",
+                "kb_524"
               ]
             },
             {
@@ -5128,8 +6124,6 @@
                 "kb_142",
                 "kb_143",
                 "kb_165",
-                "kb_790",
-                "kb_791",
                 "kb_630"
               ],
               "subtitle": "代替案を持つ側ほど、「この条件でなくてもいい」と言える。",
@@ -5138,6 +6132,15 @@
               "primaryTheoryIds": [
                 "kb_142",
                 "kb_035"
+              ],
+              "theoryTagIds": [
+                "kb_035",
+                "kb_079",
+                "kb_527",
+                "kb_142",
+                "kb_143",
+                "kb_165",
+                "kb_630"
               ]
             },
             {
@@ -5149,15 +6152,15 @@
               "explanation": "条件交渉で自分から「この金額までなら下げられます」と先に言うと、相手はそれより高い条件でも十分満足していた可能性がある。相手の希望を知らないまま数字や条件を出すと、自分で交渉余地を狭めやすい。先に何を求めているのか、どの条件を特に重視しているのかを聞けば、相手が譲れない点と調整できる点が見え、必要以上の譲歩を避けやすくなる。\n取引条件を決める場面なら、「こちらはこの価格です」とすぐ提示する前に、「価格、納期、数量の中では何を最も重視しますか」と聞く。相手が「価格より納期を優先したい」と答えれば、値下げではなく納期調整で合意できるかもしれない。さらに「希望はどの程度ですか」と先に確認すれば、自分が想定していたより緩い条件だと分かる場合もある。相手の希望を聞くことは、譲歩の材料ではなく、交渉の地図を得ることになる。\n進めるときは、「自分の条件を早く出した方が誠実か」ではなく、「相手が何を望み、何を優先しているかを把握できているか」を先に見るとよい。希望と優先順位を聞いた上で、自分の条件を出せば、交換できる部分も見つけやすい。ただし、いつまでも自分の希望を伏せ続けると不信感につながる。先に相手を知り、その後で自分の条件も明確にする。その順番が、不要な譲歩を減らす基準になる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_147",
-                "kb_784",
-                "kb_785",
-                "kb_787"
+                "kb_147"
               ],
               "subtitle": "相手の希望を知らずに先に出すと、自分から必要以上に譲ることがある。",
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_147"
+              ],
+              "theoryTagIds": [
                 "kb_147"
               ]
             },
@@ -5174,7 +6177,6 @@
                 "kb_148",
                 "kb_149",
                 "kb_522",
-                "kb_795",
                 "kb_626"
               ],
               "subtitle": "同じ条件でも価値は人によって違うから、交渉は交換の余地が生まれる。",
@@ -5182,6 +6184,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_147"
+              ],
+              "theoryTagIds": [
+                "kb_147",
+                "kb_148",
+                "kb_149",
+                "kb_522",
+                "kb_626"
               ]
             },
             {
@@ -5200,7 +6209,12 @@
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_152",
                 "kb_108"
+              ],
+              "theoryTagIds": [
+                "kb_108",
+                "kb_152"
               ]
             },
             {
@@ -5220,6 +6234,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_109"
+              ],
+              "theoryTagIds": [
+                "kb_109",
+                "kb_524"
               ]
             },
             {
@@ -5237,6 +6255,9 @@
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_138"
+              ],
+              "theoryTagIds": [
                 "kb_138"
               ]
             },
@@ -5257,6 +6278,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_140"
+              ],
+              "theoryTagIds": [
+                "kb_139",
+                "kb_140"
               ]
             },
             {
@@ -5275,6 +6300,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_099"
+              ],
+              "theoryTagIds": [
+                "kb_099"
               ]
             },
             {
@@ -5286,14 +6314,16 @@
               "explanation": "一度値下げや期限短縮に応じると、相手はその譲歩を「今回だけの配慮」ではなく、「まだ動かせる余地」と受け取ることがある。何も求めずに譲り続けるほど、最初の条件そのものが弱い基準へ変わり、次の要求も出やすくなる。譲歩を好意として残したいなら、こちらも何かを受け取る形にして、条件が一方通行で動くわけではないと示す必要がある。\n納期を一週間早めてほしいと言われたなら、「対応できます。その代わり、確認回数は一回にしてください」と交換条件を出す。価格を下げるなら、「この金額までなら可能です。その代わり、契約期間は半年でお願いします」と返す。こうすれば、相手もこちらが譲るたびに負担を負っていることを理解しやすい。譲歩そのものを拒むのではなく、何と引き換えなら動かせるかを明確にすることで、条件の釣り合いを保てる。\n判断するときは、「ここは譲っても大丈夫か」だけでなく、「譲るなら何を返してもらうか」まで考えるとよい。一つ動かすなら、一つ条件を求める。ただし、細かな譲歩すべてに小さな見返りを付ければ、取引が窮屈になり関係も悪くなる。重要な条件が動く場面だけ交換を意識し、軽い配慮はそのまま渡してもいい。一方的な譲歩を常態化させず、双方が動く形を作ることが交渉の基準になる。",
               "importance": 3,
               "relatedTheoryIds": [
-                "kb_153",
-                "kb_798"
+                "kb_150"
               ],
               "subtitle": "一方的に譲ると、それは好意より「まだ押せる」という基準になりやすい。",
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_153"
+                "kb_150"
+              ],
+              "theoryTagIds": [
+                "kb_150"
               ]
             },
             {
@@ -5314,6 +6344,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_151"
+              ],
+              "theoryTagIds": [
+                "kb_150",
+                "kb_151",
+                "kb_522"
               ]
             },
             {
@@ -5326,7 +6361,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_166",
-                "kb_792",
                 "kb_496"
               ],
               "subtitle": "人は期限がないと現状維持を選びやすく、決断を後回しにする。",
@@ -5334,6 +6368,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_166"
+              ],
+              "theoryTagIds": [
+                "kb_166",
+                "kb_496"
               ]
             },
             {
@@ -5352,7 +6390,11 @@
               "displayOrder": 13,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_416"
+                "kb_523"
+              ],
+              "theoryTagIds": [
+                "kb_416",
+                "kb_523"
               ]
             },
             {
@@ -5372,6 +6414,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_098"
+              ],
+              "theoryTagIds": [
+                "kb_098",
+                "kb_101"
               ]
             },
             {
@@ -5384,15 +6430,17 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_154",
-                "kb_525",
-                "kb_760",
-                "kb_761"
+                "kb_525"
               ],
               "subtitle": "自分が払ったコストと、相手が感じる価値は一致しない。",
               "displayOrder": 15,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_154"
+              ],
+              "theoryTagIds": [
+                "kb_154",
+                "kb_525"
               ]
             },
             {
@@ -5405,8 +6453,7 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_056",
-                "kb_159",
-                "kb_787"
+                "kb_159"
               ],
               "subtitle": "人は条件より、「自分が負けたと見られること」に強く抵抗する。",
               "displayOrder": 16,
@@ -5414,6 +6461,10 @@
               "primaryTheoryIds": [
                 "kb_159",
                 "kb_056"
+              ],
+              "theoryTagIds": [
+                "kb_056",
+                "kb_159"
               ]
             },
             {
@@ -5427,9 +6478,6 @@
               "relatedTheoryIds": [
                 "kb_486",
                 "kb_155",
-                "kb_768",
-                "kb_769",
-                "kb_798",
                 "kb_954",
                 "kb_955",
                 "kb_956"
@@ -5439,6 +6487,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_155"
+              ],
+              "theoryTagIds": [
+                "kb_486",
+                "kb_155",
+                "kb_954",
+                "kb_955",
+                "kb_956"
               ]
             },
             {
@@ -5457,7 +6512,11 @@
               "displayOrder": 18,
               "status": "published",
               "primaryTheoryIds": [
-                "kb_084"
+                "kb_161"
+              ],
+              "theoryTagIds": [
+                "kb_084",
+                "kb_161"
               ]
             },
             {
@@ -5472,24 +6531,6 @@
                 "kb_157",
                 "kb_162",
                 "kb_163",
-                "kb_778",
-                "kb_779",
-                "kb_790",
-                "kb_795",
-                "kb_797",
-                "kb_847",
-                "kb_848",
-                "kb_849",
-                "kb_850",
-                "kb_852",
-                "kb_853",
-                "kb_854",
-                "kb_855",
-                "kb_862",
-                "kb_863",
-                "kb_864",
-                "kb_865",
-                "kb_866",
                 "kb_490",
                 "kb_496",
                 "kb_621",
@@ -5502,6 +6543,17 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_163"
+              ],
+              "theoryTagIds": [
+                "kb_157",
+                "kb_162",
+                "kb_163",
+                "kb_490",
+                "kb_496",
+                "kb_621",
+                "kb_630",
+                "kb_926",
+                "kb_953"
               ]
             }
           ]
@@ -5527,6 +6579,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_085"
+              ],
+              "theoryTagIds": [
+                "kb_080",
+                "kb_085"
               ]
             },
             {
@@ -5540,15 +6596,18 @@
               "relatedTheoryIds": [
                 "kb_080",
                 "kb_084",
-                "kb_085",
-                "kb_800",
-                "kb_802"
+                "kb_085"
               ],
               "subtitle": "組織では、偉さより「その人を通らないと進まない情報」を持つ人が強い。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_084"
+              ],
+              "theoryTagIds": [
+                "kb_080",
+                "kb_084",
+                "kb_085"
               ]
             },
             {
@@ -5562,7 +6621,6 @@
               "relatedTheoryIds": [
                 "kb_080",
                 "kb_085",
-                "kb_832",
                 "kb_606",
                 "kb_617",
                 "kb_626"
@@ -5572,6 +6630,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_080"
+              ],
+              "theoryTagIds": [
+                "kb_080",
+                "kb_085",
+                "kb_606",
+                "kb_617",
+                "kb_626"
               ]
             },
             {
@@ -5583,17 +6648,15 @@
               "explanation": "困り事が起きてから急に連絡すると、内容が妥当でも「必要な時だけ来る人」という印象が先に立つことがある。反対に、普段から短い会話を交わし、ときには相手の仕事を手伝っている関係なら、頼み事も単発の取引ではなく、それまでの関係の延長として受け取られやすい。味方は問題が起きた瞬間に作るものではなく、何も起きていない時期の小さな接点によって、少しずつ頼り合える状態になっていく。\n別部署の協力が必要になりそうなら、案件が発生してから担当者を探すのではなく、平時に一度その人の作業を手伝ったり、用事がなくても廊下で短く声をかけたりしておく。後日こちらが急ぎの確認を頼む場面でも、相手には「突然仕事を持ち込んできた人」ではなく、以前からやり取りのある相手として映る。大げさな貸しを作る必要はなく、普段の小さな協力や接点が、いざという時に声をかけやすい土台になる。\n人間関係を作るときは、「今この人に頼む用事があるか」だけでなく、「何もない時にも関係を保てているか」を見るとよい。平時に一人を助け、短い接点を途切れさせない。それだけでも、必要になった時だけ急に近づくより、協力を頼める余地は大きくなる。ただし、将来助けてもらうための計算だけで接すれば不自然になる。用事の有無にかかわらず関係を積んでおくことが、味方を必要になる前に作る基準になる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_081",
-                "kb_778",
-                "kb_799",
-                "kb_847",
-                "kb_849",
-                "kb_852"
+                "kb_081"
               ],
               "subtitle": "人は困った時だけ近づく相手より、平時から関係を積んだ相手を助ける。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_081"
+              ],
+              "theoryTagIds": [
                 "kb_081"
               ]
             },
@@ -5614,6 +6677,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_081"
+              ],
+              "theoryTagIds": [
+                "kb_081",
+                "kb_490"
               ]
             },
             {
@@ -5627,8 +6694,7 @@
               "relatedTheoryIds": [
                 "kb_106",
                 "kb_083",
-                "kb_084",
-                "kb_783"
+                "kb_084"
               ],
               "subtitle": "情報が集まる人は、役職がなくても「その人を通す価値」を持てる。",
               "displayOrder": 6,
@@ -5636,6 +6702,11 @@
               "primaryTheoryIds": [
                 "kb_084",
                 "kb_083"
+              ],
+              "theoryTagIds": [
+                "kb_106",
+                "kb_083",
+                "kb_084"
               ]
             },
             {
@@ -5650,9 +6721,6 @@
                 "kb_084",
                 "kb_483",
                 "kb_159",
-                "kb_793",
-                "kb_794",
-                "kb_796",
                 "kb_627"
               ],
               "subtitle": "人は公の場で初めて反対されると、内容より面子を守ろうとする。",
@@ -5661,6 +6729,12 @@
               "primaryTheoryIds": [
                 "kb_084",
                 "kb_483"
+              ],
+              "theoryTagIds": [
+                "kb_084",
+                "kb_483",
+                "kb_159",
+                "kb_627"
               ]
             },
             {
@@ -5679,6 +6753,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_483"
+              ],
+              "theoryTagIds": [
+                "kb_483"
               ]
             },
             {
@@ -5696,6 +6773,9 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_125"
+              ],
+              "theoryTagIds": [
                 "kb_125"
               ]
             },
@@ -5718,6 +6798,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_518"
+              ],
+              "theoryTagIds": [
+                "kb_514",
+                "kb_513",
+                "kb_518",
+                "kb_468"
               ]
             }
           ]
@@ -5743,13 +6829,20 @@
               "relatedTheoryIds": [
                 "kb_553",
                 "kb_618",
-                "kb_949"
+                "kb_949",
+                "theory-c83321fd-d076-4d5c-b270-6af925c204a5"
               ],
               "subtitle": "成功にはすぐ慣れるが、人間関係や日常の満足は毎日の幸福を支える。",
               "displayOrder": 1,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_553"
+              ],
+              "theoryTagIds": [
+                "kb_553",
+                "kb_618",
+                "kb_949",
+                "theory-c83321fd-d076-4d5c-b270-6af925c204a5"
               ]
             },
             {
@@ -5771,6 +6864,11 @@
               "primaryTheoryIds": [
                 "kb_556",
                 "kb_557"
+              ],
+              "theoryTagIds": [
+                "kb_556",
+                "kb_557",
+                "kb_500"
               ]
             },
             {
@@ -5783,15 +6881,19 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_551",
-                "kb_736",
-                "theory-665760d5-914e-41d3-af31-7c74dd28d909",
-                "kb_618"
+                "kb_618",
+                "theory-d15357a9-73da-4286-859e-91a7ebcb5f85"
               ],
               "subtitle": "達成しても次の目標が生まれるから、「いつか幸せ」はいつまでも来ない。",
               "displayOrder": 3,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_551"
+              ],
+              "theoryTagIds": [
+                "kb_551",
+                "kb_618",
+                "theory-d15357a9-73da-4286-859e-91a7ebcb5f85"
               ]
             },
             {
@@ -5803,8 +6905,8 @@
               "explanation": "欲しかった物を手に入れた直後は嬉しかったのに、数か月もするとそれが当たり前になり、今度は別の不足が気になり始める。生活が以前より良くなっていても、慣れたものは意識から外れ、まだ持っていないものだけが目立つ。その状態が続くと、実際には多くを得ているのに「自分には足りない」という感覚ばかりが残る。満足を増やすには、新しく得ることだけでなく、すでにあるものをもう一度認識する必要がある。\n一日の終わりに、健康に過ごせたこと、話せる友人がいること、落ち着ける部屋があることなど、すでに持っているものを三つ書いてみる。そのうち一つは、ただ確認するだけでなく意識して味わう。毎朝飲んでいるコーヒーなら、作業をしながら流し込まず、数分だけ香りや味に注意を向ける。慣れて見えなくなっていた幸せも、意識を戻せば「ずっとあったもの」として再び感じられる。\n自分の状態を考えるときは、「次に何を手に入れれば満足できるか」だけでなく、「今あるもののうち、慣れすぎて数えなくなったものは何か」を見るとよい。欲しいものや改善したい点を持つことまでやめる必要はない。向上心を保ちながら、現在の不足と現在の充足を同時に見る。足りないものだけで現在を採点せず、すでに得たものも評価に戻すことが、満足を見失わずに前へ進む基準になる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_268",
                 "kb_425",
+                "kb_268",
                 "kb_618"
               ],
               "subtitle": "人は手に入れたものには慣れ、まだないものばかり目につくようになる。",
@@ -5812,6 +6914,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_425"
+              ],
+              "theoryTagIds": [
+                "kb_425",
+                "kb_268",
+                "kb_618"
               ]
             },
             {
@@ -5824,7 +6931,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_551",
-                "theory-665760d5-914e-41d3-af31-7c74dd28d909",
                 "kb_612",
                 "kb_613"
               ],
@@ -5833,6 +6939,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_551"
+              ],
+              "theoryTagIds": [
+                "kb_551",
+                "kb_612",
+                "kb_613"
               ]
             },
             {
@@ -5846,8 +6957,6 @@
               "relatedTheoryIds": [
                 "kb_562",
                 "kb_176",
-                "kb_753",
-                "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
                 "kb_610",
                 "kb_612",
                 "kb_912"
@@ -5857,6 +6966,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_562"
+              ],
+              "theoryTagIds": [
+                "kb_562",
+                "kb_176",
+                "kb_610",
+                "kb_612",
+                "kb_912"
               ]
             },
             {
@@ -5869,10 +6985,6 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_274",
-                "kb_757",
-                "kb_760",
-                "kb_761",
-                "theory-ea4dfb6c-4442-477a-aa71-a3581d201131",
                 "kb_612"
               ],
               "subtitle": "お金は増やせても、使った時間だけは二度と買い戻せない。",
@@ -5880,6 +6992,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_274"
+              ],
+              "theoryTagIds": [
+                "kb_274",
+                "kb_612"
               ]
             },
             {
@@ -5893,7 +7009,6 @@
               "relatedTheoryIds": [
                 "kb_562",
                 "kb_604",
-                "theory-cd7acf77-8b00-45b9-adfb-f0d3789122b6",
                 "kb_610",
                 "kb_613"
               ],
@@ -5902,6 +7017,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_562"
+              ],
+              "theoryTagIds": [
+                "kb_562",
+                "kb_604",
+                "kb_610",
+                "kb_613"
               ]
             },
             {
@@ -5923,6 +7044,11 @@
               "primaryTheoryIds": [
                 "kb_550",
                 "kb_029"
+              ],
+              "theoryTagIds": [
+                "kb_029",
+                "kb_550",
+                "kb_613"
               ]
             },
             {
@@ -5935,7 +7061,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_564",
-                "theory-18c606ea-e115-4971-9f3a-017fb6a6d753",
                 "kb_912"
               ],
               "subtitle": "人間関係は「落ち着いたら」で後回しにするほど、同じ時間を取り戻せなくなる。",
@@ -5943,6 +7068,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_564"
+              ],
+              "theoryTagIds": [
+                "kb_564",
+                "kb_912"
               ]
             },
             {
@@ -5954,13 +7083,15 @@
               "explanation": "普段なら断る誘いに乗ったことがきっかけで、思いがけない友人や仕事、考え方に出会うことがある。生活そのものは一人でも組み立てられるが、気持ちが沈んだ時に支えてくれる相手や、自分では見つけられなかった選択肢を持ってくるのは人であることが多い。縁は必要になってから探せば必ず得られるものではない。何気ない接点を残しているからこそ、孤独を和らげる関係や人生を動かす出会いにつながる。\nいつも同じ友人とだけ過ごしているなら、知人に誘われた食事や集まりに一度参加してみる。そこで普段なら話さない相手と少し会話するだけでも、自分とは違う仕事や暮らし方を知ることがある。その場では何も起きなくても、後日また会ったり、別の人を紹介されたりして縁が続くかもしれない。逆に「自分に得がある人か」を最初から選別していれば、関係が育つ前に多くの接点を閉じることになる。\n人との付き合いを考えるときは、「この人は何の役に立つか」ではなく、「この縁を最初から閉じる理由があるか」を見るとよい。普段会わない人と一度話し、無理のない誘いなら一つ乗ってみる。すべての縁を維持する必要はないが、損得が見えないという理由だけで切り捨てない。支えになる関係も、人生の転機になる出会いも、最初から価値が分かるとは限らない。人との接点に少し余白を残すことが、縁を軽視しない基準になる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_081",
-                "theory-18c606ea-e115-4971-9f3a-017fb6a6d753"
+                "kb_081"
               ],
               "subtitle": "人は一人でも生きられるが、孤独には弱い。人生の支えも転機も、結局は人から来ることが多い。",
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_081"
+              ],
+              "theoryTagIds": [
                 "kb_081"
               ]
             },
@@ -5974,7 +7105,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_562",
-                "theory-de584411-ca8e-4a8e-a53c-e1f36436c42d",
                 "kb_921",
                 "kb_922"
               ],
@@ -5983,6 +7113,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_562"
+              ],
+              "theoryTagIds": [
+                "kb_562",
+                "kb_921",
+                "kb_922"
               ]
             },
             {
@@ -6008,6 +7143,15 @@
               "primaryTheoryIds": [
                 "kb_553",
                 "kb_567"
+              ],
+              "theoryTagIds": [
+                "kb_553",
+                "kb_567",
+                "kb_280",
+                "kb_281",
+                "kb_282",
+                "kb_701",
+                "kb_351"
               ]
             },
             {
@@ -6021,8 +7165,6 @@
               "relatedTheoryIds": [
                 "kb_272",
                 "kb_296",
-                "theory-ea328bdf-a483-4048-9a88-356239325011",
-                "theory-8cbf5a5e-3de7-4c97-be53-579fca58b5c0",
                 "kb_955"
               ],
               "subtitle": "お金と自由だけでは埋まらない。「自分が誰かの役に立っている」という実感も、人には必要になる。",
@@ -6030,6 +7172,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_296"
+              ],
+              "theoryTagIds": [
+                "kb_272",
+                "kb_296",
+                "kb_955"
               ]
             },
             {
@@ -6055,6 +7202,16 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_558"
+              ],
+              "theoryTagIds": [
+                "kb_558",
+                "kb_909",
+                "kb_910",
+                "kb_911",
+                "kb_915",
+                "kb_916",
+                "kb_920",
+                "kb_953"
               ]
             },
             {
@@ -6077,6 +7234,12 @@
               "primaryTheoryIds": [
                 "kb_558",
                 "kb_572"
+              ],
+              "theoryTagIds": [
+                "kb_558",
+                "kb_572",
+                "kb_913",
+                "kb_951"
               ]
             }
           ]
@@ -6103,6 +7266,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_259"
+              ],
+              "theoryTagIds": [
+                "kb_259",
+                "kb_266",
+                "kb_909"
               ]
             },
             {
@@ -6121,6 +7289,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_566"
+              ],
+              "theoryTagIds": [
+                "kb_566"
               ]
             },
             {
@@ -6133,15 +7304,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_259",
-                "kb_315",
-                "kb_725",
-                "kb_750",
-                "kb_805",
-                "kb_806",
-                "kb_833",
-                "kb_867",
-                "kb_868",
-                "theory-6f51e173-64ce-43d1-b64b-92aa5b9794c6",
                 "kb_617"
               ],
               "subtitle": "自分の物差しがないと、世間の分かりやすい物差しで人生を選んでしまう。",
@@ -6149,6 +7311,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_259"
+              ],
+              "theoryTagIds": [
+                "kb_259",
+                "kb_617"
               ]
             },
             {
@@ -6164,12 +7330,6 @@
                 "kb_130",
                 "kb_491",
                 "kb_315",
-                "kb_724",
-                "kb_726",
-                "kb_803",
-                "kb_804",
-                "kb_806",
-                "theory-d923799a-26ec-4db9-b0ed-7777497244ae",
                 "kb_605",
                 "kb_617",
                 "kb_626",
@@ -6181,6 +7341,16 @@
               "primaryTheoryIds": [
                 "kb_128",
                 "kb_491"
+              ],
+              "theoryTagIds": [
+                "kb_128",
+                "kb_130",
+                "kb_491",
+                "kb_315",
+                "kb_605",
+                "kb_617",
+                "kb_626",
+                "kb_628"
               ]
             },
             {
@@ -6193,8 +7363,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_491",
-                "kb_315",
-                "theory-116d47d4-5388-45a1-b6d7-986369be20d0",
                 "kb_605"
               ],
               "subtitle": "多数派に合わせれば欠点でも、場所を変えればその違い自体が希少性になる。",
@@ -6202,6 +7370,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_491"
+              ],
+              "theoryTagIds": [
+                "kb_491",
+                "kb_605"
               ]
             },
             {
@@ -6214,17 +7386,19 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_520",
-                "kb_848",
-                "kb_850",
-                "kb_854",
-                "kb_855",
-                "kb_913"
+                "kb_913",
+                "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a"
               ],
               "subtitle": "人は失敗そのものより、「自分で選ばなかった人生」を引きずりやすい。",
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_520"
+              ],
+              "theoryTagIds": [
+                "kb_520",
+                "kb_913",
+                "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a"
               ]
             },
             {
@@ -6244,6 +7418,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_274"
+              ],
+              "theoryTagIds": [
+                "kb_274",
+                "kb_701"
               ]
             },
             {
@@ -6256,7 +7434,6 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_559",
-                "kb_805",
                 "kb_915"
               ],
               "subtitle": "違和感は正解を教えないが、「このままではない」は教えてくれる。",
@@ -6264,6 +7441,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_559"
+              ],
+              "theoryTagIds": [
+                "kb_559",
+                "kb_915"
               ]
             },
             {
@@ -6279,10 +7460,6 @@
                 "kb_128",
                 "kb_129",
                 "kb_315",
-                "kb_803",
-                "kb_804",
-                "kb_867",
-                "kb_868",
                 "kb_914"
               ],
               "subtitle": "伸びない原因を全部自分の能力不足にすると、合わない場所で努力を続けてしまう。",
@@ -6291,6 +7468,13 @@
               "primaryTheoryIds": [
                 "kb_128",
                 "kb_559"
+              ],
+              "theoryTagIds": [
+                "kb_559",
+                "kb_128",
+                "kb_129",
+                "kb_315",
+                "kb_914"
               ]
             },
             {
@@ -6304,7 +7488,6 @@
               "relatedTheoryIds": [
                 "kb_258",
                 "kb_315",
-                "kb_724",
                 "kb_549",
                 "kb_606",
                 "kb_615",
@@ -6316,6 +7499,15 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_258"
+              ],
+              "theoryTagIds": [
+                "kb_258",
+                "kb_315",
+                "kb_549",
+                "kb_606",
+                "kb_615",
+                "kb_629",
+                "kb_914"
               ]
             },
             {
@@ -6329,15 +7521,18 @@
               "relatedTheoryIds": [
                 "kb_020",
                 "kb_257",
-                "kb_315",
-                "kb_730",
-                "theory-f7fc74ff-d2d1-4254-9135-a2772f36ccf3"
+                "kb_315"
               ],
               "subtitle": "人に合わせ続けると、どこまでが期待でどこからが本音か分からなくなる。",
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_020"
+              ],
+              "theoryTagIds": [
+                "kb_020",
+                "kb_257",
+                "kb_315"
               ]
             },
             {
@@ -6360,6 +7555,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_433"
+              ],
+              "theoryTagIds": [
+                "kb_257",
+                "kb_433",
+                "kb_124",
+                "kb_315",
+                "kb_909"
               ]
             },
             {
@@ -6372,7 +7574,6 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_092",
-                "theory-152eda9d-6bb1-462e-9aeb-61f904f7038b",
                 "kb_702"
               ],
               "subtitle": "全員に理解されようとすると、最後は誰にも引っかからない自分になる。",
@@ -6380,6 +7581,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_092"
+              ],
+              "theoryTagIds": [
+                "kb_092",
+                "kb_702"
               ]
             }
           ]
@@ -6405,6 +7610,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_602"
+              ],
+              "theoryTagIds": [
+                "kb_602",
+                "kb_287"
               ]
             },
             {
@@ -6426,6 +7635,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_550"
+              ],
+              "theoryTagIds": [
+                "kb_021",
+                "kb_550",
+                "kb_917",
+                "kb_945"
               ]
             },
             {
@@ -6438,7 +7653,6 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_568",
-                "theory-ab322059-b04a-4e2f-8c43-141492063021",
                 "kb_632"
               ],
               "subtitle": "何でも成長や収益に変えようとすると、遊びまで仕事になってしまう。",
@@ -6446,6 +7660,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_568"
+              ],
+              "theoryTagIds": [
+                "kb_568",
+                "kb_632"
               ]
             },
             {
@@ -6463,6 +7681,9 @@
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_553"
+              ],
+              "theoryTagIds": [
                 "kb_553"
               ]
             },
@@ -6484,6 +7705,10 @@
               "primaryTheoryIds": [
                 "kb_601",
                 "kb_552"
+              ],
+              "theoryTagIds": [
+                "kb_552",
+                "kb_601"
               ]
             },
             {
@@ -6501,6 +7726,9 @@
               "displayOrder": 6,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_554"
+              ],
+              "theoryTagIds": [
                 "kb_554"
               ]
             },
@@ -6521,6 +7749,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_552"
+              ],
+              "theoryTagIds": [
+                "kb_552",
+                "kb_632"
               ]
             },
             {
@@ -6539,6 +7771,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_283"
+              ],
+              "theoryTagIds": [
+                "kb_283"
               ]
             },
             {
@@ -6556,6 +7791,9 @@
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_601"
+              ],
+              "theoryTagIds": [
                 "kb_601"
               ]
             },
@@ -6576,6 +7814,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_601"
+              ],
+              "theoryTagIds": [
+                "kb_601",
+                "kb_182"
               ]
             }
           ]
@@ -6604,6 +7846,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_222"
+              ],
+              "theoryTagIds": [
+                "kb_207",
+                "kb_208",
+                "kb_220",
+                "kb_222",
+                "kb_335"
               ]
             },
             {
@@ -6627,6 +7876,13 @@
               "primaryTheoryIds": [
                 "kb_577",
                 "kb_578"
+              ],
+              "theoryTagIds": [
+                "kb_227",
+                "kb_577",
+                "kb_578",
+                "kb_335",
+                "kb_336"
               ]
             },
             {
@@ -6641,12 +7897,6 @@
                 "kb_212",
                 "kb_213",
                 "kb_223",
-                "kb_725",
-                "kb_811",
-                "kb_812",
-                "kb_856",
-                "kb_857",
-                "kb_861",
                 "kb_603",
                 "kb_609",
                 "kb_614",
@@ -6657,6 +7907,15 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_212"
+              ],
+              "theoryTagIds": [
+                "kb_212",
+                "kb_213",
+                "kb_223",
+                "kb_603",
+                "kb_609",
+                "kb_614",
+                "kb_616"
               ]
             },
             {
@@ -6671,18 +7930,18 @@
                 "kb_213",
                 "kb_237",
                 "kb_502",
-                "kb_599",
-                "kb_713",
-                "kb_749",
-                "kb_758",
-                "kb_759",
-                "kb_819",
-                "kb_820"
+                "kb_599"
               ],
               "subtitle": "最悪なのは悪い未来そのものより、「起きたら終わり」と思っている状態である。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_599"
+              ],
+              "theoryTagIds": [
+                "kb_213",
+                "kb_237",
+                "kb_502",
                 "kb_599"
               ]
             },
@@ -6697,20 +7956,18 @@
               "relatedTheoryIds": [
                 "kb_204",
                 "kb_206",
-                "kb_207",
-                "kb_718",
-                "kb_826",
-                "kb_827",
-                "kb_828",
-                "kb_829",
-                "kb_830",
-                "kb_831"
+                "kb_207"
               ],
               "subtitle": "安心したくて調べ続けるほど、新しい心配の材料まで拾ってしまう。",
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_206"
+              ],
+              "theoryTagIds": [
+                "kb_204",
+                "kb_206",
+                "kb_207"
               ]
             },
             {
@@ -6735,6 +7992,15 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_580"
+              ],
+              "theoryTagIds": [
+                "kb_204",
+                "kb_216",
+                "kb_218",
+                "kb_219",
+                "kb_580",
+                "kb_335",
+                "kb_614"
               ]
             },
             {
@@ -6750,15 +8016,20 @@
                 "kb_212",
                 "kb_234",
                 "kb_429",
-                "kb_430",
-                "kb_714",
-                "kb_853"
+                "kb_430"
               ],
               "subtitle": "強い感情の最中では、「今の気分」が「これからも続く現実」に見えやすい。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_212"
+              ],
+              "theoryTagIds": [
+                "kb_027",
+                "kb_212",
+                "kb_234",
+                "kb_429",
+                "kb_430"
               ]
             },
             {
@@ -6772,11 +8043,6 @@
               "relatedTheoryIds": [
                 "kb_203",
                 "kb_336",
-                "kb_710",
-                "kb_758",
-                "kb_810",
-                "kb_834",
-                "kb_840",
                 "kb_326"
               ],
               "subtitle": "未来のことに100％の確信は持てない。確信を求めすぎること自体が不安を長引かせる。",
@@ -6784,6 +8050,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_203"
+              ],
+              "theoryTagIds": [
+                "kb_203",
+                "kb_336",
+                "kb_326"
               ]
             },
             {
@@ -6806,6 +8077,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_211"
+              ],
+              "theoryTagIds": [
+                "kb_211",
+                "kb_616",
+                "kb_944",
+                "kb_945",
+                "kb_946"
               ]
             },
             {
@@ -6825,6 +8103,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_221"
+              ],
+              "theoryTagIds": [
+                "kb_221",
+                "kb_243"
               ]
             }
           ]
@@ -6845,9 +8127,6 @@
                 "kb_562",
                 "kb_554",
                 "kb_561",
-                "kb_752",
-                "kb_753",
-                "theory-8c2a3b15-0f6d-4225-abda-07eba8eccc4a",
                 "kb_610",
                 "kb_912"
               ],
@@ -6857,6 +8136,13 @@
               "primaryTheoryIds": [
                 "kb_554",
                 "kb_562"
+              ],
+              "theoryTagIds": [
+                "kb_562",
+                "kb_554",
+                "kb_561",
+                "kb_610",
+                "kb_912"
               ]
             },
             {
@@ -6869,13 +8155,19 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_231",
-                "kb_277"
+                "kb_277",
+                "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b"
               ],
               "subtitle": "未来は読めない以上、「絶対に正しい選択」より自分で引き受けられる選択の方が強い。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_277"
+              ],
+              "theoryTagIds": [
+                "kb_231",
+                "kb_277",
+                "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b"
               ]
             },
             {
@@ -6887,12 +8179,9 @@
               "explanation": "新しい仕事や住む場所を選ぶとき、収入が上がる、自由が増える、刺激があるといった魅力ばかり先に目に入ることがある。選ぶ前は得られるものが具体的に見えやすい一方で、そのために失う時間や安定、人との距離は後景に回りやすい。けれど、選択した後に現実として効いてくるのは両方である。利点だけを理由に決めるほど、あとから現れた代償を「想定外の損」と感じ、自分の選択そのものを後悔しやすくなる。\n転職を考えるなら、紙を二列に分け、左に「収入が上がる」「やりたい仕事ができる」、右に「通勤が長くなる」「自由な時間が減る」と書く。別の会社についても同じ形で整理すれば、魅力の大きさだけでなく、その魅力を得るために何を差し出すのかまで比較できる。収入が増えても時間を失うのが耐えにくいなら、その選択は数字ほど魅力的ではないかもしれない。反対に、その代償を払ってでも得たいものなら、納得して選びやすい。\n選択肢を比べるときは、「どちらの良い面が大きいか」だけでなく、「その良さと引き換えに何を失い、それを受け入れられるか」を見るとよい。得るものと失うものを二列にし、同じ表の中で判断する。欠点のない選択肢を探す必要はないが、代償を見ないまま決めれば、選んだ後で初めて支払うことになる。魅力とコストを一組として比較し、それでも欲しい方を選ぶことが、後悔を減らす基準になる。",
               "importance": 3,
               "relatedTheoryIds": [
+                "kb_274",
                 "kb_133",
                 "kb_134",
-                "kb_274",
-                "kb_756",
-                "kb_757",
-                "kb_759",
                 "kb_955"
               ],
               "subtitle": "選択肢の魅力だけを見ると、払う代償を後から知ることになる。",
@@ -6900,6 +8189,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_274"
+              ],
+              "theoryTagIds": [
+                "kb_274",
+                "kb_133",
+                "kb_134",
+                "kb_955"
               ]
             },
             {
@@ -6911,13 +8206,15 @@
               "explanation": "応募や挑戦を前にすると、「失敗して恥をかいたら」「お金や時間を無駄にしたら」と、やった場合の後悔ばかり具体的に浮かぶことがある。行動の損失は見えやすい一方、何もしなかった場合の後悔は、その場ではまだ発生していないため軽く見積もりやすい。けれど、選ばなかった道も時間とともに閉じていく。安全側に倒した判断が、後から「あの時ならできた」という別の後悔に変わることもある。\n興味のある留学に迷っているなら、「行って合わなかった後悔」と「行かずに五年後も気になっている後悔」を並べてみる。前者には費用や失敗の可能性があり、後者には経験できなかったことへの未練が残るかもしれない。どちらが重そうかを比べれば、単に「失敗しない方」を選ぶのとは違う見え方になる。ただし、安全や生活を大きく損なう危険があるなら、後悔したくないという理由だけで挑むべきではない。\n迷ったときは、「やって失敗したらどうするか」だけでなく、「やらなかった自分は五年後に何を思うか」まで判断材料にするとよい。行動と不行動の両方に後悔がある前提で、その重さを比べる。失敗の可能性を恐れて自動的に見送るのでも、後悔したくないから無謀に動くのでもない。危険や損失を現実的に確認したうえで、将来残りそうな後悔まで含めて選ぶことが、後から納得しやすい判断につながる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_554",
-                "theory-4f18f89d-592b-418d-a57e-9a5ab75a3ff8"
+                "kb_554"
               ],
               "subtitle": "行動には失敗の後悔があるが、何もしないことにも「あの時やれば」が残る。",
               "displayOrder": 4,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_554"
+              ],
+              "theoryTagIds": [
                 "kb_554"
               ]
             },
@@ -6932,14 +8229,18 @@
               "relatedTheoryIds": [
                 "kb_569",
                 "kb_548",
-                "kb_278",
-                "kb_756"
+                "kb_278"
               ],
               "subtitle": "戻れる選択まで人生を決める一大決断のように考えると、必要以上に怖くなる。",
               "displayOrder": 5,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_569"
+              ],
+              "theoryTagIds": [
+                "kb_569",
+                "kb_548",
+                "kb_278"
               ]
             },
             {
@@ -6955,7 +8256,6 @@
                 "kb_570",
                 "kb_548",
                 "kb_284",
-                "theory-9ad49f9a-e7dd-4b4e-8014-abc9045dd0e3",
                 "kb_620",
                 "kb_931",
                 "kb_932"
@@ -6965,6 +8265,15 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_570"
+              ],
+              "theoryTagIds": [
+                "kb_220",
+                "kb_570",
+                "kb_548",
+                "kb_284",
+                "kb_620",
+                "kb_931",
+                "kb_932"
               ]
             },
             {
@@ -6977,14 +8286,16 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_216",
-                "kb_547",
-                "kb_754",
-                "theory-f8329abb-6906-47bb-8dff-85a98adedb64"
+                "kb_547"
               ],
               "subtitle": "考える時間を増やしても、情報ではなく迷いだけが増える地点がある。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_547"
+              ],
+              "theoryTagIds": [
+                "kb_216",
                 "kb_547"
               ]
             },
@@ -7007,6 +8318,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_273"
+              ],
+              "theoryTagIds": [
+                "kb_273",
+                "kb_288",
+                "kb_289",
+                "kb_895"
               ]
             },
             {
@@ -7026,6 +8343,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_562"
+              ],
+              "theoryTagIds": [
+                "kb_562",
+                "kb_610"
               ]
             },
             {
@@ -7044,6 +8365,10 @@
               "displayOrder": 10,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_586",
+                "kb_587"
+              ],
+              "theoryTagIds": [
                 "kb_586",
                 "kb_587"
               ]
@@ -7066,6 +8391,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_166"
+              ],
+              "theoryTagIds": [
+                "kb_166",
+                "kb_701",
+                "kb_352"
               ]
             },
             {
@@ -7078,29 +8408,21 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_264",
-                "kb_709",
-                "kb_722",
-                "kb_807",
-                "kb_808",
-                "kb_825",
-                "kb_835",
-                "kb_837",
-                "kb_838",
-                "kb_839",
-                "kb_841",
-                "kb_842",
-                "kb_843",
-                "kb_862",
-                "kb_864",
-                "theory-65d2d01f-38fc-4557-b7f8-bb0665d07426",
                 "kb_915",
-                "kb_951"
+                "kb_951",
+                "theory-e634c0c0-8300-44e5-a28f-916300973eb1"
               ],
               "subtitle": "今なら分かることを、当時の自分も知っていた前提で責めるのはフェアではない。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_264"
+              ],
+              "theoryTagIds": [
+                "kb_264",
+                "kb_915",
+                "kb_951",
+                "theory-e634c0c0-8300-44e5-a28f-916300973eb1"
               ]
             }
           ]
@@ -7123,7 +8445,8 @@
                 "kb_583",
                 "kb_333",
                 "kb_603",
-                "kb_609"
+                "kb_609",
+                "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33"
               ],
               "subtitle": "一つの失敗は「一つの結果」であって、自分という人間全体への判決ではない。",
               "displayOrder": 1,
@@ -7131,6 +8454,15 @@
               "primaryTheoryIds": [
                 "kb_583",
                 "kb_264"
+              ],
+              "theoryTagIds": [
+                "kb_213",
+                "kb_264",
+                "kb_583",
+                "kb_333",
+                "kb_603",
+                "kb_609",
+                "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33"
               ]
             },
             {
@@ -7147,14 +8479,21 @@
                 "kb_248",
                 "kb_576",
                 "kb_333",
-                "kb_334",
-                "theory-b6565cc5-277c-48c7-9129-68b2f4cbf0a0"
+                "kb_334"
               ],
               "subtitle": "大きなものを失うと全部失った気になるが、人生にはまだ別の柱が残っている。",
               "displayOrder": 2,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_576"
+              ],
+              "theoryTagIds": [
+                "kb_240",
+                "kb_241",
+                "kb_248",
+                "kb_576",
+                "kb_333",
+                "kb_334"
               ]
             },
             {
@@ -7178,6 +8517,14 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_591"
+              ],
+              "theoryTagIds": [
+                "kb_591",
+                "kb_603",
+                "kb_607",
+                "kb_615",
+                "kb_932",
+                "kb_933"
               ]
             },
             {
@@ -7190,8 +8537,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_588",
-                "theory-6efbfb85-85f7-4978-8bfd-52cbe3cbf05e",
-                "theory-5c03b393-8849-4e74-a58c-30ed430fcf4c",
                 "kb_922",
                 "kb_946"
               ],
@@ -7200,6 +8545,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_588"
+              ],
+              "theoryTagIds": [
+                "kb_588",
+                "kb_922",
+                "kb_946"
               ]
             },
             {
@@ -7219,6 +8569,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_589"
+              ],
+              "theoryTagIds": [
+                "kb_254",
+                "kb_589"
               ]
             },
             {
@@ -7237,6 +8591,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_540"
+              ],
+              "theoryTagIds": [
+                "kb_540"
               ]
             },
             {
@@ -7251,13 +8608,18 @@
                 "kb_240",
                 "kb_241",
                 "kb_564",
-                "kb_565",
-                "kb_772"
+                "kb_565"
               ],
               "subtitle": "弱っていると一人になりたくなるが、孤立すると自分の考えだけが世界の全部になりやすい。",
               "displayOrder": 7,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_564",
+                "kb_565"
+              ],
+              "theoryTagIds": [
+                "kb_240",
+                "kb_241",
                 "kb_564",
                 "kb_565"
               ]
@@ -7274,7 +8636,6 @@
                 "kb_239",
                 "kb_559",
                 "kb_136",
-                "theory-1a1a5e84-191d-4002-9d09-586f422e606a",
                 "kb_353",
                 "kb_914"
               ],
@@ -7283,6 +8644,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_559"
+              ],
+              "theoryTagIds": [
+                "kb_239",
+                "kb_559",
+                "kb_136",
+                "kb_353",
+                "kb_914"
               ]
             },
             {
@@ -7310,6 +8678,17 @@
               "primaryTheoryIds": [
                 "kb_584",
                 "kb_585"
+              ],
+              "theoryTagIds": [
+                "kb_242",
+                "kb_584",
+                "kb_585",
+                "kb_353",
+                "kb_607",
+                "kb_608",
+                "kb_910",
+                "kb_911",
+                "kb_916"
               ]
             },
             {
@@ -7332,6 +8711,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_251"
+              ],
+              "theoryTagIds": [
+                "kb_251",
+                "kb_353",
+                "kb_615",
+                "kb_910",
+                "kb_951"
               ]
             },
             {
@@ -7353,6 +8739,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_264"
+              ],
+              "theoryTagIds": [
+                "kb_240",
+                "kb_264",
+                "kb_607",
+                "kb_608"
               ]
             }
           ]
@@ -7378,6 +8770,10 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_571"
+              ],
+              "theoryTagIds": [
+                "kb_571",
+                "kb_631"
               ]
             },
             {
@@ -7392,7 +8788,6 @@
                 "kb_256",
                 "kb_280",
                 "kb_281",
-                "kb_315",
                 "kb_351"
               ],
               "subtitle": "未来を一本に決めすぎると、その道が閉じただけで人生全体が詰んだように見える。",
@@ -7400,6 +8795,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_256"
+              ],
+              "theoryTagIds": [
+                "kb_256",
+                "kb_280",
+                "kb_281",
+                "kb_351"
               ]
             },
             {
@@ -7420,6 +8821,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_567"
+              ],
+              "theoryTagIds": [
+                "kb_567",
+                "kb_282",
+                "kb_359"
               ]
             },
             {
@@ -7440,6 +8846,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_279"
+              ],
+              "theoryTagIds": [
+                "kb_291",
+                "kb_279",
+                "kb_913"
               ]
             },
             {
@@ -7462,6 +8873,13 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_082"
+              ],
+              "theoryTagIds": [
+                "kb_082",
+                "kb_292",
+                "kb_622",
+                "kb_631",
+                "kb_925"
               ]
             },
             {
@@ -7478,7 +8896,6 @@
                 "kb_592",
                 "kb_285",
                 "kb_287",
-                "theory-ba0ccc1b-92c5-48b9-9d1c-9810807d0416",
                 "kb_631",
                 "kb_950"
               ],
@@ -7487,6 +8904,15 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_290"
+              ],
+              "theoryTagIds": [
+                "kb_290",
+                "kb_291",
+                "kb_592",
+                "kb_285",
+                "kb_287",
+                "kb_631",
+                "kb_950"
               ]
             },
             {
@@ -7505,6 +8931,9 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_552"
+              ],
+              "theoryTagIds": [
+                "kb_552"
               ]
             },
             {
@@ -7520,9 +8949,6 @@
                 "kb_543",
                 "kb_284",
                 "kb_329",
-                "kb_728",
-                "kb_749",
-                "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
                 "kb_326",
                 "kb_620",
                 "kb_943",
@@ -7533,6 +8959,16 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_543"
+              ],
+              "theoryTagIds": [
+                "kb_169",
+                "kb_543",
+                "kb_284",
+                "kb_329",
+                "kb_326",
+                "kb_620",
+                "kb_943",
+                "kb_944"
               ]
             },
             {
@@ -7547,14 +8983,21 @@
                 "kb_220",
                 "kb_242",
                 "kb_554",
-                "theory-1e056acd-4b69-40d2-95ce-3182dc15315a",
-                "kb_608"
+                "kb_608",
+                "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e"
               ],
               "subtitle": "正解を外しても、経験・技能・人脈が残る選択なら次の一手まで失わない。",
               "displayOrder": 9,
               "status": "published",
               "primaryTheoryIds": [
                 "kb_554"
+              ],
+              "theoryTagIds": [
+                "kb_220",
+                "kb_242",
+                "kb_554",
+                "kb_608",
+                "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e"
               ]
             },
             {
@@ -7582,6 +9025,18 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_571"
+              ],
+              "theoryTagIds": [
+                "kb_263",
+                "kb_571",
+                "kb_916",
+                "kb_917",
+                "kb_918",
+                "kb_919",
+                "kb_920",
+                "kb_921",
+                "kb_947",
+                "kb_948"
               ]
             },
             {
@@ -7593,13 +9048,15 @@
               "explanation": "一つの分野で周囲を見渡すと、自分より詳しい人、速い人、経験の長い人はいくらでもいて、「この強みだけでは勝てない」と感じることがある。けれど、希少さは一つの能力の順位だけで決まらない。文章力、数字に強い、調整が得意といった別々の強みが重なると、その組み合わせを同じ水準で持つ人は一気に少なくなる。一つを極端に磨く以外にも、自分の持ち味を掛け合わせて競争相手の少ない場所を作る方法がある。\n自分の強みとして「文章を書く」「データを読む」「人に説明する」の三つがあるなら、それぞれを単独で使う仕事だけを見るのではなく、三つを同時に使う役割を探す。数字を分析し、その意味を分かりやすい文章にし、相手へ説明する仕事なら、三つの強みが一つの役割に集まる。どれも単独では突出していなくても、組み合わせとして見れば「この役割なら自分が強い」という場所を見つけやすくなる。\n強みを考えるときは、「何なら一番になれるか」だけでなく、「自分の三つの強みが同時に必要とされる場所はどこか」を見るとよい。まず強みを三つに絞り、その掛け合わせで担える役割を探す。ただし、希少性を求めて強みを際限なく増やせば、どれも浅くなりやすい。数を広げるより、相性のよい三つを重ね、その組み合わせが価値になる場所を見つけることが、自分だけの立ち位置を作る基準になる。",
               "importance": 2,
               "relatedTheoryIds": [
-                "kb_491",
-                "kb_783"
+                "kb_491"
               ],
               "subtitle": "一つで上位を目指すより、違う強みを重ねた方が「自分しかいない場所」は作りやすい。",
               "displayOrder": 11,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_491"
+              ],
+              "theoryTagIds": [
                 "kb_491"
               ]
             },
@@ -7612,14 +9069,15 @@
               "explanation": "やってみたい仕事や関わりたい分野があっても、胸の内にしまったままでは、周囲からは「特に希望はない人」と同じように見える。新しい案件や紹介の機会が生まれた時、誰に声をかけるかは、その人の能力だけでなく「何をやりたがっていたか」を思い出せるかにも左右される。希望を言葉にしておくことで、まだ存在していない機会と自分が、後から結びつく余地が生まれる。\n興味のある仕事があるなら、身近な一人に「次は企画の立ち上げに関わってみたい」と伝えておく。数週間後、その人の周囲で新しい企画が始まった時、「そういえば興味があると言っていた」と思い出してもらえるかもしれない。「何か面白い仕事があればお願いします」より、欲しい機会を一文で具体化した方が、相手もどんな場面で声をかければよいか判断しやすい。伝えること自体が、機会への入口になる。\n機会を増やしたいときは、「誰かが自分を見つけてくれるか」を待つのではなく、「周囲は自分が何を望んでいるか知っているか」を見るとよい。まず一人に、欲しい機会を短く伝える。ただし、会うたびに紹介や仕事を求めるだけでは、関係そのものが要求の手段になってしまう。普段の関係を大切にしながら、自分の希望も隠さず共有しておくことが、機会が現れた時に候補として思い出してもらう基準になる。",
               "importance": 1,
               "relatedTheoryIds": [
-                "kb_593",
-                "kb_781",
-                "kb_782"
+                "kb_593"
               ],
               "subtitle": "周囲は、あなたが何をしたいか知らなければ、機会があってもあなたを思い出せない。",
               "displayOrder": 12,
               "status": "published",
               "primaryTheoryIds": [
+                "kb_593"
+              ],
+              "theoryTagIds": [
                 "kb_593"
               ]
             },
@@ -7647,6 +9105,16 @@
               "primaryTheoryIds": [
                 "kb_594",
                 "kb_595"
+              ],
+              "theoryTagIds": [
+                "kb_592",
+                "kb_594",
+                "kb_595",
+                "kb_503",
+                "kb_504",
+                "kb_505",
+                "kb_352",
+                "kb_627"
               ]
             },
             {
@@ -7668,6 +9136,12 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_555"
+              ],
+              "theoryTagIds": [
+                "kb_555",
+                "kb_542",
+                "kb_351",
+                "kb_949"
               ]
             },
             {
@@ -7680,7 +9154,6 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_575",
-                "theory-0a93dca8-aa3d-4636-b42c-0d1db8f10aa0",
                 "kb_352",
                 "kb_947"
               ],
@@ -7689,6 +9162,11 @@
               "status": "published",
               "primaryTheoryIds": [
                 "kb_575"
+              ],
+              "theoryTagIds": [
+                "kb_575",
+                "kb_352",
+                "kb_947"
               ]
             }
           ]

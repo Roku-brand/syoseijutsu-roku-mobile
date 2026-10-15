@@ -131,6 +131,9 @@ jobs:
       - name: Test practical wisdom contracts
         run: pnpm test:practical-wisdom
 
+      - name: Verify knowledge migrations and permissions
+        run: pnpm test:theory-network
+
       - name: Test canonical theory taxonomy and legacy compatibility
         run: pnpm test:theory-taxonomy
 

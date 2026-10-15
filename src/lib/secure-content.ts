@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { hydratePaidTheories, overlayPaidCatalog, resetCatalog, type PaidTechniquePayload } from '@/data/catalog';
 import { learningCases, replaceLearningCases, resetLearningCases, type LearningCase } from '@/data/learning';
 import type { TheoryCard } from '@/data/types';
+import { isRetiredTheoryId } from '@/data/theory-knowledge';
 import { supabase, supabasePublishableKey, supabaseUrl } from './supabase';
 
 type PaidContentType = 'technique' | 'theory' | 'learning';
@@ -53,6 +54,13 @@ function applyPaidContent(techniques: PaidTechniquePayload[], theories: TheoryCa
   }
   merged.sort((a, b) => a.number - b.number);
   replaceLearningCases(merged);
+}
+
+function cleanTheories(theories: TheoryCard[]): TheoryCard[] {
+  return theories.filter(t => !isRetiredTheoryId(t.tagId)).map(t => ({ ...t, ...(t.relatedTheoryIds ? { relatedTheoryIds: t.relatedTheoryIds.filter(id => !isRetiredTheoryId(id)) } : {}) }));
+}
+function cleanTechniques(techniques: PaidTechniquePayload[]): PaidTechniquePayload[] {
+  return techniques.map(t => ({ ...t, ...(t.relatedTheoryIds ? { relatedTheoryIds: t.relatedTheoryIds.filter(id => !isRetiredTheoryId(id)) } : {}), ...(t.theoryTagIds ? { theoryTagIds: t.theoryTagIds.filter(id => !isRetiredTheoryId(id)) } : {}), ...(t.primaryTheoryIds ? { primaryTheoryIds: t.primaryTheoryIds.filter(id => !isRetiredTheoryId(id)) } : {}) }));
 }
 
 function isSnapshot(value: unknown): value is PaidContentSnapshot {
@@ -112,7 +120,7 @@ export async function hydrateSecureContent(onContentApplied?: () => void) {
     // Theory metadata is the first complete-edition surface to render. Keep
     // it independent from the much larger technique and learning payloads.
     const theoryRows = await fetchRows<TheoryCard>('theory');
-    const theories = theoryRows.map((row) => row.payload);
+    const theories = cleanTheories(theoryRows.map((row) => row.payload));
     if (!theories.length) {
       throw new Error('完全版データが不足しているため、端末への保存を中止しました。');
     }
@@ -152,8 +160,8 @@ async function refetchSecureContent(onContentApplied?: () => void): Promise<bool
       fetchRows<LearningCase>('learning'),
     ]);
     if (generation !== secureGeneration || !theoryRows.length || !techniqueRows.length || !learningRows.length) return false;
-    const techniques = techniqueRows.map((row) => row.payload);
-    const theories = theoryRows.map((row) => row.payload);
+    const techniques = cleanTechniques(techniqueRows.map((row) => row.payload));
+    const theories = cleanTheories(theoryRows.map((row) => row.payload));
     const learning = learningRows.map((row) => row.payload);
     applyPaidContent(techniques, theories, learning);
     hydratedUserId = userId;
@@ -174,7 +182,9 @@ export async function restoreCachedSecureContent(expectedUserId: string): Promis
   try {
     const snapshot: unknown = JSON.parse(stored);
     if (!isSnapshot(snapshot) || snapshot.userId !== expectedUserId) return false;
-    applyPaidContent(snapshot.techniques, snapshot.theories, snapshot.learning);
+    const cleaned = { ...snapshot, theories: cleanTheories(snapshot.theories), techniques: cleanTechniques(snapshot.techniques) };
+    applyPaidContent(cleaned.techniques, cleaned.theories, cleaned.learning);
+    if (JSON.stringify(cleaned) !== stored) await settleWithin(AsyncStorage.setItem(PAID_CONTENT_CACHE_KEY, JSON.stringify(cleaned)));
     hydratedUserId = snapshot.userId;
     completeHydration = true;
     return true;
@@ -194,7 +204,7 @@ async function hydrateRemainingContent(userId: string, theories: TheoryCard[], o
   ]);
   if (hydratedUserId !== userId || generation !== secureGeneration) return;
   if (techniquesResult.status !== 'fulfilled' || learningResult.status !== 'fulfilled') throw new Error('完全版データを取得できませんでした。');
-  const techniques = techniquesResult.value.map((row) => row.payload);
+  const techniques = cleanTechniques(techniquesResult.value.map((row) => row.payload));
   const learning = learningResult.value.map((row) => row.payload);
   if (!techniques.length || !learning.length) throw new Error('完全版データが不足しています。');
   applyPaidContent(techniques, theories, learning);

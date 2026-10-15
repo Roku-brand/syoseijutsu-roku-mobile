@@ -190,7 +190,7 @@ test('文字の濃い金色・拡大許可・設定アイコン・OSS重複解�
   expect(topBounds!.y).toBe(0);
   expect(topBounds!.height).toBeGreaterThanOrEqual(6);
   expect(topBounds!.width).toBe(page.viewportSize()!.width);
-  await expect(page.getByText('151件を無料公開', { exact: true })).toHaveCSS('color', 'rgb(125, 89, 35)');
+  await expect(page.getByText('141件を無料公開', { exact: true })).toHaveCSS('color', 'rgb(125, 89, 35)');
   await page.getByRole('button', { name: '設定を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings/);
   await expect(page.getByRole('button', { name: /オープンソースの通知/ })).toHaveCount(1);

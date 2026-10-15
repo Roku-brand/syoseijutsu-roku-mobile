@@ -1,0 +1,66 @@
+[
+  {
+    "type": "explains",
+    "priority": 22,
+    "sourceId": "kb_047",
+    "targetId": "kb_007",
+    "rationale": "受けたものへ返そうとする原理は、好意を返す傾向を理解する観点の一つ。",
+    "reviewStatus": "confirmed"
+  },
+  {
+    "type": "contains",
+    "priority": 45,
+    "sourceId": "kb_133",
+    "targetId": "kb_134",
+    "rationale": "参照点からの得失を評価するプロスペクト理論の価値関数に、損失を強く重みづける特徴がある。",
+    "reviewStatus": "confirmed"
+  },
+  {
+    "type": "explains",
+    "priority": 47,
+    "sourceId": "kb_133",
+    "targetId": "kb_137",
+    "rationale": "参照点からの利得・損失として捉える違いから、フレーミングによる選択の変化を考える。",
+    "reviewStatus": "confirmed"
+  },
+  {
+    "type": "explains",
+    "priority": 73,
+    "sourceId": "kb_073",
+    "targetId": "kb_072",
+    "rationale": "他者へ責任を分けて感じる過程は、傍観者効果を説明する要因の一つ。緊急事態の解釈等も影響する。",
+    "reviewStatus": "confirmed"
+  },
+  {
+    "type": "applies",
+    "priority": 82,
+    "sourceId": "kb_109",
+    "targetId": "kb_107",
+    "rationale": "観察できない能力や意図の情報差へ、観察可能な手掛かりを送る側から対応する。",
+    "reviewStatus": "confirmed"
+  },
+  {
+    "type": "related",
+    "priority": 100,
+    "sourceId": "kb_104",
+    "targetId": "kb_729",
+    "rationale": "既存の関連理論。関係種別は未確認。",
+    "reviewStatus": "legacy"
+  },
+  {
+    "type": "related",
+    "priority": 100,
+    "sourceId": "kb_123",
+    "targetId": "kb_762",
+    "rationale": "既存の関連理論。関係種別は未確認。",
+    "reviewStatus": "legacy"
+  },
+  {
+    "type": "related",
+    "priority": 100,
+    "sourceId": "kb_263",
+    "targetId": "kb_706",
+    "rationale": "既存の関連理論。関係種別は未確認。",
+    "reviewStatus": "legacy"
+  }
+]

@@ -1,3 +1,6 @@
+import retiredIds from '@/data/generated/retired-theory-ids.json';
+import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
+import { TheoryNetwork } from '@/components/theory-network';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo } from 'react';
 import { Image } from 'expo-image';
@@ -9,7 +12,7 @@ import { DetailSwipe } from '@/components/detail-swipe';
 import { LockedPreview } from '@/components/locked-preview';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
-import { getRelatedTheories, getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
+import { getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
@@ -22,7 +25,7 @@ import { RelatedContentSection } from '@/components/related-content-list';
 import { contentImageUrl } from '@/lib/content-media';
 
 export function generateStaticParams() {
-  return Array.from(theoryById.keys()).map((id) => ({ id }));
+  return [...theoryById.keys(), ...retiredIds].map((id) => ({ id }));
 }
 
 export default function TheoryDetailScreen() {
@@ -45,6 +48,7 @@ export default function TheoryDetailScreen() {
     }
   }, [addHistory, effectiveAccess, theory]);
 
+  if (isRetiredTheoryId(id)) return <Screen contentContainerStyle={styles.screenContent}><EmptyState title={RETIRED_THEORY_TITLE} description="この知識は編集方針の見直しにより公開を終了しました。保存・閲覧履歴の記録は保持されています。" /></Screen>;
   if (!theory) {
     return <Screen contentContainerStyle={styles.screenContent}><EmptyState title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
   }
@@ -70,12 +74,11 @@ export default function TheoryDetailScreen() {
   }
 
   const related = getTechniquesForTheory(theory);
-  const relatedTheories = getRelatedTheories(theory);
-  const titleLength = [...theory.title.replace(/\s/g, '')].length;
+  const titleLength = [...(theory.quotation?.translationText ?? theory.title).replace(/\s/g, '')].length;
   const titleFontSize = compact
     ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
     : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
-  const summary = formatTheorySummary(theory.summary);
+  const summary = formatTheorySummary(theory.quotation?.contextNote ?? theory.summary);
   const seoCopy = getTheorySeoCopy(theory);
   const navigateTheory = (offset: -1 | 1) => {
     const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
@@ -98,14 +101,18 @@ export default function TheoryDetailScreen() {
             <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
           </View>
           <AppText accessibilityRole="header" aria-level={1} testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
-            {normalizeDisplayText(theory.title)}
+            {theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title)}
           </AppText>
+          {theory.quotation ? <View testID="quotation-attribution" style={{ gap: 6, marginTop: 18 }}>
+            <AppText style={{ fontFamily: fonts.serif, fontSize: 17, lineHeight: 28 }}>— {theory.quotation.author}</AppText>
+            <AppText style={{ color: colors.muted, fontSize: 12, lineHeight: 20 }}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
+          </View> : null}
         </View>
 
         {theory.imagePath && contentImageUrl(theory.imagePath) ? <Image source={{ uri: contentImageUrl(theory.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
 
         <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact, !compact && styles.readingWidth]}>
-          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
+          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{theory.quotation ? '言葉の背景' : seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
           <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
         </View>
 
@@ -115,11 +122,7 @@ export default function TheoryDetailScreen() {
           items={related.map((card) => ({ key: card.id, title: card.title, supportingText: `${card.subcategory}｜${card.essence ?? card.subtitle ?? ''}`, href: { pathname: '/card/[id]', params: { id: card.id } } }))}
         />
 
-        <RelatedContentSection
-          title="関連する理論"
-          testID="theory-related-theories"
-          items={relatedTheories.map((relatedTheory) => ({ key: relatedTheory.tagId, title: relatedTheory.title, supportingText: relatedTheory.summary, href: { pathname: '/theory/[id]', params: { id: relatedTheory.tagId } } }))}
-        />
+        <TheoryNetwork theory={theory} />
 
         <View testID="theory-information" style={[styles.informationSection, !compact && styles.readingWidth]}>
           <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>{theory.categoryId === 'practical-wisdom' ? '実践知の情報' : '理論情報'}</AppText>
@@ -144,7 +147,7 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
     ['出典状態', provenance.status],
     ['提唱者・著者', provenance.attribution],
     ...(provenance.period ? [['発表・刊行時期', provenance.period]] : []),
-    [provenance.status === 'オリジナル' ? '出典' : '著作・研究', provenance.works?.join('\n')],
+    ['著作・研究', provenance.works?.join('\n')],
     ['注記', provenance.note],
   ];
   return (
@@ -167,7 +170,7 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
           </View>
         </View>
       )}
-      {provenance.status !== 'オリジナル' && <AppText style={styles.sourceExplanation}>「書誌確認済み」は著者・文献・刊行情報を照合した状態です。出典状態は、効果の強さや再現性を示す評価ではありません。</AppText>}
+      {<AppText style={styles.sourceExplanation}>「書誌確認済み」は著者・文献・刊行情報を照合した状態です。出典状態は、効果の強さや再現性を示す評価ではありません。</AppText>}
     </View>
   );
 }

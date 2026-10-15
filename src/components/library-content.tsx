@@ -1,3 +1,4 @@
+import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
 import { FolderBack, FolderFronts, MoreCards } from './folder-fronts';
 import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
 import { useEffect, useState } from 'react';
@@ -35,6 +36,7 @@ export function LibraryContent() {
       return { kind: 'technique' as const, id, label: card?.categoryName ?? '処世術', category: card?.categoryKey ?? 'interpersonal', title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '保存したコンテンツ' };
     }),
     ...savedTheoryIds.map(id => {
+      if (isRetiredTheoryId(id)) return {kind: 'theory' as const,id,label:'公開終了',category:'practical-wisdom',title:RETIRED_THEORY_TITLE,description:'保存の記録は保持されています。'};
       const theory = theoryById.get(id);
       return { kind: 'theory' as const, id, label: theory?.categoryTitle ?? '理論', category: theory?.categoryId ?? 'psychology', title: theory?.title ?? '保存済みの理論', description: [theory?.categoryTitle, theory?.subcategoryTitle].filter(Boolean).join(' > ') };
     }),
