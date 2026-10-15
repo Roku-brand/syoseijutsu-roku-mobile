@@ -171,6 +171,12 @@ export function hydratePaidTheories(paidTheories: TheoryCard[]) {
     const current = theoryById.get(theory.tagId);
     const next = {
       ...current, ...theory,
+      // Older offline snapshots carried paraphrased quotation titles and mixed
+      // proverb assignments. Preserve the revised public identity on restore.
+      ...((theory.quotation && theory.title !== '「'+theory.quotation.translationText+'」') || (['kb_701','kb_702'].includes(theory.tagId) && theory.subcategoryId === 'classics-thought-f') ? {
+        title:theory.quotation ? '「'+theory.quotation.translationText+'」' : theory.title,
+        ...(current ? { subcategoryId:current.subcategoryId,subcategoryTitle:current.subcategoryTitle,sortOrder:current.sortOrder } : {}),
+      } : {}),
       status: theory.status ?? (theory.summary?.trim() ? 'published' as const : current?.status),
       ...(!theory.subcategoryId && current?.subcategoryId ? {
         categoryId:current.categoryId,categoryTitle:current.categoryTitle,

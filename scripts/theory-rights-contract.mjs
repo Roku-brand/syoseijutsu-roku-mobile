@@ -13,7 +13,7 @@ export function auditTheoryRights({ theories, techniques = [], retiredIds = [] }
     if (theory.knowledgeType === 'aphorism' && theory.status !== 'locked') {
       const q = theory.quotation;
       if (!q || q.verification !== 'verified' || q.rightsStatus !== 'cleared' || !q.originalText || !q.translationText || !q.work || !q.locator || !q.rightsBasis || !q.sourceUrls?.length || !Number.isInteger(q.authorDeathYear) || q.authorDeathYear > 1950 || !Number.isInteger(q.publicationYear) || q.publicationYear > 1950 || !['original_japanese','independent_translation','classical_transcription'].includes(q.translationKind)) failures.push(`unreviewed quotation: ${theory.tagId}`);
-      if (q && theory.accessTier === 'complete' && theory.title.replace(/[「」]/g,'') === q.translationText) failures.push(`paid quotation in public title: ${theory.tagId}`);
+      if (q && theory.title !== '「'+q.translationText+'」') failures.push(`quotation headline differs from approved text: ${theory.tagId}`);
     }
   }
   for (const categoryId of new Set(theories.map(t=>t.categoryId))) {

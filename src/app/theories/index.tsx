@@ -37,18 +37,6 @@ function safeCategory(value: string | undefined): TheoryFilterKey {
   return getTheoryFilterOptions().some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
 }
 
-function pageItems(current: number, total: number): Array<number | 'ellipsis'> {
-  if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1);
-  const values = new Set([1, total, current - 1, current, current + 1].filter((value) => value >= 1 && value <= total));
-  const ordered = [...values].sort((left, right) => left - right);
-  const result: Array<number | 'ellipsis'> = [];
-  ordered.forEach((value, index) => {
-    if (index && value - ordered[index - 1] > 1) result.push('ellipsis');
-    result.push(value);
-  });
-  return result;
-}
-
 export default function TheoryIndexScreen() {
   const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
@@ -124,9 +112,7 @@ export default function TheoryIndexScreen() {
 
       {paginated && selectedTheories.length > PAGE_SIZE ? (
         <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
-          {pageItems(safePage, totalPages).map((item, index) => item === 'ellipsis'
-            ? <AppText key={`ellipsis-${index}`} style={styles.ellipsis}>…</AppText>
-            : <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map(item => <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
         </View>
       ) : null}
 
@@ -151,7 +137,7 @@ function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: bool
       <Pressable testID="theory-index-row-card" accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`}>
         <View style={[styles.idColumn, compact && styles.idColumnCompact]}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText></View>
         <View style={styles.rowCopy}>
-          <AppText numberOfLines={2} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
+          <AppText numberOfLines={theory.title.startsWith('「') ? undefined : 2} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
           <AppText numberOfLines={compact ? 3 : 2} style={styles.rowSummary}>{getTheoryCoverSummary(theory.summary)}</AppText>
         </View>
         <AppText style={styles.rowArrow}>›</AppText>
@@ -201,11 +187,10 @@ const styles = StyleSheet.create({
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
   pagination: { marginTop: spacing.md, marginBottom: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  pageButton: { width: 44, height: 44, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 4, alignItems: 'center', justifyContent: 'center' },
+  pageButton: { width: 44, height: 44, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   pageButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
   pageText: { color: colors.inkSoft, fontSize: 11 },
   pageTextActive: { color: colors.surface, fontWeight: '700' },
-  ellipsis: { color: colors.muted, paddingHorizontal: 3 },
   skeletonRow: { opacity: 0.5 },
   skeletonCode: { width: 62, height: 10, marginHorizontal: 20, alignSelf: 'center', borderRadius: 5, backgroundColor: colors.paperDeep },
   skeletonLine: { width: '58%', height: 16, borderRadius: 6, backgroundColor: colors.paperDeep },

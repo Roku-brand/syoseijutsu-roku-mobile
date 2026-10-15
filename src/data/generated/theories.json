@@ -27017,6 +27017,73 @@
     "knowledgeType": "thought"
   },
   {
+    "tagId": "kb_701",
+    "title": "生きることを引き受けて歩む",
+    "summary": "夏目漱石の著作に見られる、生きる困難を避けずに受け止める視点を手がかりに、困難の中でも自分の歩みを続ける姿勢を考える。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-e",
+    "subcategoryTitle": "東洋思想",
+    "sortOrder": 16,
+    "canonicalId": "kb_701",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 71,
+    "displayOrder": 71,
+    "provenance": {
+      "note": "青空文庫の原文で該当表現を確認。見出しだけでなく作品の文脈と合わせて読みます。",
+      "works": [
+        "『倫敦塔』"
+      ],
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000148/files/1076_14974.html",
+          "title": "原典・公式資料"
+        }
+      ],
+      "attribution": "夏目漱石"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "thought"
+  },
+  {
+    "tagId": "kb_702",
+    "title": "暮らしにくさの中で、視点を探す",
+    "summary": "夏目漱石『草枕』の社会への息苦しさを踏まえ、暮らしにくさにただ耐えるのではなく、捉え方や距離の取り方を探す視点として示す。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-e",
+    "subcategoryTitle": "東洋思想",
+    "sortOrder": 17,
+    "canonicalId": "kb_702",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 72,
+    "displayOrder": 72,
+    "provenance": {
+      "note": "青空文庫の原文と初出情報を確認。表記は現代の字体に合わせています。",
+      "works": [
+        "『草枕』冒頭"
+      ],
+      "period": "1906年9月（『新小説』）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000148/files/776_14941.html",
+          "title": "原典・公式資料"
+        }
+      ],
+      "attribution": "夏目漱石"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "thought"
+  },
+  {
     "tagId": "kb_604",
     "title": "自分にできることと、できないことを分ける",
     "summary": "自分で変えられることに力を使い、変えられないことへの執着を減らす考え。",
@@ -28259,7 +28326,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 1,
     "canonicalId": "kb_333",
     "legacyIds": [],
@@ -28285,7 +28352,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 2,
     "canonicalId": "kb_334",
     "legacyIds": [],
@@ -28311,7 +28378,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 3,
     "canonicalId": "kb_336",
     "legacyIds": [],
@@ -28330,7 +28397,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 4,
     "canonicalId": "kb_335",
     "legacyIds": [],
@@ -28349,7 +28416,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 5,
     "canonicalId": "kb_301",
     "legacyIds": [],
@@ -28368,7 +28435,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 6,
     "canonicalId": "kb_300",
     "legacyIds": [],
@@ -28387,7 +28454,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 7,
     "canonicalId": "kb_296",
     "legacyIds": [],
@@ -28406,7 +28473,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 8,
     "canonicalId": "kb_631",
     "legacyIds": [],
@@ -28439,7 +28506,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 9,
     "canonicalId": "kb_351",
     "legacyIds": [],
@@ -28462,7 +28529,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 10,
     "canonicalId": "kb_352",
     "legacyIds": [],
@@ -28485,7 +28552,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 11,
     "canonicalId": "kb_353",
     "legacyIds": [],
@@ -28511,7 +28578,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 12,
     "canonicalId": "kb_327",
     "legacyIds": [],
@@ -28530,7 +28597,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 13,
     "canonicalId": "kb_324",
     "legacyIds": [],
@@ -28563,7 +28630,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 14,
     "canonicalId": "kb_315",
     "legacyIds": [],
@@ -28589,7 +28656,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 15,
     "canonicalId": "kb_469",
     "legacyIds": [],
@@ -28622,7 +28689,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 16,
     "canonicalId": "kb_468",
     "legacyIds": [],
@@ -28655,7 +28722,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 17,
     "canonicalId": "kb_359",
     "legacyIds": [],
@@ -28689,7 +28756,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 18,
     "canonicalId": "kb_329",
     "legacyIds": [],
@@ -28723,7 +28790,7 @@
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
+    "subcategoryTitle": "ことわざ",
     "sortOrder": 19,
     "canonicalId": "kb_326",
     "legacyIds": [],
@@ -28743,14 +28810,735 @@
     "knowledgeType": "thought"
   },
   {
+    "tagId": "theory-8989915e-3d28-4fad-9521-1bdece206b3f",
+    "title": "「墨で書いた嘘は、血で書かれた事実を決して覆い隠せない。」",
+    "summary": "「墨で書いた嘘は、血で書かれた事実を決して覆い隠せない。」\n— 魯迅\n無花の薔薇 その二（華蓋集続編）\n\n三・一八事件の虐殺と、それを覆い隠す政府の言葉を批判した一節。単なる言い訳批判へ縮めず、事実と権力の言葉の緊張を読む。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 1,
+    "canonicalId": "theory-8989915e-3d28-4fad-9521-1bdece206b3f",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 73,
+    "displayOrder": 73,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "無花の薔薇 その二（華蓋集続編）"
+      ],
+      "period": "1926年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://zh.wikisource.org/wiki/無花的薔薇之二",
+          "title": "無花の薔薇 その二（華蓋集続編）（原典本文）"
+        }
+      ],
+      "attribution": "魯迅"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "無花の薔薇 その二（華蓋集続編）",
+      "author": "魯迅",
+      "locator": "第8節、1926年3月18日",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://zh.wikisource.org/wiki/無花的薔薇之二"
+      ],
+      "candidateId": "07",
+      "contextNote": "三・一八事件の虐殺と、それを覆い隠す政府の言葉を批判した一節。単なる言い訳批判へ縮めず、事実と権力の言葉の緊張を読む。",
+      "rightsBasis": "著者1936年没、原語作品は1926年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "墨寫的謊說，決掩不住血寫的事實。",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1936,
+      "publicationYear": 1926,
+      "translationKind": "independent_translation",
+      "translationText": "墨で書いた嘘は、血で書かれた事実を決して覆い隠せない。",
+      "originalLanguage": "zh"
+    }
+  },
+  {
+    "tagId": "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a",
+    "title": "「自由は山頂の空気に似ている。どちらも弱い者には堪えることはできない。」",
+    "summary": "「自由は山頂の空気に似ている。どちらも弱い者には堪えることはできない。」\n— 芥川龍之介\n侏儒の言葉\n\n自由を高所の空気にたとえ、その負担を突きつける逆説。個人の強弱を判定する理論ではなく、自由と責任を問う文学的表現。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 2,
+    "canonicalId": "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 74,
+    "displayOrder": 74,
+    "provenance": {
+      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "侏儒の言葉"
+      ],
+      "period": "1927年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000879/files/43751_27955.html",
+          "title": "侏儒の言葉（原典本文）"
+        }
+      ],
+      "attribution": "芥川龍之介"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "侏儒の言葉",
+      "author": "芥川龍之介",
+      "locator": "「自由」・「又」",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.aozora.gr.jp/cards/000879/files/43751_27955.html"
+      ],
+      "candidateId": "09",
+      "contextNote": "自由を高所の空気にたとえ、その負担を突きつける逆説。個人の強弱を判定する理論ではなく、自由と責任を問う文学的表現。",
+      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
+      "originalText": "自由は山巓の空気に似てゐる。どちらも弱い者には堪えることは出来ない。",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1927,
+      "publicationYear": 1927,
+      "translationKind": "classical_transcription",
+      "translationText": "自由は山頂の空気に似ている。どちらも弱い者には堪えることはできない。",
+      "originalLanguage": "ja"
+    }
+  },
+  {
+    "tagId": "theory-b16cc75c-68d0-4873-b989-2ed788bd404b",
+    "title": "「人気者になるには、凡庸でなければならない。」",
+    "summary": "「人気者になるには、凡庸でなければならない。」\n— オスカー・ワイルド\nドリアン・グレイの肖像\n\n周囲へ強い印象を与えることと、誰からも好かれることの矛盾を皮肉る台詞。作者本人の成功法則や、大衆心理の実証結果ではない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 3,
+    "canonicalId": "theory-b16cc75c-68d0-4873-b989-2ed788bd404b",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_063"
+    ],
+    "displayId": 75,
+    "displayOrder": 75,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "ドリアン・グレイの肖像"
+      ],
+      "period": "1891年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.gutenberg.org/cache/epub/174/pg174.txt",
+          "title": "ドリアン・グレイの肖像（原典本文）"
+        }
+      ],
+      "attribution": "オスカー・ワイルド"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "ドリアン・グレイの肖像",
+      "author": "オスカー・ワイルド",
+      "locator": "第17章、ヘンリー卿の台詞",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.gutenberg.org/cache/epub/174/pg174.txt"
+      ],
+      "candidateId": "10",
+      "contextNote": "周囲へ強い印象を与えることと、誰からも好かれることの矛盾を皮肉る台詞。作者本人の成功法則や、大衆心理の実証結果ではない。",
+      "rightsBasis": "著者1900年没、原語作品は1891年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "To be popular one must be a mediocrity.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1900,
+      "publicationYear": 1891,
+      "translationKind": "independent_translation",
+      "translationText": "人気者になるには、凡庸でなければならない。",
+      "originalLanguage": "en"
+    }
+  },
+  {
+    "tagId": "theory-c83321fd-d076-4d5c-b270-6af925c204a5",
+    "title": "「人は、自分が幸福だと知らないから不幸なのだ。ただそれだけのために。」",
+    "summary": "「人は、自分が幸福だと知らないから不幸なのだ。ただそれだけのために。」\n— ドストエフスキー\n悪霊\n\nキリーロフが幸福をどう自覚するかを語る台詞。困難や病気を本人の考え方だけの責任にする根拠ではない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 4,
+    "canonicalId": "theory-c83321fd-d076-4d5c-b270-6af925c204a5",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_236"
+    ],
+    "displayId": 76,
+    "displayOrder": 76,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "悪霊"
+      ],
+      "period": "1872年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://ru.wikisource.org/wiki/Бесы_(Достоевский)/Часть_2/Глава_1",
+          "title": "悪霊（原典本文）"
+        }
+      ],
+      "attribution": "ドストエフスキー"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "悪霊",
+      "author": "ドストエフスキー",
+      "locator": "第2部第1章「夜」、キリーロフの台詞",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://ru.wikisource.org/wiki/Бесы_(Достоевский)/Часть_2/Глава_1"
+      ],
+      "candidateId": "14",
+      "contextNote": "キリーロフが幸福をどう自覚するかを語る台詞。困難や病気を本人の考え方だけの責任にする根拠ではない。",
+      "rightsBasis": "著者1881年没、原語作品は1872年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "Человек несчастлив потому, что не знает, что он счастлив; только потому.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1881,
+      "publicationYear": 1872,
+      "translationKind": "independent_translation",
+      "translationText": "人は、自分が幸福だと知らないから不幸なのだ。ただそれだけのために。",
+      "originalLanguage": "ru"
+    }
+  },
+  {
+    "tagId": "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b",
+    "title": "「人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。」",
+    "summary": "「人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。」\n— 芥川龍之介\n侏儒の言葉\n\n人生を重く扱いすぎる滑稽さと、軽く扱う危険を一つの比喩で並べる。どちらか一方へ割り切れない判断の両義性を示す。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 5,
+    "canonicalId": "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_573"
+    ],
+    "displayId": 77,
+    "displayOrder": 77,
+    "provenance": {
+      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "侏儒の言葉"
+      ],
+      "period": "1927年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
+          "title": "侏儒の言葉（原典本文）"
+        }
+      ],
+      "attribution": "芥川龍之介"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "侏儒の言葉",
+      "author": "芥川龍之介",
+      "locator": "「人生」・「又」",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.aozora.gr.jp/cards/000879/files/158_15132.html"
+      ],
+      "candidateId": "16",
+      "contextNote": "人生を重く扱いすぎる滑稽さと、軽く扱う危険を一つの比喩で並べる。どちらか一方へ割り切れない判断の両義性を示す。",
+      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
+      "originalText": "人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1927,
+      "publicationYear": 1927,
+      "translationKind": "original_japanese",
+      "translationText": "人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。",
+      "originalLanguage": "ja"
+    }
+  },
+  {
+    "tagId": "theory-62543145-f91d-448d-aece-2a44802164f8",
+    "title": "「人間の罪のなかで、私が何より憎むのは不機嫌だ。」",
+    "summary": "「人間の罪のなかで、私が何より憎むのは不機嫌だ。」\n— ゲーテ\n若きウェルテルの悩み\n\n候補の「最大の罪」は、原文では語り手が最も憎む罪という主観的表現。周囲へ及ぶ機嫌の影響を読む台詞で、作者による道徳の順位表ではない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 6,
+    "canonicalId": "theory-62543145-f91d-448d-aece-2a44802164f8",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_023"
+    ],
+    "displayId": 78,
+    "displayOrder": 78,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "若きウェルテルの悩み"
+      ],
+      "period": "1774年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.gutenberg.org/cache/epub/2407/pg2407-images.html",
+          "title": "若きウェルテルの悩み（原典本文）"
+        }
+      ],
+      "attribution": "ゲーテ"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "若きウェルテルの悩み",
+      "author": "ゲーテ",
+      "locator": "第1部、7月30日の書簡。ウェルテルがアルベルトの気質を語る箇所",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.gutenberg.org/cache/epub/2407/pg2407-images.html"
+      ],
+      "candidateId": "17",
+      "contextNote": "候補の「最大の罪」は、原文では語り手が最も憎む罪という主観的表現。周囲へ及ぶ機嫌の影響を読む台詞で、作者による道徳の順位表ではない。",
+      "rightsBasis": "著者1832年没、原語作品は1774年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "und du weißt, das ist die Sünde, die ich ärger hasse am Menschen als alle andre.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1832,
+      "publicationYear": 1774,
+      "translationKind": "independent_translation",
+      "translationText": "人間の罪のなかで、私が何より憎むのは不機嫌だ。",
+      "originalLanguage": "de"
+    }
+  },
+  {
+    "tagId": "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33",
+    "title": "「涙でパンを食べたことも、悲しみの夜を寝台で泣いて過ごしたこともない者は、天上の力であるあなたがたを知らない。」",
+    "summary": "「涙でパンを食べたことも、悲しみの夜を寝台で泣いて過ごしたこともない者は、天上の力であるあなたがたを知らない。」\n— ゲーテ\nヴィルヘルム・マイスターの修業時代\n\n「人生の味」という流通する要約を、苦痛と天上の力を歌う原詩へ戻した。苦難を他者へ強いる教訓や、苦しみを幸福の必要条件とする主張ではない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 7,
+    "canonicalId": "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 79,
+    "displayOrder": 79,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "ヴィルヘルム・マイスターの修業時代"
+      ],
+      "period": "1795年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://de.wikisource.org/wiki/Wer_nie_sein_Brot_mit_Tränen_aß",
+          "title": "ヴィルヘルム・マイスターの修業時代（原典本文）"
+        }
+      ],
+      "attribution": "ゲーテ"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "ヴィルヘルム・マイスターの修業時代",
+      "author": "ゲーテ",
+      "locator": "竪琴弾きの歌「涙でパンを食べたことのない者は」、前半",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://de.wikisource.org/wiki/Wer_nie_sein_Brot_mit_Tränen_aß"
+      ],
+      "candidateId": "19",
+      "contextNote": "「人生の味」という流通する要約を、苦痛と天上の力を歌う原詩へ戻した。苦難を他者へ強いる教訓や、苦しみを幸福の必要条件とする主張ではない。",
+      "rightsBasis": "著者1832年没、原語作品は1795年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "Wer nie sein Brod mit Thränen as, Wer nie die kummervollen Nächte Auf seinem Bette weinend sas, Der kennt euch nicht, ihr himmlischen Mächte.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1832,
+      "publicationYear": 1795,
+      "translationKind": "independent_translation",
+      "translationText": "涙でパンを食べたことも、悲しみの夜を寝台で泣いて過ごしたこともない者は、天上の力であるあなたがたを知らない。",
+      "originalLanguage": "de"
+    }
+  },
+  {
+    "tagId": "theory-e634c0c0-8300-44e5-a28f-916300973eb1",
+    "title": "「いちばんだましやすい相手は、自分自身だ。」",
+    "summary": "「いちばんだましやすい相手は、自分自身だ。」\n— ブルワー＝リットン\nThe Disowned（勘当された者）\n\n自分の動機や善良さへの確信も、自己欺瞞から自由ではないと刺す台詞。話者の応答と、相手がそれをどう受け取るかの落差も含めて読む。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 8,
+    "canonicalId": "theory-e634c0c0-8300-44e5-a28f-916300973eb1",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_708",
+      "kb_719"
+    ],
+    "displayId": 80,
+    "displayOrder": 80,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "The Disowned（勘当された者）"
+      ],
+      "period": "1828年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.gutenberg.org/cache/epub/7634/pg7634.html",
+          "title": "The Disowned（勘当された者）（原典本文）"
+        }
+      ],
+      "attribution": "ブルワー＝リットン"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "The Disowned（勘当された者）",
+      "author": "ブルワー＝リットン",
+      "locator": "第4巻、グレンドワーがクローフォードに答える箇所",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.gutenberg.org/cache/epub/7634/pg7634.html"
+      ],
+      "candidateId": "22",
+      "contextNote": "自分の動機や善良さへの確信も、自己欺瞞から自由ではないと刺す台詞。話者の応答と、相手がそれをどう受け取るかの落差も含めて読む。",
+      "rightsBasis": "著者1873年没、原語作品は1828年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "the easiest person to deceive is one's own self.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1873,
+      "publicationYear": 1828,
+      "translationKind": "independent_translation",
+      "translationText": "いちばんだましやすい相手は、自分自身だ。",
+      "originalLanguage": "en"
+    }
+  },
+  {
+    "tagId": "theory-e1df3caa-9877-4eed-a549-162cc3bdaca0",
+    "title": "「恋愛はただ性欲の詩的表現を受けたものである。」",
+    "summary": "「恋愛はただ性欲の詩的表現を受けたものである。」\n— 芥川龍之介\n侏儒の言葉\n\n欲望が言葉や想像によって恋愛へ姿を変えるという、皮肉を含む見方。続く原文は、詩的表現を受けない性欲は恋愛と呼ぶに値しないと述べる。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 9,
+    "canonicalId": "theory-e1df3caa-9877-4eed-a549-162cc3bdaca0",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [],
+    "displayId": 81,
+    "displayOrder": 81,
+    "provenance": {
+      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "侏儒の言葉"
+      ],
+      "period": "1927年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
+          "title": "侏儒の言葉（原典本文）"
+        }
+      ],
+      "attribution": "芥川龍之介"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "侏儒の言葉",
+      "author": "芥川龍之介",
+      "locator": "「恋愛」、冒頭2文のうち第1文を表記整理して表示",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.aozora.gr.jp/cards/000879/files/158_15132.html"
+      ],
+      "candidateId": "26",
+      "contextNote": "欲望が言葉や想像によって恋愛へ姿を変えるという、皮肉を含む見方。続く原文は、詩的表現を受けない性欲は恋愛と呼ぶに値しないと述べる。",
+      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
+      "originalText": "恋愛は唯性慾の詩的表現を受けたものである。少くとも詩的表現を受けない性慾は恋愛と呼ぶに価いしない。",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1927,
+      "publicationYear": 1927,
+      "translationKind": "classical_transcription",
+      "translationText": "恋愛はただ性欲の詩的表現を受けたものである。",
+      "originalLanguage": "ja"
+    }
+  },
+  {
+    "tagId": "theory-acb4311e-b6ca-416c-8d06-06cff53444b2",
+    "title": "「恋は飢えによって生き、食べ物を与えられて死ぬ。」",
+    "summary": "「恋は飢えによって生き、食べ物を与えられて死ぬ。」\n— アルフレッド・ド・ミュッセ\nマルドッシュ（初期詩集）\n\n恋が満たされないことで続き、充足によって衰えるという逆説を詠む。恋愛相手を意図的に不安にさせる手法や、関係の普遍法則としては扱わない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 10,
+    "canonicalId": "theory-acb4311e-b6ca-416c-8d06-06cff53444b2",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_268"
+    ],
+    "displayId": 82,
+    "displayOrder": 82,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "マルドッシュ（初期詩集）"
+      ],
+      "period": "1829年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://fr.wikisource.org/wiki/Premières_Poésies_(Musset,_éd._1863)/Mardoche",
+          "title": "マルドッシュ（初期詩集）（原典本文）"
+        }
+      ],
+      "attribution": "アルフレッド・ド・ミュッセ"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "マルドッシュ（初期詩集）",
+      "author": "アルフレッド・ド・ミュッセ",
+      "locator": "第16節、末尾2行",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://fr.wikisource.org/wiki/Premières_Poésies_(Musset,_éd._1863)/Mardoche"
+      ],
+      "candidateId": "27",
+      "contextNote": "恋が満たされないことで続き、充足によって衰えるという逆説を詠む。恋愛相手を意図的に不安にさせる手法や、関係の普遍法則としては扱わない。",
+      "rightsBasis": "著者1857年没、原語作品は1829年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "L’amour (hélas ! l’étrange et la fausse nature !) Vit d’inanition, et meurt de nourriture.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1857,
+      "publicationYear": 1829,
+      "translationKind": "independent_translation",
+      "translationText": "恋は飢えによって生き、食べ物を与えられて死ぬ。",
+      "originalLanguage": "fr"
+    }
+  },
+  {
+    "tagId": "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e",
+    "title": "「青春は、何もかも実験である。」",
+    "summary": "「青春は、何もかも実験である。」\n— R・L・スティーヴンソン\n芸術の道を志す若い紳士への手紙\n\n若い時期を、まだ知らない自分と世界を繰り返し出会わせる実験として描く。失敗を無条件に美化する言葉ではなく、自己理解が試行の中で育つという見方。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 11,
+    "canonicalId": "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_913"
+    ],
+    "displayId": 83,
+    "displayOrder": 83,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "芸術の道を志す若い紳士への手紙"
+      ],
+      "period": "1912年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.gutenberg.org/cache/epub/30990/pg30990.txt",
+          "title": "芸術の道を志す若い紳士への手紙（原典本文）"
+        }
+      ],
+      "attribution": "R・L・スティーヴンソン"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "芸術の道を志す若い紳士への手紙",
+      "author": "R・L・スティーヴンソン",
+      "locator": "第7篇、好きなものを知ることを論じる段落（Swanston Edition 第16巻）",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.gutenberg.org/cache/epub/30990/pg30990.txt"
+      ],
+      "candidateId": "31",
+      "contextNote": "若い時期を、まだ知らない自分と世界を繰り返し出会わせる実験として描く。失敗を無条件に美化する言葉ではなく、自己理解が試行の中で育つという見方。",
+      "rightsBasis": "著者1894年没、原語作品は1912年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "Youth is wholly experimental.",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1894,
+      "publicationYear": 1912,
+      "translationKind": "independent_translation",
+      "translationText": "青春は、何もかも実験である。",
+      "originalLanguage": "en"
+    }
+  },
+  {
+    "tagId": "theory-d15357a9-73da-4286-859e-91a7ebcb5f85",
+    "title": "「コロンブスが幸福だったのは、アメリカを発見したときではなく、発見しつつあったときだ。」",
+    "summary": "「コロンブスが幸福だったのは、アメリカを発見したときではなく、発見しつつあったときだ。」\n— ドストエフスキー\n白痴\n\n人生を発見し続ける過程へ目を向ける、作中人物の切迫した独白。コロンブスの実際の心理を史実として記録した文でも、達成後は必ず不幸になるという研究でもない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 12,
+    "canonicalId": "theory-d15357a9-73da-4286-859e-91a7ebcb5f85",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_268"
+    ],
+    "displayId": 84,
+    "displayOrder": 84,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "白痴"
+      ],
+      "period": "1868年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://ru.wikisource.org/wiki/Идиот_(Достоевский)/Часть_III/Глава_V",
+          "title": "白痴（原典本文）"
+        }
+      ],
+      "attribution": "ドストエフスキー"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "白痴",
+      "author": "ドストエフスキー",
+      "locator": "第3部第5章、イッポリートの「弁明」",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://ru.wikisource.org/wiki/Идиот_(Достоевский)/Часть_III/Глава_V"
+      ],
+      "candidateId": "33",
+      "contextNote": "人生を発見し続ける過程へ目を向ける、作中人物の切迫した独白。コロンブスの実際の心理を史実として記録した文でも、達成後は必ず不幸になるという研究でもない。",
+      "rightsBasis": "著者1881年没、原語作品は1868年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "О, будьте уверены, что Колумб был счастлив не тогда, когда открыл Америку, а когда открывал ее;",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1881,
+      "publicationYear": 1868,
+      "translationKind": "independent_translation",
+      "translationText": "コロンブスが幸福だったのは、アメリカを発見したときではなく、発見しつつあったときだ。",
+      "originalLanguage": "ru"
+    }
+  },
+  {
+    "tagId": "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
+    "title": "「借り手にも貸し手にもなるな。貸せば、金も友も失いがちだから。」",
+    "summary": "「借り手にも貸し手にもなるな。貸せば、金も友も失いがちだから。」\n— シェイクスピア\nハムレット\n\n貸した金だけでなく友情まで失う二重の損失を、父が子へ戒める台詞。作者の金融理論や、あらゆる借入れを禁じる普遍規則ではない。",
+    "categoryId": "classics-thought",
+    "categoryTitle": "古典・思想",
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 13,
+    "canonicalId": "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [],
+    "relatedTheoryIds": [
+      "kb_092"
+    ],
+    "displayId": 90,
+    "displayOrder": 90,
+    "provenance": {
+      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
+      "works": [
+        "ハムレット"
+      ],
+      "period": "1603年（原典・参照版）",
+      "status": "確認済み",
+      "sources": [
+        {
+          "url": "https://www.gutenberg.org/cache/epub/1524/pg1524.txt",
+          "title": "ハムレット（原典本文）"
+        }
+      ],
+      "attribution": "シェイクスピア"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "aphorism",
+    "quotation": {
+      "work": "ハムレット",
+      "author": "シェイクスピア",
+      "locator": "第1幕第3場、ポローニアスがレアティーズへ語る台詞",
+      "checkedOn": "2026-10-15",
+      "sourceUrls": [
+        "https://www.gutenberg.org/cache/epub/1524/pg1524.txt"
+      ],
+      "candidateId": "49",
+      "contextNote": "貸した金だけでなく友情まで失う二重の損失を、父が子へ戒める台詞。作者の金融理論や、あらゆる借入れを禁じる普遍規則ではない。",
+      "rightsBasis": "著者1616年没、原語作品は1603年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
+      "originalText": "Neither a borrower nor a lender be: For loan oft loses both itself and friend;",
+      "rightsStatus": "cleared",
+      "verification": "verified",
+      "authorDeathYear": 1616,
+      "publicationYear": 1603,
+      "translationKind": "independent_translation",
+      "translationText": "借り手にも貸し手にもなるな。貸せば、金も友も失いがちだから。",
+      "originalLanguage": "en"
+    }
+  },
+  {
     "tagId": "kb_595",
-    "title": "準備された心",
+    "title": "「観察の場では、偶然は準備のできた心だけに味方する。」",
     "summary": "「観察の場では、偶然は準備のできた心だけに味方する。」\n— パスツール\nドゥエーでの演説\n\n偶然の発見を、知識や問題意識を持つ人が見抜くという言葉。準備が幸運そのものを生むと証明する法則ではない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 20,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 14,
     "canonicalId": "kb_595",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -28802,13 +29590,13 @@
   },
   {
     "tagId": "theory-386c4608-d46d-4782-b912-36c85aa8024d",
-    "title": "友情と恋を変える時間",
+    "title": "「時間は友情を強くし、恋を弱くする。」",
     "summary": "「時間は友情を強くし、恋を弱くする。」\n— ラ・ブリュイエール\nカラクテール\n\n急に生まれる恋と、長い交わりで育つ友情を対照する警句。すべての恋愛や友情が同じ時間経過をたどるという法則ではない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 21,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 15,
     "canonicalId": "theory-386c4608-d46d-4782-b912-36c85aa8024d",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -28858,13 +29646,13 @@
   },
   {
     "tagId": "theory-22667bdf-940f-4226-b7ea-28a72128af6b",
-    "title": "友人を見る角度",
+    "title": "「友人の片目が不自由なら、私はその人を横顔から見る。」",
     "summary": "「友人の片目が不自由なら、私はその人を横顔から見る。」\n— ジョゼフ・ジュベール\nパンセ・エセー・マクシム\n\n相手の欠点を暴くのでなく、見る角度を変える寛容を比喩で表す。現実の害や不正まで見ないふりをする義務を説いたものとは区別する。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 22,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 16,
     "canonicalId": "theory-22667bdf-940f-4226-b7ea-28a72128af6b",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -28914,13 +29702,13 @@
   },
   {
     "tagId": "theory-4e128612-e3f0-4eb9-9c09-e3503466521d",
-    "title": "友に自分を与える",
+    "title": "「真の友情では、友を自分へ引き寄せる以上に、自分を友に与える。」",
     "summary": "「真の友情では、友を自分へ引き寄せる以上に、自分を友に与える。」\n— モンテーニュ\nエセー\n\n友情を、相手を自分に従わせる関係とは反対のものとして語る。無制限な自己犠牲や、相手の要求をすべて引き受けることとは分けて読む。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 23,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 17,
     "canonicalId": "theory-4e128612-e3f0-4eb9-9c09-e3503466521d",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -28970,13 +29758,13 @@
   },
   {
     "tagId": "theory-8cd3b27e-6948-4ad0-b961-46eb047b1b67",
-    "title": "友情における疑い",
+    "title": "「友人を疑うことは、友人にだまされることより恥ずかしい。」",
     "summary": "「友人を疑うことは、友人にだまされることより恥ずかしい。」\n— ラ・ロシュフコー\n箴言集\n\n裏切られる損より、疑いによって友情を損なう恥を強く置いた箴言。相手の危険な言動を無視する指示や、無条件の信用を証明する理論ではない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 24,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 18,
     "canonicalId": "theory-8cd3b27e-6948-4ad0-b961-46eb047b1b67",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -29026,13 +29814,13 @@
   },
   {
     "tagId": "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf",
-    "title": "友情と欠点の指摘",
+    "title": "「友情のいちばん難しい仕事は、自分の欠点を見せることではなく、友人にその人自身の欠点を気づかせることだ。」",
     "summary": "「友情のいちばん難しい仕事は、自分の欠点を見せることではなく、友人にその人自身の欠点を気づかせることだ。」\n— ラ・ロシュフコー\n箴言集\n\n自己開示よりも、相手が受け入れにくい指摘を伝える難しさを突く。相手を裁く口実ではなく、友情の配慮と率直さの緊張を読む。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-p",
-    "subcategoryTitle": "ことわざ・格言",
-    "sortOrder": 25,
+    "subcategoryId": "classics-thought-f",
+    "subcategoryTitle": "格言",
+    "sortOrder": 19,
     "canonicalId": "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -29078,794 +29866,6 @@
       "translationKind": "independent_translation",
       "translationText": "友情のいちばん難しい仕事は、自分の欠点を見せることではなく、友人にその人自身の欠点を気づかせることだ。",
       "originalLanguage": "fr"
-    }
-  },
-  {
-    "tagId": "kb_701",
-    "title": "生きることを引き受けて歩む",
-    "summary": "夏目漱石の著作に見られる、生きる困難を避けずに受け止める視点を手がかりに、困難の中でも自分の歩みを続ける姿勢を考える。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 1,
-    "canonicalId": "kb_701",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 71,
-    "displayOrder": 71,
-    "provenance": {
-      "note": "青空文庫の原文で該当表現を確認。見出しだけでなく作品の文脈と合わせて読みます。",
-      "works": [
-        "『倫敦塔』"
-      ],
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.aozora.gr.jp/cards/000148/files/1076_14974.html",
-          "title": "原典・公式資料"
-        }
-      ],
-      "attribution": "夏目漱石"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "thought"
-  },
-  {
-    "tagId": "kb_702",
-    "title": "暮らしにくさの中で、視点を探す",
-    "summary": "夏目漱石『草枕』の社会への息苦しさを踏まえ、暮らしにくさにただ耐えるのではなく、捉え方や距離の取り方を探す視点として示す。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 2,
-    "canonicalId": "kb_702",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 72,
-    "displayOrder": 72,
-    "provenance": {
-      "note": "青空文庫の原文と初出情報を確認。表記は現代の字体に合わせています。",
-      "works": [
-        "『草枕』冒頭"
-      ],
-      "period": "1906年9月（『新小説』）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.aozora.gr.jp/cards/000148/files/776_14941.html",
-          "title": "原典・公式資料"
-        }
-      ],
-      "attribution": "夏目漱石"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "thought"
-  },
-  {
-    "tagId": "theory-8989915e-3d28-4fad-9521-1bdece206b3f",
-    "title": "墨の嘘と血の事実",
-    "summary": "「墨で書いた嘘は、血で書かれた事実を決して覆い隠せない。」\n— 魯迅\n無花の薔薇 その二（華蓋集続編）\n\n三・一八事件の虐殺と、それを覆い隠す政府の言葉を批判した一節。単なる言い訳批判へ縮めず、事実と権力の言葉の緊張を読む。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 3,
-    "canonicalId": "theory-8989915e-3d28-4fad-9521-1bdece206b3f",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 73,
-    "displayOrder": 73,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "無花の薔薇 その二（華蓋集続編）"
-      ],
-      "period": "1926年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://zh.wikisource.org/wiki/無花的薔薇之二",
-          "title": "無花の薔薇 その二（華蓋集続編）（原典本文）"
-        }
-      ],
-      "attribution": "魯迅"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "無花の薔薇 その二（華蓋集続編）",
-      "author": "魯迅",
-      "locator": "第8節、1926年3月18日",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://zh.wikisource.org/wiki/無花的薔薇之二"
-      ],
-      "candidateId": "07",
-      "contextNote": "三・一八事件の虐殺と、それを覆い隠す政府の言葉を批判した一節。単なる言い訳批判へ縮めず、事実と権力の言葉の緊張を読む。",
-      "rightsBasis": "著者1936年没、原語作品は1926年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "墨寫的謊說，決掩不住血寫的事實。",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1936,
-      "publicationYear": 1926,
-      "translationKind": "independent_translation",
-      "translationText": "墨で書いた嘘は、血で書かれた事実を決して覆い隠せない。",
-      "originalLanguage": "zh"
-    }
-  },
-  {
-    "tagId": "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a",
-    "title": "自由と山頂の空気",
-    "summary": "「自由は山頂の空気に似ている。どちらも弱い者には堪えることはできない。」\n— 芥川龍之介\n侏儒の言葉\n\n自由を高所の空気にたとえ、その負担を突きつける逆説。個人の強弱を判定する理論ではなく、自由と責任を問う文学的表現。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 4,
-    "canonicalId": "theory-4a83dca9-828a-4f93-8c7c-f945b36de56a",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 74,
-    "displayOrder": 74,
-    "provenance": {
-      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "侏儒の言葉"
-      ],
-      "period": "1927年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.aozora.gr.jp/cards/000879/files/43751_27955.html",
-          "title": "侏儒の言葉（原典本文）"
-        }
-      ],
-      "attribution": "芥川龍之介"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "侏儒の言葉",
-      "author": "芥川龍之介",
-      "locator": "「自由」・「又」",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.aozora.gr.jp/cards/000879/files/43751_27955.html"
-      ],
-      "candidateId": "09",
-      "contextNote": "自由を高所の空気にたとえ、その負担を突きつける逆説。個人の強弱を判定する理論ではなく、自由と責任を問う文学的表現。",
-      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
-      "originalText": "自由は山巓の空気に似てゐる。どちらも弱い者には堪えることは出来ない。",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1927,
-      "publicationYear": 1927,
-      "translationKind": "classical_transcription",
-      "translationText": "自由は山頂の空気に似ている。どちらも弱い者には堪えることはできない。",
-      "originalLanguage": "ja"
-    }
-  },
-  {
-    "tagId": "theory-b16cc75c-68d0-4873-b989-2ed788bd404b",
-    "title": "人気と凡庸",
-    "summary": "「人気者になるには、凡庸でなければならない。」\n— オスカー・ワイルド\nドリアン・グレイの肖像\n\n周囲へ強い印象を与えることと、誰からも好かれることの矛盾を皮肉る台詞。作者本人の成功法則や、大衆心理の実証結果ではない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 5,
-    "canonicalId": "theory-b16cc75c-68d0-4873-b989-2ed788bd404b",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_063"
-    ],
-    "displayId": 75,
-    "displayOrder": 75,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "ドリアン・グレイの肖像"
-      ],
-      "period": "1891年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.gutenberg.org/cache/epub/174/pg174.txt",
-          "title": "ドリアン・グレイの肖像（原典本文）"
-        }
-      ],
-      "attribution": "オスカー・ワイルド"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "ドリアン・グレイの肖像",
-      "author": "オスカー・ワイルド",
-      "locator": "第17章、ヘンリー卿の台詞",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.gutenberg.org/cache/epub/174/pg174.txt"
-      ],
-      "candidateId": "10",
-      "contextNote": "周囲へ強い印象を与えることと、誰からも好かれることの矛盾を皮肉る台詞。作者本人の成功法則や、大衆心理の実証結果ではない。",
-      "rightsBasis": "著者1900年没、原語作品は1891年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "To be popular one must be a mediocrity.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1900,
-      "publicationYear": 1891,
-      "translationKind": "independent_translation",
-      "translationText": "人気者になるには、凡庸でなければならない。",
-      "originalLanguage": "en"
-    }
-  },
-  {
-    "tagId": "theory-c83321fd-d076-4d5c-b270-6af925c204a5",
-    "title": "幸福の自覚",
-    "summary": "「人は、自分が幸福だと知らないから不幸なのだ。ただそれだけのために。」\n— ドストエフスキー\n悪霊\n\nキリーロフが幸福をどう自覚するかを語る台詞。困難や病気を本人の考え方だけの責任にする根拠ではない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 6,
-    "canonicalId": "theory-c83321fd-d076-4d5c-b270-6af925c204a5",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_236"
-    ],
-    "displayId": 76,
-    "displayOrder": 76,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "悪霊"
-      ],
-      "period": "1872年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://ru.wikisource.org/wiki/Бесы_(Достоевский)/Часть_2/Глава_1",
-          "title": "悪霊（原典本文）"
-        }
-      ],
-      "attribution": "ドストエフスキー"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "悪霊",
-      "author": "ドストエフスキー",
-      "locator": "第2部第1章「夜」、キリーロフの台詞",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://ru.wikisource.org/wiki/Бесы_(Достоевский)/Часть_2/Глава_1"
-      ],
-      "candidateId": "14",
-      "contextNote": "キリーロフが幸福をどう自覚するかを語る台詞。困難や病気を本人の考え方だけの責任にする根拠ではない。",
-      "rightsBasis": "著者1881年没、原語作品は1872年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "Человек несчастлив потому, что не знает, что он счастлив; только потому.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1881,
-      "publicationYear": 1872,
-      "translationKind": "independent_translation",
-      "translationText": "人は、自分が幸福だと知らないから不幸なのだ。ただそれだけのために。",
-      "originalLanguage": "ru"
-    }
-  },
-  {
-    "tagId": "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b",
-    "title": "人生とマッチ箱",
-    "summary": "「人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。」\n— 芥川龍之介\n侏儒の言葉\n\n人生を重く扱いすぎる滑稽さと、軽く扱う危険を一つの比喩で並べる。どちらか一方へ割り切れない判断の両義性を示す。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 7,
-    "canonicalId": "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_573"
-    ],
-    "displayId": 77,
-    "displayOrder": 77,
-    "provenance": {
-      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "侏儒の言葉"
-      ],
-      "period": "1927年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
-          "title": "侏儒の言葉（原典本文）"
-        }
-      ],
-      "attribution": "芥川龍之介"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "侏儒の言葉",
-      "author": "芥川龍之介",
-      "locator": "「人生」・「又」",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.aozora.gr.jp/cards/000879/files/158_15132.html"
-      ],
-      "candidateId": "16",
-      "contextNote": "人生を重く扱いすぎる滑稽さと、軽く扱う危険を一つの比喩で並べる。どちらか一方へ割り切れない判断の両義性を示す。",
-      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
-      "originalText": "人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1927,
-      "publicationYear": 1927,
-      "translationKind": "original_japanese",
-      "translationText": "人生は一箱のマッチに似ている。重大に扱うのは莫迦莫迦しい。重大に扱わなければ危険である。",
-      "originalLanguage": "ja"
-    }
-  },
-  {
-    "tagId": "theory-62543145-f91d-448d-aece-2a44802164f8",
-    "title": "不機嫌という罪",
-    "summary": "「人間の罪のなかで、私が何より憎むのは不機嫌だ。」\n— ゲーテ\n若きウェルテルの悩み\n\n候補の「最大の罪」は、原文では語り手が最も憎む罪という主観的表現。周囲へ及ぶ機嫌の影響を読む台詞で、作者による道徳の順位表ではない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 8,
-    "canonicalId": "theory-62543145-f91d-448d-aece-2a44802164f8",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_023"
-    ],
-    "displayId": 78,
-    "displayOrder": 78,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "若きウェルテルの悩み"
-      ],
-      "period": "1774年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.gutenberg.org/cache/epub/2407/pg2407-images.html",
-          "title": "若きウェルテルの悩み（原典本文）"
-        }
-      ],
-      "attribution": "ゲーテ"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "若きウェルテルの悩み",
-      "author": "ゲーテ",
-      "locator": "第1部、7月30日の書簡。ウェルテルがアルベルトの気質を語る箇所",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.gutenberg.org/cache/epub/2407/pg2407-images.html"
-      ],
-      "candidateId": "17",
-      "contextNote": "候補の「最大の罪」は、原文では語り手が最も憎む罪という主観的表現。周囲へ及ぶ機嫌の影響を読む台詞で、作者による道徳の順位表ではない。",
-      "rightsBasis": "著者1832年没、原語作品は1774年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "und du weißt, das ist die Sünde, die ich ärger hasse am Menschen als alle andre.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1832,
-      "publicationYear": 1774,
-      "translationKind": "independent_translation",
-      "translationText": "人間の罪のなかで、私が何より憎むのは不機嫌だ。",
-      "originalLanguage": "de"
-    }
-  },
-  {
-    "tagId": "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33",
-    "title": "涙で食べるパン",
-    "summary": "「涙でパンを食べたことも、悲しみの夜を寝台で泣いて過ごしたこともない者は、天上の力であるあなたがたを知らない。」\n— ゲーテ\nヴィルヘルム・マイスターの修業時代\n\n「人生の味」という流通する要約を、苦痛と天上の力を歌う原詩へ戻した。苦難を他者へ強いる教訓や、苦しみを幸福の必要条件とする主張ではない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 9,
-    "canonicalId": "theory-a16caa2e-318b-4527-bd2a-0dfb9b6a1f33",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 79,
-    "displayOrder": 79,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "ヴィルヘルム・マイスターの修業時代"
-      ],
-      "period": "1795年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://de.wikisource.org/wiki/Wer_nie_sein_Brot_mit_Tränen_aß",
-          "title": "ヴィルヘルム・マイスターの修業時代（原典本文）"
-        }
-      ],
-      "attribution": "ゲーテ"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "ヴィルヘルム・マイスターの修業時代",
-      "author": "ゲーテ",
-      "locator": "竪琴弾きの歌「涙でパンを食べたことのない者は」、前半",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://de.wikisource.org/wiki/Wer_nie_sein_Brot_mit_Tränen_aß"
-      ],
-      "candidateId": "19",
-      "contextNote": "「人生の味」という流通する要約を、苦痛と天上の力を歌う原詩へ戻した。苦難を他者へ強いる教訓や、苦しみを幸福の必要条件とする主張ではない。",
-      "rightsBasis": "著者1832年没、原語作品は1795年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "Wer nie sein Brod mit Thränen as, Wer nie die kummervollen Nächte Auf seinem Bette weinend sas, Der kennt euch nicht, ihr himmlischen Mächte.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1832,
-      "publicationYear": 1795,
-      "translationKind": "independent_translation",
-      "translationText": "涙でパンを食べたことも、悲しみの夜を寝台で泣いて過ごしたこともない者は、天上の力であるあなたがたを知らない。",
-      "originalLanguage": "de"
-    }
-  },
-  {
-    "tagId": "theory-e634c0c0-8300-44e5-a28f-916300973eb1",
-    "title": "自分という欺きやすい相手",
-    "summary": "「いちばんだましやすい相手は、自分自身だ。」\n— ブルワー＝リットン\nThe Disowned（勘当された者）\n\n自分の動機や善良さへの確信も、自己欺瞞から自由ではないと刺す台詞。話者の応答と、相手がそれをどう受け取るかの落差も含めて読む。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 10,
-    "canonicalId": "theory-e634c0c0-8300-44e5-a28f-916300973eb1",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_708",
-      "kb_719"
-    ],
-    "displayId": 80,
-    "displayOrder": 80,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "The Disowned（勘当された者）"
-      ],
-      "period": "1828年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.gutenberg.org/cache/epub/7634/pg7634.html",
-          "title": "The Disowned（勘当された者）（原典本文）"
-        }
-      ],
-      "attribution": "ブルワー＝リットン"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "The Disowned（勘当された者）",
-      "author": "ブルワー＝リットン",
-      "locator": "第4巻、グレンドワーがクローフォードに答える箇所",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.gutenberg.org/cache/epub/7634/pg7634.html"
-      ],
-      "candidateId": "22",
-      "contextNote": "自分の動機や善良さへの確信も、自己欺瞞から自由ではないと刺す台詞。話者の応答と、相手がそれをどう受け取るかの落差も含めて読む。",
-      "rightsBasis": "著者1873年没、原語作品は1828年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "the easiest person to deceive is one's own self.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1873,
-      "publicationYear": 1828,
-      "translationKind": "independent_translation",
-      "translationText": "いちばんだましやすい相手は、自分自身だ。",
-      "originalLanguage": "en"
-    }
-  },
-  {
-    "tagId": "theory-e1df3caa-9877-4eed-a549-162cc3bdaca0",
-    "title": "恋愛の詩的表現",
-    "summary": "「恋愛はただ性欲の詩的表現を受けたものである。」\n— 芥川龍之介\n侏儒の言葉\n\n欲望が言葉や想像によって恋愛へ姿を変えるという、皮肉を含む見方。続く原文は、詩的表現を受けない性欲は恋愛と呼ぶに値しないと述べる。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 11,
-    "canonicalId": "theory-e1df3caa-9877-4eed-a549-162cc3bdaca0",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 81,
-    "displayOrder": 81,
-    "provenance": {
-      "note": "原文を照合し、表記整理した箇所は原文を別記。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "侏儒の言葉"
-      ],
-      "period": "1927年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.aozora.gr.jp/cards/000879/files/158_15132.html",
-          "title": "侏儒の言葉（原典本文）"
-        }
-      ],
-      "attribution": "芥川龍之介"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "侏儒の言葉",
-      "author": "芥川龍之介",
-      "locator": "「恋愛」、冒頭2文のうち第1文を表記整理して表示",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.aozora.gr.jp/cards/000879/files/158_15132.html"
-      ],
-      "candidateId": "26",
-      "contextNote": "欲望が言葉や想像によって恋愛へ姿を変えるという、皮肉を含む見方。続く原文は、詩的表現を受けない性欲は恋愛と呼ぶに値しないと述べる。",
-      "rightsBasis": "著者1927年没。日本語原著は1927年までに公表済み。旧法の死後50年期間が2018年以前に満了し復活しない。日本著作物のため戦時加算なし。底本の新しい解説・校注を使用しない。",
-      "originalText": "恋愛は唯性慾の詩的表現を受けたものである。少くとも詩的表現を受けない性慾は恋愛と呼ぶに価いしない。",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1927,
-      "publicationYear": 1927,
-      "translationKind": "classical_transcription",
-      "translationText": "恋愛はただ性欲の詩的表現を受けたものである。",
-      "originalLanguage": "ja"
-    }
-  },
-  {
-    "tagId": "theory-acb4311e-b6ca-416c-8d06-06cff53444b2",
-    "title": "恋の飢えと充足",
-    "summary": "「恋は飢えによって生き、食べ物を与えられて死ぬ。」\n— アルフレッド・ド・ミュッセ\nマルドッシュ（初期詩集）\n\n恋が満たされないことで続き、充足によって衰えるという逆説を詠む。恋愛相手を意図的に不安にさせる手法や、関係の普遍法則としては扱わない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 12,
-    "canonicalId": "theory-acb4311e-b6ca-416c-8d06-06cff53444b2",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_268"
-    ],
-    "displayId": 82,
-    "displayOrder": 82,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "マルドッシュ（初期詩集）"
-      ],
-      "period": "1829年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://fr.wikisource.org/wiki/Premières_Poésies_(Musset,_éd._1863)/Mardoche",
-          "title": "マルドッシュ（初期詩集）（原典本文）"
-        }
-      ],
-      "attribution": "アルフレッド・ド・ミュッセ"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "マルドッシュ（初期詩集）",
-      "author": "アルフレッド・ド・ミュッセ",
-      "locator": "第16節、末尾2行",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://fr.wikisource.org/wiki/Premières_Poésies_(Musset,_éd._1863)/Mardoche"
-      ],
-      "candidateId": "27",
-      "contextNote": "恋が満たされないことで続き、充足によって衰えるという逆説を詠む。恋愛相手を意図的に不安にさせる手法や、関係の普遍法則としては扱わない。",
-      "rightsBasis": "著者1857年没、原語作品は1829年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "L’amour (hélas ! l’étrange et la fausse nature !) Vit d’inanition, et meurt de nourriture.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1857,
-      "publicationYear": 1829,
-      "translationKind": "independent_translation",
-      "translationText": "恋は飢えによって生き、食べ物を与えられて死ぬ。",
-      "originalLanguage": "fr"
-    }
-  },
-  {
-    "tagId": "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e",
-    "title": "青春という実験",
-    "summary": "「青春は、何もかも実験である。」\n— R・L・スティーヴンソン\n芸術の道を志す若い紳士への手紙\n\n若い時期を、まだ知らない自分と世界を繰り返し出会わせる実験として描く。失敗を無条件に美化する言葉ではなく、自己理解が試行の中で育つという見方。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 13,
-    "canonicalId": "theory-ba3eb39f-7dd4-4795-8eb0-c17c2b34fd1e",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_913"
-    ],
-    "displayId": 83,
-    "displayOrder": 83,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "芸術の道を志す若い紳士への手紙"
-      ],
-      "period": "1912年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.gutenberg.org/cache/epub/30990/pg30990.txt",
-          "title": "芸術の道を志す若い紳士への手紙（原典本文）"
-        }
-      ],
-      "attribution": "R・L・スティーヴンソン"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "芸術の道を志す若い紳士への手紙",
-      "author": "R・L・スティーヴンソン",
-      "locator": "第7篇、好きなものを知ることを論じる段落（Swanston Edition 第16巻）",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.gutenberg.org/cache/epub/30990/pg30990.txt"
-      ],
-      "candidateId": "31",
-      "contextNote": "若い時期を、まだ知らない自分と世界を繰り返し出会わせる実験として描く。失敗を無条件に美化する言葉ではなく、自己理解が試行の中で育つという見方。",
-      "rightsBasis": "著者1894年没、原語作品は1912年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "Youth is wholly experimental.",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1894,
-      "publicationYear": 1912,
-      "translationKind": "independent_translation",
-      "translationText": "青春は、何もかも実験である。",
-      "originalLanguage": "en"
-    }
-  },
-  {
-    "tagId": "theory-d15357a9-73da-4286-859e-91a7ebcb5f85",
-    "title": "発見の途上にある幸福",
-    "summary": "「コロンブスが幸福だったのは、アメリカを発見したときではなく、発見しつつあったときだ。」\n— ドストエフスキー\n白痴\n\n人生を発見し続ける過程へ目を向ける、作中人物の切迫した独白。コロンブスの実際の心理を史実として記録した文でも、達成後は必ず不幸になるという研究でもない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 14,
-    "canonicalId": "theory-d15357a9-73da-4286-859e-91a7ebcb5f85",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_268"
-    ],
-    "displayId": 84,
-    "displayOrder": 84,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "白痴"
-      ],
-      "period": "1868年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://ru.wikisource.org/wiki/Идиот_(Достоевский)/Часть_III/Глава_V",
-          "title": "白痴（原典本文）"
-        }
-      ],
-      "attribution": "ドストエフスキー"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "白痴",
-      "author": "ドストエフスキー",
-      "locator": "第3部第5章、イッポリートの「弁明」",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://ru.wikisource.org/wiki/Идиот_(Достоевский)/Часть_III/Глава_V"
-      ],
-      "candidateId": "33",
-      "contextNote": "人生を発見し続ける過程へ目を向ける、作中人物の切迫した独白。コロンブスの実際の心理を史実として記録した文でも、達成後は必ず不幸になるという研究でもない。",
-      "rightsBasis": "著者1881年没、原語作品は1868年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "О, будьте уверены, что Колумб был счастлив не тогда, когда открыл Америку, а когда открывал ее;",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1881,
-      "publicationYear": 1868,
-      "translationKind": "independent_translation",
-      "translationText": "コロンブスが幸福だったのは、アメリカを発見したときではなく、発見しつつあったときだ。",
-      "originalLanguage": "ru"
-    }
-  },
-  {
-    "tagId": "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
-    "title": "貸した金と失う友",
-    "summary": "「借り手にも貸し手にもなるな。貸せば、金も友も失いがちだから。」\n— シェイクスピア\nハムレット\n\n貸した金だけでなく友情まで失う二重の損失を、父が子へ戒める台詞。作者の金融理論や、あらゆる借入れを禁じる普遍規則ではない。",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-f",
-    "subcategoryTitle": "文学",
-    "sortOrder": 15,
-    "canonicalId": "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_092"
-    ],
-    "displayId": 90,
-    "displayOrder": 90,
-    "provenance": {
-      "note": "原語本文を照合した独自訳。 文学的・思想的な洞察であり、実証的な証拠とは区別する。",
-      "works": [
-        "ハムレット"
-      ],
-      "period": "1603年（原典・参照版）",
-      "status": "確認済み",
-      "sources": [
-        {
-          "url": "https://www.gutenberg.org/cache/epub/1524/pg1524.txt",
-          "title": "ハムレット（原典本文）"
-        }
-      ],
-      "attribution": "シェイクスピア"
-    },
-    "accessTier": "complete",
-    "knowledgeType": "aphorism",
-    "quotation": {
-      "work": "ハムレット",
-      "author": "シェイクスピア",
-      "locator": "第1幕第3場、ポローニアスがレアティーズへ語る台詞",
-      "checkedOn": "2026-10-15",
-      "sourceUrls": [
-        "https://www.gutenberg.org/cache/epub/1524/pg1524.txt"
-      ],
-      "candidateId": "49",
-      "contextNote": "貸した金だけでなく友情まで失う二重の損失を、父が子へ戒める台詞。作者の金融理論や、あらゆる借入れを禁じる普遍規則ではない。",
-      "rightsBasis": "著者1616年没、原語作品は1603年までに公表済み。日本の旧保護期間に戦時加算の最大約11年を安全側に加えても2018年より前に満了し、延長による復活なし。原語本文のみ使用し現代の翻訳・編集文を除外。日本語は独自訳。",
-      "originalText": "Neither a borrower nor a lender be: For loan oft loses both itself and friend;",
-      "rightsStatus": "cleared",
-      "verification": "verified",
-      "authorDeathYear": 1616,
-      "publicationYear": 1603,
-      "translationKind": "independent_translation",
-      "translationText": "借り手にも貸し手にもなるな。貸せば、金も友も失いがちだから。",
-      "originalLanguage": "en"
     }
   }
 ]

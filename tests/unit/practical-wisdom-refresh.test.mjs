@@ -38,7 +38,7 @@ test('public shells never contain protected quotation bodies or private relation
  assert.deepEqual(shells.map(t=>t.tagId),complete.map(t=>t.tagId));
  for(const t of complete.filter(t=>t.accessTier==='complete')){
   const shell=shells.find(s=>s.tagId===t.tagId);assert.equal(shell.summary,'');assert.equal(shell.quotation,undefined);assert.equal(shell.provenance,undefined);
-  if(t.quotation)assert.notEqual(t.title,t.quotation.translationText);
+  if(t.quotation){assert.equal(shell.title,'「'+t.quotation.translationText+'」');assert.equal(t.subcategoryId,'classics-thought-f');}
  }
  const free=new Set(complete.filter(t=>t.accessTier==='free').map(t=>t.tagId));
  for(const r of load('src/data/generated/theory-relations.public.json'))assert.ok(free.has(r.sourceId)&&free.has(r.targetId));
@@ -46,6 +46,19 @@ test('public shells never contain protected quotation bodies or private relation
 test('stale paid hydration cannot resurrect archived IDs',()=>{
  const id=[...retiredIds][0];catalog.hydratePaidTheories([{tagId:id,title:'stale',summary:'stale'}]);
  assert.equal(catalog.theoryById.has(id),false);catalog.resetCatalog();
+});
+
+test('old offline quotation snapshots cannot restore paraphrased titles or the mixed proverb section',()=>{
+ const t=complete.find(t=>t.tagId==='kb_595');
+ try{catalog.hydratePaidTheories([{...t,title:'準備された心',subcategoryId:'classics-thought-p',subcategoryTitle:'ことわざ・格言',sortOrder:20}]);
+ const restored=catalog.theoryById.get(t.tagId);assert.equal(restored.title,t.title);assert.equal(restored.subcategoryId,'classics-thought-f');assert.equal(restored.subcategoryTitle,'格言');assert.equal(restored.sortOrder,t.sortOrder);
+ }finally{catalog.resetCatalog();}
+});
+
+test('CMS publishes the actual approved quotation headline and rejects invented paraphrases',()=>{
+ const t=complete.find(t=>t.quotation);
+ assert.deepEqual(validateTheoryForPublish(t),[]);
+ assert.ok(validateTheoryForPublish({...t,title:'準備された心'}).some(e=>e.includes('見出し')));
 });
 test('all 803 retained theories have an editorial record and taxonomy remains six by thirty-six',()=>{
  assert.equal(load('docs/content/theory-editorial-review-20261015.json').length,803);

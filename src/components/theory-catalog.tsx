@@ -44,7 +44,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
     <View testID="theory-category-filters" style={styles.filterGrid}>
       <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
       <View style={styles.filterRow}>
-        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.filterSpacer} />
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.filterButton, styles.filterSpacer]} />
         {options.slice(4).map(renderOption)}
       </View>
     </View>
@@ -80,8 +80,8 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
 const styles = StyleSheet.create({
   filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
   filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
-  filterSpacer: { flex: 1, minWidth: 0 },
-  filterButton: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
+  filterSpacer: { backgroundColor: 'transparent' },
+  filterButton: { flexBasis: 0, flexGrow: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
   filterButtonActive: { backgroundColor: colors.gold },
   filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5, textAlign: 'center' },
   filterTextActive: { color: colors.surface, fontWeight: '700' },

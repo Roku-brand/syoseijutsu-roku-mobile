@@ -11,7 +11,7 @@ export function validateTheoryForPublish(theory: Omit<TheoryCard, 'status'>): st
  if (theory.provenance?.sources?.some((source) => !source.title.trim() || !/^https:\/\/\S+$/.test(source.url))) errors.push('参照先には名称とhttpsのURLを入力してください。');
  if (isRetiredTheoryId(theory.tagId) || theory.provenance?.status === 'オリジナル') errors.push('独自作成の名言は再公開できません。');
  if (theory.categoryId === 'practical-wisdom' && /^「[^「」]+」$/.test(theory.title)) errors.push('実践知には標語ではなく説明可能な原理・手法を収録してください。');
- if (theory.quotation && theory.accessTier === 'complete' && theory.title.replace(/[「」]/g,'') === theory.quotation.translationText) errors.push('完全版の格言本文は公開見出しと分けてください。');
+ if (theory.quotation?.translationText && theory.title !== '「'+theory.quotation.translationText+'」') errors.push('格言の見出しには表示用日本語をそのまま設定してください。');
  if (theory.knowledgeType === 'aphorism' || theory.quotation) errors.push(...quotationErrors(theory.quotation));
  return errors;
 }

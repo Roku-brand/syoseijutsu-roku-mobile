@@ -42,7 +42,9 @@ test('historical content, aliases, access and stable identities survive expansio
     assert.ok(t);
     for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) { if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; } if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; } assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`); }
     for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
-    if (!developmentMoves.includes(old.tagId)) assert.equal(t.subcategoryId, old.subcategoryId);
+    if (t.quotation) assert.equal(t.subcategoryId, 'classics-thought-f');
+    else if (['kb_701','kb_702'].includes(old.tagId)) assert.equal(t.subcategoryId, 'classics-thought-e');
+    else if (!developmentMoves.includes(old.tagId)) assert.equal(t.subcategoryId, old.subcategoryId);
   }
   assert.equal(byId.size, cards.length);
 });
