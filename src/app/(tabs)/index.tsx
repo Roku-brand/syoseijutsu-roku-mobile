@@ -114,16 +114,18 @@ export default function HomeScreen() {
       <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, pressed && styles.pressed]}>
         <Image source={premiumImage} resizeMode="cover" accessibilityLabel="黒と金の装丁の書籍" style={styles.premiumImage} />
         <View style={[styles.premiumCopy, !desktop && styles.premiumCopyMobile]}>
-          <View style={styles.premiumEdition}>
+          <View style={[styles.premiumEdition, !desktop && styles.premiumEditionMobile]}>
             <Text style={[styles.premiumEyebrow, !desktop && styles.premiumEyebrowMobile]}>処世術禄</Text>
             <Text style={[styles.premiumTitle, !desktop && styles.premiumTitleMobile]}>完全版</Text>
           </View>
-          <View style={styles.premiumDivider} />
-          <View style={styles.premiumDetails}>
+          {desktop ? <View style={styles.premiumDivider} /> : null}
+          <View style={[styles.premiumDetails, desktop ? styles.premiumDetailsDesktop : styles.premiumDetailsMobile]}>
             <Text testID="home-premium-heading" style={[styles.premiumLead, !desktop && styles.premiumLeadMobile]}>論理性 × 網羅性 × 体系性</Text>
             <Text testID="home-premium-tagline" style={[styles.premiumBody, !desktop && styles.premiumBodyMobile]}>知識を、もっと広く。もっと深く。</Text>
+            <View testID="home-premium-action-row" style={styles.premiumActionRow}>
             <Text testID="home-premium-price" style={[styles.premiumPrice, !desktop && styles.premiumPriceMobile]}>{COMPLETE_EDITION_ACCESS_DAYS}日間・{COMPLETE_EDITION_PRICE_JPY}円（税込）</Text>
             <View style={[styles.premiumButton, !desktop && styles.premiumButtonMobile]}><Text style={[styles.premiumButtonText, !desktop && styles.premiumButtonTextMobile]}>詳しく見る →</Text></View>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -181,10 +183,13 @@ const styles = StyleSheet.create({
   premiumBannerMobile: { height: 112, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '100%', paddingHorizontal: 9, gap: 8, backgroundColor: '#FFF9EAB8' },
+  premiumCopyMobile: { width: '72%', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, gap: 4 },
   premiumEdition: { flexShrink: 0 },
+  premiumEditionMobile: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
+  premiumDetailsMobile: { flexShrink: 0, width: '100%' },
+  premiumDetailsDesktop: { flex: 1 },
   premiumDivider: { width: 1, height: '58%', backgroundColor: '#B78B43' },
-  premiumDetails: { flex: 1, minWidth: 0, justifyContent: 'center' },
+  premiumDetails: { minWidth: 0, justifyContent: 'center' },
   premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, letterSpacing: 1.1, fontWeight: '700' },
   premiumEyebrowMobile: { fontSize: 10, lineHeight: 15, letterSpacing: 0.3 },
   premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700', lineHeight: 44, letterSpacing: 1.4 },
@@ -194,11 +199,12 @@ const styles = StyleSheet.create({
   premiumLead: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   premiumLeadMobile: { fontSize: 11, lineHeight: 16 },
   premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
-  premiumPriceMobile: { fontSize: 11, lineHeight: 16 },
-  premiumButton: { alignSelf: 'flex-start', backgroundColor: '#AA7832', borderRadius: 999, marginTop: 8, paddingHorizontal: 15, paddingVertical: 6 },
-  premiumButtonMobile: { marginTop: 3, paddingHorizontal: 10, paddingVertical: 3 },
+  premiumPriceMobile: { fontSize: 10, lineHeight: 16 },
+  premiumActionRow: { flexDirection: 'row', alignItems: 'center', columnGap: 6, marginTop: 8 },
+  premiumButton: { backgroundColor: '#AA7832', borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
+  premiumButtonMobile: { paddingHorizontal: 8, paddingVertical: 3 },
   premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
-  premiumButtonTextMobile: { fontSize: 10, lineHeight: 13 },
+  premiumButtonTextMobile: { fontSize: 9, lineHeight: 13 },
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },

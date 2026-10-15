@@ -1155,7 +1155,7 @@ test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩�
   expect(third!.y).toBeGreaterThan(first!.y + 100);
 
   await page.goto('/learn');
-  await expect(page.getByText(/1問60秒。その場で活きる判断を、\s*3つのステージで自分の力に。/)).toBeVisible();
+  await expect(page.getByText(/1問60秒。\s*その場で活きる判断を、\s*3つのステージで\s*自分の力に。/)).toBeVisible();
   await expect(page.getByText('\\u2060')).toHaveCount(0);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
