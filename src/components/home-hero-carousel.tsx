@@ -1,6 +1,6 @@
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
+import { AccessibilityInfo, AppState, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categoryMeta, techniqueCards } from '@/data/catalog';
@@ -406,6 +406,14 @@ export function RokumaruSlide({ desktop }: { desktop: boolean }) {
 }
 
 export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselProps) {
+  const [focused, setFocused] = useState(false);
+  useFocusEffect(useCallback(() => {
+    setFocused(true);
+    return () => setFocused(false);
+  }, []));
+  const [foreground, setForeground] = useState(true);
+  const [touching, setTouching] = useState(false);
+  const [autoplayRevision, setAutoplayRevision] = useState(0);
   const [activeIndex, setActiveIndex] = useState(() => readHomeReelPosition(HOME_REEL_ID));
   const [viewportWidth, setViewportWidth] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -450,6 +458,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, []);
 
   const moveTo = useCallback((index: number, animated = true) => {
+    setAutoplayRevision((revision) => revision + 1);
     const nextIndex = commitIndex(index);
     const crossedEdge = index < 0 || index >= HOME_REEL_SLIDE_COUNT;
     programmaticScrollRef.current = true;
@@ -482,10 +491,13 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, [commitIndex, viewportWidth]);
 
   const rememberTouchStart = useCallback((event: GestureResponderEvent) => {
+    setTouching(true);
     touchStartRef.current = getTouchPoint(event);
   }, []);
 
   const wrapEdgeTouch = useCallback((event: GestureResponderEvent) => {
+    setTouching(false);
+    setAutoplayRevision((revision) => revision + 1);
     const start = touchStartRef.current;
     touchStartRef.current = null;
     if (!start) return;
@@ -512,12 +524,31 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.target as HTMLElement)?.closest?.('input, textarea, [contenteditable="true"]')) return;
       if (event.key === 'ArrowLeft') moveTo(activeIndexRef.current - 1);
       if (event.key === 'ArrowRight') moveTo(activeIndexRef.current + 1);
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [moveTo]);
+
+  useEffect(() => {
+    const sync = () => setForeground(AppState.currentState === 'active'
+      && (Platform.OS !== 'web' || document.visibilityState !== 'hidden'));
+    sync();
+    const subscription = AppState.addEventListener('change', sync);
+    if (Platform.OS === 'web') document.addEventListener('visibilitychange', sync);
+    return () => {
+      subscription.remove();
+      if (Platform.OS === 'web') document.removeEventListener('visibilitychange', sync);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!focused || !foreground || touching || reduceMotion || !viewportWidth) return;
+    const timer = setTimeout(() => moveTo(activeIndexRef.current + 1), 5_000);
+    return () => clearTimeout(timer);
+  }, [focused, foreground, touching, reduceMotion, viewportWidth, activeIndex, autoplayRevision, moveTo]);
 
   const slides: Array<{ type: HomeHeroSlideType; node: React.ReactNode }> = [
     { type: 'todayTechnique', node: <TechniqueHeroSlide card={featuredTechnique ?? content.technique} desktop={desktop} /> },
@@ -564,7 +595,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             onScrollEndDrag={settleAtOffset}
             onTouchStart={rememberTouchStart}
             onTouchEnd={wrapEdgeTouch}
-            onTouchCancel={() => { touchStartRef.current = null; }}
+            onTouchCancel={() => { touchStartRef.current = null; setTouching(false); setAutoplayRevision((revision) => revision + 1); }}
           >
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>

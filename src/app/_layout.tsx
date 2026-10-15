@@ -42,7 +42,7 @@ function AppFrame() {
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: colors.paper },
-          animation: Platform.OS === 'web' || reducedMotion ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
+          animation: Platform.OS === 'web' || reducedMotion || route.name === '(tabs)' ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
           animationDuration: motion.detailDuration,
           gestureEnabled: true,
           fullScreenGestureEnabled: true,

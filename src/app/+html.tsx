@@ -105,12 +105,12 @@ export default function Root({ children }: PropsWithChildren) {
                  * rather than expanding the shell into that system UI area.
                  */
                 const syncAppHeight = () => {
-                  const visualHeight = window.visualViewport?.height || window.innerHeight;
+                  const visualHeight = window.visualViewport?.scale === 1
+                    ? Math.min(window.visualViewport.height, window.innerHeight) : window.innerHeight;
                   document.documentElement.style.setProperty('--roku-app-height', visualHeight + 'px');
                 };
                 syncAppHeight();
-                window.addEventListener('resize', syncAppHeight);
-                window.visualViewport?.addEventListener('resize', syncAppHeight);
+                // The shared viewport controller handles settled resize after hydration.
 
                 const hideLaunch = () => document.getElementById('roku-launch')?.classList.add('hidden');
                 window.addEventListener('load', () => setTimeout(hideLaunch, 180), { once: true });

@@ -162,7 +162,8 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     await expect(read).toBeVisible();
     if (width < 700) {
       const button = await read.boundingBox();
-      expect(button!.y + button!.height).toBeLessThanOrEqual(photo!.y);
+      expect(button!.x + button!.width).toBeLessThanOrEqual(photo!.x);
+      expect(heroBounds!.width / heroBounds!.height).toBeGreaterThan(1.5);
     }
     await page.screenshot({ path: test.info().outputPath(`features-${width}.png`), fullPage: true });
     await page.goto('/features/five-guidelines');
