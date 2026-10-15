@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   searchCompact: { minHeight: 72, marginTop: 5, paddingHorizontal: 20, gap: 12 },
   searchInput: { flex: 1, minWidth: 0, height: '100%', padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4, outlineStyle: 'none' } as object,
   searchInputCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
-  searchInputNarrow: { fontSize: 14 },
+  searchInputNarrow: { fontSize: 16 },
   searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },
   searchSubmitText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 14, fontWeight: '700' },
   destinations: { flexDirection: 'row', gap: 14, marginTop: 18 },

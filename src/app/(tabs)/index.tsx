@@ -16,6 +16,7 @@ import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { useAppState } from '../../state/app-state';
 import { colors, fonts } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
+import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
 
 const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
   ...techniqueCategoryImages,
@@ -119,7 +120,9 @@ export default function HomeScreen() {
           </View>
           <View style={styles.premiumDivider} />
           <View style={styles.premiumDetails}>
-            <Text style={[styles.premiumBody, !desktop && styles.premiumBodyMobile]}>人生をより深く生きる{`\n`}すべての知恵を、ここに。</Text>
+            <Text testID="home-premium-heading" style={[styles.premiumLead, !desktop && styles.premiumLeadMobile]}>論理性 × 網羅性 × 体系性</Text>
+            <Text testID="home-premium-tagline" style={[styles.premiumBody, !desktop && styles.premiumBodyMobile]}>知識を、もっと広く。もっと深く。</Text>
+            <Text testID="home-premium-price" style={[styles.premiumPrice, !desktop && styles.premiumPriceMobile]}>{COMPLETE_EDITION_ACCESS_DAYS}日間・{COMPLETE_EDITION_PRICE_JPY}円（税込）</Text>
             <View style={[styles.premiumButton, !desktop && styles.premiumButtonMobile]}><Text style={[styles.premiumButtonText, !desktop && styles.premiumButtonTextMobile]}>詳しく見る →</Text></View>
           </View>
         </View>
@@ -175,19 +178,23 @@ const styles = StyleSheet.create({
   shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
   shortcutLabelMobile: { fontSize: 9, letterSpacing: -0.3, width: '100%' },
   premiumBanner: { height: 126, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
-  premiumBannerMobile: { height: 69, borderRadius: 11 },
+  premiumBannerMobile: { height: 112, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '76%', paddingHorizontal: 9, gap: 8 },
+  premiumCopyMobile: { width: '100%', paddingHorizontal: 9, gap: 8, backgroundColor: '#FFF9EAB8' },
   premiumEdition: { flexShrink: 0 },
   premiumDivider: { width: 1, height: '58%', backgroundColor: '#B78B43' },
   premiumDetails: { flex: 1, minWidth: 0, justifyContent: 'center' },
   premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, letterSpacing: 1.1, fontWeight: '700' },
-  premiumEyebrowMobile: { fontSize: 12, lineHeight: 17, letterSpacing: 0.3 },
+  premiumEyebrowMobile: { fontSize: 10, lineHeight: 15, letterSpacing: 0.3 },
   premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700', lineHeight: 44, letterSpacing: 1.4 },
-  premiumTitleMobile: { fontSize: 25, lineHeight: 29, letterSpacing: 0.4 },
+  premiumTitleMobile: { fontSize: 20, lineHeight: 26, letterSpacing: 0.4 },
   premiumBody: { color: '#29251F', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
-  premiumBodyMobile: { fontSize: 10, lineHeight: 14 },
+  premiumBodyMobile: { fontSize: 10, lineHeight: 15 },
+  premiumLead: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
+  premiumLeadMobile: { fontSize: 11, lineHeight: 16 },
+  premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  premiumPriceMobile: { fontSize: 11, lineHeight: 16 },
   premiumButton: { alignSelf: 'flex-start', backgroundColor: '#AA7832', borderRadius: 999, marginTop: 8, paddingHorizontal: 15, paddingVertical: 6 },
   premiumButtonMobile: { marginTop: 3, paddingHorizontal: 10, paddingVertical: 3 },
   premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },

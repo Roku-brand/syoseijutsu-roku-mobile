@@ -1,4 +1,4 @@
-import { useNavigationContainerRef, usePathname, useSegments } from 'expo-router';
+import { useNavigationContainerRef, usePathname } from 'expo-router';
 import { type PropsWithChildren, useLayoutEffect, useRef } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { colors } from '@/constants/theme';
@@ -18,9 +18,9 @@ function stackDepth(state: RouteState | undefined): number {
 // the header/navigation. Native stacks already provide directional transitions.
 export function RouteTransition({ children, disabled = false }: PropsWithChildren<{ disabled?: boolean }>) {
   const pathname = usePathname();
-  const segments = useSegments();
   const navigation = useNavigationContainerRef();
-  const routeKey = `${pathname}:${segments.join('/')}`;
+  // Route groups may change while the public path stays the same.
+  const routeKey = pathname;
   const reduced = useReducedMotion();
   const viewport = useRef<View>(null);
   const previous = useRef<{ key: string; path: string; depth: number } | null>(null);

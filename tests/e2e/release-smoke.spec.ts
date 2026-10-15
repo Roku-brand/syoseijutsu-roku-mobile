@@ -870,7 +870,8 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   expect(hero && shortcuts && banner && reelDot && continueSection && recommendations && create).toBeTruthy();
   expect(reelDot!.y + reelDot!.height).toBeLessThanOrEqual(hero!.y + hero!.height);
   expect(banner!.height).toBeGreaterThanOrEqual(65);
-  expect(banner!.height).toBeLessThanOrEqual(75);
+  // Three copy lines plus the CTA remain a compact landscape banner.
+  expect(banner!.height).toBeLessThanOrEqual(120);
   expect(hero!.y).toBeLessThan(shortcuts!.y);
   expect(shortcuts!.y).toBeLessThan(banner!.y);
   expect(banner!.y).toBeLessThan(continueSection!.y);

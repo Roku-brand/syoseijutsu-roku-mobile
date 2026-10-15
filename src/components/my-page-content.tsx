@@ -175,10 +175,10 @@ export default function MyPageContent() {
       </View>
 
       <Modal transparent visible={principleEditing} animationType="fade" onRequestClose={() => setPrincipleEditing(false)}>
-        <View style={styles.modalBackdrop}><View style={styles.modalCard}>
+        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>座右の銘を編集</AppText>
           <AppText style={styles.modalLead}>自分が大切にしたい言葉を、一文で書き留めます。</AppText>
-          <TextInput autoFocus multiline maxLength={100} value={principleDraft} onChangeText={setPrincipleDraft} accessibilityLabel="座右の銘" style={styles.input} />
+          <TextInput multiline maxLength={100} value={principleDraft} onChangeText={setPrincipleDraft} accessibilityLabel="座右の銘" style={styles.input} />
           <View style={styles.modalActions}>
             <Pressable accessibilityRole="button" onPress={() => setPrincipleEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
             <Pressable accessibilityRole="button" onPress={() => { updatePersonalPrinciple(principleDraft); setPrincipleEditing(false); }} style={styles.save}><AppText style={styles.saveText}>保存する</AppText></Pressable>
@@ -187,9 +187,9 @@ export default function MyPageContent() {
       </Modal>
 
       <Modal transparent visible={memoEditing} animationType="fade" onRequestClose={() => setMemoEditing(false)}>
-        <View style={styles.modalBackdrop}><View style={styles.modalCard}>
+        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>{editingMemoId ? 'マイ処世術を編集' : 'マイ処世術を作る'}</AppText>
-          <TextInput autoFocus multiline maxLength={140} value={memoDraft} onChangeText={setMemoDraft} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
+          <TextInput multiline maxLength={140} value={memoDraft} onChangeText={setMemoDraft} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
           <AppText style={styles.folderLabel}>保存先</AppText>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.modalFolderTabs}>
             <FolderButton label="未整理" selected={!memoFolderId} onPress={() => setMemoFolderId(null)} />
@@ -204,9 +204,9 @@ export default function MyPageContent() {
       </Modal>
 
       <Modal transparent visible={folderEditing} animationType="fade" onRequestClose={() => setFolderEditing(false)}>
-        <View style={styles.modalBackdrop}><View style={styles.modalCard}>
+        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>フォルダーを作成</AppText>
-          <TextInput autoFocus maxLength={32} value={folderDraft} onChangeText={setFolderDraft} accessibilityLabel="フォルダー名" style={styles.folderInput} />
+          <TextInput maxLength={32} value={folderDraft} onChangeText={setFolderDraft} accessibilityLabel="フォルダー名" style={styles.folderInput} />
           <View style={styles.modalActions}>
             <Pressable accessibilityRole="button" onPress={() => setFolderEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
             <Pressable accessibilityRole="button" disabled={!folderDraft.trim()} onPress={() => { const id = createPersonalMemoFolder(folderDraft); if (id) { setFolderFilter(id); setFolderEditing(false); } }} style={[styles.save, !folderDraft.trim() && styles.saveDisabled]}><AppText style={styles.saveText}>作成する</AppText></Pressable>

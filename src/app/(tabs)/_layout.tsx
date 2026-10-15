@@ -27,7 +27,7 @@ export default function TabsLayout() {
         tabBarLabelStyle: styles.tabLabel,
         tabBarItemStyle: styles.tabItem,
         tabBarHideOnKeyboard: true,
-        lazy: true,
+        lazy: Platform.OS === 'web',
         freezeOnBlur: true,
         tabBarIcon: ({ color, focused }) => (
           <Text

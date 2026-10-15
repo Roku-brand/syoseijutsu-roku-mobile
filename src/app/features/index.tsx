@@ -41,11 +41,11 @@ export default function FeaturesScreen() {
       {hero ? <View style={[styles.hero, compact && styles.heroCompact]} testID="features-hero">
         <View style={[styles.heroCopy, compact && styles.heroCopyCompact]}>
           <AppText style={styles.heroLabel}>特集</AppText>
-          <AppText style={[styles.heroTitle, compact && styles.heroTitleCompact]} accessibilityRole="header" accessibilityLabel={hero.title} aria-level={1}>{hero.title === '押さえておくべき5つの処世術指針' ? '押さえておくべき\n5つの処世術指針' : hero.title}</AppText>
+          <AppText style={[styles.heroTitle, compact && styles.heroTitleCompact]} numberOfLines={compact ? 3 : undefined} accessibilityRole="header" accessibilityLabel={hero.title} aria-level={1}>{hero.title === '押さえておくべき5つの処世術指針' ? '押さえておくべき\n5つの処世術指針' : hero.title}</AppText>
           {!compact && hero.lead ? <AppText style={styles.heroLead} numberOfLines={2}>{hero.lead}</AppText> : null}
-          <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を読む`} onPress={() => router.push(featureRoute(hero.slug))} style={styles.read}><AppText style={styles.readText}>読む →</AppText></Pressable>
+          <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を読む`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.read, compact && styles.readCompact]}><AppText style={[styles.readText, compact && styles.readTextCompact]}>読む →</AppText></Pressable>
         </View>
-        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><Image source={featureCover(hero)?.source ?? featureImage(hero.image_path)} accessibilityLabel={featureCover(hero)?.alt ?? (hero.image_alt || hero.title)} contentFit="cover" style={styles.heroImage} /></Pressable>
+        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><Image source={featureCover(hero)?.source ?? featureImage(hero.image_path)} accessibilityLabel={featureCover(hero)?.alt ?? (hero.image_alt || hero.title)} contentFit="cover" contentPosition={compact ? 'right center' : 'center'} style={styles.heroImage} /></Pressable>
         {featured.length > 1 ? <View style={styles.previews}>{featured.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`ヒーローに${article.title}を表示`} accessibilityState={{ selected: article.id === hero.id }} onPress={() => setSelected(article.id)} style={[styles.preview, article.id === hero.id && styles.previewActive]}><Image source={featureCover(article)?.source ?? featureImage(article.image_path)} accessibilityLabel={article.title} contentFit="cover" style={styles.previewImage} /></Pressable>)}</View> : null}
       </View> : <AppText accessibilityRole="header" aria-level={1} style={styles.pageTitle}>特集</AppText>}
       {listed.length ? <View style={[styles.collection, compact && styles.collectionCompact]}>
@@ -65,17 +65,19 @@ const styles = StyleSheet.create({
   introduction: { gap: 4, marginBottom: 12 }, introductionText: { fontFamily: fonts.serif, fontSize: 14, lineHeight: 26, color: colors.inkSoft }, policyLink: { minHeight: 36, justifyContent: 'center', alignSelf: 'flex-start' }, policyText: { fontSize: 12, lineHeight: 22, color: colors.muted },
   page: { paddingHorizontal: 0, paddingTop: 0, width: '100%', maxWidth: 1520, alignSelf: 'center', paddingBottom: 40 },
   hero: { backgroundColor: '#26271F', flexDirection: 'row', alignItems: 'stretch', minHeight: 300 },
-  heroCompact: { flexDirection: 'column', padding: 18, gap: 18 },
+  heroCompact: { minHeight: 176 },
   heroCopy: { flex: 1.15, minWidth: 0, alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 40, paddingVertical: 24, gap: 12 },
-  heroCopyCompact: { flexGrow: 0, flexShrink: 0, flexBasis: 'auto', paddingHorizontal: 0, paddingVertical: 0 },
+  heroCopyCompact: { flex: 1.35, paddingLeft: 16, paddingRight: 12, paddingVertical: 12, gap: 6 },
   heroLabel: { fontFamily: fonts.serif, color: '#D8B568', fontSize: 16, lineHeight: 24 },
   heroTitle: { fontFamily: fonts.serif, color: '#FFF9EF', fontSize: 32, lineHeight: 46, letterSpacing: 1 },
-  heroTitleCompact: { fontSize: 25, lineHeight: 38, letterSpacing: 0.5 },
+  heroTitleCompact: { fontSize: 18, lineHeight: 26, letterSpacing: 0 },
   heroLead: { fontFamily: fonts.serif, color: '#D5D3C8', fontSize: 14, lineHeight: 25 },
   read: { borderColor: '#B69A60', borderWidth: 1, borderRadius: 24, paddingHorizontal: 24, paddingVertical: 8, minHeight: 44, justifyContent: 'center' },
   readText: { color: '#D8B568', fontFamily: fonts.serif, fontSize: 15 },
+  readCompact: { paddingHorizontal: 16, paddingVertical: 3 },
+  readTextCompact: { fontSize: 13, lineHeight: 20 },
   heroVisual: { flex: 1, minWidth: 0, minHeight: 300, overflow: 'hidden', backgroundColor: '#38382C' },
-  heroVisualCompact: { flexGrow: 0, flexShrink: 0, flexBasis: 'auto', width: '100%', minHeight: 0, aspectRatio: 2.5 },
+  heroVisualCompact: { minHeight: 176 },
   heroImage: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, width: '100%', height: '100%' },
   previews: { position: 'absolute', bottom: 12, right: 12, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-end', maxWidth: '45%', gap: 8 },
   preview: { width: 58, height: 40, padding: 2, borderWidth: 1, borderColor: 'transparent', borderRadius: 3, backgroundColor: '#26271F' },
