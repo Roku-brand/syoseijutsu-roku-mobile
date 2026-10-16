@@ -135,6 +135,8 @@ jobs:
         run: pnpm test:theory-network
       - name: Verify cross-content network
         run: pnpm test:content-network
+      - name: Verify search relevance and reviewed tags
+        run: pnpm test:search
       - name: Verify CMS publication and error handling
         run: pnpm test:cms
 

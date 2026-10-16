@@ -103,7 +103,11 @@ export default function SearchScreen() {
               : <View>{mode === 'techniques'
                 ? techniqueMatches.map((card) => <TechniqueRow key={card.id} card={card} />)
                 : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
-          ) : <View style={styles.empty}><AppText style={styles.emptyText}>一致するものはありません</AppText></View>}
+          ) : <View style={styles.empty}>
+            <AppText style={styles.emptyText}>一致するものはありません</AppText>
+            {SEARCH_MODES.filter(item => item.id !== mode && counts[item.id] > 0 && (item.id !== 'features' || !featuresLoading && !featuresError)).map(item =>
+              <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.label}の${counts[item.id]}件を見る`} onPress={() => changeMode(item.id)} style={styles.retry}><AppText style={styles.clearText}>{item.label}に{counts[item.id]}件あります　›</AppText></Pressable>)}
+          </View>}
         </View>
       ) : (
         <View style={styles.prompt}><AppText style={styles.promptTitle}>気になる言葉を検索してください</AppText><AppText style={styles.promptText}>「検索」ボタン、またはキーボードの検索・Enterで結果を表示します。</AppText></View>

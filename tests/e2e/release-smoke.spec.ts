@@ -390,7 +390,7 @@ test('探すは検索と人物像・理論への入口から始まる', async ({
   await expect(page.getByRole('link', { name: '人物像から探す' })).toBeVisible();
   await expect(page.getByRole('link', { name: '理論から探す' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'よく見られる検索' })).toBeVisible();
-  await expect(page.getByRole('button', { name: '友達を検索' })).toBeVisible();
+  await expect(page.getByRole('button', { name: '第一印象を検索' })).toBeVisible();
 });
 
 test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の一覧に遷移する', async ({ page }) => {
@@ -421,9 +421,9 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
   await page.getByRole('link', { name: '対人術から探す' }).click();
   await expect(page).toHaveURL(/\/personas\?category=interpersonal/);
   await page.goto('/discover');
-  await page.getByRole('button', { name: '印象を検索' }).click();
+  await page.getByRole('button', { name: '第一印象を検索' }).click();
   await expect(page).toHaveURL(/\/search\?.*q=/);
-  await expect(page.getByRole('textbox', { name: 'キーワードを検索' })).toHaveValue('印象');
+  await expect(page.getByRole('textbox', { name: 'キーワードを検索' })).toHaveValue('第一印象');
 });
 
 test('探すの検索欄は独立検索ページを開く', async ({ page }) => {

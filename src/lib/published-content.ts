@@ -67,7 +67,7 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       displayOrder: row.display_order as number,
       imagePath: typeof row.image_path === 'string' ? row.image_path : null,
       accessTier: row.access_tier === 'free' ? 'free' : 'complete',
-      tags: Array.isArray(row.tags) ? row.tags as string[] : undefined,
+      tags: Array.isArray(row.tags) ? row.tags as string[] : resolved?.tags,
     }; });
     // The table is the source of truth for techniques. Keep every theory that
     // has already been resolved by the authenticated complete-edition sync;

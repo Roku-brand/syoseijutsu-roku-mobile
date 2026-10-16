@@ -1,94 +1,15 @@
 import type { TechniqueSource } from './types';
+import { suggestSearchTags } from './search-ranking';
 
-type TechniqueContext = TechniqueSource & {
-  categoryName: string;
-  subcategory: string;
-  articleTitle: string;
-};
-
-// Cards use tags as a small visual index, not as a second subtitle. Keep each
-// label as a short, scannable word so the list stays quiet and consistent.
-const tagRules: Array<[RegExp, string[]]> = [
-  [/初対面|第一印象|印象|表情|視線|声を整える/, ['初対面', '印象', '表情']],
-  [/安心感|警戒|安全|緊張をほぐ/, ['安心感', '緊張', '警戒']],
-  [/名前を呼|固有名/, ['名前', '親近感']],
-  [/共通点|仲間意識/, ['共通点', '仲間']],
-  [/褒め|称賛|承認/, ['称賛', '承認', '伝達']],
-  [/自己開示|弱さを見せ|失敗談/, ['自己開示', '親密さ', '弱さ']],
-  [/質問|傾聴|聞く|話題|沈黙|会話/, ['会話', '傾聴', '質問']],
-  [/感情|共感|理解された/, ['共感', '感情']],
-  [/好意|親密|惹かれ|デート|恋愛/, ['好意', '親密さ', '恋愛']],
-  [/信頼|信用|約束|誠実|覚えて|記憶/, ['信頼', '信用', '誠実']],
-  [/礼儀|感謝|謝罪/, ['礼儀', '感謝', '謝罪']],
-  [/境界|断る|拒否|譲歩|押し返|舐め|なめられ/, ['境界線', '拒否', '自己主張']],
-  [/消耗|距離|頻度|関係を切|嫌な人/, ['距離感', '消耗', '関係']],
-  [/秘密|本性|人を見|弱者への態度|評判/, ['観察', '本性', '見極め']],
-  [/集団|ノリ|空気|内輪|派閥|中心人物/, ['集団', '空気', '立場']],
-  [/いじり|いじめ|自虐|雑な扱い/, ['尊重', 'いじり', '防御']],
-  [/自信|姿勢|ハッタリ|一貫性|堂々/, ['自信', '姿勢', '一貫性']],
-  [/発言|問いを置|異論|名指し|会議/, ['発言', '会議', '意見']],
-  [/権力|支持|改革|敗者|逃げ道/, ['権力', '支持', '影響力']],
-  [/武器|強み|専門|希少|代替/, ['強み', '専門性', '希少性']],
-  [/情報整理|資料|報告|選択肢まで運ぶ/, ['報告', '整理', '資料']],
-  [/成果|実績|再現性|評価基準|仕事を取る/, ['成果', '実績', '評価']],
-  [/上司|昇進|出世|推薦|部下/, ['上司', '昇進', '評価']],
-  [/転職|キャリア|進路/, ['転職', '進路', 'キャリア']],
-  [/撤退線|貸し|非開示|条件/, ['交渉', '条件', '撤退']],
-  [/価格|値段|数字|パッケージ/, ['価格', '数字', '設計']],
-  [/選択肢|三案|複数案|本命|真ん中/, ['提案', '選択肢', '比較']],
-  [/沈黙|大きく言って|小さく合意|妥協/, ['商談', '沈黙', '妥協']],
-  [/対立|反対意見|競争|協調|妥協|回避|受容/, ['対立', '協力', '合意']],
-  [/面子|負けたこと|手続き|第三者|納得/, ['合意', '面子', '納得']],
-  [/裏切|協力|正面衝突/, ['協力', '信頼', '戦略']],
-  [/始め|着手|最初の一歩|やる気|先延ばし/, ['着手', '行動', '先延ばし']],
-  [/習慣|継続|続け|同じ場所と時間/, ['習慣', '継続', '反復']],
-  [/ご褒美|報酬/, ['報酬', '動機', '行動']],
-  [/進捗|記録|実行回数/, ['進捗', '記録', '振り返り']],
-  [/休む|休息|疲れ|燃え尽き/, ['休息', '回復', '疲労']],
-  [/集中|資源|勝ち筋|一番遅い工程/, ['集中', '優先順位', '資源']],
-  [/期限|時間|締切/, ['時間', '締切', '管理']],
-  [/計画|修正|探索|方法を試す/, ['計画', '改善', '試行']],
-  [/変化|日常|寄り道|多面/, ['日常', '変化', '余白']],
-  [/羨ま|比べ|比較|他人|SNS/, ['比較', '他人', 'SNS']],
-  [/挑戦|失敗しない人生|遠慮|後悔/, ['挑戦', '後悔', '選択']],
-  [/忙しさ|余白|ワークライフ/, ['余白', '生活', '働き方']],
-  [/夢|道を選|人生の選択|決断/, ['夢', '決断', '人生']],
-  [/自由|依存/, ['自立', '依存', '選択']],
-  [/小さく試|賭け金|撤回|取り返/, ['試行', 'リスク', '撤退']],
-  [/不安|心配|恐怖|確認|考え続け/, ['不安', '心配', '思考']],
-  [/書き出す|紙に|思考整理/, ['記録', '整理', '思考']],
-  [/挫折|敗北|失った|悲し|後悔|屈辱/, ['挫折', '回復', '再起']],
-  [/役割|空白|転機/, ['役割', '転機', '再出発']],
-  [/運|偶然|出会い|つながり|機会/, ['運', '機会', '出会い']],
-];
-
-const fallbackTags: Record<string, string[]> = {
-  対人術: ['関係', '対話', '信頼'],
-  仕事術: ['仕事', '成果', '判断'],
-  人生術: ['人生', '選択', '心'],
-};
-
-function unique(tags: string[]) {
-  return [...new Set(tags.filter(Boolean))];
-}
+type TechniqueContext = TechniqueSource & { categoryName: string; subcategory: string; articleTitle: string };
 
 export function getTechniqueTags(card: TechniqueContext) {
-  const text = [card.title, card.subtitle, card.explanation].filter(Boolean).join(' ');
-  const semanticTags = tagRules.flatMap(([pattern, values]) => (pattern.test(text) ? values : []));
-  return unique([...semanticTags, ...(fallbackTags[card.categoryName] ?? [])]).slice(0, 3);
+  // An explicit empty array is an owner's choice, not a request to regenerate.
+  if (Array.isArray(card.tags)) return [...new Set(card.tags.map(tag => tag.trim()).filter(Boolean))];
+  return suggestSearchTags([card.title, card.essence, card.subtitle].filter(Boolean).join(' '));
 }
 
 export function getTechniqueSearchText(card: TechniqueContext) {
-  return [
-    card.title,
-    card.subtitle,
-    card.explanation,
-    card.categoryName,
-    card.subcategory,
-    card.articleTitle,
-    ...getTechniqueTags(card),
-  ]
-    .filter(Boolean)
-    .join(' ')
-    .toLocaleLowerCase();
+  return [card.title, card.essence, card.subtitle, card.explanation, card.categoryName,
+    card.subcategory, card.articleTitle, ...getTechniqueTags(card)].filter(Boolean).join(' ');
 }
