@@ -1,85 +1,53 @@
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { categories, categoryMeta, getTheoryDisplayId, techniqueCards, theories } from '@/data/catalog';
 import { getPersonaPresentation } from '@/data/persona-presentation';
-import { getTechniqueSearchText } from '@/data/technique-tags';
+import { getTechniqueTags } from '@/data/technique-tags';
 import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { getTheoryPath } from './theory-taxonomy';
 import type { FeatureArticle } from './features';
 import { featureCategoryLabel } from './feature-categories';
+import { prepareSearchQuery, rankSearchItems } from './search-ranking';
 
 export type BrowseMode = 'techniques' | 'theories' | 'features';
 export const SEARCH_MODES: Array<{ id: BrowseMode; label: string }> = [
   { id: 'techniques', label: '処世術' }, { id: 'theories', label: '理論' }, { id: 'features', label: '特集' },
 ];
+export const POPULAR_SEARCHES: ReadonlyArray<{ term: string; mode: BrowseMode }> = [
+  { term: '第一印象', mode: 'techniques' }, { term: '挫折', mode: 'techniques' },
+  { term: '単純接触効果', mode: 'theories' }, { term: '交渉', mode: 'techniques' },
+  { term: '先延ばし', mode: 'techniques' }, { term: '最適化の罠', mode: 'theories' },
+];
 export function getSearchMode(value: string): BrowseMode {
   return value === 'theories' || value === 'features' ? value : 'techniques';
 }
 export function getFeatureSearchResults(articles: FeatureArticle[], query: string) {
-  const keywords = getSearchKeywords(query);
-  if (!keywords.length) return [];
-  return articles.filter(article => article.status === 'published')
-    .filter(article => {
-      const source = [article.title, article.lead, article.body, featureCategoryLabel(article.category_id)].join(' ').toLocaleLowerCase();
-      return keywords.every(keyword => matchesKeyword(source, keyword));
-    }).sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id));
-}
-
-const searchAliases: Record<string, string[]> = {
-  友達: ['友達', '人間関係', '関係'],
-  出世: ['出世', '評価', '昇進', 'キャリア'],
-  進路: ['進路', '選択', 'キャリア', '方向性'],
-  転職: ['転職', 'キャリア', '仕事'],
-  自己肯定感: ['自己肯定感', '自信', '自己評価'],
-  リーダーシップ: ['リーダーシップ', 'リーダー', '集団'],
-  習慣: ['習慣', '継続', '行動'],
-  交渉: ['交渉', '合意', '説得'],
-};
-
-function matchesKeyword(source: string, keyword: string) {
-  return (searchAliases[keyword] ?? [keyword]).some((term) => source.includes(term.toLocaleLowerCase()));
+  const published = articles.filter(article => article.status === 'published')
+    .sort((a, b) => a.display_order - b.display_order || a.id.localeCompare(b.id));
+  return rankSearchItems(published, article => ({ title: article.title, summary: article.lead,
+    body: article.body, context: [featureCategoryLabel(article.category_id)] }), query);
 }
 
 export function getSearchKeywords(query: string) {
-  return query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
+  return prepareSearchQuery(query).map(term => term.text);
 }
 
 export function getSearchResults(query: string, isPaid: boolean) {
   const keywords = getSearchKeywords(query);
-  const personaMatches = !keywords.length ? [] : categories
-    .flatMap((category) => category.subcategories.map((persona) => ({ category, persona })))
-    .filter(({ category, persona }) => {
-      const presentation = getPersonaPresentation(persona.name);
-      const source = [
-        persona.name,
-        presentation?.subtitle,
-        category.name,
-        categoryMeta[category.key].label,
-        ...persona.items.slice(0, 8).flatMap((item) => [item.title, item.subtitle, item.essence]),
-      ].filter(Boolean).join(' ').toLocaleLowerCase();
-      return keywords.every((keyword) => matchesKeyword(source, keyword));
-    })
+  const personas = categories.flatMap(category => category.subcategories.map(persona => ({ category, persona })))
     .sort((left, right) => (getPersonaPresentation(left.persona.name)?.number ?? 999) - (getPersonaPresentation(right.persona.name)?.number ?? 999));
-  const techniqueMatches = !keywords.length ? [] : techniqueCards
-    .filter((card) => isPaid || FREE_TECHNIQUE_IDS.has(card.id))
-    .filter((card) => keywords.every((keyword) => matchesKeyword(getTechniqueSearchText(card).toLocaleLowerCase(), keyword)));
-  const theoryMatches = !keywords.length ? [] : theories
-    .filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory))
-    .filter((theory) => {
-      const source = [
-        theory.tagId,
-        getTheoryDisplayId(theory),
-        theory.title,
-        theory.aliases?.join(' '),
-        theory.summary,
-        theory.quotation?.translationText,
-        theory.quotation?.author,
-        theory.quotation?.work,
-        theory.categoryTitle,
-        getTheoryPath(theory),
-        getTheoryCategoryLabel(theory.categoryId),
-      ].filter(Boolean).join(' ').toLocaleLowerCase();
-      return keywords.every((keyword) => matchesKeyword(source, keyword));
-    });
+  const personaMatches = rankSearchItems(personas, ({ category, persona }) => ({ title: persona.name,
+    summary: getPersonaPresentation(persona.name)?.subtitle,
+    context: [category.name, categoryMeta[category.key].label] }), query);
+  const techniqueMatches = rankSearchItems(techniqueCards.filter(card => isPaid || FREE_TECHNIQUE_IDS.has(card.id)), card => ({
+    title: card.title, tags: getTechniqueTags(card), summary: [card.essence, card.subtitle].filter(Boolean).join(' '),
+    context: [card.categoryName, card.subcategory, card.articleTitle], body: card.explanation,
+  }), query);
+  const theoryMatches = rankSearchItems(theories.filter(theory => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)), theory => ({
+    knowledgeId: theory.tagId, title: theory.title, aliases: [theory.tagId, getTheoryDisplayId(theory), ...(theory.aliases ?? []),
+      theory.quotation?.author ?? '', theory.quotation?.work ?? ''],
+    summary: [theory.summary, theory.quotation?.translationText].filter(Boolean).join(' '),
+    context: [theory.categoryTitle, getTheoryPath(theory), getTheoryCategoryLabel(theory.categoryId)],
+  }), query);
   return { keywords, personaMatches, techniqueMatches, theoryMatches };
 }

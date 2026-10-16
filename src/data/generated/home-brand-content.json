@@ -183,6 +183,11 @@
         "kb_003",
         "kb_387"
       ],
+      "tags": [
+        "清潔感",
+        "第一印象",
+        "身だしなみ"
+      ],
       "categoryKey": "interpersonal",
       "categoryName": "対人術",
       "subcategory": "印象がいい人",
@@ -213,6 +218,11 @@
         "kb_547",
         "kb_519"
       ],
+      "tags": [
+        "締切",
+        "余裕",
+        "時間管理"
+      ],
       "categoryKey": "work",
       "categoryName": "仕事術",
       "subcategory": "仕事ができる人",
@@ -241,6 +251,11 @@
         "kb_268",
         "kb_906",
         "theory-c83321fd-d076-4d5c-b270-6af925c204a5"
+      ],
+      "tags": [
+        "幸福",
+        "成功",
+        "順応"
       ],
       "categoryKey": "life",
       "categoryName": "人生術",

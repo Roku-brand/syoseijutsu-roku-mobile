@@ -1,0 +1,3210 @@
+{
+  "phase": "search-tags-20261016",
+  "reviewedCount": 356,
+  "techniques": [
+    {
+      "id": "master336-001",
+      "tags": [
+        "清潔感",
+        "第一印象",
+        "身だしなみ"
+      ],
+      "source_hash": "b7b38313312c3d4cd2fc28aeb1bb8406"
+    },
+    {
+      "id": "master336-002",
+      "tags": [
+        "第一印象",
+        "非言語表現",
+        "姿勢"
+      ],
+      "source_hash": "b88dd9bc94a026ccb5b8c74df14752dd"
+    },
+    {
+      "id": "master336-003",
+      "tags": [
+        "笑顔",
+        "表情",
+        "第一印象"
+      ],
+      "source_hash": "8b8cd83515a954dd4eb7a4016f013f36"
+    },
+    {
+      "id": "master336-004",
+      "tags": [
+        "第一印象",
+        "安心感",
+        "初対面"
+      ],
+      "source_hash": "64d944f23759bc12f68799e29aebc7c5"
+    },
+    {
+      "id": "master336-005",
+      "tags": [
+        "第一印象",
+        "尊重",
+        "値踏み"
+      ],
+      "source_hash": "8b1b1e0ff4917c9f29bed390f50a3a6f"
+    },
+    {
+      "id": "master336-006",
+      "tags": [
+        "第一印象",
+        "自己意識",
+        "相手への関心"
+      ],
+      "source_hash": "7838b2a85046033e1ae29f329a44286c"
+    },
+    {
+      "id": "master336-007",
+      "tags": [
+        "会話",
+        "テンポ",
+        "同調"
+      ],
+      "source_hash": "a7b14bef479646a00b9d8231963a89f7"
+    },
+    {
+      "id": "master336-008",
+      "tags": [
+        "好意",
+        "第一印象",
+        "返報性"
+      ],
+      "source_hash": "15f857ca286847553d5b3347a50c2cfe"
+    },
+    {
+      "id": "master336-009",
+      "tags": [
+        "自己開示",
+        "傾聴",
+        "会話"
+      ],
+      "source_hash": "7eeb8c9c826187319766e646c5f86b10"
+    },
+    {
+      "id": "master336-010",
+      "tags": [
+        "距離感",
+        "親密さ",
+        "境界線"
+      ],
+      "source_hash": "47d66d8ef3e731b9d0a608eed058e7a5"
+    },
+    {
+      "id": "master336-011",
+      "tags": [
+        "親近感",
+        "不完全さ",
+        "自己開示"
+      ],
+      "source_hash": "9913f8fd6787822c1579a237121d531d"
+    },
+    {
+      "id": "master336-012",
+      "tags": [
+        "自慢",
+        "共感",
+        "成功体験"
+      ],
+      "source_hash": "51fa0c3d3cbfe2467d1598173891de64"
+    },
+    {
+      "id": "master336-013",
+      "tags": [
+        "第一印象",
+        "記憶",
+        "自己紹介"
+      ],
+      "source_hash": "e4a904121f866e6780ceade3d1aef6b3"
+    },
+    {
+      "id": "master336-014",
+      "tags": [
+        "別れ際",
+        "印象",
+        "ピークエンドの法則"
+      ],
+      "source_hash": "2519c16bbae5c3fc5a75b8e5e14bbe78"
+    },
+    {
+      "id": "master336-015",
+      "tags": [
+        "会話",
+        "テンポ",
+        "相互作用"
+      ],
+      "source_hash": "6bc7ca9a6d6f00f525cce9f5738898ee"
+    },
+    {
+      "id": "master336-016",
+      "tags": [
+        "会話",
+        "話題",
+        "傾聴"
+      ],
+      "source_hash": "cbba9d43b3f9b180d7be4416684524e5"
+    },
+    {
+      "id": "master336-017",
+      "tags": [
+        "質問",
+        "固有名詞",
+        "相手への関心"
+      ],
+      "source_hash": "2ee8b2000d60222f5bb9291b6273e3b7"
+    },
+    {
+      "id": "master336-018",
+      "tags": [
+        "会話",
+        "深掘り",
+        "話題"
+      ],
+      "source_hash": "1c78e6b4fdb51c3dd9cc4e6879e7279c"
+    },
+    {
+      "id": "master336-019",
+      "tags": [
+        "傾聴",
+        "感情",
+        "共感"
+      ],
+      "source_hash": "48d19369c51e6d956489a1afac718ed2"
+    },
+    {
+      "id": "master336-020",
+      "tags": [
+        "質問",
+        "仮説",
+        "理解"
+      ],
+      "source_hash": "84bcffcdc156b36f47d3bd4230c4b7d4"
+    },
+    {
+      "id": "master336-021",
+      "tags": [
+        "質問",
+        "自己開示",
+        "会話"
+      ],
+      "source_hash": "149c8c975c247d4441781a9d16b835a4"
+    },
+    {
+      "id": "master336-022",
+      "tags": [
+        "会話",
+        "自己開示",
+        "相互性"
+      ],
+      "source_hash": "40a94e1d93935cf8950ec3762648e323"
+    },
+    {
+      "id": "master336-023",
+      "tags": [
+        "共通点",
+        "親近感",
+        "会話"
+      ],
+      "source_hash": "af5ed5e1bac31fa73335f5660c5af327"
+    },
+    {
+      "id": "master336-024",
+      "tags": [
+        "記憶",
+        "相手への関心",
+        "会話"
+      ],
+      "source_hash": "cf20621fca79b937e0f748b4f62c35a3"
+    },
+    {
+      "id": "master336-025",
+      "tags": [
+        "会話",
+        "承認",
+        "質問"
+      ],
+      "source_hash": "d9c1883fca538670bb08b70645df4019"
+    },
+    {
+      "id": "master336-026",
+      "tags": [
+        "会話",
+        "間",
+        "傾聴"
+      ],
+      "source_hash": "51800876f99746a62353a4f47cbc1f47"
+    },
+    {
+      "id": "master336-027",
+      "tags": [
+        "会話",
+        "沈黙",
+        "緊張"
+      ],
+      "source_hash": "e347d2e175fd1eeae9720c1cd39dd276"
+    },
+    {
+      "id": "master336-028",
+      "tags": [
+        "傾聴",
+        "安心感",
+        "否定"
+      ],
+      "source_hash": "e774a04a16f215875aea032dd221de8d"
+    },
+    {
+      "id": "master336-029",
+      "tags": [
+        "傾聴",
+        "遮らない",
+        "会話"
+      ],
+      "source_hash": "6046cdb2482e9b1dfdb4f33ff1f23df4"
+    },
+    {
+      "id": "master336-030",
+      "tags": [
+        "傾聴",
+        "自分語り",
+        "共感"
+      ],
+      "source_hash": "97f7ff0f567517aa60d948ae29e65471"
+    },
+    {
+      "id": "master336-031",
+      "tags": [
+        "傾聴",
+        "理解",
+        "思い込み"
+      ],
+      "source_hash": "ddf6ec3e9d67ef55734cd1d3d384bb80"
+    },
+    {
+      "id": "master336-032",
+      "tags": [
+        "共感",
+        "助言",
+        "傾聴"
+      ],
+      "source_hash": "898007b14274355b117fb42035120a86"
+    },
+    {
+      "id": "master336-033",
+      "tags": [
+        "感情",
+        "傾聴",
+        "共感"
+      ],
+      "source_hash": "a0dec462c6062f4a57bc3df42e1c8b86"
+    },
+    {
+      "id": "master336-034",
+      "tags": [
+        "感情",
+        "観察",
+        "傾聴"
+      ],
+      "source_hash": "1a86b7fb7418a2ce3b2a7c1221297e70"
+    },
+    {
+      "id": "master336-035",
+      "tags": [
+        "価値観",
+        "傾聴",
+        "言葉"
+      ],
+      "source_hash": "08078ce367f4b216a8c8554e2133909e"
+    },
+    {
+      "id": "master336-036",
+      "tags": [
+        "境界線",
+        "傾聴",
+        "プライバシー"
+      ],
+      "source_hash": "0a5f6d61d900c3beca817de30be074df"
+    },
+    {
+      "id": "master336-037",
+      "tags": [
+        "親密さ",
+        "自己開示",
+        "信頼"
+      ],
+      "source_hash": "b05d8149c67b5b692eba27eaaea4f8a5"
+    },
+    {
+      "id": "master336-038",
+      "tags": [
+        "約束",
+        "時間厳守",
+        "信頼"
+      ],
+      "source_hash": "c270ba2f4d37dde2458c8f0be3257774"
+    },
+    {
+      "id": "master336-039",
+      "tags": [
+        "一貫性",
+        "誠実さ",
+        "信頼"
+      ],
+      "source_hash": "e7827a6ae0c0bf0981735cdad5352fc8"
+    },
+    {
+      "id": "master336-040",
+      "tags": [
+        "礼儀",
+        "親密さ",
+        "尊重"
+      ],
+      "source_hash": "b1f0460fe2b3587c9b17ddb76688d002"
+    },
+    {
+      "id": "master336-041",
+      "tags": [
+        "秘密",
+        "守秘",
+        "信頼"
+      ],
+      "source_hash": "b65d5b2a73c3e7377431cf27b752220f"
+    },
+    {
+      "id": "master336-042",
+      "tags": [
+        "弱み",
+        "安心感",
+        "信頼"
+      ],
+      "source_hash": "80dd6e4cc917a496f459da693fbe16d8"
+    },
+    {
+      "id": "master336-043",
+      "tags": [
+        "不利な場面",
+        "誠実さ",
+        "信頼"
+      ],
+      "source_hash": "e9d021432147d96927d985b0857af047"
+    },
+    {
+      "id": "master336-044",
+      "tags": [
+        "謝罪",
+        "責任",
+        "信頼"
+      ],
+      "source_hash": "8027a4daa51a47910e9940d3eb8f3e81"
+    },
+    {
+      "id": "master336-045",
+      "tags": [
+        "関係修復",
+        "謝罪",
+        "信頼"
+      ],
+      "source_hash": "917baa56ea86a5eda706f938c9f71ed0"
+    },
+    {
+      "id": "master336-046",
+      "tags": [
+        "支援",
+        "困難",
+        "信頼"
+      ],
+      "source_hash": "325818b063b5bdb8550edd768d6b2f49"
+    },
+    {
+      "id": "master336-047",
+      "tags": [
+        "記憶",
+        "相手への関心",
+        "関係維持"
+      ],
+      "source_hash": "4424ddcfb0aa1844f1a5b89208a1abaf"
+    },
+    {
+      "id": "master336-048",
+      "tags": [
+        "自己開示",
+        "対等",
+        "信頼"
+      ],
+      "source_hash": "a500035b6ac6b320f265e32611d3ceb1"
+    },
+    {
+      "id": "master336-049",
+      "tags": [
+        "本音",
+        "安心感",
+        "信頼"
+      ],
+      "source_hash": "b96a3f5f996ef0d00e4008f0fad8685f"
+    },
+    {
+      "id": "master336-050",
+      "tags": [
+        "楽しさ",
+        "感情伝染",
+        "魅力"
+      ],
+      "source_hash": "c39478b5305c23892e4f63eedc562e6e"
+    },
+    {
+      "id": "master336-051",
+      "tags": [
+        "好意",
+        "返報性",
+        "親密さ"
+      ],
+      "source_hash": "c0b1c121524557a6d72b7fee548941d6"
+    },
+    {
+      "id": "master336-052",
+      "tags": [
+        "名前",
+        "承認",
+        "親近感"
+      ],
+      "source_hash": "97f0d4d9532b333641049c0094e161fe"
+    },
+    {
+      "id": "master336-053",
+      "tags": [
+        "相手への関心",
+        "尊重",
+        "親密さ"
+      ],
+      "source_hash": "1001d34e7d81886c182e296d587815d1"
+    },
+    {
+      "id": "master336-054",
+      "tags": [
+        "観察",
+        "承認",
+        "変化"
+      ],
+      "source_hash": "383f08885d94837eca7351a44ebc312b"
+    },
+    {
+      "id": "master336-055",
+      "tags": [
+        "記憶",
+        "相手への関心",
+        "親密さ"
+      ],
+      "source_hash": "991f84ea25518afecf0cda7c5a5836bf"
+    },
+    {
+      "id": "master336-056",
+      "tags": [
+        "感謝",
+        "具体性",
+        "承認"
+      ],
+      "source_hash": "7b85c90ee0b5d23fb2cee98adbc178f8"
+    },
+    {
+      "id": "master336-057",
+      "tags": [
+        "称賛",
+        "努力",
+        "成長"
+      ],
+      "source_hash": "26225241162e9894596208009023aed7"
+    },
+    {
+      "id": "master336-058",
+      "tags": [
+        "祝福",
+        "嫉妬",
+        "友人"
+      ],
+      "source_hash": "c86a65b9106ca96e7991f69efc7a97d9"
+    },
+    {
+      "id": "master336-059",
+      "tags": [
+        "自己受容",
+        "安心感",
+        "親密さ"
+      ],
+      "source_hash": "54e0092253671d371deeff72539e8ec9"
+    },
+    {
+      "id": "master336-060",
+      "tags": [
+        "接触頻度",
+        "親近感",
+        "単純接触効果"
+      ],
+      "source_hash": "6567d96f65426cc4253b64db4638b317"
+    },
+    {
+      "id": "master336-061",
+      "tags": [
+        "頼る",
+        "得意分野",
+        "承認"
+      ],
+      "source_hash": "a8135dc8e5b1719f45574dad232b0a04"
+    },
+    {
+      "id": "master336-062",
+      "tags": [
+        "頼み事",
+        "関与",
+        "親密さ"
+      ],
+      "source_hash": "cbe7c9a7614195b1c4e259ca0c78d3ef"
+    },
+    {
+      "id": "master336-063",
+      "tags": [
+        "親切",
+        "見返り",
+        "返報性"
+      ],
+      "source_hash": "56a46a02f8f5bdd95fbbc97e55ce08db"
+    },
+    {
+      "id": "master336-064",
+      "tags": [
+        "共通体験",
+        "記憶",
+        "親密さ"
+      ],
+      "source_hash": "ad7d0820c16f6736347b62c2ebe06e6e"
+    },
+    {
+      "id": "master336-065",
+      "tags": [
+        "特別感",
+        "好意",
+        "親密さ"
+      ],
+      "source_hash": "8f508da8514e031e029faad6d0459c0f"
+    },
+    {
+      "id": "master336-066",
+      "tags": [
+        "不完全さ",
+        "親近感",
+        "自己開示"
+      ],
+      "source_hash": "dc47b9901c7f4555a065daeba17982f8"
+    },
+    {
+      "id": "master336-067",
+      "tags": [
+        "ギャップ",
+        "意外性",
+        "魅力"
+      ],
+      "source_hash": "76d71fcf11e307c1f029c4cad26a2b72"
+    },
+    {
+      "id": "master336-068",
+      "tags": [
+        "成長",
+        "変化",
+        "魅力"
+      ],
+      "source_hash": "6c418fbf201829b64dd640c85400328e"
+    },
+    {
+      "id": "master336-069",
+      "tags": [
+        "自己開示",
+        "余白",
+        "好奇心"
+      ],
+      "source_hash": "f0281ef43a4e4174d76284566c1e1061"
+    },
+    {
+      "id": "master336-070",
+      "tags": [
+        "自立",
+        "依存",
+        "距離感"
+      ],
+      "source_hash": "e6354780f87bd813ac58b9552d60a5ad"
+    },
+    {
+      "id": "master336-071",
+      "tags": [
+        "別れ際",
+        "余韻",
+        "ピークエンドの法則"
+      ],
+      "source_hash": "f2690556b6f4adbec0eb04d8eaeff839"
+    },
+    {
+      "id": "master336-072",
+      "tags": [
+        "承認欲求",
+        "自分らしさ",
+        "他人の評価"
+      ],
+      "source_hash": "70f2f1b539a2fb8f7ae2f377e5b55a75"
+    },
+    {
+      "id": "master336-073",
+      "tags": [
+        "ユーモア",
+        "視点",
+        "日常"
+      ],
+      "source_hash": "77b02b1896105204d9ddaac93a4aaa7e"
+    },
+    {
+      "id": "master336-074",
+      "tags": [
+        "ユーモア",
+        "自虐",
+        "失敗談"
+      ],
+      "source_hash": "f40d2f7df635c508ae10141560cb1a04"
+    },
+    {
+      "id": "master336-075",
+      "tags": [
+        "ユーモア",
+        "会話",
+        "余白"
+      ],
+      "source_hash": "84f5ddcdf8bfced0262c17740b63e2fd"
+    },
+    {
+      "id": "master336-076",
+      "tags": [
+        "ユーモア",
+        "傾聴",
+        "話題"
+      ],
+      "source_hash": "984c1d6b9cf01b11c6387195347101b0"
+    },
+    {
+      "id": "master336-077",
+      "tags": [
+        "比喩",
+        "ユーモア",
+        "伝わりやすさ"
+      ],
+      "source_hash": "c3822c5b8cc1666e3de6f17fb05849cf"
+    },
+    {
+      "id": "master336-078",
+      "tags": [
+        "誇張",
+        "表現",
+        "ユーモア"
+      ],
+      "source_hash": "8ceeb8db25bfa1e6f0e122a8bae2079d"
+    },
+    {
+      "id": "master336-079",
+      "tags": [
+        "描写",
+        "物語",
+        "ユーモア"
+      ],
+      "source_hash": "4b14e9c3a47b4bb0b10906656f85741a"
+    },
+    {
+      "id": "master336-080",
+      "tags": [
+        "緊張緩和",
+        "ユーモア",
+        "場の空気"
+      ],
+      "source_hash": "0590e45f0e761fe24e917d31727a79ea"
+    },
+    {
+      "id": "master336-081",
+      "tags": [
+        "ユーモア",
+        "尊重",
+        "いじり"
+      ],
+      "source_hash": "d6ac0da4f63aafa2d6a5c765b969b6bb"
+    },
+    {
+      "id": "master336-082",
+      "tags": [
+        "リアクション",
+        "非言語表現",
+        "ユーモア"
+      ],
+      "source_hash": "caa4d887684877b83c6cd74d279a09eb"
+    },
+    {
+      "id": "master336-083",
+      "tags": [
+        "情熱",
+        "話題",
+        "ユーモア"
+      ],
+      "source_hash": "f2ae93b8139bf1d2cf6da4123d78ec15"
+    },
+    {
+      "id": "master336-084",
+      "tags": [
+        "記憶",
+        "共通体験",
+        "ユーモア"
+      ],
+      "source_hash": "5433517b315e9de15b1e055aa31d24d5"
+    },
+    {
+      "id": "master336-085",
+      "tags": [
+        "意外性",
+        "予想",
+        "ユーモア"
+      ],
+      "source_hash": "121a892b3b7754014600545c21b6cfe9"
+    },
+    {
+      "id": "master336-086",
+      "tags": [
+        "自然体",
+        "緊張",
+        "ユーモア"
+      ],
+      "source_hash": "64daf6452cc4dda952c8cdeb34700ee2"
+    },
+    {
+      "id": "master336-087",
+      "tags": [
+        "楽しさ",
+        "感情伝染",
+        "ユーモア"
+      ],
+      "source_hash": "3f1189d4a6e54bb56076729252fecf2b"
+    },
+    {
+      "id": "master336-088",
+      "tags": [
+        "人の見極め",
+        "行動",
+        "価値観"
+      ],
+      "source_hash": "c7882c3a5df9ba60352dd103927ebd82"
+    },
+    {
+      "id": "master336-089",
+      "tags": [
+        "人の見極め",
+        "誠実さ",
+        "印象"
+      ],
+      "source_hash": "78a243704b0346bcf725241aed790f5d"
+    },
+    {
+      "id": "master336-090",
+      "tags": [
+        "人の見極め",
+        "ハロー効果",
+        "思い込み"
+      ],
+      "source_hash": "e8a2a3560e89d4959f011c3ade55c583"
+    },
+    {
+      "id": "master336-091",
+      "tags": [
+        "人の見極め",
+        "権力",
+        "尊重"
+      ],
+      "source_hash": "27ffc7332570763ebbed20ee1624467d"
+    },
+    {
+      "id": "master336-092",
+      "tags": [
+        "人の見極め",
+        "見返り",
+        "誠実さ"
+      ],
+      "source_hash": "a397595cfceb7ec0de3c5090c05c2e8d"
+    },
+    {
+      "id": "master336-093",
+      "tags": [
+        "人の見極め",
+        "態度",
+        "対等"
+      ],
+      "source_hash": "051852be1c8c0e462231b9db1b626937"
+    },
+    {
+      "id": "master336-094",
+      "tags": [
+        "人の見極め",
+        "秘密",
+        "信頼"
+      ],
+      "source_hash": "1df4e37d0eccf37029ca60f19d78db33"
+    },
+    {
+      "id": "master336-095",
+      "tags": [
+        "人の見極め",
+        "価値観",
+        "羞恥"
+      ],
+      "source_hash": "f937ed48c3178e3d954a4346e260fad7"
+    },
+    {
+      "id": "master336-096",
+      "tags": [
+        "距離感",
+        "信頼",
+        "警戒"
+      ],
+      "source_hash": "fd58f406bc0ac7bd70fcebccf90f56e7"
+    },
+    {
+      "id": "master336-097",
+      "tags": [
+        "自己評価",
+        "関係の見直し",
+        "人の見極め"
+      ],
+      "source_hash": "cdc6f7554b61c1587c97c37fbe5bad86"
+    },
+    {
+      "id": "master336-098",
+      "tags": [
+        "他人の評価",
+        "自己決定",
+        "境界線"
+      ],
+      "source_hash": "14ab670e3dde0f65c508c0916b6a4173"
+    },
+    {
+      "id": "master336-099",
+      "tags": [
+        "承認欲求",
+        "自分らしさ",
+        "他人の評価"
+      ],
+      "source_hash": "d426424f25d7af36a81e379149671a97"
+    },
+    {
+      "id": "master336-100",
+      "tags": [
+        "不機嫌",
+        "自責",
+        "境界線"
+      ],
+      "source_hash": "936dfcca6845a2d4b0e6f8a8abac5ad4"
+    },
+    {
+      "id": "master336-101",
+      "tags": [
+        "不機嫌",
+        "境界線",
+        "自己主張"
+      ],
+      "source_hash": "0f6b11673a95729dd43f45b1018c2c83"
+    },
+    {
+      "id": "master336-102",
+      "tags": [
+        "罪悪感",
+        "断り方",
+        "境界線"
+      ],
+      "source_hash": "ae6a39f99c3c94fddcc4aae02f752577"
+    },
+    {
+      "id": "master336-103",
+      "tags": [
+        "愚痴",
+        "消耗",
+        "境界線"
+      ],
+      "source_hash": "5d56f0014d30f3ff2aa887b1d9092bed"
+    },
+    {
+      "id": "master336-104",
+      "tags": [
+        "挑発",
+        "感情調整",
+        "境界線"
+      ],
+      "source_hash": "c0c6a040468890d3173f923c03ad1f55"
+    },
+    {
+      "id": "master336-105",
+      "tags": [
+        "期待",
+        "自立",
+        "感情調整"
+      ],
+      "source_hash": "7e105587bb8f4d92781b8a1f1143d7ae"
+    },
+    {
+      "id": "master336-106",
+      "tags": [
+        "距離感",
+        "境界線",
+        "関係の見直し"
+      ],
+      "source_hash": "baad26c1a5e8567603e9c459eaedb1d4"
+    },
+    {
+      "id": "master336-107",
+      "tags": [
+        "距離感",
+        "関係の見直し",
+        "人間関係"
+      ],
+      "source_hash": "cb4575a4da21df11904fe7e75576cbd0"
+    },
+    {
+      "id": "master336-108",
+      "tags": [
+        "自分の時間",
+        "自立",
+        "境界線"
+      ],
+      "source_hash": "ee4ccb754352cfcc07e5503791d61f55"
+    },
+    {
+      "id": "master336-109",
+      "tags": [
+        "居場所",
+        "依存",
+        "選択肢"
+      ],
+      "source_hash": "682bfa4fda2411902966c01cdbb448a7"
+    },
+    {
+      "id": "master336-110",
+      "tags": [
+        "非言語表現",
+        "自信",
+        "軽く扱われない"
+      ],
+      "source_hash": "019985e807cf158d63e03de80d7f4e47"
+    },
+    {
+      "id": "master336-111",
+      "tags": [
+        "自己主張",
+        "話し方",
+        "軽く扱われない"
+      ],
+      "source_hash": "3d3c6a3b3fbb4859c2aab086dca5da6a"
+    },
+    {
+      "id": "master336-112",
+      "tags": [
+        "礼儀",
+        "対等",
+        "軽く扱われない"
+      ],
+      "source_hash": "ba316df90f1217473967bc546e1598e5"
+    },
+    {
+      "id": "master336-113",
+      "tags": [
+        "称賛",
+        "自己評価",
+        "軽く扱われない"
+      ],
+      "source_hash": "f4ca746aa5f93f5d254d6abfcff490a0"
+    },
+    {
+      "id": "master336-114",
+      "tags": [
+        "知ったかぶり",
+        "自信",
+        "軽く扱われない"
+      ],
+      "source_hash": "17d5c8c19e17f5bfbc903b9dd48390ea"
+    },
+    {
+      "id": "master336-115",
+      "tags": [
+        "謝罪",
+        "対等",
+        "軽く扱われない"
+      ],
+      "source_hash": "ac1aea47a2472d679ef2e958b0ba776b"
+    },
+    {
+      "id": "master336-116",
+      "tags": [
+        "無礼",
+        "境界線",
+        "自己主張"
+      ],
+      "source_hash": "be41a26c3e26bce4896e15debb2366d0"
+    },
+    {
+      "id": "master336-117",
+      "tags": [
+        "いじり",
+        "対等",
+        "自己主張"
+      ],
+      "source_hash": "fe9ca4c7ad5c5a6f7d379949df3b35e2"
+    },
+    {
+      "id": "master336-118",
+      "tags": [
+        "不機嫌",
+        "自己主張",
+        "軽く扱われない"
+      ],
+      "source_hash": "7744eb1e9409cfc008bba40df07f6f38"
+    },
+    {
+      "id": "master336-119",
+      "tags": [
+        "失敗",
+        "感情調整",
+        "自信"
+      ],
+      "source_hash": "5a38133339c16322e5ab591eb5b52ead"
+    },
+    {
+      "id": "master336-120",
+      "tags": [
+        "居場所",
+        "自立",
+        "依存"
+      ],
+      "source_hash": "17ab336972f311d5a654791b0d6c53ab"
+    },
+    {
+      "id": "master336-121",
+      "tags": [
+        "自信",
+        "振る舞い",
+        "印象"
+      ],
+      "source_hash": "0407735cd16c028ffeee48a02cf09266"
+    },
+    {
+      "id": "master336-122",
+      "tags": [
+        "距離感",
+        "関係維持",
+        "人間関係"
+      ],
+      "source_hash": "262607414156f52dcc907472784c8df4"
+    },
+    {
+      "id": "master336-123",
+      "tags": [
+        "礼儀",
+        "尊重",
+        "関係維持"
+      ],
+      "source_hash": "8d642f66b172118ba4653c8693160b8a"
+    },
+    {
+      "id": "master336-124",
+      "tags": [
+        "接触頻度",
+        "関係維持",
+        "単純接触効果"
+      ],
+      "source_hash": "dc0db4dd8647ced0e8644cc69c3d0ca1"
+    },
+    {
+      "id": "master336-125",
+      "tags": [
+        "肯定",
+        "否定",
+        "関係維持"
+      ],
+      "source_hash": "42ef3415bcca45a3cb7a7acf944cd4c2"
+    },
+    {
+      "id": "master336-126",
+      "tags": [
+        "親密さ",
+        "依存",
+        "境界線"
+      ],
+      "source_hash": "e5ced5dd8bea101d47754500e8ff6ff9"
+    },
+    {
+      "id": "master336-127",
+      "tags": [
+        "自己開示",
+        "親密さ",
+        "関係維持"
+      ],
+      "source_hash": "e63136a1d42ffab94167abd144e9ea2e"
+    },
+    {
+      "id": "master336-128",
+      "tags": [
+        "互恵性",
+        "負担",
+        "関係維持"
+      ],
+      "source_hash": "1ef16674509419d08c512784b9b9c6e9"
+    },
+    {
+      "id": "master336-129",
+      "tags": [
+        "不満",
+        "伝達",
+        "関係修復"
+      ],
+      "source_hash": "05fc1ec7c43757f392b9a640458585c2"
+    },
+    {
+      "id": "master336-130",
+      "tags": [
+        "フィードバック",
+        "行動",
+        "尊重"
+      ],
+      "source_hash": "2d5bf2800da6e6c8a3ab1d876bc99ebf"
+    },
+    {
+      "id": "master336-131",
+      "tags": [
+        "感情調整",
+        "判断",
+        "関係維持"
+      ],
+      "source_hash": "119cdda89200545cbad6602cfc77b5f4"
+    },
+    {
+      "id": "master336-132",
+      "tags": [
+        "関係修復",
+        "対立",
+        "仲直り"
+      ],
+      "source_hash": "3192d50f947a76fac2c3706eff04643b"
+    },
+    {
+      "id": "master336-133",
+      "tags": [
+        "関係修復",
+        "失敗",
+        "信頼"
+      ],
+      "source_hash": "9d554c48ca88e796cffdcda58bc2d08d"
+    },
+    {
+      "id": "master336-134",
+      "tags": [
+        "関係修復",
+        "本音",
+        "信頼"
+      ],
+      "source_hash": "19164912484ba27a4cef0b2b80b582cd"
+    },
+    {
+      "id": "master336-135",
+      "tags": [
+        "距離感",
+        "自立",
+        "関係維持"
+      ],
+      "source_hash": "d56aaa19206c59bc5fc417214cd5e9d6"
+    },
+    {
+      "id": "master336-136",
+      "tags": [
+        "集団",
+        "一体感",
+        "所属"
+      ],
+      "source_hash": "77b8fa4dbf0fedb81cd60c809e741512"
+    },
+    {
+      "id": "master336-137",
+      "tags": [
+        "集団",
+        "第一印象",
+        "所属"
+      ],
+      "source_hash": "e69983f2b268f7343df658bea763cbc5"
+    },
+    {
+      "id": "master336-138",
+      "tags": [
+        "集団",
+        "共通点",
+        "話題"
+      ],
+      "source_hash": "d8f0f4f30bcb46e49779b8486a27027f"
+    },
+    {
+      "id": "master336-139",
+      "tags": [
+        "接触頻度",
+        "集団",
+        "単純接触効果"
+      ],
+      "source_hash": "c86a2ad4a0295604eee3659e5f3c0bd1"
+    },
+    {
+      "id": "master336-140",
+      "tags": [
+        "居場所",
+        "一対一",
+        "集団"
+      ],
+      "source_hash": "2da89a65e32e3ba5fff1d8357f8af7da"
+    },
+    {
+      "id": "master336-141",
+      "tags": [
+        "親密さ",
+        "集団",
+        "距離感"
+      ],
+      "source_hash": "e77199c065ac191ef62e9956f9a069af"
+    },
+    {
+      "id": "master336-142",
+      "tags": [
+        "自己開示",
+        "集団",
+        "距離感"
+      ],
+      "source_hash": "522bfd7e8e5b171b41b9e2271d4b0219"
+    },
+    {
+      "id": "master336-143",
+      "tags": [
+        "一貫性",
+        "集団",
+        "信頼"
+      ],
+      "source_hash": "6460e98be2924dfe4bcadd6bffb63ee7"
+    },
+    {
+      "id": "master336-144",
+      "tags": [
+        "悪口",
+        "集団",
+        "信頼"
+      ],
+      "source_hash": "d470ccab3505864d59e968835f7d3ea8"
+    },
+    {
+      "id": "master336-145",
+      "tags": [
+        "対立",
+        "集団",
+        "関係維持"
+      ],
+      "source_hash": "cfeb02b9d10c5259a9c5e621656ad4a2"
+    },
+    {
+      "id": "master336-146",
+      "tags": [
+        "役割",
+        "居場所",
+        "集団"
+      ],
+      "source_hash": "2a805dfe2181ba481e1e29110ad78609"
+    },
+    {
+      "id": "master336-147",
+      "tags": [
+        "人気",
+        "信頼",
+        "集団"
+      ],
+      "source_hash": "71f2a0ebbd5f88999bd79e4b6223744b"
+    },
+    {
+      "id": "master336-148",
+      "tags": [
+        "同調圧力",
+        "個性",
+        "所属"
+      ],
+      "source_hash": "3f59ec98a0d8658a582bd3fc2cbc6ec9"
+    },
+    {
+      "id": "master336-149",
+      "tags": [
+        "居場所",
+        "同調圧力",
+        "依存"
+      ],
+      "source_hash": "fec616e9c57e8a62e7fa8fc49af7c618"
+    },
+    {
+      "id": "master336-150",
+      "tags": [
+        "リーダーシップ",
+        "非言語表現",
+        "落ち着き"
+      ],
+      "source_hash": "a64c2dce4c124ecd1edc4d086b704d63"
+    },
+    {
+      "id": "master336-151",
+      "tags": [
+        "主体性",
+        "リーダーシップ",
+        "行動"
+      ],
+      "source_hash": "db13b1ed8dfc0e839e2204dbd40c9f27"
+    },
+    {
+      "id": "master336-152",
+      "tags": [
+        "方針",
+        "リーダーシップ",
+        "言語化"
+      ],
+      "source_hash": "92fc0e8acec2ae5c0e467c07a6b5eb2e"
+    },
+    {
+      "id": "master336-153",
+      "tags": [
+        "要約",
+        "議論",
+        "リーダーシップ"
+      ],
+      "source_hash": "c9908d985876f57733916e51ec76ea83"
+    },
+    {
+      "id": "master336-154",
+      "tags": [
+        "役割",
+        "期待管理",
+        "リーダーシップ"
+      ],
+      "source_hash": "1fcc4a3a4008083d15b4f9d1f0358336"
+    },
+    {
+      "id": "master336-155",
+      "tags": [
+        "委任",
+        "リーダーシップ",
+        "チーム"
+      ],
+      "source_hash": "be4f96a05d3d19a69c358e3293b562ed"
+    },
+    {
+      "id": "master336-156",
+      "tags": [
+        "人脈",
+        "情報",
+        "リーダーシップ"
+      ],
+      "source_hash": "307d3b010403823e34aeac9706b04fb9"
+    },
+    {
+      "id": "master336-157",
+      "tags": [
+        "フィードバック",
+        "面子",
+        "心理的安全性"
+      ],
+      "source_hash": "f40753733a67f064a954cf9744361e23"
+    },
+    {
+      "id": "master336-158",
+      "tags": [
+        "責任",
+        "リーダーシップ",
+        "心理的安全性"
+      ],
+      "source_hash": "8cdcb53589ebad7d290888f7073ada65"
+    },
+    {
+      "id": "master336-159",
+      "tags": [
+        "価値観",
+        "カリスマ",
+        "信念"
+      ],
+      "source_hash": "8a2366fdf38574426c892c5aa24c2f8d"
+    },
+    {
+      "id": "master336-160",
+      "tags": [
+        "一貫性",
+        "他人の評価",
+        "カリスマ"
+      ],
+      "source_hash": "800990f78448f1eddefebe4dd4b4060b"
+    },
+    {
+      "id": "master336-161",
+      "tags": [
+        "自立",
+        "承認欲求",
+        "カリスマ"
+      ],
+      "source_hash": "0db4b7fff3e918458ce59adb0eaa0433"
+    },
+    {
+      "id": "master336-162",
+      "tags": [
+        "ビジョン",
+        "カリスマ",
+        "物語"
+      ],
+      "source_hash": "1e5722210ba53dbcb8eef59b68958bb0"
+    },
+    {
+      "id": "master336-163",
+      "tags": [
+        "物語",
+        "自己紹介",
+        "カリスマ"
+      ],
+      "source_hash": "63e7eef9e372a274d98f412dc6253a51"
+    },
+    {
+      "id": "master336-164",
+      "tags": [
+        "一貫性",
+        "行動",
+        "カリスマ"
+      ],
+      "source_hash": "19629e8e34e634bdb8fc7221fc50045b"
+    },
+    {
+      "id": "master336-165",
+      "tags": [
+        "感情調整",
+        "落ち着き",
+        "カリスマ"
+      ],
+      "source_hash": "b31e06e2a8d306e2bb79224bfbf6291f"
+    },
+    {
+      "id": "master336-166",
+      "tags": [
+        "余裕",
+        "自信",
+        "カリスマ"
+      ],
+      "source_hash": "61572d5ea91615c8df192445e1823558"
+    },
+    {
+      "id": "master336-167",
+      "tags": [
+        "決断",
+        "責任",
+        "カリスマ"
+      ],
+      "source_hash": "6ae1627d2b34767fcee96f2d7d6258d8"
+    },
+    {
+      "id": "master336-168",
+      "tags": [
+        "期待管理",
+        "実績",
+        "カリスマ"
+      ],
+      "source_hash": "de30c0aa0b0a52c6121c3906da39b90e"
+    },
+    {
+      "id": "master336-169",
+      "tags": [
+        "自己開示",
+        "余白",
+        "カリスマ"
+      ],
+      "source_hash": "681d8cc73e1808889106cef679d7d942"
+    },
+    {
+      "id": "master336-170",
+      "tags": [
+        "意外性",
+        "一貫性",
+        "カリスマ"
+      ],
+      "source_hash": "3ff002c80bfd8d468f5a389b5856ac61"
+    },
+    {
+      "id": "master336-171",
+      "tags": [
+        "成長",
+        "変化",
+        "カリスマ"
+      ],
+      "source_hash": "905d230611d2c18c3749d8fb4cab4c34"
+    },
+    {
+      "id": "master336-172",
+      "tags": [
+        "締切",
+        "余裕",
+        "時間管理"
+      ],
+      "source_hash": "34f6934260dd60fb7ac409ffef36d71a"
+    },
+    {
+      "id": "master336-173",
+      "tags": [
+        "知ったかぶり",
+        "確認",
+        "仕事"
+      ],
+      "source_hash": "4a8aab6baf54c2d2e6edad478b1897a6"
+    },
+    {
+      "id": "master336-174",
+      "tags": [
+        "質問",
+        "仮説",
+        "仕事"
+      ],
+      "source_hash": "ad3709e52066a64248bc97cd5e60d5a1"
+    },
+    {
+      "id": "master336-175",
+      "tags": [
+        "途中確認",
+        "フィードバック",
+        "手戻り"
+      ],
+      "source_hash": "cd5617d1b7100ccbe5f76ec742a6602c"
+    },
+    {
+      "id": "master336-176",
+      "tags": [
+        "報告",
+        "問題共有",
+        "リスク管理"
+      ],
+      "source_hash": "ef7b40a9a24e2ca631fdb48993055730"
+    },
+    {
+      "id": "master336-177",
+      "tags": [
+        "報告",
+        "対処案",
+        "判断"
+      ],
+      "source_hash": "d20413c7367ea037df2de2c79bb3db33"
+    },
+    {
+      "id": "master336-178",
+      "tags": [
+        "数字",
+        "具体性",
+        "伝達"
+      ],
+      "source_hash": "38bdbde46acff3a5058f044b9eec3ed2"
+    },
+    {
+      "id": "master336-179",
+      "tags": [
+        "再発防止",
+        "仕組み化",
+        "失敗"
+      ],
+      "source_hash": "3dacf3548fdbeb956bc200b22c861c85"
+    },
+    {
+      "id": "master336-180",
+      "tags": [
+        "優先順位",
+        "資源配分",
+        "最適化の罠"
+      ],
+      "source_hash": "2821c2805051307a5449a748bc1b5741"
+    },
+    {
+      "id": "master336-181",
+      "tags": [
+        "委任",
+        "チーム",
+        "生産性"
+      ],
+      "source_hash": "b237336c9c9e3b6b27540b8766f5fe8e"
+    },
+    {
+      "id": "master336-182",
+      "tags": [
+        "名前",
+        "相手への関心",
+        "仕事"
+      ],
+      "source_hash": "06ce9a366f470871d09872c4fe829247"
+    },
+    {
+      "id": "master336-183",
+      "tags": [
+        "対等",
+        "上司",
+        "自己主張"
+      ],
+      "source_hash": "c7f1b8b686cd617074c35cebce42e883"
+    },
+    {
+      "id": "master336-184",
+      "tags": [
+        "仕組み化",
+        "属人化",
+        "委任"
+      ],
+      "source_hash": "aeaa37e4bf7fb48d9d49cfd007bee20f"
+    },
+    {
+      "id": "master336-185",
+      "tags": [
+        "希少性",
+        "専門性",
+        "強み"
+      ],
+      "source_hash": "efe952a4a11024372031dd2b1001456c"
+    },
+    {
+      "id": "master336-186",
+      "tags": [
+        "忙しさ",
+        "印象管理",
+        "仕事"
+      ],
+      "source_hash": "81bda3351c86450ef912c071f203c8d1"
+    },
+    {
+      "id": "master336-187",
+      "tags": [
+        "タスク管理",
+        "記録",
+        "認知負荷"
+      ],
+      "source_hash": "cd295203a1a47ead245ca15bc9c1fe15"
+    },
+    {
+      "id": "master336-188",
+      "tags": [
+        "優先順位",
+        "重要度",
+        "緊急度"
+      ],
+      "source_hash": "3d5d47b703d4a7c3d783ba11e8018afc"
+    },
+    {
+      "id": "master336-189",
+      "tags": [
+        "優先順位",
+        "時間管理",
+        "予定"
+      ],
+      "source_hash": "877a49ef2e3a9627fd90eba51c98bcb8"
+    },
+    {
+      "id": "master336-190",
+      "tags": [
+        "予定",
+        "余白",
+        "計画"
+      ],
+      "source_hash": "5c0ee795ee11470b37b318f80e788b51"
+    },
+    {
+      "id": "master336-191",
+      "tags": [
+        "締切",
+        "余裕",
+        "リスク管理"
+      ],
+      "source_hash": "4b66c10939c930fd825529a51e9368a5"
+    },
+    {
+      "id": "master336-192",
+      "tags": [
+        "タスク管理",
+        "先延ばし",
+        "未処理"
+      ],
+      "source_hash": "cd9a2d7eae4822981e9af60233d2948c"
+    },
+    {
+      "id": "master336-193",
+      "tags": [
+        "着手",
+        "やる気",
+        "先延ばし"
+      ],
+      "source_hash": "11d22fcab7a3f827bfb8243a5271754a"
+    },
+    {
+      "id": "master336-194",
+      "tags": [
+        "集中",
+        "誘惑",
+        "環境設計"
+      ],
+      "source_hash": "69b5ee433c5b049f31accc4cb3460471"
+    },
+    {
+      "id": "master336-195",
+      "tags": [
+        "マルチタスク",
+        "集中",
+        "切り替えコスト"
+      ],
+      "source_hash": "01bda92ac03c162918c11a6676ab94b5"
+    },
+    {
+      "id": "master336-196",
+      "tags": [
+        "作業集約",
+        "集中",
+        "切り替えコスト"
+      ],
+      "source_hash": "74718cab7f138c673b027bc9f7c39bde"
+    },
+    {
+      "id": "master336-197",
+      "tags": [
+        "予定",
+        "他人待ち",
+        "計画"
+      ],
+      "source_hash": "e795acc26ae8fa9c5f2cbf5c38cc2ff8"
+    },
+    {
+      "id": "master336-198",
+      "tags": [
+        "委任",
+        "優先順位",
+        "機会費用"
+      ],
+      "source_hash": "f307744b9167dced9cf71e2b392dcd96"
+    },
+    {
+      "id": "master336-199",
+      "tags": [
+        "完璧主義",
+        "優先順位",
+        "最適化の罠"
+      ],
+      "source_hash": "0b530176a59d5faba87e341582c95f9d"
+    },
+    {
+      "id": "master336-200",
+      "tags": [
+        "必要十分",
+        "完璧主義",
+        "最適化の罠"
+      ],
+      "source_hash": "c2190324b5e0fb698a00c370ec92d39d"
+    },
+    {
+      "id": "master336-201",
+      "tags": [
+        "好奇心",
+        "知識",
+        "学習"
+      ],
+      "source_hash": "afe14fb9313826427a70a7c60ffcbb5a"
+    },
+    {
+      "id": "master336-202",
+      "tags": [
+        "知ったかぶり",
+        "知的謙虚さ",
+        "学習"
+      ],
+      "source_hash": "a62b5d92ab3d938e29d5b3be8d4f79a5"
+    },
+    {
+      "id": "master336-203",
+      "tags": [
+        "推論",
+        "理解",
+        "文脈"
+      ],
+      "source_hash": "5cc08fc722932f6a87cf1befad338acc"
+    },
+    {
+      "id": "master336-204",
+      "tags": [
+        "構造化",
+        "原理",
+        "理解"
+      ],
+      "source_hash": "b566a02a077e141c33e210b667af842e"
+    },
+    {
+      "id": "master336-205",
+      "tags": [
+        "前提",
+        "批判的思考",
+        "問題設定"
+      ],
+      "source_hash": "3a253d1e75db8302fcc2029c4d1a08f4"
+    },
+    {
+      "id": "master336-206",
+      "tags": [
+        "具体と抽象",
+        "学習",
+        "応用"
+      ],
+      "source_hash": "afb3e1b199c10edb9ff6b3dc457daee7"
+    },
+    {
+      "id": "master336-207",
+      "tags": [
+        "相関と因果",
+        "思考",
+        "判断"
+      ],
+      "source_hash": "9f36f39f7159ec452dbe49b89dffc3d0"
+    },
+    {
+      "id": "master336-208",
+      "tags": [
+        "二分法",
+        "思考の柔軟性",
+        "判断"
+      ],
+      "source_hash": "1fc48876be6358ba62f543b6311f3ef7"
+    },
+    {
+      "id": "master336-209",
+      "tags": [
+        "比喩",
+        "説明",
+        "理解"
+      ],
+      "source_hash": "375734ff6f35c4a928316bcacc167b51"
+    },
+    {
+      "id": "master336-210",
+      "tags": [
+        "要約",
+        "説明",
+        "伝達"
+      ],
+      "source_hash": "81baa5dc81716798f5cb486f618182bf"
+    },
+    {
+      "id": "master336-211",
+      "tags": [
+        "評価",
+        "評価基準",
+        "成果"
+      ],
+      "source_hash": "71d36b2e3489799ff8ede86dab6a6188"
+    },
+    {
+      "id": "master336-212",
+      "tags": [
+        "信頼",
+        "実績",
+        "評価"
+      ],
+      "source_hash": "cab2b916dffc0586d7bfed9c3d317200"
+    },
+    {
+      "id": "master336-213",
+      "tags": [
+        "信頼",
+        "安定性",
+        "評価"
+      ],
+      "source_hash": "fcb57e68dcf077ad87b59e987c502ae4"
+    },
+    {
+      "id": "master336-214",
+      "tags": [
+        "成果",
+        "報告",
+        "評価"
+      ],
+      "source_hash": "2e54d79cac0770a2e299396ea79a183b"
+    },
+    {
+      "id": "master336-215",
+      "tags": [
+        "優先順位",
+        "成果",
+        "評価"
+      ],
+      "source_hash": "54d07ddd3b67ec54746c0aa1381368d5"
+    },
+    {
+      "id": "master336-216",
+      "tags": [
+        "昇進",
+        "推薦",
+        "人脈"
+      ],
+      "source_hash": "9a09a471cadcf93a1529b73f723073c6"
+    },
+    {
+      "id": "master336-217",
+      "tags": [
+        "希少性",
+        "評価",
+        "依存"
+      ],
+      "source_hash": "a2cf27b2aecaff0dfedf3024fe463aa7"
+    },
+    {
+      "id": "master336-218",
+      "tags": [
+        "強み",
+        "希少性",
+        "スキル"
+      ],
+      "source_hash": "87db1118d201915c7dcc64862c45dd28"
+    },
+    {
+      "id": "master336-219",
+      "tags": [
+        "評価",
+        "初頭効果",
+        "累積優位"
+      ],
+      "source_hash": "88ef28253ed5ae7a0f15b59b3001650e"
+    },
+    {
+      "id": "master336-220",
+      "tags": [
+        "転職",
+        "選択肢",
+        "交渉"
+      ],
+      "source_hash": "a973ca4bf4866f9b2f7dea8cf420c120"
+    },
+    {
+      "id": "master336-221",
+      "tags": [
+        "交渉",
+        "撤退条件",
+        "最低ライン"
+      ],
+      "source_hash": "9dcf81c070b426643d4d2617d2409ce6"
+    },
+    {
+      "id": "master336-222",
+      "tags": [
+        "交渉",
+        "BATNA",
+        "代替案"
+      ],
+      "source_hash": "ffd0b7613d46cd3891149989f6b60d3f"
+    },
+    {
+      "id": "master336-223",
+      "tags": [
+        "交渉",
+        "情報",
+        "相手の希望"
+      ],
+      "source_hash": "32a98e47e07d5baa5f986fedc58f17c8"
+    },
+    {
+      "id": "master336-224",
+      "tags": [
+        "交渉",
+        "優先順位",
+        "価値交換"
+      ],
+      "source_hash": "af54fe314fd0379c45c5d5a0e4e4bbf3"
+    },
+    {
+      "id": "master336-225",
+      "tags": [
+        "交渉",
+        "複数提案",
+        "優先順位"
+      ],
+      "source_hash": "c6c44bccfce52140f09d03aecab40129"
+    },
+    {
+      "id": "master336-226",
+      "tags": [
+        "交渉",
+        "情報開示",
+        "手札"
+      ],
+      "source_hash": "97be45ccb2938c71d5b7117339f2f77a"
+    },
+    {
+      "id": "master336-227",
+      "tags": [
+        "交渉",
+        "アンカリング",
+        "最初の提案"
+      ],
+      "source_hash": "ad83410e837733bc4c1de7e371ceed31"
+    },
+    {
+      "id": "master336-228",
+      "tags": [
+        "交渉",
+        "比較",
+        "提案"
+      ],
+      "source_hash": "31fdd5de7b7265f1c60551bbf912beee"
+    },
+    {
+      "id": "master336-229",
+      "tags": [
+        "交渉",
+        "要求",
+        "譲歩"
+      ],
+      "source_hash": "9e421a109b4d34da432e791a13ea0382"
+    },
+    {
+      "id": "master336-230",
+      "tags": [
+        "交渉",
+        "譲歩",
+        "価値交換"
+      ],
+      "source_hash": "60e8d75a791ed8573bad728e4d96c7cd"
+    },
+    {
+      "id": "master336-231",
+      "tags": [
+        "交渉",
+        "条件の組み合わせ",
+        "価値交換"
+      ],
+      "source_hash": "002d68eca2137c8c4029c954c5d4a907"
+    },
+    {
+      "id": "master336-232",
+      "tags": [
+        "交渉",
+        "締切",
+        "決断"
+      ],
+      "source_hash": "a8c06c40b823534dc31aab57a6ae7e83"
+    },
+    {
+      "id": "master336-233",
+      "tags": [
+        "交渉",
+        "沈黙",
+        "譲歩"
+      ],
+      "source_hash": "b49935da7b0b2b27904b062b39b5f0cb"
+    },
+    {
+      "id": "master336-234",
+      "tags": [
+        "交渉",
+        "小さな合意",
+        "一貫性"
+      ],
+      "source_hash": "010f177a4e23cf8309338d4a7ea72499"
+    },
+    {
+      "id": "master336-235",
+      "tags": [
+        "交渉",
+        "市場価値",
+        "感情"
+      ],
+      "source_hash": "5e6643a7b095fb477bd952a4260a70be"
+    },
+    {
+      "id": "master336-236",
+      "tags": [
+        "交渉",
+        "面子",
+        "合意"
+      ],
+      "source_hash": "f59b9eb49fe2f815d18f0294b0248b79"
+    },
+    {
+      "id": "master336-237",
+      "tags": [
+        "交渉",
+        "公平感",
+        "手続き的公正"
+      ],
+      "source_hash": "4feec5f50316f086b97ce9b5601dd24b"
+    },
+    {
+      "id": "master336-238",
+      "tags": [
+        "交渉",
+        "第三者",
+        "対立"
+      ],
+      "source_hash": "cb5080eb0874a9852a5c392d5aee87e2"
+    },
+    {
+      "id": "master336-239",
+      "tags": [
+        "交渉",
+        "継続関係",
+        "協力"
+      ],
+      "source_hash": "0759f7e44e481ff010ffff8db95bb5b5"
+    },
+    {
+      "id": "master336-240",
+      "tags": [
+        "社内政治",
+        "キーパーソン",
+        "影響力"
+      ],
+      "source_hash": "b655f76c0a7429cc3126d023aa0c80ea"
+    },
+    {
+      "id": "master336-241",
+      "tags": [
+        "情報",
+        "社内政治",
+        "肩書"
+      ],
+      "source_hash": "b9ae1e5475ffa3cf91a22ab57c858afc"
+    },
+    {
+      "id": "master336-242",
+      "tags": [
+        "影響力",
+        "専門性",
+        "人脈"
+      ],
+      "source_hash": "0ab354c491bd7c1f07bf21de9c6521bf"
+    },
+    {
+      "id": "master336-243",
+      "tags": [
+        "味方",
+        "人脈",
+        "信頼"
+      ],
+      "source_hash": "81ee6dd67f7fdd425356257e3a56dfac"
+    },
+    {
+      "id": "master336-244",
+      "tags": [
+        "対立",
+        "社内政治",
+        "関係維持"
+      ],
+      "source_hash": "39d23978ad48080ecf431882c421f098"
+    },
+    {
+      "id": "master336-245",
+      "tags": [
+        "情報",
+        "人脈",
+        "結節点"
+      ],
+      "source_hash": "c6c17156c1a97112db4b1c371215fb47"
+    },
+    {
+      "id": "master336-246",
+      "tags": [
+        "根回し",
+        "面子",
+        "合意"
+      ],
+      "source_hash": "aca032ed58406cfae032939cea68471d"
+    },
+    {
+      "id": "master336-247",
+      "tags": [
+        "根回し",
+        "順序",
+        "合意"
+      ],
+      "source_hash": "31e66bdf8cb2575dd81e95c13282e780"
+    },
+    {
+      "id": "master336-248",
+      "tags": [
+        "上司",
+        "社内政治",
+        "関係調整"
+      ],
+      "source_hash": "1e4da57861c560fc486cf3a271828e47"
+    },
+    {
+      "id": "master336-249",
+      "tags": [
+        "希少性",
+        "専門性",
+        "影響力"
+      ],
+      "source_hash": "e90cfd0a06e35767ceac32b5f5164287"
+    },
+    {
+      "id": "master336-250",
+      "tags": [
+        "幸福",
+        "成功",
+        "順応"
+      ],
+      "source_hash": "496e44034147a657ed3a0e7e962297c1"
+    },
+    {
+      "id": "master336-251",
+      "tags": [
+        "充実感",
+        "忙しさ",
+        "価値観"
+      ],
+      "source_hash": "08fb89aaec730be4a4cdf4d8faf8b447"
+    },
+    {
+      "id": "master336-252",
+      "tags": [
+        "幸福",
+        "目標",
+        "現在"
+      ],
+      "source_hash": "3fd7fb70ab41acac6615aaaa7e89bf93"
+    },
+    {
+      "id": "master336-253",
+      "tags": [
+        "幸福",
+        "感謝",
+        "順応"
+      ],
+      "source_hash": "e36be0d22ca3965716bfc8af1a3fa784"
+    },
+    {
+      "id": "master336-254",
+      "tags": [
+        "過程",
+        "幸福",
+        "目標"
+      ],
+      "source_hash": "ae98990723c867b1735ddcbd3febee57"
+    },
+    {
+      "id": "master336-255",
+      "tags": [
+        "優先順位",
+        "家族",
+        "健康"
+      ],
+      "source_hash": "8ab72f53f29040bc64ce2e9219f18a6a"
+    },
+    {
+      "id": "master336-256",
+      "tags": [
+        "時間",
+        "お金",
+        "価値観"
+      ],
+      "source_hash": "fa0453ce22dcb56f0c6b757dfb4305f8"
+    },
+    {
+      "id": "master336-257",
+      "tags": [
+        "機会",
+        "時間",
+        "年齢"
+      ],
+      "source_hash": "5047bd0072b1e1766140b3335c94f4e9"
+    },
+    {
+      "id": "master336-258",
+      "tags": [
+        "記憶",
+        "経験",
+        "時間"
+      ],
+      "source_hash": "4f647a682a7b66fe0b8879b65ffa843e"
+    },
+    {
+      "id": "master336-259",
+      "tags": [
+        "大切な人",
+        "時間",
+        "優先順位"
+      ],
+      "source_hash": "50cc440647a78ddcd661d3d770208733"
+    },
+    {
+      "id": "master336-260",
+      "tags": [
+        "人間関係",
+        "支援",
+        "孤独"
+      ],
+      "source_hash": "ea486eec679ffb7fb1b49e839d144bab"
+    },
+    {
+      "id": "master336-261",
+      "tags": [
+        "健康",
+        "幸福",
+        "価値観"
+      ],
+      "source_hash": "a1d7a89555f33fca034b69776c69e5e1"
+    },
+    {
+      "id": "master336-262",
+      "tags": [
+        "分散",
+        "人生の柱",
+        "喪失"
+      ],
+      "source_hash": "f0b2860f7c1dd503569d0538e9a2a904"
+    },
+    {
+      "id": "master336-263",
+      "tags": [
+        "貢献",
+        "生きがい",
+        "幸福"
+      ],
+      "source_hash": "ec641fd2c5ab3c491bf31cdd45f313f0"
+    },
+    {
+      "id": "master336-264",
+      "tags": [
+        "年齢",
+        "楽しみ",
+        "価値観"
+      ],
+      "source_hash": "2e5bb9da332a15d4e1c9bd609334f7e6"
+    },
+    {
+      "id": "master336-265",
+      "tags": [
+        "価値観",
+        "成功",
+        "変化"
+      ],
+      "source_hash": "cfb687269a85a7733fe05973f7683d74"
+    },
+    {
+      "id": "master336-266",
+      "tags": [
+        "価値観",
+        "自分らしさ",
+        "他人の評価"
+      ],
+      "source_hash": "c90c627d00e0fc4049adb1982503cfb2"
+    },
+    {
+      "id": "master336-267",
+      "tags": [
+        "嫉妬",
+        "欲求",
+        "自己理解"
+      ],
+      "source_hash": "4adc6708081c0af8ce1e16d55a2bf786"
+    },
+    {
+      "id": "master336-268",
+      "tags": [
+        "価値観",
+        "言語化",
+        "自己理解"
+      ],
+      "source_hash": "c0e9d98ba73f7c701c4e770fbc9723e2"
+    },
+    {
+      "id": "master336-269",
+      "tags": [
+        "強み",
+        "環境との相性",
+        "進路"
+      ],
+      "source_hash": "3292bb09d25a86ff0039460cf2576114"
+    },
+    {
+      "id": "master336-270",
+      "tags": [
+        "個性",
+        "強み",
+        "希少性"
+      ],
+      "source_hash": "d0c74d45a1f988c50bc4dcfdacd9ec79"
+    },
+    {
+      "id": "master336-271",
+      "tags": [
+        "進路",
+        "自己決定",
+        "納得"
+      ],
+      "source_hash": "a714197bae4d389ccaca33652b5bcad9"
+    },
+    {
+      "id": "master336-272",
+      "tags": [
+        "選択",
+        "代償",
+        "責任"
+      ],
+      "source_hash": "9f45b1cb96ff117455b040c2d6e505e1"
+    },
+    {
+      "id": "master336-273",
+      "tags": [
+        "違和感",
+        "進路",
+        "方向転換"
+      ],
+      "source_hash": "a4d7063994ae4c2212092c5738980e50"
+    },
+    {
+      "id": "master336-274",
+      "tags": [
+        "環境との相性",
+        "停滞",
+        "成長"
+      ],
+      "source_hash": "b87972a427213d08af607f3b8f200540"
+    },
+    {
+      "id": "master336-275",
+      "tags": [
+        "自分らしさ",
+        "役割",
+        "環境"
+      ],
+      "source_hash": "b25513a17b9a18fc1421649aee1d22c7"
+    },
+    {
+      "id": "master336-276",
+      "tags": [
+        "居場所",
+        "自然体",
+        "自分らしさ"
+      ],
+      "source_hash": "624539308eb4ba054ca60a42c680ea19"
+    },
+    {
+      "id": "master336-277",
+      "tags": [
+        "他人の期待",
+        "義務感",
+        "境界線"
+      ],
+      "source_hash": "2a5377b75abca53b09bdf6035088725c"
+    },
+    {
+      "id": "master336-278",
+      "tags": [
+        "承認欲求",
+        "自分らしさ",
+        "他人の評価"
+      ],
+      "source_hash": "5ba37bd871e375124a6dbe0aa4279bc5"
+    },
+    {
+      "id": "master336-279",
+      "tags": [
+        "好奇心",
+        "着手",
+        "楽しみ"
+      ],
+      "source_hash": "89b6f9010dd812a99fa1d480dc7f7996"
+    },
+    {
+      "id": "master336-280",
+      "tags": [
+        "新しい経験",
+        "記憶",
+        "日常"
+      ],
+      "source_hash": "00272bfca6e43297fe23d5b1d630b945"
+    },
+    {
+      "id": "master336-281",
+      "tags": [
+        "趣味",
+        "効率",
+        "楽しみ"
+      ],
+      "source_hash": "08b602f436c092f7a05bd5fe3666fb71"
+    },
+    {
+      "id": "master336-282",
+      "tags": [
+        "趣味",
+        "分散",
+        "余暇"
+      ],
+      "source_hash": "af95e75aa991f88e1659b3a9f11ae9df"
+    },
+    {
+      "id": "master336-283",
+      "tags": [
+        "誘い",
+        "経験",
+        "思い出"
+      ],
+      "source_hash": "718bbaa4695cd0df2a2e90a1cdaf21c4"
+    },
+    {
+      "id": "master336-284",
+      "tags": [
+        "好奇心",
+        "選択",
+        "挑戦"
+      ],
+      "source_hash": "5c3eea690c6ed418abf264f1f9e74758"
+    },
+    {
+      "id": "master336-285",
+      "tags": [
+        "余白",
+        "偶然",
+        "機会"
+      ],
+      "source_hash": "e53b8bb71fe55a611e7024e6f6b83d88"
+    },
+    {
+      "id": "master336-286",
+      "tags": [
+        "挑戦",
+        "失敗",
+        "楽しみ"
+      ],
+      "source_hash": "8b076737eeec4c74ed60def2f6d534f5"
+    },
+    {
+      "id": "master336-287",
+      "tags": [
+        "経験",
+        "お金",
+        "思い出"
+      ],
+      "source_hash": "ddac1402c692db8a72ad81ea2a246e89"
+    },
+    {
+      "id": "master336-288",
+      "tags": [
+        "幸福",
+        "楽しみ",
+        "日常"
+      ],
+      "source_hash": "ccbce506ddcc558ece70a676254e07dd"
+    },
+    {
+      "id": "master336-289",
+      "tags": [
+        "不安",
+        "行動",
+        "受容"
+      ],
+      "source_hash": "dc5b74c3726cb7c32b2af3cffd8281ab"
+    },
+    {
+      "id": "master336-290",
+      "tags": [
+        "不安",
+        "言語化",
+        "記録"
+      ],
+      "source_hash": "620cb5355f85c735cda9e349b45b2277"
+    },
+    {
+      "id": "master336-291",
+      "tags": [
+        "不安",
+        "事実と予測",
+        "思考"
+      ],
+      "source_hash": "1e83c2b6b2511f181fb5453b371ebdbf"
+    },
+    {
+      "id": "master336-292",
+      "tags": [
+        "不安",
+        "対策",
+        "リスク管理"
+      ],
+      "source_hash": "a18314c5dc5cbd4315f0e9a3e3065f30"
+    },
+    {
+      "id": "master336-293",
+      "tags": [
+        "不安",
+        "情報収集",
+        "反芻"
+      ],
+      "source_hash": "2d73a08dcca88e0026fe0b4dd9afd5f4"
+    },
+    {
+      "id": "master336-294",
+      "tags": [
+        "不安",
+        "時間管理",
+        "反芻"
+      ],
+      "source_hash": "7bb57411e70f33f58ceffaac797a121b"
+    },
+    {
+      "id": "master336-295",
+      "tags": [
+        "感情調整",
+        "意思決定",
+        "不安"
+      ],
+      "source_hash": "46f5465e71929af2ee69f9ba1dd5fa1e"
+    },
+    {
+      "id": "master336-296",
+      "tags": [
+        "不安",
+        "完璧主義",
+        "確信"
+      ],
+      "source_hash": "1b25a306e3839d7490df1e1cda7c8e55"
+    },
+    {
+      "id": "master336-297",
+      "tags": [
+        "不安",
+        "小さな試行",
+        "慣れ"
+      ],
+      "source_hash": "96118b4a7390a7a74e0152f8bdf262ce"
+    },
+    {
+      "id": "master336-298",
+      "tags": [
+        "不安",
+        "経験",
+        "受容"
+      ],
+      "source_hash": "3b1e3a9c0dd026df57f6fd4da1eaa506"
+    },
+    {
+      "id": "master336-299",
+      "tags": [
+        "後悔",
+        "人生の優先順位",
+        "価値観"
+      ],
+      "source_hash": "316685df71a4b4ea7ba4a7f555f9d02c"
+    },
+    {
+      "id": "master336-300",
+      "tags": [
+        "意思決定",
+        "納得",
+        "完璧主義"
+      ],
+      "source_hash": "19dff6cd20d8ec645d5f54260f49fae1"
+    },
+    {
+      "id": "master336-301",
+      "tags": [
+        "選択",
+        "代償",
+        "機会費用"
+      ],
+      "source_hash": "b428cfc9baa0f691b29c5dc54fe01f07"
+    },
+    {
+      "id": "master336-302",
+      "tags": [
+        "後悔",
+        "不作為",
+        "行動"
+      ],
+      "source_hash": "2bd4217b4f2f0800c23d48877cf649fd"
+    },
+    {
+      "id": "master336-303",
+      "tags": [
+        "意思決定",
+        "可逆性",
+        "リスク管理"
+      ],
+      "source_hash": "79acd5199095b1f8be5d6df3b8260cb3"
+    },
+    {
+      "id": "master336-304",
+      "tags": [
+        "小さな試行",
+        "選択",
+        "経験"
+      ],
+      "source_hash": "4ad2bf5db7dc747de5df82cc98542452"
+    },
+    {
+      "id": "master336-305",
+      "tags": [
+        "意思決定",
+        "締切",
+        "最適化の罠"
+      ],
+      "source_hash": "84a4b5862da8b829782531982a6ec884"
+    },
+    {
+      "id": "master336-306",
+      "tags": [
+        "サンクコスト",
+        "撤退",
+        "意思決定"
+      ],
+      "source_hash": "bedba4bec3c9b378993ed55ed9b23cb2"
+    },
+    {
+      "id": "master336-307",
+      "tags": [
+        "先延ばし",
+        "後悔",
+        "時間"
+      ],
+      "source_hash": "6da302abde78c9dab698703a10e19cac"
+    },
+    {
+      "id": "master336-308",
+      "tags": [
+        "後悔",
+        "反実仮想",
+        "理想化"
+      ],
+      "source_hash": "fad1c7098e7aaaa87aeb7d14257db7ae"
+    },
+    {
+      "id": "master336-309",
+      "tags": [
+        "自己決定",
+        "責任",
+        "納得"
+      ],
+      "source_hash": "2d5059ee338b452029d072c479eb01be"
+    },
+    {
+      "id": "master336-310",
+      "tags": [
+        "後悔",
+        "後知恵バイアス",
+        "自責"
+      ],
+      "source_hash": "f86e644bbad7e2ed2cc45d55655657a6"
+    },
+    {
+      "id": "master336-311",
+      "tags": [
+        "失敗",
+        "自己評価",
+        "挫折"
+      ],
+      "source_hash": "156457ffe459a0ff58792e62c8a2544e"
+    },
+    {
+      "id": "master336-312",
+      "tags": [
+        "挫折",
+        "喪失",
+        "人生の柱"
+      ],
+      "source_hash": "6744469ab1b8ed0099c6cd4823abe17d"
+    },
+    {
+      "id": "master336-313",
+      "tags": [
+        "後悔",
+        "反実仮想",
+        "挫折"
+      ],
+      "source_hash": "83e9a266b4177811987ce3ff8540ef23"
+    },
+    {
+      "id": "master336-314",
+      "tags": [
+        "回復",
+        "挫折",
+        "休息"
+      ],
+      "source_hash": "c4ff6985b81a22c9501b6fb17543fca2"
+    },
+    {
+      "id": "master336-315",
+      "tags": [
+        "喪失",
+        "目標",
+        "回復"
+      ],
+      "source_hash": "c9fc0aa9e84601249f34af6a88f3a3ab"
+    },
+    {
+      "id": "master336-316",
+      "tags": [
+        "回復",
+        "日常",
+        "生活習慣"
+      ],
+      "source_hash": "2dea8f61c0b5e12b20317c187a014a83"
+    },
+    {
+      "id": "master336-317",
+      "tags": [
+        "孤独",
+        "支援",
+        "挫折"
+      ],
+      "source_hash": "3927d3ee0b436910f306fc5f32c87f6d"
+    },
+    {
+      "id": "master336-318",
+      "tags": [
+        "環境",
+        "回復",
+        "変化"
+      ],
+      "source_hash": "1b73354b8e12898602a886f9e2a62a25"
+    },
+    {
+      "id": "master336-319",
+      "tags": [
+        "経験",
+        "挫折",
+        "強み"
+      ],
+      "source_hash": "0bfafd80e189567a9cd1d9785078c82f"
+    },
+    {
+      "id": "master336-320",
+      "tags": [
+        "挫折",
+        "再出発",
+        "自己理解"
+      ],
+      "source_hash": "cd33e84d56a6ae16d011d3c43d5214b8"
+    },
+    {
+      "id": "master336-321",
+      "tags": [
+        "失敗",
+        "受容",
+        "挫折"
+      ],
+      "source_hash": "c250411e709f703a3fce69a9843f9d77"
+    },
+    {
+      "id": "master336-322",
+      "tags": [
+        "可能性",
+        "環境",
+        "他人の評価"
+      ],
+      "source_hash": "31d69c250f9e36d3bb1d73c3f0f57fea"
+    },
+    {
+      "id": "master336-323",
+      "tags": [
+        "将来像",
+        "選択肢",
+        "進路"
+      ],
+      "source_hash": "f447242e1a3e498821c0be0fdcb4d2cf"
+    },
+    {
+      "id": "master336-324",
+      "tags": [
+        "目標",
+        "分散",
+        "リスク管理"
+      ],
+      "source_hash": "8b2020da4939a5d5eb97e4cc7ea5e354"
+    },
+    {
+      "id": "master336-325",
+      "tags": [
+        "選択肢",
+        "準備",
+        "進路"
+      ],
+      "source_hash": "c789ead34e785340172f14895605797b"
+    },
+    {
+      "id": "master336-326",
+      "tags": [
+        "多様性",
+        "人脈",
+        "選択肢"
+      ],
+      "source_hash": "556aea484c9872275f027a72d90f8bfb"
+    },
+    {
+      "id": "master336-327",
+      "tags": [
+        "新しい経験",
+        "環境",
+        "自己理解"
+      ],
+      "source_hash": "e9e3c40a4d160e8e4db13c058eee9484"
+    },
+    {
+      "id": "master336-328",
+      "tags": [
+        "機会",
+        "人脈",
+        "効率"
+      ],
+      "source_hash": "f1deb9b86d936d2b7e4a47ec6c86f62b"
+    },
+    {
+      "id": "master336-329",
+      "tags": [
+        "挑戦",
+        "完璧主義",
+        "小さな試行"
+      ],
+      "source_hash": "cc7e99aaf349b336a2b2319d4491eb84"
+    },
+    {
+      "id": "master336-330",
+      "tags": [
+        "経験",
+        "スキル",
+        "選択肢"
+      ],
+      "source_hash": "e75248bc20e1cdf89576ebb533fb9742"
+    },
+    {
+      "id": "master336-331",
+      "tags": [
+        "強み",
+        "スキル",
+        "選択肢"
+      ],
+      "source_hash": "4448d3c140ab89f50dbb79eea1095e3c"
+    },
+    {
+      "id": "master336-332",
+      "tags": [
+        "強み",
+        "希少性",
+        "専門性"
+      ],
+      "source_hash": "414bb6d3a58b06e3ee339918cb30ffd1"
+    },
+    {
+      "id": "master336-333",
+      "tags": [
+        "機会",
+        "言語化",
+        "人脈"
+      ],
+      "source_hash": "7595b013180a0855fe7cef02c3e00218"
+    },
+    {
+      "id": "master336-334",
+      "tags": [
+        "機会",
+        "準備",
+        "運"
+      ],
+      "source_hash": "c6c381be78275a53686b663ffb4ecb5d"
+    },
+    {
+      "id": "master336-335",
+      "tags": [
+        "リスク管理",
+        "失敗",
+        "再起"
+      ],
+      "source_hash": "0851cf98ce09680b3633b3b4c463eff3"
+    },
+    {
+      "id": "master336-336",
+      "tags": [
+        "複利",
+        "経験",
+        "人脈"
+      ],
+      "source_hash": "5cb2e51e94d1e28f407281b0c6804b06"
+    },
+    {
+      "id": "master336-337",
+      "tags": [
+        "傾聴",
+        "自分語り",
+        "共感"
+      ],
+      "source_hash": "bc25e842e8b3335beb1c2a3db02c2a5b"
+    },
+    {
+      "id": "master336-338",
+      "tags": [
+        "会話",
+        "対等",
+        "マウンティング"
+      ],
+      "source_hash": "67b6b5d9f9cbd36d7c4f436cce33e126"
+    },
+    {
+      "id": "master336-339",
+      "tags": [
+        "称賛",
+        "自己評価",
+        "会話の負担"
+      ],
+      "source_hash": "c9690f162c63617831c604e367915ae3"
+    },
+    {
+      "id": "master336-340",
+      "tags": [
+        "自慢",
+        "称賛",
+        "会話の負担"
+      ],
+      "source_hash": "1fc630e1da98467a34ee936db2744d84"
+    },
+    {
+      "id": "master336-341",
+      "tags": [
+        "祝福",
+        "嫉妬",
+        "友人"
+      ],
+      "source_hash": "13b3aebbd470cbd7d0e28142a46431fc"
+    },
+    {
+      "id": "master336-342",
+      "tags": [
+        "知識差",
+        "尊重",
+        "質問"
+      ],
+      "source_hash": "b948507736c59490be28c4883a8e4c18"
+    },
+    {
+      "id": "master336-343",
+      "tags": [
+        "尊重",
+        "他人の評価",
+        "選択"
+      ],
+      "source_hash": "d4769d23f35cf8ddadaadd911baab248"
+    },
+    {
+      "id": "master336-344",
+      "tags": [
+        "助言",
+        "後知恵バイアス",
+        "失敗"
+      ],
+      "source_hash": "0b95f5ec2d48f62a9d758338cbccdfb9"
+    },
+    {
+      "id": "master336-345",
+      "tags": [
+        "愚痴",
+        "感情労働",
+        "友人"
+      ],
+      "source_hash": "71fac29d8344ef3340862acc05e57d50"
+    },
+    {
+      "id": "master336-346",
+      "tags": [
+        "愚痴",
+        "会話の負担",
+        "反復"
+      ],
+      "source_hash": "60aaa8220f1a9acbfc4c4609dc303dd7"
+    },
+    {
+      "id": "master336-347",
+      "tags": [
+        "自虐",
+        "承認欲求",
+        "会話の負担"
+      ],
+      "source_hash": "7ec6b34fc7689750cda04e3d2e5157d3"
+    },
+    {
+      "id": "master336-348",
+      "tags": [
+        "相談",
+        "共感",
+        "助言"
+      ],
+      "source_hash": "ae52164c86b7d5d05597e63ebe0df77d"
+    },
+    {
+      "id": "master336-349",
+      "tags": [
+        "助言",
+        "干渉",
+        "境界線"
+      ],
+      "source_hash": "26b78fbce9528a33c9ecf34f422fd86d"
+    },
+    {
+      "id": "master336-350",
+      "tags": [
+        "不機嫌",
+        "感情調整",
+        "伝達"
+      ],
+      "source_hash": "9f818956d80ec1a91b293a94152126b0"
+    },
+    {
+      "id": "master336-351",
+      "tags": [
+        "察して",
+        "期待管理",
+        "伝達"
+      ],
+      "source_hash": "1e6769d88dd95b3ed1058f8fcf1730d6"
+    },
+    {
+      "id": "master336-352",
+      "tags": [
+        "相談",
+        "共感",
+        "比較"
+      ],
+      "source_hash": "bfff7d63e868be9c4cf1dc72491bc85a"
+    },
+    {
+      "id": "master336-353",
+      "tags": [
+        "いじり",
+        "尊重",
+        "弱み"
+      ],
+      "source_hash": "5ac84fdb8586d24d540c77361e1eef0d"
+    },
+    {
+      "id": "master336-354",
+      "tags": [
+        "いじり",
+        "面子",
+        "尊重"
+      ],
+      "source_hash": "b0d98468c2a7824d84f7a29a7b4a14bb"
+    },
+    {
+      "id": "master336-355",
+      "tags": [
+        "礼儀",
+        "境界線",
+        "親密さ"
+      ],
+      "source_hash": "5443d4b38e5662941b77ecde3d6fa651"
+    },
+    {
+      "id": "master336-356",
+      "tags": [
+        "好意",
+        "見返り",
+        "互恵性"
+      ],
+      "source_hash": "5e346021298349ab373db0e6446aa59a"
+    }
+  ]
+}

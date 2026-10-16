@@ -12,8 +12,9 @@ import { colors, fonts, radius } from '@/constants/theme';
 import { categoryMeta, categoryOrder, theories } from '@/data/catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
+import { POPULAR_SEARCHES, getSearchResults, type BrowseMode } from '@/data/search-catalog';
+import { useAccess } from '@/access/access-state';
 
-const popularSearches = ['友達', '出世', '進路', '会話', '印象', '信頼'] as const;
 type TheoryIconName = 'mind' | 'chart' | 'compass' | 'people' | 'classics' | 'idea';
 const theoryDetails: Array<{ key: TheoryFilterKey; icon: TheoryIconName }> = [
   { key: 'psychology', icon: 'mind' },
@@ -26,13 +27,16 @@ const theoryDetails: Array<{ key: TheoryFilterKey; icon: TheoryIconName }> = [
 
 export default function DiscoverScreen() {
   const router = useRouter();
+  const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const narrow = width > 0 && width < 370;
   const [query, setQuery] = useState('');
-  const openSearch = (value = query) => {
+  const openSearch = (value = query, preferredMode: BrowseMode = 'techniques') => {
     const searchQuery = value.trim();
-    router.push({ pathname: '/search', params: { mode: 'techniques', ...(searchQuery ? { q: searchQuery } : {}) } });
+    const results = getSearchResults(searchQuery, isPaid);
+    const mode = preferredMode === 'techniques' && !results.techniqueMatches.length && results.theoryMatches.length ? 'theories' : preferredMode;
+    router.push({ pathname: '/search', params: { mode, ...(searchQuery ? { q: searchQuery } : {}) } });
   };
 
   return (
@@ -81,7 +85,7 @@ export default function DiscoverScreen() {
       <View testID="discover-popular" style={[styles.popularSection, compact && styles.popularSectionCompact]}>
         <BrandSectionHeading title="よく見られる検索" compact={compact} />
         <View style={styles.popularGrid}>
-          {popularSearches.map((term) => <Pressable key={term} accessibilityRole="button" accessibilityLabel={term + 'を検索'} onPress={() => openSearch(term)} style={({ pressed }) => [styles.popularButton, compact && styles.popularButtonCompact, pressed && styles.pressed]}><SearchMark size={compact ? 16 : 18} color={colors.gold} /><AppText numberOfLines={1} style={[styles.popularText, narrow && styles.popularTextNarrow]}>{term}</AppText></Pressable>)}
+          {POPULAR_SEARCHES.map(({ term, mode }) => <Pressable key={term} accessibilityRole="button" accessibilityLabel={term + 'を検索'} onPress={() => openSearch(term, mode)} style={({ pressed }) => [styles.popularButton, compact && styles.popularButtonCompact, pressed && styles.pressed]}><SearchMark size={compact ? 16 : 18} color={colors.gold} /><AppText numberOfLines={1} style={[styles.popularText, narrow && styles.popularTextNarrow]}>{term}</AppText></Pressable>)}
         </View>
       </View>
     </BookScreen>
@@ -168,7 +172,7 @@ const styles = StyleSheet.create({
   popularSection: { marginTop: 34 }, popularSectionCompact: { marginTop: 28 },
   popularGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },
   popularButton: { width: '30%', flexGrow: 1, minHeight: 47, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 14, borderWidth: 1, borderColor: softGold, borderRadius: radius.pill, backgroundColor: colors.surface },
-  popularButtonCompact: { minHeight: 39, gap: 9 },
+  popularButtonCompact: { width: '46%', minHeight: 44, gap: 8, paddingHorizontal: 8 },
   popularText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20 }, popularTextNarrow: { fontSize: 13 },
   pressed: { opacity: 0.68 }, pressedCard: { opacity: 0.75 },
   personIcon: { width: 28, height: 29, alignItems: 'center' },
