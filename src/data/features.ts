@@ -2,6 +2,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { supabase } from '@/lib/supabase';
 import { featureCategoryId, type FeatureCategoryId } from './feature-categories';
 import { featureReferences, type FeatureReference } from './feature-editorial';
+import { setFeatureLinks } from './feature-links';
 
 export type FeatureArticle = {
   id: string;
@@ -43,6 +44,7 @@ export async function refreshFeatures() {
       if (error) throw error;
       lastLoadedAt = Date.now();
       snapshot = { articles: ((data ?? []) as FeatureArticle[]).map(normalizeFeature), loading: false, error: '' };
+      setFeatureLinks(snapshot.articles);
     } catch {
       snapshot = { ...snapshot, loading: false, error: '記事を読み込めませんでした。もう一度お試しください。' };
     } finally { inflight = null; notify(); }

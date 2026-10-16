@@ -34,7 +34,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   const router = useRouter();
   const publicCharacters = useEditorialCharacters(!characters);
   const character = (characters ?? publicCharacters.characters).find(item => item.id === article.editorial_character_id && item.status === 'published');
-  const relatedFeatures = article.related_feature_ids.length ? article.related_feature_ids.map(id => others.find(item => item.id === id)).filter((item): item is FeatureArticle => Boolean(item)) : others;
+  const relatedFeatures = article.related_feature_ids.map(id => others.find(item => item.id === id && item.id !== article.id && item.status === 'published')).filter((item): item is FeatureArticle => Boolean(item));
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const techniques = article.related_technique_ids.map(id => techniqueById.get(id)).filter(item => item && item.title !== '完全版の処世術');
@@ -47,7 +47,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
       {techniques.length || theories.length ? <AppText accessibilityRole="header" aria-level={2} style={styles.knowledgeHeading}>この記事に関連する知識</AppText> : null}
       {techniques.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>関連する処世術</AppText>{techniques.map(item => item ? <Pressable key={item.id} accessibilityRole="link" onPress={() => !preview && router.push(techniqueRoute(item.id))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable> : null)}</View> : null}
       {theories.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>関連する理論</AppText>{theories.map(item => item ? <Pressable key={item.tagId} accessibilityRole="link" onPress={() => !preview && router.push(theoryRoute(item.tagId))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable> : null)}</View> : null}
-      {!preview && relatedFeatures.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>あわせて読みたい</AppText>{relatedFeatures.slice(0, 2).map(item => <Pressable key={item.id} accessibilityRole="link" onPress={() => router.push(featureRoute(item.slug))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable>)}</View> : null}
+      {!preview && relatedFeatures.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>あわせて読みたい</AppText>{relatedFeatures.map(item => <Pressable key={item.id} accessibilityRole="link" onPress={() => router.push(featureRoute(item.slug))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable>)}</View> : null}
       {!preview ? <Pressable accessibilityRole="link" onPress={() => router.push('/features')} style={styles.back}><AppText style={styles.arrow}>← 特集一覧へ</AppText></Pressable> : null}
     </View>
   </View>;

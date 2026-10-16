@@ -1,59 +1,9 @@
-// 古典・名言は、現象を説明する「主要理論」としてではなく、処世術の
-// 結論・判断基準・実行理由を別の言葉で補強する「あわせて読む理論」として扱う。
-// 単語の一致ではなく、各組み合わせをカード単位で読み合わせた編集用データ。
-import reviews from '../docs/content/historical-maxims-audit-20261015.json' with { type: 'json' };
-import { workLinkChanges } from './reviewed-work-theory-links.mjs';
-export const wisdomSupportTechniqueIdsByTheoryId = {
-  kb_549: ['master336-171', 'master336-199', 'master336-275'],
-  kb_468: ['master336-217', 'master336-220', 'master336-249'],
-  kb_469: ['master336-105', 'master336-135', 'master336-220'],
-  kb_490: ['master336-145', 'master336-239', 'master336-244'],
-  kb_496: ['master336-192', 'master336-232', 'master336-239'],
-  kb_503: ['master336-172', 'master336-191', 'master336-334'],
-  kb_504: ['master336-172', 'master336-213', 'master336-334'],
-  kb_505: ['master336-176', 'master336-184', 'master336-334'],
-  kb_301: ['master336-132', 'master336-133', 'master336-134'],
-  kb_304: ['master336-088', 'master336-089', 'master336-164'],
-  kb_312: ['master336-213', 'master336-214', 'master336-168'],
-  kb_326: ['master336-193', 'master336-296', 'master336-329'],
-  kb_351: ['master336-109', 'master336-120', 'master336-262', 'master336-323', 'master336-335'],
-  kb_352: ['master336-309', 'master336-334', 'master336-336'],
-  kb_353: ['master336-318', 'master336-319', 'master336-320'],
-  kb_603: ['master336-291', 'master336-311', 'master336-313'],
-  kb_605: ['master336-215', 'master336-269', 'master336-270'],
-  kb_606: ['master336-146', 'master336-242', 'master336-275'],
-  kb_607: ['master336-313', 'master336-319', 'master336-321'],
-  kb_608: ['master336-319', 'master336-321', 'master336-330'],
-  kb_609: ['master336-100', 'master336-291', 'master336-311'],
-  kb_610: ['master336-255', 'master336-257', 'master336-299', 'master336-307'],
-  kb_611: ['master336-098', 'master336-100', 'master336-108', 'master336-160'],
-  kb_612: ['master336-254', 'master336-255', 'master336-256'],
-  kb_613: ['master336-254', 'master336-257', 'master336-258'],
-  kb_614: ['master336-291', 'master336-294'],
-  kb_615: ['master336-275', 'master336-313', 'master336-320'],
-  kb_616: ['master336-291', 'master336-297'],
-  kb_617: ['master336-242', 'master336-268', 'master336-269'],
-  kb_618: ['master336-250', 'master336-252', 'master336-253'],
-  kb_619: ['master336-160', 'master336-194', 'master336-208'],
-  kb_620: ['master336-193', 'master336-304', 'master336-329'],
-  kb_621: ['master336-104', 'master336-132', 'master336-239'],
-  kb_622: ['master336-201', 'master336-203', 'master336-326'],
-  kb_623: ['master336-009', 'master336-125', 'master336-199', 'master336-200'],
-  kb_624: ['master336-042', 'master336-081', 'master336-130'],
-  kb_625: ['master336-174', 'master336-204', 'master336-206'],
-  kb_626: ['master336-211', 'master336-224', 'master336-242', 'master336-269'],
-  kb_627: ['master336-172', 'master336-191', 'master336-246', 'master336-334'],
-  kb_628: ['master336-180', 'master336-215', 'master336-269'],
-  kb_629: ['master336-171', 'master336-199', 'master336-275'],
-  kb_630: ['master336-104', 'master336-222', 'master336-239'],
-  kb_631: ['master336-322', 'master336-326', 'master336-327'],
-  kb_632: ['master336-190', 'master336-281', 'master336-285'],
-
-  kb_702: ['master336-099', 'master336-135', 'master336-141', 'master336-278'],
-};
-for (const review of reviews.filter(r => r.decision !== 'hold')) {
-  wisdomSupportTechniqueIdsByTheoryId[review.theoryId] = [...new Set([...(wisdomSupportTechniqueIdsByTheoryId[review.theoryId] ?? []), ...review.relatedTechniqueIds])];
-}
-for (const change of workLinkChanges) for (const theoryId of change.remove) {
-  if (wisdomSupportTechniqueIdsByTheoryId[theoryId]) wisdomSupportTechniqueIdsByTheoryId[theoryId] = wisdomSupportTechniqueIdsByTheoryId[theoryId].filter(id => id !== change.id);
+// Philosophical/practical readings are selected for the card's argument,
+// without requiring every classical card to have a technique backlink.
+import review from '../docs/content/content-network-review-20261016.json' with { type: 'json' };
+import theories from '../src/data/generated/theories.json' with { type: 'json' };
+const wisdom = new Set(theories.filter(t => ['practical-wisdom','classics-thought'].includes(t.categoryId)).map(t => t.tagId));
+export const wisdomSupportTechniqueIdsByTheoryId = {};
+for (const card of review.techniques) for (const id of card.supplementary) if (wisdom.has(id)) {
+  (wisdomSupportTechniqueIdsByTheoryId[id] ??= []).push(card.id);
 }

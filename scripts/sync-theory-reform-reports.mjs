@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { wisdomSupportTechniqueIdsByTheoryId } from './master336-wisdom-support-links.mjs';
+import review from '../docs/content/content-network-review-20261016.json' with { type: 'json' };
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const theories=read('src/data/generated/theories.json');
 const cards=read('src/data/generated/techniques.json').categories.flatMap(c=>c.subcategories.flatMap(p=>p.items));
@@ -17,6 +18,8 @@ const linked=new Set(cards.flatMap(c=>c.relatedTheoryIds));
 const dist=fn=>Object.fromEntries([...new Set(cards.map(fn))].sort((a,b)=>a-b).map(n=>[n,cards.filter(c=>fn(c)===n).length]));
 Object.assign(a,{theories:theories.length,links:cards.reduce((n,c)=>n+c.relatedTheoryIds.length,0),primaryLinks:cards.reduce((n,c)=>n+c.primaryTheoryIds.length,0),linkedTheories:linked.size,unlinkedTheories:theories.length-linked.size,minimumLinksPerTechnique:Math.min(...cards.map(c=>c.relatedTheoryIds.length)),maximumLinksPerTechnique:Math.max(...cards.map(c=>c.relatedTheoryIds.length)),distribution:dist(c=>c.relatedTheoryIds.length),primaryDistribution:dist(c=>c.primaryTheoryIds.length),supplementaryDistribution:dist(c=>c.relatedTheoryIds.length-c.primaryTheoryIds.length),wisdomSupportLinks:Object.values(wisdomSupportTechniqueIdsByTheoryId).reduce((n,v)=>n+v.length,0),generatedAt:'2026-10-15'});
 a.supplementaryLinks=a.links-a.primaryLinks;
+a.reviewPolicy=review.policy;
+a.generatedAt=review.reviewedOn;
 a.categoryCoverage=Object.fromEntries(Object.keys(prefix).map(category=>{const rows=theories.filter(t=>t.categoryId===category);const ids=new Set(rows.map(t=>t.tagId));return [category,{theories:rows.length,linkedTheories:rows.filter(t=>linked.has(t.tagId)).length,links:cards.flatMap(c=>c.relatedTheoryIds).filter(id=>ids.has(id)).length}];}));
 fs.writeFileSync('docs/theory-link-audit/content-review-summary.json',JSON.stringify(a,null,2)+'\n');
 console.log({links:a.links,primary:a.primaryLinks,linked:a.linkedTheories});

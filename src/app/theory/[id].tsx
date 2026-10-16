@@ -22,6 +22,7 @@ import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
+import { RelatedFeatures } from '@/components/related-features';
 import { contentImageUrl } from '@/lib/content-media';
 
 export function generateStaticParams() {
@@ -123,6 +124,8 @@ export default function TheoryDetailScreen() {
         />
 
         <TheoryNetwork theory={theory} />
+
+        <RelatedFeatures kind="theory" id={theory.tagId} />
 
         <View testID="theory-information" style={[styles.informationSection, !compact && styles.readingWidth]}>
           <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>{theory.categoryId === 'practical-wisdom' ? '実践知の情報' : '理論情報'}</AppText>

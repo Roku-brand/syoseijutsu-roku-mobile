@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { master336PrimaryTheoryLinks } from './master336-theory-links.mjs';
 import { wisdomSupportTechniqueIdsByTheoryId } from './master336-wisdom-support-links.mjs';
+import review from '../docs/content/content-network-review-20261016.json' with { type: 'json' };
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
@@ -75,7 +76,7 @@ for (const theory of theories) {
 const markdown = [
   '# master336 処世術→理論 紐づけ（網羅版・二段構成）',
   '',
-  '> 網羅性を優先し、理解の入口となる代表理論を「主要理論」、類似理論・補完理論・別視点の理論を「あわせて読む理論」として整理する。後者は重要度が低いことを意味しない。',
+  '> '+review.policy,
   '',
 ];
 for (const card of cards) {
@@ -120,7 +121,7 @@ const categoryCoverage = Object.fromEntries(
   }),
 );
 const audit = {
-  reviewPolicy: 'Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.',
+  reviewPolicy: review.policy,
   techniques: cards.length,
   theories: theories.length,
   links: counts.reduce((sum, count) => sum + count, 0),

@@ -133,6 +133,8 @@ jobs:
 
       - name: Verify knowledge migrations and permissions
         run: pnpm test:theory-network
+      - name: Verify cross-content network
+        run: pnpm test:content-network
 
       - name: Test canonical theory taxonomy and legacy compatibility
         run: pnpm test:theory-taxonomy

@@ -31,6 +31,7 @@ const retired=new Set(JSON.parse(fs.readFileSync(path.join(root,'src/data/genera
 const preReform=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-coverage-20261015-catalog-before.json'),'utf8'));
 const canonicalBefore=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/theory-reform-catalog-before.json'),'utf8')).theories;
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+const networkReview=JSON.parse(fs.readFileSync(path.join(root,'docs/content/content-network-review-20261016.json'),'utf8'));
 const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
 const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
 
@@ -193,7 +194,11 @@ test('coverage additions support every alias, detail path and paid hydration',as
   for(const t of additions) {
    assert.equal(catalog.theoryById.get(t.tagId).summary,t.summary);
    assert.deepEqual(catalog.theoryById.get(t.tagId).provenance,t.provenance);
-   assert.ok(catalog.getTechniquesForTheory(t.tagId).length);
+   const expected=networkReview.techniques.filter(r=>[...r.primary,...r.supplementary].includes(t.tagId)).map(r=>r.id).sort();
+   assert.deepEqual(catalog.getTechniquesForTheory(t.tagId).map(c=>c.id).sort(),expected);
+   for(const removed of networkReview.techniques.filter(r=>r.before.theoryIds.includes(t.tagId)&&!expected.includes(r.id))) {
+    assert.ok(removed.core&&removed.rationale,`${removed.id}/${t.tagId}: removal needs an editorial reason`);
+   }
   }
  } finally { catalog.resetCatalog(); }
 });
