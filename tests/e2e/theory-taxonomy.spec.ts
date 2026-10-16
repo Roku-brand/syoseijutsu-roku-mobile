@@ -129,7 +129,10 @@ test('共通CMSは幅を変えても操作バーと編集中の内容を保持�
  const name=page.getByRole('textbox',{name:'理論名',exact:true});await name.fill('編集中の理論名を保持');
  for(const width of [1440,1100,390]){
   await page.setViewportSize({width,height:1000});await expect(name).toHaveValue('編集中の理論名を保持');const footer=page.getByTestId('owner-editor-actions');await expect(footer.getByRole('button',{name:'公開する',exact:true})).toBeVisible();
-  await footer.scrollIntoViewIfNeeded();const b=await footer.boundingBox();expect(b!.x+b!.width).toBeLessThanOrEqual(width);expect(b!.y+b!.height).toBeLessThanOrEqual(1000);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  // Viewport updates settle after the shared 120ms resize debounce.
+  // Wait for the actual responsive layout, rather than reading the old box.
+  await expect.poll(async()=>{await footer.scrollIntoViewIfNeeded();const b=await footer.boundingBox();return Boolean(b&&b.x+b.width<=width&&b.y+b.height<=1000);}).toBe(true);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
   await page.screenshot({path:test.info().outputPath(`cms-common-${width}.png`)});
  }
  await page.getByRole('button',{name:'← 一覧へ戻る',exact:true}).click();await page.getByRole('button',{name:'編集中の項目へ戻る',exact:true}).click();await expect(name).toHaveValue('編集中の理論名を保持');

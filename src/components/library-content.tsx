@@ -13,6 +13,7 @@ import { personalLibrary } from './personal-library-theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { AppText } from './ui';
 import { useFeatures } from '@/data/features';
+import { KeyboardModalFrame } from '@/components/keyboard-modal-frame';
 import { featureRoute } from '@/navigation/app-routes';
 
 type SavedItem = PersonalContentRow;
@@ -74,7 +75,7 @@ export function LibraryContent() {
       <MoreCards remaining={visible.length - limit} onPress={() => setLimit(value => value + 20)} />
     </>}
     <Modal transparent visible={editor !== null} animationType="none" onRequestClose={closeEditor}>
-      <View style={styles.backdrop}><View role="dialog" aria-modal tabIndex={-1} accessibilityLabel="蔵書フォルダーの編集" style={styles.dialog}>
+      <KeyboardModalFrame style={styles.backdrop}><View role="dialog" aria-modal tabIndex={-1} accessibilityLabel="蔵書フォルダーの編集" style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>{editor?.id ? 'フォルダーを編集' : 'フォルダーを追加'}</AppText>
         {deleting ? <>
           <AppText style={styles.lead}>フォルダーを削除します。保存した処世術・理論・特集は「未整理」に戻ります。</AppText>
@@ -84,17 +85,17 @@ export function LibraryContent() {
           <View style={styles.actions}><Action label="フォルダー編集を閉じる" text="閉じる" onPress={closeEditor} /><Pressable accessibilityRole="button" accessibilityLabel="蔵書フォルダーを保存" disabled={!name.trim()} onPress={saveFolder} style={[styles.primary, !name.trim() && styles.disabled]}><AppText style={styles.primaryText}>保存する</AppText></Pressable></View>
           {editor?.id ? <Action label="蔵書フォルダーを削除" text="フォルダーを削除" onPress={() => setDeleting(true)} /> : null}
         </>}
-      </View></View>
+      </View></KeyboardModalFrame>
     </Modal>
     <Modal transparent visible={moving !== null} animationType="none" onRequestClose={() => setMoving(null)}>
-      <View style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel="蔵書の保存先" style={styles.dialog}>
+      <KeyboardModalFrame style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel="蔵書の保存先" style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>保存先を変更</AppText>
         <AppText numberOfLines={2} style={styles.lead}>{moving?.title}</AppText>
         <ScrollView style={styles.destinations} keyboardShouldPersistTaps="handled">
           {[{ id: '', name: '未整理' }, ...libraryFolders].map(value => <Pressable key={value.id} accessibilityRole="button" accessibilityLabel={`保存先：${value.name}`} accessibilityState={{ selected: Boolean(moving && (assignedFolder(moving) ?? '') === value.id) }} onPress={() => { if (moving) moveLibraryItem(moving.kind, moving.id, value.id || null); setMoving(null); }} style={styles.destination}><AppText style={styles.chipText}>{value.name}</AppText></Pressable>)}
         </ScrollView>
         <Action label="保存先の変更を閉じる" text="閉じる" onPress={() => setMoving(null)} />
-      </View></View>
+      </View></KeyboardModalFrame>
     </Modal>
   </View>;
 }

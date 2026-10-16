@@ -1,0 +1,46 @@
+appId: jp.shoseijutsuroku.app
+name: Personal memo keyboard and saved-card capture
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: guide-later
+    timeout: 30000
+- tapOn:
+    id: guide-later
+- extendedWaitUntil:
+    notVisible: この案内は設定からいつでも見られます
+    timeout: 10000
+- openLink: shoseijutsuroku://my-os
+- tapOn:
+    text: Open
+    optional: true
+- extendedWaitUntil:
+    visible: 閲覧履歴
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    text: マイ処世術
+    index: 0
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    visible: ＋ 作る
+    timeout: 10000
+- tapOn: ＋ 作る
+- tapOn:
+    id: personal-memo-input
+- inputText: 忙しい日は、やることを三つに絞る。
+- takeScreenshot: store-native-captures/memo-keyboard-proof
+- tapOn: 保存する
+- extendedWaitUntil:
+    notVisible: マイ処世術を作る
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: 忙しい日は、やることを三つに絞る。
+    direction: DOWN
+    timeout: 10000
+- assertVisible: 忙しい日は、やることを三つに絞る。
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/07-personal-guest

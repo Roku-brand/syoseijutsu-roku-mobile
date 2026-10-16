@@ -6,7 +6,10 @@ import { selectPublicContent } from './public-content-selection.mjs';
 
 const root = process.cwd();
 const generated = path.join(root, 'src', 'data', 'generated');
-const distDir = path.join(root, 'dist');
+// Also inspect the actual JavaScript extracted from a delivered native IPA.
+const distArgument = process.argv.indexOf('--dist');
+if (distArgument !== -1 && !process.argv[distArgument + 1]) throw new Error('--dist requires a directory.');
+const distDir = path.resolve(root, distArgument === -1 ? 'dist' : process.argv[distArgument + 1]);
 
 async function readJson(name) {
   return JSON.parse(await readFile(path.join(generated, name), 'utf8'));
