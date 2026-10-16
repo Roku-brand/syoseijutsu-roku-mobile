@@ -12,8 +12,8 @@ type FeatureCover = {
   background: string;
 };
 
-// Stable article IDs keep covers attached when a URL changes. A CMS title or
-// image edit takes precedence so an old editorial caption cannot mislabel it.
+// A title edit keeps its illustration. Caption rendering separately checks
+// the title so old editorial words never override a revised headline.
 const covers: Record<string, FeatureCover> = {
   'five-guidelines': {
     title: '押さえておくべき5つの処世術指針', originalImage: 'bundled:feature-coast',
@@ -61,5 +61,5 @@ const covers: Record<string, FeatureCover> = {
 
 export function featureCover(article: Pick<FeatureArticle, 'id' | 'title' | 'image_path'>) {
   const cover = covers[article.id];
-  return cover && article.title === cover.title && article.image_path === cover.originalImage ? cover : undefined;
+  return cover && article.image_path === cover.originalImage ? cover : undefined;
 }

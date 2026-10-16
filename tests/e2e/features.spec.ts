@@ -44,10 +44,10 @@ async function mockFeatures(page: Page, owner = false) {
       const row = articles.find((article: any) => article.id === id);
       const change = drafts.find(draft => draft.article_id === id);
       if (row && (params.expected_updated_at !== row.updated_at || params.expected_revision !== (change?.revision ?? null))) return route.fulfill({ status: 409, json: { message: '下書きが別の画面で変更されています。' } });
-      if (!row) articles.push({ ...params.content, id, status: 'draft', updated_at: initial[0].updated_at });
-      const next = { article_id: id, payload: params.content, base_updated_at: row?.updated_at ?? initial[0].updated_at, revision: (change?.revision ?? 0) + 1 };
+      if (!row) articles.push({ ...params.content, slug: params.content.slug?.trim() || id, id, status: 'draft', updated_at: initial[0].updated_at });
+      const next = { article_id: id, payload: { ...params.content, slug: params.content.slug?.trim() || row?.slug || id }, base_updated_at: row?.updated_at ?? initial[0].updated_at, revision: (change?.revision ?? 0) + 1 };
       drafts = [...drafts.filter(draft => draft.article_id !== id), next];
-      return route.fulfill({ json: { id, revision: next.revision, base_updated_at: next.base_updated_at } });
+      return route.fulfill({ json: { id, revision: next.revision, base_updated_at: next.base_updated_at, slug: next.payload.slug } });
     }
     if (path.endsWith('/publish_feature_article')) {
       const params = route.request().postDataJSON();
@@ -282,6 +282,7 @@ test('カテゴリが未設定・不正でもすべての一覧から記事が�
 test('新規特集の主カテゴリを選び、公開後に該当タブで読める', async ({ page }) => {
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
+  if ((page.viewportSize()?.width ?? 0) < 1000) await page.getByRole('button', { name: '記事一覧', exact: true }).click();
   await page.getByRole('button', { name: '＋ 記事を作成', exact: true }).click();
   await page.getByRole('textbox', { name: 'タイトル', exact: true }).fill('選択と向き合う');
   await page.getByRole('textbox', { name: '記事のURL名', exact: true }).fill('choosing-paths');
@@ -339,8 +340,10 @@ test('案内人が未設定・非公開・取得失敗でも記事本文と編�
 test('CMSで案内人・出典・関連特集を編集し、知識への導線と安全な出典を表示する', async ({ page }) => {
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
+  if ((page.viewportSize()?.width ?? 0) < 1000) await page.getByRole('button', { name: '記事一覧', exact: true }).click();
   await page.getByRole('button', { name: initial[1].title + 'を編集', exact: true }).click();
   await expect(page.getByRole('radio', { name: '澄野 遥', exact: true })).toBeChecked();
+  await page.getByRole('button', { name: '関連・出典', exact: true }).click();
   await page.getByRole('button', { name: '＋ 出典を追加', exact: true }).click();
   await page.getByRole('textbox', { name: '出典1の名称', exact: true }).fill('確認した参考資料');
   await page.getByRole('textbox', { name: '出典1のURL', exact: true }).fill('https://example.org/source');
@@ -413,4 +416,40 @@ test('3名のプロフィールと担当記事を表示し、記事上の説明�
   for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('link', { name: name + 'のプロフィール', exact: true })).toBeVisible();
   await page.goto('/owner/features');
   for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('radio', { name, exact: true })).toBeVisible();
+});
+
+for (const width of [320,390,1440]) test(`CMSのサムネと公開確認が画面内で一致する（${width}px）`,async({page})=>{
+ await page.setViewportSize({width,height:900});await mockFeatures(page,true);await page.goto('/owner/features');
+ const actions=page.getByTestId('feature-editor-actions');
+ await expect(actions.getByRole('button',{name:'公開する',exact:true})).toBeVisible();
+ const bounds=await actions.boundingBox();expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(900);
+ await actions.getByRole('button',{name:'公開する',exact:true}).click();
+ const dialog=page.getByTestId('feature-action-confirm');await expect(dialog).toBeVisible();
+ const box=await dialog.boundingBox();expect(box!.x).toBeGreaterThanOrEqual(0);expect(box!.x+box!.width).toBeLessThanOrEqual(width);expect(box!.y+box!.height).toBeLessThanOrEqual(900);
+ await dialog.getByRole('button',{name:'取り消す',exact:true}).click();
+ await page.getByRole('button',{name:'画像・掲載',exact:true}).click();
+ const image=page.getByTestId('feature-image-editor').locator('img');await expect(image).toHaveJSProperty('complete',true);const source=await image.getAttribute('src');expect(source).toContain('five-guidelines-cover');
+ await expect(page.locator('#roku-launch')).toBeHidden();await page.screenshot({path:test.info().outputPath(`cms-media-${width}.png`)});
+ await page.getByRole('button',{name:'プレビュー',exact:true}).click();await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('src',source!);
+ await page.getByRole('button',{name:'公開画面を見る',exact:true}).click();await expect(page.getByTestId('feature-card').first().locator('img')).toHaveAttribute('src',source!);
+});
+
+test('CMSの公開エラーは操作欄に表示し、編集内容を失わず再試行できる',async({page})=>{
+ const server=await mockFeatures(page,true);await page.goto('/owner/features');
+ const title=page.getByRole('textbox',{name:'タイトル',exact:true});await title.fill('失敗しても保持するタイトル');
+ await page.route('**/rpc/publish_feature_article',route=>route.fulfill({status:409,json:{code:'40001',message:'記事が別の画面で変更されています。再読み込みしてください。'}}));
+ await page.getByRole('button',{name:'公開する',exact:true}).click();await page.getByRole('button',{name:'この内容で公開',exact:true}).click();
+ await expect(page.getByTestId('feature-editor-actions').getByRole('alert')).toContainText('別の画面で変更');await expect(title).toHaveValue('失敗しても保持するタイトル');expect(server.drafts()).toHaveLength(1);
+ await page.unroute('**/rpc/publish_feature_article');await page.getByRole('button',{name:'公開する',exact:true}).click();await page.getByRole('button',{name:'この内容で公開',exact:true}).click();
+ await expect(page.getByText('特集を公開しました。',{exact:true})).toBeVisible();expect(server.articles()[0].title).toBe('失敗しても保持するタイトル');
+});
+
+test('CMSは必須入力をその場で案内し、新規記事のURL名は省略して公開できる',async({page})=>{
+ const server=await mockFeatures(page,true);await page.goto('/owner/features');
+ if((page.viewportSize()?.width??0)<1000)await page.getByRole('button',{name:'記事一覧',exact:true}).click();
+ await page.getByRole('button',{name:'＋ 記事を作成',exact:true}).click();
+ await page.getByRole('button',{name:'公開する',exact:true}).click();await expect(page.getByRole('alert')).toContainText('タイトルと本文');await expect(page.getByTestId('feature-action-confirm')).toBeHidden();
+ await page.getByRole('textbox',{name:'タイトル',exact:true}).fill('URLを自動発行する記事');await page.getByRole('textbox',{name:'本文',exact:true}).fill('## 本文\n\n公開できる記事です。');
+ await page.getByRole('button',{name:'公開する',exact:true}).click();await page.getByRole('button',{name:'この内容で公開',exact:true}).click();
+ await expect(page.getByText('特集を公開しました。',{exact:true})).toBeVisible();expect(server.articles().find((a:any)=>a.title==='URLを自動発行する記事').slug).toBe('new-article');
 });

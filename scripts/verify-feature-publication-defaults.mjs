@@ -1,0 +1,43 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import {PGlite} from '@electric-sql/pglite';
+const db=new PGlite();
+const sql=file=>fs.readFileSync(file,'utf8');
+const owner='00000000-0000-4000-8000-000000000001';
+try {
+ await db.exec(`create role anon;create role authenticated;create role service_role bypassrls;create schema auth;grant usage on schema auth to anon,authenticated;
+ create function auth.uid() returns uuid language sql stable as 'select nullif(current_setting(''request.jwt.claim.sub'',true),'''')::uuid';
+ create function public.is_owner() returns boolean language sql stable as 'select auth.uid()=''${owner}''::uuid';
+ create table public.techniques(id text,status text);create table public.theories(id text,status text);
+ insert into public.techniques values('z','published'),('a','published');insert into public.theories values('z','published'),('a','published');
+ grant select on public.techniques,public.theories to authenticated;
+ create schema private;create table private.theory_reform_backups(phase text,source_table text,source_id text,snapshot jsonb,primary key(phase,source_table,source_id));`);
+ for(const name of ['20261013135333_feature_articles_cms.sql','20261013142340_seed_feature_articles.sql','20261014080440_add_feature_article_categories.sql','20261014103609_feature_editorial_desk.sql']) await db.exec(sql('supabase/migrations/'+name));
+ const before=(await db.query('select * from public.feature_articles order by id')).rows;
+ const migration=fs.readdirSync('supabase/migrations').find(f=>f.endsWith('_fix_feature_publication_defaults.sql'));
+ await db.exec(sql('supabase/migrations/'+migration));
+ assert.deepEqual((await db.query('select * from public.feature_articles order by id')).rows,before);
+ assert.equal((await db.query('select count(*)::integer n from private.theory_reform_backups')).rows[0].n,2);
+ const asOwner=`set request.jwt.claim.sub='${owner}';set role authenticated;`;
+ await db.exec(asOwner);
+ const payload={slug:'',title:'省略したURLの検証',body:'本文',image_path:'bundled:feature-coast',related_technique_ids:['z','a','z'],related_theory_ids:['z','a','z']};
+ const saved=(await db.query('select public.save_feature_article_draft(null,$1::jsonb,null,null) result',[JSON.stringify(payload)])).rows[0].result;
+ assert.match(saved.slug,/^[a-z0-9-]+$/);assert.equal(saved.slug,saved.id);
+ await db.query('select public.publish_feature_article($1,$2)',[saved.id,saved.revision]);
+ const article=(await db.query('select * from public.feature_articles where id=$1',[saved.id])).rows[0];
+ assert.equal(article.status,'published');assert.equal(article.slug,saved.slug);assert.deepEqual(article.related_technique_ids,['z','a']);assert.deepEqual(article.related_theory_ids,['z','a']);
+ const revision=(await db.query('select public.save_feature_article_draft($1,$2::jsonb,$3,null) result',[article.id,JSON.stringify({...payload,title:'未公開の変更'}),article.updated_at])).rows[0].result;
+ assert.equal(revision.slug,article.slug);
+ await assert.rejects(db.query('select public.publish_feature_article($1,999)',[article.id]),/変更されています/);
+ assert.equal((await db.query('select title from public.feature_articles where id=$1',[article.id])).rows[0].title,article.title);
+ await db.exec("reset role;set request.jwt.claim.sub='';set role anon;");
+ await assert.rejects(db.query('select public.publish_feature_article($1,$2)',[article.id,revision.revision]),/permission denied/);
+ await db.exec("reset role;set request.jwt.claim.sub='00000000-0000-4000-8000-000000000099';set role authenticated;");
+ await assert.rejects(db.query('select public.publish_feature_article($1,$2)',[article.id,revision.revision]),/owner_required/);
+ await db.exec(asOwner);
+ assert.equal((await db.query('select revision from public.feature_article_drafts where article_id=$1',[article.id])).rows[0].revision,revision.revision);
+ await db.query('select public.publish_feature_article($1,$2)',[article.id,revision.revision]);
+ assert.equal((await db.query('select title from public.feature_articles where id=$1',[article.id])).rows[0].title,'未公開の変更');
+ console.log({passed:true,automaticSlug:true,relationOrderPreserved:true,retryAfterConflict:true,ownerOnly:true,existingArticlesUnchanged:true});
+}catch(cause) {console.error(cause.message,cause.detail??'');process.exitCode=1;}
+finally {await db.close();}

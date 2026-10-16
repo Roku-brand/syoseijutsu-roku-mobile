@@ -86,7 +86,7 @@ export async function saveFeatureDraft(id: string | null, payload: FeaturePayloa
   if (!supabase) throw new Error('Supabaseが未設定です。');
   const { data, error } = await supabase.rpc('save_feature_article_draft', { target_id: id, content: payload, expected_updated_at: baseUpdatedAt, expected_revision: expectedRevision });
   if (error) throw error;
-  return data as { id: string; revision: number; base_updated_at: string };
+  return data as { id: string; revision: number; base_updated_at: string; slug?: string };
 }
 export async function publishFeature(id: string, revision: number) {
   if (!supabase) throw new Error('Supabaseが未設定です。');

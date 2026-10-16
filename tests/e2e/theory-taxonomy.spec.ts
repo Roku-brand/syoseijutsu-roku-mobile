@@ -121,3 +121,16 @@ test('追加した完全版理論を別名から検索して、本文・出典�
  await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
  await expect(page.getByText('ピアジェの認知発達理論',{exact:true})).toBeVisible();
 });
+
+test('共通CMSは幅を変えても操作バーと編集中の内容を保持する',async({page})=>{
+ await page.setViewportSize({width:1440,height:1000});await mockOwner(page);await page.goto('/owner/content?kind=theory');
+ await expect(page.getByTestId('book-header')).toContainText('コンテンツ管理');
+ await page.getByRole('button',{name:'意思決定・選択',exact:true}).first().click();await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
+ const name=page.getByRole('textbox',{name:'理論名',exact:true});await name.fill('編集中の理論名を保持');
+ for(const width of [1440,1100,390]){
+  await page.setViewportSize({width,height:1000});await expect(name).toHaveValue('編集中の理論名を保持');const footer=page.getByTestId('owner-editor-actions');await expect(footer.getByRole('button',{name:'公開する',exact:true})).toBeVisible();
+  await footer.scrollIntoViewIfNeeded();const b=await footer.boundingBox();expect(b!.x+b!.width).toBeLessThanOrEqual(width);expect(b!.y+b!.height).toBeLessThanOrEqual(1000);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+  await page.screenshot({path:test.info().outputPath(`cms-common-${width}.png`)});
+ }
+ await page.getByRole('button',{name:'← 一覧へ戻る',exact:true}).click();await page.getByRole('button',{name:'編集中の項目へ戻る',exact:true}).click();await expect(name).toHaveValue('編集中の理論名を保持');
+});
