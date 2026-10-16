@@ -36,6 +36,8 @@ jobs:
       - run: pnpm test:theory-network
       - name: Verify cross-content network
         run: pnpm test:content-network
+      - name: Verify CMS publication and error handling
+        run: pnpm test:cms
       - run: node --test tests/unit/usage-consent.test.mjs
       - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck

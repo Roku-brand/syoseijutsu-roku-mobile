@@ -60,6 +60,7 @@ function isFocusedScreen(pathname: string) {
   return pathname === '/upgrade'
     || pathname === '/upgrade-preview'
     || pathname === '/auth'
+    || pathname.startsWith('/owner/')
     || pathname.startsWith('/legal/')
     || pathname.startsWith('/about/');
 }

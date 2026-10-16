@@ -360,6 +360,9 @@ function getCurrentTitle(pathname: string) {
   if (pathname.startsWith('/features/guides/')) return '編集案内人';
   if (segments[0] === 'features') return '特集';
   if (pathname === '/owner/features') return '特集管理';
+  if (pathname === '/owner/content') return 'コンテンツ管理';
+  if (pathname === '/owner/rankings') return '人気ランキング管理';
+  if (pathname === '/owner' || pathname.startsWith('/owner/')) return 'オーナー管理';
   if (segments[0] === 'theory') return '理論カード';
   if (
     pathname.includes('/discover') ||

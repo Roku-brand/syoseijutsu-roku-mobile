@@ -21,6 +21,7 @@ import { getTheoryDisplayId } from '@/data/catalog';
 import { getTechniqueTags } from '@/data/technique-tags';
 import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { cmsErrorMessage } from '@/data/cms-errors';
 
 type OwnerTheory = Awaited<ReturnType<typeof fetchOwnerTheories>>[number];
 type Item = OwnerPersona | TechniqueContent | OwnerTheory | ContentCategory;
@@ -33,7 +34,8 @@ export default function OwnerCmsScreen() {
   const params = useLocalSearchParams<{ kind?: string }>();
   const { loading, user, role } = useAuth();
   const { refreshPublishedContent } = useAccess();
-  const { width } = useHydratedWindowDimensions();
+  const { width, height } = useHydratedWindowDimensions();
+  const [mobileEditing, setMobileEditing] = useState(true);
   const [mode, setMode] = useState<CmsMode>(params.kind === 'theory' ? 'theory' : 'technique');
   const [editorTab, setEditorTab] = useState<EditorTab>('basic');
   const [listSort, setListSort] = useState<'display' | 'title' | 'status'>('display');
@@ -48,6 +50,7 @@ export default function OwnerCmsScreen() {
   const [theories, setTheories] = useState<OwnerTheory[]>([]);
   const [categories, setCategories] = useState<ContentCategory[]>([]);
   const [selection, setSelection] = useState<Selection | null>(null);
+  useEffect(() => { setMobileEditing(true); }, [selection?.id]);
   const [draft, setDraft] = useState<Item | null>(null);
   const [relatedIds, setRelatedIds] = useState<string[]>([]);
   const [imageAsset, setImageAsset] = useState<ContentImageAsset | null>(null);
@@ -72,7 +75,7 @@ export default function OwnerCmsScreen() {
       const [p, t, h, c] = await Promise.all([fetchOwnerPersonas(), fetchOwnerTechniques(), fetchOwnerTheories(), fetchContentCategories(), fetchTheorySubcategories()]);
       setPersonas(p); setTechniques(t); setTheories(h); setCategories(c);
       return true;
-    } catch (cause) { setError(cause instanceof Error ? cause.message : 'コンテンツを読み込めませんでした。'); return false; }
+    } catch (cause) { setError(cmsErrorMessage(cause)); return false; }
     finally { setFetching(false); }
   }, []);
   useEffect(() => { if (role === 'owner') void reload(); }, [role, reload]);
@@ -198,7 +201,7 @@ export default function OwnerCmsScreen() {
       }
     } catch (cause) {
       if (persisted) { setDirty(false); setImageAsset(null); setNotice('変更を保存しました。再読込に失敗したため、画面を更新して確認してください。'); }
-      else { if (uploaded) await removeContentImageIfUnused(uploaded).catch(() => undefined); setError(cause instanceof Error ? cause.message : '保存に失敗しました。編集内容は保持しています。'); }
+      else { if (uploaded) await removeContentImageIfUnused(uploaded).catch(() => undefined); setError(cmsErrorMessage(cause)); }
     } finally { setBusy(false); }
   };
 
@@ -228,7 +231,7 @@ export default function OwnerCmsScreen() {
         if (subcategory) Object.assign(item,{subcategoryId:subcategory.id,subcategoryTitle:subcategory.title,sortOrder:theories.filter(t=>t.subcategoryId===subcategory.id).length+1});
         await reload(); setDraft({ ...item, relations: item.relations ?? [] }); setSelection({ kind: 'theory', id: item.tagId }); setRelatedIds([]); setImageAsset(null); setDirty(Boolean(subcategory)); setScope(subcategory ? `sub:${subcategory.id}` : category.id); setEditorTab('basic');
       }
-    } catch (cause) { setError(cause instanceof Error ? cause.message : '追加できませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
 
@@ -242,7 +245,7 @@ export default function OwnerCmsScreen() {
       if (selection.kind === 'theory') await archiveTheory(selection.id);
       await reload(); await refreshPublishedContent();
       setSelection(null); setDraft(null); setDeleting(false); setDirty(false); setNotice(selection.kind === 'category' ? 'カテゴリを削除しました。' : '公開から外しました。履歴は保持されています。');
-    } catch (cause) { setError(cause instanceof Error ? cause.message : '削除できませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
 
@@ -264,7 +267,7 @@ export default function OwnerCmsScreen() {
     ordered.splice(source, 1); ordered.splice(ordered.indexOf(targetId), 0, rowId);
     setBusy(true);
     try { if (mode==='theory') { if(!scope.startsWith('sub:')) throw new Error('内部分類を選択して並べ替えてください。'); await reorderSubcategoryTheories(scope.slice(4),ordered); } else await reorderContent(orderKind, orderScope, ordered); await reload(); await refreshPublishedContent(); setNotice('並び順を保存しました。'); }
-    catch (cause) { setError(cause instanceof Error ? cause.message : '並び順を保存できませんでした。'); }
+    catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const movePersona = async (personaId: string, targetId: string) => {
@@ -278,7 +281,7 @@ export default function OwnerCmsScreen() {
     ids.splice(from,1); ids.splice(ids.indexOf(targetId),0,personaId);
     setBusy(true);
     try { await reorderContent('persona',persona.category,ids); await reload(); await refreshPublishedContent(); setNotice('人物像の並び順を保存しました。'); }
-    catch (cause) { setError(cause instanceof Error ? cause.message : '人物像の並び順を保存できませんでした。'); }
+    catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const addCategory = () => {
@@ -321,7 +324,7 @@ export default function OwnerCmsScreen() {
         throw new Error('人物像は一覧メニューから複製できません。');
       }
       setEditorTab('basic'); setNotice('複製を下書きとして作成しました。'); await refreshPublishedContent();
-    } catch (cause) { setError(cause instanceof Error ? cause.message : '複製できませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const togglePublication = async (row: typeof allRows[number]) => {
@@ -349,7 +352,7 @@ export default function OwnerCmsScreen() {
       await reload();
       const reflected = await refreshPublishedContent();
       setNotice(reflected ? '公開状態をアプリへ反映しました。' : '状態を保存しました。公開表示の再取得は確認できませんでした。');
-    } catch (cause) { setError(cause instanceof Error ? cause.message : '公開状態を変更できませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const requestDelete = (row: typeof allRows[number]) => {
@@ -368,7 +371,7 @@ export default function OwnerCmsScreen() {
     [ids[index], ids[target]] = [ids[target], ids[index]];
     setBusy(true);
     try { await reorderContent(`${section}-category`, '', ids); await reload(); await refreshPublishedContent(); setNotice('カテゴリの並び順を保存しました。'); }
-    catch (cause) { setError(cause instanceof Error ? cause.message : '並び順を保存できませんでした。'); }
+    catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const dropCategory = async (section: 'technique' | 'theory', targetId: string) => {
@@ -381,7 +384,7 @@ export default function OwnerCmsScreen() {
     ids.splice(from,1); ids.splice(ids.indexOf(targetId),0,source.id);
     setBusy(true);
     try { await reorderContent(`${section}-category`, '', ids); await reload(); await refreshPublishedContent(); setNotice('カテゴリの並び順を保存しました。'); }
-    catch (cause) { setError(cause instanceof Error ? cause.message : 'カテゴリの並び順を保存できませんでした。'); }
+    catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
 
@@ -398,16 +401,17 @@ export default function OwnerCmsScreen() {
       <ModeCard title="処世術" description="人物像ごとの具体的な行動・振る舞い" active={mode === 'technique'} onPress={() => navigateTree('technique','')} />
       <ModeCard title="理論" description="心理学・行動科学・思想などの理論" active={mode === 'theory'} onPress={() => navigateTree('theory','')} />
     </View>
-    {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
-    <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/rankings'); else router.push('/owner/rankings'); }}>人気ランキングを編集</CmsButton>
-    <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/features'); else router.push('/owner/features'); }}>特集を編集</CmsButton>
-    {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
+    {error && !selection ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
+    <View style={styles.actions}><CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/rankings'); else router.push('/owner/rankings'); }}>人気ランキングを編集</CmsButton>
+    <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/features'); else router.push('/owner/features'); }}>特集を編集</CmsButton></View>
+    {compact && selection && !mobileEditing ? <CmsButton onPress={() => setMobileEditing(true)}>編集中の項目へ戻る</CmsButton> : null}
+    {notice && !selection ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {pending ? <View style={styles.confirm}><AppText>未保存の変更があります。{pendingDelete ? '破棄して削除しますか？' : '破棄して移動しますか？'}</AppText><View style={styles.actions}><CmsButton onPress={() => { setPending(null); setPendingDelete(false); }}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { chooseNow(pending); if (pendingDelete) setDeleting(true); setPendingDelete(false); }}>{pendingDelete ? '破棄して削除' : '破棄して移動'}</CmsButton></View></View> : null}
     {pendingLocation ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して階層を移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingLocation(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { setDirty(false); setMode(pendingLocation.kind === 'theory' ? 'theory' : 'technique'); setScope(pendingLocation.scope); setSelection(null); setDraft(null); setQuery(''); setPendingLocation(null); }}>破棄して移動</CmsButton></View></View> : null}
     {pendingCreate ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して新規作成しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingCreate(false)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => void create(true)}>破棄して追加</CmsButton></View></View> : null}
     {pendingPreview ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄してアプリ画面へ移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingPreview(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { const path = pendingPreview; setPendingPreview(null); setDirty(false); router.push(path); }}>破棄して確認</CmsButton></View></View> : null}
     <View style={[styles.layout, compact && styles.stacked]}>
-      <ScrollView style={[styles.tree, compact && styles.compactTree]} contentContainerStyle={styles.treeBody}>
+      <ScrollView style={[styles.tree, compact && styles.compactTree, compact && selection && mobileEditing && styles.hidden]} contentContainerStyle={styles.treeBody}>
         <View style={styles.paneTitleRow}>
           <AppText style={styles.paneTitle}>{mode === 'theory' ? 'カテゴリ・理論' : 'カテゴリ・人物像'}</AppText>
           <View>
@@ -465,7 +469,7 @@ export default function OwnerCmsScreen() {
           </View>;
         })}
       </ScrollView>
-      <View style={[styles.list, compact && styles.compactList]}>
+      <View style={[styles.list, compact && styles.compactList, compact && selection && mobileEditing && styles.hidden]}>
         <View style={styles.listTop}>
           <View style={styles.listHeading}><AppText style={styles.breadcrumb}>{query ? '検索結果' : mode === 'theory' ? `理論　›　${scopeLabel || 'すべて'}` : techniquePersonaList ? `処世術　›　${scopeLabel || '人物像'}` : scopeLabel}</AppText><AppText style={styles.count}>{fetching ? '読込中…' : `${rows.length}件`}</AppText></View>
           <View style={styles.listControls}>
@@ -506,7 +510,9 @@ export default function OwnerCmsScreen() {
           ListEmptyComponent={!fetching ? <AppText style={styles.muted}>一致するコンテンツはありません。</AppText> : null}
         />
       </View>
-      <ScrollView style={[styles.editor, compact && styles.compactEditor]} contentContainerStyle={styles.editorBody} nestedScrollEnabled>
+      <View style={[styles.editor, compact && styles.compactEditor, compact && { height: Math.max(380, height-360) }, compact && (!selection || !mobileEditing) && styles.hidden]}>
+        {compact ? <View style={styles.mobileBack}><CmsButton onPress={() => setMobileEditing(false)}>← 一覧へ戻る</CmsButton></View> : null}
+        <ScrollView style={styles.editorScroller} contentContainerStyle={styles.editorBody} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
         {selection && draft ? <>
           <View style={styles.editorHeader}>
             <View style={styles.editorHeading}><AppText numberOfLines={2} style={styles.editorTitle}>{selectedTitle || '新規コンテンツ'}</AppText>{selection.kind !== 'category' ? <StatusBadge status={(draft as OwnerPersona | TechniqueContent | OwnerTheory).status} /> : null}<Pressable accessibilityRole="button" accessibilityLabel="編集項目の操作" onPress={() => setRowMenu(rowMenu === 'editor' ? null : 'editor')} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable></View>
@@ -534,9 +540,15 @@ export default function OwnerCmsScreen() {
           {selection.kind === 'theory' && editorTab === 'memo' ? <Section title="補足メモ・別名"><Field label="別名（1行に1件）" value={((draft as OwnerTheory).aliases ?? []).join('\n')} onChange={(value) => patch({ aliases: value.split('\n').map((item) => item.trim()).filter(Boolean) })} multi /><TheoryDetailsEditor value={draft as OwnerTheory} options={theories.filter((item) => item.status === 'published')} disabled={busy} onChange={patch} /><OwnerQuotationReviews /></Section> : null}
           {selection.kind === 'theory' && editorTab === 'publish' ? <><MediaEditor path={imagePath} asset={imageAsset} onPick={selectImage} onRemove={() => { patch({ imagePath: null }); setImageAsset(null); }} /><Section title="公開設定"><Choice label="公開範囲" value={(draft as OwnerTheory).accessTier ?? 'complete'} options={[["free","無料版"],["complete","完全版"]]} onChange={(accessTier) => patch({ accessTier })} /><AppText style={styles.muted}>URLと関連付けには内部IDを使い、ここで変更する表示IDとは分離しています。</AppText><AppText variant="label">関連する処世術</AppText><MultiPicker options={techniques.filter((item) => item.status !== 'archived').map((item) => ({ id: item.id, title: item.title || '無題の処世術' }))} ids={relatedIds} onChange={(ids) => { setRelatedIds(ids); setDirty(true); }} /><CmsButton onPress={() => { const path=theoryRoute(selection.id); if (dirty) setPendingPreview(path); else router.push(path); }}>アプリで確認 ↗</CmsButton></Section></> : null}
           {selection.kind === 'category' && editorTab !== 'basic' ? <EmptyState title="カテゴリ設定" description="カテゴリ名と順序は基本情報タブで編集できます。" /> : null}
-          {selection.kind !== 'category' ? <View style={styles.saveBar}><View style={styles.danger}><AppText style={styles.dangerTitle}>削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>関連・所属 {relatedLabels.length}件。削除はこの項目をアプリの公開一覧から外します。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」をアーカイブしますか？</AppText>{relatedLabels.slice(0,8).map((label,index) => <AppText key={`${index}:${label}`} style={styles.muted}>・{label}</AppText>)}{relatedLabels.length > 8 ? <AppText style={styles.muted}>ほか {relatedLabels.length-8}件</AppText> : null}{hasBlockingLinks ? <AppText style={styles.error}>参照先を移動・解除してから削除できます。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || (selection.kind === 'persona' && relatedLabels.length > 0)} onPress={() => setDeleting(true)}>削除</CmsButton>}</View><View style={styles.saveActions}><CmsButton disabled={busy} onPress={() => void save(false)}>下書き保存</CmsButton><CmsButton variant="primary" disabled={busy} onPress={() => void save(true)}>{busy ? '保存中…' : '公開する'}</CmsButton></View></View> : <View style={styles.saveBar}>{(draft as ContentCategory).kind !== 'theory' ? <View style={styles.danger}><AppText style={styles.dangerTitle}>カテゴリの削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>所属するコンテンツ {relatedLabels.length}件。削除前に別カテゴリへ移動してください。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」を削除しますか？</AppText>{hasBlockingLinks ? <AppText style={styles.error}>子項目が残っているため削除できません。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => setDeleting(true)}>削除</CmsButton>}</View>: <AppText style={styles.muted}>既存の6大分類を維持します。</AppText>}<View style={styles.saveActions}><CmsButton variant="primary" disabled={busy} onPress={() => void save(true)}>{busy ? '保存中…' : '保存'}</CmsButton></View></View>}
+          {selection.kind !== 'category' ? <View style={styles.saveBar}><View style={styles.danger}><AppText style={styles.dangerTitle}>削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>関連・所属 {relatedLabels.length}件。削除はこの項目をアプリの公開一覧から外します。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」をアーカイブしますか？</AppText>{relatedLabels.slice(0,8).map((label,index) => <AppText key={`${index}:${label}`} style={styles.muted}>・{label}</AppText>)}{relatedLabels.length > 8 ? <AppText style={styles.muted}>ほか {relatedLabels.length-8}件</AppText> : null}{hasBlockingLinks ? <AppText style={styles.error}>参照先を移動・解除してから削除できます。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || (selection.kind === 'persona' && relatedLabels.length > 0)} onPress={() => setDeleting(true)}>削除</CmsButton>}</View></View> : <View style={styles.saveBar}>{(draft as ContentCategory).kind !== 'theory' ? <View style={styles.danger}><AppText style={styles.dangerTitle}>カテゴリの削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>所属するコンテンツ {relatedLabels.length}件。削除前に別カテゴリへ移動してください。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」を削除しますか？</AppText>{hasBlockingLinks ? <AppText style={styles.error}>子項目が残っているため削除できません。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => setDeleting(true)}>削除</CmsButton>}</View>: <AppText style={styles.muted}>既存の6大分類を維持します。</AppText>}</View>}
         </> : <EmptyState title="コンテンツを選択" description="左の階層を選び、中央の一覧から編集する項目を選択してください。" />}
-      </ScrollView>
+        </ScrollView>
+        {selection && draft ? <View testID="owner-editor-actions" style={styles.editorFooter}>
+          {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
+          {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
+          <View style={styles.saveActions}>{selection.kind !== 'category' ? <CmsButton disabled={busy} onPress={() => void save(false)}>下書き保存</CmsButton> : null}<CmsButton variant="primary" disabled={busy} onPress={() => void save(true)}>{busy ? '保存中…' : selection.kind === 'category' ? '保存' : '公開する'}</CmsButton></View>
+        </View> : null}
+      </View>
     </View>
   </Screen>;
 }
