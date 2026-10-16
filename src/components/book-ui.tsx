@@ -110,6 +110,7 @@ export function BookHeader() {
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
+  const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
   const titleInset = Math.max(84, actionCount * 44 + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
@@ -121,7 +122,7 @@ export function BookHeader() {
   };
 
   return (
-    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader]}>
+    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious]}>
       {showBack ? (
         <View style={styles.brandGroup}>
           <Pressable
@@ -142,16 +143,16 @@ export function BookHeader() {
           </Pressable>
         </View>
       ) : (
-        <View style={styles.brandGroup}>
+        <View style={[styles.brandGroup, spaciousHeader && styles.brandGroupSpacious]}>
           <Image
             testID="book-header-app-icon"
             accessibilityLabel="処世術禄のアプリアイコン"
             source={appIcon}
-            style={[styles.headerAppIcon, compact && styles.headerAppIconCompact]}
+            style={[styles.headerAppIcon, compact && styles.headerAppIconCompact, spaciousHeader && styles.headerAppIconSpacious]}
           />
           <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
-            <AppText style={styles.brandName}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={styles.brandTagline}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
+            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious]}>処世術禄</AppText>
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={[styles.brandTagline, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
         </View>
       )}
@@ -172,8 +173,8 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} size={compact ? 25 : 27} />
-          <MenuHeaderAction active={Boolean(user)} />
+          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} size={compact ? 25 : 27} /></View>
+          <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
         detail ? <DetailHeaderActions detail={detail} /> : null
@@ -237,7 +238,7 @@ function MenuMark({ active, avatarUrl }: { active: boolean; avatarUrl?: string |
   );
 }
 
-function MenuHeaderAction({ active }: { active: boolean }) {
+function MenuHeaderAction({ active, spacious = false }: { active: boolean; spacious?: boolean }) {
   const router = useRouter();
   const { profile } = useAuth();
   return (
@@ -246,7 +247,7 @@ function MenuHeaderAction({ active }: { active: boolean }) {
       accessibilityLabel="設定を開く"
       testID="settings-header-action"
       onPress={() => router.push('/settings')}
-      style={({ pressed }) => [styles.homeMenuAction, pressed && styles.headerActionPressed]}
+      style={({ pressed }) => [styles.homeMenuAction, spacious && styles.searchSpacious, pressed && styles.headerActionPressed]}
     >
       <MenuMark active={active} avatarUrl={profile?.avatarUrl} />
     </Pressable>
@@ -619,6 +620,12 @@ export function IndexCard({
 export const bookCardShadow = shadow.card;
 
 const styles = StyleSheet.create({
+  headerSpacious: { minHeight: 90, paddingHorizontal: 20, paddingVertical: 12 },
+  brandGroupSpacious: { gap: 14 },
+  headerAppIconSpacious: { width: 58, height: 58, borderRadius: 12 },
+  brandNameSpacious: { fontSize: 30, lineHeight: 40, letterSpacing: 4 },
+  brandTaglineSpacious: { fontSize: 14, lineHeight: 21 },
+  searchSpacious: { width: 60, height: 60, borderWidth: 1, borderColor: colors.line, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
   safe: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   fixed: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

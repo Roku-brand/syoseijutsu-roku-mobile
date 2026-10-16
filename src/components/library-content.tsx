@@ -9,6 +9,8 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { useAppState } from '@/state/app-state';
 import { libraryItemKey } from '@/state/library-folders';
+import { personalLibrary } from './personal-library-theme';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { AppText } from './ui';
 import { useFeatures } from '@/data/features';
 import { featureRoute } from '@/navigation/app-routes';
@@ -18,6 +20,8 @@ type SavedItem = PersonalContentRow;
 export function LibraryContent() {
   'use no memo';
   const router = useRouter();
+  const { width } = useHydratedWindowDimensions();
+  const mobile = width < 768;
   useAccess();
   const { savedIds, savedTheoryIds, savedFeatureIds, libraryFolders, libraryFolderByItem, createLibraryFolder, renameLibraryFolder, deleteLibraryFolder, moveLibraryItem } = useAppState();
   const { articles: featureArticles } = useFeatures(savedFeatureIds.length > 0);
@@ -57,7 +61,7 @@ export function LibraryContent() {
   };
   return <View testID="library-organizer" style={styles.content}>
     <View style={styles.heading}>
-      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={styles.title}>蔵書</AppText><AppText style={styles.lead}>保存した処世術・理論・特集 {items.length}件</AppText></View>
+      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={[styles.title, mobile && personalLibrary.headingSmall]}>蔵書</AppText><AppText style={[styles.lead, !mobile && styles.headingLead]}>保存した知恵を、わかりやすく整理する</AppText></View>
       <Action label="フォルダーを追加" onPress={() => { setName(''); setEditor({}); }} text="＋ フォルダー" />
     </View>
     {folder === null ? <FolderFronts folders={folders} label="蔵書" onOpen={openFolder} /> : <>
@@ -102,7 +106,8 @@ const styles = StyleSheet.create({
   content: { width: '100%', gap: 12 },
   heading: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 12 },
   headingCopy: { flex: 1, minWidth: 150 },
-  title: { fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, fontWeight: '700' },
+  title: personalLibrary.heading,
+  headingLead: { fontSize: 18, lineHeight: 28 },
   lead: { marginTop: 4, color: colors.inkSoft, fontSize: 13, lineHeight: 22 },
   filters: { gap: 8, paddingVertical: 4 },
   chip: { minHeight: 44, paddingHorizontal: 14, justifyContent: 'center', borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line, backgroundColor: colors.surface },
@@ -116,8 +121,8 @@ const styles = StyleSheet.create({
   meta: { color: colors.goldDeep, fontSize: 12, lineHeight: 19 },
   rowTitle: { marginTop: 4, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '600' },
   description: { marginTop: 4, color: colors.inkSoft, fontSize: 13, lineHeight: 21 },
-  action: { minHeight: 44, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line },
-  actionText: { color: colors.goldDeep, fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  action: { minHeight: 48, paddingHorizontal: 20, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, borderWidth: 1, borderColor: colors.line },
+  actionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 16, lineHeight: 20, fontWeight: '600' },
   empty: { minHeight: 140, padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface },
   emptyTitle: { fontFamily: fonts.serif, fontSize: 19, lineHeight: 28 },
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.38)', padding: 16, alignItems: 'center', justifyContent: 'center' },
