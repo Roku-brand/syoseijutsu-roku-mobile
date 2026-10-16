@@ -21,7 +21,7 @@ const items = [
 }>;
 
 export function PersistentBottomNav() {
-  const { desktop, bottomNavHeight } = useResponsiveLayout();
+  const { desktop, bottomNavHeight, height } = useResponsiveLayout();
   const pathname = usePathname();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const router = useRouter();
@@ -46,7 +46,7 @@ export function PersistentBottomNav() {
       edges={desktop ? ['top', 'bottom', 'left'] : ['bottom', 'left', 'right']}
       style={[styles.safeArea, desktop && styles.safeAreaDesktop]}
     >
-      <View style={[styles.bar, !desktop && { height: bottomNavHeight }, desktop && styles.barDesktop]}>
+      <View style={[styles.bar, !desktop && { height: bottomNavHeight }, desktop && styles.barDesktop, desktop && height < 650 && styles.barDesktopShort]}>
         {items.map((item) => {
           const active = selected === item.key;
           return (
@@ -56,11 +56,11 @@ export function PersistentBottomNav() {
                 accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
                 accessibilityState={{ selected: active }}
                 onPress={() => navigate(item)}
-                style={desktop ? styles.itemDesktop : styles.item}
+                style={desktop ? [styles.itemDesktop, height < 650 && styles.itemDesktopShort] : styles.item}
               >
                 {active ? <View style={[styles.activeIndicator, desktop && styles.activeIndicatorDesktop]} /> : null}
-                <NavIcon type={item.icon} active={active} />
-                <AppText variant="caption" style={[styles.label, active && styles.labelActive]}>{item.label}</AppText>
+                <View style={desktop && styles.iconDesktop}><NavIcon type={item.icon} active={active} /></View>
+                <AppText variant="caption" style={[styles.label, desktop && styles.labelDesktop, active && styles.labelActive]}>{item.label}</AppText>
             </Pressable>
           );
         })}
@@ -82,6 +82,10 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
 }
 
 const styles = StyleSheet.create({
+  barDesktopShort: { paddingTop: 12, paddingBottom: 12 },
+  itemDesktopShort: { minHeight: 80, maxHeight: '25%', flexShrink: 1 },
+  iconDesktop: { transform: [{ scale: 1.25 }], marginBottom: 8 },
+  labelDesktop: { fontSize: 14, lineHeight: 22 },
   // ナビ本体と安全領域を同じ面として扱う。PWA では下端の安全領域が
   // 空白に見えないよう、バーを画面幅・物理下端まで連続させる。
   safeArea: { width: '100%', minWidth: 0, flexShrink: 0, backgroundColor: colors.surface },
@@ -103,10 +107,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   safeAreaDesktop: {
-    width: 114,
-    minWidth: 114,
-    maxWidth: 114,
-    flexBasis: 114,
+    width: 138,
+    minWidth: 138,
+    maxWidth: 138,
+    flexBasis: 138,
     flexGrow: 0,
     flexShrink: 0,
     height: '100%',
@@ -115,21 +119,22 @@ const styles = StyleSheet.create({
     borderRightColor: colors.line,
   },
   barDesktop: {
-    width: 114,
-    minWidth: 114,
-    maxWidth: 114,
+    width: 138,
+    minWidth: 138,
+    maxWidth: 138,
     height: '100%',
     flexDirection: 'column',
     borderWidth: 0,
     borderRadius: 0,
     shadowOpacity: 0,
     elevation: 0,
-    paddingVertical: 24,
+    paddingTop: 60,
+    paddingBottom: 24,
     marginHorizontal: 0,
     marginTop: 0,
   },
   item: { flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center', gap: 1 },
-  itemDesktop: { flex: 0, position: 'relative', width: 114, minWidth: 114, maxWidth: 114, minHeight: 100, alignItems: 'center', justifyContent: 'center', gap: 1 },
+  itemDesktop: { flex: 0, position: 'relative', width: 138, minWidth: 138, maxWidth: 138, minHeight: 124, alignItems: 'center', justifyContent: 'center', gap: 1 },
   activeIndicator: {
     position: 'absolute',
     bottom: 2,

@@ -22,6 +22,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES, featureRoute, signInRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { personalLibrary } from './personal-library-theme';
 import { formatRemainingAccess } from '@/lib/purchase';
 
 const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.webp');
@@ -108,26 +109,26 @@ export default function MyPageContent() {
     <BookScreen contentContainerStyle={[styles.content, mobile && styles.contentMobile]}>
       <View testID="my-page-dashboard" style={styles.dashboard}>
         <View testID="profile-principle-card" style={styles.profileCard}>
-          <View style={styles.profileRow}>
+          <View style={[styles.profileRow, mobile && styles.profileRowMobile]}>
             <Pressable
               testID="account-membership-card"
               accessibilityRole="button"
               accessibilityLabel={user ? 'プロフィールを編集' : 'ログインしてプロフィールを設定'}
               onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
-              style={({ pressed }) => [styles.identity, pressed && styles.pressed]}
+              style={({ pressed }) => [styles.identity, mobile && styles.identityMobile, pressed && styles.pressed]}
             >
               <ProfileMark avatarUrl={profile?.avatarUrl} />
-              <View style={styles.identityCopy}>
+              <View style={[styles.identityCopy, mobile && styles.identityCopyMobile]}>
                 <AppText numberOfLines={2} style={[styles.profileName, mobile && styles.profileNameMobile]}>{displayName}</AppText>
-                <View style={styles.membershipBadge}><AppText style={styles.membershipBadgeText}>{badge}</AppText></View>
+                <View style={[styles.membershipBadge, mobile && styles.membershipBadgeMobile]}>{isPaid ? <AppText accessibilityElementsHidden style={styles.crown}>♛</AppText> : null}<AppText style={[styles.membershipBadgeText, mobile && styles.membershipBadgeTextMobile]}>{badge}</AppText></View>
               </View>
             </Pressable>
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={user ? 'プロフィールを編集' : 'ログインしてプロフィールを設定'}
               onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
-              style={({ pressed }) => [styles.profileEdit, pressed && styles.pressed]}
-            ><AppText style={styles.profileEditText}>編集  ›</AppText></Pressable>
+              style={({ pressed }) => [styles.profileEdit, mobile && styles.profileEditMobile, pressed && styles.pressed]}
+            ><AppText style={[styles.profileEditText, mobile && styles.profileEditTextMobile]}>{mobile ? '編集 ›' : '✎　編集　›'}</AppText></Pressable>
           </View>
           <View style={styles.profileDivider} />
           <View
@@ -136,17 +137,18 @@ export default function MyPageContent() {
           >
             <View pointerEvents="none" style={styles.scrollArtwork}>
               <Image source={principleScrollArtwork} resizeMode="stretch" style={styles.scrollImage} />
+              <View style={styles.scrollLandscape}><Image source={require('../../assets/my-page/folder-sage.webp')} resizeMode="cover" style={styles.scrollImage} /></View>
             </View>
             <View style={[styles.scrollContent, mobile && styles.scrollContentMobile]}>
               <View style={styles.principleHeading}>
-                <AppText style={styles.principleLabel}>いまの座右の銘</AppText>
+                <AppText style={styles.principleLabel}>いまの座右の銘</AppText><View style={styles.principleRule} />
                 <Pressable
                   testID="personal-principle-edit"
                   accessibilityRole="button"
                   accessibilityLabel="座右の銘を編集"
                   onPress={openPrincipleEditor}
                   style={({ pressed }) => [styles.editPrinciple, pressed && styles.pressed]}
-                ><AppText style={styles.editIcon}>✎</AppText><AppText style={styles.editText}>編集</AppText></Pressable>
+                ><AppText style={styles.editIcon}>✎</AppText></Pressable>
               </View>
               {personalPrinciple ? <AppText style={[styles.principle, mobile && styles.principleMobile]}>{personalPrinciple}</AppText>
                 : <Pressable accessibilityRole="button" accessibilityLabel="座右の銘を設定" onPress={openPrincipleEditor}><AppText style={[styles.principle, mobile && styles.principleMobile]}>座右の銘を設定　›</AppText></Pressable>}
@@ -154,7 +156,7 @@ export default function MyPageContent() {
           </View>
         </View>
 
-        <View testID="my-page-tabs" accessibilityRole="tablist" style={styles.tabs}>
+        <View testID="my-page-tabs" accessibilityRole="tablist" style={[styles.tabs, mobile && styles.tabsMobile]}>
           <TabButton label="閲覧履歴" icon="◷" selected={tab === 'history'} onPress={() => selectTab('history')} />
           <TabButton label="蔵書" icon="▥" selected={tab === 'library'} onPress={() => selectTab('library')} />
           <TabButton label="マイ処世術" icon="✎" selected={tab === 'mine'} onPress={() => selectTab('mine')} />
@@ -164,7 +166,7 @@ export default function MyPageContent() {
           {tab === 'history' ? (
             <>
               <SectionHeading title="閲覧履歴" subtitle="読んだ知恵を、種類ごとに振り返る" />
-              <View accessibilityRole="tablist" accessibilityLabel="閲覧履歴の種類" style={styles.historyTabs}>{([{ kind: 'technique', name: '処世術' }, { kind: 'theory', name: '理論' }, { kind: 'feature', name: '特集' }] as const).map(item => <Pressable key={item.kind} accessibilityRole="tab" accessibilityLabel={item.name} aria-selected={historyKind === item.kind} accessibilityState={{ selected: historyKind === item.kind }} onPress={() => { setHistoryKind(item.kind); setHistoryLimit(20); }} style={[styles.historyTab, historyKind === item.kind && styles.historyTabSelected]}><AppText style={[styles.historyTabText, historyKind === item.kind && styles.historyTabTextSelected]}>{item.name}</AppText></Pressable>)}</View>
+              <View accessibilityRole="tablist" accessibilityLabel="閲覧履歴の種類" style={[styles.historyTabs, mobile && styles.historyTabsMobile]}>{([{ kind: 'technique', name: '処世術' }, { kind: 'theory', name: '理論' }, { kind: 'feature', name: '特集' }] as const).map(item => <Pressable key={item.kind} accessibilityRole="tab" accessibilityLabel={item.name} aria-selected={historyKind === item.kind} accessibilityState={{ selected: historyKind === item.kind }} onPress={() => { setHistoryKind(item.kind); setHistoryLimit(20); }} style={[styles.historyTab, historyKind === item.kind && styles.historyTabSelected]}><AppText style={[styles.historyTabText, historyKind === item.kind && styles.historyTabTextSelected]}>{item.name}</AppText></Pressable>)}</View>
               {historyRows.length ? historyRows.slice(0, historyLimit).map(row => <PersonalContentCard key={row.kind + row.id} row={row} onPress={() => openRow(row)} />)
                 : <QuietEmpty>{pendingHistory ? '完全版データを確認中' : historyKind === 'feature' && featureHistoryIds.length > 0 ? featuresLoading ? '特集を確認中' : featuresError ? '特集を読み込めませんでした。通信環境をご確認ください。' : '閲覧した特集は現在公開されていません' : 'まだ閲覧履歴はありません'}</QuietEmpty>}
               <MoreCards remaining={historyRows.length - historyLimit} onPress={() => setHistoryLimit(value => value + 20)} />
@@ -252,16 +254,30 @@ function resolveRow(id: string): ContentRow | null {
 }
 
 function ProfileMark({ avatarUrl }: { avatarUrl?: string | null }) {
-  return <View accessibilityElementsHidden style={styles.profileMark}>{avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.profileImage} /> : <View style={styles.profileGlyph}><View style={styles.profileHead} /><View style={styles.profileShoulders} /></View>}</View>;
+  const { width } = useHydratedWindowDimensions();
+  const compact = width < 768;
+  return <View accessibilityElementsHidden style={[styles.profileMark, compact && styles.profileMarkMobile]}>{avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.profileImage} /> : <View style={styles.compassGlyph}><View style={styles.compassRing} /><View style={styles.compassHorizontal} /><View style={styles.compassVertical} /><View style={styles.compassCenter} /></View>}</View>;
 }
 
 function TabButton({ label, icon, selected, onPress }: { label: string; icon: string; selected: boolean; onPress: () => void }) {
-  const tone = label === '閲覧履歴' ? '#267261' : label === '蔵書' ? '#4666A0' : '#B35A38';
-  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} aria-selected={selected} onPress={onPress} style={({ pressed }) => [styles.tab, { backgroundColor: tone + '16' }, selected && [styles.tabSelected, { backgroundColor: tone, borderBottomColor: tone }], pressed && styles.pressed]}><AppText style={[styles.tabIcon, selected && styles.tabIconSelected]}>{icon}</AppText><AppText numberOfLines={1} style={[styles.tabLabel, selected && styles.tabLabelSelected]}>{label}</AppText></Pressable>;
+  const { width } = useHydratedWindowDimensions();
+  const compact = width < 768;
+  const color = selected ? '#E1C572' : colors.goldDeep;
+  return <Pressable accessibilityRole="tab" accessibilityLabel={label} accessibilityState={{ selected }} aria-selected={selected} onPress={onPress} style={({ pressed }) => [styles.tab, compact && styles.tabMobile, selected && styles.tabSelected, pressed && styles.pressed]}>
+    <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.tabMark}>
+      {icon === '◷' ? <View style={[styles.clockMark, { borderColor: color }]}><View style={[styles.clockHand, { backgroundColor: color }]} /><View style={[styles.clockMinute, { backgroundColor: color }]} /></View>
+        : icon === '▥' ? <View style={styles.bookMark}>{[0, 1, 2, 3].map(page => <View key={page} style={[styles.bookSpine, { borderColor: color }]} />)}</View>
+          : <View style={[styles.pencilMark, { backgroundColor: color }]}><View style={styles.pencilBand} /></View>}
+    </View>
+    <AppText numberOfLines={1} style={[styles.tabLabel, compact && styles.tabLabelMobile, selected && styles.tabLabelSelected]}>{label}</AppText>
+    {selected ? <View pointerEvents="none" style={styles.tabUnderline} /> : null}
+  </Pressable>;
 }
 
 function SectionHeading({ title, subtitle, actionLabel, onAction }: { title: string; subtitle: string; actionLabel?: string; onAction?: () => void }) {
-  return <View style={styles.sectionHeading}><View style={styles.sectionCopy}><AppText style={styles.sectionTitle}>{title}</AppText><AppText style={styles.sectionSubtitle}>{subtitle}</AppText></View>{actionLabel && onAction ? <Pressable accessibilityRole="button" accessibilityLabel={actionLabel} onPress={onAction} style={({ pressed }) => [styles.sectionAction, pressed && styles.pressed]}><AppText style={styles.sectionActionText}>{actionLabel}</AppText></Pressable> : null}</View>;
+  const { width } = useHydratedWindowDimensions();
+  const compact = width < 768;
+  return <View style={styles.sectionHeading}><View style={styles.sectionCopy}><AppText style={[styles.sectionTitle, compact && styles.sectionTitleMobile]}>{title}</AppText><AppText style={[styles.sectionSubtitle, compact && styles.sectionSubtitleMobile]}>{subtitle}</AppText></View>{actionLabel && onAction ? <Pressable accessibilityRole="button" accessibilityLabel={actionLabel} onPress={onAction} style={({ pressed }) => [styles.sectionAction, pressed && styles.pressed]}><AppText style={styles.sectionActionText}>{actionLabel}</AppText></Pressable> : null}</View>;
 }
 
 function FolderButton({ label, selected, onPress }: { label: string; selected: boolean; onPress: () => void }) {
@@ -279,55 +295,81 @@ function formatMemoDate(value: string) {
 }
 
 const styles = StyleSheet.create({
-  content: { maxWidth: 860, paddingBottom: spacing.xl * 2 },
+  content: { maxWidth: 1238, paddingHorizontal: 24, paddingTop: 26, paddingBottom: spacing.xl * 2 },
   contentMobile: { paddingTop: spacing.md, paddingHorizontal: spacing.md },
+  profileRowMobile: { minHeight: 94, paddingHorizontal: 0, gap: 6 },
+  identityMobile: { gap: 12 },
+  membershipBadgeMobile: { paddingHorizontal: 7, paddingVertical: 2, marginTop: 4 },
+  membershipBadgeTextMobile: { fontSize: 10, lineHeight: 16 },
+  profileEditTextMobile: { fontSize: 13, lineHeight: 20 },
+  tabMark: { width: 22, height: 24, alignItems: 'center', justifyContent: 'center' },
+  clockMark: { width: 21, height: 21, borderWidth: 2, borderRadius: 11 },
+  clockHand: { position: 'absolute', width: 2, height: 7, left: 8, top: 3, borderRadius: 1 },
+  clockMinute: { position: 'absolute', width: 6, height: 2, left: 8, top: 9, borderRadius: 1 },
+  bookMark: { flexDirection: 'row', gap: 1 },
+  bookSpine: { width: 4, height: 20, borderWidth: 1 },
+  pencilMark: { width: 8, height: 22, borderBottomLeftRadius: 4, borderBottomRightRadius: 4, transform: [{ rotate: '45deg' }] },
+  pencilBand: { position: 'absolute', top: 5, width: 8, height: 1, backgroundColor: '#FFFDF9' },
+  tabUnderline: { position: 'absolute', height: 1, left: 0, right: 0, bottom: -9, backgroundColor: '#B58A43' },
+  identityCopyMobile: { flexDirection: 'column', alignItems: 'flex-start', gap: 0 },
+  profileMarkMobile: { width: 60, height: 60, borderRadius: 30 },
+  profileEditMobile: { minHeight: 44, paddingHorizontal: 8 },
+  tabMobile: { minHeight: 48, gap: 5, paddingHorizontal: 3 },
+  tabsMobile: { marginTop: 16 },
+  tabLabelMobile: { fontSize: 12, lineHeight: 21, letterSpacing: 0 },
+  sectionTitleMobile: personalLibrary.headingSmall,
+  sectionSubtitleMobile: { fontSize: 12, lineHeight: 21 },
+  historyTabsMobile: { gap: 6, marginTop: 0 },
+  principleRule: { width: 30, height: 1, backgroundColor: '#B78C48' },
+  scrollLandscape: { position: 'absolute', top: '21%', bottom: '20%', right: '3%', width: '55%', opacity: 0.24, overflow: 'hidden' },
+  crown: { color: colors.gold, fontSize: 20, lineHeight: 22 },
+  compassGlyph: { width: 62, height: 62, alignItems: 'center', justifyContent: 'center' },
+  compassRing: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: '#A92835' },
+  compassHorizontal: { position: 'absolute', width: 62, height: 2, backgroundColor: '#A92835' },
+  compassVertical: { position: 'absolute', height: 62, width: 2, backgroundColor: '#A92835' },
+  compassCenter: { position: 'absolute', width: 9, height: 9, borderRadius: 5, backgroundColor: '#A92835', borderWidth: 2, borderColor: '#FFFDFC' },
   dashboard: { width: '100%' },
   profileCard: { backgroundColor: colors.paper },
-  profileRow: { minHeight: 105, paddingHorizontal: spacing.xs, paddingVertical: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  identity: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  identityCopy: { flex: 1, minWidth: 0, alignItems: 'flex-start' },
-  profileMark: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#121A22', borderWidth: 1, borderColor: '#302B20', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  profileRow: { minHeight: 130, paddingHorizontal: 20, paddingVertical: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  identity: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 26 },
+  identityCopy: { flex: 1, minWidth: 0, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 28 },
+  profileMark: { width: 94, height: 94, borderRadius: 47, backgroundColor: '#FFFDFC', borderWidth: 1.5, borderColor: '#252A29', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   profileImage: { width: '100%', height: '100%' },
-  profileGlyph: { width: 29, height: 32, alignItems: 'center', justifyContent: 'center' },
-  profileHead: { width: 11, height: 11, borderWidth: 1.4, borderColor: '#D3A849', borderRadius: 6, marginBottom: 4 },
-  profileShoulders: { width: 25, height: 14, borderTopWidth: 1.4, borderLeftWidth: 1.4, borderRightWidth: 1.4, borderColor: '#D3A849', borderTopLeftRadius: 13, borderTopRightRadius: 13 },
-  profileName: { maxWidth: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '600', letterSpacing: 0.5 },
+  profileName: { maxWidth: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 3 },
   profileNameMobile: { fontSize: 22, lineHeight: 31 },
-  membershipBadge: { marginTop: 4, paddingHorizontal: 9, paddingVertical: 2, borderWidth: 1, borderColor: '#D7C39C', borderRadius: radius.pill, backgroundColor: colors.surface },
-  membershipBadgeText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 10, lineHeight: 15, fontWeight: '600' },
-  profileEdit: { minHeight: 44, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center' },
-  profileEditText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  profileDivider: { height: 1, marginHorizontal: spacing.xs, backgroundColor: colors.line },
-  scrollWrap: { minHeight: 158, marginHorizontal: spacing.xs, marginTop: spacing.xs, marginBottom: spacing.sm, justifyContent: 'center' },
+  membershipBadge: { paddingHorizontal: 13, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#C9974A', borderRadius: radius.pill, backgroundColor: '#FFFDF9' },
+  membershipBadgeText: { color: colors.goldDeep, fontSize: 13, lineHeight: 21, fontWeight: '600' },
+  profileEdit: { minHeight: 54, paddingHorizontal: 24, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
+  profileEditText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '600' },
+  profileDivider: { height: 1, backgroundColor: colors.line },
+  scrollWrap: { minHeight: 184, marginHorizontal: -4, marginTop: 10, marginBottom: 8, justifyContent: 'center' },
   scrollWrapMobile: { minHeight: 140, marginHorizontal: -spacing.md, marginTop: spacing.md },
   scrollArtwork: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
   scrollImage: { width: '100%', height: '100%' },
-  scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: spacing.xl * 2, paddingVertical: spacing.lg },
+  scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: 72, paddingVertical: 40 },
   scrollContentMobile: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
-  principleHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
-  principleLabel: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', letterSpacing: 1 },
-  principle: { maxWidth: '84%', marginTop: spacing.xs, color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 35, fontWeight: '600', letterSpacing: 1 },
+  principleHeading: { flexDirection: 'row', alignItems: 'center', gap: 22 },
+  principleLabel: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '600', letterSpacing: 1 },
+  principle: { marginTop: 9, color: colors.ink, fontFamily: fonts.serif, fontSize: 36, lineHeight: 50, fontWeight: '600', letterSpacing: 2 },
   principleMobile: { maxWidth: '100%', fontSize: 23, lineHeight: 34, letterSpacing: 0.2 },
-  editPrinciple: { minHeight: 34, paddingHorizontal: 11, flexDirection: 'row', alignItems: 'center', gap: 4, borderWidth: 1, borderColor: '#CEB583', borderRadius: radius.pill, backgroundColor: colors.surface },
-  editIcon: { color: colors.goldDeep, fontSize: 14, lineHeight: 18 },
-  editText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
-  tabs: { marginTop: spacing.md, paddingVertical: 6, minHeight: 62, flexDirection: 'row', gap: 3, borderBottomWidth: 1, borderColor: colors.line, backgroundColor: colors.paper },
-  tab: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderRadius: radius.pill, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
-  tabSelected: { borderBottomWidth: 2, borderBottomColor: colors.gold, backgroundColor: '#182027' },
-  tabIcon: { color: colors.ink, fontSize: 17, lineHeight: 22, fontWeight: '700' },
-  tabIconSelected: { color: colors.goldLight },
-  tabLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  editPrinciple: { minHeight: 32, width: 32, alignItems: 'center', justifyContent: 'center', marginLeft: 'auto' },
+  editIcon: { color: colors.goldDeep, fontSize: 20, lineHeight: 26 },
+  tabs: { marginTop: 22, paddingBottom: 8, minHeight: 68, flexDirection: 'row', gap: 3, borderBottomWidth: 1, borderColor: colors.line },
+  tab: { flex: 1, minWidth: 0, minHeight: 60, paddingHorizontal: 8, borderRadius: radius.pill, backgroundColor: '#F1EEE7', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18 },
+  tabSelected: { backgroundColor: personalLibrary.green, boxShadow: 'inset 0 0 18px rgba(0,0,0,0.08)', borderWidth: 1, borderColor: '#367667' },
+  tabLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '600', letterSpacing: 2 },
   tabLabelSelected: { color: colors.white },
-  historyTabs: { flexDirection: 'row', gap: 8, marginBottom: 16 },
-  historyTab: { flex: 1, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 12, borderWidth: 1, borderColor: '#CCDCD4', backgroundColor: '#EBF5F0' },
-  historyTabSelected: { backgroundColor: '#267261', borderColor: '#267261' },
-  historyTabText: { color: '#267261', fontSize: 13, fontWeight: '600' }, historyTabTextSelected: { color: '#FFFFFF' },
+  historyTabs: { flexDirection: 'row', gap: 12, marginTop: 12, marginBottom: 22, paddingBottom: 12, borderBottomWidth: 1, borderColor: colors.line },
+  historyTab: { width: 185, maxWidth: '32%', minHeight: 52, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, borderWidth: 1, borderColor: '#D9E2DC', backgroundColor: '#F2F3ED' },
+  historyTabSelected: { backgroundColor: personalLibrary.green, borderColor: '#367667' },
+  historyTabText: { color: personalLibrary.green, fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '600' },
+  historyTabTextSelected: { color: colors.white },
   memoAccent: { width: 38, height: 48, borderRadius: 9, backgroundColor: '#F9DDCE', alignItems: 'center', justifyContent: 'center' }, memoAccentText: { color: '#B35A38', fontSize: 24 },
-  tabContent: { marginTop: spacing.lg },
+  tabContent: { marginTop: 30 },
   sectionHeading: { minHeight: 62, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing.sm },
   sectionCopy: { flex: 1, minWidth: 0 },
-  sectionTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 34, fontWeight: '700', letterSpacing: 0.4 },
-  sectionSubtitle: { marginTop: 1, color: colors.muted, fontFamily: fonts.serif, fontSize: 12, lineHeight: 19 },
+  sectionTitle: { ...personalLibrary.heading, color: colors.ink },
+  sectionSubtitle: { marginTop: 2, color: '#68716F', fontSize: 18, lineHeight: 28 },
   sectionAction: { minHeight: 38, paddingHorizontal: 13, borderWidth: 1, borderColor: '#D2B77F', borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
   sectionActionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600' },
   listRow: { minHeight: 90, marginBottom: spacing.sm, paddingHorizontal: spacing.lg, paddingVertical: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.surface, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },

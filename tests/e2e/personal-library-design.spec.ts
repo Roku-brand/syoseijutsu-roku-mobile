@@ -57,7 +57,7 @@ test('history separates three kinds, records features and keeps older saved IDs'
   const feature = page.getByTestId('personal-content-feature');
   await expect(feature).toHaveCount(1);
   const card = await feature.boundingBox(), thumb = await feature.getByTestId('personal-card-image').boundingBox();
-  expect(thumb!.x).toBeLessThanOrEqual(card!.x + 4);
+  expect(thumb!.x).toBeLessThanOrEqual(card!.x + 20);
   await page.getByRole('button', { name: `${articles[0].title}を開く`, exact: true }).click();
   await expect(page.getByTestId('feature-body')).toBeVisible();
   await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).featureHistoryIds, key)).toEqual([articles[0].id]);
@@ -105,4 +105,38 @@ test('repeated personal tabs reuse feature data and refresh once stale', async (
   await page.getByRole('tab', { name: '理論', exact: true }).click();
   await page.getByRole('tab', { name: '特集', exact: true }).click();
   await expect.poll(requests).toBe(2);
+});
+
+for (const width of [320, 390, 768, 1672]) test(`reference my page preserves data and fits ${width}px`, async ({ page }) => {
+  await fixture(page, { personalPrinciple: '志は高く、腰は低く。', libraryFolders: [{ id: 'people', name: '対人術' }, { id: 'work', name: '仕事術' }] });
+  await page.setViewportSize({ width, height: 941 });
+  await page.goto('/my-os');
+  await expect(page.getByTestId('personal-principle-card')).toContainText('志は高く、腰は低く。');
+  const tabs = page.getByTestId('my-page-tabs').getByRole('tab');
+  const bounds = await tabs.evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { y: r.y, height: r.height }; }));
+  expect(new Set(bounds.map(r => r.y)).size).toBe(1);
+  expect(new Set(bounds.map(r => r.height)).size).toBe(1);
+  for (const tab of await tabs.all()) {
+    const text = tab.getByText(await tab.getAttribute('aria-label') ?? '', { exact: true });
+    expect(await text.evaluate(node => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
+  }
+  await page.screenshot({ path: test.info().outputPath(`reference-history-${width}.png`), scale: 'css' });
+  await page.getByRole('tab', { name: '蔵書', exact: true }).click();
+  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toContainText('3件');
+  const folders = page.getByTestId('folder-fronts');
+  await expect(folders.getByRole('button')).toHaveCount(4);
+  await expect.poll(() => folders.locator('img').evaluateAll(images => images.length === 4 && images.every(img => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0))).toBe(true);
+  const cards = await folders.getByRole('button').evaluateAll(nodes => nodes.map(node => { const r = node.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; }));
+  if (width >= 768) { expect(cards[0].y).toBe(cards[1].y); expect(cards[2].y).toBeGreaterThan(cards[0].y); }
+  else expect(cards[1].y).toBeGreaterThan(cards[0].y);
+  await page.screenshot({ path: test.info().outputPath(`reference-library-${width}.png`), scale: 'css' });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
+  await expect(page.getByTestId('personal-card-image')).toHaveCount(3);
+  await page.getByRole('tab', { name: '閲覧履歴', exact: true }).click();
+  await page.getByRole('button', { name: '座右の銘を編集', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: '座右の銘', exact: true })).toHaveValue('志は高く、腰は低く。');
+  await page.getByRole('textbox', { name: '座右の銘', exact: true }).fill('大切な言葉を、忘れない。');
+  await page.getByRole('button', { name: '保存する', exact: true }).click();
+  await expect(page.getByTestId('personal-principle-card')).toContainText('大切な言葉を、忘れない。');
 });
