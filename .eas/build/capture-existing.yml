@@ -1,0 +1,25 @@
+build:
+  name: Capture previously built native iPhone app
+  steps:
+    - eas/checkout
+    - eas/install_maestro
+    - eas/start_ios_simulator
+    - run:
+        name: Install verified simulator build
+        command: |
+          set -e
+          curl --fail --location 'https://expo.dev/artifacts/eas/dMf2eMfMI8yfXn-zF9hUtDCFxY4eMNmj-kXtdBbKdgc.tar.gz' --output /tmp/store-simulator.tar.gz
+          mkdir -p /tmp/store-app store-native-captures
+          tar -xzf /tmp/store-simulator.tar.gz -C /tmp/store-app
+          APP_PATH="$(find /tmp/store-app -type d -name '*.app' -print -prune | head -n 1)"
+          test -n "$APP_PATH"
+          xcrun simctl install booted "$APP_PATH"
+          xcrun simctl status_bar booted override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4 --batteryState discharging --batteryLevel 100
+    - run:
+        name: Capture actual guest UI
+        command: maestro test --debug-output store-native-captures/debug .maestro/store-screenshots.yaml
+    - eas/upload_artifact:
+        if: ${ always() }
+        inputs:
+          type: build-artifact
+          path: store-native-captures

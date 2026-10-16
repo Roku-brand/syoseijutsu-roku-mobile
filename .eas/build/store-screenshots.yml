@@ -1,0 +1,24 @@
+build:
+  name: Build current iPhone UI and capture guest screenshots
+  steps:
+    - eas/build
+    - eas/install_maestro
+    - eas/start_ios_simulator
+    - run:
+        name: Install the built app and prepare screenshots
+        command: |
+          set -e
+          APP_PATH="$(find ios/build/Build/Products -type d -name '*.app' -path '*simulator*' -print -prune | head -n 1)"
+          test -n "$APP_PATH"
+          xcrun simctl install booted "$APP_PATH"
+          xcrun simctl status_bar booted override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4 --batteryState discharging --batteryLevel 100
+          mkdir -p store-native-captures
+    - run:
+        name: Capture guest screens through the actual UI
+        command: maestro test --debug-output store-native-captures/debug .maestro/store-screenshots.yaml
+    - eas/upload_artifact:
+        name: Upload native screenshot evidence
+        if: ${ always() }
+        inputs:
+          type: build-artifact
+          path: store-native-captures

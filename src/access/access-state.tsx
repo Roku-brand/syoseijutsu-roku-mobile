@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type PropsWithChildren } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
 import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, refreshSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
@@ -223,11 +223,11 @@ export function AccessProvider({ children }: PropsWithChildren) {
       if (AppState.currentState === 'active') refreshCurrentContent();
     }, CONTENT_REFRESH_INTERVAL_MS);
     // Web/PWA clients retry immediately when their connection returns.
-    if (typeof window !== 'undefined') window.addEventListener('online', refreshCurrentContent);
+    if (Platform.OS === 'web' && typeof window !== 'undefined') window.addEventListener('online', refreshCurrentContent);
     return () => {
       subscription.remove();
       clearInterval(interval);
-      if (typeof window !== 'undefined') window.removeEventListener('online', refreshCurrentContent);
+      if (Platform.OS === 'web' && typeof window !== 'undefined') window.removeEventListener('online', refreshCurrentContent);
     };
   }, [refreshAccess, refreshCurrentContent, user]);
 

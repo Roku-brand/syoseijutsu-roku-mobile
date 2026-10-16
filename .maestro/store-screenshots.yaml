@@ -1,0 +1,90 @@
+appId: jp.shoseijutsuroku.app
+name: Store screenshots - guest screens
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: guide-later
+    timeout: 30000
+- tapOn:
+    id: guide-later
+- waitForAnimationToEnd
+- extendedWaitUntil:
+    notVisible: この案内は設定からいつでも見られます
+    timeout: 10000
+- assertVisible:
+    id: book-header
+- takeScreenshot: store-native-captures/02-home-guest
+
+- openLink:
+    link: shoseijutsuroku://card/master336-071
+- tapOn:
+    text: Open
+    optional: true
+- extendedWaitUntil:
+    visible: 名残惜しいくらいで去る
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/03-farewell-guest
+- tapOn: 蔵書に保存
+
+- openLink:
+    link: shoseijutsuroku://features/the-secret-behind-age
+- tapOn:
+    text: Open
+    optional: true
+- extendedWaitUntil:
+    visible: なぜ私たちは、年齢に焦るのか
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/05-age-guest
+
+- openLink:
+    link: shoseijutsuroku://learn/case-02
+- tapOn:
+    text: Open
+    optional: true
+- extendedWaitUntil:
+    visible: 助言する？ 聞く？
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/06-learning-guest
+
+- openLink:
+    link: shoseijutsuroku://my-os
+- tapOn:
+    text: Open
+    optional: true
+- extendedWaitUntil:
+    visible: 蔵書
+    timeout: 20000
+- tapOn:
+    text: 蔵書
+    index: 0
+- tapOn: フォルダーを追加
+- tapOn: 蔵書フォルダー名
+- inputText: 対人術
+- hideKeyboard
+- tapOn: 蔵書フォルダーを保存
+- tapOn: フォルダー一覧に戻る
+- tapOn: フォルダーを追加
+- tapOn: 蔵書フォルダー名
+- inputText: 仕事術
+- hideKeyboard
+- tapOn: 蔵書フォルダーを保存
+- tapOn: フォルダー一覧に戻る
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/07-library-guest
+- tapOn:
+    text: マイ処世術
+    index: 0
+- tapOn: ＋ 作る
+- tapOn:
+    id: personal-memo-input
+- inputText: 忙しい日は、やることを三つに絞る。
+- hideKeyboard
+- tapOn: 保存する
+- tapOn: マイ処世術：すべて
+- waitForAnimationToEnd
+- takeScreenshot: store-native-captures/07-personal-guest

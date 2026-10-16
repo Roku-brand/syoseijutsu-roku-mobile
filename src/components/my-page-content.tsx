@@ -203,7 +203,7 @@ export default function MyPageContent() {
       <Modal transparent visible={memoEditing} animationType="fade" onRequestClose={() => setMemoEditing(false)}>
         <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>{editingMemoId ? 'マイ処世術を編集' : 'マイ処世術を作る'}</AppText>
-          <TextInput multiline maxLength={140} value={memoDraft} onChangeText={setMemoDraft} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
+          <TextInput testID="personal-memo-input" multiline maxLength={140} value={memoDraft} onChangeText={setMemoDraft} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
           <AppText style={styles.folderLabel}>保存先</AppText>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.modalFolderTabs}>
             <FolderButton label="未整理" selected={!memoFolderId} onPress={() => setMemoFolderId(null)} />

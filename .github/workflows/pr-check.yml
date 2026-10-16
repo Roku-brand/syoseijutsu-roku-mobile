@@ -31,6 +31,8 @@ jobs:
       - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning
       - run: pnpm lint
+      - name: Verify native startup and Web install guards
+        run: pnpm test:native-release
       - run: pnpm test:practical-wisdom
       - run: pnpm test:theory-taxonomy
       - run: pnpm test:theory-network
