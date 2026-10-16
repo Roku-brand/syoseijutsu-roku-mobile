@@ -430,7 +430,8 @@ for (const width of [320,390,1440]) test(`CMSのサムネと公開確認が画�
  await page.getByRole('button',{name:'画像・掲載',exact:true}).click();
  const image=page.getByTestId('feature-image-editor').locator('img');await expect(image).toHaveJSProperty('complete',true);const source=await image.getAttribute('src');expect(source).toContain('five-guidelines-cover');
  await expect(page.locator('#roku-launch')).toBeHidden();await page.screenshot({path:test.info().outputPath(`cms-media-${width}.png`)});
- await page.getByRole('button',{name:'プレビュー',exact:true}).click();await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('src',source!);
+ const alt=await image.getAttribute('alt');
+ await page.getByRole('button',{name:'プレビュー',exact:true}).click();await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('src',source!);await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('alt',alt!);
  await page.getByRole('button',{name:'公開画面を見る',exact:true}).click();await expect(page.getByTestId('feature-card').first().locator('img')).toHaveAttribute('src',source!);
 });
 

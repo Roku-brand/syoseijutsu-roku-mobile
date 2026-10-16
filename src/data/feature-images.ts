@@ -14,3 +14,6 @@ export function featureImage(path: string | null) {
 export function featureImageSource(article: Pick<FeatureArticle, 'id' | 'title' | 'image_path'>) {
   return featureCover(article)?.source ?? featureImage(article.image_path);
 }
+export function featureImageAlt(article: Pick<FeatureArticle, 'id' | 'title' | 'image_path' | 'image_alt'>) {
+  return featureCover(article)?.alt ?? (article.image_alt || article.title);
+}

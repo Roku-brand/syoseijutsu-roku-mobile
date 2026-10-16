@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/ui';
-import { featureImageSource } from '@/data/feature-images';
+import { featureImageAlt, featureImageSource } from '@/data/feature-images';
 import { featureCover } from '@/data/feature-covers';
 import type { FeatureArticle } from '@/data/features';
 import { colors, fonts } from '@/constants/theme';
@@ -12,7 +12,7 @@ export function FeatureThumbnail({ article, caption = true }: { article: Feature
   const [width, setWidth] = useState(288);
   const scale = width / 288;
   return <View testID="feature-thumbnail" style={[styles.frame, cover && { backgroundColor: cover.background }]} onLayout={event => setWidth(event.nativeEvent.layout.width)}>
-    <Image source={featureImageSource(article)} accessibilityLabel={cover?.alt ?? (article.image_alt || article.title)} contentFit="cover" style={StyleSheet.absoluteFill} />
+    <Image source={featureImageSource(article)} accessibilityLabel={featureImageAlt(article)} contentFit="cover" style={StyleSheet.absoluteFill} />
     {cover && caption && cover.title === article.title ? <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={[styles.editorial, { padding: 14 * scale }]}>
       <AppText style={[styles.label, { color: cover.accent, fontSize: 9 * scale, lineHeight: 14 * scale }]}>処世術禄 / 特集</AppText>
       <AppText testID="feature-thumbnail-headline" style={[styles.headline, { fontSize: 23 * scale, lineHeight: 33 * scale }]}>{cover.headline}</AppText>

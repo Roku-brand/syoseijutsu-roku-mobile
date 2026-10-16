@@ -8,7 +8,7 @@ import { AppText } from '@/components/ui';
 import { colors, fonts } from '@/constants/theme';
 import { type FeatureArticle } from '@/data/features';
 import { techniqueById, theoryById } from '@/data/catalog';
-import { featureImageSource } from '@/data/feature-images';
+import { featureImageAlt, featureImageSource } from '@/data/feature-images';
 import { featureRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
@@ -36,7 +36,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   const theories = article.related_theory_ids.map(id => theoryById.get(id)).filter(item => item && item.title !== '完全版の理論');
   return <View style={styles.article} testID="feature-article">
     <View style={styles.articleHeader}>{article.category_id ? <AppText style={styles.category}>{featureCategoryLabel(article.category_id)}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}</View>
-    <Image source={featureImageSource(article)} accessibilityLabel={article.image_alt || article.title} contentFit="cover" style={[styles.articleImage, compact && styles.articleImageCompact]} />
+    <Image source={featureImageSource(article)} accessibilityLabel={featureImageAlt(article)} contentFit="cover" style={[styles.articleImage, compact && styles.articleImageCompact]} />
     <View style={styles.readingColumn}><EditorialByline character={character} preview={preview} /><FeatureBody body={article.body} />
       {article.source_references.length ? <View style={styles.related} testID="feature-references"><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>参考文献・出典</AppText>{article.source_references.map((reference, index) => <View key={index} style={styles.reference}><Pressable accessibilityRole={reference.url ? 'link' : undefined} accessibilityLabel={reference.title} disabled={!reference.url || preview} onPress={() => reference.url && void Linking.openURL(reference.url)}><AppText style={[styles.relatedTitle, reference.url && styles.category]}>{reference.title}{reference.url ? ' ↗' : ''}</AppText></Pressable>{reference.note ? <AppText style={styles.referenceNote}>{reference.note}</AppText> : null}</View>)}</View> : null}
       {techniques.length || theories.length ? <AppText accessibilityRole="header" aria-level={2} style={styles.knowledgeHeading}>この記事に関連する知識</AppText> : null}
