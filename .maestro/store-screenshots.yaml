@@ -86,9 +86,11 @@ name: Store screenshots - guest screens
       text: マイ処世術
     direction: UP
     timeout: 10000
+- waitForAnimationToEnd
 - tapOn:
     text: マイ処世術
     index: 0
+- waitForAnimationToEnd
 - tapOn: ＋ 作る
 - tapOn:
     id: personal-memo-input

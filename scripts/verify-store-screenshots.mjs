@@ -20,6 +20,7 @@ for (const item of manifest.files) {
   assert.equal(hash(bytes), item.sha256, item.file + ' checksum');
   assert.equal(crypto.createHash('md5').update(bytes).digest('hex'), item.md5);
   if (item.source) assert.equal(hash(await fs.readFile(path.join(root, 'source', item.source))), item.sourceSha256);
+  if (item.secondary) assert.equal(hash(await fs.readFile(path.join(root, 'source', item.secondary))), item.secondarySha256);
 }
 const proof = JSON.parse(await fs.readFile(path.join(root, 'status-edit-proof.json'), 'utf8'));
 const beforeBytes = await fs.readFile(path.join(root, 'source/04-happenstance-user.jpg'));

@@ -4,10 +4,6 @@
     "appVersionSource": "local"
   },
   "build": {
-    "recapture": {
-      "extends": "screenshots",
-      "config": "capture-existing.yml"
-    },
     "production": {
       "environment": "production",
       "distribution": "store",

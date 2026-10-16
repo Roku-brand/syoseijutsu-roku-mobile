@@ -74,6 +74,7 @@ try {
     if (md.width !== 1242 || md.height !== 2688 || md.hasAlpha) throw Error('Invalid store artwork');
     item.sha256 = hash(await fs.readFile(path.join(output, item.file)));
     if (item.source) item.sourceSha256 = hash(await fs.readFile(path.join(source, item.source)));
+    if (item.secondary) item.secondarySha256 = hash(await fs.readFile(path.join(source, item.secondary)));
     item.md5 = crypto.createHash('md5').update(await fs.readFile(path.join(output, item.file))).digest('hex');
     item.account ??= 'Guest / signed out';
     console.log('Composed ' + item.file);

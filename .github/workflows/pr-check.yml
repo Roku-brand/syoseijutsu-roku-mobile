@@ -3,12 +3,18 @@ name: PR check
 on:
   pull_request:
   workflow_dispatch:
+    inputs:
+      capture_ios:
+        description: 'Build already-public source in macOS CI and capture guest UI without credentials'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 jobs:
   validate:
+    if: github.event_name != 'workflow_dispatch' || inputs.capture_ios != true
     runs-on: ubuntu-latest
     env:
       EXPO_PUBLIC_SUPABASE_URL: https://example.supabase.co
@@ -54,6 +60,7 @@ jobs:
           name: audited-web-preview
           path: dist
           retention-days: 3
+
       - name: Bound package download waits
         run: |
           printf 'Acquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::Retries "1";\n' | sudo tee /etc/apt/apt.conf.d/80-ci-download-timeouts > /dev/null
@@ -66,3 +73,7 @@ jobs:
           name: browser-test-evidence
           path: test-results
           retention-days: 3
+
+  capture-ios:
+    if: github.event_name == 'workflow_dispatch' && inputs.capture_ios == true
+    uses: ./.github/workflows/capture-ios-screenshots.yml
