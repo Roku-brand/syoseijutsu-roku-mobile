@@ -148,11 +148,13 @@ test('無料版の関連理論は完全版のタイトルも表示し、未収�
   const primaryTheories = page.getByTestId('primary-theories');
   const supplementaryTheories = page.getByTestId('supplementary-theories');
   await expect(page.getByText('主要理論', { exact: true })).toBeVisible();
-  await expect(page.getByText('あわせて読む理論', { exact: true })).toBeVisible();
+  // This card is fully explained by its two primary mechanisms. Do not
+  // restore redundant mirroring effects just to fill a supplementary list.
+  await expect(page.getByText('あわせて読む理論', { exact: true })).toHaveCount(0);
   await expect(primaryTheories.getByText('言語スタイル同調', { exact: true })).toBeVisible();
   await expect(primaryTheories.getByText('行動同調', { exact: true })).toBeVisible();
-  await expect(supplementaryTheories.getByText('ミラーリング効果', { exact: true })).toBeVisible();
-  await expect(supplementaryTheories.getByText('カメレオン効果', { exact: true })).toBeVisible();
+  await expect(primaryTheories.getByRole('link')).toHaveCount(2);
+  await expect(supplementaryTheories).toHaveCount(0);
   await expect(relatedTheories).not.toContainText('完全版の理論');
   const lockedTheoryLink = relatedTheories.getByRole('link', { name: '行動同調を開く' });
   await expect(lockedTheoryLink).toHaveAttribute('href', '/upgrade?source=discover_theory');

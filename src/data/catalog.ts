@@ -396,11 +396,15 @@ export function getTheoryDisplayId(theoryOrId: string | Pick<TheoryCard, 'tagId'
 
 export function getRelatedCards(card: TechniqueCard, limit = 6) {
   const theoryIds = new Set(card.theoryTagIds ?? []);
-  return techniqueCards.filter((candidate) => candidate.id !== card.id).map((candidate) => {
-    const sharedTheory = (candidate.theoryTagIds ?? []).filter((id) => theoryIds.has(id)).length;
-    const score = sharedTheory * 5 + (candidate.subcategory === card.subcategory ? 3 : 0) + (candidate.categoryKey === card.categoryKey ? 1 : 0);
-    return { candidate, score };
-  }).filter(({ score }) => score > 0).sort((a, b) => b.score - a.score).slice(0, limit).map(({ candidate }) => candidate);
+  const primaryIds = new Set(card.primaryTheoryIds ?? []);
+  return techniqueCards.filter(candidate => candidate.id !== card.id && candidate.status !== 'locked').map(candidate => {
+    const shared = (candidate.theoryTagIds ?? []).filter(id => theoryIds.has(id));
+    const sharedPrimary = shared.filter(id => primaryIds.has(id) && candidate.primaryTheoryIds?.includes(id)).length;
+    // A common category alone is not an editorial relationship. Prefer the
+    // same central mechanism, then a genuinely shared supplementary reading.
+    return { candidate, shared: shared.length, score: sharedPrimary * 5 + shared.length };
+  }).filter(item => item.shared > 0).sort((a,b) => b.score-a.score || a.candidate.id.localeCompare(b.candidate.id))
+    .slice(0,limit).map(item => item.candidate);
 }
 
 export function getRelatedTheories(theory: TheoryCard) {

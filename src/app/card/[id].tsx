@@ -20,6 +20,7 @@ import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
 import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
+import { RelatedFeatures } from '@/components/related-features';
 import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { contentImageUrl } from '@/lib/content-media';
 
@@ -208,12 +209,14 @@ export default function CardDetailScreen() {
           />
           <RelatedContentSection
             title="あわせて読む理論"
-            description="類似・補完・別視点に加え、説得力を補う古典や名言"
+            description="実践を補う知識や、別の視点を与える思想・言葉"
             testID="supplementary-theories"
             continuation
             items={supplementaryTheories.map(toTheoryItem)}
           />
         </View>
+
+        <RelatedFeatures kind="technique" id={card.id} />
 
         <RelatedContentSection
           title="関連する処世術"

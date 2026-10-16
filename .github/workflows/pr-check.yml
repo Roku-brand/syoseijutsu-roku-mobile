@@ -34,6 +34,8 @@ jobs:
       - run: pnpm test:practical-wisdom
       - run: pnpm test:theory-taxonomy
       - run: pnpm test:theory-network
+      - name: Verify cross-content network
+        run: pnpm test:content-network
       - run: node --test tests/unit/usage-consent.test.mjs
       - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck

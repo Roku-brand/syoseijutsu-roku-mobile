@@ -65,13 +65,15 @@ test('new sections are populated and ordering is dense without reusing a redirec
   for (const id of developmentMoves) assert.equal(byId.get(id).subcategoryId, 'psychology-life');
 });
 
-test('every new card has reciprocal theory relationships and a working practical entry', () => {
+test('new theory relationships stay reciprocal and technique removals require an explicit editorial review', () => {
   const techniques = read('src/data/generated/techniques.json').categories.flatMap(c => c.subcategories.flatMap(s => s.items));
   const comprehensive = read('src/data/generated/comprehensive-theory-links.json');
   const beforeTechniques = canonicalBefore.techniques.filter(t=>t.status==='published').map(t=>({id:t.id,relatedTheoryIds:t.theory_ids}));
+  const reviews = read('docs/content/content-network-review-20261016.json').techniques;
+  const reviewedRemoval = (techniqueId,theoryId) => {const r=reviews.find(r=>r.id===techniqueId);return r && r.rationale && r.before.theoryIds.includes(theoryId) && ![...r.primary,...r.supplementary].includes(theoryId);};
   for (const old of beforeTechniques) {
     const t = techniques.find(t => t.id === old.id);
-    for (const id of (old.relatedTheoryIds ?? old.theoryTagIds ?? []).filter(id=>!retired.has(id)&&!workChanges.find(c=>c.id===old.id)?.remove?.includes(id))) assert.ok(t.relatedTheoryIds.includes(id), `${old.id}/${id}`);
+    for (const id of (old.relatedTheoryIds ?? old.theoryTagIds ?? []).filter(id=>!retired.has(id)&&!workChanges.find(c=>c.id===old.id)?.remove?.includes(id)&&!reviewedRemoval(old.id,id))) assert.ok(t.relatedTheoryIds.includes(id), `${old.id}/${id}`);
   }
   for (const row of coverageRows) {
     const t = byId.get(row.tagId);
@@ -82,7 +84,7 @@ test('every new card has reciprocal theory relationships and a working practical
     assert.ok(row.techniqueIds.length);
     const existingTargets = canonicalBefore.techniques.filter(c=>c.status==='published' && c.theory_ids.includes(t.tagId)).map(c=>c.id);
     assert.ok(existingTargets.length, t.title);
-    for (const id of existingTargets.filter(id=>!workChanges.find(c=>c.id===id)?.remove.includes(t.tagId))) {
+    for (const id of existingTargets.filter(id=>!workChanges.find(c=>c.id===id)?.remove.includes(t.tagId)&&!reviewedRemoval(id,t.tagId))) {
       assert.ok(techniques.find(t => t.id === id).relatedTheoryIds.includes(t.tagId));
       assert.ok(comprehensive[id].includes(t.tagId));
     }

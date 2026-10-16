@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { master336PrimaryTheoryLinks } from './master336-theory-links.mjs';
 import { wisdomSupportTechniqueIdsByTheoryId } from './master336-wisdom-support-links.mjs';
+import networkReview from '../docs/content/content-network-review-20261016.json' with { type: 'json' };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const readJson = (file) => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
@@ -11,7 +12,6 @@ const theories = readJson('src/data/generated/theories.json');
 const comprehensive = readJson('src/data/generated/comprehensive-theory-links.json');
 const primary = readJson('src/data/generated/primary-theory-links.json');
 const audit = readJson('docs/theory-link-audit/content-review-summary.json');
-const priorClassics = new Set(readJson('docs/content/theory-taxonomy-before.json').filter((row) => row.category_id === 'classics-thought').map((row) => row.id));
 const scope = readJson('src/data/content-scope.json');
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const cardById = new Map(cards.map((card) => [card.id, card]));
@@ -65,11 +65,12 @@ for (const card of cards) {
 
 // 古典・名言は網羅数を稼ぐためではなく、個別に指定した処世術の判断を
 // 補強する層。実践知は意味が明確に対応するときだけリンクし、ゼロ件も許容する。
-for (const theory of theories.filter((item) => priorClassics.has(item.tagId))) {
-  if (!linkedTheoryIds.has(theory.tagId)) throw new Error(`Wisdom card remains unreachable: ${theory.tagId} ${theory.title}.`);
+for (const review of networkReview.techniques) {
+  const card = cardById.get(review.id);
+  if (!review.rationale || !card || JSON.stringify(card.relatedTheoryIds) !== JSON.stringify([...review.primary,...review.supplementary])) throw new Error(`Reviewed mechanism mapping differs: ${review.id}`);
 }
 
-const expectedPolicy = 'Prefer comprehensive coverage. Primary theories are representative entry points; supplementary theories contain similar, complementary, and alternate perspectives without implying lower importance.';
+const expectedPolicy = networkReview.policy;
 if (audit.reviewPolicy !== expectedPolicy) throw new Error('Audit policy does not describe the comprehensive two-group review.');
 if (audit.links !== links || audit.primaryLinks !== primaryLinks || audit.supplementaryLinks !== links - primaryLinks) {
   throw new Error('Audit link counts diverge from the generated catalogue.');
