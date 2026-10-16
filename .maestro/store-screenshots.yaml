@@ -15,6 +15,8 @@ name: Store screenshots - guest screens
     timeout: 10000
 - assertVisible:
     id: book-header
+- tapOn: 1枚目を表示
+- waitForAnimationToEnd
 - takeScreenshot: store-native-captures/02-home-guest
 
 - openLink:
@@ -65,17 +67,25 @@ name: Store screenshots - guest screens
 - tapOn: フォルダーを追加
 - tapOn: 蔵書フォルダー名
 - inputText: 対人術
-- hideKeyboard
 - tapOn: 蔵書フォルダーを保存
 - tapOn: フォルダー一覧に戻る
 - tapOn: フォルダーを追加
 - tapOn: 蔵書フォルダー名
 - inputText: 仕事術
-- hideKeyboard
 - tapOn: 蔵書フォルダーを保存
 - tapOn: フォルダー一覧に戻る
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: 蔵書：仕事術
+    direction: DOWN
+    timeout: 10000
 - takeScreenshot: store-native-captures/07-library-guest
+- scrollUntilVisible:
+    element:
+      text: マイ処世術
+    direction: UP
+    timeout: 10000
 - tapOn:
     text: マイ処世術
     index: 0
@@ -83,8 +93,15 @@ name: Store screenshots - guest screens
 - tapOn:
     id: personal-memo-input
 - inputText: 忙しい日は、やることを三つに絞る。
-- hideKeyboard
 - tapOn: 保存する
-- tapOn: マイ処世術：すべて
+- extendedWaitUntil:
+    notVisible: マイ処世術を作る
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      text: 忙しい日は、やることを三つに絞る。
+    direction: DOWN
+    timeout: 10000
+- assertVisible: 忙しい日は、やることを三つに絞る。
 - waitForAnimationToEnd
 - takeScreenshot: store-native-captures/07-personal-guest

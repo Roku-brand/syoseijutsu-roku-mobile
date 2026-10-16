@@ -16,7 +16,7 @@
         "EXPO_PUBLIC_APPLE_PRODUCT_ID": "com.shoseijutsuroku.premium.30days.v2"
       }
     },
-    "release31": {
+    "release32": {
       "extends": "production",
       "autoIncrement": false
     },

@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Image, Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { LibraryContent } from '@/components/library-content';
+import { KeyboardModalFrame } from '@/components/keyboard-modal-frame';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { techniqueById, theoryById } from '@/data/catalog';
@@ -189,7 +190,7 @@ export default function MyPageContent() {
       </View>
 
       <Modal transparent visible={principleEditing} animationType="fade" onRequestClose={() => setPrincipleEditing(false)}>
-        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
+        <KeyboardModalFrame style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>座右の銘を編集</AppText>
           <AppText style={styles.modalLead}>自分が大切にしたい言葉を、一文で書き留めます。</AppText>
           <TextInput multiline maxLength={100} value={principleDraft} onChangeText={setPrincipleDraft} accessibilityLabel="座右の銘" style={styles.input} />
@@ -197,11 +198,11 @@ export default function MyPageContent() {
             <Pressable accessibilityRole="button" onPress={() => setPrincipleEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
             <Pressable accessibilityRole="button" onPress={() => { updatePersonalPrinciple(principleDraft); setPrincipleEditing(false); }} style={styles.save}><AppText style={styles.saveText}>保存する</AppText></Pressable>
           </View>
-        </View></View>
+        </View></KeyboardModalFrame>
       </Modal>
 
       <Modal transparent visible={memoEditing} animationType="fade" onRequestClose={() => setMemoEditing(false)}>
-        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
+        <KeyboardModalFrame style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>{editingMemoId ? 'マイ処世術を編集' : 'マイ処世術を作る'}</AppText>
           <TextInput testID="personal-memo-input" multiline maxLength={140} value={memoDraft} onChangeText={setMemoDraft} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} accessibilityLabel="マイ処世術" style={styles.input} />
           <AppText style={styles.folderLabel}>保存先</AppText>
@@ -214,18 +215,18 @@ export default function MyPageContent() {
             <Pressable accessibilityRole="button" disabled={!memoDraft.trim()} onPress={saveMemo} style={[styles.save, !memoDraft.trim() && styles.saveDisabled]}><AppText style={styles.saveText}>保存する</AppText></Pressable>
           </View>
           {editingMemoId ? <Pressable accessibilityRole="button" accessibilityLabel="このマイ処世術を削除" onPress={() => { removePersonalMemo(editingMemoId); setMemoEditing(false); }} style={styles.deleteMemo}><AppText style={styles.deleteMemoText}>このマイ処世術を削除</AppText></Pressable> : null}
-        </View></View>
+        </View></KeyboardModalFrame>
       </Modal>
 
       <Modal transparent visible={folderEditing} animationType="fade" onRequestClose={() => setFolderEditing(false)}>
-        <View style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
+        <KeyboardModalFrame style={styles.modalBackdrop}><View tabIndex={-1} style={styles.modalCard}>
           <AppText style={styles.modalTitle}>フォルダーを作成</AppText>
           <TextInput maxLength={32} value={folderDraft} onChangeText={setFolderDraft} accessibilityLabel="フォルダー名" style={styles.folderInput} />
           <View style={styles.modalActions}>
             <Pressable accessibilityRole="button" onPress={() => setFolderEditing(false)} style={styles.cancel}><AppText style={styles.cancelText}>閉じる</AppText></Pressable>
             <Pressable accessibilityRole="button" disabled={!folderDraft.trim()} onPress={() => { const id = createPersonalMemoFolder(folderDraft); if (id) { openMemoFolder(id); setFolderEditing(false); } }} style={[styles.save, !folderDraft.trim() && styles.saveDisabled]}><AppText style={styles.saveText}>作成する</AppText></Pressable>
           </View>
-        </View></View>
+        </View></KeyboardModalFrame>
       </Modal>
     </BookScreen>
   );

@@ -31,7 +31,7 @@ await sharp(normalized, { raw: original.info }).png().toFile(path.join(source, '
 await fs.writeFile(path.join(root, 'status-edit-proof.json'), JSON.stringify({ source: 'User supplied iPhone screenshot', originalSha256: hash(await fs.readFile(path.join(source, '04-happenstance-user.jpg'))), method: 'Built-in imagegen status edit, isolated patches composited onto original decoded pixels', prompt: 'Change only the top iOS time to 9:41 and battery to fully charged; preserve app content.', time: '9:41', battery: '100%', regions, changedPixels, outsideStatusChangedPixels }, null, 2) + '\n');
 if (process.argv.includes('--status-only')) { console.log('Normalized user screenshot; app content unchanged.'); process.exit(0); }
 
-const files = [
+let files = [
   { file: '01-brand.png', type: 'brand', heading: '処世術の専門メディア' },
   { file: '02-home.png', source: '02-home-guest.png', type: 'home', heading: '毎日10分\nすきま時間に読める。', sub: '対人術・仕事術・人生術を、日々の知恵に。' },
   { file: '03-technique.png', source: '03-farewell-guest.png', heading: 'すぐ読める。\n日々に使える。', sub: '人間関係や仕事のヒントを、短いカードで。', label: '処世術', subject: '名残惜しいくらいで去る' },
@@ -40,6 +40,13 @@ const files = [
   { file: '06-learn.png', source: '06-learning-guest.png', heading: '読んだ知識を、\n使える理解へ。', sub: '場面に合わせて選び、解説で振り返る。', label: '学ぶ', subject: '助言する？ 聞く？' },
   { file: '07-personalize.png', source: '07-library-guest.png', secondary: '07-personal-guest.png', heading: 'パーソナライズ\n機能充実！', sub: '保存して整理。自分の処世術も作れる。', label: 'マイページ' },
 ];
+if (process.argv.includes('--preview')) {
+  const available = await Promise.all(files.map(async item => {
+    try { if (item.source) await fs.access(path.join(source, item.source)); if (item.secondary) await fs.access(path.join(source, item.secondary)); return true; }
+    catch { return false; }
+  }));
+  files = files.filter((_, i) => available[i]);
+}
 const browser = await chromium.launch();
 try {
   const page = await browser.newPage({ viewport: { width: 1242, height: 2688 }, deviceScaleFactor: 1 });
@@ -66,11 +73,12 @@ try {
     const md = await sharp(path.join(output, item.file)).metadata();
     if (md.width !== 1242 || md.height !== 2688 || md.hasAlpha) throw Error('Invalid store artwork');
     item.sha256 = hash(await fs.readFile(path.join(output, item.file)));
+    if (item.source) item.sourceSha256 = hash(await fs.readFile(path.join(source, item.source)));
     item.md5 = crypto.createHash('md5').update(await fs.readFile(path.join(output, item.file))).digest('hex');
     item.account ??= 'Guest / signed out';
     console.log('Composed ' + item.file);
   }
 } finally { await browser.close(); }
 const tiles = await Promise.all(files.map(async (item, i) => ({ input: await sharp(path.join(output, item.file)).resize(310, 671).png().toBuffer(), left: i * 310, top: 0 })));
-await sharp({ create: { width: 2170, height: 671, channels: 3, background: '#faf9f5' } }).composite(tiles).png().toFile(path.join(root, 'overview.png'));
-await fs.writeFile(path.join(root, 'manifest.json'), JSON.stringify({ date: '2026-10-17', version: '1.0.3', build: '31', dimensions: [1242, 2688], displayType: 'APP_IPHONE_65', time: '9:41', battery: '100%', capture: 'Latest native app guest captures, except the user-supplied signed-in theory screenshot', files }, null, 2) + '\n');
+await sharp({ create: { width: files.length * 310, height: 671, channels: 3, background: '#faf9f5' } }).composite(tiles).png().toFile(path.join(root, 'overview.png'));
+await fs.writeFile(path.join(root, 'manifest.json'), JSON.stringify({ date: '2026-10-17', version: '1.0.3', build: '32', dimensions: [1242, 2688], displayType: 'APP_IPHONE_65', time: '9:41', battery: '100%', capture: 'Latest native app guest captures, except the user-supplied signed-in theory screenshot', files }, null, 2) + '\n');
