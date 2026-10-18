@@ -101,6 +101,7 @@
     "test:content-network": "node --test tests/unit/content-network.test.mjs tests/unit/feature-links.test.mjs && node scripts/verify-cross-content-network.mjs",
     "test:cms": "node --test tests/unit/cms-errors.test.mjs && node scripts/verify-feature-publication-defaults.mjs",
     "test:personal-dashboard": "node --test tests/unit/personal-dashboard.test.mjs",
+    "test:theory-summaries": "node --test tests/unit/theory-summary-editorial.test.mjs",
     "test:search": "node --test tests/unit/search-relevance.test.mjs tests/unit/published-search-tags.test.mjs && node scripts/verify-search-tag-migration.mjs"
   },
   "private": true

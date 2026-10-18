@@ -55,7 +55,6 @@ export default function MyPageContent() {
               onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
               style={({ pressed }) => [styles.profileEdit, mobile && styles.profileEditMobile, pressed && styles.pressed]}
             ><AppText style={[styles.profileEditText, mobile && styles.profileEditTextMobile]}>{mobile ? '編集 ›' : '✎　編集　›'}</AppText></Pressable>
-            <Pressable accessibilityRole="button" accessibilityLabel="設定を開く" onPress={() => router.push('/settings')} style={[styles.profileEdit, mobile && styles.profileEditMobile]}><AppText style={styles.editIcon}>⚙</AppText></Pressable>
           </View>
           <View style={styles.profileDivider} />
           <View

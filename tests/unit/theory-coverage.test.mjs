@@ -11,6 +11,7 @@ const sections = read('src/data/generated/theory-subcategories.json');
 const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
 const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
+const summaryReviews = new Map(read('docs/content/theory-summary-review-20261019.json').changes.map(t => [t.id, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
   assert.equal(cards.length, 821);
@@ -24,7 +25,11 @@ test('coverage expands named gaps with distinct concepts and full sources', () =
   }
   for (const row of coverageRows) {
     const t = byId.get(row.tagId);
-    assert.ok(t.summary.length >= 100, t.title);
+    const summaryReview = summaryReviews.get(t.tagId);
+    if (summaryReview) {
+      assert.equal(t.summary, summaryReview.summary);
+      assert.ok(t.summary.length >= 30 && t.summary.length <= 150, t.title);
+    } else assert.ok(t.summary.length >= 100, t.title);
     assert.equal(t.accessTier, 'complete');
     assert.ok(t.provenance.attribution && t.provenance.note && t.provenance.works.length);
     assert.ok(t.provenance.sources.length);
@@ -40,7 +45,17 @@ test('historical content, aliases, access and stable identities survive expansio
   for (const old of before.filter(t=>!retired.has(t.tagId))) {
     const t = byId.get(old.tagId);
     assert.ok(t);
-    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) { if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; } if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; } assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`); }
+    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) {
+      if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; }
+      if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; }
+      const reviewed=summaryReviews.get(t.tagId);
+      if(key==='summary' && reviewed) {
+        assert.equal(reviewed.beforeSummary,old.summary, `${old.tagId}: reviewed baseline`);
+        assert.equal(t.summary,reviewed.summary, `${old.tagId}: reviewed edit`);
+        continue;
+      }
+      assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`);
+    }
     for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
     if (t.quotation) assert.equal(t.subcategoryId, 'classics-thought-f');
     else if (['kb_701','kb_702'].includes(old.tagId)) assert.equal(t.subcategoryId, 'classics-thought-e');

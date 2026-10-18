@@ -41,6 +41,7 @@ jobs:
       - name: Verify CMS publication and error handling
         run: pnpm test:cms
       - run: pnpm test:personal-dashboard
+      - run: pnpm test:theory-summaries
       - run: node --test tests/unit/usage-consent.test.mjs
       - run: pnpm content:audit-theory-rights
       - run: pnpm typecheck

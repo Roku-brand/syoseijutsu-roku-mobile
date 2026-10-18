@@ -31,6 +31,7 @@ const retired=new Set(JSON.parse(fs.readFileSync(path.join(root,'src/data/genera
 const preReform=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-coverage-20261015-catalog-before.json'),'utf8'));
 const canonicalBefore=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/theory-reform-catalog-before.json'),'utf8')).theories;
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
+const summaryReviews=new Map(JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-summary-review-20261019.json'),'utf8')).changes.map(t=>[t.id,t]));
 const networkReview=JSON.parse(fs.readFileSync(path.join(root,'docs/content/content-network-review-20261016.json'),'utf8'));
 const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
 const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
@@ -85,7 +86,12 @@ test('published refresh and complete overlay keep fatigue-free rows and correcte
 test('broad sections preserve all content and move techniques to their subject',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));
  const historicalIds=new Set(snapshot.assignments.map(t=>t.tagId));
- const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>['kb_002','kb_595'].includes(t.tagId)?preReform.find(x=>x.tagId===t.tagId):t);
+ const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>{
+  if(['kb_002','kb_595'].includes(t.tagId)) return preReform.find(x=>x.tagId===t.tagId);
+  const reviewed=summaryReviews.get(t.tagId);
+  if(reviewed) {assert.equal(t.summary,reviewed.summary);return {...t,summary:reviewed.beforeSummary};}
+  return t;
+ });
  const text=[...historical].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
  assert.equal(createHash('md5').update(text).digest('hex'),snapshot.contentHash);
  assert.deepEqual(new Set(historical.map(t=>t.tagId)),historicalIds);
@@ -152,7 +158,13 @@ test('new complete-edition theories are searchable shells and hydrate without ch
  assert.equal(additions.length,40);
  for(const old of snapshot.theories.filter(t=>t.status==='published'&&!retired.has(t.id))) {
   const now=current.find(t=>t.tagId===old.id);
-  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']]){if(old.id==='kb_002'&&cardKey==='title'){assert.ok(now.aliases.includes(old.title));continue;}if(old.id==='kb_595'&&['title','summary'].includes(cardKey)){assert.ok(now.quotation);continue;}assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);}
+  for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']]){
+   if(old.id==='kb_002'&&cardKey==='title'){assert.ok(now.aliases.includes(old.title));continue;}
+   if(old.id==='kb_595'&&['title','summary'].includes(cardKey)){assert.ok(now.quotation);continue;}
+   const reviewed=summaryReviews.get(old.id);
+   if(cardKey==='summary'&&reviewed){assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
+   assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
+  }
  }
  for(const t of additions) {
   const shell=catalog.theoryById.get(t.tagId);

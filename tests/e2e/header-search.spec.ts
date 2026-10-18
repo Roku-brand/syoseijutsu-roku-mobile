@@ -19,6 +19,8 @@ test('ヘッダー検索は元のページを保ち、3種別を選べて閉じ�
   const trigger = page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true });
   await trigger.click();
   const popup = page.getByTestId('header-search-popup');
+  await expect(popup.getByRole('heading', { name: '検索', exact: true })).toHaveCount(0);
+  expect((await popup.boundingBox())!.height).toBeLessThanOrEqual(160);
   await expect(popup).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(popup.getByRole('tab')).toHaveText(['処世術', '理論', '特集']);
@@ -51,6 +53,8 @@ test('320pxと390pxでも検索が画面内に収まり、空欄・閉じる・�
     const popup = page.getByTestId('header-search-popup');
     await expect(popup).toBeVisible();
     const box = await popup.boundingBox();
+    await expect(popup.getByRole('heading', { name: '検索', exact: true })).toHaveCount(0);
+    expect(box!.height).toBeLessThanOrEqual(150);
     expect(box!.x).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width).toBeLessThanOrEqual(width);
     await popup.getByRole('button', { name: '検索を実行' }).click();
