@@ -36,7 +36,11 @@ try {
  create view public.public_techniques with(security_barrier=true) as ${beforeView}
  grant select on public.public_techniques to anon,authenticated;
  update public.techniques set access_tier='free',tags=${q(cards[0].tags)} where id='master336-001';`);
- await db.exec('begin;'+mask+'commit;');
+ // PGlite PG18 reformats view SQL differently from production PG17.
+ // Parse the identical pre-migration definition, then compare its canonical form.
+ const canonicalBefore=(await db.query("select pg_get_viewdef('public.public_techniques'::regclass,true) definition")).rows[0].definition;
+ const compatibleMask=mask.replace(beforeView.replaceAll("'","''"),canonicalBefore.replaceAll("'","''"));
+ await db.exec('begin;'+compatibleMask+'commit;');
  await db.exec("set role anon;");
  assert.equal((await db.query("select count(*)::int n from public.public_techniques where access_tier='complete' and tags is not null")).rows[0].n,0);
  assert.deepEqual((await db.query("select tags from public.public_techniques where id='master336-001'")).rows[0].tags,cards[0].tags);

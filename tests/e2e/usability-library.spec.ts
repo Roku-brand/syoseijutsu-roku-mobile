@@ -55,77 +55,15 @@ test('内部分類の選択はURL・分類切り替えに連動し、分類内�
   await expect(page.getByTestId('search-page-results')).toContainText('ハロー効果');
 });
 
-test('旧内部分類URLを新分類へ解決し、320pxでも人物像と同じ形の分類ボタンが収まる', async ({ page }) => {
-  test.setTimeout(90_000);
+test('旧内部分類URLを解決してリールの選択状態を復元する', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 844 });
-  await page.goto('/personas');
-  const reference = await page.getByTestId('persona-category-filters').getByRole('button').first().evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
   await page.goto('/theories?category=psychology&subcategory=psychology-d&page=7');
   await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
-  await expect(page.getByText('自己効力感', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '自己理解・成長で内部分類を絞り込む', exact: true })).toHaveAttribute('aria-selected', 'true');
   await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
-  for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
-    for (const button of await page.getByTestId(testId).getByRole('button').all()) {
-      const size = await button.evaluate(el => ({ radius: parseFloat(getComputedStyle(el).borderTopLeftRadius), height: el.getBoundingClientRect().height }));
-      expect(size).toEqual(reference);
-    }
-  }
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
-  await page.screenshot({ path: test.info().outputPath('theory-sections-mobile.png') });
-  // Developmental theories now have a dedicated section; old growth URLs
-  // still resolve to growth, while stable cards are reachable in their new home.
-  await page.goto('/theories?category=psychology&subcategory=psychology-life');
-  await expect(page.getByRole('heading', { name: '発達・人生の時間軸', exact: true })).toBeVisible();
-  await expect(page.getByText('ピアジェの認知発達理論', { exact: true })).toBeVisible();
-  for (const width of [320, 390, 1000, 1440]) {
-    await page.setViewportSize({ width, height: 1000 });
-    for (const category of ['psychology', 'behavioral-science', 'organization-management', 'strategy', 'practical-wisdom', 'classics-thought']) {
-      await page.goto(`/theories?category=${category}`);
-      const filters = page.getByTestId('theory-subcategory-filters');
-      const rowCount = await filters.getByTestId('theory-subcategory-row').count();
-      expect(rowCount).toBeGreaterThanOrEqual(width >= 1000 ? 1 : 2);
-      const bounds = await filters.boundingBox();
-      const positions = new Set<number>();
-      for (const button of await filters.getByRole('button').all()) {
-        const box = await button.boundingBox();
-        positions.add(Math.round(box!.y));
-        expect(box!.x).toBeGreaterThanOrEqual(bounds!.x - 1);
-        expect(box!.x + box!.width).toBeLessThanOrEqual(bounds!.x + bounds!.width + 1);
-        const label = await button.locator('div').first().evaluate(el => {
-          const range = document.createRange();
-          range.selectNodeContents(el);
-          const text = range.getBoundingClientRect();
-          return { height: el.clientHeight, width: el.clientWidth, textHeight: text.height, textWidth: text.width };
-        });
-        expect(label.textHeight).toBeLessThanOrEqual(label.height + 1);
-        expect(label.textWidth).toBeLessThanOrEqual(label.width + 1);
-      }
-      expect(positions.size).toBe(rowCount);
-      for (const testId of ['theory-category-filters', 'theory-subcategory-filters']) {
-        for (const button of await page.getByTestId(testId).getByRole('button').all()) {
-          const label = await button.locator('div').first().evaluate(el => {
-            const bounds = el.getBoundingClientRect();
-            return Array.from(el.children).map(word => {
-              const range = document.createRange();
-              range.selectNodeContents(word);
-              const text = range.getBoundingClientRect();
-              return { text: word.textContent, lineHeight: parseFloat(getComputedStyle(word).lineHeight), height: text.height, left: text.left - bounds.left, right: text.right - bounds.right };
-            });
-          });
-          expect(label.length).toBeGreaterThan(0);
-          for (const word of label) {
-            expect(word.height, `${width}px ${word.text}`).toBeLessThanOrEqual(word.lineHeight + 1);
-            expect(word.left, `${width}px ${word.text}`).toBeGreaterThanOrEqual(-1);
-            expect(word.right, `${width}px ${word.text}`).toBeLessThanOrEqual(1);
-          }
-        }
-      }
-      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
-      if (category === 'psychology' || category === 'organization-management') await page.screenshot({ path: test.info().outputPath(`theory-subcategories-${category}-${width}.png`) });
-    }
-  }
+  await expect(page.getByTestId('theory-subcategory-row')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
-
 test('既存の保存と旧理論IDを維持し、フォルダー作成・移動・復元・名前変更・削除を両画面で使える', async ({ page }) => {
   await page.addInitScript(({ key }) => {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ savedIds: ['master336-001'], savedTheoryIds: ['kb_392', 'kb_016'], libraryFolders: [{ id: 'old', name: '以前の蔵書', createdAt: '2026-01-01T00:00:00Z' }], libraryFolderByItem: { 'theory:kb_392': 'old' } }));

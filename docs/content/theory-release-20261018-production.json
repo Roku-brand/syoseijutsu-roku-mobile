@@ -1,0 +1,30 @@
+{
+  "project": "psfexomjhivqieehcrzx",
+  "applied": true,
+  "free": 141,
+  "backups": 1444,
+  "newCards": 124,
+  "migration": {
+    "name": "expand_theory_catalog_945",
+    "version": "20261018112458"
+  },
+  "published": 945,
+  "relations": 916,
+  "categories": {
+    "strategy": 94,
+    "psychology": 405,
+    "classics-thought": 90,
+    "practical-wisdom": 79,
+    "behavioral-science": 146,
+    "organization-management": 131
+  },
+  "fingerprint": "b5ce5ff2f7302376ad514d49c243df9e",
+  "deadReferences": 0,
+  "paidProjections": 804,
+  "anonymous": {
+    "publicNames": 950,
+    "leakedBodies": 0,
+    "readablePaidRows": 0,
+    "readableTheories": 141
+  }
+}

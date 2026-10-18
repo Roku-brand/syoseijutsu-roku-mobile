@@ -1,19 +1,19 @@
 {
   "reviewPolicy": "本文の本質に直接対応する知識を主要とし、異なる説明・実践・思想のみ補完する。網羅数・分類一致・用語一致だけで接続を増やさない。",
   "techniques": 356,
-  "theories": 821,
-  "links": 729,
+  "theories": 945,
+  "links": 734,
   "primaryLinks": 422,
-  "supplementaryLinks": 307,
-  "linkedTheories": 366,
-  "unlinkedTheories": 455,
+  "supplementaryLinks": 312,
+  "linkedTheories": 371,
+  "unlinkedTheories": 574,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 4,
   "distribution": {
     "1": 81,
-    "2": 186,
-    "3": 80,
-    "4": 9
+    "2": 182,
+    "3": 83,
+    "4": 10
   },
   "primaryDistribution": {
     "0": 1,
@@ -21,20 +21,20 @@
     "2": 67
   },
   "supplementaryDistribution": {
-    "0": 109,
-    "1": 189,
-    "2": 56,
+    "0": 108,
+    "1": 186,
+    "2": 60,
     "3": 2
   },
   "wisdomSupportLinks": 99,
   "categoryCoverage": {
     "psychology": {
-      "theories": 349,
+      "theories": 405,
       "linkedTheories": 150,
       "links": 332
     },
     "behavioral-science": {
-      "theories": 114,
+      "theories": 146,
       "linkedTheories": 33,
       "links": 46
     },
@@ -49,9 +49,9 @@
       "links": 61
     },
     "practical-wisdom": {
-      "theories": 43,
-      "linkedTheories": 36,
-      "links": 80
+      "theories": 79,
+      "linkedTheories": 41,
+      "links": 85
     },
     "classics-thought": {
       "theories": 90,
@@ -60,5 +60,5 @@
     }
   },
   "practicalWisdomPolicy": "Only independently reviewed semantic matches; zero related techniques is valid.",
-  "generatedAt": "2026-10-16"
+  "generatedAt": "2026-10-18"
 }

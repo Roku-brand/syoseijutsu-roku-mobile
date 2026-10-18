@@ -4,14 +4,14 @@ const rows=JSON.parse(fs.readFileSync('src/data/generated/theories.json','utf8')
 const subcategories=JSON.parse(fs.readFileSync('src/data/generated/theory-subcategories.json','utf8'));
 const categories=[...new Map(rows.map((t:any)=>[t.categoryId,{kind:'theory',id:t.categoryId,title:t.categoryTitle,display_order:['psychology','behavioral-science','organization-management','strategy','practical-wisdom','classics-thought'].indexOf(t.categoryId)+1}])).values()];
 
-for(const width of [320,390,1440])test(`全9ページを丸ボタンで省略せず表示し分類の列を揃える（${width}px）`,async({page})=>{
+for(const width of [320,390,1440])test(`全10ページを丸ボタンで省略せず表示し分類の列を揃える（${width}px）`,async({page})=>{
  await page.setViewportSize({width,height:1000});
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{}}));
  await page.goto('/theories');
  const pagination=page.getByTestId('theory-index-pagination');
- await expect(pagination.getByRole('button')).toHaveCount(9);
+ await expect(pagination.getByRole('button')).toHaveCount(10);
  await expect(pagination).not.toContainText('…');
- for(let n=1;n<=9;n++){
+ for(let n=1;n<=10;n++){
   const button=pagination.getByRole('button',{name:`${n}ページ目`,exact:true});await expect(button).toBeVisible();
   expect(await button.evaluate(el=>{const r=el.getBoundingClientRect();return r.width===r.height&&parseFloat(getComputedStyle(el).borderTopLeftRadius)>=r.width/2;})).toBeTruthy();
  }
@@ -22,8 +22,8 @@ for(const width of [320,390,1440])test(`全9ページを丸ボタンで省略せ
  await pagination.getByRole('button',{name:'5ページ目',exact:true}).click();
  await expect(pagination.getByRole('button',{name:'5ページ目',exact:true})).toHaveAttribute('aria-selected','true');
  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(100);
- await pagination.getByRole('button',{name:'9ページ目',exact:true}).click();
- await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.length-800);
+ await pagination.getByRole('button',{name:'10ページ目',exact:true}).click();
+ await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.length-900);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
 });
 
