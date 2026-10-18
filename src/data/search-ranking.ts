@@ -5,6 +5,8 @@ export type SearchDocument = {
   knowledgeId?: string;
   title: string;
   aliases?: readonly string[];
+  /** Related lookup terms, deliberately weaker than names and aliases. */
+  keywords?: readonly string[];
   tags?: readonly string[];
   summary?: string;
   context?: readonly string[];
@@ -18,7 +20,7 @@ type VocabularyEntry = { label: string; forms: string[] };
  */
 export function normalizeSearchText(value: string) {
   return value.normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, character => String.fromCharCode(character.charCodeAt(0) - 0x60))
-    .replace(/[‐‑‒–—−]/g, '-').replace(/([a-z])-(?=[a-z])/g, '$1 ').replace(/\s+/g, ' ').trim();
+    .replace(/[‐‑‒–—−]/g, '-').replace(/[・･]/g, '').replace(/([a-z])-(?=[a-z])/g, '$1 ').replace(/\s+/g, ' ').trim();
 }
 const vocabulary: VocabularyEntry[] = SEARCH_VOCABULARY.map(([label, ...variants]) => ({
   label: normalizeSearchText(label), forms: [...new Set([label, ...variants].map(normalizeSearchText))],
@@ -113,6 +115,7 @@ export function scoreSearchDocument(document: SearchDocument, query: string, ter
     [title, 120],
     ...(document.aliases ?? []).map(value => [normalizeSearchText(value), 100] as [string, number]),
     ...(document.tags ?? []).map(value => [normalizeSearchText(value), 85, true] as [string, number, boolean]),
+    ...(document.keywords ?? []).map(value => [normalizeSearchText(value), 25] as [string, number]),
     [normalizeSearchText(document.summary ?? ''), 35],
     ...(document.context ?? []).map(value => [normalizeSearchText(value), 15] as [string, number]),
     [normalizeSearchText(opening), 20],
@@ -149,7 +152,9 @@ export function scoreSearchDocument(document: SearchDocument, query: string, ter
     }));
     if (!starts.some(start => terms.every(term => term.variants.some(variant => includesTerm(body.slice(start, start + 240), variant))))) return 0;
   }
-  return total / terms.length;
+  const nameMatch = terms.every(term => [title, ...(document.aliases ?? []).map(normalizeSearchText)]
+    .some(value => bestMatch(value, term, 1) > 0));
+  return (document.knowledgeId && nameMatch ? 600 : 0) + Math.min(250, total / terms.length);
 }
 
 export function rankSearchItems<T>(items: readonly T[], document: (item: T) => SearchDocument, query: string) {

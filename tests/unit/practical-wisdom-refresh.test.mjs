@@ -15,7 +15,7 @@ const audit=load('docs/content/historical-maxims-audit-20261015.json');
 const cards=load('src/data/generated/techniques.json').categories.flatMap(c=>c.subcategories.flatMap(p=>p.items));
 const retiredIds=new Set(load('src/data/generated/retired-theory-ids.json'));
 test('39 originals disappear without reusing stable IDs or leaving references',()=>{
- assert.equal(retired.length,39);assert.equal(retiredIds.size,39);assert.equal(complete.length,821);
+ assert.equal(retired.length,39);assert.equal(retiredIds.size,39);assert.equal(complete.length,945);
  for(const t of [...complete,...shells]){
   assert.ok(!retiredIds.has(t.tagId));assert.notEqual(t.provenance?.status,'オリジナル');
   assert.ok(!(t.relatedTheoryIds??[]).some(id=>retiredIds.has(id)));
@@ -64,13 +64,14 @@ test('all 803 retained theories have an editorial record and taxonomy remains si
  assert.equal(load('docs/content/theory-editorial-review-20261015.json').length,803);
  assert.equal(new Set(complete.map(t=>t.categoryId)).size,6);
  assert.equal(load('src/data/generated/theory-subcategories.json').length,36);
- assert.equal(new Set(complete.map(t=>t.tagId)).size,821);
+ assert.equal(new Set(complete.map(t=>t.tagId)).size,945);
 });
 test('directed relationship labels reverse without implying evidentiary support for sayings',()=>{
  assert.equal(relationLabel({sourceId:'a',targetId:'b',type:'contains'},'a'),'構成要素');
  assert.equal(relationLabel({sourceId:'a',targetId:'b',type:'contains'},'b'),'上位の知識');
- const rows=load('src/data/generated/theory-relations.json');assert.equal(rows.length,574);
- assert.equal(rows.filter(r=>r.reviewStatus==='confirmed').length,128);
+ const rows=load('src/data/generated/theory-relations.json');const extra=load('docs/content/theory-release-20261018-changes.json').relationChanges;
+ assert.equal(rows.length,574+extra.length);
+ assert.equal(rows.filter(r=>r.reviewStatus==='confirmed').length,128+extra.length);
  assert.equal(rows.filter(r=>r.reviewStatus==='legacy').length,446);
  for(const r of rows){assert.notEqual(r.sourceId,r.targetId);assert.ok(complete.some(t=>t.tagId===r.sourceId));assert.ok(complete.some(t=>t.tagId===r.targetId));}
 });

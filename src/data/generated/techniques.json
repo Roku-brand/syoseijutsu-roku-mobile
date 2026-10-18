@@ -1578,7 +1578,8 @@
               "importance": 2,
               "relatedTheoryIds": [
                 "kb_394",
-                "kb_047"
+                "kb_047",
+                "kb_1048"
               ],
               "subtitle": "感謝は具体的なほど、「自分の行動を見てくれていた」に変わる。",
               "displayOrder": 7,
@@ -5914,7 +5915,8 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_547",
-                "kb_545"
+                "kb_545",
+                "kb_1056"
               ],
               "subtitle": "緊急な仕事は勝手に割り込むが、重要な仕事は守らなければ消える。",
               "displayOrder": 2,
@@ -5942,7 +5944,8 @@
               "importance": 3,
               "relatedTheoryIds": [
                 "kb_173",
-                "kb_547"
+                "kb_547",
+                "kb_1075"
               ],
               "subtitle": "優先順位は意志ではなく、先に確保した時間に表れる。",
               "displayOrder": 3,
@@ -6503,7 +6506,8 @@
               "relatedTheoryIds": [
                 "kb_573",
                 "kb_574",
-                "kb_953"
+                "kb_953",
+                "kb_1080"
               ],
               "subtitle": "頭がいい人ほど、白黒で切るより「場合による」をちゃんと考えられる。",
               "displayOrder": 8,
@@ -9466,7 +9470,8 @@
               "importance": 1,
               "relatedTheoryIds": [
                 "kb_709",
-                "kb_264"
+                "kb_264",
+                "kb_1060"
               ],
               "subtitle": "今なら分かることを、当時の自分も知っていた前提で責めるのはフェアではない。",
               "displayOrder": 12,

@@ -102,7 +102,9 @@
     "test:cms": "node --test tests/unit/cms-errors.test.mjs && node scripts/verify-feature-publication-defaults.mjs",
     "test:personal-dashboard": "node --test tests/unit/personal-dashboard.test.mjs",
     "test:theory-summaries": "node --test tests/unit/theory-summary-editorial.test.mjs",
-    "test:search": "node --test tests/unit/search-relevance.test.mjs tests/unit/published-search-tags.test.mjs && node scripts/verify-search-tag-migration.mjs"
+    "test:search": "node --test tests/unit/search-relevance.test.mjs tests/unit/published-search-tags.test.mjs && node scripts/verify-search-tag-migration.mjs",
+    "content:release-theories-945": "node scripts/build-theory-release-20261018.mjs && node scripts/build-theory-release-sql.mjs && node scripts/build-public-catalog.mjs",
+    "test:theory-release-945": "node --test tests/unit/theory-release-20261018.test.mjs && node scripts/verify-theory-release-20261018.mjs"
   },
   "private": true
 }

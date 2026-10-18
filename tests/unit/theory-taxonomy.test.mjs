@@ -184,7 +184,7 @@ test('display IDs follow the current taxonomy order within every major while all
  for(const category of catalog.theoryCategoryOrder) {
   const rows=catalog.theories.filter(t=>t.categoryId===category);
   assert.equal(new Set(rows.map(t=>t.displayId)).size,rows.length);
-  for(const row of rows){const old=canonicalBefore.find(t=>t.id===row.tagId);if(old)assert.equal(row.displayId,old.display_id);}
+  assert.deepEqual(rows.map(row=>row.displayId),Array.from({length:rows.length},(_,i)=>i+1));
   for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
  }
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));

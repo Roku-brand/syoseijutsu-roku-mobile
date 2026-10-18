@@ -32,6 +32,9 @@ jobs:
       - run: pnpm content:audit-learning
       - run: pnpm lint
       - run: pnpm test:practical-wisdom
+      - name: Verify 945-theory release, CMS, permissions and rollback
+        run: pnpm test:theory-release-945
+
       - run: pnpm test:theory-taxonomy
       - run: pnpm test:theory-network
       - name: Verify cross-content network

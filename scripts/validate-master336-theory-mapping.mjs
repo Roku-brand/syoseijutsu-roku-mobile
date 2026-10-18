@@ -13,6 +13,7 @@ const comprehensive = readJson('src/data/generated/comprehensive-theory-links.js
 const primary = readJson('src/data/generated/primary-theory-links.json');
 const audit = readJson('docs/theory-link-audit/content-review-summary.json');
 const scope = readJson('src/data/content-scope.json');
+const release = readJson('docs/content/theory-release-20261018-changes.json');
 const cards = catalog.categories.flatMap((category) => category.subcategories.flatMap((subcategory) => subcategory.items));
 const cardById = new Map(cards.map((card) => [card.id, card]));
 const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
@@ -67,7 +68,9 @@ for (const card of cards) {
 // 補強する層。実践知は意味が明確に対応するときだけリンクし、ゼロ件も許容する。
 for (const review of networkReview.techniques) {
   const card = cardById.get(review.id);
-  if (!review.rationale || !card || JSON.stringify(card.relatedTheoryIds) !== JSON.stringify([...review.primary,...review.supplementary])) throw new Error(`Reviewed mechanism mapping differs: ${review.id}`);
+  const added=release.techniqueChanges.filter(link=>link.techniqueId===review.id);
+  if(added.some(link=>!link.reason || !theoryById.has(link.theoryId)))throw new Error(`Unreviewed release mapping: ${review.id}`);
+  if (!review.rationale || !card || JSON.stringify(card.relatedTheoryIds) !== JSON.stringify([...review.primary,...review.supplementary,...added.map(link=>link.theoryId)])) throw new Error(`Reviewed mechanism mapping differs: ${review.id}`);
 }
 
 const expectedPolicy = networkReview.policy;

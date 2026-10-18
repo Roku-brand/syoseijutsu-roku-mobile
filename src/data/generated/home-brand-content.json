@@ -300,13 +300,13 @@
       "legacyIds": [],
       "mergedFromIds": [],
       "aliases": [
-        "ホーン効果",
-        "horn effect",
-        "devil effect"
+        "halo effect",
+        "後光効果"
       ],
       "relatedTheoryIds": [
         "kb_927",
-        "kb_399"
+        "kb_399",
+        "kb_982"
       ],
       "displayId": 2,
       "displayOrder": 2,
@@ -346,7 +346,8 @@
         "kb_773",
         "kb_845",
         "kb_889",
-        "kb_771"
+        "kb_771",
+        "kb_1062"
       ],
       "displayId": 42,
       "displayOrder": 42,
@@ -384,8 +385,8 @@
       "relatedTheoryIds": [
         "kb_047"
       ],
-      "displayId": 175,
-      "displayOrder": 175,
+      "displayId": 198,
+      "displayOrder": 198,
       "provenance": {
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。",
         "works": [
@@ -418,10 +419,12 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [
-        "kb_009"
+        "kb_009",
+        "kb_1008",
+        "kb_1047"
       ],
-      "displayId": 167,
-      "displayOrder": 167,
+      "displayId": 190,
+      "displayOrder": 190,
       "provenance": {
         "note": "自己開示と好意に関する研究を統合した論文。開示の返報性や脆弱性の相互性という呼称の初出を示すものではありません。",
         "works": [
@@ -490,8 +493,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 225,
-      "displayOrder": 225,
+      "displayId": 248,
+      "displayOrder": 248,
       "provenance": {
         "note": "失敗が対人魅力へ及ぼす影響は、もとの能力評価などの条件に左右されます。",
         "works": [
@@ -524,10 +527,11 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [
-        "kb_869"
+        "kb_869",
+        "kb_999"
       ],
-      "displayId": 158,
-      "displayOrder": 158,
+      "displayId": 178,
+      "displayOrder": 178,
       "provenance": {
         "note": "印象管理の二要素モデルを提示した著者らの論文。",
         "works": [
@@ -558,7 +562,9 @@
       "canonicalId": "kb_029",
       "legacyIds": [],
       "mergedFromIds": [],
-      "aliases": [],
+      "aliases": [
+        "peak-end rule"
+      ],
       "relatedTheoryIds": [],
       "displayId": 57,
       "displayOrder": 57,
@@ -636,8 +642,8 @@
       "relatedTheoryIds": [
         "kb_007"
       ],
-      "displayId": 176,
-      "displayOrder": 176,
+      "displayId": 199,
+      "displayOrder": 199,
       "provenance": {
         "note": "返報性規範の理論的論考。好意の返報性の単独の提唱者を確定する資料ではありません。",
         "works": [
@@ -668,15 +674,18 @@
       "canonicalId": "kb_004",
       "legacyIds": [],
       "mergedFromIds": [],
-      "aliases": [],
+      "aliases": [
+        "mere exposure effect"
+      ],
       "relatedTheoryIds": [
         "kb_718",
         "kb_821",
         "kb_896",
-        "kb_925"
+        "kb_925",
+        "kb_957"
       ],
-      "displayId": 173,
-      "displayOrder": 173,
+      "displayId": 196,
+      "displayOrder": 196,
       "provenance": {
         "note": "単純接触研究の代表的論文。効果の大きさや条件まで一律に保証するものではありません。",
         "works": [
@@ -709,8 +718,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 226,
-      "displayOrder": 226,
+      "displayId": 249,
+      "displayOrder": 249,
       "provenance": {
         "note": "依頼に応じて好意的な行為をすることと相手への好意を調べた研究。フランクリンの逸話自体の出典ではありません。",
         "works": [
@@ -743,8 +752,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 219,
-      "displayOrder": 219,
+      "displayId": 242,
+      "displayOrder": 242,
       "provenance": {
         "note": "共依存を扱う著者本人の著作紹介。実践書の参照であり、単一の確立した医学的診断や用語の唯一の初出を意味しません。",
         "works": [
@@ -778,10 +787,12 @@
       "aliases": [],
       "relatedTheoryIds": [
         "kb_427",
-        "theory-a70e3a53-86c5-45e0-afb4-97e081936b53"
+        "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
+        "kb_1007",
+        "kb_1047"
       ],
-      "displayId": 187,
-      "displayOrder": 187,
+      "displayId": 210,
+      "displayOrder": 210,
       "provenance": {
         "note": "自己と相手の権利を尊重するアサーションを背景文献として提示。カード名は実践向けの整理であり、同名の単一の学術理論や正式な心理検査の原典としません。",
         "works": [
@@ -845,7 +856,9 @@
       "canonicalId": "kb_190",
       "legacyIds": [],
       "mergedFromIds": [],
-      "aliases": [],
+      "aliases": [
+        "planning fallacy"
+      ],
       "relatedTheoryIds": [
         "kb_710",
         "kb_810"
@@ -919,7 +932,9 @@
       "legacyIds": [],
       "mergedFromIds": [],
       "aliases": [],
-      "relatedTheoryIds": [],
+      "relatedTheoryIds": [
+        "kb_1068"
+      ],
       "displayId": 131,
       "displayOrder": 131,
       "provenance": {
@@ -976,8 +991,8 @@
         "kb_052",
         "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf"
       ],
-      "displayId": 242,
-      "displayOrder": 242,
+      "displayId": 265,
+      "displayOrder": 265,
       "provenance": {
         "note": "アサーション訓練の歴史と研究を整理した論文。単一の「アサーション理論」の初出としては扱いません。",
         "works": [
@@ -1042,14 +1057,17 @@
       "canonicalId": "kb_268",
       "legacyIds": [],
       "mergedFromIds": [],
-      "aliases": [],
+      "aliases": [
+        "hedonic adaptation"
+      ],
       "relatedTheoryIds": [
         "kb_945",
         "theory-acb4311e-b6ca-416c-8d06-06cff53444b2",
-        "theory-d15357a9-73da-4286-859e-91a7ebcb5f85"
+        "theory-d15357a9-73da-4286-859e-91a7ebcb5f85",
+        "kb_960"
       ],
-      "displayId": 73,
-      "displayOrder": 73,
+      "displayId": 89,
+      "displayOrder": 89,
       "provenance": {
         "note": "幸福の相対性・適応に関する代表的研究。幸福が必ず元に戻るとする証明ではありません。",
         "works": [
@@ -1116,8 +1134,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 27,
-      "displayOrder": 27,
+      "displayId": 29,
+      "displayOrder": 29,
       "provenance": {
         "note": "第1章の時間の浪費と人生の長さに関する記述に対応する日本語の意訳です。",
         "works": [
@@ -1150,8 +1168,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 67,
-      "displayOrder": 67,
+      "displayId": 69,
+      "displayOrder": 69,
       "provenance": {
         "note": "Markowitzの分散投資の原著を関連文献として提示。ことわざの発案者をMarkowitzとするものではなく、生活全般への応用はアプリの整理です。",
         "works": [
@@ -1184,8 +1202,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 57,
-      "displayOrder": 57,
+      "displayId": 59,
+      "displayOrder": 59,
       "accessTier": "free",
       "knowledgeType": "thought"
     },
@@ -1201,12 +1219,17 @@
       "canonicalId": "kb_266",
       "legacyIds": [],
       "mergedFromIds": [],
-      "aliases": [],
-      "relatedTheoryIds": [
-        "kb_909"
+      "aliases": [
+        "social comparison theory"
       ],
-      "displayId": 146,
-      "displayOrder": 146,
+      "relatedTheoryIds": [
+        "kb_909",
+        "kb_1003",
+        "kb_1005",
+        "kb_1030"
+      ],
+      "displayId": 166,
+      "displayOrder": 166,
       "provenance": {
         "note": "社会的比較の理論を示した原典。",
         "works": [
@@ -1273,8 +1296,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [],
-      "displayId": 40,
-      "displayOrder": 40,
+      "displayId": 42,
+      "displayOrder": 42,
       "provenance": {
         "note": "古典の章句を訓読・要約した見出しです。元の軍事的文脈と、日常生活への応用を区別して読みます。",
         "works": [
