@@ -47,3 +47,8 @@ example
 # generated native folders
 /ios
 /android
+
+# Local native release outputs
+dist-ios/
+dist-ios-*/
+.env.eas-simulator

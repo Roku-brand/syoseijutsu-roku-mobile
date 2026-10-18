@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 export type DeferredInstallPrompt = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
@@ -10,7 +12,8 @@ function notify() {
   for (const listener of listeners) listener(deferredPrompt);
 }
 
-if (typeof window !== 'undefined') {
+// React Native defines window too, without browser install events.
+if (Platform.OS === 'web' && typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     deferredPrompt = event as DeferredInstallPrompt;

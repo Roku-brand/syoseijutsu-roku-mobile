@@ -1,0 +1,87 @@
+name: Build public source and capture iOS guest UI
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: macos-26
+    timeout-minutes: 40
+    env:
+      MAESTRO_VERSION: 2.6.1
+      CI: '1'
+      EAS_BUILD_PLATFORM: ios
+      IOS_BUNDLE_IDENTIFIER: jp.shoseijutsuroku.app
+      EXPO_PUBLIC_APPLE_PRODUCT_ID: com.shoseijutsuroku.premium.30days.v2
+      EXPO_PUBLIC_SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+      EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install pinned Maestro CLI
+        run: |
+          curl --fail --location https://get.maestro.mobile.dev --output "$RUNNER_TEMP/install-maestro.sh"
+          bash "$RUNNER_TEMP/install-maestro.sh"
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+      - name: Prepare the already-public repository source
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+          pnpm content:build-public
+          node scripts/ios-preflight.mjs
+          pnpm exec expo prebuild --platform ios --no-install
+          pod install --project-directory=ios
+          mkdir -p store-native-captures
+      - name: Start an available iPhone simulator
+        run: |
+          set -euo pipefail
+          xcrun simctl list devices available --json > "$RUNNER_TEMP/devices.json"
+          python3 - <<'PY'
+          import json, os
+          data=json.load(open(os.environ['RUNNER_TEMP']+'/devices.json'))
+          phones=[(runtime,d) for runtime,devices in data['devices'].items() for d in devices if d['name'].startswith('iPhone') and d.get('isAvailable',True)]
+          runtime,device=next((item for item in phones if item[1]['name']=='iPhone 17'),phones[0])
+          with open(os.environ['GITHUB_ENV'],'a') as f: f.write('SIMULATOR_UDID='+device['udid']+'\n')
+          json.dump({'runtime':runtime,'device':device['name'],'build':'32','version':'1.0.3'},open('store-native-captures/simulator-info.json','w'),indent=2)
+          PY
+          SIMULATOR_UDID="$(python3 -c "import json; d=json.load(open('$RUNNER_TEMP/devices.json')); p=[x for a in d['devices'].values() for x in a if x['name'].startswith('iPhone') and x.get('isAvailable',True)]; print(next((x for x in p if x['name']=='iPhone 17'),p[0])['udid'])")"
+          xcrun simctl boot "$SIMULATOR_UDID"
+          open -a Simulator
+          xcrun simctl bootstatus "$SIMULATOR_UDID" -b
+          xcrun simctl status_bar "$SIMULATOR_UDID" override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --cellularMode active --cellularBars 4 --batteryState discharging --batteryLevel 100
+      - name: Build and install inside this CI runner
+        run: |
+          set -euo pipefail
+          pnpm exec expo run:ios --configuration Release --no-install --no-bundler --device "$SIMULATOR_UDID"
+          APP_PATH="$(xcrun simctl get_app_container "$SIMULATOR_UDID" jp.shoseijutsuroku.app app)"
+          test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' "$APP_PATH/Info.plist")" = '1.0.3'
+          test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$APP_PATH/Info.plist")" = '32'
+          mkdir -p "$RUNNER_TEMP/native-bundle-audit"
+          cp "$APP_PATH/main.jsbundle" "$RUNNER_TEMP/native-bundle-audit/main.js"
+          node scripts/audit-public-build.mjs --dist "$RUNNER_TEMP/native-bundle-audit"
+      - name: Verify keyboard save and capture the real saved card
+        run: maestro --device "$SIMULATOR_UDID" test --debug-output store-native-captures/debug .maestro/personal-screenshots.yaml
+      - name: Capture the failure screen when needed
+        if: failure()
+        run: xcrun simctl io booted screenshot store-native-captures/failure.png || true
+      - name: Save guest-only screenshot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-native-capture-32-personal
+          path: store-native-captures
+          retention-days: 3

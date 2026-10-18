@@ -97,6 +97,7 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
  * remain recoverable through the separate email-verified restore flow.
  */
 export async function createCompleteEditionCheckout(accessToken?: string) {
+  if (Platform.OS === 'ios') throw new Error('iOSでは完全版画面からApp Storeで購入してください。');
   if (!supabase) throw new Error('購入機能が設定されていません。');
   const token = accessToken ?? (await supabase.auth.getSession()).data.session?.access_token;
 
@@ -134,6 +135,11 @@ export async function fetchVerifiedAccess(): Promise<VerifiedAccess> {
 }
 
 export async function reconcileCompleteEditionPurchase(sessionId?: string): Promise<VerifiedAccess | null> {
+  if (Platform.OS === 'ios' && !sessionId) {
+    const { restoreApplePurchases } = await import('./apple-purchase');
+    await restoreApplePurchases();
+    return fetchVerifiedAccess();
+  }
   if (!supabase) throw new Error('購入機能が設定されていません。');
   const token = (await supabase.auth.getSession()).data.session?.access_token;
   if (!token) throw new Error('購入に使用したアカウントでログインしてください。');

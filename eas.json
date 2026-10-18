@@ -1,21 +1,37 @@
 {
   "cli": {
-    "version": ">= 18.0.0",
-    "appVersionSource": "remote"
+    "version": ">= 24.8.0",
+    "appVersionSource": "local"
   },
   "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
     "production": {
-      "autoIncrement": true
+      "environment": "production",
+      "distribution": "store",
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_APPLE_PRODUCT_ID": "com.shoseijutsuroku.premium.30days.v2"
+      }
+    },
+    "release32": {
+      "extends": "production",
+      "autoIncrement": false
+    },
+    "screenshots": {
+      "extends": "production",
+      "config": "store-screenshots.yml",
+      "distribution": "internal",
+      "autoIncrement": false,
+      "withoutCredentials": true,
+      "ios": {
+        "simulator": true
+      }
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6810376658"
+      }
+    }
   }
 }

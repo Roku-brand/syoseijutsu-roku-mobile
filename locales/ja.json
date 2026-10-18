@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "CFBundleDisplayName": "処世術禄",
+    "NSPhotoLibraryUsageDescription": "プロフィール画像の設定に写真ライブラリを使用します。"
+  }
+}

@@ -80,6 +80,7 @@ function KnowledgeNetwork({ width }: { width: number }) {
 
 export type UpgradeLandingProps = {
   price?: string;
+  priceNote?: string;
   isPaid?: boolean;
   onBack: () => void;
   onPurchase: () => void;
@@ -92,7 +93,7 @@ export type UpgradeLandingProps = {
   statusActions?: ReactNode;
 };
 
-export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
+export function UpgradeLanding({ price = '¥320', priceNote, isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
   const { width: viewportWidth } = useHydratedWindowDimensions();
   const insets = useSafeAreaInsets();
   const width = Math.min(viewportWidth || 390, 480);
@@ -166,6 +167,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
         <ScrollView testID="upgrade-purchase-scroll" style={styles.purchaseScroll} showsVerticalScrollIndicator={false}>
         {message ? <AppText accessibilityRole="alert" style={styles.statusMessage}>{message}</AppText> : null}
         {statusActions}
+        {!isPaid && priceNote ? <AppText testID="upgrade-price-note" style={styles.statusMessage}>{priceNote}</AppText> : null}
         <View style={[styles.purchaseRow, desktop && desktopStyles.purchaseRow]}>
           <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}>
             <View style={styles.purchasePriceHeading}>

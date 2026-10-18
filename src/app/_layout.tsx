@@ -2,7 +2,8 @@ import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { ApplePurchaseObserver } from '@/components/apple-purchase-observer';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BookHeader } from '@/components/book-ui';
 import { colors } from '@/constants/theme';
@@ -18,6 +19,10 @@ import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
 import { GuideProvider } from '@/onboarding/guide-provider';
+
+function KeyboardFrame({ children }: { children: React.ReactNode }) {
+  return Platform.OS === 'ios' ? <KeyboardAvoidingView style={styles.contentColumn} behavior="padding">{children}</KeyboardAvoidingView> : children;
+}
 
 function AppFrame() {
   const reducedMotion = useReducedMotion();
@@ -38,7 +43,7 @@ function AppFrame() {
     <View style={styles.contentColumn}>
       {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
-      <RouteTransition disabled={isWelcome || isCheckoutReturn}>
+      <KeyboardFrame><RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,
           contentStyle: { backgroundColor: colors.paper },
@@ -47,13 +52,14 @@ function AppFrame() {
           gestureEnabled: true,
           fullScreenGestureEnabled: true,
         })} />
-      </RouteTransition>
+      </RouteTransition></KeyboardFrame>
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
   );
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
-  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+  const frame = <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+  return Platform.OS === 'ios' ? <SafeAreaView style={styles.container} edges={showPersistentNavigation || isUpgrade ? [] : ['bottom']}>{frame}</SafeAreaView> : frame;
 }
 
 function isFocusedScreen(pathname: string) {
@@ -66,7 +72,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><ApplePurchaseObserver /><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

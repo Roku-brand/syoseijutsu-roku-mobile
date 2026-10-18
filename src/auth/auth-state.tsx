@@ -2,7 +2,8 @@ import type { Session, User } from '@supabase/supabase-js';
 import { profileAvatarPath, signedProfileAvatar } from '@/lib/profile-avatar';
 import { TERMS_VERSION, PRIVACY_VERSION } from '@/data/legal-documents';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type PropsWithChildren } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Linking, Platform } from 'react-native';
+import { acceptNativeAuthCallback } from '@/lib/native-auth-callback';
 import { supabase, supabaseConfigured } from '@/lib/supabase';
 import { clearSecureContentCache, purgeSecureContent } from '@/lib/secure-content';
 
@@ -45,6 +46,17 @@ function settleWithin<T>(promise: Promise<T>, timeoutMs: number): Promise<T | nu
 }
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  useEffect(() => {
+    if (Platform.OS === 'web' || !supabase) return;
+    const client = supabase;
+    void Linking.getInitialURL().then(url => url ? acceptNativeAuthCallback(url) : undefined).catch(() => {});
+    const links = Linking.addEventListener('url', ({ url }) => { void acceptNativeAuthCallback(url).catch(() => {}); });
+    const state = AppState.addEventListener('change', next => {
+      if (next === 'active') client.auth.startAutoRefresh(); else client.auth.stopAutoRefresh();
+    });
+    if (AppState.currentState === 'active') client.auth.startAutoRefresh();
+    return () => { links.remove(); state.remove(); client.auth.stopAutoRefresh(); };
+  }, []);
   const [loading, setLoading] = useState(supabaseConfigured);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AccountRole>('user');
@@ -111,7 +123,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     if (!session?.user.id) return;
     const timer = setInterval(() => { void refreshProfile().catch(() => {}); }, 30 * 60 * 1000);
-    return () => clearInterval(timer);
+    const state = AppState.addEventListener('change', next => {
+      if (next === 'active') void refreshProfile().catch(() => {});
+    });
+    return () => { clearInterval(timer); state.remove(); };
   }, [refreshProfile, session?.user.id]);
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
