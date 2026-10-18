@@ -6,7 +6,7 @@ import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
-import { CategoryFilterLabel, getCategoryLabelParts } from '@/components/category-filter-label';
+import { TheorySubcategoryReel } from '@/components/theory-subcategory-reel';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryDisplayId, theories } from '@/data/catalog';
 import { getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
@@ -15,23 +15,6 @@ import { groupTheorySections, resolveTheorySubcategoryId } from '@/data/theory-t
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const PAGE_SIZE = 100;
-
-function subcategoryMinimumWidth(title: string, desktop: boolean) {
-  return Math.max(52, Math.max(...getCategoryLabelParts(title).map(part => part.length)) * (desktop ? 13 : 12) + (desktop ? 36 : 12));
-}
-
-function fitSubcategoryRows<T extends { title: string }>(options: T[], width: number, desktop: boolean): T[][] {
-  const preferred = desktop ? [options] : [options.slice(0, Math.ceil(options.length / 2)), options.slice(Math.ceil(options.length / 2))];
-  const rowWidth = (row: T[]) => row.reduce((total, item) => total + subcategoryMinimumWidth(item.title, desktop), 0) + Math.max(0, row.length - 1) * 4;
-  if (preferred.every(row => rowWidth(row) <= width)) return preferred;
-  const rows: T[][] = [];
-  for (const option of options) {
-    const last = rows[rows.length - 1];
-    if (!last || rowWidth([...last, option]) > width) rows.push([option]);
-    else last.push(option);
-  }
-  return rows;
-}
 
 function safeCategory(value: string | undefined): TheoryFilterKey {
   return getTheoryFilterOptions().some((option) => option.key === value) ? value as TheoryFilterKey : 'all';
@@ -42,13 +25,13 @@ export default function TheoryIndexScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const desktopFilters = width >= 1000;
+
   const { isPaid, accessState, catalogRevision } = useAccess();
   const requestedCategory = params.category;
   const requestedPage = params.page;
   const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
   const [page, setPage] = useState(Math.max(1, Math.floor(Number(requestedPage)) || 1));
-  const [subcategoryWidth, setSubcategoryWidth] = useState(0);
+
 
   const visibleCatalog = useMemo(
     () => theories.filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)),
@@ -60,7 +43,6 @@ export default function TheoryIndexScreen() {
   );
   const subcategories = groupTheorySections(filtered);
   const subcategoryOptions = [{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories];
-  const subcategoryRows = fitSubcategoryRows(subcategoryOptions, subcategoryWidth || Math.min(width - 24, 956), desktopFilters);
   const requestedSubcategory = resolveTheorySubcategoryId(params.subcategory);
   const subcategory = category !== 'all' && subcategories.some(section => section.subcategoryId === requestedSubcategory) ? requestedSubcategory : undefined;
   const selectedTheories = subcategory ? filtered.filter(theory => theory.subcategoryId === subcategory) : filtered;
@@ -94,14 +76,7 @@ export default function TheoryIndexScreen() {
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
           <AppText style={styles.subcategoryLabel}>内部分類</AppText>
-          <View style={styles.subcategoryOptions} onLayout={event => setSubcategoryWidth(event.nativeEvent.layout.width)}>
-            {subcategoryRows.map((row, index) => <View key={index} testID="theory-subcategory-row" style={styles.subcategoryRow}>
-              {row.map(section => <Pressable key={section.subcategoryId ?? 'all'} accessibilityRole="button" accessibilityLabel={`${section.title}で内部分類を絞り込む`} accessibilityState={{ selected: section.subcategoryId === subcategory }} aria-selected={section.subcategoryId === subcategory} onPress={() => selectSubcategory(section.subcategoryId)} style={({ pressed }) => [styles.subcategoryButton, { flexGrow: section.title.length + (desktopFilters ? 4 : 2), minWidth: subcategoryMinimumWidth(section.title, desktopFilters) }, !desktopFilters && styles.subcategoryButtonMobile, section.subcategoryId === subcategory && styles.subcategoryActive, pressed && styles.filterPressed]}>
-                <CategoryFilterLabel label={section.title} stacked={!desktopFilters} style={StyleSheet.flatten([styles.subcategoryText, !desktopFilters && styles.subcategoryTextMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive])} />
-                <AppText style={[styles.subcategoryCount, !desktopFilters && styles.subcategoryCountMobile, section.subcategoryId === subcategory && styles.subcategoryTextActive]}>{section.items.length}</AppText>
-              </Pressable>)}
-            </View>)}
-          </View>
+          <TheorySubcategoryReel key={category} options={subcategoryOptions} selected={subcategory} onSelect={selectSubcategory} />
         </View> : null}
       </View>
 
@@ -155,17 +130,6 @@ const styles = StyleSheet.create({
   filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
   subcategoryFilters: { marginTop: spacing.md, gap: 8 },
   subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
-  subcategoryOptions: { gap: 8 },
-  subcategoryRow: { flexDirection: 'row', gap: 4 },
-  subcategoryButton: { flexBasis: 0, flexShrink: 1, minWidth: 52, minHeight: 48, paddingHorizontal: 4, paddingVertical: 3, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
-  subcategoryButtonMobile: { flexDirection: 'column', paddingVertical: 0, gap: 0 },
-  subcategoryActive: { backgroundColor: colors.gold },
-  subcategoryText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600', textAlign: 'center' },
-  subcategoryTextMobile: { fontSize: 12, lineHeight: 17 },
-  subcategoryCount: { flexShrink: 0, color: colors.muted, fontSize: 11, lineHeight: 18 },
-  subcategoryCountMobile: { fontSize: 10, lineHeight: 12 },
-  filterPressed: { opacity: 0.8 },
-  subcategoryTextActive: { color: colors.surface, fontWeight: '700' },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
   totalNote: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },

@@ -13,7 +13,7 @@ const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
-  assert.equal(cards.length, 821);
+  assert.equal(cards.length, 945);
   assert.equal(coverageRows.length, 48);
   for (const name of ['ダモクレスの剣', '社会的時計', '脳の可塑性', 'ロミオとジュリエット効果']) assert.ok(cards.some(t => t.title === name));
   const names = new Map();
@@ -40,7 +40,7 @@ test('historical content, aliases, access and stable identities survive expansio
   for (const old of before.filter(t=>!retired.has(t.tagId))) {
     const t = byId.get(old.tagId);
     assert.ok(t);
-    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) { if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; } if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; } assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`); }
+    for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) { if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; } if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; } if(key==='aliases'){const release=read('docs/content/theory-release-20261018-changes.json');const expected=[...old.aliases.filter(a=>!release.removals.some(r=>r.id===t.tagId&&r.term===a)),...release.aliasChanges.filter(r=>r.id===t.tagId).map(r=>r.term)];assert.deepEqual(t.aliases,expected,t.tagId+'.aliases');continue;} assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`); }
     for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
     if (t.quotation) assert.equal(t.subcategoryId, 'classics-thought-f');
     else if (['kb_701','kb_702'].includes(old.tagId)) assert.equal(t.subcategoryId, 'classics-thought-e');

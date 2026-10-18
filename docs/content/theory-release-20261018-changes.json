@@ -1,0 +1,5514 @@
+{
+  "before": 821,
+  "added": 124,
+  "after": 945,
+  "outputFingerprint": "d71cb0f1f2b8483b234ddbabfc9ec6e919e20f6da0e28fa2bcc208041e70c056",
+  "baselineCommit": "419859d7f786830dcfe2c5bfc3e7ef3efed2cf0e",
+  "categories": {
+    "psychology": 405,
+    "behavioral-science": 146,
+    "organization-management": 131,
+    "strategy": 94,
+    "practical-wisdom": 79,
+    "classics-thought": 90
+  },
+  "sections": [
+    {
+      "id": "psychology-c",
+      "categoryId": "psychology",
+      "title": "認知・判断",
+      "displayOrder": 1,
+      "before": 65,
+      "after": 81
+    },
+    {
+      "id": "psychology-e",
+      "categoryId": "psychology",
+      "title": "感情・ストレス",
+      "displayOrder": 2,
+      "before": 55,
+      "after": 59
+    },
+    {
+      "id": "psychology-s",
+      "categoryId": "psychology",
+      "title": "自己理解・成長",
+      "displayOrder": 3,
+      "before": 44,
+      "after": 47
+    },
+    {
+      "id": "psychology-i",
+      "categoryId": "psychology",
+      "title": "人間関係・コミュニケーション",
+      "displayOrder": 4,
+      "before": 109,
+      "after": 111
+    },
+    {
+      "id": "psychology-v",
+      "categoryId": "psychology",
+      "title": "集団心理・社会的影響",
+      "displayOrder": 5,
+      "before": 31,
+      "after": 45
+    },
+    {
+      "id": "psychology-m",
+      "categoryId": "psychology",
+      "title": "記憶・注意",
+      "displayOrder": 6,
+      "before": 28,
+      "after": 41
+    },
+    {
+      "id": "psychology-life",
+      "categoryId": "psychology",
+      "title": "発達・人生の時間軸",
+      "displayOrder": 7,
+      "before": 11,
+      "after": 14
+    },
+    {
+      "id": "psychology-n",
+      "categoryId": "psychology",
+      "title": "脳・学習の基盤",
+      "displayOrder": 8,
+      "before": 6,
+      "after": 7
+    },
+    {
+      "id": "behavioral-science-d",
+      "categoryId": "behavioral-science",
+      "title": "意思決定・選択",
+      "displayOrder": 1,
+      "before": 51,
+      "after": 71
+    },
+    {
+      "id": "behavioral-science-m",
+      "categoryId": "behavioral-science",
+      "title": "動機づけ・目標達成",
+      "displayOrder": 2,
+      "before": 29,
+      "after": 31
+    },
+    {
+      "id": "behavioral-science-h",
+      "categoryId": "behavioral-science",
+      "title": "習慣・行動設計",
+      "displayOrder": 3,
+      "before": 14,
+      "after": 22
+    },
+    {
+      "id": "behavioral-science-l",
+      "categoryId": "behavioral-science",
+      "title": "学習・強化",
+      "displayOrder": 4,
+      "before": 20,
+      "after": 22
+    },
+    {
+      "id": "organization-management-i",
+      "categoryId": "organization-management",
+      "title": "働き方・キャリア",
+      "displayOrder": 1,
+      "before": 26,
+      "after": 26
+    },
+    {
+      "id": "organization-management-t",
+      "categoryId": "organization-management",
+      "title": "チーム・リーダーシップ",
+      "displayOrder": 2,
+      "before": 23,
+      "after": 23
+    },
+    {
+      "id": "organization-management-o",
+      "categoryId": "organization-management",
+      "title": "組織運営・人材育成",
+      "displayOrder": 3,
+      "before": 38,
+      "after": 38
+    },
+    {
+      "id": "organization-management-n",
+      "categoryId": "organization-management",
+      "title": "人脈・評判",
+      "displayOrder": 4,
+      "before": 17,
+      "after": 17
+    },
+    {
+      "id": "organization-management-p",
+      "categoryId": "organization-management",
+      "title": "権力・地位",
+      "displayOrder": 5,
+      "before": 10,
+      "after": 10
+    },
+    {
+      "id": "organization-management-m",
+      "categoryId": "organization-management",
+      "title": "経営・事業",
+      "displayOrder": 6,
+      "before": 17,
+      "after": 17
+    },
+    {
+      "id": "strategy-a",
+      "categoryId": "strategy",
+      "title": "状況分析・判断",
+      "displayOrder": 1,
+      "before": 12,
+      "after": 12
+    },
+    {
+      "id": "strategy-n",
+      "categoryId": "strategy",
+      "title": "交渉",
+      "displayOrder": 2,
+      "before": 22,
+      "after": 22
+    },
+    {
+      "id": "strategy-c",
+      "categoryId": "strategy",
+      "title": "競争・協力",
+      "displayOrder": 3,
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "strategy-g",
+      "categoryId": "strategy",
+      "title": "ゲーム理論",
+      "displayOrder": 4,
+      "before": 23,
+      "after": 23
+    },
+    {
+      "id": "strategy-r",
+      "categoryId": "strategy",
+      "title": "リスク・撤退",
+      "displayOrder": 5,
+      "before": 13,
+      "after": 13
+    },
+    {
+      "id": "strategy-d",
+      "categoryId": "strategy",
+      "title": "計画・実行・適応",
+      "displayOrder": 6,
+      "before": 10,
+      "after": 10
+    },
+    {
+      "id": "strategy-l",
+      "categoryId": "strategy",
+      "title": "論理・因果推論",
+      "displayOrder": 7,
+      "before": 10,
+      "after": 10
+    },
+    {
+      "id": "practical-wisdom-c",
+      "categoryId": "practical-wisdom",
+      "title": "会話・伝え方",
+      "displayOrder": 1,
+      "before": 11,
+      "after": 22
+    },
+    {
+      "id": "practical-wisdom-r",
+      "categoryId": "practical-wisdom",
+      "title": "人付き合い・距離感",
+      "displayOrder": 2,
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "practical-wisdom-j",
+      "categoryId": "practical-wisdom",
+      "title": "考え方・判断",
+      "displayOrder": 3,
+      "before": 5,
+      "after": 11
+    },
+    {
+      "id": "practical-wisdom-a",
+      "categoryId": "practical-wisdom",
+      "title": "行動・継続",
+      "displayOrder": 4,
+      "before": 5,
+      "after": 13
+    },
+    {
+      "id": "practical-wisdom-w",
+      "categoryId": "practical-wisdom",
+      "title": "仕事・キャリア",
+      "displayOrder": 5,
+      "before": 12,
+      "after": 22
+    },
+    {
+      "id": "practical-wisdom-s",
+      "categoryId": "practical-wisdom",
+      "title": "心と生活の整え方",
+      "displayOrder": 6,
+      "before": 6,
+      "after": 7
+    },
+    {
+      "id": "classics-thought-e",
+      "categoryId": "classics-thought",
+      "title": "東洋思想",
+      "displayOrder": 1,
+      "before": 17,
+      "after": 17
+    },
+    {
+      "id": "classics-thought-w",
+      "categoryId": "classics-thought",
+      "title": "西洋思想",
+      "displayOrder": 2,
+      "before": 24,
+      "after": 24
+    },
+    {
+      "id": "classics-thought-b",
+      "categoryId": "classics-thought",
+      "title": "兵法",
+      "displayOrder": 3,
+      "before": 11,
+      "after": 11
+    },
+    {
+      "id": "classics-thought-p",
+      "categoryId": "classics-thought",
+      "title": "ことわざ",
+      "displayOrder": 4,
+      "before": 19,
+      "after": 19
+    },
+    {
+      "id": "classics-thought-f",
+      "categoryId": "classics-thought",
+      "title": "格言",
+      "displayOrder": 5,
+      "before": 19,
+      "after": 19
+    }
+  ],
+  "additions": [
+    {
+      "id": "kb_957",
+      "title": "サブリミナル効果",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_958",
+      "title": "信号検出理論",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_959",
+      "title": "ウェーバーの法則",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_960",
+      "title": "感覚順応",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_961",
+      "title": "知覚的構え",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_962",
+      "title": "ゲシュタルトの群化原理",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_963",
+      "title": "トップダウン処理・ボトムアップ処理",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_964",
+      "title": "予測符号化理論",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_965",
+      "title": "注意資源理論",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_966",
+      "title": "アフォーダンス",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_967",
+      "title": "注意残余",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_968",
+      "title": "注意の捕捉",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_969",
+      "title": "絶対閾",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_970",
+      "title": "選択的注意",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_971",
+      "title": "心的回転",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_972",
+      "title": "スキーマ理論",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_973",
+      "title": "スクリプト理論",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_974",
+      "title": "展望記憶",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_975",
+      "title": "前向干渉・逆向干渉",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_976",
+      "title": "舌先現象",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_977",
+      "title": "フラッシュバルブ記憶",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_978",
+      "title": "回想バンプ",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_979",
+      "title": "偽記憶",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_980",
+      "title": "プルースト効果",
+      "category": "心理学",
+      "section": "記憶・注意"
+    },
+    {
+      "id": "kb_981",
+      "title": "二重過程理論",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_982",
+      "title": "属性置換",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_983",
+      "title": "信念バイアス",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_984",
+      "title": "認知欲求",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_985",
+      "title": "イデオモーター効果",
+      "category": "心理学",
+      "section": "認知・判断"
+    },
+    {
+      "id": "kb_986",
+      "title": "感情調整プロセスモデル",
+      "category": "心理学",
+      "section": "感情・ストレス"
+    },
+    {
+      "id": "kb_987",
+      "title": "情動粒度",
+      "category": "心理学",
+      "section": "感情・ストレス"
+    },
+    {
+      "id": "kb_988",
+      "title": "感情構成理論",
+      "category": "心理学",
+      "section": "感情・ストレス"
+    },
+    {
+      "id": "kb_989",
+      "title": "社会的評価不安",
+      "category": "心理学",
+      "section": "感情・ストレス"
+    },
+    {
+      "id": "kb_990",
+      "title": "自尊心の随伴性",
+      "category": "心理学",
+      "section": "自己理解・成長"
+    },
+    {
+      "id": "kb_991",
+      "title": "多次元的完璧主義",
+      "category": "心理学",
+      "section": "自己理解・成長"
+    },
+    {
+      "id": "kb_992",
+      "title": "達成動機理論",
+      "category": "心理学",
+      "section": "自己理解・成長"
+    },
+    {
+      "id": "kb_993",
+      "title": "道徳基盤理論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_994",
+      "title": "道徳的切り離し",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_995",
+      "title": "ルーピング効果",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_996",
+      "title": "ラベリング理論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_997",
+      "title": "スティグマ",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_998",
+      "title": "トマスの定理",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_999",
+      "title": "象徴的相互作用論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1000",
+      "title": "社会的表象理論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1001",
+      "title": "道徳的パニック",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1002",
+      "title": "他者化",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1003",
+      "title": "共有現実理論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1004",
+      "title": "相互独立的・相互協調的自己観",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1005",
+      "title": "自己評価維持モデル",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1006",
+      "title": "社会的役割理論",
+      "category": "心理学",
+      "section": "集団心理・社会的影響"
+    },
+    {
+      "id": "kb_1007",
+      "title": "対人距離理論",
+      "category": "心理学",
+      "section": "人間関係・コミュニケーション"
+    },
+    {
+      "id": "kb_1008",
+      "title": "ジョハリの窓",
+      "category": "心理学",
+      "section": "人間関係・コミュニケーション"
+    },
+    {
+      "id": "kb_1009",
+      "title": "コールバーグの道徳性発達理論",
+      "category": "心理学",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_1010",
+      "title": "気質理論",
+      "category": "心理学",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_1011",
+      "title": "遅延満足",
+      "category": "心理学",
+      "section": "発達・人生の時間軸"
+    },
+    {
+      "id": "kb_1012",
+      "title": "実行機能",
+      "category": "心理学",
+      "section": "脳・学習の基盤"
+    },
+    {
+      "id": "kb_1013",
+      "title": "左端数字効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1014",
+      "title": "貨幣錯覚",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1015",
+      "title": "指数成長バイアス",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1016",
+      "title": "顕著性バイアス",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1017",
+      "title": "選好逆転",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1018",
+      "title": "リスク感情理論",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1019",
+      "title": "参照価格効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1020",
+      "title": "分割価格効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1021",
+      "title": "スノッブ効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1022",
+      "title": "ヴェブレン効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1023",
+      "title": "ディスポジション効果",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1024",
+      "title": "近視眼的損失回避",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1025",
+      "title": "確率マッチング",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1026",
+      "title": "意図と行動のギャップ",
+      "category": "行動科学",
+      "section": "動機づけ・目標達成"
+    },
+    {
+      "id": "kb_1027",
+      "title": "計画的行動理論",
+      "category": "行動科学",
+      "section": "動機づけ・目標達成"
+    },
+    {
+      "id": "kb_1028",
+      "title": "習慣不連続性仮説",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1029",
+      "title": "行動の波及効果",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1030",
+      "title": "社会規範フィードバック",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1031",
+      "title": "行動形成（シェイピング）",
+      "category": "行動科学",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_1032",
+      "title": "COM-Bモデル",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1033",
+      "title": "EASTフレームワーク",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1034",
+      "title": "健康信念モデル",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1035",
+      "title": "保護動機理論",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1036",
+      "title": "健康行動プロセスアプローチ",
+      "category": "行動科学",
+      "section": "習慣・行動設計"
+    },
+    {
+      "id": "kb_1037",
+      "title": "フィードバック介入理論",
+      "category": "行動科学",
+      "section": "学習・強化"
+    },
+    {
+      "id": "kb_1038",
+      "title": "投影バイアス",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1039",
+      "title": "認識ヒューリスティック",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1040",
+      "title": "Take-the-bestヒューリスティック",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1041",
+      "title": "側面ごとの消去法",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1042",
+      "title": "スラッジ",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1043",
+      "title": "不平等回避",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1044",
+      "title": "生態学的合理性",
+      "category": "行動科学",
+      "section": "意思決定・選択"
+    },
+    {
+      "id": "kb_1045",
+      "title": "PREP法",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1046",
+      "title": "SBAR法",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1047",
+      "title": "アイ・メッセージ",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1048",
+      "title": "SBIフィードバック",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1049",
+      "title": "動機づけ面接",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1050",
+      "title": "ティーチバック法",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1051",
+      "title": "クローズドループ・コミュニケーション",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1052",
+      "title": "STAR法",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1053",
+      "title": "SCQA",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1054",
+      "title": "SPIN話法",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1055",
+      "title": "I-PASS",
+      "category": "実践知",
+      "section": "会話・伝え方"
+    },
+    {
+      "id": "kb_1056",
+      "title": "アイゼンハワー・マトリクス",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1057",
+      "title": "なぜなぜ分析（5 Whys）",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1058",
+      "title": "ロジックツリー",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1059",
+      "title": "MECE",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1060",
+      "title": "意思決定ジャーナル",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1061",
+      "title": "意思決定マトリクス",
+      "category": "実践知",
+      "section": "考え方・判断"
+    },
+    {
+      "id": "kb_1062",
+      "title": "アフターアクションレビュー",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1063",
+      "title": "KPT振り返り",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1064",
+      "title": "RACIマトリクス",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1065",
+      "title": "ステークホルダーマップ",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1066",
+      "title": "PEST分析",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1067",
+      "title": "AIDAモデル",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1068",
+      "title": "JTBD",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1069",
+      "title": "STP分析",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1070",
+      "title": "マーケティングの4P",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1071",
+      "title": "カスタマージャーニーマップ",
+      "category": "実践知",
+      "section": "仕事・キャリア"
+    },
+    {
+      "id": "kb_1072",
+      "title": "SMART目標",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1073",
+      "title": "GTD",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1074",
+      "title": "ポモドーロ・テクニック",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1075",
+      "title": "タイムブロッキング",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1076",
+      "title": "SQ3R読書法",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1077",
+      "title": "コーネル式ノート",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1078",
+      "title": "記憶の宮殿",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1079",
+      "title": "コンセプトマップ",
+      "category": "実践知",
+      "section": "行動・継続"
+    },
+    {
+      "id": "kb_1080",
+      "title": "思考記録表",
+      "category": "実践知",
+      "section": "心と生活の整え方"
+    }
+  ],
+  "aliasChanges": [
+    {
+      "id": "kb_003",
+      "term": "halo effect",
+      "source": "https://dictionary.apa.org/halo-effect"
+    },
+    {
+      "id": "kb_003",
+      "term": "後光効果",
+      "source": "https://dictionary.apa.org/halo-effect"
+    },
+    {
+      "id": "kb_001",
+      "term": "primacy effect",
+      "source": ""
+    },
+    {
+      "id": "kb_001",
+      "term": "初頭性効果",
+      "source": ""
+    },
+    {
+      "id": "kb_596",
+      "term": "confirmation bias",
+      "source": "https://dictionary.apa.org/confirmation-bias"
+    },
+    {
+      "id": "kb_596",
+      "term": "確証偏向",
+      "source": "https://dictionary.apa.org/confirmation-bias"
+    },
+    {
+      "id": "kb_045",
+      "term": "fundamental attribution error",
+      "source": ""
+    },
+    {
+      "id": "kb_597",
+      "term": "availability heuristic",
+      "source": "https://dictionary.apa.org/availability-heuristic"
+    },
+    {
+      "id": "kb_573",
+      "term": "dichotomous thinking",
+      "source": ""
+    },
+    {
+      "id": "kb_573",
+      "term": "白黒思考",
+      "source": ""
+    },
+    {
+      "id": "kb_573",
+      "term": "全か無か思考",
+      "source": ""
+    },
+    {
+      "id": "kb_218",
+      "term": "ironic process theory",
+      "source": ""
+    },
+    {
+      "id": "kb_218",
+      "term": "皮肉過程理論",
+      "source": ""
+    },
+    {
+      "id": "kb_430",
+      "term": "affect heuristic",
+      "source": ""
+    },
+    {
+      "id": "kb_046",
+      "term": "actor-observer bias",
+      "source": ""
+    },
+    {
+      "id": "kb_231",
+      "term": "illusion of control",
+      "source": ""
+    },
+    {
+      "id": "kb_231",
+      "term": "制御幻想",
+      "source": ""
+    },
+    {
+      "id": "kb_396",
+      "term": "self-enhancement bias",
+      "source": ""
+    },
+    {
+      "id": "kb_425",
+      "term": "adaptation-level theory",
+      "source": ""
+    },
+    {
+      "id": "kb_400",
+      "term": "information-gap theory",
+      "source": ""
+    },
+    {
+      "id": "kb_219",
+      "term": "white bear effect",
+      "source": ""
+    },
+    {
+      "id": "kb_219",
+      "term": "シロクマ効果",
+      "source": ""
+    },
+    {
+      "id": "kb_550",
+      "term": "novelty effect",
+      "source": ""
+    },
+    {
+      "id": "kb_232",
+      "term": "spotlight effect",
+      "source": ""
+    },
+    {
+      "id": "kb_233",
+      "term": "illusion of transparency",
+      "source": ""
+    },
+    {
+      "id": "kb_577",
+      "term": "cognitive offloading",
+      "source": ""
+    },
+    {
+      "id": "kb_574",
+      "term": "cognitive flexibility",
+      "source": ""
+    },
+    {
+      "id": "kb_511",
+      "term": "negativity bias",
+      "source": ""
+    },
+    {
+      "id": "kb_511",
+      "term": "否定性バイアス",
+      "source": ""
+    },
+    {
+      "id": "kb_387",
+      "term": "thin-slicing",
+      "source": ""
+    },
+    {
+      "id": "kb_559",
+      "term": "field theory",
+      "source": ""
+    },
+    {
+      "id": "kb_559",
+      "term": "レヴィンの場の理論",
+      "source": ""
+    },
+    {
+      "id": "kb_586",
+      "term": "counterfactual thinking",
+      "source": ""
+    },
+    {
+      "id": "kb_586",
+      "term": "反実仮想思考",
+      "source": ""
+    },
+    {
+      "id": "kb_029",
+      "term": "peak-end rule",
+      "source": ""
+    },
+    {
+      "id": "kb_236",
+      "term": "focusing illusion",
+      "source": ""
+    },
+    {
+      "id": "kb_429",
+      "term": "hot-cold empathy gap",
+      "source": ""
+    },
+    {
+      "id": "kb_105",
+      "term": "Forer effect",
+      "source": ""
+    },
+    {
+      "id": "kb_105",
+      "term": "フォアラー効果",
+      "source": ""
+    },
+    {
+      "id": "kb_190",
+      "term": "planning fallacy",
+      "source": ""
+    },
+    {
+      "id": "kb_023",
+      "term": "emotional contagion",
+      "source": ""
+    },
+    {
+      "id": "kb_023",
+      "term": "情動伝染",
+      "source": ""
+    },
+    {
+      "id": "kb_602",
+      "term": "broaden-and-build theory",
+      "source": ""
+    },
+    {
+      "id": "kb_235",
+      "term": "impact bias",
+      "source": ""
+    },
+    {
+      "id": "kb_268",
+      "term": "hedonic adaptation",
+      "source": ""
+    },
+    {
+      "id": "kb_203",
+      "term": "intolerance of uncertainty",
+      "source": ""
+    },
+    {
+      "id": "kb_206",
+      "term": "cognitive attentional syndrome",
+      "source": ""
+    },
+    {
+      "id": "kb_213",
+      "term": "catastrophizing",
+      "source": ""
+    },
+    {
+      "id": "kb_213",
+      "term": "破局化",
+      "source": ""
+    },
+    {
+      "id": "kb_207",
+      "term": "safety behaviors",
+      "source": ""
+    },
+    {
+      "id": "kb_208",
+      "term": "avoidance learning",
+      "source": ""
+    },
+    {
+      "id": "kb_220",
+      "term": "experiential avoidance",
+      "source": ""
+    },
+    {
+      "id": "kb_565",
+      "term": "stress-buffering hypothesis",
+      "source": ""
+    },
+    {
+      "id": "kb_254",
+      "term": "ambiguous loss",
+      "source": ""
+    },
+    {
+      "id": "kb_255",
+      "term": "disenfranchised grief",
+      "source": ""
+    },
+    {
+      "id": "kb_242",
+      "term": "posttraumatic growth",
+      "source": ""
+    },
+    {
+      "id": "kb_563",
+      "term": "mortality salience",
+      "source": ""
+    },
+    {
+      "id": "kb_225",
+      "term": "mindfulness",
+      "source": ""
+    },
+    {
+      "id": "kb_210",
+      "term": "exposure therapy",
+      "source": ""
+    },
+    {
+      "id": "kb_210",
+      "term": "エクスポージャー療法",
+      "source": ""
+    },
+    {
+      "id": "kb_238",
+      "term": "stress inoculation training",
+      "source": ""
+    },
+    {
+      "id": "kb_272",
+      "term": "logotherapy",
+      "source": ""
+    },
+    {
+      "id": "kb_227",
+      "term": "affect labeling",
+      "source": ""
+    },
+    {
+      "id": "kb_226",
+      "term": "self-distancing",
+      "source": ""
+    },
+    {
+      "id": "kb_226",
+      "term": "自己距離化",
+      "source": ""
+    },
+    {
+      "id": "kb_224",
+      "term": "decentering",
+      "source": ""
+    },
+    {
+      "id": "kb_223",
+      "term": "cognitive defusion",
+      "source": ""
+    },
+    {
+      "id": "kb_578",
+      "term": "expressive writing",
+      "source": ""
+    },
+    {
+      "id": "kb_237",
+      "term": "defensive pessimism",
+      "source": ""
+    },
+    {
+      "id": "kb_169",
+      "term": "self-efficacy",
+      "source": "https://dictionary.apa.org/self-efficacy"
+    },
+    {
+      "id": "kb_257",
+      "term": "self-discrepancy theory",
+      "source": ""
+    },
+    {
+      "id": "kb_420",
+      "term": "self-perception theory",
+      "source": ""
+    },
+    {
+      "id": "kb_266",
+      "term": "social comparison theory",
+      "source": ""
+    },
+    {
+      "id": "kb_036",
+      "term": "attachment theory",
+      "source": ""
+    },
+    {
+      "id": "kb_009",
+      "term": "social penetration theory",
+      "source": ""
+    },
+    {
+      "id": "kb_030",
+      "term": "social exchange theory",
+      "source": ""
+    },
+    {
+      "id": "kb_031",
+      "term": "equity theory",
+      "source": ""
+    },
+    {
+      "id": "kb_033",
+      "term": "interdependence theory",
+      "source": ""
+    },
+    {
+      "id": "kb_004",
+      "term": "mere exposure effect",
+      "source": "https://dictionary.apa.org/mere-exposure-effect"
+    },
+    {
+      "id": "kb_050",
+      "term": "psychological reactance",
+      "source": ""
+    },
+    {
+      "id": "kb_058",
+      "term": "social identity theory",
+      "source": ""
+    },
+    {
+      "id": "kb_059",
+      "term": "self-categorization theory",
+      "source": ""
+    },
+    {
+      "id": "kb_072",
+      "term": "bystander effect",
+      "source": ""
+    },
+    {
+      "id": "kb_067",
+      "term": "pluralistic ignorance",
+      "source": ""
+    },
+    {
+      "id": "kb_134",
+      "term": "loss aversion",
+      "source": ""
+    },
+    {
+      "id": "kb_273",
+      "term": "sunk cost effect",
+      "source": ""
+    },
+    {
+      "id": "kb_175",
+      "term": "present bias",
+      "source": ""
+    },
+    {
+      "id": "kb_176",
+      "term": "hyperbolic discounting",
+      "source": ""
+    },
+    {
+      "id": "kb_274",
+      "term": "opportunity cost",
+      "source": ""
+    },
+    {
+      "id": "kb_138",
+      "term": "anchoring effect",
+      "source": ""
+    },
+    {
+      "id": "kb_137",
+      "term": "framing effect",
+      "source": ""
+    },
+    {
+      "id": "kb_140",
+      "term": "decoy effect",
+      "source": ""
+    },
+    {
+      "id": "kb_141",
+      "term": "compromise effect",
+      "source": ""
+    },
+    {
+      "id": "kb_136",
+      "term": "status quo bias",
+      "source": ""
+    },
+    {
+      "id": "kb_135",
+      "term": "endowment effect",
+      "source": ""
+    },
+    {
+      "id": "kb_520",
+      "term": "self-determination theory",
+      "source": ""
+    },
+    {
+      "id": "kb_167",
+      "term": "goal-setting theory",
+      "source": ""
+    },
+    {
+      "id": "kb_172",
+      "term": "implementation intentions",
+      "source": ""
+    },
+    {
+      "id": "kb_174",
+      "term": "precommitment",
+      "source": ""
+    },
+    {
+      "id": "kb_173",
+      "term": "commitment device",
+      "source": ""
+    },
+    {
+      "id": "kb_182",
+      "term": "temptation bundling",
+      "source": ""
+    },
+    {
+      "id": "kb_536",
+      "term": "operant conditioning",
+      "source": ""
+    },
+    {
+      "id": "kb_048",
+      "term": "intermittent reinforcement",
+      "source": ""
+    },
+    {
+      "id": "kb_209",
+      "term": "negative reinforcement",
+      "source": ""
+    },
+    {
+      "id": "kb_209",
+      "term": "負の強化",
+      "source": ""
+    },
+    {
+      "id": "kb_200",
+      "term": "spacing effect",
+      "source": ""
+    },
+    {
+      "id": "kb_200",
+      "term": "分散学習効果",
+      "source": ""
+    },
+    {
+      "id": "kb_199",
+      "term": "testing effect",
+      "source": "https://dictionary.apa.org/testing-effect"
+    },
+    {
+      "id": "kb_199",
+      "term": "テスト効果",
+      "source": "https://dictionary.apa.org/testing-effect"
+    },
+    {
+      "id": "kb_199",
+      "term": "retrieval practice effect",
+      "source": "https://dictionary.apa.org/testing-effect"
+    },
+    {
+      "id": "kb_201",
+      "term": "desirable difficulties",
+      "source": ""
+    },
+    {
+      "id": "kb_198",
+      "term": "deliberate practice",
+      "source": ""
+    },
+    {
+      "id": "kb_415",
+      "term": "elaborative rehearsal",
+      "source": ""
+    },
+    {
+      "id": "kb_547",
+      "term": "timeboxing",
+      "source": ""
+    },
+    {
+      "id": "kb_192",
+      "term": "Parkinson's law",
+      "source": ""
+    },
+    {
+      "id": "kb_957",
+      "term": "subliminal perception",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_957",
+      "term": "閾下知覚",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_957",
+      "term": "サブリミナル知覚",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_958",
+      "term": "signal detection theory",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_959",
+      "term": "Weber's law",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_959",
+      "term": "Weber law",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_960",
+      "term": "sensory adaptation",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_961",
+      "term": "perceptual set",
+      "source": "https://dictionary.apa.org/perceptual-set"
+    },
+    {
+      "id": "kb_961",
+      "term": "知覚的セット",
+      "source": "https://dictionary.apa.org/perceptual-set"
+    },
+    {
+      "id": "kb_962",
+      "term": "Gestalt principles of grouping",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-6-gestalt-principles-of-perception"
+    },
+    {
+      "id": "kb_962",
+      "term": "知覚的群化",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-6-gestalt-principles-of-perception"
+    },
+    {
+      "id": "kb_963",
+      "term": "top-down and bottom-up processing",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_964",
+      "term": "predictive coding",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/10195184/"
+    },
+    {
+      "id": "kb_965",
+      "term": "capacity theory of attention",
+      "source": "https://kahneman.scholar.princeton.edu/document/4"
+    },
+    {
+      "id": "kb_965",
+      "term": "注意容量理論",
+      "source": "https://kahneman.scholar.princeton.edu/document/4"
+    },
+    {
+      "id": "kb_966",
+      "term": "affordance",
+      "source": "https://dictionary.apa.org/affordance"
+    },
+    {
+      "id": "kb_967",
+      "term": "attention residue",
+      "source": "https://doi.org/10.1016/j.obhdp.2009.04.002"
+    },
+    {
+      "id": "kb_968",
+      "term": "attentional capture",
+      "source": "https://dictionary.apa.org/attentional-capture"
+    },
+    {
+      "id": "kb_968",
+      "term": "注意捕捉",
+      "source": "https://dictionary.apa.org/attentional-capture"
+    },
+    {
+      "id": "kb_969",
+      "term": "absolute threshold",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_969",
+      "term": "感覚閾",
+      "source": "https://openstax.org/books/psychology-2e/pages/5-1-sensation-versus-perception"
+    },
+    {
+      "id": "kb_970",
+      "term": "selective attention",
+      "source": "https://dictionary.apa.org/attention"
+    },
+    {
+      "id": "kb_971",
+      "term": "mental rotation",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/5540314/"
+    },
+    {
+      "id": "kb_972",
+      "term": "schema theory",
+      "source": "https://dictionary.apa.org/schema"
+    },
+    {
+      "id": "kb_973",
+      "term": "script theory",
+      "source": "https://dictionary.apa.org/script"
+    },
+    {
+      "id": "kb_973",
+      "term": "スクリプト・スキーマ",
+      "source": "https://dictionary.apa.org/script"
+    },
+    {
+      "id": "kb_974",
+      "term": "prospective memory",
+      "source": "https://dictionary.apa.org/prospective-memory"
+    },
+    {
+      "id": "kb_974",
+      "term": "未来記憶",
+      "source": "https://dictionary.apa.org/prospective-memory"
+    },
+    {
+      "id": "kb_975",
+      "term": "proactive and retroactive interference",
+      "source": "https://dictionary.apa.org/interference"
+    },
+    {
+      "id": "kb_976",
+      "term": "tip-of-the-tongue phenomenon",
+      "source": "https://dictionary.apa.org/tip-of-the-tongue-phenomenon"
+    },
+    {
+      "id": "kb_976",
+      "term": "舌端現象",
+      "source": "https://dictionary.apa.org/tip-of-the-tongue-phenomenon"
+    },
+    {
+      "id": "kb_977",
+      "term": "flashbulb memory",
+      "source": "https://dictionary.apa.org/flashbulb-memory"
+    },
+    {
+      "id": "kb_978",
+      "term": "reminiscence bump",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/9421572/"
+    },
+    {
+      "id": "kb_979",
+      "term": "false memory",
+      "source": "https://openstax.org/books/psychology-2e/pages/8-3-problems-with-memory"
+    },
+    {
+      "id": "kb_979",
+      "term": "虚記憶",
+      "source": "https://openstax.org/books/psychology-2e/pages/8-3-problems-with-memory"
+    },
+    {
+      "id": "kb_980",
+      "term": "Proust phenomenon",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11868193/"
+    },
+    {
+      "id": "kb_980",
+      "term": "Proust effect",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11868193/"
+    },
+    {
+      "id": "kb_980",
+      "term": "嗅覚誘発自伝的記憶",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11868193/"
+    },
+    {
+      "id": "kb_981",
+      "term": "dual-process theory",
+      "source": "https://doi.org/10.1177/1745691612460685"
+    },
+    {
+      "id": "kb_981",
+      "term": "dual-process theories",
+      "source": "https://doi.org/10.1177/1745691612460685"
+    },
+    {
+      "id": "kb_982",
+      "term": "attribute substitution",
+      "source": "https://kahneman.scholar.princeton.edu/document/8"
+    },
+    {
+      "id": "kb_983",
+      "term": "belief bias",
+      "source": "https://doi.org/10.3758/BF03196976"
+    },
+    {
+      "id": "kb_984",
+      "term": "need for cognition",
+      "source": "https://dictionary.apa.org/need-for-cognition"
+    },
+    {
+      "id": "kb_985",
+      "term": "ideomotor effect",
+      "source": "https://dictionary.apa.org/ideomotor-activity"
+    },
+    {
+      "id": "kb_985",
+      "term": "観念運動",
+      "source": "https://dictionary.apa.org/ideomotor-activity"
+    },
+    {
+      "id": "kb_986",
+      "term": "process model of emotion regulation",
+      "source": "https://doi.org/10.1037/1089-2680.2.3.271"
+    },
+    {
+      "id": "kb_987",
+      "term": "emotional granularity",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/34393942/"
+    },
+    {
+      "id": "kb_987",
+      "term": "emotion differentiation",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/34393942/"
+    },
+    {
+      "id": "kb_987",
+      "term": "感情粒度",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/34393942/"
+    },
+    {
+      "id": "kb_988",
+      "term": "theory of constructed emotion",
+      "source": "https://doi.org/10.1093/scan/nsw154"
+    },
+    {
+      "id": "kb_988",
+      "term": "構成主義的感情理論",
+      "source": "https://doi.org/10.1093/scan/nsw154"
+    },
+    {
+      "id": "kb_989",
+      "term": "social-evaluative anxiety",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/5810590/"
+    },
+    {
+      "id": "kb_990",
+      "term": "contingencies of self-worth",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11488379/"
+    },
+    {
+      "id": "kb_990",
+      "term": "自己価値の随伴性",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/11488379/"
+    },
+    {
+      "id": "kb_991",
+      "term": "multidimensional perfectionism",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/2027080/"
+    },
+    {
+      "id": "kb_992",
+      "term": "achievement motivation theory",
+      "source": "https://doi.org/10.1037/h0043445"
+    },
+    {
+      "id": "kb_993",
+      "term": "moral foundations theory",
+      "source": "https://moralfoundations.org/"
+    },
+    {
+      "id": "kb_994",
+      "term": "moral disengagement",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/15661671/"
+    },
+    {
+      "id": "kb_994",
+      "term": "道徳的不活性化",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/15661671/"
+    },
+    {
+      "id": "kb_995",
+      "term": "looping effect",
+      "source": "https://doi.org/10.1093/acprof:oso/9780198524021.003.0012"
+    },
+    {
+      "id": "kb_995",
+      "term": "人間種のルーピング効果",
+      "source": "https://doi.org/10.1093/acprof:oso/9780198524021.003.0012"
+    },
+    {
+      "id": "kb_996",
+      "term": "labeling theory",
+      "source": "https://www.simonandschuster.com/books/Outsiders/Howard-S-Becker/9781982106225"
+    },
+    {
+      "id": "kb_996",
+      "term": "labelling theory",
+      "source": "https://www.simonandschuster.com/books/Outsiders/Howard-S-Becker/9781982106225"
+    },
+    {
+      "id": "kb_997",
+      "term": "stigma",
+      "source": "https://www.simonandschuster.com/books/Stigma/Erving-Goffman/9781439188330"
+    },
+    {
+      "id": "kb_997",
+      "term": "社会的烙印",
+      "source": "https://www.simonandschuster.com/books/Stigma/Erving-Goffman/9781439188330"
+    },
+    {
+      "id": "kb_998",
+      "term": "Thomas theorem",
+      "source": "https://archive.org/details/childinamerica00thom/page/572/mode/2up"
+    },
+    {
+      "id": "kb_998",
+      "term": "トーマスの定理",
+      "source": "https://archive.org/details/childinamerica00thom/page/572/mode/2up"
+    },
+    {
+      "id": "kb_999",
+      "term": "symbolic interactionism",
+      "source": "https://www.ucpress.edu/books/symbolic-interactionism/paper"
+    },
+    {
+      "id": "kb_1000",
+      "term": "social representations theory",
+      "source": "https://assets.cambridge.org/97811070/42001/excerpt/9781107042001_excerpt.pdf"
+    },
+    {
+      "id": "kb_1001",
+      "term": "moral panic",
+      "source": "https://www.routledge.com/Folk-Devils-and-Moral-Panics-1st-Edition/Cohen/p/book/9780415610162"
+    },
+    {
+      "id": "kb_1001",
+      "term": "モラル・パニック",
+      "source": "https://www.routledge.com/Folk-Devils-and-Moral-Panics-1st-Edition/Cohen/p/book/9780415610162"
+    },
+    {
+      "id": "kb_1002",
+      "term": "othering",
+      "source": "https://www.otheringandbelonging.org/wp-content/uploads/2016/07/OtheringAndBelonging_Issue1.pdf"
+    },
+    {
+      "id": "kb_1003",
+      "term": "shared reality theory",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/26162223/"
+    },
+    {
+      "id": "kb_1004",
+      "term": "independent and interdependent self-construals",
+      "source": "https://doi.org/10.1037/0033-295X.98.2.224"
+    },
+    {
+      "id": "kb_1005",
+      "term": "self-evaluation maintenance model",
+      "source": "https://dictionary.apa.org/self-evaluation-maintenance-model"
+    },
+    {
+      "id": "kb_1006",
+      "term": "social role theory",
+      "source": "https://doi.org/10.4135/9781446249222.n49"
+    },
+    {
+      "id": "kb_1007",
+      "term": "proxemics",
+      "source": "https://www.penguinrandomhouse.com/books/73818/the-hidden-dimension-by-edward-t-hall/"
+    },
+    {
+      "id": "kb_1007",
+      "term": "プロクセミックス",
+      "source": "https://www.penguinrandomhouse.com/books/73818/the-hidden-dimension-by-edward-t-hall/"
+    },
+    {
+      "id": "kb_1008",
+      "term": "Johari window",
+      "source": "https://www.curtin.edu.au/news/oasis-news/looking-through-the-johari-window/"
+    },
+    {
+      "id": "kb_1009",
+      "term": "Kohlberg's theory of moral development",
+      "source": "https://openstax.org/books/psychology-2e/pages/9-2-lifespan-theories"
+    },
+    {
+      "id": "kb_1010",
+      "term": "temperament theory",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/10653510/"
+    },
+    {
+      "id": "kb_1011",
+      "term": "delay of gratification",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29799765/"
+    },
+    {
+      "id": "kb_1011",
+      "term": "満足遅延",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/29799765/"
+    },
+    {
+      "id": "kb_1012",
+      "term": "executive functions",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/23020641/"
+    },
+    {
+      "id": "kb_1012",
+      "term": "executive function",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/23020641/"
+    },
+    {
+      "id": "kb_1013",
+      "term": "left-digit effect",
+      "source": "https://doi.org/10.1086/429600"
+    },
+    {
+      "id": "kb_1014",
+      "term": "money illusion",
+      "source": "https://doi.org/10.1162/003355397555208"
+    },
+    {
+      "id": "kb_1015",
+      "term": "exponential growth bias",
+      "source": "https://doi.org/10.1111/j.1540-6261.2009.01518.x"
+    },
+    {
+      "id": "kb_1016",
+      "term": "salience bias",
+      "source": "https://scholar.harvard.edu/files/shleifer/files/salience_theory_of_choice_under_risk_qje.pdf"
+    },
+    {
+      "id": "kb_1017",
+      "term": "preference reversal",
+      "source": "https://doi.org/10.1037/h0031207"
+    },
+    {
+      "id": "kb_1018",
+      "term": "risk-as-feelings hypothesis",
+      "source": "https://www.cmu.edu/dietrich/sds/docs/loewenstein/RiskAsFeelings.pdf"
+    },
+    {
+      "id": "kb_1018",
+      "term": "risk as feelings",
+      "source": "https://www.cmu.edu/dietrich/sds/docs/loewenstein/RiskAsFeelings.pdf"
+    },
+    {
+      "id": "kb_1019",
+      "term": "reference price effect",
+      "source": "https://doi.org/10.1086/209064"
+    },
+    {
+      "id": "kb_1020",
+      "term": "partitioned pricing",
+      "source": "https://business.columbia.edu/faculty/research/divide-and-prosper-why-firms-divide-prices-instead-charging-single-price"
+    },
+    {
+      "id": "kb_1021",
+      "term": "snob effect",
+      "source": "https://academic.oup.com/qje/article-abstract/64/2/183/1931945"
+    },
+    {
+      "id": "kb_1022",
+      "term": "Veblen effect",
+      "source": "https://academic.oup.com/qje/article-abstract/64/2/183/1931945"
+    },
+    {
+      "id": "kb_1022",
+      "term": "ベブレン効果",
+      "source": "https://academic.oup.com/qje/article-abstract/64/2/183/1931945"
+    },
+    {
+      "id": "kb_1023",
+      "term": "disposition effect",
+      "source": "https://doi.org/10.1111/j.1540-6261.1985.tb05002.x"
+    },
+    {
+      "id": "kb_1024",
+      "term": "myopic loss aversion",
+      "source": "https://doi.org/10.2307/2118511"
+    },
+    {
+      "id": "kb_1025",
+      "term": "probability matching",
+      "source": "https://doi.org/10.1111/1467-6419.00106"
+    },
+    {
+      "id": "kb_1026",
+      "term": "intention-behavior gap",
+      "source": "https://doi.org/10.1080/14792772143000003"
+    },
+    {
+      "id": "kb_1026",
+      "term": "intention–behaviour gap",
+      "source": "https://doi.org/10.1080/14792772143000003"
+    },
+    {
+      "id": "kb_1027",
+      "term": "theory of planned behavior",
+      "source": "https://doi.org/10.1016/0749-5978(91)90020-T"
+    },
+    {
+      "id": "kb_1027",
+      "term": "theory of planned behaviour",
+      "source": "https://doi.org/10.1016/0749-5978(91)90020-T"
+    },
+    {
+      "id": "kb_1028",
+      "term": "habit discontinuity hypothesis",
+      "source": "https://www.sciencedirect.com/science/article/pii/S0272494415300487"
+    },
+    {
+      "id": "kb_1029",
+      "term": "behavioral spillover",
+      "source": "https://researchonline.lse.ac.uk/id/eprint/60804/1/__lse.ac.uk_storage_LIBRARY_Secondary_libfile_shared_repository_Content_Dolan%2C%20P_Like%20ripples_Dolan_Like%20ripples_2015.pdf"
+    },
+    {
+      "id": "kb_1029",
+      "term": "behavioural spillover",
+      "source": "https://researchonline.lse.ac.uk/id/eprint/60804/1/__lse.ac.uk_storage_LIBRARY_Secondary_libfile_shared_repository_Content_Dolan%2C%20P_Like%20ripples_Dolan_Like%20ripples_2015.pdf"
+    },
+    {
+      "id": "kb_1030",
+      "term": "social norms feedback",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17576283/"
+    },
+    {
+      "id": "kb_1030",
+      "term": "normative feedback",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/17576283/"
+    },
+    {
+      "id": "kb_1031",
+      "term": "shaping",
+      "source": "https://openstax.org/books/psychology-2e/pages/6-3-operant-conditioning"
+    },
+    {
+      "id": "kb_1031",
+      "term": "逐次接近法",
+      "source": "https://openstax.org/books/psychology-2e/pages/6-3-operant-conditioning"
+    },
+    {
+      "id": "kb_1032",
+      "term": "COM-B model",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3096582/"
+    },
+    {
+      "id": "kb_1032",
+      "term": "COM-B",
+      "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3096582/"
+    },
+    {
+      "id": "kb_1033",
+      "term": "EAST framework",
+      "source": "https://www.bi.team/publications/east-four-simple-ways-to-apply-behavioural-insights/"
+    },
+    {
+      "id": "kb_1033",
+      "term": "EAST",
+      "source": "https://www.bi.team/publications/east-four-simple-ways-to-apply-behavioural-insights/"
+    },
+    {
+      "id": "kb_1034",
+      "term": "health belief model",
+      "source": "https://doi.org/10.1177/109019817400200403"
+    },
+    {
+      "id": "kb_1035",
+      "term": "protection motivation theory",
+      "source": "https://doi.org/10.1080/00223980.1975.9915803"
+    },
+    {
+      "id": "kb_1036",
+      "term": "health action process approach",
+      "source": "https://doi.org/10.1111/j.1464-0597.2007.00325.x"
+    },
+    {
+      "id": "kb_1036",
+      "term": "HAPA",
+      "source": "https://doi.org/10.1111/j.1464-0597.2007.00325.x"
+    },
+    {
+      "id": "kb_1037",
+      "term": "feedback intervention theory",
+      "source": "https://doi.org/10.1037/0033-2909.119.2.254"
+    },
+    {
+      "id": "kb_1038",
+      "term": "projection bias",
+      "source": "https://doi.org/10.1162/003355303322552784"
+    },
+    {
+      "id": "kb_1039",
+      "term": "recognition heuristic",
+      "source": "https://doi.org/10.1037/0033-295X.109.1.75"
+    },
+    {
+      "id": "kb_1039",
+      "term": "再認ヒューリスティック",
+      "source": "https://doi.org/10.1037/0033-295X.109.1.75"
+    },
+    {
+      "id": "kb_1040",
+      "term": "take-the-best heuristic",
+      "source": "https://doi.org/10.1037/0033-295X.103.4.650"
+    },
+    {
+      "id": "kb_1041",
+      "term": "elimination by aspects",
+      "source": "https://doi.org/10.1037/h0032955"
+    },
+    {
+      "id": "kb_1042",
+      "term": "sludge",
+      "source": "https://doi.org/10.1017/bpp.2019.32"
+    },
+    {
+      "id": "kb_1043",
+      "term": "inequity aversion",
+      "source": "https://doi.org/10.1162/003355399556151"
+    },
+    {
+      "id": "kb_1044",
+      "term": "ecological rationality",
+      "source": "https://pure.mpg.de/pubman/item/item_3492412_12"
+    },
+    {
+      "id": "kb_1045",
+      "term": "PREP method",
+      "source": "https://www.aitech.ac.jp/assets/docs/career/for-students/center_for-students_handbook2025.pdf"
+    },
+    {
+      "id": "kb_1046",
+      "term": "SBAR",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html"
+    },
+    {
+      "id": "kb_1046",
+      "term": "situation-background-assessment-recommendation",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/sbar.html"
+    },
+    {
+      "id": "kb_1047",
+      "term": "I-message",
+      "source": "https://www.gordontraining.com/thomas-gordon/origins-of-the-gordon-model/"
+    },
+    {
+      "id": "kb_1047",
+      "term": "I-messages",
+      "source": "https://www.gordontraining.com/thomas-gordon/origins-of-the-gordon-model/"
+    },
+    {
+      "id": "kb_1047",
+      "term": "私メッセージ",
+      "source": "https://www.gordontraining.com/thomas-gordon/origins-of-the-gordon-model/"
+    },
+    {
+      "id": "kb_1048",
+      "term": "SBI feedback",
+      "source": "https://www.ccl.org/articles/leading-effectively-articles/closing-the-gap-between-intent-vs-impact-sbii/"
+    },
+    {
+      "id": "kb_1048",
+      "term": "situation-behavior-impact",
+      "source": "https://www.ccl.org/articles/leading-effectively-articles/closing-the-gap-between-intent-vs-impact-sbii/"
+    },
+    {
+      "id": "kb_1049",
+      "term": "motivational interviewing",
+      "source": "https://motivationalinterviewing.org/understanding-motivational-interviewing"
+    },
+    {
+      "id": "kb_1050",
+      "term": "teach-back",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/teachback.html"
+    },
+    {
+      "id": "kb_1050",
+      "term": "teach-back method",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/teachback.html"
+    },
+    {
+      "id": "kb_1051",
+      "term": "closed-loop communication",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/loop.html"
+    },
+    {
+      "id": "kb_1052",
+      "term": "STAR method",
+      "source": "https://nationalcareers.service.gov.uk/careers-advice/interview-advice/the-star-method"
+    },
+    {
+      "id": "kb_1052",
+      "term": "situation-task-action-result",
+      "source": "https://nationalcareers.service.gov.uk/careers-advice/interview-advice/the-star-method"
+    },
+    {
+      "id": "kb_1053",
+      "term": "SCQA framework",
+      "source": "https://barbaraminto.com/"
+    },
+    {
+      "id": "kb_1053",
+      "term": "situation-complication-question-answer",
+      "source": "https://barbaraminto.com/"
+    },
+    {
+      "id": "kb_1054",
+      "term": "SPIN selling",
+      "source": "https://www.huthwaiteinternational.com/spin-methodology"
+    },
+    {
+      "id": "kb_1054",
+      "term": "SPIN questioning",
+      "source": "https://www.huthwaiteinternational.com/spin-methodology"
+    },
+    {
+      "id": "kb_1055",
+      "term": "I-PASS handoff",
+      "source": "https://www.ahrq.gov/teamstepps-program/curriculum/communication/tools/ipass.html"
+    },
+    {
+      "id": "kb_1056",
+      "term": "Eisenhower matrix",
+      "source": "https://www.franklincovey.com/the-5-choices/choice-1/"
+    },
+    {
+      "id": "kb_1056",
+      "term": "重要度・緊急度マトリクス",
+      "source": "https://www.franklincovey.com/the-5-choices/choice-1/"
+    },
+    {
+      "id": "kb_1057",
+      "term": "5 Whys",
+      "source": "https://www.lean.org/lexicon-terms/5-whys/"
+    },
+    {
+      "id": "kb_1057",
+      "term": "five whys",
+      "source": "https://www.lean.org/lexicon-terms/5-whys/"
+    },
+    {
+      "id": "kb_1057",
+      "term": "なぜなぜ分析",
+      "source": "https://www.lean.org/lexicon-terms/5-whys/"
+    },
+    {
+      "id": "kb_1058",
+      "term": "logic tree",
+      "source": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-master-the-seven-step-problem-solving-process"
+    },
+    {
+      "id": "kb_1058",
+      "term": "issue tree",
+      "source": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-master-the-seven-step-problem-solving-process"
+    },
+    {
+      "id": "kb_1058",
+      "term": "イシューツリー",
+      "source": "https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/how-to-master-the-seven-step-problem-solving-process"
+    },
+    {
+      "id": "kb_1059",
+      "term": "mutually exclusive collectively exhaustive",
+      "source": "https://www.mckinsey.com/alumni/news-and-events/global-news/alumni-news/barbara-minto-mece-i-invented-it-so-i-get-to-say-how-to-pronounce-it"
+    },
+    {
+      "id": "kb_1059",
+      "term": "ミーシー",
+      "source": "https://www.mckinsey.com/alumni/news-and-events/global-news/alumni-news/barbara-minto-mece-i-invented-it-so-i-get-to-say-how-to-pronounce-it"
+    },
+    {
+      "id": "kb_1060",
+      "term": "decision journal",
+      "source": "https://fs.blog/decision-journal/"
+    },
+    {
+      "id": "kb_1061",
+      "term": "decision matrix",
+      "source": "https://asq.org/quality-resources/decision-matrix"
+    },
+    {
+      "id": "kb_1061",
+      "term": "選択マトリクス",
+      "source": "https://asq.org/quality-resources/decision-matrix"
+    },
+    {
+      "id": "kb_1062",
+      "term": "after-action review",
+      "source": "https://www.first.army.mil/Portals/102/FM%207-0%20Appendix%20K.pdf"
+    },
+    {
+      "id": "kb_1062",
+      "term": "AAR",
+      "source": "https://www.first.army.mil/Portals/102/FM%207-0%20Appendix%20K.pdf"
+    },
+    {
+      "id": "kb_1063",
+      "term": "KPT retrospective",
+      "source": "https://www.digitalservice.metro.tokyo.lg.jp/documents/d/digitalservice/bpr-ver2"
+    },
+    {
+      "id": "kb_1063",
+      "term": "Keep Problem Try",
+      "source": "https://www.digitalservice.metro.tokyo.lg.jp/documents/d/digitalservice/bpr-ver2"
+    },
+    {
+      "id": "kb_1064",
+      "term": "RACI matrix",
+      "source": "https://www.pmi.org/learning/library/best-practices-managing-people-quality-management-7012"
+    },
+    {
+      "id": "kb_1064",
+      "term": "RACI chart",
+      "source": "https://www.pmi.org/learning/library/best-practices-managing-people-quality-management-7012"
+    },
+    {
+      "id": "kb_1064",
+      "term": "RACI",
+      "source": "https://www.pmi.org/learning/library/best-practices-managing-people-quality-management-7012"
+    },
+    {
+      "id": "kb_1065",
+      "term": "stakeholder map",
+      "source": "https://www.apm.org.uk/resources/whitepapers/communication-planning/"
+    },
+    {
+      "id": "kb_1065",
+      "term": "stakeholder mapping",
+      "source": "https://www.apm.org.uk/resources/whitepapers/communication-planning/"
+    },
+    {
+      "id": "kb_1066",
+      "term": "PEST analysis",
+      "source": "https://www.cipd.org/en/knowledge/factsheets/pestle-analysis-factsheet/"
+    },
+    {
+      "id": "kb_1066",
+      "term": "PEST",
+      "source": "https://www.cipd.org/en/knowledge/factsheets/pestle-analysis-factsheet/"
+    },
+    {
+      "id": "kb_1067",
+      "term": "AIDA model",
+      "source": "https://openstax.org/books/principles-marketing/pages/15-3-steps-in-the-personal-selling-process"
+    },
+    {
+      "id": "kb_1067",
+      "term": "AIDA",
+      "source": "https://openstax.org/books/principles-marketing/pages/15-3-steps-in-the-personal-selling-process"
+    },
+    {
+      "id": "kb_1068",
+      "term": "jobs to be done",
+      "source": "https://www.christenseninstitute.org/theory/jobs-to-be-done/"
+    },
+    {
+      "id": "kb_1069",
+      "term": "segmentation targeting positioning",
+      "source": "https://openstax.org/books/principles-marketing/pages/5-6-product-positioning"
+    },
+    {
+      "id": "kb_1069",
+      "term": "STP",
+      "source": "https://openstax.org/books/principles-marketing/pages/5-6-product-positioning"
+    },
+    {
+      "id": "kb_1070",
+      "term": "marketing mix 4Ps",
+      "source": "https://openstax.org/books/principles-marketing/pages/1-2-the-marketing-mix-and-the-4ps-of-marketing"
+    },
+    {
+      "id": "kb_1070",
+      "term": "4Ps of marketing",
+      "source": "https://openstax.org/books/principles-marketing/pages/1-2-the-marketing-mix-and-the-4ps-of-marketing"
+    },
+    {
+      "id": "kb_1071",
+      "term": "customer journey map",
+      "source": "https://www.nngroup.com/articles/journey-mapping-101/"
+    },
+    {
+      "id": "kb_1071",
+      "term": "customer journey mapping",
+      "source": "https://www.nngroup.com/articles/journey-mapping-101/"
+    },
+    {
+      "id": "kb_1072",
+      "term": "SMART goals",
+      "source": "https://www.decisionskills.com/uploads/5/1/6/0/5160560/doran_1981_s.m.a.r.t-way-management-review.pdf"
+    },
+    {
+      "id": "kb_1072",
+      "term": "SMART objectives",
+      "source": "https://www.decisionskills.com/uploads/5/1/6/0/5160560/doran_1981_s.m.a.r.t-way-management-review.pdf"
+    },
+    {
+      "id": "kb_1073",
+      "term": "Getting Things Done",
+      "source": "https://gettingthingsdone.com/five-Steps/"
+    },
+    {
+      "id": "kb_1074",
+      "term": "Pomodoro Technique",
+      "source": "https://www.pomodorotechnique.com/"
+    },
+    {
+      "id": "kb_1075",
+      "term": "time blocking",
+      "source": "https://calnewport.com/deep-habits-the-importance-of-planning-every-minute-of-your-work-day/"
+    },
+    {
+      "id": "kb_1076",
+      "term": "SQ3R",
+      "source": "https://asc.tamu.edu/tutoring/sq3r.html"
+    },
+    {
+      "id": "kb_1076",
+      "term": "SQ3R reading method",
+      "source": "https://asc.tamu.edu/tutoring/sq3r.html"
+    },
+    {
+      "id": "kb_1077",
+      "term": "Cornell note-taking system",
+      "source": "https://lsc.cornell.edu/notes.html"
+    },
+    {
+      "id": "kb_1077",
+      "term": "Cornell notes",
+      "source": "https://lsc.cornell.edu/notes.html"
+    },
+    {
+      "id": "kb_1078",
+      "term": "method of loci",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28279356/"
+    },
+    {
+      "id": "kb_1078",
+      "term": "memory palace",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28279356/"
+    },
+    {
+      "id": "kb_1078",
+      "term": "場所法",
+      "source": "https://pubmed.ncbi.nlm.nih.gov/28279356/"
+    },
+    {
+      "id": "kb_1079",
+      "term": "concept map",
+      "source": "https://cmap.ihmc.us/publications/researchpapers/theoryunderlyingconceptmaps.pdf"
+    },
+    {
+      "id": "kb_1079",
+      "term": "concept mapping",
+      "source": "https://cmap.ihmc.us/publications/researchpapers/theoryunderlyingconceptmaps.pdf"
+    },
+    {
+      "id": "kb_1079",
+      "term": "概念地図",
+      "source": "https://cmap.ihmc.us/publications/researchpapers/theoryunderlyingconceptmaps.pdf"
+    },
+    {
+      "id": "kb_1080",
+      "term": "thought record",
+      "source": "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/self-help-cbt-techniques/thought-record/"
+    },
+    {
+      "id": "kb_1080",
+      "term": "thought diary",
+      "source": "https://www.nhs.uk/every-mind-matters/mental-wellbeing-tips/self-help-cbt-techniques/thought-record/"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "kb_725",
+      "term": "locus of control",
+      "reason": "normalized duplicate"
+    },
+    {
+      "id": "kb_743",
+      "term": "encoding specificity principle",
+      "reason": "normalized duplicate"
+    },
+    {
+      "id": "kb_742",
+      "term": "dual coding theory",
+      "reason": "normalized duplicate"
+    },
+    {
+      "id": "kb_746",
+      "term": "chunking",
+      "reason": "normalized duplicate"
+    },
+    {
+      "id": "kb_1068",
+      "term": "Jobs-to-be-Done",
+      "reason": "normalized duplicate"
+    },
+    {
+      "id": "kb_1075",
+      "term": "time-blocking",
+      "reason": "normalized duplicate"
+    }
+  ],
+  "removals": [
+    {
+      "id": "kb_003",
+      "term": "ホーン効果",
+      "reason": "負方向の関連概念を正式同義語から検索補助へ移動。"
+    },
+    {
+      "id": "kb_003",
+      "term": "horn effect",
+      "reason": "負方向の関連概念を正式同義語から検索補助へ移動。"
+    },
+    {
+      "id": "kb_003",
+      "term": "devil effect",
+      "reason": "負方向の関連概念を正式同義語から検索補助へ移動。"
+    },
+    {
+      "id": "kb_752",
+      "term": "CLT",
+      "reason": "CLTは認知負荷理論とも衝突。心理的距離はモデルが扱う構成概念で、理論全体の同義語ではない。"
+    },
+    {
+      "id": "kb_752",
+      "term": "心理的距離",
+      "reason": "CLTは認知負荷理論とも衝突。心理的距離はモデルが扱う構成概念で、理論全体の同義語ではない。"
+    }
+  ],
+  "keywords": {
+    "kb_520": [
+      "SDT"
+    ],
+    "kb_958": [
+      "SDT"
+    ],
+    "kb_752": [
+      "CLT",
+      "心理的距離"
+    ],
+    "kb_493": [
+      "CLT"
+    ],
+    "kb_058": [
+      "SIT"
+    ],
+    "kb_238": [
+      "SIT"
+    ],
+    "kb_059": [
+      "SCT"
+    ],
+    "kb_735": [
+      "SCT"
+    ],
+    "kb_003": [
+      "ホーン効果",
+      "horn effect",
+      "devil effect"
+    ],
+    "kb_963": [
+      "トップダウン処理",
+      "ボトムアップ処理",
+      "top-down processing",
+      "bottom-up processing"
+    ],
+    "kb_975": [
+      "前向干渉",
+      "逆向干渉",
+      "proactive interference",
+      "retroactive interference"
+    ],
+    "kb_976": [
+      "TOT"
+    ],
+    "kb_989": [
+      "fear of negative evaluation"
+    ],
+    "kb_1011": [
+      "マシュマロ実験",
+      "marshmallow test"
+    ],
+    "kb_1032": [
+      "行動変容の輪",
+      "behaviour change wheel"
+    ],
+    "kb_1052": [
+      "STAR"
+    ],
+    "kb_048": [
+      "部分強化消去効果"
+    ]
+  },
+  "relationChanges": [
+    {
+      "sourceId": "kb_858",
+      "targetId": "kb_957",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "サブリミナル効果と認知的プライミングは説明対象・手法を区別しながら読める。閾下知覚の存在と、強力な購買操作という俗説を分離。subliminal primingは下位の実験手続きなので正式同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_004",
+      "targetId": "kb_957",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "サブリミナル効果と単純接触効果は説明対象・手法を区別しながら読める。閾下知覚の存在と、強力な購買操作という俗説を分離。subliminal primingは下位の実験手続きなので正式同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_844",
+      "targetId": "kb_958",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "信号検出理論と確率無視は説明対象・手法を区別しながら読める。SDTは自己決定理論と衝突するため検索補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_214",
+      "targetId": "kb_958",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "信号検出理論と確率過大評価は説明対象・手法を区別しながら読める。SDTは自己決定理論と衝突するため検索補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_139",
+      "targetId": "kb_959",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ウェーバーの法則と対比効果は説明対象・手法を区別しながら読める。弁別閾は測定概念であり法則そのものの別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_401",
+      "targetId": "kb_959",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ウェーバーの法則と限界効用逓減は説明対象・手法を区別しながら読める。弁別閾は測定概念であり法則そのものの別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_945",
+      "targetId": "kb_960",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感覚順応と馴化は説明対象・手法を区別しながら読める。馴化は行動上の非連合学習。感覚順応と同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_268",
+      "targetId": "kb_960",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感覚順応と快楽順応は説明対象・手法を区別しながら読める。馴化は行動上の非連合学習。感覚順応と同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_596",
+      "targetId": "kb_961",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "知覚的構えと確証バイアスは説明対象・手法を区別しながら読める。選択的知覚という広い項目を参照しつつ、期待による構えに限定して説明。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_858",
+      "targetId": "kb_961",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "知覚的構えと認知的プライミングは説明対象・手法を区別しながら読める。選択的知覚という広い項目を参照しつつ、期待による構えに限定して説明。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_450",
+      "targetId": "kb_962",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ゲシュタルトの群化原理とパターン認識は説明対象・手法を区別しながら読める。知覚の原理群。ゲシュタルト療法とは別概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_746",
+      "targetId": "kb_962",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ゲシュタルトの群化原理とチャンク化は説明対象・手法を区別しながら読める。知覚の原理群。ゲシュタルト療法とは別概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_858",
+      "targetId": "kb_963",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "トップダウン処理・ボトムアップ処理と認知的プライミングは説明対象・手法を区別しながら読める。一つの比較枠組みとして収録。片方だけの語は関連検索語にする。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_450",
+      "targetId": "kb_963",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "トップダウン処理・ボトムアップ処理とパターン認識は説明対象・手法を区別しながら読める。一つの比較枠組みとして収録。片方だけの語は関連検索語にする。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_570",
+      "targetId": "kb_964",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "予測符号化理論とベイズ更新は説明対象・手法を区別しながら読める。視覚皮質の計算モデルを起点とする。自由エネルギー原理そのものとは同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_450",
+      "targetId": "kb_964",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "予測符号化理論とパターン認識は説明対象・手法を区別しながら読める。視覚皮質の計算モデルを起点とする。自由エネルギー原理そのものとは同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_493",
+      "targetId": "kb_965",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意資源理論と認知負荷理論は説明対象・手法を区別しながら読める。単一資源説と複数資源説を混同せず、容量という説明の水準を示す。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_745",
+      "targetId": "kb_965",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意資源理論とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。単一資源説と複数資源説を混同せず、容量という説明の水準を示す。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_528",
+      "targetId": "kb_966",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アフォーダンスと環境デザインは説明対象・手法を区別しながら読める。J. J. Gibsonの生態学的知覚論。知覚されたアフォーダンスやシグニファイアと区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_178",
+      "targetId": "kb_966",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アフォーダンスと選択アーキテクチャは説明対象・手法を区別しながら読める。J. J. Gibsonの生態学的知覚論。知覚されたアフォーダンスやシグニファイアと区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_531",
+      "targetId": "kb_967",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意残余とツァイガルニク効果は説明対象・手法を区別しながら読める。注意残余と一般的なマルチタスクのコストを同一視しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_493",
+      "targetId": "kb_967",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意残余と認知負荷理論は説明対象・手法を区別しながら読める。注意残余と一般的なマルチタスクのコストを同一視しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_017",
+      "targetId": "kb_968",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意の捕捉とカクテルパーティー効果は説明対象・手法を区別しながら読める。外因的刺激と目標による制御の関係は研究上の論点。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_872",
+      "targetId": "kb_968",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "注意の捕捉と非注意性盲目は説明対象・手法を区別しながら読める。外因的刺激と目標による制御の関係は研究上の論点。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_872",
+      "targetId": "kb_969",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "絶対閾と非注意性盲目は説明対象・手法を区別しながら読める。心理物理学の測定概念。無意識の処理の有無を単独で確定する指標ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_017",
+      "targetId": "kb_970",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選択的注意とカクテルパーティー効果は説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_872",
+      "targetId": "kb_970",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選択的注意と非注意性盲目は説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_874",
+      "targetId": "kb_970",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選択的注意と注意の瞬きは説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_450",
+      "targetId": "kb_971",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "心的回転とパターン認識は説明対象・手法を区別しながら読める。追加発見候補から採用。頻度錯覚の代替。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_742",
+      "targetId": "kb_971",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "心的回転と二重符号化理論は説明対象・手法を区別しながら読める。追加発見候補から採用。頻度錯覚の代替。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_414",
+      "targetId": "kb_972",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スキーマ理論と連想ネットワークは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_596",
+      "targetId": "kb_972",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スキーマ理論と確証バイアスは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_858",
+      "targetId": "kb_972",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スキーマ理論と認知的プライミングは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_414",
+      "targetId": "kb_973",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スクリプト理論と連想ネットワークは説明対象・手法を区別しながら読める。SchankとAbelsonの出来事知識に対応する用法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_876",
+      "targetId": "kb_973",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スクリプト理論と誤情報効果は説明対象・手法を区別しながら読める。SchankとAbelsonの出来事知識に対応する用法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_172",
+      "targetId": "kb_974",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "展望記憶と実行意図は説明対象・手法を区別しながら読める。実行意図は展望記憶を支援する手法であり、同義ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_441",
+      "targetId": "kb_974",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "展望記憶と外部記憶は説明対象・手法を区別しながら読める。実行意図は展望記憶を支援する手法であり、同義ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_738",
+      "targetId": "kb_975",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "前向干渉・逆向干渉とエビングハウスの忘却曲線は説明対象・手法を区別しながら読める。片方向の名称は全体の同義語ではなく関連検索語。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_879",
+      "targetId": "kb_975",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "前向干渉・逆向干渉と検索誘導性忘却は説明対象・手法を区別しながら読める。片方向の名称は全体の同義語ではなく関連検索語。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_877",
+      "targetId": "kb_976",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "舌先現象とソースモニタリングは説明対象・手法を区別しながら読める。TOTは短い略称なので補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_414",
+      "targetId": "kb_976",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "舌先現象と連想ネットワークは説明対象・手法を区別しながら読める。TOTは短い略称なので補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_876",
+      "targetId": "kb_977",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "フラッシュバルブ記憶と誤情報効果は説明対象・手法を区別しながら読める。BrownとKulikの研究に由来。鮮明さと保持精度を明確に分離。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_877",
+      "targetId": "kb_977",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "フラッシュバルブ記憶とソースモニタリングは説明対象・手法を区別しながら読める。BrownとKulikの研究に由来。鮮明さと保持精度を明確に分離。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_246",
+      "targetId": "kb_978",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "回想バンプとナラティブ・アイデンティティは説明対象・手法を区別しながら読める。人生全体にわたる想起分布の研究。単なる懐古や初頭効果とは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_909",
+      "targetId": "kb_978",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "回想バンプと社会的時計は説明対象・手法を区別しながら読める。人生全体にわたる想起分布の研究。単なる懐古や初頭効果とは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_876",
+      "targetId": "kb_979",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "偽記憶と誤情報効果は説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_877",
+      "targetId": "kb_979",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "偽記憶とソースモニタリングは説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_831",
+      "targetId": "kb_979",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "偽記憶と記憶の再固定化は説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_826",
+      "targetId": "kb_980",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "プルースト効果と文脈依存記憶は説明対象・手法を区別しながら読める。嗅覚で誘発される自伝的記憶に限定。医療上の改善効果は主張しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_878",
+      "targetId": "kb_980",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "プルースト効果と気分一致記憶は説明対象・手法を区別しながら読める。嗅覚で誘発される自伝的記憶に限定。医療上の改善効果は主張しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_754",
+      "targetId": "kb_981",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "二重過程理論と限定合理性は説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_430",
+      "targetId": "kb_981",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "二重過程理論と感情ヒューリスティックは説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_745",
+      "targetId": "kb_981",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "二重過程理論とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_003",
+      "targetId": "kb_982",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "属性置換とハロー効果は説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_430",
+      "targetId": "kb_982",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "属性置換と感情ヒューリスティックは説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_597",
+      "targetId": "kb_982",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "属性置換と利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_596",
+      "targetId": "kb_983",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "信念バイアスと確証バイアスは説明対象・手法を区別しながら読める。論理的妥当性と内容の信じやすさの実験的対立。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_929",
+      "targetId": "kb_983",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "信念バイアスと演繹推論は説明対象・手法を区別しながら読める。論理的妥当性と内容の信じやすさの実験的対立。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_881",
+      "targetId": "kb_984",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "認知欲求と認知的閉鎖欲求は説明対象・手法を区別しながら読める。CacioppoとPettyらの個人差構成概念。能力や優劣の診断にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_391",
+      "targetId": "kb_985",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "イデオモーター効果とカメレオン効果は説明対象・手法を区別しながら読める。観念と微細な運動の関係。念力等を支持する概念として扱わない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_231",
+      "targetId": "kb_985",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "イデオモーター効果とコントロール幻想は説明対象・手法を区別しながら読める。観念と微細な運動の関係。念力等を支持する概念として扱わない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_229",
+      "targetId": "kb_986",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情調整プロセスモデルと問題焦点型・感情焦点型コーピングは説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_227",
+      "targetId": "kb_986",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情調整プロセスモデルと感情ラベリングは説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_224",
+      "targetId": "kb_986",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情調整プロセスモデルと脱中心化は説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_227",
+      "targetId": "kb_987",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "情動粒度と感情ラベリングは説明対象・手法を区別しながら読める。構成概念と関連の確認。介入の万能な効能にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_229",
+      "targetId": "kb_987",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "情動粒度と問題焦点型・感情焦点型コーピングは説明対象・手法を区別しながら読める。構成概念と関連の確認。介入の万能な効能にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_885",
+      "targetId": "kb_988",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情構成理論と感情の二要因理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_886",
+      "targetId": "kb_988",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情構成理論とジェームズ＝ランゲ理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_905",
+      "targetId": "kb_988",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "感情構成理論とキャノン＝バード理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_232",
+      "targetId": "kb_989",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的評価不安とスポットライト効果は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_207",
+      "targetId": "kb_989",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的評価不安と安全行動は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_816",
+      "targetId": "kb_989",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的評価不安と拒絶感受性は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_257",
+      "targetId": "kb_990",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自尊心の随伴性と自己不一致理論は説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_815",
+      "targetId": "kb_990",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自尊心の随伴性とソシオメーター理論は説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_264",
+      "targetId": "kb_990",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自尊心の随伴性とセルフ・コンパッションは説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_727",
+      "targetId": "kb_991",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "多次元的完璧主義とインポスター現象は説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_728",
+      "targetId": "kb_991",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "多次元的完璧主義とセルフ・ハンディキャッピングは説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_264",
+      "targetId": "kb_991",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "多次元的完璧主義とセルフ・コンパッションは説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_750",
+      "targetId": "kb_992",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "達成動機理論と期待価値理論は説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_187",
+      "targetId": "kb_992",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "達成動機理論と学習目標・遂行目標は説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_728",
+      "targetId": "kb_992",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "達成動機理論とセルフ・ハンディキャッピングは説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_058",
+      "targetId": "kb_993",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳基盤理論と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。基盤の構成は改訂されている。特定の個人・文化の診断に使わない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_927",
+      "targetId": "kb_993",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳基盤理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。基盤の構成は改訂されている。特定の個人・文化の診断に使わない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_265",
+      "targetId": "kb_994",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的切り離しと認知的不協和は説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_073",
+      "targetId": "kb_994",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的切り離しと責任の分散は説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_883",
+      "targetId": "kb_994",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的切り離しとモラル・ライセンシングは説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_473",
+      "targetId": "kb_995",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ルーピング効果と自己成就予言は説明対象・手法を区別しながら読める。社会科学の分類と分類される人の相互作用。自己成就予言の同義語ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_246",
+      "targetId": "kb_995",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ルーピング効果とナラティブ・アイデンティティは説明対象・手法を区別しながら読める。社会科学の分類と分類される人の相互作用。自己成就予言の同義語ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_473",
+      "targetId": "kb_996",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ラベリング理論と自己成就予言は説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_470",
+      "targetId": "kb_996",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ラベリング理論と排斥理論は説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_246",
+      "targetId": "kb_996",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ラベリング理論とナラティブ・アイデンティティは説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_470",
+      "targetId": "kb_997",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スティグマと排斥理論は説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_927",
+      "targetId": "kb_997",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スティグマとステレオタイプ内容モデルは説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_731",
+      "targetId": "kb_997",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スティグマとステレオタイプ脅威は説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_473",
+      "targetId": "kb_998",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "トマスの定理と自己成就予言は説明対象・手法を区別しながら読める。原著の命題。心理的な願望実現の法則と混同しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_106",
+      "targetId": "kb_998",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "トマスの定理と情報カスケードは説明対象・手法を区別しながら読める。原著の命題。心理的な願望実現の法則と混同しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_434",
+      "targetId": "kb_999",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "象徴的相互作用論と期待違反理論は説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_111",
+      "targetId": "kb_999",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "象徴的相互作用論と印象管理理論は説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_942",
+      "targetId": "kb_999",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "象徴的相互作用論とセンスメイキングは説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1000",
+      "targetId": "kb_455",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的表象理論と集団規範は説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1000",
+      "targetId": "kb_927",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的表象理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1000",
+      "targetId": "kb_942",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的表象理論とセンスメイキングは説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1001",
+      "targetId": "kb_106",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的パニックと情報カスケードは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1001",
+      "targetId": "kb_597",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的パニックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1001",
+      "targetId": "kb_927",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "道徳的パニックとステレオタイプ内容モデルは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_058",
+      "targetId": "kb_1002",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "他者化と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1002",
+      "targetId": "kb_485",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "他者化と共通内集団アイデンティティは説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1002",
+      "targetId": "kb_470",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "他者化と排斥理論は説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1003",
+      "targetId": "kb_707",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "共有現実理論と偽の合意効果は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1003",
+      "targetId": "kb_266",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "共有現実理論と社会的比較理論は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1003",
+      "targetId": "kb_404",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "共有現実理論と共感的理解は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_058",
+      "targetId": "kb_1004",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "相互独立的・相互協調的自己観と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1004",
+      "targetId": "kb_258",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "相互独立的・相互協調的自己観と自己複雑性は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1004",
+      "targetId": "kb_456",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "相互独立的・相互協調的自己観と文化的適合理論は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1005",
+      "targetId": "kb_266",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自己評価維持モデルと社会的比較理論は説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1005",
+      "targetId": "kb_122",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自己評価維持モデルと反射的栄光浴は説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1005",
+      "targetId": "kb_396",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "自己評価維持モデルと自己高揚バイアスは説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1006",
+      "targetId": "kb_927",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的役割理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1006",
+      "targetId": "kb_939",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的役割理論と役割葛藤・役割曖昧性は説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_075",
+      "targetId": "kb_1006",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的役割理論と地位特性理論は説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_037",
+      "targetId": "kb_1007",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "対人距離理論と親密性平衡モデルは説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_092",
+      "targetId": "kb_1007",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "対人距離理論と境界線理論は説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1007",
+      "targetId": "kb_474",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "対人距離理論と非言語的地位表示は説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_008",
+      "targetId": "kb_1008",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ジョハリの窓と自己開示の返報性は説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1008",
+      "targetId": "kb_115",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ジョハリの窓と自他知識非対称性モデルは説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1008",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ジョハリの窓と具体的フィードバックは説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1009",
+      "targetId": "kb_903",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コールバーグの道徳性発達理論とピアジェの認知発達理論は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1009",
+      "targetId": "kb_954",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コールバーグの道徳性発達理論と定言命法は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1009",
+      "targetId": "kb_955",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コールバーグの道徳性発達理論と功利主義は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1010",
+      "targetId": "kb_724",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "気質理論とビッグ・ファイブは説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1010",
+      "targetId": "kb_914",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "気質理論と生態学的システム理論は説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1010",
+      "targetId": "kb_920",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "気質理論と敏感期は説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1011",
+      "targetId": "kb_175",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "遅延満足と現在バイアスは説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1011",
+      "targetId": "kb_176",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "遅延満足と双曲割引は説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1011",
+      "targetId": "kb_174",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "遅延満足とプレコミットメントは説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1012",
+      "targetId": "kb_745",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "実行機能とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1012",
+      "targetId": "kb_574",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "実行機能と認知的柔軟性は説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1012",
+      "targetId": "kb_577",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "実行機能と認知的オフローディングは説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1013",
+      "targetId": "kb_138",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "左端数字効果とアンカリング効果は説明対象・手法を区別しながら読める。数値認知の現象。9で終わる値付けのすべてと同義にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1013",
+      "targetId": "kb_137",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "左端数字効果とフレーミング効果は説明対象・手法を区別しながら読める。数値認知の現象。9で終わる値付けのすべてと同義にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1014",
+      "targetId": "kb_137",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "貨幣錯覚とフレーミング効果は説明対象・手法を区別しながら読める。名目と実質の区別。実質値の認識と公平感等の価値判断を分ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1014",
+      "targetId": "kb_138",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "貨幣錯覚とアンカリング効果は説明対象・手法を区別しながら読める。名目と実質の区別。実質値の認識と公平感等の価値判断を分ける。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1015",
+      "targetId": "kb_575",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "指数成長バイアスと複利効果は説明対象・手法を区別しながら読める。金融研究を起点とする数理的認識の傾向。個別の投資推奨ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1015",
+      "targetId": "kb_755",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "指数成長バイアスと期待値は説明対象・手法を区別しながら読める。金融研究を起点とする数理的認識の傾向。個別の投資推奨ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1016",
+      "targetId": "kb_597",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "顕著性バイアスと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1016",
+      "targetId": "kb_236",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "顕著性バイアスとフォーカシング・イリュージョンは説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1016",
+      "targetId": "kb_139",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "顕著性バイアスと対比効果は説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1017",
+      "targetId": "kb_756",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選好逆転と期待効用理論は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1017",
+      "targetId": "kb_137",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選好逆転とフレーミング効果は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1017",
+      "targetId": "kb_442",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "選好逆転と顕示選好は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1018",
+      "targetId": "kb_430",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "リスク感情理論と感情ヒューリスティックは説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1018",
+      "targetId": "kb_844",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "リスク感情理論と確率無視は説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1018",
+      "targetId": "kb_887",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "リスク感情理論とソマティック・マーカー仮説は説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1019",
+      "targetId": "kb_138",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "参照価格効果とアンカリング効果は説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1019",
+      "targetId": "kb_137",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "参照価格効果とフレーミング効果は説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1019",
+      "targetId": "kb_761",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "参照価格効果と支払いの痛みは説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1020",
+      "targetId": "kb_137",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "分割価格効果とフレーミング効果は説明対象・手法を区別しながら読める。ドリップ価格は段階的開示を伴う別の側面。単純同義語にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1020",
+      "targetId": "kb_761",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "分割価格効果と支払いの痛みは説明対象・手法を区別しながら読める。ドリップ価格は段階的開示を伴う別の側面。単純同義語にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1021",
+      "targetId": "kb_729",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スノッブ効果とバンドワゴン効果は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1021",
+      "targetId": "kb_514",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スノッブ効果と希少性価値は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1021",
+      "targetId": "kb_107",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スノッブ効果とシグナリング理論は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1022",
+      "targetId": "kb_107",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ヴェブレン効果とシグナリング理論は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1022",
+      "targetId": "kb_474",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ヴェブレン効果と非言語的地位表示は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1022",
+      "targetId": "kb_514",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ヴェブレン効果と希少性価値は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1023",
+      "targetId": "kb_134",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ディスポジション効果と損失回避は説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1023",
+      "targetId": "kb_757",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ディスポジション効果とメンタル・アカウンティングは説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1023",
+      "targetId": "kb_273",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ディスポジション効果とサンクコスト効果は説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1024",
+      "targetId": "kb_134",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "近視眼的損失回避と損失回避は説明対象・手法を区別しながら読める。評価間隔と損失回避の組合せ。長期投資の効能保証ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1024",
+      "targetId": "kb_175",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "近視眼的損失回避と現在バイアスは説明対象・手法を区別しながら読める。評価間隔と損失回避の組合せ。長期投資の効能保証ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1025",
+      "targetId": "kb_755",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "確率マッチングと期待値は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1025",
+      "targetId": "kb_713",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "確率マッチングとギャンブラーの誤謬は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1025",
+      "targetId": "kb_287",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "確率マッチングと探索と活用は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1026",
+      "targetId": "kb_172",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意図と行動のギャップと実行意図は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1026",
+      "targetId": "kb_181",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意図と行動のギャップと行動摩擦は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1026",
+      "targetId": "kb_167",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意図と行動のギャップと目標設定理論は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1027",
+      "targetId": "kb_169",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "計画的行動理論と自己効力感は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1027",
+      "targetId": "kb_172",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "計画的行動理論と実行意図は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1027",
+      "targetId": "kb_455",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "計画的行動理論と集団規範は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1028",
+      "targetId": "kb_535",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "習慣不連続性仮説と文脈依存習慣は説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1028",
+      "targetId": "kb_180",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "習慣不連続性仮説と習慣ループは説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1028",
+      "targetId": "kb_184",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "習慣不連続性仮説と新鮮なスタート効果は説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1029",
+      "targetId": "kb_883",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動の波及効果とモラル・ライセンシングは説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1029",
+      "targetId": "kb_443",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動の波及効果と行動的一貫性は説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1029",
+      "targetId": "kb_180",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動の波及効果と習慣ループは説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1030",
+      "targetId": "kb_455",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会規範フィードバックと集団規範は説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1030",
+      "targetId": "kb_266",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会規範フィードバックと社会的比較理論は説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1030",
+      "targetId": "kb_179",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会規範フィードバックとナッジは説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1031",
+      "targetId": "kb_536",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動形成（シェイピング）とオペラント条件づけは説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1031",
+      "targetId": "kb_437",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動形成（シェイピング）と強化理論は説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1031",
+      "targetId": "kb_529",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動形成（シェイピング）とスモールステップは説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1032",
+      "targetId": "kb_943",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "COM-Bモデルとフォッグ行動モデルは説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1032",
+      "targetId": "kb_944",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "COM-Bモデルと行動変容ステージモデルは説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1032",
+      "targetId": "kb_181",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "COM-Bモデルと行動摩擦は説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1032",
+      "targetId": "kb_169",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "COM-Bモデルと自己効力感は説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1033",
+      "targetId": "kb_179",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "EASTフレームワークとナッジは説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1033",
+      "targetId": "kb_178",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "EASTフレームワークと選択アーキテクチャは説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1033",
+      "targetId": "kb_181",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "EASTフレームワークと行動摩擦は説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1034",
+      "targetId": "kb_169",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康信念モデルと自己効力感は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1034",
+      "targetId": "kb_228",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康信念モデルとストレス評価理論は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1034",
+      "targetId": "kb_181",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康信念モデルと行動摩擦は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1035",
+      "targetId": "kb_169",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "保護動機理論と自己効力感は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1035",
+      "targetId": "kb_228",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "保護動機理論とストレス評価理論は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1035",
+      "targetId": "kb_207",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "保護動機理論と安全行動は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1036",
+      "targetId": "kb_944",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康行動プロセスアプローチと行動変容ステージモデルは説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1036",
+      "targetId": "kb_172",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康行動プロセスアプローチと実行意図は説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1036",
+      "targetId": "kb_169",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "健康行動プロセスアプローチと自己効力感は説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1037",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "フィードバック介入理論と具体的フィードバックは説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1037",
+      "targetId": "kb_537",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "フィードバック介入理論とフィードバックループは説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1037",
+      "targetId": "kb_167",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "フィードバック介入理論と目標設定理論は説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1038",
+      "targetId": "kb_429",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "投影バイアスとホット・コールド共感ギャップは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1038",
+      "targetId": "kb_234",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "投影バイアスと感情予測の誤りは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1038",
+      "targetId": "kb_175",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "投影バイアスと現在バイアスは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1039",
+      "targetId": "kb_597",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "認識ヒューリスティックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1039",
+      "targetId": "kb_825",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "認識ヒューリスティックと再認主導意思決定モデルは説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1039",
+      "targetId": "kb_754",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "認識ヒューリスティックと限定合理性は説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1040",
+      "targetId": "kb_754",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "Take-the-bestヒューリスティックと限定合理性は説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1040",
+      "targetId": "kb_277",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "Take-the-bestヒューリスティックと十分化は説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1040",
+      "targetId": "kb_597",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "Take-the-bestヒューリスティックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1041",
+      "targetId": "kb_277",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "側面ごとの消去法と十分化は説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1041",
+      "targetId": "kb_275",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "側面ごとの消去法と選択のパラドックスは説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1041",
+      "targetId": "kb_754",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "側面ごとの消去法と限定合理性は説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1042",
+      "targetId": "kb_181",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スラッジと行動摩擦は説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1042",
+      "targetId": "kb_178",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スラッジと選択アーキテクチャは説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1042",
+      "targetId": "kb_179",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "スラッジとナッジは説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_031",
+      "targetId": "kb_1043",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "不平等回避と衡平理論は説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1043",
+      "targetId": "kb_768",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "不平等回避と分配的公正は説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1043",
+      "targetId": "kb_798",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "不平等回避と最後通牒ゲームは説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1044",
+      "targetId": "kb_754",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "生態学的合理性と限定合理性は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1044",
+      "targetId": "kb_287",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "生態学的合理性と探索と活用は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1044",
+      "targetId": "kb_277",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "生態学的合理性と十分化は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1045",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "PREP法と具体的フィードバックは説明対象・手法を区別しながら読める。実務上の構成技法。由来や単一の発明者は断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1045",
+      "targetId": "kb_407",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "PREP法と精緻化質問は説明対象・手法を区別しながら読める。実務上の構成技法。由来や単一の発明者は断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1046",
+      "targetId": "kb_435",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SBAR法と期待管理は説明対象・手法を区別しながら読める。医療発祥の連絡技法。一般業務の例は翻案。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1046",
+      "targetId": "kb_777",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SBAR法と共有メンタルモデルは説明対象・手法を区別しながら読める。医療発祥の連絡技法。一般業務の例は翻案。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_008",
+      "targetId": "kb_1047",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイ・メッセージと自己開示の返報性は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1047",
+      "targetId": "kb_404",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイ・メッセージと共感的理解は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_092",
+      "targetId": "kb_1047",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイ・メッセージと境界線理論は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1048",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SBIフィードバックと具体的フィードバックは説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_045",
+      "targetId": "kb_1048",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SBIフィードバックと基本的帰属の誤りは説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1048",
+      "targetId": "kb_424",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SBIフィードバックと信頼修復理論は説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1049",
+      "targetId": "kb_404",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "動機づけ面接と共感的理解は説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1049",
+      "targetId": "kb_520",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "動機づけ面接と自己決定理論は説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_050",
+      "targetId": "kb_1049",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "動機づけ面接と心理的リアクタンスは説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1050",
+      "targetId": "kb_828",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ティーチバック法とプロテジェ効果は説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1050",
+      "targetId": "kb_748",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ティーチバック法と自己説明効果は説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1050",
+      "targetId": "kb_777",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ティーチバック法と共有メンタルモデルは説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1051",
+      "targetId": "kb_777",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "クローズドループ・コミュニケーションと共有メンタルモデルは説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1051",
+      "targetId": "kb_435",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "クローズドループ・コミュニケーションと期待管理は説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1051",
+      "targetId": "kb_487",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "クローズドループ・コミュニケーションと責任の明確化は説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1052",
+      "targetId": "kb_722",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STAR法と結果バイアスは説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1052",
+      "targetId": "kb_117",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STAR法と成果帰属問題は説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1052",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STAR法と具体的フィードバックは説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1053",
+      "targetId": "kb_407",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SCQAと精緻化質問は説明対象・手法を区別しながら読める。SCQAの構成と、ピラミッド原則全体を同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1053",
+      "targetId": "kb_498",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SCQAと意思決定支援は説明対象・手法を区別しながら読める。SCQAの構成と、ピラミッド原則全体を同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1054",
+      "targetId": "kb_407",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SPIN話法と精緻化質問は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1054",
+      "targetId": "kb_148",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SPIN話法と原則立脚型交渉は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1054",
+      "targetId": "kb_149",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SPIN話法と立場と利益の分離は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1055",
+      "targetId": "kb_777",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "I-PASSと共有メンタルモデルは説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1055",
+      "targetId": "kb_435",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "I-PASSと期待管理は説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1055",
+      "targetId": "kb_487",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "I-PASSと責任の明確化は説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1056",
+      "targetId": "kb_483",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイゼンハワー・マトリクスとアジェンダ設定は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1056",
+      "targetId": "kb_544",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイゼンハワー・マトリクスと選択と集中は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1056",
+      "targetId": "kb_192",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アイゼンハワー・マトリクスとパーキンソンの法則は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1057",
+      "targetId": "kb_933",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "なぜなぜ分析（5 Whys）と相関と因果の区別は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1057",
+      "targetId": "kb_932",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "なぜなぜ分析（5 Whys）と反証可能性は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1057",
+      "targetId": "kb_197",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "なぜなぜ分析（5 Whys）と制約理論は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1058",
+      "targetId": "kb_933",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ロジックツリーと相関と因果の区別は説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1058",
+      "targetId": "kb_498",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ロジックツリーと意思決定支援は説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1058",
+      "targetId": "kb_561",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ロジックツリーとバックキャスティングは説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1059",
+      "targetId": "kb_934",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "MECEと必要条件・十分条件は説明対象・手法を区別しながら読める。分類原則の実務用語。哲学上の排中律そのものではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1059",
+      "targetId": "kb_498",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "MECEと意思決定支援は説明対象・手法を区別しながら読める。分類原則の実務用語。哲学上の排中律そのものではない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1060",
+      "targetId": "kb_709",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定ジャーナルと後知恵バイアスは説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1060",
+      "targetId": "kb_722",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定ジャーナルと結果バイアスは説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1060",
+      "targetId": "kb_710",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定ジャーナルと自信過剰効果は説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1061",
+      "targetId": "kb_498",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定マトリクスと意思決定支援は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1061",
+      "targetId": "kb_756",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定マトリクスと期待効用理論は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1061",
+      "targetId": "kb_934",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意思決定マトリクスと必要条件・十分条件は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1062",
+      "targetId": "kb_506",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アフターアクションレビューと組織学習は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1062",
+      "targetId": "kb_892",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アフターアクションレビューとダブルループ学習は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1062",
+      "targetId": "kb_402",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "アフターアクションレビューと心理的安全性は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1063",
+      "targetId": "kb_506",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "KPT振り返りと組織学習は説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1063",
+      "targetId": "kb_537",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "KPT振り返りとフィードバックループは説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1063",
+      "targetId": "kb_394",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "KPT振り返りと具体的フィードバックは説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1064",
+      "targetId": "kb_487",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "RACIマトリクスと責任の明確化は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1064",
+      "targetId": "kb_939",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "RACIマトリクスと役割葛藤・役割曖昧性は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1064",
+      "targetId": "kb_497",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "RACIマトリクスと統制範囲は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_081",
+      "targetId": "kb_1065",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ステークホルダーマップと社会関係資本は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_079",
+      "targetId": "kb_1065",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ステークホルダーマップと権力依存理論は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1065",
+      "targetId": "kb_487",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ステークホルダーマップと責任の明確化は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1066",
+      "targetId": "kb_908",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "PEST分析とSWOT分析は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1066",
+      "targetId": "kb_548",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "PEST分析と適応的計画は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1066",
+      "targetId": "kb_593",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "PEST分析と機会認識は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1067",
+      "targetId": "kb_400",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "AIDAモデルと情報ギャップ理論は説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1067",
+      "targetId": "kb_178",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "AIDAモデルと選択アーキテクチャは説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1067",
+      "targetId": "kb_781",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "AIDAモデルとイノベーション普及理論は説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1068",
+      "targetId": "kb_149",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "JTBDと立場と利益の分離は説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1068",
+      "targetId": "kb_593",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "JTBDと機会認識は説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1068",
+      "targetId": "kb_543",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "JTBDとリーン・スタートアップは説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1069",
+      "targetId": "kb_908",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STP分析とSWOT分析は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1069",
+      "targetId": "kb_544",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STP分析と選択と集中は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1069",
+      "targetId": "kb_593",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "STP分析と機会認識は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1070",
+      "targetId": "kb_908",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "マーケティングの4PとSWOT分析は説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1070",
+      "targetId": "kb_593",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "マーケティングの4Pと機会認識は説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1070",
+      "targetId": "kb_178",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "マーケティングの4Pと選択アーキテクチャは説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1071",
+      "targetId": "kb_593",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "カスタマージャーニーマップと機会認識は説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1071",
+      "targetId": "kb_498",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "カスタマージャーニーマップと意思決定支援は説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1071",
+      "targetId": "kb_423",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "カスタマージャーニーマップとサービス・リカバリー・パラドックスは説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1072",
+      "targetId": "kb_167",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SMART目標と目標設定理論は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1072",
+      "targetId": "kb_193",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SMART目標とグッドハートの法則は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1072",
+      "targetId": "kb_172",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SMART目標と実行意図は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1073",
+      "targetId": "kb_577",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "GTDと認知的オフローディングは説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1073",
+      "targetId": "kb_441",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "GTDと外部記憶は説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1073",
+      "targetId": "kb_531",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "GTDとツァイガルニク効果は説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1074",
+      "targetId": "kb_547",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ポモドーロ・テクニックとタイムボックスは説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1074",
+      "targetId": "kb_192",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ポモドーロ・テクニックとパーキンソンの法則は説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1074",
+      "targetId": "kb_529",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "ポモドーロ・テクニックとスモールステップは説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1075",
+      "targetId": "kb_547",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "タイムブロッキングとタイムボックスは説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1075",
+      "targetId": "kb_172",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "タイムブロッキングと実行意図は説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1075",
+      "targetId": "kb_483",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "タイムブロッキングとアジェンダ設定は説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1076",
+      "targetId": "kb_199",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SQ3R読書法と検索練習効果は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1076",
+      "targetId": "kb_748",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SQ3R読書法と自己説明効果は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1076",
+      "targetId": "kb_744",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "SQ3R読書法と処理水準理論は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1077",
+      "targetId": "kb_199",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コーネル式ノートと検索練習効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1077",
+      "targetId": "kb_200",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コーネル式ノートと間隔効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1077",
+      "targetId": "kb_748",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コーネル式ノートと自己説明効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1078",
+      "targetId": "kb_742",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "記憶の宮殿と二重符号化理論は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1078",
+      "targetId": "kb_743",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "記憶の宮殿と符号化特定性原理は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1078",
+      "targetId": "kb_199",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "記憶の宮殿と検索練習効果は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1079",
+      "targetId": "kb_414",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コンセプトマップと連想ネットワークは説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1079",
+      "targetId": "kb_748",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コンセプトマップと自己説明効果は説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1079",
+      "targetId": "kb_746",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "コンセプトマップとチャンク化は説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1080",
+      "targetId": "kb_901",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "思考記録表と認知行動療法は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1080",
+      "targetId": "kb_573",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "思考記録表と二分法的思考は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1080",
+      "targetId": "kb_213",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "思考記録表と破局的思考は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_957",
+      "targetId": "kb_958",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "意識的識別の閾値と信号・雑音の判断基準を対比する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_959",
+      "targetId": "kb_969",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "刺激の存在の閾値と差の閾値を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_972",
+      "targetId": "kb_973",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "知識構造一般と出来事の順序の知識を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_995",
+      "targetId": "kb_996",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "社会的な名付けと、分類される人から分類へ戻る相互作用を比較する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1021",
+      "targetId": "kb_1022",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "普及による魅力低下と、高価格による地位表示を区別する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1032",
+      "targetId": "kb_1033",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "行動条件の診断と、介入アイデアの設計枠組みを併用できる。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1046",
+      "targetId": "kb_1055",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "状況連絡と担当交代の引き継ぎの構造を比較する。",
+      "priority": 100
+    },
+    {
+      "sourceId": "kb_1058",
+      "targetId": "kb_1059",
+      "type": "related",
+      "reviewStatus": "confirmed",
+      "rationale": "問いの分解と、その区分の重複・抜けを点検する。",
+      "priority": 100
+    }
+  ],
+  "techniqueChanges": [
+    {
+      "techniqueId": "master336-310",
+      "theoryId": "kb_1060",
+      "anchor": "kb_709",
+      "reason": "既存の後知恵バイアスの説明に、意思決定ジャーナルによる具体的な実践・理解を補う。"
+    },
+    {
+      "techniqueId": "master336-056",
+      "theoryId": "kb_1048",
+      "anchor": "kb_394",
+      "reason": "既存の具体的フィードバックの説明に、SBIフィードバックによる具体的な実践・理解を補う。"
+    },
+    {
+      "techniqueId": "master336-188",
+      "theoryId": "kb_1056",
+      "anchor": "kb_547",
+      "reason": "既存のタイムボックスの説明に、アイゼンハワー・マトリクスによる具体的な実践・理解を補う。"
+    },
+    {
+      "techniqueId": "master336-189",
+      "theoryId": "kb_1075",
+      "anchor": "kb_547",
+      "reason": "既存のタイムボックスの説明に、タイムブロッキングによる具体的な実践・理解を補う。"
+    },
+    {
+      "techniqueId": "master336-208",
+      "theoryId": "kb_1080",
+      "anchor": "kb_573",
+      "reason": "既存の二分法的思考の説明に、思考記録表による具体的な実践・理解を補う。"
+    }
+  ],
+  "artifactFingerprints": {
+    "src/data/generated/theories.json": "d71cb0f1f2b8483b234ddbabfc9ec6e919e20f6da0e28fa2bcc208041e70c056",
+    "src/data/generated/theory-relations.json": "7d7c46df30dd748159a9ccdbe80c05e09945449215fd88d5a2db123fe5f007ea",
+    "src/data/generated/theory-search-keywords.json": "b216d3df0ec6dc35f0f60b6d610835875237c1e2ef30426293804e43048ffe00",
+    "src/data/generated/techniques.json": "dff6c4d3f736d1652b3053a4bbdb735ff76a17722b46b513ff775fce9a7e9d58",
+    "src/data/generated/comprehensive-theory-links.json": "721e9fc804d845fb22e66d8e2ff7365b1ad361fcb2070aad81b33f00824c11cc",
+    "src/data/content-scope.json": "90d7a4aec88634b1a823cf483e68bc04e2d80ed532d7e057096730a704c73cef"
+  }
+}

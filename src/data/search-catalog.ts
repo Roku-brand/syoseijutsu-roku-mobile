@@ -8,6 +8,7 @@ import { getTheoryPath } from './theory-taxonomy';
 import type { FeatureArticle } from './features';
 import { featureCategoryLabel } from './feature-categories';
 import { prepareSearchQuery, rankSearchItems } from './search-ranking';
+import theoryKeywords from './generated/theory-search-keywords.json';
 
 export type BrowseMode = 'techniques' | 'theories' | 'features';
 export const SEARCH_MODES: Array<{ id: BrowseMode; label: string }> = [
@@ -44,7 +45,7 @@ export function getSearchResults(query: string, isPaid: boolean) {
     context: [card.categoryName, card.subcategory, card.articleTitle], body: card.explanation,
   }), query);
   const theoryMatches = rankSearchItems(theories.filter(theory => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)), theory => ({
-    knowledgeId: theory.tagId, title: theory.title, aliases: [theory.tagId, getTheoryDisplayId(theory), ...(theory.aliases ?? []),
+    knowledgeId: theory.tagId, title: theory.title, keywords: (theoryKeywords as Record<string, string[]>)[theory.tagId], aliases: [theory.tagId, getTheoryDisplayId(theory), ...(theory.aliases ?? []),
       theory.quotation?.author ?? '', theory.quotation?.work ?? ''],
     summary: [theory.summary, theory.quotation?.translationText].filter(Boolean).join(' '),
     context: [theory.categoryTitle, getTheoryPath(theory), getTheoryCategoryLabel(theory.categoryId)],

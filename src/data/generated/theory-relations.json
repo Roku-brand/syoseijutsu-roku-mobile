@@ -4590,5 +4590,2741 @@
     "targetId": "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
     "rationale": "ハムレットの言葉を、境界線理論と同じ主題を考える別の視点として読む。格言が理論の実証的証拠であることは意味しない。",
     "reviewStatus": "confirmed"
+  },
+  {
+    "sourceId": "kb_858",
+    "targetId": "kb_957",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "サブリミナル効果と認知的プライミングは説明対象・手法を区別しながら読める。閾下知覚の存在と、強力な購買操作という俗説を分離。subliminal primingは下位の実験手続きなので正式同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_004",
+    "targetId": "kb_957",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "サブリミナル効果と単純接触効果は説明対象・手法を区別しながら読める。閾下知覚の存在と、強力な購買操作という俗説を分離。subliminal primingは下位の実験手続きなので正式同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_844",
+    "targetId": "kb_958",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "信号検出理論と確率無視は説明対象・手法を区別しながら読める。SDTは自己決定理論と衝突するため検索補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_214",
+    "targetId": "kb_958",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "信号検出理論と確率過大評価は説明対象・手法を区別しながら読める。SDTは自己決定理論と衝突するため検索補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_139",
+    "targetId": "kb_959",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ウェーバーの法則と対比効果は説明対象・手法を区別しながら読める。弁別閾は測定概念であり法則そのものの別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_401",
+    "targetId": "kb_959",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ウェーバーの法則と限界効用逓減は説明対象・手法を区別しながら読める。弁別閾は測定概念であり法則そのものの別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_945",
+    "targetId": "kb_960",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感覚順応と馴化は説明対象・手法を区別しながら読める。馴化は行動上の非連合学習。感覚順応と同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_268",
+    "targetId": "kb_960",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感覚順応と快楽順応は説明対象・手法を区別しながら読める。馴化は行動上の非連合学習。感覚順応と同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_596",
+    "targetId": "kb_961",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "知覚的構えと確証バイアスは説明対象・手法を区別しながら読める。選択的知覚という広い項目を参照しつつ、期待による構えに限定して説明。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_858",
+    "targetId": "kb_961",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "知覚的構えと認知的プライミングは説明対象・手法を区別しながら読める。選択的知覚という広い項目を参照しつつ、期待による構えに限定して説明。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_450",
+    "targetId": "kb_962",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ゲシュタルトの群化原理とパターン認識は説明対象・手法を区別しながら読める。知覚の原理群。ゲシュタルト療法とは別概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_746",
+    "targetId": "kb_962",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ゲシュタルトの群化原理とチャンク化は説明対象・手法を区別しながら読める。知覚の原理群。ゲシュタルト療法とは別概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_858",
+    "targetId": "kb_963",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "トップダウン処理・ボトムアップ処理と認知的プライミングは説明対象・手法を区別しながら読める。一つの比較枠組みとして収録。片方だけの語は関連検索語にする。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_450",
+    "targetId": "kb_963",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "トップダウン処理・ボトムアップ処理とパターン認識は説明対象・手法を区別しながら読める。一つの比較枠組みとして収録。片方だけの語は関連検索語にする。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_570",
+    "targetId": "kb_964",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "予測符号化理論とベイズ更新は説明対象・手法を区別しながら読める。視覚皮質の計算モデルを起点とする。自由エネルギー原理そのものとは同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_450",
+    "targetId": "kb_964",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "予測符号化理論とパターン認識は説明対象・手法を区別しながら読める。視覚皮質の計算モデルを起点とする。自由エネルギー原理そのものとは同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_493",
+    "targetId": "kb_965",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意資源理論と認知負荷理論は説明対象・手法を区別しながら読める。単一資源説と複数資源説を混同せず、容量という説明の水準を示す。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_745",
+    "targetId": "kb_965",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意資源理論とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。単一資源説と複数資源説を混同せず、容量という説明の水準を示す。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_528",
+    "targetId": "kb_966",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アフォーダンスと環境デザインは説明対象・手法を区別しながら読める。J. J. Gibsonの生態学的知覚論。知覚されたアフォーダンスやシグニファイアと区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_178",
+    "targetId": "kb_966",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アフォーダンスと選択アーキテクチャは説明対象・手法を区別しながら読める。J. J. Gibsonの生態学的知覚論。知覚されたアフォーダンスやシグニファイアと区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_531",
+    "targetId": "kb_967",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意残余とツァイガルニク効果は説明対象・手法を区別しながら読める。注意残余と一般的なマルチタスクのコストを同一視しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_493",
+    "targetId": "kb_967",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意残余と認知負荷理論は説明対象・手法を区別しながら読める。注意残余と一般的なマルチタスクのコストを同一視しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_017",
+    "targetId": "kb_968",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意の捕捉とカクテルパーティー効果は説明対象・手法を区別しながら読める。外因的刺激と目標による制御の関係は研究上の論点。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_872",
+    "targetId": "kb_968",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "注意の捕捉と非注意性盲目は説明対象・手法を区別しながら読める。外因的刺激と目標による制御の関係は研究上の論点。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_872",
+    "targetId": "kb_969",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "絶対閾と非注意性盲目は説明対象・手法を区別しながら読める。心理物理学の測定概念。無意識の処理の有無を単独で確定する指標ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_017",
+    "targetId": "kb_970",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選択的注意とカクテルパーティー効果は説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_872",
+    "targetId": "kb_970",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選択的注意と非注意性盲目は説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_874",
+    "targetId": "kb_970",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選択的注意と注意の瞬きは説明対象・手法を区別しながら読める。注意の一般的な選択機能。非注意性盲目はその結果生じうる個別現象として区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_450",
+    "targetId": "kb_971",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "心的回転とパターン認識は説明対象・手法を区別しながら読める。追加発見候補から採用。頻度錯覚の代替。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_742",
+    "targetId": "kb_971",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "心的回転と二重符号化理論は説明対象・手法を区別しながら読める。追加発見候補から採用。頻度錯覚の代替。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_414",
+    "targetId": "kb_972",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スキーマ理論と連想ネットワークは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_596",
+    "targetId": "kb_972",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スキーマ理論と確証バイアスは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_858",
+    "targetId": "kb_972",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スキーマ理論と認知的プライミングは説明対象・手法を区別しながら読める。Bartlett、Piagetらに連なる複数の用法。単一提唱者の万能理論にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_414",
+    "targetId": "kb_973",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スクリプト理論と連想ネットワークは説明対象・手法を区別しながら読める。SchankとAbelsonの出来事知識に対応する用法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_876",
+    "targetId": "kb_973",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スクリプト理論と誤情報効果は説明対象・手法を区別しながら読める。SchankとAbelsonの出来事知識に対応する用法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_172",
+    "targetId": "kb_974",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "展望記憶と実行意図は説明対象・手法を区別しながら読める。実行意図は展望記憶を支援する手法であり、同義ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_441",
+    "targetId": "kb_974",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "展望記憶と外部記憶は説明対象・手法を区別しながら読める。実行意図は展望記憶を支援する手法であり、同義ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_738",
+    "targetId": "kb_975",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "前向干渉・逆向干渉とエビングハウスの忘却曲線は説明対象・手法を区別しながら読める。片方向の名称は全体の同義語ではなく関連検索語。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_879",
+    "targetId": "kb_975",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "前向干渉・逆向干渉と検索誘導性忘却は説明対象・手法を区別しながら読める。片方向の名称は全体の同義語ではなく関連検索語。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_877",
+    "targetId": "kb_976",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "舌先現象とソースモニタリングは説明対象・手法を区別しながら読める。TOTは短い略称なので補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_414",
+    "targetId": "kb_976",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "舌先現象と連想ネットワークは説明対象・手法を区別しながら読める。TOTは短い略称なので補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_876",
+    "targetId": "kb_977",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "フラッシュバルブ記憶と誤情報効果は説明対象・手法を区別しながら読める。BrownとKulikの研究に由来。鮮明さと保持精度を明確に分離。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_877",
+    "targetId": "kb_977",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "フラッシュバルブ記憶とソースモニタリングは説明対象・手法を区別しながら読める。BrownとKulikの研究に由来。鮮明さと保持精度を明確に分離。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_246",
+    "targetId": "kb_978",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "回想バンプとナラティブ・アイデンティティは説明対象・手法を区別しながら読める。人生全体にわたる想起分布の研究。単なる懐古や初頭効果とは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_909",
+    "targetId": "kb_978",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "回想バンプと社会的時計は説明対象・手法を区別しながら読める。人生全体にわたる想起分布の研究。単なる懐古や初頭効果とは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_876",
+    "targetId": "kb_979",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "偽記憶と誤情報効果は説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_877",
+    "targetId": "kb_979",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "偽記憶とソースモニタリングは説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_831",
+    "targetId": "kb_979",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "偽記憶と記憶の再固定化は説明対象・手法を区別しながら読める。誤情報効果は生成経路の一つ。偽記憶はより広い現象で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_826",
+    "targetId": "kb_980",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "プルースト効果と文脈依存記憶は説明対象・手法を区別しながら読める。嗅覚で誘発される自伝的記憶に限定。医療上の改善効果は主張しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_878",
+    "targetId": "kb_980",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "プルースト効果と気分一致記憶は説明対象・手法を区別しながら読める。嗅覚で誘発される自伝的記憶に限定。医療上の改善効果は主張しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_754",
+    "targetId": "kb_981",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "二重過程理論と限定合理性は説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_430",
+    "targetId": "kb_981",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "二重過程理論と感情ヒューリスティックは説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_745",
+    "targetId": "kb_981",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "二重過程理論とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。単一理論ではなく理論群。喪失の二重過程モデルとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_003",
+    "targetId": "kb_982",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "属性置換とハロー効果は説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_430",
+    "targetId": "kb_982",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "属性置換と感情ヒューリスティックは説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_597",
+    "targetId": "kb_982",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "属性置換と利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。容易な属性への置換という機序を収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_596",
+    "targetId": "kb_983",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "信念バイアスと確証バイアスは説明対象・手法を区別しながら読める。論理的妥当性と内容の信じやすさの実験的対立。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_929",
+    "targetId": "kb_983",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "信念バイアスと演繹推論は説明対象・手法を区別しながら読める。論理的妥当性と内容の信じやすさの実験的対立。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_881",
+    "targetId": "kb_984",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "認知欲求と認知的閉鎖欲求は説明対象・手法を区別しながら読める。CacioppoとPettyらの個人差構成概念。能力や優劣の診断にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_391",
+    "targetId": "kb_985",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "イデオモーター効果とカメレオン効果は説明対象・手法を区別しながら読める。観念と微細な運動の関係。念力等を支持する概念として扱わない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_231",
+    "targetId": "kb_985",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "イデオモーター効果とコントロール幻想は説明対象・手法を区別しながら読める。観念と微細な運動の関係。念力等を支持する概念として扱わない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_229",
+    "targetId": "kb_986",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情調整プロセスモデルと問題焦点型・感情焦点型コーピングは説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_227",
+    "targetId": "kb_986",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情調整プロセスモデルと感情ラベリングは説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_224",
+    "targetId": "kb_986",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情調整プロセスモデルと脱中心化は説明対象・手法を区別しながら読める。調整の時点を整理するモデル。個別技法の効果保証ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_227",
+    "targetId": "kb_987",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "情動粒度と感情ラベリングは説明対象・手法を区別しながら読める。構成概念と関連の確認。介入の万能な効能にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_229",
+    "targetId": "kb_987",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "情動粒度と問題焦点型・感情焦点型コーピングは説明対象・手法を区別しながら読める。構成概念と関連の確認。介入の万能な効能にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_885",
+    "targetId": "kb_988",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情構成理論と感情の二要因理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_886",
+    "targetId": "kb_988",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情構成理論とジェームズ＝ランゲ理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_905",
+    "targetId": "kb_988",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "感情構成理論とキャノン＝バード理論は説明対象・手法を区別しながら読める。感情の分類・生成についての理論的立場。確定した唯一の機序とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_232",
+    "targetId": "kb_989",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的評価不安とスポットライト効果は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_207",
+    "targetId": "kb_989",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的評価不安と安全行動は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_816",
+    "targetId": "kb_989",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的評価不安と拒絶感受性は説明対象・手法を区別しながら読める。fear of negative evaluationは測定上の側面であり、全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_257",
+    "targetId": "kb_990",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自尊心の随伴性と自己不一致理論は説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_815",
+    "targetId": "kb_990",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自尊心の随伴性とソシオメーター理論は説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_264",
+    "targetId": "kb_990",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自尊心の随伴性とセルフ・コンパッションは説明対象・手法を区別しながら読める。自尊心の水準や不安定さそのものとは分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_727",
+    "targetId": "kb_991",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "多次元的完璧主義とインポスター現象は説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_728",
+    "targetId": "kb_991",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "多次元的完璧主義とセルフ・ハンディキャッピングは説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_264",
+    "targetId": "kb_991",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "多次元的完璧主義とセルフ・コンパッションは説明対象・手法を区別しながら読める。Hewitt–Flettの三次元を例示。Frost尺度との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_750",
+    "targetId": "kb_992",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "達成動機理論と期待価値理論は説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_187",
+    "targetId": "kb_992",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "達成動機理論と学習目標・遂行目標は説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_728",
+    "targetId": "kb_992",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "達成動機理論とセルフ・ハンディキャッピングは説明対象・手法を区別しながら読める。Atkinsonの成功追求と失敗回避を中心に説明。期待価値一般と同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_058",
+    "targetId": "kb_993",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳基盤理論と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。基盤の構成は改訂されている。特定の個人・文化の診断に使わない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_927",
+    "targetId": "kb_993",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳基盤理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。基盤の構成は改訂されている。特定の個人・文化の診断に使わない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_265",
+    "targetId": "kb_994",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的切り離しと認知的不協和は説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_073",
+    "targetId": "kb_994",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的切り離しと責任の分散は説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_883",
+    "targetId": "kb_994",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的切り離しとモラル・ライセンシングは説明対象・手法を区別しながら読める。責任転嫁、婉曲表現、非人間化などの過程を扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_473",
+    "targetId": "kb_995",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ルーピング効果と自己成就予言は説明対象・手法を区別しながら読める。社会科学の分類と分類される人の相互作用。自己成就予言の同義語ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_246",
+    "targetId": "kb_995",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ルーピング効果とナラティブ・アイデンティティは説明対象・手法を区別しながら読める。社会科学の分類と分類される人の相互作用。自己成就予言の同義語ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_473",
+    "targetId": "kb_996",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ラベリング理論と自己成就予言は説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_470",
+    "targetId": "kb_996",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ラベリング理論と排斥理論は説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_246",
+    "targetId": "kb_996",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ラベリング理論とナラティブ・アイデンティティは説明対象・手法を区別しながら読める。社会的反応への着目。Edwin Lemert等にも先行的貢献があり、Becker単独の発明としない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_470",
+    "targetId": "kb_997",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スティグマと排斥理論は説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_927",
+    "targetId": "kb_997",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スティグマとステレオタイプ内容モデルは説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_731",
+    "targetId": "kb_997",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スティグマとステレオタイプ脅威は説明対象・手法を区別しながら読める。社会関係上の評価として扱い、対象者の欠陥という説明を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_473",
+    "targetId": "kb_998",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "トマスの定理と自己成就予言は説明対象・手法を区別しながら読める。原著の命題。心理的な願望実現の法則と混同しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_106",
+    "targetId": "kb_998",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "トマスの定理と情報カスケードは説明対象・手法を区別しながら読める。原著の命題。心理的な願望実現の法則と混同しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_434",
+    "targetId": "kb_999",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "象徴的相互作用論と期待違反理論は説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_111",
+    "targetId": "kb_999",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "象徴的相互作用論と印象管理理論は説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_942",
+    "targetId": "kb_999",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "象徴的相互作用論とセンスメイキングは説明対象・手法を区別しながら読める。意味、社会的相互作用、解釈という三つの前提を中心に説明。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1000",
+    "targetId": "kb_455",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的表象理論と集団規範は説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1000",
+    "targetId": "kb_927",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的表象理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1000",
+    "targetId": "kb_942",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的表象理論とセンスメイキングは説明対象・手法を区別しながら読める。日常知識の社会的生成という射程。個別効果の強さを保証しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1001",
+    "targetId": "kb_106",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的パニックと情報カスケードは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1001",
+    "targetId": "kb_597",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的パニックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1001",
+    "targetId": "kb_927",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "道徳的パニックとステレオタイプ内容モデルは説明対象・手法を区別しながら読める。社会的反応を分析する概念。誰かの不安を病理化する名称ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_058",
+    "targetId": "kb_1002",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "他者化と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1002",
+    "targetId": "kb_485",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "他者化と共通内集団アイデンティティは説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1002",
+    "targetId": "kb_470",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "他者化と排斥理論は説明対象・手法を区別しながら読める。確立した批判的・社会的概念として収録。独立した実験効果という名称を付けない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1003",
+    "targetId": "kb_707",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "共有現実理論と偽の合意効果は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1003",
+    "targetId": "kb_266",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "共有現実理論と社会的比較理論は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1003",
+    "targetId": "kb_404",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "共有現実理論と共感的理解は説明対象・手法を区別しながら読める。対象についての内的状態の共通性。単なる意見一致から区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_058",
+    "targetId": "kb_1004",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "相互独立的・相互協調的自己観と社会的アイデンティティ理論は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1004",
+    "targetId": "kb_258",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "相互独立的・相互協調的自己観と自己複雑性は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1004",
+    "targetId": "kb_456",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "相互独立的・相互協調的自己観と文化的適合理論は説明対象・手法を区別しながら読める。文化的な自己の構成。単純な東西二分や性格診断にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1005",
+    "targetId": "kb_266",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自己評価維持モデルと社会的比較理論は説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1005",
+    "targetId": "kb_122",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自己評価維持モデルと反射的栄光浴は説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1005",
+    "targetId": "kb_396",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "自己評価維持モデルと自己高揚バイアスは説明対象・手法を区別しながら読める。Abraham Tesserら。反映過程と比較過程を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1006",
+    "targetId": "kb_927",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的役割理論とステレオタイプ内容モデルは説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1006",
+    "targetId": "kb_939",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的役割理論と役割葛藤・役割曖昧性は説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_075",
+    "targetId": "kb_1006",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的役割理論と地位特性理論は説明対象・手法を区別しながら読める。Eaglyらの社会的役割理論。一般的な役割理論全体とは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_037",
+    "targetId": "kb_1007",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "対人距離理論と親密性平衡モデルは説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_092",
+    "targetId": "kb_1007",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "対人距離理論と境界線理論は説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1007",
+    "targetId": "kb_474",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "対人距離理論と非言語的地位表示は説明対象・手法を区別しながら読める。Hallの空間利用の研究。単なる心理的な近さとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_008",
+    "targetId": "kb_1008",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ジョハリの窓と自己開示の返報性は説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1008",
+    "targetId": "kb_115",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ジョハリの窓と自他知識非対称性モデルは説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1008",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ジョハリの窓と具体的フィードバックは説明対象・手法を区別しながら読める。教育・対人理解用モデル。自己開示を強制しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1009",
+    "targetId": "kb_903",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コールバーグの道徳性発達理論とピアジェの認知発達理論は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1009",
+    "targetId": "kb_954",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コールバーグの道徳性発達理論と定言命法は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1009",
+    "targetId": "kb_955",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コールバーグの道徳性発達理論と功利主義は説明対象・手法を区別しながら読める。道徳的推論の歴史的発達モデル。規範的な人物ランキングではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1010",
+    "targetId": "kb_724",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "気質理論とビッグ・ファイブは説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1010",
+    "targetId": "kb_914",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "気質理論と生態学的システム理論は説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1010",
+    "targetId": "kb_920",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "気質理論と敏感期は説明対象・手法を区別しながら読める。気質の反応性・調整と発達を扱い、成人性格との同一視を避ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1011",
+    "targetId": "kb_175",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "遅延満足と現在バイアスは説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1011",
+    "targetId": "kb_176",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "遅延満足と双曲割引は説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1011",
+    "targetId": "kb_174",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "遅延満足とプレコミットメントは説明対象・手法を区別しながら読める。マシュマロ実験の課題名は補助語。待つ力と将来結果の因果を断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1012",
+    "targetId": "kb_745",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "実行機能とワーキングメモリ・モデルは説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1012",
+    "targetId": "kb_574",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "実行機能と認知的柔軟性は説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1012",
+    "targetId": "kb_577",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "実行機能と認知的オフローディングは説明対象・手法を区別しながら読める。複数の中核機能からなる枠組み。自己制御一般と完全同義にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1013",
+    "targetId": "kb_138",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "左端数字効果とアンカリング効果は説明対象・手法を区別しながら読める。数値認知の現象。9で終わる値付けのすべてと同義にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1013",
+    "targetId": "kb_137",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "左端数字効果とフレーミング効果は説明対象・手法を区別しながら読める。数値認知の現象。9で終わる値付けのすべてと同義にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1014",
+    "targetId": "kb_137",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "貨幣錯覚とフレーミング効果は説明対象・手法を区別しながら読める。名目と実質の区別。実質値の認識と公平感等の価値判断を分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1014",
+    "targetId": "kb_138",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "貨幣錯覚とアンカリング効果は説明対象・手法を区別しながら読める。名目と実質の区別。実質値の認識と公平感等の価値判断を分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1015",
+    "targetId": "kb_575",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "指数成長バイアスと複利効果は説明対象・手法を区別しながら読める。金融研究を起点とする数理的認識の傾向。個別の投資推奨ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1015",
+    "targetId": "kb_755",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "指数成長バイアスと期待値は説明対象・手法を区別しながら読める。金融研究を起点とする数理的認識の傾向。個別の投資推奨ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1016",
+    "targetId": "kb_597",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "顕著性バイアスと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1016",
+    "targetId": "kb_236",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "顕著性バイアスとフォーカシング・イリュージョンは説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1016",
+    "targetId": "kb_139",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "顕著性バイアスと対比効果は説明対象・手法を区別しながら読める。顕著性の一般的な偏りと、引用した形式モデルの限定的予測を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1017",
+    "targetId": "kb_756",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選好逆転と期待効用理論は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1017",
+    "targetId": "kb_137",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選好逆転とフレーミング効果は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1017",
+    "targetId": "kb_442",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "選好逆転と顕示選好は説明対象・手法を区別しながら読める。選択と価格付けの比較。質問形式が同等かを確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1018",
+    "targetId": "kb_430",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "リスク感情理論と感情ヒューリスティックは説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1018",
+    "targetId": "kb_844",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "リスク感情理論と確率無視は説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1018",
+    "targetId": "kb_887",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "リスク感情理論とソマティック・マーカー仮説は説明対象・手法を区別しながら読める。仮説としての位置づけ。恐怖が常に非合理とはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1019",
+    "targetId": "kb_138",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "参照価格効果とアンカリング効果は説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1019",
+    "targetId": "kb_137",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "参照価格効果とフレーミング効果は説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1019",
+    "targetId": "kb_761",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "参照価格効果と支払いの痛みは説明対象・手法を区別しながら読める。日常的な価格判断の概念。参照点一般の正式別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1020",
+    "targetId": "kb_137",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "分割価格効果とフレーミング効果は説明対象・手法を区別しながら読める。ドリップ価格は段階的開示を伴う別の側面。単純同義語にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1020",
+    "targetId": "kb_761",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "分割価格効果と支払いの痛みは説明対象・手法を区別しながら読める。ドリップ価格は段階的開示を伴う別の側面。単純同義語にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1021",
+    "targetId": "kb_729",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スノッブ効果とバンドワゴン効果は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1021",
+    "targetId": "kb_514",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スノッブ効果と希少性価値は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1021",
+    "targetId": "kb_107",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スノッブ効果とシグナリング理論は説明対象・手法を区別しながら読める。他者の消費量との関係を扱う需要の概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1022",
+    "targetId": "kb_107",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ヴェブレン効果とシグナリング理論は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1022",
+    "targetId": "kb_474",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ヴェブレン効果と非言語的地位表示は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1022",
+    "targetId": "kb_514",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ヴェブレン効果と希少性価値は説明対象・手法を区別しながら読める。顕示的消費はより広い概念なので正式同義語へ入れない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1023",
+    "targetId": "kb_134",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ディスポジション効果と損失回避は説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1023",
+    "targetId": "kb_757",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ディスポジション効果とメンタル・アカウンティングは説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1023",
+    "targetId": "kb_273",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ディスポジション効果とサンクコスト効果は説明対象・手法を区別しながら読める。現象の理解に限定し、特定資産の売買判断を勧めない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1024",
+    "targetId": "kb_134",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "近視眼的損失回避と損失回避は説明対象・手法を区別しながら読める。評価間隔と損失回避の組合せ。長期投資の効能保証ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1024",
+    "targetId": "kb_175",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "近視眼的損失回避と現在バイアスは説明対象・手法を区別しながら読める。評価間隔と損失回避の組合せ。長期投資の効能保証ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1025",
+    "targetId": "kb_755",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "確率マッチングと期待値は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1025",
+    "targetId": "kb_713",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "確率マッチングとギャンブラーの誤謬は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1025",
+    "targetId": "kb_287",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "確率マッチングと探索と活用は説明対象・手法を区別しながら読める。強化率と行動配分のマッチング法則とは別概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1026",
+    "targetId": "kb_172",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意図と行動のギャップと実行意図は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1026",
+    "targetId": "kb_181",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意図と行動のギャップと行動摩擦は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1026",
+    "targetId": "kb_167",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意図と行動のギャップと目標設定理論は説明対象・手法を区別しながら読める。理論名ではなく観察される隔たりの概念。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1027",
+    "targetId": "kb_169",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "計画的行動理論と自己効力感は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1027",
+    "targetId": "kb_172",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "計画的行動理論と実行意図は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1027",
+    "targetId": "kb_455",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "計画的行動理論と集団規範は説明対象・手法を区別しながら読める。TPBは補助語。実際の統制と知覚された統制を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1028",
+    "targetId": "kb_535",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "習慣不連続性仮説と文脈依存習慣は説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1028",
+    "targetId": "kb_180",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "習慣不連続性仮説と習慣ループは説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1028",
+    "targetId": "kb_184",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "習慣不連続性仮説と新鮮なスタート効果は説明対象・手法を区別しながら読める。状況変化を活かした介入の検討。新鮮なスタートの心理的区切りとは異なる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1029",
+    "targetId": "kb_883",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動の波及効果とモラル・ライセンシングは説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1029",
+    "targetId": "kb_443",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動の波及効果と行動的一貫性は説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1029",
+    "targetId": "kb_180",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動の波及効果と習慣ループは説明対象・手法を区別しながら読める。正負の双方を扱う。単なる行動の共起と因果的な波及を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1030",
+    "targetId": "kb_455",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会規範フィードバックと集団規範は説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1030",
+    "targetId": "kb_266",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会規範フィードバックと社会的比較理論は説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1030",
+    "targetId": "kb_179",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会規範フィードバックとナッジは説明対象・手法を区別しながら読める。記述的規範と命令的規範の相互作用、ブーメラン効果を含める。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1031",
+    "targetId": "kb_536",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動形成（シェイピング）とオペラント条件づけは説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1031",
+    "targetId": "kb_437",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動形成（シェイピング）と強化理論は説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1031",
+    "targetId": "kb_529",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動形成（シェイピング）とスモールステップは説明対象・手法を区別しながら読める。習慣設計にも使えるが、機序に合わせ学習・強化へ配置。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1032",
+    "targetId": "kb_943",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "COM-Bモデルとフォッグ行動モデルは説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1032",
+    "targetId": "kb_944",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "COM-Bモデルと行動変容ステージモデルは説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1032",
+    "targetId": "kb_181",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "COM-Bモデルと行動摩擦は説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1032",
+    "targetId": "kb_169",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "COM-Bモデルと自己効力感は説明対象・手法を区別しながら読める。COM-Bは行動変容の輪の中心モデル。BCW全体を正式別名にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1033",
+    "targetId": "kb_179",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "EASTフレームワークとナッジは説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1033",
+    "targetId": "kb_178",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "EASTフレームワークと選択アーキテクチャは説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1033",
+    "targetId": "kb_181",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "EASTフレームワークと行動摩擦は説明対象・手法を区別しながら読める。学術的な単一理論ではなく設計の実践枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1034",
+    "targetId": "kb_169",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康信念モデルと自己効力感は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1034",
+    "targetId": "kb_228",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康信念モデルとストレス評価理論は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1034",
+    "targetId": "kb_181",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康信念モデルと行動摩擦は説明対象・手法を区別しながら読める。健康行動の説明モデル。一般場面への例は応用であり医療的効能を示さない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1035",
+    "targetId": "kb_169",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "保護動機理論と自己効力感は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1035",
+    "targetId": "kb_228",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "保護動機理論とストレス評価理論は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1035",
+    "targetId": "kb_207",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "保護動機理論と安全行動は説明対象・手法を区別しながら読める。1975年の原提案と後の拡張の違いを明記。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1036",
+    "targetId": "kb_944",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康行動プロセスアプローチと行動変容ステージモデルは説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1036",
+    "targetId": "kb_172",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康行動プロセスアプローチと実行意図は説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1036",
+    "targetId": "kb_169",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "健康行動プロセスアプローチと自己効力感は説明対象・手法を区別しながら読める。段階という語だけで行動変容ステージモデルへ統合しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1037",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "フィードバック介入理論と具体的フィードバックは説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1037",
+    "targetId": "kb_537",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "フィードバック介入理論とフィードバックループは説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1037",
+    "targetId": "kb_167",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "フィードバック介入理論と目標設定理論は説明対象・手法を区別しながら読める。メタ分析と理論提案。SBI等の手順そのものとは区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1038",
+    "targetId": "kb_429",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "投影バイアスとホット・コールド共感ギャップは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1038",
+    "targetId": "kb_234",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "投影バイアスと感情予測の誤りは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1038",
+    "targetId": "kb_175",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "投影バイアスと現在バイアスは説明対象・手法を区別しながら読める。ホット・コールド共感ギャップと接点があるが、将来選好への投影に焦点を置く。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1039",
+    "targetId": "kb_597",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "認識ヒューリスティックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1039",
+    "targetId": "kb_825",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "認識ヒューリスティックと再認主導意思決定モデルは説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1039",
+    "targetId": "kb_754",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "認識ヒューリスティックと限定合理性は説明対象・手法を区別しながら読める。recognition-primed decisionと同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1040",
+    "targetId": "kb_754",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "Take-the-bestヒューリスティックと限定合理性は説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1040",
+    "targetId": "kb_277",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "Take-the-bestヒューリスティックと十分化は説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1040",
+    "targetId": "kb_597",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "Take-the-bestヒューリスティックと利用可能性ヒューリスティックは説明対象・手法を区別しながら読める。二候補間での識別と停止のルール。一般的な最善選択の意味ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1041",
+    "targetId": "kb_277",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "側面ごとの消去法と十分化は説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1041",
+    "targetId": "kb_275",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "側面ごとの消去法と選択のパラドックスは説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1041",
+    "targetId": "kb_754",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "側面ごとの消去法と限定合理性は説明対象・手法を区別しながら読める。日本語の手順例と、原著の確率的モデルを区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1042",
+    "targetId": "kb_181",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スラッジと行動摩擦は説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1042",
+    "targetId": "kb_178",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スラッジと選択アーキテクチャは説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1042",
+    "targetId": "kb_179",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "スラッジとナッジは説明対象・手法を区別しながら読める。行動摩擦一般のうち過大・不必要な負担を評価する規範的観点。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_031",
+    "targetId": "kb_1043",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "不平等回避と衡平理論は説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1043",
+    "targetId": "kb_768",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "不平等回避と分配的公正は説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1043",
+    "targetId": "kb_798",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "不平等回避と最後通牒ゲームは説明対象・手法を区別しながら読める。inequity aversionのモデルを中心に説明。分配的公正全体の同義ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1044",
+    "targetId": "kb_754",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "生態学的合理性と限定合理性は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1044",
+    "targetId": "kb_287",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "生態学的合理性と探索と活用は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1044",
+    "targetId": "kb_277",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "生態学的合理性と十分化は説明対象・手法を区別しながら読める。認識・Take-the-bestは個別方略。本カードは環境適合の評価枠組み。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1045",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "PREP法と具体的フィードバックは説明対象・手法を区別しながら読める。実務上の構成技法。由来や単一の発明者は断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1045",
+    "targetId": "kb_407",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "PREP法と精緻化質問は説明対象・手法を区別しながら読める。実務上の構成技法。由来や単一の発明者は断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1046",
+    "targetId": "kb_435",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SBAR法と期待管理は説明対象・手法を区別しながら読める。医療発祥の連絡技法。一般業務の例は翻案。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1046",
+    "targetId": "kb_777",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SBAR法と共有メンタルモデルは説明対象・手法を区別しながら読める。医療発祥の連絡技法。一般業務の例は翻案。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_008",
+    "targetId": "kb_1047",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイ・メッセージと自己開示の返報性は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1047",
+    "targetId": "kb_404",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイ・メッセージと共感的理解は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_092",
+    "targetId": "kb_1047",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイ・メッセージと境界線理論は説明対象・手法を区別しながら読める。Gordonの方法を参照。相手の同意を得る保証や感情の押し付けの道具ではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1048",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SBIフィードバックと具体的フィードバックは説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_045",
+    "targetId": "kb_1048",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SBIフィードバックと基本的帰属の誤りは説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1048",
+    "targetId": "kb_424",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SBIフィードバックと信頼修復理論は説明対象・手法を区別しながら読める。開発元の定義を参照。効果の宣伝表現は採用しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1049",
+    "targetId": "kb_404",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "動機づけ面接と共感的理解は説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1049",
+    "targetId": "kb_520",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "動機づけ面接と自己決定理論は説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_050",
+    "targetId": "kb_1049",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "動機づけ面接と心理的リアクタンスは説明対象・手法を区別しながら読める。共同的な姿勢とプロセスを重視。医療・心理支援の代替として提示しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1050",
+    "targetId": "kb_828",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ティーチバック法とプロテジェ効果は説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1050",
+    "targetId": "kb_748",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ティーチバック法と自己説明効果は説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1050",
+    "targetId": "kb_777",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ティーチバック法と共有メンタルモデルは説明対象・手法を区別しながら読める。プロテジェ効果は教える側の学習効果。理解確認の本手法とは同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1051",
+    "targetId": "kb_777",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "クローズドループ・コミュニケーションと共有メンタルモデルは説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1051",
+    "targetId": "kb_435",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "クローズドループ・コミュニケーションと期待管理は説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1051",
+    "targetId": "kb_487",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "クローズドループ・コミュニケーションと責任の明確化は説明対象・手法を区別しながら読める。Check-Backは輪を閉じる具体的手続き。完全な同義語とはせず補助語へ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1052",
+    "targetId": "kb_722",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STAR法と結果バイアスは説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1052",
+    "targetId": "kb_117",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STAR法と成果帰属問題は説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1052",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STAR法と具体的フィードバックは説明対象・手法を区別しながら読める。TeamSTEPPSのSTAR安全確認とは別の同名略語。STAR単独は補助語として扱う。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1053",
+    "targetId": "kb_407",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SCQAと精緻化質問は説明対象・手法を区別しながら読める。SCQAの構成と、ピラミッド原則全体を同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1053",
+    "targetId": "kb_498",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SCQAと意思決定支援は説明対象・手法を区別しながら読める。SCQAの構成と、ピラミッド原則全体を同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1054",
+    "targetId": "kb_407",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SPIN話法と精緻化質問は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1054",
+    "targetId": "kb_148",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SPIN話法と原則立脚型交渉は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1054",
+    "targetId": "kb_149",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SPIN話法と立場と利益の分離は説明対象・手法を区別しながら読める。開発元の質問分類を参照。販売成功率等の宣伝上の断定は本文へ取り込まない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1055",
+    "targetId": "kb_777",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "I-PASSと共有メンタルモデルは説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1055",
+    "targetId": "kb_435",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "I-PASSと期待管理は説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1055",
+    "targetId": "kb_487",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "I-PASSと責任の明確化は説明対象・手法を区別しながら読める。医療原型と一般業務への翻案を区別。SBARは連絡構造、I-PASSは引き継ぎの型として別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1056",
+    "targetId": "kb_483",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイゼンハワー・マトリクスとアジェンダ設定は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1056",
+    "targetId": "kb_544",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイゼンハワー・マトリクスと選択と集中は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1056",
+    "targetId": "kb_192",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アイゼンハワー・マトリクスとパーキンソンの法則は説明対象・手法を区別しながら読める。通称と普及経路を区別し、Eisenhower本人が四象限を発明したとは断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1057",
+    "targetId": "kb_933",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "なぜなぜ分析（5 Whys）と相関と因果の区別は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1057",
+    "targetId": "kb_932",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "なぜなぜ分析（5 Whys）と反証可能性は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1057",
+    "targetId": "kb_197",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "なぜなぜ分析（5 Whys）と制約理論は説明対象・手法を区別しながら読める。原因仮説の作成と因果の検証を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1058",
+    "targetId": "kb_933",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ロジックツリーと相関と因果の区別は説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1058",
+    "targetId": "kb_498",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ロジックツリーと意思決定支援は説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1058",
+    "targetId": "kb_561",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ロジックツリーとバックキャスティングは説明対象・手法を区別しながら読める。論点の分解技法。MECEは分け方の点検原則で別カード。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1059",
+    "targetId": "kb_934",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "MECEと必要条件・十分条件は説明対象・手法を区別しながら読める。分類原則の実務用語。哲学上の排中律そのものではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1059",
+    "targetId": "kb_498",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "MECEと意思決定支援は説明対象・手法を区別しながら読める。分類原則の実務用語。哲学上の排中律そのものではない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1060",
+    "targetId": "kb_709",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定ジャーナルと後知恵バイアスは説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1060",
+    "targetId": "kb_722",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定ジャーナルと結果バイアスは説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1060",
+    "targetId": "kb_710",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定ジャーナルと自信過剰効果は説明対象・手法を区別しながら読める。実践者の方法としての出典。学術理論や効果量は付与しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1061",
+    "targetId": "kb_498",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定マトリクスと意思決定支援は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1061",
+    "targetId": "kb_756",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定マトリクスと期待効用理論は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1061",
+    "targetId": "kb_934",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意思決定マトリクスと必要条件・十分条件は説明対象・手法を区別しながら読める。Pugh matrixは一形態であり、一般的マトリクス全体の厳密な同義語にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1062",
+    "targetId": "kb_506",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アフターアクションレビューと組織学習は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1062",
+    "targetId": "kb_892",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アフターアクションレビューとダブルループ学習は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1062",
+    "targetId": "kb_402",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "アフターアクションレビューと心理的安全性は説明対象・手法を区別しながら読める。実施後の対話・学習手法。報告書作成そのものと同一視しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1063",
+    "targetId": "kb_506",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "KPT振り返りと組織学習は説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1063",
+    "targetId": "kb_537",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "KPT振り返りとフィードバックループは説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1063",
+    "targetId": "kb_394",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "KPT振り返りと具体的フィードバックは説明対象・手法を区別しながら読める。実務での手順を確認。発明者・初出は断定しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1064",
+    "targetId": "kb_487",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "RACIマトリクスと責任の明確化は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1064",
+    "targetId": "kb_939",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "RACIマトリクスと役割葛藤・役割曖昧性は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1064",
+    "targetId": "kb_497",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "RACIマトリクスと統制範囲は説明対象・手法を区別しながら読める。RAMは上位の責任分担表一般。RACIと完全同義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_081",
+    "targetId": "kb_1065",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ステークホルダーマップと社会関係資本は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_079",
+    "targetId": "kb_1065",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ステークホルダーマップと権力依存理論は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1065",
+    "targetId": "kb_487",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ステークホルダーマップと責任の明確化は説明対象・手法を区別しながら読める。権力・関心の図は一形式。権利や被影響度を別に確認する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1066",
+    "targetId": "kb_908",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "PEST分析とSWOT分析は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1066",
+    "targetId": "kb_548",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "PEST分析と適応的計画は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1066",
+    "targetId": "kb_593",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "PEST分析と機会認識は説明対象・手法を区別しながら読める。外部環境の整理手法。PESTLE全体は拡張なので別名登録しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1067",
+    "targetId": "kb_400",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "AIDAモデルと情報ギャップ理論は説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1067",
+    "targetId": "kb_178",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "AIDAモデルと選択アーキテクチャは説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1067",
+    "targetId": "kb_781",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "AIDAモデルとイノベーション普及理論は説明対象・手法を区別しながら読める。歴史的な帰属は単純化しない。購入の固定的因果モデルにはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1068",
+    "targetId": "kb_149",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "JTBDと立場と利益の分離は説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1068",
+    "targetId": "kb_593",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "JTBDと機会認識は説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1068",
+    "targetId": "kb_543",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "JTBDとリーン・スタートアップは説明対象・手法を区別しながら読める。複数の実践流派がある。特定の分析様式だけを唯一の定義にしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1069",
+    "targetId": "kb_908",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STP分析とSWOT分析は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1069",
+    "targetId": "kb_544",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STP分析と選択と集中は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1069",
+    "targetId": "kb_593",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "STP分析と機会認識は説明対象・手法を区別しながら読める。市場の区分・選択・位置づけを一体の手順として収録。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1070",
+    "targetId": "kb_908",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "マーケティングの4PとSWOT分析は説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1070",
+    "targetId": "kb_593",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "マーケティングの4Pと機会認識は説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1070",
+    "targetId": "kb_178",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "マーケティングの4Pと選択アーキテクチャは説明対象・手法を区別しながら読める。marketing mix一般と四項目のモデルの範囲差を保つ。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1071",
+    "targetId": "kb_593",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "カスタマージャーニーマップと機会認識は説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1071",
+    "targetId": "kb_498",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "カスタマージャーニーマップと意思決定支援は説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1071",
+    "targetId": "kb_423",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "カスタマージャーニーマップとサービス・リカバリー・パラドックスは説明対象・手法を区別しながら読める。実務上の調査・可視化手法。作成元の直接解説に基づく。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1072",
+    "targetId": "kb_167",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SMART目標と目標設定理論は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1072",
+    "targetId": "kb_193",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SMART目標とグッドハートの法則は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1072",
+    "targetId": "kb_172",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SMART目標と実行意図は説明対象・手法を区別しながら読める。原提案はSpecific, Measurable, Assignable, Realistic, Time-related。後の別展開と混同しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1073",
+    "targetId": "kb_577",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "GTDと認知的オフローディングは説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1073",
+    "targetId": "kb_441",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "GTDと外部記憶は説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1073",
+    "targetId": "kb_531",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "GTDとツァイガルニク効果は説明対象・手法を区別しながら読める。手法の定義を開発元で確認。商標表記と一般的なタスク管理を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1074",
+    "targetId": "kb_547",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ポモドーロ・テクニックとタイムボックスは説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1074",
+    "targetId": "kb_192",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ポモドーロ・テクニックとパーキンソンの法則は説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1074",
+    "targetId": "kb_529",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "ポモドーロ・テクニックとスモールステップは説明対象・手法を区別しながら読める。一般的なタイムボックスへ、集中・休憩の周期と中断管理を加えた特定手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1075",
+    "targetId": "kb_547",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "タイムブロッキングとタイムボックスは説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1075",
+    "targetId": "kb_172",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "タイムブロッキングと実行意図は説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1075",
+    "targetId": "kb_483",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "タイムブロッキングとアジェンダ設定は説明対象・手法を区別しながら読める。実践者の直接解説。Newportが手法全体の発明者だとは主張しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1076",
+    "targetId": "kb_199",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SQ3R読書法と検索練習効果は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1076",
+    "targetId": "kb_748",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SQ3R読書法と自己説明効果は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1076",
+    "targetId": "kb_744",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "SQ3R読書法と処理水準理論は説明対象・手法を区別しながら読める。Survey, Question, Read, Recite, Reviewの手順を確認。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1077",
+    "targetId": "kb_199",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コーネル式ノートと検索練習効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1077",
+    "targetId": "kb_200",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コーネル式ノートと間隔効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1077",
+    "targetId": "kb_748",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コーネル式ノートと自己説明効果は説明対象・手法を区別しながら読める。開発大学の教材を参照。用紙の体裁と学習活動を区別。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1078",
+    "targetId": "kb_742",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "記憶の宮殿と二重符号化理論は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1078",
+    "targetId": "kb_743",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "記憶の宮殿と符号化特定性原理は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1078",
+    "targetId": "kb_199",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "記憶の宮殿と検索練習効果は説明対象・手法を区別しながら読める。古典的な場所法の研究上の確認先。記憶競技の結果を一般能力へ拡大しない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1079",
+    "targetId": "kb_414",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コンセプトマップと連想ネットワークは説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1079",
+    "targetId": "kb_748",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コンセプトマップと自己説明効果は説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1079",
+    "targetId": "kb_746",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "コンセプトマップとチャンク化は説明対象・手法を区別しながら読める。概念間の命題と焦点質問を重視する手法。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1080",
+    "targetId": "kb_901",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "思考記録表と認知行動療法は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1080",
+    "targetId": "kb_573",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "思考記録表と二分法的思考は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1080",
+    "targetId": "kb_213",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "思考記録表と破局的思考は説明対象・手法を区別しながら読める。記録技法をCBT全体の別名にはしない。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_957",
+    "targetId": "kb_958",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "意識的識別の閾値と信号・雑音の判断基準を対比する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_959",
+    "targetId": "kb_969",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "刺激の存在の閾値と差の閾値を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_972",
+    "targetId": "kb_973",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "知識構造一般と出来事の順序の知識を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_995",
+    "targetId": "kb_996",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "社会的な名付けと、分類される人から分類へ戻る相互作用を比較する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1021",
+    "targetId": "kb_1022",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "普及による魅力低下と、高価格による地位表示を区別する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1032",
+    "targetId": "kb_1033",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "行動条件の診断と、介入アイデアの設計枠組みを併用できる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1046",
+    "targetId": "kb_1055",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "状況連絡と担当交代の引き継ぎの構造を比較する。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1058",
+    "targetId": "kb_1059",
+    "type": "related",
+    "reviewStatus": "confirmed",
+    "rationale": "問いの分解と、その区分の重複・抜けを点検する。",
+    "priority": 100
   }
 ]

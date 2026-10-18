@@ -98,7 +98,7 @@ for (const card of cards) {
   }
   markdown.push('', `合計：${card.relatedTheoryIds.length}件（主要${card.primaryTheoryIds.length}件・あわせて読む${supplementary.length}件）。`, '');
 }
-for (const outputPath of finalMappingPaths) fs.writeFileSync(outputPath, `${markdown.join('\n')}\n`);
+for (const outputPath of finalMappingPaths) fs.writeFileSync(outputPath, `${markdown.join('\n').trimEnd()}\n`);
 
 const counts = cards.map((card) => card.relatedTheoryIds.length);
 const primaryCounts = cards.map((card) => card.primaryTheoryIds.length);
@@ -137,7 +137,7 @@ const audit = {
   wisdomSupportLinks: Object.values(wisdomSupportTechniqueIdsByTheoryId).reduce((sum, ids) => sum + ids.length, 0),
   categoryCoverage,
   practicalWisdomPolicy: 'Only independently reviewed semantic matches; zero related techniques is valid.',
-  generatedAt: '2026-10-15',
+  generatedAt: '2026-10-18',
 };
 fs.writeFileSync(auditPath, `${JSON.stringify(audit, null, 2)}\n`);
 

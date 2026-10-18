@@ -145,6 +145,9 @@ jobs:
       - name: Test canonical theory taxonomy and legacy compatibility
         run: pnpm test:theory-taxonomy
 
+      - name: Verify 945-theory release, CMS, permissions and rollback
+        run: pnpm test:theory-release-945
+
       - name: Check types
         run: pnpm typecheck
 

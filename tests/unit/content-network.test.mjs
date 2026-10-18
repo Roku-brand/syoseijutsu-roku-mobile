@@ -11,7 +11,7 @@ const sha=s=>createHash('sha256').update(s).digest('hex');
 
 test('all 356 reviewed mechanisms match canonical text, stable IDs and exact grouped links',()=>{
  assert.equal(review.techniques.length,356);assert.equal(new Set(review.techniques.map(t=>t.id)).size,356);
- for(const r of review.techniques){const t=cards.find(t=>t.id===r.id);assert.ok(t);assert.equal(r.core,t.essence);assert.equal(sha(t.title+'|'+t.essence+'|'+t.explanation),review.sourceHashes.techniques[t.id]);assert.deepEqual(t.primaryTheoryIds,r.primary);assert.deepEqual(t.relatedTheoryIds,[...r.primary,...r.supplementary]);assert.equal(new Set(t.relatedTheoryIds).size,t.relatedTheoryIds.length);assert.ok(r.rationale);for(const id of t.relatedTheoryIds)assert.ok(theories.some(t=>t.tagId===id));for(const id of r.primary)assert.ok(!theories.find(t=>t.tagId===id).quotation);}
+ for(const r of review.techniques){const t=cards.find(t=>t.id===r.id);assert.ok(t);assert.equal(r.core,t.essence);assert.equal(sha(t.title+'|'+t.essence+'|'+t.explanation),review.sourceHashes.techniques[t.id]);assert.deepEqual(t.primaryTheoryIds,r.primary);assert.deepEqual(t.relatedTheoryIds,[...r.primary,...r.supplementary,...read('docs/content/theory-release-20261018-changes.json').techniqueChanges.filter(x=>x.techniqueId===t.id).map(x=>x.theoryId)]);assert.equal(new Set(t.relatedTheoryIds).size,t.relatedTheoryIds.length);assert.ok(r.rationale);for(const id of t.relatedTheoryIds)assert.ok(theories.some(t=>t.tagId===id));for(const id of r.primary)assert.ok(!theories.find(t=>t.tagId===id).quotation);}
 });
 test('known mismatches are replaced by the actual mechanism, not a thematic keyword',()=>{
  const ids=n=>cards.find(t=>t.id==='master336-'+n).relatedTheoryIds;
