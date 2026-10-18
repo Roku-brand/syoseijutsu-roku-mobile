@@ -57,7 +57,7 @@ test('profile settings guide guests to log in before editing', async ({ page }) 
   await expect(page.getByText('ログイン / アカウントを作成')).toBeVisible();
 });
 
-test('マイページはプロフィールと座右の銘を統合し、実データのタブを切り替える', async ({ page }) => {
+test('マイページはプロフィールと巻物に続いてお気に入りと自作カードを表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
   const profileCard = page.getByTestId('profile-principle-card');
@@ -70,22 +70,15 @@ test('マイページはプロフィールと座右の銘を統合し、実デ�
   await expect(profileCard).toContainText('無料版を利用中');
   await expect(profileCard).not.toContainText('無料公開分');
   await expect(profileCard).not.toContainText('完全版を見る');
-  await expect(page.getByTestId('my-page-tabs').getByRole('tab')).toHaveCount(3);
-  await expect(page.getByRole('tab', { name: '閲覧履歴' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByText('読んだ知恵を、種類ごとに振り返る')).toBeVisible();
-  await page.getByRole('tab', { name: '蔵書' }).click();
-  await expect(page.getByRole('tab', { name: '蔵書' })).toHaveAttribute('aria-selected', 'true');
-  await expect(page.getByRole('button', { name: '蔵書：未整理', exact: true })).toContainText('0件');
-  await expect(page).toHaveURL(/my-os/);
-  await page.getByRole('tab', { name: 'マイ処世術' }).click();
-  await expect(page.getByRole('button', { name: 'マイ処世術：すべて', exact: true })).toBeVisible();
+  await expect(page.getByTestId('my-page-tabs')).toHaveCount(0);
+  await expect(page.getByTestId('favorites-overview')).toContainText('お気に入り');
+  await expect(page.getByTestId('personal-memos-preview')).toContainText('自分の言葉で残した処世術');
+  await expect(page.getByRole('button', { name: '閲覧履歴を開く', exact: true })).toBeVisible();
   await page.getByRole('button', { name: '＋ 作る' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、相手の話を聞く。');
   await page.getByRole('button', { name: '保存する' }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
   await page.reload();
-  await page.getByRole('tab', { name: 'マイ処世術' }).click();
-  await page.getByRole('button', { name: 'マイ処世術：すべて', exact: true }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' })).toBeVisible();
   await page.getByRole('button', { name: '一呼吸おいて、相手の話を聞く。を編集' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、最後まで話を聞く。');
@@ -97,12 +90,12 @@ test('マイページの統合カードとタブはスマホ幅に収まり、�
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
   const card = await page.getByTestId('profile-principle-card').boundingBox();
-  const tabs = await page.getByTestId('my-page-tabs').boundingBox();
+  const tabs = await page.getByTestId('favorites-overview').boundingBox();
   expect(card).not.toBeNull();
   expect(tabs).not.toBeNull();
   expect(card!.height).toBeLessThan(300);
   expect(tabs!.y).toBeGreaterThan(card!.y + card!.height);
-  expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(20);
+  expect(tabs!.y - card!.y - card!.height).toBeLessThanOrEqual(36);
   await page.getByTestId('personal-principle-edit').click();
   const longPrinciple = '自分の歩幅を守りながら、相手への敬意を忘れず、焦らず静かに一つずつ進んでいく。';
   await page.getByRole('textbox', { name: '座右の銘' }).fill(longPrinciple);
@@ -354,34 +347,36 @@ test('PCの購入確認でも対応決済手段を読みやすく表示する', 
 
 test('マイ処世術はマイページ内で作成・フォルダー整理・削除ができる', async ({ page }) => {
   await page.goto('/my-os');
-  await page.getByRole('tab', { name: 'マイ処世術' }).click();
-  await expect(page).toHaveURL(/\/my-os/);
+  await page.getByRole('button', { name: 'マイ処世術をすべて見る', exact: true }).click();
+  await expect(page).toHaveURL(/\/my-techniques/);
   await page.getByRole('button', { name: 'フォルダーを追加' }).click();
   await page.getByRole('textbox', { name: 'フォルダー名' }).fill('仕事');
   await page.getByRole('button', { name: '作成する' }).click();
   await page.getByRole('button', { name: '＋ 作る' }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('焦ったら、一度だけ深呼吸する');
-  await page.getByRole('button', { name: '保存する' }).click();
+  await page.getByRole('button', { name: 'マイ処世術を追加' }).click();
   await expect(page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' })).toContainText('仕事');
-  await page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するを編集' }).click();
+  await page.getByRole('button', { name: '焦ったら、一度だけ深呼吸するのメニュー' }).click();
+  await page.getByRole('button', { name: '削除', exact: true }).click();
   await page.getByRole('button', { name: 'このマイ処世術を削除' }).click();
   await expect(page.getByText('このフォルダーはまだ空です')).toBeVisible();
 });
 
 test('閲覧履歴はマイページ内で確認できる', async ({ page }) => {
   await page.goto('/my-os');
-  await expect(page.getByRole('tab', { name: '閲覧履歴' })).toBeVisible();
+  await page.getByRole('button', { name: '閲覧履歴を開く', exact: true }).click();
   await expect(page.getByText('まだ閲覧履歴はありません')).toBeVisible();
 });
 
-test('理論の閲覧もマイページの履歴タブへ蓄積される', async ({ page }) => {
+test('理論の閲覧もマイページから開く履歴画面へ蓄積される', async ({ page }) => {
   await page.goto('/theory/kb_001');
   await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');
   await page.goto('/my-os');
-  await expect(page.getByText('読んだ知恵を、種類ごとに振り返る', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '閲覧履歴を開く', exact: true }).click();
+  await expect(page.getByTestId('history-content')).toBeVisible();
   await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByRole('button', { name: '初頭効果を開く' })).toBeVisible();
-  await expect(page).toHaveURL(/\/my-os/);
+  await expect(page).toHaveURL(/\/history/);
 });
 
 test('探すは検索と人物像・理論への入口から始まる', async ({ page }) => {

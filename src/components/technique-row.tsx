@@ -10,7 +10,8 @@ import {
 import { getTechniqueDisplayId } from '@/data/catalog';
 import type { TechniqueCard } from '@/data/types';
 import { useAppState } from '@/state/app-state';
-import { AppText, IconButton } from './ui';
+import { AppText } from './ui';
+import { SaveDiamondButton } from './book-ui';
 import { useAppToast } from './app-toast';
 
 export function TechniqueRow({
@@ -91,12 +92,10 @@ export function TechniqueRow({
         </View>
       </Pressable>
         <View style={styles.actions}>
-          <IconButton
-            label={isSaved ? '保存を解除' : '保存'}
-            icon={isSaved ? '◆' : '◇'}
-            active={isSaved}
-            onPress={(event) => {
-              event.stopPropagation();
+          <SaveDiamondButton
+            accessibilityLabel={isSaved ? '保存を解除' : '保存'}
+            saved={isSaved}
+            onPress={() => {
               toggleSaved(card.id);
               showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
             }}

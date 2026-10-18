@@ -14,10 +14,11 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { AppText } from './ui';
 import { useFeatures } from '@/data/features';
 import { featureRoute } from '@/navigation/app-routes';
+import { uniqueSavedIds } from '@/data/personal-dashboard';
 
 type SavedItem = PersonalContentRow;
 
-export function LibraryContent() {
+export function LibraryContent({ category, kind }: { category?: string; kind?: string } = {}) {
   'use no memo';
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
@@ -25,7 +26,8 @@ export function LibraryContent() {
   useAccess();
   const { savedIds, savedTheoryIds, savedFeatureIds, libraryFolders, libraryFolderByItem, createLibraryFolder, renameLibraryFolder, deleteLibraryFolder, moveLibraryItem } = useAppState();
   const { articles: featureArticles } = useFeatures(savedFeatureIds.length > 0);
-  const [folder, setFolder] = useState<string | null>(null);
+  const automatic = Boolean(category || kind);
+  const [folder, setFolder] = useState<string | null>(automatic ? 'all' : null);
   const [limit, setLimit] = useState(20);
   const openFolder = (id: string | null) => { setFolder(id); setLimit(20); };
   const [editor, setEditor] = useState<{ id?: string } | null>(null);
@@ -34,12 +36,12 @@ export function LibraryContent() {
   const [deleting, setDeleting] = useState(false);
   // Catalogue maps are hydrated in place: derive rows again after every revision.
   const items: SavedItem[] = [
-    ...savedFeatureIds.map(id => { const article = featureArticles.find(item => item.id === id); return { kind: 'feature' as const, id, label: '特集', category: 'feature', article, title: article?.title ?? '保存した特集', description: article?.lead ?? '' }; }),
-    ...savedIds.map(id => {
+    ...uniqueSavedIds(savedFeatureIds).map(id => { const article = featureArticles.find(item => item.id === id); return { kind: 'feature' as const, id, label: '特集', category: 'feature', article, title: article?.title ?? '保存した特集', description: article?.lead ?? '' }; }),
+    ...uniqueSavedIds(savedIds).map(id => {
       const card = techniqueById.get(id);
       return { kind: 'technique' as const, id, label: card?.categoryName ?? '処世術', category: card?.categoryKey ?? 'interpersonal', title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '保存したコンテンツ' };
     }),
-    ...savedTheoryIds.map(id => {
+    ...uniqueSavedIds(savedTheoryIds).map(id => {
       if (isRetiredTheoryId(id)) return {kind: 'theory' as const,id,label:'公開終了',category:'practical-wisdom',title:RETIRED_THEORY_TITLE,description:'保存の記録は保持されています。'};
       const theory = theoryById.get(id);
       return { kind: 'theory' as const, id, label: theory?.categoryTitle ?? '理論', category: theory?.categoryId ?? 'psychology', title: theory?.title ?? '保存済みの理論', description: [theory?.categoryTitle, theory?.subcategoryTitle].filter(Boolean).join(' > ') };
@@ -47,7 +49,7 @@ export function LibraryContent() {
   ];
   const currentFolder = libraryFolders.find(value => value.id === folder);
   const assignedFolder = (item: SavedItem) => libraryFolderByItem[libraryItemKey(item.kind, item.id)];
-  const visible = items.filter(item => folder === 'all' || (folder === 'unfiled' ? !assignedFolder(item) : assignedFolder(item) === folder));
+  const visible = items.filter(item => (!category || (item.kind === 'technique' && techniqueById.get(item.id)?.categoryKey === category)) && (!kind || item.kind === kind) && (folder === 'all' || (folder === 'unfiled' ? !assignedFolder(item) : assignedFolder(item) === folder)));
   const counts = new Map<string, number>([['all', items.length]]);
   items.forEach(item => { const id = assignedFolder(item) ?? 'unfiled'; counts.set(id, (counts.get(id) ?? 0) + 1); });
   const folders = [{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...libraryFolders].map(value => ({ ...value, count: counts.get(value.id) ?? 0 }));
@@ -61,12 +63,12 @@ export function LibraryContent() {
   };
   return <View testID="library-organizer" style={styles.content}>
     <View style={styles.heading}>
-      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={[styles.title, mobile && personalLibrary.headingSmall]}>蔵書</AppText><AppText style={[styles.lead, !mobile && styles.headingLead]}>保存した知恵を、わかりやすく整理する</AppText></View>
+      <View style={styles.headingCopy}><AppText accessibilityRole="header" aria-level={2} style={[styles.title, mobile && personalLibrary.headingSmall]}>お気に入り</AppText><AppText style={[styles.lead, !mobile && styles.headingLead]}>保存した知恵を、わかりやすく整理する</AppText></View>
       <Action label="フォルダーを追加" onPress={() => { setName(''); setEditor({}); }} text="＋ フォルダー" />
     </View>
     {folder === null ? <FolderFronts folders={folders} label="蔵書" onOpen={openFolder} /> : <>
-      <FolderBack onPress={() => openFolder(null)} />
-      <View style={styles.folderHeading}><AppText style={styles.folderName}>{folders.find(value => value.id === folder)?.name} · {visible.length}件</AppText>{currentFolder ? <Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /> : null}</View>
+      {automatic ? <Action label="すべてのお気に入りとフォルダーを見る" text="‹ すべてのお気に入り・フォルダー" onPress={() => router.push('/library')} /> : <FolderBack onPress={() => openFolder(null)} />}
+      <View style={styles.folderHeading}><AppText style={styles.folderName}>{automatic ? ({ interpersonal: '対人術', work: '仕事術', life: '人生術', theory: '理論', feature: '特集' }[category ?? kind ?? ''] ?? 'すべて') : folders.find(value => value.id === folder)?.name} · {visible.length}件</AppText>{currentFolder ? <Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /> : null}</View>
       {visible.length ? visible.slice(0, limit).map(item => <PersonalContentCard key={libraryItemKey(item.kind, item.id)} row={item}
         onPress={() => router.push(item.kind === 'feature' ? featureRoute(item.article?.slug ?? item.id) : item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })}
         action={<Action label={item.title + 'の保存先を変更'} text="整理" onPress={() => setMoving(item)} />} />)

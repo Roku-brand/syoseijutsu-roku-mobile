@@ -16,7 +16,7 @@ export default defineConfig({
     ...devices['Pixel 5'],
   },
   webServer: {
-    command: 'pnpm serve:e2e',
+    command: 'node ./scripts/serve-dist.mjs',
     env: { PORT: String(port) },
     port,
     reuseExistingServer: true,

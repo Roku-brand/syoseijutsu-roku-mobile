@@ -146,7 +146,7 @@ test('既存の保存と旧理論IDを維持し、フォルダー作成・移動
   await page.reload();
   await expect(page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true })).toContainText('2件');
   await page.goto('/my-os');
-  await page.getByRole('tab', { name: '蔵書', exact: true }).click();
+  await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
   await page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true }).click();
   await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
   await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事の知恵');
