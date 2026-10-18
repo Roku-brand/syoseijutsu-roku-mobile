@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, View, type LayoutRectangle, type ViewStyle } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { PanResponder, Platform, Pressable, ScrollView, StyleSheet, View, type LayoutRectangle, type ViewStyle } from 'react-native';
 import { colors, fonts, radius } from '@/constants/theme';
 import { AppText } from './ui';
 
@@ -11,6 +11,8 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const scroll = useRef<ScrollView>(null);
   const layouts = useRef(new Map<string, LayoutRectangle>());
   const offset = useRef(0);
+  const drag = useRef<{ origin: number; previous: number; next: number } | undefined>(undefined);
+  const lastWheel = useRef(-Infinity);
   const [viewport, setViewport] = useState(0);
   const [outerWidth, setOuterWidth] = useState(0);
   const [contentWidth, setContentWidth] = useState(0);
@@ -18,12 +20,65 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const [focused, setFocused] = useState<string>();
   const key = selected ?? 'all';
   const signature = options.map(option => option.subcategoryId ?? 'all').join('|');
+  const getStops = useCallback(() => {
+    const max = Math.max(0, contentWidth - viewport);
+    return [...new Set([0, ...signature.split('|').map(id => {
+      const item = layouts.current.get(id);
+      return Math.max(0, Math.min((item?.x ?? 2) - 2, max));
+    }), max])].sort((a, b) => a - b);
+  }, [signature, contentWidth, viewport]);
+  const scrollTo = useCallback((x: number) => {
+    offset.current = x;
+    scroll.current?.scrollTo({ x, animated: false });
+  }, []);
+  const neighbor = useCallback((from: number, direction: number) => {
+    const stops = getStops();
+    return (direction > 0 ? stops.find(stop => stop > from + 2) : stops.reverse().find(stop => stop < from - 2)) ?? from;
+  }, [getStops]);
+  const move = useCallback((direction: number) => scrollTo(neighbor(offset.current, direction)), [neighbor, scrollTo]);
+  // Capture only horizontal drags so a tap still selects a tab and vertical
+  // gestures still belong to the page. Each gesture is bounded by its neighbors.
+  const pan = useMemo(() => PanResponder.create({
+    onMoveShouldSetPanResponderCapture: (_, gesture) => gesture.numberActiveTouches === 1 && Math.abs(gesture.dx) > 8 && Math.abs(gesture.dx) > Math.abs(gesture.dy),
+    onPanResponderGrant: () => {
+      const origin = offset.current;
+      drag.current = { origin, previous: neighbor(origin, -1), next: neighbor(origin, 1) };
+    },
+    onPanResponderMove: (_, gesture) => {
+      if (drag.current) scrollTo(Math.max(drag.current.previous, Math.min(drag.current.origin - gesture.dx, drag.current.next)));
+    },
+    onPanResponderRelease: (_, gesture) => {
+      const start = drag.current;
+      drag.current = undefined;
+      if (start) scrollTo(Math.abs(gesture.dx) < 24 ? start.origin : gesture.dx < 0 ? start.next : start.previous);
+    },
+    onPanResponderTerminationRequest: () => true,
+    onPanResponderTerminate: () => {
+      if (drag.current) scrollTo(drag.current.origin);
+      drag.current = undefined;
+    },
+  }), [neighbor, scrollTo]);
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const node = scroll.current?.getScrollableNode() as HTMLElement | undefined;
+    if (!node) return;
+    const wheel = (event: WheelEvent) => {
+      const delta = event.shiftKey && !event.deltaX ? event.deltaY : Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : 0;
+      if (event.ctrlKey || !delta) return;
+      event.preventDefault();
+      // Trackpads emit a burst including momentum. One burst is one step.
+      if (event.timeStamp - lastWheel.current > 180) move(Math.sign(delta));
+      lastWheel.current = event.timeStamp;
+    };
+    node.addEventListener('wheel', wheel, { passive: false });
+    return () => node.removeEventListener('wheel', wheel);
+  }, [move]);
   const reveal = useCallback((id: string) => {
     const layout = layouts.current.get(id);
     if (!layout || !viewport) return;
     const inset = 8;
     const outside = layout.x < offset.current + inset || layout.x + layout.width > offset.current + viewport - inset;
-    const x = outside ? layout.x + layout.width / 2 - viewport / 2 : offset.current;
+    const x = outside ? layout.x - 2 : offset.current;
     scroll.current?.scrollTo({ x: Math.max(0, Math.min(x, contentWidth - viewport)), animated: false });
   }, [viewport, contentWidth]);
   // Initial "all" already starts at zero. Do not move the track while a user
@@ -33,15 +88,13 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const right = position + viewport < contentWidth - 2;
   const overflow = contentWidth > outerWidth + 2;
   const showButtons = Platform.OS === 'web' && outerWidth >= 600 && overflow;
-  const move = (direction: number) => scroll.current?.scrollTo({ x: Math.max(0, Math.min(offset.current + viewport * 0.75 * direction, contentWidth - viewport)), animated: false });
-  return <View testID="theory-subcategory-reel" style={styles.reel} onLayout={event => setOuterWidth(event.nativeEvent.layout.width)}>
+  return <View {...pan.panHandlers} testID="theory-subcategory-reel" style={styles.reel} onLayout={event => setOuterWidth(event.nativeEvent.layout.width)}>
     {showButtons ? <Pressable disabled={!left} accessibilityRole="button" accessibilityLabel="前の内部分類を表示" onPress={() => move(-1)} style={[styles.arrow, !left && styles.disabled]}><AppText>‹</AppText></Pressable> : null}
-    <ScrollView ref={scroll} horizontal showsHorizontalScrollIndicator={false} directionalLockEnabled
-      testID="theory-subcategory-scroll" style={[styles.scroll, Platform.OS === 'web' && ({ scrollSnapType: 'x proximity' } as ViewStyle)]} contentContainerStyle={styles.track}
+    <ScrollView ref={scroll} horizontal showsHorizontalScrollIndicator={false} disableScrollViewPanResponder scrollEnabled={Platform.OS === 'web'}
+      testID="theory-subcategory-scroll" style={[styles.scroll, Platform.OS === 'web' && ({ touchAction: 'pan-y pinch-zoom' } as ViewStyle)]} contentContainerStyle={styles.track}
       onLayout={event => setViewport(event.nativeEvent.layout.width)}
       onContentSizeChange={width => setContentWidth(width)} scrollEventThrottle={16}
-      onScroll={event => { offset.current = event.nativeEvent.contentOffset.x; setPosition(offset.current); }}
-      {...(Platform.OS === 'web' ? {} : { snapToOffsets: options.map(option => { const item = layouts.current.get(option.subcategoryId ?? 'all'); return Math.max(0, item ? item.x + item.width / 2 - viewport / 2 : 0); }), snapToAlignment: 'start' as const })}>
+      onScroll={event => { offset.current = event.nativeEvent.contentOffset.x; setPosition(offset.current); }}>
       {options.map(option => {
         const id = option.subcategoryId ?? 'all';
         const active = id === key;
@@ -52,7 +105,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
           // on pointer focus can cancel Pressable before pointer-up arrives.
           onFocus={() => setFocused(id)} onBlur={() => setFocused(undefined)}
           onPress={() => { onSelect(option.subcategoryId); reveal(id); }}
-          style={({ pressed }) => [styles.tab, Platform.OS === 'web' && ({ scrollSnapAlign: 'center' } as ViewStyle), active && styles.active, focused === id && styles.focused, pressed && styles.pressed]}>
+          style={({ pressed }) => [styles.tab, active && styles.active, focused === id && styles.focused, pressed && styles.pressed]}>
           <AppText style={[styles.label, active && styles.activeText]}>{option.title}</AppText>
           <AppText style={[styles.count, active && styles.activeText]}>{option.items.length}</AppText>
         </Pressable>;
