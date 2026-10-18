@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { AppText, EmptyState, Screen } from '@/components/ui';
+import { cmsErrorMessage } from '@/data/cms-errors';
 import { fetchRankingEditor, publishRanking, type RankingCandidate, type RankingConfig, type RankingDivision } from '@/data/popular-rankings';
 
 export default function OwnerRankingsScreen() {
@@ -35,7 +36,7 @@ function RankingEditor() {
     try {
       const data = await fetchRankingEditor();
       setSaved(data.configs); setDrafts(data.configs.map((item) => ({ ...item, content_ids: [...item.content_ids] }))); setCandidates(data.candidates);
-    } catch (cause) { setError(cause instanceof Error ? cause.message : 'ランキングを読み込めませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setFetching(false); }
   }, []);
   useEffect(() => { void reload(); }, [reload]);
@@ -47,6 +48,7 @@ function RankingEditor() {
   }, [dirty]);
   const available = useMemo(() => candidates.filter((item) => item.division === division).sort((a, b) => a.title.localeCompare(b.title, 'ja')), [candidates, division]);
   const byId = useMemo(() => new Map(available.map((item) => [item.id, item])), [available]);
+  const unavailableCount = config?.content_ids.filter((id) => !byId.has(id)).length ?? 0;
   const changeIds = (ids: string[]) => { setDrafts((items) => items.map((item) => item.division === division ? { ...item, content_ids: ids } : item)); setNotice(''); setError(''); };
   const move = (index: number, offset: number) => {
     if (!config) return;
@@ -62,7 +64,7 @@ function RankingEditor() {
       setSaved((items) => items.map((item) => item.division === division ? updated : item));
       setDrafts((items) => items.map((item) => item.division === division ? updated : item));
       setNotice(`${division === 'technique' ? '処世術' : '理論'}部門のトップ10を公開しました。`);
-    } catch (cause) { setError(cause instanceof Error ? cause.message : '公開できませんでした。'); }
+    } catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
   const pickerItems = available.filter((item) => [item.title, item.category, item.id].join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase()));
@@ -74,6 +76,7 @@ function RankingEditor() {
     {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {fetching ? <AppText>ランキングを読み込んでいます。</AppText> : config ? <>
       <AppText style={styles.muted}>{divisionDirty ? '未公開の変更があります。' : '公開中のランキング'}　{config.content_ids.length} / 10件</AppText>
+      {unavailableCount > 0 ? <AppText accessibilityRole="alert" style={styles.error}>掲載できない記事が{unavailableCount}件あります。該当する記事をすべて差し替えると公開できます。</AppText> : null}
       {config.content_ids.map((id, index) => {
         const item = byId.get(id);
         return <View key={id} testID="ranking-editor-row" style={styles.row}>
@@ -84,7 +87,7 @@ function RankingEditor() {
           <View style={styles.order}><Button label={`${index + 1}位を上へ移動`} disabled={busy || index === 0} onPress={() => move(index, -1)}>↑</Button><Button label={`${index + 1}位を下へ移動`} disabled={busy || index === 9} onPress={() => move(index, 1)}>↓</Button></View>
         </View>;
       })}
-      <View style={styles.actions}><Button disabled={busy || dirty} onPress={() => router.push('/popular')}>公開画面を見る</Button><Button active disabled={busy || !divisionDirty || config.content_ids.some((id) => !byId.has(id))} onPress={() => void publish()}>{busy ? '公開中…' : 'ランキングを公開'}</Button></View>
+      <View style={styles.actions}><Button disabled={busy || dirty} onPress={() => router.push('/popular')}>公開画面を見る</Button><Button active disabled={busy || !divisionDirty || unavailableCount > 0} onPress={() => void publish()}>{busy ? '公開中…' : 'ランキングを公開'}</Button></View>
       <AppText style={styles.muted}>カテゴリ画像は全記事で共通です。本文やカテゴリ内の並び順は、この画面での順位変更に影響されません。</AppText>
     </> : null}
     <Button disabled={busy || fetching} onPress={() => { if (dirty) setConfirmReload(true); else void reload(); }}>最新の設定を再読み込み</Button>
