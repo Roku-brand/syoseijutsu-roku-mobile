@@ -102,6 +102,7 @@ type AppStateContextValue = PersistedState & {
   updatePersonalMemo: (id: string, text: string, folderId: string | null) => void;
   removePersonalMemo: (id: string) => void;
   createPersonalMemoFolder: (name: string) => string | null;
+  renamePersonalMemoFolder: (id: string, name: string) => void;
   deletePersonalMemoFolder: (id: string) => void;
   movePersonalMemo: (memoId: string, folderId: string | null) => void;
   answerLearningCase: (caseId: string, choiceId: LearningRecord['choiceId']) => void;
@@ -377,7 +378,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         text: value,
         folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
         createdAt: new Date().toISOString(),
-      }, ...current.personalMemos].slice(0, 100),
+      }, ...current.personalMemos],
     }));
   }, []);
 
@@ -418,6 +419,12 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       personalMemoFolders: current.personalMemoFolders.filter((folder) => folder.id !== id),
       personalMemos: current.personalMemos.map((memo) => memo.folderId === id ? { ...memo, folderId: null } : memo),
     }));
+  }, []);
+
+  const renamePersonalMemoFolder = useCallback((id: string, name: string) => {
+    const value = name.trim().slice(0, 32);
+    if (!value) return;
+    setState(current => ({ ...current, personalMemoFolders: current.personalMemoFolders.map(folder => folder.id === id ? { ...folder, name: value } : folder) }));
   }, []);
 
   const movePersonalMemo = useCallback((memoId: string, folderId: string | null) => {
@@ -477,6 +484,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalMemo,
       removePersonalMemo,
       createPersonalMemoFolder,
+      renamePersonalMemoFolder,
       deletePersonalMemoFolder,
       movePersonalMemo,
       answerLearningCase,
@@ -505,6 +513,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       updatePersonalMemo,
       removePersonalMemo,
       createPersonalMemoFolder,
+      renamePersonalMemoFolder,
       deletePersonalMemoFolder,
       movePersonalMemo,
       answerLearningCase,

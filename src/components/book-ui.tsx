@@ -30,6 +30,7 @@ import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { HeaderSearchAction } from './header-search-action';
+import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
 const appIcon = require('../../assets/brand/icon.png');
@@ -118,7 +119,7 @@ export function BookHeader() {
       router.back();
       return;
     }
-    router.replace(learningCaseHeader ? '/learn' : featureDetailHeader ? '/features' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
+    router.replace(['/library', '/history', '/my-techniques'].includes(pathname) ? '/my-os' : learningCaseHeader ? '/learn' : featureDetailHeader ? '/features' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
   };
 
   return (
@@ -198,17 +199,20 @@ export function SaveDiamondButton({
   onPress,
   label,
   compact = false,
+  accessibilityLabel,
 }: {
   saved: boolean;
   onPress: () => void;
   label?: string;
   compact?: boolean;
+  accessibilityLabel?: string;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={saved ? '蔵書から外す' : '蔵書に保存'}
+      accessibilityLabel={accessibilityLabel ?? (saved ? '蔵書から外す' : '蔵書に保存')}
       accessibilityState={{ selected: saved }}
+      aria-pressed={saved}
       onPress={onPress}
       hitSlop={compact ? 6 : 8}
       style={({ pressed }) => [
@@ -217,7 +221,7 @@ export function SaveDiamondButton({
         pressed && styles.saveDiamondButtonPressed,
       ]}
     >
-      <View style={[styles.saveDiamond, saved && styles.saveDiamondFilled]} />
+      <SaveDiamond saved={saved} />
       {label ? (
         <AppText style={[styles.saveDiamondLabel, saved && styles.saveDiamondLabelSaved]}>
           {label}
@@ -314,7 +318,7 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
         onPress={toggle}
         style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
       >
-        <View style={[styles.saveDiamond, isSaved && styles.saveDiamondFilled]} />
+        <SaveDiamond saved={isSaved} />
       </Pressable>
       <Pressable
         accessibilityRole="button"
@@ -370,8 +374,8 @@ function getCurrentTitle(pathname: string) {
     pathname.includes('/topic/')
   ) return '探す';
   if (pathname.includes('/my-techniques')) return 'マイ処世術';
-  if (pathname.includes('/library')) return '蔵書';
-  if (pathname.includes('/history')) return '履歴';
+  if (pathname.includes('/library')) return 'お気に入り';
+  if (pathname.includes('/history')) return '閲覧履歴';
   if (pathname.includes('/my-os')) return 'マイページ';
   if (pathname.includes('/learn')) return '学ぶ';
   if (pathname.includes('/auth')) return 'アカウント';
@@ -1047,23 +1051,15 @@ const styles = StyleSheet.create({
   },
   indexChevron: { color: colors.goldDeep, fontSize: 32, lineHeight: 36 },
   saveDiamondButton: {
-    minHeight: 30,
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 7,
     paddingHorizontal: 4,
   },
-  saveDiamondButtonCompact: { width: 30, paddingHorizontal: 0 },
+  saveDiamondButtonCompact: { width: 44, paddingHorizontal: 0 },
   saveDiamondButtonPressed: { opacity: 0.78, transform: [{ scale: 0.94 }] },
-  saveDiamond: {
-    width: 15,
-    height: 15,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    transform: [{ rotate: '45deg' }],
-  },
-  saveDiamondFilled: { backgroundColor: colors.gold },
   saveDiamondLabel: { color: colors.goldLight, fontSize: 11, lineHeight: 16, fontWeight: '700' },
   saveDiamondLabelSaved: { color: colors.goldLight },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },

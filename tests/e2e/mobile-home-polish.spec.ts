@@ -69,7 +69,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await page.getByTestId('home-create-technique').click();
   await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('一呼吸おいてから返事する');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
-  await expect(page.getByText('一呼吸おいてから返事する', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '一呼吸おいてから返事するを編集', exact: true })).toBeVisible();
   await page.getByTestId('book-header-back').click();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
 });

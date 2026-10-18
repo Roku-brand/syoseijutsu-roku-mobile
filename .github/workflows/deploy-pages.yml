@@ -139,6 +139,8 @@ jobs:
         run: pnpm test:search
       - name: Verify CMS publication and error handling
         run: pnpm test:cms
+      - name: Verify personal dashboard data projections
+        run: pnpm test:personal-dashboard
 
       - name: Test canonical theory taxonomy and legacy compatibility
         run: pnpm test:theory-taxonomy
