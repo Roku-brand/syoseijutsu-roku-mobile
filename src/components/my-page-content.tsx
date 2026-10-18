@@ -107,7 +107,7 @@ function suggestedName(email?: string | null) { return email?.split('@')[0] || '
 function ProfileMark({ avatarUrl }: { avatarUrl?: string | null }) {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 768;
-  return <View accessibilityElementsHidden style={[styles.profileMark, compact && styles.profileMarkMobile]}>{avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.profileImage} /> : <View style={styles.compassGlyph}><View style={styles.compassRing} /><View style={styles.compassHorizontal} /><View style={styles.compassVertical} /><View style={styles.compassCenter} /></View>}</View>;
+  return <View accessibilityElementsHidden style={[styles.profileMark, compact && styles.profileMarkMobile]}>{avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.profileImage} /> : <View testID="profile-avatar-fallback" style={styles.personGlyph}><View style={styles.personHead} /><View style={styles.personShoulders} /></View>}</View>;
 }
 
 
@@ -131,11 +131,9 @@ const styles = StyleSheet.create({
   principleRule: { width: 30, height: 1, backgroundColor: '#B78C48' },
   scrollLandscape: { position: 'absolute', top: '21%', bottom: '20%', right: '3%', width: '55%', opacity: 0.24, overflow: 'hidden' },
   crown: { color: colors.gold, fontSize: 20, lineHeight: 22 },
-  compassGlyph: { width: 62, height: 62, alignItems: 'center', justifyContent: 'center' },
-  compassRing: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: '#A92835' },
-  compassHorizontal: { position: 'absolute', width: 62, height: 2, backgroundColor: '#A92835' },
-  compassVertical: { position: 'absolute', height: 62, width: 2, backgroundColor: '#A92835' },
-  compassCenter: { position: 'absolute', width: 9, height: 9, borderRadius: 5, backgroundColor: '#A92835', borderWidth: 2, borderColor: '#FFFDFC' },
+  personGlyph: { width: 44, height: 44, alignItems: 'center' },
+  personHead: { position: 'absolute', top: 2, width: 18, height: 18, borderRadius: 9, backgroundColor: colors.muted },
+  personShoulders: { position: 'absolute', bottom: 0, width: 38, height: 21, borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, backgroundColor: colors.muted },
   dashboard: { width: '100%' },
   profileCard: { backgroundColor: colors.paper },
   profileRow: { minHeight: 100, paddingHorizontal: 0, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12 },

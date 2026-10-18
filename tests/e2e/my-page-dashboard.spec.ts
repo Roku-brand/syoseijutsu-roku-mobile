@@ -19,6 +19,7 @@ for (const width of [320, 375, 430, 1440]) test(`ダッシュボードの順序�
   const sources = new Map<string, string | null>();
   for (const category of ['interpersonal', 'work', 'life']) sources.set(category, await page.getByTestId(`category-art-${category}`).locator('img').getAttribute('src'));
   await page.goto('/my-os');
+  await expect(page.getByTestId('profile-avatar-fallback')).toBeVisible();
   await expect(page.getByTestId('my-page-tabs')).toHaveCount(0);
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(3);
   await expect(page.locator('[data-testid="personal-memo-card"]:visible').first()).toContainText('気づき 3');
