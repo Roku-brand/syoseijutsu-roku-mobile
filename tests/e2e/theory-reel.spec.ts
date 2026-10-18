@@ -5,6 +5,29 @@ const theories=JSON.parse(fs.readFileSync('src/data/generated/theories.json','ut
 for(const width of [320,393,768,1440])test(`内部分類リールの横移動・URL・復元・件数・フォーカス ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:900});
   await page.route('**/rest/v1/**',r=>r.fulfill({status:503,json:{}}));
+  await page.goto('/theories');
+  await page.getByRole('button',{name:'心理学で理論を絞り込む',exact:true}).click();
+  const growth=page.getByRole('button',{name:'自己理解・成長で内部分類を絞り込む',exact:true});
+  const track=page.getByTestId('theory-subcategory-scroll');
+  // Leave the next tab partly visible at the edge of a settled snap position.
+  const edgeOffset=await growth.evaluate(el=>{
+    const previous=el.previousElementSibling as HTMLElement,viewport=el.parentElement!.parentElement!;
+    const offset=Math.max(0,previous.offsetLeft+previous.offsetWidth/2-viewport.clientWidth/2);
+    viewport.scrollLeft=offset;return offset;
+  });
+  await expect.poll(async()=>Math.abs((await track.evaluate(el=>el.scrollLeft))-edgeOffset)).toBeLessThanOrEqual(2);
+  const beforePress=(await growth.boundingBox())!;
+  const viewport=(await track.boundingBox())!;
+  const pressLeft=Math.max(viewport.x,beforePress.x),pressRight=Math.min(viewport.x+viewport.width,beforePress.x+beforePress.width);
+  expect(pressRight-pressLeft).toBeGreaterThan(5);
+  await page.mouse.move((pressLeft+pressRight)/2,beforePress.y+beforePress.height/2);
+  await page.mouse.down();
+  await page.evaluate(()=>new Promise<void>(resolve=>{ requestAnimationFrame(()=>resolve()); }));
+  const duringPress=(await growth.boundingBox())!;
+  await page.mouse.up();
+  expect(Math.abs(duringPress.x-beforePress.x)).toBeLessThanOrEqual(2);
+  await expect(page).toHaveURL(/subcategory=psychology-s/);
+  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(theories.filter((t:{subcategoryId:string})=>t.subcategoryId==='psychology-s').length);
   await page.goto('/theories?category=psychology&subcategory=psychology-life');
   const tabs=page.getByTestId('theory-subcategory-tab');
   await expect(tabs).toHaveCount(9);

@@ -26,7 +26,9 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     const x = outside ? layout.x + layout.width / 2 - viewport / 2 : offset.current;
     scroll.current?.scrollTo({ x: Math.max(0, Math.min(x, contentWidth - viewport)), animated: false });
   }, [viewport, contentWidth]);
-  useEffect(() => { reveal(key); }, [key, signature, reveal]);
+  // Initial "all" already starts at zero. Do not move the track while a user
+  // is pressing another tab as the first content/layout measurements arrive.
+  useEffect(() => { if (selected !== undefined) reveal(key); }, [key, selected, signature, reveal]);
   const left = position > 2;
   const right = position + viewport < contentWidth - 2;
   const overflow = contentWidth > outerWidth + 2;
@@ -45,9 +47,11 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
         const active = id === key;
         return <Pressable key={id} testID="theory-subcategory-tab" accessibilityRole="button"
           accessibilityLabel={`${option.title}で内部分類を絞り込む`} accessibilityState={{ selected: active }} aria-selected={active}
-          onLayout={event => { layouts.current.set(id, event.nativeEvent.layout); if (id === key) reveal(id); }}
-          onFocus={() => { setFocused(id); reveal(id); }} onBlur={() => setFocused(undefined)}
-          onPress={() => onSelect(option.subcategoryId)}
+          onLayout={event => { layouts.current.set(id, event.nativeEvent.layout); if (id === key && selected !== undefined) reveal(id); }}
+          // Browser keyboard focus scrolls into view itself. Moving the track
+          // on pointer focus can cancel Pressable before pointer-up arrives.
+          onFocus={() => setFocused(id)} onBlur={() => setFocused(undefined)}
+          onPress={() => { onSelect(option.subcategoryId); reveal(id); }}
           style={({ pressed }) => [styles.tab, Platform.OS === 'web' && ({ scrollSnapAlign: 'center' } as ViewStyle), active && styles.active, focused === id && styles.focused, pressed && styles.pressed]}>
           <AppText style={[styles.label, active && styles.activeText]}>{option.title}</AppText>
           <AppText style={[styles.count, active && styles.activeText]}>{option.items.length}</AppText>
