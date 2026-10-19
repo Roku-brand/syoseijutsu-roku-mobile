@@ -14,7 +14,7 @@ import { isLockedTheoryShell } from '../../data/theory-display';
 import type { CategoryKey, TechniqueCard, TheoryCard } from '../../data/types';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { useAppState } from '../../state/app-state';
-import { colors, fonts } from '../../constants/theme';
+import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
 
@@ -104,6 +104,7 @@ export default function HomeScreen() {
     <BookScreen contentContainerStyle={[styles.page, desktop && styles.pageDesktop]}>
       <HomeHeroCarousel desktop={desktop} catalogRevision={catalogRevision} />
 
+      <View style={[styles.body, width < 700 && styles.bodyCompact]}>
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
@@ -145,6 +146,7 @@ export default function HomeScreen() {
         </Pressable>}
       </HomeSection>
 
+      </View>
       <PrinciplesModal visible={principlesVisible} compact={!desktop} onClose={() => setPrinciplesVisible(false)} />
     </BookScreen>
   );
@@ -172,7 +174,9 @@ function ContentCard({ item, width, onPress, testID }: { item: HomeContent; widt
 }
 
 const styles = StyleSheet.create({
-  page: { paddingTop: 8, paddingBottom: 30 }, pageDesktop: { paddingTop: 20, paddingBottom: 48 },
+  page: { maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: 30 }, pageDesktop: { paddingBottom: 48 },
+  body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
+  bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
   shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
   shortcut: { flex: 1, minWidth: 0, height: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },

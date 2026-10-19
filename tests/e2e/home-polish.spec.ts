@@ -1,5 +1,42 @@
 import { expect, test } from '@playwright/test';
 
+test('ホームリールは画面の横幅いっぱいに表示しページ位置の点を控えめにする', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
+  for (const width of [320, 390, 768, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/');
+    const viewport = page.getByTestId('home-brand-viewport');
+    await expect(viewport).toBeVisible();
+    await expect(async () => {
+      const box = (await viewport.boundingBox())!;
+      expect(Math.abs(box.x)).toBeLessThan(1);
+      expect(Math.abs(box.width - width)).toBeLessThan(1);
+      const header = (await page.getByTestId('book-header').boundingBox())!;
+      expect(Math.abs(box.y - header.y - header.height)).toBeLessThan(1);
+    }).toPass();
+    const indicators = page.getByTestId('home-brand-indicators');
+    const indicatorBox = (await indicators.boundingBox())!;
+    expect(indicatorBox.width).toBeLessThanOrEqual(110);
+    expect(indicatorBox.height).toBeLessThanOrEqual(16);
+    await expect(indicators.getByRole('tab')).toHaveCount(7);
+    for (let index = 1; index <= 7; index++) {
+      await indicators.getByRole('tab', { name: `${index}枚目を表示`, exact: true }).click();
+      await expect(indicators.getByRole('tab', { name: `${index}枚目を表示`, exact: true })).toHaveAttribute('aria-selected', 'true');
+      const slide = page.getByTestId(`home-brand-slide-${index}`);
+      expect(await slide.evaluate(el => getComputedStyle(el).borderTopLeftRadius)).toBe('0px');
+      for (const dot of await page.getByTestId('home-brand-indicator-dot').all()) {
+        const box = (await dot.boundingBox())!;
+        expect(box.height).toBeLessThanOrEqual(3);
+        expect(box.width).toBeLessThanOrEqual(8);
+      }
+    }
+    await indicators.getByRole('tab', { name: '1枚目を表示', exact: true }).click();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({ path: test.info().outputPath(`full-width-home-${width}.png`) });
+  }
+});
+
 test('完全版の価格は詳しく見るの左に並び、スマホの画像を白く覆わない', async ({ page }) => {
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });

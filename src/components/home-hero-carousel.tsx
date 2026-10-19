@@ -574,7 +574,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           accessibilityLabel="前のスライド"
           accessibilityHint="前のスライドへ移動します。1枚目の前は最後のスライドへ戻ります。"
           onPress={() => moveTo(activeIndexRef.current - 1)}
-          style={({ pressed }) => [styles.arrow, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, styles.arrowPrevious, pressed && styles.pressed]}
         ><Text style={styles.arrowText}>‹</Text></Pressable> : null}
         <View
           style={styles.viewport}
@@ -606,7 +606,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
           <View pointerEvents="box-none" style={styles.dotsOverlay}>
-            <View accessibilityRole="tablist" style={styles.dots}>
+            <View testID="home-brand-indicators" accessibilityRole="tablist" style={styles.dots}>
               {slides.map((slide, index) => (
                 <Pressable
                   key={slide.type}
@@ -614,9 +614,10 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
                   accessibilityLabel={`${index + 1}枚目を表示`}
                   accessibilityState={{ selected: index === activeIndex }}
                   aria-selected={index === activeIndex}
+                  hitSlop={{ top: 9, bottom: 9 }}
                   onPress={() => moveTo(index, false)}
-                  style={[styles.dotTouch, index === activeIndex && styles.dotTouchActive]}
-                ><View style={[styles.dot, index === activeIndex && styles.dotActive]} /></Pressable>
+                  style={styles.dotTouch}
+                ><View testID="home-brand-indicator-dot" style={[styles.dot, index === activeIndex && styles.dotActive]} /></Pressable>
               ))}
             </View>
           </View>
@@ -626,7 +627,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
           accessibilityLabel="次のスライド"
           accessibilityHint="次のスライドへ移動します。最後のスライドの次は1枚目へ戻ります。"
           onPress={() => moveTo(activeIndexRef.current + 1)}
-          style={({ pressed }) => [styles.arrow, pressed && styles.pressed]}
+          style={({ pressed }) => [styles.arrow, styles.arrowNext, pressed && styles.pressed]}
         ><Text style={styles.arrowText}>›</Text></Pressable> : null}
       </View>
     </View>
@@ -635,11 +636,11 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
 
 const styles = StyleSheet.create({
   carousel: { width: '100%' },
-  carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', gap: 12 },
+  carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', position: 'relative' },
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
-  slide: { backgroundColor: '#FCF8EF', borderColor: '#D8C9AE', borderRadius: 20, borderWidth: 1, minHeight: 380, overflow: 'hidden', position: 'relative', ...bookCardShadow },
-  slideMobile: { aspectRatio: 1.7, borderRadius: 14, minHeight: 205 },
+  slide: { backgroundColor: '#FCF8EF', minHeight: 380, overflow: 'hidden', position: 'relative' },
+  slideMobile: { aspectRatio: 1.7, minHeight: 205 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
@@ -808,12 +809,13 @@ const styles = StyleSheet.create({
   rokumaruMessageMobile: { fontSize: 12, lineHeight: 20, marginTop: 4, maxWidth: 112 },
   rokumaru: { bottom: 0, height: 380, position: 'absolute', right: 22, width: 380 },
   rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
-  arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.98)', borderColor: '#C8AF7B', borderRadius: 27, borderWidth: 1, flexShrink: 0, height: 54, justifyContent: 'center', width: 54, ...bookCardShadow },
+  arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.9)', borderColor: '#C8AF7B', borderRadius: 22, borderWidth: 1, height: 44, justifyContent: 'center', width: 44, position: 'absolute', top: '50%', marginTop: -22, zIndex: 4, ...bookCardShadow },
+  arrowPrevious: { left: 8 },
+  arrowNext: { right: 8 },
   arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
-  dotsOverlay: { alignItems: 'center', bottom: 5, left: 0, position: 'absolute', right: 0, zIndex: 3 },
-  dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.5)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 4 },
-  dotTouch: { alignItems: 'center', height: 22, justifyContent: 'center', width: 20 },
-  dotTouchActive: { width: 30 },
-  dot: { backgroundColor: '#E9E3D8', borderRadius: 4, height: 6, width: 6 },
-  dotActive: { backgroundColor: '#D9AF60', height: 6, width: 16 },
+  dotsOverlay: { alignItems: 'center', bottom: 4, left: 0, position: 'absolute', right: 0, zIndex: 3 },
+  dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.2)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 3 },
+  dotTouch: { alignItems: 'center', height: 16, justifyContent: 'center', width: 14 },
+  dot: { backgroundColor: '#E9E3D8', borderRadius: 2, height: 3, width: 3 },
+  dotActive: { backgroundColor: '#D9AF60', width: 8 },
 });
