@@ -122,12 +122,15 @@ for(const width of [320,393,768,1440])test(`長いスワイプとトラックパ
   await swipe(right,y,left,y,true);await atStop(scroll,0);
   // A wheel burst, including its decaying tail, advances just one item.
   await page.mouse.move((left+right)/2,y);
-  for(const delta of [900,500,120,20]){
-    await page.mouse.wheel(delta,0);
-    await page.waitForTimeout(40);
+  // Timestamp the native input events so slow driver round trips cannot turn
+  // this continuous burst into separate gestures. Keep subsequent real wheel
+  // input outside the burst's final timestamp plus its idle interval.
+  const burstStart=Date.now()/1000;
+  for(const [index,delta] of [900,500,120,20].entries()){
+    await session.send('Input.dispatchMouseEvent',{type:'mouseWheel',x:(left+right)/2,y,deltaX:delta,deltaY:0,timestamp:burstStart+index*0.04});
   }
   await atStop(scroll,stops[1]);
-  await page.waitForTimeout(220);
+  await page.waitForTimeout(340);
   await page.mouse.wheel(900,0);await atStop(scroll,stops[2]);
   await page.waitForTimeout(220);
   await page.mouse.wheel(-900,0);await atStop(scroll,stops[1]);
