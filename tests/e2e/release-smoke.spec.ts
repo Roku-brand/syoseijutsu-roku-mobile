@@ -171,7 +171,7 @@ test('理論詳細は概要・処世術・理論・情報の順で、概要を2�
   await page.goto('/theory/kb_008');
   const summary = page.getByTestId('theory-summary');
   await expect(summary).toBeVisible();
-  expect(await summary.innerText()).toContain('自分の考えや経験を適度に開示すると、相手も同程度の自己開示を返しやすくなる傾向。\n親密さは一方的ではなく段階的に深まる。');
+  expect(await summary.innerText()).toContain('自分が考えや経験を適度に話すと、相手も同じ程度に自分のことを話しやすくなる傾向。\nやり取りを重ねながら親密さが深まる。');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
   expect(article.indexOf('自己開示の返報性とは')).toBeGreaterThan(0);
   expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
