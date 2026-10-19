@@ -10,9 +10,11 @@ test('ホームリールは画面の横幅いっぱいに表示しページ位�
     await expect(viewport).toBeVisible();
     await expect(async () => {
       const box = (await viewport.boundingBox())!;
-      expect(Math.abs(box.x)).toBeLessThan(1);
-      expect(Math.abs(box.width - width)).toBeLessThan(1);
       const header = (await page.getByTestId('book-header').boundingBox())!;
+      // Desktop keeps its existing sidebar; the reel fills the content pane.
+      expect(Math.abs(box.x - header.x)).toBeLessThan(1);
+      expect(Math.abs(box.width - header.width)).toBeLessThan(1);
+      if (width < 1000) expect(Math.abs(box.width - width)).toBeLessThan(1);
       expect(Math.abs(box.y - header.y - header.height)).toBeLessThan(1);
     }).toPass();
     const indicators = page.getByTestId('home-brand-indicators');
