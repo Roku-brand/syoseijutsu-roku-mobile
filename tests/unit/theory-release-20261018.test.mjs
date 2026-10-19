@@ -11,6 +11,7 @@ const full=read('src/data/generated/theories.json');
 const shells=read('src/data/generated/theories.public.json');
 const release=read('docs/content/theory-release-20261018-changes.json');
 const byId=new Map(full.map(t=>[t.tagId,t]));
+const summaryReviews=new Map(read('docs/content/theory-summary-review-20261019.json').changes.map(t=>[t.id,t]));
 const {validateTheoryForPublish}=await import('../../src/data/content-editor-schema.ts');
 const {normalizeSearchText,scoreSearchDocument}=await import('../../src/data/search-ranking.ts');
 const {getSearchResults}=await import('../../src/data/search-catalog.ts');
@@ -20,7 +21,12 @@ test('821 stable identities and original bodies survive, with only reviewed fiel
   const before=read('docs/content/theory-release-20261018-snapshot.json')['src/data/generated/theories.json'];
   assert.equal(before.length,821);
   for(const old of before){const now=byId.get(old.tagId);assert.ok(now,old.tagId);
-    for(const key of Object.keys(old).filter(k=>!['aliases','relatedTheoryIds','displayId','displayOrder','sortOrder'].includes(k)))assert.deepEqual(now[key],old[key],old.tagId+'/'+key);
+    for(const key of Object.keys(old).filter(k=>!['aliases','relatedTheoryIds','displayId','displayOrder','sortOrder'].includes(k))) {
+      const reviewed=summaryReviews.get(old.tagId);
+      if(key==='summary'&&reviewed) {assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
+      if(key==='quotation'&&reviewed?.contextNote) {assert.deepEqual(now.quotation,{...old.quotation,contextNote:reviewed.contextNote});continue;}
+      assert.deepEqual(now[key],old[key],old.tagId+'/'+key);
+    }
     for(const id of old.relatedTheoryIds??[])assert.ok(now.relatedTheoryIds.includes(id));
   }
 });
@@ -52,7 +58,12 @@ test('release has exactly 124 distinct, sourced, editable cards in the six exist
   const sections=read('src/data/generated/theory-subcategories.json');assert.equal(sections.length,36);
   const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
   for(const row of release.additions){
-    const t=byId.get(row.id);assert.ok(!retired.has(t.tagId));assert.ok(t.summary.length>=150,t.title);
+    const t=byId.get(row.id);assert.ok(!retired.has(t.tagId));
+    const reviewed=summaryReviews.get(t.tagId);
+    if(reviewed) {
+      assert.equal(reviewed.beforeSummary,additions.find(a=>a.title===t.title).summary);
+      assert.equal(t.summary,reviewed.summary);assert.ok(t.summary.length>=30&&t.summary.length<=150,t.title);
+    } else assert.ok(t.summary.length>=150,t.title);
     assert.deepEqual(validateTheoryForPublish(t),[],t.title);
     assert.ok(t.aliases.length && t.relatedTheoryIds.length && t.provenance.note,t.title);
     assert.ok(t.provenance.attribution && t.provenance.works.length);

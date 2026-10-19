@@ -38,6 +38,12 @@ try {
  console.log('migration passed');
  assert.equal((await db.query("select count(*)::int n from public.theories where status='published'")).rows[0].n,945);
  for(const item of release.additions){const row=(await db.query('select * from public.theories where id=$1',[item.id])).rows[0];assert.equal(row.title,item.title);assert.equal(row.access_tier,'complete');assert.ok(row.provenance.sources.length);}
+ // The editorial update follows the 945-card release and must keep the same access policies and paid projection.
+ await db.exec(fs.readFileSync('supabase/migrations/20261018163911_theory_summary_editorial_polish.sql','utf8'));
+ for(const row of read('docs/content/theory-summary-review-20261019.json').changes) {
+  const canonical=(await db.query('select summary from public.theories where id=$1',[row.id])).rows[0];
+  assert.equal(canonical.summary,row.summary,row.id);
+ }
  await db.exec(`grant usage on schema public to anon,authenticated;grant select on public.public_theories,public.theories,public.paid_content to anon,authenticated;
  alter table public.theories enable row level security;create policy read_theories on public.theories for select to anon,authenticated using(status='published' and(access_tier='free' or public.can_read_complete_content()));
  alter table public.paid_content enable row level security;create policy read_paid on public.paid_content for select to authenticated using(public.can_read_complete_content());set role anon;`);
@@ -64,6 +70,7 @@ try {
  await db.exec('rollback');
  console.log('CMS passed');
  await db.exec('reset role');
+ await db.exec(fs.readFileSync('docs/content/theory-summary-rollback-20261019.sql','utf8'));
  await db.exec("begin;update public.theories set summary=summary||' CMS edit' where id='kb_957'");await assert.rejects(db.exec(rollback),/Later theory edit/);await db.exec('rollback');
  await db.exec('reset role');
  await db.exec(rollback);

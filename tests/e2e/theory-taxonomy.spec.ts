@@ -41,6 +41,20 @@ test('格言は承認済みの言葉を見出しにし、ことわざと格言�
  await expect(cards).toHaveCount(rows.filter((t:any)=>t.subcategoryId==='classics-thought-p').length);
  await expect(cards.getByText('人間万事塞翁が馬',{exact:true})).toBeVisible();
 });
+test('概要は冒頭で核を示し、格言の言葉・出典と短い意味説明を分けて表示する',async({page})=>{
+ await mockOwner(page);
+ await page.setViewportSize({width:390,height:844});
+ for(const id of ['kb_389','kb_595','theory-b16cc75c-68d0-4873-b989-2ed788bd404b']) {
+  const row=rows.find((t:any)=>t.tagId===id);
+  await page.goto(`/theory/${id}`);
+  await expect(page.getByTestId('theory-title')).toHaveText(row.title);
+  const copy=row.quotation?.contextNote??row.summary;
+  await expect(page.getByTestId('theory-summary')).toContainText(copy.split('。')[0]+'。');
+  await expect(page.getByTestId('theory-summary')).not.toContainText('法則ではない');
+  if(row.quotation) await expect(page.getByTestId('quotation-attribution')).toContainText(row.quotation.author);
+  await page.screenshot({path:test.info().outputPath(`summary-${id}.png`)});
+ }
+});
 async function mockOwner(page:any){
  const user={id:'00000000-0000-4000-8000-000000000003',aud:'authenticated',role:'authenticated',email:'taxonomy@example.invalid',app_metadata:{},user_metadata:{},created_at:'2026-01-01T00:00:00Z'};
  const token='eyJhbGciOiJIUzI1NiJ9.'+Buffer.from(JSON.stringify({sub:user.id,role:'authenticated',exp:4102444800})).toString('base64url')+'.test';
