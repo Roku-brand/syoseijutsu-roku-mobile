@@ -10,7 +10,7 @@ test('処世術一覧の入口は3つの人物像ボタンの下に並び、ス�
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/discover');
     const grid = page.getByTestId('discover-technique-grid');
-    const link = page.getByRole('link', { name: '処世術一覧', exact: true });
+    const link = page.getByRole('link', { name: '全処世術一覧', exact: true });
     await expect(grid.getByRole('link')).toHaveCount(3);
     const [buttons, entry, theories] = await Promise.all([grid.boundingBox(), link.boundingBox(), page.getByTestId('discover-theory-grid').boundingBox()]);
     expect(buttons!.y + buttons!.height).toBeLessThan(entry!.y);

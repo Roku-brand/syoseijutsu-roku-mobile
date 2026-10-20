@@ -56,8 +56,8 @@ export async function hydratePublishedContent(force = false): Promise<boolean> {
       relatedTheoryIds: Array.isArray(row.theory_ids) ? row.theory_ids as string[] : [],
       categoryKey: row.category as PaidTechniquePayload['categoryKey'],
       categoryName: row.category as string,
-      subcategory: row.persona_id as string,
-      articleTitle: row.persona_id as string,
+      subcategory: typeof row.persona_id === 'string' ? row.persona_id : '',
+      articleTitle: typeof row.persona_id === 'string' ? row.persona_id : '',
       practicalActions: resolved?.practicalActions ?? {
         todayActions: Array.isArray(row.practices) ? row.practices as string[] : [],
         examples: Array.isArray(row.examples) ? row.examples as string[] : [],

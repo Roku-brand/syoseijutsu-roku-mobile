@@ -15,6 +15,8 @@ import { TechniqueTitle } from '@/components/technique-title';
 const PAGE_SIZE = 100;
 
 export default function TechniqueIndexScreen() {
+  'use no memo';
+  // The mutable catalogue is invalidated by catalogRevision after a public sync.
   const params = useLocalSearchParams<{ category?: string; q?: string; page?: string }>();
   const router = useRouter();
   const { accessState, catalogRevision } = useAccess();
@@ -64,7 +66,7 @@ function TechniqueIndexRow({ card, readable }: { card: TechniqueCard; readable: 
     <Pressable testID="technique-index-row" accessibilityRole="link" accessibilityLabel={`${displayId} ${title}を開く`} style={styles.row}>
       <AppText testID="technique-index-id" style={styles.code}>{displayId}</AppText>
       <View style={styles.copy}>
-        <AppText style={styles.meta}>{card.categoryName} · {card.subcategory}</AppText>
+        <AppText style={styles.meta}>{card.categoryName} · {card.subcategory || '独立した処世術'}</AppText>
         <TechniqueTitle testID="technique-index-title" title={title} minimumFontSize={14} style={styles.title} />
         {!readable ? <AppText style={styles.note}>完全版で読む</AppText> : null}
       </View>

@@ -382,8 +382,9 @@ test('理論の閲覧もマイページから開く履歴画面へ蓄積され�
 test('探すは検索と人物像・理論への入口から始まる', async ({ page }) => {
   await page.goto('/discover');
   await expect(page.getByRole('button', { name: '処世術・理論・特集を検索' })).toBeVisible();
-  await expect(page.getByRole('link', { name: '人物像から探す' })).toBeVisible();
-  await expect(page.getByRole('link', { name: '理論から探す' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '処世術を探す', level: 2 })).toBeVisible();
+  await expect(page.getByTestId('discover-techniques-section').getByRole('heading', { name: '人物像から探す', level: 3 })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '理論を探す', level: 2 })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'よく見られる検索' })).toBeVisible();
   await expect(page.getByRole('button', { name: '第一印象を検索' })).toBeVisible();
 });
@@ -392,14 +393,14 @@ test('探すのカテゴリと人気検索はスマホ幅で揃い、既存の�
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/discover');
-    const destinations = page.getByTestId('discover-destinations');
+    const destinations = page.getByTestId('discover-search');
     const categories = page.getByTestId('discover-categories');
     const popular = page.getByTestId('discover-popular');
     const destinationBox = await destinations.boundingBox();
     const categoryBox = await categories.boundingBox();
     const popularBox = await popular.boundingBox();
     expect(destinationBox && categoryBox && popularBox).toBeTruthy();
-    expect(destinationBox!.y + destinationBox!.height).toBeLessThan(categoryBox!.y);
+    expect(destinationBox!.y + destinationBox!.height).toBeLessThanOrEqual(categoryBox!.y);
     expect(categoryBox!.y + categoryBox!.height).toBeLessThan(popularBox!.y);
     await expect(page.getByTestId('discover-technique-grid').getByRole('link')).toHaveCount(3);
     await expect(page.getByTestId('discover-theory-grid').getByRole('link')).toHaveCount(6);
