@@ -60,7 +60,7 @@ function TechniqueIndexRow({ card, readable }: { card: TechniqueCard; readable: 
   const title = readable ? card.title : '完全版の処世術';
   const displayId = getTechniqueDisplayId(card);
   return <Link href={techniqueRoute(card.id)} asChild>
-    <Pressable testID="technique-index-row" accessibilityRole="link" accessibilityLabel={`${displayId} ${title}を開く`} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
+    <Pressable testID="technique-index-row" accessibilityRole="link" accessibilityLabel={`${displayId} ${title}を開く`} style={styles.row}>
       <AppText testID="technique-index-id" style={styles.code}>{displayId}</AppText>
       <View style={styles.copy}>
         <AppText style={styles.meta}>{card.categoryName} · {card.subcategory}</AppText>
@@ -95,6 +95,5 @@ const styles = StyleSheet.create({
   meta: { color: colors.muted, fontSize: 11, lineHeight: 18 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '700' },
   arrow: { color: colors.goldDeep, fontSize: 26, lineHeight: 30 },
-  pressed: { opacity: 0.7 },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });

@@ -22,6 +22,9 @@ test('処世術一覧の入口は3つの人物像ボタンの下に並び、ス�
     await expect(page.getByTestId('technique-index-count')).toHaveText('356件');
     await expect(page.getByTestId('technique-index-row')).toHaveCount(100);
     expect(await page.getByTestId('technique-index-id').allTextContents()).toEqual(Array.from({ length: 100 }, (_, i) => `No.${String(i + 1).padStart(3, '0')}`));
+    const [firstRow, firstId] = await Promise.all([page.getByTestId('technique-index-row').first().boundingBox(), page.getByTestId('technique-index-id').first().boundingBox()]);
+    expect(firstRow!.height).toBeLessThanOrEqual(140);
+    expect(Math.abs(firstId!.y + firstId!.height / 2 - firstRow!.y - firstRow!.height / 2)).toBeLessThan(2);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: test.info().outputPath(`technique-index-${width}.png`) });
   }
