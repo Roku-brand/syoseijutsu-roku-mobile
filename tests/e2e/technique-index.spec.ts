@@ -5,17 +5,17 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/functions/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 
-test('処世術一覧の入口は3つの人物像ボタンの下に並び、スマホとPCで開ける', async ({ page }) => {
+test('処世術一覧は見出しのすべて見るからスマホとPCで開ける', async ({ page }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/discover');
     const grid = page.getByTestId('discover-technique-grid');
-    const link = page.getByRole('link', { name: '全処世術一覧', exact: true });
+    const link = page.getByRole('link', { name: 'すべての処世術を見る', exact: true });
+    await expect(page.getByRole('link', { name: '全処世術一覧', exact: true })).toHaveCount(0);
     await expect(grid.getByRole('link')).toHaveCount(3);
-    const [buttons, entry, theories] = await Promise.all([grid.boundingBox(), link.boundingBox(), page.getByTestId('discover-theory-grid').boundingBox()]);
-    expect(buttons!.y + buttons!.height).toBeLessThan(entry!.y);
-    expect(entry!.y + entry!.height).toBeLessThan(theories!.y);
-    expect(Math.abs(buttons!.width - entry!.width)).toBeLessThan(1);
+    const [buttons, entry] = await Promise.all([grid.boundingBox(), link.boundingBox()]);
+    expect(entry!.y + entry!.height).toBeLessThan(buttons!.y);
+    expect(Math.abs(buttons!.x + buttons!.width - entry!.x - entry!.width)).toBeLessThan(1);
     await link.click();
     await expect(page).toHaveURL(/\/techniques$/);
     await expect(page.getByTestId('book-header')).toContainText('処世術一覧');

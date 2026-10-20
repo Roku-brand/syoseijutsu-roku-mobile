@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { BrandSectionHeading } from '@/components/brand-section-heading';
@@ -32,7 +32,7 @@ export default function DiscoverScreen() {
   };
   const techniqueCards = categoryOrder.map(key => <DiscoveryCategoryCard
     key={key} category={key} title={categoryMeta[key].label}
-    compact={compact} style={compact ? { width: Math.round(Math.min(252, Math.max(188, width * 0.66))) } : styles.gridCard}
+    compact={compact} style={styles.gridCard}
     onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })}
   />);
 
@@ -53,16 +53,9 @@ export default function DiscoverScreen() {
         <BrandSectionHeading title="処世術を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての処世術を見る" onAction={() => router.push(APP_ROUTES.techniques)} />
         <AppText style={styles.sectionDescription}>どのように行動するか</AppText>
         <AppText accessibilityRole="header" aria-level={3} style={styles.subheading}>人物像から探す</AppText>
-        {compact ? <ScrollView horizontal testID="discover-technique-grid" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail} style={styles.railViewport}>
+        <View testID="discover-technique-grid" style={[styles.grid, compact && styles.techniqueGridCompact]}>
           {techniqueCards}
-        </ScrollView> : <View testID="discover-technique-grid" style={styles.grid}>{techniqueCards}</View>}
-        <Pressable testID="discover-technique-index" accessibilityRole="link" accessibilityLabel="全処世術一覧" onPress={() => router.push(APP_ROUTES.techniques)} style={({ pressed }) => [styles.techniqueIndex, pressed && styles.pressed]}>
-          <View style={styles.indexCopy}>
-            <AppText style={[styles.indexTitle, compact && styles.indexTitleCompact]}>全処世術一覧</AppText>
-            <AppText style={[styles.indexNote, narrow && styles.indexNoteNarrow]}>通しIDから探す・すべての処世術を表示</AppText>
-          </View>
-          <AppText accessibilityElementsHidden style={styles.indexArrow}>›</AppText>
-        </Pressable>
+        </View>
       </View>
 
       <View testID="discover-theories-section" style={styles.theorySection}>
@@ -100,13 +93,7 @@ const styles = StyleSheet.create({
   subheading: { marginTop: 18, marginBottom: 12, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
   gridCard: { width: '30%', flexGrow: 1, flexShrink: 1 },
-  rail: { gap: 12, paddingBottom: 2 }, railViewport: { width: '100%' },
-  techniqueIndex: { minHeight: 68, marginTop: 16, paddingHorizontal: 18, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: 14, backgroundColor: colors.paper },
-  indexCopy: { flex: 1, minWidth: 0, gap: 3 },
-  indexTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 25, fontWeight: '700' },
-  indexTitleCompact: { fontSize: 16, lineHeight: 23 },
-  indexNote: { color: colors.muted, fontSize: 12, lineHeight: 18 }, indexNoteNarrow: { fontSize: 11 },
-  indexArrow: { color: colors.goldDeep, fontSize: 26, lineHeight: 30 },
+  techniqueGridCompact: { gap: 8, flexWrap: 'nowrap' },
   theorySection: { marginTop: 36 }, theoryGrid: { marginTop: 18 },
   theoryCardCompact: { width: '46%', flexGrow: 1, flexShrink: 1 },
   popularSection: { marginTop: 32 }, popularTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
