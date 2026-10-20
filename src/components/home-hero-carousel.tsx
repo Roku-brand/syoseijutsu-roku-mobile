@@ -12,6 +12,7 @@ import { APP_ROUTES, personaRoute, techniqueRoute, theoryRoute, upgradeRoute } f
 import { Rokumaru } from './rokumaru';
 import { bookCardShadow } from './book-ui';
 import { colors, fonts } from '@/constants/theme';
+import { TechniqueTitle } from './technique-title';
 
 const techniqueImage = require('../../assets/home/quiet-dialogue-hero.webp');
 const personaImage = require('../../assets/home/persona-washi-portrait.webp');
@@ -159,10 +160,9 @@ export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; des
           今日の一枚｜処世術｜{card.subcategory}
         </Text>
         <View style={[styles.techniqueTitleGroup, !desktop && styles.techniqueTitleGroupMobile]}>
-          <HeroTitle
+          <TechniqueTitle
             title={card.title}
-            desktop={desktop}
-            mobileSize={21}
+            minimumFontSize={14}
             testID="home-brand-technique-title"
             style={[
               styles.darkTitle,

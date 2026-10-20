@@ -23,6 +23,7 @@ import { RelatedContentSection } from '@/components/related-content-list';
 import { RelatedFeatures } from '@/components/related-features';
 import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { contentImageUrl } from '@/lib/content-media';
+import { TechniqueTitle } from '@/components/technique-title';
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -85,8 +86,6 @@ export default function CardDetailScreen() {
   });
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
-  const titleLength = [...card.title.replace(/\s/g, '')].length;
-  const titleFontSize = titleLength <= 18 ? 32 : titleLength <= 24 ? 28 : 23;
 
   const navigateCard = (offset: -1 | 1) => {
     const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
@@ -116,14 +115,14 @@ export default function CardDetailScreen() {
         <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
         {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
 
-        <AppText
+        <TechniqueTitle
+          testID="technique-detail-title"
+          title={card.title}
+          minimumFontSize={20}
           accessibilityRole="header"
           aria-level={1}
-          variant="serif"
-          style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.46) }]}
-        >
-          {card.title}
-        </AppText>
+          style={styles.title}
+        />
 
         {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
 

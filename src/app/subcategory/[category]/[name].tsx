@@ -14,6 +14,7 @@ import { getPersonaPresentation } from '@/data/persona-presentation';
 import { getTechniqueCount } from '@/data/technique-counts';
 import type { CategoryKey, TechniqueSource } from '@/data/types';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { TechniqueTitle } from '@/components/technique-title';
 
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
@@ -78,7 +79,7 @@ export default function PersonaScreen() {
             <Pressable testID={`persona-technique-row-${index + 1}`} accessibilityRole="link" accessibilityLabel={`${String(index + 1).padStart(2, '0')} ${item.title}を開く`} style={({ pressed }) => [styles.row, compact && styles.rowCompact, pressed && styles.rowPressed]}>
               <AppText style={[styles.number, compact && styles.numberCompact]}>{String(index + 1).padStart(2, '0')}</AppText>
               <View style={styles.rowCopy}>
-                <AppText testID={`persona-technique-title-${index + 1}`} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{item.title}</AppText>
+                <TechniqueTitle testID={`persona-technique-title-${index + 1}`} title={item.title} style={[styles.rowTitle, compact && styles.rowTitleCompact]} />
                 <AppText numberOfLines={2} style={styles.rowSummary}>{techniqueSummary(item)}</AppText>
               </View>
               <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText>

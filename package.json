@@ -96,7 +96,7 @@
     "lint": "eslint src scripts tests",
     "test:practical-wisdom": "node --test tests/unit/practical-wisdom-refresh.test.mjs tests/unit/editor-schema.test.mjs tests/unit/secure-theory-hydration.test.mjs tests/unit/content-revision.test.mjs",
     "content:expand-theory-coverage": "node scripts/build-theory-coverage.mjs && node scripts/build-public-catalog.mjs",
-    "test:theory-taxonomy": "node --test tests/unit/theory-taxonomy.test.mjs tests/unit/theory-coverage.test.mjs",
+    "test:theory-taxonomy": "node --test tests/unit/theory-taxonomy.test.mjs tests/unit/theory-coverage.test.mjs tests/unit/technique-title-layout.test.mjs",
     "test:theory-network": "node scripts/verify-original-retirement.mjs && node scripts/verify-theory-network-migration.mjs && node scripts/verify-reviewed-theory-content.mjs",
     "test:content-network": "node --test tests/unit/content-network.test.mjs tests/unit/feature-links.test.mjs && node scripts/verify-cross-content-network.mjs",
     "test:cms": "node --test tests/unit/cms-errors.test.mjs && node scripts/verify-feature-publication-defaults.mjs",

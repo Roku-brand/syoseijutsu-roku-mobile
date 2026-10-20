@@ -17,6 +17,7 @@ import { useAppState } from '../../state/app-state';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
+import { TechniqueTitle } from '../../components/technique-title';
 
 const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
   ...techniqueCategoryImages,
@@ -167,7 +168,7 @@ function ContentCard({ item, width, onPress, testID }: { item: HomeContent; widt
     <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
-      <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>
+      {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
       <Text style={styles.contentLink}>続きを読む →</Text>
     </View>
   </Pressable>;
