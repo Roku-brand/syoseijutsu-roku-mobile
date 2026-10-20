@@ -35,13 +35,15 @@ test('内部分類の選択はURL・分類切り替えに連動し、分類内�
   await page.goto('/theories');
   await expect(page.getByText(`${theories.length}件`, { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '心理学で理論を絞り込む', exact: true }).click();
-  for (let step = 0; step < 3; step++) await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click();
+  await page.getByTestId('theory-subcategory-tab').focus();
+  for (let step = 0; step < 3; step++) await page.keyboard.press('ArrowRight');
   const development = theories.filter((item: any) => item.categoryId === 'psychology' && item.subcategoryTitle === '自己理解・成長');
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(development.length);
   await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
   await page.reload();
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(development.length);
-  await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click();
+  await page.getByTestId('theory-subcategory-tab').focus();
+  await page.keyboard.press('ArrowRight');
   const interpersonal = theories.filter((item: any) => item.subcategoryId === 'psychology-i');
   expect(interpersonal.length).toBeGreaterThan(100);
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(interpersonal.length);

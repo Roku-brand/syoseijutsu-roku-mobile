@@ -18,16 +18,20 @@ for (const width of [320, 390, 768, 1440]) test(`探すの二本柱・画像・�
   await expect(page.getByRole('heading', { name: 'カテゴリから探す' })).toHaveCount(0);
   const search = page.getByTestId('discover-search');
   const grid = page.getByTestId('discover-technique-grid');
-  const index = page.getByTestId('discover-technique-index');
   const theoryGrid = page.getByTestId('discover-theory-grid');
-  const [searchBox, gridBox, indexBox, theoryBox] = await Promise.all([search.boundingBox(), grid.boundingBox(), index.boundingBox(), theoryGrid.boundingBox()]);
+  await expect(page.getByTestId('discover-technique-index')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: '全処世術一覧', exact: true })).toHaveCount(0);
+  const [searchBox, gridBox, theoryBox] = await Promise.all([search.boundingBox(), grid.boundingBox(), theoryGrid.boundingBox()]);
   expect(searchBox!.height).toBe(width < 700 ? 56 : 62);
-  for (const box of [gridBox!, indexBox!, theoryBox!]) {
+  for (const box of [gridBox!, theoryBox!]) {
     expect(Math.abs(box.x - searchBox!.x)).toBeLessThan(1);
     expect(Math.abs(box.width - searchBox!.width)).toBeLessThan(1);
   }
-  expect(indexBox!.height).toBeGreaterThanOrEqual(60);
-  expect(indexBox!.height).toBeLessThanOrEqual(70);
+  const personaBoxes = await grid.getByRole('link').evaluateAll(nodes => nodes.map(node => node.getBoundingClientRect().toJSON()));
+  expect(personaBoxes).toHaveLength(3);
+  expect(new Set(personaBoxes.map(box => Math.round(box.y))).size).toBe(1);
+  expect(personaBoxes.every(box => box.x >= gridBox!.x - 1 && box.x + box.width <= gridBox!.x + gridBox!.width + 1)).toBe(true);
+  expect(await grid.evaluate(node => node.scrollWidth <= node.clientWidth + 1)).toBe(true);
   expect(await theoryGrid.getByRole('link').evaluateAll(nodes => nodes.map(node => node.getAttribute('aria-label')))).toEqual(THEORY_CATEGORIES.map(category => `${category.label}から探す`));
   await expect.poll(() => page.getByTestId('discover-categories').locator('img').evaluateAll(nodes => nodes.filter(node => (node as HTMLImageElement).complete && (node as HTMLImageElement).naturalWidth > 0).length)).toBe(9);
   if (width >= 700) {
@@ -44,10 +48,15 @@ for (const width of [320, 390, 768, 1440]) test(`探すの二本柱・画像・�
       return [...title.children].every(word => word.getBoundingClientRect().right <= arrow.left - 3);
     }));
     expect(labelsFit).toBe(true);
-    expect(await grid.evaluate(node => node.scrollWidth > node.clientWidth)).toBe(true);
-    await grid.evaluate(node => { node.scrollLeft = node.scrollWidth; });
-    await expect(grid.getByRole('link', { name: '人生術から探す' })).toBeInViewport();
-    await grid.evaluate(node => { node.scrollLeft = 0; });
+    for (const [,label] of techniqueCategories) {
+      const title = grid.getByRole('link', { name: `${label}から探す` }).getByText(label, { exact: true });
+      const fits = await title.evaluate(node => {
+        const range = document.createRange(); range.selectNodeContents(node);
+        const text = range.getBoundingClientRect(), box = node.getBoundingClientRect();
+        return text.width <= box.width + 1 && box.height <= parseFloat(getComputedStyle(node).lineHeight) + 1;
+      });
+      expect(fits).toBe(true);
+    }
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: test.info().outputPath(`discover-${width}.png`), fullPage: true });
@@ -80,7 +89,7 @@ for (const {id, label} of THEORY_CATEGORIES) test(`理論分類 ${label} の遷�
 });
 
 test('各一覧入口と検索の対象・クエリを保つ', async ({ page }) => {
-  for (const [name, path] of [['すべての処世術を見る', '/techniques'], ['全処世術一覧', '/techniques'], ['すべての理論を見る', '/theories']]) {
+  for (const [name, path] of [['すべての処世術を見る', '/techniques'], ['すべての理論を見る', '/theories']]) {
     await page.goto('/discover');
     await page.getByRole('link', { name, exact: true }).click();
     expect(new URL(page.url()).pathname).toBe(path);

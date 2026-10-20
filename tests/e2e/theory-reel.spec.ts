@@ -3,181 +3,192 @@ import fs from 'node:fs';
 const theories = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8'));
 const subcategories = JSON.parse(fs.readFileSync('src/data/generated/theory-subcategories.json', 'utf8'));
 const psychology = subcategories.filter((s: any) => s.categoryId === 'psychology');
+const redirects = JSON.parse(fs.readFileSync('src/data/generated/theory-subcategory-redirects.json', 'utf8'));
+const scrollPosition = (page: Page) => page.getByTestId('theory-subcategory-scroll').evaluate(el => el.scrollLeft);
 
-async function expectCategory(page: Page, id?: string) {
+async function expectCategory(page: Page, id?: string, category = 'psychology') {
   const current = page.getByTestId('theory-subcategory-tab');
+  const sections = subcategories.filter((s: any) => s.categoryId === category);
+  const index = id ? sections.findIndex((s: any) => s.id === id) + 1 : 0;
+  const title = id ? sections.find((s: any) => s.id === id).title : 'すべて';
   await expect(current).toHaveCount(1);
   await expect(current).toHaveAttribute('aria-selected', 'true');
-  await expect.poll(() => new URL(page.url()).searchParams.get('subcategory')).toBe(id ?? null);
-  const title = id ? psychology.find((s: any) => s.id === id).title : 'すべて';
   await expect(current).toHaveAccessibleName(`${title}で内部分類を絞り込む`);
-  const count = theories.filter((t: any) => t.categoryId === 'psychology' && (!id || t.subcategoryId === id)).length;
+  await expect.poll(() => { const value = new URL(page.url()).searchParams.get('subcategory'); return value ? redirects[value] ?? value : null; }).toBe(id ?? null);
+  const count = theories.filter((t: any) => t.categoryId === category && (!id || t.subcategoryId === id)).length;
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(count);
-  await expect(current).toContainText(String(count));
+  await expect(page.getByTestId('theory-index-count')).toHaveText(`${count}件`);
+  await expect(page.getByTestId('theory-subcategory-position')).toHaveText(`${index + 1} / ${sections.length + 1}`);
+  await expect(page.getByTestId('theory-subcategory-indicator-active')).toHaveCount(1);
+  await expect.poll(async () => {
+    const [item, viewport] = await Promise.all([current.boundingBox(), page.getByTestId('theory-subcategory-scroll').boundingBox()]);
+    return Math.abs(item!.x + item!.width / 2 - viewport!.x - viewport!.width / 2);
+  }).toBeLessThan(1.5);
 }
 
-for (const width of [320, 393, 768, 1440]) test(`内部分類は1つだけ表示し矢印・キー・URLで切り替わる ${width}px`, async ({ page }) => {
-  await page.setViewportSize({ width, height: 900 });
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
-  await page.goto('/theories?category=psychology');
-  await expectCategory(page);
-  const next = page.getByRole('button', { name: '次の内部分類を表示', exact: true });
-  const previous = page.getByRole('button', { name: '前の内部分類を表示', exact: true });
-  await expect(previous).toBeEnabled();
-  await previous.click();
-  await expectCategory(page, psychology.at(-1).id);
-  await next.click();
-  await expectCategory(page);
-  for (const subcategory of psychology) {
-    await next.click();
-    await expectCategory(page, subcategory.id);
-  }
-  await expect(next).toBeEnabled();
-  await next.click();
-  await expectCategory(page);
-  await previous.click();
-  await expectCategory(page, psychology.at(-1).id);
-  await previous.click();
-  await expectCategory(page, psychology.at(-2).id);
-  await page.reload();
-  await expectCategory(page, psychology.at(-2).id);
-  await page.getByTestId('theory-subcategory-tab').focus();
-  await page.keyboard.press('ArrowRight');
-  await expectCategory(page, psychology.at(-1).id);
-  await page.keyboard.press('ArrowLeft');
-  await expectCategory(page, psychology.at(-2).id);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  const current = page.getByTestId('theory-subcategory-tab');
-  const viewport = page.getByTestId('theory-subcategory-scroll');
-  expect(await current.evaluate(el => el.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48);
-  expect(await viewport.evaluate(el => getComputedStyle(el).overflowX)).toBe('hidden');
-  await page.screenshot({ path: test.info().outputPath(`single-category-${width}.png`) });
-  await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
-  await expect(page.getByTestId('theory-subcategory-tab')).toHaveAccessibleName('すべてで内部分類を絞り込む');
-  await expect(previous).toBeEnabled();
-  expect(new URL(page.url()).searchParams.get('subcategory')).toBeNull();
+async function clickPreview(page: Page, title: string) {
+  const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
+  const target = (await page.getByRole('button', { name: `${title}で内部分類を絞り込む`, exact: true }).boundingBox())!;
+  const x = Math.max(viewport.x + 12, Math.min(viewport.x + viewport.width - 12, target.x + target.width / 2));
+  await page.mouse.click(x, viewport.y + viewport.height / 2);
+}
+
+test.beforeEach(async ({ page }) => {
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 
-for (const width of [320, 393, 768, 1440]) test(`スワイプとホイールで表示中の1分類だけを切り替える ${width}px`, async ({ page, context }) => {
+for (const width of [320, 393, 768, 1440]) test(`背景なしのテキストリールは中央・左右の名称と位置を表示する ${width}px`, async ({ page }) => {
   await page.setViewportSize({ width, height: 900 });
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
+  await page.goto('/theories?category=psychology&subcategory=psychology-s');
+  await expectCategory(page, 'psychology-s');
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  await expect(page.getByRole('button', { name: /^(前|次)の内部分類を表示$/ })).toHaveCount(0);
+  await expect(page.getByTestId('theory-index-list').getByRole('heading')).toHaveCount(0);
+  const current = page.getByTestId('theory-subcategory-tab');
+  expect(await current.evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
+  expect((await page.getByTestId('theory-subcategory-reel').boundingBox())!.height).toBeLessThanOrEqual(100);
+  const underline = await page.getByTestId('theory-subcategory-underline').boundingBox();
+  expect(underline!.width).toBeGreaterThanOrEqual(48); expect(underline!.width).toBeLessThanOrEqual(56);
+  expect(underline!.height).toBeGreaterThanOrEqual(2); expect(underline!.height).toBeLessThanOrEqual(3);
+  const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
+  for (const title of ['感情・ストレス', '人間関係・コミュニケーション']) {
+    const neighbor = (await page.getByRole('button', { name: `${title}で内部分類を絞り込む`, exact: true }).boundingBox())!;
+    const visible = Math.min(neighbor.x + neighbor.width, viewport.x + viewport.width) - Math.max(neighbor.x, viewport.x);
+    expect(visible).toBeGreaterThan(20); expect(visible).toBeLessThan(neighbor.width / 2);
+  }
+  await clickPreview(page, '人間関係・コミュニケーション');
+  await expectCategory(page, 'psychology-i');
+  await expect(page.getByRole('heading', { name: '人間関係・コミュニケーション', exact: true })).toHaveCount(1);
+  await clickPreview(page, '自己理解・成長');
+  await expectCategory(page, 'psychology-s');
+  await page.reload(); await expectCategory(page, 'psychology-s');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: test.info().outputPath(`text-reel-${width}.png`) });
+});
+
+test('すべては実データの見出しと件数、個別選択は重複見出しを省いてURLと同期する', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/theories?category=psychology');
   await expectCategory(page);
+  for (const section of psychology) {
+    const heading = page.getByTestId('theory-index-list').getByRole('heading', { name: section.title, exact: true });
+    await expect(heading).toBeVisible();
+    await expect(heading.locator('..')).toContainText(`${theories.filter((t: any) => t.subcategoryId === section.id).length}件`);
+  }
+  for (const section of psychology) {
+    await page.getByTestId('theory-subcategory-tab').focus(); await page.keyboard.press('ArrowRight');
+    await expectCategory(page, section.id);
+    await expect(page.getByTestId('theory-index-list').getByRole('heading')).toHaveCount(0);
+  }
+  const end = await scrollPosition(page);
+  await page.keyboard.press('ArrowRight'); await expectCategory(page, psychology.at(-1).id);
+  expect(await scrollPosition(page)).toBeCloseTo(end, 0);
+  await page.keyboard.press('Home'); await expectCategory(page);
+  await page.keyboard.press('ArrowLeft'); await expectCategory(page); expect(await scrollPosition(page)).toBe(0);
+  await page.keyboard.press('End'); await expectCategory(page, psychology.at(-1).id);
+  await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
+  await expectCategory(page, undefined, 'behavioral-science');
+});
+
+for (const width of [320, 393]) test(`タッチで指に追従し最寄りへスナップ、端では止まり縦スクロールを保つ ${width}px`, async ({ page, context }) => {
+  await page.setViewportSize({ width, height: 900 });
+  await page.goto('/theories?category=psychology'); await expectCategory(page);
   await expect(page.locator('#roku-launch')).toBeHidden();
-  const scroll = page.getByTestId('theory-subcategory-scroll');
-  const box = (await scroll.boundingBox())!;
-  const y = box.y + box.height / 2, left = box.x + 20, right = box.x + box.width - 20;
+  const viewport = page.getByTestId('theory-subcategory-scroll');
+  const box = (await viewport.boundingBox())!;
+  const slot = (await page.getByTestId('theory-subcategory-tab').boundingBox())!.width;
   const session = await context.newCDPSession(page);
-  const swipe = async (x1: number, y1: number, x2: number, y2: number, cancel = false) => {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: x1, y: y1 }] });
-    for (let i = 1; i <= 10; i++) {
-      await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x1 + (x2 - x1) * i / 10, y: y1 + (y2 - y1) * i / 10 }] });
+  const swipe = async (distance: number, cancel = false) => {
+    const x = box.x + box.width * (distance > 0 ? 0.8 : 0.2), y = box.y + box.height / 2;
+    await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+    for (let i = 1; i <= 8; i++) {
+      await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - distance * i / 8, y }] });
       await page.evaluate(() => new Promise<void>(resolve => { requestAnimationFrame(() => resolve()); }));
     }
+    const during = await scrollPosition(page);
     await session.send('Input.dispatchTouchEvent', { type: cancel ? 'touchCancel' : 'touchEnd', touchPoints: [] });
+    return during;
   };
-  await swipe(right, y, left, y); await expectCategory(page, psychology[0].id);
-  await swipe(right, y, left, y); await expectCategory(page, psychology[1].id);
-  await swipe(left, y, right, y); await expectCategory(page, psychology[0].id);
-  await swipe(right, y, right - 22, y); await expectCategory(page, psychology[0].id);
-  await swipe(right, y, left, y, true); await expectCategory(page, psychology[0].id);
-  const burstStart = Date.now() / 1000;
-  for (const [index, delta] of [900, 500, 120, 20].entries()) {
-    await session.send('Input.dispatchMouseEvent', { type: 'mouseWheel', x: (left + right) / 2, y, deltaX: delta, deltaY: 0, timestamp: burstStart + index * 0.04 });
-  }
-  await expectCategory(page, psychology[1].id);
-  await page.waitForTimeout(340);
-  await page.mouse.move((left + right) / 2, y);
-  await page.mouse.wheel(-900, 0); await expectCategory(page, psychology[0].id);
-  await page.waitForTimeout(220);
-  await page.keyboard.down('Shift'); await page.mouse.wheel(0, 900); await page.keyboard.up('Shift');
-  await expectCategory(page, psychology[1].id);
-  await scroll.evaluate(el => { for (let p = el.parentElement; p; p = p.parentElement) if (p.scrollHeight > p.clientHeight + 50 && ['auto', 'scroll'].includes(getComputedStyle(p).overflowY)) { p.dataset.qaVertical = 'true'; break; } });
-  const vertical = page.locator('[data-qa-vertical]');
-  const before = await vertical.evaluate(el => el.scrollTop);
-  await swipe((left + right) / 2, y, (left + right) / 2, y - 140);
-  await expect.poll(() => vertical.evaluate(el => el.scrollTop)).toBeGreaterThan(before + 40);
-  await expectCategory(page, psychology[1].id);
+  expect(await swipe(slot * 0.72)).toBeGreaterThan(slot * 0.4); await expectCategory(page, psychology[0].id);
+  await swipe(slot * 0.25); await expectCategory(page, psychology[0].id);
+  await swipe(-slot * 0.72); await expectCategory(page);
+  await swipe(-slot * 0.72); await expectCategory(page); expect(await scrollPosition(page)).toBe(0);
+  await swipe(slot * 0.72, true); await expectCategory(page);
+  await viewport.evaluate(el => { for (let parent = el.parentElement; parent; parent = parent.parentElement) if (parent.scrollHeight > parent.clientHeight + 50 && ['auto', 'scroll'].includes(getComputedStyle(parent).overflowY)) { parent.dataset.qaVertical = 'true'; break; } });
+  const vertical = page.locator('[data-qa-vertical]'); const before = await vertical.evaluate(el => el.scrollTop);
+  const x = box.x + box.width / 2, y = box.y + box.height / 2;
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let i = 1; i <= 8; i++) await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - 140 * i / 8 }] });
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => vertical.evaluate(el => el.scrollTop)).toBeGreaterThan(before + 30);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test.describe('PCの入力', () => {
+  test.use({ isMobile: false, hasTouch: false, deviceScaleFactor: 1, viewport: { width: 1440, height: 900 } });
+test('ホイール・キーボード・連続操作も実スクロールと分類を一致させる', async ({ page }) => {
+  await page.goto('/theories?category=psychology'); await expectCategory(page);
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
+  const slot = (await page.getByTestId('theory-subcategory-tab').boundingBox())!.width;
+  await page.mouse.move(viewport.x + viewport.width / 2, viewport.y + viewport.height / 2);
+  await page.mouse.wheel(slot * 0.72, 0); await expectCategory(page, psychology[0].id);
+  await page.getByTestId('theory-subcategory-tab').focus();
+  await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
+  await expectCategory(page, psychology[3].id);
+  await page.keyboard.press('ArrowLeft'); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowLeft');
+  await expectCategory(page, psychology[2].id);
+});
+});
+
+for (const width of [320, 1440]) test(`分類名は自然にスクロールしアニメーション中も端を越えない ${width}px`, async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setViewportSize({ width, height: 900 });
+  await page.goto('/theories?category=psychology'); await expectCategory(page);
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  await clickPreview(page, psychology[0].title);
+  await expect.poll(() => scrollPosition(page), { intervals: [16] }).toBeGreaterThan(3);
+  await expectCategory(page, psychology[0].id);
+  await page.getByTestId('theory-subcategory-tab').focus(); await page.keyboard.press('End');
+  await expectCategory(page, psychology.at(-1).id);
+  const end = await scrollPosition(page);
+  await page.keyboard.press('ArrowRight'); await expectCategory(page, psychology.at(-1).id);
+  expect(await scrollPosition(page)).toBeCloseTo(end, 0);
+});
+
+test('動きを減らす設定と外部URL・大分類変更・画面幅変更に従う', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/theories?category=psychology'); await expectCategory(page);
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  await clickPreview(page, psychology[0].title); await expectCategory(page, psychology[0].id);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await clickPreview(page, psychology[1].title);
+  await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
+  await expectCategory(page, undefined, 'behavioral-science');
+  await page.waitForTimeout(250); expect(new URL(page.url()).searchParams.get('subcategory')).toBeNull();
+  await page.goto('/theories?category=psychology&subcategory=psychology-d'); await expectCategory(page, 'psychology-s');
+  await page.setViewportSize({ width: 320, height: 900 }); await expectCategory(page, 'psychology-s');
+  await page.getByTestId('theory-subcategory-tab').focus(); await page.keyboard.press('ArrowRight');
+  await expectCategory(page, 'psychology-i');
+});
+
+test('狭い画面・長い分類名・文字拡大でも文字とプレビューが重ならない', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 900 });
+  await page.goto('/theories?category=psychology&subcategory=psychology-i'); await expectCategory(page, 'psychology-i');
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  await page.addStyleTag({ content: '[data-testid="theory-subcategory-reel"] [role="heading"] { font-size: 30px !important; line-height: 39px !important; }' });
+  const title = page.getByRole('heading', { name: '人間関係・コミュニケーション', exact: true });
+  await expect.poll(() => title.evaluate(el => {
+    const text = document.createRange(); text.selectNodeContents(el);
+    const rect = text.getBoundingClientRect(), item = el.closest('[role="button"]')!.getBoundingClientRect();
+    return rect.height <= item.height + 1 && rect.width <= item.width + 1;
+  })).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: test.info().outputPath('text-reel-enlarged.png') });
 });
 
 test('完全版の新規本文は匿名に出ない', async ({ page }) => {
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
   await page.goto('/theory/kb_957');
   await expect(page).toHaveURL(/upgrade/);
   await expect(page.getByTestId('theory-summary')).toHaveCount(0);
-});
-
-const motionX = (page: Page) => page.getByTestId('theory-subcategory-motion').evaluate(el => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41);
-
-for (const width of [320, 1440]) test(`隣の分類が横から滑り込み両端も同じ方向で循環する ${width}px`, async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.setViewportSize({ width, height: 900 });
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
-  await page.goto('/theories?category=psychology');
-  await expectCategory(page);
-  const next = page.getByRole('button', { name: '次の内部分類を表示', exact: true });
-  const previous = page.getByRole('button', { name: '前の内部分類を表示', exact: true });
-  await next.click();
-  await expect.poll(() => motionX(page), { intervals: [16] }).toBeLessThan(-3);
-  await page.screenshot({ path: test.info().outputPath(`reel-moving-${width}.png`) });
-  await expectCategory(page, psychology[0].id);
-  await expect.poll(() => motionX(page)).toBe(0);
-  await previous.click();
-  await expect.poll(() => motionX(page), { intervals: [16] }).toBeGreaterThan(3);
-  await expectCategory(page);
-  await previous.click();
-  await expect.poll(() => motionX(page), { intervals: [16] }).toBeGreaterThan(3);
-  await expectCategory(page, psychology.at(-1).id);
-  await next.click();
-  await expect.poll(() => motionX(page), { intervals: [16] }).toBeLessThan(-3);
-  await expectCategory(page);
-  await expect.poll(() => motionX(page)).toBe(0);
-  // Hidden neighboring panels must not become extra selectable categories.
-  await expect(page.getByTestId('theory-subcategory-scroll').getByRole('button')).toHaveCount(1);
-});
-
-test('左右それぞれ3周でき、素早い連打も失わず動作を減らす設定に従う', async ({ page }) => {
-  test.setTimeout(60_000);
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
-  await page.goto('/theories?category=psychology');
-  await expectCategory(page);
-  const ids = [undefined, ...psychology.map((s: any) => s.id)];
-  let position = 0;
-  for (const direction of [1, -1]) {
-    const button = page.getByRole('button', { name: direction === 1 ? '次の内部分類を表示' : '前の内部分類を表示', exact: true });
-    for (let step = 0; step < ids.length * 3; step++) {
-      await button.click();
-      position = (position + direction + ids.length) % ids.length;
-      await expect.poll(() => new URL(page.url()).searchParams.get('subcategory')).toBe(ids[position] ?? null);
-      expect(await motionX(page)).toBe(0);
-      await expect(page.getByTestId('theory-subcategory-tab')).toHaveCount(1);
-    }
-  }
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  // Deliver multiple real pointer clicks during the first 300ms transition.
-  await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click({ clickCount: 3, delay: 30 });
-  await expectCategory(page, psychology[2].id);
-  await expect.poll(() => motionX(page)).toBe(0);
-  await page.getByRole('button', { name: '前の内部分類を表示', exact: true }).click({ clickCount: 3, delay: 30 });
-  await expectCategory(page);
-});
-
-test('アニメーション中に大分類や画面幅が変わっても古い分類を選択しない', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.route('**/rest/v1/**', r => r.fulfill({ status: 503, json: {} }));
-  await page.goto('/theories?category=psychology');
-  await expectCategory(page);
-  await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click();
-  await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
-  await expect(page.getByTestId('theory-subcategory-tab')).toHaveAccessibleName('すべてで内部分類を絞り込む');
-  await page.waitForTimeout(350);
-  expect(new URL(page.url()).searchParams.get('category')).toBe('behavioral-science');
-  expect(new URL(page.url()).searchParams.get('subcategory')).toBeNull();
-  await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click();
-  await page.setViewportSize({ width: 320, height: 900 });
-  await expect.poll(() => motionX(page)).toBe(0);
-  await page.getByRole('button', { name: '次の内部分類を表示', exact: true }).click();
-  await expect.poll(() => new URL(page.url()).searchParams.get('subcategory')).not.toBeNull();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
