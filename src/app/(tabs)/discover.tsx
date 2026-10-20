@@ -71,6 +71,11 @@ export default function DiscoverScreen() {
         <View testID="discover-technique-grid" style={styles.categoryGrid}>
           {categoryOrder.map((key) => <CategoryCard key={key} category={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
         </View>
+        <Pressable testID="discover-technique-index" accessibilityRole="link" accessibilityLabel="処世術一覧" onPress={() => router.push(APP_ROUTES.techniques)} style={({ pressed }) => [styles.techniqueIndex, pressed && styles.pressed]}>
+          <AppText style={styles.techniqueIndexTitle}>処世術一覧</AppText>
+          <AppText style={styles.techniqueIndexNote}>通しIDから探す</AppText>
+          <AppText accessibilityElementsHidden style={styles.techniqueIndexArrow}>›</AppText>
+        </Pressable>
         <GroupHeading title="理論" secondary />
         <View testID="discover-theory-grid" style={styles.categoryGrid}>
           {theoryDetails.map((item) => {
@@ -155,6 +160,10 @@ const styles = StyleSheet.create({
   groupTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   groupRule: { flex: 1, height: 1, backgroundColor: colors.line },
   categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  techniqueIndex: { minHeight: 54, marginTop: 10, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
+  techniqueIndexTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '700' },
+  techniqueIndexNote: { flex: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  techniqueIndexArrow: { color: colors.goldDeep, fontSize: 25, lineHeight: 30 },
   categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, overflow: 'hidden', minHeight: 90, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
   categoryCardNarrow: { minHeight: 84, paddingHorizontal: 5 },
   theoryCategoryCardCompact: { width: '46%' },

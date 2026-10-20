@@ -13,8 +13,8 @@ test('opens the consolidated persona archive with the requested category selecte
   await expect(page.getByText('仕事ができる人', { exact: true })).toHaveCount(0);
 });
 
-test('new persona order also updates the visible technique number without changing its stable URL', async ({ page }) => {
+test('persona ordering keeps the fixed technique number and stable URL', async ({ page }) => {
   await page.goto('/card/master336-050');
-  await expect(page.getByText('No.15', { exact: true })).toBeVisible();
+  await expect(page.getByText('No.050', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: '人生を楽しそうにする' })).toBeVisible();
 });
