@@ -37,7 +37,7 @@ test('格言は承認済みの言葉を見出しにし、ことわざと格言�
  await expect(cards.getByText('準備された心',{exact:true})).toHaveCount(0);
  await expect(cards.getByText('友情と恋を変える時間',{exact:true})).toHaveCount(0);
  await page.screenshot({path:test.info().outputPath('quotation-headlines-mobile.png')});
- await page.getByRole('button',{name:'前の内部分類を表示',exact:true}).click();
+ await page.getByTestId('theory-subcategory-tab').focus();await page.keyboard.press('ArrowLeft');
  await expect(page.getByRole('button',{name:'ことわざで内部分類を絞り込む',exact:true})).toBeVisible();
  await expect(cards).toHaveCount(rows.filter((t:any)=>t.subcategoryId==='classics-thought-p').length);
  await expect(cards.getByText('人間万事塞翁が馬',{exact:true})).toBeVisible();
@@ -78,7 +78,8 @@ async function mockOwner(page:any){
 test('大分類と内部分類の見出しで一覧を表示し、モバイルでも横にはみ出さない',async({page})=>{
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{message:'offline fallback'}}));
  await page.goto('/theories?category=behavioral-science&page=1');
- await expect(page.getByTestId('theory-index-list').getByRole('heading',{name:'行動科学',exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'行動科学で理論を絞り込む',exact:true})).toHaveAttribute('aria-selected','true');
+ await expect(page.getByTestId('theory-index-list').getByRole('heading',{name:'行動科学',exact:true})).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'意思決定・選択',exact:true})).toBeVisible();
  await expect(page.getByRole('heading',{name:'習慣・行動設計',exact:true})).toBeVisible();
  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.filter((t:any)=>t.categoryId==='behavioral-science').length);

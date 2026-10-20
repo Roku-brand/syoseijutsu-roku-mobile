@@ -21,6 +21,8 @@ function safeCategory(value: string | undefined): TheoryFilterKey {
 }
 
 export default function TheoryIndexScreen() {
+  'use no memo';
+  // Published catalogue changes are invalidated by catalogRevision.
   const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
@@ -75,13 +77,12 @@ export default function TheoryIndexScreen() {
       <View style={styles.filters}>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
-          <AppText style={styles.subcategoryLabel}>内部分類</AppText>
           <TheorySubcategoryReel key={category} options={subcategoryOptions} selected={subcategory} onSelect={selectSubcategory} />
         </View> : null}
       </View>
 
-      <View style={styles.resultHeading}>
-        <AppText style={styles.resultTitle}>{selectedTheories.length}件</AppText>
+      <View style={[styles.resultHeading, category !== 'all' && styles.resultHeadingWithReel]}>
+        <AppText testID="theory-index-count" style={styles.resultTitle}>{selectedTheories.length}件</AppText>
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
@@ -94,8 +95,8 @@ export default function TheoryIndexScreen() {
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
           {groupTheorySections(pageTheories).map((section,index,sections) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
-            {index === 0 || sections[index-1].categoryId !== section.categoryId ? <AppText accessibilityRole="header" aria-level={2} style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
-            <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.subcategoryId===section.subcategoryId).length}件</AppText></View>
+            {category === 'all' && (index === 0 || sections[index-1].categoryId !== section.categoryId) ? <AppText accessibilityRole="header" aria-level={2} style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
+            {!subcategory ? <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.categoryId === section.categoryId && t.subcategoryId===section.subcategoryId).length}件</AppText></View> : null}
             {section.items.map(theory=><TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
           </View>)}
         </View>
@@ -128,9 +129,9 @@ function TheoryListSkeleton() {
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
   filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
-  subcategoryFilters: { marginTop: spacing.md, gap: 8 },
-  subcategoryLabel: { color: colors.inkSoft, fontSize: 13, fontWeight: '600' },
+  subcategoryFilters: { marginTop: spacing.lg },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
+  resultHeadingWithReel: { marginTop: spacing.md },
   resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
   totalNote: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },
   list: { width: '100%', gap: 12 },
