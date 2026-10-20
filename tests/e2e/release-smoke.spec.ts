@@ -258,17 +258,17 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
   await expect(page).toHaveURL(/\/my-os$/);
 });
 
-test('ホームのブランドリールは矢印で7枚を横にスライドする', async ({ page }) => {
+test('ホームのブランドリールはキーボードで7枚を横にスライドする', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
 
   const rail = page.getByTestId('home-brand-viewport');
-  const next = page.getByRole('button', { name: '次のスライド' });
   await expect(rail).toBeVisible();
-  await expect(next).toBeVisible();
+  await expect(page.getByRole('button', { name: '前のスライド' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '次のスライド' })).toHaveCount(0);
   expect(await rail.evaluate((element) => element.scrollLeft)).toBe(0);
-  await next.click();
+  await page.keyboard.press('ArrowRight');
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
 });
 
@@ -851,7 +851,7 @@ test('PCホームはブランドヘッダーと7枚のリールを上品に収�
   const firstSlideBox = await page.getByTestId('home-brand-slide-1').boundingBox();
   expect(firstSlideBox).not.toBeNull();
   expect(firstSlideBox!.height).toBeLessThanOrEqual(383);
-  await expect(page.getByLabel('次のスライド')).toBeVisible();
+  await expect(page.getByLabel('次のスライド')).toHaveCount(0);
   await page.getByRole('tab', { name: '3枚目を表示' }).click();
   await expect(page.getByTestId('home-brand-slide-3')).toContainText('理論｜');
   await expect(page.getByTestId('home-brand-theory-cta')).toBeVisible();
@@ -948,9 +948,9 @@ test('ホームのブランドリールは前後操作で同じ一枚へ戻れ�
   await page.goto('/');
   await startFreeHome(page);
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await page.getByLabel('次のスライド').click();
+  await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await page.getByLabel('前のスライド').click();
+  await page.keyboard.press('ArrowLeft');
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
 });
 
@@ -958,11 +958,9 @@ test('ホームのブランドリールは前後どちら向きにも何周も�
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByLabel('前のスライド')).not.toHaveAttribute('aria-disabled', 'true');
-  await expect(page.getByLabel('次のスライド')).not.toHaveAttribute('aria-disabled', 'true');
-  for (let index = 0; index < 7; index += 1) await page.getByLabel('次のスライド').click({ force: true });
+  for (let index = 0; index < 7; index += 1) await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  for (let index = 0; index < 7; index += 1) await page.getByLabel('前のスライド').click({ force: true });
+  for (let index = 0; index < 7; index += 1) await page.keyboard.press('ArrowLeft');
   await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
   const viewport = page.getByTestId('home-brand-viewport');
   await expect.poll(async () => {

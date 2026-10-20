@@ -569,13 +569,6 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   return (
     <View testID="home-brand-carousel" style={styles.carousel}>
       <View style={[styles.carouselRow, !desktop && styles.carouselRowMobile]}>
-        {desktop ? <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="前のスライド"
-          accessibilityHint="前のスライドへ移動します。1枚目の前は最後のスライドへ戻ります。"
-          onPress={() => moveTo(activeIndexRef.current - 1)}
-          style={({ pressed }) => [styles.arrow, styles.arrowPrevious, pressed && styles.pressed]}
-        ><Text style={styles.arrowText}>‹</Text></Pressable> : null}
         <View
           style={styles.viewport}
           onLayout={(event) => {
@@ -622,13 +615,6 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             </View>
           </View>
         </View>
-        {desktop ? <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="次のスライド"
-          accessibilityHint="次のスライドへ移動します。最後のスライドの次は1枚目へ戻ります。"
-          onPress={() => moveTo(activeIndexRef.current + 1)}
-          style={({ pressed }) => [styles.arrow, styles.arrowNext, pressed && styles.pressed]}
-        ><Text style={styles.arrowText}>›</Text></Pressable> : null}
       </View>
     </View>
   );
@@ -809,10 +795,6 @@ const styles = StyleSheet.create({
   rokumaruMessageMobile: { fontSize: 12, lineHeight: 20, marginTop: 4, maxWidth: 112 },
   rokumaru: { bottom: 0, height: 380, position: 'absolute', right: 22, width: 380 },
   rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
-  arrow: { alignItems: 'center', backgroundColor: 'rgba(255,253,248,0.9)', borderColor: '#C8AF7B', borderRadius: 22, borderWidth: 1, height: 44, justifyContent: 'center', width: 44, position: 'absolute', top: '50%', marginTop: -22, zIndex: 4, ...bookCardShadow },
-  arrowPrevious: { left: 8 },
-  arrowNext: { right: 8 },
-  arrowText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 34 },
   dotsOverlay: { alignItems: 'center', bottom: 4, left: 0, position: 'absolute', right: 0, zIndex: 3 },
   dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.2)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 3 },
   dotTouch: { alignItems: 'center', height: 16, justifyContent: 'center', width: 14 },
