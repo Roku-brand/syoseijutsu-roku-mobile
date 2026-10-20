@@ -50,7 +50,7 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.050');
   await page.getByTestId('technique-index-row').click();
   await expect(page).toHaveURL(/\/card\/master336-050$/);
-  await expect(page.getByText('No.050', { exact: true })).toBeVisible();
+  await expect(page.getByRole('main').getByText('No.050', { exact: true })).toBeVisible();
   await page.goto('/techniques?q=存在しない検索語');
   await expect(page.getByTestId('technique-index-count')).toHaveText('0件');
   await expect(page.getByText('該当する処世術はありません。')).toBeVisible();
