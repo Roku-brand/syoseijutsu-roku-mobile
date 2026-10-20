@@ -92,6 +92,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     busy.current = true;
     const finish = () => {
       busy.current = false;
+      dragOffset.current = 0;
       const next = queue.current.shift();
       if (next !== undefined) moveRef.current(next);
     };
