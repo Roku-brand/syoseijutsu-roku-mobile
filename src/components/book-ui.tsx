@@ -104,7 +104,7 @@ export function BookHeader() {
   const learningCaseHeader = pathname.startsWith('/learn/');
   // Keep focused screens free of unrelated actions while their catalog data loads.
   const detailHeader = pathname.startsWith('/card/') || pathname.startsWith('/theory/') || featureDetailHeader;
-  const browsingHeader = ['category', 'subcategory', 'theme', 'theories', 'personas', 'search', 'popular'].includes(pathname.split('/')[1]);
+  const browsingHeader = ['category', 'subcategory', 'theme', 'theories', 'personas', 'techniques', 'search', 'popular'].includes(pathname.split('/')[1]);
   const catalogueSearchMode = pathname === '/personas' ? 'techniques' : pathname === '/theories' ? 'theories' : null;
   // The static web home is served through the root index route, so its first
   // segment is not `(tabs)` even though it represents the main tab.
@@ -358,6 +358,7 @@ function getCurrentTitle(pathname: string) {
   }
   if (segments[0] === 'subcategory') return segments[2] ?? '人物像から探す';
   if (segments[0] === 'personas') return '人物像一覧';
+  if (segments[0] === 'techniques') return '処世術一覧';
   if (segments[0] === 'search') return 'キーワード検索';
   if (segments[0] === 'popular') return '人気ランキング';
   if (pathname === '/owner/editorial-characters') return '編集案内人の管理';

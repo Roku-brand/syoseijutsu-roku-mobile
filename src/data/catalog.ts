@@ -3,6 +3,7 @@ import techniquesSource from './generated/techniques.public.json';
 import theoriesSource from './generated/theories.public.json';
 import practicalActionsSource from './generated/practical-actions.public.json';
 import primaryLinksSource from './generated/primary-theory-links.json';
+import techniqueDisplayIds from './technique-display-ids.json';
 import type { CatalogCategory, CategoryKey, TechniqueCard, TechniqueSource, TheoryCard, TechniquePracticalActions } from './types';
 import { getTechniqueTags } from './technique-tags';
 import { getTheoryProvenance } from './theory-sources';
@@ -27,7 +28,8 @@ export const techniqueById = new Map<string, TechniqueCard>();
 export const theoryById = new Map<string, TheoryCard>();
 const techniqueCardsByTheoryId = new Map<string, TechniqueCard[]>();
 
-const techniqueNumberById = new Map<string, number>();
+// Append-only public identities: moving or removing a card never renumbers another.
+const techniqueNumberById = new Map<string, number>(Object.entries(techniqueDisplayIds));
 const theoryDisplayIdByTagId = new Map<string, string>();
 export const theoryCategoryOrder = THEORY_CATEGORIES.map(({ id }) => id) as string[];
 const theoryCategoryLabels = new Map<string, string>(THEORY_CATEGORIES.map(({ id, label }) => [id, label]));
@@ -96,10 +98,10 @@ function rebuildIndexes() {
   ));
 
   techniqueById.clear();
-  techniqueNumberById.clear();
-  techniqueCards.forEach((card, index) => {
+  let nextTechniqueNumber = Math.max(0, ...techniqueNumberById.values()) + 1;
+  techniqueCards.forEach((card) => {
     techniqueById.set(card.id, card);
-    techniqueNumberById.set(card.id, index + 1);
+    if (!techniqueNumberById.has(card.id)) techniqueNumberById.set(card.id, nextTechniqueNumber++);
   });
 
   techniqueCardsByTheoryId.clear();
@@ -381,9 +383,13 @@ export function getPersonaThemeTitle(persona: CatalogCategory['subcategories'][n
 }
 
 export function getTechniqueDisplayId(cardOrId: TechniqueCard | string) {
+  const number = getTechniqueNumber(cardOrId);
+  return number ? `No.${String(number).padStart(3, '0')}` : 'No.—';
+}
+
+export function getTechniqueNumber(cardOrId: TechniqueCard | string) {
   const id = typeof cardOrId === 'string' ? cardOrId : cardOrId.id;
-  const number = techniqueNumberById.get(id);
-  return number ? `No.${number}` : 'No.—';
+  return techniqueNumberById.get(id);
 }
 
 export function getTheoryDisplayId(theoryOrId: string | Pick<TheoryCard, 'tagId' | 'categoryId' | 'displayId' | 'draftDisplayId'>) {
