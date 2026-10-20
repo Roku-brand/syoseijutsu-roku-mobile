@@ -56,6 +56,36 @@ test('technique public IDs are contiguous and survive reordering, category moves
  assert.equal(catalog.getTechniqueDisplayId('master336-001'),'No.001');
 });
 
+test('independent techniques retain distinct IDs, stable numbers, relations and protected shells without inventing personas',()=>{
+ const first=techniqueRows[0];
+ const rows=[{...first,id:'independent-free',subcategory:'',articleTitle:'',status:'published'}, {...first,id:'independent-locked',subcategory:'',articleTitle:'',status:'locked',essence:undefined,explanation:undefined}];
+ try {
+  catalog.hydratePaidCatalog([...techniqueRows,...rows],[]);
+  const numbers=rows.map(row=>catalog.getTechniqueNumber(row.id));
+  assert.equal(catalog.techniqueCards.length,techniqueRows.length+2);
+  assert.equal(catalog.techniqueCards.filter(card=>card.title===first.title).length,techniqueRows.filter(card=>card.title===first.title).length+2);
+  assert.ok(catalog.categories.every(category=>category.subcategories.every(persona=>persona.name.trim())));
+  assert.equal(getTechniqueIndex('all',String(numbers[0]))[0].id,rows[0].id);
+  assert.deepEqual(catalog.techniqueById.get(rows[0].id).theoryTagIds,catalog.techniqueById.get(first.id).theoryTagIds);
+  assert.equal(catalog.techniqueById.get(rows[1].id).status,'locked');
+  assert.equal(catalog.techniqueById.get(rows[1].id).explanation,undefined);
+  catalog.upsertManagedTechnique({...rows[0],subcategory:first.subcategory});
+  assert.equal(catalog.techniqueCards.filter(card=>card.id===rows[0].id).length,1);
+  assert.equal(catalog.getTechniqueNumber(rows[0].id),numbers[0]);
+  catalog.upsertManagedTechnique(rows[0]);
+  catalog.reconcilePublishedStructure([...techniqueRows,...rows].map(row=>row.id),[]);
+  assert.equal(catalog.techniqueCards.length,techniqueRows.length+2);
+  assert.equal(catalog.techniqueById.get(first.id).subcategory,first.subcategory);
+  assert.ok(catalog.categories.every(category=>!category.subcategories.length));
+  assert.equal(catalog.removeManagedTechnique(rows[0].id),true);
+  assert.equal(catalog.techniqueCards.length,techniqueRows.length+1);
+  catalog.hydratePaidCatalog(techniqueRows,[]);
+  assert.equal(catalog.techniqueCards.length,techniqueRows.length);
+  assert.ok(!catalog.techniqueById.has(rows[1].id));
+ } finally { catalog.resetCatalog(); }
+ assert.equal(catalog.techniqueCards.length,techniqueRows.length);
+});
+
 test('fatigue-free persona has all twenty complete-edition shells in the offline product',()=>{
  const persona=catalog.categories.find(c=>c.key==='interpersonal').subcategories.find(p=>p.name==='一緒にいて疲れない人');
  assert.equal(persona.items.length,20);

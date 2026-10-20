@@ -11,7 +11,14 @@ import { isLockedTheoryShell } from './theory-display';
 import { THEORY_CATEGORIES } from './theory-categories';
 import { applyTheoryRedirects, compareTheoryTaxonomy, resolveTheoryId } from './theory-taxonomy';
 
-const publicCategories = techniquesSource.categories as CatalogCategory[];
+const bundledCategories = techniquesSource.categories as CatalogCategory[];
+const publicStandaloneTechniques: PaidTechniquePayload[] = bundledCategories.flatMap(category =>
+  category.subcategories.filter(persona => !persona.name?.trim()).flatMap(persona =>
+    persona.items.map(item => ({ ...item, categoryKey: category.key, categoryName: category.name, subcategory: '', articleTitle: '' })),
+  ),
+);
+const publicCategories = bundledCategories.map(category => ({ ...category, subcategories: category.subcategories.filter(persona => persona.name?.trim()) }));
+const standaloneTechniques: PaidTechniquePayload[] = structuredClone(publicStandaloneTechniques);
 const publicTheories = (theoriesSource as TheoryCard[]).filter(t => !isRetiredTheoryId(t.tagId));
 const practicalActionsById = new Map(
   (practicalActionsSource as Array<TechniquePracticalActions & { id: string; title: string }>).map((item) => [item.id, item]),
@@ -78,24 +85,14 @@ function rebuildIndexes() {
           subcategory: subcategory.name,
           articleTitle,
         };
-        const theoryTagIds = [...new Set((context.relatedTheoryIds ?? context.theoryTagIds ?? []).map(resolveTheoryId))].filter(id => !isRetiredTheoryId(id));
-        const configuredPrimaryIds = context.primaryTheoryIds
-          ?? primaryTheoryIdsByTechniqueId[context.id]
-          ?? theoryTagIds;
-        return {
-          ...context,
-          practicalActions: context.practicalActions ?? practicalActionsById.get(context.id),
-          theoryTagIds,
-          // Published rows currently store one comprehensive theory_ids list.
-          // Reapply the editorial grouping locally, and intersect it so an
-          // owner-side removal never leaves a stale primary relation visible.
-          primaryTheoryIds: [...new Set(configuredPrimaryIds.map(resolveTheoryId))].filter((id) => theoryTagIds.includes(id)),
-          categoryKey: category.key,
-          tags: context.tags ?? getTechniqueTags(context),
-        };
+        return toTechniqueCard({ ...context, categoryKey: category.key });
       }),
     ),
   ));
+  // Identity is the record ID, never the title: different personas may share wording.
+  const indexed = new Map(techniqueCards.map(card => [card.id, card]));
+  standaloneTechniques.forEach(item => indexed.set(item.id, toTechniqueCard({ ...item, categoryName: categories.find(category => category.key === item.categoryKey)?.name ?? item.categoryName })));
+  techniqueCards.splice(0, techniqueCards.length, ...indexed.values());
 
   techniqueById.clear();
   let nextTechniqueNumber = Math.max(0, ...techniqueNumberById.values()) + 1;
@@ -127,6 +124,20 @@ function rebuildIndexes() {
   });
 }
 
+function toTechniqueCard(context: PaidTechniquePayload): TechniqueCard {
+  const theoryTagIds = [...new Set((context.relatedTheoryIds ?? context.theoryTagIds ?? []).map(resolveTheoryId))].filter(id => !isRetiredTheoryId(id));
+  const configuredPrimaryIds = context.primaryTheoryIds ?? primaryTheoryIdsByTechniqueId[context.id] ?? theoryTagIds;
+  const articleTitle = context.articleTitle ?? context.subcategory;
+  return {
+    ...context, articleTitle,
+    practicalActions: context.practicalActions ?? practicalActionsById.get(context.id),
+    theoryTagIds,
+    // Intersect editorial primary links with the authoritative published relations.
+    primaryTheoryIds: [...new Set(configuredPrimaryIds.map(resolveTheoryId))].filter(id => theoryTagIds.includes(id)),
+    tags: context.tags ?? getTechniqueTags({ ...context, articleTitle }),
+  };
+}
+
 rebuildIndexes();
 
 export type PaidTechniquePayload = TechniqueSource & {
@@ -145,6 +156,7 @@ export function hydratePaidCatalog(techniques: PaidTechniquePayload[], paidTheor
   // network response is empty (the caller never invokes this with no rows).
   if (techniques.length) {
     const currentIds = new Set(techniques.map((item) => item.id));
+    for (let index = standaloneTechniques.length - 1; index >= 0; index--) if (!currentIds.has(standaloneTechniques[index].id)) standaloneTechniques.splice(index, 1);
     for (const category of categories) {
       for (const subcategory of category.subcategories) {
         subcategory.items = subcategory.items.filter((item) => currentIds.has(item.id));
@@ -204,7 +216,9 @@ export function upsertManagedTechnique(item: PaidTechniquePayload) {
 
 /** Removes a card from the in-memory catalogue after an owner archives it. */
 export function removeManagedTechnique(techniqueId: string) {
-  let removed = false;
+  const standaloneIndex = standaloneTechniques.findIndex(item => item.id === techniqueId);
+  let removed = standaloneIndex >= 0;
+  if (removed) standaloneTechniques.splice(standaloneIndex, 1);
   for (const category of categories) {
     for (const subcategory of category.subcategories) {
       const nextItems = subcategory.items.filter((candidate) => candidate.id !== techniqueId);
@@ -225,6 +239,12 @@ function placeManagedTechnique(item: PaidTechniquePayload) {
       existingSubcategory.items = existingSubcategory.items.filter((candidate) => candidate.id !== item.id);
     }
   }
+  const standaloneIndex = standaloneTechniques.findIndex(candidate => candidate.id === item.id);
+  if (standaloneIndex >= 0) standaloneTechniques.splice(standaloneIndex, 1);
+  if (!item.subcategory?.trim()) {
+    standaloneTechniques.push({ ...item, subcategory: '' });
+    return;
+  }
   let category = categories.find((candidate) => candidate.key === item.categoryKey);
   if (!category) {
     category = { key: item.categoryKey, name: item.categoryName, subcategories: [] };
@@ -241,6 +261,7 @@ function placeManagedTechnique(item: PaidTechniquePayload) {
 
 export function resetCatalog() {
   categories.splice(0, categories.length, ...structuredClone(publicCategories));
+  standaloneTechniques.splice(0, standaloneTechniques.length, ...structuredClone(publicStandaloneTechniques));
   theories.splice(0, theories.length, ...publicTheories.map((theory) => ({
     ...theory,
     provenance: isLockedTheoryShell(theory) ? undefined : getTheoryProvenance(theory),
@@ -255,9 +276,17 @@ export function reconcilePublishedStructure(
   theoryIds?: string[],
 ) {
   const currentIds = new Set(techniqueIds);
+  for (let index = standaloneTechniques.length - 1; index >= 0; index--) if (!currentIds.has(standaloneTechniques[index].id)) standaloneTechniques.splice(index, 1);
   for (const category of categories) {
     for (const persona of category.subcategories) persona.items = persona.items.filter((item) => currentIds.has(item.id));
     if (personaRows) {
+      // A published technique is still discoverable when its persona is absent.
+      // Retain its stored association; do not invent a public persona or edit the DB.
+      category.subcategories.filter(persona => !personaRows.some(row => row.name === persona.name && row.category === category.key)).forEach(persona => {
+        persona.items.forEach(item => {
+          if (!standaloneTechniques.some(candidate => candidate.id === item.id)) standaloneTechniques.push({ ...item, categoryKey: category.key, categoryName: category.name, subcategory: persona.name, articleTitle: persona.articleTitle ?? persona.name });
+        });
+      });
       category.subcategories = category.subcategories.filter((persona) => personaRows.some((row) => row.name === persona.name && row.category === category.key));
       for (const row of personaRows.filter((row) => row.category === category.key)) {
         const existing = category.subcategories.find((persona) => persona.name === row.name);

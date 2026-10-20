@@ -1,212 +1,117 @@
-import { CategoryArt } from '@/components/ranking-art';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-
+import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { BrandSectionHeading } from '@/components/brand-section-heading';
+import { DiscoveryCategoryCard } from '@/components/discovery-category-card';
 import { SearchMark } from '@/components/search-mark';
-import { getTheoryFilterOptions, type TheoryFilterKey } from '@/components/theory-catalog';
+import { getTheoryFilterOptions } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius } from '@/constants/theme';
-import { categoryMeta, categoryOrder, theories } from '@/data/catalog';
+import { categoryMeta, categoryOrder } from '@/data/catalog';
+import { POPULAR_SEARCHES, getSearchResults, type BrowseMode } from '@/data/search-catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
-import { POPULAR_SEARCHES, getSearchResults, type BrowseMode } from '@/data/search-catalog';
-import { useAccess } from '@/access/access-state';
-
-type TheoryIconName = 'mind' | 'chart' | 'compass' | 'people' | 'classics' | 'idea';
-const theoryDetails: Array<{ key: TheoryFilterKey; icon: TheoryIconName }> = [
-  { key: 'psychology', icon: 'mind' },
-  { key: 'behavioral-science', icon: 'chart' },
-  { key: 'strategy', icon: 'compass' },
-  { key: 'organization-management', icon: 'people' },
-  { key: 'classics-thought', icon: 'classics' },
-  { key: 'practical-wisdom', icon: 'idea' },
-];
 
 export default function DiscoverScreen() {
+  'use no memo';
+  // Category names and ordering can change during a published catalogue sync.
   const router = useRouter();
   const { isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const narrow = width > 0 && width < 370;
   const [query, setQuery] = useState('');
+  const theoryCategories = getTheoryFilterOptions().filter(option => option.key !== 'all');
   const openSearch = (value = query, preferredMode: BrowseMode = 'techniques') => {
     const searchQuery = value.trim();
     const results = getSearchResults(searchQuery, isPaid);
     const mode = preferredMode === 'techniques' && !results.techniqueMatches.length && results.theoryMatches.length ? 'theories' : preferredMode;
     router.push({ pathname: '/search', params: { mode, ...(searchQuery ? { q: searchQuery } : {}) } });
   };
+  const techniqueCards = categoryOrder.map(key => <DiscoveryCategoryCard
+    key={key} category={key} title={categoryMeta[key].label}
+    compact={compact} style={compact ? { width: Math.round(Math.min(252, Math.max(188, width * 0.66))) } : styles.gridCard}
+    onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })}
+  />);
 
-  return (
-    <BookScreen contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
-      <View style={[styles.search, compact && styles.searchCompact]} testID="discover-search">
-        <SearchMark size={compact ? 27 : 30} color={colors.gold} />
-        <TextInput
-          accessibilityLabel="処世術・理論・特集を検索"
-          testID="discover-search-input"
-          value={query}
-          onChangeText={setQuery}
-          onSubmitEditing={() => openSearch()}
-          returnKeyType="search"
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="処世術・理論・特集を探す"
-          placeholderTextColor="#898680"
-          style={[styles.searchInput, compact && styles.searchInputCompact, narrow && styles.searchInputNarrow]}
-        />
-        <Pressable accessibilityRole="button" accessibilityLabel="処世術・理論・特集を検索" testID="discover-search-submit" onPress={() => openSearch()} style={({ pressed }) => [styles.searchSubmit, pressed && styles.pressed]}>
-          <AppText style={styles.searchSubmitText}>検索</AppText>
+  return <BookScreen contentContainerStyle={[styles.content, compact && styles.contentCompact]}>
+    <View testID="discover-search" style={[styles.search, compact && styles.searchCompact]}>
+      <SearchMark size={compact ? 23 : 25} color={colors.gold} />
+      <TextInput accessibilityLabel="処世術・理論・特集を検索" testID="discover-search-input" value={query} onChangeText={setQuery}
+        onSubmitEditing={() => openSearch()} returnKeyType="search" autoCapitalize="none" autoCorrect={false}
+        placeholder="処世術・理論・特集を検索" placeholderTextColor={colors.muted}
+        style={[styles.searchInput, compact && styles.searchInputCompact, narrow && styles.searchInputNarrow]} />
+      <Pressable accessibilityRole="button" accessibilityLabel="処世術・理論・特集を検索" testID="discover-search-submit" onPress={() => openSearch()} style={({ pressed }) => [styles.searchSubmit, pressed && styles.pressed]}>
+        <AppText style={styles.searchSubmitText}>検索</AppText>
+      </Pressable>
+    </View>
+
+    <View testID="discover-categories">
+      <View testID="discover-techniques-section" style={styles.techniqueSection}>
+        <BrandSectionHeading title="処世術を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての処世術を見る" onAction={() => router.push(APP_ROUTES.techniques)} />
+        <AppText style={styles.sectionDescription}>どのように行動するか</AppText>
+        <AppText accessibilityRole="header" aria-level={3} style={styles.subheading}>人物像から探す</AppText>
+        {compact ? <ScrollView horizontal testID="discover-technique-grid" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail} style={styles.railViewport}>
+          {techniqueCards}
+        </ScrollView> : <View testID="discover-technique-grid" style={styles.grid}>{techniqueCards}</View>}
+        <Pressable testID="discover-technique-index" accessibilityRole="link" accessibilityLabel="全処世術一覧" onPress={() => router.push(APP_ROUTES.techniques)} style={({ pressed }) => [styles.techniqueIndex, pressed && styles.pressed]}>
+          <View style={styles.indexCopy}>
+            <AppText style={[styles.indexTitle, compact && styles.indexTitleCompact]}>全処世術一覧</AppText>
+            <AppText style={[styles.indexNote, narrow && styles.indexNoteNarrow]}>通しIDから探す・すべての処世術を表示</AppText>
+          </View>
+          <AppText accessibilityElementsHidden style={styles.indexArrow}>›</AppText>
         </Pressable>
       </View>
-      <View testID="discover-destinations" style={[styles.destinations, compact && styles.destinationsCompact]}>
-        <DestinationCard title="人物像から探す" icon="person" compact={compact} narrow={narrow} onPress={() => router.push(APP_ROUTES.personas)} />
-        <DestinationCard title="理論から探す" icon="book" compact={compact} narrow={narrow} onPress={() => router.push('/theories')} />
-      </View>
 
-      <View testID="discover-categories" style={[styles.categoriesSection, compact && styles.categoriesSectionCompact]}>
-        <BrandSectionHeading title="カテゴリから探す" actionLabel="人物像一覧 →" actionAccessibilityLabel="すべての人物像を見る" onAction={() => router.push(APP_ROUTES.personas)} compact={compact} />
-        <GroupHeading title="人物像" />
-        <View testID="discover-technique-grid" style={styles.categoryGrid}>
-          {categoryOrder.map((key) => <CategoryCard key={key} category={key} title={categoryMeta[key].label} mark={categoryMeta[key].mark} narrow={narrow} onPress={() => router.push({ pathname: APP_ROUTES.personas, params: { category: key } })} />)}
-        </View>
-        <Pressable testID="discover-technique-index" accessibilityRole="link" accessibilityLabel="処世術一覧" onPress={() => router.push(APP_ROUTES.techniques)} style={({ pressed }) => [styles.techniqueIndex, pressed && styles.pressed]}>
-          <AppText style={styles.techniqueIndexTitle}>処世術一覧</AppText>
-          <AppText style={styles.techniqueIndexNote}>通しIDから探す</AppText>
-          <AppText accessibilityElementsHidden style={styles.techniqueIndexArrow}>›</AppText>
-        </Pressable>
-        <GroupHeading title="理論" secondary />
-        <View testID="discover-theory-grid" style={styles.categoryGrid}>
-          {theoryDetails.map((item) => {
-            const title = theories.find((theory) => theory.categoryId === item.key)?.categoryTitle
-              ?? getTheoryFilterOptions().find((option) => option.key === item.key)?.label;
-            if (!title) return null;
-            return <CategoryCard key={item.key} category={item.key} title={title} icon={item.icon} narrow={narrow} wide={compact} onPress={() => router.push({ pathname: '/theories', params: { category: item.key } })} />;
-          })}
+      <View testID="discover-theories-section" style={styles.theorySection}>
+        <BrandSectionHeading title="理論を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての理論を見る" onAction={() => router.push('/theories')} />
+        <AppText style={styles.sectionDescription}>なぜそうなるのか</AppText>
+        <View testID="discover-theory-grid" style={[styles.grid, styles.theoryGrid]}>
+          {theoryCategories.map(option => <DiscoveryCategoryCard key={option.key} category={option.key} title={option.label} compact={compact} theory style={compact ? styles.theoryCardCompact : styles.gridCard}
+            onPress={() => router.push({ pathname: '/theories', params: { category: option.key } })} />)}
         </View>
       </View>
+    </View>
 
-      <View testID="discover-popular" style={[styles.popularSection, compact && styles.popularSectionCompact]}>
-        <BrandSectionHeading title="よく見られる検索" compact={compact} />
-        <View style={styles.popularGrid}>
-          {POPULAR_SEARCHES.map(({ term, mode }) => <Pressable key={term} accessibilityRole="button" accessibilityLabel={term + 'を検索'} onPress={() => openSearch(term, mode)} style={({ pressed }) => [styles.popularButton, compact && styles.popularButtonCompact, pressed && styles.pressed]}><SearchMark size={compact ? 16 : 18} color={colors.gold} /><AppText numberOfLines={1} style={[styles.popularText, narrow && styles.popularTextNarrow]}>{term}</AppText></Pressable>)}
-        </View>
+    <View testID="discover-popular" style={styles.popularSection}>
+      <AppText accessibilityRole="header" aria-level={3} style={styles.popularTitle}>よく見られる検索</AppText>
+      <View style={styles.popularGrid}>
+        {POPULAR_SEARCHES.map(({ term, mode }) => <Pressable key={term} accessibilityRole="button" accessibilityLabel={term + 'を検索'} onPress={() => openSearch(term, mode)} style={({ pressed }) => [styles.popularButton, compact && styles.popularButtonCompact, pressed && styles.pressed]}>
+          <SearchMark size={16} color={colors.gold} /><AppText numberOfLines={1} style={styles.popularText}>{term}</AppText>
+        </Pressable>)}
       </View>
-    </BookScreen>
-  );
+    </View>
+  </BookScreen>;
 }
 
-function DestinationCard({ title, icon, compact, narrow, onPress }: { title: string; icon: 'person' | 'book'; compact: boolean; narrow: boolean; onPress: () => void }) {
-  return <Pressable accessibilityRole="link" accessibilityLabel={title} onPress={onPress} style={({ pressed }) => [styles.destinationCard, compact && styles.destinationCardCompact, narrow && styles.destinationCardNarrow, pressed && styles.pressedCard]}>
-    <View style={[styles.destinationIcon, compact && styles.destinationIconCompact]}><DestinationIcon name={icon} /></View>
-    <View style={styles.destinationCopy}><AppText numberOfLines={2} style={[styles.destinationTitle, compact && styles.destinationTitleCompact, narrow && styles.destinationTitleNarrow]}>{title}</AppText></View>
-    <AppText accessibilityElementsHidden style={[styles.arrow, styles.destinationArrow]}>›</AppText>
-  </Pressable>;
-}
-
-function DestinationIcon({ name }: { name: 'person' | 'book' }) {
-  if (name === 'book') return <View style={styles.bookIcon}><View style={[styles.bookPage, styles.bookPageLeft]} /><View style={[styles.bookPage, styles.bookPageRight]} /></View>;
-  return <View style={styles.personIcon}><View style={styles.personHead} /><View style={styles.personBody} /></View>;
-}
-
-function GroupHeading({ title, secondary = false }: { title: string; secondary?: boolean }) {
-  return <View style={[styles.groupHeading, secondary && styles.groupHeadingSecondary]}><AppText accessibilityRole="header" aria-level={3} style={styles.groupTitle}>{title}</AppText><View style={styles.groupRule} /></View>;
-}
-
-function CategoryCard({ title, category, mark, icon, narrow, wide = false, onPress }: { title: string; category: string; mark?: string; icon?: TheoryIconName; narrow: boolean; wide?: boolean; onPress: () => void }) {
-  return <Pressable accessibilityRole="link" accessibilityLabel={title + 'から探す'} onPress={onPress} style={({ pressed }) => [styles.categoryCard, wide && styles.theoryCategoryCardCompact, narrow && styles.categoryCardNarrow, pressed && styles.pressedCard]}>
-    <CategoryArt category={category} compact /><View style={styles.categoryShade} />
-    <View style={styles.categoryTop}><View style={[styles.categoryIcon, icon && styles.theoryIcon, narrow && styles.categoryIconNarrow]}>{mark ? <AppText style={[styles.categoryMark, narrow && styles.categoryMarkNarrow]}>{mark}</AppText> : icon ? <TheoryIcon name={icon} /> : null}</View><AppText numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={[styles.categoryTitle, narrow && styles.categoryTitleNarrow]}>{title}</AppText></View>
-    <AppText accessibilityElementsHidden style={[styles.arrow, styles.categoryArrow, narrow && styles.categoryArrowNarrow]}>›</AppText>
-  </Pressable>;
-}
-
-function TheoryIcon({ name }: { name: TheoryIconName }) {
-  if (name === 'chart') return <View style={styles.chartIcon}><View style={[styles.chartBar, { height: 7 }]} /><View style={[styles.chartBar, { height: 12 }]} /><View style={[styles.chartBar, { height: 17 }]} /></View>;
-  if (name === 'compass') return <View style={styles.compassIcon}><View style={styles.compassNeedle} /></View>;
-  if (name === 'people') return <View style={styles.peopleIcon}><View style={styles.peopleHeads}><View style={styles.peopleHead} /><View style={styles.peopleHead} /></View><View style={styles.peopleShoulders} /></View>;
-  if (name === 'classics') return <View style={styles.classicsIcon}><View style={styles.classicsRule} /><View style={styles.classicsColumns}><View style={styles.classicsColumn} /><View style={styles.classicsColumn} /><View style={styles.classicsColumn} /></View><View style={styles.classicsRule} /></View>;
-  if (name === 'idea') return <View style={styles.ideaIcon}><View style={styles.ideaBulb} /><View style={styles.ideaStem} /></View>;
-  return <View style={styles.mindIcon}><View style={styles.mindInner} /><View style={styles.mindNeck} /></View>;
-}
-
-const softGold = colors.goldSoft;
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingBottom: 42 },
-  contentCompact: { paddingBottom: 22 },
-  search: { width: '100%', minHeight: 82, marginTop: 8, paddingHorizontal: 26, flexDirection: 'row', alignItems: 'center', gap: 16, borderWidth: 1.2, borderColor: colors.gold, borderRadius: radius.pill, backgroundColor: colors.surface },
-  searchCompact: { minHeight: 72, marginTop: 5, paddingHorizontal: 20, gap: 12 },
-  searchInput: { flex: 1, minWidth: 0, height: '100%', padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 27, letterSpacing: 0.4, outlineStyle: 'none' } as object,
-  searchInputCompact: { fontSize: 16, lineHeight: 24, letterSpacing: 0 },
-  searchInputNarrow: { fontSize: 16 },
-  searchSubmit: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 3 },
+  content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingTop: 16, paddingBottom: 42 },
+  contentCompact: { paddingTop: 12, paddingBottom: 24 },
+  search: { width: '100%', height: 62, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 20, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: radius.pill, backgroundColor: colors.surface },
+  searchCompact: { height: 56, gap: 9, paddingHorizontal: 14 },
+  searchInput: { flex: 1, minWidth: 0, height: '100%', padding: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, outlineStyle: 'none' } as object,
+  searchInputCompact: { fontSize: 14, lineHeight: 22 }, searchInputNarrow: { fontSize: 13 },
+  searchSubmit: { minWidth: 36, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
   searchSubmitText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 14, fontWeight: '700' },
-  destinations: { flexDirection: 'row', gap: 14, marginTop: 18 },
-  destinationsCompact: { gap: 10, marginTop: 20 },
-  destinationCard: { position: 'relative', flex: 1, minWidth: 0, minHeight: 90, flexDirection: 'row', alignItems: 'center', gap: 15, paddingHorizontal: 18, paddingVertical: 12, borderWidth: 1, borderColor: softGold, borderRadius: 18, backgroundColor: colors.surface },
-  destinationCardCompact: { minHeight: 72, gap: 6, paddingHorizontal: 10, paddingVertical: 8 },
-  destinationCardNarrow: { minHeight: 72, paddingHorizontal: 8, gap: 5 },
-  destinationIcon: { width: 52, height: 52, flexShrink: 0, borderRadius: 26, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  destinationIconCompact: { width: 34, height: 34, borderRadius: 17 },
-  destinationCopy: { flex: 1, minWidth: 0, paddingRight: 3 },
-  destinationTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 29, fontWeight: '700' },
-  destinationTitleCompact: { fontSize: 16, lineHeight: 22 },
-  destinationTitleNarrow: { fontSize: 14, lineHeight: 20 },
-  arrow: { color: colors.goldDeep, fontFamily: fonts.serif, fontWeight: '600' },
-  destinationArrow: { position: 'absolute', right: 4, top: '47%', fontSize: 21, lineHeight: 24 },
-  categoriesSection: { marginTop: 36 }, categoriesSectionCompact: { marginTop: 28 },
-  groupHeading: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 16, marginBottom: 8 }, groupHeadingSecondary: { marginTop: 18 },
-  groupTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
-  groupRule: { flex: 1, height: 1, backgroundColor: colors.line },
-  categoryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  techniqueIndex: { minHeight: 54, marginTop: 10, paddingHorizontal: 18, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
-  techniqueIndexTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '700' },
-  techniqueIndexNote: { flex: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
-  techniqueIndexArrow: { color: colors.goldDeep, fontSize: 25, lineHeight: 30 },
-  categoryCard: { position: 'relative', width: '30%', flexGrow: 1, minWidth: 0, overflow: 'hidden', minHeight: 90, justifyContent: 'center', paddingHorizontal: 7, paddingVertical: 6, borderWidth: 1, borderColor: softGold, borderRadius: 13, backgroundColor: colors.surface },
-  categoryCardNarrow: { minHeight: 84, paddingHorizontal: 5 },
-  theoryCategoryCardCompact: { width: '46%' },
-  categoryShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(12,27,28,0.56)' },
-  categoryTop: { flexDirection: 'row', alignItems: 'center', gap: 5, minWidth: 0, paddingRight: 4 },
-  categoryIcon: { width: 29, height: 29, flexShrink: 0, borderRadius: 15, backgroundColor: colors.charcoal, alignItems: 'center', justifyContent: 'center' },
-  categoryIconNarrow: { width: 24, height: 24, borderRadius: 12 },
-  theoryIcon: { backgroundColor: '#FDFBF7', borderWidth: 1, borderColor: softGold },
-  categoryMark: { color: '#DDB867', fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
-  categoryMarkNarrow: { fontSize: 15, lineHeight: 20 },
-  categoryTitle: { flexShrink: 1, color: '#FFFDF5', fontFamily: fonts.serif, fontSize: 14, lineHeight: 19, fontWeight: '700' },
-  categoryTitleNarrow: { fontSize: 12, lineHeight: 16 },
-  categoryArrow: { color: '#FFE1A3', position: 'absolute', right: 2, bottom: 2, fontSize: 16, lineHeight: 18 },
-  categoryArrowNarrow: { right: 1, fontSize: 14 },
-  popularSection: { marginTop: 34 }, popularSectionCompact: { marginTop: 28 },
-  popularGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 },
-  popularButton: { width: '30%', flexGrow: 1, minHeight: 47, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 14, borderWidth: 1, borderColor: softGold, borderRadius: radius.pill, backgroundColor: colors.surface },
-  popularButtonCompact: { width: '46%', minHeight: 44, gap: 8, paddingHorizontal: 8 },
-  popularText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20 }, popularTextNarrow: { fontSize: 13 },
-  pressed: { opacity: 0.68 }, pressedCard: { opacity: 0.75 },
-  personIcon: { width: 28, height: 29, alignItems: 'center' },
-  personHead: { width: 10, height: 10, borderRadius: 6, borderWidth: 1.5, borderColor: '#DDB867' },
-  personBody: { width: 22, height: 14, marginTop: 2, borderTopLeftRadius: 12, borderTopRightRadius: 12, borderWidth: 1.5, borderBottomWidth: 0, borderColor: '#DDB867' },
-  bookIcon: { width: 27, height: 22, flexDirection: 'row', gap: 1 },
-  bookPage: { width: 13, height: 20, borderWidth: 1.5, borderColor: '#DDB867' },
-  bookPageLeft: { borderTopLeftRadius: 3, borderBottomLeftRadius: 3, borderTopRightRadius: 5 },
-  bookPageRight: { borderTopRightRadius: 3, borderBottomRightRadius: 3, borderTopLeftRadius: 5 },
-  chartIcon: { width: 19, height: 18, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', gap: 2 },
-  chartBar: { width: 4, borderWidth: 1.2, borderColor: colors.gold },
-  compassIcon: { width: 19, height: 19, borderWidth: 1.3, borderColor: colors.gold, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  compassNeedle: { width: 3, height: 14, borderWidth: 1.1, borderColor: colors.gold, transform: [{ rotate: '40deg' }] },
-  peopleIcon: { width: 20, height: 18, alignItems: 'center', justifyContent: 'center' },
-  peopleHeads: { flexDirection: 'row', gap: 3 },
-  peopleHead: { width: 6, height: 6, borderRadius: 3, borderWidth: 1.1, borderColor: colors.gold },
-  peopleShoulders: { width: 17, height: 7, marginTop: 2, borderTopLeftRadius: 8, borderTopRightRadius: 8, borderWidth: 1.1, borderBottomWidth: 0, borderColor: colors.gold },
-  classicsIcon: { width: 19, height: 17, alignItems: 'center', justifyContent: 'center' },
-  classicsRule: { width: 19, height: 3, borderWidth: 1, borderColor: colors.gold },
-  classicsColumns: { width: 15, height: 11, flexDirection: 'row', justifyContent: 'space-between' },
-  classicsColumn: { width: 3, borderLeftWidth: 1, borderRightWidth: 1, borderColor: colors.gold },
-  ideaIcon: { width: 18, height: 20, alignItems: 'center' },
-  ideaBulb: { width: 14, height: 14, borderWidth: 1.2, borderColor: colors.gold, borderRadius: 7 },
-  ideaStem: { width: 6, height: 5, borderLeftWidth: 1.2, borderRightWidth: 1.2, borderBottomWidth: 1.2, borderColor: colors.gold },
-  mindIcon: { width: 18, height: 16, borderWidth: 1.2, borderColor: colors.gold, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
-  mindInner: { width: 6, height: 6, borderWidth: 1, borderColor: colors.gold, borderRadius: 3 },
-  mindNeck: { position: 'absolute', bottom: -3, right: 0, width: 5, height: 5, borderLeftWidth: 1, borderBottomWidth: 1, borderColor: colors.gold },
+  techniqueSection: { marginTop: 28 },
+  sectionDescription: { marginTop: 5, color: colors.muted, fontSize: 13, lineHeight: 20 },
+  subheading: { marginTop: 18, marginBottom: 12, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
+  gridCard: { width: '30%', flexGrow: 1, flexShrink: 1 },
+  rail: { gap: 12, paddingBottom: 2 }, railViewport: { width: '100%' },
+  techniqueIndex: { minHeight: 68, marginTop: 16, paddingHorizontal: 18, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: 14, backgroundColor: colors.paper },
+  indexCopy: { flex: 1, minWidth: 0, gap: 3 },
+  indexTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 25, fontWeight: '700' },
+  indexTitleCompact: { fontSize: 16, lineHeight: 23 },
+  indexNote: { color: colors.muted, fontSize: 12, lineHeight: 18 }, indexNoteNarrow: { fontSize: 11 },
+  indexArrow: { color: colors.goldDeep, fontSize: 26, lineHeight: 30 },
+  theorySection: { marginTop: 36 }, theoryGrid: { marginTop: 18 },
+  theoryCardCompact: { width: '46%', flexGrow: 1, flexShrink: 1 },
+  popularSection: { marginTop: 32 }, popularTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
+  popularGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 12 },
+  popularButton: { width: '30%', flexGrow: 1, minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 9, paddingHorizontal: 8, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: radius.pill, backgroundColor: colors.surface },
+  popularButtonCompact: { width: '46%' }, popularText: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
+  pressed: { opacity: 0.75 },
 });

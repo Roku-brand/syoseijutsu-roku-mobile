@@ -8,6 +8,7 @@ import { colors, fonts, radius } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
+  categories,
   techniqueById,
   techniqueCards,
   theoryById,
@@ -109,7 +110,7 @@ export default function CardDetailScreen() {
         <SeoBreadcrumbs items={[
           { label: '探す', href: '/discover' },
           { label: card.categoryName, href: { pathname: '/personas', params: { category: card.categoryKey } } },
-          { label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]', params: { category: card.categoryKey, name: card.subcategory } } },
+          ...(categories.some(category => category.key === card.categoryKey && category.subcategories.some(persona => persona.name === card.subcategory)) ? [{ label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]' as const, params: { category: card.categoryKey, name: card.subcategory } } }] : []),
           { label: card.title },
         ]} />
         <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
