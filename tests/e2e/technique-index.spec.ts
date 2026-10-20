@@ -44,8 +44,8 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await expect(input).toHaveValue('No.337');
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.337');
   await page.getByTestId('technique-index-row').click();
-  await expect(page).toHaveURL(/\/card\/master336-337$/);
-  await expect(page.getByText('この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。')).toBeVisible();
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
+  await expect(page.getByTestId('technique-essence')).toHaveCount(0);
   await page.goto('/techniques?q=050');
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.050');
   await page.getByTestId('technique-index-row').click();
