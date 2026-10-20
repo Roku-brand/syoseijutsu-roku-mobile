@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('mobile theory category names fit one readable line', async ({ page }) => {
+test('mobile theory category names remain readable and wrap at word boundaries', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: { message: 'Use the bundled public catalog for this test' } }));
   for (const width of [320, 390, 430]) {
     await page.setViewportSize({ width, height: 844 });
@@ -9,10 +9,17 @@ test('mobile theory category names fit one readable line', async ({ page }) => {
     await expect(grid.getByRole('link')).toHaveCount(6);
     for (const label of ['組織・経営論', '古典・思想']) {
       const title = grid.getByRole('link', { name: `${label}から探す`, exact: true }).getByText(label, { exact: true });
-      const size = await title.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight), font: parseFloat(getComputedStyle(el).fontSize), width: el.clientWidth, scroll: el.scrollWidth }));
-      expect(size.height).toBeLessThanOrEqual(size.line + 1);
-      expect(size.scroll).toBeLessThanOrEqual(size.width + 1);
-      expect(size.font).toBeGreaterThanOrEqual(11);
+      const size = await title.evaluate(el => ({
+        height: el.getBoundingClientRect().height,
+        words: [...el.children].map(word => ({ text: word.textContent, height: word.getBoundingClientRect().height, line: parseFloat(getComputedStyle(word).lineHeight), font: parseFloat(getComputedStyle(word).fontSize), width: word.clientWidth, scroll: word.scrollWidth })),
+      }));
+      expect(size.words.map(word => word.text)).toEqual(label.match(/[^・]+・?/g));
+      expect(size.height).toBeLessThanOrEqual(2 * size.words[0].line + 1);
+      for (const word of size.words) {
+        expect(word.height).toBeLessThanOrEqual(word.line + 1);
+        expect(word.scroll).toBeLessThanOrEqual(word.width + 1);
+        expect(word.font).toBeGreaterThanOrEqual(18);
+      }
     }
     await page.screenshot({ path: test.info().outputPath(`discover-${width}.png`) });
   }
