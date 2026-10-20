@@ -8,6 +8,7 @@ import { featureImage } from './feature-article';
 import type { FeatureArticle } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { colors, fonts } from '@/constants/theme';
+import { TechniqueTitle } from './technique-title';
 
 export type PersonalContentRow = { kind: 'technique' | 'theory' | 'feature'; id: string; title: string; label: string; description: string; category: string; article?: FeatureArticle };
 export function PersonalContentCard({ row, onPress, action }: { row: PersonalContentRow; onPress: () => void; action?: ReactNode }) {
@@ -19,7 +20,7 @@ export function PersonalContentCard({ row, onPress, action }: { row: PersonalCon
       <View testID="personal-card-image" style={[styles.art, mobile && styles.artMobile]}>{row.kind === 'feature'
         ? <Image source={row.article ? featureCover(row.article)?.compactSource ?? featureImage(row.article.image_path) : featureImage(null)} contentFit="cover" accessible={false} cachePolicy="memory-disk" style={StyleSheet.absoluteFill} />
         : <CategoryArt category={row.category} compact />}</View>
-      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText><AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View>{!action ? <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText> : null}
+      <View style={styles.copy}><AppText style={[styles.label, mobile && styles.labelMobile, { color: tone }]}>{row.label}</AppText>{row.kind === 'technique' ? <TechniqueTitle title={row.title} minimumFontSize={14} style={[styles.title, mobile && styles.titleMobile]} /> : <AppText numberOfLines={2} style={[styles.title, mobile && styles.titleMobile]}>{row.title}</AppText>}{row.description ? <AppText numberOfLines={1} style={[styles.description, mobile && styles.descriptionMobile]}>{row.description}</AppText> : null}</View>{!action ? <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText> : null}
     </Pressable>{action}
   </View>;
 }

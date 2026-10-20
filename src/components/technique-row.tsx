@@ -13,6 +13,7 @@ import { useAppState } from '@/state/app-state';
 import { AppText } from './ui';
 import { SaveDiamondButton } from './book-ui';
 import { useAppToast } from './app-toast';
+import { TechniqueTitle } from './technique-title';
 
 export function TechniqueRow({
   card,
@@ -72,7 +73,7 @@ export function TechniqueRow({
               {'★'.repeat(card.importance)}
             </AppText>
           ) : null}
-          <AppText style={styles.title}>{card.title}</AppText>
+          <TechniqueTitle title={card.title} style={styles.title} />
           {card.subtitle && (
             <AppText variant="caption" style={styles.subtitle}>
               {card.subtitle}

@@ -10,6 +10,7 @@ import { categoryMeta, categoryOrder, getTechniqueDisplayId } from '@/data/catal
 import { getTechniqueIndex } from '@/data/technique-index';
 import type { TechniqueCard } from '@/data/types';
 import { techniqueRoute } from '@/navigation/app-routes';
+import { TechniqueTitle } from '@/components/technique-title';
 
 const PAGE_SIZE = 100;
 
@@ -64,7 +65,7 @@ function TechniqueIndexRow({ card, readable }: { card: TechniqueCard; readable: 
       <AppText testID="technique-index-id" style={styles.code}>{displayId}</AppText>
       <View style={styles.copy}>
         <AppText style={styles.meta}>{card.categoryName} · {card.subcategory}</AppText>
-        <AppText style={styles.title}>{title}</AppText>
+        <TechniqueTitle testID="technique-index-title" title={title} minimumFontSize={14} style={styles.title} />
         {!readable ? <AppText style={styles.note}>完全版で読む</AppText> : null}
       </View>
       <AppText accessibilityElementsHidden style={styles.arrow}>›</AppText>

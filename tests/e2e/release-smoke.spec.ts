@@ -699,11 +699,23 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   await expect(mapSlide).toContainText('希少性価値');
   await expect(page.getByTestId('home-brand-map-connectors')).toBeVisible();
   await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
-  const dailyTitleStyle = await page.getByTestId('home-brand-technique-title').evaluate((element) => {
-    const computed = getComputedStyle(element);
-    return { overflow: computed.overflow, whiteSpace: computed.whiteSpace };
+  const dailyTitle = page.getByTestId('home-brand-technique-title');
+  await expect.poll(() => dailyTitle.evaluate(element => element.childElementCount)).toBeGreaterThan(0);
+  const dailyTitleLayout = await dailyTitle.evaluate(element => {
+    const box = element.getBoundingClientRect();
+    return {
+      text: element.textContent,
+      fullTitle: element.getAttribute('aria-label'),
+      fits: Array.from(element.children).every(line => {
+        const range = document.createRange();
+        range.selectNodeContents(line);
+        const rect = range.getBoundingClientRect();
+        return rect.left >= box.left - 1 && rect.right <= box.right + 1;
+      }),
+    };
   });
-  expect(dailyTitleStyle).toEqual({ overflow: 'clip', whiteSpace: 'pre-wrap' });
+  expect(dailyTitleLayout.text).toBe(dailyTitleLayout.fullTitle);
+  expect(dailyTitleLayout.fits).toBe(true);
   const mapTitleStyle = await page.getByTestId('home-brand-map-technique-title').evaluate((element) => {
     const computed = getComputedStyle(element);
     return { overflow: computed.overflow, textOverflow: computed.textOverflow, whiteSpace: computed.whiteSpace };
