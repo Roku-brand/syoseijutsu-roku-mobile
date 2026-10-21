@@ -50,7 +50,10 @@ export function TheoryNetwork({ theory }: { theory: TheoryCard }) {
       key: entry.id, title: theoryById.get(entry.id)!.title,
       supportingText: relationLabel(entry.relation, theory.tagId),
       detailText: entry.relation.reviewStatus === 'confirmed' ? entry.relation.rationale : undefined,
-      accessibilityLabel: `${relationLabel(entry.relation, theory.tagId)}：${theoryById.get(entry.id)!.title}`,
+      accessibilityLabel: [
+        `${relationLabel(entry.relation, theory.tagId)}：${theoryById.get(entry.id)!.title}`,
+        entry.relation.reviewStatus === 'confirmed' ? entry.relation.rationale : '',
+      ].filter(Boolean).join('。'),
       href: { pathname: '/theory/[id]', params: { id: entry.id } },
     }))} />
     <SecondaryButton onPress={() => { setSelected(visible[0]?.id ?? null); setOpen(true); }}>知識のつながりを見る</SecondaryButton>
