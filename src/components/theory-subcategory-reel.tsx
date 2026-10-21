@@ -30,6 +30,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const latest = useRef({ options, index, onSelect, slot, width, reducedMotion });
   latest.current = { options, index, onSelect, slot, width, reducedMotion };
   const position = useRef(0);
+  const pendingPosition = useRef<number | null>(null);
   const targetIndex = useRef(index);
   const dragging = useRef(false);
   const momentum = useRef(false);
@@ -55,6 +56,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     scrollX.setValue(bounded);
     if (Platform.OS === 'web') {
       const node = webScroll.current as unknown as HTMLElement | null;
+      pendingPosition.current = bounded;
       node?.scrollTo({ left: bounded, behavior: 'instant' });
     } else scroll.current?.scrollTo({ x: bounded, y: 0, animated: false });
   }, [scrollX]);
@@ -84,6 +86,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
       const node = webScroll.current as unknown as HTMLElement | null;
       const instant = !animate || current.reducedMotion || Math.abs(from - destination) < 0.5;
       animating.current = !instant;
+      pendingPosition.current = destination;
       node?.scrollTo({ left: destination, behavior: instant ? 'instant' : 'smooth' });
       return;
     }
@@ -130,13 +133,21 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     let suppressClick = false;
     const hasScrollEnd = 'onscrollend' in scroller;
     const settle = () => {
-      if (!mounted.current || dragging.current) return;
+      if (!mounted.current || dragging.current || !latest.current.width) return;
       if (idle.current !== null) clearTimeout(idle.current);
       idle.current = null;
       animating.current = false;
       position.current = scroller.scrollLeft;
       scrollX.setValue(position.current);
-      commit(Math.round(position.current / latest.current.slot));
+      // Initial CSS snapping can emit scrollend before the measured width is
+      // applied. Restore the requested URL position instead of selecting item 0.
+      if (pendingPosition.current !== null) {
+        if (Math.abs(position.current - pendingPosition.current) > 1) {
+          scroller.scrollTo({ left: pendingPosition.current, behavior: 'instant' });
+          return;
+        }
+        pendingPosition.current = null;
+      } else commit(Math.round(position.current / latest.current.slot));
       scroller.style.removeProperty('scroll-snap-type');
     };
     const scheduleSettle = () => {
@@ -150,16 +161,20 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     };
     // Touch scrolling, inertia and snapping belong to the browser. Rewriting
     // scrollLeft on a timer while the finger is down interrupts that gesture.
-    const touchStart = () => { stop(); dragging.current = true; };
+    const touchStart = () => { stop(); pendingPosition.current = null; dragging.current = true; };
     const touchEnd = (event: TouchEvent) => {
       if (event.touches.length) return;
       dragging.current = false;
       scheduleSettle();
     };
+    const touchCancel = () => {
+      dragging.current = false;
+      navigateRef.current(targetIndex.current);
+    };
     // Keep mouse dragging, without capturing the browser's touch gestures.
     const pointerDown = (event: PointerEvent) => {
       if (event.pointerType !== 'mouse' || event.button !== 0) return;
-      stop(); suppressClick = false;
+      stop(); pendingPosition.current = null; suppressClick = false;
       mouse = { id: event.pointerId, x: event.clientX, scrollLeft: scroller.scrollLeft, moved: false };
     };
     const pointerMove = (event: PointerEvent) => {
@@ -194,6 +209,10 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     };
     const wheel = (event: WheelEvent) => {
       if (event.ctrlKey) return;
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        stop(); pendingPosition.current = null;
+        return;
+      }
       // Horizontal trackpad input scrolls natively; Shift+wheel is an explicit
       // horizontal shortcut, so it must not also scroll the surrounding page.
       if (!event.shiftKey || event.deltaX || !event.deltaY) return;
@@ -217,7 +236,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     scroller.addEventListener('scrollend', settle);
     scroller.addEventListener('touchstart', touchStart, { passive: true });
     scroller.addEventListener('touchend', touchEnd, { passive: true });
-    scroller.addEventListener('touchcancel', touchEnd, { passive: true });
+    scroller.addEventListener('touchcancel', touchCancel, { passive: true });
     scroller.addEventListener('pointerdown', pointerDown);
     scroller.addEventListener('pointermove', pointerMove);
     scroller.addEventListener('pointerup', pointerEnd);
@@ -227,7 +246,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     return () => {
       node.removeEventListener('wheel', wheel); node.removeEventListener('keydown', keydown);
       scroller.removeEventListener('scroll', onScroll); scroller.removeEventListener('scrollend', settle);
-      scroller.removeEventListener('touchstart', touchStart); scroller.removeEventListener('touchend', touchEnd); scroller.removeEventListener('touchcancel', touchEnd);
+      scroller.removeEventListener('touchstart', touchStart); scroller.removeEventListener('touchend', touchEnd); scroller.removeEventListener('touchcancel', touchCancel);
       scroller.removeEventListener('pointerdown', pointerDown); scroller.removeEventListener('pointermove', pointerMove);
       scroller.removeEventListener('pointerup', pointerEnd); scroller.removeEventListener('pointercancel', pointerEnd); scroller.removeEventListener('lostpointercapture', pointerEnd);
       scroller.removeEventListener('click', click, true);
@@ -242,7 +261,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
     const parts = getCategoryLabelParts(option.title);
     const label = parts.length > 1 && option.title.length * (width >= 500 ? 22 : 20) * fontScale > slot - 16 ? parts.join('\n') : option.title;
     return <Pressable key={optionKey(option)} testID={active ? 'theory-subcategory-tab' : 'theory-subcategory-preview'} accessibilityRole="button"
-      accessibilityLabel={`${option.title}で理論を絞り込む`} accessibilityHint={`${option.items.length}件。左右にスワイプして選択できます`}
+      accessibilityLabel={option.subcategoryId ? `${option.title}で理論を絞り込む` : 'この分類のすべての理論を表示'} accessibilityHint={`${option.items.length}件。左右にスワイプして選択できます`}
       accessibilityState={{ selected: active }} aria-selected={active} tabIndex={active ? 0 : -1}
       onPress={() => navigate(itemIndex)} style={[styles.item, { width: slot, minHeight: stageHeight }]}>
       <Animated.View style={[styles.copy, { opacity: scrollX.interpolate({ inputRange: [center - slot * 1.5, center - slot, center, center + slot, center + slot * 1.5], outputRange: [0, 0.65, 1, 0.65, 0], extrapolate: 'clamp' }), transform: [

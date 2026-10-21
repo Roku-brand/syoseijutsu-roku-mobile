@@ -13,7 +13,7 @@ async function expectCategory(page: Page, id?: string, category = 'psychology') 
   const title = id ? sections.find((s: any) => s.id === id).title : 'すべて';
   await expect(current).toHaveCount(1);
   await expect(current).toHaveAttribute('aria-selected', 'true');
-  await expect(current).toHaveAccessibleName(`${title}で理論を絞り込む`);
+  await expect(current).toHaveAccessibleName(id ? `${title}で理論を絞り込む` : 'この分類のすべての理論を表示');
   await expect.poll(() => { const value = new URL(page.url()).searchParams.get('subcategory'); return value ? redirects[value] ?? value : null; }).toBe(id ?? null);
   const count = theories.filter((t: any) => t.categoryId === category && (!id || t.subcategoryId === id)).length;
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(count);

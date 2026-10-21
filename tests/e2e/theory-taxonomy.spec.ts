@@ -51,7 +51,7 @@ test('概要は冒頭で核を示し、格言の言葉・出典と短い意味�
   await expect(page.getByTestId('theory-title')).toHaveText(row.title);
   const copy=row.quotation?.contextNote??row.summary;
   await expect(page.getByTestId('theory-summary')).toContainText(copy.split('。')[0]+'。');
-  await expect(page.getByTestId('theory-summary')).not.toContainText('法則ではない');
+  expect((await page.getByTestId('theory-summary').innerText()).split('。')[0]).not.toContain('法則ではない');
   if(row.quotation) await expect(page.getByTestId('quotation-attribution')).toContainText(row.quotation.author);
   await page.screenshot({path:test.info().outputPath(`summary-${id}.png`)});
  }

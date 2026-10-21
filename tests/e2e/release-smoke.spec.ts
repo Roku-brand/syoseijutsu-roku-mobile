@@ -166,12 +166,12 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   await expect(title).not.toContainText('…');
 });
 
-test('理論詳細は概要・処世術・理論・情報の順で、概要を2文に分ける', async ({ page }) => {
+test('理論詳細は短い定義・処世術・理論・情報の順で表示する', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/theory/kb_008');
   const summary = page.getByTestId('theory-summary');
   await expect(summary).toBeVisible();
-  expect(await summary.innerText()).toContain('自分が考えや経験を適度に話すと、相手も同じ程度に自分のことを話しやすくなる傾向。\nやり取りを重ねながら親密さが深まる。');
+  expect(await summary.innerText()).toContain('自分のことを適度に話すと、相手も自分のことを話しやすくなること。');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
   expect(article.indexOf('自己開示の返報性とは')).toBeGreaterThan(0);
   expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
@@ -481,7 +481,7 @@ test('追加理論は詳細・出典・関連導線まで表示される', async
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/theory/kb_706');
   await expect(page.getByTestId('theory-title')).toHaveText('ダニング＝クルーガー効果');
-  await expect(page.getByTestId('theory-summary')).toContainText('自己評価');
+  await expect(page.getByTestId('theory-summary')).toContainText('自分の出来を高く見積もりやすいこと。');
   await expect(page.getByTestId('theory-information')).toContainText('David Dunning');
   // The authoritative DB has no technique links for kb_706. Do not restore
   // outdated generated-only associations just to fill the section.
