@@ -40,7 +40,7 @@ test('格言は承認済みの言葉を見出しにし、ことわざと格言�
  await page.getByTestId('theory-subcategory-tab').focus();await page.keyboard.press('ArrowLeft');
  await expect(page.getByRole('button',{name:'ことわざで理論を絞り込む',exact:true})).toBeVisible();
  await expect(cards).toHaveCount(rows.filter((t:any)=>t.subcategoryId==='classics-thought-p').length);
- await expect(cards.getByText('人間万事塞翁が馬',{exact:true})).toBeVisible();
+ await expect(cards.getByText('「人間万事塞翁が馬」',{exact:true})).toBeVisible();
 });
 test('概要は冒頭で核を示し、格言の言葉・出典と短い意味説明を分けて表示する',async({page})=>{
  await mockOwner(page);
