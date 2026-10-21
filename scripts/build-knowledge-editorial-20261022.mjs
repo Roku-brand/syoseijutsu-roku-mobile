@@ -107,6 +107,7 @@ select pg_advisory_xact_lock(hashtextextended('theory-knowledge-network',0));
 lock table public.theories,public.theory_relations in share row exclusive mode;
 do $guard$ begin
  if exists(select 1 from jsonb_array_elements(${json(after.theories)}) a join public.theories t on t.id=a->>'id' where (to_jsonb(t)-'updated_at') is distinct from (a-'updated_at')) then raise exception 'Later editorial changes; rollback aborted'; end if;
+ if exists(select 1 from jsonb_array_elements(${json(relationChanges.map(r=>r.after))}) a left join public.theory_relations r on r.source_id=a->>'source_id' and r.target_id=a->>'target_id' where (to_jsonb(r)-'updated_at'-'updated_by') is distinct from (a-'updated_at'-'updated_by')) then raise exception 'Later relationship changes; rollback aborted'; end if;
 end $guard$;
 ${relationChanges.map(({after:r})=>`delete from public.theory_relations where least(source_id,target_id)=least(${quote(r.source_id)},${quote(r.target_id)}) and greatest(source_id,target_id)=greatest(${quote(r.source_id)},${quote(r.target_id)});`).join('\n')}
 insert into public.theory_relations select * from jsonb_populate_recordset(null::public.theory_relations,${json(relationChanges.map(r=>r.before).filter(Boolean))});
