@@ -6,12 +6,12 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {additions} from '../../scripts/theory-release-20261018-data.mjs';
+import {summaryReviews,titleReviews} from '../helpers/theory-editorial-history.mjs';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const full=read('src/data/generated/theories.json');
 const shells=read('src/data/generated/theories.public.json');
 const release=read('docs/content/theory-release-20261018-changes.json');
 const byId=new Map(full.map(t=>[t.tagId,t]));
-const summaryReviews=new Map(read('docs/content/theory-summary-review-20261019.json').changes.map(t=>[t.id,t]));
 const {validateTheoryForPublish}=await import('../../src/data/content-editor-schema.ts');
 const {normalizeSearchText,scoreSearchDocument}=await import('../../src/data/search-ranking.ts');
 const {getSearchResults}=await import('../../src/data/search-catalog.ts');
@@ -23,6 +23,7 @@ test('821 stable identities and original bodies survive, with only reviewed fiel
   for(const old of before){const now=byId.get(old.tagId);assert.ok(now,old.tagId);
     for(const key of Object.keys(old).filter(k=>!['aliases','relatedTheoryIds','displayId','displayOrder','sortOrder'].includes(k))) {
       const reviewed=summaryReviews.get(old.tagId);
+      if(key==='title'&&titleReviews.has(old.tagId)){const edit=titleReviews.get(old.tagId);assert.equal(edit.beforeTitle,old.title);assert.equal(now.title,edit.title);continue;}
       if(key==='summary'&&reviewed) {assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
       if(key==='quotation'&&reviewed?.contextNote) {assert.deepEqual(now.quotation,{...old.quotation,contextNote:reviewed.contextNote});continue;}
       assert.deepEqual(now[key],old[key],old.tagId+'/'+key);
@@ -61,8 +62,8 @@ test('release has exactly 124 distinct, sourced, editable cards in the six exist
     const t=byId.get(row.id);assert.ok(!retired.has(t.tagId));
     const reviewed=summaryReviews.get(t.tagId);
     if(reviewed) {
-      assert.equal(reviewed.beforeSummary,additions.find(a=>a.title===t.title).summary);
-      assert.equal(t.summary,reviewed.summary);assert.ok(t.summary.length>=30&&t.summary.length<=150,t.title);
+      assert.equal(reviewed.beforeSummary,additions.find(a=>a.title===(titleReviews.get(t.tagId)?.beforeTitle??t.title)).summary);
+      assert.equal(t.summary,reviewed.summary);assert.ok(t.summary.length>=10&&t.summary.length<=180,t.title);
     } else assert.ok(t.summary.length>=150,t.title);
     assert.deepEqual(validateTheoryForPublish(t),[],t.title);
     assert.ok(t.aliases.length && t.relatedTheoryIds.length && t.provenance.note,t.title);

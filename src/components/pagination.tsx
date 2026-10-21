@@ -3,11 +3,11 @@ import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { AppText } from './ui';
 
 export function Pagination({ page, totalPages, onSelect, tone = 'technique', label, testID }: {
-  page: number; totalPages: number; onSelect: (page: number) => void; tone?: 'technique' | 'theory'; label: string; testID?: string;
+  page: number; totalPages: number; onSelect: (page: number) => void; tone?: 'technique' | 'theory' | 'neutral'; label: string; testID?: string;
 }) {
   if (totalPages <= 1) return null;
-  const ink = tone === 'theory' ? catalogTheme.theory.ink : colors.gold;
-  const border = tone === 'theory' ? catalogTheme.theory.border : colors.gold;
+  const ink = tone === 'neutral' ? colors.ink : tone === 'theory' ? catalogTheme.theory.ink : colors.gold;
+  const border = tone === 'neutral' ? colors.ink : tone === 'theory' ? catalogTheme.theory.border : colors.gold;
   return <View testID={testID} accessibilityLabel={label} style={styles.pagination}>
     {Array.from({ length: totalPages }, (_, index) => index + 1).map(value => <Pressable key={value} accessibilityRole="button" accessibilityLabel={`${value}ページ目`} accessibilityState={{ selected: value === page }} aria-current={value === page ? 'page' : undefined} aria-selected={value === page} onPress={() => onSelect(value)} style={({ pressed }) => [styles.button, { borderColor: value === page ? ink : border, backgroundColor: value === page ? ink : 'transparent' }, pressed && styles.pressed]}>
       <AppText style={[styles.text, { color: value === page ? colors.surface : ink }, value === page && styles.activeText]}>{value}</AppText>

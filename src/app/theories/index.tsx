@@ -84,7 +84,7 @@ export default function TheoryIndexScreen() {
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
-      <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={item => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} />
+      <Pagination page={safePage} totalPages={totalPages} tone="neutral" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={item => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} />
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
@@ -111,16 +111,16 @@ const styles = StyleSheet.create({
   subcategoryFilters: { marginTop: spacing.lg },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultHeadingWithReel: { marginTop: spacing.md },
-  resultTitle: { color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
-  totalNote: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },
+  resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
+  totalNote: { color: colors.ink, fontSize: 11, lineHeight: 18 },
   list: { width: '100%', gap: 12 },
   section: { width: '100%', gap: 12, marginBottom: spacing.lg },
-  majorHeading: { color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
+  majorHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
   subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingTop: 10, paddingBottom: 4 },
-  subTitle: { flex: 1, color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
-  sectionCount: { color: catalogTheme.theory.ink, fontSize: 11, lineHeight: 18 },
+  subTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
+  sectionCount: { color: colors.ink, fontSize: 11, lineHeight: 18 },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
-  emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
+  emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
   skeletonRow: { minHeight: 148, padding: 22, gap: 16, borderWidth: 1, borderColor: catalogTheme.theory.border, borderRadius: 4, alignItems: 'center', opacity: 0.5 },
   skeletonCode: { width: 62, height: 10, alignSelf: 'flex-end', borderRadius: 5, backgroundColor: colors.paperDeep },
   skeletonLine: { width: '58%', height: 16, borderRadius: 6, backgroundColor: colors.paperDeep },

@@ -9,12 +9,13 @@ const redirects = JSON.parse(await fs.readFile(new URL('../src/data/generated/th
 const byId = new Map(theories.map((theory) => [theory.tagId, theory]));
 const seen = new Set();
 const statuses = new Set(['確認済み', '書誌確認済み', '一部確認', '出典不明']);
+const unquote = value => value.replace(/^「([\s\S]*)」$/, '$1');
 
 // Resolve by stable ID and also check the title: a renamed/reused ID requires
 // human source review, never a fuzzy match or silent attribution to a new card.
 for (const record of records) {
   const theory = byId.get(redirects[record.tagId] ?? record.tagId);
-  if (seen.has(record.tagId) || !theory || (theory.title !== record.title && !theory.aliases?.includes(record.title))) {
+  if (seen.has(record.tagId) || !theory || (unquote(theory.title) !== unquote(record.title) && !theory.aliases?.includes(record.title))) {
     throw new Error(`Provenance identity mismatch: ${record.tagId}`);
   }
   seen.add(record.tagId);
