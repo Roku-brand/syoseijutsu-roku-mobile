@@ -32,10 +32,10 @@ async function account(page:Page,owner=false){
   return r.fulfill({json:{items:u.searchParams.get('type')==='theory'?rows.filter((t:any)=>t.accessTier==='complete').map((t:any)=>({content_type:'theory',content_id:t.tagId,payload:t})):[]}});
  });
 }
-test('実践知は79件、削除した39件の言葉は公開一覧に出ない',async({page})=>{
+test('実践知の公開件数が現行カタログと一致し、削除した39件の言葉は一覧に出ない',async({page})=>{
  await page.route('**/rest/v1/**',r=>r.fulfill({status:503,json:{}}));
  await page.goto('/theories?category=practical-wisdom');
- await expect(page.getByTestId('theory-index-row-card')).toHaveCount(79);
+ await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.filter((t:any)=>t.categoryId==='practical-wisdom').length);
  for(const t of retired)await expect(page.getByText(t.title,{exact:true})).toHaveCount(0);
  await page.screenshot({path:test.info().outputPath('practical-wisdom-retained.png'),fullPage:true});
 });
