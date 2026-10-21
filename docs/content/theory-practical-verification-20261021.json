@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-21",
+  "published": 945,
+  "matchedExplanations": 945,
+  "addedQuoteTitles": 57,
+  "mismatchedIds": [],
+  "backend": {
+    "body": {
+      "backed_up": 945,
+      "approved_quotes_changed": 0,
+      "unrelated_fields_changed": 0
+    },
+    "payloads": [
+      {
+        "payloads": 0,
+        "theories": 141,
+        "access_tier": "free",
+        "stale_paid_payloads": 0
+      },
+      {
+        "payloads": 804,
+        "theories": 804,
+        "access_tier": "complete",
+        "stale_paid_payloads": 0
+      }
+    ],
+    "public_scope": {
+      "locked": 804,
+      "readable": 141
+    },
+    "title_format": {
+      "backed_up": 57,
+      "non_title_fields_changed": 0
+    }
+  },
+  "tests": {
+    "passed": 32,
+    "failed": 0
+  },
+  "lint": "passed"
+}

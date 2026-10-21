@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
 import { Link } from 'expo-router';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
-import { catalogTheme, fonts } from '@/constants/theme';
+import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { getTheoryDisplayId } from '@/data/catalog';
 import type { TheoryCard as TheoryRecord } from '@/data/types';
 import { getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { AppText } from './ui';
 
-/** The same dictionary entry is used in the catalogue and every saved folder. */
+/** The same theory card is used in the catalogue and every saved folder. */
 export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: {
   theory: TheoryRecord; actions?: ReactNode; onPress?: () => void; testID?: string; role?: 'link' | 'button';
 }) {
@@ -45,21 +45,21 @@ const styles = StyleSheet.create({
   open: { width: '100%', minWidth: 0, minHeight: 148, paddingTop: 17, paddingBottom: 19, paddingHorizontal: 30 },
   openCompact: { minHeight: 168, paddingTop: 15, paddingBottom: 18, paddingHorizontal: 17 },
   meta: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 },
-  classification: { flex: 1, minWidth: 0, color: blue.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20 },
-  code: { flexShrink: 0, color: blue.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] },
+  classification: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20 },
+  code: { flexShrink: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] },
   metaCompact: { fontSize: 10, lineHeight: 17 },
   copy: { minWidth: 0, paddingHorizontal: 24, alignItems: 'center', gap: 9 },
   copyCompact: { paddingHorizontal: 12, paddingTop: 7, gap: 10 },
-  title: { width: '100%', color: blue.ink, fontFamily: fonts.serif, fontSize: 26, lineHeight: 38, fontWeight: '700', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
+  title: { width: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 26, lineHeight: 38, fontWeight: '700', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
   titleCompact: { fontSize: 21, lineHeight: 31 },
-  summary: { width: '100%', color: blue.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, textAlign: 'center' },
+  summary: { width: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, textAlign: 'center' },
   summaryCompact: { fontSize: 12, lineHeight: 21 },
   ornament: { width: 156, height: 10, flexDirection: 'row', alignItems: 'center' },
   rule: { flex: 1, height: 1, backgroundColor: blue.border },
   flourish: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 3 },
   lozenge: { width: 7, height: 5, borderWidth: 1, borderColor: blue.muted, borderRadius: 2, transform: [{ rotate: '35deg' }] },
   lozengeMiddle: { marginHorizontal: -2, transform: [{ rotate: '-35deg' }] },
-  arrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: blue.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 },
+  arrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 },
   arrowCompact: { right: 9, fontSize: 24 },
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, paddingRight: 14, paddingLeft: 14, paddingBottom: 9 },
   pressed: { opacity: 0.76 },

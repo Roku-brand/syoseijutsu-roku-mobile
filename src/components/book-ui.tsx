@@ -181,7 +181,7 @@ export function BookHeader() {
         detail ? <DetailHeaderActions detail={detail} /> : null
       ) : catalogueSearchMode ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <HeaderSearchAction anchorRef={headerRef} label={`${currentTitle}を検索`} initialMode={catalogueSearchMode} size={24} color={colors.gold} />
+          <HeaderSearchAction anchorRef={headerRef} label={`${currentTitle}を検索`} initialMode={catalogueSearchMode} size={24} color={catalogueSearchMode === 'theories' ? colors.ink : colors.gold} />
           <MenuHeaderAction active={Boolean(user)} />
         </View>
       ) : browsingHeader ? (

@@ -65,7 +65,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await page.goto('/theories');
   await expect(page.getByTestId('theory-index-count')).toHaveText(`${theories.length}件`);
   await expect(page.getByTestId('theory-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
-  await circularPages(page.getByTestId('theory-index-pagination'), 'rgb(32, 63, 105)');
+  await circularPages(page.getByTestId('theory-index-pagination'), 'rgb(23, 23, 18)');
   await expect(page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' })).toHaveCSS('background-color', 'rgb(32, 63, 105)');
   const entry = page.getByTestId('theory-card').first();
   await expect(entry).toHaveCSS('border-color', 'rgb(168, 187, 208)');

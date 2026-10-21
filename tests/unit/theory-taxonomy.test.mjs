@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { registerHooks } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { summaryReviews, titleReviews } from '../helpers/theory-editorial-history.mjs';
 const root=fileURLToPath(new URL('../../',import.meta.url));
 registerHooks({resolve(specifier,context,next){
  if(specifier==='@/data/persona-presentation') return {url:'data:text/javascript,export const getPersonaPresentation=()=>undefined;',shortCircuit:true};
@@ -32,7 +33,6 @@ const retired=new Set(JSON.parse(fs.readFileSync(path.join(root,'src/data/genera
 const preReform=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-coverage-20261015-catalog-before.json'),'utf8'));
 const canonicalBefore=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/theory-reform-catalog-before.json'),'utf8')).theories;
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
-const summaryReviews=new Map(JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-summary-review-20261019.json'),'utf8')).changes.map(t=>[t.id,t]));
 const networkReview=JSON.parse(fs.readFileSync(path.join(root,'docs/content/content-network-review-20261016.json'),'utf8'));
 const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
 const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
@@ -139,7 +139,7 @@ test('broad sections preserve all content and move techniques to their subject',
  const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>{
   if(['kb_002','kb_595'].includes(t.tagId)) return preReform.find(x=>x.tagId===t.tagId);
   const reviewed=summaryReviews.get(t.tagId);
-  if(reviewed) {assert.equal(t.summary,reviewed.summary);return {...t,summary:reviewed.beforeSummary};}
+  if(reviewed) {assert.equal(t.summary,reviewed.summary);return {...t,title:titleReviews.get(t.tagId)?.beforeTitle??t.title,summary:reviewed.beforeSummary};}
   return t;
  });
  const text=[...historical].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
@@ -212,6 +212,7 @@ test('new complete-edition theories are searchable shells and hydrate without ch
    if(old.id==='kb_002'&&cardKey==='title'){assert.ok(now.aliases.includes(old.title));continue;}
    if(old.id==='kb_595'&&['title','summary'].includes(cardKey)){assert.ok(now.quotation);continue;}
    const reviewed=summaryReviews.get(old.id);
+   if(cardKey==='title'&&titleReviews.has(old.id)){const edit=titleReviews.get(old.id);assert.equal(edit.beforeTitle,old.title);assert.equal(now.title,edit.title);continue;}
    if(cardKey==='summary'&&reviewed){assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
    assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
   }

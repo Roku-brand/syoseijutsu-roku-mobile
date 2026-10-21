@@ -1,0 +1,406 @@
+{
+  "date": "2026-10-21",
+  "changedCount": 57,
+  "existingQuotationCount": 19,
+  "changes": [
+    {
+      "id": "kb_311",
+      "beforeTitle": "知らざるを知らずと為す、是れ知るなり",
+      "title": "「知らざるを知らずと為す、是れ知るなり」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "292a2ebe11b3f2bb82afab16ca80372d6a10c3949e1f53933ca00bb757b4b72e"
+    },
+    {
+      "id": "kb_298",
+      "beforeTitle": "過ちて改めざる、是を過ちと謂う",
+      "title": "「過ちて改めざる、是を過ちと謂う」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "592d0393286f4ccbbe9144837ecbab0a91a1538ea2fcbbb0609284f8313c7fe6"
+    },
+    {
+      "id": "kb_304",
+      "beforeTitle": "巧言令色、鮮なし仁",
+      "title": "「巧言令色、鮮なし仁」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "334c73af98ce7c8491c64bf5082e76dc397e5d5ae595fe8013e9505abfd6905b"
+    },
+    {
+      "id": "kb_624",
+      "beforeTitle": "己の欲せざる所、人に施すこと勿れ",
+      "title": "「己の欲せざる所、人に施すこと勿れ」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "41d5711da017e2eb3e681c1a7938592c09245163a57f8ef7f8aa65bceb249610"
+    },
+    {
+      "id": "kb_622",
+      "beforeTitle": "三人行えば、必ず我が師あり",
+      "title": "「三人行えば、必ず我が師あり」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "91f30713319d42c9e5d6a9c165475704f7b5fe1c017bc01fb13e03d68affe18f"
+    },
+    {
+      "id": "kb_625",
+      "beforeTitle": "学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし",
+      "title": "「学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "dec608689964d35b98b1a8996ae753ed51144372d0396a4824ba51f4655073dd"
+    },
+    {
+      "id": "kb_299",
+      "beforeTitle": "和して同ぜず",
+      "title": "「和して同ぜず」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "03adf4f29117fb01a6b808823a0166ea49ff8f9f711184e74fd3c8307a4dd631"
+    },
+    {
+      "id": "kb_623",
+      "beforeTitle": "過ぎたるは猶及ばざるが如し",
+      "title": "「過ぎたるは猶及ばざるが如し」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "af7752332c817dc6439135f003e4e2920f54dc09c29cc499a6bc455f62a2e07c"
+    },
+    {
+      "id": "kb_617",
+      "beforeTitle": "自分を知る者は明らかである",
+      "title": "「自分を知る者は明らかである」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "ff4355fa1a86ca201e224117118469efa1e517d957e5917098b42de7cf69c100"
+    },
+    {
+      "id": "kb_618",
+      "beforeTitle": "足るを知る者は富む",
+      "title": "「足るを知る者は富む」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "baaf09ce89cb7ef8a874b1c80258e106ccfb71165426af63d5bc0aa9382631fa"
+    },
+    {
+      "id": "kb_619",
+      "beforeTitle": "人に勝つ者は力があり、自分に勝つ者は強い",
+      "title": "「人に勝つ者は力があり、自分に勝つ者は強い」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "8651bf52092ff930917a12353fb20add56241b6b58679c96dbd9e0e0083d6e8a"
+    },
+    {
+      "id": "kb_620",
+      "beforeTitle": "千里の道も足下から始まる",
+      "title": "「千里の道も足下から始まる」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "5b3a03730969d8159b556fa11ebfa5fd38fae9a36a468f169b1e4a630ecec5fe"
+    },
+    {
+      "id": "kb_621",
+      "beforeTitle": "柔よく剛を制す",
+      "title": "「柔よく剛を制す」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "0b19fc1ecd95f188a4ca6436f17fd448359b465b6eab610e5b8ebd8a8714d54e"
+    },
+    {
+      "id": "kb_312",
+      "beforeTitle": "桃李もの言わざれども、下自ずから蹊を成す",
+      "title": "「桃李もの言わざれども、下自ずから蹊を成す」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "587ca486be731df1f949d98e231de46674041ea30d34fd7ec61b592693e6c7ce"
+    },
+    {
+      "id": "kb_701",
+      "beforeTitle": "生きることを引き受けて歩む",
+      "title": "「生きることを引き受けて歩む」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "1546248ae8ea19484a093ab9dd074d08627d7a39aa9d59dbc71bcc9031b468f3"
+    },
+    {
+      "id": "kb_702",
+      "beforeTitle": "暮らしにくさの中で、視点を探す",
+      "title": "「暮らしにくさの中で、視点を探す」",
+      "subcategory": "東洋思想",
+      "unchangedFieldsSha256": "508b937128d2e9288d786f8ffade4a16f9025c008be3923bd6dd6ed8736d2a5c"
+    },
+    {
+      "id": "kb_604",
+      "beforeTitle": "自分にできることと、できないことを分ける",
+      "title": "「自分にできることと、できないことを分ける」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "0d147c6c2be7bff856175d8056f02afb080a78a53211a77405acd0737c8339ba"
+    },
+    {
+      "id": "kb_603",
+      "beforeTitle": "人は物事そのものではなく、それについての判断に悩まされる",
+      "title": "「人は物事そのものではなく、それについての判断に悩まされる」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "9db16e477a4677c9b2ac20b28d8117374b81455fd1075fdd043d54d72c1aab85"
+    },
+    {
+      "id": "kb_606",
+      "beforeTitle": "与えられた役を、よく演じる",
+      "title": "「与えられた役を、よく演じる」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "12f4ba32f9705fa55ae40cdd91d5bdeb8b67cb62d6aecac2f131df47885f7c7d"
+    },
+    {
+      "id": "kb_605",
+      "beforeTitle": "自分で勝てない勝負には入らない",
+      "title": "「自分で勝てない勝負には入らない」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "22463281c278cd3864ba812d2d289603dd4d69514456a057d89edb4298397a2f"
+    },
+    {
+      "id": "kb_607",
+      "beforeTitle": "起きたことから利益を引き出せるかは自分次第である",
+      "title": "「起きたことから利益を引き出せるかは自分次第である」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "e444ad3038e16cfbbb846585914f0904cb17b883105698dd51b1151877061c68"
+    },
+    {
+      "id": "kb_615",
+      "beforeTitle": "運命は、従う者を導き、抗う者を引きずる",
+      "title": "「運命は、従う者を導き、抗う者を引きずる」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "39011ee795671498217a3778711b4ab5146f35e9ecc5cda97232658a8742025c"
+    },
+    {
+      "id": "kb_608",
+      "beforeTitle": "障害は、行動を前へ進める材料になる",
+      "title": "「障害は、行動を前へ進める材料になる」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "755749b254318d0a75ee5ec0f577c03c82360cc874f4ba91b5019b51858854cd"
+    },
+    {
+      "id": "kb_609",
+      "beforeTitle": "外の出来事より、それに与える判断が自分を動かす",
+      "title": "「外の出来事より、それに与える判断が自分を動かす」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "c3d47614115342c6461d2abdee5ab68df016a741c6b900358bcdc116d5a17595"
+    },
+    {
+      "id": "kb_611",
+      "beforeTitle": "他人が何を考えているかより、自分の心を整える",
+      "title": "「他人が何を考えているかより、自分の心を整える」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "5e9a6d5237ec9571312dcdfc4625480085317feca1bf1eb0a92665df7e4e6c97"
+    },
+    {
+      "id": "kb_610",
+      "beforeTitle": "今この瞬間を、最後の行為のように行う",
+      "title": "「今この瞬間を、最後の行為のように行う」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "6047e8856f290ff762fbf51963f5fd7aa9a8b1e0bb9f65d8751d0de2e8c3428d"
+    },
+    {
+      "id": "kb_612",
+      "beforeTitle": "人生が短いのではない。多くを浪費している",
+      "title": "「人生が短いのではない。多くを浪費している」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "d891876ab66cad75c39dec1b1d9e27b9c52c4d3fd7b7f032a0ddf167542eb56d"
+    },
+    {
+      "id": "kb_613",
+      "beforeTitle": "正しく使えば、人生は十分に長い",
+      "title": "「正しく使えば、人生は十分に長い」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "2c6fe32a6317420e2eabe25693aa6821661542cd9c45aa4d959767014da6b55a"
+    },
+    {
+      "id": "kb_614",
+      "beforeTitle": "苦しむ前から苦しむ者は、必要以上に苦しむ",
+      "title": "「苦しむ前から苦しむ者は、必要以上に苦しむ」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "439f563b7c418fb5f6689c3e230b4b6f363e9eb4e914314bbbbe87346dcfc4d7"
+    },
+    {
+      "id": "kb_616",
+      "beforeTitle": "われわれが恐れるものは、現実より想像の中に多い",
+      "title": "「われわれが恐れるものは、現実より想像の中に多い」",
+      "subcategory": "西洋思想",
+      "unchangedFieldsSha256": "62c0d77b76f736c2d61a545224a7eba0d7db0fd46e0b5ebf03c4b0c75c270b8d"
+    },
+    {
+      "id": "kb_626",
+      "beforeTitle": "知彼知己、百戦殆うからず",
+      "title": "「知彼知己、百戦殆うからず」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "1b950e8554d5b905e4750db3d87210ad4bc6044e1736c0da46f1a51aa8fc9565"
+    },
+    {
+      "id": "kb_627",
+      "beforeTitle": "勝兵は先ず勝ちて而る後に戦いを求む",
+      "title": "「勝兵は先ず勝ちて而る後に戦いを求む」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "10905784f3c4c68e0a239a69c92eef41f61995cb5069c0e91c0e812591d9d60a"
+    },
+    {
+      "id": "kb_503",
+      "beforeTitle": "勝ちやすい条件を先に整える",
+      "title": "「勝ちやすい条件を先に整える」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "d5b720a83125e980323271eba9dea95a5c8f5ebdee2cc2b3c65da80f5eee2ba9"
+    },
+    {
+      "id": "kb_628",
+      "beforeTitle": "善く戦う者は、勝ち易きに勝つ",
+      "title": "「善く戦う者は、勝ち易きに勝つ」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "2ff9e53cc3dd72a1eed78609df5784703bf7e43b0e1d31f897e35bc9c183f4ea"
+    },
+    {
+      "id": "kb_504",
+      "beforeTitle": "優れた勝利は、目立たない",
+      "title": "「優れた勝利は、目立たない」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "d9666dac67aa2c4934592c27006a090f6d6844ff9878a9758919725627e55d6f"
+    },
+    {
+      "id": "kb_490",
+      "beforeTitle": "戦わずに目的を遂げる",
+      "title": "「戦わずに目的を遂げる」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "0aba0ca2992df8e79e20adadd3f534dd847493fa2578cc8a4d4d141f964c52d2"
+    },
+    {
+      "id": "kb_505",
+      "beforeTitle": "危機を招かない備えを重ねる",
+      "title": "「危機を招かない備えを重ねる」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "2a2cc32a0dbd6758663c0d9dd7a083b2fb6993290567028408505635d5b66b37"
+    },
+    {
+      "id": "kb_496",
+      "beforeTitle": "長引く戦いに、巧みな勝ち方はない",
+      "title": "「長引く戦いに、巧みな勝ち方はない」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "9955f50ded816bd6a99aedcfbe3849238e7dfecb8c7eb45da366e28ba9d72236"
+    },
+    {
+      "id": "kb_630",
+      "beforeTitle": "小敵の堅は、大敵の擒なり",
+      "title": "「小敵の堅は、大敵の擒なり」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "c687c7453e657a8eaa0ab48a6675d96d4b20b3e115c88d3a3e2de1f0b709545a"
+    },
+    {
+      "id": "kb_629",
+      "beforeTitle": "兵に常勢なく、水に常形なし",
+      "title": "「兵に常勢なく、水に常形なし」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "567a0a884f9102d477299da7661a4d1afd62c98c900ce7e0ca3bed016323fd95"
+    },
+    {
+      "id": "kb_549",
+      "beforeTitle": "水に常形無く",
+      "title": "「水に常形無く」",
+      "subcategory": "兵法",
+      "unchangedFieldsSha256": "27c5614baa37c2d386299e72d5ef37f282ea5a687786c4cf8e95cf1b3238aa92"
+    },
+    {
+      "id": "kb_333",
+      "beforeTitle": "人間万事塞翁が馬",
+      "title": "「人間万事塞翁が馬」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "9390974d6721e2d19228cc9cde570620227414d6fafbcff15e9e581812fc9db1"
+    },
+    {
+      "id": "kb_334",
+      "beforeTitle": "禍福は糾える縄の如し",
+      "title": "「禍福は糾える縄の如し」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "a3b6098c3a592117dc3565f8c7ec9e90ae76619ebabc7e669ecdf3bffd9ec5a1"
+    },
+    {
+      "id": "kb_336",
+      "beforeTitle": "明日は明日の風が吹く",
+      "title": "「明日は明日の風が吹く」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "84eb9c2a0eddfcfddc83976645cfb12fe28acdfc238eeb3526c6a4808437a24b"
+    },
+    {
+      "id": "kb_335",
+      "beforeTitle": "案ずるより産むが易し",
+      "title": "「案ずるより産むが易し」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "39b6a103557557d511b43820f23731ed0204708c65c071d7354ad59669ded554"
+    },
+    {
+      "id": "kb_301",
+      "beforeTitle": "雨降って地固まる",
+      "title": "「雨降って地固まる」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "9eca8ea36fa667503e47920b6808154b6feb76b1140b29403f5d9a80679f306c"
+    },
+    {
+      "id": "kb_300",
+      "beforeTitle": "親しき仲にも礼儀あり",
+      "title": "「親しき仲にも礼儀あり」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "3fd0a86e5cd40dcfb2ac3bc6e2cbc411c9eb833ee106fb56dd5b7e95a4adc994"
+    },
+    {
+      "id": "kb_296",
+      "beforeTitle": "情けは人の為ならず",
+      "title": "「情けは人の為ならず」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "38c61af3d5fcb2f125f8cd7281bcf2c065c9bf1c51f33a2520dbbdffbf9ede3f"
+    },
+    {
+      "id": "kb_631",
+      "beforeTitle": "井の中の蛙、大海を知らず",
+      "title": "「井の中の蛙、大海を知らず」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "c4d472603e2b07a8f8a94ab3b924bc838300d07a9f86d3db8c5624d52e34f9e8"
+    },
+    {
+      "id": "kb_327",
+      "beforeTitle": "継続は力なり",
+      "title": "「継続は力なり」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "8393e3a1cad5daf0dfdae0fe581d2f4aaa3f46dc191f73eb479e1e4df6b3f9ef"
+    },
+    {
+      "id": "kb_324",
+      "beforeTitle": "巧遅は拙速に如かず",
+      "title": "「巧遅は拙速に如かず」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "4723ea36a123a18c7c661fb6482c05b4edece471c801a15bb0ec70372b084be1"
+    },
+    {
+      "id": "kb_315",
+      "beforeTitle": "鶏口となるも牛後となるなかれ",
+      "title": "「鶏口となるも牛後となるなかれ」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "8b878f3f316a70c9657e6399e18678d22470f538115c32f6aa0c0f18fdaf7e54"
+    },
+    {
+      "id": "kb_469",
+      "beforeTitle": "狡兎死して走狗烹らる",
+      "title": "「狡兎死して走狗烹らる」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "2d55c63bea4d05ca82b30c8ef955511875f1a2f58ba344ee67df5af0736360b1"
+    },
+    {
+      "id": "kb_468",
+      "beforeTitle": "鳥尽きて良弓蔵れ",
+      "title": "「鳥尽きて良弓蔵れ」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "211c786a9a86fb7308799fb656841ba760c424416ceeb49ebe32e14b1f6439a1"
+    },
+    {
+      "id": "kb_359",
+      "beforeTitle": "一つの籠にすべての卵を盛るな",
+      "title": "「一つの籠にすべての卵を盛るな」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "67d32b25666573c1bd427d0141a1921c10741f4629984a84c351356766215d3d"
+    },
+    {
+      "id": "kb_329",
+      "beforeTitle": "完璧は善の敵",
+      "title": "「完璧は善の敵」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "87d811caea60b227e5636dd3572b5f9598f66132c75d1ac59e1e4a17444bcd68"
+    },
+    {
+      "id": "kb_326",
+      "beforeTitle": "為せば成る、為さねば成らぬ何事も",
+      "title": "「為せば成る、為さねば成らぬ何事も」",
+      "subcategory": "ことわざ",
+      "unchangedFieldsSha256": "dcd03d6bb0f6fbf97891c62643caf5057f2ae6a3c64847d3afb296399cd5166d"
+    }
+  ]
+}

@@ -13,7 +13,7 @@ async function expectCategory(page: Page, id?: string, category = 'psychology') 
   const title = id ? sections.find((s: any) => s.id === id).title : 'すべて';
   await expect(current).toHaveCount(1);
   await expect(current).toHaveAttribute('aria-selected', 'true');
-  await expect(current).toHaveAccessibleName(`${title}で内部分類を絞り込む`);
+  await expect(current).toHaveAccessibleName(id ? `${title}で理論を絞り込む` : 'この分類のすべての理論を表示');
   await expect.poll(() => { const value = new URL(page.url()).searchParams.get('subcategory'); return value ? redirects[value] ?? value : null; }).toBe(id ?? null);
   const count = theories.filter((t: any) => t.categoryId === category && (!id || t.subcategoryId === id)).length;
   await expect(page.getByTestId('theory-index-row-card')).toHaveCount(count);
@@ -28,7 +28,7 @@ async function expectCategory(page: Page, id?: string, category = 'psychology') 
 
 async function clickPreview(page: Page, title: string) {
   const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
-  const target = (await page.getByRole('button', { name: `${title}で内部分類を絞り込む`, exact: true }).boundingBox())!;
+  const target = (await page.getByRole('button', { name: `${title}で理論を絞り込む`, exact: true }).boundingBox())!;
   const x = Math.max(viewport.x + 12, Math.min(viewport.x + viewport.width - 12, target.x + target.width / 2));
   await page.mouse.click(x, viewport.y + viewport.height / 2);
 }
@@ -48,10 +48,10 @@ for (const width of [320, 393, 768, 1440]) test(`背景なしのテキストリ�
   expect(await current.evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
   expect((await page.getByTestId('theory-subcategory-reel').boundingBox())!.height).toBeLessThanOrEqual(100);
   await expect(page.getByTestId('theory-subcategory-underline')).toHaveCount(0);
-  await expect(current.getByRole('heading')).toHaveCSS('color', 'rgb(32, 63, 105)');
+  await expect(current.getByRole('heading')).toHaveCSS('color', 'rgb(23, 23, 18)');
   const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
   for (const title of ['感情・ストレス', '人間関係・コミュニケーション']) {
-    const neighbor = (await page.getByRole('button', { name: `${title}で内部分類を絞り込む`, exact: true }).boundingBox())!;
+    const neighbor = (await page.getByRole('button', { name: `${title}で理論を絞り込む`, exact: true }).boundingBox())!;
     const visible = Math.min(neighbor.x + neighbor.width, viewport.x + viewport.width) - Math.max(neighbor.x, viewport.x);
     expect(visible).toBeGreaterThan(20); expect(visible).toBeLessThan(neighbor.width / 2);
   }

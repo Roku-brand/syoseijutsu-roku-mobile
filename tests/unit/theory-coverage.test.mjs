@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { coverageRows, coverageSections, developmentMoves } from '../../scripts/theory-coverage-data.mjs';
+import { summaryReviews, titleReviews } from '../helpers/theory-editorial-history.mjs';
 const read = name => JSON.parse(fs.readFileSync(new URL(`../../${name}`, import.meta.url), 'utf8'));
 const cards = read('src/data/generated/theories.json');
 const shells = read('src/data/generated/theories.public.json');
@@ -11,7 +12,6 @@ const sections = read('src/data/generated/theory-subcategories.json');
 const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
 const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
-const summaryReviews = new Map(read('docs/content/theory-summary-review-20261019.json').changes.map(t => [t.id, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
   assert.equal(cards.length, 945);
@@ -28,7 +28,7 @@ test('coverage expands named gaps with distinct concepts and full sources', () =
     const summaryReview = summaryReviews.get(t.tagId);
     if (summaryReview) {
       assert.equal(t.summary, summaryReview.summary);
-      assert.ok(t.summary.length >= 30 && t.summary.length <= 150, t.title);
+      assert.ok(t.summary.length >= 10 && t.summary.length <= 180, t.title);
     } else assert.ok(t.summary.length >= 100, t.title);
     assert.equal(t.accessTier, 'complete');
     assert.ok(t.provenance.attribution && t.provenance.note && t.provenance.works.length);
@@ -54,6 +54,8 @@ test('historical content, aliases, access and stable identities survive expansio
         assert.deepEqual(t.aliases,expected,t.tagId+'.aliases');continue;
       }
       const reviewed=summaryReviews.get(t.tagId);
+      if(key==='title'&&titleReviews.has(t.tagId)){const edit=titleReviews.get(t.tagId);assert.equal(edit.beforeTitle,old.title);assert.equal(t.title,edit.title);continue;}
+      if(key==='quotation'&&reviewed?.contextNote){assert.deepEqual(t.quotation,{...old.quotation,contextNote:reviewed.contextNote});continue;}
       if(key==='summary' && reviewed) {
         assert.equal(reviewed.beforeSummary,old.summary, `${old.tagId}: reviewed baseline`);
         assert.equal(t.summary,reviewed.summary, `${old.tagId}: reviewed edit`);

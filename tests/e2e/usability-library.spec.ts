@@ -61,7 +61,7 @@ test('旧内部分類URLを解決してリールの選択状態を復元する',
   await page.setViewportSize({ width: 320, height: 844 });
   await page.goto('/theories?category=psychology&subcategory=psychology-d&page=7');
   await expect(page.getByRole('heading', { name: '自己理解・成長', exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: '自己理解・成長で内部分類を絞り込む', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('button', { name: '自己理解・成長で理論を絞り込む', exact: true })).toHaveAttribute('aria-selected', 'true');
   await expect(page.getByTestId('theory-index-pagination')).toHaveCount(0);
   await expect(page.getByTestId('theory-subcategory-row')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
@@ -130,7 +130,7 @@ test('文字の濃い金色・拡大許可・設定アイコン・OSS重複解�
   expect(topBounds!.y).toBe(0);
   expect(topBounds!.height).toBeGreaterThanOrEqual(6);
   expect(topBounds!.width).toBe(page.viewportSize()!.width);
-  await expect(page.getByText('141件を無料公開', { exact: true })).toHaveCSS('color', 'rgb(125, 89, 35)');
+  await expect(page.getByText('141件を無料公開', { exact: true })).toHaveCSS('color', 'rgb(23, 23, 18)');
   await page.getByRole('button', { name: '設定を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/settings/);
   await expect(page.getByRole('button', { name: /オープンソースの通知/ })).toHaveCount(1);

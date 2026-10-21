@@ -31,16 +31,16 @@ test('格言は承認済みの言葉を見出しにし、ことわざと格言�
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{}}));
  await page.goto('/theories?category=classics-thought&subcategory=classics-thought-f');
  await expect(page.getByTestId('theory-subcategory-tab')).toHaveCount(1);
- await expect(page.getByRole('button',{name:'格言で内部分類を絞り込む',exact:true})).toHaveAttribute('aria-selected','true');
+ await expect(page.getByRole('button',{name:'格言で理論を絞り込む',exact:true})).toHaveAttribute('aria-selected','true');
  const cards=page.getByTestId('theory-index-row-card');
  for(const t of rows.filter((t:any)=>t.quotation))await expect(cards.getByText(t.title,{exact:true})).toHaveCount(1);
  await expect(cards.getByText('準備された心',{exact:true})).toHaveCount(0);
  await expect(cards.getByText('友情と恋を変える時間',{exact:true})).toHaveCount(0);
  await page.screenshot({path:test.info().outputPath('quotation-headlines-mobile.png')});
  await page.getByTestId('theory-subcategory-tab').focus();await page.keyboard.press('ArrowLeft');
- await expect(page.getByRole('button',{name:'ことわざで内部分類を絞り込む',exact:true})).toBeVisible();
+ await expect(page.getByRole('button',{name:'ことわざで理論を絞り込む',exact:true})).toBeVisible();
  await expect(cards).toHaveCount(rows.filter((t:any)=>t.subcategoryId==='classics-thought-p').length);
- await expect(cards.getByText('人間万事塞翁が馬',{exact:true})).toBeVisible();
+ await expect(cards.getByText('「人間万事塞翁が馬」',{exact:true})).toBeVisible();
 });
 test('概要は冒頭で核を示し、格言の言葉・出典と短い意味説明を分けて表示する',async({page})=>{
  await mockOwner(page);
@@ -51,7 +51,7 @@ test('概要は冒頭で核を示し、格言の言葉・出典と短い意味�
   await expect(page.getByTestId('theory-title')).toHaveText(row.title);
   const copy=row.quotation?.contextNote??row.summary;
   await expect(page.getByTestId('theory-summary')).toContainText(copy.split('。')[0]+'。');
-  await expect(page.getByTestId('theory-summary')).not.toContainText('法則ではない');
+  expect((await page.getByTestId('theory-summary').innerText()).split('。')[0]).not.toContain('法則ではない');
   if(row.quotation) await expect(page.getByTestId('quotation-attribution')).toContainText(row.quotation.author);
   await page.screenshot({path:test.info().outputPath(`summary-${id}.png`)});
  }

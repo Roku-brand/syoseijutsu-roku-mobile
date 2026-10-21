@@ -44,6 +44,11 @@ try {
   const canonical=(await db.query('select summary from public.theories where id=$1',[row.id])).rows[0];
   assert.equal(canonical.summary,row.summary,row.id);
  }
+ // Replay the later wording and title revisions before comparing paid payloads
+ // with today's source catalogue; reverse them before the dated release rollback.
+ for(const revision of ['theory-practical','theory-saying-titles','theory-plain']) {
+  await db.exec(fs.readFileSync(`docs/content/${revision}-update-20261021.sql`,'utf8'));
+ }
  await db.exec(`grant usage on schema public to anon,authenticated;grant select on public.public_theories,public.theories,public.paid_content to anon,authenticated;
  alter table public.theories enable row level security;create policy read_theories on public.theories for select to anon,authenticated using(status='published' and(access_tier='free' or public.can_read_complete_content()));
  alter table public.paid_content enable row level security;create policy read_paid on public.paid_content for select to authenticated using(public.can_read_complete_content());set role anon;`);
@@ -70,6 +75,9 @@ try {
  await db.exec('rollback');
  console.log('CMS passed');
  await db.exec('reset role');
+ for(const revision of ['theory-plain','theory-saying-titles','theory-practical']) {
+  await db.exec(fs.readFileSync(`docs/content/${revision}-rollback-20261021.sql`,'utf8'));
+ }
  await db.exec(fs.readFileSync('docs/content/theory-summary-rollback-20261019.sql','utf8'));
  await db.exec("begin;update public.theories set summary=summary||' CMS edit' where id='kb_957'");await assert.rejects(db.exec(rollback),/Later theory edit/);await db.exec('rollback');
  await db.exec('reset role');
