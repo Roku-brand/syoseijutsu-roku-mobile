@@ -272,7 +272,7 @@ test('ホームのブランドリールはキーボードで7枚を横にスラ�
   await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
 });
 
-test('ホームの各CTAは正式コンテンツと既存画面へ遷移する', async ({ page }) => {
+test('ホームの7枚は処世術・理論・特集の内容と遷移先が一致する', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
 
@@ -300,14 +300,23 @@ test('ホームの各CTAは正式コンテンツと既存画面へ遷移する',
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '5枚目を表示' }).click();
-  await page.getByTestId('home-brand-system-cta').click();
-  await expect(page).toHaveURL(/\/personas$/);
+  await expect(page.getByTestId('home-brand-slide-5')).toContainText('特集');
+  await page.getByTestId('home-brand-slide-5').click({ position: { x: 10, y: 10 } });
+  await expect(page).toHaveURL(/\/features(?:\/.*)?$/);
 
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await page.getByRole('tab', { name: '6枚目を表示' }).click();
-  await page.getByTestId('home-brand-premium-cta').click();
-  await expect(page).toHaveURL(/\/upgrade\?source=home_carousel$/);
+  await expect(page.getByTestId('home-brand-slide-6')).toContainText('処世術②');
+  await page.getByTestId('home-brand-technique-cta-2').click();
+  await expect(page).toHaveURL(/\/card\//);
+
+  await page.goBack();
+  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await page.getByRole('tab', { name: '7枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-7')).toContainText('理論②');
+  await page.getByTestId('home-brand-theory-cta-2').click();
+  await expect(page).toHaveURL(/\/theory\//);
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
@@ -684,22 +693,30 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
-test('ホームは7つのブランドスライドをスマホでも横にはみ出さず表示する', async ({ page }) => {
+test('ホームは7枚の処世術・理論・特集スライドをスマホでも横にはみ出さず表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(7);
+  await page.getByRole('tab', { name: '2枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-persona-domain')).toBeVisible();
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
-  const mapSlide = page.getByTestId('home-brand-slide-4');
-  await expect(mapSlide).toContainText('人物像｜人たらしの人');
-  await expect(mapSlide).toContainText('名残惜しいくらいで去る');
-  await expect(mapSlide).toContainText('新近効果');
-  await expect(mapSlide).toContainText('ピーク・エンドの法則');
-  await expect(mapSlide).toContainText('限界効用逓減');
-  await expect(mapSlide).toContainText('希少性価値');
   await expect(page.getByTestId('home-brand-map-connectors')).toBeVisible();
-  await expect(page.getByTestId('home-brand-map-theory-4')).toContainText('希少性価値');
+  await expect(page.getByTestId('home-brand-map-theory-1')).toBeVisible();
+  await page.getByRole('tab', { name: '5枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-5')).toContainText('特集');
+  await page.getByRole('tab', { name: '6枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-6')).toContainText('処世術②');
+  await expect(page.getByTestId('home-brand-technique-title-2')).toBeVisible();
+  await page.getByRole('tab', { name: '7枚目を表示' }).click();
+  const secondTheorySlide = page.getByTestId('home-brand-slide-7');
+  await expect(secondTheorySlide).toContainText('理論②');
+  await expect(page.getByTestId('home-brand-theory-title-2')).toBeVisible();
+  const secondTheoryTitleBox = await page.getByTestId('home-brand-theory-title-2').boundingBox();
+  const secondTheorySlideBox = await secondTheorySlide.boundingBox();
+  expect(secondTheoryTitleBox!.x).toBeGreaterThanOrEqual(secondTheorySlideBox!.x);
+  expect(secondTheoryTitleBox!.x + secondTheoryTitleBox!.width).toBeLessThanOrEqual(secondTheorySlideBox!.x + secondTheorySlideBox!.width);
   const dailyTitle = page.getByTestId('home-brand-technique-title');
   await expect.poll(() => dailyTitle.evaluate(element => element.childElementCount)).toBeGreaterThan(0);
   const dailyTitleLayout = await dailyTitle.evaluate(element => {
@@ -717,19 +734,6 @@ test('ホームは7つのブランドスライドをスマホでも横にはみ�
   });
   expect(dailyTitleLayout.text).toBe(dailyTitleLayout.fullTitle);
   expect(dailyTitleLayout.fits).toBe(true);
-  const mapTitleStyle = await page.getByTestId('home-brand-map-technique-title').evaluate((element) => {
-    const computed = getComputedStyle(element);
-    return { overflow: computed.overflow, textOverflow: computed.textOverflow, whiteSpace: computed.whiteSpace };
-  });
-  expect(mapTitleStyle).toEqual({ overflow: 'visible', textOverflow: 'clip', whiteSpace: 'nowrap' });
-  const [techniqueBox, theoryBox] = await Promise.all([
-    page.getByTestId('home-brand-map-technique-cta').boundingBox(),
-    page.getByTestId('home-brand-map-theory-1').boundingBox(),
-  ]);
-  expect(techniqueBox).not.toBeNull();
-  expect(theoryBox).not.toBeNull();
-  expect(theoryBox!.x).toBeGreaterThan(techniqueBox!.x + techniqueBox!.width);
-  await expect(page.getByTestId('home-brand-map-technique-cta')).not.toContainText(/[\.…]/);
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
@@ -1022,8 +1026,8 @@ test('ホームのカードから詳細へ移動して戻ると、選択位置�
   await startFreeHome(page);
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await page.getByTestId('home-brand-map-technique-cta').click();
-  await expect(page).toHaveURL(/\/card\/master336-\d+$/);
+  await page.getByTestId('home-brand-theory-cta-2').click();
+  await expect(page).toHaveURL(/\/theory\//);
   await page.goBack();
   await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
   await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
@@ -1083,20 +1087,12 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
   await expect(page.getByRole('button', { name: '前のスライド' })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '次のスライド' })).toHaveCount(0);
-  const [slide, firstTheory] = await Promise.all([
-    page.getByTestId('home-brand-slide-4').boundingBox(),
-    page.getByTestId('home-brand-map-theory-1').boundingBox(),
-  ]);
-  expect(slide).not.toBeNull();
-  expect(firstTheory).not.toBeNull();
-  expect(firstTheory!.x).toBeGreaterThanOrEqual(slide!.x);
-
   await page.getByRole('tab', { name: '5枚目を表示' }).click();
-  const systemStats = await Promise.all([1, 2, 3, 4].map((index) => page.getByTestId(`home-brand-system-stat-${index}`).boundingBox()));
-  systemStats.forEach((box) => expect(box).not.toBeNull());
-  for (let index = 1; index < systemStats.length; index += 1) {
-    expect(systemStats[index]!.x).toBeGreaterThanOrEqual(systemStats[index - 1]!.x + systemStats[index - 1]!.width - 1);
-  }
+  await expect(page.getByTestId('home-brand-slide-5')).toContainText('特集');
+  await page.getByRole('tab', { name: '6枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-6')).toContainText('処世術②');
+  await page.getByRole('tab', { name: '7枚目を表示' }).click();
+  await expect(page.getByTestId('home-brand-slide-7')).toContainText('理論②');
 });
 
 test('ホームリール全7枚はスマホ・PCともカード内部にはみ出さない', async ({ page }) => {
@@ -1122,33 +1118,23 @@ test('ホームリール全7枚はスマホ・PCともカード内部にはみ�
   }
 });
 
-test('4枚目は処世術名を枠内に収め、接続図をカード間に一体化する', async ({ page }) => {
+test('4枚目は理論マップをカード内に収める', async ({ page }) => {
   for (const viewportSize of [{ width: 320, height: 740 }, { width: 1440, height: 900 }]) {
     await page.setViewportSize(viewportSize);
     await page.goto('/');
     await startFreeHome(page);
     await page.getByRole('tab', { name: '4枚目を表示' }).click();
 
-    const [slide, technique, title, connectors, firstTheory] = await Promise.all([
+    const [slide, connectors, firstTheory] = await Promise.all([
       page.getByTestId('home-brand-slide-4').boundingBox(),
-      page.getByTestId('home-brand-map-technique-cta').boundingBox(),
-      page.getByTestId('home-brand-map-technique-title').boundingBox(),
       page.getByTestId('home-brand-map-connectors').boundingBox(),
       page.getByTestId('home-brand-map-theory-1').boundingBox(),
     ]);
     expect(slide).not.toBeNull();
-    expect(technique).not.toBeNull();
-    expect(title).not.toBeNull();
     expect(connectors).not.toBeNull();
     expect(firstTheory).not.toBeNull();
-
-    expect(title!.x).toBeGreaterThanOrEqual(technique!.x + 4);
-    expect(title!.x + title!.width).toBeLessThanOrEqual(technique!.x + technique!.width - 4);
-    expect(connectors!.x).toBeGreaterThanOrEqual(technique!.x + technique!.width - 2);
-    expect(connectors!.x + connectors!.width).toBeLessThanOrEqual(firstTheory!.x + 2);
-    expect(technique!.x).toBeGreaterThanOrEqual(slide!.x);
+    expect(connectors!.x).toBeGreaterThanOrEqual(slide!.x);
     expect(firstTheory!.x + firstTheory!.width).toBeLessThanOrEqual(slide!.x + slide!.width);
-    await expect(page.getByTestId('home-brand-map-connector-spine')).toBeVisible();
   }
 });
 

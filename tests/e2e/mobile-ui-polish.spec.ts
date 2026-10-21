@@ -72,7 +72,7 @@ test('reel advances after five seconds, resets on manual use, wraps and pauses a
   await expect(dot(1)).toHaveAttribute('aria-selected', 'true');
   await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^学ぶ/ }).click();
   await page.clock.runFor(15_000);
-  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('shoseijutsu-roku:home-reel:home-v2')!).index)).toBe(0);
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('shoseijutsu-roku:home-reel:home-v3')!).index)).toBe(0);
 });
 
 test('reduced motion keeps the reel still', async ({ page }) => {
