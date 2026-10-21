@@ -17,7 +17,9 @@ export function ShoseijutsuCard({ card, readable = true, actions, onPress, testI
   const compact = width < 700;
   const title = readable ? card.title : '完全版の処世術';
   const displayId = getTechniqueDisplayId(card);
-  const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={openLabel ?? `${displayId} ${title}を開く`} onPress={onPress} style={({ pressed }) => [styles.open, compact && styles.openCompact, pressed && styles.pressed]}>
+  // Expo Router's asChild slot requires a flat child style, not a callback/array.
+  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact]);
+  const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={openLabel ?? `${displayId} ${title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>
       <AppText testID="technique-index-id" style={[styles.code, compact && styles.codeCompact]}>{displayId}</AppText>
       <View style={styles.copy}>
         <AppText style={[styles.meta, compact && styles.metaCompact]}>{card.categoryName}・{card.subcategory || '独立した処世術'}</AppText>
@@ -28,7 +30,7 @@ export function ShoseijutsuCard({ card, readable = true, actions, onPress, testI
     </Pressable>;
   return <View testID="shoseijutsu-card" style={styles.card}>
     <View testID="technique-category-bar" accessibilityElementsHidden aria-hidden style={[styles.bar, { backgroundColor: catalogTheme.categoryBars[card.categoryKey] ?? colors.gold }]} />
-    {onPress ? content : <Link href={techniqueRoute(card.id)} asChild>{content}</Link>}
+    {onPress ? content : <Link href={techniqueRoute(card.id)} style={areaStyle} asChild>{content}</Link>}
     {actions ? <View style={styles.actions}>{actions}</View> : null}
   </View>;
 }

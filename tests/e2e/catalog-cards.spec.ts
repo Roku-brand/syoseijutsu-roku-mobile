@@ -55,6 +55,9 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(bar).toHaveCSS('background-color', 'rgb(196, 85, 93)');
   const [cardBox, barBox] = await Promise.all([technique.boundingBox(), bar.boundingBox()]);
   expect(barBox!.width).toBe(7); expect(Math.abs(cardBox!.height - barBox!.height)).toBeLessThanOrEqual(2);
+  const numberBox = (await technique.getByTestId('technique-index-id').boundingBox())!;
+  expect(Math.abs(numberBox.y + numberBox.height / 2 - cardBox!.y - cardBox!.height / 2)).toBeLessThan(2);
+  expect(numberBox.x - cardBox!.x).toBeGreaterThanOrEqual(16);
   await expect(technique).toContainText('対人術・印象がいい人');
   await expect(technique).toContainText('清潔感を意識する');
   await noOverflow(page);
@@ -73,6 +76,11 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(entry.getByTestId('theory-card-ornament')).toBeVisible();
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
   await expect(entry.getByTestId('theory-card-subcategory')).toHaveText(theory.subcategoryTitle);
+  const [entryBox, metaBox, codeBox] = await Promise.all([entry.boundingBox(), entry.getByTestId('theory-card-subcategory').boundingBox(), entry.getByTestId('theory-card-id').boundingBox()]);
+  expect(entryBox!.height).toBeGreaterThanOrEqual(148);
+  expect(metaBox!.x - entryBox!.x).toBeGreaterThanOrEqual(16);
+  expect(metaBox!.y - entryBox!.y).toBeGreaterThanOrEqual(14);
+  expect(entryBox!.x + entryBox!.width - codeBox!.x - codeBox!.width).toBeGreaterThanOrEqual(16);
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`theories-${width}.png`), scale: 'css' });
   await page.goto('/library');

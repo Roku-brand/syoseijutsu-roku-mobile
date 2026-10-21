@@ -15,7 +15,9 @@ export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: 
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const summary = getTheoryCoverSummary(theory.summary);
-  const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={`${theory.title}を開く`} onPress={onPress} style={({ pressed }) => [styles.open, compact && styles.openCompact, pressed && styles.pressed]}>
+  // Match the Router slot's flat-style contract on web and native.
+  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact]);
+  const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={`${theory.title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>
       <View style={styles.meta}>
         <AppText testID="theory-card-subcategory" style={[styles.classification, compact && styles.metaCompact]}>{theory.subcategoryTitle || theory.categoryTitle}</AppText>
         <AppText testID="theory-card-id" style={[styles.code, compact && styles.metaCompact]}>{getTheoryDisplayId(theory)}</AppText>
@@ -31,7 +33,7 @@ export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: 
     </Pressable>;
   return <View testID="theory-card" style={styles.card}>
     <View pointerEvents="none" accessibilityElementsHidden aria-hidden style={styles.innerFrame} />
-    {onPress ? content : <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild>{content}</Link>}
+    {onPress ? content : <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} style={areaStyle} asChild>{content}</Link>}
     {actions ? <View style={styles.actions}>{actions}</View> : null}
   </View>;
 }
