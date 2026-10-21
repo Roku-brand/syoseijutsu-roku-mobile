@@ -41,7 +41,7 @@ test('same theory is found by a natural phrase, kana, width and English alias',a
     await expect(page.getByTestId('search-page-results').getByText('単純接触効果',{exact:true})).toBeVisible();
   }
   await page.goto('/search?mode=techniques&q='+encodeURIComponent('第一印象を良くしたい'));
-  await expect(page.getByRole('button',{name:'清潔感を意識するを開く',exact:true}).first()).toBeVisible();
+  await expect(page.getByRole('link',{name:'清潔感を意識するを開く',exact:true}).first()).toBeVisible();
 });
 
 test('literal title ranks first and weak full-text associations do not become synonyms',async({page})=>{

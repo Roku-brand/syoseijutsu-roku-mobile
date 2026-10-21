@@ -105,7 +105,7 @@ export function BookHeader() {
   // Keep focused screens free of unrelated actions while their catalog data loads.
   const detailHeader = pathname.startsWith('/card/') || pathname.startsWith('/theory/') || featureDetailHeader;
   const browsingHeader = ['category', 'subcategory', 'theme', 'theories', 'personas', 'techniques', 'search', 'popular'].includes(pathname.split('/')[1]);
-  const catalogueSearchMode = pathname === '/personas' ? 'techniques' : pathname === '/theories' ? 'theories' : null;
+  const catalogueSearchMode = pathname === '/personas' || pathname === '/techniques' ? 'techniques' : pathname === '/theories' ? 'theories' : null;
   // The static web home is served through the root index route, so its first
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;

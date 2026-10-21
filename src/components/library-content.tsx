@@ -1,6 +1,7 @@
 import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
 import { FolderBack, FolderFronts, MoreCards } from './folder-fronts';
-import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
+import { type PersonalContentRow } from './personal-content-card';
+import { SavedKnowledgeCard } from './saved-knowledge-card';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Modal, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
@@ -69,9 +70,9 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
     {folder === null ? <FolderFronts folders={folders} label="蔵書" onOpen={openFolder} /> : <>
       {automatic ? <Action label="すべてのお気に入りとフォルダーを見る" text="‹ すべてのお気に入り・フォルダー" onPress={() => router.push('/library')} /> : <FolderBack onPress={() => openFolder(null)} />}
       <View style={styles.folderHeading}><AppText style={styles.folderName}>{automatic ? ({ interpersonal: '対人術', work: '仕事術', life: '人生術', theory: '理論', feature: '特集' }[category ?? kind ?? ''] ?? 'すべて') : folders.find(value => value.id === folder)?.name} · {visible.length}件</AppText>{currentFolder ? <Action label="蔵書フォルダーを編集" text="編集" onPress={() => { setName(currentFolder.name); setEditor({ id: currentFolder.id }); }} /> : null}</View>
-      {visible.length ? visible.slice(0, limit).map(item => <PersonalContentCard key={libraryItemKey(item.kind, item.id)} row={item}
+      {visible.length ? visible.slice(0, limit).map(item => <SavedKnowledgeCard key={libraryItemKey(item.kind, item.id)} row={item}
         onPress={() => router.push(item.kind === 'feature' ? featureRoute(item.article?.slug ?? item.id) : item.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: item.id } } : { pathname: '/card/[id]', params: { id: item.id } })}
-        action={<Action label={item.title + 'の保存先を変更'} text="整理" onPress={() => setMoving(item)} />} />)
+        onOrganize={() => setMoving(item)} />)
         : <View style={styles.empty}><AppText style={styles.emptyTitle}>このフォルダーは空です</AppText><AppText style={styles.lead}>保存した知恵の「整理」から、ここへ移動できます。</AppText></View>}
       <MoreCards remaining={visible.length - limit} onPress={() => setLimit(value => value + 20)} />
     </>}

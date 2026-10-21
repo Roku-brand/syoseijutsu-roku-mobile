@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
+import { catalogTheme, colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryCategoryTitle, getTheoryDisplayId, theoryCategoryOrder } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
@@ -81,9 +81,9 @@ const styles = StyleSheet.create({
   filterGrid: { width: '100%', gap: 8, paddingHorizontal: 1, paddingVertical: 2 },
   filterRow: { width: '100%', flexDirection: 'row', gap: 8 },
   filterSpacer: { backgroundColor: 'transparent' },
-  filterButton: { flexBasis: 0, flexGrow: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: '#F3EFE7', alignItems: 'center', justifyContent: 'center' },
-  filterButtonActive: { backgroundColor: colors.gold },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5, textAlign: 'center' },
+  filterButton: { flexBasis: 0, flexGrow: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 4, borderWidth: 1, borderColor: 'transparent', borderRadius: radius.sm, backgroundColor: catalogTheme.theory.inactive, alignItems: 'center', justifyContent: 'center' },
+  filterButtonActive: { backgroundColor: catalogTheme.theory.ink },
+  filterText: { color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', letterSpacing: 0.5, textAlign: 'center' },
   filterTextActive: { color: colors.surface, fontWeight: '700' },
   card: { position: 'relative', width: 196, minHeight: 320, flexShrink: 0, padding: 18, borderWidth: 1, borderColor: '#183A5B', borderRadius: radius.md, backgroundColor: '#102A46' },
   cardCompact: { width: 276, minHeight: 310, padding: 18 },

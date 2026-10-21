@@ -92,7 +92,7 @@ test('別名を全件検索し、旧ディープリンクを同じ正本へ解�
  await mockOwner(page);
  await page.goto('/search?mode=theories&q=能動的・建設的反応');
  await expect(page.getByText('アクティブ・コンストラクティブ・レスポンディング',{exact:true})).toBeVisible();
- await expect(page.getByText('心理学 > 人間関係・コミュニケーション',{exact:true})).toBeVisible();
+ await expect(page.getByTestId('theory-card-subcategory').filter({hasText:'人間関係・コミュニケーション'}).first()).toBeVisible();
  await page.goto('/theory/kb_418');
  await expect(page.getByTestId('theory-title')).toContainText('アクティブ・コンストラクティブ・レスポンディング');
  await page.goto('/theory/kb_001');await expect(page.getByTestId('theory-title')).toHaveText('初頭効果');

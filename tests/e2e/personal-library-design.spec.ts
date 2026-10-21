@@ -35,7 +35,9 @@ for (const width of [320, 390, 1440]) test(`ranking artwork and folder fronts fi
   await expect(page.getByRole('button', { name: '蔵書：読み返したい知恵', exact: true })).toContainText('1件');
   await page.screenshot({ path: test.info().outputPath(`library-folders-${width}.png`), fullPage: true });
   await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
-  await expect(page.getByTestId('personal-card-image')).toHaveCount(3);
+  await expect(page.getByTestId('personal-card-image')).toHaveCount(1);
+  await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(1);
+  await expect(page.getByTestId('theory-card')).toHaveCount(1);
   await page.screenshot({ path: test.info().outputPath(`library-cards-${width}.png`), fullPage: true });
   await page.goto('/my-os');
   await page.getByRole('button', { name: 'マイ処世術をすべて見る', exact: true }).click();
@@ -76,9 +78,9 @@ test('folder contents render twenty at a time and preserve all three hundred mem
   await page.goto('/library');
   await expect(page.getByTestId('personal-card-image')).toHaveCount(0);
   await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
-  await expect(page.getByTestId('personal-card-image')).toHaveCount(20);
+  await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(20);
   await page.getByRole('button', { name: '次の20件を表示', exact: true }).click();
-  await expect(page.getByTestId('personal-card-image')).toHaveCount(40);
+  await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(40);
   await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
   await expect(page.getByTestId('personal-card-image')).toHaveCount(0);
   await page.goto('/my-techniques');
@@ -133,7 +135,9 @@ for (const width of [320, 390, 768, 1672]) test(`reference my page preserves dat
   await page.screenshot({ path: test.info().outputPath(`reference-library-${width}.png`), scale: 'css' });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
-  await expect(page.getByTestId('personal-card-image')).toHaveCount(3);
+  await expect(page.getByTestId('personal-card-image')).toHaveCount(1);
+  await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(1);
+  await expect(page.getByTestId('theory-card')).toHaveCount(1);
   await page.getByTestId('book-header-back').click();
   await page.getByRole('button', { name: '座右の銘を編集', exact: true }).click();
   await expect(page.getByRole('textbox', { name: '座右の銘', exact: true })).toHaveValue('志は高く、腰は低く。');

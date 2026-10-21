@@ -47,9 +47,8 @@ for (const width of [320, 393, 768, 1440]) test(`背景なしのテキストリ�
   const current = page.getByTestId('theory-subcategory-tab');
   expect(await current.evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgba(0, 0, 0, 0)');
   expect((await page.getByTestId('theory-subcategory-reel').boundingBox())!.height).toBeLessThanOrEqual(100);
-  const underline = await page.getByTestId('theory-subcategory-underline').boundingBox();
-  expect(underline!.width).toBeGreaterThanOrEqual(48); expect(underline!.width).toBeLessThanOrEqual(56);
-  expect(underline!.height).toBeGreaterThanOrEqual(2); expect(underline!.height).toBeLessThanOrEqual(3);
+  await expect(page.getByTestId('theory-subcategory-underline')).toHaveCount(0);
+  await expect(current.getByRole('heading')).toHaveCSS('color', 'rgb(32, 63, 105)');
   const viewport = (await page.getByTestId('theory-subcategory-scroll').boundingBox())!;
   for (const title of ['感情・ストレス', '人間関係・コミュニケーション']) {
     const neighbor = (await page.getByRole('button', { name: `${title}で内部分類を絞り込む`, exact: true }).boundingBox())!;
