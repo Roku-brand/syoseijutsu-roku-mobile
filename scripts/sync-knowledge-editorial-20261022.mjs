@@ -7,6 +7,9 @@ const write = (path,value) => fs.writeFileSync(path,JSON.stringify(value,null,2)
 const path = 'src/data/generated/theories.json';
 const previous = read(path);
 if(previous.length!==945)throw Error('This dated export has already been applied; preserve its reviewed baseline.');
+// The offline ranking is a deliberately public selection. Owner ranking
+// settings may contain paid technique names and must not replace that shelf.
+const publicRankingDefaults = read('src/data/generated/popular-rankings.json');
 const snapshot = read('docs/content/knowledge-editorial-published-20261022.json');
 const exportSnapshot = {...snapshot,relations:snapshot.relations.map(r=>({sourceId:r.source_id,targetId:r.target_id,type:r.relation_type,reviewStatus:r.review_status,rationale:r.rationale,priority:r.priority}))};
 const exportPath = '.local-knowledge-export-20261022.json';
@@ -15,6 +18,10 @@ try { execFileSync(process.execPath,['scripts/export-theory-reform-catalog.mjs',
 finally { fs.unlinkSync(exportPath); }
 const current = read(path);
 const byId = new Map(current.map(t=>[t.tagId,t]));
+write('src/data/generated/popular-rankings.json',publicRankingDefaults.map(row=>{
+  const theory=row.division==='theory'?byId.get(row.content_id):undefined;
+  return theory?{...row,title:theory.title,category_id:theory.categoryId,category_title:theory.categoryTitle,access_tier:theory.accessTier}:row;
+}));
 const previousIds = new Set(previous.map(t=>t.tagId));
 const changes = previous.flatMap(old=>{
   const now = byId.get(old.tagId);
