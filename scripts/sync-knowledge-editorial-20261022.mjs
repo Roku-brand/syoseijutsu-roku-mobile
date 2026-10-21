@@ -6,6 +6,7 @@ const read = path => JSON.parse(fs.readFileSync(path,'utf8'));
 const write = (path,value) => fs.writeFileSync(path,JSON.stringify(value,null,2)+'\n');
 const path = 'src/data/generated/theories.json';
 const previous = read(path);
+if(previous.length!==945)throw Error('This dated export has already been applied; preserve its reviewed baseline.');
 const snapshot = read('docs/content/knowledge-editorial-published-20261022.json');
 const exportSnapshot = {...snapshot,relations:snapshot.relations.map(r=>({sourceId:r.source_id,targetId:r.target_id,type:r.relation_type,reviewStatus:r.review_status,rationale:r.rationale,priority:r.priority}))};
 const exportPath = '.local-knowledge-export-20261022.json';
