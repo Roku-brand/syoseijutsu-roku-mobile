@@ -3,12 +3,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, AppState, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
-import { categoryMeta, techniqueCards } from '@/data/catalog';
+import { categoryMeta, techniqueCards, theories } from '@/data/catalog';
 import { getHomeBrandContent, getHomeDayKey, resolveHomeTheoryMapLinks, type HomePersona, type HomeTheoryMapItem } from '@/data/home-brand-content';
 import { getTheoryDisplayId } from '@/data/catalog';
+import { useFeatures, type FeatureArticle } from '@/data/features';
+import { featureImageAlt, featureImageSource } from '@/data/feature-images';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
-import { APP_ROUTES, personaRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { APP_ROUTES, featureRoute, personaRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { Rokumaru } from './rokumaru';
 import { bookCardShadow } from './book-ui';
 import { colors, fonts } from '@/constants/theme';
@@ -20,9 +22,10 @@ const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 
-const HOME_REEL_ID = 'home-v2';
+const HOME_REEL_ID = 'home-v3';
 const HOME_REEL_SLIDE_COUNT = 7;
 const featuredTechnique = techniqueCards.find((card) => card.title === '小さな頼み事で相手を巻き込む');
+const secondTheory = theories.find((theory) => FREE_THEORY_IDS.includes(theory.tagId));
 const homeReelPositions = new Map<string, number>();
 const webTouchRailStyle = Platform.OS === 'web'
   ? ({ overscrollBehaviorX: 'contain', scrollSnapType: 'x mandatory', touchAction: 'pan-x pan-y' } as unknown as ViewStyle)
@@ -97,9 +100,9 @@ export type HomeHeroSlideType =
   | 'persona'
   | 'theory'
   | 'techniqueTheoryMap'
-  | 'systemMap'
-  | 'premium'
-  | 'rokumaru';
+  | 'feature'
+  | 'secondTechnique'
+  | 'secondTheory';
 
 type HomeHeroCarouselProps = {
   desktop: boolean;
@@ -149,32 +152,33 @@ function Cta({ label, dark = false, compact = false, centered = false, testID }:
   </View>;
 }
 
-export function TechniqueHeroSlide({ card, desktop }: { card: TechniqueCard; desktop: boolean }) {
+export function TechniqueHeroSlide({ card, desktop, slideIndex = 1 }: { card: TechniqueCard; desktop: boolean; slideIndex?: number }) {
   const router = useRouter();
+  const second = slideIndex === 6;
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-1" tone="dark" label={`${card.title}を読む`} onPress={() => router.push(techniqueRoute(card.id))}>
+    <SlideShell desktop={desktop} testID={`home-brand-slide-${slideIndex}`} tone="dark" label={`${card.title}を読む`} onPress={() => router.push(techniqueRoute(card.id))}>
       <Image source={techniqueImage} resizeMode="cover" accessibilityLabel="静かな部屋で、得意分野について相談する二人" style={styles.fullImage} />
       <View style={styles.techniqueShade} />
       <View style={[styles.techniqueCopy, desktop ? styles.techniqueCopyDesktop : styles.techniqueCopyMobile]}>
         <Text numberOfLines={1} style={[styles.darkEyebrow, !desktop && styles.darkEyebrowMobile]}>
-          今日の一枚｜処世術｜{card.subcategory}
+          {second ? '処世術②' : '今日の一枚｜処世術'}｜{card.subcategory}
         </Text>
         <View style={[styles.techniqueTitleGroup, !desktop && styles.techniqueTitleGroupMobile]}>
           <TechniqueTitle
             title={card.title}
             minimumFontSize={14}
-            testID="home-brand-technique-title"
+            testID={second ? 'home-brand-technique-title-2' : 'home-brand-technique-title'}
             style={[
               styles.darkTitle,
               ...(desktop ? [singleLineTitleSize(card.title, desktop, 39, 21, 10, 11)] : [styles.darkTitleMobile]),
             ]}
           />
-          <View testID="home-brand-technique-rule" accessibilityElementsHidden style={styles.techniqueTitleRule} />
+          <View testID={second ? 'home-brand-technique-rule-2' : 'home-brand-technique-rule'} accessibilityElementsHidden style={styles.techniqueTitleRule} />
         </View>
         <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
-          <Text testID="home-brand-technique-domain" style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
-          <Cta label="読む →" dark compact={!desktop} testID="home-brand-technique-cta" />
+          <Text testID={second ? 'home-brand-technique-domain-2' : 'home-brand-technique-domain'} style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
+          <Cta label="読む →" dark compact={!desktop} testID={second ? 'home-brand-technique-cta-2' : 'home-brand-technique-cta'} />
         </View>
       </View>
     </SlideShell>
@@ -194,11 +198,7 @@ export function PersonaHeroSlide({ persona, desktop }: { persona: HomePersona; d
           <Text style={[styles.personaCount, !desktop && styles.personaCountMobile]}>{persona.techniqueCount}</Text>
           <Text style={styles.personaCountLabel}>処世術で構成</Text>
         </View>
-        <Cta
-          label="人物像を見る　→"
-          compact={!desktop}
-          testID="home-brand-persona-cta"
-        />
+        <Cta label="人物像を見る　→" compact={!desktop} testID="home-brand-persona-cta" />
       </View>
     </SlideShell>
   );
@@ -208,24 +208,43 @@ function firstDefinitionSentence(summary: string) {
   return summary.match(/^.*?。/u)?.[0] ?? summary;
 }
 
-export function TheoryHeroSlide({ theory, domainLabel, desktop }: { theory: TheoryCard; domainLabel: string; desktop: boolean }) {
+export function TheoryHeroSlide({ theory, domainLabel, desktop, slideIndex = 3 }: { theory: TheoryCard; domainLabel: string; desktop: boolean; slideIndex?: number }) {
   const router = useRouter();
+  const second = slideIndex === 7;
   return (
-    <SlideShell desktop={desktop} testID="home-brand-slide-3" tone="navy" label={`${theory.title}の理論を見る`} onPress={() => router.push(theoryRoute(theory.tagId))}>
+    <SlideShell desktop={desktop} testID={`home-brand-slide-${slideIndex}`} tone="navy" label={`${theory.title}の理論を見る`} onPress={() => router.push(theoryRoute(theory.tagId))}>
       <View style={styles.theoryFrame} />
       <View style={[styles.theoryCopy, !desktop && styles.theoryCopyMobile]}>
         <View style={styles.theoryMetaRow}>
           <View>
-            <Text testID="home-brand-theory-domain" style={styles.darkEyebrow}>理論｜{domainLabel}</Text>
+            <Text testID={second ? 'home-brand-theory-domain-2' : 'home-brand-theory-domain'} style={styles.darkEyebrow}>{second ? '理論②' : '理論'}｜{domainLabel}</Text>
             <Text style={styles.theoryCategory}>{theory.categoryTitle}</Text>
           </View>
           <Text style={styles.theoryId}>{getTheoryDisplayId(theory)}</Text>
         </View>
-        <HeroTitle title={theory.title} desktop={desktop} mobileSize={22} style={[styles.theoryTitle, ...(desktop ? [] : [styles.theoryTitleMobile])]} />
+        <HeroTitle testID={second ? 'home-brand-theory-title-2' : undefined} title={theory.title} desktop={desktop} mobileSize={22} style={[styles.theoryTitle, ...(desktop ? [] : [styles.theoryTitleMobile])]} />
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
         <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
-        <Cta label="理論を見る　→" dark compact={!desktop} centered testID="home-brand-theory-cta" />
+        <Cta label="理論を見る　→" dark compact={!desktop} centered testID={second ? 'home-brand-theory-cta-2' : 'home-brand-theory-cta'} />
       </View>
+    </SlideShell>
+  );
+}
+
+export function FeatureHeroSlide({ article, desktop, slideIndex }: { article: FeatureArticle | undefined; desktop: boolean; slideIndex: number }) {
+  const router = useRouter();
+  const label = article ? `${article.title}の特集を読む` : '特集一覧を見る';
+  return (
+    <SlideShell desktop={desktop} testID={`home-brand-slide-${slideIndex}`} tone="dark" label={label} onPress={() => router.push(article ? featureRoute(article.slug) : '/features')}>
+      {article ? <Image source={featureImageSource(article)} resizeMode="cover" accessibilityLabel={featureImageAlt(article)} style={styles.fullImage} /> : null}
+      <View accessibilityElementsHidden style={styles.featureShade} />
+      <View style={[styles.featureCopy, !desktop && styles.featureCopyMobile]}>
+        <Text style={[styles.darkEyebrow, !desktop && styles.darkEyebrowMobile]}>特集｜処世術禄の読みもの</Text>
+        <HeroTitle title={article?.title ?? '知恵を、別の角度から。'} desktop={desktop} mobileSize={21} style={[styles.featureTitle, ...(!desktop ? [styles.featureTitleMobile] : [])]} />
+        {article?.lead ? <Text numberOfLines={desktop ? 2 : 2} style={[styles.featureLead, !desktop && styles.featureLeadMobile]}>{article.lead}</Text> : <Text style={styles.featureLead}>処世術と理論をつなぐ特集を読む</Text>}
+        <Cta label="特集を読む　→" dark compact={!desktop} testID={`home-brand-feature-cta-${slideIndex}`} />
+      </View>
+      {article ? <Text style={[styles.featureNumber, !desktop && styles.featureNumberMobile]}>特集</Text> : null}
     </SlideShell>
   );
 }
@@ -424,6 +443,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const [viewportWidth, setViewportWidth] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [dayKey, setDayKey] = useState(() => getHomeDayKey());
+  const { articles: featureArticles } = useFeatures();
   const railRef = useRef<ScrollView>(null);
   const activeIndexRef = useRef(activeIndex);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -431,6 +451,17 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const programmaticScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision, dayKey]);
   const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
+  const secondTechniqueForDay = useMemo(() => {
+    const candidates = techniqueCards.filter((card) => FREE_REEL_TECHNIQUE_IDS.includes(card.id) && card.id !== (featuredTechnique?.id ?? content.technique.id));
+    return candidates.length ? candidates[dayKey % candidates.length] : content.technique;
+  }, [content.technique, dayKey]);
+  const secondTheoryForDay = useMemo(() => {
+    const candidates = theories.filter((theory) => FREE_THEORY_IDS.includes(theory.tagId) && theory.tagId !== content.theory.tagId);
+    return candidates.length ? candidates[dayKey % candidates.length] : (secondTheory ?? content.theory);
+  }, [content.theory, dayKey]);
+  const homeFeatures = useMemo(() => [...featureArticles]
+    .sort((left, right) => Number(right.is_featured) - Number(left.is_featured) || left.display_order - right.display_order || left.id.localeCompare(right.id))
+    .slice(0, 3), [featureArticles]);
 
   useEffect(() => {
     void AccessibilityInfo.isReduceMotionEnabled().then(setReduceMotion);
@@ -561,9 +592,9 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
     { type: 'persona', node: <PersonaHeroSlide persona={content.persona} desktop={desktop} /> },
     { type: 'theory', node: <TheoryHeroSlide theory={content.theory} domainLabel={categoryMeta[content.domains.theory].label} desktop={desktop} /> },
     { type: 'techniqueTheoryMap', node: <TechniqueTheoryMapSlide techniqueId={content.techniqueTheoryMap.techniqueId} personaName={content.techniqueTheoryMap.personaName} techniqueTitle={content.techniqueTheoryMap.title} theories={theoryLinks} desktop={desktop} /> },
-    { type: 'systemMap', node: <SystemMapSlide counts={content.counts} desktop={desktop} /> },
-    { type: 'premium', node: <PremiumHeroSlide desktop={desktop} counts={content.counts} /> },
-    { type: 'rokumaru', node: <RokumaruSlide desktop={desktop} /> },
+    { type: 'feature', node: <FeatureHeroSlide article={homeFeatures[0]} desktop={desktop} slideIndex={5} /> },
+    { type: 'secondTechnique', node: <TechniqueHeroSlide card={secondTechniqueForDay} desktop={desktop} slideIndex={6} /> },
+    { type: 'secondTheory', node: <TheoryHeroSlide theory={secondTheoryForDay} domainLabel={categoryMeta[secondTheoryForDay.categoryId as keyof typeof categoryMeta]?.label ?? secondTheoryForDay.categoryTitle} desktop={desktop} slideIndex={7} /> },
   ];
 
   return (
@@ -641,6 +672,15 @@ const styles = StyleSheet.create({
   ctaTextCompact: { fontSize: 12, letterSpacing: 0.5 },
   ctaTextDark: { color: '#E1BD68' },
   techniqueShade: { backgroundColor: 'rgba(6,5,4,0.15)', height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
+  featureShade: { backgroundColor: 'rgba(6,5,4,0.34)', bottom: 0, left: 0, position: 'absolute', right: 0, top: 0 },
+  featureCopy: { backgroundColor: 'rgba(8,7,5,0.76)', borderBottomRightRadius: 150, borderTopRightRadius: 150, justifyContent: 'center', minHeight: 380, paddingHorizontal: 35, paddingVertical: 35, width: '64%', zIndex: 1 },
+  featureCopyMobile: { backgroundColor: 'transparent', borderRadius: 0, flex: 1, minHeight: 205, paddingHorizontal: 20, paddingVertical: 13, width: '100%' },
+  featureTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 34, fontWeight: '700', lineHeight: 48, letterSpacing: 1.3, marginTop: 15 },
+  featureTitleMobile: { fontSize: 21, lineHeight: 29, letterSpacing: 0.3, marginTop: 7 },
+  featureLead: { color: '#F4EEDF', fontFamily: fonts.serif, fontSize: 15, lineHeight: 26, marginTop: 11, maxWidth: 620 },
+  featureLeadMobile: { fontSize: 11, lineHeight: 17, marginTop: 6 },
+  featureNumber: { bottom: 24, color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 14, letterSpacing: 2, position: 'absolute', right: 30, zIndex: 1 },
+  featureNumberMobile: { bottom: 13, fontSize: 10, right: 17 },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
   techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, width: '58%' },
   techniqueCopyMobile: { flex: 1, minHeight: 205, paddingHorizontal: 20, paddingVertical: 14 },

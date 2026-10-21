@@ -60,21 +60,22 @@ test('完全版の価格は詳しく見るの左に並び、スマホの画像�
   }
 });
 
-test('リール7枚は画像や余白を押しても開き、地図内の理論リンクも保持する', async ({ page }) => {
+test('リール7枚は人物像と地図を残し、5枚目を特集に差し替える', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  const destinations = [/\/card\//, /\/subcategory\//, /\/theory\//, /\/card\//, /\/personas$/, /\/upgrade\?source=home_carousel/, /\/learn$/];
+  const destinations = [/\/card\//, /\/(subcategory\/|upgrade\?source=discover_technique)/, /\/theory\//, /\/card\//, /\/features(?:\/.*)?$/, /\/card\//, /\/theory\//];
   for (let index = 1; index <= 7; index++) {
     await page.goto('/');
     await page.getByRole('tab', { name: `${index}枚目を表示`, exact: true }).click();
     const slide = page.getByTestId(`home-brand-slide-${index}`);
     await expect(slide).toHaveAttribute('role', 'link');
+    if (index === 2) await expect(slide).toContainText('人物像');
+    if (index === 4) await expect(slide).toContainText('新近効果');
+    if (index === 5) await expect(slide).toContainText('特集');
+    if (index === 6) await expect(slide).toContainText('処世術②');
+    if (index === 7) await expect(slide).toContainText('理論②');
     await slide.click({ position: { x: 8, y: 8 } });
     await expect(page).toHaveURL(destinations[index - 1]);
   }
-  await page.goto('/');
-  await page.getByRole('tab', { name: '4枚目を表示', exact: true }).click();
-  await page.getByTestId('home-brand-map-theory-1').click();
-  await expect(page).toHaveURL(/\/theory\//);
 });
 
 test('販売者氏名は末尾に通常表示し、冒頭リンクから直接到達できる', async ({ page }) => {
