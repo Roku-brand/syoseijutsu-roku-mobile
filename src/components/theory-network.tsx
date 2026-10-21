@@ -49,6 +49,7 @@ export function TheoryNetwork({ theory }: { theory: TheoryCard }) {
     <RelatedContentSection title="関連する知識" testID="theory-related-theories" items={entries.map(entry => ({
       key: entry.id, title: theoryById.get(entry.id)!.title,
       supportingText: relationLabel(entry.relation, theory.tagId),
+      detailText: entry.relation.reviewStatus === 'confirmed' ? entry.relation.rationale : undefined,
       accessibilityLabel: `${relationLabel(entry.relation, theory.tagId)}：${theoryById.get(entry.id)!.title}`,
       href: { pathname: '/theory/[id]', params: { id: entry.id } },
     }))} />

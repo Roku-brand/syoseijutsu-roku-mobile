@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { registerHooks } from 'node:module';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { summaryReviews, titleReviews } from '../helpers/theory-editorial-history.mjs';
+import { summaryReviews, titleReviews, catalogReviews, removedTheoryIds, latestCatalogReview, reviewedDisplayIds } from '../helpers/theory-editorial-history.mjs';
 const root=fileURLToPath(new URL('../../',import.meta.url));
 registerHooks({resolve(specifier,context,next){
  if(specifier==='@/data/persona-presentation') return {url:'data:text/javascript,export const getPersonaPresentation=()=>undefined;',shortCircuit:true};
@@ -136,10 +136,10 @@ test('published refresh and complete overlay keep fatigue-free rows and correcte
 test('broad sections preserve all content and move techniques to their subject',()=>{
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-sections-20261007-before.json'),'utf8'));
  const historicalIds=new Set(snapshot.assignments.map(t=>t.tagId));
- const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>{
+ const historical=[...current.filter(t=>historicalIds.has(t.tagId)),...latestCatalogReview.changes.filter(r=>r.removed&&historicalIds.has(r.id)).map(r=>r.before),...preReform.filter(t=>retired.has(t.tagId)&&historicalIds.has(t.tagId))].map(t=>{
   if(['kb_002','kb_595'].includes(t.tagId)) return preReform.find(x=>x.tagId===t.tagId);
   const reviewed=summaryReviews.get(t.tagId);
-  if(reviewed) {assert.equal(t.summary,reviewed.summary);return {...t,title:titleReviews.get(t.tagId)?.beforeTitle??t.title,summary:reviewed.beforeSummary};}
+  if(reviewed) {assert.equal(t.summary,reviewed.summary);return {...t,title:titleReviews.get(t.tagId)?.beforeTitle??t.title,summary:reviewed.beforeSummary,categoryId:catalogReviews.get(t.tagId)?.before.categoryId??t.categoryId};}
   return t;
  });
  const text=[...historical].sort((a,b)=>a.tagId.localeCompare(b.tagId,'en')).map(t=>`${t.tagId}:${t.title}:${t.summary}:${t.categoryId}`).join('|');
@@ -206,7 +206,7 @@ test('new complete-edition theories are searchable shells and hydrate without ch
  const oldIds=new Set(snapshot.theories.map(t=>t.id));
  const additions=current.filter(t=>!oldIds.has(t.tagId) && /^kb_(869|8[7-9][0-9]|90[0-8])$/.test(t.tagId));
  assert.equal(additions.length,40);
- for(const old of snapshot.theories.filter(t=>t.status==='published'&&!retired.has(t.id))) {
+ for(const old of snapshot.theories.filter(t=>t.status==='published'&&!retired.has(t.id)&&!removedTheoryIds.has(t.id))) {
   const now=current.find(t=>t.tagId===old.id);
   for(const [sourceKey,cardKey] of [['title','title'],['summary','summary'],['category_id','categoryId'],['access_tier','accessTier']]){
    if(old.id==='kb_002'&&cardKey==='title'){assert.ok(now.aliases.includes(old.title));continue;}
@@ -214,6 +214,7 @@ test('new complete-edition theories are searchable shells and hydrate without ch
    const reviewed=summaryReviews.get(old.id);
    if(cardKey==='title'&&titleReviews.has(old.id)){const edit=titleReviews.get(old.id);assert.equal(edit.beforeTitle,old.title);assert.equal(now.title,edit.title);continue;}
    if(cardKey==='summary'&&reviewed){assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
+   if(catalogReviews.get(old.id)?.fields.includes(cardKey)){assert.deepEqual(now[cardKey],catalogReviews.get(old.id).after[cardKey]);continue;}
    assert.equal(now[cardKey],old[sourceKey],`${old.id}.${cardKey}`);
   }
  }
@@ -235,7 +236,7 @@ test('display IDs follow the current taxonomy order within every major while all
  for(const category of catalog.theoryCategoryOrder) {
   const rows=catalog.theories.filter(t=>t.categoryId===category);
   assert.equal(new Set(rows.map(t=>t.displayId)).size,rows.length);
-  assert.deepEqual(rows.map(row=>row.displayId),Array.from({length:rows.length},(_,i)=>i+1));
+  assert.deepEqual(rows.map(row=>row.displayId).sort((a,b)=>a-b),reviewedDisplayIds(category));
   for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
  }
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));

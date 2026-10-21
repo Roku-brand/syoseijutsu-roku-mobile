@@ -1,5 +1,95 @@
 [
   {
+    "division": "theory",
+    "content_id": "kb_029",
+    "rank": 1,
+    "title": "ピーク・エンドの法則",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_290",
+    "rank": 2,
+    "title": "計画された偶発性理論",
+    "category_id": "organization-management",
+    "category_title": "組織・経営論",
+    "access_tier": "complete"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_003",
+    "rank": 3,
+    "title": "ハロー効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_568",
+    "rank": 4,
+    "title": "最適化の罠",
+    "category_id": "practical-wisdom",
+    "category_title": "実践知",
+    "access_tier": "complete"
+  },
+  {
+    "division": "theory",
+    "content_id": "theory-62543145-f91d-448d-aece-2a44802164f8",
+    "rank": 5,
+    "title": "「人間の罪のなかで、私が何より憎むのは不機嫌だ。」",
+    "category_id": "classics-thought",
+    "category_title": "古典・思想",
+    "access_tier": "complete"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_047",
+    "rank": 6,
+    "title": "返報性の原理",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_004",
+    "rank": 7,
+    "title": "単純接触効果",
+    "category_id": "psychology",
+    "category_title": "心理学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_908",
+    "rank": 8,
+    "title": "SWOT分析",
+    "category_id": "strategy",
+    "category_title": "戦略論",
+    "access_tier": "complete"
+  },
+  {
+    "division": "theory",
+    "content_id": "kb_133",
+    "rank": 9,
+    "title": "プロスペクト理論",
+    "category_id": "behavioral-science",
+    "category_title": "行動科学",
+    "access_tier": "free"
+  },
+  {
+    "division": "theory",
+    "content_id": "theory-386c4608-d46d-4782-b912-36c85aa8024d",
+    "rank": 10,
+    "title": "「時間は友情を強くし、恋を弱くする。」",
+    "category_id": "classics-thought",
+    "category_title": "古典・思想",
+    "access_tier": "complete"
+  },
+  {
     "division": "technique",
     "content_id": "master336-071",
     "rank": 1,
@@ -28,11 +118,11 @@
   },
   {
     "division": "technique",
-    "content_id": "master336-001",
+    "content_id": "master336-275",
     "rank": 4,
-    "title": "清潔感を意識する",
-    "category_id": "interpersonal",
-    "category_title": "対人術",
+    "title": "環境によってキャラクターが変わることを受け入れる",
+    "category_id": "life",
+    "category_title": "人生術",
     "access_tier": "free"
   },
   {
@@ -82,101 +172,11 @@
   },
   {
     "division": "technique",
-    "content_id": "master336-003",
+    "content_id": "master336-140",
     "rank": 10,
-    "title": "笑顔にはメリハリをつける",
+    "title": "1対1の関係を複数作る",
     "category_id": "interpersonal",
     "category_title": "対人術",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_004",
-    "rank": 1,
-    "title": "単純接触効果",
-    "category_id": "psychology",
-    "category_title": "心理学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_290",
-    "rank": 2,
-    "title": "計画された偶発性理論",
-    "category_id": "organization-management",
-    "category_title": "組織・経営論",
     "access_tier": "complete"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_003",
-    "rank": 3,
-    "title": "ハロー効果",
-    "category_id": "psychology",
-    "category_title": "心理学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_568",
-    "rank": 4,
-    "title": "最適化の罠",
-    "category_id": "practical-wisdom",
-    "category_title": "実践知",
-    "access_tier": "complete"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_029",
-    "rank": 5,
-    "title": "ピーク・エンドの法則",
-    "category_id": "psychology",
-    "category_title": "心理学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_047",
-    "rank": 6,
-    "title": "返報性の原理",
-    "category_id": "psychology",
-    "category_title": "心理学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_134",
-    "rank": 7,
-    "title": "損失回避",
-    "category_id": "behavioral-science",
-    "category_title": "行動科学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_284",
-    "rank": 8,
-    "title": "OODAループ",
-    "category_id": "strategy",
-    "category_title": "戦略論",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_001",
-    "rank": 9,
-    "title": "初頭効果",
-    "category_id": "psychology",
-    "category_title": "心理学",
-    "access_tier": "free"
-  },
-  {
-    "division": "theory",
-    "content_id": "kb_133",
-    "rank": 10,
-    "title": "プロスペクト理論",
-    "category_id": "behavioral-science",
-    "category_title": "行動科学",
-    "access_tier": "free"
   }
 ]

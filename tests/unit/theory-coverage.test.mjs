@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { coverageRows, coverageSections, developmentMoves } from '../../scripts/theory-coverage-data.mjs';
-import { summaryReviews, titleReviews } from '../helpers/theory-editorial-history.mjs';
+import { summaryReviews, titleReviews, catalogReviews, removedTheoryIds, latestCatalogReview } from '../helpers/theory-editorial-history.mjs';
 const read = name => JSON.parse(fs.readFileSync(new URL(`../../${name}`, import.meta.url), 'utf8'));
 const cards = read('src/data/generated/theories.json');
 const shells = read('src/data/generated/theories.public.json');
@@ -14,7 +14,7 @@ const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
-  assert.equal(cards.length, 945);
+  assert.equal(cards.length, latestCatalogReview.publishedCount);
   assert.equal(coverageRows.length, 48);
   for (const name of ['ダモクレスの剣', '社会的時計', '脳の可塑性', 'ロミオとジュリエット効果']) assert.ok(cards.some(t => t.title === name));
   const names = new Map();
@@ -42,10 +42,11 @@ test('coverage expands named gaps with distinct concepts and full sources', () =
 });
 
 test('historical content, aliases, access and stable identities survive expansion', () => {
-  for (const old of before.filter(t=>!retired.has(t.tagId))) {
+  for (const old of before.filter(t=>!retired.has(t.tagId)&&!removedTheoryIds.has(t.tagId))) {
     const t = byId.get(old.tagId);
     assert.ok(t);
     for (const key of ['title', 'summary', 'categoryId', 'categoryTitle', 'provenance', 'aliases', 'canonicalId', 'legacyIds', 'mergedFromIds', 'accessTier']) {
+      if(!['title','summary'].includes(key)&&catalogReviews.get(t.tagId)?.fields.includes(key)){assert.deepEqual(t[key],catalogReviews.get(t.tagId).after[key]);continue;}
       if (old.tagId==='kb_002' && ['title','aliases'].includes(key)) { assert.ok(t.aliases.includes(old.title)); continue; }
       if (old.tagId==='kb_595' && ['title','summary','provenance','aliases'].includes(key)) { assert.ok(t.quotation); continue; }
       if(key==='aliases') {
@@ -63,9 +64,10 @@ test('historical content, aliases, access and stable identities survive expansio
       }
       assert.deepEqual(t[key], old[key], `${old.tagId}.${key}`);
     }
-    for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
+    for (const id of (old.relatedTheoryIds ?? []).filter(id=>!retired.has(id)&&!removedTheoryIds.has(id))) assert.ok(t.relatedTheoryIds.includes(id));
     if (t.quotation) assert.equal(t.subcategoryId, 'classics-thought-f');
     else if (['kb_701','kb_702'].includes(old.tagId)) assert.equal(t.subcategoryId, 'classics-thought-e');
+    else if(catalogReviews.get(t.tagId)?.fields.includes('subcategoryId'))assert.equal(t.subcategoryId,catalogReviews.get(t.tagId).after.subcategoryId);
     else if (!developmentMoves.includes(old.tagId)) assert.equal(t.subcategoryId, old.subcategoryId);
   }
   assert.equal(byId.size, cards.length);

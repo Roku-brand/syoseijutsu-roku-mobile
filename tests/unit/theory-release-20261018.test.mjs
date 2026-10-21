@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {additions} from '../../scripts/theory-release-20261018-data.mjs';
-import {summaryReviews,titleReviews} from '../helpers/theory-editorial-history.mjs';
+import {summaryReviews,titleReviews,catalogReviews,removedTheoryIds,latestCatalogReview,reviewedDisplayIds} from '../helpers/theory-editorial-history.mjs';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const full=read('src/data/generated/theories.json');
 const shells=read('src/data/generated/theories.public.json');
@@ -20,15 +20,16 @@ const catalog=await import('../../src/data/catalog.ts');
 test('821 stable identities and original bodies survive, with only reviewed field changes',()=>{
   const before=read('docs/content/theory-release-20261018-snapshot.json')['src/data/generated/theories.json'];
   assert.equal(before.length,821);
-  for(const old of before){const now=byId.get(old.tagId);assert.ok(now,old.tagId);
+  for(const old of before){const now=byId.get(old.tagId);if(removedTheoryIds.has(old.tagId)){assert.equal(catalog.theoryById.get(old.tagId)?.tagId,catalogReviews.get(old.tagId).redirectTo);continue;}assert.ok(now,old.tagId);
     for(const key of Object.keys(old).filter(k=>!['aliases','relatedTheoryIds','displayId','displayOrder','sortOrder'].includes(k))) {
       const reviewed=summaryReviews.get(old.tagId);
       if(key==='title'&&titleReviews.has(old.tagId)){const edit=titleReviews.get(old.tagId);assert.equal(edit.beforeTitle,old.title);assert.equal(now.title,edit.title);continue;}
       if(key==='summary'&&reviewed) {assert.equal(reviewed.beforeSummary,old.summary);assert.equal(now.summary,reviewed.summary);continue;}
       if(key==='quotation'&&reviewed?.contextNote) {assert.deepEqual(now.quotation,{...old.quotation,contextNote:reviewed.contextNote});continue;}
+      if(catalogReviews.get(old.tagId)?.fields.includes(key)){assert.deepEqual(now[key],catalogReviews.get(old.tagId).after[key]);continue;}
       assert.deepEqual(now[key],old[key],old.tagId+'/'+key);
     }
-    for(const id of old.relatedTheoryIds??[])assert.ok(now.relatedTheoryIds.includes(id));
+    for(const id of (old.relatedTheoryIds??[]).filter(id=>!removedTheoryIds.has(id)))assert.ok(now.relatedTheoryIds.includes(id));
   }
 });
 
@@ -54,8 +55,8 @@ test('dated generator is reproducible, idempotent and refuses later CMS data edi
 });
 
 test('release has exactly 124 distinct, sourced, editable cards in the six existing categories',()=>{
-  assert.equal(full.length,945);assert.equal(byId.size,945);assert.equal(additions.length,124);
-  assert.deepEqual(Object.fromEntries(Object.keys(release.categories).map(id=>[id,full.filter(t=>t.categoryId===id).length])),release.categories);
+  assert.equal(full.length,latestCatalogReview.publishedCount);assert.equal(byId.size,947);assert.equal(additions.length,124);
+  assert.deepEqual(Object.fromEntries(Object.keys(release.categories).map(id=>[id,full.filter(t=>t.categoryId===id).length])),latestCatalogReview.categories);
   const sections=read('src/data/generated/theory-subcategories.json');assert.equal(sections.length,36);
   const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
   for(const row of release.additions){
@@ -72,7 +73,7 @@ test('release has exactly 124 distinct, sourced, editable cards in the six exist
     const shell=shells.find(x=>x.tagId===t.tagId);assert.equal(shell.status,'locked');assert.equal(shell.summary,'');assert.equal(shell.provenance,undefined);assert.equal(shell.quotation,undefined);
   }
   for(const t of full)for(const id of t.relatedTheoryIds??[])assert.ok(byId.has(id)&&id!==t.tagId,`${t.tagId}/${id}`);
-  for(const category of Object.keys(release.categories))assert.deepEqual(full.filter(t=>t.categoryId===category).map(t=>t.displayId),Array.from({length:release.categories[category]},(_,i)=>i+1));
+  for(const category of Object.keys(release.categories))assert.deepEqual(full.filter(t=>t.categoryId===category).map(t=>t.displayId).sort((a,b)=>a-b),reviewedDisplayIds(category));
   for(const section of sections)assert.deepEqual(full.filter(t=>t.subcategoryId===section.id).map(t=>t.sortOrder),Array.from({length:full.filter(t=>t.subcategoryId===section.id).length},(_,i)=>i+1));
 });
 
