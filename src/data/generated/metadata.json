@@ -1,7 +1,7 @@
 {
   "source": "master336 + 一緒にいて疲れない人（20処世術）",
   "techniqueCount": 356,
-  "theoryCount": 945,
+  "theoryCount": 947,
   "personaCount": 27,
   "adoptedAllSourceCategories": [
     "psychology",
@@ -10,15 +10,15 @@
     "strategy"
   ],
   "categoryCounts": {
-    "psychology": 405,
+    "psychology": 408,
     "behavioral-science": 146,
-    "organization-management": 131,
+    "organization-management": 130,
     "strategy": 94,
-    "practical-wisdom": 79,
-    "classics-thought": 90
+    "practical-wisdom": 80,
+    "classics-thought": 89
   },
   "catalogVersion": "master356",
   "productTechniqueCount": 356,
-  "productTheoryCount": 945,
+  "productTheoryCount": 947,
   "productPersonaCount": 27
 }

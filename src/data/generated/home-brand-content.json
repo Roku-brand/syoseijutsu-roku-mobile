@@ -290,7 +290,7 @@
     {
       "tagId": "kb_003",
       "title": "ハロー効果",
-      "summary": "一つの長所や短所だけで、その人全体をよく見たり悪く見たりすること。",
+      "summary": "一つの長所や短所だけで、その人全体をよく見たり悪く見たりすること。\n「話し方が上手だから仕事もできるはず」と、別の能力まで高く評価する場合など。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
@@ -331,7 +331,7 @@
     {
       "tagId": "kb_402",
       "title": "心理的安全性",
-      "summary": "質問や異論、失敗の報告をしても、傷つけられたり不利益を受けたりしないという安心感。",
+      "summary": "質問や異論、失敗の報告をしても、傷つけられたり不利益を受けたりしないという安心感。\n分からないことや失敗を話しても、人格を否定されず、改善の話ができる状態を指す。",
       "categoryId": "organization-management",
       "categoryTitle": "組織・経営論",
       "subcategoryId": "organization-management-t",
@@ -347,7 +347,8 @@
         "kb_845",
         "kb_889",
         "kb_771",
-        "kb_1062"
+        "kb_1062",
+        "kb_064"
       ],
       "displayId": 42,
       "displayOrder": 42,
@@ -408,7 +409,7 @@
     {
       "tagId": "kb_008",
       "title": "自己開示の返報性",
-      "summary": "自分のことを適度に話すと、相手も自分のことを話しやすくなること。",
+      "summary": "自分のことを適度に話すと、相手も自分のことを話しやすくなること。\n最近困っていることを少し話すと、相手も悩みを話す場合など。話す深さは相手の反応に合わせる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -420,8 +421,8 @@
       "aliases": [],
       "relatedTheoryIds": [
         "kb_009",
-        "kb_1008",
-        "kb_1047"
+        "kb_1047",
+        "kb_1008"
       ],
       "displayId": 190,
       "displayOrder": 190,
@@ -589,7 +590,7 @@
     {
       "tagId": "kb_002",
       "title": "新近効果",
-      "summary": "最後に得た情報ほど、記憶や判断に残りやすいこと。",
+      "summary": "最後に得た情報ほど、記憶や判断に残りやすいこと。\n話し合いの最後の一言が、全体の印象に残る場合など。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
@@ -629,7 +630,7 @@
     {
       "tagId": "kb_047",
       "title": "返報性の原理",
-      "summary": "親切や利益を受けると、お返しをしなければと感じること。",
+      "summary": "親切や利益を受けると、お返しをしなければと感じること。\n親切への感謝と、「受けたのだから頼みを断れない」という圧力の両方につながりうる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -640,7 +641,8 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [
-        "kb_007"
+        "kb_007",
+        "kb_462"
       ],
       "displayId": 199,
       "displayOrder": 199,
@@ -775,7 +777,7 @@
     {
       "tagId": "kb_092",
       "title": "境界線理論",
-      "summary": "自分と他人の責任や、受け入れられる扱いの範囲を分ける考え方。",
+      "summary": "自分と他人の責任や、受け入れられる扱いの範囲を分ける考え方。\n自分が引き受けること、相手に任せること、共有することの境目を考える。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -786,10 +788,10 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [
-        "kb_427",
         "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
         "kb_1007",
-        "kb_1047"
+        "kb_1047",
+        "kb_427"
       ],
       "displayId": 210,
       "displayOrder": 210,
@@ -847,7 +849,7 @@
     {
       "tagId": "kb_190",
       "title": "計画錯誤",
-      "summary": "作業に必要な時間や費用を、実際より少なく見積もること。",
+      "summary": "作業に必要な時間や費用を、実際より少なく見積もること。\n作業そのものの時間だけを数え、確認ややり直しの時間を見込まない場合など。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
@@ -977,7 +979,7 @@
     {
       "tagId": "kb_051",
       "title": "アサーション理論",
-      "summary": "自分と相手を尊重しながら、意見や要求を率直に伝える考え方。",
+      "summary": "自分と相手を尊重しながら、意見や要求を率直に伝える考え方。\n我慢して引き受けることも、相手を責めて断ることも避け、「今日は難しい。明日なら手伝える」と伝える場合など。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -988,8 +990,9 @@
       "mergedFromIds": [],
       "aliases": [],
       "relatedTheoryIds": [
-        "kb_052",
-        "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf"
+        "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf",
+        "kb_427",
+        "kb_052"
       ],
       "displayId": 265,
       "displayOrder": 265,
@@ -1210,7 +1213,7 @@
     {
       "tagId": "kb_266",
       "title": "社会的比較理論",
-      "summary": "自分の能力や状況を知るために、他の人と比べるという理論。",
+      "summary": "自分の能力や状況を知るために、他の人と比べるという理論。\n他人から刺激を受けることも、自分の不足ばかりが気になることもある。比べる相手や場面で受け取り方は変わる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-s",

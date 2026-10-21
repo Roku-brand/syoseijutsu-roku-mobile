@@ -24,7 +24,7 @@
   {
     "tagId": "kb_003",
     "title": "ハロー効果",
-    "summary": "一つの長所や短所だけで、その人全体をよく見たり悪く見たりすること。",
+    "summary": "一つの長所や短所だけで、その人全体をよく見たり悪く見たりすること。\n「話し方が上手だから仕事もできるはず」と、別の能力まで高く評価する場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -65,7 +65,7 @@
   {
     "tagId": "kb_001",
     "title": "初頭効果",
-    "summary": "最初に受けた印象が、その後の評価にも強く残ること。",
+    "summary": "最初に受けた印象が、その後の評価にも強く残ること。\n最初の挨拶が、その後のやり取りの受け取り方にも影響する場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -105,7 +105,7 @@
   {
     "tagId": "kb_002",
     "title": "新近効果",
-    "summary": "最後に得た情報ほど、記憶や判断に残りやすいこと。",
+    "summary": "最後に得た情報ほど、記憶や判断に残りやすいこと。\n話し合いの最後の一言が、全体の印象に残る場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -232,7 +232,7 @@
   {
     "tagId": "kb_045",
     "title": "基本的帰属の誤り",
-    "summary": "他人の行動を、置かれた事情よりも性格のせいだと考えること。",
+    "summary": "他人の行動を、置かれた事情よりも性格のせいだと考えること。\n返事が遅い相手を「不誠実」と決めつけ、忙しさや事情を考えない場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -368,10 +368,10 @@
       "全か無か思考"
     ],
     "relatedTheoryIds": [
-      "kb_936",
       "kb_953",
       "theory-5f7a3841-2826-4bf5-8da4-d7265b80de9b",
-      "kb_1080"
+      "kb_1080",
+      "kb_936"
     ],
     "displayId": 12,
     "knowledgeType": "unspecified",
@@ -860,7 +860,7 @@
   {
     "tagId": "kb_219",
     "title": "白熊効果",
-    "summary": "考えないようにするほど、かえってそのことを考えてしまうこと。",
+    "summary": "考えないようにするほど、かえってそのことを考えてしまうこと。\n「失敗した場面を思い出さないように」と意識するほど、その場面が浮かぶ場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -874,7 +874,8 @@
       "シロクマ効果"
     ],
     "relatedTheoryIds": [
-      "kb_218"
+      "kb_218",
+      "kb_223"
     ],
     "displayId": 31,
     "displayOrder": 31,
@@ -978,7 +979,7 @@
   {
     "tagId": "kb_232",
     "title": "スポットライト効果",
-    "summary": "自分の外見や失敗が、実際以上に周囲から注目されていると思うこと。",
+    "summary": "自分の外見や失敗が、実際以上に周囲から注目されていると思うこと。\n自分の小さな言い間違いを、周囲もずっと気にしていると思う場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -1205,7 +1206,7 @@
   {
     "tagId": "kb_233",
     "title": "透明性の錯覚",
-    "summary": "自分の気持ちや意図は、言わなくても相手に伝わっていると思うこと。",
+    "summary": "自分の気持ちや意図は、言わなくても相手に伝わっていると思うこと。\n緊張や不満が、説明しなくても相手に伝わっていると思う場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -1793,7 +1794,7 @@
   {
     "tagId": "kb_190",
     "title": "計画錯誤",
-    "summary": "作業に必要な時間や費用を、実際より少なく見積もること。",
+    "summary": "作業に必要な時間や費用を、実際より少なく見積もること。\n作業そのものの時間だけを数え、確認ややり直しの時間を見込まない場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -3161,7 +3162,7 @@
   {
     "tagId": "kb_225",
     "title": "マインドフルネス",
-    "summary": "今の感覚や気持ちに、よしあしを決めつけず注意を向けること。",
+    "summary": "今の感覚や気持ちに、よしあしを決めつけず注意を向けること。\n考えごとに気づいたら、「考えていた」と受け止め、今聞こえる音や呼吸へ注意を戻す場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -3240,7 +3241,8 @@
       "kb_210",
       "kb_202",
       "kb_213",
-      "kb_1080"
+      "kb_1080",
+      "kb_1081"
     ],
     "displayId": 122,
     "knowledgeType": "method",
@@ -3432,7 +3434,9 @@
     "aliases": [
       "cognitive defusion"
     ],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_219"
+    ],
     "displayId": 131,
     "knowledgeType": "method",
     "status": "locked"
@@ -3646,9 +3650,35 @@
     "status": "locked"
   },
   {
+    "tagId": "kb_1081",
+    "title": "論理療法",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-e",
+    "subcategoryTitle": "感情・ストレス",
+    "sortOrder": 60,
+    "canonicalId": "kb_1081",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "REBT",
+      "合理情動行動療法",
+      "理性感情行動療法",
+      "rational emotive behavior therapy"
+    ],
+    "relatedTheoryIds": [
+      "kb_901"
+    ],
+    "displayId": 406,
+    "knowledgeType": "method",
+    "status": "locked"
+  },
+  {
     "tagId": "kb_169",
     "title": "自己効力感",
-    "summary": "特定のことについて「自分ならできる」と感じること。",
+    "summary": "特定のことについて「自分ならできる」と感じること。\n「自分には価値がある」という感覚とは分け、ある課題を自分ができそうかという見通しに注目する。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -3864,7 +3894,7 @@
   {
     "tagId": "kb_263",
     "title": "成長マインドセット",
-    "summary": "能力は学習や工夫によって伸ばせるという考え方。",
+    "summary": "能力は学習や工夫によって伸ばせるという考え方。\n失敗を能力の最終判定にせず、練習の仕方や助けの求め方を見直す視点になる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -3877,7 +3907,8 @@
     "relatedTheoryIds": [
       "kb_706",
       "kb_917",
-      "kb_583"
+      "kb_583",
+      "kb_264"
     ],
     "displayId": 149,
     "displayOrder": 149,
@@ -4283,7 +4314,7 @@
   {
     "tagId": "kb_266",
     "title": "社会的比較理論",
-    "summary": "自分の能力や状況を知るために、他の人と比べるという理論。",
+    "summary": "自分の能力や状況を知るために、他の人と比べるという理論。\n他人から刺激を受けることも、自分の不足ばかりが気になることもある。比べる相手や場面で受け取り方は変わる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -4343,7 +4374,7 @@
   {
     "tagId": "kb_264",
     "title": "セルフ・コンパッション",
-    "summary": "失敗した自分にも、他人に向けるような思いやりを持つこと。",
+    "summary": "失敗した自分にも、他人に向けるような思いやりを持つこと。\n失敗した友人にかける言葉を、自分にも向けるように考える。無理に自分を高く評価する必要はない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -4355,7 +4386,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_990",
-      "kb_991"
+      "kb_991",
+      "kb_263"
     ],
     "displayId": 168,
     "displayOrder": 168,
@@ -4705,7 +4737,12 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "ハンブルブラック効果",
+      "ハンブルブラッギング",
+      "謙遜自慢",
+      "humblebragging"
+    ],
     "relatedTheoryIds": [],
     "displayId": 182,
     "knowledgeType": "phenomenon",
@@ -4856,7 +4893,8 @@
       "attachment theory"
     ],
     "relatedTheoryIds": [
-      "kb_924"
+      "kb_924",
+      "kb_012"
     ],
     "displayId": 188,
     "displayOrder": 188,
@@ -4909,7 +4947,7 @@
   {
     "tagId": "kb_008",
     "title": "自己開示の返報性",
-    "summary": "自分のことを適度に話すと、相手も自分のことを話しやすくなること。",
+    "summary": "自分のことを適度に話すと、相手も自分のことを話しやすくなること。\n最近困っていることを少し話すと、相手も悩みを話す場合など。話す深さは相手の反応に合わせる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -4921,8 +4959,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_009",
-      "kb_1008",
-      "kb_1047"
+      "kb_1047",
+      "kb_1008"
     ],
     "displayId": 190,
     "displayOrder": 190,
@@ -4985,7 +5023,8 @@
     ],
     "relatedTheoryIds": [
       "kb_030",
-      "kb_1043"
+      "kb_1043",
+      "kb_480"
     ],
     "displayId": 192,
     "knowledgeType": "theory",
@@ -5165,7 +5204,7 @@
   {
     "tagId": "kb_047",
     "title": "返報性の原理",
-    "summary": "親切や利益を受けると、お返しをしなければと感じること。",
+    "summary": "親切や利益を受けると、お返しをしなければと感じること。\n親切への感謝と、「受けたのだから頼みを断れない」という圧力の両方につながりうる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -5176,7 +5215,8 @@
     "mergedFromIds": [],
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_007"
+      "kb_007",
+      "kb_462"
     ],
     "displayId": 199,
     "displayOrder": 199,
@@ -5425,7 +5465,7 @@
   {
     "tagId": "kb_092",
     "title": "境界線理論",
-    "summary": "自分と他人の責任や、受け入れられる扱いの範囲を分ける考え方。",
+    "summary": "自分と他人の責任や、受け入れられる扱いの範囲を分ける考え方。\n自分が引き受けること、相手に任せること、共有することの境目を考える。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -5436,10 +5476,10 @@
     "mergedFromIds": [],
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_427",
       "theory-a70e3a53-86c5-45e0-afb4-97e081936b53",
       "kb_1007",
-      "kb_1047"
+      "kb_1047",
+      "kb_427"
     ],
     "displayId": 210,
     "displayOrder": 210,
@@ -5476,10 +5516,10 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_928",
-      "kb_411",
       "kb_1003",
       "kb_1047",
-      "kb_1049"
+      "kb_1049",
+      "kb_411"
     ],
     "displayId": 211,
     "knowledgeType": "unspecified",
@@ -5626,7 +5666,7 @@
   {
     "tagId": "kb_041",
     "title": "ゴットマンの四騎士",
-    "summary": "関係を悪化させやすい四つのやり取りのこと。人格への批判、見下し、自己防御、無視を指す。",
+    "summary": "関係を悪化させやすい四つのやり取りのこと。人格への批判、見下し、自己防御、無視を指す。\n相手の人格を責める「批判」、見下す「軽蔑」、言い訳や責任転嫁の「防衛」、対話を閉ざす「逃避」の四つ。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6153,7 +6193,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_924"
+      "kb_924",
+      "kb_036"
     ],
     "displayId": 240,
     "knowledgeType": "unspecified",
@@ -6264,7 +6305,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_056"
+      "kb_056",
+      "kb_055"
     ],
     "displayId": 244,
     "knowledgeType": "theory",
@@ -6324,7 +6366,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_480"
+    ],
     "displayId": 247,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -6603,7 +6647,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_047"
+    ],
     "displayId": 259,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -6682,7 +6728,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_789"
+      "kb_789",
+      "kb_411"
     ],
     "displayId": 263,
     "knowledgeType": "method",
@@ -6703,6 +6750,10 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
+      "kb_412",
+      "kb_1083",
+      "kb_398",
+      "kb_406",
       "kb_404"
     ],
     "displayId": 264,
@@ -6712,7 +6763,7 @@
   {
     "tagId": "kb_051",
     "title": "アサーション理論",
-    "summary": "自分と相手を尊重しながら、意見や要求を率直に伝える考え方。",
+    "summary": "自分と相手を尊重しながら、意見や要求を率直に伝える考え方。\n我慢して引き受けることも、相手を責めて断ることも避け、「今日は難しい。明日なら手伝える」と伝える場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6723,8 +6774,9 @@
     "mergedFromIds": [],
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_052",
-      "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf"
+      "theory-8bc430c4-f80e-4e74-bb04-aca4a0d9c8bf",
+      "kb_427",
+      "kb_052"
     ],
     "displayId": 265,
     "displayOrder": 265,
@@ -6761,7 +6813,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_051"
+      "kb_051",
+      "kb_1047"
     ],
     "displayId": 266,
     "knowledgeType": "method",
@@ -6770,7 +6823,7 @@
   {
     "tagId": "kb_053",
     "title": "非暴力コミュニケーション",
-    "summary": "相手を責めず、事実、気持ち、必要なこと、依頼を分けて伝える方法。",
+    "summary": "相手を責めず、事実、気持ち、必要なこと、依頼を分けて伝える方法。\n「連絡がなかったので心配した。予定を把握したいから、遅れるときは一言ほしい」のように、観察と依頼を分ける。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6780,7 +6833,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_1047"
+    ],
     "displayId": 267,
     "displayOrder": 267,
     "provenance": {
@@ -6860,7 +6915,10 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_092"
+      "kb_480",
+      "kb_092",
+      "kb_431",
+      "kb_051"
     ],
     "displayId": 270,
     "knowledgeType": "method",
@@ -7190,7 +7248,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_436"
+    ],
     "displayId": 283,
     "knowledgeType": "theory",
     "status": "locked"
@@ -7382,7 +7442,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_1082"
+    ],
     "displayId": 291,
     "displayOrder": 291,
     "provenance": {
@@ -7583,12 +7645,66 @@
       "Johari window"
     ],
     "relatedTheoryIds": [
-      "kb_008",
       "kb_115",
-      "kb_394"
+      "kb_394",
+      "kb_008"
     ],
     "displayId": 298,
     "knowledgeType": "model",
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_1082",
+    "title": "ミダスタッチ効果",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "sortOrder": 112,
+    "canonicalId": "kb_1082",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "ミダス・タッチ効果",
+      "ミダス効果",
+      "Midas touch effect"
+    ],
+    "relatedTheoryIds": [
+      "kb_389"
+    ],
+    "displayId": 407,
+    "knowledgeType": "phenomenon",
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_480",
+    "title": "感情労働",
+    "summary": "",
+    "categoryId": "psychology",
+    "categoryTitle": "心理学",
+    "subcategoryId": "psychology-i",
+    "subcategoryTitle": "人間関係・コミュニケーション",
+    "sortOrder": 113,
+    "canonicalId": "kb_480",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "友人関係の感情労働",
+      "感情管理",
+      "emotion work",
+      "emotional labor"
+    ],
+    "relatedTheoryIds": [
+      "kb_427",
+      "kb_433",
+      "kb_031",
+      "kb_431"
+    ],
+    "displayId": 408,
+    "knowledgeType": "unspecified",
     "status": "locked"
   },
   {
@@ -7881,7 +7997,7 @@
   {
     "tagId": "kb_072",
     "title": "傍観者効果",
-    "summary": "周りに人が多いほど、助けが必要な場面でも自分は動かなくなること。",
+    "summary": "周りに人が多いほど、助けが必要な場面でも自分は動かなくなること。\n周囲に人がいると、他の人の反応をうかがったり責任が分散したりして、助けるのが遅れる場合がある。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -8105,7 +8221,7 @@
   {
     "tagId": "kb_067",
     "title": "多元的無知",
-    "summary": "皆が内心では反対でも、他の人は賛成だと思って合わせること。",
+    "summary": "皆が内心では反対でも、他の人は賛成だと思って合わせること。\n皆が乗り気に見えるので合わせているが、実は多くの人が同じように気を遣っている場合など。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -10560,7 +10676,7 @@
   {
     "tagId": "kb_133",
     "title": "プロスペクト理論",
-    "summary": "人は基準からの損得で結果を評価するという理論。同じ大きさでも損を重く感じ、得する場面と損を避ける場面では、危険の取り方も変わる。",
+    "summary": "人は基準からの損得で結果を評価するという理論。同じ大きさでも損を重く感じ、得する場面と損を避ける場面では、危険の取り方も変わる。\n同じ額でも、得るうれしさより失うつらさを強く感じたり、利益と損失で賭けへの態度が変わったりする。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -10628,7 +10744,7 @@
   {
     "tagId": "kb_134",
     "title": "損失回避",
-    "summary": "同じ大きさなら、得する喜びより損する痛みを強く感じること。",
+    "summary": "同じ大きさなら、得する喜びより損する痛みを強く感じること。\n持っているものを失う痛みが、同じものを手に入れる喜びより強く感じられる場合など。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -10668,7 +10784,7 @@
   {
     "tagId": "kb_273",
     "title": "サンクコスト効果",
-    "summary": "すでに使った時間やお金が惜しくて、見込みの薄いことを続けること。",
+    "summary": "すでに使った時間やお金が惜しくて、見込みの薄いことを続けること。\n「ここまで時間を使ったから」と、今後の見込みが悪い計画を続けてしまう場合など。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -10684,7 +10800,9 @@
       "kb_757",
       "kb_837",
       "kb_895",
-      "kb_1023"
+      "kb_1023",
+      "kb_274",
+      "kb_286"
     ],
     "displayId": 7,
     "displayOrder": 7,
@@ -10735,7 +10853,7 @@
   {
     "tagId": "kb_175",
     "title": "現在バイアス",
-    "summary": "将来の大きな利益より、目先の小さな利益を優先してしまうこと。",
+    "summary": "将来の大きな利益より、目先の小さな利益を優先してしまうこと。\n来月の余裕より、今日の楽さを優先して先延ばしする場合など。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -10815,7 +10933,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_277"
+    ],
     "displayId": 11,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -10838,7 +10958,8 @@
       "kb_754",
       "kb_1040",
       "kb_1041",
-      "kb_1044"
+      "kb_1044",
+      "kb_276"
     ],
     "displayId": 12,
     "knowledgeType": "method",
@@ -11003,7 +11124,8 @@
       "opportunity cost"
     ],
     "relatedTheoryIds": [
-      "kb_760"
+      "kb_760",
+      "kb_273"
     ],
     "displayId": 18,
     "knowledgeType": "principle",
@@ -12889,7 +13011,7 @@
   {
     "tagId": "kb_172",
     "title": "実行意図",
-    "summary": "「この状況になったら、この行動をする」と先に決めておくこと。",
+    "summary": "「この状況になったら、この行動をする」と先に決めておくこと。\n「夕食の片づけが終わったら、机で本を一ページ読む」のように、場面と行動を結びつける。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-m",
@@ -12911,7 +13033,8 @@
       "kb_1027",
       "kb_1036",
       "kb_1072",
-      "kb_1075"
+      "kb_1075",
+      "kb_180"
     ],
     "displayId": 91,
     "displayOrder": 91,
@@ -12994,8 +13117,8 @@
       "precommitment"
     ],
     "relatedTheoryIds": [
-      "kb_173",
-      "kb_1011"
+      "kb_1011",
+      "kb_173"
     ],
     "displayId": 94,
     "knowledgeType": "method",
@@ -13199,7 +13322,7 @@
   {
     "tagId": "kb_180",
     "title": "習慣ループ",
-    "summary": "習慣を、きっかけ、行動、報酬の繰り返しで考えること。",
+    "summary": "習慣を、きっかけ、行動、報酬の繰り返しで考えること。\n机に座ることがきっかけになり、短く読む行動と、進んだ実感が結びつく場合など。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-h",
@@ -13212,7 +13335,8 @@
     "relatedTheoryIds": [
       "kb_944",
       "kb_1028",
-      "kb_1029"
+      "kb_1029",
+      "kb_172"
     ],
     "displayId": 103,
     "displayOrder": 103,
@@ -13341,7 +13465,7 @@
   {
     "tagId": "kb_179",
     "title": "ナッジ",
-    "summary": "選ぶ自由を残しながら、望ましい行動を取りやすくする小さな工夫。",
+    "summary": "選ぶ自由を残しながら、望ましい行動を取りやすくする小さな工夫。\n記入例をそばに置く、選択肢を見つけやすくするなど、強制せずに行動を助ける。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-h",
@@ -13964,7 +14088,8 @@
     "relatedTheoryIds": [
       "kb_738",
       "kb_921",
-      "kb_1077"
+      "kb_1077",
+      "kb_199"
     ],
     "displayId": 132,
     "knowledgeType": "phenomenon",
@@ -13993,11 +14118,12 @@
       "kb_741",
       "kb_747",
       "kb_831",
-      "kb_829",
       "kb_879",
       "kb_1076",
       "kb_1077",
-      "kb_1078"
+      "kb_1078",
+      "kb_200",
+      "kb_829"
     ],
     "displayId": 133,
     "knowledgeType": "phenomenon",
@@ -14673,25 +14799,6 @@
     "status": "locked"
   },
   {
-    "tagId": "kb_480",
-    "title": "感情労働",
-    "summary": "",
-    "categoryId": "organization-management",
-    "categoryTitle": "組織・経営論",
-    "subcategoryId": "organization-management-i",
-    "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 14,
-    "canonicalId": "kb_480",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "aliases": [],
-    "relatedTheoryIds": [],
-    "displayId": 14,
-    "knowledgeType": "unspecified",
-    "status": "locked"
-  },
-  {
     "tagId": "kb_131",
     "title": "キャリア資本理論",
     "summary": "",
@@ -14699,7 +14806,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 15,
+    "sortOrder": 14,
     "canonicalId": "kb_131",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14718,7 +14825,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 16,
+    "sortOrder": 15,
     "canonicalId": "kb_868",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14743,7 +14850,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 17,
+    "sortOrder": 16,
     "canonicalId": "kb_292",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14762,13 +14869,15 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 18,
+    "sortOrder": 17,
     "canonicalId": "kb_290",
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_552"
+    ],
     "displayId": 18,
     "knowledgeType": "theory",
     "status": "locked"
@@ -14781,7 +14890,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 19,
+    "sortOrder": 18,
     "canonicalId": "kb_120",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14800,7 +14909,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 20,
+    "sortOrder": 19,
     "canonicalId": "kb_765",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14827,7 +14936,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 21,
+    "sortOrder": 20,
     "canonicalId": "kb_585",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14846,7 +14955,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 22,
+    "sortOrder": 21,
     "canonicalId": "kb_867",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14871,7 +14980,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 23,
+    "sortOrder": 22,
     "canonicalId": "kb_803",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14898,7 +15007,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 24,
+    "sortOrder": 23,
     "canonicalId": "kb_764",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14926,7 +15035,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 25,
+    "sortOrder": 24,
     "canonicalId": "kb_939",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -14955,7 +15064,7 @@
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-i",
     "subcategoryTitle": "働き方・キャリア",
-    "sortOrder": 26,
+    "sortOrder": 25,
     "canonicalId": "kb_940",
     "legacyIds": [],
     "mergedFromIds": [],
@@ -15055,7 +15164,7 @@
   {
     "tagId": "kb_070",
     "title": "社会的手抜き",
-    "summary": "集団では自分の貢献が見えにくくなり、一人のときより努力が減ること。",
+    "summary": "集団では自分の貢献が見えにくくなり、一人のときより努力が減ること。\n全員の共同作業で自分の貢献が見えにくくなり、一人で担当するときより力を抜く場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
@@ -15112,7 +15221,7 @@
   {
     "tagId": "kb_064",
     "title": "集団思考",
-    "summary": "集団のまとまりを優先しすぎて、異論や危険の検討が弱くなること。",
+    "summary": "集団のまとまりを優先しすぎて、異論や危険の検討が弱くなること。\nまとまった雰囲気を壊したくなくて、案の弱点を言わずに決めてしまう場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
@@ -15124,7 +15233,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_777",
-      "kb_894"
+      "kb_894",
+      "kb_402"
     ],
     "displayId": 32,
     "displayOrder": 32,
@@ -15290,7 +15400,7 @@
   {
     "tagId": "kb_073",
     "title": "責任の分散",
-    "summary": "複数人がいると、自分が引き受ける責任を小さく感じること。",
+    "summary": "複数人がいると、自分が引き受ける責任を小さく感じること。\n「誰かが連絡するだろう」と、誰も連絡しない場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
@@ -15304,8 +15414,8 @@
       "kb_732",
       "kb_733",
       "kb_888",
-      "kb_072",
-      "kb_994"
+      "kb_994",
+      "kb_072"
     ],
     "displayId": 40,
     "displayOrder": 40,
@@ -15358,7 +15468,7 @@
   {
     "tagId": "kb_402",
     "title": "心理的安全性",
-    "summary": "質問や異論、失敗の報告をしても、傷つけられたり不利益を受けたりしないという安心感。",
+    "summary": "質問や異論、失敗の報告をしても、傷つけられたり不利益を受けたりしないという安心感。\n分からないことや失敗を話しても、人格を否定されず、改善の話ができる状態を指す。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-t",
@@ -15374,7 +15484,8 @@
       "kb_845",
       "kb_889",
       "kb_771",
-      "kb_1062"
+      "kb_1062",
+      "kb_064"
     ],
     "displayId": 42,
     "displayOrder": 42,
@@ -16045,7 +16156,7 @@
   {
     "tagId": "kb_123",
     "title": "ピグマリオン効果",
-    "summary": "高い期待を向けられ、接し方や支援が変わることで成果が上がること。",
+    "summary": "高い期待を向けられ、接し方や支援が変わることで成果が上がること。\n期待が、声のかけ方や任せる機会を変え、それが相手の取り組みに影響する場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-o",
@@ -16176,7 +16287,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_571"
+    ],
     "displayId": 75,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -16195,7 +16308,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_584"
+    ],
     "displayId": 76,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -16304,7 +16419,7 @@
   {
     "tagId": "kb_193",
     "title": "グッドハートの法則",
-    "summary": "指標を上げることが目標になると、本来の状態を正しく測れなくなるという法則。",
+    "summary": "指標を上げることが目標になると、本来の状態を正しく測れなくなるという法則。\n返信の速さだけを目標にすると、内容の確認を省いて数値をよくしようとする場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-o",
@@ -16316,8 +16431,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_892",
-      "kb_194",
-      "kb_1072"
+      "kb_1072",
+      "kb_194"
     ],
     "displayId": 82,
     "displayOrder": 82,
@@ -16479,7 +16594,7 @@
   {
     "tagId": "kb_082",
     "title": "弱い紐帯の強さ",
-    "summary": "親しい仲間より、緩やかな知人が新しい情報や機会を運ぶこと。",
+    "summary": "親しい仲間より、緩やかな知人が新しい情報や機会を運ぶこと。\nいつも一緒にいる人とは異なる情報や機会が、たまに会う知人から入る場合など。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-n",
@@ -16489,7 +16604,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_552"
+    ],
     "displayId": 89,
     "displayOrder": 89,
     "provenance": {
@@ -17766,7 +17883,7 @@
   {
     "tagId": "kb_142",
     "title": "BATNA",
-    "summary": "交渉がまとまらなかった場合に、取れる最善の別案。",
+    "summary": "交渉がまとまらなかった場合に、取れる最善の別案。\nこの話し合いで決まらなくても取れる別の手段を考え、無理な合意を避ける基準にする。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-n",
@@ -17776,7 +17893,10 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_144",
+      "kb_143"
+    ],
     "displayId": 13,
     "displayOrder": 13,
     "provenance": {
@@ -17800,7 +17920,7 @@
   {
     "tagId": "kb_143",
     "title": "ZOPA",
-    "summary": "双方が受け入れられる条件の重なる範囲。",
+    "summary": "双方が受け入れられる条件の重なる範囲。\n売り手が受け入れられる最低額と、買い手が払える最高額が重なる範囲など。重なりがない場合もある。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-n",
@@ -17810,7 +17930,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_142"
+    ],
     "displayId": 14,
     "displayOrder": 14,
     "provenance": {
@@ -17844,7 +17966,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_142"
+    ],
     "displayId": 15,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -17866,7 +17990,8 @@
     "relatedTheoryIds": [
       "kb_149",
       "kb_154",
-      "kb_1054"
+      "kb_1054",
+      "kb_147"
     ],
     "displayId": 16,
     "knowledgeType": "method",
@@ -17889,7 +18014,8 @@
     "relatedTheoryIds": [
       "kb_148",
       "kb_1054",
-      "kb_1068"
+      "kb_1068",
+      "kb_150"
     ],
     "displayId": 17,
     "knowledgeType": "method",
@@ -17955,7 +18081,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_522"
+      "kb_522",
+      "kb_149"
     ],
     "displayId": 20,
     "knowledgeType": "method",
@@ -18156,7 +18283,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_416"
+    ],
     "displayId": 30,
     "knowledgeType": "unspecified",
     "status": "locked"
@@ -18234,7 +18363,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_148"
+    ],
     "displayId": 34,
     "knowledgeType": "method",
     "status": "locked"
@@ -18439,7 +18570,7 @@
   {
     "tagId": "kb_162",
     "title": "囚人のジレンマ",
-    "summary": "各自が自分の得を選ぶと、協力した場合より双方が損をする状況。",
+    "summary": "各自が自分の得を選ぶと、協力した場合より双方が損をする状況。\n互いに協力したほうがよくても、自分だけ損をする不安から、双方が協力を避ける状況を考える。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-g",
@@ -18451,7 +18582,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_791",
-      "kb_797"
+      "kb_797",
+      "kb_163"
     ],
     "displayId": 43,
     "displayOrder": 43,
@@ -18558,7 +18690,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_164"
+      "kb_164",
+      "kb_162"
     ],
     "displayId": 47,
     "knowledgeType": "model",
@@ -18969,7 +19102,8 @@
     "mergedFromIds": [],
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_895"
+      "kb_895",
+      "kb_273"
     ],
     "displayId": 64,
     "displayOrder": 64,
@@ -19124,7 +19258,8 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_911"
+      "kb_911",
+      "kb_599"
     ],
     "displayId": 70,
     "knowledgeType": "unspecified",
@@ -19133,7 +19268,7 @@
   {
     "tagId": "kb_599",
     "title": "プレモーテム",
-    "summary": "計画が失敗した未来を想像し、その原因を先に探す方法。",
+    "summary": "計画が失敗した未来を想像し、その原因を先に探す方法。\n「半年後、この計画はうまくいかなかった」と仮定し、起きそうな失敗と今できる備えを挙げる。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19144,7 +19279,8 @@
     "mergedFromIds": [],
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_932"
+      "kb_932",
+      "kb_569"
     ],
     "displayId": 71,
     "displayOrder": 71,
@@ -19331,7 +19467,7 @@
   {
     "tagId": "kb_287",
     "title": "探索と活用",
-    "summary": "新しい可能性を探すことと、有効な方法を磨くことの使い分け。",
+    "summary": "新しい可能性を探すことと、有効な方法を磨くことの使い分け。\n得意なやり方を深める時間と、知らない方法を試す時間の配分を考える。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-d",
@@ -19343,7 +19479,8 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_1025",
-      "kb_1044"
+      "kb_1044",
+      "kb_552"
     ],
     "displayId": 78,
     "displayOrder": 78,
@@ -19509,8 +19646,8 @@
       "kb_934",
       "kb_937",
       "kb_952",
-      "kb_930",
-      "kb_983"
+      "kb_983",
+      "kb_930"
     ],
     "displayId": 85,
     "knowledgeType": "unspecified",
@@ -19534,10 +19671,10 @@
       "帰納法"
     ],
     "relatedTheoryIds": [
-      "kb_931",
       "kb_716",
       "kb_711",
-      "kb_929"
+      "kb_929",
+      "kb_931"
     ],
     "displayId": 86,
     "knowledgeType": "unspecified",
@@ -19563,9 +19700,9 @@
     ],
     "relatedTheoryIds": [
       "kb_929",
-      "kb_930",
       "kb_596",
-      "kb_932"
+      "kb_932",
+      "kb_930"
     ],
     "displayId": 87,
     "knowledgeType": "unspecified",
@@ -19624,9 +19761,9 @@
       "kb_570",
       "kb_934",
       "kb_942",
-      "kb_938",
       "kb_1057",
-      "kb_1058"
+      "kb_1058",
+      "kb_938"
     ],
     "displayId": 89,
     "knowledgeType": "principle",
@@ -19779,7 +19916,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_1083",
+      "kb_523"
+    ],
     "displayId": 1,
     "knowledgeType": "heuristic",
     "status": "locked"
@@ -19798,7 +19938,9 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_411"
+    ],
     "displayId": 2,
     "knowledgeType": "method",
     "status": "locked"
@@ -19868,7 +20010,9 @@
     "aliases": [
       "仮説提示効果"
     ],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_411"
+    ],
     "displayId": 5,
     "knowledgeType": "method",
     "status": "locked"
@@ -20005,7 +20149,8 @@
     ],
     "relatedTheoryIds": [
       "kb_394",
-      "kb_407"
+      "kb_407",
+      "kb_1052"
     ],
     "displayId": 12,
     "knowledgeType": "method",
@@ -20031,7 +20176,8 @@
     "relatedTheoryIds": [
       "kb_435",
       "kb_777",
-      "kb_1055"
+      "kb_1055",
+      "kb_1051"
     ],
     "displayId": 13,
     "knowledgeType": "method",
@@ -20056,9 +20202,11 @@
       "私メッセージ"
     ],
     "relatedTheoryIds": [
-      "kb_008",
       "kb_404",
-      "kb_092"
+      "kb_092",
+      "kb_052",
+      "kb_053",
+      "kb_008"
     ],
     "displayId": 14,
     "knowledgeType": "method",
@@ -20082,9 +20230,9 @@
       "situation-behavior-impact"
     ],
     "relatedTheoryIds": [
-      "kb_394",
       "kb_045",
-      "kb_424"
+      "kb_424",
+      "kb_394"
     ],
     "displayId": 15,
     "knowledgeType": "method",
@@ -20160,7 +20308,8 @@
     "relatedTheoryIds": [
       "kb_777",
       "kb_435",
-      "kb_487"
+      "kb_487",
+      "kb_1046"
     ],
     "displayId": 18,
     "knowledgeType": "method",
@@ -20186,7 +20335,8 @@
     "relatedTheoryIds": [
       "kb_722",
       "kb_117",
-      "kb_394"
+      "kb_394",
+      "kb_1045"
     ],
     "displayId": 19,
     "knowledgeType": "method",
@@ -20270,6 +20420,31 @@
     "status": "locked"
   },
   {
+    "tagId": "kb_1083",
+    "title": "不言の美",
+    "summary": "",
+    "categoryId": "practical-wisdom",
+    "categoryTitle": "実践知",
+    "subcategoryId": "practical-wisdom-c",
+    "subcategoryTitle": "会話・伝え方",
+    "sortOrder": 23,
+    "canonicalId": "kb_1083",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "語らない美",
+      "言い尽くさない美"
+    ],
+    "relatedTheoryIds": [
+      "kb_411",
+      "kb_416"
+    ],
+    "displayId": 80,
+    "knowledgeType": "thought",
+    "status": "locked"
+  },
+  {
     "tagId": "kb_431",
     "title": "境界調整",
     "summary": "",
@@ -20283,7 +20458,10 @@
     "mergedFromIds": [],
     "accessTier": "complete",
     "aliases": [],
-    "relatedTheoryIds": [],
+    "relatedTheoryIds": [
+      "kb_480",
+      "kb_427"
+    ],
     "displayId": 23,
     "knowledgeType": "method",
     "status": "locked"
@@ -20360,7 +20538,10 @@
     "accessTier": "complete",
     "aliases": [],
     "relatedTheoryIds": [
-      "kb_595"
+      "kb_595",
+      "kb_082",
+      "kb_290",
+      "kb_287"
     ],
     "displayId": 27,
     "knowledgeType": "heuristic",
@@ -21086,9 +21267,9 @@
       "kb_1008",
       "kb_1037",
       "kb_1045",
-      "kb_1048",
       "kb_1052",
-      "kb_1063"
+      "kb_1063",
+      "kb_1048"
     ],
     "displayId": 57,
     "knowledgeType": "method",
@@ -22777,7 +22958,7 @@
   },
   {
     "tagId": "kb_503",
-    "title": "「勝ちやすい条件を先に整える」",
+    "title": "「先ず勝つべからざるを為して、以て敵の勝つべきを待つ」",
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
@@ -22788,7 +22969,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "勝ちやすい条件を先に整える"
+    ],
     "relatedTheoryIds": [],
     "displayId": 44,
     "knowledgeType": "thought",
@@ -22815,7 +22998,7 @@
   },
   {
     "tagId": "kb_504",
-    "title": "「優れた勝利は、目立たない」",
+    "title": "「善く戦う者の勝つや、智名無く、勇功無し」",
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
@@ -22826,7 +23009,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "優れた勝利は、目立たない"
+    ],
     "relatedTheoryIds": [],
     "displayId": 46,
     "knowledgeType": "thought",
@@ -22834,7 +23019,7 @@
   },
   {
     "tagId": "kb_490",
-    "title": "「戦わずに目的を遂げる」",
+    "title": "「戦わずして人の兵を屈するは、善の善なる者なり」",
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
@@ -22845,7 +23030,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "戦わずに目的を遂げる"
+    ],
     "relatedTheoryIds": [],
     "displayId": 47,
     "knowledgeType": "thought",
@@ -22853,7 +23040,7 @@
   },
   {
     "tagId": "kb_505",
-    "title": "「危機を招かない備えを重ねる」",
+    "title": "「善く戦う者は、不敗の地に立ちて、敵の敗を失わざるなり」",
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
@@ -22864,7 +23051,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "危機を招かない備えを重ねる"
+    ],
     "relatedTheoryIds": [],
     "displayId": 48,
     "knowledgeType": "thought",
@@ -22872,7 +23061,7 @@
   },
   {
     "tagId": "kb_496",
-    "title": "「長引く戦いに、巧みな勝ち方はない」",
+    "title": "「兵は拙速を聞くも、未だ巧久を睹ざるなり」",
     "summary": "",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
@@ -22883,7 +23072,9 @@
     "legacyIds": [],
     "mergedFromIds": [],
     "accessTier": "complete",
-    "aliases": [],
+    "aliases": [
+      "長引く戦いに、巧みな勝ち方はない"
+    ],
     "relatedTheoryIds": [],
     "displayId": 49,
     "knowledgeType": "thought",
@@ -22918,12 +23109,17 @@
     "subcategoryTitle": "兵法",
     "sortOrder": 10,
     "canonicalId": "kb_629",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "aliases": [],
-    "relatedTheoryIds": [
+    "legacyIds": [
       "kb_549"
     ],
+    "mergedFromIds": [
+      "kb_549"
+    ],
+    "aliases": [
+      "水に常形無く",
+      "水に常形なく"
+    ],
+    "relatedTheoryIds": [],
     "displayId": 51,
     "displayOrder": 51,
     "provenance": {
@@ -22943,27 +23139,6 @@
     },
     "accessTier": "free",
     "knowledgeType": "thought"
-  },
-  {
-    "tagId": "kb_549",
-    "title": "「水に常形無く」",
-    "summary": "",
-    "categoryId": "classics-thought",
-    "categoryTitle": "古典・思想",
-    "subcategoryId": "classics-thought-b",
-    "subcategoryTitle": "兵法",
-    "sortOrder": 11,
-    "canonicalId": "kb_549",
-    "legacyIds": [],
-    "mergedFromIds": [],
-    "accessTier": "complete",
-    "aliases": [],
-    "relatedTheoryIds": [
-      "kb_629"
-    ],
-    "displayId": 52,
-    "knowledgeType": "thought",
-    "status": "locked"
   },
   {
     "tagId": "kb_333",

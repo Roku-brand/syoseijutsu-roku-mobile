@@ -1,66 +1,106 @@
 [
   {
-    "type": "explains",
-    "priority": 22,
     "sourceId": "kb_047",
     "targetId": "kb_007",
+    "type": "explains",
+    "reviewStatus": "confirmed",
     "rationale": "受けたものへ返そうとする原理は、好意を返す傾向を理解する観点の一つ。",
-    "reviewStatus": "confirmed"
+    "priority": 22
   },
   {
-    "type": "contains",
-    "priority": 45,
-    "sourceId": "kb_133",
-    "targetId": "kb_134",
-    "rationale": "参照点からの得失を評価するプロスペクト理論の価値関数に、損失を強く重みづける特徴がある。",
-    "reviewStatus": "confirmed"
+    "sourceId": "kb_064",
+    "targetId": "kb_402",
+    "type": "contrasts",
+    "reviewStatus": "confirmed",
+    "rationale": "反対意見を出せず集団で判断を誤る場面と、懸念や失敗を話せる状態を対照する。",
+    "priority": 80
   },
   {
-    "type": "explains",
-    "priority": 47,
-    "sourceId": "kb_133",
-    "targetId": "kb_137",
-    "rationale": "参照点からの利得・損失として捉える違いから、フレーミングによる選択の変化を考える。",
-    "reviewStatus": "confirmed"
+    "sourceId": "kb_072",
+    "targetId": "kb_073",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "人が多い場で助けにくくなる現象を、責任が一人に定まらないという視点から読む。",
+    "priority": 80
   },
   {
-    "type": "explains",
-    "priority": 73,
-    "sourceId": "kb_073",
-    "targetId": "kb_072",
-    "rationale": "他者へ責任を分けて感じる過程は、傍観者効果を説明する要因の一つ。緊急事態の解釈等も影響する。",
-    "reviewStatus": "confirmed"
-  },
-  {
-    "type": "applies",
-    "priority": 82,
-    "sourceId": "kb_109",
-    "targetId": "kb_107",
-    "rationale": "観察できない能力や意図の情報差へ、観察可能な手掛かりを送る側から対応する。",
-    "reviewStatus": "confirmed"
-  },
-  {
-    "type": "related",
-    "priority": 100,
     "sourceId": "kb_104",
     "targetId": "kb_729",
+    "type": "related",
+    "reviewStatus": "legacy",
     "rationale": "既存の関連理論。関係種別は未確認。",
-    "reviewStatus": "legacy"
+    "priority": 100
   },
   {
-    "type": "related",
-    "priority": 100,
+    "sourceId": "kb_109",
+    "targetId": "kb_107",
+    "type": "applies",
+    "reviewStatus": "confirmed",
+    "rationale": "観察できない能力や意図の情報差へ、観察可能な手掛かりを送る側から対応する。",
+    "priority": 82
+  },
+  {
     "sourceId": "kb_123",
     "targetId": "kb_762",
+    "type": "related",
+    "reviewStatus": "legacy",
     "rationale": "既存の関連理論。関係種別は未確認。",
-    "reviewStatus": "legacy"
+    "priority": 100
   },
   {
-    "type": "related",
-    "priority": 100,
+    "sourceId": "kb_133",
+    "targetId": "kb_134",
+    "type": "contains",
+    "reviewStatus": "confirmed",
+    "rationale": "参照点からの得失を評価するプロスペクト理論の価値関数に、損失を強く重みづける特徴がある。",
+    "priority": 45
+  },
+  {
+    "sourceId": "kb_133",
+    "targetId": "kb_137",
+    "type": "explains",
+    "reviewStatus": "confirmed",
+    "rationale": "参照点からの利得・損失として捉える違いから、フレーミングによる選択の変化を考える。",
+    "priority": 47
+  },
+  {
+    "sourceId": "kb_142",
+    "targetId": "kb_143",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "交渉の外にある代案と、交渉の中で双方が受け入れられる範囲を分けて考える。",
+    "priority": 80
+  },
+  {
+    "sourceId": "kb_172",
+    "targetId": "kb_180",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "場面と行動を先に決めることを、きっかけから動く習慣の流れにつなげて読む。",
+    "priority": 80
+  },
+  {
+    "sourceId": "kb_263",
+    "targetId": "kb_264",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "失敗した自分への思いやりと、やり方を変えて学べるという見方を、立て直しの別の側面として読む。",
+    "priority": 80
+  },
+  {
     "sourceId": "kb_263",
     "targetId": "kb_706",
+    "type": "related",
+    "reviewStatus": "legacy",
     "rationale": "既存の関連理論。関係種別は未確認。",
-    "reviewStatus": "legacy"
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_273",
+    "targetId": "kb_286",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "過去に費やしたものへの執着に気づき、今後の見込みから続行と撤退を考え直す。",
+    "priority": 80
   }
 ]

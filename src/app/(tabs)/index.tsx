@@ -1,6 +1,6 @@
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
@@ -8,16 +8,17 @@ import { useAccess } from '../../access/access-state';
 import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
-import { categoryMeta, techniqueById, techniqueCards, theories, theoryById } from '../../data/catalog';
+import { categoryMeta, techniqueById, theoryById } from '../../data/catalog';
 import { techniqueCategoryImages } from '../../data/category-images';
 import { isLockedTheoryShell } from '../../data/theory-display';
-import type { CategoryKey, TechniqueCard, TheoryCard } from '../../data/types';
+import type { CategoryKey } from '../../data/types';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { useAppState } from '../../state/app-state';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
 import { TechniqueTitle } from '../../components/technique-title';
+import { buildReadingRecommendations, readingContentId, type ReadingContent } from '../../data/reading-recommendations';
 
 const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
   ...techniqueCategoryImages,
@@ -25,52 +26,8 @@ const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
 };
 const premiumImage = require('../../../assets/home/premium-banner-v2.webp');
 
-type HomeContent = { type: 'technique'; card: TechniqueCard } | { type: 'theory'; card: TheoryCard };
-
-function contentId(item: HomeContent) {
-  return item.type === 'technique' ? item.card.id : item.card.tagId;
-}
-
-function buildRecommendations({ accessState, historyIds, interests, savedIds }: {
-  accessState: string;
-  historyIds: string[];
-  interests: CategoryKey[];
-  savedIds: string[];
-}) {
-  const categoryScore = new Map<CategoryKey, number>(interests.map((key, index) => [key, 12 - index]));
-  [...historyIds.slice(0, 20), ...savedIds.slice(0, 20)].forEach((id, index) => {
-    const card = techniqueById.get(id);
-    if (card) categoryScore.set(card.categoryKey, (categoryScore.get(card.categoryKey) ?? 0) + Math.max(2, 10 - Math.floor(index / 3)));
-  });
-  const seen = new Set(historyIds.slice(0, 8));
-  const techniqueCandidates = techniqueCards
-    .filter((card) => accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))
-    .sort((a, b) => {
-      const scoreA = (categoryScore.get(a.categoryKey) ?? 0) - (seen.has(a.id) ? 30 : 0) + (savedIds.includes(a.id) ? 4 : 0);
-      const scoreB = (categoryScore.get(b.categoryKey) ?? 0) - (seen.has(b.id) ? 30 : 0) + (savedIds.includes(b.id) ? 4 : 0);
-      return scoreB - scoreA || a.id.localeCompare(b.id);
-    });
-  const relatedTheoryIds = [...savedIds, ...historyIds].flatMap((id) => techniqueById.get(id)?.theoryTagIds ?? []);
-  const theoryRank = new Map(relatedTheoryIds.map((id, index) => [id, relatedTheoryIds.length - index]));
-  const theoryCandidates = theories
-    .filter((theory) => !isLockedTheoryShell(theory) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(theory.tagId)))
-    .sort((a, b) => (theoryRank.get(b.tagId) ?? 0) - (theoryRank.get(a.tagId) ?? 0) || a.tagId.localeCompare(b.tagId));
-  const items: HomeContent[] = [];
-  const selected = new Set<string>();
-  const add = (item: HomeContent | null) => {
-    if (!item || selected.has(contentId(item)) || items.length >= 7) return;
-    selected.add(contentId(item));
-    items.push(item);
-  };
-  (['interpersonal', 'work', 'life'] as const).forEach((key) => {
-    const card = techniqueCandidates.find((candidate) => candidate.categoryKey === key);
-    add(card ? { type: 'technique', card } : null);
-  });
-  add(theoryCandidates[0] ? { type: 'theory', card: theoryCandidates[0] } : null);
-  techniqueCandidates.forEach((card) => add({ type: 'technique', card }));
-  theoryCandidates.forEach((card) => add({ type: 'theory', card }));
-  return items;
-}
+type HomeContent = ReadingContent;
+const contentId = readingContentId;
 
 const shortcuts = [
   { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
@@ -85,7 +42,15 @@ export default function HomeScreen() {
   const { desktop, width } = useResponsiveLayout();
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, catalogRevision } = useAccess();
-  const { historyIds, interests, savedIds } = useAppState();
+  const { historyIds, interests, savedIds, savedTheoryIds } = useAppState();
+  const [readingDay, setReadingDay] = useState('');
+  const [discoveryRound, setDiscoveryRound] = useState(0);
+  useEffect(() => {
+    const updateDay = () => { const now = new Date(); setReadingDay(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`); };
+    updateDay();
+    const timer = setInterval(updateDay, 60_000);
+    return () => clearInterval(timer);
+  }, []);
 
   const recent = useMemo<HomeContent[]>(() => historyIds.flatMap((id): HomeContent[] => {
     const card = techniqueById.get(id);
@@ -95,8 +60,8 @@ export default function HomeScreen() {
     return [];
   }).slice(0, 6), [accessState, catalogRevision, historyIds]);
   const recommendations = useMemo(
-    () => buildRecommendations({ accessState, historyIds, interests, savedIds }),
-    [accessState, catalogRevision, historyIds, interests, savedIds],
+    () => buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed: `${readingDay}:${discoveryRound}` }),
+    [accessState, catalogRevision, historyIds, interests, savedIds, savedTheoryIds, readingDay, discoveryRound],
   );
   const cardWidth = desktop ? 250 : Math.min(260, Math.max(210, width * 0.59));
   const openContent = (item: HomeContent) => router.push(item.type === 'technique' ? techniqueRoute(item.card.id) : theoryRoute(item.card.tagId));
@@ -133,6 +98,10 @@ export default function HomeScreen() {
       </Pressable>
 
       <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
+        <View style={styles.discoveryHeading}>
+          <Text style={styles.discoveryHint}>関心のある知識と、新しい視点との出会い。</Text>
+          <Pressable accessibilityRole="button" accessibilityLabel="別のおすすめに入れ替える" onPress={() => setDiscoveryRound(round => round + 1)} style={styles.discoveryRefresh}><Text style={styles.discoveryRefreshText}>別の出会い ↻</Text></Pressable>
+        </View>
         <ScrollView horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
           {recommendations.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} testID="home-recommendation-card" />)}
         </ScrollView>
@@ -169,6 +138,7 @@ function ContentCard({ item, width, onPress, testID }: { item: HomeContent; widt
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
       {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
+      {item.reason ? <Text style={styles.recommendationReason}>{item.reason}</Text> : null}
       <Text style={styles.contentLink}>続きを読む →</Text>
     </View>
   </Pressable>;
@@ -212,6 +182,11 @@ const styles = StyleSheet.create({
   premiumButtonTextMobile: { fontSize: 9, lineHeight: 13 },
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
+  discoveryHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 4, marginBottom: 8 },
+  discoveryHint: { flexShrink: 1, color: colors.inkSoft, fontSize: 11, lineHeight: 18 },
+  discoveryRefresh: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center' },
+  discoveryRefreshText: { color: colors.ink, fontSize: 12, lineHeight: 18 },
+  recommendationReason: { marginTop: 6, color: colors.inkSoft, fontSize: 11, lineHeight: 17 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
   contentImage: { width: '100%', height: 100, backgroundColor: '#E6E0D5' },

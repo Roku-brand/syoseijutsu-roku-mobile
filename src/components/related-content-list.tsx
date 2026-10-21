@@ -9,6 +9,7 @@ export type RelatedContentItem = {
   key: string;
   title: string;
   supportingText?: string;
+  detailText?: string;
   href: Href;
   accessibilityLabel?: string;
 };
@@ -56,6 +57,7 @@ export function RelatedContentSection({
                     {normalizeDisplayText(item.supportingText).replace(/\n+/g, ' ')}
                   </AppText>
                 ) : null}
+                {item.detailText ? <AppText style={styles.supporting}>{normalizeDisplayText(item.detailText)}</AppText> : null}
               </View>
               <AppText accessibilityElementsHidden style={styles.chevron}>›</AppText>
             </Pressable>
