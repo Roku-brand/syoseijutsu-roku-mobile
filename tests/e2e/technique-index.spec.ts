@@ -37,14 +37,18 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await expect(page.getByTestId('technique-index-id').last()).toHaveText('No.356');
   await page.getByRole('button', { name: '対人術で処世術を絞り込む' }).click();
   await expect(page).not.toHaveURL(/page=4/);
-  const input = page.getByRole('textbox', { name: '通しID・処世術名・人物像で検索' });
+  await expect(page.getByRole('textbox')).toHaveCount(0);
+  await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
+  const input = page.getByRole('textbox', { name: 'キーワードを検索', exact: true });
   await input.fill('No.337');
   await input.press('Enter');
   await expect(page.getByTestId('technique-index-row')).toHaveCount(1);
   await expect(page.getByTestId('technique-index-row')).toContainText('一緒にいて疲れない人');
   await expect(page.getByTestId('technique-index-row')).toContainText('完全版の処世術');
   await page.reload();
+  await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
   await expect(input).toHaveValue('No.337');
+  await page.getByRole('button', { name: '検索を閉じる', exact: true }).click();
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.337');
   await page.getByTestId('technique-index-row').click();
   await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
@@ -57,4 +61,8 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await page.goto('/techniques?q=存在しない検索語');
   await expect(page.getByTestId('technique-index-count')).toHaveText('0件');
   await expect(page.getByText('該当する処世術はありません。')).toBeVisible();
+  await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
+  await input.fill(''); await input.press('Enter');
+  await expect(page.getByTestId('technique-index-count')).toHaveText('356件');
+  await expect(page).not.toHaveURL(/q=/);
 });

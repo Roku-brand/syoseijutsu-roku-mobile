@@ -43,11 +43,16 @@ export function HeaderSearchAction({ initialMode = 'techniques', label = '検索
   }, [close, open]);
   const show = () => {
     setMode(initialMode);
-    if (pathname === '/search') setQuery(Array.isArray(params.q) ? params.q[0] ?? '' : params.q ?? '');
+    if (pathname === '/search' || pathname === '/techniques') setQuery(Array.isArray(params.q) ? params.q[0] ?? '' : params.q ?? '');
     measurePosition(); setOpen(true);
   };
   const submit = () => {
     const trimmed = query.trim();
+    if (pathname === '/techniques' && mode === 'techniques') {
+      close(false);
+      router.setParams({ q: trimmed || undefined, page: undefined });
+      return;
+    }
     if (!trimmed) { input.current?.focus(); return; }
     close(false);
     router.push({ pathname: '/search', params: { q: trimmed, mode } });

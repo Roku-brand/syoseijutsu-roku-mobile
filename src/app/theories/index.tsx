@@ -1,18 +1,18 @@
-import { Link, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { TheorySubcategoryReel } from '@/components/theory-subcategory-reel';
-import { colors, fonts, radius, spacing } from '@/constants/theme';
-import { getTheoryDisplayId, theories } from '@/data/catalog';
-import { getTheoryCoverSummary, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
-import type { TheoryCard } from '@/data/types';
+import { catalogTheme, colors, fonts, spacing } from '@/constants/theme';
+import { theories } from '@/data/catalog';
+import { isLockedTheoryShell } from '@/data/theory-display';
+import { TheoryCard } from '@/components/theory-card';
+import { Pagination } from '@/components/pagination';
 import { groupTheorySections, resolveTheorySubcategoryId } from '@/data/theory-taxonomy';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const PAGE_SIZE = 100;
 
@@ -25,8 +25,6 @@ export default function TheoryIndexScreen() {
   // Published catalogue changes are invalidated by catalogRevision.
   const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
-  const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
 
   const { isPaid, accessState, catalogRevision } = useAccess();
   const requestedCategory = params.category;
@@ -73,7 +71,7 @@ export default function TheoryIndexScreen() {
   };
 
   return (
-    <BookScreen contentContainerStyle={styles.content}>
+    <BookScreen testID="theory-index-screen" contentContainerStyle={styles.content}>
       <View style={styles.filters}>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
@@ -86,18 +84,14 @@ export default function TheoryIndexScreen() {
         {!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}
       </View>
 
-      {paginated && selectedTheories.length > PAGE_SIZE ? (
-        <View testID="theory-index-pagination" accessibilityLabel="理論一覧のページ選択" style={styles.pagination}>
-          {Array.from({ length: totalPages }, (_, index) => index + 1).map(item => <Pressable key={item} accessibilityRole="button" accessibilityLabel={`${item}ページ目`} accessibilityState={{ selected: item === safePage }} aria-selected={item === safePage} onPress={() => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} style={[styles.pageButton, item === safePage && styles.pageButtonActive]}><AppText style={[styles.pageText, item === safePage && styles.pageTextActive]}>{item}</AppText></Pressable>)}
-        </View>
-      ) : null}
+      <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={item => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} />
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
           {groupTheorySections(pageTheories).map((section,index,sections) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
             {category === 'all' && (index === 0 || sections[index-1].categoryId !== section.categoryId) ? <AppText accessibilityRole="header" aria-level={2} style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
-            {!subcategory ? <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.totalNote}>{filtered.filter(t=>t.categoryId === section.categoryId && t.subcategoryId===section.subcategoryId).length}件</AppText></View> : null}
-            {section.items.map(theory=><TheoryIndexRow key={theory.tagId} theory={theory} compact={compact} />)}
+            {!subcategory ? <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.sectionCount}>{filtered.filter(t=>t.categoryId === section.categoryId && t.subcategoryId===section.subcategoryId).length}件</AppText></View> : null}
+            {section.items.map(theory=><TheoryCard key={theory.tagId} theory={theory} testID="theory-index-row-card" />)}
           </View>)}
         </View>
       ) : (
@@ -107,57 +101,28 @@ export default function TheoryIndexScreen() {
   );
 }
 
-function TheoryIndexRow({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
-  return (
-    <Link href={{ pathname: '/theory/[id]', params: { id: theory.tagId } }} asChild style={[styles.row, compact && styles.rowCompact]}>
-      <Pressable testID="theory-index-row-card" accessibilityRole="link" accessibilityLabel={`${theory.title}を開く`}>
-        <View style={[styles.idColumn, compact && styles.idColumnCompact]}><AppText style={styles.rowCode}>{getTheoryDisplayId(theory)}</AppText></View>
-        <View style={styles.rowCopy}>
-          <AppText numberOfLines={theory.title.startsWith('「') ? undefined : 2} style={[styles.rowTitle, compact && styles.rowTitleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
-          <AppText numberOfLines={compact ? 3 : 2} style={styles.rowSummary}>{getTheoryCoverSummary(theory.summary)}</AppText>
-        </View>
-        <AppText style={styles.rowArrow}>›</AppText>
-      </Pressable>
-    </Link>
-  );
-}
-
 function TheoryListSkeleton() {
-  return <View testID="theory-index-loading" style={styles.list}>{Array.from({ length: 6 }, (_, index) => <View key={index} style={[styles.row, styles.skeletonRow]}><View style={styles.skeletonCode} /><View style={styles.rowCopy}><View style={styles.skeletonLine} /><View style={styles.skeletonLineWide} /></View></View>)}</View>;
+  return <View testID="theory-index-loading" style={styles.list}>{Array.from({ length: 6 }, (_, index) => <View key={index} style={styles.skeletonRow}><View style={styles.skeletonCode} /><View style={styles.skeletonLine} /><View style={styles.skeletonLineWide} /></View>)}</View>;
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: 980, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
-  filters: { marginTop: spacing.lg, paddingBottom: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line },
+  content: { width: '100%', maxWidth: catalogTheme.maxWidth, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
+  filters: { marginTop: spacing.lg, paddingBottom: spacing.md },
   subcategoryFilters: { marginTop: spacing.lg },
   resultHeading: { marginTop: spacing.xl, marginBottom: spacing.md, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   resultHeadingWithReel: { marginTop: spacing.md },
-  resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
+  resultTitle: { color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37, fontWeight: '600' },
   totalNote: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },
   list: { width: '100%', gap: 12 },
   section: { width: '100%', gap: 12, marginBottom: spacing.lg },
-  majorHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
-  subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: colors.gold },
-  subTitle: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
-  row: { position: 'relative', width: '100%', minHeight: 112, paddingVertical: 18, paddingRight: 48, flexDirection: 'row', alignItems: 'stretch', borderTopWidth: 1, borderRightWidth: 1, borderBottomWidth: 1, borderLeftWidth: 1, borderStyle: 'solid', borderColor: '#E0D0B8', borderRadius: radius.md, backgroundColor: '#FFFEFB' },
-  rowCompact: { minHeight: 126, paddingVertical: 15, paddingRight: 37 },
-  idColumn: { width: 108, flexShrink: 0, paddingHorizontal: 20, alignItems: 'flex-start', justifyContent: 'center', borderRightWidth: 1, borderRightColor: colors.line },
-  idColumnCompact: { width: 76, paddingHorizontal: 12 },
-  rowCode: { color: colors.goldDeep, fontSize: 14, lineHeight: 20, fontWeight: '600', letterSpacing: 0.2 },
-  rowCopy: { flex: 1, minWidth: 0, paddingHorizontal: 24, justifyContent: 'center' },
-  rowTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 28, fontWeight: '700' },
-  rowTitleCompact: { fontSize: 17, lineHeight: 25 },
-  rowSummary: { marginTop: 5, color: colors.muted, fontSize: 13, lineHeight: 21 },
-  rowArrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 30, lineHeight: 32 },
+  majorHeading: { color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, marginTop: spacing.md },
+  subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingTop: 10, paddingBottom: 4 },
+  subTitle: { flex: 1, color: catalogTheme.theory.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
+  sectionCount: { color: catalogTheme.theory.ink, fontSize: 11, lineHeight: 18 },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
-  pagination: { marginTop: spacing.md, marginBottom: spacing.md, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 7 },
-  pageButton: { width: 44, height: 44, borderWidth: 1, borderColor: '#C9B99F', borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  pageButtonActive: { borderColor: colors.goldDeep, backgroundColor: colors.goldDeep },
-  pageText: { color: colors.inkSoft, fontSize: 11 },
-  pageTextActive: { color: colors.surface, fontWeight: '700' },
-  skeletonRow: { opacity: 0.5 },
-  skeletonCode: { width: 62, height: 10, marginHorizontal: 20, alignSelf: 'center', borderRadius: 5, backgroundColor: colors.paperDeep },
+  skeletonRow: { minHeight: 148, padding: 22, gap: 16, borderWidth: 1, borderColor: catalogTheme.theory.border, borderRadius: 4, alignItems: 'center', opacity: 0.5 },
+  skeletonCode: { width: 62, height: 10, alignSelf: 'flex-end', borderRadius: 5, backgroundColor: colors.paperDeep },
   skeletonLine: { width: '58%', height: 16, borderRadius: 6, backgroundColor: colors.paperDeep },
   skeletonLineWide: { width: '86%', height: 10, marginTop: 12, borderRadius: 5, backgroundColor: colors.paperDeep },
 });

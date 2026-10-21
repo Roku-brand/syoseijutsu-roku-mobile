@@ -759,7 +759,7 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   expect(Math.abs(first!.width - second!.width)).toBeLessThan(2);
   expect(Math.abs(first!.x - second!.x)).toBeLessThan(2);
   expect(second!.y).toBeGreaterThan(first!.y + first!.height - 2);
-  const firstRowStyle = await page.getByTestId('theory-index-row-card').first().evaluate((element) => {
+  const firstRowStyle = await page.getByTestId('theory-card').first().evaluate((element) => {
     const computed = getComputedStyle(element);
     return {
       borderStyle: computed.borderTopStyle,

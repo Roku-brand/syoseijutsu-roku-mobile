@@ -22,6 +22,14 @@ export const colors = {
   charcoal: '#171712',
 } as const;
 
+/** Shared page surface, with accents confined to each kind of catalogue card. */
+export const catalogTheme = {
+  maxWidth: 1040,
+  technique: { border: '#E0D0B8', surface: '#FFFEFB' },
+  theory: { ink: '#203F69', muted: '#617D9C', border: '#A8BBD0', surface: '#F8FAFC', inactive: '#ECEFF2' },
+  categoryBars: { interpersonal: '#C4555D', work: '#4A7DA8', life: '#58866A' } as Record<string, string>,
+} as const;
+
 const builtInCategoryPalette = {
   interpersonal: {
     accent: '#6B5430',

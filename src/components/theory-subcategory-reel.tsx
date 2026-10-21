@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Animated, PanResponder, Platform, Pressable, ScrollView, StyleSheet, View, useWindowDimensions, type ViewStyle } from 'react-native';
-import { colors, fonts } from '@/constants/theme';
+import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { AppText } from './ui';
 import { getCategoryLabelParts } from './category-filter-label';
@@ -207,7 +207,6 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
         {options.map(renderOption)}
       </ScrollView>}
     </View>
-    <View testID="theory-subcategory-underline" style={styles.underline} />
     <View testID="theory-subcategory-indicators" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.dots}>
       {options.map((option, itemIndex) => <View key={optionKey(option)} testID={itemIndex === index ? 'theory-subcategory-indicator-active' : undefined} style={[styles.dot, itemIndex === index && styles.dotActive]} />)}
     </View>
@@ -224,9 +223,8 @@ const styles = StyleSheet.create({
   item: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden', backgroundColor: 'transparent' },
   copy: { width: '100%', paddingHorizontal: 8 },
   title: { color: '#9B968D', fontFamily: fonts.serif, fontSize: 20, lineHeight: 26, fontWeight: '400', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
-  titleWide: { fontSize: 22, lineHeight: 28 }, titleActive: { color: colors.ink, fontWeight: '600' },
-  underline: { alignSelf: 'center', width: 52, height: 2, backgroundColor: colors.gold },
+  titleWide: { fontSize: 22, lineHeight: 28 }, titleActive: { color: catalogTheme.theory.ink, fontWeight: '600' },
   dots: { flexDirection: 'row', justifyContent: 'center', gap: 5, marginTop: 4, height: 4 },
   dot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#DDD7CC' },
-  dotActive: { width: 12, backgroundColor: colors.gold },
+  dotActive: { width: 12, backgroundColor: catalogTheme.theory.ink },
 });
