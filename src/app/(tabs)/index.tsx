@@ -99,7 +99,6 @@ export default function HomeScreen() {
 
       <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
         <View style={styles.discoveryHeading}>
-          <Text style={styles.discoveryHint}>関心のある知識と、新しい視点との出会い。</Text>
           <Pressable accessibilityRole="button" accessibilityLabel="別のおすすめに入れ替える" onPress={() => setDiscoveryRound(round => round + 1)} style={styles.discoveryRefresh}><Text style={styles.discoveryRefreshText}>別の出会い ↻</Text></Pressable>
         </View>
         <ScrollView horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
@@ -138,7 +137,6 @@ function ContentCard({ item, width, onPress, testID }: { item: HomeContent; widt
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
       {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
-      {item.reason ? <Text style={styles.recommendationReason}>{item.reason}</Text> : null}
       <Text style={styles.contentLink}>続きを読む →</Text>
     </View>
   </Pressable>;
@@ -183,10 +181,8 @@ const styles = StyleSheet.create({
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
   discoveryHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 4, marginBottom: 8 },
-  discoveryHint: { flexShrink: 1, color: colors.inkSoft, fontSize: 11, lineHeight: 18 },
   discoveryRefresh: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center' },
   discoveryRefreshText: { color: colors.ink, fontSize: 12, lineHeight: 18 },
-  recommendationReason: { marginTop: 6, color: colors.inkSoft, fontSize: 11, lineHeight: 17 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
   contentImage: { width: '100%', height: 100, backgroundColor: '#E6E0D5' },
