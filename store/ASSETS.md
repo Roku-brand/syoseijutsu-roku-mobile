@@ -2,14 +2,20 @@
 
 ## App Store
 
-`app-store/iphone-6.9/` に、iPhone 6.9インチ枠へ提出できる 1290 × 2796 px のPNGを6枚収録しています。
+`app-store/iphone-6.9/` は、2026-10-22時点の公開ページに掲載されている4枚を反映しています。公開ページには次の順で表示されます。
 
-1. `01-main.png` — 処世術カードの縦型リール
-2. `02-discover.png` — 選択式の「探す」
-3. `03-results.png` — 状況に合う処世術の一覧
-4. `04-detail.png` — 処世術の詳細と実践の視点
-5. `05-catalog.png` — 五領域と理論辞典
-6. `06-myos.png` — 保存した判断原則
+1. `01-main.png` — 処世術専門メディアの紹介とホーム画面
+2. `02-app-overview.png` — アプリの概要画面
+3. `03-technique.png` — 処世術の使い方
+4. `04-theory.png` — 理論の解説
+
+公開ページで配信される縮小プレビューを `screenshots/app-store-live-preview/` に、PNG化した参照画像を上記フォルダーに保存しています。これらは縮小プレビュー由来のため、App Store Connectへの再アップロード用には使わないでください。Apple側で公開中の原寸画像は公開ページで確認できます。公開ページの4枚は添付画像を含めすでに最新の状態だったため、App Store Connectへの再提出は行っていません。
+
+以前の6枚は `archive/app-store/iphone-6.9-before-20261022/` に原本のまま保存しています。旧6枚へ戻すには、アプリ版リポジトリ直下で以下を実行します。
+
+```powershell
+Copy-Item store/archive/app-store/iphone-6.9-before-20261022/*.png store/app-store/iphone-6.9/ -Force
+```
 
 ## Google Play
 
@@ -17,19 +23,8 @@
 - `google-play/feature-graphic-1024x500.png` — 1024 × 500 px
 - `google-play/phone/` — 1080 × 2160 px の電話スクリーンショット6枚
 
-## 画像上の文言
-
-スクリーンショットは実際のアプリ画面のみで構成し、未実装機能や順位、価格、キャンペーン表現を含めていません。
-
-## アクセシビリティ用説明文
-
-1. 生成り色の背景に、一つの処世術を大きく表示するメイン画面。
-2. 人間関係、仕事、メンタル、人生、挑戦から悩みの領域を選ぶ画面。
-3. 選んだ状況に合う複数の処世術を比較できる結果画面。
-4. 処世術の要点、実践の視点、注意点、関連理論を読む詳細画面。
-5. 三領域と採用理論辞典から知識をたどる体系画面。
-6. 保存した処世術を自分の判断原則として整理するマイOS画面。
+Google Play素材は `screenshots/raw/` のアプリ画面から生成しています。App Store向け画像は公開中の掲載画像を参照元にしています。
 
 ## 再生成
 
-プロジェクト直下で `pnpm store:assets` を実行します。元画像は `screenshots/raw/` にあります。
+プロジェクト直下で `pnpm store:assets` を実行します。App Store向け参照画像は `screenshots/app-store-live-preview/`、Google Play向け画像は `screenshots/raw/` にあります。

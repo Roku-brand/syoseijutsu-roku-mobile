@@ -5,6 +5,7 @@ import sharp from "sharp";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rawDir = path.join(projectRoot, "store", "screenshots", "raw");
+const appStoreSourceDir = path.join(projectRoot, "store", "screenshots", "app-store-live-preview");
 const appStoreDir = path.join(projectRoot, "store", "app-store", "iphone-6.9");
 const playPhoneDir = path.join(projectRoot, "store", "google-play", "phone");
 const playDir = path.join(projectRoot, "store", "google-play");
@@ -13,7 +14,7 @@ const generatedTheories = JSON.parse(await fs.readFile(path.join(projectRoot, "s
 const techniqueCount = generatedTechniques.categories.flatMap((category) => category.subcategories).reduce((count, subcategory) => count + subcategory.items.length, 0);
 const theoryCount = generatedTheories.length;
 
-const files = [
+const playStoreFiles = [
   "01-main.png",
   "02-discover.png",
   "03-results.png",
@@ -22,19 +23,27 @@ const files = [
   "06-myos.png",
 ];
 
+const appStoreFiles = [
+  ["01-main.webp", "01-main.png"],
+  ["02-app-overview.webp", "02-app-overview.png"],
+  ["03-technique.webp", "03-technique.png"],
+  ["04-theory.webp", "04-theory.png"],
+];
+
 await Promise.all([
   fs.mkdir(appStoreDir, { recursive: true }),
   fs.mkdir(playPhoneDir, { recursive: true }),
 ]);
 
-for (const file of files) {
-  const source = path.join(rawDir, file);
-
-  await sharp(source)
-    .resize(1290, 2796, { fit: "fill", kernel: sharp.kernel.lanczos3 })
+for (const [sourceFile, outputFile] of appStoreFiles) {
+  await sharp(path.join(appStoreSourceDir, sourceFile))
     .removeAlpha()
     .png({ compressionLevel: 9 })
-    .toFile(path.join(appStoreDir, file));
+    .toFile(path.join(appStoreDir, outputFile));
+}
+
+for (const file of playStoreFiles) {
+  const source = path.join(rawDir, file);
 
   await sharp(source)
     .resize(997, 2160, { fit: "fill", kernel: sharp.kernel.lanczos3 })
@@ -88,4 +97,4 @@ await sharp(Buffer.from(featureGraphic))
   .png({ compressionLevel: 9 })
   .toFile(path.join(playDir, "feature-graphic-1024x500.png"));
 
-console.log(`Generated ${files.length * 2 + 2} store assets.`);
+console.log(`Generated ${appStoreFiles.length + playStoreFiles.length + 2} store assets.`);
