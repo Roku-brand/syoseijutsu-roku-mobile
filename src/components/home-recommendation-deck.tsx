@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { Animated, Easing, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { colors, fonts } from '../constants/theme';
+import { fonts } from '../constants/theme';
 import type { ReadingContent } from '../data/reading-recommendations';
 import { useReducedMotion } from '../hooks/use-reduced-motion';
+import { BrandSectionHeading } from './brand-section-heading';
 
 type Phase = 'idle' | 'collecting' | 'dealing';
 
-export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard }: {
+export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard, compact = false }: {
   items: readonly ReadingContent[];
   cardWidth: number;
   onRefresh: () => void;
   renderCard: (item: ReadingContent, disabled: boolean) => ReactNode;
+  compact?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
   const rail = useRef<ScrollView>(null);
@@ -75,10 +77,8 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
   };
 
   return <View testID="home-recommendation-deck" aria-busy={busy} accessibilityState={{ busy }}>
-    <View style={styles.heading}>
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="別のおすすめに入れ替える" aria-busy={busy} accessibilityState={{ disabled: busy, busy }} disabled={busy} onPress={refresh} style={[styles.refresh, busy && styles.refreshBusy]}>
-        <Text style={styles.refreshText}>別の出会い ↻</Text>
-      </Pressable>
+    <View style={styles.sectionHeading}>
+      <BrandSectionHeading title="あなたにおすすめ" compact={compact} actionLabel="別の出会い ↻" actionAccessibilityLabel="別のおすすめに入れ替える" actionRole="button" actionTestID="home-discovery-refresh" actionDisabled={busy} onAction={refresh} />
     </View>
     <ScrollView ref={rail} horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} scrollEnabled={!busy} onLayout={event => setRailWidth(event.nativeEvent.layout.width)} onScroll={event => { scrollOffset.current = event.nativeEvent.contentOffset.x; }} scrollEventThrottle={16} contentContainerStyle={styles.rail}>
       {items.map((item, index) => {
@@ -106,10 +106,7 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
 }
 
 const styles = StyleSheet.create({
-  heading: { flexDirection: 'row', marginBottom: 8 },
-  refresh: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center' },
-  refreshBusy: { opacity: 0.5 },
-  refreshText: { color: colors.ink, fontSize: 12, lineHeight: 18 },
+  sectionHeading: { marginBottom: 8 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   face: { backfaceVisibility: 'hidden' },
   back: { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderRadius: 14, borderWidth: 1, borderColor: '#B28D50', backgroundColor: '#20241F', padding: 10, overflow: 'hidden' },

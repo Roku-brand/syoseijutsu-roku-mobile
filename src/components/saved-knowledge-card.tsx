@@ -11,14 +11,15 @@ import { ShoseijutsuCard } from './shoseijutsu-card';
 import { TheoryCard } from './theory-card';
 import { PersonalContentCard, type PersonalContentRow } from './personal-content-card';
 
-/** Saved IDs/folders keep their existing storage model; only presentation changes. */
-export function SavedKnowledgeCard({ row, onPress, onOrganize }: { row: PersonalContentRow; onPress: () => void; onOrganize: () => void }) {
+/** Saved IDs keep their existing storage model; the library presents them by content type. */
+export function SavedKnowledgeCard({ row, onPress }: { row: PersonalContentRow; onPress: () => void }) {
   'use no memo';
   const { accessState } = useAccess();
-  const { toggleSaved, toggleSavedTheory } = useAppState();
-  const organize = <Pressable accessibilityRole="button" accessibilityLabel={`${row.title}の保存先を変更`} onPress={onOrganize} style={styles.organize}><AppText style={styles.organizeText}>整理</AppText></Pressable>;
-  if (row.kind === 'feature') return <PersonalContentCard row={row} onPress={onPress} action={organize} />;
-  const actions = <>{organize}<SaveDiamondButton compact saved accessibilityLabel={`${row.title}のお気に入りを解除`} onPress={() => row.kind === 'technique' ? toggleSaved(row.id) : toggleSavedTheory(row.id)} /></>;
+  const { toggleSaved, toggleSavedTheory, toggleSavedFeature } = useAppState();
+  const removeSaved = () => row.kind === 'technique' ? toggleSaved(row.id) : row.kind === 'theory' ? toggleSavedTheory(row.id) : toggleSavedFeature(row.id);
+  const saveButton = <SaveDiamondButton compact saved accessibilityLabel={`${row.title}のお気に入りを解除`} onPress={removeSaved} />;
+  if (row.kind === 'feature') return <PersonalContentCard row={row} onPress={onPress} action={saveButton} />;
+  const actions = saveButton;
   const technique = row.kind === 'technique' ? techniqueById.get(row.id) : undefined;
   const theory = row.kind === 'theory' && !isRetiredTheoryId(row.id) ? theoryById.get(row.id) : undefined;
   return <View testID={`personal-content-${row.kind}`} style={styles.entry}>
@@ -32,7 +33,6 @@ export function SavedKnowledgeCard({ row, onPress, onOrganize }: { row: Personal
 }
 const styles = StyleSheet.create({
   entry: { width: '100%', minWidth: 0, marginBottom: 12 },
-  organize: { minHeight: 44, paddingHorizontal: 16, justifyContent: 'center' }, organizeText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   unavailable: { padding: 18, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface },
   title: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 28 }, note: { marginTop: 6, color: colors.muted, fontSize: 12, lineHeight: 20 },
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 8 },

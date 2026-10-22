@@ -99,9 +99,9 @@ export default function HomeScreen() {
         </View>
       </Pressable>
 
-      <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
-        <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
-      </HomeSection>
+      <View testID="home-recommendations-section" style={styles.section}>
+        <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} compact={!desktop} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
+      </View>
 
       <HomeSection title="続きから読む" testID="home-continue-section" onAction={() => router.push(APP_ROUTES.history)}>
         {recent.length ? <ScrollView horizontal testID="home-continue-rail" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
