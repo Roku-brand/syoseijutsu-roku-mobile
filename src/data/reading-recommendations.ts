@@ -3,7 +3,7 @@ import { techniqueById, techniqueCards, theories, theoryById } from './catalog';
 import { isLockedTheoryShell } from './theory-display';
 import type { CategoryKey, TechniqueCard, TheoryCard } from './types';
 
-export type ReadingContent = ({ type: 'technique'; card: TechniqueCard } | { type: 'theory'; card: TheoryCard }) & { reason?: string };
+export type ReadingContent = { type: 'technique'; card: TechniqueCard } | { type: 'theory'; card: TheoryCard };
 export const readingContentId = (item: ReadingContent) => item.type === 'technique' ? item.card.id : item.card.tagId;
 
 function rotation(id: string, seed: string) {
@@ -63,10 +63,10 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
   };
   for (const key of ['interpersonal', 'work', 'life']) {
     const card = closeTechniques.find(candidate => candidate.categoryKey === key);
-    if (card) add({ type: 'technique', card, reason: readSignals.length ? '関心のある知識から' : '今日の処世術' });
+    if (card) add({ type: 'technique', card });
   }
   const familiar = closeTheories[0];
-  if (familiar) add({ type: 'theory', card: familiar, reason: (theoryScores.get(familiar.tagId) ?? 0) > 0 ? '読んだ・保存した知識のつながりから' : '今日の理論' });
+  if (familiar) add({ type: 'theory', card: familiar });
 
   // Order by the least explored field, then rotate within it. Reserve two
   // different fields so a large category cannot occupy every discovery slot.
@@ -78,14 +78,14 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
     const card = discoveryTheories.find(candidate => !selected.has(candidate.tagId) && !discoveredFields.has(candidate.categoryId))
       ?? discoveryTheories.find(candidate => !selected.has(candidate.tagId));
     if (card) {
-      add({ type: 'theory', card, reason: readSignals.length ? 'いつもと違う分野から' : '新しい視点との出会い' });
+      add({ type: 'theory', card });
       discoveredFields.add(card.categoryId);
     }
   }
   const discoveryTechnique = [...techniqueCandidates].sort((a, b) => penalty(a.id) - penalty(b.id) || byRotation(a.id, b.id))
     .find(card => !selected.has(card.id));
-  if (discoveryTechnique) add({ type: 'technique', card: discoveryTechnique, reason: '本棚をひと巡り' });
-  for (const card of closeTheories) add({ type: 'theory', card, reason: '知識をもう一歩広げる' });
-  for (const card of closeTechniques) add({ type: 'technique', card, reason: '本棚をひと巡り' });
+  if (discoveryTechnique) add({ type: 'technique', card: discoveryTechnique });
+  for (const card of closeTheories) add({ type: 'theory', card });
+  for (const card of closeTechniques) add({ type: 'technique', card });
   return items;
 }
