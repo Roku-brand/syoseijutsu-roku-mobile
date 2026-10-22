@@ -380,7 +380,7 @@
   {
     "tagId": "kb_265",
     "title": "認知的不協和",
-    "summary": "考えと行動の矛盾を不快に感じ、つじつまが合うように考えを変えること。",
+    "summary": "考えと行動の矛盾を不快に感じ、つじつまが合うように考えを変えること。\n高い買い物で失敗したとき、「高いから価値がある」と理由を足す場合など。自分を納得させる説明と、実際に得られたものを分けて振り返る。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -695,7 +695,7 @@
   {
     "tagId": "kb_231",
     "title": "コントロール幻想",
-    "summary": "偶然で決まる結果まで、自分の行動で変えられると思うこと。",
+    "summary": "偶然で決まる結果まで、自分の行動で変えられると思うこと。\nくじを自分で選ぶと、当たりやすくなったように感じる場面など。工夫が結果に働く部分と、偶然に任せる部分を切り分ける。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -1572,7 +1572,7 @@
   {
     "tagId": "kb_029",
     "title": "ピーク・エンドの法則",
-    "summary": "体験を、最も印象的な瞬間と最後の場面から評価しやすいこと。",
+    "summary": "体験を、最も印象的な瞬間と最後の場面から評価しやすいこと。\n会合では長さだけでなく、心が動いた場面や別れ際の対応も記憶に残る。ただし最後を整えれば、途中の不快な体験が帳消しになるわけではない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -1757,7 +1757,7 @@
   {
     "tagId": "kb_105",
     "title": "バーナム効果",
-    "summary": "誰にでも当てはまる説明を、自分だけに当てはまると思うこと。",
+    "summary": "誰にでも当てはまる説明を、自分だけに当てはまると思うこと。\n「社交的な面もあるが、一人の時間も大切」と言われ、特別に理解されたと感じる場合など。その説明が他の人にも広く当てはまらないか考える。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-c",
@@ -2403,7 +2403,7 @@
   {
     "tagId": "kb_268",
     "title": "快楽順応",
-    "summary": "よい変化にも悪い変化にも慣れ、幸福感が元の水準に近づくこと。",
+    "summary": "よい変化にも悪い変化にも慣れ、幸福感が元の水準に近づくこと。\n欲しかった物も、手に入れてしばらくすると日常の一部になる。次を増やす前に、今あるものの使い方や楽しみ方を変える余地を探せる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -2519,7 +2519,7 @@
   {
     "tagId": "kb_203",
     "title": "不確実性不耐性",
-    "summary": "先が分からないこと自体を脅威と感じ、心配や確認を続けること。",
+    "summary": "先が分からないこと自体を脅威と感じ、心配や確認を続けること。\n返信が来るまで何度も画面を開いても、先のことが分かるとは限らない。確認で分かる範囲と、分からないまま待つ必要のある範囲を見分ける。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -2621,7 +2621,7 @@
   {
     "tagId": "kb_216",
     "title": "反すう理論",
-    "summary": "同じ問題を考え続けることが、解決よりも気分の悪化につながるという理論。",
+    "summary": "同じ問題を考え続けることが、解決よりも気分の悪化につながるという理論。\n「なぜ自分はだめなのか」を繰り返しても、次の行動は決まりにくい。「何が起きたか」「次に何を変えるか」と問いを具体化する手がかりになる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -2655,7 +2655,7 @@
   {
     "tagId": "kb_213",
     "title": "破局的思考",
-    "summary": "最悪の結果ばかり想像し、それには対処できないと思うこと。",
+    "summary": "最悪の結果ばかり想像し、それには対処できないと思うこと。\n一度の失敗から「信用をすべて失う」と話が広がる場合など。最悪の予想と、今確認できる事実、使える対処を別々に並べる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -2893,7 +2893,7 @@
   {
     "tagId": "kb_240",
     "title": "レジリエンス理論",
-    "summary": "困難からの回復を、本人の力と周囲の支えの両方から考える理論。",
+    "summary": "困難からの回復を、本人の力と周囲の支えの両方から考える理論。\n傷つかない強さだけを求めず、休息や相談、生活を立て直す工夫も回復の力として見る。一人で耐え続けることと、回復できることは同じではない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-e",
@@ -4119,7 +4119,7 @@
   {
     "tagId": "kb_239",
     "title": "学習性無力感",
-    "summary": "何をしても変わらない経験が続き、変えられる状況でも諦めてしまうこと。",
+    "summary": "何をしても変わらない経験が続き、変えられる状況でも諦めてしまうこと。\n意見を聞いてもらえない経験が続き、聞いてくれる場でも黙ってしまう場合など。本人の意欲だけを責めず、行動で状況が変わる経験を取り戻す視点になる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -4629,7 +4629,7 @@
   {
     "tagId": "kb_111",
     "title": "印象管理理論",
-    "summary": "周囲にどう見られるかを考え、言動や外見を調整するという理論。",
+    "summary": "周囲にどう見られるかを考え、言動や外見を調整するという理論。\n面接では実績を強調し、友人には親しみやすさを見せる場面など。相手に合わせる工夫と、事実を偽ることの境目を考える視点にもなる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -4751,7 +4751,7 @@
   {
     "tagId": "kb_221",
     "title": "心理的柔軟性",
-    "summary": "嫌な気持ちがあっても、それに支配されず、大切なことに沿って動ける力。",
+    "summary": "嫌な気持ちがあっても、それに支配されず、大切なことに沿って動ける力。\n緊張が残っていても、伝えたいことのために一言発言する場面など。気持ちが整うのを待つだけでなく、大切な方向へどんな一歩を選べるかを考える。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-s",
@@ -5168,7 +5168,7 @@
   {
     "tagId": "kb_007",
     "title": "好意の返報性",
-    "summary": "好意を向けられると、自分も好意を返したくなること。",
+    "summary": "好意を向けられると、自分も好意を返したくなること。\n感謝や親しみを言葉にすると、相手も好意を示しやすくなる場合がある。ただし好意を示したことは、相手に応答や親密さを求める権利にはならない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -5260,7 +5260,7 @@
   {
     "tagId": "kb_095",
     "title": "ガスライティング",
-    "summary": "事実や記憶を繰り返し否定し、相手に自分の判断を疑わせる心理的な操作。",
+    "summary": "事実や記憶を繰り返し否定し、相手に自分の判断を疑わせる心理的な操作。\n「そんなことは言っていない」と否定され続け、自分の記憶に自信を失う場合など。単発の記憶違いと決めつけず、繰り返しの経緯を記録し、第三者にも相談できる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -5313,7 +5313,7 @@
   {
     "tagId": "kb_391",
     "title": "カメレオン効果",
-    "summary": "相手の動きを無意識にまねすることで、親しみや会話の滑らかさが増すこと。",
+    "summary": "相手の動きを無意識にまねすることで、親しみや会話の滑らかさが増すこと。\n相手が身を乗り出すと自分も近づくなど、会話の中で自然に起こる。露骨に動きをまねることより、相手の調子に注意を向ける視点として使う。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -5957,7 +5957,7 @@
   {
     "tagId": "kb_050",
     "title": "心理的リアクタンス",
-    "summary": "自由を奪われたと感じると、反発して取り戻そうとする心理。",
+    "summary": "自由を奪われたと感じると、反発して取り戻そうとする心理。\n「絶対にこうして」と言われるほど、反対したくなる場面など。依頼では理由を伝え、選べる範囲を残すと、相手が自分で判断しやすい。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6147,7 +6147,7 @@
   {
     "tagId": "kb_094",
     "title": "ダブルバインド",
-    "summary": "矛盾した要求を受け、どちらに従っても責められ、その矛盾も指摘できない状態。",
+    "summary": "矛盾した要求を受け、どちらに従っても責められ、その矛盾も指摘できない状態。\n「何でも話して」と言われながら、意見を話すと怒られる場面など。要求同士の食い違いを言葉にし、安全に確認できる相手や第三者の助けを探す。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6203,7 +6203,7 @@
   {
     "tagId": "kb_028",
     "title": "吊り橋効果",
-    "summary": "恐怖や緊張のドキドキを、相手に惹かれる気持ちと取り違えること。",
+    "summary": "恐怖や緊張のドキドキを、相手に惹かれる気持ちと取り違えること。\n緊張する状況での高まりと、相手への持続的な好意は区別して見る必要がある。落ち着いた場面でも一緒にいたいかが、自分の気持ちを確かめる手がかりになる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6240,7 +6240,7 @@
   {
     "tagId": "kb_093",
     "title": "共依存",
-    "summary": "相手の問題を抱えることで自分の価値を感じ、不健全な関係を支え合うこと。",
+    "summary": "相手の問題を抱えることで自分の価値を感じ、不健全な関係を支え合うこと。\n相手のためと言いながら、問題をすべて肩代わりし、双方が離れにくくなる場合など。助ける範囲と本人の責任を見直す言葉であり、一つの行動だけで人を診断しない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6376,7 +6376,7 @@
   {
     "tagId": "kb_025",
     "title": "プラットフォール効果",
-    "summary": "能力のある人が小さな失敗を見せると、かえって親しみを感じること。",
+    "summary": "能力のある人が小さな失敗を見せると、かえって親しみを感じること。\n頼れる人のちょっとした言い間違いに、人間らしさを感じる場合など。信頼の土台がないと印象は違うため、失敗を演出する方法とは考えない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6410,7 +6410,7 @@
   {
     "tagId": "kb_019",
     "title": "ベン・フランクリン効果",
-    "summary": "誰かを助けたことをきっかけに、その相手を好きになりやすくなること。",
+    "summary": "誰かを助けたことをきっかけに、その相手を好きになりやすくなること。\n小さな相談に答えてもらったことが、関わりの入口になる場合など。相手が断れる依頼にとどめ、手伝いの負担や感謝も忘れない。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6488,7 +6488,7 @@
   {
     "tagId": "kb_014",
     "title": "ミラーリング効果",
-    "summary": "相手の表情や動きに自然に合わせることで、親近感が生まれること。",
+    "summary": "相手の表情や動きに自然に合わせることで、親近感が生まれること。\n相手がゆっくり話すなら、自分も少し速度を落とすなどの合わせ方がある。不自然な模倣より、声や間合いに気を配る姿勢を大切にする。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -6984,7 +6984,7 @@
   {
     "tagId": "kb_099",
     "title": "ドア・イン・ザ・フェイス",
-    "summary": "大きな依頼を断られた後に小さな依頼を出し、受け入れてもらいやすくする方法。",
+    "summary": "大きな依頼を断られた後に小さな依頼を出し、受け入れてもらいやすくする方法。\n断った後に依頼が小さくなると、こちらも譲るべきだと感じる場合がある。頼まれた側は、最初の案との比較だけでなく、今の依頼そのものが妥当かを考える。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -7018,7 +7018,7 @@
   {
     "tagId": "kb_098",
     "title": "フット・イン・ザ・ドア",
-    "summary": "小さな依頼を受けてもらった後に、大きな依頼をする方法。",
+    "summary": "小さな依頼を受けてもらった後に、大きな依頼をする方法。\n一度協力すると、その後の頼みも断りにくく感じる場合がある。先に応じたことと、新しい依頼へ応じるかは、その都度別に選べる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -7052,7 +7052,7 @@
   {
     "tagId": "kb_100",
     "title": "ローボール・テクニック",
-    "summary": "好条件で決めた後は、条件が悪くなっても撤回しにくい心理を利用する方法。",
+    "summary": "好条件で決めた後は、条件が悪くなっても撤回しにくい心理を利用する方法。\n申し込み後に追加料金が分かっても、決め直す手間から続けてしまう場合など。条件が変わった時点で、初めからその条件でも選ぶかを問い直す。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-i",
@@ -7710,7 +7710,7 @@
   {
     "tagId": "kb_058",
     "title": "社会的アイデンティティ理論",
-    "summary": "所属集団を自分の一部と感じ、その評価から自尊心を得るという理論。",
+    "summary": "所属集団を自分の一部と感じ、その評価から自尊心を得るという理論。\n所属する会社や学校への批判を、自分への批判のように感じる場面など。集団への評価と、自分個人の価値を切り分ける手がかりになる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -7794,7 +7794,7 @@
   {
     "tagId": "kb_060",
     "title": "内集団バイアス",
-    "summary": "自分の集団の人を、外の人より好意的に扱うこと。",
+    "summary": "自分の集団の人を、外の人より好意的に扱うこと。\n同じ失敗でも、身内なら事情をくみ、外の人なら厳しく責める場面など。相手の所属を入れ替えても同じ評価になるかを確かめる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -7851,7 +7851,7 @@
   {
     "tagId": "kb_063",
     "title": "同調効果",
-    "summary": "周囲に合わせて、自分の意見や行動を変えること。",
+    "summary": "周囲に合わせて、自分の意見や行動を変えること。\n周囲が賛成していると、自分の疑問を引っ込める場面など。皆の意見を聞く前に自分の考えを一度書いておくと、変化した理由を振り返りやすい。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -7961,7 +7961,7 @@
   {
     "tagId": "kb_104",
     "title": "社会的証明",
-    "summary": "多くの人が選んでいるものを、よいものや正しいものだと判断すること。",
+    "summary": "多くの人が選んでいるものを、よいものや正しいものだと判断すること。\n利用者数や口コミの多さが、選ぶ際の安心材料になる。多くの人が選んだ理由と、自分が必要とする条件が一致するかも確かめる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -8286,7 +8286,7 @@
   {
     "tagId": "kb_066",
     "title": "沈黙の螺旋",
-    "summary": "少数派だと感じて黙る人が増え、多数派の声がますます大きく見えること。",
+    "summary": "少数派だと感じて黙る人が増え、多数派の声がますます大きく見えること。\n反対意見が見えないことを、反対する人がいない証拠と受け取る場合など。個別に尋ねたり匿名で意見を集めたりすると、声の大きさ以外の状況が見える。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -8401,7 +8401,7 @@
   {
     "tagId": "kb_729",
     "title": "バンドワゴン効果",
-    "summary": "皆が支持していると知って、自分も同じ側に動きたくなること。",
+    "summary": "皆が支持していると知って、自分も同じ側に動きたくなること。\n人気の上昇を知って「自分も選ぼう」と思う場面など。多数派である安心感と、選択肢そのものの価値を分けて比べる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -8442,7 +8442,7 @@
   {
     "tagId": "kb_762",
     "title": "ホーソン効果",
-    "summary": "見られている意識や、調査への参加によって行動が変わること。",
+    "summary": "見られている意識や、調査への参加によって行動が変わること。\n記録される期間だけ丁寧に対応するなど、普段とは違う行動が出る場合がある。調査で見えた変化を、仕組みの効果だけと早合点しないための視点。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-v",
@@ -8918,7 +8918,7 @@
   {
     "tagId": "kb_017",
     "title": "カクテルパーティー効果",
-    "summary": "騒がしい中でも、自分の名前など関心のある情報に気づけること。",
+    "summary": "騒がしい中でも、自分の名前など関心のある情報に気づけること。\n複数の会話がある場で、自分の名前だけ耳に入る場面など。注意はすべてに均等には向かないため、重要な連絡は呼びかけてから伝えると確認しやすい。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
@@ -9098,7 +9098,7 @@
   {
     "tagId": "kb_738",
     "title": "エビングハウスの忘却曲線",
-    "summary": "覚えたことは初めに多く忘れ、その後は忘れる速さが緩やかになるという関係。",
+    "summary": "覚えたことは初めに多く忘れ、その後は忘れる速さが緩やかになるという関係。\n一度読んだ内容も、時間がたつとそのままには残らない。忘れ方は内容や学び方で違うため、決まった割合を当てはめず、思い出す練習で確かめる。",
     "categoryId": "psychology",
     "categoryTitle": "心理学",
     "subcategoryId": "psychology-m",
@@ -11046,7 +11046,7 @@
   {
     "tagId": "kb_191",
     "title": "意思決定疲れ",
-    "summary": "決断を繰り返して疲れ、楽な選択や先送りが増えること。",
+    "summary": "決断を繰り返して疲れ、楽な選択や先送りが増えること。\n細かな選択が続いた後に、大事な判断を先延ばしする場面など。毎回考えなくてよいことは手順化し、重要な判断には余裕のある時間を残す。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11465,7 +11465,7 @@
   {
     "tagId": "kb_138",
     "title": "アンカリング効果",
-    "summary": "最初に示された数字や情報を基準に、その後も判断すること。",
+    "summary": "最初に示された数字や情報を基準に、その後も判断すること。\n最初に見た高い価格が基準になると、その後の価格を割安に感じやすい。比較前に自分の予算や必要条件を持つと、提示された基準から距離を取れる。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11507,7 +11507,7 @@
   {
     "tagId": "kb_137",
     "title": "フレーミング効果",
-    "summary": "同じ内容でも、得する話か損する話かという示し方で選択が変わること。",
+    "summary": "同じ内容でも、得する話か損する話かという示し方で選択が変わること。\n「成功率九割」と「失敗率一割」は同じ数字でも、受ける印象が違う。反対の表現に言い換えても、同じ選択になるかを確かめる。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11552,7 +11552,7 @@
   {
     "tagId": "kb_140",
     "title": "おとり効果",
-    "summary": "見劣りする比較用の選択肢が加わると、特定の案が魅力的に見えること。",
+    "summary": "見劣りする比較用の選択肢が加わると、特定の案が魅力的に見えること。\n二つの案に、片方より明らかに不利な案が加わると、比較の基準が変わる。自分に必要な条件へ戻り、比較用の案に引っぱられていないかを見る。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11612,7 +11612,7 @@
   {
     "tagId": "kb_136",
     "title": "現状維持バイアス",
-    "summary": "変える利点があっても、今の選択をそのまま続けようとすること。",
+    "summary": "変える利点があっても、今の選択をそのまま続けようとすること。\n使わない契約でも、手続きの面倒さから更新し続ける場合など。「今初めて選ぶとしても契約するか」と考えると、続ける理由を見直しやすい。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11651,7 +11651,7 @@
   {
     "tagId": "kb_135",
     "title": "保有効果",
-    "summary": "自分が持っているものを、持っていないときより高く評価すること。",
+    "summary": "自分が持っているものを、持っていないときより高く評価すること。\n売る側では高く手放したくなり、買う側ではそこまで払いたくない場面など。愛着と、今必要な機能や他の選択肢の価値を分けて考える。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11765,7 +11765,7 @@
   {
     "tagId": "kb_102",
     "title": "希少性の原理",
-    "summary": "手に入りにくいほど、価値があると感じること。",
+    "summary": "手に入りにくいほど、価値があると感じること。\n「残りわずか」という案内で、必要性を考える前に焦る場面など。買う側では、今しかないかどうかと、本当に欲しいかを別々に確かめる。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11820,7 +11820,7 @@
   {
     "tagId": "theory-1789620805420-wbuepmtu",
     "title": "ゴルディロックス効果",
-    "summary": "三段階の選択肢では、極端を避けて真ん中を選びやすいこと。",
+    "summary": "三段階の選択肢では、極端を避けて真ん中を選びやすいこと。\n小・中・大のプランで、中なら不足も無駄も少なそうと感じる場面など。真ん中が自分に合うかは、実際の使用量や予算で確かめる。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -11956,7 +11956,7 @@
   {
     "tagId": "kb_275",
     "title": "選択のパラドックス",
-    "summary": "選択肢が多すぎると、迷いや後悔が増え、満足が下がること。",
+    "summary": "選択肢が多すぎると、迷いや後悔が増え、満足が下がること。\n候補を比べ続け、決めた後も他の案が気になる場面など。最初に必要条件で絞り、比較する数や期限を決めると選択の負担を減らせる。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-d",
@@ -13552,7 +13552,7 @@
   {
     "tagId": "kb_177",
     "title": "デフォルト効果",
-    "summary": "変更できても、最初から選ばれた設定をそのまま使いやすいこと。",
+    "summary": "変更できても、最初から選ばれた設定をそのまま使いやすいこと。\n登録時の設定を、その後も見直さず使う場面など。利用する側は初期設定を確認し、設計する側は意図と変更方法を分かりやすく示す。",
     "categoryId": "behavioral-science",
     "categoryTitle": "行動科学",
     "subcategoryId": "behavioral-science-h",
@@ -17065,7 +17065,7 @@
   {
     "tagId": "kb_077",
     "title": "マタイ効果",
-    "summary": "すでに評価や資源のある人ほど、さらに機会を得やすくなること。",
+    "summary": "すでに評価や資源のある人ほど、さらに機会を得やすくなること。\n有名な人に依頼が集まり、実績がさらに増える場面など。現在の実績だけを比較すると、機会の得やすさの差を見落とすことがある。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-p",
@@ -17522,7 +17522,7 @@
   {
     "tagId": "kb_543",
     "title": "リーン・スタートアップ",
-    "summary": "小さく試し、結果から学び、続けるか変えるかを決めて事業を育てる方法。",
+    "summary": "小さく試し、結果から学び、続けるか変えるかを決めて事業を育てる方法。\n完成品を大きく作る前に、必要な価値だけを試して反応を見る。「何を確かめる試みか」と、次の判断に使う結果を先に決めておく。",
     "categoryId": "organization-management",
     "categoryTitle": "組織・経営論",
     "subcategoryId": "organization-management-m",
@@ -17587,7 +17587,7 @@
   {
     "tagId": "kb_109",
     "title": "情報の非対称性",
-    "summary": "取引や関係の当事者で、知っている情報に差があること。",
+    "summary": "取引や関係の当事者で、知っている情報に差があること。\n売る側は修理歴を知っていても、買う側には見えないといった場面など。相手が知る範囲と、自分が確認できる範囲を整理することが取引の入口になる。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-a",
@@ -17626,7 +17626,7 @@
   {
     "tagId": "kb_107",
     "title": "シグナリング理論",
-    "summary": "見えない能力や意図を、行動や資格など見える手がかりで伝えるという理論。",
+    "summary": "見えない能力や意図を、行動や資格など見える手がかりで伝えるという理論。\n口で「丁寧」と言うだけでなく、見本や過去の仕事で示す場面など。手がかりが実力と本当に結びついているかを、受け取る側も確かめる。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-a",
@@ -17788,7 +17788,7 @@
   {
     "tagId": "kb_545",
     "title": "パレートの法則",
-    "summary": "成果や問題の大部分が、少数の原因に集中するという経験則。",
+    "summary": "成果や問題の大部分が、少数の原因に集中するという経験則。\n問い合わせの多くが、少数の分かりにくい手順から生まれている場合など。比率を決めつけず、実際の件数から力を注ぐ場所を探す。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-a",
@@ -18478,7 +18478,7 @@
   {
     "tagId": "kb_790",
     "title": "ナッシュ均衡",
-    "summary": "相手が今の選択を続けるなら、自分だけ変えても得にならない状態。",
+    "summary": "相手が今の選択を続けるなら、自分だけ変えても得にならない状態。\n双方が今の対応を変えない状態でも、全員にとって望ましいとは限らない。動きにくさの理由を、個人の意思だけでなく互いの利害から考える。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-g",
@@ -19091,7 +19091,7 @@
   {
     "tagId": "kb_286",
     "title": "撤退戦略",
-    "summary": "どの条件でやめるか、縮小するかを先に決めておくこと。",
+    "summary": "どの条件でやめるか、縮小するかを先に決めておくこと。\n成果が出なければいつ見直すかを、感情が強くなる前に決める。やめた後の引き継ぎや残す資源まで考えておくと、判断を実行に移しやすい。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19153,7 +19153,7 @@
   {
     "tagId": "kb_567",
     "title": "ポートフォリオ理論",
-    "summary": "性質の違う資産を組み合わせ、全体の利益と危険を調整する理論。",
+    "summary": "性質の違う資産を組み合わせ、全体の利益と危険を調整する理論。\n一つずつの良し悪しに加え、同時にどう動くかが全体の危険を左右する。数を増やすだけで安心せず、性質や共通する条件の違いを見る考え方。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19189,7 +19189,7 @@
   {
     "tagId": "kb_278",
     "title": "オプション価値",
-    "summary": "今決めず、後で情報が増えてから選べる余地の価値。",
+    "summary": "今決めず、後で情報が増えてから選べる余地の価値。\n試用期間や短期参加なら、経験してから本格的に決める余地を残せる。決める速さだけでなく、後の選択肢を保つために何を払うかも考える。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19297,7 +19297,7 @@
   {
     "tagId": "kb_283",
     "title": "アンチフラジャイル",
-    "summary": "変動や失敗に耐えるだけでなく、それを通じて強くなること。",
+    "summary": "変動や失敗に耐えるだけでなく、それを通じて強くなること。\n小さな試行の失敗から仕組みを改善し、次に同じ問題が起きにくくなる例など。どんな打撃でもよいという意味ではなく、回復できる範囲の学びを重視する。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19331,7 +19331,7 @@
   {
     "tagId": "kb_282",
     "title": "バーベル戦略",
-    "summary": "大部分を安全に保ち、一部で大きな可能性のある挑戦をする戦略。",
+    "summary": "大部分を安全に保ち、一部で大きな可能性のある挑戦をする戦略。\n生活を支える基盤を守りつつ、失っても立て直せる範囲で新しい活動を試す考え方。安全と挑戦の線を曖昧にせず、最悪の場合の影響も確かめる。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-r",
@@ -19391,7 +19391,7 @@
   {
     "tagId": "kb_284",
     "title": "OODAループ",
-    "summary": "観察、状況判断、決定、行動を繰り返し、変化に対応する方法。",
+    "summary": "観察、状況判断、決定、行動を繰り返し、変化に対応する方法。\n行動したら終わりにせず、その反応を次の観察へ戻す。速く回すこと以上に、状況の捉え方が古くなっていないかを更新する。",
     "categoryId": "strategy",
     "categoryTitle": "戦略論",
     "subcategoryId": "strategy-d",
@@ -20590,7 +20590,7 @@
   {
     "tagId": "kb_554",
     "title": "後悔最小化",
-    "summary": "将来何を後悔しそうかを考え、長い目で納得できる選択をする方法。",
+    "summary": "将来何を後悔しそうかを考え、長い目で納得できる選択をする方法。\n挑まない後悔だけでなく、準備不足で失うものや、大切な人との時間も含めて考える。未来の自分は変わり得るので、やり直せる余地も判断に入れる。",
     "categoryId": "practical-wisdom",
     "categoryTitle": "実践知",
     "subcategoryId": "practical-wisdom-j",
@@ -21131,7 +21131,7 @@
   {
     "tagId": "kb_192",
     "title": "パーキンソンの法則",
-    "summary": "仕事は、与えられた時間を使い切るまで膨らむという経験則。",
+    "summary": "仕事は、与えられた時間を使い切るまで膨らむという経験則。\n余裕があると、細部の修正や比較を増やし続ける場面など。仕事の期限に加え、完成とする条件も決めると終わりを見つけやすい。",
     "categoryId": "practical-wisdom",
     "categoryTitle": "実践知",
     "subcategoryId": "practical-wisdom-w",
@@ -21786,7 +21786,7 @@
   {
     "tagId": "kb_311",
     "title": "「知らざるを知らずと為す、是れ知るなり」",
-    "summary": "知らないことを認める姿勢が、本当の理解につながるという教え。",
+    "summary": "知らないことを認める姿勢が、本当の理解につながるという教え。\n会議で分かったふりをするより、分からない点を確認する場面に活かせる。知っている範囲を明らかにすることが、他の人の知恵を借りる入口になる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -21822,7 +21822,7 @@
   {
     "tagId": "kb_298",
     "title": "「過ちて改めざる、是を過ちと謂う」",
-    "summary": "間違えることより、間違いを直さないことが問題だという教え。",
+    "summary": "間違えることより、間違いを直さないことが問題だという教え。\n誤りが分かったら、言い訳の完成より先に、影響の確認と修正へ進む。失敗のない人を目指すより、気づいた後の対応を大切にする視点。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -21856,7 +21856,7 @@
   {
     "tagId": "kb_304",
     "title": "「巧言令色、鮮なし仁」",
-    "summary": "口のうまさや愛想だけで、誠実な人かを判断しないという戒め。",
+    "summary": "口のうまさや愛想だけで、誠実な人かを判断しないという戒め。\n感じのよい言葉を受け取る際も、約束や不在の人への接し方を合わせて見る。愛想を疑い続けるのでなく、言葉と行動の両方で判断する。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -21890,7 +21890,7 @@
   {
     "tagId": "kb_624",
     "title": "「己の欲せざる所、人に施すこと勿れ」",
-    "summary": "自分がされて嫌なことを、他人にもしないという教え。",
+    "summary": "自分がされて嫌なことを、他人にもしないという教え。\n自分が嫌がる催促や詮索を、親しい相手にはしていないか振り返れる。ただし相手の好みが自分と同じとは限らないため、本人の望みも確かめる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -21945,7 +21945,7 @@
   {
     "tagId": "kb_625",
     "title": "「学びて思わざれば則ち罔し、思いて学ばざれば則ち殆うし」",
-    "summary": "知識を得ることと、自分で考えることを両立させるという教え。",
+    "summary": "知識を得ることと、自分で考えることを両立させるという教え。\n本を読むだけでは、自分の状況に合うかを考えにくい。一方、経験だけで決めず、別の知識で確かめることも、思い込みを見直す助けになる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -21979,7 +21979,7 @@
   {
     "tagId": "kb_299",
     "title": "「和して同ぜず」",
-    "summary": "人と調和しても、無理に意見まで合わせないという教え。",
+    "summary": "人と調和しても、無理に意見まで合わせないという教え。\n相手の目的を尊重しながら、方法への異論を伝える場面など。関係を保つことと意見を一致させることを、一つに結びつけすぎない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22013,7 +22013,7 @@
   {
     "tagId": "kb_623",
     "title": "「過ぎたるは猶及ばざるが如し」",
-    "summary": "やりすぎは不足と同じように問題になるという教え。",
+    "summary": "やりすぎは不足と同じように問題になるという教え。\n助言も気遣いも、多すぎると相手の負担や干渉になる場合がある。善意の量を増やすより、その場で必要な程度を確かめる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22049,7 +22049,7 @@
   {
     "tagId": "kb_617",
     "title": "「自分を知る者は明らかである」",
-    "summary": "他人を知るだけでなく、自分を理解することを重んじる教え。",
+    "summary": "他人を知るだけでなく、自分を理解することを重んじる教え。\n得意な場面だけでなく、無理をしやすい条件や弱点も知っておく。人との比較に偏るとき、自分が望むことと続けられる範囲へ戻る手がかりになる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22083,7 +22083,7 @@
   {
     "tagId": "kb_618",
     "title": "「足るを知る者は富む」",
-    "summary": "すでにあるものに目を向け、十分だと知ることが豊かさになるという教え。",
+    "summary": "すでにあるものに目を向け、十分だと知ることが豊かさになるという教え。\n欲しいものを増やし続ける前に、今使えている時間や支えを数え直す。現状への不満を禁じるのでなく、何があれば十分かを自分で決める視点。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22117,7 +22117,7 @@
   {
     "tagId": "kb_619",
     "title": "「人に勝つ者は力があり、自分に勝つ者は強い」",
-    "summary": "他人に勝つ力より、自分の欲望や弱さを制する力を重んじる教え。",
+    "summary": "他人に勝つ力より、自分の欲望や弱さを制する力を重んじる教え。\n言い返したい場面で一度待つ、決めた行動へ戻るといった場面で読める。感情をなくすのでなく、感情があっても振る舞いを選ぶことに力を使う。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22151,7 +22151,7 @@
   {
     "tagId": "kb_620",
     "title": "「千里の道も足下から始まる」",
-    "summary": "大きな目標も、小さな一歩から始まるという教え。",
+    "summary": "大きな目標も、小さな一歩から始まるという教え。\n遠い目標でも、今日できる行動に直すと着手の場所が見える。最初から全行程を完璧に進めようとせず、次の一歩を確かめながら続ける。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22185,7 +22185,7 @@
   {
     "tagId": "kb_621",
     "title": "「柔よく剛を制す」",
-    "summary": "強い力への正面対抗より、柔軟な対応が有効な場合もあるという教え。",
+    "summary": "強い力への正面対抗より、柔軟な対応が有効な場合もあるという教え。\n押し合いを続けず、時機や話す場所を変えることで解ける問題もある。柔軟さを無条件の譲歩とせず、目的を保ちながら手段を選ぶ。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22219,7 +22219,7 @@
   {
     "tagId": "kb_632",
     "title": "無用の用",
-    "summary": "すぐ役立たないものにも、余白や自由を生む価値があるという考え方。",
+    "summary": "すぐ役立たないものにも、余白や自由を生む価値があるという考え方。\n予定を入れない時間や、仕事に直結しない興味が、後の発見や回復につながることがある。今測れる成果だけで、生活の余白を削りきらないための見方。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-e",
@@ -22309,7 +22309,7 @@
   {
     "tagId": "kb_604",
     "title": "「自分にできることと、できないことを分ける」",
-    "summary": "変えられることに力を使い、変えられないことへの執着を減らす考え方。",
+    "summary": "変えられることに力を使い、変えられないことへの執着を減らす考え方。\n相手の評価は決められなくても、準備や伝え方は選べる。力を注ぐ場所を分けることで、結果への心配だけに時間を使わずに済む。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-w",
@@ -22537,7 +22537,7 @@
   {
     "tagId": "kb_612",
     "title": "「人生が短いのではない。多くを浪費している」",
-    "summary": "時間の短さより、使い方を見直すべきだという教え。",
+    "summary": "時間の短さより、使い方を見直すべきだという教え。\n忙しさに押される前に、時間が何に消えているかを見直す。休息まで浪費と決めず、自分で選んだ時間と、流れで使った時間を区別する。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-w",
@@ -22590,7 +22590,7 @@
   {
     "tagId": "kb_614",
     "title": "「苦しむ前から苦しむ者は、必要以上に苦しむ」",
-    "summary": "まだ起きていない苦しみを、想像で先取りしないという戒め。",
+    "summary": "まだ起きていない苦しみを、想像で先取りしないという戒め。\nまだ起きていない失敗を、頭の中で何度も経験する場面に響く。必要な準備と、対策の増えない想像を分け、今できることへ戻る。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-w",
@@ -22624,7 +22624,7 @@
   {
     "tagId": "kb_616",
     "title": "「われわれが恐れるものは、現実より想像の中に多い」",
-    "summary": "恐れは、現実より頭の中の想像で膨らむこともあるという見方。",
+    "summary": "恐れは、現実より頭の中の想像で膨らむこともあるという見方。\n予想した最悪の場面が、確かに起きる事実のように感じられることがある。分かっていることと想像を分け、確かめられる条件を一つずつ見る。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-w",
@@ -22891,7 +22891,7 @@
   {
     "tagId": "kb_626",
     "title": "「知彼知己、百戦殆うからず」",
-    "summary": "自分と相手を知ることで、無謀な争いを避けるという教え。",
+    "summary": "自分と相手を知ることで、無謀な争いを避けるという教え。\n相手の要求だけでなく、自分の資源、限界、望む結果も知ることが要点になる。交渉や競争では、対策を練る前に条件を確かめる視点として活かせる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-b",
@@ -22925,7 +22925,7 @@
   {
     "tagId": "kb_627",
     "title": "「勝兵は先ず勝ちて而る後に戦いを求む」",
-    "summary": "戦う前に、勝てる条件を整えるという教え。",
+    "summary": "戦う前に、勝てる条件を整えるという教え。\n資源や協力者、実行の条件を整えてから動くという順番を重視する。仕事では、始めた後の頑張りだけに頼らず、進められる準備があるかを確かめる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-b",
@@ -23102,7 +23102,7 @@
   {
     "tagId": "kb_629",
     "title": "「兵に常勢なく、水に常形なし」",
-    "summary": "固定したやり方に頼らず、状況に合わせて変えるという教え。",
+    "summary": "固定したやり方に頼らず、状況に合わせて変えるという教え。\n前にうまくいった型も、相手や環境が変われば通じないことがある。目的は保ちながら、その場の条件に合わせて手段を組み替える。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-b",
@@ -23143,7 +23143,7 @@
   {
     "tagId": "kb_333",
     "title": "「人間万事塞翁が馬」",
-    "summary": "幸運か不運かは、後の展開を見なければ分からないという教え。",
+    "summary": "幸運か不運かは、後の展開を見なければ分からないという教え。\n望まない変化が別の機会へつながることも、その逆もある。出来事をすぐ人生全体の結論にせず、その後に選べる行動を見る。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23188,7 +23188,7 @@
   {
     "tagId": "kb_336",
     "title": "「明日は明日の風が吹く」",
-    "summary": "今の不安が、そのまま明日も続くとは限らないという教え。",
+    "summary": "今の不安が、そのまま明日も続くとは限らないという教え。\n今夜の気分だけで、明日の自分や関係を決めつけないための言葉として読める。必要な準備をした後は、まだ分からない展開を残して休む余地も持つ。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23207,7 +23207,7 @@
   {
     "tagId": "kb_335",
     "title": "「案ずるより産むが易し」",
-    "summary": "始める前に恐れたほどは、実際は難しくないこともあるという教え。",
+    "summary": "始める前に恐れたほどは、実際は難しくないこともあるという教え。\n頭の中で難しさを膨らませるより、小さく試すと実際の負担が分かることがある。危険を無視する教えではなく、準備と実行の間で立ち止まり続けない視点。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23226,7 +23226,7 @@
   {
     "tagId": "kb_301",
     "title": "「雨降って地固まる」",
-    "summary": "困難を乗り越えることで、関係や基盤が強くなる場合があるという教え。",
+    "summary": "困難を乗り越えることで、関係や基盤が強くなる場合があるという教え。\n問題を話し合い、今後の約束を変えることで、関係を立て直す場合がある。争い自体が関係をよくするのでなく、その後の対応が大切になる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23245,7 +23245,7 @@
   {
     "tagId": "kb_300",
     "title": "「親しき仲にも礼儀あり」",
-    "summary": "親しい相手にも、敬意や配慮が必要だという教え。",
+    "summary": "親しい相手にも、敬意や配慮が必要だという教え。\n返事や感謝、予定変更の連絡を、親しさを理由に省いていないかを振り返れる。遠慮を増やすより、相手の時間や気持ちを尊重する基本を保つ。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23264,7 +23264,7 @@
   {
     "tagId": "kb_296",
     "title": "「情けは人の為ならず」",
-    "summary": "人への親切は、巡り巡って自分にも返るという教え。",
+    "summary": "人への親切は、巡り巡って自分にも返るという教え。\n小さな協力が信頼を育て、後に別の支えへつながるという読み方ができる。必ず同じ相手から返るとは考えず、見返りを取り立てる親切にしない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23283,7 +23283,7 @@
   {
     "tagId": "kb_631",
     "title": "「井の中の蛙、大海を知らず」",
-    "summary": "狭い環境だけを基準にすると、外の可能性を見失うという戒め。",
+    "summary": "狭い環境だけを基準にすると、外の可能性を見失うという戒め。\n身近な職場や友人の基準を、世の中全体の基準と思い込む場合など。違う分野や立場の話に触れると、自分の当たり前を見直せる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23335,7 +23335,7 @@
   {
     "tagId": "kb_352",
     "title": "臥薪嘗胆",
-    "summary": "失敗や屈辱を忘れず、目標のために準備を続けるという教え。",
+    "summary": "失敗や屈辱を忘れず、目標のために準備を続けるという教え。\n悔しさを繰り返し味わうことより、必要な練習や準備へ力を変える視点として読める。目標のために、健康や生活まで削り続けることとは分けて考える。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23358,7 +23358,7 @@
   {
     "tagId": "kb_353",
     "title": "捲土重来",
-    "summary": "一度敗れても、力を蓄え直して再挑戦するという教え。",
+    "summary": "一度敗れても、力を蓄え直して再挑戦するという教え。\n失敗した時点の条件を見直し、技能や資源を整えて再び挑む。前と同じことを繰り返すだけでなく、何を変えて戻るかが大切になる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23384,7 +23384,7 @@
   {
     "tagId": "kb_327",
     "title": "「継続は力なり」",
-    "summary": "小さな行動も、長く続ければ力になるという教え。",
+    "summary": "小さな行動も、長く続ければ力になるという教え。\n一回の大きな努力より、日々の小さな練習が土台になるという読み方。続ける対象や方法が目的に合うかは、途中でも確かめ直す。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23403,7 +23403,7 @@
   {
     "tagId": "kb_324",
     "title": "「巧遅は拙速に如かず」",
-    "summary": "完璧で遅い対応より、十分な形で早く動くほうがよい場合もあるという教え。",
+    "summary": "完璧で遅い対応より、十分な形で早く動くほうがよい場合もあるという教え。\n見せて確かめられる初稿なら、細部を磨き続けるより早く出す価値がある。安全や正確さが必須の場面では、必要な確認を省く理由にはしない。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23436,7 +23436,7 @@
   {
     "tagId": "kb_315",
     "title": "「鶏口となるも牛後となるなかれ」",
-    "summary": "大組織の末端より、小さな場でも主導できる立場を重んじる教え。",
+    "summary": "大組織の末端より、小さな場でも主導できる立場を重んじる教え。\n名前の大きさだけで所属を選ばず、自分が判断し成長できる範囲を見る。小さな場にも大きな場にも利点があるため、自分の目的と役割を比べる。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23500,7 +23500,7 @@
   {
     "tagId": "kb_359",
     "title": "「一つの籠にすべての卵を盛るな」",
-    "summary": "すべてを一つに託さず、失敗に備えて分けて持つという教え。",
+    "summary": "すべてを一つに託さず、失敗に備えて分けて持つという教え。\n情報源、依頼先、居場所などを一つに頼りきらない工夫として読める。分けた先が同じ条件で失われるなら、備えの違いも見直す。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23534,7 +23534,7 @@
   {
     "tagId": "kb_329",
     "title": "「完璧は善の敵」",
-    "summary": "完璧を求めるあまり、十分によい成果まで完成できなくなるという戒め。",
+    "summary": "完璧を求めるあまり、十分によい成果まで完成できなくなるという戒め。\n必要な水準に達しても細部を直し続け、届ける時機を逃す場面など。完成とする条件を決め、残る改善は次の版へ回す余地を持つ。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",
@@ -23568,7 +23568,7 @@
   {
     "tagId": "kb_326",
     "title": "「為せば成る、為さねば成らぬ何事も」",
-    "summary": "物事を実現するには、まず自分が着手する必要があるという教え。",
+    "summary": "物事を実現するには、まず自分が着手する必要があるという教え。\nできるかを考えるだけでは、経験から学ぶ材料も増えない。努力すれば必ず叶うという保証ではなく、自分が動かせる最初の一歩へ目を向ける言葉。",
     "categoryId": "classics-thought",
     "categoryTitle": "古典・思想",
     "subcategoryId": "classics-thought-p",

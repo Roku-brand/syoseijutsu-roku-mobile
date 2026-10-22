@@ -27,3 +27,9 @@ for (const row of latestCatalogReview.changes.filter(row=>!row.removed)) {
     titleReviews.set(row.id,{id:row.id,beforeTitle:previous?.beforeTitle??row.before.title,title:row.after.title});
   }
 }
+// Keep the original baseline while allowing the reviewed explanatory additions.
+for (const row of read('theory-depth-review-20261023.json').changes) {
+  const previous = summaryReviews.get(row.id);
+  summaryReviews.set(row.id, { ...row, beforeSummary: previous?.beforeSummary ?? row.beforeSummary,
+    contextNote: row.quotation?.contextNote });
+}

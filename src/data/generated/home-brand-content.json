@@ -373,7 +373,7 @@
     {
       "tagId": "kb_007",
       "title": "好意の返報性",
-      "summary": "好意を向けられると、自分も好意を返したくなること。",
+      "summary": "好意を向けられると、自分も好意を返したくなること。\n感謝や親しみを言葉にすると、相手も好意を示しやすくなる場合がある。ただし好意を示したことは、相手に応答や親密さを求める権利にはならない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -447,7 +447,7 @@
     {
       "tagId": "kb_623",
       "title": "「過ぎたるは猶及ばざるが如し」",
-      "summary": "やりすぎは不足と同じように問題になるという教え。",
+      "summary": "やりすぎは不足と同じように問題になるという教え。\n助言も気遣いも、多すぎると相手の負担や干渉になる場合がある。善意の量を増やすより、その場で必要な程度を確かめる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -483,7 +483,7 @@
     {
       "tagId": "kb_025",
       "title": "プラットフォール効果",
-      "summary": "能力のある人が小さな失敗を見せると、かえって親しみを感じること。",
+      "summary": "能力のある人が小さな失敗を見せると、かえって親しみを感じること。\n頼れる人のちょっとした言い間違いに、人間らしさを感じる場合など。信頼の土台がないと印象は違うため、失敗を演出する方法とは考えない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -517,7 +517,7 @@
     {
       "tagId": "kb_111",
       "title": "印象管理理論",
-      "summary": "周囲にどう見られるかを考え、言動や外見を調整するという理論。",
+      "summary": "周囲にどう見られるかを考え、言動や外見を調整するという理論。\n面接では実績を強調し、友人には親しみやすさを見せる場面など。相手に合わせる工夫と、事実を偽ることの境目を考える視点にもなる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-s",
@@ -554,7 +554,7 @@
     {
       "tagId": "kb_029",
       "title": "ピーク・エンドの法則",
-      "summary": "体験を、最も印象的な瞬間と最後の場面から評価しやすいこと。",
+      "summary": "体験を、最も印象的な瞬間と最後の場面から評価しやすいこと。\n会合では長さだけでなく、心が動いた場面や別れ際の対応も記憶に残る。ただし最後を整えれば、途中の不快な体験が帳消しになるわけではない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-c",
@@ -709,7 +709,7 @@
     {
       "tagId": "kb_019",
       "title": "ベン・フランクリン効果",
-      "summary": "誰かを助けたことをきっかけに、その相手を好きになりやすくなること。",
+      "summary": "誰かを助けたことをきっかけに、その相手を好きになりやすくなること。\n小さな相談に答えてもらったことが、関わりの入口になる場合など。相手が断れる依頼にとどめ、手伝いの負担や感謝も忘れない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -743,7 +743,7 @@
     {
       "tagId": "kb_093",
       "title": "共依存",
-      "summary": "相手の問題を抱えることで自分の価値を感じ、不健全な関係を支え合うこと。",
+      "summary": "相手の問題を抱えることで自分の価値を感じ、不健全な関係を支え合うこと。\n相手のためと言いながら、問題をすべて肩代わりし、双方が離れにくくなる場合など。助ける範囲と本人の責任を見直す言葉であり、一つの行動だけで人を診断しない。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-i",
@@ -815,7 +815,7 @@
     {
       "tagId": "kb_299",
       "title": "「和して同ぜず」",
-      "summary": "人と調和しても、無理に意見まで合わせないという教え。",
+      "summary": "人と調和しても、無理に意見まで合わせないという教え。\n相手の目的を尊重しながら、方法への異論を伝える場面など。関係を保つことと意見を一致させることを、一つに結びつけすぎない。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -888,7 +888,7 @@
     {
       "tagId": "kb_311",
       "title": "「知らざるを知らずと為す、是れ知るなり」",
-      "summary": "知らないことを認める姿勢が、本当の理解につながるという教え。",
+      "summary": "知らないことを認める姿勢が、本当の理解につながるという教え。\n会議で分かったふりをするより、分からない点を確認する場面に活かせる。知っている範囲を明らかにすることが、他の人の知恵を借りる入口になる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -924,7 +924,7 @@
     {
       "tagId": "kb_543",
       "title": "リーン・スタートアップ",
-      "summary": "小さく試し、結果から学び、続けるか変えるかを決めて事業を育てる方法。",
+      "summary": "小さく試し、結果から学び、続けるか変えるかを決めて事業を育てる方法。\n完成品を大きく作る前に、必要な価値だけを試して反応を見る。「何を確かめる試みか」と、次の判断に使う結果を先に決めておく。",
       "categoryId": "organization-management",
       "categoryTitle": "組織・経営論",
       "subcategoryId": "organization-management-m",
@@ -960,7 +960,7 @@
     {
       "tagId": "kb_545",
       "title": "パレートの法則",
-      "summary": "成果や問題の大部分が、少数の原因に集中するという経験則。",
+      "summary": "成果や問題の大部分が、少数の原因に集中するという経験則。\n問い合わせの多くが、少数の分かりにくい手順から生まれている場合など。比率を決めつけず、実際の件数から力を注ぐ場所を探す。",
       "categoryId": "strategy",
       "categoryTitle": "戦略論",
       "subcategoryId": "strategy-a",
@@ -1017,7 +1017,7 @@
     {
       "tagId": "kb_619",
       "title": "「人に勝つ者は力があり、自分に勝つ者は強い」",
-      "summary": "他人に勝つ力より、自分の欲望や弱さを制する力を重んじる教え。",
+      "summary": "他人に勝つ力より、自分の欲望や弱さを制する力を重んじる教え。\n言い返したい場面で一度待つ、決めた行動へ戻るといった場面で読める。感情をなくすのでなく、感情があっても振る舞いを選ぶことに力を使う。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -1051,7 +1051,7 @@
     {
       "tagId": "kb_268",
       "title": "快楽順応",
-      "summary": "よい変化にも悪い変化にも慣れ、幸福感が元の水準に近づくこと。",
+      "summary": "よい変化にも悪い変化にも慣れ、幸福感が元の水準に近づくこと。\n欲しかった物も、手に入れてしばらくすると日常の一部になる。次を増やす前に、今あるものの使い方や楽しみ方を変える余地を探せる。",
       "categoryId": "psychology",
       "categoryTitle": "心理学",
       "subcategoryId": "psychology-e",
@@ -1092,7 +1092,7 @@
     {
       "tagId": "kb_618",
       "title": "「足るを知る者は富む」",
-      "summary": "すでにあるものに目を向け、十分だと知ることが豊かさになるという教え。",
+      "summary": "すでにあるものに目を向け、十分だと知ることが豊かさになるという教え。\n欲しいものを増やし続ける前に、今使えている時間や支えを数え直す。現状への不満を禁じるのでなく、何があれば十分かを自分で決める視点。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -1126,7 +1126,7 @@
     {
       "tagId": "kb_612",
       "title": "「人生が短いのではない。多くを浪費している」",
-      "summary": "時間の短さより、使い方を見直すべきだという教え。",
+      "summary": "時間の短さより、使い方を見直すべきだという教え。\n忙しさに押される前に、時間が何に消えているかを見直す。休息まで浪費と決めず、自分で選んだ時間と、流れで使った時間を区別する。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-w",
@@ -1160,7 +1160,7 @@
     {
       "tagId": "kb_359",
       "title": "「一つの籠にすべての卵を盛るな」",
-      "summary": "すべてを一つに託さず、失敗に備えて分けて持つという教え。",
+      "summary": "すべてを一つに託さず、失敗に備えて分けて持つという教え。\n情報源、依頼先、居場所などを一つに頼りきらない工夫として読める。分けた先が同じ条件で失われるなら、備えの違いも見直す。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-p",
@@ -1194,7 +1194,7 @@
     {
       "tagId": "kb_296",
       "title": "「情けは人の為ならず」",
-      "summary": "人への親切は、巡り巡って自分にも返るという教え。",
+      "summary": "人への親切は、巡り巡って自分にも返るという教え。\n小さな協力が信頼を育て、後に別の支えへつながるという読み方ができる。必ず同じ相手から返るとは考えず、見返りを取り立てる親切にしない。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-p",
@@ -1254,7 +1254,7 @@
     {
       "tagId": "kb_617",
       "title": "「自分を知る者は明らかである」",
-      "summary": "他人を知るだけでなく、自分を理解することを重んじる教え。",
+      "summary": "他人を知るだけでなく、自分を理解することを重んじる教え。\n得意な場面だけでなく、無理をしやすい条件や弱点も知っておく。人との比較に偏るとき、自分が望むことと続けられる範囲へ戻る手がかりになる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-e",
@@ -1288,7 +1288,7 @@
     {
       "tagId": "kb_626",
       "title": "「知彼知己、百戦殆うからず」",
-      "summary": "自分と相手を知ることで、無謀な争いを避けるという教え。",
+      "summary": "自分と相手を知ることで、無謀な争いを避けるという教え。\n相手の要求だけでなく、自分の資源、限界、望む結果も知ることが要点になる。交渉や競争では、対策を練る前に条件を確かめる視点として活かせる。",
       "categoryId": "classics-thought",
       "categoryTitle": "古典・思想",
       "subcategoryId": "classics-thought-b",

@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-23",
+  "phase": "theory_depth_20261023",
+  "project": "psfexomjhivqieehcrzx",
+  "changed": 739,
+  "unitTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "lint": "passed",
+  "free": 141,
+  "backups": 739,
+  "samples": [
+    {
+      "id": "kb_029",
+      "title": "ピーク・エンドの法則",
+      "summary": "体験を、最も印象的な瞬間と最後の場面から評価しやすいこと。\n会合では長さだけでなく、心が動いた場面や別れ際の対応も記憶に残る。ただし最後を整えれば、途中の不快な体験が帳消しになるわけではない。"
+    },
+    {
+      "id": "kb_265",
+      "title": "認知的不協和",
+      "summary": "考えと行動の矛盾を不快に感じ、つじつまが合うように考えを変えること。\n高い買い物で失敗したとき、「高いから価値がある」と理由を足す場合など。自分を納得させる説明と、実際に得られたものを分けて振り返る。"
+    },
+    {
+      "id": "kb_627",
+      "title": "「勝兵は先ず勝ちて而る後に戦いを求む」",
+      "summary": "戦う前に、勝てる条件を整えるという教え。\n資源や協力者、実行の条件を整えてから動くという順番を重視する。仕事では、始めた後の頑張りだけに頼らず、進められる準備があるかを確かめる。"
+    }
+  ],
+  "body_md5": "14674a8c6d8e74856bf9219a64fc1817",
+  "revision": 9228,
+  "published": 947,
+  "single_sentence": 0,
+  "public_paid_body_leaks": 0,
+  "unrelated_field_changes": 0,
+  "paid_projection_mismatches": 0,
+  "quotation_metadata_changes": 0
+}
