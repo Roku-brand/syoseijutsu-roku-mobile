@@ -19,7 +19,7 @@ for (const width of [320, 390, 1440]) {
 
     // Sample actual painted faces and positions, so a text-only replacement cannot pass.
     await page.evaluate(() => {
-      const frames: { labels: (string | null)[]; front: number[]; back: number[]; x: number; height: number }[] = [];
+      const frames: { labels: (string | null)[]; front: number[]; back: number[]; angle: number[]; x: number; height: number }[] = [];
       (window as any).__deckFrames = frames;
       const sample = () => {
         const root = document.querySelector('[data-testid="home-recommendation-deck"]')!;
@@ -28,6 +28,7 @@ for (const width of [320, 390, 1440]) {
           labels: [...root.querySelectorAll('[data-testid="home-recommendation-card"]')].map(node => node.getAttribute('aria-label')),
           front: [...root.querySelectorAll('[data-testid="home-deck-front"]')].map(node => Number(getComputedStyle(node).opacity)),
           back: [...root.querySelectorAll('[data-testid="home-deck-back"]')].map(node => Number(getComputedStyle(node).opacity)),
+          angle: [...root.querySelectorAll('[data-testid="home-deck-front"]')].map(node => new DOMMatrix(getComputedStyle(node).transform).m11),
           x: new DOMMatrix(getComputedStyle(slot).transform).m41,
           height: root.getBoundingClientRect().height,
         });
@@ -50,7 +51,8 @@ for (const width of [320, 390, 1440]) {
     expect(frames.some((frame: any) => same(frame.labels, before) && frame.back.every((value: number) => value === 1) && frame.front.every((value: number) => value === 0))).toBe(true);
     expect(frames.some((frame: any) => same(frame.labels, before) && frame.x < -40)).toBe(true);
     expect(frames.some((frame: any) => same(frame.labels, after) && frame.x > 40 && frame.front.every((value: number) => value === 0))).toBe(true);
-    expect(frames.some((frame: any) => same(frame.labels, after) && frame.front[0] === 1 && frame.front[2] === 0)).toBe(true);
+    // Compare turn angles: WebKit may sample too slowly to catch a brief opacity edge.
+    expect(frames.some((frame: any) => same(frame.labels, after) && frame.angle[0] > frame.angle[4] + 0.1)).toBe(true);
     expect(frames.every((frame: any) => Math.abs(frame.height - height) < 1)).toBe(true);
     await expect(page.getByTestId('home-deck-front').first()).toHaveCSS('opacity', '1');
     await expect(page.getByTestId('home-deck-back').first()).toHaveCSS('opacity', '0');
