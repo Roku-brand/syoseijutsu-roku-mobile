@@ -1,6 +1,6 @@
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
@@ -8,6 +8,7 @@ import { useAccess } from '../../access/access-state';
 import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
+import { HomeRecommendationDeck } from '../../components/home-recommendation-deck';
 import { categoryMeta, techniqueById, theoryById } from '../../data/catalog';
 import { techniqueCategoryImages } from '../../data/category-images';
 import { isLockedTheoryShell } from '../../data/theory-display';
@@ -45,6 +46,7 @@ export default function HomeScreen() {
   const { historyIds, interests, savedIds, savedTheoryIds } = useAppState();
   const [readingDay, setReadingDay] = useState('');
   const [discoveryRound, setDiscoveryRound] = useState(0);
+  const refreshDiscovery = useCallback(() => setDiscoveryRound(round => round + 1), []);
   useEffect(() => {
     const updateDay = () => { const now = new Date(); setReadingDay(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`); };
     updateDay();
@@ -98,12 +100,7 @@ export default function HomeScreen() {
       </Pressable>
 
       <HomeSection title="あなたにおすすめ" testID="home-recommendations-section" onAction={() => router.push(APP_ROUTES.discover)}>
-        <View style={styles.discoveryHeading}>
-          <Pressable accessibilityRole="button" accessibilityLabel="別のおすすめに入れ替える" onPress={() => setDiscoveryRound(round => round + 1)} style={styles.discoveryRefresh}><Text style={styles.discoveryRefreshText}>別の出会い ↻</Text></Pressable>
-        </View>
-        <ScrollView horizontal testID="home-recommendation-rail" accessibilityLabel="おすすめの処世術と理論" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
-          {recommendations.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} testID="home-recommendation-card" />)}
-        </ScrollView>
+        <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
       </HomeSection>
 
       <HomeSection title="続きから読む" testID="home-continue-section" onAction={() => router.push(APP_ROUTES.history)}>
@@ -129,10 +126,10 @@ function HomeSection({ title, testID, onAction, children }: { title: string; tes
   </View>;
 }
 
-function ContentCard({ item, width, onPress, testID }: { item: HomeContent; width: number; onPress: () => void; testID?: string }) {
+function ContentCard({ item, width, onPress, testID, disabled = false }: { item: HomeContent; width: number; onPress: () => void; testID?: string; disabled?: boolean }) {
   const category = item.type === 'technique' ? item.card.categoryKey : 'theory';
   const label = item.type === 'technique' ? categoryMeta[item.card.categoryKey].label : '理論';
-  return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width }, pressed && styles.pressed]}>
+  return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled} aria-disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width }, pressed && styles.pressed]}>
     <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
@@ -180,9 +177,6 @@ const styles = StyleSheet.create({
   premiumButtonTextMobile: { fontSize: 9, lineHeight: 13 },
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
-  discoveryHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 4, marginBottom: 8 },
-  discoveryRefresh: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center' },
-  discoveryRefreshText: { color: colors.ink, fontSize: 12, lineHeight: 18 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
   contentImage: { width: '100%', height: 100, backgroundColor: '#E6E0D5' },
