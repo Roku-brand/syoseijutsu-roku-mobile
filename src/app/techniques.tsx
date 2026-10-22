@@ -38,7 +38,6 @@ export default function TechniqueIndexScreen() {
       </View>
       <View style={styles.heading}>
         <AppText testID="technique-index-count" style={styles.count}>{rows.length}件</AppText>
-        <AppText style={styles.note}>通しID順</AppText>
       </View>
       <Pagination page={page} totalPages={totalPages} onSelect={value => router.setParams({ page: String(value) })} label="処世術一覧のページ選択" testID="technique-index-pagination" />
       <View testID="technique-index-list" style={styles.list}>
@@ -58,7 +57,6 @@ const styles = StyleSheet.create({
   filterTextActive: { color: colors.surface },
   heading: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 24, marginBottom: 14 },
   count: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37 },
-  note: { color: colors.goldDeep, fontSize: 12, lineHeight: 19 },
   list: { gap: 12 },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });

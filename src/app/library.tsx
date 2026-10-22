@@ -6,6 +6,6 @@ import { catalogTheme } from '@/constants/theme';
 export default function LibraryScreen() {
   const params = useLocalSearchParams<{ category?: string; kind?: string }>();
   const category = ['interpersonal', 'work', 'life'].includes(params.category ?? '') ? params.category : undefined;
-  const kind = ['theory', 'feature'].includes(params.kind ?? '') ? params.kind : undefined;
+  const kind = ['technique', 'theory', 'feature'].includes(params.kind ?? '') ? params.kind : undefined;
   return <BookScreen testID="library-screen" contentContainerStyle={{ maxWidth: catalogTheme.maxWidth }}><LibraryContent key={`${category ?? ''}:${kind ?? ''}`} category={category} kind={kind} /></BookScreen>;
 }

@@ -6,16 +6,19 @@ type BrandSectionHeadingProps = {
   title: string;
   actionLabel?: string;
   actionAccessibilityLabel?: string;
+  actionRole?: 'button' | 'link';
+  actionTestID?: string;
+  actionDisabled?: boolean;
   onAction?: () => void;
   compact?: boolean;
 };
 
-export function BrandSectionHeading({ title, actionLabel, actionAccessibilityLabel, onAction, compact = false }: BrandSectionHeadingProps) {
+export function BrandSectionHeading({ title, actionLabel, actionAccessibilityLabel, actionRole = 'link', actionTestID, actionDisabled = false, onAction, compact = false }: BrandSectionHeadingProps) {
   return (
     <View style={styles.row}>
       <Text accessibilityRole="header" aria-level={2} style={[styles.title, compact && styles.titleCompact]}>{title}</Text>
       {actionLabel && onAction ? (
-        <Pressable accessibilityRole="link" accessibilityLabel={actionAccessibilityLabel ?? actionLabel.replace(/\s*→$/, '')} onPress={onAction} style={({ pressed }) => [styles.action, pressed && styles.pressed]}>
+        <Pressable testID={actionTestID} accessibilityRole={actionRole} accessibilityLabel={actionAccessibilityLabel ?? actionLabel.replace(/\s*→$/, '')} accessibilityState={{ disabled: actionDisabled }} aria-disabled={actionDisabled} disabled={actionDisabled} onPress={onAction} style={({ pressed }) => [styles.action, actionDisabled && styles.disabled, pressed && styles.pressed]}>
           <Text style={styles.actionText}>{actionLabel}</Text>
         </Pressable>
       ) : null}
@@ -30,4 +33,5 @@ const styles = StyleSheet.create({
   action: { minHeight: 32, paddingLeft: 10, alignItems: 'center', justifyContent: 'center' },
   actionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   pressed: { opacity: 0.65 },
+  disabled: { opacity: 0.5 },
 });
