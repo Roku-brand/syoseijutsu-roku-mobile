@@ -47,8 +47,8 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
     const timing = (value: Animated.Value, toValue: number, duration: number) =>
       Animated.timing(value, { toValue, duration, easing: Easing.inOut(Easing.cubic), useNativeDriver: Platform.OS !== 'web' });
     const animation = phase === 'collecting'
-      ? Animated.sequence([timing(flip, 1, 280), timing(travel, -1, 300)])
-      : Animated.sequence([timing(travel, 0, 330), timing(reveal, 1, 460)]);
+      ? Animated.sequence([timing(flip, 1, 350), timing(travel, -1, 375)])
+      : Animated.sequence([timing(travel, 0, 415), timing(reveal, 1, 575)]);
     animation.start(({ finished }) => {
       if (!finished) return;
       if (phase === 'collecting') {
