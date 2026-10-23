@@ -113,6 +113,8 @@ test('古い保存IDを保持し、自動分類の件数には誤って含めな
   await page.goto('/my-os');
   await page.getByRole('button', { name: '対人術のお気に入り 1件', exact: true }).click();
   await expect(page.getByTestId('library-organizer').getByTestId('personal-content-technique')).toHaveCount(1);
+  await page.getByTestId('book-header-back').click();
+  await expect(page).toHaveURL(/\/my-os/);
   await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
   await expect(page.getByRole('tab', { name: '処世術のお気に入り 2件', exact: true })).toBeVisible();
   expect((await readState(page)).savedIds).toContain('missing-legacy-id');
