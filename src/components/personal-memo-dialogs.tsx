@@ -40,12 +40,13 @@ function MemoComposer({ controller }: { controller: PersonalMemoController }) {
   const selected = memoDestinationKey(draft.destination);
   return <DialogFrame label="マイ処世術の編集" composer>
     <AppText style={styles.dialogTitle}>{draft.id ? 'マイ処世術を編集' : 'マイ処世術を作る'}</AppText>
-    <AppText style={styles.excerpt}>1行目に見出し、続けて本文を書けます。</AppText>
+    <AppText style={styles.excerpt}>1行目がカードの見出しになります。改行して、理由や具体例を書き添えられます。</AppText>
     <TextInput
       accessibilityLabel="マイ処世術" multiline maxLength={140} value={draft.text}
       onChangeText={text => controller.updateDraft({ text })} placeholder="自分の言葉を記してください"
       placeholderTextColor={colors.muted} style={styles.input}
     />
+    <AppText style={styles.counter} accessibilityLiveRegion="polite">{draft.text.length} / 140文字</AppText>
     <AppText style={styles.meta}>保存先</AppText>
     <View accessibilityRole="radiogroup" accessibilityLabel="保存先フォルダー" style={styles.destinations}>
       {controller.destinations.map(({ label, destination }) => {
@@ -59,12 +60,12 @@ function MemoComposer({ controller }: { controller: PersonalMemoController }) {
       })}
     </View>
     {controller.needsFolderName ? <>
-      <AppText style={styles.meta}>フォルダー名</AppText>
+      <AppText style={styles.meta}>新しいフォルダー名</AppText><AppText style={styles.excerpt}>この名前のフォルダーを作り、最初の処世術を保存します。</AppText>
       <TextInput
         accessibilityLabel="フォルダー名" maxLength={32} value={draft.folderName}
         onChangeText={folderName => controller.updateDraft({ folderName })} placeholder="例：仕事で使う知恵"
         placeholderTextColor={colors.muted} style={styles.folderInput}
-      />
+      /><AppText style={styles.counter}>{draft.folderName.length} / 32文字</AppText>
     </> : null}
     <View style={styles.actions}>
       <MemoAction label="作成を閉じる" text="閉じる" onPress={controller.closeDialog} />
@@ -129,6 +130,7 @@ function FolderEditor({ controller }: { controller: PersonalMemoController }) {
       accessibilityLabel="フォルダー名" maxLength={32} value={name} onChangeText={controller.updateFolderName}
       placeholder="例：仕事で使う知恵" placeholderTextColor={colors.muted} style={styles.folderInput}
     />
+    <AppText style={styles.counter}>{name.length} / 32文字</AppText>
     <View style={styles.actions}>
       <MemoAction label="フォルダー編集を閉じる" text="閉じる" onPress={controller.closeDialog} />
       <MemoAction label={id ? 'フォルダー名を保存' : 'フォルダーを作成'} text={id ? '保存する' : '作成する'} primary disabled={!name.trim()} onPress={controller.saveFolder} />

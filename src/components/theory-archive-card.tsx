@@ -10,6 +10,6 @@ export function TheoryArchiveCard({ theory }: { theory: TheoryRecord }) {
   const { savedTheoryIds, toggleSavedTheory } = useAppState();
   const showToast = useAppToast();
   const saved = savedTheoryIds.includes(theory.tagId);
-  return <View style={styles.entry}><TheoryCard theory={theory} actions={<SaveDiamondButton saved={saved} compact onPress={() => { toggleSavedTheory(theory.tagId); showToast(saved ? '蔵書から外しました' : '蔵書に保存しました'); }} />} /></View>;
+  return <View style={styles.entry}><TheoryCard theory={theory} actions={<SaveDiamondButton saved={saved} compact onPress={() => { toggleSavedTheory(theory.tagId); showToast(saved ? 'お気に入りから外しました' : 'お気に入りに保存しました'); }} />} /></View>;
 }
 const styles = StyleSheet.create({ entry: { marginBottom: 16 } });

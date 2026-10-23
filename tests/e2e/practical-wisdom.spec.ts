@@ -66,11 +66,11 @@ test('完全版では格言・人物・作品が先に表示され背景は短�
 for(const width of [320,390,1440])test(`関係図は${width}pxで重ならず選択から詳細へ移動できる`,async({page})=>{
  await page.setViewportSize({width,height:900});await account(page);await page.goto('/theory/kb_133');
  await page.getByRole('button',{name:'知識のつながりを見る',exact:true}).click();
- const graph=page.getByTestId('knowledge-graph');await expect(graph).toBeVisible();
+ const graph=width<700?page.getByTestId('knowledge-connections'):page.getByTestId('knowledge-graph');await expect(graph).toBeVisible();
  const nodes=graph.getByRole('button');expect(await nodes.count()).toBeGreaterThan(0);expect(await nodes.count()).toBeLessThanOrEqual(6);
  const boxes=await nodes.evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};}));
- const centre=await page.getByTestId('knowledge-graph-current').boundingBox();expect(centre).not.toBeNull();
- boxes.push({x:centre!.x,y:centre!.y,w:centre!.width,h:centre!.height});
+ if(width>=700){const centre=await page.getByTestId('knowledge-graph-current').boundingBox();expect(centre).not.toBeNull();
+ boxes.push({x:centre!.x,y:centre!.y,w:centre!.width,h:centre!.height});}
  for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++)expect(boxes[i].x+boxes[i].w<=boxes[j].x||boxes[j].x+boxes[j].w<=boxes[i].x||boxes[i].y+boxes[i].h<=boxes[j].y||boxes[j].y+boxes[j].h<=boxes[i].y).toBeTruthy();
  await nodes.first().click();await expect(page.getByTestId('knowledge-graph-selection')).toBeVisible();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();

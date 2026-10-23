@@ -15,6 +15,7 @@ test('social loafing is part of the free SEO theory portfolio', async ({ page })
 
 test('theory information distinguishes bibliography and links to its source on mobile', async ({ page }) => {
   await page.goto('/theory/kb_070');
+  await page.getByRole('button', { name: '出典・理論情報', exact: true }).click();
   const information = page.getByTestId('theory-information');
   await expect(information).toContainText('書誌確認済み');
   await expect(information).toContainText('1979年');

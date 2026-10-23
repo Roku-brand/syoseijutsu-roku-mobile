@@ -39,8 +39,9 @@ export function BookScreen({
   children,
   contentContainerStyle,
   scroll = true,
+  scrollRef,
   ...props
-}: ScrollViewProps & { scroll?: boolean }) {
+}: ScrollViewProps & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null> }) {
   const { width } = useHydratedWindowDimensions();
   const { density } = useResponsiveLayout();
   const compact = width < 700;
@@ -49,6 +50,7 @@ export function BookScreen({
     <SafeAreaView edges={['left', 'right']} style={styles.safe}>
       {scroll ? (
         <ScrollView
+          ref={scrollRef}
           {...props}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -92,10 +94,10 @@ export function BookHeader() {
   const { articles } = useFeatures(featureDetailHeader);
   const segments = useSegments();
   const { user } = useAuth();
-  const { catalogRevision } = useAccess();
+  const { catalogRevision, isPaid } = useAccess();
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const currentTitle = getCurrentTitle(pathname);
+  const currentTitle = pathname === '/upgrade' && isPaid ? '完全版の利用情報' : getCurrentTitle(pathname);
   const showBack = shouldShowHeaderBack(pathname);
   const lightHeader = true;
   const detail = useMemo(() => getDetail(pathname, articles), [articles, catalogRevision, pathname]);
@@ -113,7 +115,7 @@ export function BookHeader() {
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
-  const titleInset = Math.max(84, actionCount * 44 + Math.max(0, actionCount - 1) * 3 + 20);
+  const titleInset = Math.max(84, (detail ? 108 : actionCount * 44) + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -153,7 +155,7 @@ export function BookHeader() {
           />
           <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
             <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious]}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={width < 360 ? 2 : 1} adjustsFontSizeToFit minimumFontScale={0.9} style={[styles.brandTagline, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={2} style={[styles.brandTagline, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
         </View>
       )}
@@ -193,7 +195,7 @@ export function BookHeader() {
   );
 }
 
-/** 処世術・理論で共通の、蔵書保存用のひし形マーク。 */
+/** 処世術・理論で共通の、お気に入り保存用のひし形マーク。 */
 export function SaveDiamondButton({
   saved,
   onPress,
@@ -210,7 +212,7 @@ export function SaveDiamondButton({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel ?? (saved ? '蔵書から外す' : '蔵書に保存')}
+      accessibilityLabel={accessibilityLabel ?? (saved ? 'お気に入りから外す' : 'お気に入りに保存')}
       accessibilityState={{ selected: saved }}
       aria-pressed={saved}
       onPress={onPress}
@@ -222,9 +224,9 @@ export function SaveDiamondButton({
       ]}
     >
       <SaveDiamond saved={saved} />
-      {label ? (
+      {label !== '' ? (
         <AppText style={[styles.saveDiamondLabel, saved && styles.saveDiamondLabelSaved]}>
-          {label}
+          {label ?? (saved ? '保存済み' : '保存')}
         </AppText>
       ) : null}
     </Pressable>
@@ -292,7 +294,7 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
     if (detail.kind === 'card') toggleSaved(detail.id);
     else if (detail.kind === 'feature') toggleSavedFeature(detail.id);
     else toggleSavedTheory(detail.id);
-    showToast(isSaved ? '蔵書から外しました' : '蔵書に保存しました');
+    showToast(isSaved ? 'お気に入りから外しました' : 'お気に入りに保存しました');
   };
   const share = async () => {
     const path = detail.kind === 'feature' ? `features/${encodeURIComponent(detail.slug)}` : `${detail.kind}/${encodeURIComponent(detail.id)}`;
@@ -313,12 +315,13 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
     <View testID="book-header-actions" style={styles.headerActions}>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel={isSaved ? '蔵書から外す' : '蔵書に保存'}
+        accessibilityLabel={isSaved ? 'お気に入りから外す' : 'お気に入りに保存'}
         accessibilityState={{ selected: isSaved }} aria-pressed={isSaved}
         onPress={toggle}
-        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
+        style={({ pressed }) => [styles.headerAction, styles.headerSaveAction, pressed && styles.headerActionPressed]}
       >
         <SaveDiamond saved={isSaved} />
+        <AppText style={styles.headerSaveLabel}>{isSaved ? '保存済み' : '保存'}</AppText>
       </Pressable>
       <Pressable
         accessibilityRole="button"
@@ -369,7 +372,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname === '/owner/content') return 'コンテンツ管理';
   if (pathname === '/owner/rankings') return '人気ランキング管理';
   if (pathname === '/owner' || pathname.startsWith('/owner/')) return 'オーナー管理';
-  if (segments[0] === 'theory') return '理論カード';
+  if (segments[0] === 'theory') return '理論';
   if (
     pathname.includes('/discover') ||
     pathname.includes('/topic/')
@@ -384,7 +387,7 @@ function getCurrentTitle(pathname: string) {
   if (pathname.startsWith('/about/')) return '処世術禄について';
   if (pathname.includes('/upgrade')) return '完全版を購入';
   if (pathname.includes('/settings')) return '設定';
-  if (pathname.includes('/card/')) return '処世術カード';
+  if (pathname.includes('/card/')) return '処世術';
   return 'ホーム';
 }
 
@@ -713,7 +716,7 @@ const styles = StyleSheet.create({
   },
   headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
   brandCopy: { flexShrink: 1, minWidth: 0, gap: 1 },
-  brandTagline: { color: colors.muted, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, letterSpacing: -0.2 },
+  brandTagline: { color: colors.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: -0.2 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',
@@ -1059,9 +1062,11 @@ const styles = StyleSheet.create({
     gap: 7,
     paddingHorizontal: 4,
   },
-  saveDiamondButtonCompact: { width: 44, paddingHorizontal: 0 },
+  headerSaveAction: { width: 64, flexDirection: 'column', gap: 2 },
+  headerSaveLabel: { fontFamily: fonts.sans, color: colors.goldDeep, fontSize: 12, lineHeight: 18 },
+  saveDiamondButtonCompact: { minWidth: 76, paddingHorizontal: 4 },
   saveDiamondButtonPressed: { opacity: 0.78, transform: [{ scale: 0.94 }] },
-  saveDiamondLabel: { color: colors.goldLight, fontSize: 11, lineHeight: 16, fontWeight: '700' },
-  saveDiamondLabelSaved: { color: colors.goldLight },
+  saveDiamondLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  saveDiamondLabelSaved: { color: colors.goldDeep },
   pressed: { opacity: 0.68, transform: [{ scale: 0.992 }] },
 });

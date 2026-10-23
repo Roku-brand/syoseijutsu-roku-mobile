@@ -112,7 +112,7 @@ export const typography = {
   largeTitle: { fontSize: 32, lineHeight: 44, fontWeight: '600' as const },
   sectionTitle: { fontSize: 23, lineHeight: 33, fontWeight: '700' as const },
   cardTitle: { fontSize: 17, lineHeight: 25, fontWeight: '600' as const },
-  body: { fontSize: 15, lineHeight: 25 },
+  body: { fontSize: 16, lineHeight: 28 },
   caption: { fontSize: 13, lineHeight: 19 },
 } as const;
 

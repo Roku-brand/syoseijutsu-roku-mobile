@@ -63,3 +63,8 @@ export function featureCover(article: Pick<FeatureArticle, 'id' | 'title' | 'ima
   const cover = covers[article.id];
   return cover && article.image_path === cover.originalImage ? cover : undefined;
 }
+
+export function hasFeatureImageOverride(article: Pick<FeatureArticle, 'id' | 'image_path'>) {
+  const cover = covers[article.id];
+  return Boolean(cover && article.image_path && article.image_path !== cover.originalImage);
+}

@@ -56,19 +56,19 @@ test('all memo creation entry points wait for a tap and have one close action', 
   await expect(input).toBeFocused();
 });
 
-test('reel advances after five seconds, resets on manual use, wraps and pauses away from home', async ({ page }) => {
+test('reel advances after ten seconds, resets on manual use, wraps and pauses away from home', async ({ page }) => {
   await ready(page);
   await page.clock.install();
   await page.clock.pauseAt(new Date());
   const dot = (index: number) => page.getByRole('tab', { name: `${index}枚目を表示`, exact: true });
   await dot(1).click();
-  await page.clock.runFor(4_999);
+  await page.clock.runFor(9_999);
   await expect(dot(1)).toHaveAttribute('aria-selected', 'true');
   await page.clock.runFor(1);
   await expect(dot(2)).toHaveAttribute('aria-selected', 'true');
   await page.clock.runFor(2_000);
   await dot(7).click();
-  await page.clock.runFor(4_999);
+  await page.clock.runFor(9_999);
   await expect(dot(7)).toHaveAttribute('aria-selected', 'true');
   await page.clock.runFor(1);
   await expect(dot(1)).toHaveAttribute('aria-selected', 'true');

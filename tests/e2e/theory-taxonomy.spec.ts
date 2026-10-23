@@ -4,27 +4,26 @@ const rows=JSON.parse(fs.readFileSync('src/data/generated/theories.json','utf8')
 const subcategories=JSON.parse(fs.readFileSync('src/data/generated/theory-subcategories.json','utf8'));
 const categories=[...new Map(rows.map((t:any)=>[t.categoryId,{kind:'theory',id:t.categoryId,title:t.categoryTitle,display_order:['psychology','behavioral-science','organization-management','strategy','practical-wisdom','classics-thought'].indexOf(t.categoryId)+1}])).values()];
 
-for(const width of [320,390,1440])test(`全10ページを丸ボタンで省略せず表示し分類の列を揃える（${width}px）`,async({page})=>{
+for(const width of [320,390,1440])test(`分野タブを残して1/10から全ページを選べる（${width}px）`,async({page})=>{
  await page.setViewportSize({width,height:1000});
  await page.route('**/rest/v1/**',route=>route.fulfill({status:503,json:{}}));
  await page.goto('/theories');
  const pagination=page.getByTestId('theory-index-pagination');
- await expect(pagination.getByRole('button')).toHaveCount(10);
- await expect(pagination).not.toContainText('…');
- for(let n=1;n<=10;n++){
-  const button=pagination.getByRole('button',{name:`${n}ページ目`,exact:true});await expect(button).toBeVisible();
-  expect(await button.evaluate(el=>{const r=el.getBoundingClientRect();return r.width===r.height&&parseFloat(getComputedStyle(el).borderTopLeftRadius)>=r.width/2;})).toBeTruthy();
- }
- const boxes=await page.getByTestId('theory-category-filters').getByRole('button').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect();return{x:r.x,y:r.y,w:r.width,h:r.height};}));
- expect(boxes).toHaveLength(7);
- for(let n=0;n<3;n++){expect(Math.abs(boxes[n+1].x-boxes[n+4].x)).toBeLessThan(1);expect(Math.abs(boxes[n+1].w-boxes[n+4].w)).toBeLessThan(1);expect(boxes[n+4].y).toBe(boxes[4].y);expect(boxes[n].y).toBe(boxes[0].y);}
- await page.screenshot({path:test.info().outputPath(`theory-index-controls-${width}.png`)});
- await pagination.getByRole('button',{name:'5ページ目',exact:true}).click();
- await expect(pagination.getByRole('button',{name:'5ページ目',exact:true})).toHaveAttribute('aria-selected','true');
+ const trigger=()=>pagination.getByRole('button',{name:/理論一覧のページ選択：/});
+ await expect(trigger()).toHaveAccessibleName('理論一覧のページ選択：1/10');
+ await expect(pagination.getByRole('button',{name:'前のページ'})).toBeDisabled();
+ await trigger().click();
+ const dialog=page.getByRole('dialog',{name:'理論一覧のページ選択'});
+ for(let n=1;n<=10;n++) await expect(dialog.getByRole('button',{name:`${n}ページ目`,exact:true})).toBeVisible();
+ await dialog.getByRole('button',{name:'5ページ目',exact:true}).click();
+ await expect(trigger()).toHaveAccessibleName('理論一覧のページ選択：5/10');
  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(100);
- await pagination.getByRole('button',{name:'10ページ目',exact:true}).click();
+ await trigger().click(); await dialog.getByRole('button',{name:'10ページ目',exact:true}).click();
  await expect(page.getByTestId('theory-index-row-card')).toHaveCount(rows.length-900);
+ await expect(pagination.getByRole('button',{name:'次のページ'})).toBeDisabled();
+ await expect(page.getByTestId('theory-category-filters').getByRole('button')).toHaveCount(7);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await page.screenshot({path:test.info().outputPath(`theory-index-controls-${width}.png`)});
 });
 
 test('格言は承認済みの言葉を見出しにし、ことわざと格言を別々に絞り込む',async({page})=>{
@@ -130,6 +129,7 @@ test('追加した完全版理論を別名から検索して、本文・出典�
   await page.goto(`/theory/${id}`);
   await expect(page.getByTestId('theory-title')).toHaveText(title);
   await expect(page.getByText(rows.find((t:any)=>t.tagId===id).summary.split('。')[0]+'。',{exact:false}).first()).toBeVisible();
+  await page.getByRole('button',{name:'出典・理論情報',exact:true}).click();
   await expect(page.getByText('出典を読む',{exact:true})).toBeVisible();
  }
  await page.goto('/theories?category=psychology&page=7');

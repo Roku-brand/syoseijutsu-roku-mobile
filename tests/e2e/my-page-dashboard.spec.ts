@@ -132,8 +132,8 @@ test('処世術と理論の検索一覧も共通の菱形で保存・解除で�
   await saved.click();
   await expect(saved).toHaveCount(0);
   await page.goto(`/search?mode=theories&q=${encodeURIComponent(theory.title)}`);
-  await page.getByRole('button', { name: '蔵書に保存', exact: true }).first().click();
-  const theorySaved = page.getByRole('button', { name: '蔵書から外す', exact: true });
+  await page.getByRole('button', { name: 'お気に入りに保存', exact: true }).first().click();
+  const theorySaved = page.getByRole('button', { name: 'お気に入りから外す', exact: true });
   await expect(theorySaved).toHaveAttribute('aria-pressed', 'true');
   await expect(theorySaved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(165, 123, 53)');
   await theorySaved.click();
@@ -187,10 +187,10 @@ test('処世術・理論・特集の菱形保存は即時反映し再起動後�
   for (const url of [`/card/${cards[0].id}`, `/theory/${theory.tagId}`, `/features/${articles[0].slug}`]) {
     await page.goto(url);
     const header = page.getByTestId('book-header-actions');
-    const save = header.getByRole('button', { name: '蔵書に保存', exact: true });
+    const save = header.getByRole('button', { name: 'お気に入りに保存', exact: true });
     await expect(save).toHaveAttribute('aria-pressed', 'false');
     await save.click();
-    const saved = header.getByRole('button', { name: '蔵書から外す', exact: true });
+    const saved = header.getByRole('button', { name: 'お気に入りから外す', exact: true });
     await expect(saved).toHaveAttribute('aria-pressed', 'true');
     await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(165, 123, 53)');
     await page.reload();

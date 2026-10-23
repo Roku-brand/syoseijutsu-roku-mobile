@@ -47,7 +47,7 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
   });
   const penalty = (id: string) => (recent.has(id) ? 40 : 0) + (saved.has(id) ? 8 : 0);
   const byRotation = (a: string, b: string) => rotation(a, seed) - rotation(b, seed) || a.localeCompare(b);
-  const techniqueCandidates = techniqueCards.filter(card => accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id));
+  const techniqueCandidates = techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id)));
   const theoryCandidates = theories.filter(card => !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
   const closeTechniques = [...techniqueCandidates].sort((a, b) =>
     ((categoryScores.get(b.categoryKey) ?? 0) - penalty(b.id)) - ((categoryScores.get(a.categoryKey) ?? 0) - penalty(a.id)) || byRotation(a.id, b.id));

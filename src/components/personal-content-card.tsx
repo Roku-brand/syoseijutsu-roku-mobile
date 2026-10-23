@@ -26,12 +26,12 @@ export function PersonalContentCard({ row, onPress, action }: { row: PersonalCon
 }
 const styles = StyleSheet.create({
   rowMobile: { padding: 10, gap: 8, borderRadius: 14 },
-  artMobile: { width: 76, height: 96 },
-  labelMobile: { fontSize: 10, lineHeight: 16, paddingLeft: 6, borderLeftWidth: 3 },
-  titleMobile: { fontSize: 16, lineHeight: 24, marginTop: 4 },
-  descriptionMobile: { fontSize: 11, lineHeight: 18 },
+  artMobile: { width: 68, height: 76 },
+  labelMobile: { fontSize: 12, lineHeight: 20, paddingLeft: 6, borderLeftWidth: 3 },
+  titleMobile: { fontSize: 17, lineHeight: 27, marginTop: 4 },
+  descriptionMobile: { fontSize: 13, lineHeight: 22 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 18, marginBottom: 14, borderWidth: 1, borderColor: '#E6DDCF', borderRadius: 18, overflow: 'hidden', backgroundColor: '#FFFDF9' },
-  open: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 20 },
+  open: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12 },
   art: { width: 145, height: 118, borderRadius: 10, overflow: 'hidden', backgroundColor: '#EAF0E7' },
   copy: { flex: 1, minWidth: 0, justifyContent: 'center' },
   label: { borderLeftWidth: 4, borderLeftColor: '#C49B50', paddingLeft: 12, fontSize: 14, lineHeight: 22, fontWeight: '600' },

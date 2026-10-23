@@ -16,9 +16,9 @@ export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: 
   const compact = width < 700;
   const summary = getTheoryCoverSummary(theory.summary);
   // Match the Router slot's flat-style contract on web and native.
-  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact]);
+  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, Boolean(actions) && styles.withActions]);
   const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={`${theory.title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>
-      <View style={styles.meta}>
+      <View style={[styles.meta, Boolean(actions) && styles.metaWithActions]}>
         <AppText testID="theory-card-subcategory" style={[styles.classification, compact && styles.metaCompact]}>{theory.subcategoryTitle || theory.categoryTitle}</AppText>
         <AppText testID="theory-card-id" style={[styles.code, compact && styles.metaCompact]}>{getTheoryDisplayId(theory)}</AppText>
       </View>
@@ -44,16 +44,18 @@ const styles = StyleSheet.create({
   innerFrame: { position: 'absolute', left: 5, right: 5, top: 5, bottom: 5, borderWidth: 1, borderColor: blue.border, borderRadius: 1 },
   open: { width: '100%', minWidth: 0, minHeight: 148, paddingTop: 17, paddingBottom: 19, paddingHorizontal: 30 },
   openCompact: { minHeight: 168, paddingTop: 15, paddingBottom: 18, paddingHorizontal: 17 },
+  withActions: { paddingTop: 17 },
+  metaWithActions: { paddingRight: 82, minHeight: 36 },
   meta: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 },
   classification: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20 },
   code: { flexShrink: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] },
-  metaCompact: { fontSize: 10, lineHeight: 17 },
+  metaCompact: { fontSize: 12, lineHeight: 20 },
   copy: { minWidth: 0, paddingHorizontal: 24, alignItems: 'center', gap: 9 },
   copyCompact: { paddingHorizontal: 12, paddingTop: 7, gap: 10 },
   title: { width: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 26, lineHeight: 38, fontWeight: '700', textAlign: 'center', ...Platform.select({ web: { overflowWrap: 'anywhere' as const } }) },
   titleCompact: { fontSize: 21, lineHeight: 31 },
-  summary: { width: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, textAlign: 'center' },
-  summaryCompact: { fontSize: 12, lineHeight: 21 },
+  summary: { width: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 28, textAlign: 'left' },
+  summaryCompact: { fontSize: 15, lineHeight: 26, textAlign: 'left' },
   ornament: { width: 156, height: 10, flexDirection: 'row', alignItems: 'center' },
   rule: { flex: 1, height: 1, backgroundColor: blue.border },
   flourish: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 3 },
@@ -61,6 +63,6 @@ const styles = StyleSheet.create({
   lozengeMiddle: { marginHorizontal: -2, transform: [{ rotate: '-35deg' }] },
   arrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 },
   arrowCompact: { right: 9, fontSize: 24 },
-  actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, paddingRight: 14, paddingLeft: 14, paddingBottom: 9 },
+  actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, position: 'absolute', top: 8, right: 12 },
   pressed: { opacity: 0.76 },
 });

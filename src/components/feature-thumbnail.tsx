@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Image } from 'expo-image';
+import { FeatureVisual } from './feature-visual';
 import { StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/ui';
-import { featureImageAlt, featureImageSource } from '@/data/feature-images';
 import { featureCover } from '@/data/feature-covers';
 import type { FeatureArticle } from '@/data/features';
 import { colors, fonts } from '@/constants/theme';
@@ -12,9 +11,9 @@ export function FeatureThumbnail({ article, caption = true }: { article: Feature
   const [width, setWidth] = useState(288);
   const scale = width / 288;
   return <View testID="feature-thumbnail" style={[styles.frame, cover && { backgroundColor: cover.background }]} onLayout={event => setWidth(event.nativeEvent.layout.width)}>
-    <Image source={featureImageSource(article)} accessibilityLabel={featureImageAlt(article)} contentFit="cover" style={StyleSheet.absoluteFill} />
+    <FeatureVisual article={article} compact style={StyleSheet.absoluteFill} />
     {cover && caption && cover.title === article.title ? <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={[styles.editorial, { padding: 14 * scale }]}>
-      <AppText style={[styles.label, { color: cover.accent, fontSize: 9 * scale, lineHeight: 14 * scale }]}>処世術禄 / 特集</AppText>
+      <AppText style={[styles.label, { color: cover.accent, fontSize: Math.max(12, 12 * scale), lineHeight: Math.max(18, 18 * scale) }]}>処世術禄 / 特集</AppText>
       <AppText testID="feature-thumbnail-headline" style={[styles.headline, { fontSize: 23 * scale, lineHeight: 33 * scale }]}>{cover.headline}</AppText>
       <View style={[styles.rule, { backgroundColor: cover.accent, width: 27 * scale }]} />
     </View> : null}

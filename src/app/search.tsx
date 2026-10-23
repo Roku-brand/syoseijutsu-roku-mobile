@@ -65,7 +65,7 @@ export default function SearchScreen() {
   return (
     <BookScreen contentContainerStyle={styles.content}>
       <View style={styles.intro}>
-        <AppText accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>キーワード検索</AppText>
+        {!compact ? <AppText accessibilityRole="header" aria-level={1} style={styles.title}>キーワード検索</AppText> : null}
         <AppText style={styles.subtitle}>処世術・理論・特集を横断して探せます</AppText>
       </View>
 
