@@ -80,7 +80,7 @@ export default function HomeScreen() {
         </Pressable>)}
       </View>
 
-      <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, pressed && styles.pressed]}>
+      {accessState !== 'paid' ? <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, pressed && styles.pressed]}>
         <Image source={premiumImage} resizeMode="cover" accessibilityLabel="黒と金の装丁の書籍" style={styles.premiumImage} />
         <View style={[styles.premiumCopy, !desktop && styles.premiumCopyMobile]}>
           <View style={[styles.premiumEdition, !desktop && styles.premiumEditionMobile]}>
@@ -97,7 +97,7 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
-      </Pressable>
+      </Pressable> : null}
 
       <View testID="home-recommendations-section" style={styles.section}>
         <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} compact={!desktop} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
@@ -189,3 +189,4 @@ const styles = StyleSheet.create({
   emptyHistoryTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
   emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11, lineHeight: 19, marginTop: 4 },
 });
+
