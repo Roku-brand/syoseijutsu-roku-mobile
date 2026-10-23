@@ -65,14 +65,14 @@ for (const width of [320, 393, 768, 1440]) test(`背景なしのテキストリ�
   await page.screenshot({ path: test.info().outputPath(`text-reel-${width}.png`) });
 });
 
-test('すべては実データの見出しと件数、個別選択は重複見出しを省いてURLと同期する', async ({ page }) => {
+test('すべては分類見出しのみ表示し、個別選択は重複見出しを省いてURLと同期する', async ({ page }) => {
   test.setTimeout(60_000);
   await page.goto('/theories?category=psychology');
   await expectCategory(page);
   for (const section of psychology) {
     const heading = page.getByTestId('theory-index-list').getByRole('heading', { name: section.title, exact: true });
     await expect(heading).toBeVisible();
-    await expect(heading.locator('..')).toContainText(`${theories.filter((t: any) => t.subcategoryId === section.id).length}件`);
+    await expect(heading.locator('..')).toHaveText(section.title);
   }
   for (const section of psychology) {
     await page.getByTestId('theory-subcategory-tab').focus(); await page.keyboard.press('ArrowRight');
