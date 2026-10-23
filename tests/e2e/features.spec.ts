@@ -122,7 +122,7 @@ test('ホームから無料の特集に入り、指針と3記事を日付なし�
   await page.reload();
   await expect(page.getByTestId('book-header').getByRole('button', { name: '蔵書から外す', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/library');
-  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
+  await page.getByRole('tab', { name: /^特集のお気に入り/ }).click();
   await expect(page.getByText(initial[2].title, { exact: true })).toBeVisible();
   await page.getByText(initial[2].title, { exact: true }).click();
   await expect(page.getByTestId('feature-body')).toBeVisible();
