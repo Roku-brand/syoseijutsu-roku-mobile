@@ -31,8 +31,8 @@ export function SavedKindTabs({ selected, onSelect, counts, testID = 'saved-kind
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: 8, width: '100%' },
   tab: { flex: 1, minWidth: 0, minHeight: 46, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 8, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, backgroundColor: colors.surface },
-  tabActive: { borderColor: '#205C4D', backgroundColor: '#205C4D' },
-  label: { color: '#205C4D', fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600', textAlign: 'center' },
+  tabActive: { borderColor: colors.ink, backgroundColor: colors.ink },
+  label: { color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, fontWeight: '600', textAlign: 'center' },
   labelActive: { color: colors.white, fontWeight: '700' },
   pressed: { opacity: 0.72 },
 });

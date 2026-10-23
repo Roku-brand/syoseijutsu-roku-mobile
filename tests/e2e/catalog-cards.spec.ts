@@ -26,30 +26,24 @@ async function noOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 }
 
-async function circularPages(pagination: Locator, activeColor: string) {
-  const buttons = pagination.getByRole('button');
-  expect(await buttons.evaluateAll(nodes => nodes.every(node => {
-    const r = node.getBoundingClientRect();
-    return r.width === 44 && r.height === 44 && parseFloat(getComputedStyle(node).borderRadius) === 22;
-  }))).toBe(true);
-  await expect(buttons.first()).toHaveCSS('background-color', activeColor);
-  const center = await pagination.evaluate(node => {
-    const box = node.getBoundingClientRect();
-    const rows = new Map<number, DOMRect[]>();
-    Array.from(node.children).forEach(child => { const r = child.getBoundingClientRect(); const values = rows.get(r.y) ?? []; values.push(r); rows.set(r.y, values); });
-    return Array.from(rows.values()).every(row => Math.abs((row[0].left + row.at(-1)!.right) / 2 - box.left - box.width / 2) < 1);
-  });
-  expect(center).toBe(true);
+async function compactPages(pagination: Locator, ink: string) {
+  await expect(pagination.getByRole('button')).toHaveCount(3);
+  const trigger = pagination.getByRole('button', { name: /一覧のページ選択：/ });
+  await expect(trigger).toContainText('1');
+  await expect(trigger).toHaveCSS('border-color', ink);
+  await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled();
+  const box = await pagination.boundingBox();
+  expect(box!.height).toBe(44);
 }
 
-for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カード・円形ページ番号は${width}pxに収まる`, async ({ page }) => {
+for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カード・共通のコンパクトなページ選択は${width}pxに収まる`, async ({ page }) => {
   await seed(page);
   await page.setViewportSize({ width, height: 941 });
   await page.goto('/techniques');
   await expect(page.getByTestId('technique-index-count')).toHaveText(`${techniqueCount}件`);
   await expect(page.getByTestId('technique-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
   await expect(page.getByRole('textbox')).toHaveCount(0);
-  await circularPages(page.getByTestId('technique-index-pagination'), 'rgb(165, 123, 53)');
+  await compactPages(page.getByTestId('technique-index-pagination'), 'rgb(125, 89, 35)');
   const technique = page.getByTestId('shoseijutsu-card').first();
   const bar = technique.getByTestId('technique-category-bar');
   await expect(bar).toHaveCSS('background-color', 'rgb(196, 85, 93)');
@@ -65,14 +59,14 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await page.goto('/theories');
   await expect(page.getByTestId('theory-index-count')).toHaveText(`${theories.length}件`);
   await expect(page.getByTestId('theory-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
-  await circularPages(page.getByTestId('theory-index-pagination'), 'rgb(32, 63, 105)');
+  await compactPages(page.getByTestId('theory-index-pagination'), 'rgb(32, 63, 105)');
   await expect(page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' })).toHaveCSS('background-color', 'rgb(32, 63, 105)');
   const entry = page.getByTestId('theory-card').first();
   await expect(entry).toHaveCSS('border-color', 'rgb(168, 187, 208)');
   await expect(entry).toHaveCSS('border-radius', '4px');
   await expect(entry.getByTestId('theory-card-title')).toHaveCSS('text-align', 'center');
   const withSummary = page.getByTestId('theory-card').filter({ has: page.getByTestId('theory-card-summary') }).first();
-  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'center');
+  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'left');
   await expect(entry.getByTestId('theory-card-ornament')).toBeVisible();
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
   await expect(entry.getByTestId('theory-card-subcategory')).toHaveText(theory.subcategoryTitle);
@@ -131,7 +125,7 @@ test('お気に入りを種類別に表示し、解除・再登録と詳細遷�
   await page.getByRole('tab', { name: /^処世術のお気に入り/ }).click();
   await expect(page.getByRole('button', { name: `${theory.title}のお気に入りを解除`, exact: true })).toHaveCount(0);
   await page.goto('/theory/kb_001');
-  await page.getByTestId('book-header').getByRole('button', { name: '蔵書に保存', exact: true }).click();
+  await page.getByTestId('book-header').getByRole('button', { name: 'お気に入りに保存', exact: true }).click();
   await page.goto('/library');
   await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
   await expect(page.getByTestId('theory-card')).toHaveCount(1);

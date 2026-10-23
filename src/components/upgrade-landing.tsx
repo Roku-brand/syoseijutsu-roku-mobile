@@ -107,7 +107,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
     <View testID={desktop ? 'upgrade-desktop-layout' : 'upgrade-mobile-layout'} style={[styles.frame, desktop && desktopStyles.frame]}>
       <View style={[styles.header, desktop && desktopStyles.header, desktop && sectionSpace]}>
         <Pressable accessibilityRole="button" accessibilityLabel="前の画面へ戻る" onPress={onBack} style={({ pressed }) => [styles.back, pressed && styles.pressed]}><AppText style={styles.backArrow}>‹</AppText><AppText style={styles.backText}>戻る</AppText></Pressable>
-        <AppText style={styles.headerTitle}>完全版を購入</AppText><View style={styles.headerBalance} />
+        <AppText style={styles.headerTitle}>{isPaid ? '完全版の利用情報' : '完全版を購入'}</AppText><View style={styles.headerBalance} />
       </View>
       <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
         <View style={[styles.hero, { height: desktop ? 680 : Math.max(510, width * 1.48) }]}>
@@ -169,7 +169,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
         <View style={[styles.purchaseRow, desktop && desktopStyles.purchaseRow]}>
           <View style={[styles.purchasePrice, desktop && desktopStyles.purchasePrice]}>
             <View style={styles.purchasePriceHeading}>
-              <AppText style={styles.purchaseLabel}>{isPaid ? '完全版を利用中' : '完全版'}</AppText>
+              <AppText style={styles.purchaseLabel}>完全版</AppText>
               {!isPaid ? <AppText testID="upgrade-price" style={styles.purchaseAmount}>{price}</AppText> : null}
             </View>
             {!isPaid ? <AppText style={styles.purchaseDuration}>30日間利用できます</AppText> : null}

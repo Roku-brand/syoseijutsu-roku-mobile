@@ -4,12 +4,12 @@ import { AppText } from './ui';
 import { colors, fonts } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
-export function PersonalSectionHeading({ title, subtitle, action, actionLabel, onAction, leadingAction }: {
-  title: string; subtitle?: string; action?: string; actionLabel?: string; onAction?: () => void; leadingAction?: ReactNode;
+export function PersonalSectionHeading({ title, subtitle, action, actionLabel, onAction, leadingAction, hideCompactTitle = false }: {
+  title: string; subtitle?: string; action?: string; actionLabel?: string; onAction?: () => void; leadingAction?: ReactNode; hideCompactTitle?: boolean;
 }) {
   const { width } = useHydratedWindowDimensions();
   return <View style={styles.row}><View style={styles.copy}>
-    <AppText accessibilityRole="header" aria-level={2} style={[styles.title, width < 700 && styles.titleCompact]}>{title}</AppText>
+    {!hideCompactTitle || width >= 700 ? <AppText accessibilityRole="header" aria-level={2} style={[styles.title, width < 700 && styles.titleCompact]}>{title}</AppText> : null}
     {subtitle ? <AppText style={styles.subtitle}>{subtitle}</AppText> : null}
   </View>{leadingAction ? <View style={styles.actions}>{leadingAction}{onAction ? <Pressable accessibilityRole="button" accessibilityLabel={actionLabel ?? action} onPress={onAction} style={styles.action}><AppText style={styles.actionText}>{action}</AppText></Pressable> : null}</View> : onAction ? <Pressable accessibilityRole="button" accessibilityLabel={actionLabel ?? action} onPress={onAction} style={styles.action}><AppText style={styles.actionText}>{action}</AppText></Pressable> : null}</View>;
 }

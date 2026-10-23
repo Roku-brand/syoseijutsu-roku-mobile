@@ -11,7 +11,7 @@ import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { HomeRecommendationDeck } from '../../components/home-recommendation-deck';
 import { categoryMeta, techniqueById, theoryById } from '../../data/catalog';
 import { techniqueCategoryImages } from '../../data/category-images';
-import { isLockedTheoryShell } from '../../data/theory-display';
+import { getTheoryCoverSummary, isLockedTheoryShell } from '../../data/theory-display';
 import type { CategoryKey } from '../../data/types';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { useAppState } from '@/state/app-state';
@@ -42,7 +42,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const { desktop, width } = useResponsiveLayout();
   const [principlesVisible, setPrinciplesVisible] = useState(false);
-  const { accessState, catalogRevision } = useAccess();
+  const { accessState, catalogRevision, secureContentStatus, refreshAccess } = useAccess();
   const { historyIds, interests, savedIds, savedTheoryIds } = useAppState();
   const [readingDay, setReadingDay] = useState('');
   const [discoveryRound, setDiscoveryRound] = useState(0);
@@ -56,7 +56,7 @@ export default function HomeScreen() {
 
   const recent = useMemo<HomeContent[]>(() => historyIds.flatMap((id): HomeContent[] => {
     const card = techniqueById.get(id);
-    if (card && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(id))) return [{ type: 'technique', card }];
+    if (card && card.status !== 'locked' && card.title !== '完全版の処世術' && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(id))) return [{ type: 'technique', card }];
     const theory = theoryById.get(id);
     if (theory && !isLockedTheoryShell(theory) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(id))) return [{ type: 'theory', card: theory }];
     return [];
@@ -76,7 +76,7 @@ export default function HomeScreen() {
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
-          <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile, !desktop && { fontSize: Math.max(7.5, Math.min(9, (width - 60) / 35)) }]}>{item.label}</Text>
+          <Text numberOfLines={2} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile]}>{item.label}</Text>
         </Pressable>)}
       </View>
 
@@ -101,6 +101,7 @@ export default function HomeScreen() {
 
       <View testID="home-recommendations-section" style={styles.section}>
         <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} compact={!desktop} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
+      {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
       </View>
 
       <HomeSection title="続きから読む" testID="home-continue-section" onAction={() => router.push(APP_ROUTES.history)}>
@@ -134,21 +135,23 @@ function ContentCard({ item, width, onPress, testID, disabled = false }: { item:
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
       {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} maxLines={2} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
-      <Text style={styles.contentLink}>続きを読む →</Text>
+      <Text numberOfLines={2} style={styles.contentSummary}>{item.type === 'technique' ? item.card.essence || item.card.subtitle : getTheoryCoverSummary(item.card.summary)}</Text>
     </View>
   </Pressable>;
 }
 
 const styles = StyleSheet.create({
+  dataStatus: { minHeight: 44, justifyContent: 'center' },
+  dataStatusText: { color: colors.muted, fontSize: 12, lineHeight: 21, marginTop: 8 },
   page: { maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: 30 }, pageDesktop: { paddingBottom: 48 },
   body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
   shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
-  shortcut: { flex: 1, minWidth: 0, height: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
+  shortcut: { flex: 1, minWidth: 0, minHeight: 88, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
-  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
-  shortcutLabelMobile: { fontSize: 9, letterSpacing: -0.3, width: '100%' },
+  shortcutLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, fontWeight: '600', textAlign: 'center' },
+  shortcutLabelMobile: { paddingHorizontal: 2, width: '100%' },
   premiumBanner: { height: 126, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
   premiumBannerMobile: { height: 112, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
@@ -179,14 +182,14 @@ const styles = StyleSheet.create({
   sectionHeading: { marginBottom: 8 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
-  contentImage: { width: '100%', height: 100, backgroundColor: '#E6E0D5' },
-  contentBody: { height: 106, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10, overflow: 'hidden' },
+  contentImage: { width: '100%', height: 84, backgroundColor: '#E6E0D5' },
+  contentBody: { minHeight: 145, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10, overflow: 'hidden' },
   categoryLabel: { alignSelf: 'flex-start', color: '#9B6E27', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, borderColor: '#D6BD95', borderWidth: 1, borderRadius: 999, paddingHorizontal: 8, backgroundColor: '#FFF8EA' },
   categoryTheory: { color: '#506B86', borderColor: '#A5B8C7', backgroundColor: '#EFF4F7' },
-  contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', marginTop: 5, minHeight: 43 },
+  contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '600', marginTop: 6, minHeight: 52 },
+  contentSummary: { color: colors.inkSoft, fontSize: 13, lineHeight: 22, marginTop: 6 },
   contentLink: { alignSelf: 'flex-end', color: '#A3752B', fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, marginTop: 5 },
   emptyHistory: { minHeight: 89, justifyContent: 'center', paddingHorizontal: 16, borderWidth: 1, borderColor: '#E9E2D8', borderRadius: 14, backgroundColor: '#FFFDF9' },
   emptyHistoryTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
-  emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 11, lineHeight: 19, marginTop: 4 },
+  emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, marginTop: 4 },
 });
-

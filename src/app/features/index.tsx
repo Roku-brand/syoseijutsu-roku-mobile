@@ -12,6 +12,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { featureRoute } from '@/navigation/app-routes';
 import { FEATURE_CATEGORIES, type FeatureCategoryFilter } from '@/data/feature-categories';
 
+import { FeatureVisual } from '@/components/feature-visual';
 import { FeatureCard } from '@/components/feature-card';
 import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER } from '@/data/editorial-policy';
 
@@ -29,7 +30,7 @@ export default function FeaturesScreen() {
   const featured = articles.filter(article => article.is_featured);
   const hero = featured.find(article => article.id === selected) ?? featured[0];
   const listed = articles.filter(article => article.show_in_list);
-  const filtered = category === 'all' ? listed : listed.filter(article => article.category_id === category);
+  const filtered = category === 'all' ? listed.filter(article => article.id !== hero?.id) : listed.filter(article => article.category_id === category);
   const categoryTabs = (<ScrollView horizontal={!sidebar} showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="記事の主題" aria-orientation={sidebar ? 'vertical' : 'horizontal'} style={[styles.tabs, sidebar && styles.tabsVertical]} contentContainerStyle={sidebar ? styles.tabContentVertical : styles.tabContent}>
             {[{ id: 'all' as const, label: 'すべて' }, ...FEATURE_CATEGORIES].map(item => <Pressable key={item.id} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: category === item.id }} aria-selected={category === item.id} onPress={() => setCategory(item.id)} style={[styles.tab, sidebar && styles.tabVertical, category === item.id && (sidebar ? styles.tabSelectedVertical : styles.tabSelected)]}>
               <AppText style={[styles.tabText, category === item.id && styles.tabTextSelected]}>{item.label}</AppText>
@@ -38,14 +39,14 @@ export default function FeaturesScreen() {
   useEffect(() => { if (selected && !featured.some(item => item.id === selected)) setSelected(null); }, [selected, featured]);
   return <BookScreen contentContainerStyle={styles.page} testID="features-page">
     {loading ? <EmptyState title="特集を読み込んでいます" description="少しお待ちください。" /> : error ? <View style={styles.status}><EmptyState title="特集を読み込めませんでした" description={error} /><Pressable accessibilityRole="button" onPress={() => void refreshFeatures()} style={styles.retry}><AppText style={styles.gold}>もう一度読み込む</AppText></Pressable></View> : !articles.length ? <EmptyState title="特集" description="現在公開中の特集はありません。" /> : <>
-      {hero ? <View style={[styles.hero, compact && styles.heroCompact]} testID="features-hero">
+      {hero && category === 'all' ? <View style={[styles.hero, compact && styles.heroCompact]} testID="features-hero">
         <View style={[styles.heroCopy, compact && styles.heroCopyCompact]}>
           <AppText style={styles.heroLabel}>特集</AppText>
           <AppText style={[styles.heroTitle, compact && styles.heroTitleCompact]} numberOfLines={compact ? 3 : undefined} accessibilityRole="header" accessibilityLabel={hero.title} aria-level={1}>{hero.title === '押さえておくべき5つの処世術指針' ? '押さえておくべき\n5つの処世術指針' : hero.title}</AppText>
           {!compact && hero.lead ? <AppText style={styles.heroLead} numberOfLines={2}>{hero.lead}</AppText> : null}
           <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を読む`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.read, compact && styles.readCompact]}><AppText style={[styles.readText, compact && styles.readTextCompact]}>読む →</AppText></Pressable>
         </View>
-        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><Image source={featureCover(hero)?.source ?? featureImage(hero.image_path)} accessibilityLabel={featureCover(hero)?.alt ?? (hero.image_alt || hero.title)} contentFit="cover" contentPosition={compact ? 'right center' : 'center'} style={styles.heroImage} /></Pressable>
+        <Pressable accessibilityRole="link" accessibilityLabel={`${hero.title}を開く`} onPress={() => router.push(featureRoute(hero.slug))} style={[styles.heroVisual, compact && styles.heroVisualCompact]}><FeatureVisual article={hero} compact={compact} style={styles.heroImage} /></Pressable>
         {featured.length > 1 ? <View style={styles.previews}>{featured.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`ヒーローに${article.title}を表示`} accessibilityState={{ selected: article.id === hero.id }} onPress={() => setSelected(article.id)} style={[styles.preview, article.id === hero.id && styles.previewActive]}><Image source={featureCover(article)?.source ?? featureImage(article.image_path)} accessibilityLabel={article.title} contentFit="cover" style={styles.previewImage} /></Pressable>)}</View> : null}
       </View> : <AppText accessibilityRole="header" aria-level={1} style={styles.pageTitle}>特集</AppText>}
       {listed.length ? <View style={[styles.collection, compact && styles.collectionCompact]}>

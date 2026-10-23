@@ -10,6 +10,6 @@ export function TechniqueRow({ card }: { card: TechniqueCard }) {
   const { savedIds, toggleSaved } = useAppState();
   const showToast = useAppToast();
   const saved = savedIds.includes(card.id);
-  return <View style={styles.entry}><ShoseijutsuCard card={card} openLabel={`${card.title}を開く`} actions={<SaveDiamondButton saved={saved} accessibilityLabel={saved ? '保存を解除' : '保存'} onPress={() => { toggleSaved(card.id); showToast(saved ? '蔵書から外しました' : '蔵書に保存しました'); }} />} /></View>;
+  return <View style={styles.entry}><ShoseijutsuCard card={card} openLabel={`${card.title}を開く`} actions={<SaveDiamondButton saved={saved} accessibilityLabel={saved ? '保存を解除' : '保存'} onPress={() => { toggleSaved(card.id); showToast(saved ? 'お気に入りから外しました' : 'お気に入りに保存しました'); }} />} /></View>;
 }
 const styles = StyleSheet.create({ entry: { marginBottom: 16 } });

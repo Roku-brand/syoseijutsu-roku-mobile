@@ -38,8 +38,8 @@ export default function TechniqueIndexScreen() {
       </View>
       <View style={styles.heading}>
         <AppText testID="technique-index-count" style={styles.count}>{rows.length}件</AppText>
-      </View>
       <Pagination page={page} totalPages={totalPages} onSelect={value => router.setParams({ page: String(value) })} label="処世術一覧のページ選択" testID="technique-index-pagination" />
+      </View>
       <View testID="technique-index-list" style={styles.list}>
         {pageRows.map(card => <ShoseijutsuCard key={card.id} testID="technique-index-row" card={card} readable={canReadTechnique(accessState === 'paid' ? 'paid' : 'guest', card.id) && card.status !== 'locked'} />)}
         {!rows.length ? <AppText style={styles.empty}>該当する処世術はありません。</AppText> : null}
@@ -49,14 +49,14 @@ export default function TechniqueIndexScreen() {
 }
 
 const styles = StyleSheet.create({
-  content: { width: '100%', maxWidth: catalogTheme.maxWidth, alignSelf: 'center', paddingBottom: spacing.xl * 3 },
-  filters: { flexDirection: 'row', gap: 6, marginTop: spacing.lg },
-  filter: { flex: 1, minWidth: 0, minHeight: 48, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
+  content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: 0, paddingBottom: spacing.xl * 3 },
+  filters: { flexDirection: 'row', gap: 8, marginTop: spacing.lg },
+  filter: { flex: 1, minWidth: 0, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: '#F3EFE7' },
   filterActive: { backgroundColor: colors.gold },
-  filterText: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, lineHeight: 21, fontWeight: '600' },
+  filterText: { color: colors.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21, fontWeight: '600' },
   filterTextActive: { color: colors.surface },
-  heading: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', marginTop: 24, marginBottom: 14 },
-  count: { color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 37 },
+  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 16, marginBottom: 16 },
+  count: { color: colors.ink, fontFamily: fonts.serif, fontSize: 22, lineHeight: 32 },
   list: { gap: 12 },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });

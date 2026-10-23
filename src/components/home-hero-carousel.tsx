@@ -224,7 +224,7 @@ export function TheoryHeroSlide({ theory, domainLabel, desktop, slideIndex = 3 }
         </View>
         <HeroTitle testID={second ? 'home-brand-theory-title-2' : undefined} title={theory.title} desktop={desktop} mobileSize={22} style={[styles.theoryTitle, ...(desktop ? [] : [styles.theoryTitleMobile])]} />
         <View style={[styles.theoryRule, !desktop && styles.theoryRuleMobile]}><View style={styles.theoryRuleLine} /><View style={styles.theoryRuleDiamond} /><View style={styles.theoryRuleLine} /></View>
-        <Text testID="home-brand-theory-summary" numberOfLines={1} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
+        <Text testID="home-brand-theory-summary" numberOfLines={desktop ? 2 : 2} style={[styles.theorySummary, !desktop && styles.theorySummaryMobile]}>{firstDefinitionSentence(theory.summary)}</Text>
         <Cta label="理論を見る　→" dark compact={!desktop} centered testID={second ? 'home-brand-theory-cta-2' : 'home-brand-theory-cta'} />
       </View>
     </SlideShell>
@@ -263,13 +263,13 @@ function TheoryNode({ item, index, compact, onPress }: { item: HomeTheoryMapItem
       <View style={styles.theoryNodeCopy}>
         <Text style={[styles.theoryNodeCategory, compact && styles.theoryNodeCategoryMobile]}>{item.categoryTitle}</Text>
         <Text
-          numberOfLines={Platform.OS === 'web' ? undefined : 1}
-          adjustsFontSizeToFit={Platform.OS !== 'web'}
+          numberOfLines={3}
+          adjustsFontSizeToFit={false}
           minimumFontScale={0.4}
           style={[
             styles.theoryNodeTitle,
             compact && styles.theoryNodeTitleMobile,
-            singleLineTitleSize(item.title, !compact, 17, 9, 13, 10),
+            compact ? { fontSize: 12, lineHeight: 18 } : singleLineTitleSize(item.title, true, 17, 12, 13, 12),
           ]}
         >
           {item.title}
@@ -315,13 +315,13 @@ export function TechniqueTheoryMapSlide({ techniqueId, personaName, techniqueTit
             </View>
             <Text
               testID="home-brand-map-technique-title"
-              numberOfLines={Platform.OS === 'web' ? undefined : 1}
-              adjustsFontSizeToFit={Platform.OS !== 'web'}
+              numberOfLines={3}
+              adjustsFontSizeToFit={false}
               minimumFontScale={0.4}
               style={[
                 styles.mapTechniqueTitle,
                 !desktop && styles.mapTechniqueTitleMobile,
-                singleLineTitleSize(techniqueTitle, desktop, 22, 8.4, 13, 13),
+                desktop ? singleLineTitleSize(techniqueTitle, true, 22, 14, 13, 13) : { fontSize: 14, lineHeight: 22 },
               ]}
             >
               {techniqueTitle}
@@ -438,6 +438,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, []));
   const [foreground, setForeground] = useState(true);
   const [touching, setTouching] = useState(false);
+  const [paused, setPaused] = useState(false);
   const [autoplayRevision, setAutoplayRevision] = useState(0);
   const [activeIndex, setActiveIndex] = useState(() => readHomeReelPosition(HOME_REEL_ID));
   const [viewportWidth, setViewportWidth] = useState(0);
@@ -582,10 +583,10 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   }, []);
 
   useEffect(() => {
-    if (!focused || !foreground || touching || reduceMotion || !viewportWidth) return;
-    const timer = setTimeout(() => moveTo(activeIndexRef.current + 1), 5_000);
+    if (!focused || !foreground || touching || paused || reduceMotion || !viewportWidth) return;
+    const timer = setTimeout(() => moveTo(activeIndexRef.current + 1), activeIndex === 3 ? 16_000 : 10_000);
     return () => clearTimeout(timer);
-  }, [focused, foreground, touching, reduceMotion, viewportWidth, activeIndex, autoplayRevision, moveTo]);
+  }, [focused, foreground, touching, paused, reduceMotion, viewportWidth, activeIndex, autoplayRevision, moveTo]);
 
   const slides: Array<{ type: HomeHeroSlideType; node: React.ReactNode }> = [
     { type: 'todayTechnique', node: <TechniqueHeroSlide card={featuredTechnique ?? content.technique} desktop={desktop} /> },
@@ -630,6 +631,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             {viewportWidth ? slides.map((slide) => <View key={slide.type} style={[{ width: viewportWidth }, webTouchSlideStyle]}>{slide.node}</View>) : null}
           </ScrollView>
           <View pointerEvents="box-none" style={styles.dotsOverlay}>
+            <Pressable accessibilityRole="button" accessibilityLabel={paused ? '自動切り替えを再開' : '自動切り替えを停止'} onPress={() => setPaused(value => !value)} style={styles.pause}><Text style={styles.pauseText}>{paused ? '再開' : '停止'}</Text></Pressable>
             <View testID="home-brand-indicators" accessibilityRole="tablist" style={styles.dots}>
               {slides.map((slide, index) => (
                 <Pressable
@@ -678,7 +680,7 @@ const styles = StyleSheet.create({
   featureTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 34, fontWeight: '700', lineHeight: 48, letterSpacing: 1.3, marginTop: 15 },
   featureTitleMobile: { fontSize: 21, lineHeight: 29, letterSpacing: 0.3, marginTop: 7 },
   featureLead: { color: '#F4EEDF', fontFamily: fonts.serif, fontSize: 15, lineHeight: 26, marginTop: 11, maxWidth: 620 },
-  featureLeadMobile: { fontSize: 11, lineHeight: 17, marginTop: 6 },
+  featureLeadMobile: { fontSize: 13, lineHeight: 21, marginTop: 6 },
   featureNumber: { bottom: 24, color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 14, letterSpacing: 2, position: 'absolute', right: 30, zIndex: 1 },
   featureNumberMobile: { bottom: 13, fontSize: 10, right: 17 },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
@@ -723,12 +725,12 @@ const styles = StyleSheet.create({
   theoryRuleLine: { backgroundColor: 'rgba(196,148,57,0.65)', flex: 1, height: 1 },
   theoryRuleDiamond: { backgroundColor: '#C69A46', height: 7, transform: [{ rotate: '45deg' }], width: 7 },
   theorySummary: { alignSelf: 'center', color: '#EDE8DD', fontFamily: fonts.serif, fontSize: 15, lineHeight: 28, maxWidth: 760, textAlign: 'center' },
-  theorySummaryMobile: { fontSize: 10, letterSpacing: 0.1, lineHeight: 15, maxWidth: '100%', width: '100%' },
+  theorySummaryMobile: { fontSize: 12, letterSpacing: 0.1, lineHeight: 19, maxWidth: '100%', width: '100%' },
   mapContent: { minHeight: 380, paddingHorizontal: 48, paddingVertical: 17 },
-  mapContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 25, paddingVertical: 7 },
+  mapContentMobile: { flex: 1, minHeight: 0, paddingHorizontal: 16, paddingTop: 10, paddingBottom: 36 },
   mapHeadingGroup: { alignItems: 'center' },
   mapHeading: { color: '#72500E', fontFamily: fonts.serif, fontSize: 21, fontWeight: '600', letterSpacing: 1.65, lineHeight: 30, textAlign: 'center' },
-  mapHeadingMobile: { fontSize: 11, letterSpacing: 0.45, lineHeight: 15 },
+  mapHeadingMobile: { fontSize: 13, letterSpacing: 0, lineHeight: 20 },
   mapHeadingRule: { alignItems: 'center', flexDirection: 'row', marginTop: 5, maxWidth: 540, width: '58%' },
   mapHeadingRuleMobile: { marginTop: 2, width: '56%' },
   mapHeadingRuleLine: { backgroundColor: 'rgba(155,108,23,0.4)', flex: 1, height: 1 },
@@ -744,7 +746,7 @@ const styles = StyleSheet.create({
   mapPersonaBullet: { color: '#E0B85E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 17 },
   mapPersonaBulletMobile: { fontSize: 8, lineHeight: 9 },
   mapTechniquePersona: { color: '#EEE1C4', fontFamily: fonts.serif, fontSize: 11, letterSpacing: 0.85, lineHeight: 17 },
-  mapTechniquePersonaMobile: { fontSize: 6.6, letterSpacing: 0, lineHeight: 9 },
+  mapTechniquePersonaMobile: { fontSize: 12, letterSpacing: 0, lineHeight: 18 },
   mapTechniqueRule: { alignItems: 'center', flexDirection: 'row', marginTop: 10, width: '72%' },
   mapTechniqueRuleBottom: { marginTop: 13 },
   mapTechniqueRuleMobile: { marginTop: 5, width: '76%' },
@@ -770,7 +772,7 @@ const styles = StyleSheet.create({
   theoryNodeInnerFrameMobile: { borderRadius: 5, bottom: 2, left: 2, right: 2, top: 2 },
   theoryNodeCopy: { minWidth: 0 },
   theoryNodeCategory: { color: '#9A712B', fontFamily: fonts.serif, fontSize: 10, letterSpacing: 0.9 },
-  theoryNodeCategoryMobile: { fontSize: 6, letterSpacing: 0.1, lineHeight: 8 },
+  theoryNodeCategoryMobile: { display: 'none' },
   theoryNodeTitle: { color: '#171A1E', fontFamily: fonts.serif, fontSize: 17, fontWeight: '500', lineHeight: 23, marginTop: 3 },
   theoryNodeTitleMobile: { fontSize: 9, lineHeight: 11, marginTop: 0 },
   systemContent: { alignItems: 'center', minHeight: 380, paddingHorizontal: 34, paddingVertical: 20 },
@@ -835,7 +837,9 @@ const styles = StyleSheet.create({
   rokumaruMessageMobile: { fontSize: 12, lineHeight: 20, marginTop: 4, maxWidth: 112 },
   rokumaru: { bottom: 0, height: 380, position: 'absolute', right: 22, width: 380 },
   rokumaruMobile: { bottom: 0, height: 150, right: 0, width: 150 },
-  dotsOverlay: { alignItems: 'center', bottom: 4, left: 0, position: 'absolute', right: 0, zIndex: 3 },
+  pause: { minHeight: 44, minWidth: 44, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
+  pauseText: { color: '#FFFDF6', fontSize: 12, lineHeight: 18, backgroundColor: 'rgba(22,20,17,0.6)', borderRadius: 4, paddingHorizontal: 5 },
+  dotsOverlay: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 4, left: 0, position: 'absolute', right: 0, zIndex: 3 },
   dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.2)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 3 },
   dotTouch: { alignItems: 'center', height: 16, justifyContent: 'center', width: 14 },
   dot: { backgroundColor: '#E9E3D8', borderRadius: 2, height: 3, width: 3 },

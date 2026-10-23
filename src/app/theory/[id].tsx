@@ -2,7 +2,7 @@ import retiredIds from '@/data/generated/retired-theory-ids.json';
 import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
 import { TheoryNetwork } from '@/components/theory-network';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 
@@ -40,6 +40,8 @@ export default function TheoryDetailScreen() {
   const { accessState, catalogRevision, refreshAccess, secureContentStatus } = useAccess();
   const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
+  const [informationOpen, setInformationOpen] = useState(false);
+  useEffect(() => { setInformationOpen(false); }, [id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
@@ -128,8 +130,8 @@ export default function TheoryDetailScreen() {
         <RelatedFeatures kind="theory" id={theory.tagId} />
 
         <View testID="theory-information" style={[styles.informationSection, !compact && styles.readingWidth]}>
-          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.informationTitle}>{theory.categoryId === 'practical-wisdom' ? '実践知の情報' : '理論情報'}</AppText>
-          <TheoryInformation theory={theory} compact={compact} />
+          <Pressable accessibilityRole="button" aria-expanded={informationOpen} accessibilityLabel="出典・理論情報" onPress={() => setInformationOpen(value => !value)} style={styles.informationToggle}><AppText variant="serif" style={styles.informationTitle}>出典・理論情報</AppText><AppText style={styles.informationIndicator}>{informationOpen ? '−' : '＋'}</AppText></Pressable>
+          {informationOpen ? <TheoryInformation theory={theory} compact={compact} /> : null}
         </View>
       </DetailSwipe>
     </Screen>
@@ -182,8 +184,8 @@ const styles = StyleSheet.create({
   screen: { backgroundColor: colors.paper },
   screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 24, paddingBottom: 132 },
   screenContentCompact: { paddingHorizontal: 16, paddingTop: 18 },
-  article: { width: '100%', maxWidth: 1326, alignSelf: 'center' },
-  titleRegion: { paddingHorizontal: 18, paddingTop: 2 },
+  article: { width: '100%', maxWidth: 820, alignSelf: 'center' },
+  titleRegion: { paddingHorizontal: 0, paddingTop: 2 },
   metaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
   number: { color: '#575248', fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, letterSpacing: 1.4 },
   categoryTag: { paddingHorizontal: 13, paddingVertical: 5, borderWidth: 1, borderColor: '#D4C19D', borderRadius: radius.pill, backgroundColor: '#F5EFE4' },
@@ -196,9 +198,11 @@ const styles = StyleSheet.create({
   summaryTitle: { color: colors.goldDeep, fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 1.2 },
   summaryRule: { width: 48, height: 1, backgroundColor: '#C99A42' },
   summaryText: { marginTop: 12, color: '#22231F', fontFamily: fonts.serif, fontSize: 17, lineHeight: 31, letterSpacing: 0.25 },
-  summaryTextCompact: { fontSize: 15, lineHeight: 28 },
+  summaryTextCompact: { fontSize: 17, lineHeight: 32 },
+  informationToggle: { minHeight: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: colors.line },
+  informationIndicator: { color: colors.goldDeep, fontSize: 20 },
   informationSection: { marginTop: 34 },
-  informationTitle: { marginBottom: 10, paddingHorizontal: 16, color: '#A37420', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.7 },
+  informationTitle: { paddingVertical: 12, color: '#A37420', fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.7 },
   informationBody: { borderWidth: 1, borderColor: '#D3B77F', borderRadius: radius.sm, backgroundColor: 'rgba(255,253,248,0.62)', overflow: 'hidden' },
   informationRow: { minHeight: 58, flexDirection: 'row', alignItems: 'stretch', borderBottomWidth: 1, borderBottomColor: '#E3D5BF' },
   informationRowCompact: { flexDirection: 'column' },

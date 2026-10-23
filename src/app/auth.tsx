@@ -173,7 +173,7 @@ export default function AuthScreen() {
         ? '購入履歴を安全に保存し、機種変更後も完全版を復元できるよう、決済の前にアカウントを作成します。'
         : claimIntent
           ? '決済に使用したメールアドレスでアカウントを作成またはログインすると、完全版を安全に有効化できます。'
-          : '購入情報とプロフィールをアカウントで管理できます。蔵書・マイ処世術・学習記録等は原則として端末内に保存され、別端末へ自動同期されません。';
+          : '購入情報とプロフィールをアカウントで管理できます。お気に入り・マイ処世術・学習記録等は原則として端末内に保存され、別端末へ自動同期されません。';
   const submitLabel = submitting
     ? '確認中…'
     : mode === 'forgot'
@@ -309,7 +309,7 @@ function LoggedInAccount({ email, onSignOut }: { email: string; onSignOut: () =>
       <AppText style={styles.loggedInLabel}>ログイン中</AppText>
       <AppText variant="serif" style={styles.accountEmail}>{email}</AppText>
       <View style={styles.shortRule} />
-      <AppText style={styles.loggedInLead}>購入情報とプロフィールはこのアカウントに紐づきます。蔵書・マイ処世術・履歴等は原則として端末内に保存されます。</AppText>
+      <AppText style={styles.loggedInLead}>購入情報とプロフィールはこのアカウントに紐づきます。お気に入り・マイ処世術・履歴等は原則として端末内に保存されます。</AppText>
       <Pressable accessibilityRole="button" onPress={onSignOut} style={({ pressed }) => [styles.primary, styles.logoutButton, pressed && styles.pressed]}>
         <AppText variant="serif" style={styles.primaryText}>ログアウト</AppText>
       </Pressable>

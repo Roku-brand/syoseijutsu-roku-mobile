@@ -70,12 +70,12 @@ export default function SettingsScreen() {
           {user ? <SettingLink title="アカウントを削除" detail="アカウントと利用権を完全に削除します" href={'/settings/delete-account' as Href} danger subdued /> : null}
           <SettingLink
             title="端末内データをすべて消去"
-            detail="保存した蔵書、履歴、関心カテゴリなどを削除します"
+            detail="保存したお気に入り、履歴、関心カテゴリなどを削除します"
             onPress={() => Platform.OS === 'web' ? (
-              globalThis.confirm('この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。消去しますか？') && void clearPersonalData()
+              globalThis.confirm('この端末に保存されたお気に入り、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。消去しますか？') && void clearPersonalData()
             ) : Alert.alert(
               '端末内データをすべて消去',
-              'この端末に保存された蔵書、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
+              'この端末に保存されたお気に入り、履歴、関心カテゴリ、学習記録などを削除します。アカウントや購入情報は削除されません。',
               [
                 { text: 'キャンセル', style: 'cancel' },
                 { text: '消去する', style: 'destructive', onPress: () => void clearPersonalData() },

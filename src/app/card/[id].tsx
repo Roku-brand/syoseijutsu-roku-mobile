@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
   },
   summaryCopy: { width: '100%' },
   summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
-  summaryText: { color: '#141714', fontSize: 16, lineHeight: 29, fontWeight: '600' },
+  summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
   section: { marginTop: 24 },
   sectionRuled: {
     paddingTop: 19,
@@ -429,7 +429,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkText: { color: '#FFFFFF', fontSize: 11, lineHeight: 14, fontWeight: '800' },
-  practiceText: { flex: 1, color: '#20231F', fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  practiceText: { flex: 1, color: '#20231F', fontSize: 15, lineHeight: 26, fontWeight: '600' },
   exampleList: { gap: 9 },
   exampleCard: {
     paddingHorizontal: 15,
@@ -439,7 +439,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.sm,
     backgroundColor: '#F3EFE6',
   },
-  exampleText: { color: '#272923', fontSize: 13, lineHeight: 21 },
+  exampleText: { color: '#272923', fontSize: 16, lineHeight: 28 },
   cautionList: { gap: 9 },
   cautionCard: {
     width: '100%',
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: '#FDFBF7',
   },
-  cautionText: { color: '#272923', fontSize: 12, lineHeight: 19, fontWeight: '600' },
+  cautionText: { color: '#272923', fontSize: 14, lineHeight: 25, fontWeight: '600' },
   bottomTags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   bottomTag: {
     minHeight: 26,

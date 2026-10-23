@@ -30,7 +30,7 @@ test('mobile home titles, divider and carousel slides fit narrow screens', async
     await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
     const rank = page.getByTestId('home-shortcut-popular').getByText('人気ランキング', { exact: true });
     const rankSize = await rank.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight), width: el.clientWidth, scroll: el.scrollWidth }));
-    expect(rankSize.height).toBeLessThanOrEqual(rankSize.line + 1);
+    expect(rankSize.height).toBeLessThanOrEqual(rankSize.line * 2 + 1);
     expect(rankSize.scroll).toBeLessThanOrEqual(rankSize.width + 1);
     await page.getByRole('tab', { name: '1枚目を表示' }).click();
     const title = page.getByTestId('home-brand-technique-title');

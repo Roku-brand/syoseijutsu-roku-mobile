@@ -14,7 +14,7 @@ type Slide = { label: string; title: string; body: string; art: Artwork };
 const welcome: Slide[] = [
   { label: 'ようこそ、処世術禄へ！', title: '処世術の専門メディア', body: '人間関係、仕事、人生。\n毎日に役立つ処世術と、その背景にある理論を、あなたの手元に。', art: 'welcome' },
   { label: '人物像から、見つける', title: 'なりたい自分から、\n知恵を探そう。', body: '「仕事ができる人」「自分らしく生きられる人」。人物像や気になる言葉から、今の自分に合う処世術を探せます。', art: 'personas' },
-  { label: '学びを、自分のものに', title: '学んで、試して、\n自分の言葉で残す。', body: 'ケースに挑戦し、気に入った知恵は「蔵書」へ。日常での気づきは「マイ処世術」に残せます。', art: 'practice' },
+  { label: '学びを、自分のものに', title: '学んで、試して、\n自分の言葉で残す。', body: 'ケースに挑戦し、気に入った知恵は「お気に入り」へ。日常での気づきは「マイ処世術」に残せます。', art: 'practice' },
   { label: 'さあ、はじめましょう', title: 'あなたに合った\n始め方で。', body: 'まずは無料で体験。\nもっと広く、深く学びたくなったら、完全版ですべての知恵を辿れます。', art: 'editions' },
 ];
 const complete: Slide[] = [
@@ -161,11 +161,11 @@ function GuideArtwork({ type, complete: isComplete, compact, desktop }: { type: 
   if (compact) return <View style={styles.practiceCompact} accessible={false}>
     <AppText style={[styles.artKicker, styles.artKickerCompact]}>知恵を、あなたのものに。</AppText>
     <View style={styles.practiceConceptRow}>{[
-      ['学ぶ', 'ケースに挑戦'], ['保存', '蔵書で読み返す'], ['記す', 'マイ処世術へ'],
+      ['学ぶ', 'ケースに挑戦'], ['保存', 'お気に入りで読み返す'], ['記す', 'マイ処世術へ'],
     ].map(([label, note], index) => <View key={label} style={styles.practiceConcept}><AppText style={styles.conceptNumber}>0{index + 1}</AppText><AppText style={styles.conceptLabel}>{label}</AppText><AppText style={styles.conceptNote}>{note}</AppText></View>)}</View>
   </View>;
   return <View style={styles.practiceArt} accessible={false}>
-    <View style={styles.libraryPreview}><View style={styles.previewHeading}><AppText style={styles.previewTitle}>蔵書</AppText><AppText style={styles.previewTag}>気に入った知恵を、手元に</AppText></View>
+    <View style={styles.libraryPreview}><View style={styles.previewHeading}><AppText style={styles.previewTitle}>お気に入り</AppText><AppText style={styles.previewTag}>気に入った知恵を、手元に</AppText></View>
       {['人との距離を、少しずつ縮める', '大切なことから、一つずつ'].map((label, index) => <View key={label} style={styles.bookRow}><AppText style={styles.bookNumber}>0{index + 1}</AppText><AppText style={styles.bookTitle}>{label}</AppText><View style={styles.bookMark} /></View>)}
     </View>
     <View style={styles.memoPreview}><AppText style={styles.memoLabel}>マイ処世術</AppText><AppText style={styles.memoTitle}>{'一呼吸おいて、\n最後まで話を聞く。'}</AppText><AppText style={styles.memoCaption}>気づきを、自分の言葉で。</AppText></View>

@@ -182,6 +182,7 @@ test('理論詳細は短い定義・処世術・理論・情報の順で表示�
   expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
   expect(article.indexOf('この考え方を実生活でどう使う？')).toBeLessThan(article.indexOf('関連する知識'));
   expect(article.indexOf('関連する知識')).toBeLessThan(article.indexOf('理論情報'));
+  await page.getByRole('button', { name: '出典・理論情報', exact: true }).click();
   await expect(page.getByTestId('theory-information')).toContainText('出典状態');
   await expect(page.getByTestId('theory-information')).toContainText('提唱者');
   await expect(page.getByTestId('theory-information')).toContainText('著作・研究');
@@ -198,7 +199,8 @@ test('理論詳細の関連項目は横幅いっぱいの読みやすいボッ�
   const [techniqueBox, theoryBox] = await Promise.all([techniqueRow.boundingBox(), theoryRow.boundingBox()]);
   expect(techniqueBox).not.toBeNull();
   expect(theoryBox).not.toBeNull();
-  expect(techniqueBox!.width).toBeGreaterThan(1100);
+  expect(techniqueBox!.width).toBeGreaterThan(700);
+  expect(techniqueBox!.width).toBeLessThanOrEqual(820);
   expect(techniqueBox!.height).toBeGreaterThanOrEqual(94);
   expect(Math.abs(techniqueBox!.width - theoryBox!.width)).toBeLessThan(2);
 });
@@ -221,7 +223,7 @@ test('処世術詳細の関連理論と関連処世術も同じボックスで�
 test('persona technique menu leaves saving to each technique detail', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
-  await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'お気に入りに保存' })).toHaveCount(0);
   await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(14);
 });
 
@@ -488,6 +490,7 @@ test('追加理論は詳細・出典・関連導線まで表示される', async
   await page.goto('/theory/kb_706');
   await expect(page.getByTestId('theory-title')).toHaveText('ダニング＝クルーガー効果');
   await expect(page.getByTestId('theory-summary')).toContainText('自分の出来を高く見積もりやすいこと。');
+  await page.getByRole('button', { name: '出典・理論情報', exact: true }).click();
   await expect(page.getByTestId('theory-information')).toContainText('David Dunning');
   // The authoritative DB has no technique links for kb_706. Do not restore
   // outdated generated-only associations just to fill the section.
@@ -801,12 +804,12 @@ test('詳細ヘッダーは保存・共有を維持し、設定や五大原則�
     await expect(header.getByRole('button', { name: '処世術の五大原則を開く' })).toHaveCount(0);
     await expect(header.getByRole('button', { name: '共有', exact: true })).toBeVisible();
     await expect(header.getByTestId('header-share-symbol')).toBeVisible();
-    await header.getByRole('button', { name: '蔵書に保存', exact: true }).click();
-    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
+    await header.getByRole('button', { name: 'お気に入りに保存', exact: true }).click();
+    await expect(header.getByRole('button', { name: 'お気に入りから外す', exact: true })).toBeVisible();
     await page.reload();
-    await expect(header.getByRole('button', { name: '蔵書から外す', exact: true })).toBeVisible();
-    await header.getByRole('button', { name: '蔵書から外す', exact: true }).click();
-    await expect(header.getByRole('button', { name: '蔵書に保存', exact: true })).toBeVisible();
+    await expect(header.getByRole('button', { name: 'お気に入りから外す', exact: true })).toBeVisible();
+    await header.getByRole('button', { name: 'お気に入りから外す', exact: true }).click();
+    await expect(header.getByRole('button', { name: 'お気に入りに保存', exact: true })).toBeVisible();
     const buttons = await header.getByRole('button').evaluateAll(elements => elements.map(element => {
       const rect = element.getBoundingClientRect();
       return { width: rect.width, height: rect.height, right: rect.right };
@@ -848,7 +851,7 @@ test('主ナビはPCとタブレットで幅を失わない', async ({ page }) =
 test('人物像ページは処世術を選ぶメニューに徹する', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
-  await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'お気に入りに保存' })).toHaveCount(0);
   await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(14);
 });
 
@@ -1196,7 +1199,7 @@ test('権威付けの装飾と人物像メニューの保存操作を表示し�
   await expect(page.getByText('COMPLETE EDITION')).toHaveCount(0);
   await expect(page.getByText('♛')).toHaveCount(0);
   await page.goto('/subcategory/interpersonal/印象がいい人');
-  await expect(page.getByRole('button', { name: '蔵書に保存' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'お気に入りに保存' })).toHaveCount(0);
 });
 
 test('各領域の無料2人物像は配下の処世術をすべて読める', async ({ page }) => {
