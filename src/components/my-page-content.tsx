@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
-import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from './book-ui';
 import { AppText } from './ui';
@@ -13,13 +13,12 @@ import { useAccess } from '@/access/access-state';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 import { formatRemainingAccess } from '@/lib/purchase';
+import { usePersonalMemoRoute } from '@/hooks/use-personal-memo-route';
 const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.webp');
 
 export default function MyPageContent() {
   const router = useRouter();
-  const navigation = useNavigation();
-  const { compose } = useLocalSearchParams<{ compose?: string }>();
-  const onComposeHandled = useCallback(() => navigation.dispatch({ type: 'SET_PARAMS', payload: { params: { compose: undefined } } }), [navigation]);
+  const { composeRequested, onComposeHandled } = usePersonalMemoRoute();
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
   const { user, profile, loading: authLoading } = useAuth();
@@ -88,7 +87,7 @@ export default function MyPageContent() {
 
       <View style={dashboardStyles.sections}>
         <FavoritesOverview />
-        <PersonalMemosContent preview composeRequested={compose === '1'} onComposeHandled={onComposeHandled} />
+        <PersonalMemosContent preview composeRequested={composeRequested} onComposeHandled={onComposeHandled} />
         <Pressable testID="history-entry" accessibilityRole="button" accessibilityLabel="閲覧履歴を開く" onPress={() => router.push(APP_ROUTES.history)} style={dashboardStyles.history}>
           <View style={dashboardStyles.historyCopy}><AppText accessibilityRole="header" aria-level={2} style={dashboardStyles.historyTitle}>閲覧履歴</AppText><AppText style={dashboardStyles.historySubtitle}>以前読んだ知識を振り返る</AppText></View><AppText style={dashboardStyles.arrow}>›</AppText>
         </Pressable>
