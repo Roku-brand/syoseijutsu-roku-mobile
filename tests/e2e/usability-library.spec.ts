@@ -66,7 +66,7 @@ test('旧内部分類URLを解決してリールの選択状態を復元する',
   await expect(page.getByTestId('theory-subcategory-row')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
-test('既存の保存と旧理論IDを維持し、お気に入りを種類別に表示する', async ({ page }) => {
+test('既存の保存と利用可能な旧理論IDを維持し、お気に入りを種類別に表示する', async ({ page }) => {
   await page.addInitScript(({ key }) => {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ savedIds: ['master336-001'], savedTheoryIds: ['kb_392', 'kb_016'], libraryFolders: [{ id: 'old', name: '以前の蔵書', createdAt: '2026-01-01T00:00:00Z' }], libraryFolderByItem: { 'theory:kb_392': 'old' } }));
   }, { key: stateKey });
@@ -82,7 +82,7 @@ test('既存の保存と旧理論IDを維持し、お気に入りを種類別に
   await expect(page.getByTestId('personal-content-theory')).toHaveCount(1);
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '{}'), stateKey);
   expect(stored.savedIds).toEqual(['master336-001']);
-  expect(stored.savedTheoryIds).toEqual(['kb_392', 'kb_016']);
+  expect(stored.savedTheoryIds).toEqual(['kb_016']);
 });
 
 test('保存した完全版のタイトルは整理できても、有料本文は購入案内で保護する', async ({ page }) => {
