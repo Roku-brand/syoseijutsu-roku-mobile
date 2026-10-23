@@ -30,7 +30,8 @@ async function compactPages(pagination: Locator, ink: string) {
   await expect(pagination.getByRole('button')).toHaveCount(3);
   const trigger = pagination.getByRole('button', { name: /一覧のページ選択：/ });
   await expect(trigger).toContainText('1');
-  await expect(trigger).toHaveCSS('border-color', ink);
+  await expect(trigger).toHaveCSS('border-top-width', '0px');
+  await expect(trigger.getByText('1', { exact: true })).toHaveCSS('color', ink);
   await expect(pagination.getByRole('button', { name: '前のページ' })).toBeDisabled();
   const box = await pagination.boundingBox();
   expect(box!.height).toBe(44);
@@ -69,11 +70,10 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'left');
   await expect(entry.getByTestId('theory-card-ornament')).toBeVisible();
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
-  await expect(entry.getByTestId('theory-card-subcategory')).toHaveText(theory.subcategoryTitle);
-  const [entryBox, metaBox, codeBox] = await Promise.all([entry.boundingBox(), entry.getByTestId('theory-card-subcategory').boundingBox(), entry.getByTestId('theory-card-id').boundingBox()]);
+  await expect(entry.getByTestId('theory-card-subcategory')).toHaveCount(0);
+  const [entryBox, codeBox] = await Promise.all([entry.boundingBox(), entry.getByTestId('theory-card-id').boundingBox()]);
   expect(entryBox!.height).toBeGreaterThanOrEqual(148);
-  expect(metaBox!.x - entryBox!.x).toBeGreaterThanOrEqual(16);
-  expect(metaBox!.y - entryBox!.y).toBeGreaterThanOrEqual(14);
+  expect(codeBox!.y - entryBox!.y).toBeGreaterThanOrEqual(14);
   expect(entryBox!.x + entryBox!.width - codeBox!.x - codeBox!.width).toBeGreaterThanOrEqual(16);
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`theories-${width}.png`), scale: 'css' });

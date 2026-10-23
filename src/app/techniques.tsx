@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   filterText: { color: colors.ink, fontFamily: fonts.sans, fontSize: 13, lineHeight: 21, fontWeight: '600' },
   filterTextActive: { color: colors.surface },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 16, marginBottom: 16 },
-  count: { color: colors.ink, fontFamily: fonts.serif, fontSize: 22, lineHeight: 32 },
+  count: { color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22 },
   list: { gap: 12 },
   empty: { paddingVertical: 30, color: colors.muted, fontSize: 15 },
 });
