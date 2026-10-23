@@ -907,7 +907,7 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   expect(recommendations!.y).toBeLessThan(continueSection!.y);
   expect(create!.y).toBeLessThan(banner!.y);
   await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
-  await expect(page.getByTestId('home-create-technique')).toContainText('処世術を作る');
+  await expect(page.getByTestId('home-create-technique')).toContainText(/処世術を\s*作る/);
   await expect(page.getByTestId('home-continue-section')).toContainText('続きから読む');
   await page.getByTestId('home-shortcut-principles').click();
   await expect(page.getByText('処世術の五大原則', { exact: true })).toBeVisible();
