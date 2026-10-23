@@ -66,51 +66,29 @@ test('旧内部分類URLを解決してリールの選択状態を復元する',
   await expect(page.getByTestId('theory-subcategory-row')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBeTruthy();
 });
-test('既存の保存と旧理論IDを維持し、フォルダー作成・移動・復元・名前変更・削除を両画面で使える', async ({ page }) => {
+test('既存の保存と利用可能な旧理論IDを維持し、お気に入りを種類別に表示する', async ({ page }) => {
   await page.addInitScript(({ key }) => {
     if (!localStorage.getItem(key)) localStorage.setItem(key, JSON.stringify({ savedIds: ['master336-001'], savedTheoryIds: ['kb_392', 'kb_016'], libraryFolders: [{ id: 'old', name: '以前の蔵書', createdAt: '2026-01-01T00:00:00Z' }], libraryFolderByItem: { 'theory:kb_392': 'old' } }));
   }, { key: stateKey });
   await page.goto('/library');
-  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toContainText('2件');
-  await expect(page.getByRole('button', { name: '蔵書：以前の蔵書', exact: true })).toContainText('1件');
-  await page.getByRole('button', { name: 'フォルダーを追加', exact: true }).click();
-  await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事で使う知恵');
-  await page.getByRole('button', { name: '蔵書フォルダーを保存', exact: true }).click();
-  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
-  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
-  const moves = page.getByRole('button', { name: /の保存先を変更$/ });
-  for (let index = 0; index < 2; index++) {
-    await moves.nth(index).click();
-    await page.getByRole('button', { name: '保存先：仕事で使う知恵', exact: true }).click();
-  }
+  await expect(page.getByTestId('saved-kind-tabs').getByRole('tab')).toHaveCount(3);
+  await expect(page.getByTestId('folder-fronts')).toHaveCount(0);
+  await expect(page.getByTestId('personal-content-technique')).toHaveCount(1);
+  await expect(page.getByRole('button', { name: 'フォルダーを追加', exact: true })).toHaveCount(0);
+  await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
+  await expect(page.getByTestId('personal-content-theory')).toHaveCount(1);
   await page.reload();
-  await expect(page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true })).toContainText('2件');
-  await page.goto('/my-os');
-  await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
-  await page.getByRole('button', { name: '蔵書：仕事で使う知恵', exact: true }).click();
-  await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
-  await page.getByRole('textbox', { name: '蔵書フォルダー名', exact: true }).fill('仕事の知恵');
-  await page.getByRole('button', { name: '蔵書フォルダーを保存', exact: true }).click();
-  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true })).toContainText('2件');
-  await page.getByRole('button', { name: '蔵書：仕事の知恵', exact: true }).click();
-  await expect(page.getByRole('dialog', { name: '蔵書フォルダーの編集', exact: true })).toBeHidden();
-  await page.screenshot({ path: test.info().outputPath('library-mobile.png') });
-  await page.getByRole('button', { name: '蔵書フォルダーを編集', exact: true }).click();
-  await page.getByRole('button', { name: '蔵書フォルダーを削除', exact: true }).click();
-  await page.getByRole('button', { name: 'フォルダーだけ削除', exact: true }).click();
-  await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：未整理', exact: true })).toContainText('2件');
+  await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
+  await expect(page.getByTestId('personal-content-theory')).toHaveCount(1);
   const stored = await page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '{}'), stateKey);
   expect(stored.savedIds).toEqual(['master336-001']);
   expect(stored.savedTheoryIds).toEqual(['kb_016']);
-  expect(stored.libraryFolderByItem).toEqual({});
 });
 
 test('保存した完全版のタイトルは整理できても、有料本文は購入案内で保護する', async ({ page }) => {
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ savedTheoryIds: ['kb_869'] })), stateKey);
   await page.goto('/library');
-  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
+  await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
   await page.getByRole('button', { name: 'プロテウス効果を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/upgrade/);
   await expect(page.getByTestId('theory-summary')).toHaveCount(0);

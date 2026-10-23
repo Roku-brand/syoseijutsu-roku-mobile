@@ -133,7 +133,7 @@ function ContentCard({ item, width, onPress, testID, disabled = false }: { item:
     <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
     <View style={styles.contentBody}>
       <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
-      {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
+      {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} maxLines={2} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
       <Text style={styles.contentLink}>続きを読む →</Text>
     </View>
   </Pressable>;
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
   contentImage: { width: '100%', height: 100, backgroundColor: '#E6E0D5' },
-  contentBody: { minHeight: 97, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10 },
+  contentBody: { height: 106, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10, overflow: 'hidden' },
   categoryLabel: { alignSelf: 'flex-start', color: '#9B6E27', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, borderColor: '#D6BD95', borderWidth: 1, borderRadius: 999, paddingHorizontal: 8, backgroundColor: '#FFF8EA' },
   categoryTheory: { color: '#506B86', borderColor: '#A5B8C7', backgroundColor: '#EFF4F7' },
   contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 22, fontWeight: '600', marginTop: 5, minHeight: 43 },

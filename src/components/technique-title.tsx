@@ -3,7 +3,7 @@ import { Platform, StyleSheet, Text, useWindowDimensions, type TextProps, type T
 import { colors, fonts } from '@/constants/theme';
 import { layoutTechniqueTitle, type TitleLayout } from '@/lib/technique-title-layout';
 
-export function TechniqueTitle({ title, minimumFontSize = 16, style, onLayout, ...props }: Omit<TextProps, 'children' | 'numberOfLines'> & { title: string; minimumFontSize?: number }) {
+export function TechniqueTitle({ title, minimumFontSize = 16, maxLines, style, onLayout, ...props }: Omit<TextProps, 'children' | 'numberOfLines'> & { title: string; minimumFontSize?: number; maxLines?: number }) {
   const ref = useRef<Text>(null);
   const [width, setWidth] = useState(0);
   const [layout, setLayout] = useState<(TitleLayout & { title: string }) | null>(null);
@@ -45,7 +45,7 @@ export function TechniqueTitle({ title, minimumFontSize = 16, style, onLayout, .
 
   const current = layout?.title === title ? layout : null;
   const lines = current?.lines ?? [title];
-  return <Text {...props} ref={ref} accessibilityLabel={props.accessibilityLabel ?? title} onLayout={event => { setWidth(event.nativeEvent.layout.width); onLayout?.(event); }} style={[{ color: colors.ink, fontFamily: fonts.serif, alignSelf: 'stretch' }, style, current && { fontSize: current.fontSize, lineHeight: Math.ceil(current.fontSize * lineRatio) }]}>
+  return <Text {...props} numberOfLines={maxLines} ref={ref} accessibilityLabel={props.accessibilityLabel ?? title} onLayout={event => { setWidth(event.nativeEvent.layout.width); onLayout?.(event); }} style={[{ color: colors.ink, fontFamily: fonts.serif, alignSelf: 'stretch' }, style, current && { fontSize: current.fontSize, lineHeight: Math.ceil(current.fontSize * lineRatio) }]}>
     {Platform.OS === 'web' ? current ? lines.map((line, index) => <Text key={index} style={webLineStyle}>{line}</Text>) : title : lines.join('\n')}
   </Text>;
 }
