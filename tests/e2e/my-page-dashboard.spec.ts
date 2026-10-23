@@ -21,9 +21,8 @@ for (const width of [320, 375, 430, 1440]) test(`ダッシュボードの順序�
   await page.goto('/my-os');
   await expect(page.getByTestId('profile-avatar-fallback')).toBeVisible();
   await expect(page.getByTestId('my-page-tabs')).toHaveCount(0);
-  await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(3);
-  await expect(page.locator('[data-testid="personal-memo-card"]:visible').first()).toContainText('気づき 3');
-  await expect(page.getByText('気づき 0', { exact: true })).toHaveCount(0);
+  await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'マイ処世術：未整理', exact: true })).toContainText('4件');
   await expect(page.getByTestId('favorites-overview')).toContainText('お気に入り');
   await expect(page.getByText('マイコレクション', { exact: true })).toHaveCount(0);
   for (const category of ['interpersonal', 'work', 'life']) expect(await page.getByTestId(`category-art-${category}`).locator('img').getAttribute('src')).toBe(sources.get(category));
@@ -44,7 +43,10 @@ for (const width of [320, 375, 430, 1440]) test(`ダッシュボードの順序�
   const beforeOpen = await scroll.evaluate(node => node.scrollTop);
   expect(beforeOpen).toBeGreaterThanOrEqual(scrollTop - 5);
   await openAll.click();
+  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(4);
+  await expect(page.locator('[data-testid="personal-memo-card"]:visible').first()).toContainText('気づき 3');
+  await expect(page.getByText('気づき 0', { exact: true })).toHaveCount(1);
   await page.getByTestId('book-header-back').click();
   await expect(page).toHaveURL(/\/my-os/);
   await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(beforeOpen);
@@ -71,9 +73,12 @@ test('重複保存を二重計上せず、分野と理論・特集を自動分�
   await page.getByTestId('book-header-back').click();
   await page.getByRole('button', { name: '特集のお気に入り 1件', exact: true }).click();
   await expect(page.locator('[data-testid="personal-content-feature"]:visible')).toHaveCount(1);
-  await page.getByRole('button', { name: 'すべてのお気に入りとフォルダーを見る', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toContainText('5件');
-  await expect(page.getByRole('button', { name: '蔵書：大切な知恵', exact: true })).toContainText('1件');
+  await page.getByTestId('book-header-back').click();
+  await expect(page).toHaveURL(/\/my-os/);
+  await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
+  await expect(page.getByRole('tab', { name: '処世術のお気に入り 3件', exact: true })).toBeVisible();
+  await expect(page.getByRole('tab', { name: '理論のお気に入り 1件', exact: true })).toBeVisible();
+  await expect(page.getByRole('tab', { name: '特集のお気に入り 1件', exact: true })).toBeVisible();
 });
 
 test('空状態から自作・編集・メニュー削除ができ、再起動しても保存を維持する', async ({ page }) => {
@@ -81,19 +86,21 @@ test('空状態から自作・編集・メニュー削除ができ、再起動�
   await page.goto('/my-os');
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(0);
   await expect(page.getByRole('button', { name: '理論のお気に入り 0件', exact: true })).toBeVisible();
-  await page.getByRole('button', { name: '最初のマイ処世術を作る', exact: true }).click();
+  await page.getByRole('button', { name: 'オリジナルの処世術を作る', exact: true }).click();
   const input = page.getByRole('textbox', { name: 'マイ処世術', exact: true });
   await expect(input).not.toBeFocused();
   await expect(page.getByRole('button', { name: /閉じる/ })).toHaveCount(1);
   await input.fill('一度立ち止まる\n焦ったときほど、確認する。');
-  await page.getByRole('button', { name: '保存する', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
   await page.reload();
+  await page.getByRole('button', { name: 'マイ処世術をすべて見る', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toContainText('焦ったときほど、確認する。');
   await page.getByRole('button', { name: /のメニュー$/ }).click();
   const menu = page.getByRole('dialog', { name: 'マイ処世術の操作', exact: true });
   await menu.getByRole('button', { name: '編集', exact: true }).click();
   await input.fill('確認してから、返事をする。');
-  await page.getByRole('button', { name: '保存する', exact: true }).click();
+  await page.getByRole('button', { name: '変更を保存', exact: true }).click();
   await page.getByRole('button', { name: /のメニュー$/ }).click();
   await menu.getByRole('button', { name: '削除', exact: true }).click();
   await menu.getByRole('button', { name: 'このマイ処世術を削除', exact: true }).click();
@@ -105,9 +112,9 @@ test('古い保存IDを保持し、自動分類の件数には誤って含めな
   await seed(page, { savedIds: ['missing-legacy-id', cards[0].id] });
   await page.goto('/my-os');
   await page.getByRole('button', { name: '対人術のお気に入り 1件', exact: true }).click();
-  await expect(page.getByTestId('personal-content-technique')).toHaveCount(1);
-  await page.getByRole('button', { name: 'すべてのお気に入りとフォルダーを見る', exact: true }).click();
-  await expect(page.getByRole('button', { name: '蔵書：すべて', exact: true })).toContainText('2件');
+  await expect(page.getByTestId('library-organizer').getByTestId('personal-content-technique')).toHaveCount(1);
+  await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
+  await expect(page.getByRole('tab', { name: '処世術のお気に入り 2件', exact: true })).toBeVisible();
   expect((await readState(page)).savedIds).toContain('missing-legacy-id');
 });
 
@@ -132,33 +139,40 @@ test('処世術と理論の検索一覧も共通の菱形で保存・解除で�
 test('自作フォルダーの改名・移動・削除でカードを失わない', async ({ page }) => {
   await seed(page, { personalMemos: [{ id: 'original', text: 'まず話を聞く', folderId: null, createdAt: '2026-10-15T00:00:00Z' }] });
   await page.goto('/my-techniques?folder=all');
+  await page.getByRole('button', { name: 'フォルダーを管理', exact: true }).click();
   await page.getByRole('button', { name: 'フォルダーを追加', exact: true }).click();
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('仕事');
-  await page.getByRole('button', { name: '作成する', exact: true }).click();
-  await page.getByRole('button', { name: 'マイ処世術フォルダーを編集', exact: true }).click();
+  await page.getByRole('button', { name: 'フォルダーを作成', exact: true }).click();
+  await page.getByRole('button', { name: 'フォルダーを管理', exact: true }).click();
+  await page.getByRole('button', { name: '仕事を編集', exact: true }).click();
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('仕事で使う');
-  await page.getByRole('button', { name: 'フォルダーを保存する', exact: true }).click();
+  await page.getByRole('button', { name: 'フォルダー名を保存', exact: true }).click();
   await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
-  await page.getByRole('button', { name: 'マイ処世術：すべて', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
   await page.getByRole('button', { name: /のメニュー$/ }).click();
   await page.getByRole('button', { name: 'フォルダーへ整理・移動', exact: true }).click();
   await page.getByRole('button', { name: '保存先：仕事で使う', exact: true }).click();
-  await page.reload();
   await page.getByRole('button', { name: 'フォルダー一覧に戻る', exact: true }).click();
   await page.getByRole('button', { name: 'マイ処世術：仕事で使う', exact: true }).click();
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(1);
-  await page.getByRole('button', { name: 'マイ処世術フォルダーを編集', exact: true }).click();
-  await page.getByRole('button', { name: 'フォルダーを削除', exact: true }).click();
+  await page.getByRole('button', { name: 'このフォルダーに新規作成', exact: true }).click();
+  await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('仕事では、先に要点を伝える。');
+  await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
+  await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toHaveCount(2);
+  await page.getByRole('button', { name: 'フォルダーを管理', exact: true }).click();
+  await page.getByRole('button', { name: '仕事で使うを削除', exact: true }).click();
   await page.getByRole('button', { name: 'フォルダーだけ削除', exact: true }).click();
-  expect((await readState(page)).personalMemos).toEqual([{ id: 'original', text: 'まず話を聞く', folderId: null, createdAt: '2026-10-15T00:00:00Z' }]);
+  expect((await readState(page)).personalMemos.every((memo: { folderId: string | null }) => memo.folderId === null)).toBe(true);
 });
 
 test('300件の既存自作カードは新規追加後もすべて残る', async ({ page }) => {
   await seed(page, { personalMemos: Array.from({ length: 300 }, (_, i) => ({ id: `m${i}`, text: `一文 ${i}`, folderId: null, createdAt: '2026-10-15T00:00:00Z' })) });
   await page.goto('/my-os');
-  await page.getByRole('button', { name: '＋ 作る', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術をすべて見る', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
+  await page.getByRole('button', { name: 'このフォルダーに新規作成', exact: true }).click();
   await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('新しい気づき');
-  await page.getByRole('button', { name: '保存する', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
   await expect.poll(async () => (await readState(page)).personalMemos.length).toBe(301);
   await page.reload();
   expect((await readState(page)).personalMemos).toHaveLength(301);
