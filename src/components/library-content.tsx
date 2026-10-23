@@ -39,6 +39,7 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
   const clearScope = () => { setScope(undefined); setLimit(20); router.setParams({ category: undefined }); };
   const selectKind = (next: SavedKind) => { setSelectedKind(next); setLimit(20); };
   const label = selectedKind === 'technique' ? '処世術' : selectedKind === 'theory' ? '理論' : '特集';
+  const featurePending = selectedKind === 'feature' && savedFeatureIds.length > 0 && (loading || Boolean(error));
 
   return <View testID="library-organizer" style={styles.content}>
     <View style={styles.heading}>
@@ -48,7 +49,7 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
     <SavedKindTabs selected={selectedKind} onSelect={selectKind} counts={counts} />
     {scoped ? <View style={styles.scope}><AppText style={styles.scopeLabel}>{scopeLabel}</AppText><Pressable accessibilityRole="button" accessibilityLabel="絞り込みを解除" onPress={clearScope} style={styles.action}><AppText style={styles.actionText}>解除 ×</AppText></Pressable></View> : null}
     <AppText accessibilityRole="header" aria-level={3} style={styles.kindHeading}>{label} · {visible.length}件</AppText>
-    {visible.length ? visible.slice(0, limit).map(row => <SavedKnowledgeCard key={libraryItemKey(row.kind, row.id)} row={row}
+    {visible.length && !featurePending ? visible.slice(0, limit).map(row => <SavedKnowledgeCard key={libraryItemKey(row.kind, row.id)} row={row}
       onPress={() => router.push(row.kind === 'feature' ? featureRoute(row.article?.slug ?? row.id) : row.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: row.id } } : { pathname: '/card/[id]', params: { id: row.id } })} />)
       : <View testID="library-empty" style={styles.empty}>
         <AppText style={styles.emptyTitle}>{selectedKind === 'feature' && savedFeatureIds.length && loading ? '特集を読み込んでいます' : selectedKind === 'feature' && savedFeatureIds.length && error ? '特集を読み込めませんでした' : scoped ? `${scopeLabel}の保存はまだありません` : `${label}のお気に入りはまだありません`}</AppText>

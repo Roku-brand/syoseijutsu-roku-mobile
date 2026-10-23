@@ -28,7 +28,7 @@ test('mobile home titles, divider and carousel slides fit narrow screens', async
     await page.setViewportSize({ width, height: 844 });
     await page.goto('/');
     await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-    const rank = page.getByTestId('home-shortcut-popular').getByText('人気ランキング', { exact: true });
+    const rank = page.getByTestId('home-shortcut-popular').getByText('人気の 知恵', { exact: true });
     const rankSize = await rank.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight), width: el.clientWidth, scroll: el.scrollWidth }));
     expect(rankSize.height).toBeLessThanOrEqual(rankSize.line * 2 + 1);
     expect(rankSize.scroll).toBeLessThanOrEqual(rankSize.width + 1);

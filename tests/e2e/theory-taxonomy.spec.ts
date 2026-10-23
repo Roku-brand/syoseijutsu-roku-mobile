@@ -129,6 +129,7 @@ test('追加した完全版理論を別名から検索して、本文・出典�
   await page.goto(`/theory/${id}`);
   await expect(page.getByTestId('theory-title')).toHaveText(title);
   await expect(page.getByText(rows.find((t:any)=>t.tagId===id).summary.split('。')[0]+'。',{exact:false}).first()).toBeVisible();
+  await page.getByRole('button',{name:'出典・理論情報',exact:true}).click();
   await expect(page.getByText('出典を読む',{exact:true})).toBeVisible();
  }
  await page.goto('/theories?category=psychology&page=7');

@@ -234,7 +234,7 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   expect(server.articles()[1].body).toContain('CMSで編集した本文');
   expect(server.articles()[1].status).toBe('archived');
   await page.getByRole('button', { name: '公開画面を見る', exact: true }).click();
-  await expect(page.getByTestId('feature-card')).toHaveCount(3);
+  await expect(page.getByTestId('feature-card')).toHaveCount(2);
   await expect(page.getByTestId('features-grid')).not.toContainText('ティルトと向き合う');
 });
 
@@ -262,7 +262,7 @@ test('指定順の5タブで全4記事を絞り込み、0件のテーマと切�
   }
   await page.getByRole('tab', { name: 'すべて', exact: true }).click();
   await expect(page.getByTestId('feature-card')).toHaveCount(3);
-  await page.getByTestId('features-grid').getByRole('link', { name: `${initial[0].title}を読む`, exact: true }).click();
+  await page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true }).click();
   await expect(page.getByTestId('feature-body')).toContainText('1．選べる側になる');
 });
 
@@ -310,7 +310,7 @@ test('編集部名義と案内人からプロフィールに進み、記事と�
     await expect(page.getByRole('heading', { name: '澄野 遥', exact: true })).toBeVisible();
     await expect(page.getByTestId('editorial-profile')).not.toContainText('架空');
     await expect(page.getByTestId('editorial-profile')).toContainText('制作：処世術禄編集部');
-    await expect(page.getByTestId('feature-card')).toHaveCount(3);
+    await expect(page.getByTestId('feature-card')).toHaveCount(4);
     await expect(page).toHaveTitle('澄野 遥｜編集案内人｜処世術禄');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
     await page.screenshot({ path: test.info().outputPath('guide-' + width + '.png'), fullPage: true });
@@ -432,7 +432,7 @@ for (const width of [320,390,1440]) test(`CMSのサムネと公開確認が画�
  await expect(page.locator('#roku-launch')).toBeHidden();await page.screenshot({path:test.info().outputPath(`cms-media-${width}.png`)});
  const alt=await image.getAttribute('alt');
  await page.getByRole('button',{name:'プレビュー',exact:true}).click();await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('src',source!);await expect(page.getByTestId('feature-article').locator('img').first()).toHaveAttribute('alt',alt!);
- await page.getByRole('button',{name:'公開画面を見る',exact:true}).click();await expect(page.getByTestId('feature-card').first().locator('img')).toHaveAttribute('src',source!);
+ await page.getByRole('button',{name:'公開画面を見る',exact:true}).click();await expect(page.getByTestId('features-hero').locator('img').first()).toHaveAttribute('src',source!);
 });
 
 test('CMSの公開エラーは操作欄に表示し、編集内容を失わず再試行できる',async({page})=>{
