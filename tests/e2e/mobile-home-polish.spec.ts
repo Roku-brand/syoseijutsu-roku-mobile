@@ -59,15 +59,17 @@ test('mobile home titles, divider and carousel slides fit narrow screens', async
 });
 
 test('create shortcut can close, go back, reopen and save on a small screen', async ({ page }) => {
+  const create = page.locator('[data-testid="home-create-technique"]:visible');
+  const carousel = page.locator('[data-testid="home-brand-carousel"]:visible');
   await page.setViewportSize({ width: 390, height: 500 });
   await page.goto('/');
-  await page.getByTestId('home-create-technique').click();
+  await create.click();
   await expect(page.getByRole('textbox', { name: 'マイ処世術', exact: true })).toBeVisible();
   await expect(page).not.toHaveURL(/compose=1/);
   await page.getByRole('button', { name: '作成を閉じる', exact: true }).click();
   await page.getByRole('link', { name: /^ホーム。/ }).click();
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-  await page.getByTestId('home-create-technique').click();
+  await expect(carousel).toBeVisible();
+  await create.click();
   await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('一呼吸おいてから返事する');
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
@@ -75,7 +77,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいてから返事するを編集', exact: true })).toBeVisible();
   await page.getByRole('link', { name: /^ホーム。/ }).click();
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(carousel).toBeVisible();
 });
 
 test('paid membership displays remaining access beside its badge', async ({ page }) => {

@@ -1,5 +1,5 @@
 import * as Haptics from 'expo-haptics';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useNavigation, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { BookScreen } from './book-ui';
@@ -17,8 +17,9 @@ const principleScrollArtwork = require('../../assets/my-page/personal-principle-
 
 export default function MyPageContent() {
   const router = useRouter();
+  const navigation = useNavigation();
   const { compose } = useLocalSearchParams<{ compose?: string }>();
-  const onComposeHandled = useCallback(() => router.setParams({ compose: undefined }), [router]);
+  const onComposeHandled = useCallback(() => navigation.dispatch({ type: 'SET_PARAMS', payload: { params: { compose: undefined } } }), [navigation]);
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
   const { user, profile, loading: authLoading } = useAuth();
