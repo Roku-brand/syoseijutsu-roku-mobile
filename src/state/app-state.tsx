@@ -98,7 +98,7 @@ type AppStateContextValue = PersistedState & {
   completePractice: (cardId: string) => void;
   toggleInterest: (category: CategoryKey) => void;
   updatePersonalPrinciple: (principle: string) => void;
-  addPersonalMemo: (memo: string, folderId?: string | null) => void;
+  addPersonalMemo: (memo: string, folderId?: string | null, newFolderName?: string) => string | null;
   updatePersonalMemo: (id: string, text: string, folderId: string | null) => void;
   removePersonalMemo: (id: string) => void;
   createPersonalMemoFolder: (name: string) => string | null;
@@ -367,19 +367,32 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     }));
   }, []);
 
-  const addPersonalMemo = useCallback((memo: string, folderId: string | null = null) => {
+  const addPersonalMemo = useCallback((memo: string, folderId: string | null = null, newFolderName?: string) => {
     const value = memo.trim();
-    if (!value) return;
+    if (!value) return null;
+    const name = newFolderName?.trim().slice(0, 32);
+    if (newFolderName !== undefined && !name) return null;
+    const createdAt = new Date().toISOString();
+    const memoId = `memo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const newFolder = name ? { id: `memo-folder-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name, createdAt } : null;
+    const destination = newFolder?.id ?? folderId;
     haptic(Haptics.ImpactFeedbackStyle.Light);
-    setState((current) => ({
-      ...current,
-      personalMemos: [{
-        id: `memo-${Date.now()}`,
-        text: value,
-        folderId: folderId && current.personalMemoFolders.some((folder) => folder.id === folderId) ? folderId : null,
-        createdAt: new Date().toISOString(),
-      }, ...current.personalMemos],
-    }));
+    // Persist the first memo and its folder together so every entry point sees
+    // the same complete collection, including after a reload.
+    setState((current) => {
+      const folders = newFolder ? [...current.personalMemoFolders, newFolder] : current.personalMemoFolders;
+      return {
+        ...current,
+        personalMemoFolders: folders,
+        personalMemos: [{
+          id: memoId,
+          text: value,
+          folderId: destination && folders.some((folder) => folder.id === destination) ? destination : null,
+          createdAt,
+        }, ...current.personalMemos],
+      };
+    });
+    return destination;
   }, []);
 
   const removePersonalMemo = useCallback((id: string) => {

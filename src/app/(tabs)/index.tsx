@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
 
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
-import { useAccess } from '../../access/access-state';
+import { useAccess } from '@/access/access-state';
 import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
@@ -14,7 +14,7 @@ import { techniqueCategoryImages } from '../../data/category-images';
 import { isLockedTheoryShell } from '../../data/theory-display';
 import type { CategoryKey } from '../../data/types';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
-import { useAppState } from '../../state/app-state';
+import { useAppState } from '@/state/app-state';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
@@ -33,7 +33,7 @@ const contentId = readingContentId;
 const shortcuts = [
   { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
   { label: '人気ランキング', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
-  { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myTechniques, params: { compose: '1' } }, testID: 'home-create-technique' },
+  { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myPage, params: { compose: '1' } }, testID: 'home-create-technique' },
   { label: '特集', icon: 'newspaper', material: 'article', fallback: '▤', route: APP_ROUTES.features, testID: 'home-shortcut-features' },
   { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', action: 'principles', testID: 'home-shortcut-principles' },
 ] as const satisfies ReadonlyArray<{ label: string; icon: string; material: string; fallback: string; route: Href; testID: string } | { label: string; icon: string; material: string; fallback: string; action: 'principles'; testID: string }>;
