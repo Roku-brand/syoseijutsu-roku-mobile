@@ -2,14 +2,12 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
-import { FREE_THEORY_ID_SET } from '@/access/access-config';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
 import { AppText } from '@/components/ui';
 import { TheorySubcategoryReel } from '@/components/theory-subcategory-reel';
 import { catalogTheme, colors, fonts, spacing } from '@/constants/theme';
 import { theories } from '@/data/catalog';
-import { isLockedTheoryShell } from '@/data/theory-display';
 import { TheoryCard } from '@/components/theory-card';
 import { Pagination } from '@/components/pagination';
 import { groupTheorySections, resolveTheorySubcategoryId } from '@/data/theory-taxonomy';
@@ -26,20 +24,17 @@ export default function TheoryIndexScreen() {
   const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
 
-  const { isPaid, accessState, catalogRevision } = useAccess();
+  const { accessState, catalogRevision } = useAccess();
   const requestedCategory = params.category;
   const requestedPage = params.page;
   const [category, setCategory] = useState<TheoryFilterKey>(safeCategory(requestedCategory));
   const [page, setPage] = useState(Math.max(1, Math.floor(Number(requestedPage)) || 1));
 
 
-  const visibleCatalog = useMemo(
-    () => theories.filter((theory) => isPaid || FREE_THEORY_ID_SET.has(theory.tagId) || isLockedTheoryShell(theory)),
-    [catalogRevision, isPaid],
-  );
   const filtered = useMemo(
-    () => visibleCatalog.filter((theory) => category === 'all' || theory.categoryId === category),
-    [category, visibleCatalog],
+    // Titles belong to the public catalogue, independently of body access.
+    () => theories.filter((theory) => category === 'all' || theory.categoryId === category),
+    [category, catalogRevision],
   );
   const subcategories = groupTheorySections(filtered);
   const subcategoryOptions = [{ subcategoryId: undefined, title: 'すべて', items: filtered }, ...subcategories];
@@ -80,16 +75,18 @@ export default function TheoryIndexScreen() {
       </View>
 
       <View style={[styles.resultHeading, category !== 'all' && styles.resultHeadingWithReel]}>
-        <View><AppText testID="theory-index-count" style={styles.resultTitle}>{selectedTheories.length}件</AppText>{!isPaid ? <AppText style={styles.totalNote}>{FREE_THEORY_ID_SET.size}件を無料公開</AppText> : null}</View>
+        <AppText testID="theory-index-count" style={styles.resultTitle}>{selectedTheories.length}件</AppText>
       <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={item => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} />
       </View>
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
         <View testID="theory-index-list" style={styles.list}>
-          {groupTheorySections(pageTheories).map((section,index,sections) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
-            {category === 'all' && (index === 0 || sections[index-1].categoryId !== section.categoryId) ? <AppText accessibilityRole="header" aria-level={2} style={styles.majorHeading}>{section.categoryTitle}</AppText> : null}
-            {!subcategory ? <View style={styles.subHeading}><AppText accessibilityRole="header" aria-level={3} style={styles.subTitle}>{section.title}</AppText><AppText style={styles.sectionCount}>{filtered.filter(t=>t.categoryId === section.categoryId && t.subcategoryId===section.subcategoryId).length}件</AppText></View> : null}
-            {section.items.map(theory=><TheoryCard key={theory.tagId} theory={theory} testID="theory-index-row-card" />)}
+          {groupTheorySections(pageTheories).map((section) => <View key={`${section.categoryId}:${section.subcategoryId}`} style={styles.section}>
+            {!subcategory ? <View style={styles.subHeading}>
+              {category === 'all' ? <AppText style={styles.categoryLabel}>{section.categoryTitle}</AppText> : null}
+              <AppText accessibilityRole="header" aria-level={2} style={styles.subTitle}>{section.title}</AppText>
+            </View> : null}
+            {section.items.map(theory=><TheoryCard key={theory.tagId} theory={theory} showClassification={false} testID="theory-index-row-card" />)}
           </View>)}
         </View>
       ) : (
@@ -109,14 +106,12 @@ const styles = StyleSheet.create({
   subcategoryFilters: { marginTop: spacing.lg },
   resultHeading: { marginTop: 16, marginBottom: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   resultHeadingWithReel: { marginTop: spacing.md },
-  resultTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, fontWeight: '600' },
-  totalNote: { color: colors.ink, fontSize: 12, lineHeight: 20 },
+  resultTitle: { color: colors.ink, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22 },
   list: { width: '100%', gap: 12 },
   section: { width: '100%', gap: 12, marginBottom: spacing.lg },
-  majorHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, marginTop: 4 },
-  subHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, paddingTop: 10, paddingBottom: 4 },
-  subTitle: { flex: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 27, fontWeight: '600' },
-  sectionCount: { color: colors.ink, fontSize: 12, lineHeight: 20 },
+  subHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, paddingTop: 4, paddingBottom: 2 },
+  categoryLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 12, lineHeight: 22, paddingRight: 10, borderRightWidth: 1, borderRightColor: colors.line },
+  subTitle: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 16, lineHeight: 26, fontWeight: '600' },
   empty: { minHeight: 190, alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 24 },
   skeletonRow: { minHeight: 148, padding: 22, gap: 16, borderWidth: 1, borderColor: catalogTheme.theory.border, borderRadius: 4, alignItems: 'center', opacity: 0.5 },

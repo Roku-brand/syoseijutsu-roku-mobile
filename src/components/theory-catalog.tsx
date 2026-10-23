@@ -9,6 +9,7 @@ import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
 import { CategoryFilterLabel } from './category-filter-label';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export type TheoryFilterKey = string;
 
@@ -24,6 +25,7 @@ export function TheoryFilterBar({ selected, onSelect }: {
   onSelect: (filter: TheoryFilterKey) => void;
 }) {
   const options = getTheoryFilterOptions();
+  const { width } = useHydratedWindowDimensions();
   const renderOption = (option: { key: TheoryFilterKey; label: string }) => {
     const active = selected === option.key;
     const label = option.label;
@@ -42,10 +44,10 @@ export function TheoryFilterBar({ selected, onSelect }: {
 
   return (
     <View testID="theory-category-filters" style={styles.filterGrid}>
-      <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
-      <View style={styles.filterRow}>
-        {options.slice(4).map(renderOption)}
-      </View>
+      {width >= 1000 ? <View style={styles.filterRow}>{options.map(renderOption)}</View> : <>
+        <View style={styles.filterRow}>{options.slice(0, 4).map(renderOption)}</View>
+        <View style={styles.filterRow}>{options.slice(4).map(renderOption)}</View>
+      </>}
     </View>
   );
 }

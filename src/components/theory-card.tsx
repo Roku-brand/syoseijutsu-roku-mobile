@@ -9,8 +9,8 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { AppText } from './ui';
 
 /** The same theory card is used in the catalogue and every saved folder. */
-export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: {
-  theory: TheoryRecord; actions?: ReactNode; onPress?: () => void; testID?: string; role?: 'link' | 'button';
+export function TheoryCard({ theory, actions, onPress, testID, role = 'link', showClassification = true }: {
+  theory: TheoryRecord; actions?: ReactNode; onPress?: () => void; testID?: string; role?: 'link' | 'button'; showClassification?: boolean;
 }) {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
@@ -18,8 +18,8 @@ export function TheoryCard({ theory, actions, onPress, testID, role = 'link' }: 
   // Match the Router slot's flat-style contract on web and native.
   const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, Boolean(actions) && styles.withActions]);
   const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={`${theory.title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>
-      <View style={[styles.meta, Boolean(actions) && styles.metaWithActions]}>
-        <AppText testID="theory-card-subcategory" style={[styles.classification, compact && styles.metaCompact]}>{theory.subcategoryTitle || theory.categoryTitle}</AppText>
+      <View style={[styles.meta, !showClassification && styles.metaCodeOnly, Boolean(actions) && styles.metaWithActions]}>
+        {showClassification ? <AppText testID="theory-card-subcategory" style={[styles.classification, compact && styles.metaCompact]}>{theory.subcategoryTitle || theory.categoryTitle}</AppText> : null}
         <AppText testID="theory-card-id" style={[styles.code, compact && styles.metaCompact]}>{getTheoryDisplayId(theory)}</AppText>
       </View>
       <View style={[styles.copy, compact && styles.copyCompact]}>
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   withActions: { paddingTop: 17 },
   metaWithActions: { paddingRight: 82, minHeight: 36 },
   meta: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 },
+  metaCodeOnly: { justifyContent: 'flex-end' },
   classification: { flex: 1, minWidth: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20 },
   code: { flexShrink: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] },
   metaCompact: { fontSize: 12, lineHeight: 20 },
