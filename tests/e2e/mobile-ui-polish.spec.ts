@@ -44,10 +44,11 @@ test('all memo creation entry points wait for a tap and have one close action', 
   await input.tap();
   await expect(input).toBeFocused();
   await input.fill('一歩ずつ確かめる');
+  await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
-  await expect(page.getByRole('button', { name: '一歩ずつ確かめるを編集', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true })).toContainText('1件');
   await ready(page, '/my-os');
-  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true }).click();
   await page.getByRole('button', { name: 'このフォルダーに新規作成', exact: true }).click();
   await expect(input).toBeVisible();
   await expect(input).not.toBeFocused();

@@ -91,10 +91,12 @@ test('空状態から自作・編集・メニュー削除ができ、再起動�
   await expect(input).not.toBeFocused();
   await expect(page.getByRole('button', { name: /閉じる/ })).toHaveCount(1);
   await input.fill('一度立ち止まる\n焦ったときほど、確認する。');
+  await expect(page.getByRole('button', { name: 'マイ処世術を追加', exact: true })).toBeDisabled();
+  await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
   await page.reload();
   await page.getByRole('button', { name: 'マイ処世術をすべて見る', exact: true }).click();
-  await page.getByRole('button', { name: 'マイ処世術：未整理', exact: true }).click();
+  await page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true }).click();
   await expect(page.locator('[data-testid="personal-memo-card"]:visible')).toContainText('焦ったときほど、確認する。');
   await page.getByRole('button', { name: /のメニュー$/ }).click();
   const menu = page.getByRole('dialog', { name: 'マイ処世術の操作', exact: true });

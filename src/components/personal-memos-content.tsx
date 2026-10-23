@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { AppText } from './ui';
@@ -9,19 +9,23 @@ import { latestPersonalMemos, personalMemoCopy } from '@/data/personal-dashboard
 import { colors, fonts } from '@/constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export function PersonalMemosContent({ preview = false, initialFolder = null, initialCompose = false }: { preview?: boolean; initialFolder?: string | null; initialCompose?: boolean }) {
+const NEW_FOLDER = 'new-folder';
+
+export function PersonalMemosContent({ preview = false, initialFolder = null, composeRequested = false, onComposeHandled }: { preview?: boolean; initialFolder?: string | null; composeRequested?: boolean; onComposeHandled?: () => void }) {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { personalMemos, personalMemoFolders, addPersonalMemo, updatePersonalMemo, removePersonalMemo, movePersonalMemo, createPersonalMemoFolder, renamePersonalMemoFolder, deletePersonalMemoFolder } = useAppState();
+  const { hydrated, personalMemos, personalMemoFolders, addPersonalMemo, updatePersonalMemo, removePersonalMemo, movePersonalMemo, createPersonalMemoFolder, renamePersonalMemoFolder, deletePersonalMemoFolder } = useAppState();
   const [folder, setFolder] = useState<string | null>(initialFolder === 'all' ? null : initialFolder);
   const [limit, setLimit] = useState(20);
-  const [editor, setEditor] = useState<{ id?: string } | null>(initialCompose ? {} : null);
+  const [editor, setEditor] = useState<{ id?: string } | null>(null);
   const [text, setText] = useState('');
   const [destination, setDestination] = useState<string | null>(null);
   const [menu, setMenu] = useState<{ memo: PersonalMemo; mode: 'actions' | 'move' | 'delete' } | null>(null);
   const [folderManagerVisible, setFolderManagerVisible] = useState(false);
   const [folderEditor, setFolderEditor] = useState<{ id?: string; deleting?: boolean } | null>(null);
   const [folderName, setFolderName] = useState('');
+  const [composerFolderName, setComposerFolderName] = useState('');
+  const composeHandled = useRef(false);
   const all = latestPersonalMemos(personalMemos);
   const visible = folder === 'all' ? all : folder === 'unfiled' ? all.filter(memo => !memo.folderId) : all.filter(memo => memo.folderId === folder);
   const folders = [{ id: 'all', name: 'すべて' }, { id: 'unfiled', name: '未整理' }, ...personalMemoFolders].map(item => ({ ...item, count: all.filter(memo => item.id === 'all' || (item.id === 'unfiled' ? !memo.folderId : memo.folderId === item.id)).length }));
@@ -32,17 +36,34 @@ export function PersonalMemosContent({ preview = false, initialFolder = null, in
   useEffect(() => { setFolder(initialFolder === 'all' ? null : initialFolder); }, [initialFolder]);
   useEffect(() => { if (folder && folder !== 'all' && folder !== 'unfiled' && !personalMemoFolders.some(item => item.id === folder)) setFolder(null); }, [folder, personalMemoFolders]);
   const openFolder = (id: string | null) => { setFolder(id); setLimit(20); };
-  const compose = (memo?: PersonalMemo) => {
+  const compose = useCallback((memo?: PersonalMemo) => {
+    const selectedFolder = memo ? memo.folderId : !preview && folder && folder !== 'all' ? folder === 'unfiled' ? null : folder : NEW_FOLDER;
     setEditor(memo ? { id: memo.id } : {});
     setText(memo?.text ?? '');
-    setDestination(memo?.folderId ?? (!preview && folder && folder !== 'all' && folder !== 'unfiled' ? folder : null));
+    setDestination(selectedFolder);
+    setComposerFolderName(personalMemoFolders.find(item => item.id === selectedFolder)?.name ?? '');
     setMenu(null);
-  };
+  }, [folder, personalMemoFolders, preview]);
+  useEffect(() => {
+    if (!composeRequested) { composeHandled.current = false; return; }
+    if (!hydrated || composeHandled.current) return;
+    composeHandled.current = true;
+    compose();
+    onComposeHandled?.();
+  }, [composeRequested, hydrated, compose, onComposeHandled]);
+  const needsFolderName = !editor?.id && (destination === NEW_FOLDER || Boolean(destination && !personalMemos.some(memo => memo.folderId === destination)));
+  const canSave = Boolean(text.trim() && (!needsFolderName || composerFolderName.trim()));
   const save = () => {
-    if (!text.trim()) return;
-    if (editor?.id) updatePersonalMemo(editor.id, text, destination); else addPersonalMemo(text, destination);
+    if (!canSave) return;
+    let savedFolder = destination;
+    if (editor?.id) updatePersonalMemo(editor.id, text, destination);
+    else if (destination === NEW_FOLDER) savedFolder = addPersonalMemo(text, null, composerFolderName);
+    else {
+      if (needsFolderName && destination) renamePersonalMemoFolder(destination, composerFolderName);
+      addPersonalMemo(text, destination);
+    }
     setEditor(null);
-    if (!preview) openFolder(destination ?? 'unfiled');
+    if (!preview) openFolder(savedFolder ?? 'unfiled');
   };
   const saveFolder = () => {
     if (!folderName.trim()) return;
@@ -109,8 +130,16 @@ export function PersonalMemosContent({ preview = false, initialFolder = null, in
             <AppText style={styles.excerpt}>1行目に見出し、続けて本文を書けます。</AppText>
             <TextInput accessibilityLabel="マイ処世術" multiline maxLength={140} value={text} onChangeText={setText} placeholder="自分の言葉を記してください" placeholderTextColor={colors.muted} style={styles.input} />
             <AppText style={styles.meta}>保存先</AppText>
-            <View style={styles.destinations}>{[{ id: '', name: '未整理' }, ...personalMemoFolders].map(item => <Pressable key={item.id} accessibilityRole="radio" accessibilityState={{ checked: (destination ?? '') === item.id }} onPress={() => setDestination(item.id || null)} style={[styles.destination, (destination ?? '') === item.id && styles.chosen]}><AppText style={styles.actionText}>{item.name}</AppText></Pressable>)}</View>
-            <View style={styles.actions}><Action label="作成を閉じる" text="閉じる" onPress={() => setEditor(null)} /><Action label={editor?.id ? '変更を保存' : 'マイ処世術を追加'} text="保存する" primary disabled={!text.trim()} onPress={save} /></View>
+            <View accessibilityRole="radiogroup" accessibilityLabel="保存先フォルダー" style={styles.destinations}>{[
+              ...(!editor?.id ? [{ id: NEW_FOLDER, name: '新しいフォルダー＋' }] : []),
+              ...(editor?.id || personalMemos.some(memo => !memo.folderId) ? [{ id: '', name: '未整理' }] : []),
+              ...personalMemoFolders,
+            ].map(item => <Pressable key={item.id} accessibilityRole="radio" accessibilityLabel={item.name} accessibilityState={{ checked: (destination ?? '') === item.id }} onPress={() => { setDestination(item.id || null); setComposerFolderName(personalMemoFolders.find(existing => existing.id === item.id)?.name ?? ''); }} style={[styles.destination, (destination ?? '') === item.id && styles.chosen]}><AppText style={styles.actionText}>{item.name}</AppText></Pressable>)}</View>
+            {needsFolderName ? <>
+              <AppText style={styles.meta}>フォルダー名</AppText>
+              <TextInput accessibilityLabel="フォルダー名" maxLength={32} value={composerFolderName} onChangeText={setComposerFolderName} placeholder="例：仕事で使う知恵" placeholderTextColor={colors.muted} style={styles.folderInput} />
+            </> : null}
+            <View style={styles.actions}><Action label="作成を閉じる" text="閉じる" onPress={() => setEditor(null)} /><Action label={editor?.id ? '変更を保存' : 'マイ処世術を追加'} text="保存する" primary disabled={!canSave} onPress={save} /></View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
