@@ -13,7 +13,7 @@ export function buildSavedContentRows({ savedIds, savedTheoryIds, savedFeatureId
   const rows: PersonalContentRow[] = [];
   for (const id of uniqueSavedIds(savedIds)) {
     const card = techniqueById.get(id);
-    rows.push({ kind: 'technique', id, label: card?.categoryName ?? '処世術', category: card?.categoryKey ?? 'interpersonal', title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '' });
+    rows.push({ kind: 'technique', id, label: card?.categoryName ?? '処世術', category: card?.categoryKey ?? '', title: card?.title ?? '保存済みの処世術', description: card?.subcategory ?? '' });
   }
   for (const id of uniqueSavedIds(savedTheoryIds)) {
     if (isRetiredTheoryId(id)) {
