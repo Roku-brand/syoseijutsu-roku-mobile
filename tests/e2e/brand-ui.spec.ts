@@ -119,8 +119,9 @@ test('マイページは保存した実際の履歴・蔵書・完全版残期�
   await expect(page.getByRole('button', { name: `${theory.title}を開く` })).toBeVisible();
   await page.getByTestId('book-header-back').click();
   await page.getByRole('button', { name: 'お気に入りをすべて見る', exact: true }).click();
-  await page.getByRole('button', { name: '蔵書：すべて', exact: true }).click();
+  await page.getByRole('tab', { name: /^処世術のお気に入り/ }).click();
   await expect(page.getByRole('button', { name: `${technique.title}を開く` })).toBeVisible();
+  await page.getByRole('tab', { name: /^理論のお気に入り/ }).click();
   await page.getByRole('button', { name: `${theory.title}を開く` }).click();
   await expect(page).toHaveURL(new RegExp(`/theory/${theory.tagId}`));
 });
