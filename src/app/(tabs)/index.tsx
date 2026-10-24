@@ -76,7 +76,7 @@ export default function HomeScreen() {
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
-          <Text numberOfLines={2} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile]}>{item.label === '人気ランキング' ? '人気の\n知恵' : item.label === '処世術を作る' ? '処世術を\n作る' : item.label}</Text>
+          <Text numberOfLines={2} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile, item.label === '人気ランキング' && width < 390 && { fontSize: width < 360 ? 10 : 11, paddingHorizontal: 0 }]}>{item.label === '人気ランキング' && !desktop ? '人気\nランキング' : item.label === '処世術を作る' ? '処世術を\n作る' : item.label}</Text>
         </Pressable>)}
       </View>
 
