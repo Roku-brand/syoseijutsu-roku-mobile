@@ -12,7 +12,7 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
   items: readonly ReadingContent[];
   cardWidth: number;
   onRefresh: () => void;
-  renderCard: (item: ReadingContent, disabled: boolean) => ReactNode;
+  renderCard: (item: ReadingContent, disabled: boolean, minHeight: number) => ReactNode;
   compact?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
@@ -22,6 +22,7 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
   const firstVisible = useRef(0);
   const [phase, setPhase] = useState<Phase>('idle');
   const [railWidth, setRailWidth] = useState(0);
+  const [cardHeight, setCardHeight] = useState(0);
   const [{ flip, travel, reveal }] = useState(() => ({
     flip: new Animated.Value(0),
     travel: new Animated.Value(0),
@@ -29,6 +30,10 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
   }));
   const distance = Math.max(railWidth, cardWidth) + cardWidth;
   const busy = phase !== 'idle';
+
+  // Measure natural content before aligning the deck; flex: 1 would collapse
+  // cards inside the horizontal rail's initially unconstrained cross axis.
+  useEffect(() => setCardHeight(0), [items, cardWidth]);
 
   useEffect(() => {
     if (phase === 'idle') return;
@@ -87,8 +92,8 @@ export function HomeRecommendationDeck({ items, cardWidth, onRefresh, renderCard
         const delay = Math.min(order, 4) * 0.08;
         const turn = Animated.subtract(flip, reveal.interpolate({ inputRange: [delay, delay + 0.68], outputRange: [0, 1], extrapolate: 'clamp' }));
         return <Animated.View key={index} testID="home-deck-slot" pointerEvents={busy ? 'none' : 'auto'} aria-hidden={busy} accessibilityElementsHidden={busy} importantForAccessibility={busy ? 'no-hide-descendants' : 'auto'} style={{ width: cardWidth, flexShrink: 0, opacity: travel.interpolate({ inputRange: [-1, -0.75, 0, 0.75, 1], outputRange: [0, 0.5, 1, 0.5, 0] }), transform: [{ translateX: travel.interpolate({ inputRange: [-1, 0, 1], outputRange: [-distance, 0, distance] }) }, { rotate: travel.interpolate({ inputRange: [-1, 0, 1], outputRange: [`-${3 + order * 0.5}deg`, '0deg', `${3 + order * 0.5}deg`] }) }] }}>
-          <Animated.View testID="home-deck-front" style={[styles.face, { opacity: turn.interpolate({ inputRange: [0, 0.499, 0.5, 1], outputRange: [1, 1, 0, 0] }), transform: [{ perspective: 1000 }, { rotateY: turn.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] }) }] }]}>
-            {renderCard(item, busy)}
+          <Animated.View testID="home-deck-front" onLayout={event => { const height = Math.ceil(event.nativeEvent.layout.height); setCardHeight(current => height > current ? height : current); }} style={[styles.face, { opacity: turn.interpolate({ inputRange: [0, 0.499, 0.5, 1], outputRange: [1, 1, 0, 0] }), transform: [{ perspective: 1000 }, { rotateY: turn.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '180deg'] }) }] }]}>
+            {renderCard(item, busy, cardHeight)}
           </Animated.View>
           <Animated.View testID="home-deck-back" pointerEvents="none" aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.back, styles.face, { opacity: turn.interpolate({ inputRange: [0, 0.499, 0.5, 1], outputRange: [0, 0, 1, 1] }), transform: [{ perspective: 1000 }, { rotateY: turn.interpolate({ inputRange: [0, 1], outputRange: ['-180deg', '0deg'] }) }] }]}>
             <View style={styles.backFrame}>

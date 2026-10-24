@@ -9,7 +9,7 @@ import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/bo
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { HomeRecommendationDeck } from '../../components/home-recommendation-deck';
-import { categoryMeta, techniqueById, theoryById } from '../../data/catalog';
+import { categoryMeta, getTechniqueDisplayId, getTheoryDisplayId, techniqueById, theoryById } from '../../data/catalog';
 import { techniqueCategoryImages } from '../../data/category-images';
 import { getTheoryCoverSummary, isLockedTheoryShell } from '../../data/theory-display';
 import type { CategoryKey } from '../../data/types';
@@ -18,7 +18,6 @@ import { useAppState } from '@/state/app-state';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
-import { TechniqueTitle } from '../../components/technique-title';
 import { buildReadingRecommendations, readingContentId, type ReadingContent } from '../../data/reading-recommendations';
 
 const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
@@ -66,7 +65,7 @@ export default function HomeScreen() {
     () => buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed: `${readingDay}:${discoveryRound}` }),
     [accessState, catalogRevision, historyIds, interests, savedIds, savedTheoryIds, readingDay, discoveryRound],
   );
-  const cardWidth = desktop ? 250 : Math.min(260, Math.max(210, width * 0.59));
+  const cardWidth = desktop ? 288 : Math.min(340, Math.max(228, width * 0.75));
   const openContent = (item: HomeContent) => router.push(item.type === 'technique' ? techniqueRoute(item.card.id) : theoryRoute(item.card.tagId));
 
   return (
@@ -101,7 +100,7 @@ export default function HomeScreen() {
       </Pressable> : null}
 
       <View testID="home-recommendations-section" style={styles.section}>
-        <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} compact={!desktop} onRefresh={refreshDiscovery} renderCard={(item, disabled) => <ContentCard item={item} width={cardWidth} disabled={disabled} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
+        <HomeRecommendationDeck items={recommendations} cardWidth={cardWidth} compact={!desktop} onRefresh={refreshDiscovery} renderCard={(item, disabled, minHeight) => <ContentCard item={item} width={cardWidth} disabled={disabled} minHeight={minHeight} onPress={() => openContent(item)} testID="home-recommendation-card" />} />
       {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
       </View>
 
@@ -128,15 +127,23 @@ function HomeSection({ title, testID, onAction, children }: { title: string; tes
   </View>;
 }
 
-function ContentCard({ item, width, onPress, testID, disabled = false }: { item: HomeContent; width: number; onPress: () => void; testID?: string; disabled?: boolean }) {
+function ContentCard({ item, width, onPress, testID, disabled = false, minHeight }: { item: HomeContent; width: number; onPress: () => void; testID?: string; disabled?: boolean; minHeight?: number }) {
   const category = item.type === 'technique' ? item.card.categoryKey : 'theory';
   const label = item.type === 'technique' ? categoryMeta[item.card.categoryKey].label : '理論';
-  return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled} aria-disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width }, pressed && styles.pressed]}>
+  const summary = item.type === 'technique' ? item.card.essence || item.card.subtitle : getTheoryCoverSummary(item.card.summary);
+  const displayId = item.type === 'technique' ? getTechniqueDisplayId(item.card) : getTheoryDisplayId(item.card);
+  return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled} aria-disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width, minHeight }, pressed && styles.pressed]}>
     <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
     <View style={styles.contentBody}>
-      <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
-      {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} maxLines={2} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
-      <Text numberOfLines={2} style={styles.contentSummary}>{item.type === 'technique' ? item.card.essence || item.card.subtitle : getTheoryCoverSummary(item.card.summary)}</Text>
+      <View style={styles.contentMeta}>
+        <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
+        <Text style={styles.contentId}>{displayId}</Text>
+      </View>
+      <Text testID="home-content-title" style={styles.contentTitle}>{item.card.title}</Text>
+      {summary ? <View testID="home-content-summary" style={styles.contentSummaryBlock}>
+        <Text style={styles.contentSummaryLabel}>{item.type === 'technique' ? '本質' : '要旨'}</Text>
+        <Text style={styles.contentSummary}>{summary}</Text>
+      </View> : null}
     </View>
   </Pressable>;
 }
@@ -185,13 +192,16 @@ const styles = StyleSheet.create({
   sectionHeading: { marginBottom: 8 },
   rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
   contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
-  contentImage: { width: '100%', height: 84, backgroundColor: '#E6E0D5' },
-  contentBody: { minHeight: 145, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10, overflow: 'hidden' },
-  categoryLabel: { alignSelf: 'flex-start', color: '#9B6E27', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, borderColor: '#D6BD95', borderWidth: 1, borderRadius: 999, paddingHorizontal: 8, backgroundColor: '#FFF8EA' },
-  categoryTheory: { color: '#506B86', borderColor: '#A5B8C7', backgroundColor: '#EFF4F7' },
-  contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '600', marginTop: 6, minHeight: 52 },
-  contentSummary: { color: colors.inkSoft, fontSize: 13, lineHeight: 22, marginTop: 6 },
-  contentLink: { alignSelf: 'flex-end', color: '#A3752B', fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, marginTop: 5 },
+  contentImage: { width: '100%', height: 104, backgroundColor: '#E6E0D5' },
+  contentBody: { flex: 1, minHeight: 190, paddingHorizontal: 16, paddingTop: 13, paddingBottom: 17 },
+  contentMeta: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 },
+  categoryLabel: { color: '#7D5923', fontFamily: fonts.sans, fontSize: 12, lineHeight: 20 },
+  categoryTheory: { color: '#203F69' },
+  contentId: { color: colors.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] },
+  contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 29, fontWeight: '600', marginTop: 10, marginBottom: 18 },
+  contentSummaryBlock: { marginTop: 'auto', paddingTop: 11, borderTopWidth: 1, borderTopColor: colors.line },
+  contentSummaryLabel: { color: colors.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: 1.2 },
+  contentSummary: { color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 14, lineHeight: 24, marginTop: 5 },
   emptyHistory: { minHeight: 89, justifyContent: 'center', paddingHorizontal: 16, borderWidth: 1, borderColor: '#E9E2D8', borderRadius: 14, backgroundColor: '#FFFDF9' },
   emptyHistoryTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
   emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, marginTop: 4 },

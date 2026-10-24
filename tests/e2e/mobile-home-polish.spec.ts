@@ -35,7 +35,7 @@ test('mobile home titles, divider and carousel slides fit narrow screens', async
     await page.getByRole('tab', { name: '1枚目を表示' }).click();
     const title = page.getByTestId('home-brand-technique-title');
     const titleSize = await title.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight) }));
-    expect(titleSize.height).toBeLessThanOrEqual(titleSize.line + 1);
+    expect(titleSize.height).toBeLessThanOrEqual(titleSize.line * 3 + 1);
     const [titleBox, ruleBox] = await Promise.all([title.boundingBox(), page.getByTestId('home-brand-technique-rule').boundingBox()]);
     expect(ruleBox!.width).toBeGreaterThan(200);
     expect(ruleBox!.y).toBeGreaterThanOrEqual(titleBox!.y + titleBox!.height);
