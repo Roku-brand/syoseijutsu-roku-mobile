@@ -166,19 +166,16 @@ export function TechniqueHeroSlide({ card, desktop, slideIndex = 1 }: { card: Te
         <View style={[styles.techniqueTitleGroup, !desktop && styles.techniqueTitleGroupMobile]}>
           <TechniqueTitle
             title={card.title}
-            minimumFontSize={desktop ? 32 : 20}
+            minimumFontSize={14}
             testID={second ? 'home-brand-technique-title-2' : 'home-brand-technique-title'}
             style={[
               styles.darkTitle,
-              ...(!desktop ? [styles.darkTitleMobile] : []),
+              ...(desktop ? [singleLineTitleSize(card.title, desktop, 39, 21, 10, 11)] : [styles.darkTitleMobile]),
             ]}
           />
           <View testID={second ? 'home-brand-technique-rule-2' : 'home-brand-technique-rule'} accessibilityElementsHidden style={styles.techniqueTitleRule} />
         </View>
-        {card.essence ? <View style={[styles.techniqueEssence, !desktop && styles.techniqueEssenceMobile]}>
-          <Text style={styles.techniqueEssenceLabel}>本質</Text>
-          <Text style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
-        </View> : null}
+        <Text numberOfLines={desktop ? undefined : 2} style={[styles.darkBody, !desktop && styles.darkBodyMobile]}>{card.essence}</Text>
         <View style={[styles.metaRow, !desktop && styles.metaRowMobile]}>
           <Text testID={second ? 'home-brand-technique-domain-2' : 'home-brand-technique-domain'} style={[styles.darkMeta, !desktop && styles.darkMetaMobile]}>{categoryMeta[card.categoryKey].label}</Text>
           <Cta label="読む →" dark compact={!desktop} testID={second ? 'home-brand-technique-cta-2' : 'home-brand-technique-cta'} />
@@ -661,8 +658,8 @@ const styles = StyleSheet.create({
   carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', position: 'relative' },
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
-  slide: { backgroundColor: '#FCF8EF', flex: 1, minHeight: 380, overflow: 'hidden', position: 'relative' },
-  slideMobile: { minHeight: 300 },
+  slide: { backgroundColor: '#FCF8EF', minHeight: 380, overflow: 'hidden', position: 'relative' },
+  slideMobile: { aspectRatio: 1.7, minHeight: 205 },
   slideDark: { backgroundColor: '#12110E', borderColor: '#3D321F' },
   slideNavy: { backgroundColor: '#07182D', borderColor: '#34435A' },
   fullImage: { height: '100%', left: 0, position: 'absolute', top: 0, width: '100%' },
@@ -687,24 +684,21 @@ const styles = StyleSheet.create({
   featureNumber: { bottom: 24, color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 14, letterSpacing: 2, position: 'absolute', right: 30, zIndex: 1 },
   featureNumberMobile: { display: 'none' },
   techniqueCopy: { justifyContent: 'center', minHeight: 520, paddingHorizontal: 35, paddingVertical: 42, zIndex: 1 },
-  techniqueCopyDesktop: { flex: 1, backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, paddingVertical: 32, paddingRight: 48, width: '58%' },
-  techniqueCopyMobile: { flex: 1, minHeight: 300, backgroundColor: 'rgba(8,7,5,0.68)', paddingHorizontal: 22, paddingTop: 20, paddingBottom: 38 },
+  techniqueCopyDesktop: { backgroundColor: 'rgba(8,7,5,0.82)', borderBottomRightRadius: 170, borderTopRightRadius: 170, minHeight: 380, width: '58%' },
+  techniqueCopyMobile: { flex: 1, minHeight: 205, paddingHorizontal: 20, paddingVertical: 14 },
   darkEyebrow: { color: '#D4A94E', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },
   darkEyebrowMobile: { fontSize: 11, letterSpacing: 0.5 },
-  darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 32, fontWeight: '600', letterSpacing: 0.8, lineHeight: 46, marginTop: 14 },
-  darkTitleMobile: { fontSize: 20, fontWeight: '600', letterSpacing: 0.3, lineHeight: 30, marginTop: 9 },
-  techniqueTitleGroup: { alignSelf: 'stretch', width: '100%', maxWidth: 600 },
+  darkTitle: { color: '#FFFDF6', fontFamily: fonts.serif, fontSize: 39, fontWeight: '600', letterSpacing: 2.4, lineHeight: 57, marginTop: 22 },
+  darkTitleMobile: { fontSize: 20, fontWeight: '700', letterSpacing: 0.4, lineHeight: 26, marginTop: 5 },
+  techniqueTitleGroup: { alignSelf: 'flex-start', maxWidth: 480 },
   techniqueTitleGroupMobile: { alignSelf: 'stretch', maxWidth: '100%' },
-  techniqueTitleRule: { alignSelf: 'stretch', width: '100%', height: 1, marginTop: 11, borderRadius: 1, backgroundColor: 'rgba(210,166,74,0.65)' },
-  techniqueEssence: { marginTop: 12, gap: 5, maxWidth: 600 },
-  techniqueEssenceMobile: { marginTop: 10, gap: 4 },
-  techniqueEssenceLabel: { color: '#D8C5A2', fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: 1.4 },
-  darkBody: { color: '#EEE7DA', fontFamily: fonts.sans, fontSize: 16, lineHeight: 28 },
-  darkBodyMobile: { fontSize: 14, lineHeight: 23 },
-  metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 14 },
-  metaRowMobile: { flexWrap: 'nowrap', gap: 12, marginTop: 12 },
-  darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, paddingHorizontal: 13, paddingVertical: 6 },
-  darkMetaMobile: { paddingHorizontal: 11, paddingVertical: 4 },
+  techniqueTitleRule: { alignSelf: 'stretch', width: '100%', height: 1, marginTop: 7, marginBottom: 2, borderRadius: 1, backgroundColor: '#D2A64A' },
+  darkBody: { color: '#DED5C7', fontFamily: fonts.serif, fontSize: 16, letterSpacing: 1, lineHeight: 29, marginTop: 15, maxWidth: 480 },
+  darkBodyMobile: { color: '#D8CEBF', fontSize: 12, letterSpacing: 0.15, lineHeight: 17, marginTop: 6, maxWidth: 330 },
+  metaRow: { alignItems: 'center', flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginTop: 5 },
+  metaRowMobile: { flexWrap: 'nowrap', gap: 10, marginTop: 0 },
+  darkMeta: { borderColor: '#A57B2D', borderRadius: 999, borderWidth: 1, color: '#E1BD68', fontFamily: fonts.serif, fontSize: 11, marginTop: 20, paddingHorizontal: 13, paddingVertical: 6 },
+  darkMetaMobile: { marginTop: 5, paddingHorizontal: 10, paddingVertical: 3 },
   paperCopy: { justifyContent: 'center', minHeight: 380, paddingHorizontal: 40, paddingVertical: 32, width: '58%' },
   paperCopyMobile: { backgroundColor: 'rgba(252,248,239,0.84)', flex: 1, justifyContent: 'flex-end', minHeight: 178, paddingBottom: 10, paddingHorizontal: 28, paddingTop: 26, width: '100%' },
   goldEyebrow: { color: '#A77824', fontFamily: fonts.serif, fontSize: 13, letterSpacing: 1.4 },

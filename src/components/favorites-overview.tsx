@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from './ui';
 import { CategoryArt } from './ranking-art';
 import { PersonalSectionHeading } from './personal-section-heading';
-import { NavigationChevron } from './navigation-chevron';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { techniqueById } from '@/data/catalog';
@@ -28,7 +27,7 @@ export function FavoritesOverview() {
         <View style={styles.cardCopy}><AppText style={styles.category}>{category.name}</AppText><AppText style={styles.count}>{count}<AppText style={styles.unit}> 件</AppText></AppText></View>
       </Pressable>;
     })}</View>
-    <View style={styles.links}>{([{ kind: 'theory', label: '理論', count: uniqueSavedIds(savedTheoryIds).length }, { kind: 'feature', label: '特集', count: uniqueSavedIds(savedFeatureIds).length }] as const).map(item => <Pressable key={item.kind} accessibilityRole="button" accessibilityLabel={`${item.label}のお気に入り ${item.count}件`} onPress={() => router.push({ pathname: '/library', params: { kind: item.kind } })} style={styles.link}><AppText style={styles.linkLabel}>{item.label}</AppText><AppText style={styles.linkCount}>{item.count}件</AppText><NavigationChevron style={styles.arrow} /></Pressable>)}</View>
+    <View style={styles.links}>{([{ kind: 'theory', label: '理論', count: uniqueSavedIds(savedTheoryIds).length }, { kind: 'feature', label: '特集', count: uniqueSavedIds(savedFeatureIds).length }] as const).map(item => <Pressable key={item.kind} accessibilityRole="button" accessibilityLabel={`${item.label}のお気に入り ${item.count}件`} onPress={() => router.push({ pathname: '/library', params: { kind: item.kind } })} style={styles.link}><AppText style={styles.linkLabel}>{item.label}</AppText><AppText style={styles.linkCount}>{item.count}件</AppText><AppText style={styles.arrow}>›</AppText></Pressable>)}</View>
   </View>;
 }
 const styles = StyleSheet.create({
@@ -36,5 +35,5 @@ const styles = StyleSheet.create({
   image: { width: '100%', aspectRatio: 1.15 }, imageWide: { aspectRatio: 2.1 }, cardCopy: { paddingHorizontal: 10, paddingVertical: 12, gap: 3 },
   category: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '600' }, count: { color: colors.goldDeep, fontSize: 19, lineHeight: 28, fontWeight: '600' }, unit: { fontSize: 11, fontWeight: '400' },
   links: { flexDirection: 'row', marginTop: 14, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line }, link: { flex: 1, minHeight: 52, flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 12 },
-  linkLabel: { color: colors.inkSoft, fontSize: 14 }, linkCount: { color: colors.muted, fontSize: 13 }, arrow: { marginLeft: 'auto' }, pressed: { opacity: 0.7 },
+  linkLabel: { color: colors.inkSoft, fontSize: 14 }, linkCount: { color: colors.muted, fontSize: 13 }, arrow: { marginLeft: 'auto', color: colors.goldDeep, fontSize: 21 }, pressed: { opacity: 0.7 },
 });

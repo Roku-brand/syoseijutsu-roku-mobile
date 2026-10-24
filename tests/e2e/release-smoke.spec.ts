@@ -902,7 +902,7 @@ test('ホームはショートカット、完全版、読書再開、おすす�
   expect(banner!.y).toBeLessThan(continueSection!.y);
   expect(recommendations!.y).toBeLessThan(continueSection!.y);
   expect(create!.y).toBeLessThan(banner!.y);
-  await expect(page.getByTestId('home-continue-section').getByRole('link', { name: '続きから読むをすべて見る' })).toBeVisible();
+  await expect(page.getByTestId('home-continue-section').getByText('すべて見る →')).toBeVisible();
   await expect(page.getByTestId('home-create-technique')).toContainText(/処世術を\s*作る/);
   await expect(page.getByTestId('home-continue-section')).toContainText('続きから読む');
   await page.getByTestId('home-shortcut-principles').click();
@@ -1066,7 +1066,7 @@ test('ホームのブランドリールはPC・タブレット・スマホでカ
   }
 });
 
-test('スマホのホームリールは本文に合わせた高さで全7枚を読みやすく表示する', async ({ page }) => {
+test('スマホのホームリールは横長比率を保ち全7枚を読みやすく表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
@@ -1086,7 +1086,7 @@ test('スマホのホームリールは本文に合わせた高さで全7枚を�
     await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
     const slideBox = await page.getByTestId(`home-brand-slide-${index}`).boundingBox();
     expect(slideBox).not.toBeNull();
-    expect(slideBox!.height).toBeGreaterThanOrEqual(300);
+    expect(slideBox!.width / slideBox!.height).toBeGreaterThan(1.4);
   }
 
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
