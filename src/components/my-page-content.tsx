@@ -1,4 +1,5 @@
 import * as Haptics from 'expo-haptics';
+import { SymbolView } from 'expo-symbols';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
@@ -6,6 +7,7 @@ import { BookScreen } from './book-ui';
 import { AppText } from './ui';
 import { FavoritesOverview } from './favorites-overview';
 import { PersonalMemosContent } from './personal-memos-content';
+import { NavigationChevron } from './navigation-chevron';
 import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
 import { useAppState } from '@/state/app-state';
 import { useAuth } from '@/auth/auth-state';
@@ -56,7 +58,7 @@ export default function MyPageContent() {
               accessibilityLabel={user ? 'プロフィールを編集' : 'ログインしてプロフィールを設定'}
               onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
               style={({ pressed }) => [styles.profileEdit, mobile && styles.profileEditMobile, pressed && styles.pressed]}
-            ><AppText style={[styles.profileEditText, mobile && styles.profileEditTextMobile]}>{mobile ? '編集 ›' : '✎　編集　›'}</AppText></Pressable>
+            ><AppText style={styles.profileEditText}>編集</AppText><NavigationChevron /></Pressable>
           </View>
           <View style={styles.profileDivider} />
           <View
@@ -76,7 +78,7 @@ export default function MyPageContent() {
                   accessibilityLabel="座右の銘を編集"
                   onPress={openPrincipleEditor}
                   style={({ pressed }) => [styles.editPrinciple, pressed && styles.pressed]}
-                ><AppText style={styles.editIcon}>✎</AppText></Pressable>
+                ><SymbolView name={{ ios: 'pencil', android: 'edit', web: 'edit' }} size={18} tintColor={colors.goldDeep} weight="regular" fallback={<AppText style={styles.editIcon}>✎</AppText>} /></Pressable>
               </View>
               {personalPrinciple ? <AppText style={[styles.principle, mobile && styles.principleMobile]}>{personalPrinciple}</AppText>
                 : <Pressable accessibilityRole="button" accessibilityLabel="座右の銘を設定" onPress={openPrincipleEditor}><AppText style={[styles.principle, mobile && styles.principleMobile]}>座右の銘を設定　›</AppText></Pressable>}
@@ -89,7 +91,7 @@ export default function MyPageContent() {
         <FavoritesOverview />
         <PersonalMemosContent preview composeRequested={composeRequested} onComposeHandled={onComposeHandled} />
         <Pressable testID="history-entry" accessibilityRole="button" accessibilityLabel="閲覧履歴を開く" onPress={() => router.push(APP_ROUTES.history)} style={dashboardStyles.history}>
-          <View style={dashboardStyles.historyCopy}><AppText accessibilityRole="header" aria-level={2} style={dashboardStyles.historyTitle}>閲覧履歴</AppText><AppText style={dashboardStyles.historySubtitle}>以前読んだ知識を振り返る</AppText></View><AppText style={dashboardStyles.arrow}>›</AppText>
+          <View style={dashboardStyles.historyCopy}><AppText accessibilityRole="header" aria-level={2} style={dashboardStyles.historyTitle}>閲覧履歴</AppText><AppText style={dashboardStyles.historySubtitle}>以前読んだ知識を振り返る</AppText></View><NavigationChevron />
         </Pressable>
       </View>
     </View>
@@ -113,21 +115,20 @@ function ProfileMark({ avatarUrl }: { avatarUrl?: string | null }) {
 
 
 const dashboardStyles = StyleSheet.create({
-  sections: { gap: 34, marginTop: 30 },
+  sections: { gap: 28, marginTop: 20 },
   history: { minHeight: 96, flexDirection: 'row', alignItems: 'center', gap: 16, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line, paddingVertical: 20 },
-  historyCopy: { flex: 1 }, historyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 36, fontWeight: '600' }, historySubtitle: { color: colors.muted, fontSize: 13, lineHeight: 21, marginTop: 4 }, arrow: { color: colors.goldDeep, fontSize: 28 },
+  historyCopy: { flex: 1 }, historyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 36, fontWeight: '600' }, historySubtitle: { color: colors.muted, fontSize: 13, lineHeight: 21, marginTop: 4 },
   modal: { flex: 1, backgroundColor: 'rgba(0,0,0,0.38)' }, modalScroll: { flexGrow: 1, padding: 16, alignItems: 'center', justifyContent: 'center' },
 });
 const styles = StyleSheet.create({
   content: { maxWidth: 1238, paddingHorizontal: 24, paddingTop: 26, paddingBottom: layout.bottomContentInset + spacing.xl },
   contentMobile: { paddingTop: spacing.md, paddingHorizontal: spacing.md },
-  profileRowMobile: { minHeight: 84, paddingHorizontal: 0, gap: 6 },
+  profileRowMobile: { minHeight: 76, paddingHorizontal: 0, paddingVertical: 8, gap: 6 },
   identityMobile: { gap: 12 },
   membershipBadgeMobile: { paddingHorizontal: 7, paddingVertical: 2, marginTop: 4 },
-  membershipBadgeTextMobile: { fontSize: 10, lineHeight: 16 },
-  profileEditTextMobile: { fontSize: 13, lineHeight: 20 },
+  membershipBadgeTextMobile: { fontSize: 12, lineHeight: 18 },
   identityCopyMobile: { flexDirection: 'column', alignItems: 'flex-start', gap: 0 },
-  profileMarkMobile: { width: 60, height: 60, borderRadius: 30 },
+  profileMarkMobile: { width: 52, height: 52, borderRadius: 26 },
   profileEditMobile: { minHeight: 44, paddingHorizontal: 8 },
   principleRule: { width: 30, height: 1, backgroundColor: '#B78C48' },
   scrollLandscape: { position: 'absolute', top: '21%', bottom: '20%', right: '3%', width: '55%', opacity: 0.24, overflow: 'hidden' },
@@ -137,29 +138,29 @@ const styles = StyleSheet.create({
   personShoulders: { position: 'absolute', bottom: 0, width: 38, height: 21, borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 3, borderBottomRightRadius: 3, backgroundColor: colors.muted },
   dashboard: { width: '100%' },
   profileCard: { backgroundColor: colors.paper },
-  profileRow: { minHeight: 100, paddingHorizontal: 0, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  profileRow: { minHeight: 88, paddingHorizontal: 0, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 12 },
   identity: { flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 26 },
   identityCopy: { flex: 1, minWidth: 0, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 28 },
   profileMark: { width: 72, height: 72, borderRadius: 36, backgroundColor: '#FFFDFC', borderWidth: 1.5, borderColor: '#252A29', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   profileImage: { width: '100%', height: '100%' },
   profileName: { maxWidth: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 3 },
-  profileNameMobile: { fontSize: 22, lineHeight: 31 },
+  profileNameMobile: { fontSize: 22, lineHeight: 31, letterSpacing: 0.5 },
   membershipBadge: { maxWidth: '100%', paddingHorizontal: 13, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#C9974A', borderRadius: radius.pill, backgroundColor: '#FFFDF9' },
   membershipBadgeText: { flexShrink: 1, color: colors.goldDeep, fontSize: 13, lineHeight: 21, fontWeight: '600' },
-  profileEdit: { minHeight: 54, paddingHorizontal: 24, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
-  profileEditText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 18, lineHeight: 26, fontWeight: '600' },
+  profileEdit: { minHeight: 44, paddingHorizontal: 12, flexDirection: 'row', gap: 4, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
+  profileEditText: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   profileDivider: { height: 1, backgroundColor: colors.line },
-  scrollWrap: { minHeight: 184, marginHorizontal: -4, marginTop: 10, marginBottom: 8, justifyContent: 'center' },
-  scrollWrapMobile: { minHeight: 140, marginHorizontal: -spacing.md, marginTop: spacing.md },
+  scrollWrap: { minHeight: 164, marginHorizontal: -4, marginTop: 8, justifyContent: 'center' },
+  scrollWrapMobile: { minHeight: 120, marginHorizontal: -spacing.md },
   scrollArtwork: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 },
   scrollImage: { width: '100%', height: '100%' },
-  scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: 72, paddingVertical: 40 },
+  scrollContent: { flex: 1, justifyContent: 'center', paddingHorizontal: 72, paddingVertical: 32 },
   scrollContentMobile: { paddingHorizontal: spacing.lg, paddingVertical: spacing.md },
   principleHeading: { flexDirection: 'row', alignItems: 'center', gap: 22 },
   principleLabel: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 16, lineHeight: 24, fontWeight: '600', letterSpacing: 1 },
-  principle: { marginTop: 9, color: colors.ink, fontFamily: fonts.serif, fontSize: 36, lineHeight: 50, fontWeight: '600', letterSpacing: 2 },
+  principle: { marginTop: 8, color: colors.ink, fontFamily: fonts.serif, fontSize: 36, lineHeight: 50, fontWeight: '600', letterSpacing: 2 },
   principleMobile: { maxWidth: '100%', fontSize: 23, lineHeight: 34, letterSpacing: 0.2 },
-  editPrinciple: { minHeight: 32, width: 32, alignItems: 'center', justifyContent: 'center', marginLeft: 'auto' },
+  editPrinciple: { minHeight: 44, width: 44, alignItems: 'center', justifyContent: 'center', marginLeft: 'auto' },
   editIcon: { color: colors.goldDeep, fontSize: 20, lineHeight: 26 },
   modalCard: { width: '100%', maxWidth: 520, padding: spacing.xl, borderWidth: 1, borderColor: colors.gold, borderRadius: radius.lg, backgroundColor: colors.surface },
   modalTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 23, lineHeight: 32, fontWeight: '600' },

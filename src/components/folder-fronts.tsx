@@ -3,6 +3,7 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from './ui';
 import { colors, fonts } from '@/constants/theme';
+import { NavigationChevron } from './navigation-chevron';
 
 export type FrontFolder = { id: string; name: string; count: number };
 const art = { gold: require('../../assets/my-page/folder-gold.webp'), sage: require('../../assets/my-page/folder-sage.webp'), blue: require('../../assets/my-page/folder-blue.webp'), pink: require('../../assets/my-page/folder-pink.webp') };
@@ -18,12 +19,12 @@ export function FolderFronts({ folders, onOpen, label }: { folders: FrontFolder[
       <View pointerEvents="none" style={styles.innerFrame} />
       <View pointerEvents="none" style={[styles.corner, styles.cornerTop]} /><View pointerEvents="none" style={[styles.corner, styles.cornerBottom]} />
       <AppText numberOfLines={2} style={[styles.name, mobile && styles.nameMobile, { color: tone.ink }]}>{folder.name}</AppText>
-      <View style={styles.bottom}><AppText style={[styles.count, mobile && styles.countMobile, { color: tone.ink }]}>{folder.count}件</AppText><View style={[styles.rule, { backgroundColor: tone.edge }]} /><AppText accessibilityElementsHidden style={[styles.arrow, mobile && styles.arrowMobile, { color: tone.ink }]}>開く ›</AppText></View>
+      <View style={styles.bottom}><AppText style={[styles.count, mobile && styles.countMobile, { color: tone.ink }]}>{folder.count}件</AppText><View style={[styles.rule, { backgroundColor: tone.edge }]} /><View accessibilityElementsHidden aria-hidden style={styles.openLabel}><AppText style={[styles.arrow, { color: tone.ink }]}>開く</AppText><NavigationChevron color={tone.ink} /></View></View>
     </Pressable>;
   })}</View>;
 }
 export function FolderBack({ onPress }: { onPress: () => void }) {
-  return <Pressable accessibilityRole="button" accessibilityLabel="フォルダー一覧に戻る" onPress={onPress} style={styles.back}><AppText style={styles.backText}>‹ フォルダー一覧</AppText></Pressable>;
+  return <Pressable accessibilityRole="button" accessibilityLabel="フォルダー一覧に戻る" onPress={onPress} style={styles.back}><NavigationChevron direction="left" /><AppText style={styles.backText}>フォルダー一覧</AppText></Pressable>;
 }
 export function MoreCards({ remaining, onPress }: { remaining: number; onPress: () => void }) {
   return remaining > 0 ? <Pressable accessibilityRole="button" accessibilityLabel="次の20件を表示" onPress={onPress} style={styles.more}><AppText style={styles.backText}>もっと見る（残り{remaining}件）</AppText></Pressable> : null;
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
   cardMobile: { width: '100%', minHeight: 108, paddingHorizontal: 24, paddingVertical: 14 },
   nameMobile: { fontSize: 24, lineHeight: 36, letterSpacing: 0.5 },
   countMobile: { fontSize: 14, lineHeight: 24 },
-  arrowMobile: { fontSize: 14, lineHeight: 24 },
   rule: { width: '28%', maxWidth: 150, height: 1, opacity: 0.6 },
   innerFrame: { position: 'absolute', top: 2, right: 2, bottom: 2, left: 2, borderWidth: 1, borderColor: '#E9D4A3', borderRadius: 15 },
   corner: { position: 'absolute', width: 28, height: 28, borderColor: '#C99A4C', opacity: 0.7 },
@@ -42,9 +42,11 @@ const styles = StyleSheet.create({
   card: { width: '47%', flexGrow: 1, maxWidth: '100%', minHeight: 128, paddingHorizontal: 28, paddingVertical: 16, borderRadius: 18, borderWidth: 2, overflow: 'hidden', backgroundColor: '#FFFCF5', boxShadow: '0 5px 10px rgba(64,45,15,0.09)' },
   name: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 46, fontWeight: '700', letterSpacing: 3 },
   bottom: { flexDirection: 'row', gap: 18, alignItems: 'center' },
-  count: { fontFamily: fonts.serif, fontSize: 16, lineHeight: 26 }, arrow: { marginLeft: 'auto', fontFamily: fonts.serif, fontSize: 15, lineHeight: 26, letterSpacing: 2 },
-  back: { minHeight: 44, alignSelf: 'flex-start', justifyContent: 'center', paddingHorizontal: 4, marginBottom: 8 },
-  backText: { color: colors.goldDeep, fontSize: 13, lineHeight: 21, fontWeight: '600' },
+  count: { fontFamily: fonts.serif, fontSize: 16, lineHeight: 26 },
+  openLabel: { marginLeft: 'auto', flexDirection: 'row', alignItems: 'center', gap: 6 },
+  arrow: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '600' },
+  back: { minHeight: 44, flexDirection: 'row', gap: 6, alignItems: 'center', alignSelf: 'flex-start', justifyContent: 'center', paddingHorizontal: 4, marginBottom: 8 },
+  backText: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   more: { minHeight: 48, alignItems: 'center', justifyContent: 'center', marginTop: 8, borderRadius: 12, borderWidth: 1, borderColor: '#D9C9AA', backgroundColor: '#FFF6E2' },
   pressed: { opacity: 0.75 },
 });

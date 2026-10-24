@@ -20,7 +20,7 @@ export const personalMemoStyles = StyleSheet.create({
   empty: { paddingVertical: 20, paddingHorizontal: 16, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line, borderRadius: 10 },
   emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 30 },
   action: { minHeight: 44, paddingHorizontal: 12, paddingVertical: 10, justifyContent: 'center' },
-  actionText: { color: colors.goldDeep, fontSize: 13, lineHeight: 22, fontWeight: '600' },
+  actionText: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   primary: { backgroundColor: colors.goldDeep, borderRadius: 8, alignItems: 'center' },
   primaryText: { color: colors.white },
   dangerAction: { borderRadius: 8 },

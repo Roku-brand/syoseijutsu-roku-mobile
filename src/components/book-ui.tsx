@@ -31,6 +31,7 @@ import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { HeaderSearchAction } from './header-search-action';
 import { SaveDiamond } from './save-diamond';
+import { NavigationChevron } from './navigation-chevron';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
 const appIcon = require('../../assets/brand/icon.png');
@@ -141,7 +142,7 @@ export function BookHeader() {
               pressed && styles.headerActionPressed,
             ]}
           >
-            <View style={styles.headerBackCircle}><AppText style={styles.headerBackArrow}>‹</AppText></View>
+            <View style={styles.headerBackCircle}><NavigationChevron direction="left" color={colors.inkSoft} /></View>
             <AppText style={[styles.headerBackText, compact && styles.headerBackTextCompact, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
           </Pressable>
         </View>
@@ -620,7 +621,7 @@ export function IndexCard({
       {typeof count === 'number' ? (
         <AppText style={styles.indexCount}>{count}</AppText>
       ) : null}
-      <AppText style={styles.indexChevron}>›</AppText>
+      <NavigationChevron />
     </Pressable>
   );
 }
@@ -698,15 +699,14 @@ const styles = StyleSheet.create({
   headerBackLight: { borderWidth: 0, justifyContent: 'center' },
   secondaryHeader: { minHeight: 64, paddingVertical: 10 },
   headerBackCircle: { width: 40, height: 40, borderRadius: 20, borderWidth: StyleSheet.hairlineWidth, borderColor: '#DEDEDA', alignItems: 'center', justifyContent: 'center' },
-  headerBackArrow: { color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 34, lineHeight: 36, marginTop: -2 },
   headerBackText: {
     color: colors.ink,
     fontFamily: fonts.sans,
-    fontSize: 12,
-    lineHeight: 17,
+    fontSize: 13,
+    lineHeight: 20,
     fontWeight: '600',
   },
-  headerBackTextCompact: { fontSize: 11, lineHeight: 16 },
+  headerBackTextCompact: { fontSize: 13, lineHeight: 20 },
   headerBackTextLight: { color: colors.ink },
   headerAppIcon: {
     width: 34,
@@ -1053,7 +1053,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     lineHeight: 30,
   },
-  indexChevron: { color: colors.goldDeep, fontSize: 32, lineHeight: 36 },
   saveDiamondButton: {
     minHeight: 44,
     flexDirection: 'row',

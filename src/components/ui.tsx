@@ -14,6 +14,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, fonts, layout, radius, spacing, typography } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { NavigationChevron } from './navigation-chevron';
 
 export function AppText({
   style,
@@ -126,10 +127,11 @@ export function SectionHeader({
       </AppText>
       {actionLabel && actionHref && (
         <Link href={actionHref} asChild>
-          <Pressable>
+          <Pressable style={styles.sectionActionButton}>
             <AppText variant="label" style={styles.sectionAction}>
-              {actionLabel} ›
+              {actionLabel.replace(/\s*[→›＞>]\s*$/, '')}
             </AppText>
+            <NavigationChevron />
           </Pressable>
         </Link>
       )}
@@ -250,7 +252,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: { fontSize: typography.sectionTitle.fontSize, lineHeight: typography.sectionTitle.lineHeight },
   sectionCount: { color: colors.goldDeep },
-  sectionAction: { color: colors.goldDeep },
+  sectionActionButton: { minHeight: 44, paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center', gap: 6 },
+  sectionAction: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, fontWeight: '600', letterSpacing: 0 },
   primaryButton: {
     minHeight: 54,
     borderRadius: radius.md,

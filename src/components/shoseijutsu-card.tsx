@@ -8,6 +8,7 @@ import { techniqueRoute } from '@/navigation/app-routes';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { AppText } from './ui';
 import { TechniqueTitle } from './technique-title';
+import { NavigationChevron } from './navigation-chevron';
 
 /** Catalogue and saved-folder entries share this presentation; data stays upstream. */
 export function ShoseijutsuCard({ card, readable = true, actions, onPress, testID, role = 'link', openLabel }: {
@@ -26,7 +27,7 @@ export function ShoseijutsuCard({ card, readable = true, actions, onPress, testI
         <TechniqueTitle testID="technique-index-title" title={title} minimumFontSize={compact ? 14 : 18} style={[styles.title, compact && styles.titleCompact]} />
         {!readable ? <AppText style={styles.access}>完全版で読む</AppText> : null}
       </View>
-      <AppText accessibilityElementsHidden aria-hidden style={styles.arrow}>›</AppText>
+      <NavigationChevron />
     </Pressable>;
   return <View testID="shoseijutsu-card" style={styles.card}>
     <View testID="technique-category-bar" accessibilityElementsHidden aria-hidden style={[styles.bar, { backgroundColor: catalogTheme.categoryBars[card.categoryKey] ?? colors.gold }]} />
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 22, lineHeight: 33, fontWeight: '600' },
   titleCompact: { fontSize: 17, lineHeight: 26 },
   access: { color: colors.goldDeep, fontSize: 11, lineHeight: 18 },
-  arrow: { flexShrink: 0, color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 28, lineHeight: 34 },
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, position: 'absolute', top: 3, right: 12 },
   pressed: { opacity: 0.75 },
 });

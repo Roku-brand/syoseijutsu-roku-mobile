@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { AppText } from './ui';
+import { NavigationChevron } from './navigation-chevron';
 
 /** Both catalogues use the same compact, directly selectable page control. */
 export function Pagination({ page, totalPages, onSelect, tone = 'technique', label, testID }: {
@@ -15,11 +16,11 @@ export function Pagination({ page, totalPages, onSelect, tone = 'technique', lab
   const ink = tone === 'theory' ? catalogTheme.theory.ink : tone === 'neutral' ? colors.ink : colors.goldDeep;
   const select = (value: number) => { setOpen(false); onSelect(value); };
   return <View testID={testID} accessibilityLabel={label} style={styles.pagination}>
-    <Pressable accessibilityRole="button" accessibilityLabel="前のページ" disabled={current === 1} onPress={() => select(current - 1)} style={[styles.arrow, current === 1 && styles.disabled]}><View aria-hidden style={[styles.chevron, styles.previous, { borderColor: ink }]} /></Pressable>
+    <Pressable accessibilityRole="button" accessibilityLabel="前のページ" disabled={current === 1} onPress={() => select(current - 1)} style={[styles.arrow, current === 1 && styles.disabled]}><NavigationChevron direction="left" color={ink} /></Pressable>
     <Pressable accessibilityRole="button" accessibilityLabel={`${label}：${current}/${totalPages}`} aria-expanded={open} accessibilityHint="ページを選択します" onPress={() => setOpen(true)} style={styles.trigger}>
-      <AppText style={[styles.text, { color: ink }]}>{current}</AppText><View aria-hidden style={[styles.divider, { backgroundColor: ink }]} /><AppText style={[styles.text, styles.total, { color: ink }]}>{totalPages}</AppText><View aria-hidden style={[styles.chevron, styles.down, { borderColor: ink }]} />
+      <AppText style={[styles.text, { color: ink }]}>{current}</AppText><View aria-hidden style={[styles.divider, { backgroundColor: ink }]} /><AppText style={[styles.text, styles.total, { color: ink }]}>{totalPages}</AppText><NavigationChevron direction="down" color={ink} />
     </Pressable>
-    <Pressable accessibilityRole="button" accessibilityLabel="次のページ" disabled={current === totalPages} onPress={() => select(current + 1)} style={[styles.arrow, current === totalPages && styles.disabled]}><View aria-hidden style={[styles.chevron, styles.next, { borderColor: ink }]} /></Pressable>
+    <Pressable accessibilityRole="button" accessibilityLabel="次のページ" disabled={current === totalPages} onPress={() => select(current + 1)} style={[styles.arrow, current === totalPages && styles.disabled]}><NavigationChevron color={ink} /></Pressable>
     <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
       <View style={styles.backdrop}><View role="dialog" aria-modal accessibilityLabel={label} style={styles.dialog}>
         <View style={styles.heading}><AppText style={styles.headingText}>ページを選ぶ</AppText><Pressable accessibilityRole="button" accessibilityLabel="ページ選択を閉じる" onPress={() => setOpen(false)} style={styles.close}><AppText style={{ color: ink }}>閉じる</AppText></Pressable></View>
@@ -35,9 +36,6 @@ const styles = StyleSheet.create({
   total: { fontWeight: '400', opacity: 0.7 },
   divider: { width: 1, height: 13, opacity: 0.3, transform: [{ rotate: '20deg' }] },
   arrow: { width: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
-  chevron: { width: 7, height: 7, borderRightWidth: 1.5, borderBottomWidth: 1.5 },
-  previous: { transform: [{ rotate: '135deg' }] }, next: { transform: [{ rotate: '-45deg' }] },
-  down: { width: 5, height: 5, marginLeft: 1, marginTop: -3, transform: [{ rotate: '45deg' }] },
   disabled: { opacity: 0.25 },
   backdrop: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: 'rgba(23,23,18,0.38)' },
   dialog: { width: '100%', maxWidth: 380, maxHeight: '80%', padding: 20, borderRadius: 14, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line },

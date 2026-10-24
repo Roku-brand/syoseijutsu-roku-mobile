@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { SectionAction } from './section-action';
 
 import { colors, fonts } from '@/constants/theme';
 
@@ -18,9 +19,7 @@ export function BrandSectionHeading({ title, actionLabel, actionAccessibilityLab
     <View style={styles.row}>
       <Text accessibilityRole="header" aria-level={2} style={[styles.title, compact && styles.titleCompact]}>{title}</Text>
       {actionLabel && onAction ? (
-        <Pressable testID={actionTestID} accessibilityRole={actionRole} accessibilityLabel={actionAccessibilityLabel ?? actionLabel.replace(/\s*→$/, '')} accessibilityState={{ disabled: actionDisabled }} aria-disabled={actionDisabled} disabled={actionDisabled} onPress={onAction} style={({ pressed }) => [styles.action, actionDisabled && styles.disabled, pressed && styles.pressed]}>
-          <Text style={styles.actionText}>{actionLabel}</Text>
-        </Pressable>
+        <SectionAction testID={actionTestID} role={actionRole} accessibilityLabel={actionAccessibilityLabel} disabled={actionDisabled} onPress={onAction} label={actionLabel} />
       ) : null}
     </View>
   );
@@ -30,8 +29,4 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   title: { flexShrink: 1, color: colors.ink, fontFamily: fonts.serif, fontSize: 27, lineHeight: 38, fontWeight: '700', letterSpacing: 0.8 },
   titleCompact: { fontSize: 23, lineHeight: 33 },
-  action: { minHeight: 32, paddingLeft: 10, alignItems: 'center', justifyContent: 'center' },
-  actionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  pressed: { opacity: 0.65 },
-  disabled: { opacity: 0.5 },
 });

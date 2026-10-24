@@ -7,6 +7,7 @@ import type { TheoryCard as TheoryRecord } from '@/data/types';
 import { getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { AppText } from './ui';
+import { NavigationChevron } from './navigation-chevron';
 
 /** The same theory card is used in the catalogue and every saved folder. */
 export function TheoryCard({ theory, actions, onPress, testID, role = 'link', showClassification = true }: {
@@ -16,20 +17,20 @@ export function TheoryCard({ theory, actions, onPress, testID, role = 'link', sh
   const compact = width < 700;
   const summary = getTheoryCoverSummary(theory.summary);
   // Match the Router slot's flat-style contract on web and native.
-  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, Boolean(actions) && styles.withActions]);
+  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, !summary && styles.titleOnly, !summary && compact && styles.titleOnlyCompact, Boolean(actions) && styles.withActions]);
   const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={`${theory.title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>
       <View style={[styles.meta, !showClassification && styles.metaCodeOnly, Boolean(actions) && styles.metaWithActions]}>
         {showClassification ? <AppText testID="theory-card-subcategory" style={[styles.classification, compact && styles.metaCompact]}>{theory.subcategoryTitle || theory.categoryTitle}</AppText> : null}
         <AppText testID="theory-card-id" style={[styles.code, compact && styles.metaCompact]}>{getTheoryDisplayId(theory)}</AppText>
       </View>
-      <View style={[styles.copy, compact && styles.copyCompact]}>
+      <View style={[styles.copy, compact && styles.copyCompact, !summary && styles.titleOnlyCopy]}>
         <AppText testID="theory-card-title" style={[styles.title, compact && styles.titleCompact]}>{normalizeDisplayText(theory.title)}</AppText>
-        <View testID="theory-card-ornament" accessibilityElementsHidden aria-hidden style={styles.ornament}>
+        <View testID="theory-card-ornament" accessibilityElementsHidden aria-hidden style={[styles.ornament, !summary && styles.titleOnlyOrnament]}>
           <View style={styles.rule} /><View style={styles.flourish}><View style={styles.lozenge} /><View style={[styles.lozenge, styles.lozengeMiddle]} /><View style={styles.lozenge} /></View><View style={styles.rule} />
         </View>
         {summary ? <AppText testID="theory-card-summary" numberOfLines={compact ? 3 : 2} style={[styles.summary, compact && styles.summaryCompact]}>{summary}</AppText> : null}
       </View>
-      <AppText accessibilityElementsHidden aria-hidden style={[styles.arrow, compact && styles.arrowCompact]}>›</AppText>
+      <NavigationChevron color={colors.ink} style={[styles.arrow, compact && styles.arrowCompact]} />
     </Pressable>;
   return <View testID="theory-card" style={styles.card}>
     <View pointerEvents="none" accessibilityElementsHidden aria-hidden style={styles.innerFrame} />
@@ -44,6 +45,10 @@ const styles = StyleSheet.create({
   innerFrame: { position: 'absolute', left: 5, right: 5, top: 5, bottom: 5, borderWidth: 1, borderColor: blue.border, borderRadius: 1 },
   open: { width: '100%', minWidth: 0, minHeight: 148, paddingTop: 17, paddingBottom: 19, paddingHorizontal: 30 },
   openCompact: { minHeight: 168, paddingTop: 15, paddingBottom: 18, paddingHorizontal: 17 },
+  titleOnly: { minHeight: 104, paddingTop: 14, paddingBottom: 16 },
+  titleOnlyCompact: { minHeight: 116, paddingTop: 14, paddingBottom: 14 },
+  titleOnlyCopy: { gap: 6, paddingTop: 4 },
+  titleOnlyOrnament: { width: 128 },
   withActions: { paddingTop: 17 },
   metaWithActions: { paddingRight: 82, minHeight: 36 },
   meta: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 },
@@ -62,8 +67,8 @@ const styles = StyleSheet.create({
   flourish: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 3 },
   lozenge: { width: 7, height: 5, borderWidth: 1, borderColor: blue.muted, borderRadius: 2, transform: [{ rotate: '35deg' }] },
   lozengeMiddle: { marginHorizontal: -2, transform: [{ rotate: '-35deg' }] },
-  arrow: { position: 'absolute', right: 18, top: '50%', marginTop: -16, color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 32 },
-  arrowCompact: { right: 9, fontSize: 24 },
+  arrow: { position: 'absolute', right: 14, top: '50%', marginTop: -10 },
+  arrowCompact: { right: 6 },
   actions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 10, position: 'absolute', top: 8, right: 12 },
   pressed: { opacity: 0.76 },
 });

@@ -72,7 +72,8 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
   await expect(entry.getByTestId('theory-card-subcategory')).toHaveCount(0);
   const [entryBox, codeBox] = await Promise.all([entry.boundingBox(), entry.getByTestId('theory-card-id').boundingBox()]);
-  expect(entryBox!.height).toBeGreaterThanOrEqual(148);
+  expect(entryBox!.height).toBeGreaterThanOrEqual(width < 700 ? 116 : 104);
+  expect(entryBox!.height).toBeLessThan(148);
   expect(codeBox!.y - entryBox!.y).toBeGreaterThanOrEqual(14);
   expect(entryBox!.x + entryBox!.width - codeBox!.x - codeBox!.width).toBeGreaterThanOrEqual(16);
   await noOverflow(page);
