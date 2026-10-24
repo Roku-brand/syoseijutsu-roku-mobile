@@ -72,7 +72,7 @@ test('マイページはプロフィールと巻物に続いてお気に入り�
   await expect(profileCard).not.toContainText('完全版を見る');
   await expect(page.getByTestId('my-page-tabs')).toHaveCount(0);
   await expect(page.getByTestId('favorites-overview')).toContainText('お気に入り');
-  await expect(page.getByTestId('personal-memos-preview')).toContainText('自分の言葉で残した処世術');
+  await expect(page.getByTestId('personal-memos-preview').getByRole('heading', { name: 'マイ処世術', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '閲覧履歴を開く', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'オリジナルの処世術を作る', exact: true }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、相手の話を聞く。');
