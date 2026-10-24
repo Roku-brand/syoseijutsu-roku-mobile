@@ -34,6 +34,7 @@ import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
 const appIcon = require('../../assets/brand/icon.png');
+const DETAIL_ACTION_WIDTH = 52;
 
 export function BookScreen({
   children,
@@ -115,7 +116,7 @@ export function BookHeader() {
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
-  const titleInset = Math.max(84, (detail ? 108 : actionCount * 44) + Math.max(0, actionCount - 1) * 3 + 20);
+  const titleInset = Math.max(84, actionCount * (detail ? DETAIL_ACTION_WIDTH : 44) + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
     if (router.canGoBack()) {
       router.back();
@@ -318,30 +319,33 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
         accessibilityLabel={isSaved ? 'お気に入りから外す' : 'お気に入りに保存'}
         accessibilityState={{ selected: isSaved }} aria-pressed={isSaved}
         onPress={toggle}
-        style={({ pressed }) => [styles.headerAction, styles.headerSaveAction, pressed && styles.headerActionPressed]}
+        style={({ pressed }) => [styles.headerAction, styles.headerDetailAction, pressed && styles.headerActionPressed]}
       >
-        <SaveDiamond saved={isSaved} />
-        <AppText style={styles.headerSaveLabel}>{isSaved ? '保存済み' : '保存'}</AppText>
+        <View style={styles.headerDetailIcon}><SaveDiamond saved={isSaved} /></View>
+        <AppText numberOfLines={1} style={styles.headerDetailLabel}>{isSaved ? '保存済み' : '保存'}</AppText>
       </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel="共有"
         onPress={() => void share()}
-        style={({ pressed }) => [styles.headerAction, pressed && styles.headerActionPressed]}
+        style={({ pressed }) => [styles.headerAction, styles.headerDetailAction, pressed && styles.headerActionPressed]}
       >
-        {Platform.OS === 'web' ? (
-          <View testID="header-share-symbol" style={styles.shareMark} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-            <View style={styles.shareBasket} />
-            <View style={styles.shareStem} />
-            <View style={styles.shareArrow} />
-          </View>
-        ) : <SymbolView
-          name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
-          fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
-          size={20}
-          tintColor={colors.gold}
-          weight="regular"
-        />}
+        <View style={styles.headerDetailIcon}>
+          {Platform.OS === 'web' ? (
+            <View testID="header-share-symbol" style={styles.shareMark} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+              <View style={styles.shareBasket} />
+              <View style={styles.shareStem} />
+              <View style={styles.shareArrow} />
+            </View>
+          ) : <SymbolView
+            name={{ ios: 'square.and.arrow.up', android: 'ios_share', web: 'ios_share' }}
+            fallback={<AppText style={styles.detailActionFallback}>⇧</AppText>}
+            size={20}
+            tintColor={colors.gold}
+            weight="regular"
+          />}
+        </View>
+        <AppText numberOfLines={1} style={styles.headerDetailLabel}>共有</AppText>
       </Pressable>
     </View>
   );
@@ -1062,8 +1066,9 @@ const styles = StyleSheet.create({
     gap: 7,
     paddingHorizontal: 4,
   },
-  headerSaveAction: { width: 64, flexDirection: 'column', gap: 2 },
-  headerSaveLabel: { fontFamily: fonts.sans, color: colors.goldDeep, fontSize: 12, lineHeight: 18 },
+  headerDetailAction: { width: DETAIL_ACTION_WIDTH, minHeight: 48, flexDirection: 'column', gap: 2 },
+  headerDetailIcon: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
+  headerDetailLabel: { fontFamily: fonts.sans, color: colors.goldDeep, fontSize: 12, lineHeight: 18, textAlign: 'center' },
   saveDiamondButtonCompact: { minWidth: 76, paddingHorizontal: 4 },
   saveDiamondButtonPressed: { opacity: 0.78, transform: [{ scale: 0.94 }] },
   saveDiamondLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 20, fontWeight: '600' },
