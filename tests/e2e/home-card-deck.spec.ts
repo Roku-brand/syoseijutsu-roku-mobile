@@ -53,7 +53,10 @@ for (const width of [320, 390, 1440]) {
     expect(frames.some((frame: any) => same(frame.labels, after) && frame.x > 40 && frame.front.every((value: number) => value === 0))).toBe(true);
     // Compare turn angles: WebKit may sample too slowly to catch a brief opacity edge.
     expect(frames.some((frame: any) => same(frame.labels, after) && frame.angle[0] > frame.angle[4] + 0.1)).toBe(true);
-    expect(frames.every((frame: any) => Math.abs(frame.height - height) < 1)).toBe(true);
+    const afterHeight = (await deck.boundingBox())!.height;
+    // Full titles and summaries can change the deck height. The exchange must
+    // stay within the old/new content heights without collapsing or overshooting.
+    expect(frames.every((frame: any) => frame.height >= Math.min(height, afterHeight) - 1 && frame.height <= Math.max(height, afterHeight) + 1)).toBe(true);
     await expect(page.getByTestId('home-deck-front').first()).toHaveCSS('opacity', '1');
     await expect(page.getByTestId('home-deck-back').first()).toHaveCSS('opacity', '0');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

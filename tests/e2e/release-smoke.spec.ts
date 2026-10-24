@@ -1066,7 +1066,7 @@ test('ホームのブランドリールはPC・タブレット・スマホでカ
   }
 });
 
-test('スマホのホームリールは横長比率を保ち全7枚を読みやすく表示する', async ({ page }) => {
+test('スマホのホームリールは本文に合わせた高さで全7枚を読みやすく表示する', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await startFreeHome(page);
@@ -1086,7 +1086,7 @@ test('スマホのホームリールは横長比率を保ち全7枚を読みや�
     await page.getByRole('tab', { name: `${index}枚目を表示` }).click();
     const slideBox = await page.getByTestId(`home-brand-slide-${index}`).boundingBox();
     expect(slideBox).not.toBeNull();
-    expect(slideBox!.width / slideBox!.height).toBeGreaterThan(1.4);
+    expect(slideBox!.height).toBeGreaterThanOrEqual(300);
   }
 
   await page.getByRole('tab', { name: '4枚目を表示' }).click();
