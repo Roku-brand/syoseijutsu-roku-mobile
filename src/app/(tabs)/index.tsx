@@ -1,34 +1,23 @@
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View, type ImageSourcePropType } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '../../access/access-config';
 import { useAccess } from '@/access/access-state';
 import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
 import { BrandSectionHeading } from '../../components/brand-section-heading';
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { HomeRecommendationDeck } from '../../components/home-recommendation-deck';
-import { categoryMeta, techniqueById, theoryById } from '../../data/catalog';
-import { techniqueCategoryImages } from '../../data/category-images';
-import { getTheoryCoverSummary, isLockedTheoryShell } from '../../data/theory-display';
-import type { CategoryKey } from '../../data/types';
+import { ReadingPreviewCard as ContentCard, RecentReadingPreview } from '../../components/recent-reading-preview';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { useAppState } from '@/state/app-state';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, techniqueRoute, theoryRoute, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
-import { TechniqueTitle } from '../../components/technique-title';
-import { buildReadingRecommendations, readingContentId, type ReadingContent } from '../../data/reading-recommendations';
-
-const categoryImages: Record<CategoryKey | 'theory', ImageSourcePropType> = {
-  ...techniqueCategoryImages,
-  theory: require('../../../assets/home/theory-v2.webp'),
-};
+import { buildReadingRecommendations, type ReadingContent } from '../../data/reading-recommendations';
 const premiumImage = require('../../../assets/home/premium-banner-v2.webp');
 
 type HomeContent = ReadingContent;
-const contentId = readingContentId;
 
 const shortcuts = [
   { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
@@ -54,13 +43,6 @@ export default function HomeScreen() {
     return () => clearInterval(timer);
   }, []);
 
-  const recent = useMemo<HomeContent[]>(() => historyIds.flatMap((id): HomeContent[] => {
-    const card = techniqueById.get(id);
-    if (card && card.status !== 'locked' && card.title !== '完全版の処世術' && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(id))) return [{ type: 'technique', card }];
-    const theory = theoryById.get(id);
-    if (theory && !isLockedTheoryShell(theory) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(id))) return [{ type: 'theory', card: theory }];
-    return [];
-  }).slice(0, 6), [accessState, catalogRevision, historyIds]);
   const recommendations = useMemo(
     () => buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed: `${readingDay}:${discoveryRound}` }),
     [accessState, catalogRevision, historyIds, interests, savedIds, savedTheoryIds, readingDay, discoveryRound],
@@ -105,12 +87,7 @@ export default function HomeScreen() {
       </View>
 
       <HomeSection title="続きから読む" testID="home-continue-section" onAction={() => router.push(APP_ROUTES.history)}>
-        {recent.length ? <ScrollView horizontal testID="home-continue-rail" showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
-          {recent.map((item) => <ContentCard key={`${item.type}:${contentId(item)}`} item={item} width={cardWidth} onPress={() => openContent(item)} />)}
-        </ScrollView> : <Pressable accessibilityRole="link" accessibilityLabel="処世術を探す" onPress={() => router.push(APP_ROUTES.discover)} style={styles.emptyHistory}>
-          <Text style={styles.emptyHistoryTitle}>まだ読書の履歴はありません</Text>
-          <Text style={styles.emptyHistoryBody}>気になる一枚を読むと、ここから再開できます。　探す →</Text>
-        </Pressable>}
+        <RecentReadingPreview railTestID="home-continue-rail" />
       </HomeSection>
 
       </View>
@@ -125,19 +102,6 @@ function HomeSection({ title, testID, onAction, children }: { title: string; tes
     <View style={styles.sectionHeading}><BrandSectionHeading title={title} actionLabel="すべて見る →" actionAccessibilityLabel={`${title}をすべて見る`} onAction={onAction} compact={!desktop} /></View>
     {children}
   </View>;
-}
-
-function ContentCard({ item, width, onPress, testID, disabled = false }: { item: HomeContent; width: number; onPress: () => void; testID?: string; disabled?: boolean }) {
-  const category = item.type === 'technique' ? item.card.categoryKey : 'theory';
-  const label = item.type === 'technique' ? categoryMeta[item.card.categoryKey].label : '理論';
-  return <Pressable testID={testID} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled} aria-disabled={disabled} accessibilityState={{ disabled }} onPress={onPress} style={({ pressed }) => [styles.contentCard, { width }, pressed && styles.pressed]}>
-    <Image source={categoryImages[category] ?? categoryImages.theory} resizeMode="cover" accessibilityLabel={`${label}のイメージ写真`} style={styles.contentImage} />
-    <View style={styles.contentBody}>
-      <Text style={[styles.categoryLabel, category === 'theory' && styles.categoryTheory]}>{label}</Text>
-      {item.type === 'technique' ? <TechniqueTitle title={item.card.title} minimumFontSize={14} maxLines={2} style={styles.contentTitle} /> : <Text numberOfLines={2} style={styles.contentTitle}>{item.card.title}</Text>}
-      <Text numberOfLines={2} style={styles.contentSummary}>{item.type === 'technique' ? item.card.essence || item.card.subtitle : getTheoryCoverSummary(item.card.summary)}</Text>
-    </View>
-  </Pressable>;
 }
 
 const styles = StyleSheet.create({
@@ -180,16 +144,4 @@ const styles = StyleSheet.create({
   premiumButtonTextMobile: { fontSize: 9, lineHeight: 13 },
   section: { marginTop: 19 },
   sectionHeading: { marginBottom: 8 },
-  rail: { gap: 11, paddingBottom: 4, paddingRight: 16 },
-  contentCard: { flexGrow: 0, flexShrink: 0, overflow: 'hidden', backgroundColor: '#FFFDF9', borderColor: '#E9E2D8', borderWidth: 1, borderRadius: 14, ...bookCardShadow },
-  contentImage: { width: '100%', height: 84, backgroundColor: '#E6E0D5' },
-  contentBody: { minHeight: 145, paddingHorizontal: 12, paddingTop: 7, paddingBottom: 10, overflow: 'hidden' },
-  categoryLabel: { alignSelf: 'flex-start', color: '#9B6E27', fontFamily: fonts.serif, fontSize: 11, lineHeight: 17, borderColor: '#D6BD95', borderWidth: 1, borderRadius: 999, paddingHorizontal: 8, backgroundColor: '#FFF8EA' },
-  categoryTheory: { color: '#506B86', borderColor: '#A5B8C7', backgroundColor: '#EFF4F7' },
-  contentTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '600', marginTop: 6, minHeight: 52 },
-  contentSummary: { color: colors.inkSoft, fontSize: 13, lineHeight: 22, marginTop: 6 },
-  contentLink: { alignSelf: 'flex-end', color: '#A3752B', fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, marginTop: 5 },
-  emptyHistory: { minHeight: 89, justifyContent: 'center', paddingHorizontal: 16, borderWidth: 1, borderColor: '#E9E2D8', borderRadius: 14, backgroundColor: '#FFFDF9' },
-  emptyHistoryTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
-  emptyHistoryBody: { color: colors.muted, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, marginTop: 4 },
 });
