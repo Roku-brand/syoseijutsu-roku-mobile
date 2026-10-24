@@ -17,8 +17,10 @@ export function PersonalMemosContent(options: PersonalMemosOptions) {
 
   return <View testID={controller.preview ? 'personal-memos-preview' : 'personal-memos-organizer'}>
     <PersonalSectionHeading
-      hideCompactTitle={!controller.preview} title="マイ処世術" subtitle="自分の言葉で残した処世術" leadingAction={folderAction}
-      action={controller.preview ? 'すべて見る ›' : undefined}
+      hideCompactTitle={!controller.preview} title="マイ処世術"
+      subtitle={controller.preview ? undefined : '自分の言葉で残した処世術'}
+      leadingAction={controller.preview ? undefined : folderAction}
+      action={controller.preview ? 'すべて見る ＞' : undefined}
       actionLabel={controller.preview ? 'マイ処世術をすべて見る' : undefined}
       onAction={controller.preview ? controller.openAll : undefined}
     />

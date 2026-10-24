@@ -7,6 +7,7 @@ import { AppText } from './ui';
 import { FavoritesOverview } from './favorites-overview';
 import { PersonalMemosContent } from './personal-memos-content';
 import { RecentReadingPreview } from './recent-reading-preview';
+import { PersonalSectionHeading } from './personal-section-heading';
 import { colors, fonts, layout, radius, spacing } from '@/constants/theme';
 import { useAppState } from '@/state/app-state';
 import { useAuth } from '@/auth/auth-state';
@@ -89,10 +90,8 @@ export default function MyPageContent() {
       <View style={dashboardStyles.sections}>
         <FavoritesOverview />
         <PersonalMemosContent preview composeRequested={composeRequested} onComposeHandled={onComposeHandled} />
-        <View style={dashboardStyles.historySection}>
-          <Pressable testID="history-entry" accessibilityRole="button" accessibilityLabel="閲覧履歴を開く" onPress={() => router.push(APP_ROUTES.history)} style={dashboardStyles.history}>
-            <View style={dashboardStyles.historyCopy}><AppText accessibilityRole="header" aria-level={2} style={dashboardStyles.historyTitle}>閲覧履歴</AppText><AppText style={dashboardStyles.historySubtitle}>以前読んだ知識を振り返る</AppText></View><AppText style={dashboardStyles.arrow}>›</AppText>
-          </Pressable>
+        <View testID="history-entry">
+          <PersonalSectionHeading title="閲覧履歴" action="すべて見る ＞" actionLabel="閲覧履歴を開く" onAction={() => router.push(APP_ROUTES.history)} />
           <RecentReadingPreview railTestID="my-page-history-rail" cardTestID="my-page-history-card" />
         </View>
       </View>
@@ -118,9 +117,6 @@ function ProfileMark({ avatarUrl }: { avatarUrl?: string | null }) {
 
 const dashboardStyles = StyleSheet.create({
   sections: { gap: 34, marginTop: 30 },
-  historySection: { gap: 12 },
-  history: { minHeight: 96, flexDirection: 'row', alignItems: 'center', gap: 16, borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line, paddingVertical: 20 },
-  historyCopy: { flex: 1 }, historyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 36, fontWeight: '600' }, historySubtitle: { color: colors.muted, fontSize: 13, lineHeight: 21, marginTop: 4 }, arrow: { color: colors.goldDeep, fontSize: 28 },
   modal: { flex: 1, backgroundColor: 'rgba(0,0,0,0.38)' }, modalScroll: { flexGrow: 1, padding: 16, alignItems: 'center', justifyContent: 'center' },
 });
 const styles = StyleSheet.create({
