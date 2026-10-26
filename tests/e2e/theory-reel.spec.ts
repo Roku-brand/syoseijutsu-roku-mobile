@@ -112,7 +112,9 @@ for (const width of [320, 393]) test(`タッチで指に追従し最寄りへス
   expect(await swipe(slot * 0.72) - start).toBeGreaterThan(slot * 0.4); await expectCategory(page, psychology[0].id);
   await swipe(slot * 0.25); await expectCategory(page, psychology[0].id);
   await swipe(-slot * 0.72); await expectCategory(page);
-  await swipe(-slot * 0.72); await expectCategory(page, psychology.at(-1).id); expect(await scrollPosition(page)).toBeCloseTo(start + psychology.length * slot, 0);
+  await swipe(-slot * 0.72); await expectCategory(page, psychology.at(-1).id);
+  // scrollLeft may round fractional CSS slots; match the existing centering tolerance.
+  expect(Math.abs((await scrollPosition(page)) - (start + psychology.length * slot))).toBeLessThan(1.5);
   await swipe(slot * 0.72, true); await expectCategory(page, psychology.at(-1).id);
   await viewport.evaluate(el => { for (let parent = el.parentElement; parent; parent = parent.parentElement) if (parent.scrollHeight > parent.clientHeight + 50 && ['auto', 'scroll'].includes(getComputedStyle(parent).overflowY)) { parent.dataset.qaVertical = 'true'; break; } });
   const vertical = page.locator('[data-qa-vertical]'); const before = await vertical.evaluate(el => el.scrollTop);
