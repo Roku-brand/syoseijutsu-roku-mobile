@@ -80,16 +80,16 @@ test('すべては分類見出しのみ表示し、個別選択は重複見出�
     await expect(page.getByTestId('theory-index-list').getByRole('heading')).toHaveCount(0);
   }
   const end = await scrollPosition(page);
-  await page.keyboard.press('ArrowRight'); await expectCategory(page, psychology.at(-1).id);
-  expect(await scrollPosition(page)).toBeCloseTo(end, 0);
+  await page.keyboard.press('ArrowRight'); await expectCategory(page);
+  expect(await scrollPosition(page)).toBeLessThan(end);
   await page.keyboard.press('Home'); await expectCategory(page);
-  await page.keyboard.press('ArrowLeft'); await expectCategory(page); expect(await scrollPosition(page)).toBe(0);
+  await page.keyboard.press('ArrowLeft'); await expectCategory(page, psychology.at(-1).id); expect(await scrollPosition(page)).toBeCloseTo(end, 0);
   await page.keyboard.press('End'); await expectCategory(page, psychology.at(-1).id);
   await page.getByRole('button', { name: '行動科学で理論を絞り込む', exact: true }).click();
   await expectCategory(page, undefined, 'behavioral-science');
 });
 
-for (const width of [320, 393]) test(`タッチで指に追従し最寄りへスナップ、端では止まり縦スクロールを保つ ${width}px`, async ({ page, context }) => {
+for (const width of [320, 393]) test(`タッチで指に追従し最寄りへスナップ、両端を循環し縦スクロールを保つ ${width}px`, async ({ page, context }) => {
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/theories?category=psychology'); await expectCategory(page);
   await expect(page.locator('#roku-launch')).toBeHidden();
@@ -108,11 +108,12 @@ for (const width of [320, 393]) test(`タッチで指に追従し最寄りへス
     await session.send('Input.dispatchTouchEvent', { type: cancel ? 'touchCancel' : 'touchEnd', touchPoints: [] });
     return during;
   };
-  expect(await swipe(slot * 0.72)).toBeGreaterThan(slot * 0.4); await expectCategory(page, psychology[0].id);
+  const start = await scrollPosition(page);
+  expect(await swipe(slot * 0.72) - start).toBeGreaterThan(slot * 0.4); await expectCategory(page, psychology[0].id);
   await swipe(slot * 0.25); await expectCategory(page, psychology[0].id);
   await swipe(-slot * 0.72); await expectCategory(page);
-  await swipe(-slot * 0.72); await expectCategory(page); expect(await scrollPosition(page)).toBe(0);
-  await swipe(slot * 0.72, true); await expectCategory(page);
+  await swipe(-slot * 0.72); await expectCategory(page, psychology.at(-1).id); expect(await scrollPosition(page)).toBeCloseTo(start + psychology.length * slot, 0);
+  await swipe(slot * 0.72, true); await expectCategory(page, psychology.at(-1).id);
   await viewport.evaluate(el => { for (let parent = el.parentElement; parent; parent = parent.parentElement) if (parent.scrollHeight > parent.clientHeight + 50 && ['auto', 'scroll'].includes(getComputedStyle(parent).overflowY)) { parent.dataset.qaVertical = 'true'; break; } });
   const vertical = page.locator('[data-qa-vertical]'); const before = await vertical.evaluate(el => el.scrollTop);
   const x = box.x + box.width / 2, y = box.y + box.height / 2;
@@ -140,7 +141,7 @@ test('ホイール・キーボード・連続操作も実スクロールと分�
 });
 });
 
-for (const width of [320, 1440]) test(`分類名は自然にスクロールしアニメーション中も端を越えない ${width}px`, async ({ page }) => {
+for (const width of [320, 1440]) test(`分類名は自然にスクロールし末尾から先頭へ循環する ${width}px`, async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/theories?category=psychology'); await expectCategory(page);
@@ -151,8 +152,8 @@ for (const width of [320, 1440]) test(`分類名は自然にスクロールし�
   await page.getByTestId('theory-subcategory-tab').focus(); await page.keyboard.press('End');
   await expectCategory(page, psychology.at(-1).id);
   const end = await scrollPosition(page);
-  await page.keyboard.press('ArrowRight'); await expectCategory(page, psychology.at(-1).id);
-  expect(await scrollPosition(page)).toBeCloseTo(end, 0);
+  await page.keyboard.press('ArrowRight'); await expectCategory(page);
+  expect(await scrollPosition(page)).toBeLessThan(end);
 });
 
 test('動きを減らす設定と外部URL・大分類変更・画面幅変更に従う', async ({ page }) => {
