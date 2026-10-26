@@ -30,16 +30,19 @@ export function TheoryDetailsEditor({ value, onChange, options, disabled }: {
   <AppText style={styles.hint}>分類タブは増やさず、理論・現象・手法・思想を区別するための属性です。</AppText>
   {value.knowledgeType === 'aphorism' || value.quotation ? <>
    <AppText variant="label">格言の原典・権利監査</AppText>
-   <Field label="表示用日本語（独自訳・原文）" value={q.translationText} onChange={translationText => quote({translationText})} disabled={disabled} multi />
+   <Field label="表示用日本語（原文・訓読・訳文）" value={q.translationText} onChange={translationText => quote({translationText})} disabled={disabled} multi />
    <AppText style={styles.hint}>この言葉が一覧・検索の公開見出しになります。原文・出典・解説は設定した公開範囲で配信します。</AppText>
    <Field label="著作者・発言者" value={q.author} onChange={author => quote({author})} disabled={disabled} />
    <Field label="著作者の死亡年" value={q.authorDeathYear == null ? '' : String(q.authorDeathYear)} onChange={year => quote({authorDeathYear: /^-?\d+$/.test(year) ? Number(year) : null})} disabled={disabled} />
+   {q.authorDeathYear == null && q.authorDeathYearUpperBound != null && <AppText style={styles.hint}>没年不詳：確認済みの上限年 {q.authorDeathYearUpperBound}年</AppText>}
    <Field label="作品・原典" value={q.work} onChange={work => quote({work})} disabled={disabled} />
    <Field label="原典内の位置" value={q.locator} onChange={locator => quote({locator})} disabled={disabled} />
    <Field label="初出・参照版の刊行年" value={q.publicationYear == null ? '' : String(q.publicationYear)} onChange={year => quote({publicationYear: /^\d+$/.test(year) ? Number(year) : null})} disabled={disabled} />
+   {q.publicationYear == null && q.publicationYearUpperBound != null && <AppText style={styles.hint}>成立年不詳：確認済みの上限年 {q.publicationYearUpperBound}年</AppText>}
    <Field label="原文" value={q.originalText} onChange={originalText => quote({originalText})} disabled={disabled} multi />
    <Field label="原文の言語" value={q.originalLanguage ?? ''} onChange={originalLanguage => quote({originalLanguage})} disabled={disabled} />
-   <AppText variant="label">翻訳区分</AppText><View style={styles.wrap}>{([['independent_translation','独自訳'],['original_japanese','日本語原文'],['classical_transcription','古典の表記整理']] as const).map(([id,label]) => <SecondaryButton key={id} disabled={disabled} onPress={() => quote({translationKind:id})}>{q.translationKind === id ? '✓ ' : ''}{label}</SecondaryButton>)}</View>
+   <AppText variant="label">翻訳区分</AppText><View style={styles.wrap}>{([['independent_translation','独自訳'],['original_japanese','日本語原文'],['classical_transcription','古典の表記整理'],['established_translation','定着した日本語表現']] as const).map(([id,label]) => <SecondaryButton key={id} disabled={disabled} onPress={() => quote({translationKind:id})}>{q.translationKind === id ? '✓ ' : ''}{label}</SecondaryButton>)}</View>
+   {q.translationKind === 'established_translation' && <Field label="日本語表現の確認資料URL" value={q.translationSourceUrl ?? ''} onChange={text => quote({ translationSourceUrl: text })} disabled={disabled} />}
    <Field label="使用可能性の判断根拠（原典・翻訳・戦時加算）" value={q.rightsBasis} onChange={rightsBasis => quote({rightsBasis})} disabled={disabled} multi />
    <Field label="確認資料URL（1行に1件）" value={q.sourceUrls.join('\n')} onChange={urls => quote({sourceUrls: urls.split('\n').map(x => x.trim()).filter(Boolean)})} disabled={disabled} multi />
    <Field label="確認日（YYYY-MM-DD）" value={q.checkedOn} onChange={checkedOn => quote({checkedOn})} disabled={disabled} />

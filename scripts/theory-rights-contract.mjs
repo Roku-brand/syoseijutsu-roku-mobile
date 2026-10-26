@@ -12,7 +12,9 @@ export function auditTheoryRights({ theories, techniques = [], retiredIds = [] }
     if (theory.categoryId === 'practical-wisdom' && /^「[^「」]+」$/.test(theory.title)) failures.push(`slogan in practical wisdom: ${theory.tagId}`);
     if (theory.knowledgeType === 'aphorism' && theory.status !== 'locked') {
       const q = theory.quotation;
-      if (!q || q.verification !== 'verified' || q.rightsStatus !== 'cleared' || !q.originalText || !q.translationText || !q.work || !q.locator || !q.rightsBasis || !q.sourceUrls?.length || !Number.isInteger(q.authorDeathYear) || q.authorDeathYear > 1950 || !Number.isInteger(q.publicationYear) || q.publicationYear > 1950 || !['original_japanese','independent_translation','classical_transcription'].includes(q.translationKind)) failures.push(`unreviewed quotation: ${theory.tagId}`);
+      const deathYear = q?.authorDeathYear ?? q?.authorDeathYearUpperBound;
+      const publicationYear = q?.publicationYear ?? q?.publicationYearUpperBound;
+      if (!q || q.verification !== 'verified' || q.rightsStatus !== 'cleared' || !q.originalText || !q.translationText || !q.work || !q.locator || !q.rightsBasis || !q.sourceUrls?.length || !Number.isInteger(deathYear) || deathYear > 1950 || !Number.isInteger(publicationYear) || publicationYear > 1950 || !['original_japanese','independent_translation','classical_transcription','established_translation'].includes(q.translationKind) || (q.translationKind === 'established_translation' && (!q.translationSourceUrl || !q.sourceUrls.includes(q.translationSourceUrl)))) failures.push(`unreviewed quotation: ${theory.tagId}`);
       if (q && theory.title !== '「'+q.translationText+'」') failures.push(`quotation headline differs from approved text: ${theory.tagId}`);
     }
   }

@@ -93,7 +93,10 @@ export type KnowledgeType = 'unspecified' | 'theory' | 'principle' | 'phenomenon
 export type TheoryQuotation = {
   candidateId?: string; originalText: string; translationText: string; author: string;
   authorDeathYear?: number | null; work: string; locator: string; publicationYear?: number | null;
-  originalLanguage?: string; translationKind: 'original_japanese' | 'independent_translation' | 'classical_transcription';
+  // Upper bounds preserve uncertainty in ancient sources without inventing exact dates.
+  authorDeathYearUpperBound?: number; publicationYearUpperBound?: number;
+  originalLanguage?: string; translationKind: 'original_japanese' | 'independent_translation' | 'classical_transcription' | 'established_translation';
+  translationSourceUrl?: string;
   verification: 'pending' | 'verified' | 'rejected'; rightsStatus: 'pending' | 'cleared' | 'blocked';
   rightsBasis: string; sourceUrls: string[]; checkedOn: string; contextNote?: string;
 };
