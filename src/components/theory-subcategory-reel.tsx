@@ -7,6 +7,9 @@ import { getCategoryLabelParts } from './category-filter-label';
 
 type Option = { subcategoryId?: string; title: string; items: readonly unknown[] };
 const optionKey = (option?: Option) => option?.subcategoryId ?? 'all';
+const optionIndex = (position: number, count: number) => count ? ((position % count) + count) % count : 0;
+const middleIndex = (index: number, count: number) => count > 1 ? count + optionIndex(index, count) : 0;
+const reelLength = (count: number) => count > 1 ? count * 3 : count;
 
 export function TheorySubcategoryReel({ options, selected, onSelect }: {
   options: Option[]; selected?: string; onSelect: (id?: string) => void;
@@ -31,7 +34,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   latest.current = { options, index, onSelect, slot, width, reducedMotion };
   const position = useRef(0);
   const pendingPosition = useRef<number | null>(null);
-  const targetIndex = useRef(index);
+  const targetIndex = useRef(middleIndex(index, options.length));
   const dragging = useRef(false);
   const momentum = useRef(false);
   const animating = useRef(false);
@@ -51,7 +54,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const write = useCallback((x: number) => {
     if (!mounted.current) return;
     const current = latest.current;
-    const bounded = Math.max(0, Math.min(x, Math.max(0, current.options.length - 1) * current.slot));
+    const bounded = Math.max(0, Math.min(x, Math.max(0, reelLength(current.options.length) - 1) * current.slot));
     position.current = bounded;
     scrollX.setValue(bounded);
     if (Platform.OS === 'web') {
@@ -63,23 +66,39 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   const commit = useCallback((requested: number) => {
     if (!mounted.current) return;
     const current = latest.current;
-    const next = Math.max(0, Math.min(current.options.length - 1, requested));
+    const physicalIndex = Math.max(0, Math.min(reelLength(current.options.length) - 1, requested));
+    const next = optionIndex(physicalIndex, current.options.length);
     const option = current.options[next];
     if (!option) return;
-    const previousTarget = targetIndex.current;
-    targetIndex.current = next;
+    const previousTarget = optionIndex(targetIndex.current, current.options.length);
+    targetIndex.current = physicalIndex;
     if (next !== previousTarget || (optionKey(option) !== optionKey(current.options[current.index]) && !emitted.current.has(optionKey(option)))) {
       emitted.current.add(optionKey(option));
       current.onSelect(option.subcategoryId);
     }
   }, []);
+  // The outer copies supply neighbours at both ends. Rebase only once scrolling
+  // has settled, so a finger drag and its momentum are never interrupted.
+  const recenter = useCallback(() => {
+    const current = latest.current;
+    if (!mounted.current || !current.options.length || dragging.current || momentum.current) return;
+    const physicalIndex = Math.round(position.current / current.slot);
+    const centered = middleIndex(physicalIndex, current.options.length);
+    targetIndex.current = centered;
+    if (physicalIndex !== centered) write(centered * current.slot);
+  }, [write]);
+  const settleNative = useCallback(() => {
+    if (!mounted.current || dragging.current || momentum.current || animating.current) return;
+    commit(Math.round(position.current / latest.current.slot));
+    recenter();
+  }, [commit, recenter]);
   const navigate = useCallback((requested: number, animate = true) => {
     const current = latest.current;
     if (!mounted.current || !current.width || !current.options.length) return;
     stop();
     dragging.current = false;
     momentum.current = false;
-    const next = Math.max(0, Math.min(current.options.length - 1, requested));
+    const next = Math.max(0, Math.min(reelLength(current.options.length) - 1, requested));
     commit(next);
     const from = position.current, destination = next * current.slot;
     if (Platform.OS === 'web') {
@@ -88,19 +107,20 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
       animating.current = !instant;
       pendingPosition.current = destination;
       node?.scrollTo({ left: destination, behavior: instant ? 'instant' : 'smooth' });
+      if (instant) { position.current = destination; scrollX.setValue(destination); recenter(); }
       return;
     }
-    if (!animate || current.reducedMotion || Math.abs(from - destination) < 0.5) { write(destination); return; }
+    if (!animate || current.reducedMotion || Math.abs(from - destination) < 0.5) { write(destination); recenter(); return; }
     animating.current = true;
     const started = Date.now();
     const tick = () => {
       const progress = Math.min(1, (Date.now() - started) / 200);
       write(from + (destination - from) * (1 - (1 - progress) ** 3));
       if (progress < 1) frame.current = requestAnimationFrame(tick);
-      else { frame.current = null; animating.current = false; }
+      else { frame.current = null; animating.current = false; recenter(); }
     };
     frame.current = requestAnimationFrame(tick);
-  }, [stop, commit, write]);
+  }, [stop, commit, write, scrollX, recenter]);
   navigateRef.current = navigate;
 
   // URL changes, resizing and a changed set of categories restore a real scroll
@@ -111,16 +131,16 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   }, [stop]);
   useLayoutEffect(() => {
     stop(); emitted.current.clear(); dragging.current = false; momentum.current = false;
-    targetIndex.current = latest.current.index;
-    write(latest.current.index * latest.current.slot);
+    targetIndex.current = middleIndex(latest.current.index, latest.current.options.length);
+    write(targetIndex.current * latest.current.slot);
   }, [width, signature, fontScale, stop, write]);
   useLayoutEffect(() => {
     if (emitted.current.delete(key)) {
-      if (optionKey(latest.current.options[targetIndex.current]) === key) emitted.current.clear();
+      if (optionKey(latest.current.options[optionIndex(targetIndex.current, latest.current.options.length)]) === key) emitted.current.clear();
       return;
     }
-    stop(); targetIndex.current = latest.current.index;
-    write(latest.current.index * latest.current.slot);
+    stop(); targetIndex.current = middleIndex(latest.current.index, latest.current.options.length);
+    write(targetIndex.current * latest.current.slot);
   }, [key, stop, write]);
   useEffect(() => { if (reducedMotion && animating.current) navigate(targetIndex.current, false); }, [reducedMotion, navigate]);
 
@@ -149,6 +169,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
         pendingPosition.current = null;
       } else commit(Math.round(position.current / latest.current.slot));
       scroller.style.removeProperty('scroll-snap-type');
+      recenter();
     };
     const scheduleSettle = () => {
       if (idle.current !== null) clearTimeout(idle.current);
@@ -225,8 +246,8 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
       let next: number;
       if (event.key === 'ArrowRight') next = targetIndex.current + 1;
       else if (event.key === 'ArrowLeft') next = targetIndex.current - 1;
-      else if (event.key === 'Home') next = 0;
-      else if (event.key === 'End') next = latest.current.options.length - 1;
+      else if (event.key === 'Home') next = middleIndex(0, latest.current.options.length);
+      else if (event.key === 'End') next = middleIndex(latest.current.options.length - 1, latest.current.options.length);
       else return;
       event.preventDefault(); navigateRef.current(next);
     };
@@ -253,22 +274,25 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
       scroller.style.removeProperty('scroll-snap-type');
       stop();
     };
-  }, [stop, write, scrollX, commit]);
+  }, [stop, write, scrollX, commit, recenter]);
 
-  const renderOption = (option: Option, itemIndex: number) => {
+  const renderOption = (option: Option, physicalIndex: number) => {
+    const itemIndex = optionIndex(physicalIndex, options.length);
+    const canonical = options.length <= 1 || (physicalIndex >= options.length && physicalIndex < options.length * 2);
     const active = itemIndex === index;
-    const center = itemIndex * slot;
+    const center = physicalIndex * slot;
     const parts = getCategoryLabelParts(option.title);
     const label = parts.length > 1 && option.title.length * (width >= 500 ? 22 : 20) * fontScale > slot - 16 ? parts.join('\n') : option.title;
-    return <Pressable key={optionKey(option)} testID={active ? 'theory-subcategory-tab' : 'theory-subcategory-preview'} accessibilityRole="button"
+    return <Pressable key={`${physicalIndex}:${optionKey(option)}`} testID={canonical && active ? 'theory-subcategory-tab' : 'theory-subcategory-preview'} accessibilityRole="button"
+      accessible={canonical} accessibilityElementsHidden={!canonical} importantForAccessibility={canonical ? 'auto' : 'no-hide-descendants'} aria-hidden={!canonical || undefined}
       accessibilityLabel={option.subcategoryId ? `${option.title}で理論を絞り込む` : 'この分類のすべての理論を表示'} accessibilityHint={`${option.items.length}件。左右にスワイプして選択できます`}
-      accessibilityState={{ selected: active }} aria-selected={active} tabIndex={active ? 0 : -1}
-      onPress={() => navigate(itemIndex)} style={[styles.item, { width: slot, minHeight: stageHeight }]}>
+      accessibilityState={{ selected: active }} aria-selected={active} tabIndex={canonical && active ? 0 : -1}
+      onPress={() => navigate(physicalIndex)} style={[styles.item, { width: slot, minHeight: stageHeight }]}>
       <Animated.View style={[styles.copy, { opacity: scrollX.interpolate({ inputRange: [center - slot * 1.5, center - slot, center, center + slot, center + slot * 1.5], outputRange: [0, 0.65, 1, 0.65, 0], extrapolate: 'clamp' }), transform: [
         { translateX: scrollX.interpolate({ inputRange: [center - slot, center, center + slot], outputRange: [-slot * 0.27, 0, slot * 0.27], extrapolate: 'clamp' }) },
         { scale: scrollX.interpolate({ inputRange: [center - slot, center, center + slot], outputRange: [0.82, 1, 0.82], extrapolate: 'clamp' }) },
       ] }]}>
-        <AppText accessibilityRole={active ? 'header' : undefined} aria-level={active ? 3 : undefined} accessibilityLabel={active ? option.title : undefined}
+        <AppText accessibilityRole={canonical && active ? 'header' : undefined} aria-level={canonical && active ? 3 : undefined} accessibilityLabel={canonical && active ? option.title : undefined}
           onLayout={event => { textMeasurements.current.set(optionKey(option), event.nativeEvent.layout.height); setTextHeight(Math.max(...textMeasurements.current.values())); }}
           style={[styles.title, width >= 500 && styles.titleWide, active && styles.titleActive]}>{label}</AppText>
       </Animated.View>
@@ -276,6 +300,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
   };
 
   if (!options[index]) return null;
+  const repeatedOptions = options.length > 1 ? [...options, ...options, ...options] : options;
   return <View testID="theory-subcategory-reel" style={styles.reel}>
     <View style={styles.heading}>
       <AppText testID="theory-subcategory-position" accessibilityLiveRegion="polite" style={styles.position}>{index + 1} / {options.length}</AppText>
@@ -284,7 +309,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
       {Platform.OS === 'web' ? <View ref={webScroll} testID="theory-subcategory-scroll"
         onLayout={event => { const next = event.nativeEvent.layout.width; setWidth(current => Math.abs(next - current) > 0.5 ? next : current); }}
         style={[styles.webScroll, { height: stageHeight }]}>
-        <View style={{ flexDirection: 'row', width: options.length * slot + Math.max(0, width - slot), paddingHorizontal: Math.max(0, (width - slot) / 2) }}>{options.map(renderOption)}</View>
+        <View style={{ flexDirection: 'row', width: repeatedOptions.length * slot + Math.max(0, width - slot), paddingHorizontal: Math.max(0, (width - slot) / 2) }}>{repeatedOptions.map(renderOption)}</View>
       </View> : <ScrollView ref={scroll} horizontal testID="theory-subcategory-scroll" showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16} bounces={false} overScrollMode="never" decelerationRate="fast" disableIntervalMomentum
         snapToInterval={slot} snapToAlignment="start" directionalLockEnabled
@@ -296,7 +321,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
           if (!mounted.current) return;
           position.current = event.nativeEvent.contentOffset.x; scrollX.setValue(position.current);
           if (idle.current !== null) clearTimeout(idle.current);
-          if (!dragging.current && !momentum.current && !animating.current) idle.current = setTimeout(() => commit(Math.round(position.current / latest.current.slot)), 200);
+          if (!dragging.current && !momentum.current && !animating.current) idle.current = setTimeout(settleNative, 200);
         }}
         onScrollBeginDrag={() => { stop(); momentum.current = false; dragging.current = true; }}
         onScrollEndDrag={event => {
@@ -305,7 +330,7 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
           // A slow drag may not start momentum. The momentum-begin event
           // cancels this fallback before it can commit an intermediate item.
           idle.current = setTimeout(() => {
-            if (!dragging.current && !momentum.current) commit(Math.round(position.current / latest.current.slot));
+            settleNative();
           }, 200);
         }}
         onMomentumScrollBegin={() => {
@@ -316,9 +341,9 @@ export function TheorySubcategoryReel({ options, selected, onSelect }: {
           dragging.current = false; momentum.current = false;
           position.current = event.nativeEvent.contentOffset.x;
           scrollX.setValue(position.current);
-          commit(Math.round(position.current / latest.current.slot));
+          settleNative();
         }}>
-        {options.map(renderOption)}
+        {repeatedOptions.map(renderOption)}
       </ScrollView>}
     </View>
     <View testID="theory-subcategory-indicators" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" aria-hidden style={styles.dots}>
