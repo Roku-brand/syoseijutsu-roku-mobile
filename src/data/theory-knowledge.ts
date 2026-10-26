@@ -31,9 +31,12 @@ export function quotationErrors(q?: TheoryQuotation): string[] {
     if (!value?.trim()) errors.push(`${label}を入力してください。`);
   }
   if (q.verification !== 'verified' || q.rightsStatus !== 'cleared') errors.push('原典と権利の確認が済むまで格言は公開できません。');
-  if (!Number.isInteger(q.authorDeathYear) || q.authorDeathYear! > 1950) errors.push('今回の格言は1950年以前に亡くなった著作者が対象です。');
-  if (!Number.isInteger(q.publicationYear) || q.publicationYear! > 1950) errors.push('初出・参照版の刊行年を確認してください。');
-  if (!['original_japanese', 'independent_translation', 'classical_transcription'].includes(q.translationKind ?? '')) errors.push('原文または独自訳の区分を選択してください。');
+  const deathYear = q.authorDeathYear ?? q.authorDeathYearUpperBound;
+  const publicationYear = q.publicationYear ?? q.publicationYearUpperBound;
+  if (!Number.isInteger(deathYear) || deathYear! > 1950) errors.push('今回の格言は1950年以前に亡くなった著作者が対象です。不詳の古典は確認済みの上限年を記録してください。');
+  if (!Number.isInteger(publicationYear) || publicationYear! > 1950) errors.push('初出・参照版の刊行年、または確認済みの上限年を確認してください。');
+  if (!['original_japanese', 'independent_translation', 'classical_transcription', 'established_translation'].includes(q.translationKind ?? '')) errors.push('原文・翻訳の区分を選択してください。');
+  if (q.translationKind === 'established_translation' && (!q.translationSourceUrl || !q.sourceUrls?.includes(q.translationSourceUrl))) errors.push('定着した日本語表現を確認できる資料URLを記録してください。');
   if (!q.sourceUrls?.length || q.sourceUrls.some(url => !/^https:\/\/\S+$/.test(url))) errors.push('原典を確認できるhttpsの資料URLが必要です。');
   if (!/^\d{4}-\d{2}-\d{2}$/.test(q.checkedOn ?? '')) errors.push('確認日を入力してください。');
   return errors;
