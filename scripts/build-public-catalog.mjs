@@ -114,7 +114,7 @@ const publicTechniques = {
 };
 const publicTheories = theories.map((theory) => freeTheoryIds.has(theory.tagId)
   ? theory
-  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, subcategoryId: theory.subcategoryId, subcategoryTitle: theory.subcategoryTitle, sortOrder: theory.sortOrder, canonicalId: theory.canonicalId, legacyIds: theory.legacyIds, mergedFromIds: theory.mergedFromIds, accessTier: theory.accessTier, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, knowledgeType: theory.knowledgeType, status: 'locked' });
+  : { tagId: theory.tagId, title: theory.title, summary: '', categoryId: theory.categoryId, categoryTitle: theory.categoryTitle, subcategoryId: theory.subcategoryId, subcategoryTitle: theory.subcategoryTitle, sortOrder: theory.sortOrder, canonicalId: theory.canonicalId, legacyIds: theory.legacyIds, mergedFromIds: theory.mergedFromIds, accessTier: theory.accessTier, aliases: theory.aliases, relatedTheoryIds: theory.relatedTheoryIds, displayId: theory.displayId, knowledgeType: theory.knowledgeType, quotationAuthor: theory.quotation?.author, status: 'locked' });
 const publicRelations = (await readJson('theory-relations.json'))
   .filter(r => freeTheoryIds.has(r.sourceId) && freeTheoryIds.has(r.targetId) && r.reviewStatus !== 'draft');
 

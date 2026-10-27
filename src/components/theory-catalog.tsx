@@ -4,7 +4,7 @@ import { useAccess } from '@/access/access-state';
 import { canReadTheory } from '@/access/access-config';
 import { catalogTheme, colors, fonts, radius, spacing } from '@/constants/theme';
 import { getTheoryCategoryTitle, getTheoryDisplayId, theoryCategoryOrder } from '@/data/catalog';
-import { getTheoryCategoryLabel, getTheoryCoverSummary, normalizeDisplayText } from '@/data/theory-display';
+import { getTheoryCategoryLabel, getTheoryCardSupplement, normalizeDisplayText } from '@/data/theory-display';
 import type { TheoryCard } from '@/data/types';
 import { AccessBadge } from './access-badge';
 import { AppText } from './ui';
@@ -69,7 +69,7 @@ export function TheoryBrowseCard({ theory, compact }: { theory: TheoryCard; comp
       <AppText style={styles.code}>{getTheoryDisplayId(theory).replace('－', '-')}</AppText>
       <View style={styles.goldRule} />
       <AppText numberOfLines={2} style={styles.title}>{normalizeDisplayText(theory.title)}</AppText>
-      <AppText numberOfLines={compact ? 6 : 5} style={styles.summary}>{getTheoryCoverSummary(theory.summary)}</AppText>
+      <AppText numberOfLines={compact ? 6 : 5} style={styles.summary}>{getTheoryCardSupplement(theory)}</AppText>
       <View style={styles.footer}>
         <AppText style={styles.link}>詳しく見る　→</AppText>
       </View>
