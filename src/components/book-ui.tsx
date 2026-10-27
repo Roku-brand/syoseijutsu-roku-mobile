@@ -30,6 +30,7 @@ import { getTheoryCategoryLabel } from '@/data/theory-counts';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAccess } from '@/access/access-state';
 import { HeaderSearchAction } from './header-search-action';
+import { HeaderBackButton } from './header-back-button';
 import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 
@@ -129,22 +130,7 @@ export function BookHeader() {
     <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious]}>
       {showBack ? (
         <View style={styles.brandGroup}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="前の画面へ戻る"
-            testID="book-header-back"
-            onPress={handleBack}
-            hitSlop={8}
-            style={({ pressed }) => [
-              styles.headerBack,
-              compact && styles.headerBackCompact,
-              lightHeader && styles.headerBackLight,
-              pressed && styles.headerActionPressed,
-            ]}
-          >
-            <View style={styles.headerBackCircle}><AppText style={styles.headerBackArrow}>‹</AppText></View>
-            <AppText style={[styles.headerBackText, compact && styles.headerBackTextCompact, lightHeader && styles.headerBackTextLight]}>戻る</AppText>
-          </Pressable>
+          <HeaderBackButton testID="book-header-back" onPress={handleBack} />
         </View>
       ) : (
         <View style={[styles.brandGroup, spaciousHeader && styles.brandGroupSpacious]}>
@@ -683,35 +669,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
   },
-  headerBack: {
-    minWidth: 64,
-    minHeight: 44,
-    paddingHorizontal: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-    borderWidth: 0,
-    borderRadius: radius.pill,
-  },
-  headerBackCompact: {
-    minWidth: 52,
-    minHeight: 44,
-    paddingHorizontal: 0,
-  },
-  headerBackLight: { borderWidth: 0, justifyContent: 'center' },
   secondaryHeader: { minHeight: 64, paddingVertical: 10 },
-  headerBackCircle: { width: 40, height: 40, borderRadius: 20, borderWidth: StyleSheet.hairlineWidth, borderColor: '#DEDEDA', alignItems: 'center', justifyContent: 'center' },
-  headerBackArrow: { color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 34, lineHeight: 36, marginTop: -2 },
-  headerBackText: {
-    color: colors.ink,
-    fontFamily: fonts.sans,
-    fontSize: 12,
-    lineHeight: 17,
-    fontWeight: '600',
-  },
-  headerBackTextCompact: { fontSize: 11, lineHeight: 16 },
-  headerBackTextLight: { color: colors.ink },
   headerAppIcon: {
     width: 34,
     height: 34,

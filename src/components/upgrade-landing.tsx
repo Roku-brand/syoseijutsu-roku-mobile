@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { FREE_LEARNING_CASE_IDS, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { AppText } from '@/components/ui';
+import { HeaderBackButton } from '@/components/header-back-button';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const photos = {
@@ -105,8 +106,8 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
   const [barHeight, setBarHeight] = useState(290);
   return <View style={styles.root} testID="upgrade-landing">
     <View testID={desktop ? 'upgrade-desktop-layout' : 'upgrade-mobile-layout'} style={[styles.frame, desktop && desktopStyles.frame]}>
-      <View style={[styles.header, desktop && desktopStyles.header, desktop && sectionSpace]}>
-        <Pressable accessibilityRole="button" accessibilityLabel="前の画面へ戻る" onPress={onBack} style={({ pressed }) => [styles.back, pressed && styles.pressed]}><AppText style={styles.backArrow}>‹</AppText><AppText style={styles.backText}>戻る</AppText></Pressable>
+      <View style={[styles.header, !desktop && styles.headerMobile, desktop && desktopStyles.header, desktop && sectionSpace]}>
+        <View style={styles.headerSide}><HeaderBackButton testID="upgrade-header-back" onPress={onBack} /></View>
         <AppText style={styles.headerTitle}>{isPaid ? '完全版の利用情報' : '完全版を購入'}</AppText><View style={styles.headerBalance} />
       </View>
       <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
@@ -195,8 +196,8 @@ const styles = StyleSheet.create({
   root: { flex: 1, minHeight: 0, backgroundColor: '#EAE7E0' },
   frame: { flex: 1, minHeight: 0, width: '100%', maxWidth: 480, alignSelf: 'center', backgroundColor: '#FBF9F4' },
   header: { height: 46, flexShrink: 0, backgroundColor: '#FFF', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#E9E6E1', zIndex: 2 },
-  back: { minHeight: 44, width: 76, flexDirection: 'row', alignItems: 'center', gap: 4, paddingLeft: 15 },
-  backArrow: { fontSize: 26, lineHeight: 30, color: ink }, backText: { fontSize: 12, lineHeight: 18, color: ink },
+  headerMobile: { paddingHorizontal: 12 },
+  headerSide: { width: 76, alignItems: 'flex-start' },
   headerTitle: { fontSize: 13, lineHeight: 20, fontWeight: '600', color: ink }, headerBalance: { width: 76 },
   scroll: { flex: 1, minHeight: 0 },
   hero: { overflow: 'hidden', backgroundColor: '#DDC7A7' },
