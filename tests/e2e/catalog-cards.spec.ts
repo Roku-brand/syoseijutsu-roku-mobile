@@ -64,10 +64,10 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await expect(page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' })).toHaveCSS('background-color', 'rgb(32, 63, 105)');
   const entry = page.getByTestId('theory-card').first();
   await expect(entry).toHaveCSS('border-color', 'rgb(168, 187, 208)');
-  await expect(entry).toHaveCSS('border-radius', '4px');
+  await expect(entry).toHaveCSS('border-radius', '6px');
   await expect(entry.getByTestId('theory-card-title')).toHaveCSS('text-align', 'center');
   const withSummary = page.getByTestId('theory-card').filter({ has: page.getByTestId('theory-card-summary') }).first();
-  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'left');
+  await expect(withSummary.getByTestId('theory-card-summary')).toHaveCSS('text-align', 'center');
   await expect(entry.getByTestId('theory-card-ornament')).toBeVisible();
   await expect(entry.getByTestId('theory-card-id')).toHaveText('P-001');
   await expect(entry.getByTestId('theory-card-subcategory')).toHaveCount(0);

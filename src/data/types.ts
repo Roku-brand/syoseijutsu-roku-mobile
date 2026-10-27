@@ -64,6 +64,8 @@ export type TheoryCard = {
   /** 出典を確認できる理論にだけ保持する補足メタデータ。 */
   provenance?: TheoryProvenance;
   knowledgeType?: KnowledgeType;
+  /** 一覧に表示する著者名。格言の本文・出典の公開範囲とは独立した表紙情報。 */
+  quotationAuthor?: string;
   quotation?: TheoryQuotation;
   relations?: TheoryRelation[];
 };

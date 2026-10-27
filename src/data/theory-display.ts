@@ -1,3 +1,5 @@
+import type { TheoryCard } from './types';
+
 /**
  * 外部データやJSX属性から渡る表示文を、画面向けの文字列へ整える。
  * literalな「\\n」も実際の改行へ戻し、行頭・行末の空白を取り除く。
@@ -44,6 +46,15 @@ export function getTheoryCoverSummary(summary: string): string {
   if (!text) return '';
   const sentenceEnd = text.search(/[。！？!?]/);
   return sentenceEnd === -1 ? text : text.slice(0, sentenceEnd + 1);
+}
+
+/** 格言の補足は解説ではなく、確認済みの著者・発言者を表示する。 */
+export function getTheoryCardSupplement(theory: Pick<TheoryCard, 'summary' | 'knowledgeType' | 'quotation' | 'quotationAuthor'>): string {
+  if (theory.quotation || theory.knowledgeType === 'aphorism') {
+    const author = normalizeDisplayText(theory.quotation?.author || theory.quotationAuthor);
+    return author ? `ー${author}` : '';
+  }
+  return getTheoryCoverSummary(theory.summary);
 }
 
 /**
