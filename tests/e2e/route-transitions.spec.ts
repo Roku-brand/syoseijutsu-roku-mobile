@@ -16,7 +16,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
     };
   });
   await page.goto('/');
-  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
   await page.goto('/discover');
   const content = page.getByTestId('route-transition-content');
   const header = page.getByTestId('book-header');
@@ -49,13 +49,7 @@ test(`navigation at ${width}px animates content, keeps chrome fixed, and reverse
   await expect(content).toHaveAttribute('data-last-motion', /translateX\(-16px\)/);
 
   await nav.getByRole('link', { name: /^ホーム/ }).click();
-  await expect(page.getByTestId('home-premium-banner')).toBeVisible();
-  await page.getByTestId('home-premium-banner').click();
-  await expect(page).toHaveURL(/\/upgrade/);
-  await expect(content).toHaveAttribute('data-last-motion', /translateY\(20px\)/);
-  await page.getByRole('button', { name: '前の画面へ戻る' }).click();
-  await expect(page).toHaveURL(/\/$/);
-  await expect(content).toHaveAttribute('data-last-motion', /translateY\(-20px\)/);
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
   await expect.poll(() => content.evaluate((element) => element.getAnimations().length)).toBe(0);
   expect(await content.evaluate((element) => getComputedStyle(element).opacity)).toBe('1');
   await page.screenshot({ path: test.info().outputPath('navigation.png') });

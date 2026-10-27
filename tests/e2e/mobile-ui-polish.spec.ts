@@ -11,15 +11,8 @@ for (const width of [320, 390]) {
   test(`mobile search and complete edition copy fit at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 844 });
     await ready(page);
-    for (const [id, text] of [
-      ['home-premium-heading', '論理性 × 網羅性 × 体系性'],
-      ['home-premium-tagline', '知識を、もっと広く。もっと深く。'],
-      ['home-premium-price', '30日間・320円（税込）'],
-    ]) {
-      const row = page.getByTestId(id);
-      await expect(row).toHaveText(text);
-      expect(await row.evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
-    }
+    await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+    await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
     await page.screenshot({ path: test.info().outputPath(`home-${width}.png`) });
     await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
     const popup = page.getByTestId('header-search-popup');
@@ -67,14 +60,14 @@ test('reel advances after ten seconds, resets on manual use, wraps and pauses aw
   await page.clock.runFor(1);
   await expect(dot(2)).toHaveAttribute('aria-selected', 'true');
   await page.clock.runFor(2_000);
-  await dot(7).click();
-  await page.clock.runFor(9_999);
-  await expect(dot(7)).toHaveAttribute('aria-selected', 'true');
+  await dot(4).click();
+  await page.clock.runFor(15_999);
+  await expect(dot(4)).toHaveAttribute('aria-selected', 'true');
   await page.clock.runFor(1);
   await expect(dot(1)).toHaveAttribute('aria-selected', 'true');
   await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^学ぶ/ }).click();
   await page.clock.runFor(15_000);
-  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('shoseijutsu-roku:home-reel:home-v3')!).index)).toBe(0);
+  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('shoseijutsu-roku:home-reel:home-editorial-v4')!).index)).toBe(0);
 });
 
 test('reduced motion keeps the reel still', async ({ page }) => {

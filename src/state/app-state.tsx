@@ -12,6 +12,7 @@ import {
 import type { CategoryKey } from '@/data/types';
 import { resolveTheoryId, resolveTheoryIds } from '@/data/theory-taxonomy';
 import { recordContentEvent } from '@/lib/content-events';
+import { clearDiscoveryState } from '@/lib/discovery-storage';
 import { libraryItemKey, restoreLibraryFolders, type LibraryFolder, type LibraryItemKind } from './library-folders';
 
 const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
@@ -471,7 +472,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
 
   const clearPersonalData = useCallback(async () => {
     setState(initialState);
-    await AsyncStorage.removeItem(STORAGE_KEY);
+    await Promise.all([AsyncStorage.removeItem(STORAGE_KEY), clearDiscoveryState()]);
   }, []);
 
   const value = useMemo(

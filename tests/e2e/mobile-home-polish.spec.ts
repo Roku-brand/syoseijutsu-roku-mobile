@@ -23,39 +23,10 @@ async function mockAccount(page: Page, active: boolean, restored = true) {
   return () => restoreCalls;
 }
 
-test('mobile home titles, divider and carousel slides fit narrow screens', async ({ page }) => {
-  for (const width of [320, 390, 430]) {
-    await page.setViewportSize({ width, height: 844 });
-    await page.goto('/');
-    await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-    const rank = page.getByTestId('home-shortcut-popular').getByText('人気 ランキング', { exact: true });
-    const rankSize = await rank.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight), width: el.clientWidth, scroll: el.scrollWidth }));
-    expect(rankSize.height).toBeLessThanOrEqual(rankSize.line * 2 + 1);
-    expect(rankSize.scroll).toBeLessThanOrEqual(rankSize.width + 1);
-    await page.getByRole('tab', { name: '1枚目を表示' }).click();
-    const title = page.getByTestId('home-brand-technique-title');
-    const titleSize = await title.evaluate(el => ({ height: el.getBoundingClientRect().height, line: parseFloat(getComputedStyle(el).lineHeight) }));
-    expect(titleSize.height).toBeLessThanOrEqual(titleSize.line + 1);
-    const [titleBox, ruleBox] = await Promise.all([title.boundingBox(), page.getByTestId('home-brand-technique-rule').boundingBox()]);
-    expect(ruleBox!.width).toBeGreaterThan(200);
-    expect(ruleBox!.y).toBeGreaterThanOrEqual(titleBox!.y + titleBox!.height);
-    await page.screenshot({ path: test.info().outputPath(`today-${width}.png`) });
-    await page.getByRole('tab', { name: '4枚目を表示' }).click();
-    await expect(page.getByTestId('home-brand-map-connectors')).toBeVisible();
-    await page.getByRole('tab', { name: '5枚目を表示' }).click();
-    const feature = page.getByTestId('home-brand-slide-5');
-    await expect(feature).toContainText('特集');
-    await expect(page.getByTestId('home-brand-feature-cta-5')).toBeVisible();
-    const slideBox = (await feature.boundingBox())!;
-    const ctaBox = (await page.getByTestId('home-brand-feature-cta-5').boundingBox())!;
-    expect(ctaBox.x).toBeGreaterThanOrEqual(slideBox.x);
-    expect(ctaBox.x + ctaBox.width).toBeLessThanOrEqual(slideBox.x + slideBox.width);
-    await page.getByRole('tab', { name: '6枚目を表示' }).click();
-    await expect(page.getByTestId('home-brand-slide-6')).toContainText('処世術②');
-    await page.getByRole('tab', { name: '7枚目を表示' }).click();
-    await expect(page.getByTestId('home-brand-slide-7')).toContainText('理論②');
-    await page.screenshot({ path: test.info().outputPath(`feature-${width}.png`) });
-  }
+test('mobile editorial banners and deck controls fit narrow screens',async({page})=>{
+ for(const width of [320,390,430]){await page.setViewportSize({width,height:844});await page.goto('/');
+ await expect(page.getByTestId('home-recommendation-card')).toBeVisible();await expect(page.getByRole('tab',{name:/枚目を表示/})).toHaveCount(4);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 });
 
 test('create shortcut can close, go back, reopen and save on a small screen', async ({ page }) => {
