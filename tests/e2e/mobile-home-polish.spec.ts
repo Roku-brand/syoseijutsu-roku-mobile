@@ -7,7 +7,11 @@ async function mockAccount(page: Page, active: boolean, restored = true) {
   const projectRef = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL ?? 'https://psfexomjhivqieehcrzx.supabase.co').hostname.split('.')[0];
   await page.addInitScript(({ key, value }) => localStorage.setItem(key, JSON.stringify(value)), { key: `sb-${projectRef}-auth-token`, value: session });
   await page.route('**/auth/v1/**', route => route.fulfill({ json: user }));
-  await page.route('**/rest/v1/**', route => route.fulfill({ json: route.request().url().includes('/profiles') ? { role: 'user', display_name: 'テスト利用者' } : [] }));
+  // Membership tests keep the shipped catalog when CMS is unavailable. An
+  // authoritative empty catalog would deliberately remove every reading card.
+  await page.route('**/rest/v1/**', route => route.request().url().includes('/profiles')
+    ? route.fulfill({ json: { role: 'user', display_name: 'テスト利用者' } })
+    : route.fulfill({ status: 404, json: {} }));
   const access = { access: active ? 'active' : 'free', accessType: 'thirty_day', accessExpiresAt: new Date(Date.now() + 10 * 86400000).toISOString() };
   let restoreCalls = 0;
   await page.route('**/functions/v1/**', route => {

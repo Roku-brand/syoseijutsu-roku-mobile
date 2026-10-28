@@ -29,7 +29,6 @@ export function useHomeDiscovery() {
   const [state, setState] = useState<DeckState | null>(null);
   const [retry, setRetry] = useState(0);
   const [restoredRevision, setRestoredRevision] = useState(0);
-  const secureReady = scope !== 'paid' || secureContentStatus === 'ready' || secureContentStatus === 'error';
   const current = useRef(state);
   const readyScope = useRef<string | null>(null);
   useEffect(() => onDiscoveryReset(() => {
@@ -38,8 +37,8 @@ export function useHomeDiscovery() {
     setRetry(value => value + 1);
   }), []);
   current.current = state;
-  const latest = useRef({ signals, scope, refreshPublishedContent });
-  latest.current = { signals, scope, refreshPublishedContent };
+  const latest = useRef({ signals, scope, refreshPublishedContent, secureContentStatus });
+  latest.current = { signals, scope, refreshPublishedContent, secureContentStatus };
   const generate = useCallback((day: number, round: number, seen: string[], excludeIds: string[] = [], filter: DiscoveryFilter = 'all') => buildReadingRecommendations({
     accessState: latest.current.scope, ...latest.current.signals, seed: `${day}:${round}${filter === 'all' ? '' : `:${filter}`}`, filter, seenIds: seen, excludeIds, count: HOME_DECK_SIZE,
   }), []);
@@ -47,7 +46,7 @@ export function useHomeDiscovery() {
   const catalog = useRef(byKey);
   catalog.current = byKey;
   useEffect(() => {
-    if (!signals.hydrated || !secureReady) return;
+    if (!signals.hydrated) return;
     let active = true;
     readyScope.current = null;
     setState(null);
@@ -77,6 +76,9 @@ export function useHomeDiscovery() {
           new Promise<boolean>(resolve => { timeout = setTimeout(() => resolve(false), 6000); }),
         ]);
         clearTimeout(timeout);
+        // A readable bootstrap hand stays immediate. Only unresolved paid IDs
+        // wait for secure hydration, without being mistaken for removed cards.
+        resolved = resolved && (scope !== 'paid' || latest.current.secureContentStatus === 'ready');
         if (!active) return;
         available = accessibleCatalog(scope);
         // Keep render-time lookups in sync even if the context update is batched.
@@ -104,7 +106,7 @@ export function useHomeDiscovery() {
       setState(next);
     });
     return () => { active = false; };
-  }, [signals.hydrated, secureReady, scope, retry, generate]);
+  }, [signals.hydrated, scope, retry, generate]);
   useEffect(() => {
     if (!state || readyScope.current !== scope) return;
     writeDiscoveryState(scope, state);
@@ -129,6 +131,7 @@ export function useHomeDiscovery() {
     commit({ ...old, cursor, offset: position - cursor, seen: [...old.seen, old.order[cursor]].slice(-120) });
   }, [commit]);
   const items = (state?.order ?? []).map(id => byKey.get(id) ?? null);
-  return { items, filter: state?.filter ?? 'all', cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state,
-    error: !!state && !items[state.cursor], shuffle, move, retry: () => setRetry(value => value + 1) };
+  const waitingForSecure = scope === 'paid' && (secureContentStatus === 'idle' || secureContentStatus === 'loading') && !items[state?.cursor ?? 0];
+  return { items, filter: state?.filter ?? 'all', cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state || waitingForSecure,
+    error: !!state && !items[state.cursor] && !waitingForSecure, shuffle, move, retry: () => setRetry(value => value + 1) };
 }
