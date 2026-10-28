@@ -1,0 +1,22 @@
+
+[WebServer] (node:42976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+
+(node:20824) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/3] [webkit] › tests\e2e\home-card-deck.spec.ts:327:5 › 戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる
+(node:46444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/3] [webkit] › tests\e2e\home-card-deck.spec.ts:327:5 › 戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる
+(node:46020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/3] [webkit] › tests\e2e\home-card-deck.spec.ts:327:5 › 戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる
+  3 passed (21.0s)

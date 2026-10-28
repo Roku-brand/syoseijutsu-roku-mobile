@@ -1,0 +1,66 @@
+
+[WebServer] (node:32868) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 51 tests using 2 workers
+
+
+(node:44968) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:5584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/51] tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (375px)
+[2/51] tests\e2e\mobile-home-polish.spec.ts:26:5 › mobile editorial banners and deck controls fit narrow screens
+[3/51] tests\e2e\mobile-home-polish.spec.ts:32:5 › create shortcut can close, go back, reopen and save on a small screen
+[4/51] tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (390px)
+[5/51] tests\e2e\mobile-home-polish.spec.ts:54:5 › paid membership displays remaining access beside its badge
+[6/51] tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (430px)
+[7/51] tests\e2e\mobile-home-polish.spec.ts:63:5 › verified checkout return navigates home and clears the checkout query
+[8/51] tests\e2e\mobile-home-polish.spec.ts:75:5 › unverified checkout stays on the purchase screen for restoration
+[9/51] tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (768px)
+[10/51] tests\e2e\mobile-ui-polish.spec.ts:11:7 › mobile search and complete edition copy fit at 320px
+[11/51] tests\e2e\mobile-ui-polish.spec.ts:11:7 › mobile search and complete edition copy fit at 390px
+[12/51] tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (1440px)
+[13/51] tests\e2e\mobile-ui-polish.spec.ts:52:5 › reel advances after ten seconds, resets on manual use, wraps and pauses away from home
+[14/51] tests\e2e\mobile-ui-polish.spec.ts:73:5 › reduced motion keeps the reel still
+[15/51] tests\e2e\release-smoke.spec.ts:24:5 › ホームが初期画面になり、旧ウェルカムURLもホームへ転送する
+[16/51] tests\e2e\home-card-deck.spec.ts:54:5 › 保存・前後移動・詳細往復・再読み込みで順序と位置を保持する
+[17/51] tests\e2e\release-smoke.spec.ts:36:5 › 設定からアプリ設定とホーム画面への追加を削除する
+[18/51] tests\e2e\release-smoke.spec.ts:94:5 › マイページの統合カードとタブはスマホ幅に収まり、座右の銘を編集できる
+[19/51] tests\e2e\release-smoke.spec.ts:142:5 › 無料版の関連理論は完全版のタイトルも表示し、未収録理論は購入ページへ送る
+[20/51] tests\e2e\release-smoke.spec.ts:230:5 › 初回訪問でホームを直接表示し、再読み込み後も維持できる
+[21/51] tests\e2e\home-card-deck.spec.ts:100:5 › ドラッグ追従・閾値未満のスプリング・前後スワイプ・シャッフルの実描画
+[22/51] tests\e2e\release-smoke.spec.ts:268:5 › ホームのブランドリールはキーボードで4枚を横にスライドする
+[23/51] tests\e2e\release-smoke.spec.ts:283:5 › 編集カルーセルの4枚は実在する遷移先を持つ
+[24/51] tests\e2e\home-card-deck.spec.ts:154:5 › キーボード・動きの設定変更・高速操作・5枚の循環
+[25/51] tests\e2e\release-smoke.spec.ts:660:5 › ホームの4つの編集テーマはスマホで横にはみ出さない
+[26/51] tests\e2e\home-card-deck.spec.ts:189:5 › 日本時間の日替わりと訪問中の状態固定、破損キャッシュ復旧
+[27/51] tests\e2e\release-smoke.spec.ts:708:5 › 詳細ページの階層リンクは探す配下の統合一覧へ戻る
+[28/51] tests\e2e\home-card-deck.spec.ts:207:5 › 編集バナーは既存の特集・人物像・関連実践・学習ケースへ遷移する
+[29/51] tests\e2e\release-smoke.spec.ts:718:5 › 詳細ヘッダーは保存・共有を維持し、設定や五大原則を表示しない
+[30/51] tests\e2e\release-smoke.spec.ts:788:5 › PCホームは編集バナーと幅を抑えたデッキを収める
+[31/51] tests\e2e\home-card-deck.spec.ts:219:5 › スマホの実タッチは横スワイプと縦スクロールを分離する
+[32/51] tests\e2e\release-smoke.spec.ts:795:5 › ホームは編集バナー、5導線、デッキの順に並び、五大原則を開ける
+[33/51] tests\e2e\release-smoke.spec.ts:806:5 › ホームのデッキは一枚を主役にして前後へめくれる
+[34/51] tests\e2e\home-card-deck.spec.ts:248:5 › 既存の端末内データ消去でデッキ履歴も消去する
+[35/51] tests\e2e\release-smoke.spec.ts:813:5 › 最初のバナーは個別カードではなく特集への入口になる
+[36/51] tests\e2e\home-card-deck.spec.ts:268:5 › CMSの公開特集は既存の特集データからバナーへ反映される
+[37/51] tests\e2e\release-smoke.spec.ts:843:5 › ホームのブランドリールは前後操作で同じ一枚へ戻れる
+[38/51] tests\e2e\home-card-deck.spec.ts:283:5 › 無料版の従来バナーから完全版LPへ進める
+[39/51] tests\e2e\release-smoke.spec.ts:855:5 › ホームのブランドリールは前後どちら向きにも何周も循環する
+[40/51] tests\e2e\home-card-deck.spec.ts:293:5 › スワイプを軽量描画し、移動中はシャッフルの見た目と推薦順を変えない
+[41/51] tests\e2e\release-smoke.spec.ts:871:5 › ホームのブランドリールはタッチ移動で米粒表示を更新し両端から繰り返し循環する
+[42/51] tests\e2e\home-card-deck.spec.ts:327:5 › 戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる
+[43/51] tests\e2e\home-card-deck.spec.ts:380:5 › 旧キューを5枚へ移行し、シャッフルで5枚すべてを交換する
+[44/51] tests\e2e\release-smoke.spec.ts:906:5 › 編集バナーから詳細へ往復しても選択位置を復元する
+[45/51] tests\e2e\release-smoke.spec.ts:912:5 › ホームのブランドリールはPC・タブレット・スマホでカードが途中で切れない
+[46/51] tests\e2e\release-smoke.spec.ts:935:5 › スマホの編集バナーは4枚とも横長比率を保つ
+[47/51] tests\e2e\release-smoke.spec.ts:940:5 › 編集バナーは320pxとPCで内部にはみ出さない
+[48/51] tests\e2e\release-smoke.spec.ts:945:5 › 知識のつながりは既存の実践と関連理論を紹介する
+[49/51] tests\e2e\release-smoke.spec.ts:995:5 › 権威付けの装飾と人物像メニューの保存操作を表示しない
+[50/51] tests\e2e\release-smoke.spec.ts:1054:5 › 人物像の処世術はキーボードでフォーカスできるリンクになっている
+[51/51] tests\e2e\release-smoke.spec.ts:1092:5 › 学ぶの良い判断は正解表情と解説を示し、進捗へ保存する
+  51 passed (1.5m)
