@@ -4,7 +4,7 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { colors, fonts } from '@/constants/theme';
 import { discoveryFilters, type DiscoveryFilter } from '@/data/discovery-filter';
 
-export function DiscoveryFilterButton({ value, disabled, onChange }: { value: DiscoveryFilter; disabled: boolean; onChange: (value: DiscoveryFilter) => void }) {
+export function DiscoveryFilterButton({ value, disabled, onChange, compact = false }: { value: DiscoveryFilter; disabled: boolean; onChange: (value: DiscoveryFilter) => void; compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(-1);
   const reduced = useReducedMotion();
@@ -12,8 +12,8 @@ export function DiscoveryFilterButton({ value, disabled, onChange }: { value: Di
   const choices = useRef<(View | null)[]>([]);
   const close = () => { setOpen(false); setTimeout(() => trigger.current?.focus(), 0); };
   return <>
-    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, focused === -2 && styles.focused, pressed && styles.pressed]}>
-      <Text style={styles.triggerText}>{discoveryFilters.find(option => option.key === value)!.label}</Text><Text style={styles.chevron}>⌄</Text>
+    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, compact && styles.compactTrigger, focused === -2 && styles.focused, pressed && styles.pressed]}>
+      <Text style={[styles.triggerText, compact && styles.compactTriggerText]}>{discoveryFilters.find(option => option.key === value)!.label}</Text><Text style={[styles.chevron, compact && styles.compactChevron]}>⌄</Text>
     </Pressable>
     <Modal transparent visible={open} animationType={reduced ? 'none' : 'fade'} onRequestClose={close} onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
       <View style={styles.overlay} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
@@ -45,6 +45,7 @@ export function DiscoveryFilterButton({ value, disabled, onChange }: { value: Di
 const styles = StyleSheet.create({
   trigger: { minWidth: 96, minHeight: 44, paddingHorizontal: 14, borderRadius: 24, borderWidth: 1, borderColor: '#CBB891', backgroundColor: '#FFFDF8', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   triggerText: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' }, chevron: { color: colors.goldDeep, fontSize: 17, marginTop: -4 },
+  compactTrigger: { minWidth: 72, paddingHorizontal: 8, gap: 5 }, compactTriggerText: { fontSize: 11 }, compactChevron: { fontSize: 14, marginTop: -2 },
   overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(37,32,24,.4)', padding: 24 },
   popup: { width: '100%', maxWidth: 352, maxHeight: '100%', backgroundColor: '#FFFDF8', borderRadius: 20, padding: 20, borderWidth: 1, borderColor: '#E4D9C7', shadowColor: '#241C11', shadowOpacity: .18, shadowRadius: 30, shadowOffset: { width: 0, height: 16 }, elevation: 15 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, title: { fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', color: colors.ink },
