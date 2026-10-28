@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
+import { deckPose, deckReturnEdge } from '@/data/deck-motion';
 
-export const deckLayerX = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (7 + depth * 2);
-export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (1.3 + depth * 0.45);
-const lerp = (a: number, b: number, amount: number) => a + (b - a) * amount;
 
 /** Only transforms change during a drag. Browser animations run on the compositor
  * after release, rather than feeding Animated's JS interpolation graph each frame. */
@@ -12,17 +10,25 @@ export function useWebDeckMotion(width: number) {
   const currentWidth = useRef(width);
   currentWidth.current = width;
   const position = useRef(0);
+  const reverse = useRef(false);
+  const lift = useRef(0);
+  const raised = useRef(false);
   const frame = useRef<number | null>(null);
   const animations = useRef<Animation[]>([]);
   const motion = useMemo(() => {
-    const transform = (depth: number, x: number) => {
-      if (!depth) return `translate3d(${x}px,0,0) rotate(${Math.max(-7, Math.min(7, x / currentWidth.current * 7))}deg) scale(1)`;
-      const amount = Math.min(1, Math.abs(x) / currentWidth.current);
-      return `translate3d(${lerp(deckLayerX(depth), deckLayerX(depth - 1), amount)}px,${lerp(depth * 9, (depth - 1) * 9, amount)}px,0) rotate(${lerp(deckLayerAngle(depth), deckLayerAngle(depth - 1), amount)}deg) scale(${lerp(1 - depth * .025, 1 - (depth - 1) * .025, amount)})`;
+    const pose = (depth: number, x: number, elevation = lift.current) => {
+      const p = deckPose(depth, x, currentWidth.current, reverse.current, elevation);
+      return { transform: `translate3d(${p.x}px,${p.y}px,0) rotate(${p.angle}deg) scale(${p.scale})`, opacity: p.opacity };
     };
     const paint = () => {
       frame.current = null;
-      slots.current.forEach((node, depth) => { if (node) node.style.transform = transform(depth, position.current); });
+      slots.current.forEach((node, depth) => {
+        if (!node) return;
+        const style = pose(depth, position.current);
+        node.style.transform = style.transform;
+        node.style.opacity = String(style.opacity);
+        node.style.zIndex = String(reverse.current && raised.current && depth === 4 ? 6 : 5 - depth);
+      });
     };
     const stop = () => {
       if (frame.current !== null) cancelAnimationFrame(frame.current);
@@ -32,12 +38,45 @@ export function useWebDeckMotion(width: number) {
     };
     return {
       slot: (depth: number, node: unknown) => { slots.current[depth] = node as HTMLElement | null; },
-      drag: (x: number) => {
+      drag: (x: number, returning = false) => {
         position.current = x;
+        reverse.current = returning;
+        lift.current = 0;
+        raised.current = false;
         if (frame.current === null) frame.current = requestAnimationFrame(paint);
       },
-      reset: () => { stop(); position.current = 0; paint(); },
+      reset: () => { stop(); position.current = 0; reverse.current = false; lift.current = 0; raised.current = false; paint(); },
       stop,
+      returnCard: (duration: number, complete: () => void) => {
+        stop();
+        reverse.current = true;
+        lift.current = 0;
+        raised.current = false;
+        const from = Math.max(0, position.current);
+        const edge = deckReturnEdge(currentWidth.current);
+        const stage = (startX: number, endX: number, startLift: number, endLift: number, ms: number, done: () => void) => {
+          paint();
+          slots.current.forEach((node, depth) => {
+            if (!node) return;
+            const animation = node.animate([pose(depth, startX, startLift), pose(depth, endX, endLift)], { duration: ms, easing: 'cubic-bezier(.2,.75,.25,1)', fill: 'forwards' });
+            animations.current.push(animation);
+          });
+          const lead = animations.current[0];
+          if (!lead) { complete(); return; }
+          lead.onfinish = () => {
+            position.current = endX;
+            lift.current = endLift;
+            paint();
+            stop();
+            done();
+          };
+        };
+        // Change the stacking level only after the card clears the right edge.
+        stage(from, edge, 0, 0, Math.max(50, duration * .42 * (1 - Math.min(1, from / edge))), () => {
+          raised.current = true;
+          stage(edge, edge, 0, 1, duration * .58, complete);
+        });
+      },
       animate: (target: number, duration: number, complete: () => void, spring = false) => {
         stop();
         const from = position.current;
@@ -48,8 +87,8 @@ export function useWebDeckMotion(width: number) {
           const values = spring ? Array.from({ length: 25 }, (_, index) => {
             const t = index / 24;
             const remaining = index === 24 ? 0 : (1 + t * 9) * Math.exp(-t * 9);
-            return { transform: transform(depth, target + (from - target) * remaining), offset: t };
-          }) : [{ transform: transform(depth, from) }, { transform: transform(depth, target) }];
+            return { ...pose(depth, target + (from - target) * remaining), offset: t };
+          }) : [pose(depth, from), pose(depth, target)];
           const animation = node.animate(values, { duration, easing: spring ? 'linear' : 'cubic-bezier(.2,.75,.25,1)', fill: 'forwards' });
           animations.current.push(animation);
         });
