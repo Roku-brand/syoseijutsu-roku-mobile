@@ -36,4 +36,3 @@
 - [スマホ375px](../release-evidence/home-scroll/production-chromium-375.webp) / [430px](../release-evidence/home-scroll/production-chromium-430.webp)
 - [タブレット768px](../release-evidence/home-scroll/production-chromium-768.webp) / [PC1440px](../release-evidence/home-scroll/production-chromium-1440.webp)
 画像生成・新規画像アセットは不要のため使用なし。
-
