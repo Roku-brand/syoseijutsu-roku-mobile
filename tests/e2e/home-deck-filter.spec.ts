@@ -13,6 +13,9 @@ test.beforeEach(async ({ page }) => {
 
 for (const width of [375, 1440]) {
   test(`種類選択で5枚の構成を変更し、同じ種類で全交換する (${width}px)`, async ({ page }) => {
+    // Five types, 25 card moves and five reloads can exceed a minute on
+    // Windows/WebKit; individual UI assertions retain their five-second limit.
+    test.setTimeout(120_000);
     await page.setViewportSize({ width, height: 1000 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
