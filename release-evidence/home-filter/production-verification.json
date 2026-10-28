@@ -1,0 +1,117 @@
+{
+  "url": "https://app.shoseijutsuroku.com/",
+  "checkedAt": "2026-10-28T09:51:39.943Z",
+  "evidence": [
+    {
+      "width": 390,
+      "filters": [
+        {
+          "key": "interpersonal",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "work",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "life",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "theory",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "all",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        }
+      ],
+      "homeStatus": 200,
+      "layerCount": 5,
+      "cycle": "passed",
+      "previousAtBoundary": "passed",
+      "fullHandReplacement": "passed",
+      "reload": "passed",
+      "saveAndDetailReturn": "passed",
+      "fullWidthReel": "passed",
+      "reverseNavigation": "passed",
+      "freeEditionLp": "passed",
+      "swipeShuffleButtonOpacity": "1 for every sampled frame",
+      "lightCardRendering": "2 content faces and 3 paper backs",
+      "desktopSideArrows": "not applicable"
+    },
+    {
+      "width": 1440,
+      "filters": [
+        {
+          "key": "interpersonal",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "work",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "life",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "theory",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        },
+        {
+          "key": "all",
+          "count": 5,
+          "cycle": "passed",
+          "replacement": "all five",
+          "reload": "passed"
+        }
+      ],
+      "homeStatus": 200,
+      "layerCount": 5,
+      "cycle": "passed",
+      "previousAtBoundary": "passed",
+      "fullHandReplacement": "passed",
+      "reload": "passed",
+      "saveAndDetailReturn": "passed",
+      "fullWidthReel": "passed",
+      "reverseNavigation": "passed",
+      "freeEditionLp": "passed",
+      "swipeShuffleButtonOpacity": "1 for every sampled frame",
+      "lightCardRendering": "2 content faces and 3 paper backs",
+      "desktopSideArrows": "passed"
+    }
+  ],
+  "deployedCommit": "cce208bea72d7505881d173b2f4171510d4dd042",
+  "releaseWorkflow": 40666045031,
+  "prWorkflow": 40665857511,
+  "e2ePassed": 313,
+  "unitPassed": 15
+}

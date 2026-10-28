@@ -20,7 +20,7 @@
 - Chromium・WebKitでホームと新しい種類選択を検証。375/390/430/768/1440pxの表示、前後スワイプ、選択・全交換、保存、詳細往復、再読み込み、日本時間の更新、キーボード操作を含む。
 - CPU 4倍低速化、8回スワイプ：平均16.91ms、95%点16.8ms、99%点33.3ms、34ms超1フレーム。シャッフルボタンの不透明度は全サンプル1、画像ノード2。
 
-最終CIと公開環境の確認結果はリリース後に追記する。iOSはバンドル出力までの検証であり、実機ビルドの配布は今回のWeb公開には含まない。
+最終CIと公開環境の確認結果は末尾に記載。iOSはバンドル出力までの検証であり、実機ビルドの配布は今回のWeb公開には含まない。
 
 
 ## CMS追加カードの復元補正
@@ -33,3 +33,17 @@
 
 
 完全版の追加データを待つためにホーム全体を止めず、既に読めるカードで探索を始められるようにした。回帰テストは完全版データの応答を意図的に保留し、マイページからホームへ移動してカードを表示・操作できることを確認する。初期表示の速さと、CMS追加カード・保存済み完全版カードの順序保持を両立させる。
+
+
+## 最終公開・確認結果
+
+- 公開先：[処世術禄 Web版](https://app.shoseijutsuroku.com/)。最終公開コミットは `cce208bea72d7505881d173b2f4171510d4dd042`。
+- [最終PR #207](https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/207) と [公開ワークフロー](https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40666045031) は成功。PR・公開用の両方でE2E313件すべて成功、デッキ単体テスト15件成功。Secure content checkも成功。
+- 最終ソースで型検査・Lint・Web/iOSバンドル出力を確認。Chromiumの関連11件と、会員・決済復帰の最終5件を確認。WebKitでは全6ケースを確認。
+- 本番390px・1440pxの両方で、5種類それぞれの5枚構成、5枚の循環、シャッフルでの全交換、再読み込み後の種類・順序保持を確認。保存・詳細往復、無料版LP、全幅リール、PC両側の矢印も確認。
+- 本番の差し込み途中で元のカードのz-indexが0となり、他の4枚の下へ入ることを実描画で撮影。スワイプ中のシャッフルボタンは不透明度1、カード画像は2枚のまま。
+- 画像生成・新規アセット・依存追加は行っていない。既存の画像・デザイン・推薦基盤を利用。iOSはバンドル出力までの検証で、実機の操作確認は未実施。
+
+記録：[本番検証JSON](../release-evidence/home-filter/production-verification.json)、[差し込み途中の状態](../release-evidence/home-filter/production-tuck.json)。
+
+画面：[種類ポップアップ](../release-evidence/home-filter/production-popup-390.webp)、[スマホ・仕事術](../release-evidence/home-filter/production-selected-work-390.webp)、[PC・仕事術](../release-evidence/home-filter/production-selected-work-1440.webp)、[最下段へ差し込む途中](../release-evidence/home-filter/production-tuck-under.webp)。
