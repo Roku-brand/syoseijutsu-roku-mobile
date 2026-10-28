@@ -11,7 +11,7 @@ async function mockAccount(page: Page, active: boolean, restored = true) {
   // authoritative empty catalog would deliberately remove every reading card.
   await page.route('**/rest/v1/**', route => route.request().url().includes('/profiles')
     ? route.fulfill({ json: { role: 'user', display_name: 'テスト利用者' } })
-    : route.fulfill({ status: 503, json: {} }));
+    : route.fulfill({ status: 404, json: {} }));
   const access = { access: active ? 'active' : 'free', accessType: 'thirty_day', accessExpiresAt: new Date(Date.now() + 10 * 86400000).toISOString() };
   let restoreCalls = 0;
   await page.route('**/functions/v1/**', route => {
