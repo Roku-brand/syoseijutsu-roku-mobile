@@ -12,7 +12,7 @@ import {
   type ScrollView as ScrollViewType,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, fonts, layout, radius, spacing, typography } from '@/constants/theme';
+import { catalogTheme, colors, fonts, layout, radius, spacing, typography } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export function AppText({
@@ -160,41 +160,46 @@ export function PrimaryButton({
   );
 }
 
-export function SecondaryButton({ children, ...props }: PressableProps & { children: React.ReactNode }) {
+export function SecondaryButton({ children, tone, ...props }: PressableProps & { children: React.ReactNode; tone?: 'theory' }) {
   return (
     <Pressable
       {...props}
       accessibilityRole="button"
-      style={({ pressed }) => [styles.secondaryButton, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.secondaryButton, tone === 'theory' && styles.theorySurface, pressed && styles.pressed]}
     >
-      <AppText style={styles.secondaryButtonText}>{children}</AppText>
+      <AppText style={[styles.secondaryButtonText, tone === 'theory' && styles.theoryInk]}>{children}</AppText>
     </Pressable>
   );
 }
 
 export function EmptyState({
   mark = '余',
+  tone,
   title,
   description,
 }: {
   mark?: string;
+  tone?: 'theory';
   title: string;
   description: string;
 }) {
   return (
     <View style={styles.empty}>
-      <View style={styles.emptyMark}>
-        <AppText style={styles.emptyMarkText}>{mark}</AppText>
+      <View style={[styles.emptyMark, tone === 'theory' && styles.theorySurface]}>
+        <AppText style={[styles.emptyMarkText, tone === 'theory' && styles.theoryInk]}>{mark}</AppText>
       </View>
-      <AppText variant="serif" style={styles.emptyTitle}>
+      <AppText variant="serif" style={[styles.emptyTitle, tone === 'theory' && styles.theoryInk]}>
         {title}
       </AppText>
-      <AppText style={styles.emptyDescription}>{description}</AppText>
+      <AppText style={[styles.emptyDescription, tone === 'theory' && styles.theoryText]}>{description}</AppText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  theorySurface: { borderColor: catalogTheme.theory.border, backgroundColor: catalogTheme.theory.surface },
+  theoryInk: { color: catalogTheme.theory.ink },
+  theoryText: { color: catalogTheme.theory.text },
   flex: { flex: 1 },
   screen: { flex: 1, backgroundColor: colors.paper },
   screenContent: {

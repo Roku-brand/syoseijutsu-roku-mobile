@@ -1,21 +1,21 @@
 import { Link, type Href } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { colors } from '@/constants/theme';
+import { catalogTheme, colors } from '@/constants/theme';
 import { AppText } from './ui';
 
-export function SeoBreadcrumbs({ items }: { items: { label: string; href?: Href }[] }) {
+export function SeoBreadcrumbs({ items, tone }: { items: { label: string; href?: Href }[]; tone?: 'theory' }) {
   return (
     <View accessibilityRole="list" accessibilityLabel="パンくずリスト" style={styles.row}>
       {items.map((item, index) => (
         <View key={`${item.label}-${index}`} role="listitem" style={styles.item}>
-          {index > 0 ? <AppText accessibilityElementsHidden style={styles.separator}>›</AppText> : null}
+          {index > 0 ? <AppText accessibilityElementsHidden style={[styles.separator, tone === 'theory' && styles.theoryText]}>›</AppText> : null}
           {item.href ? (
             <Link href={item.href} asChild>
               <Pressable accessibilityRole="link" accessibilityLabel={`${item.label}へ移動`}>
-                <AppText style={styles.link}>{item.label}</AppText>
+                <AppText style={[styles.link, tone === 'theory' && styles.theoryLink]}>{item.label}</AppText>
               </Pressable>
             </Link>
-          ) : <AppText style={styles.current}>{item.label}</AppText>}
+          ) : <AppText style={[styles.current, tone === 'theory' && styles.theoryText]}>{item.label}</AppText>}
         </View>
       ))}
     </View>
@@ -23,6 +23,8 @@ export function SeoBreadcrumbs({ items }: { items: { label: string; href?: Href 
 }
 
 const styles = StyleSheet.create({
+  theoryLink: { color: catalogTheme.theory.ink },
+  theoryText: { color: catalogTheme.theory.text },
   row: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 7, marginBottom: 18 },
   item: { flexDirection: 'row', alignItems: 'center', gap: 7 },
   separator: { color: '#958B7C', fontSize: 12, lineHeight: 18 },
