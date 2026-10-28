@@ -13,13 +13,23 @@ type DeckState = { day: number; round: number; order: string[]; cursor: number; 
 export const HOME_DECK_SIZE = 5;
 export const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
 
+function accessibleCatalog(scope: string) {
+  const items: ReadingContent[] = [
+    ...techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (scope === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))).map(card => ({ type: 'technique' as const, card })),
+    ...theories.filter(card => !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))).map(card => ({ type: 'theory' as const, card })),
+  ];
+  return new Map(items.map(item => [discoveryKey(item), item]));
+}
+
 /** Persist IDs, never paid content. Freeze a day's deck for the mounted visit. */
 export function useHomeDiscovery() {
-  const { accessState, catalogRevision } = useAccess();
+  const { accessState, catalogRevision, secureContentStatus, refreshPublishedContent } = useAccess();
   const signals = useAppState();
   const scope = accessState === 'paid' ? 'paid' : 'free';
   const [state, setState] = useState<DeckState | null>(null);
   const [retry, setRetry] = useState(0);
+  const [restoredRevision, setRestoredRevision] = useState(0);
+  const secureReady = scope !== 'paid' || secureContentStatus === 'ready' || secureContentStatus === 'error';
   const current = useRef(state);
   const readyScope = useRef<string | null>(null);
   useEffect(() => onDiscoveryReset(() => {
@@ -28,28 +38,22 @@ export function useHomeDiscovery() {
     setRetry(value => value + 1);
   }), []);
   current.current = state;
-  const latest = useRef({ signals, scope });
-  latest.current = { signals, scope };
+  const latest = useRef({ signals, scope, refreshPublishedContent });
+  latest.current = { signals, scope, refreshPublishedContent };
   const generate = useCallback((day: number, round: number, seen: string[], excludeIds: string[] = [], filter: DiscoveryFilter = 'all') => buildReadingRecommendations({
     accessState: latest.current.scope, ...latest.current.signals, seed: `${day}:${round}${filter === 'all' ? '' : `:${filter}`}`, filter, seenIds: seen, excludeIds, count: HOME_DECK_SIZE,
   }), []);
-  const byKey = useMemo(() => {
-    const items: ReadingContent[] = [
-      ...techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (scope === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))).map(card => ({ type: 'technique' as const, card })),
-      ...theories.filter(card => !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))).map(card => ({ type: 'theory' as const, card })),
-    ];
-    return new Map(items.map(item => [discoveryKey(item), item]));
-  }, [scope, catalogRevision]);
+  const byKey = useMemo(() => accessibleCatalog(scope), [scope, catalogRevision, restoredRevision]);
   const catalog = useRef(byKey);
   catalog.current = byKey;
   useEffect(() => {
-    if (!signals.hydrated) return;
+    if (!signals.hydrated || !secureReady) return;
     let active = true;
     readyScope.current = null;
     setState(null);
     const day = getHomeDayKey();
     // Reads follow writes so an immediate remount cannot restore stale state.
-    void readDiscoveryState(scope).catch(() => null).then(raw => {
+    void readDiscoveryState(scope).catch(() => null).then(async raw => {
       if (!active) return;
       let stored: DeckState | undefined;
       try {
@@ -59,9 +63,28 @@ export function useHomeDiscovery() {
           && Array.isArray(value.seen) && value.seen.every((id: unknown) => typeof id === 'string')
           && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < value.order.length) stored = { ...value, filter: isDiscoveryFilter(value.filter) ? value.filter : 'all' };
       } catch { /* A damaged cache is replaced by a usable daily deck. */ }
+      // CMS-only IDs can be absent from the bundled bootstrap catalog. Resolve
+      // those before deciding that a saved card was removed or became locked.
+      let resolved = true;
+      let available = catalog.current;
+      if (stored?.day === day && stored.order.some(id => {
+        const item = available.get(id);
+        return !item || !matchesDiscoveryFilter(item, stored!.filter);
+      })) {
+        let timeout: ReturnType<typeof setTimeout> | undefined;
+        resolved = await Promise.race([
+          latest.current.refreshPublishedContent().catch(() => false),
+          new Promise<boolean>(resolve => { timeout = setTimeout(() => resolve(false), 6000); }),
+        ]);
+        clearTimeout(timeout);
+        if (!active) return;
+        available = accessibleCatalog(scope);
+        // Keep render-time lookups in sync even if the context update is batched.
+        setRestoredRevision(value => value + 1);
+      }
       const seen = stored?.seen.slice(-120) ?? [];
       const filter = stored?.filter ?? 'all';
-      const eligible = (id: string) => { const item = catalog.current.get(id); return !!item && matchesDiscoveryFilter(item, filter); };
+      const eligible = (id: string) => { const item = available.get(id); return item ? matchesDiscoveryFilter(item, filter) : !resolved; };
       let order = stored?.day === day ? [...new Set(stored.order.filter(eligible))] : [];
       const cursor = stored ? stored.order.slice(0, stored.cursor).filter(eligible).length : 0;
       // Migrate the former long queue without losing the card being read.
@@ -81,7 +104,7 @@ export function useHomeDiscovery() {
       setState(next);
     });
     return () => { active = false; };
-  }, [signals.hydrated, scope, retry, generate]);
+  }, [signals.hydrated, secureReady, scope, retry, generate]);
   useEffect(() => {
     if (!state || readyScope.current !== scope) return;
     writeDiscoveryState(scope, state);

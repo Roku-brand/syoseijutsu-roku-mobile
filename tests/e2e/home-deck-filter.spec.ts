@@ -150,3 +150,50 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
   await page.screenshot({ path: 'release-evidence/home-filter/selected-work-390.png' });
 });
+
+test('CMS追加カードは遅れて読み込まれても順序と位置を復元し、一時的な通信失敗で消さない', async ({ page }) => {
+  test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'CMS connector is not configured in this build');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  let offline = false;
+  const rows = Array.from({ length: 12 }, (_, index) => ({
+    id: `cms-deck-restore-${index}`, title: `CMSから追加された知識 ${index}`, essence: '公開後に追加されたカードの復元を検証する。', explanation: 'テスト用の公開コンテンツ。',
+    category: 'interpersonal', persona_id: null, status: 'published', access_tier: 'free', display_order: index,
+  }));
+  await page.route('**/rest/v1/**', async route => {
+    if (offline) { await route.fulfill({ status: 503, json: {} }); return; }
+    const table = new URL(route.request().url()).pathname.split('/').at(-1);
+    if (table === 'public_techniques') {
+      await new Promise(resolve => { setTimeout(resolve, 700); });
+      await route.fulfill({ json: rows });
+    } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' } : [] });
+  });
+  const order = rows.slice(0, 5).map(row => `technique:${row.id}`);
+  await page.addInitScript(({ key, order }) => {
+    if (localStorage.getItem(key)) return;
+    const day = Math.floor((Date.now() + 9 * 60 * 60 * 1000) / 86400000);
+    localStorage.setItem(key, JSON.stringify({ day, round: 7, order, cursor: 2, offset: 5, seen: order, filter: 'interpersonal' }));
+  }, { key: storageKey, order });
+  await page.goto('/');
+  await ready(page);
+  // Match the app's actual day key rather than relying on a host timezone.
+  const state = await read(page);
+  expect(state.order).toEqual(order);
+  expect(state.round).toBe(7);
+  await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', `${rows[2].title}を読む`);
+  for (let i = 0; i < 2; i++) {
+    await page.reload(); await ready(page);
+    expect((await read(page)).order).toEqual(order);
+    expect((await read(page)).offset).toBe(5);
+  }
+  offline = true;
+  await page.reload();
+  await expect(page.getByText('知識を読み込めませんでした')).toBeVisible({ timeout: 15000 });
+  expect((await read(page)).order).toEqual(order);
+  expect((await read(page)).cursor).toBe(2);
+  offline = false;
+  await page.getByRole('button', { name: 'もう一度読み込む →' }).click();
+  await ready(page);
+  expect((await read(page)).order).toEqual(order);
+  await expect(page.getByTestId('home-deck-position')).toContainText('03');
+});
