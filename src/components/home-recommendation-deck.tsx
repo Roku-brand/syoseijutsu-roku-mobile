@@ -33,7 +33,7 @@ function imageFor(item: ReadingContent) {
   return { fallback, source: uri ? { uri } : fallback };
 }
 
-export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
+export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpenCard }: { cardWidth: number; fillViewport?: boolean; onOpenCard?: () => void }) {
   const deck = useHomeDiscovery();
   const { desktop } = useResponsiveLayout();
   const root = useRef<View>(null);
@@ -166,6 +166,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
   };
   const open = () => {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
+    onOpenCard?.();
     router.push(current.type === 'technique' ? techniqueRoute(current.card.id) : theoryRoute(current.card.tagId));
   };
   // Keep actual stack order stable even when a gesture changes direction.
@@ -188,7 +189,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
       <Text style={[styles.arrowText, desktop && styles.desktopArrowText]}>{step < 0 ? '‹' : '›'}</Text>
     </Pressable>;
   };
-  return <View ref={root} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
+  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading]}>
       <View style={styles.headingCopy}><Text style={styles.headingTitle}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
@@ -197,7 +198,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
         <SymbolView name={{ ios: 'shuffle', android: 'shuffle', web: 'shuffle' }} size={17} tintColor="#FFFDF8" fallback={<Text style={styles.shuffleIcon}>⤨</Text>} /><Text style={styles.shuffleText}>シャッフル</Text>
       </Pressable></View>
     </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }]}>
+    <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
       {desktop ? <>{arrow(-1)}{arrow(1)}</> : null}
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
@@ -261,6 +262,7 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 }
 
 const styles = StyleSheet.create({
+  fillViewport: { flexGrow: 1 },
   mobileHeading: { flexDirection: 'column', alignItems: 'stretch', gap: 10 }, headingActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 8 },
   paper: { backgroundColor: '#F8F5EF' },
   desktopArrow: { position: 'absolute', top: 192, width: 58, height: 58, borderRadius: 30, zIndex: 10, shadowColor: '#705423', shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } },

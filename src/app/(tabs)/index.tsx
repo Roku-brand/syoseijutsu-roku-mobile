@@ -8,6 +8,7 @@ import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/bo
 import { HomeHeroCarousel } from '../../components/home-hero-carousel';
 import { HomeRecommendationDeck } from '../../components/home-recommendation-deck';
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
+import { useHomeDeckScroll } from '../../hooks/use-home-deck-scroll';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, upgradeRoute } from '../../navigation/app-routes';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
@@ -26,12 +27,14 @@ const shortcuts = [
 export default function HomeScreen() {
   const router = useRouter();
   const { desktop, width } = useResponsiveLayout();
+  const mobile = width > 0 && width < 700;
+  const deckScroll = useHomeDeckScroll(mobile);
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, catalogRevision, secureContentStatus, refreshAccess } = useAccess();
   const cardWidth = desktop ? 356 : Math.min(356, width - 70);
 
   return (
-    <BookScreen contentContainerStyle={[styles.page, desktop && styles.pageDesktop]}>
+    <BookScreen testID="home-scroll" scrollRef={deckScroll.scrollRef} {...deckScroll.scrollProps} contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
       <HomeHeroCarousel desktop={desktop} catalogRevision={catalogRevision} />
 
       <View style={[styles.body, width < 700 && styles.bodyCompact]}>
@@ -61,8 +64,8 @@ export default function HomeScreen() {
         </View>
       </Pressable> : null}
 
-      <View testID="home-recommendations-section" style={styles.section}>
-        <HomeRecommendationDeck cardWidth={cardWidth} />
+      <View testID="home-recommendations-section" onLayout={deckScroll.onDeckLayout} style={[styles.section, mobile && { minHeight: deckScroll.viewportHeight, paddingTop: 12, paddingBottom: 8 }]}>
+        <HomeRecommendationDeck cardWidth={cardWidth} fillViewport={mobile} onOpenCard={deckScroll.onOpenCard} />
       {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
       </View>
 
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
   dataStatus: { minHeight: 44, justifyContent: 'center' },
   dataStatusText: { color: colors.muted, fontSize: 12, lineHeight: 21, marginTop: 8 },
   page: { maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: layout.bottomContentInset + 24 }, pageDesktop: { paddingBottom: 48 },
+  pageMobile: { paddingBottom: 0 },
   body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
