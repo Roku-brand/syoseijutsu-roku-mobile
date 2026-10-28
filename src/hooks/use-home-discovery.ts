@@ -31,6 +31,12 @@ export function useHomeDiscovery() {
   const [restoredRevision, setRestoredRevision] = useState(0);
   const current = useRef(state);
   const readyScope = useRef<string | null>(null);
+  const storageRequest = useRef<{ scope: string; retry: number; value: Promise<string | null> } | null>(null);
+  useEffect(() => {
+    // Read deck IDs alongside personal signals, rather than putting two
+    // storage deadlines back-to-back on a slow device.
+    storageRequest.current = { scope, retry, value: readDiscoveryState(scope).catch(() => null) };
+  }, [scope, retry]);
   useEffect(() => onDiscoveryReset(() => {
     readyScope.current = null;
     current.current = null;
@@ -52,7 +58,9 @@ export function useHomeDiscovery() {
     setState(null);
     const day = getHomeDayKey();
     // Reads follow writes so an immediate remount cannot restore stale state.
-    void readDiscoveryState(scope).catch(() => null).then(async raw => {
+    const stored = storageRequest.current;
+    const rawRequest = stored?.scope === scope && stored.retry === retry ? stored.value : readDiscoveryState(scope).catch(() => null);
+    void rawRequest.then(async raw => {
       if (!active) return;
       let stored: DeckState | undefined;
       try {
@@ -72,7 +80,7 @@ export function useHomeDiscovery() {
       })) {
         let timeout: ReturnType<typeof setTimeout> | undefined;
         resolved = await Promise.race([
-          latest.current.refreshPublishedContent().catch(() => false),
+          latest.current.refreshPublishedContent({ reuseInFlight: true }).catch(() => false),
           new Promise<boolean>(resolve => { timeout = setTimeout(() => resolve(false), 6000); }),
         ]);
         clearTimeout(timeout);

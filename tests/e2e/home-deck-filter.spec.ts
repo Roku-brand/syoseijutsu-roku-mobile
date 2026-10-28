@@ -41,7 +41,11 @@ for (const width of [375, 1440]) {
       for (let card = 0; card < 5; card++) {
         const active = page.getByTestId('home-recommendation-card');
         if (key !== 'all') await expect(active.getByText(name, { exact: true })).toBeVisible();
-        kinds.add((await active.innerText()).includes('THEORY') ? 'theory' : 'technique');
+        const context = active.getByTestId('home-deck-context');
+        const contextLabel = await context.getAttribute('aria-label');
+        expect(contextLabel).toMatch(/^(人物像|理論分類)：.+/);
+        await expect(context).not.toHaveText(/PRACTICE|THEORY/);
+        kinds.add(contextLabel!.startsWith('理論分類：') ? 'theory' : 'technique');
         await page.getByTestId('home-deck-next').click();
         await ready(page);
       }

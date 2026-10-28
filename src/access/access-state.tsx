@@ -21,7 +21,7 @@ type AccessContextValue = {
   previewMode: PreviewMode;
   catalogRevision: number;
   secureContentStatus: SecureContentStatus;
-  refreshPublishedContent: () => Promise<boolean>;
+  refreshPublishedContent: (options?: { reuseInFlight?: boolean }) => Promise<boolean>;
   setPreviewMode: (mode: PreviewMode) => Promise<void>;
   refreshAccess: () => Promise<AccessState>;
   continueAsGuest: () => void;
@@ -62,9 +62,10 @@ export function AccessProvider({ children }: PropsWithChildren) {
   const previousAccessState = useRef(actualAccessState);
   useEffect(() => { previousAccessState.current = actualAccessState; }, [actualAccessState]);
 
-  const refreshPublishedContent = useCallback(async (): Promise<boolean> => {
-    const revision = await readContentRevision(true);
-    const changed = await hydratePublishedContent(true);
+  const refreshPublishedContent = useCallback(async (options?: { reuseInFlight?: boolean }): Promise<boolean> => {
+    const revisionRequest = readContentRevision(!options?.reuseInFlight);
+    const changed = await hydratePublishedContent(true, options?.reuseInFlight);
+    const revision = await revisionRequest;
     if (changed) publicRevision.current = revision;
     const secureWasHydrated = hasHydratedSecureContent(user?.id);
     const secureChanged = secureWasHydrated
