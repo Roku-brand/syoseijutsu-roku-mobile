@@ -350,6 +350,18 @@ test('戻るスワイプは最下段の直前カードを引き出してから�
   await page.evaluate(() => {
     (window as any).__reverseFrames = [];
     (window as any).__reverseRecording = true;
+    (window as any).__liftedAt = null;
+    const bottom = document.getElementById('home-deck-slot-4')!;
+    const observer = new MutationObserver(() => {
+      if (Number(getComputedStyle(bottom).zIndex) === 6 && (window as any).__liftedAt === null) {
+        (window as any).__liftedAt = new DOMMatrix(getComputedStyle(bottom).transform).m41;
+        const animation = document.getAnimations().find(item => (item.effect as KeyframeEffect)?.target === bottom);
+        const keys = (animation?.effect as KeyframeEffect)?.getKeyframes();
+        if (keys?.length) (window as any).__returnPath = { start: new DOMMatrix(keys[0].transform as string).m41, end: new DOMMatrix(keys[keys.length - 1].transform as string).m41 };
+      }
+    });
+    observer.observe(bottom, { attributes: true, attributeFilter: ['style'] });
+    (window as any).__reverseObserver = observer;
     const sample = () => {
       const front = document.getElementById('home-deck-slot-0')!;
       const bottom = document.getElementById('home-deck-slot-4')!;
@@ -365,11 +377,19 @@ test('戻るスワイプは最下段の直前カードを引き出してから�
   await page.mouse.up();
   await ready(page);
   expect(await label(page)).toBe(first);
-  const frames = await page.evaluate(() => { (window as any).__reverseRecording = false; return (window as any).__reverseFrames as { bottomX: number; frontX: number; z: number }[]; });
-  expect(frames.some(frame => frame.bottomX > box.width && frame.z < 5)).toBe(true);
+  const { frames, liftedAt, returnPath } = await page.evaluate(() => {
+    (window as any).__reverseRecording = false;
+    (window as any).__reverseObserver.disconnect();
+    return { frames: (window as any).__reverseFrames as { bottomX: number; frontX: number; z: number }[], liftedAt: (window as any).__liftedAt as number, returnPath: (window as any).__returnPath as { start: number; end: number } };
+  });
+  // The animation finish callback can run between two WebKit RAF samples.
+  // Observe the actual stacking change instead of requiring that endpoint frame.
+  expect(liftedAt).toBeGreaterThan(box.width);
+  expect(returnPath.start).toBeGreaterThan(box.width);
+  expect(returnPath.end).toBeCloseTo(0, 2);
   const lifted = frames.filter(frame => frame.z === 6);
-  expect(lifted.length).toBeGreaterThan(2);
-  expect(lifted[0].bottomX).toBeGreaterThan(lifted[lifted.length - 1].bottomX + 80);
+  expect(lifted.length).toBeGreaterThan(0);
+  expect(lifted.some(frame => frame.bottomX < liftedAt - 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
   await page.getByTestId('home-deck-next').click();
