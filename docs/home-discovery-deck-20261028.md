@@ -1,6 +1,6 @@
 # ホーム：知識をめくるデッキ
 
-作業ブランチ：`codex/home-discovery-deck-20261028`。公開ブランチ `0e63c1c` に今回の変更だけを適用した。変更は独立した `home-discovery-deck-20261028` に置き、他の作業ツリーの未コミット変更は変更していない。Web公開は今回の追加依頼で実施する。iOSストア提出は対象外。
+作業ブランチ：`codex/home-discovery-deck-20261028`。公開ブランチ `0e63c1c` に今回の変更だけを適用した。変更は独立した `home-discovery-deck-20261028` に置き、他の作業ツリーの未コミット変更は変更していない。2026年10月28日、Web公開済み。公開コミットは `335d50ba96cf7d3c5b5aaa891321ba609bc94088`。iOSストア提出は対象外。
 
 ## 調査と再利用した資産
 
@@ -119,3 +119,18 @@ node ./node_modules/@playwright/test/cli.js test tests/e2e/home-card-deck.spec.t
 CMSの表示テストは、公開接続設定を持つビルドに対してAPIをモックする。未設定ビルドではその1件をスキップする。実タッチのCDP入力テストはChromium専用で、WebKitではスキップする。古い7枚の棚・購入バナーの表示テストは、新デッキと4枚の編集バナーの契約へ更新・集約した。購入、法務、保存、履歴、共通ナビの機能そのものは残している。
 
 ローカル検証では架空の公開URL `https://home-deck-fixture.supabase.co` と公開キーのダミー `sb_publishable_e2e_placeholder` だけを使用した。出力先は `dist-e2e`、一時サーバー設定は `.local-e2e*.config.ts`。これらは検証専用で公開用設定には使用しない。
+
+## Web公開と本番検証
+
+- 公開URL：https://app.shoseijutsuroku.com/
+- PR：https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/202 （マージ済み）
+- 公開ワークフロー：https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40624181668 （成功）
+- 修正後PR CI：https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40624104152 （成功、304件通過）
+- 公開ワークフローの全体ブラウザテスト：304件通過（5.8分）。型・Lint・コンテンツ監査・公開本文監査・SEO監査も通過。
+- 最初の全体CIは303件通過、1件が旧ホームの全カテゴリ画像の常時表示を前提として失敗。ランキング画像のカテゴリ別一貫性は維持し、旧ホームへの依存だけを除いて解決した。ランキング関連4件のローカル再検証も成功。
+- 日本時間2026年10月28日12:09以降、実際の公開サイトを390px・1440pxで確認。5枚の循環、循環境界からの前戻り、全5枚交換、再読み込み、保存・詳細往復、PC左右矢印、横はみ出しなしを確認。CMS・画像・フォントの読み込み後のスクリーンショットも目視確認した。
+- 今回はDB移行とバックエンド配信を行っていない。既存のWeb公開手順を使用した。
+
+[本番スマホ画面](../release-evidence/home-discovery/production-390.webp) / [本番PC画面](../release-evidence/home-discovery/production-1440.webp)
+
+本番の確認記録は `release-evidence/home-discovery/production-verification.json`。購入実行・iPhone実機・署名済みiOSストア提出は未実施。

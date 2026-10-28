@@ -27,5 +27,8 @@
   "nativeDeviceTest": "not performed",
   "livePurchaseTest": "not performed",
   "backend": "synthetic public configuration with API mocks",
-  "published": false
+  "published": true,
+  "releaseCommit": "335d50ba96cf7d3c5b5aaa891321ba609bc94088",
+  "fullCI": "304 passed; deploy succeeded",
+  "productionVerification": "390px and 1440px passed; live CMS/images; no mocks"
 }

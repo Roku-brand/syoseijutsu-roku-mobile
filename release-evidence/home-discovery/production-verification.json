@@ -1,0 +1,28 @@
+{
+  "url": "https://app.shoseijutsuroku.com/",
+  "checkedAt": "2026-10-28T03:10:44.075Z",
+  "evidence": [
+    {
+      "width": 390,
+      "homeStatus": 200,
+      "layerCount": 5,
+      "cycle": "passed",
+      "previousAtBoundary": "passed",
+      "fullHandReplacement": "passed",
+      "reload": "passed",
+      "saveAndDetailReturn": "passed",
+      "desktopSideArrows": "not applicable"
+    },
+    {
+      "width": 1440,
+      "homeStatus": 200,
+      "layerCount": 5,
+      "cycle": "passed",
+      "previousAtBoundary": "passed",
+      "fullHandReplacement": "passed",
+      "reload": "passed",
+      "saveAndDetailReturn": "passed",
+      "desktopSideArrows": "passed"
+    }
+  ]
+}
