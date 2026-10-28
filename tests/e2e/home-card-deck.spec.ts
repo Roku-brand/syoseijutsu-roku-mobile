@@ -105,7 +105,8 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
   await page.mouse.move(box.x + box.width * 0.7, box.y + 100);
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.7 - 38, box.y + 103, { steps: 10 });
-  expect((await matrix()).x).toBeLessThan(-20);
+  // Drag writes are batched into the next animation frame, including WebKit.
+  await expect.poll(async () => (await matrix()).x).toBeLessThan(-20);
   expect(Math.abs((await matrix()).angle)).toBeGreaterThan(0.3);
   await page.waitForTimeout(100);
   await page.mouse.up();

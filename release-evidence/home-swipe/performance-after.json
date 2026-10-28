@@ -1,0 +1,11 @@
+{
+  "cpuThrottling": "4x",
+  "swipes": 8,
+  "frames": 273,
+  "averageMs": 17.093040293040286,
+  "p95Ms": 16.799999999999955,
+  "p99Ms": 33.399999999999636,
+  "over34ms": 0,
+  "shuffleOpacityMin": 1,
+  "imageNodes": 2
+}
