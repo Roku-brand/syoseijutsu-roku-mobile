@@ -21,7 +21,7 @@ for (const width of [375, 390, 430, 768, 1440]) {
     await page.goto('/');
     await ready(page);
     await expect(page.getByTestId('home-continue-section')).toHaveCount(0);
-    await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
+    await expect(page.getByTestId('home-premium-banner')).toBeVisible();
     await expect(page.getByTestId('home-deck-layer')).toHaveCount(4);
     await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
     await expect(page.getByTestId('home-brand-indicators').getByRole('tab')).toHaveCount(4);
@@ -272,6 +272,50 @@ test('CMSの公開特集は既存の特集データからバナーへ反映さ�
   await page.getByRole('tab', { name: '1枚目を表示', exact: true }).click();
   await expect(page.getByTestId('home-brand-slide-1')).toContainText('知恵のつながりを見つける');
   await expect(page.getByTestId('home-brand-slide-1')).toContainText('公開特集の編集内容');
+});
+
+test('無料版の従来バナーから完全版LPへ進める', async ({ page }) => {
+  await page.goto('/');
+  await ready(page);
+  const banner = page.getByTestId('home-premium-banner');
+  await expect(banner).toContainText('知識を、もっと広く。もっと深く。');
+  await expect(page.getByTestId('home-premium-price')).toContainText('30日間・320円');
+  await banner.click();
+  await expect(page).toHaveURL(/\/upgrade\?source=home_banner/);
+});
+
+test('スワイプを軽量描画し、移動中はシャッフルの見た目と推薦順を変えない', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await ready(page);
+  await expect(page.getByTestId('home-deck-paper')).toHaveCount(3);
+  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await page.evaluate(() => {
+    (window as any).__shuffleOpacity = [];
+    (window as any).__recordOpacity = true;
+    const sample = () => {
+      (window as any).__shuffleOpacity.push(Number(getComputedStyle(document.querySelector('[data-testid="home-discovery-refresh"]')!).opacity));
+      if ((window as any).__recordOpacity) requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  const original = await label(page);
+  const box = (await page.getByTestId('home-recommendation-card').boundingBox())!;
+  await page.mouse.move(box.x + box.width * .8, box.y + 100);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 30, box.y + 104, { steps: 12 });
+  await page.mouse.up();
+  // Browser-owned animations should exist during release, with no per-frame
+  // Animated JS updates. This contract applies in Chromium and WebKit.
+  expect(await page.evaluate(() => document.getAnimations().filter(animation => (animation.effect as KeyframeEffect)?.target?.getAttribute('data-testid')?.startsWith('home-deck-')).length)).toBeGreaterThan(0);
+  await page.getByTestId('home-discovery-refresh').dispatchEvent('click');
+  await ready(page);
+  await expect.poll(() => label(page)).not.toBe(original);
+  const opacities = await page.evaluate(() => { (window as any).__recordOpacity = false; return (window as any).__shuffleOpacity as number[]; });
+  expect(opacities.length).toBeGreaterThan(3);
+  expect(opacities.every(value => value === 1)).toBe(true);
+  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
 });
 
 test('旧キューを5枚へ移行し、シャッフルで5枚すべてを交換する', async ({ page }) => {

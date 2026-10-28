@@ -11,6 +11,7 @@ import { techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHomeDiscovery } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { deckLayerAngle as layerAngle, deckLayerX as layerX, useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { useAppState } from '@/state/app-state';
 import { SaveDiamond } from './save-diamond';
 
@@ -23,8 +24,6 @@ const deckImages: Record<string, number> = {
 const webGesture = Platform.OS === 'web' ? { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' } as unknown as ViewStyle : {};
 const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 12px 30px -12px rgba(51,40,22,.32), 0 2px 7px rgba(51,40,22,.12)' } as ViewStyle
   : { shadowColor: '#332816', shadowOpacity: 0.18, shadowRadius: 16, shadowOffset: { width: 0, height: 7 }, elevation: 7 };
-const layerX = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (7 + depth * 2);
-const layerAngle = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (1.3 + depth * 0.45);
 function imageFor(item: ReadingContent) {
   const fallback = item.type === 'theory' ? theoryImage : deckImages[item.card.categoryKey] ?? theoryImage;
   const uri = contentImageUrl(item.card.imagePath);
@@ -42,6 +41,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
   const [hovered, setHovered] = useState(false);
   const x = useRef(new Animated.Value(0)).current;
   const mix = useRef(new Animated.Value(0)).current;
+  const webMotion = useWebDeckMotion(cardWidth);
   const locked = useRef(false);
   const dragged = useRef(false);
   const lastDrag = useRef(0);
@@ -55,7 +55,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
   const busy = phase !== 'idle';
   const current = deck.items[deck.cursor];
   const progress = x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: [1, 0, 1], extrapolate: 'clamp' });
-  const reset = () => { x.setValue(0); mix.setValue(0); locked.current = false; dragged.current = false; finish.current = null; setPhase('idle'); };
+  const reset = () => { webMotion?.reset(); x.setValue(0); mix.setValue(0); locked.current = false; dragged.current = false; finish.current = null; setPhase('idle'); };
   useLayoutEffect(() => { if (phase === 'moving') reset(); }, [deck.position]);
   useEffect(() => () => { finish.current = null; animation.current?.stop(); }, []);
   useEffect(() => {
@@ -63,6 +63,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
       const complete = finish.current;
       finish.current = null;
       animation.current?.stop();
+      webMotion?.stop();
       complete();
       reset();
     }
@@ -87,7 +88,10 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     const complete = () => info.deck.move(step);
     finish.current = complete;
     if (info.reduced) { complete(); return; }
-    animation.current = Animated.timing(x, { toValue: (step > 0 ? -1 : 1) * (info.cardWidth + 110), duration: Math.max(250, 360 - Math.abs(velocity) * 40), easing: Easing.out(Easing.cubic), useNativeDriver: driver });
+    const destination = (step > 0 ? -1 : 1) * (info.cardWidth + 80);
+    const duration = Math.max(190, 270 - Math.abs(velocity) * 30);
+    if (webMotion) { webMotion.animate(destination, duration, () => { finish.current = null; complete(); }); return; }
+    animation.current = Animated.timing(x, { toValue: destination, duration, easing: Easing.out(Easing.cubic), useNativeDriver: driver });
     animation.current.start(({ finished }) => { if (finished) { finish.current = null; complete(); } });
   };
   const navigation = useRef(navigate);
@@ -97,12 +101,13 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     // separately so excluding the browser edge never disables ordinary drags.
     onStartShouldSetPanResponderCapture: event => { gestureStartX.current = event.nativeEvent.pageX; return false; },
     onMoveShouldSetPanResponder: (_, gesture) => !locked.current && !latest.current.deck.loading && !latest.current.deck.error && gestureStartX.current > 22 && Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
-    onPanResponderGrant: () => { dragged.current = true; x.stopAnimation(); },
+    onPanResponderGrant: () => { dragged.current = true; webMotion?.stop(); x.stopAnimation(); },
     onPanResponderMove: (_, gesture) => {
       if (locked.current) return;
       lastMotion.current = Date.now();
       setDirection(gesture.dx < 0 ? -1 : 1);
-      x.setValue(gesture.dx > 0 && latest.current.deck.position === 0 ? gesture.dx * 0.18 : gesture.dx);
+      const displacement = gesture.dx > 0 && latest.current.deck.position === 0 ? gesture.dx * 0.18 : gesture.dx;
+      if (webMotion) webMotion.drag(displacement); else x.setValue(displacement);
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
@@ -112,19 +117,21 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
         const step = gesture.dx < 0 ? 1 : -1;
         if (step > 0 || latest.current.deck.position > 0) { navigation.current(step, velocity); return; }
       }
-      if (latest.current.reduced) { x.setValue(0); dragged.current = false; return; }
+      if (latest.current.reduced) { webMotion?.reset(); x.setValue(0); dragged.current = false; return; }
+      if (webMotion) { webMotion.animate(0, 260, () => { dragged.current = false; }, true); return; }
       animation.current = Animated.spring(x, { toValue: 0, stiffness: 240, damping: 28, mass: 0.8, useNativeDriver: driver });
       animation.current.start(() => { dragged.current = false; });
     },
     onPanResponderTerminate: () => {
       lastDrag.current = Date.now();
+      if (webMotion) { webMotion.animate(0, 260, () => { dragged.current = false; }, true); return; }
       animation.current = Animated.spring(x, { toValue: 0, stiffness: 240, damping: 28, useNativeDriver: driver });
       animation.current.start(() => { dragged.current = false; });
     },
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
   const shuffle = () => {
-    if (locked.current || deck.loading || deck.error) return;
+    if (locked.current || dragged.current || deck.loading || deck.error) return;
     locked.current = true;
     setPhase('shuffle');
     let exchanged = false;
@@ -156,7 +163,7 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={styles.heading}>
       <View style={styles.headingCopy}><Text style={styles.headingTitle}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} disabled={busy || deck.loading || deck.error} onPress={shuffle} style={({ pressed }) => [styles.shuffle, hovered && styles.shuffleHover, pressed && styles.buttonPressed, busy && { opacity: 0.65 }]}>
+      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} disabled={busy || deck.loading || deck.error} onPress={shuffle} style={({ pressed }) => [styles.shuffle, hovered && styles.shuffleHover, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.65 }]}>
         <SymbolView name={{ ios: 'shuffle', android: 'shuffle', web: 'shuffle' }} size={17} tintColor="#FFFDF8" fallback={<Text style={styles.shuffleIcon}>⤨</Text>} /><Text style={styles.shuffleText}>シャッフル</Text>
       </Pressable>
     </View>
@@ -166,15 +173,15 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
           const offset = depth * 9;
-          return <Animated.View key={depth} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
+          return <Animated.View key={depth} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
             style={[styles.slot, { width: cardWidth, zIndex: 5 - depth, opacity: front ? 1 : 1 - depth * 0.1, transform: [
               { translateX: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [layerX(depth), 0, (depth - 2) * 26, (2 - depth) * 20, layerX(depth)] }) : front ? x : progress.interpolate({ inputRange: [0, 1], outputRange: [layerX(depth), layerX(Math.max(0, depth - 1))] }) },
               { translateY: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [offset, 0, depth * -5, depth * 4, offset] }) : front ? 0 : progress.interpolate({ inputRange: [0, 1], outputRange: [offset, Math.max(0, depth - 1) * 9] }) },
               { rotate: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [`${layerAngle(depth)}deg`, '0deg', `${(depth - 2) * 3.5}deg`, `${(2 - depth) * 2.5}deg`, `${layerAngle(depth)}deg`] }) : front ? x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: ['-7deg', '0deg', '7deg'], extrapolate: 'clamp' }) : progress.interpolate({ inputRange: [0, 1], outputRange: [`${layerAngle(depth)}deg`, `${layerAngle(Math.max(0, depth - 1))}deg`] }) },
               { scale: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [1 - depth * 0.025, 0.94, 0.93, 0.97, 1 - depth * 0.025] }) : front ? 1 : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * 0.025, 1 - Math.max(0, depth - 1) * 0.025] }) },
-            ] }]}>
+            ] }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
             <Animated.View style={{ opacity: mix.interpolate({ inputRange: [0, 1.65, 2, 2.35, 4], outputRange: [1, 1, 0, 1, 1] }) }}>
-              {item ? <DiscoveryFace item={item} width={cardWidth} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
+              {depth > 1 && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
                 : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
             </Animated.View></Animated.View>;
         })}
@@ -219,6 +226,7 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 }
 
 const styles = StyleSheet.create({
+  paper: { backgroundColor: '#F8F5EF' },
   desktopArrow: { position: 'absolute', top: 192, width: 58, height: 58, borderRadius: 30, zIndex: 10, shadowColor: '#705423', shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } },
   arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 38, lineHeight: 45 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 19, color: colors.muted, marginTop: 3 },
