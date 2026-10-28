@@ -1,0 +1,13 @@
+
+[WebServer] (node:4868) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+
+(node:35240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/2] [webkit] › tests\e2e\home-card-deck.spec.ts:95:5 › ドラッグ追従・閾値未満のスプリング・前後スワイプ・シャッフルの実描画
+[2/2] [webkit] › tests\e2e\home-card-deck.spec.ts:288:5 › スワイプを軽量描画し、移動中はシャッフルの見た目と推薦順を変えない
+  2 passed (28.4s)

@@ -798,7 +798,7 @@ test('ホームは編集バナー、5導線、デッキの順に並び、五大�
  const shortcuts=(await page.getByTestId('home-shortcuts').boundingBox())!;
  const deck=(await page.getByTestId('home-recommendations-section').boundingBox())!;
  expect(hero.y+hero.height).toBeLessThanOrEqual(shortcuts.y);expect(shortcuts.y+shortcuts.height).toBeLessThan(deck.y);
- await expect(page.getByTestId('home-continue-section')).toHaveCount(0);await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
+ await expect(page.getByTestId('home-continue-section')).toHaveCount(0);await expect(page.getByTestId('home-premium-banner')).toBeVisible();
  await page.getByTestId('home-shortcut-principles').click();await expect(page.getByText('処世術の五大原則',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'原則を閉じる'}).last().click();
 });

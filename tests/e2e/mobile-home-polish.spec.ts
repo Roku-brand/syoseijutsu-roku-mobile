@@ -55,6 +55,9 @@ test('paid membership displays remaining access beside its badge', async ({ page
   await mockAccount(page, true);
   await page.goto('/my-os');
   await expect(page.getByTestId('account-membership-card')).toContainText('完全版を利用中・残り10日');
+  await page.goto('/');
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+  await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
 });
 
 test('verified checkout return navigates home and clears the checkout query', async ({ page }) => {

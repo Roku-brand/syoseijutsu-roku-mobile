@@ -12,7 +12,7 @@ for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await ready(page);
     await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
-    await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
+    await expect(page.getByTestId('home-premium-banner')).toBeVisible();
     await page.screenshot({ path: test.info().outputPath(`home-${width}.png`) });
     await page.getByTestId('book-header').getByRole('button', { name: '検索', exact: true }).click();
     const popup = page.getByTestId('header-search-popup');
