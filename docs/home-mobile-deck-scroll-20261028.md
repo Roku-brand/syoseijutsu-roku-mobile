@@ -15,11 +15,25 @@
 - デッキ単体テスト：15件成功。
 - Web・iOS export：成功。
 - 新規スクロールE2E：Chromium 8件成功、WebKit 7件成功（CDP実タッチ1件はChromium専用のためスキップ）。
-- 既存のデッキ・フィルタ・ホーム回帰28件は成功。最終修正前のリサイズ失敗を修正し、新規8件の再実行で確認。
+- 最終コードで、新規スクロールと既存デッキ・フィルタ・ホーム回帰を合わせた36件すべて成功。
 - 375・390・430px、667pxの低い画面、932pxへの画面高変更、768・1440pxを確認。詳細復帰はブラウザの戻るとヘッダーの戻るを確認。
 - ネイティブiOSはバンドル確認のみ。実機によるネイティブジェスチャーの確認は未実施。
 
 ## 公開
 
-公開用CI・本番確認結果は公開後に追記する。
+- [PR #208](https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/208) をマージ。配信コミットは `eeb2fe2368142214affc3f2bc3d9e898cd58f522`。
+- [PR全体CI](https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40671499810)：成功、E2E 321件成功。
+- [Web公開CI](https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40672078306)：成功、E2E 321件成功。Pagesへの配信バージョンを照合済み。
+- 2026-10-28 19:39 JST に [公開先](https://app.shoseijutsuroku.com/) を検証。モックなしの新規ブラウザセッションで、Chromium 375/390/430/768/1440px、WebKit 390pxを確認。
+- スマホでの自動位置合わせ、理論詳細からのヘッダー戻る、同じカード・種類・02/05の復元、上方向の自由なスクロール、無料版LP往復、932pxへの画面高変更を確認。タブレット・PCは自由なスクロールと横幅を確認。
+- 追加のローカル会員更新fixtureでも、完全版バナー削除後のデッキ位置（458px→334px）を追従することを確認。
+- 生の測定結果：[production-verification.json](../release-evidence/home-scroll/production-verification.json)
+
+## 最終画面（公開先で撮影）
+
+- [スマホ390px](../release-evidence/home-scroll/production-chromium-390.webp)
+- [詳細から復帰・理論・WebKit](../release-evidence/home-scroll/production-return-webkit-390.webp)
+- [スマホ375px](../release-evidence/home-scroll/production-chromium-375.webp) / [430px](../release-evidence/home-scroll/production-chromium-430.webp)
+- [タブレット768px](../release-evidence/home-scroll/production-chromium-768.webp) / [PC1440px](../release-evidence/home-scroll/production-chromium-1440.webp)
 画像生成・新規画像アセットは不要のため使用なし。
+

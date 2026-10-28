@@ -1,0 +1,100 @@
+{
+  "base": "https://app.shoseijutsuroku.com",
+  "checkedAt": "2026-10-28T10:39:20.351Z",
+  "evidence": [
+    {
+      "browser": "chromium",
+      "width": 375,
+      "initial": {
+        "y": 0,
+        "target": 449.578125,
+        "maximum": 450
+      },
+      "verified": [
+        "snap",
+        "return",
+        "state",
+        "upward-scroll",
+        "responsive"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "width": 390,
+      "initial": {
+        "y": 0,
+        "target": 458.40625,
+        "maximum": 458
+      },
+      "verified": [
+        "snap",
+        "return",
+        "state",
+        "upward-scroll",
+        "responsive"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "width": 430,
+      "initial": {
+        "y": 0,
+        "target": 481.9375,
+        "maximum": 482
+      },
+      "verified": [
+        "snap",
+        "return",
+        "state",
+        "upward-scroll",
+        "responsive"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "width": 768,
+      "initial": {
+        "y": 0,
+        "target": 680.75,
+        "maximum": 759
+      },
+      "verified": [
+        "responsive"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "width": 1440,
+      "initial": {
+        "y": 0,
+        "target": 623,
+        "maximum": 346
+      },
+      "verified": [
+        "responsive"
+      ]
+    },
+    {
+      "browser": "webkit",
+      "width": 390,
+      "initial": {
+        "y": 0,
+        "target": 458.40625,
+        "maximum": 458
+      },
+      "verified": [
+        "snap",
+        "return",
+        "state",
+        "upward-scroll",
+        "responsive"
+      ]
+    }
+  ],
+  "deployedCommit": "eeb2fe2368142214affc3f2bc3d9e898cd58f522",
+  "pullRequest": "https://github.com/Roku-brand/syoseijutsu-roku-mobile/pull/208",
+  "prCI": "https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40671499810",
+  "deployCI": "https://github.com/Roku-brand/syoseijutsu-roku-mobile/actions/runs/40672078306",
+  "prE2EPassed": 321,
+  "deployE2EPassed": 321
+}
