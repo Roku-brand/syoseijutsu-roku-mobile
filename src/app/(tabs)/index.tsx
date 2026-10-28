@@ -41,7 +41,7 @@ export default function HomeScreen() {
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
-          <Text numberOfLines={2} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile, item.label === '人気ランキング' && width < 390 && { fontSize: width < 360 ? 10 : 11, paddingHorizontal: 0 }]}>{item.label === '人気ランキング' && !desktop ? '人気\nランキング' : item.label === '処世術を作る' ? '処世術を\n作る' : item.label}</Text>
+          <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile, !desktop && { fontSize: Math.max(7.5, Math.min(9, (width - 60) / 35)) }]}>{item.label}</Text>
         </Pressable>)}
       </View>
 
@@ -86,10 +86,10 @@ const styles = StyleSheet.create({
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
   shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
-  shortcut: { flex: 1, minWidth: 0, minHeight: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
+  shortcut: { flex: 1, minWidth: 0, height: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
-  shortcutLabel: { color: colors.ink, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, fontWeight: '600', textAlign: 'center' },
-  shortcutLabelMobile: { paddingHorizontal: 2, width: '100%' },
+  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
+  shortcutLabelMobile: { fontSize: 9, letterSpacing: -0.3, width: '100%' },
   premiumBanner: { height: 126, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
   premiumBannerMobile: { height: 112, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
