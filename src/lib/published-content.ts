@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { applyTheorySubcategories } from '@/data/theory-taxonomy';
 
 let loaded = false;
+let pending: Promise<boolean> | null = null;
 const PAGE_SIZE = 500;
 
 async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas', columns: string) {
@@ -27,7 +28,18 @@ async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas',
  * Loads the public catalogue from Supabase when the owner-content migration
  * is available. The bundled JSON remains a safe offline/bootstrap fallback.
  */
-export async function hydratePublishedContent(force = false): Promise<boolean> {
+export function hydratePublishedContent(force = false, reuseInFlight = false): Promise<boolean> {
+  // Startup deck restoration can share the ordinary catalogue request. An
+  // explicit CMS refresh still starts a fresh read after a publication edit.
+  if (reuseInFlight && pending) return pending;
+  const request = loadPublishedContent(force);
+  pending = request;
+  const clear = () => { if (pending === request) pending = null; };
+  void request.then(clear, clear);
+  return request;
+}
+
+async function loadPublishedContent(force: boolean): Promise<boolean> {
   if (!supabase || (loaded && !force)) return false;
   try {
     const [{ data, error }, theoryResult, personaResult, categoryResult, subcategoryResult] = await Promise.all([

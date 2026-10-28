@@ -136,7 +136,7 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
     const sample = () => {
       const root = document.querySelector('[data-testid="home-deck-front"]')!;
       const m = new DOMMatrix(getComputedStyle(root).transform);
-      frames.push({ x: m.m41, angle: m.m12, opacity: Number(getComputedStyle(root.firstElementChild!).opacity) });
+      frames.push({ x: m.m41, angle: m.m12, opacity: Number(getComputedStyle(root).opacity) });
       if (!(window as any).__stop) requestAnimationFrame(sample);
     };
     requestAnimationFrame(sample);
@@ -324,7 +324,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
 });
 
-test('戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる', async ({ page }) => {
+test('戻るスワイプは最下段から左へ引き出し、順送りの逆再生で手前へ重ねる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -340,7 +340,7 @@ test('戻るスワイプは最下段の直前カードを引き出してから�
   await page.mouse.down();
   await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
   await expect(bottom).toContainText(first!.replace(/を読む$/, ''));
-  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeGreaterThan(35);
+  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeLessThan(-10);
   expect(Math.abs((await matrix('#home-deck-slot-0')).x)).toBeLessThan(3);
   expect((await matrix('#home-deck-slot-4')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
   await page.waitForTimeout(100);
@@ -384,12 +384,12 @@ test('戻るスワイプは最下段の直前カードを引き出してから�
   });
   // The animation finish callback can run between two WebKit RAF samples.
   // Observe the actual stacking change instead of requiring that endpoint frame.
-  expect(liftedAt).toBeGreaterThan(box.width);
-  expect(returnPath.start).toBeGreaterThan(box.width);
+  expect(liftedAt).toBeLessThan(-box.width);
+  expect(returnPath.start).toBeLessThan(-box.width);
   expect(returnPath.end).toBeCloseTo(0, 2);
   const lifted = frames.filter(frame => frame.z === 6);
   expect(lifted.length).toBeGreaterThan(0);
-  expect(lifted.some(frame => frame.bottomX < liftedAt - 20)).toBe(true);
+  expect(lifted.some(frame => frame.bottomX > liftedAt + 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
   await page.getByTestId('home-deck-next').click();

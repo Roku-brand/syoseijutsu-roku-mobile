@@ -13,7 +13,7 @@ export type SearchDocument = {
   body?: string;
 };
 type SearchTerm = { text: string; variants: readonly string[]; relatedIds?: readonly string[] };
-type VocabularyEntry = { label: string; forms: string[] };
+type VocabularyEntry = { label: string; displayLabel: string; forms: string[] };
 
 /** NFKC handles width and compatibility forms; kana folding handles readings.
  * Keep spaces/punctuation for token boundaries, especially English and IDs.
@@ -22,9 +22,12 @@ export function normalizeSearchText(value: string) {
   return value.normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g, character => String.fromCharCode(character.charCodeAt(0) - 0x60))
     .replace(/[‐‑‒–—−]/g, '-').replace(/[・･]/g, '').replace(/([a-z])-(?=[a-z])/g, '$1 ').replace(/\s+/g, ' ').trim();
 }
-const vocabulary: VocabularyEntry[] = SEARCH_VOCABULARY.map(([label, ...variants]) => ({
-  label: normalizeSearchText(label), forms: [...new Set([label, ...variants].map(normalizeSearchText))],
-}));
+const displayLabels = new Map<string, string>();
+const vocabulary: VocabularyEntry[] = SEARCH_VOCABULARY.map(([displayLabel, ...variants]) => {
+  const label = normalizeSearchText(displayLabel);
+  if (!displayLabels.has(label)) displayLabels.set(label, displayLabel);
+  return { label, displayLabel: displayLabels.get(label)!, forms: [...new Set([displayLabel, ...variants].map(normalizeSearchText))] };
+});
 const byForm = new Map(vocabulary.flatMap(entry => entry.forms.map(form => [form, entry] as const)));
 const topicConnections = new Map(Object.entries(SEARCH_TOPIC_CONNECTIONS).map(([label, ids]) => [normalizeSearchText(label), ids]));
 const termForEntry = (entry: VocabularyEntry): SearchTerm => ({ text: entry.label, variants: entry.forms, relatedIds: topicConnections.get(entry.label) });
@@ -169,6 +172,13 @@ export function rankSearchItems<T>(items: readonly T[], document: (item: T) => S
  */
 export function suggestSearchTags(text: string) {
   const source = normalizeSearchText(text);
-  return vocabulary.filter(entry => entry.forms.some(form => form.length > 1 && includesTerm(source, form)))
-    .map(entry => SEARCH_VOCABULARY.find(([label]) => normalizeSearchText(label) === entry.label)![0]).slice(0, 3);
+  const tags: string[] = [];
+  // Catalog bootstrapping calls this for every untagged card. Keep the same
+  // first three matches without rescanning/normalizing all labels per match.
+  for (const entry of vocabulary) {
+    if (!entry.forms.some(form => form.length > 1 && includesTerm(source, form))) continue;
+    tags.push(entry.displayLabel);
+    if (tags.length === 3) break;
+  }
+  return tags;
 }

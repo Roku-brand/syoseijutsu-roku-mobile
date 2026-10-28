@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
-import { deckPose, deckReturnEdge } from '@/data/deck-motion';
+import { deckPose, deckReturnEdge, deckShuffleFrames } from '@/data/deck-motion';
 
 
 /** Only transforms change during a drag. Browser animations run on the compositor
@@ -72,10 +72,43 @@ export function useWebDeckMotion(width: number) {
           };
         };
         // Reorder only outside the stack: previous rises, next slips underneath.
-        stage(from, edge, 0, 0, Math.max(50, duration * .42 * (1 - Math.min(1, from / edge))), () => {
+        stage(from, edge, 0, 0, Math.max(50, duration * (returning ? .58 : .42) * (1 - Math.min(1, from / edge))), () => {
           raised.current = true;
-          stage(edge, edge, 0, 1, duration * .58, complete);
+          stage(edge, edge, 0, 1, duration * (returning ? .42 : .58), complete);
         });
+      },
+      shuffleCards: (exchange: () => void, complete: () => void) => {
+        stop();
+        position.current = 0; reverse.current = false; lift.current = 0; raised.current = false;
+        const key = (depth: number, index: number) => {
+          const data = deckShuffleFrames(depth, currentWidth.current);
+          return { transform: `translate3d(${data.x[index]}px,${data.y[index]}px,0) rotate(${data.angle[index]}deg) scale(${data.scale[index]})`, opacity: data.opacity[index] };
+        };
+        const outgoing: Animation[] = [];
+        slots.current.forEach((node, depth) => {
+          if (!node) return;
+          const animation = node.animate([key(depth, 0), { ...key(depth, 1), offset: .2 }, { ...key(depth, 2), offset: .8 }, key(depth, 3)], { duration: 190, delay: depth * 18, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'both' });
+          outgoing.push(animation); animations.current.push(animation);
+        });
+        const lastOut = outgoing.at(-1);
+        if (!lastOut) { exchange(); complete(); return; }
+        lastOut.onfinish = () => {
+          exchange();
+          // Keep the old cards invisibly outside until React commits the hand.
+          frame.current = requestAnimationFrame(() => { frame.current = requestAnimationFrame(() => {
+            frame.current = null;
+            const incoming: Animation[] = [];
+            slots.current.forEach((node, depth) => {
+              if (!node) return;
+              const animation = node.animate([key(depth, 4), { ...key(depth, 5), offset: .8 }, key(depth, 6)], { duration: 190, delay: (4 - depth) * 18, easing: 'cubic-bezier(.15,.65,.3,1)', fill: 'both' });
+              incoming.push(animation); animations.current.push(animation);
+            });
+            outgoing.forEach(animation => { animation.onfinish = null; animation.cancel(); });
+            const lastIn = incoming[0];
+            if (!lastIn) { complete(); return; }
+            lastIn.onfinish = () => { paint(); stop(); complete(); };
+          }); });
+        };
       },
       animate: (target: number, duration: number, complete: () => void, spring = false) => {
         stop();

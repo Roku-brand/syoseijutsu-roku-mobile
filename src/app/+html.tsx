@@ -113,6 +113,9 @@ export default function Root({ children }: PropsWithChildren) {
                 // The shared viewport controller handles settled resize after hydration.
 
                 const hideLaunch = () => document.getElementById('roku-launch')?.classList.add('hidden');
+                // The first usable home card is ready before unrelated images
+                // or CMS requests finish; do not keep it behind the launch cover.
+                window.addEventListener('roku-home-ready', hideLaunch, { once: true });
                 window.addEventListener('load', () => setTimeout(hideLaunch, 180), { once: true });
                 setTimeout(hideLaunch, 2200);
 

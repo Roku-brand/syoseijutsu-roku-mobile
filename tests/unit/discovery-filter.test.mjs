@@ -6,6 +6,21 @@ const { discoveryFilters, matchesDiscoveryFilter } = await import('../../src/dat
 const { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } = await import('../../src/access/access-config.ts');
 
 for (const accessState of ['free', 'paid']) {
+  test(`${accessState}: faster selection preserves personalized ranking`, async () => {
+    const { techniqueCards, theories } = await import('../../src/data/catalog.ts');
+    const cards = buildReadingRecommendations({ accessState,
+      historyIds: techniqueCards.slice(0, 8).map(card => card.id),
+      savedIds: techniqueCards.slice(10, 14).map(card => card.id),
+      savedTheoryIds: theories.slice(0, 4).map(card => card.tagId),
+      interests: ['interpersonal'], seed: 'startup-ranking-parity', count: 5,
+    });
+    assert.deepEqual(cards.map(item => `${item.type}:${readingContentId(item)}`), [
+      'technique:master336-009', 'theory:kb_025', 'technique:master336-010', 'technique:master336-268', 'theory:kb_007',
+    ]);
+  });
+}
+
+for (const accessState of ['free', 'paid']) {
   for (const { key: filter } of discoveryFilters) {
     test(`${accessState}/${filter}: five distinct eligible cards, stable order and complete replacement`, () => {
       const options = { accessState, filter, historyIds: [], interests: ['interpersonal', 'work', 'life'], savedIds: [], savedTheoryIds: [], seed: '20261028:0', count: 5 };

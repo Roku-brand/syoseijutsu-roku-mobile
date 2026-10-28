@@ -47,18 +47,19 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
     }
   });
   const penalty = (id: string) => (recent.has(id) ? 40 : 0) + (saved.has(id) ? 8 : 0);
-  const byRotation = (a: string, b: string) => rotation(a, seed) - rotation(b, seed) || a.localeCompare(b);
+  const rotations = new Map<string, number>();
+  const rank = (id: string) => {
+    let value = rotations.get(id);
+    if (value === undefined) { value = rotation(id, seed); rotations.set(id, value); }
+    return value;
+  };
+  const byRotation = (a: string, b: string) => rank(a) - rank(b) || a.localeCompare(b);
   const techniqueCandidates = techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id)));
   const theoryCandidates = theories.filter(card => !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
-  const closeTechniques = [...techniqueCandidates].sort((a, b) =>
-    ((categoryScores.get(b.categoryKey) ?? 0) - penalty(b.id)) - ((categoryScores.get(a.categoryKey) ?? 0) - penalty(a.id)) || byRotation(a.id, b.id));
-  const closeTheories = [...theoryCandidates].sort((a, b) =>
-    ((theoryScores.get(b.tagId) ?? 0) + (fieldScores.get(b.categoryId) ?? 0) / 4 - penalty(b.tagId))
-    - ((theoryScores.get(a.tagId) ?? 0) + (fieldScores.get(a.categoryId) ?? 0) / 4 - penalty(a.tagId)) || byRotation(a.tagId, b.tagId));
   const excluded = new Set(excludeIds);
   const eligible: ReadingContent[] = ([
-    ...closeTechniques.map(card => ({ type: 'technique' as const, card })),
-    ...closeTheories.map(card => ({ type: 'theory' as const, card })),
+    ...techniqueCandidates.map(card => ({ type: 'technique' as const, card })),
+    ...theoryCandidates.map(card => ({ type: 'theory' as const, card })),
   ] as ReadingContent[]).filter(item => matchesDiscoveryFilter(item, filter));
   const fresh = eligible.filter(item => !excluded.has(`${item.type}:${readingContentId(item)}`));
   // Small catalogs may recycle, but never cross the selected category or duplicate IDs.
@@ -78,17 +79,17 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
     const wantedType = slot % 3 === 1 ? 'theory' : 'technique';
     const previous = items[items.length - 1];
     const candidates = pool.filter(item => !picked.has(key(item)));
-    candidates.sort((a, b) => {
-      const avoid = (item: ReadingContent) => (excluded.has(key(item)) ? 2000 : 0) + (seen.has(key(item)) ? 1000 : 0)
+    const avoid = (item: ReadingContent) => (excluded.has(key(item)) ? 2000 : 0) + (seen.has(key(item)) ? 1000 : 0)
         + (previous?.card.title === item.card.title ? 500 : 0)
         + (item.type !== wantedType ? 20 : 0)
         + (previous && field(previous) === field(item) ? 10 : 0);
-      const affinity = (item: ReadingContent) => mode < 2 ? -score(item)
+    const affinity = (item: ReadingContent) => mode < 2 ? -score(item)
         : mode === 2 ? -(item.type === 'theory' ? theoryScores.get(item.card.tagId) ?? 0 : score(item) / 2) : score(item);
-      return avoid(a) - avoid(b) || penalty(readingContentId(a)) - penalty(readingContentId(b))
+    const compare = (a: ReadingContent, b: ReadingContent) => avoid(a) - avoid(b) || penalty(readingContentId(a)) - penalty(readingContentId(b))
         || affinity(a) - affinity(b) || byRotation(key(a), key(b));
-    });
-    const item = candidates[0];
+    // Only the best candidate is needed; sorting the entire catalogue for
+    // each of five slots was unnecessary work on the first visible frame.
+    const item = candidates.reduce<ReadingContent | undefined>((best, candidate) => !best || compare(candidate, best) < 0 ? candidate : best, undefined);
     if (!item) break;
     picked.add(key(item));
     items.push(item);
