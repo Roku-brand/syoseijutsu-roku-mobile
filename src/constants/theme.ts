@@ -26,7 +26,7 @@ export const colors = {
 export const catalogTheme = {
   maxWidth: 1040,
   technique: { border: '#E0D0B8', surface: '#FFFEFB' },
-  theory: { ink: '#203F69', muted: '#617D9C', border: '#A8BBD0', surface: '#F8FAFC', inactive: '#ECEFF2' },
+  theory: { ink: '#203F69', text: '#414B5B', muted: '#617D9C', border: '#A8BBD0', surface: '#F8FAFC', inactive: '#ECEFF2' },
   categoryBars: { interpersonal: '#C4555D', work: '#4A7DA8', life: '#58866A' } as Record<string, string>,
 } as const;
 
