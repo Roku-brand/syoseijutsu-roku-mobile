@@ -27,7 +27,7 @@ export function useWebDeckMotion(width: number) {
         const style = pose(depth, position.current);
         node.style.transform = style.transform;
         node.style.opacity = String(style.opacity);
-        node.style.zIndex = String(reverse.current && raised.current && depth === 4 ? 6 : 5 - depth);
+        node.style.zIndex = String(raised.current && (reverse.current ? depth === 4 : depth === 0) ? (reverse.current ? 6 : 0) : 5 - depth);
       });
     };
     const stop = () => {
@@ -47,13 +47,13 @@ export function useWebDeckMotion(width: number) {
       },
       reset: () => { stop(); position.current = 0; reverse.current = false; lift.current = 0; raised.current = false; paint(); },
       stop,
-      returnCard: (duration: number, complete: () => void) => {
+      cycleCard: (returning: boolean, duration: number, complete: () => void) => {
         stop();
-        reverse.current = true;
+        reverse.current = returning;
         lift.current = 0;
         raised.current = false;
-        const from = Math.max(0, position.current);
-        const edge = deckReturnEdge(currentWidth.current);
+        const from = returning ? Math.max(0, position.current) : Math.min(0, position.current);
+        const edge = deckReturnEdge(currentWidth.current) * (returning ? 1 : -1);
         const stage = (startX: number, endX: number, startLift: number, endLift: number, ms: number, done: () => void) => {
           paint();
           slots.current.forEach((node, depth) => {
@@ -71,7 +71,7 @@ export function useWebDeckMotion(width: number) {
             done();
           };
         };
-        // Change the stacking level only after the card clears the right edge.
+        // Reorder only outside the stack: previous rises, next slips underneath.
         stage(from, edge, 0, 0, Math.max(50, duration * .42 * (1 - Math.min(1, from / edge))), () => {
           raised.current = true;
           stage(edge, edge, 0, 1, duration * .58, complete);
