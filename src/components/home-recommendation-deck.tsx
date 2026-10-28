@@ -35,7 +35,7 @@ function imageFor(item: ReadingContent) {
 
 export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpenCard }: { cardWidth: number; fillViewport?: boolean; onOpenCard?: () => void }) {
   const deck = useHomeDiscovery();
-  const { desktop } = useResponsiveLayout();
+  const { desktop, narrow } = useResponsiveLayout();
   const root = useRef<View>(null);
   const router = useRouter();
   const reduced = useReducedMotion();
@@ -192,11 +192,12 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading]}>
-      <View style={styles.headingCopy}><Text style={styles.headingTitle}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
-      <View style={styles.headingActions}><DiscoveryFilterButton value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, hovered && styles.shuffleHover, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.65 }]}>
-        <SymbolView name={{ ios: 'shuffle', android: 'shuffle', web: 'shuffle' }} size={17} tintColor="#FFFDF8" fallback={<Text style={styles.shuffleIcon}>⤨</Text>} /><Text style={styles.shuffleText}>シャッフル</Text>
+      <View style={[styles.headingCopy, !desktop && styles.mobileHeadingCopy]}><Text testID="home-deck-heading" numberOfLines={1} style={[styles.headingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text>{desktop ? <Text style={styles.subtitle}>思いがけない知識との出会いを。</Text> : null}</View>
+      <View style={[styles.headingActions, !desktop && styles.mobileHeadingActions]}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
+      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="入れ替え" onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, !desktop && styles.mobileShuffle, hovered && styles.shuffleHover, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.65 }]}>
+        <SymbolView name={{ ios: 'shuffle', android: 'shuffle', web: 'shuffle' }} size={desktop ? 17 : 14} tintColor="#FFFDF8" fallback={<Text style={styles.shuffleIcon}>⤨</Text>} /><Text style={styles.shuffleText}>入れ替え</Text>
       </Pressable></View>
+      {!desktop ? <Text style={[styles.subtitle, styles.mobileSubtitle]}>思いがけない知識との出会いを。</Text> : null}
     </View>
     <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
       {desktop ? <>{arrow(-1)}{arrow(1)}</> : null}
@@ -226,7 +227,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
       {!desktop ? arrow(-1) : null}
       <View style={styles.position} accessibilityLiveRegion="polite"><View style={styles.marks}>{[0, 1, 2, 3, 4].map(index => <View key={index} style={[styles.mark, index === deck.cursor && styles.markActive]} />)}</View><Text testID="home-deck-position" style={styles.positionText}>{String(deck.cursor + 1).padStart(2, '0')} <Text style={{ color: '#AAA397' }}> / 05</Text></Text></View>
       {!desktop ? arrow(1) : null}
-    </View><Text style={styles.hint}>スワイプするか、シャッフルで次の一枚へ。</Text>
+    </View><Text style={styles.hint}>スワイプするか、入れ替えで次の一枚へ。</Text>
   </View>;
 }
 
@@ -263,7 +264,8 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 
 const styles = StyleSheet.create({
   fillViewport: { flexGrow: 1 },
-  mobileHeading: { flexDirection: 'column', alignItems: 'stretch', gap: 10 }, headingActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 8 },
+  mobileHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 0, marginBottom: 6 }, headingActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0, gap: 8 },
+  mobileHeadingCopy: { flexGrow: 1, minWidth: 0 }, mobileHeadingActions: { gap: 6 }, mobileSubtitle: { width: '100%' }, narrowHeadingTitle: { fontSize: 16, lineHeight: 27 }, mobileShuffle: { minWidth: 80, paddingHorizontal: 8, gap: 4 },
   paper: { backgroundColor: '#F8F5EF' },
   desktopArrow: { position: 'absolute', top: 192, width: 58, height: 58, borderRadius: 30, zIndex: 10, shadowColor: '#705423', shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } },
   arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 38, lineHeight: 45 },
