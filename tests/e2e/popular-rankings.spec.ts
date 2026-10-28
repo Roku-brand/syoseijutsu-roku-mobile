@@ -32,15 +32,16 @@ test('人気ランキングは両部門トップ10で、CMSの順位とカテゴ
     const artwork = cards.locator('[data-testid^="ranking-art-"]');
     await expect(artwork).toHaveCount(10);
     const images = await artwork.evaluateAll((elements) => elements.map((el) => ({ category: el.getAttribute('data-testid'), image: el.querySelector('img')?.getAttribute('src'), position: el.firstElementChild?.getAttribute('style') })));
-    for (const image of images) for (const other of images.filter((item) => item.category === image.category)) expect(other).toEqual(image);
+    for (const image of images) {
+      expect(image.image).toBeTruthy();
+      for (const other of images.filter((item) => item.category === image.category)) expect(other).toEqual(image);
+    }
     if (division === 'technique') for (const image of images) categoryPhotos.set(image.category!.replace('ranking-art-', ''), image.image!);
   }
-  await page.goto('/');
-  for (const [category, label] of [['interpersonal', '対人術'], ['work', '仕事術'], ['life', '人生術']]) {
-    const homePhoto = page.getByRole('img', { name: `${label}のイメージ写真`, exact: true }).first();
-    const source = await homePhoto.evaluate(el => el.querySelector('img')?.getAttribute('src') ?? el.getAttribute('src'));
-    expect(source).toBe(categoryPhotos.get(category));
-  }
+  // The home deck now draws a five-card hand and has its own optimized photos.
+  // Ranking artwork remains category-specific, independent of the current hand.
+  expect([...categoryPhotos.keys()].sort()).toEqual(['interpersonal', 'life', 'work']);
+  expect(new Set(categoryPhotos.values()).size).toBe(3);
 });
 
 test('一般ユーザーはランキング編集画面に入れない', async ({ page }) => {
