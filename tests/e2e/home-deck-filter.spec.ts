@@ -197,3 +197,33 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   expect((await read(page)).order).toEqual(order);
   await expect(page.getByTestId('home-deck-position')).toContainText('03');
 });
+
+test('完全版の追加データを待つ間も、読める初期デッキはすぐ操作できる', async ({ page }) => {
+  test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'Account connector is not configured in this build');
+  const user = { id: '00000000-0000-4000-8000-000000000002', aud: 'authenticated', role: 'authenticated', email: 'deck-test@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };
+  const token = Buffer.from(JSON.stringify({ sub: user.id, role: 'authenticated', exp: 4102444800 })).toString('base64url');
+  const session = { access_token: `eyJhbGciOiJIUzI1NiJ9.${token}.test`, refresh_token: 'test-refresh', token_type: 'bearer', expires_at: 4102444800, expires_in: 3600, user };
+  const project = new URL(process.env.EXPO_PUBLIC_SUPABASE_URL!).hostname.split('.')[0];
+  await page.addInitScript(({ key, session }) => localStorage.setItem(key, JSON.stringify(session)), { key: `sb-${project}-auth-token`, session });
+  await page.route('**/auth/v1/**', route => route.fulfill({ json: user }));
+  await page.route('**/functions/v1/**', route => route.fulfill({ json: route.request().url().includes('/access') ? { access: 'active', accessType: 'thirty_day', accessExpiresAt: new Date(Date.now() + 10 * 86400000).toISOString() } : { items: [] } }));
+  let release: () => void = () => {};
+  const held = new Promise<void>(resolve => { release = resolve; });
+  await page.route('**/functions/v1/paid-content**', async route => {
+    await held;
+    await route.fulfill({ json: { items: [] } }).catch(() => {});
+  });
+  try {
+    await page.goto('/my-os');
+    await expect(page.getByTestId('account-membership-card')).toContainText('完全版を利用中');
+    await page.getByRole('link', { name: /^ホーム。/ }).click();
+    await ready(page);
+    await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
+    await expect(page.getByTestId('home-deck-filter')).toBeEnabled();
+    const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.getByTestId('home-deck-next').click();
+    await ready(page);
+    await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
+  } finally { release(); }
+});
