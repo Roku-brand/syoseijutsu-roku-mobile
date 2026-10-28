@@ -1,0 +1,6 @@
+TypeScript: tsc --noEmit passed
+Git diff --check: passed
+iOS Bundled 30840ms ..\mypage-dashboard-20261018\node_modules\.pnpm\expo-router@57.0.8_cfbc8a55e5f64a6cbe2bf453e07de260\node_modules\expo-router\entry.js (1954 modules)
+λ Bundled 6571ms ..\mypage-dashboard-20261018\node_modules\.pnpm\@expo+router-server@57.0.4__c6dbf61ec907bdaed79e5e15dd633740\node_modules\@expo\router-server\node\render.js (1710 modules)
+Web Bundled 8082ms ..\mypage-dashboard-20261018\node_modules\.pnpm\expo-router@57.0.8_cfbc8a55e5f64a6cbe2bf453e07de260\node_modules\expo-router\entry.js (1679 modules)
+Exported: dist-e2e

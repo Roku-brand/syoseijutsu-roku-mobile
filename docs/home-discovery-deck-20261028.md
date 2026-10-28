@@ -68,8 +68,8 @@
 | --- | --- |
 | TypeScript `tsc --noEmit` | 成功 |
 | Expo Web / iOS 同時書き出し | 成功（Web JS、iOS Hermes bundle、画像） |
-| Chromium：デッキ14件＋既存回帰32件 | **46件通過**（1.8分） |
-| WebKit：デッキ一式 | **13件通過、1件スキップ**（3.0分） |
+| Chromium：デッキ14件＋既存回帰32件 | **46件通過**（1.4分） |
+| WebKit：デッキ一式 | **13件通過、1件スキップ**（2.3分） |
 | Chromium専用CDP実タッチ | 横スワイプ・縦スクロールの分離を確認 |
 | 保存・履歴・詳細往復・同日再読込 | 状態維持を確認。既存の理論履歴・お気に入り画面からも参照できる |
 | 日付・高速操作・長時間探索 | 日本時間の日替わり、訪問中固定、5枚の循環、旧キャッシュ移行、6回連続シャッフルで直前の5枚との重複ゼロ |
@@ -77,13 +77,17 @@
 | Reduced Motion / キーボード | 動きの途中で設定を変えても復帰。左右キーの連続操作を確認 |
 | `git diff --check` | 成功 |
 
-WebKitでスキップした1件はCDP実タッチ入力専用のテストで、Chromiumでは通過している。WebKitでもマウスドラッグ・スプリング・前後移動・シャッフルの実際のtransform/opacityを検証した。追加変更後、既存のLint設定で src / scripts / tests 全体も検証する。テスト対象は今回に関連する46項目で、リポジトリ全テストの実行ではない。
+WebKitでスキップした1件はCDP実タッチ入力専用のテストで、Chromiumでは通過している。WebKitでもマウスドラッグ・スプリング・前後移動・シャッフルの実際のtransform/opacityを検証した。追加変更後、既存のLint設定で src / scripts / tests 全体も通過した。テスト対象は今回に関連する46項目で、リポジトリ全テストの実行ではない。
 
 最終実行ログは同フォルダの `chromium-final.txt`、`webkit-final.txt`、`build-summary.txt` に保存した。
 
 最初の検証で発見して修正した点：依存関係を共有する作業ツリー間でのMetroキャッシュ混入、キーボード操作時のフォーカス維持、Safariの古い速度値、補充時の未表示末尾との重複、長い探索でキューを整理した後の操作ロック、端末内データ消去との同期。
 
 開発設定ファイルのコピーを伴う最初のビルドは自動承認レビューに拒否された。設定ファイルのコピーはしていない。無料同梱データでの書き出しに加え、認証/CMSのモック検証用には架空のSupabase公開URLとダミー公開キーだけをプロセス環境に指定した独立ビルドを用いた。実際の秘密情報を読み出してバンドルしていない。
+
+## 追加依頼の検証（5枚構成・全件交換・PC左右矢印）
+
+5枚の循環と循環境界での前戻り、再読み込み、旧キューの移行、シャッフル6回すべてで直前の5枚との交差が空になることを確認。PCでは前後矢印がカード外側の左右かつ垂直中央付近にあることを座標で検証した。375・390・430・768・1440pxの初期、次カード、シャッフル後を撮影し、カードの重なりと余白を目視確認した。
 
 ## 制約
 
@@ -93,12 +97,12 @@ WebKitでスキップした1件はCDP実タッチ入力専用のテストで、C
 
 ## 画面証跡
 
-- [スマホ初期表示（390px）](../release-evidence/home-discovery/home-390.png)
-- [スマホ操作後・理論カード](../release-evidence/home-discovery/scrolled-390.png)
-- [スワイプ途中](../release-evidence/home-discovery/drag-390.png)
-- [シャッフル後（390px）](../release-evidence/home-discovery/shuffled-390.png)
-- [タブレット（768px）](../release-evidence/home-discovery/home-768.png)
-- [PC（1440px）](../release-evidence/home-discovery/home-1440.png)
+- [スマホ初期表示（390px）](../release-evidence/home-discovery/home-390.webp)
+- [スマホ操作後・理論カード](../release-evidence/home-discovery/scrolled-390.webp)
+- [スワイプ途中](../release-evidence/home-discovery/drag-390.webp)
+- [シャッフル後（390px）](../release-evidence/home-discovery/shuffled-390.webp)
+- [タブレット（768px）](../release-evidence/home-discovery/home-768.webp)
+- [PC（1440px）](../release-evidence/home-discovery/home-1440.webp)
 - [スマホ・PCの比較プレビュー](../release-evidence/home-discovery/final-preview.webp)
 
 ## 再検証

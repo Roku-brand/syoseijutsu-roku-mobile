@@ -1,0 +1,26 @@
+
+[WebServer] (node:37176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 1 worker
+
+(node:38664) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/14] [webkit] › tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (375px)
+[2/14] [webkit] › tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (390px)
+[3/14] [webkit] › tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (430px)
+[4/14] [webkit] › tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (768px)
+[5/14] [webkit] › tests\e2e\home-card-deck.spec.ts:18:7 › ホームの重なり・文字・ナビと実コンテンツ (1440px)
+[6/14] [webkit] › tests\e2e\home-card-deck.spec.ts:49:5 › 保存・前後移動・詳細往復・再読み込みで順序と位置を保持する
+[7/14] [webkit] › tests\e2e\home-card-deck.spec.ts:95:5 › ドラッグ追従・閾値未満のスプリング・前後スワイプ・シャッフルの実描画
+[8/14] [webkit] › tests\e2e\home-card-deck.spec.ts:148:5 › キーボード・動きの設定変更・高速操作・5枚の循環
+[9/14] [webkit] › tests\e2e\home-card-deck.spec.ts:183:5 › 日本時間の日替わりと訪問中の状態固定、破損キャッシュ復旧
+[10/14] [webkit] › tests\e2e\home-card-deck.spec.ts:201:5 › 編集バナーは既存の特集・人物像・関連実践・学習ケースへ遷移する
+[11/14] [webkit] › tests\e2e\home-card-deck.spec.ts:213:5 › スマホの実タッチは横スワイプと縦スクロールを分離する
+[12/14] [webkit] › tests\e2e\home-card-deck.spec.ts:242:5 › 既存の端末内データ消去でデッキ履歴も消去する
+[13/14] [webkit] › tests\e2e\home-card-deck.spec.ts:262:5 › CMSの公開特集は既存の特集データからバナーへ反映される
+[14/14] [webkit] › tests\e2e\home-card-deck.spec.ts:277:5 › 旧キューを5枚へ移行し、シャッフルで5枚すべてを交換する
+  1 skipped
+  13 passed (2.3m)
