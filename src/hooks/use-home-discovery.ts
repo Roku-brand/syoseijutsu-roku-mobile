@@ -1,3 +1,4 @@
+import { isDiscoveryFilter, matchesDiscoveryFilter, type DiscoveryFilter } from '@/data/discovery-filter';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
@@ -8,7 +9,7 @@ import { getHomeDayKey } from '@/data/home-brand-content';
 import { buildReadingRecommendations, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
 import { onDiscoveryReset, readDiscoveryState, writeDiscoveryState } from '@/lib/discovery-storage';
 
-type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number };
+type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number; filter: DiscoveryFilter };
 export const HOME_DECK_SIZE = 5;
 export const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
 
@@ -29,8 +30,8 @@ export function useHomeDiscovery() {
   current.current = state;
   const latest = useRef({ signals, scope });
   latest.current = { signals, scope };
-  const generate = useCallback((day: number, round: number, seen: string[], excludeIds: string[] = []) => buildReadingRecommendations({
-    accessState: latest.current.scope, ...latest.current.signals, seed: `${day}:${round}`, seenIds: seen, excludeIds, count: HOME_DECK_SIZE,
+  const generate = useCallback((day: number, round: number, seen: string[], excludeIds: string[] = [], filter: DiscoveryFilter = 'all') => buildReadingRecommendations({
+    accessState: latest.current.scope, ...latest.current.signals, seed: `${day}:${round}${filter === 'all' ? '' : `:${filter}`}`, filter, seenIds: seen, excludeIds, count: HOME_DECK_SIZE,
   }), []);
   const byKey = useMemo(() => {
     const items: ReadingContent[] = [
@@ -56,22 +57,24 @@ export function useHomeDiscovery() {
         if (value && Number.isInteger(value.day) && Number.isInteger(value.round) && value.round >= 0
           && Array.isArray(value.order) && value.order.length <= 500 && value.order.every((id: unknown) => typeof id === 'string')
           && Array.isArray(value.seen) && value.seen.every((id: unknown) => typeof id === 'string')
-          && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < value.order.length) stored = value;
+          && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < value.order.length) stored = { ...value, filter: isDiscoveryFilter(value.filter) ? value.filter : 'all' };
       } catch { /* A damaged cache is replaced by a usable daily deck. */ }
       const seen = stored?.seen.slice(-120) ?? [];
-      let order = stored?.day === day ? [...new Set(stored.order.filter(id => catalog.current.has(id)))] : [];
-      const cursor = stored ? stored.order.slice(0, stored.cursor).filter(id => catalog.current.has(id)).length : 0;
+      const filter = stored?.filter ?? 'all';
+      const eligible = (id: string) => { const item = catalog.current.get(id); return !!item && matchesDiscoveryFilter(item, filter); };
+      let order = stored?.day === day ? [...new Set(stored.order.filter(eligible))] : [];
+      const cursor = stored ? stored.order.slice(0, stored.cursor).filter(eligible).length : 0;
       // Migrate the former long queue without losing the card being read.
       const migrating = stored?.order.length !== HOME_DECK_SIZE || order.length !== HOME_DECK_SIZE;
       if (migrating && order.length) {
         const currentId = stored!.order[stored!.cursor];
         const start = Math.max(0, order.indexOf(currentId));
         order = [...order.slice(start), ...order.slice(0, start)].slice(0, HOME_DECK_SIZE);
-        if (order.length < HOME_DECK_SIZE) order.push(...generate(day, stored!.round, seen, order).map(discoveryKey).slice(0, HOME_DECK_SIZE - order.length));
+        if (order.length < HOME_DECK_SIZE) order.push(...generate(day, stored!.round, seen, order, filter).map(discoveryKey).slice(0, HOME_DECK_SIZE - order.length));
       }
       const offset = stored && Number.isSafeInteger(stored.offset) && stored.offset! >= 0 ? stored.offset! : 0;
       const next = order.length ? { ...stored!, order, cursor: migrating ? 0 : Math.min(cursor, order.length - 1), offset: migrating ? 0 : offset, seen }
-        : { day, round: 0, cursor: 0, order: generate(day, 0, seen).map(discoveryKey), seen };
+        : { day, round: 0, cursor: 0, order: generate(day, 0, seen, [], filter).map(discoveryKey), seen, filter };
       if (next.order[next.cursor] && !next.seen.includes(next.order[next.cursor])) next.seen = [...seen, next.order[next.cursor]].slice(-120);
       current.current = next;
       readyScope.current = scope;
@@ -84,14 +87,15 @@ export function useHomeDiscovery() {
     writeDiscoveryState(scope, state);
   }, [state, scope]);
   const commit = useCallback((next: DeckState) => { current.current = next; setState(next); }, []);
-  const shuffle = useCallback(() => {
+  const shuffle = useCallback((filter?: DiscoveryFilter) => {
     const old = current.current;
     if (!old) return;
     const round = old.round + 1;
     // A hard exclusion, including the four cards not yet seen, makes this a
     // complete new hand rather than advancing or reordering the same five.
-    const order = generate(old.day, round, old.seen, old.order).map(discoveryKey);
-    commit({ ...old, round, order, cursor: 0, offset: 0, seen: [...old.seen, ...order.slice(0, 1)].slice(-120) });
+    const selected = filter ?? old.filter;
+    const order = generate(old.day, round, old.seen, old.order, selected).map(discoveryKey);
+    commit({ ...old, filter: selected, round, order, cursor: 0, offset: 0, seen: [...old.seen, ...order.slice(0, 1)].slice(-120) });
   }, [commit, generate]);
   const move = useCallback((direction: number) => {
     const old = current.current;
@@ -102,6 +106,6 @@ export function useHomeDiscovery() {
     commit({ ...old, cursor, offset: position - cursor, seen: [...old.seen, old.order[cursor]].slice(-120) });
   }, [commit]);
   const items = (state?.order ?? []).map(id => byKey.get(id) ?? null);
-  return { items, cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state,
+  return { items, filter: state?.filter ?? 'all', cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state,
     error: !!state && !items[state.cursor], shuffle, move, retry: () => setRetry(value => value + 1) };
 }

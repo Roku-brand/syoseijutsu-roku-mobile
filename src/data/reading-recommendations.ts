@@ -1,3 +1,4 @@
+import { matchesDiscoveryFilter, type DiscoveryFilter } from './discovery-filter';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { techniqueById, techniqueCards, theories, theoryById } from './catalog';
 import { isLockedTheoryShell } from './theory-display';
@@ -16,9 +17,9 @@ function rotation(id: string, seed: string) {
  * shelf open to unfamiliar subjects. No additional activity is sent anywhere.
  * The seed changes by day or an explicit refresh, never during an ordinary render.
  */
-export function buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed, seenIds = [], excludeIds = [], count = 5 }: {
+export function buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed, seenIds = [], excludeIds = [], count = 5, filter = 'all' }: {
   accessState: string; historyIds: string[]; interests: CategoryKey[];
-  savedIds: string[]; savedTheoryIds: string[]; seed: string; seenIds?: string[]; excludeIds?: string[]; count?: number;
+  savedIds: string[]; savedTheoryIds: string[]; seed: string; seenIds?: string[]; excludeIds?: string[]; count?: number; filter?: DiscoveryFilter;
 }): ReadingContent[] {
   const categoryScores = new Map(interests.map(key => [key, 12]));
   const theoryScores = new Map<string, number>();
@@ -55,10 +56,13 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
     ((theoryScores.get(b.tagId) ?? 0) + (fieldScores.get(b.categoryId) ?? 0) / 4 - penalty(b.tagId))
     - ((theoryScores.get(a.tagId) ?? 0) + (fieldScores.get(a.categoryId) ?? 0) / 4 - penalty(a.tagId)) || byRotation(a.tagId, b.tagId));
   const excluded = new Set(excludeIds);
-  const pool: ReadingContent[] = ([
+  const eligible: ReadingContent[] = ([
     ...closeTechniques.map(card => ({ type: 'technique' as const, card })),
     ...closeTheories.map(card => ({ type: 'theory' as const, card })),
-  ] as ReadingContent[]).filter(item => !excluded.has(`${item.type}:${readingContentId(item)}`));
+  ] as ReadingContent[]).filter(item => matchesDiscoveryFilter(item, filter));
+  const fresh = eligible.filter(item => !excluded.has(`${item.type}:${readingContentId(item)}`));
+  // Small catalogs may recycle, but never cross the selected category or duplicate IDs.
+  const pool = fresh.length >= count ? fresh : [...fresh, ...eligible.filter(item => excluded.has(`${item.type}:${readingContentId(item)}`))];
   const key = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
   const field = (item: ReadingContent) => item.type === 'technique' ? item.card.categoryKey : item.card.categoryId;
   const score = (item: ReadingContent) => item.type === 'technique' ? categoryScores.get(item.card.categoryKey) ?? 0
@@ -75,7 +79,7 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
     const previous = items[items.length - 1];
     const candidates = pool.filter(item => !picked.has(key(item)));
     candidates.sort((a, b) => {
-      const avoid = (item: ReadingContent) => (seen.has(key(item)) ? 1000 : 0)
+      const avoid = (item: ReadingContent) => (excluded.has(key(item)) ? 2000 : 0) + (seen.has(key(item)) ? 1000 : 0)
         + (previous?.card.title === item.card.title ? 500 : 0)
         + (item.type !== wantedType ? 20 : 0)
         + (previous && field(previous) === field(item) ? 10 : 0);

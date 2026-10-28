@@ -139,6 +139,8 @@ jobs:
         run: pnpm test:search
       - name: Verify CMS publication and error handling
         run: pnpm test:cms
+      - name: Verify five-card discovery filters and stack motion
+        run: pnpm test:home-discovery
       - name: Verify personal dashboard data projections
         run: pnpm test:personal-dashboard
       - name: Verify reviewed summaries and reversible data migration

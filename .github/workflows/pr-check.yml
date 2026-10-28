@@ -43,6 +43,8 @@ jobs:
         run: pnpm test:search
       - name: Verify CMS publication and error handling
         run: pnpm test:cms
+      - name: Verify five-card discovery filters and stack motion
+        run: pnpm test:home-discovery
       - run: pnpm test:personal-dashboard
       - run: pnpm test:theory-summaries
       - run: node --test tests/unit/usage-consent.test.mjs
