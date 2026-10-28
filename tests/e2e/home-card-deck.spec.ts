@@ -25,6 +25,11 @@ for (const width of [375, 390, 430, 768, 1440]) {
     await expect(page.getByTestId('home-deck-layer')).toHaveCount(4);
     await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
     await expect(page.getByTestId('home-brand-indicators').getByRole('tab')).toHaveCount(4);
+    const reel = (await page.getByTestId('home-brand-carousel').boundingBox())!;
+    const header = (await page.getByTestId('book-header').boundingBox())!;
+    expect(Math.abs(reel.x - header.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(reel.width - header.width)).toBeLessThanOrEqual(1);
+    expect(Math.abs(reel.y - header.y - header.height)).toBeLessThanOrEqual(1);
     const card = await page.getByTestId('home-recommendation-card').boundingBox();
     expect(card!.width).toBeLessThanOrEqual(356);
     expect(card!.width).toBeGreaterThan(290);
@@ -317,6 +322,59 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   expect(opacities.length).toBeGreaterThan(3);
   expect(opacities.every(value => value === 1)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
+});
+
+test('戻るスワイプは最下段の直前カードを引き出してから手前へ重ねる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await ready(page);
+  const first = await label(page);
+  await page.getByTestId('home-deck-next').click();
+  await ready(page);
+  const second = await label(page);
+  const bottom = page.locator('#home-deck-slot-4');
+  const matrix = (selector: string) => page.locator(selector).evaluate(node => { const m = new DOMMatrix(getComputedStyle(node).transform); return { x: m.m41, z: Number(getComputedStyle(node).zIndex) }; });
+  const box = (await page.getByTestId('home-recommendation-card').boundingBox())!;
+  await page.mouse.move(box.x + 30, box.y + 100);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
+  await expect(bottom).toContainText(first!.replace(/を読む$/, ''));
+  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeGreaterThan(35);
+  expect(Math.abs((await matrix('#home-deck-slot-0')).x)).toBeLessThan(3);
+  expect((await matrix('#home-deck-slot-4')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
+  await page.waitForTimeout(100);
+  await page.mouse.up();
+  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeCloseTo(15, 0);
+  expect(await label(page)).toBe(second);
+  await page.evaluate(() => {
+    (window as any).__reverseFrames = [];
+    (window as any).__reverseRecording = true;
+    const sample = () => {
+      const front = document.getElementById('home-deck-slot-0')!;
+      const bottom = document.getElementById('home-deck-slot-4')!;
+      const m = new DOMMatrix(getComputedStyle(bottom).transform);
+      (window as any).__reverseFrames.push({ bottomX: m.m41, frontX: new DOMMatrix(getComputedStyle(front).transform).m41, z: Number(getComputedStyle(bottom).zIndex) });
+      if ((window as any).__reverseRecording) requestAnimationFrame(sample);
+    };
+    requestAnimationFrame(sample);
+  });
+  await page.mouse.move(box.x + 30, box.y + 100);
+  await page.mouse.down();
+  await page.mouse.move(box.x + 205, box.y + 103, { steps: 12 });
+  await page.mouse.up();
+  await ready(page);
+  expect(await label(page)).toBe(first);
+  const frames = await page.evaluate(() => { (window as any).__reverseRecording = false; return (window as any).__reverseFrames as { bottomX: number; frontX: number; z: number }[]; });
+  expect(frames.some(frame => frame.bottomX > box.width && frame.z < 5)).toBe(true);
+  const lifted = frames.filter(frame => frame.z === 6);
+  expect(lifted.length).toBeGreaterThan(2);
+  expect(lifted[0].bottomX).toBeGreaterThan(lifted[lifted.length - 1].bottomX + 80);
+  expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
+  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await page.getByTestId('home-deck-next').click();
+  await ready(page);
+  expect(await label(page)).toBe(second);
 });
 
 test('旧キューを5枚へ移行し、シャッフルで5枚すべてを交換する', async ({ page }) => {

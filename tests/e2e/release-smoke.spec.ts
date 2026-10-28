@@ -788,7 +788,7 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
 test('PCホームは編集バナーと幅を抑えたデッキを収める',async({page})=>{
  await page.setViewportSize({width:1440,height:1000}); await page.goto('/'); await startFreeHome(page);
  const reel=(await page.getByTestId('home-brand-carousel').boundingBox())!;
- expect(reel.width).toBeGreaterThan(850);expect(reel.width).toBeLessThanOrEqual(1040);
+ const header=(await page.getByTestId('book-header').boundingBox())!;expect(Math.abs(reel.width-header.width)).toBeLessThanOrEqual(1);expect(Math.abs(reel.x-header.x)).toBeLessThanOrEqual(1);
  const card=(await page.getByTestId('home-recommendation-card').boundingBox())!;expect(card.width).toBeLessThanOrEqual(356);
 });
 

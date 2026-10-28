@@ -11,7 +11,8 @@ import { techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHomeDiscovery } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
-import { deckLayerAngle as layerAngle, deckLayerX as layerX, useWebDeckMotion } from '@/hooks/use-web-deck-motion';
+import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
+import { deckLayerAngle as layerAngle, deckLayerX as layerX, deckReturnEdge } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
 import { SaveDiamond } from './save-diamond';
 
@@ -38,9 +39,12 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
   const reduced = useReducedMotion();
   const [phase, setPhase] = useState<'idle' | 'moving' | 'shuffle'>('idle');
   const [direction, setDirection] = useState(-1);
+  const [returnRaised, setReturnRaised] = useState(false);
   const [hovered, setHovered] = useState(false);
   const x = useRef(new Animated.Value(0)).current;
   const mix = useRef(new Animated.Value(0)).current;
+  const lift = useRef(new Animated.Value(0)).current;
+  const dragDistance = useRef(0);
   const webMotion = useWebDeckMotion(cardWidth);
   const locked = useRef(false);
   const dragged = useRef(false);
@@ -54,8 +58,11 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
   const driver = Platform.OS !== 'web';
   const busy = phase !== 'idle';
   const current = deck.items[deck.cursor];
+  const returning = direction > 0 && deck.position > 0;
+  const returnPull = x.interpolate({ inputRange: [0, deckReturnEdge(cardWidth)], outputRange: [0, 1], extrapolate: 'clamp' });
+  const returnProgress = Animated.add(Animated.multiply(returnPull, .45), Animated.multiply(lift, .55));
   const progress = x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: [1, 0, 1], extrapolate: 'clamp' });
-  const reset = () => { webMotion?.reset(); x.setValue(0); mix.setValue(0); locked.current = false; dragged.current = false; finish.current = null; setPhase('idle'); };
+  const reset = () => { webMotion?.reset(); x.setValue(0); lift.setValue(0); mix.setValue(0); dragDistance.current = 0; locked.current = false; dragged.current = false; finish.current = null; setReturnRaised(false); setDirection(-1); setPhase('idle'); };
   useLayoutEffect(() => { if (phase === 'moving') reset(); }, [deck.position]);
   useEffect(() => () => { finish.current = null; animation.current?.stop(); }, []);
   useEffect(() => {
@@ -69,14 +76,14 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     }
   }, [reduced]);
   useEffect(() => {
-    for (const ahead of [1, 2]) {
+    for (const ahead of [1, 2, 4]) {
       const item = deck.items[(deck.cursor + ahead) % deck.items.length];
       if (!item) continue;
       const source = imageFor(item).source;
       const uri = typeof source === 'number' ? Image.resolveAssetSource(source)?.uri : source.uri;
       if (uri) void Image.prefetch(uri).catch(() => undefined);
     }
-  }, [deck.cursor, deck.items[(deck.cursor + 1) % deck.items.length], deck.items[(deck.cursor + 2) % deck.items.length]]);
+  }, [deck.cursor, deck.items[(deck.cursor + 1) % deck.items.length], deck.items[(deck.cursor + 2) % deck.items.length], deck.items[(deck.cursor + 4) % deck.items.length]]);
   const navigate = (step: number, velocity = 0) => {
     const info = latest.current;
     if (locked.current || info.deck.loading || info.deck.error || (step < 0 && info.deck.position === 0)) return;
@@ -89,7 +96,18 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     finish.current = complete;
     if (info.reduced) { complete(); return; }
     const destination = (step > 0 ? -1 : 1) * (info.cardWidth + 80);
-    const duration = Math.max(190, 270 - Math.abs(velocity) * 30);
+    const duration = step < 0 ? Math.max(280, 360 - Math.abs(velocity) * 24) : Math.max(190, 270 - Math.abs(velocity) * 30);
+    if (step < 0) {
+      if (webMotion) { webMotion.returnCard(duration, () => { finish.current = null; complete(); }); return; }
+      animation.current = Animated.timing(x, { toValue: deckReturnEdge(info.cardWidth), duration: Math.max(50, duration * .42 * (1 - Math.min(1, dragDistance.current / deckReturnEdge(info.cardWidth)))), easing: Easing.out(Easing.cubic), useNativeDriver: true });
+      animation.current.start(({ finished }) => {
+        if (!finished) return;
+        setReturnRaised(true);
+        animation.current = Animated.timing(lift, { toValue: 1, duration: duration * .58, easing: Easing.out(Easing.cubic), useNativeDriver: true });
+        animation.current.start(({ finished: done }) => { if (done) { finish.current = null; complete(); } });
+      });
+      return;
+    }
     if (webMotion) { webMotion.animate(destination, duration, () => { finish.current = null; complete(); }); return; }
     animation.current = Animated.timing(x, { toValue: destination, duration, easing: Easing.out(Easing.cubic), useNativeDriver: driver });
     animation.current.start(({ finished }) => { if (finished) { finish.current = null; complete(); } });
@@ -107,7 +125,8 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
       lastMotion.current = Date.now();
       setDirection(gesture.dx < 0 ? -1 : 1);
       const displacement = gesture.dx > 0 && latest.current.deck.position === 0 ? gesture.dx * 0.18 : gesture.dx;
-      if (webMotion) webMotion.drag(displacement); else x.setValue(displacement);
+      dragDistance.current = displacement;
+      if (webMotion) webMotion.drag(displacement, gesture.dx > 0 && latest.current.deck.position > 0); else x.setValue(displacement);
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
@@ -117,16 +136,16 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
         const step = gesture.dx < 0 ? 1 : -1;
         if (step > 0 || latest.current.deck.position > 0) { navigation.current(step, velocity); return; }
       }
-      if (latest.current.reduced) { webMotion?.reset(); x.setValue(0); dragged.current = false; return; }
-      if (webMotion) { webMotion.animate(0, 260, () => { dragged.current = false; }, true); return; }
+      if (latest.current.reduced) { reset(); return; }
+      if (webMotion) { webMotion.animate(0, 260, reset, true); return; }
       animation.current = Animated.spring(x, { toValue: 0, stiffness: 240, damping: 28, mass: 0.8, useNativeDriver: driver });
-      animation.current.start(() => { dragged.current = false; });
+      animation.current.start(({ finished }) => { if (finished) reset(); });
     },
     onPanResponderTerminate: () => {
       lastDrag.current = Date.now();
-      if (webMotion) { webMotion.animate(0, 260, () => { dragged.current = false; }, true); return; }
+      if (webMotion) { webMotion.animate(0, 260, reset, true); return; }
       animation.current = Animated.spring(x, { toValue: 0, stiffness: 240, damping: 28, useNativeDriver: driver });
-      animation.current.start(() => { dragged.current = false; });
+      animation.current.start(({ finished }) => { if (finished) reset(); });
     },
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
@@ -151,7 +170,19 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
     router.push(current.type === 'technique' ? techniqueRoute(current.card.id) : theoryRoute(current.card.tagId));
   };
-  const layers = [4, 3, 2, 1, 0].map(depth => ({ depth, item: deck.items[(deck.cursor + (direction > 0 && deck.position > 0 ? -depth : depth) + deck.items.length) % deck.items.length] }));
+  // Keep actual stack order stable even when a gesture changes direction.
+  const layers = [4, 3, 2, 1, 0].map(depth => ({ depth, item: deck.items[(deck.cursor + depth) % deck.items.length] }));
+  const nativeReturnTransform = (depth: number) => depth === 4 ? [
+    { translateX: Animated.multiply(returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerX(4), deckReturnEdge(cardWidth)] }), lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })) },
+    { translateY: Animated.multiply(returnPull.interpolate({ inputRange: [0, 1], outputRange: [36, 24] }), lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })) },
+    { rotate: Animated.multiply(returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerAngle(4), 6] }), lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })).interpolate({ inputRange: [0, 6], outputRange: ['0deg', '6deg'] }) },
+    { scale: Animated.add(returnPull.interpolate({ inputRange: [0, 1], outputRange: [.9, .94] }), Animated.multiply(lift, .06)) },
+  ] : [
+    { translateX: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [layerX(depth), layerX(depth + 1)] }) },
+    { translateY: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [depth * 9, (depth + 1) * 9] }) },
+    { rotate: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [`${layerAngle(depth)}deg`, `${layerAngle(depth + 1)}deg`] }) },
+    { scale: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .025, 1 - (depth + 1) * .025] }) },
+  ];
   const arrow = (step: number) => {
     const disabled = busy || deck.loading || deck.error || (step < 0 && deck.position === 0);
     return <Pressable testID={step < 0 ? 'home-deck-previous' : 'home-deck-next'} accessibilityRole="button" accessibilityLabel={step < 0 ? '前のカード' : '次のカード'} disabled={disabled} onPress={() => navigate(step)}
@@ -173,15 +204,15 @@ export function HomeRecommendationDeck({ cardWidth }: { cardWidth: number }) {
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
           const offset = depth * 9;
-          return <Animated.View key={depth} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
-            style={[styles.slot, { width: cardWidth, zIndex: 5 - depth, opacity: front ? 1 : 1 - depth * 0.1, transform: [
+          return <Animated.View key={depth} nativeID={`home-deck-slot-${depth}`} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
+            style={[styles.slot, { width: cardWidth, zIndex: returning && returnRaised && depth === 4 ? 6 : 5 - depth, opacity: front ? 1 : 1 - depth * 0.1, transform: [
               { translateX: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [layerX(depth), 0, (depth - 2) * 26, (2 - depth) * 20, layerX(depth)] }) : front ? x : progress.interpolate({ inputRange: [0, 1], outputRange: [layerX(depth), layerX(Math.max(0, depth - 1))] }) },
               { translateY: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [offset, 0, depth * -5, depth * 4, offset] }) : front ? 0 : progress.interpolate({ inputRange: [0, 1], outputRange: [offset, Math.max(0, depth - 1) * 9] }) },
               { rotate: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [`${layerAngle(depth)}deg`, '0deg', `${(depth - 2) * 3.5}deg`, `${(2 - depth) * 2.5}deg`, `${layerAngle(depth)}deg`] }) : front ? x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: ['-7deg', '0deg', '7deg'], extrapolate: 'clamp' }) : progress.interpolate({ inputRange: [0, 1], outputRange: [`${layerAngle(depth)}deg`, `${layerAngle(Math.max(0, depth - 1))}deg`] }) },
               { scale: phase === 'shuffle' ? mix.interpolate({ inputRange: [0, 1, 2, 3, 4], outputRange: [1 - depth * 0.025, 0.94, 0.93, 0.97, 1 - depth * 0.025] }) : front ? 1 : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * 0.025, 1 - Math.max(0, depth - 1) * 0.025] }) },
-            ] }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
+            ] }, returning && !webMotion && phase !== 'shuffle' && { transform: nativeReturnTransform(depth), ...(depth === 4 ? { opacity: returnPull.interpolate({ inputRange: [0, 1 / 3, 1], outputRange: [.6, 1, 1] }) } : {}) }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
             <Animated.View style={{ opacity: mix.interpolate({ inputRange: [0, 1.65, 2, 2.35, 4], outputRange: [1, 1, 0, 1, 1] }) }}>
-              {depth > 1 && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
+              {(returning ? depth !== 0 && depth !== 4 : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
                 : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
             </Animated.View></Animated.View>;
         })}

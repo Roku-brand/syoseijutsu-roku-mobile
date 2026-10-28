@@ -663,24 +663,25 @@ function EditorialBanner({ desktop, index, eyebrow, title, description, image, l
     <View style={[styles.editorialCopy, desktop && styles.editorialCopyDesktop]}>
       <Text style={styles.editorialEyebrow}>{eyebrow}</Text>
       <Text numberOfLines={2} style={[styles.editorialTitle, desktop && styles.editorialTitleDesktop]}>{title}</Text>
-      <Text numberOfLines={1} style={styles.editorialDescription}>{description}</Text>
+      <Text numberOfLines={2} style={[styles.editorialDescription, desktop && styles.editorialDescriptionDesktop]}>{description}</Text>
       <Text style={styles.editorialCta}>{label} →</Text>
     </View>
   </Pressable>;
 }
 
 const styles = StyleSheet.create({
-  editorial: { height: 196, borderRadius: 12, backgroundColor: '#282A26', overflow: 'hidden' },
-  editorialDesktop: { height: 254 },
+  editorial: { aspectRatio: 1.7, minHeight: 205, backgroundColor: '#282A26', overflow: 'hidden' },
+  editorialDesktop: { height: 380, minHeight: 380, aspectRatio: undefined },
   editorialShade: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(12,14,12,.64)' },
   editorialCopy: { paddingHorizontal: 20, paddingTop: 18, width: '100%', paddingRight: 30 },
-  editorialCopyDesktop: { paddingHorizontal: 38, paddingTop: 27, width: '76%' },
+  editorialCopyDesktop: { paddingHorizontal: 52, paddingTop: 58, width: '72%' },
   editorialEyebrow: { fontFamily: fonts.serif, fontSize: 10, lineHeight: 19, color: '#E9CF9A', letterSpacing: 1.4, marginBottom: 7 },
   editorialTitle: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 31, fontWeight: '600', color: '#FFFDF6', letterSpacing: 0.5 },
-  editorialTitleDesktop: { fontSize: 31, lineHeight: 43 },
+  editorialTitleDesktop: { fontSize: 38, lineHeight: 52 },
   editorialDescription: { fontSize: 11, lineHeight: 20, color: '#E4E0D6', marginTop: 8 },
+  editorialDescriptionDesktop: { fontSize: 14, lineHeight: 24 },
   editorialCta: { fontFamily: fonts.serif, color: '#E9CF9A', fontSize: 11, lineHeight: 22, marginTop: 4 },
-  carousel: { width: '100%', maxWidth: 1040, alignSelf: 'center', paddingHorizontal: 12, paddingTop: 8 },
+  carousel: { width: '100%' },
   carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', position: 'relative' },
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
