@@ -16,9 +16,9 @@ function rotation(id: string, seed: string) {
  * shelf open to unfamiliar subjects. No additional activity is sent anywhere.
  * The seed changes by day or an explicit refresh, never during an ordinary render.
  */
-export function buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed }: {
+export function buildReadingRecommendations({ accessState, historyIds, interests, savedIds, savedTheoryIds, seed, seenIds = [], excludeIds = [], count = 5 }: {
   accessState: string; historyIds: string[]; interests: CategoryKey[];
-  savedIds: string[]; savedTheoryIds: string[]; seed: string;
+  savedIds: string[]; savedTheoryIds: string[]; seed: string; seenIds?: string[]; excludeIds?: string[]; count?: number;
 }): ReadingContent[] {
   const categoryScores = new Map(interests.map(key => [key, 12]));
   const theoryScores = new Map<string, number>();
@@ -54,38 +54,40 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
   const closeTheories = [...theoryCandidates].sort((a, b) =>
     ((theoryScores.get(b.tagId) ?? 0) + (fieldScores.get(b.categoryId) ?? 0) / 4 - penalty(b.tagId))
     - ((theoryScores.get(a.tagId) ?? 0) + (fieldScores.get(a.categoryId) ?? 0) / 4 - penalty(a.tagId)) || byRotation(a.tagId, b.tagId));
+  const excluded = new Set(excludeIds);
+  const pool: ReadingContent[] = ([
+    ...closeTechniques.map(card => ({ type: 'technique' as const, card })),
+    ...closeTheories.map(card => ({ type: 'theory' as const, card })),
+  ] as ReadingContent[]).filter(item => !excluded.has(`${item.type}:${readingContentId(item)}`));
+  const key = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
+  const field = (item: ReadingContent) => item.type === 'technique' ? item.card.categoryKey : item.card.categoryId;
+  const score = (item: ReadingContent) => item.type === 'technique' ? categoryScores.get(item.card.categoryKey) ?? 0
+    : (theoryScores.get(item.card.tagId) ?? 0) + (fieldScores.get(item.card.categoryId) ?? 0) / 4;
+  const seen = new Set(seenIds);
   const items: ReadingContent[] = [];
-  const selected = new Set<string>();
-  const add = (item?: ReadingContent) => {
-    if (!item || items.length >= 7) return;
-    const id = readingContentId(item);
-    if (!selected.has(id)) { selected.add(id); items.push(item); }
-  };
-  for (const key of ['interpersonal', 'work', 'life']) {
-    const card = closeTechniques.find(candidate => candidate.categoryKey === key);
-    if (card) add({ type: 'technique', card });
+  const picked = new Set<string>();
+  const hasSignals = readSignals.length > 0 || new Set(interests).size < 3;
+  // Per four cards: two familiar, one adjacent, one unfamiliar. Exact content IDs
+  // remain distinct, even when a title belongs to several personas.
+  for (let slot = 0; slot < Math.min(count, pool.length); slot++) {
+    const mode = hasSignals ? slot % 4 : 3;
+    const wantedType = slot % 3 === 1 ? 'theory' : 'technique';
+    const previous = items[items.length - 1];
+    const candidates = pool.filter(item => !picked.has(key(item)));
+    candidates.sort((a, b) => {
+      const avoid = (item: ReadingContent) => (seen.has(key(item)) ? 1000 : 0)
+        + (previous?.card.title === item.card.title ? 500 : 0)
+        + (item.type !== wantedType ? 20 : 0)
+        + (previous && field(previous) === field(item) ? 10 : 0);
+      const affinity = (item: ReadingContent) => mode < 2 ? -score(item)
+        : mode === 2 ? -(item.type === 'theory' ? theoryScores.get(item.card.tagId) ?? 0 : score(item) / 2) : score(item);
+      return avoid(a) - avoid(b) || penalty(readingContentId(a)) - penalty(readingContentId(b))
+        || affinity(a) - affinity(b) || byRotation(key(a), key(b));
+    });
+    const item = candidates[0];
+    if (!item) break;
+    picked.add(key(item));
+    items.push(item);
   }
-  const familiar = closeTheories[0];
-  if (familiar) add({ type: 'theory', card: familiar });
-
-  // Order by the least explored field, then rotate within it. Reserve two
-  // different fields so a large category cannot occupy every discovery slot.
-  const discoveryTheories = [...theoryCandidates].sort((a, b) =>
-    Number(recent.has(a.tagId) || saved.has(a.tagId)) - Number(recent.has(b.tagId) || saved.has(b.tagId))
-    || (fieldScores.get(a.categoryId) ?? 0) - (fieldScores.get(b.categoryId) ?? 0) || byRotation(a.tagId, b.tagId));
-  const discoveredFields = new Set(familiar ? [familiar.categoryId] : []);
-  for (let slot = 0; slot < 2; slot++) {
-    const card = discoveryTheories.find(candidate => !selected.has(candidate.tagId) && !discoveredFields.has(candidate.categoryId))
-      ?? discoveryTheories.find(candidate => !selected.has(candidate.tagId));
-    if (card) {
-      add({ type: 'theory', card });
-      discoveredFields.add(card.categoryId);
-    }
-  }
-  const discoveryTechnique = [...techniqueCandidates].sort((a, b) => penalty(a.id) - penalty(b.id) || byRotation(a.id, b.id))
-    .find(card => !selected.has(card.id));
-  if (discoveryTechnique) add({ type: 'technique', card: discoveryTechnique });
-  for (const card of closeTheories) add({ type: 'theory', card });
-  for (const card of closeTechniques) add({ type: 'technique', card });
   return items;
 }

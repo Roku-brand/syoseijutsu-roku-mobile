@@ -113,9 +113,9 @@ test('文字の濃い金色・拡大許可・設定アイコン・OSS重複解�
   await expect(page).toHaveURL(/\/settings/);
   await expect(page.getByRole('button', { name: /オープンソースの通知/ })).toHaveCount(1);
   await page.goto('/');
-  await page.getByRole('tab', { name: '7枚目を表示', exact: true }).click();
-  await expect(page.getByTestId('home-brand-slide-7')).toContainText('理論②');
-  await expect(page.getByTestId('home-brand-theory-title-2')).toBeVisible();
+  await page.getByRole('tab', { name: '4枚目を表示', exact: true }).click();
+  await expect(page.getByTestId('home-brand-slide-4')).toContainText('今日の問い');
+  await expect(page.getByTestId('home-brand-slide-4')).toBeVisible();
 });
 
 test('PC本文の横幅を820px以内に抑え、狭い画面にも収まる', async ({ page }) => {

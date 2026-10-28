@@ -2,8 +2,8 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, AppState, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
-import { COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
-import { categoryMeta, techniqueCards, theories } from '@/data/catalog';
+import { FREE_LEARNING_CASE_ID_SET, COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
+import { categories, techniqueById, theoryById, categoryMeta, techniqueCards, theories } from '@/data/catalog';
 import { getHomeBrandContent, getHomeDayKey, resolveHomeTheoryMapLinks, type HomePersona, type HomeTheoryMapItem } from '@/data/home-brand-content';
 import { getTheoryDisplayId } from '@/data/catalog';
 import { useFeatures, type FeatureArticle } from '@/data/features';
@@ -11,6 +11,7 @@ import { featureImageAlt, featureImageSource } from '@/data/feature-images';
 import type { TechniqueCard, TheoryCard } from '@/data/types';
 import { COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 import { APP_ROUTES, featureRoute, personaRoute, techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { learningCases } from '@/data/learning';
 import { Rokumaru } from './rokumaru';
 import { bookCardShadow } from './book-ui';
 import { colors, fonts } from '@/constants/theme';
@@ -22,8 +23,8 @@ const lineageImage = require('../../assets/home/theory-lineage-washi.webp');
 const systemImage = require('../../assets/home/system-atlas-washi.webp');
 const completeMark = require('../../assets/upgrade/complete-mark.png');
 
-const HOME_REEL_ID = 'home-v3';
-const HOME_REEL_SLIDE_COUNT = 7;
+const HOME_REEL_ID = 'home-editorial-v4';
+const HOME_REEL_SLIDE_COUNT = 4;
 const featuredTechnique = techniqueCards.find((card) => card.title === '小さな頼み事で相手を巻き込む');
 const secondTheory = theories.find((theory) => FREE_THEORY_IDS.includes(theory.tagId));
 const homeReelPositions = new Map<string, number>();
@@ -96,6 +97,7 @@ function writeHomeReelPosition(reelId: string, index: number) {
 }
 
 export type HomeHeroSlideType =
+  | 'question'
   | 'todayTechnique'
   | 'persona'
   | 'theory'
@@ -431,6 +433,7 @@ export function RokumaruSlide({ desktop }: { desktop: boolean }) {
 }
 
 export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselProps) {
+  const router = useRouter();
   const [focused, setFocused] = useState(false);
   useFocusEffect(useCallback(() => {
     setFocused(true);
@@ -451,15 +454,6 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   const programmaticScrollRef = useRef(false);
   const programmaticScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const content = useMemo(() => getHomeBrandContent(), [catalogRevision, dayKey]);
-  const theoryLinks = useMemo(() => resolveHomeTheoryMapLinks(), [catalogRevision]);
-  const secondTechniqueForDay = useMemo(() => {
-    const candidates = techniqueCards.filter((card) => FREE_REEL_TECHNIQUE_IDS.includes(card.id) && card.id !== (featuredTechnique?.id ?? content.technique.id));
-    return candidates.length ? candidates[dayKey % candidates.length] : content.technique;
-  }, [content.technique, dayKey]);
-  const secondTheoryForDay = useMemo(() => {
-    const candidates = theories.filter((theory) => FREE_THEORY_IDS.includes(theory.tagId) && theory.tagId !== content.theory.tagId);
-    return candidates.length ? candidates[dayKey % candidates.length] : (secondTheory ?? content.theory);
-  }, [content.theory, dayKey]);
   const homeFeatures = useMemo(() => [...featureArticles]
     .sort((left, right) => Number(right.is_featured) - Number(left.is_featured) || left.display_order - right.display_order || left.id.localeCompare(right.id))
     .slice(0, 3), [featureArticles]);
@@ -562,7 +556,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   useEffect(() => {
     if (Platform.OS !== 'web') return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.target as HTMLElement)?.closest?.('input, textarea, [contenteditable="true"]')) return;
+      if (!(event.target as HTMLElement)?.closest?.('[data-testid="home-brand-carousel"]')) return;
       if (event.key === 'ArrowLeft') moveTo(activeIndexRef.current - 1);
       if (event.key === 'ArrowRight') moveTo(activeIndexRef.current + 1);
     };
@@ -588,14 +582,16 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
     return () => clearTimeout(timer);
   }, [focused, foreground, touching, paused, reduceMotion, viewportWidth, activeIndex, autoplayRevision, moveTo]);
 
+  const question = learningCases.filter(item => FREE_LEARNING_CASE_ID_SET.has(item.id))[dayKey % Math.max(1, learningCases.filter(item => FREE_LEARNING_CASE_ID_SET.has(item.id)).length)];
+  const linked = techniqueById.get(content.techniqueTheoryMap.techniqueId);
+  const linkedTheories = linked?.theoryTagIds?.map(id => theoryById.get(id)).filter(Boolean) ?? [];
+  const personaExists = categories.some(category => category.key === content.persona.categoryKey && category.subcategories.some(persona => persona.name === content.persona.name));
+  const feature = homeFeatures[0];
   const slides: Array<{ type: HomeHeroSlideType; node: React.ReactNode }> = [
-    { type: 'todayTechnique', node: <TechniqueHeroSlide card={featuredTechnique ?? content.technique} desktop={desktop} /> },
-    { type: 'persona', node: <PersonaHeroSlide persona={content.persona} desktop={desktop} /> },
-    { type: 'theory', node: <TheoryHeroSlide theory={content.theory} domainLabel={categoryMeta[content.domains.theory].label} desktop={desktop} /> },
-    { type: 'techniqueTheoryMap', node: <TechniqueTheoryMapSlide techniqueId={content.techniqueTheoryMap.techniqueId} personaName={content.techniqueTheoryMap.personaName} techniqueTitle={content.techniqueTheoryMap.title} theories={theoryLinks} desktop={desktop} /> },
-    { type: 'feature', node: <FeatureHeroSlide article={homeFeatures[0]} desktop={desktop} slideIndex={5} /> },
-    { type: 'secondTechnique', node: <TechniqueHeroSlide card={secondTechniqueForDay} desktop={desktop} slideIndex={6} /> },
-    { type: 'secondTheory', node: <TheoryHeroSlide theory={secondTheoryForDay} domainLabel={categoryMeta[secondTheoryForDay.categoryId as keyof typeof categoryMeta]?.label ?? secondTheoryForDay.categoryTitle} desktop={desktop} slideIndex={7} /> },
+    { type: 'feature', node: <EditorialBanner desktop={desktop} index={1} eyebrow="編集部の特集" title={feature?.title ?? 'ひとつの問いから、\n知恵をつなぐ。'} description={feature?.lead ?? '処世術と理論を、いつもと違う角度から。'} image={feature ? featureImageSource(feature) : require('../../assets/home/editorial-window-v1.webp')} label="特集を読む" onPress={() => router.push(feature ? featureRoute(feature.slug) : APP_ROUTES.features)} /> },
+    { type: 'persona', node: <EditorialBanner desktop={desktop} index={2} eyebrow="注目の人物像" title={content.persona.name} description={content.persona.description} image={personaImage} label="人物像から知恵をひらく" onPress={() => router.push(personaExists ? personaRoute(content.persona.categoryKey, content.persona.name) : APP_ROUTES.personas)} /> },
+    { type: 'techniqueTheoryMap', node: <EditorialBanner desktop={desktop} index={3} eyebrow="知識のつながり" title={linked?.title ?? '実践と理論。そのつながりを辿る。'} description={linkedTheories.length ? linkedTheories.slice(0, 2).map(item => item!.title).join(' × ') : '行動の奥にある仕組みを、関連する知識から読み解く。'} image={lineageImage} label="実践と理論をつなぐ" onPress={() => router.push(linked ? techniqueRoute(linked.id) : APP_ROUTES.discover)} /> },
+    { type: 'question', node: <EditorialBanner desktop={desktop} index={4} eyebrow="今日の問い" title={question?.question ?? 'こんなとき、あなたならどうする？'} description={question?.situation ?? '身近な場面から、次の一手を考える。'} image={techniqueImage} label="ケースで考える" onPress={() => router.push(question ? { pathname: '/learn/[caseId]', params: { caseId: question.id } } : APP_ROUTES.learn)} /> },
   ];
 
   return (
@@ -618,7 +614,7 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
             snapToInterval={Platform.OS !== 'web' ? viewportWidth || undefined : undefined}
             style={webTouchRailStyle}
             testID="home-brand-viewport"
-            accessibilityLabel="今日の一枚と知恵を7つの切り口で紹介"
+            accessibilityLabel="特集・人物像・知識のつながり・今日の問い"
             showsHorizontalScrollIndicator={false}
             scrollEventThrottle={16}
             onScroll={syncIndicatorWithOffset}
@@ -653,8 +649,38 @@ export function HomeHeroCarousel({ desktop, catalogRevision }: HomeHeroCarouselP
   );
 }
 
+function EditorialBanner({ desktop, index, eyebrow, title, description, image, label, onPress }: {
+  desktop: boolean; index: number; eyebrow: string; title: string; description: string;
+  image: import('react-native').ImageSourcePropType; label: string; onPress: () => void;
+}) {
+  const touch = useRef<{ x: number; y: number } | null>(null);
+  const moved = useRef(false);
+  return <Pressable testID={`home-brand-slide-${index}`} accessibilityRole="link" accessibilityLabel={`${eyebrow}：${title}`} onPress={() => { if (!moved.current) onPress(); }}
+    onTouchStart={event => { touch.current = getTouchPoint(event); moved.current = false; }} onTouchMove={event => { const point = getTouchPoint(event); if (touch.current && Math.hypot(point.x - touch.current.x, point.y - touch.current.y) > 10) moved.current = true; }}
+    style={[styles.editorial, desktop && styles.editorialDesktop]}>
+    <Image source={image} resizeMode="cover" style={styles.fullImage} />
+    <View style={[styles.editorialShade, Platform.OS === 'web' && ({ backgroundImage: 'linear-gradient(90deg, rgba(12,14,12,.86) 0%, rgba(12,14,12,.55) 56%, rgba(12,14,12,.12) 100%)', backgroundColor: 'transparent' } as unknown as ViewStyle)]} />
+    <View style={[styles.editorialCopy, desktop && styles.editorialCopyDesktop]}>
+      <Text style={styles.editorialEyebrow}>{eyebrow}</Text>
+      <Text numberOfLines={2} style={[styles.editorialTitle, desktop && styles.editorialTitleDesktop]}>{title}</Text>
+      <Text numberOfLines={1} style={styles.editorialDescription}>{description}</Text>
+      <Text style={styles.editorialCta}>{label} →</Text>
+    </View>
+  </Pressable>;
+}
+
 const styles = StyleSheet.create({
-  carousel: { width: '100%' },
+  editorial: { height: 196, borderRadius: 12, backgroundColor: '#282A26', overflow: 'hidden' },
+  editorialDesktop: { height: 254 },
+  editorialShade: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(12,14,12,.64)' },
+  editorialCopy: { paddingHorizontal: 20, paddingTop: 18, width: '100%', paddingRight: 30 },
+  editorialCopyDesktop: { paddingHorizontal: 38, paddingTop: 27, width: '76%' },
+  editorialEyebrow: { fontFamily: fonts.serif, fontSize: 10, lineHeight: 19, color: '#E9CF9A', letterSpacing: 1.4, marginBottom: 7 },
+  editorialTitle: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 31, fontWeight: '600', color: '#FFFDF6', letterSpacing: 0.5 },
+  editorialTitleDesktop: { fontSize: 31, lineHeight: 43 },
+  editorialDescription: { fontSize: 11, lineHeight: 20, color: '#E4E0D6', marginTop: 8 },
+  editorialCta: { fontFamily: fonts.serif, color: '#E9CF9A', fontSize: 11, lineHeight: 22, marginTop: 4 },
+  carousel: { width: '100%', maxWidth: 1040, alignSelf: 'center', paddingHorizontal: 12, paddingTop: 8 },
   carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', position: 'relative' },
   carouselRowMobile: { gap: 0, position: 'relative' },
   viewport: { flex: 1, minWidth: 0, overflow: 'hidden' },
@@ -840,8 +866,8 @@ const styles = StyleSheet.create({
   pause: { position: 'absolute', right: 0, bottom: 0, minHeight: 44, minWidth: 44, alignItems: 'center', justifyContent: 'center', marginRight: 4 },
   pauseText: { color: '#FFFDF6', fontSize: 12, lineHeight: 18, backgroundColor: 'rgba(22,20,17,0.6)', borderRadius: 4, paddingHorizontal: 5 },
   dotsOverlay: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', bottom: 4, left: 0, position: 'absolute', right: 0, zIndex: 3 },
-  dots: { alignItems: 'center', backgroundColor: 'rgba(22, 20, 17, 0.2)', borderRadius: 999, flexDirection: 'row', justifyContent: 'center', paddingHorizontal: 3 },
-  dotTouch: { alignItems: 'center', height: 16, justifyContent: 'center', width: 14 },
+  dots: { alignItems: 'center', flexDirection: 'row', justifyContent: 'center' },
+  dotTouch: { alignItems: 'center', height: 44, justifyContent: 'center', width: 32 },
   dot: { backgroundColor: '#E9E3D8', borderRadius: 2, height: 3, width: 3 },
   dotActive: { backgroundColor: '#D9AF60', width: 8 },
 });

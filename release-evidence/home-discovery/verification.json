@@ -1,0 +1,31 @@
+{
+  "branch": "codex/home-discovery-deck-20261028",
+  "base": "0e63c1c",
+  "typecheck": "passed",
+  "lint": "passed",
+  "deckSize": 5,
+  "completeHandExchange": "6 consecutive rounds passed with zero overlap",
+  "webExport": "passed",
+  "iosHermesExport": "passed",
+  "chromium": {
+    "passed": 46,
+    "failed": 0
+  },
+  "webkit": {
+    "passed": 13,
+    "failed": 0,
+    "skipped": 1,
+    "skipReason": "CDP real-touch input is Chromium-only; it passed in Chromium"
+  },
+  "widths": [
+    375,
+    390,
+    430,
+    768,
+    1440
+  ],
+  "nativeDeviceTest": "not performed",
+  "livePurchaseTest": "not performed",
+  "backend": "synthetic public configuration with API mocks",
+  "published": false
+}

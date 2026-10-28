@@ -7,6 +7,12 @@ supabase/.temp/
 # Expo
 .expo/
 dist/
+dist-e2e/
+dist-ios/
+test-results-webkit/
+.local-*
+build-*.log
+tests-*.log
 dist-secure-content/
 test-results/
 .local-theory-backups/
