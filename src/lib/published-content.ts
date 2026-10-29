@@ -19,10 +19,34 @@ function notifySync(status: SyncStatus['status']) { syncStatus = { status, updat
 const CACHE_KEY = '@shoseijutsu-roku/public-catalog/v2';
 let cachedRows: { techniques: Record<string, any>[]; theories: Record<string, any>[] } | null = null;
 let cacheRestored = false;
+let cachePending: Promise<boolean> | null = null;
+
+/** Restore public records independently of a network retry or its timeout. */
+export function hydratePublishedCache(): Promise<boolean> {
+  if (cachePending) return cachePending;
+  if (cacheRestored) return Promise.resolve(Boolean(cachedRows));
+  cacheRestored = true;
+  const request = (async () => {
+    try {
+      const raw = await Promise.race([AsyncStorage.getItem(CACHE_KEY), new Promise<null>(resolve => { setTimeout(() => resolve(null), 250); })]);
+      if (raw) { const cache = JSON.parse(raw); if (cache.version === 2 && Array.isArray(cache.techniques) && Array.isArray(cache.theories)) { cachedRows = cache; restorePublicCache(); } }
+    } catch { /* Keep the bundled bootstrap available. */ }
+    return Boolean(cachedRows);
+  })();
+  cachePending = request;
+  void request.finally(() => { cachePending = null; });
+  return request;
+}
 
 let loaded = false;
 let pending: Promise<boolean> | null = null;
 const PAGE_SIZE = 500;
+
+async function metadataQuery(query: any) {
+  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 8000);
+  try { return await (query.abortSignal?.(controller.signal) ?? query); }
+  finally { clearTimeout(timeout); }
+}
 
 async function fetchPublishedRows(table: 'techniques' | 'theories' | 'personas', columns: string, freeOnly = false) {
   if (!supabase) return { data: null, error: new Error('Supabase is unavailable') };
@@ -68,19 +92,13 @@ async function loadPublishedContent(force: boolean): Promise<boolean> {
   if (!supabase || (loaded && !force)) return false;
   notifySync('loading');
   try {
-    if (!cacheRestored) {
-      cacheRestored = true;
-      try {
-        const raw = await Promise.race([AsyncStorage.getItem(CACHE_KEY), new Promise<null>(resolve => { setTimeout(() => resolve(null), 250); })]);
-        if (raw) { const cache = JSON.parse(raw); if (cache.version === 2 && Array.isArray(cache.techniques) && Array.isArray(cache.theories)) cachedRows = cache; }
-      } catch { /* The bundled catalogue remains available. */ }
-    }
+    await hydratePublishedCache();
     const [{ data, error }, theoryResult, personaResult, categoryResult, subcategoryResult] = await Promise.all([
       fetchPublishedRows('techniques', 'id,persona_id,category,title,essence,importance,primary_theory_ids,theory_ids,status,display_order,updated_at,image_path,access_tier,tags'),
       fetchPublishedRows('theories', 'id,title,category_id,category_title,aliases,related_theory_ids,status,display_order,display_id,image_path,access_tier,subcategory_id,subcategory_title,taxonomy_order,canonical_id,legacy_ids,knowledge_type,quotation_author,updated_at'),
       fetchPublishedRows('personas', 'name,category,subtitle,image_path,display_order,access_tier'),
-      supabase.from('content_categories').select('kind,id,title,display_order').order('display_order'),
-      supabase.from('theory_subcategories').select('id,category_id,title,display_order').order('display_order'),
+      metadataQuery(supabase.from('content_categories').select('kind,id,title,display_order').order('display_order')),
+      metadataQuery(supabase.from('theory_subcategories').select('id,category_id,title,display_order').order('display_order')),
     ]);
     if (error || !data) { restorePublicCache(); notifySync('offline'); return false; }
     const bodies = async (table: 'techniques' | 'theories', metadata: Record<string, any>[]) => {

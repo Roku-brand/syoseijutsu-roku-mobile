@@ -198,7 +198,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   offline = true;
   await page.reload();
   await ready(page);
-  await expect(page.getByTestId('data-status-banner')).toContainText('最新の内容を取得できませんでした');
+  await expect(page.getByTestId('data-status-banner')).toContainText('最新の内容を取得できませんでした', { timeout: 15000 });
   expect((await read(page)).order).toEqual(order);
   expect((await read(page)).cursor).toBe(2);
   offline = false;
@@ -206,6 +206,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   await ready(page);
   expect((await read(page)).order).toEqual(order);
   await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  expect(errors).toEqual([]);
 });
 
 test('完全版の追加データを待つ間も、読める初期デッキはすぐ操作できる', async ({ page }) => {

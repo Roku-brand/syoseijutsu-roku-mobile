@@ -8,6 +8,7 @@ import { useAppState } from '@/state/app-state';
 import { getHomeDayKey } from '@/data/home-brand-content';
 import { buildReadingRecommendations, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
 import { onDiscoveryReset, readDiscoveryState, writeDiscoveryState } from '@/lib/discovery-storage';
+import { hydratePublishedCache } from '@/lib/published-content';
 
 type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number; filter: DiscoveryFilter };
 export const HOME_DECK_SIZE = 5;
@@ -74,6 +75,12 @@ export function useHomeDiscovery() {
       // those before deciding that a saved card was removed or became locked.
       let resolved = true;
       let available = catalog.current;
+      if (stored?.day === day && stored.order.some(id => !available.has(id))) {
+        await hydratePublishedCache();
+        if (!active) return;
+        available = accessibleCatalog(scope);
+        setRestoredRevision(value => value + 1);
+      }
       if (stored?.day === day && stored.order.some(id => {
         const item = available.get(id);
         return !item || !matchesDiscoveryFilter(item, stored!.filter);
