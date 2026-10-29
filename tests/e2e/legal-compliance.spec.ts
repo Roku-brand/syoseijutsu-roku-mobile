@@ -91,10 +91,14 @@ test('端末内データ消去は取消しでは保持し、確認後に実デ�
   await page.addInitScript(key => localStorage.setItem(key, JSON.stringify({ personalPrinciple: '消去検証用の座右の銘', savedIds: ['master336-001'] })), key);
   await page.goto('/settings');
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).toContain('消去検証用');
-  const before = await page.evaluate(key => localStorage.getItem(key), key);
   page.once('dialog', dialog => dialog.dismiss());
   await page.getByRole('button', { name: /端末内データをすべて消去/ }).click();
-  expect(await page.evaluate(key => localStorage.getItem(key), key)).toBe(before);
+  // Initial hydration may normalize legacy storage while the dialog is open.
+  // Cancellation must preserve the user's data, regardless of serialization.
+  expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? '{}'), key)).toMatchObject({
+    personalPrinciple: '消去検証用の座右の銘',
+    savedIds: ['master336-001'],
+  });
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button', { name: /端末内データをすべて消去/ }).click();
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), key)).not.toContain('消去検証用');
