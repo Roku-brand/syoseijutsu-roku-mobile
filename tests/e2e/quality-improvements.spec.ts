@@ -33,6 +33,10 @@ test('guest import is explicit and account changes cannot expose another account
  await page.route('**/auth/v1/**',r=>r.fulfill({json:user()}));
  await page.addInitScript(({authKey,session,guestKey})=>{if(sessionStorage.getItem('quality-account-ready'))return;sessionStorage.setItem('quality-account-ready','1');localStorage.setItem(authKey,JSON.stringify(session));localStorage.setItem(guestKey,JSON.stringify({personalPrinciple:'ゲストだけの記録',savedIds:['guest-id']}));localStorage.setItem('@shoseijutsu-roku/state/v2/user/'+session.user.id,JSON.stringify({personalPrinciple:'Aだけの記録',savedIds:['account-a-id']}));},{authKey,session:session(),guestKey});
  await page.goto('/settings/data');expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
+ await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toBeVisible();
+ await page.reload();
+ await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toBeVisible();
+ expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
  id='00000000-0000-4000-8000-000000000072';
  await page.evaluate(({authKey,session})=>localStorage.setItem(authKey,JSON.stringify(session)),{authKey,session:session()});await page.reload();
  await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toBeVisible({timeout:15000});
@@ -42,6 +46,9 @@ test('guest import is explicit and account changes cannot expose another account
  expect((await backup(page)).data.savedIds).toEqual(['guest-id']);
  expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,'@shoseijutsu-roku/state/v2/user/00000000-0000-4000-8000-000000000071')).toEqual(['account-a-id']);
  expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,guestKey)).toEqual(['guest-id']);
+ await page.reload();
+ await expect(page.getByRole('button',{name:'バックアップをダウンロード',exact:true})).toBeEnabled();
+ await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toHaveCount(0);
  let cloud:any=null,uploads=0;
  await page.route('**/rest/v1/personal_backups**',async r=>{
   const method=r.request().method();
@@ -62,6 +69,33 @@ test('guest import is explicit and account changes cannot expose another account
  await page.getByRole('button',{name:'クラウドのバックアップを削除',exact:true}).click();
  await page.getByRole('button',{name:'削除を確定する',exact:true}).click();
  await expect(page.getByTestId('personal-backup-message')).toContainText('クラウドのバックアップを削除しました');expect(cloud).toBeNull();
+ id='00000000-0000-4000-8000-000000000071';
+ await page.evaluate(({authKey,session})=>localStorage.setItem(authKey,JSON.stringify(session)),{authKey,session:session()});await page.reload();
+ expect((await backup(page)).data.savedIds).toEqual(['account-a-id']);
+ await page.getByRole('button',{name:'引き継がない',exact:true}).click();await page.reload();
+ await expect(page.getByRole('button',{name:'バックアップをダウンロード',exact:true})).toBeEnabled();
+ await expect(page.getByRole('button',{name:'記録を引き継ぐ',exact:true})).toHaveCount(0);
+});
+
+test('retrying a failed write preserves a removed favorite across reload',async({page})=>{
+ await page.addInitScript(key=>{
+  if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({savedIds:['master336-001']}));
+  const original=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(name,value){if(name===key&&(window as any).__failPersonalWrites)throw new DOMException('Storage full','QuotaExceededError');return original.call(this,name,value);};
+ },guestKey);
+ await page.goto('/card/master336-001');
+ await expect(page.getByTestId('technique-detail-title')).toBeVisible();
+ await expect(page.getByRole('button',{name:'お気に入りから外す',exact:true}).first()).toBeVisible();
+ await page.evaluate(()=>{(window as any).__failPersonalWrites=true;});
+ await page.getByRole('button',{name:'お気に入りから外す',exact:true}).first().click();
+ await expect(page.getByTestId('data-status-banner')).toContainText('記録を端末に保存できませんでした');
+ expect(await page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,guestKey)).toEqual(['master336-001']);
+ await page.evaluate(()=>{(window as any).__failPersonalWrites=false;});
+ await page.getByRole('button',{name:'保存を再試行',exact:true}).click();
+ await expect.poll(()=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).savedIds,guestKey)).toEqual([]);
+ await page.reload();
+ await expect(page.getByTestId('technique-detail-title')).toBeVisible();
+ await expect(page.getByRole('button',{name:'お気に入りから外す',exact:true})).toHaveCount(0);
 });
 test('unlimited practice survives one minute and incorrect answers enter the review list',async({page})=>{
  await page.goto('/learn');await page.getByRole('switch',{name:'時間制限なしで練習する'}).check();

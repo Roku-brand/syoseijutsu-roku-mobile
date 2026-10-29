@@ -178,7 +178,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
         queuedEdits.current = []; loadedRef.current = storageKey;
         setRawState(restored);
         setLoadedKey(storageKey);
-        if (user && !stored) {
+        if (user) {
           const [guest, dismissed] = await Promise.all([
             AsyncStorage.getItem(LEGACY_PERSONAL_KEY), AsyncStorage.getItem(storageKey + '/guest-import'),
           ]);
@@ -208,15 +208,25 @@ export function AppStateProvider({ children }: PropsWithChildren) {
   }, [hydrated, loadedKey, storageKey, state, authLoading]);
 
   const retrySave = useCallback(async () => {
-    const key = storageKey, current = stateOwner.current === storageKey ? snapshot.current : initialState;
-    await writes.current;
-    const old = await AsyncStorage.getItem(key);
-    if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
-    const next = old ? mergePersonalData(normalizePersonalData(JSON.parse(old), initialState), current) : current;
-    readVersion.current++;
-    await AsyncStorage.setItem(key, JSON.stringify(next));
-    if (activeKey.current !== key) return;
-    loadedRef.current = key; queuedEdits.current = []; setRawState(next); setLoadedKey(key); setStorageError(null);
+    const key = storageKey;
+    const operation = writes.current.catch(() => undefined).then(async () => {
+      if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
+      if (loadedRef.current === key) {
+        // Ordinary failed writes must preserve deletions, not union stale disk data back in.
+        await AsyncStorage.setItem(key, JSON.stringify(snapshot.current));
+        if (activeKey.current === key) setStorageError(null);
+        return;
+      }
+      const old = await AsyncStorage.getItem(key);
+      if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
+      const next = old ? mergePersonalData(normalizePersonalData(JSON.parse(old), initialState), snapshot.current) : snapshot.current;
+      readVersion.current++;
+      await AsyncStorage.setItem(key, JSON.stringify(next));
+      if (activeKey.current !== key) return;
+      loadedRef.current = key; queuedEdits.current = []; setRawState(next); setLoadedKey(key); setStorageError(null);
+    });
+    writes.current = operation.catch(() => undefined);
+    await operation;
   }, [storageKey]);
   const restorePersonalData = useCallback(async (json: string, mode: 'merge' | 'replace' = 'merge') => {
     const incoming = parsePersonalBackup(json, initialState), key = storageKey;
