@@ -87,7 +87,7 @@ export function useWebDeckMotion(width: number) {
         const outgoing: Animation[] = [];
         slots.current.forEach((node, depth) => {
           if (!node) return;
-          const animation = node.animate([key(depth, 0), { ...key(depth, 1), offset: .2 }, { ...key(depth, 2), offset: .8 }, key(depth, 3)], { duration: 190, delay: depth * 18, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'both' });
+          const animation = node.animate([key(depth, 0), { ...key(depth, 1), offset: .2 }, { ...key(depth, 2), offset: .8 }, key(depth, 3)], { duration: 240, delay: depth * 22, easing: 'cubic-bezier(.4,0,.8,.4)', fill: 'both' });
           outgoing.push(animation); animations.current.push(animation);
         });
         const lastOut = outgoing.at(-1);
@@ -100,7 +100,7 @@ export function useWebDeckMotion(width: number) {
             const incoming: Animation[] = [];
             slots.current.forEach((node, depth) => {
               if (!node) return;
-              const animation = node.animate([key(depth, 4), { ...key(depth, 5), offset: .8 }, key(depth, 6)], { duration: 190, delay: (4 - depth) * 18, easing: 'cubic-bezier(.15,.65,.3,1)', fill: 'both' });
+              const animation = node.animate([key(depth, 4), { ...key(depth, 5), offset: .8 }, key(depth, 6)], { duration: 240, delay: (4 - depth) * 22, easing: 'cubic-bezier(.15,.65,.3,1)', fill: 'both' });
               incoming.push(animation); animations.current.push(animation);
             });
             outgoing.forEach(animation => { animation.onfinish = null; animation.cancel(); });
