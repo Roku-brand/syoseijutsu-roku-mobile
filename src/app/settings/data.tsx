@@ -62,7 +62,7 @@ export default function PersonalBackupScreen() {
    {Platform.OS==='web'?button('バックアップファイルを選ぶ',selectFile,true):null}
    <AppText style={styles.copy}>バックアップのJSONを貼り付けても復元できます。追加する方法では、現在の記録も残します。</AppText>
    <TextInput accessibilityLabel="バックアップのJSON" testID="personal-backup-input" multiline value={json} onChangeText={setJson} autoCapitalize="none" autoCorrect={false} placeholder="ここにバックアップのJSONを貼り付け" style={styles.input}/>
-   <View style={styles.option}><AppText style={styles.optionText}>現在の記録を置き換える</AppText><Switch accessibilityLabel="現在の記録を置き換える" trackColor={{false:colors.line,true:colors.gold}} thumbColor={colors.surface} value={replace} onValueChange={setReplace}/></View>
+   <View style={styles.option}><AppText style={styles.optionText}>現在の記録を置き換える</AppText><Switch accessibilityLabel="現在の記録を置き換える" {...(Platform.OS==='web'?{activeThumbColor:colors.surface}:{})} trackColor={{false:colors.line,true:colors.gold}} thumbColor={colors.surface} value={replace} onValueChange={setReplace}/></View>
    {replace?<AppText style={styles.copy}>復元前の記録は端末内に1回分保存され、「復元前に戻す」で戻せます。</AppText>:null}
    {button('記録を復元する',async()=>{await restorePersonalData(json,replace?'replace':'merge');setMessage('記録を復元しました。');})}
    {button('復元前に戻す',async()=>{const old=await AsyncStorage.getItem(personalStorageKey(user?.id)+'/before-restore');if(!old)throw new Error('復元前の記録はまだありません。');await restorePersonalData(old,'replace');setMessage('復元前の記録に戻しました。');},true)}

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image, Pressable, StyleSheet, Switch, View } from 'react-native';
+import { Image, Platform, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -45,7 +45,7 @@ export default function LearnHomeScreen() {
       <AppText style={styles.overallNote}>一歩ずつ、{'\n'}自分の判断に。</AppText>
     </View>
       <View style={styles.practiceControls}>
-        <View style={styles.practiceOption}><AppText style={styles.practiceLabel}>時間制限なしで練習する</AppText><Switch accessibilityLabel="時間制限なしで練習する" trackColor={{ false: colors.line, true: colors.gold }} thumbColor={colors.surface} value={learningUnlimited} onValueChange={setLearningUnlimited} /></View>
+        <View style={styles.practiceOption}><AppText style={styles.practiceLabel}>時間制限なしで練習する</AppText><Switch accessibilityLabel="時間制限なしで練習する" {...(Platform.OS === 'web' ? { activeThumbColor: colors.surface } : {})} trackColor={{ false: colors.line, true: colors.gold }} thumbColor={colors.surface} value={learningUnlimited} onValueChange={setLearningUnlimited} /></View>
         <AppText style={styles.practiceHint}>切り替えは、これから開く問題に反映されます。</AppText>
         {reviewCaseIds.length ? <View testID="learning-review-list"><AppText accessibilityRole="header" aria-level={2} style={styles.practiceLabel}>あとで復習</AppText>{learningIndex.filter(item => reviewCaseIds.includes(item.id)).map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を復習する`} onPress={() => openCase(item.id)} style={styles.reviewEntry}><AppText>{item.title}　›</AppText></Pressable>)}</View> : null}
       </View>
@@ -83,7 +83,7 @@ export default function LearnHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  practiceControls: { width: '100%', marginBottom: 18, padding: 14, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, gap: 8 },
+  practiceControls: { width: '100%', marginTop: 16, marginBottom: 18, padding: 14, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, gap: 8 },
   practiceOption: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   practiceLabel: { flexShrink: 1, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, color: colors.ink },
   practiceHint: { color: colors.muted, fontSize: 12, lineHeight: 19 },
