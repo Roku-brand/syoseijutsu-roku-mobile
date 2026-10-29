@@ -34,9 +34,6 @@ const webTouchRailStyle = Platform.OS === 'web'
 const webTouchSlideStyle = Platform.OS === 'web'
   ? ({ scrollSnapAlign: 'start', scrollSnapStop: 'always' } as unknown as ViewStyle)
   : undefined;
-const webBalancedTitleStyle = Platform.OS === 'web'
-  ? ({ textWrap: 'balance' } as unknown as TextStyle)
-  : undefined;
 
 function singleLineTitleSize(title: string, desktop: boolean, desktopBase: number, mobileBase: number, desktopCharacters: number, mobileCharacters: number) {
   const base = desktop ? desktopBase : mobileBase;
@@ -669,8 +666,8 @@ function EditorialBanner({ desktop, index, eyebrow, title, description, image, l
     <View style={[styles.editorialShade, Platform.OS === 'web' && ({ backgroundImage: 'linear-gradient(90deg, rgba(12,14,12,.86) 0%, rgba(12,14,12,.55) 56%, rgba(12,14,12,.12) 100%)', backgroundColor: 'transparent' } as unknown as ViewStyle)]} />
     <View testID={`home-editorial-copy-${index}`} style={[styles.editorialCopy, narrow && styles.editorialCopyNarrow, tablet && styles.editorialCopyTablet, desktop && styles.editorialCopyDesktop]}>
       <Text style={[styles.editorialEyebrow, desktop && styles.editorialEyebrowDesktop]}>{eyebrow}</Text>
-      <Text testID={`home-editorial-title-${index}`} numberOfLines={2} textBreakStrategy="balanced" lineBreakStrategyIOS="standard"
-        style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }, webBalancedTitleStyle]}>{title}</Text>
+      <TechniqueTitle testID={`home-editorial-title-${index}`} title={title.replace(/\n/g, '')} minimumFontSize={titleSize * 0.9} maxLines={2}
+        style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }]} />
       <Text numberOfLines={2} style={[styles.editorialDescription, narrow && styles.editorialDescriptionNarrow, tablet && styles.editorialDescriptionTablet, desktop && styles.editorialDescriptionDesktop]}>{description}</Text>
       <Text testID={`home-editorial-cta-${index}`} style={[styles.editorialCta, tablet && styles.editorialCtaTablet, desktop && styles.editorialCtaDesktop]}>{label} →</Text>
     </View>
