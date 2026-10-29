@@ -88,7 +88,9 @@ for (const width of [320, 390, 430, 1440]) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     }
     await page.goto('/learn');
-    const buttons = await page.locator('[data-testid^="learning-challenge-"]').evaluateAll(elements => elements.map(element => { const style = getComputedStyle(element); return [style.width, style.height, style.borderRadius, style.backgroundColor]; }));
+    const challenges = page.locator('[data-testid^="learning-challenge-"]');
+    await expect(challenges).toHaveCount(3);
+    const buttons = await challenges.evaluateAll(elements => elements.map(element => { const style = getComputedStyle(element); return [style.width, style.height, style.borderRadius, style.backgroundColor]; }));
     expect(buttons).toHaveLength(3);
     expect(buttons[0]).toEqual(buttons[1]);
     expect(buttons[1]).toEqual(buttons[2]);
