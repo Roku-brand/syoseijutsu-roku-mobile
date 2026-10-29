@@ -12,6 +12,8 @@ import { colors, fonts, radius, spacing } from '@/constants/theme';
 import { getFeatureSearchResults, getSearchMode, getSearchResults, SEARCH_MODES, type BrowseMode } from '@/data/search-catalog';
 import { refreshFeatures, useFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { personaRoute } from '@/navigation/app-routes';
+import { POPULAR_SEARCHES } from '@/data/search-catalog';
 
 function getParam(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] ?? '' : value ?? '';
@@ -36,7 +38,7 @@ export default function SearchScreen() {
   useEffect(() => {
     setMode(getSearchMode(requestedMode));
   }, [requestedMode]);
-  const { techniqueMatches, theoryMatches } = useMemo(
+  const { techniqueMatches, theoryMatches, personaMatches } = useMemo(
     () => getSearchResults(submittedQuery, isPaid),
     [catalogRevision, isPaid, submittedQuery],
   );
@@ -91,6 +93,10 @@ export default function SearchScreen() {
 
       {submittedQuery ? (
         <View testID="search-page-results" style={styles.results}>
+          {mode === 'techniques' && personaMatches.length ? <View testID="search-persona-results" style={styles.personaResults}>
+            <AppText accessibilityRole="header" aria-level={2} style={styles.resultTitle}>人物像から探す</AppText>
+            {personaMatches.slice(0, 6).map(({ persona, category }) => <Pressable key={category.key + persona.name} accessibilityRole="button" accessibilityLabel={`${persona.name}の人物像を開く`} onPress={() => router.push(personaRoute(category.key, persona.name))} style={styles.personaResult}><AppText variant="serif">{persona.name}　›</AppText></Pressable>)}
+          </View> : null}
           <View style={styles.resultHeading}>
             <AppText style={styles.resultTitle}>「{submittedQuery}」の検索結果</AppText>
             <AppText style={styles.resultNote}>{resultKind}{mode === 'features' && (featuresLoading || featuresError) ? '' : ` ${count}件`}</AppText>
@@ -105,6 +111,8 @@ export default function SearchScreen() {
                 : theoryMatches.map((theory) => <TheoryArchiveCard key={theory.tagId} theory={theory} />)}</View>
           ) : <View style={styles.empty}>
             <AppText style={styles.emptyText}>一致するものはありません</AppText>
+            <AppText style={styles.promptText}>短い言葉や、別の表現でも探してみてください。</AppText>
+            <View style={styles.suggestions}>{POPULAR_SEARCHES.slice(0, 4).map(item => <Pressable key={item.term} accessibilityRole="button" accessibilityLabel={`${item.term}を検索`} onPress={() => { setQuery(item.term); setSubmittedQuery(item.term); changeMode(item.mode); router.setParams({ q: item.term, mode: item.mode }); }} style={styles.personaResult}><AppText>{item.term}</AppText></Pressable>)}</View>
             {SEARCH_MODES.filter(item => item.id !== mode && counts[item.id] > 0 && (item.id !== 'features' || !featuresLoading && !featuresError)).map(item =>
               <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.label}の${counts[item.id]}件を見る`} onPress={() => changeMode(item.id)} style={styles.retry}><AppText style={styles.clearText}>{item.label}に{counts[item.id]}件あります　›</AppText></Pressable>)}
           </View>}
@@ -121,6 +129,9 @@ function ModeTab({ label, count, selected, onPress }: { label: string; count?: n
 }
 
 const styles = StyleSheet.create({
+  personaResults: { gap: 8, marginBottom: 24 },
+  personaResult: { minHeight: 44, padding: 12, borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface },
+  suggestions: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' },
   content: { maxWidth: 1260, paddingBottom: spacing.xl * 2 },
   intro: { alignItems: 'center', paddingVertical: spacing.lg, borderBottomWidth: 1, borderBottomColor: colors.line },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 2 },

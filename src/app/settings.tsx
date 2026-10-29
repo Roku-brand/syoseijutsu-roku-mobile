@@ -62,6 +62,7 @@ export default function SettingsScreen() {
       <View style={styles.quietSection}>
         <SettingsSection title="規約・データ" subdued />
         <SettingsGroup subdued>
+          <SettingLink title="記録のバックアップ・復元" detail="端末内の記録を保存・引き継ぎできます" href={'/settings/data' as Href} subdued />
           <UsageSharingSetting />
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />

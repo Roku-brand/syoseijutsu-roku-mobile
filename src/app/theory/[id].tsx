@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { canReadTheory } from '@/access/access-config';
+import { canReadTheory, FREE_TECHNIQUE_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { LockedPreview } from '@/components/locked-preview';
@@ -37,7 +37,7 @@ export default function TheoryDetailScreen() {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
   const compact = width > 0 && width < 700;
-  const { accessState, catalogRevision, refreshAccess, secureContentStatus } = useAccess();
+  const { accessState, catalogRevision, refreshAccess, secureContentStatus, isPaid } = useAccess();
   const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
   const [informationOpen, setInformationOpen] = useState(false);
@@ -122,7 +122,7 @@ export default function TheoryDetailScreen() {
         <RelatedContentSection tone="theory"
           title="この考え方を実生活でどう使う？"
           testID="theory-related-techniques"
-          items={related.map((card) => ({ key: card.id, title: card.title, supportingText: `${card.subcategory}｜${card.essence ?? card.subtitle ?? ''}`, href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+          items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
         />
 
         <TheoryNetwork theory={theory} />

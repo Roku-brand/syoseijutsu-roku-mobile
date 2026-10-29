@@ -128,6 +128,9 @@ jobs:
       - name: Lint source
         run: pnpm lint
 
+      - name: Run all unit tests
+        run: pnpm test:unit
+
       - name: Test practical wisdom contracts
         run: pnpm test:practical-wisdom
 

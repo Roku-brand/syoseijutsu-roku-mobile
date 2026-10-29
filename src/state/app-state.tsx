@@ -6,16 +6,20 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type PropsWithChildren,
+  type SetStateAction,
 } from 'react';
 import type { CategoryKey } from '@/data/types';
-import { resolveTheoryId, resolveTheoryIds } from '@/data/theory-taxonomy';
+import { resolveTheoryId } from '@/data/theory-taxonomy';
 import { recordContentEvent } from '@/lib/content-events';
 import { clearDiscoveryState } from '@/lib/discovery-storage';
-import { libraryItemKey, restoreLibraryFolders, type LibraryFolder, type LibraryItemKind } from './library-folders';
+import { libraryItemKey, type LibraryFolder, type LibraryItemKind } from './library-folders';
+import { useAuth } from '@/auth/auth-state';
+import { getLearningCase } from '@/data/learning';
+import { hasPersonalRecords, LEGACY_PERSONAL_KEY, makePersonalBackup, mergePersonalData, normalizePersonalData, parsePersonalBackup, personalStorageKey } from './personal-data';
 
-const STORAGE_KEY = '@shoseijutsu-roku/state/v1';
 const STORAGE_HYDRATION_TIMEOUT_MS = 900;
 const LEARNING_CURRICULUM_VERSION = 2;
 const CATEGORY_KEYS: CategoryKey[] = ['interpersonal', 'work', 'life'];
@@ -46,7 +50,7 @@ export type PersonalMemo = {
   createdAt: string;
 };
 
-type PersistedState = {
+export type PersistedState = {
   learningCurriculumVersion: number;
   interests: CategoryKey[];
   savedIds: string[];
@@ -62,6 +66,8 @@ type PersistedState = {
   personalMemos: PersonalMemo[];
   personalMemoFolders: PersonalMemoFolder[];
   learningRecords: Record<string, LearningRecord>;
+  learningUnlimited: boolean;
+  reviewCaseIds: string[];
 };
 
 const initialState: PersistedState = {
@@ -80,10 +86,21 @@ const initialState: PersistedState = {
   personalMemos: [],
   personalMemoFolders: [],
   learningRecords: {},
+  learningUnlimited: false,
+  reviewCaseIds: [],
 };
 
 type AppStateContextValue = PersistedState & {
   hydrated: boolean;
+  storageError: string | null;
+  guestImportAvailable: boolean;
+  importGuestRecords: () => Promise<void>;
+  dismissGuestImport: () => void;
+  retrySave: () => Promise<void>;
+  exportPersonalData: () => string;
+  restorePersonalData: (json: string, mode?: 'merge' | 'replace') => Promise<void>;
+  setLearningUnlimited: (value: boolean) => void;
+  toggleReviewCase: (id: string) => void;
   startFreeEdition: (interests: CategoryKey[]) => void;
   toggleSaved: (id: string) => void;
   toggleSavedTheory: (id: string) => void;
@@ -118,113 +135,116 @@ function haptic(style: Haptics.ImpactFeedbackStyle) {
 }
 
 export function AppStateProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState(initialState);
+  const { user, loading: authLoading } = useAuth();
+  const storageKey = personalStorageKey(user?.id);
+  const activeKey = useRef(storageKey);
+  const stateOwner = useRef(storageKey);
+  activeKey.current = storageKey;
+  const [state, setRawState] = useState(initialState);
+  const loadedRef = useRef<string | null>(null);
+  const queuedEdits = useRef<{ key: string; edit: SetStateAction<PersistedState> }[]>([]);
+  const readVersion = useRef(0);
+  const setState = useCallback((edit: SetStateAction<PersistedState>) => {
+    if (loadedRef.current !== activeKey.current) queuedEdits.current.push({ key: activeKey.current, edit });
+    setRawState(edit);
+  }, []);
+  const snapshot = useRef(state);
+  snapshot.current = state;
   const [hydrated, setHydrated] = useState(false);
+  const [loadedKey, setLoadedKey] = useState<string | null>(null);
+  const [storageError, setStorageError] = useState<string | null>(null);
+  const [guestImportAvailable, setGuestImportAvailable] = useState(false);
+  const guestSnapshot = useRef<PersistedState | null>(null);
+  const writes = useRef<Promise<void>>(Promise.resolve());
 
   useEffect(() => {
+    if (authLoading) return;
     let active = true;
-    // AsyncStorage can be unavailable or stall in a browser privacy mode.
-    // Release the app with the safe default, while still accepting a late
-    // result when the storage implementation recovers.
-    const fallback = setTimeout(() => {
-      if (active) setHydrated(true);
-    }, STORAGE_HYDRATION_TIMEOUT_MS);
-    AsyncStorage.getItem(STORAGE_KEY)
-      .then((stored) => {
-        if (!stored) return;
-        const parsed = JSON.parse(stored) as Partial<PersistedState> & {
-          contentActivity?: unknown;
-          welcomePageHidden?: unknown;
-          homeWelcomeSeen?: unknown;
-          homeWelcomePending?: unknown;
-          homeImpressions?: unknown;
-          onboardingCompleted?: unknown;
-          collections?: unknown;
-        };
-        const supportedState = { ...parsed, historyIds: resolveTheoryIds(parsed.historyIds) };
-        delete supportedState.contentActivity;
-        delete supportedState.welcomePageHidden;
-        delete supportedState.homeWelcomeSeen;
-        delete supportedState.homeWelcomePending;
-        delete supportedState.homeImpressions;
-        delete supportedState.onboardingCompleted;
-        delete supportedState.collections;
-        const interests = (parsed.interests ?? []).filter(
-          (interest): interest is CategoryKey =>
-            CATEGORY_KEYS.includes(interest as CategoryKey),
-        );
-        if (!active) return;
-        const savedTheoryIds = resolveTheoryIds(parsed.savedTheoryIds);
-        const learningRecords = parsed.learningCurriculumVersion === LEARNING_CURRICULUM_VERSION
-          ? parsed.learningRecords ?? {}
-          : {};
-        const personalMemos = Array.isArray(parsed.personalMemos)
-          ? (parsed.personalMemos as unknown[])
-            .map((memo, index): PersonalMemo | null => {
-              if (typeof memo === 'string') {
-                const text = memo.trim();
-                return text ? {
-                  id: `legacy-memo-${index}-${text.slice(0, 12)}`,
-                  text,
-                  folderId: null,
-                  createdAt: new Date(0).toISOString(),
-                } : null;
-              }
-              if (!memo || typeof memo !== 'object') return null;
-              const value = memo as Partial<PersonalMemo>;
-              const text = typeof value.text === 'string' ? value.text.trim() : '';
-              return text ? {
-                id: typeof value.id === 'string' && value.id ? value.id : `memo-${index}-${text.slice(0, 12)}`,
-                text,
-                folderId: typeof value.folderId === 'string' ? value.folderId : null,
-                createdAt: typeof value.createdAt === 'string' ? value.createdAt : new Date(0).toISOString(),
-              } : null;
-            })
-            .filter((memo): memo is PersonalMemo => memo !== null)
-          : [];
-        const personalMemoFolders = Array.isArray(parsed.personalMemoFolders)
-          ? parsed.personalMemoFolders
-            .filter((folder): folder is PersonalMemoFolder => Boolean(
-              folder
-              && typeof folder === 'object'
-              && typeof (folder as PersonalMemoFolder).id === 'string'
-              && typeof (folder as PersonalMemoFolder).name === 'string',
-            ))
-            .map((folder) => ({
-              id: folder.id,
-              name: folder.name.trim() || '無題のフォルダー',
-              createdAt: typeof folder.createdAt === 'string' ? folder.createdAt : new Date(0).toISOString(),
-            }))
-          : [];
-        setState({
-          ...initialState,
-          ...supportedState,
-          learningCurriculumVersion: LEARNING_CURRICULUM_VERSION,
-          learningRecords,
-          savedTheoryIds,
-          featureHistoryIds: Array.isArray(parsed.featureHistoryIds) ? [...new Set(parsed.featureHistoryIds.filter((id): id is string => typeof id === 'string'))].slice(0, 100) : [],
-          savedFeatureIds: Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : [],
-          ...restoreLibraryFolders(parsed.libraryFolders, parsed.libraryFolderByItem, parsed.savedIds ?? [], savedTheoryIds, Array.isArray(parsed.savedFeatureIds) ? parsed.savedFeatureIds.filter(id => typeof id === 'string') : []),
-          personalMemos,
-          personalMemoFolders,
-          interests: interests.length ? interests : initialState.interests,
-        });
-      })
-      .catch(() => undefined)
-      .finally(() => {
+    const version = ++readVersion.current;
+    loadedRef.current = null;
+    queuedEdits.current = queuedEdits.current.filter(entry => entry.key === storageKey);
+    stateOwner.current = storageKey;
+    setRawState(initialState); setHydrated(false); setLoadedKey(null);
+    setStorageError(null); setGuestImportAvailable(false); guestSnapshot.current = null;
+    // A slow or failed read never writes defaults over the original records.
+    const fallback = setTimeout(() => { if (active) { setHydrated(true); setStorageError('記録の読み込みに時間がかかっています。元の記録を保護したまま再試行できます。'); } }, STORAGE_HYDRATION_TIMEOUT_MS);
+    void (async () => {
+      try {
+        await writes.current;
+        const stored = await AsyncStorage.getItem(storageKey);
+        if (!active || readVersion.current !== version) return;
+        const original = stored ? normalizePersonalData(JSON.parse(stored), initialState) : initialState;
+        const restored = queuedEdits.current.filter(entry => entry.key === storageKey).reduce((current, { edit }) => typeof edit === 'function' ? edit(current) : edit, original);
+        queuedEdits.current = []; loadedRef.current = storageKey;
+        setRawState(restored);
+        setLoadedKey(storageKey);
+        if (user && !stored) {
+          const [guest, dismissed] = await Promise.all([
+            AsyncStorage.getItem(LEGACY_PERSONAL_KEY), AsyncStorage.getItem(storageKey + '/guest-import'),
+          ]);
+          if (!active) return;
+          if (guest && dismissed !== 'dismissed') {
+            const data = normalizePersonalData(JSON.parse(guest), initialState);
+            if (hasPersonalRecords(data)) { guestSnapshot.current = data; setGuestImportAvailable(true); }
+          }
+        }
+      } catch {
+        if (active) setStorageError('端末内の記録を読み込めませんでした。入力した内容は画面内に保持しています。');
+      } finally {
         clearTimeout(fallback);
         if (active) setHydrated(true);
-      });
-    return () => {
-      active = false;
-      clearTimeout(fallback);
-    };
-  }, []);
+      }
+    })();
+    return () => { active = false; clearTimeout(fallback); };
+  }, [authLoading, storageKey, user?.id]);
 
   useEffect(() => {
-    if (!hydrated) return;
-    void AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }, [hydrated, state]);
+    if (!hydrated || loadedKey !== storageKey || authLoading) return;
+    const json = JSON.stringify(state), key = storageKey;
+    writes.current = writes.current.catch(() => undefined).then(async () => {
+      try { await AsyncStorage.setItem(key, json); if (activeKey.current === key) setStorageError(null); }
+      catch { if (activeKey.current === key) setStorageError('記録を端末に保存できませんでした。内容は画面内に残っています。'); }
+    });
+  }, [hydrated, loadedKey, storageKey, state, authLoading]);
+
+  const retrySave = useCallback(async () => {
+    const key = storageKey, current = stateOwner.current === storageKey ? snapshot.current : initialState;
+    await writes.current;
+    const old = await AsyncStorage.getItem(key);
+    if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
+    const next = old ? mergePersonalData(normalizePersonalData(JSON.parse(old), initialState), current) : current;
+    readVersion.current++;
+    await AsyncStorage.setItem(key, JSON.stringify(next));
+    if (activeKey.current !== key) return;
+    loadedRef.current = key; queuedEdits.current = []; setRawState(next); setLoadedKey(key); setStorageError(null);
+  }, [storageKey]);
+  const restorePersonalData = useCallback(async (json: string, mode: 'merge' | 'replace' = 'merge') => {
+    const incoming = parsePersonalBackup(json, initialState), key = storageKey;
+    await writes.current;
+    if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
+    readVersion.current++;
+    const previous = loadedKey === key ? snapshot.current : normalizePersonalData(JSON.parse(await AsyncStorage.getItem(key) ?? '{}'), initialState);
+    if (activeKey.current !== key) throw new Error('アカウントが変わりました。もう一度操作してください。');
+    const next = mode === 'replace' ? incoming : mergePersonalData(incoming, previous);
+    // Keep the previous snapshot locally for recovery before replacing anything.
+    await AsyncStorage.setItem(key + '/before-restore', makePersonalBackup(previous));
+    await AsyncStorage.setItem(key, JSON.stringify(next));
+    if (activeKey.current !== key) return;
+    loadedRef.current = key; queuedEdits.current = []; setRawState(next); setLoadedKey(key); setStorageError(null); setHydrated(true);
+  }, [storageKey, loadedKey]);
+  const exportPersonalData = useCallback(() => makePersonalBackup(stateOwner.current === storageKey ? snapshot.current : initialState), [storageKey]);
+  const dismissGuestImport = useCallback(() => {
+    setGuestImportAvailable(false);
+    void AsyncStorage.setItem(storageKey + '/guest-import', 'dismissed').catch(() => undefined);
+  }, [storageKey]);
+  const importGuestRecords = useCallback(async () => {
+    const guest = guestSnapshot.current;
+    if (!guest) return;
+    await restorePersonalData(makePersonalBackup(guest));
+    dismissGuestImport();
+  }, [restorePersonalData, dismissGuestImport]);
+  const setLearningUnlimited = useCallback((learningUnlimited: boolean) => setState(current => ({ ...current, learningUnlimited })), []);
+  const toggleReviewCase = useCallback((id: string) => setState(current => ({ ...current, reviewCaseIds: current.reviewCaseIds.includes(id) ? current.reviewCaseIds.filter(key => key !== id) : [...current.reviewCaseIds, id] })), []);
 
   const startFreeEdition = useCallback((interests: CategoryKey[]) => {
     setState((current) => ({
@@ -455,6 +475,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
     haptic(Haptics.ImpactFeedbackStyle.Medium);
     setState((current) => ({
       ...current,
+      reviewCaseIds: getLearningCase(caseId) && getLearningCase(caseId)?.goodChoiceId !== choiceId ? [...new Set([...current.reviewCaseIds, caseId])] : current.reviewCaseIds,
       learningRecords: {
         ...current.learningRecords,
         [caseId]: { caseId, choiceId, answeredAt: new Date().toISOString() },
@@ -472,13 +493,15 @@ export function AppStateProvider({ children }: PropsWithChildren) {
 
   const clearPersonalData = useCallback(async () => {
     setState(initialState);
-    await Promise.all([AsyncStorage.removeItem(STORAGE_KEY), clearDiscoveryState()]);
-  }, []);
+    await writes.current;
+    await Promise.all([AsyncStorage.multiRemove([storageKey, storageKey + '/before-restore', storageKey + '/cloud-before-overwrite']), clearDiscoveryState()]);
+  }, [storageKey]);
 
   const value = useMemo(
     () => ({
-      ...state,
-      hydrated,
+      ...(stateOwner.current === storageKey ? state : initialState),
+      hydrated: hydrated && (loadedKey === storageKey || Boolean(storageError)),
+      storageError, guestImportAvailable, importGuestRecords, dismissGuestImport, retrySave, exportPersonalData, restorePersonalData, setLearningUnlimited, toggleReviewCase,
       startFreeEdition,
       toggleSaved,
       toggleSavedTheory,
@@ -506,6 +529,7 @@ export function AppStateProvider({ children }: PropsWithChildren) {
       clearPersonalData,
     }),
     [
+      loadedKey, storageKey, storageError, guestImportAvailable, importGuestRecords, dismissGuestImport, retrySave, exportPersonalData, restorePersonalData, setLearningUnlimited, toggleReviewCase,
       state,
       hydrated,
       startFreeEdition,

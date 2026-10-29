@@ -45,6 +45,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
+    "test:unit": "node ./scripts/run-unit-tests.mjs",
     "operations:validate": "node ./scripts/validate-operations.mjs",
     "operations:sync": "node ./scripts/sync-operations.mjs",
     "pwa:stamp": "node ./scripts/stamp-pwa-cache.mjs",

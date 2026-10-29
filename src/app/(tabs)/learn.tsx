@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Image, Pressable, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Switch, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
 import { AppText } from '@/components/ui';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
@@ -18,7 +18,7 @@ const guide = require('../../../assets/learn/rokumaru-roadmap.webp');
 
 export default function LearnHomeScreen() {
   const router = useRouter();
-  const { learningRecords } = useAppState();
+  const { learningRecords, learningUnlimited, setLearningUnlimited, reviewCaseIds } = useAppState();
   const { isPaid } = useAccess();
   const { desktop, narrow } = useResponsiveLayout();
   const [expandedStages, setExpandedStages] = useState<number[]>([]);
@@ -35,7 +35,7 @@ export default function LearnHomeScreen() {
       <Image source={guide} resizeMode="contain" accessibilityLabel="学びを案内する禄丸" testID="rokumaru-guide" style={[styles.guide, desktop && styles.guideDesktop]} />
       <View style={styles.heroCopy}>
         <AppText accessibilityRole="header" aria-level={1} style={[styles.heroTitle, desktop && styles.heroTitleDesktop]}>処世術を習得しよう！</AppText>
-        <AppText testID="learning-hero-lead" style={[styles.heroLead, desktop && styles.heroLeadDesktop]}>1問60秒。{'\n'}その場で活きる判断を、{'\n'}3つのステージで{!desktop ? '\n' : ''}自分の力に。</AppText>
+        <AppText testID="learning-hero-lead" style={[styles.heroLead, desktop && styles.heroLeadDesktop]}>{learningUnlimited ? '時間を気にせず。' : '1問60秒。'}{'\n'}その場で活きる判断を、{'\n'}3つのステージで{!desktop ? '\n' : ''}自分の力に。</AppText>
       </View>
       <View style={[styles.bubble, desktop && styles.bubbleDesktop]}><AppText style={styles.bubbleText}>今日はどこから{'\n'}始める？</AppText></View>
     </View>
@@ -44,6 +44,11 @@ export default function LearnHomeScreen() {
       <View accessibilityRole="progressbar" accessibilityLabel="全体の学習進捗" accessibilityValue={{ min: 0, max: learningIndex.length, now: completed }} style={styles.track}><View style={[styles.fill, { width: `${learningIndex.length ? completed / learningIndex.length * 100 : 0}%` }]} /></View>
       <AppText style={styles.overallNote}>一歩ずつ、{'\n'}自分の判断に。</AppText>
     </View>
+      <View style={styles.practiceControls}>
+        <View style={styles.practiceOption}><AppText style={styles.practiceLabel}>時間制限なしで練習する</AppText><Switch accessibilityLabel="時間制限なしで練習する" trackColor={{ false: colors.line, true: colors.gold }} thumbColor={colors.surface} value={learningUnlimited} onValueChange={setLearningUnlimited} /></View>
+        <AppText style={styles.practiceHint}>切り替えは、これから開く問題に反映されます。</AppText>
+        {reviewCaseIds.length ? <View testID="learning-review-list"><AppText accessibilityRole="header" aria-level={2} style={styles.practiceLabel}>あとで復習</AppText>{learningIndex.filter(item => reviewCaseIds.includes(item.id)).map(item => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を復習する`} onPress={() => openCase(item.id)} style={styles.reviewEntry}><AppText>{item.title}　›</AppText></Pressable>)}</View> : null}
+      </View>
     <View testID="learning-stage-list" style={styles.roadmap}>
       <View pointerEvents="none" style={styles.roadmapLine} />
       {learningStages.map((stage, index) => {
@@ -78,6 +83,11 @@ export default function LearnHomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  practiceControls: { width: '100%', marginBottom: 18, padding: 14, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface, gap: 8 },
+  practiceOption: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  practiceLabel: { flexShrink: 1, fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, color: colors.ink },
+  practiceHint: { color: colors.muted, fontSize: 12, lineHeight: 19 },
+  reviewEntry: { minHeight: 44, justifyContent: 'center', paddingVertical: 10, borderBottomWidth: 1, borderColor: colors.line },
   content: { width: '100%', maxWidth: 1050, alignSelf: 'center', paddingHorizontal: spacing.md, paddingTop: 0, paddingBottom: 32 },
   contentDesktop: { paddingHorizontal: spacing.xl },
   hero: { minHeight: 210, overflow: 'hidden', marginHorizontal: -spacing.md, paddingHorizontal: spacing.lg, paddingTop: 26 },

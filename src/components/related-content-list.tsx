@@ -12,6 +12,7 @@ export type RelatedContentItem = {
   detailText?: string;
   href: Href;
   accessibilityLabel?: string;
+  locked?: boolean;
 };
 
 export function RelatedContentSection({
@@ -56,6 +57,7 @@ export function RelatedContentSection({
               <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond]} />
               <View style={styles.copy}>
                 <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink]}>{normalizeDisplayText(item.title)}</AppText>
+                {item.locked ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>完全版で読む</AppText> : null}
                 {item.supportingText ? (
                   <AppText numberOfLines={2} style={[styles.supporting, theoretical && theoryStyles.text]}>
                     {normalizeDisplayText(item.supportingText).replace(/\n+/g, ' ')}

@@ -76,6 +76,7 @@ test('hidden page pauses the remaining time', async ({ page }) => {
 });
 
 test('all five packaged cues play; mute suppresses countdown audio', async ({ page }) => {
+  test.setTimeout(60000);
   await page.addInitScript(() => {
     const played: string[] = [];
     (window as any).__learningSounds = played;

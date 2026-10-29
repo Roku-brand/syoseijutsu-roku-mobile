@@ -348,3 +348,13 @@ for (const route of indexable) {
 }
 
 console.log(`SEO generated for ${files.length} routes; sitemap contains ${indexable.size} indexable URLs.`);
+
+// Public release evidence lets the owner compare CMS edits with the exported HTML.
+let catalogRevision=null;
+if(featureUrl&&featureKey&&!featureUrl.includes('example.supabase.co')){
+ try{
+  const response=await fetch(`${featureUrl}/rest/v1/content_revision?select=revision&id=eq.true`,{headers:{apikey:featureKey},signal:AbortSignal.timeout(10000)});
+  if(response.ok)catalogRevision=String((await response.json())[0]?.revision??'')||null;
+ }catch{console.warn('Release revision could not be verified.');}
+}
+await writeFile(path.join(dist,'content-build.json'),JSON.stringify({version:1,builtAt:new Date().toISOString(),sourceCommit:process.env.GITHUB_SHA??null,catalogRevision,indexableUrls:indexable.size,freeTechniques:techniques.filter(isPublicTechnique).length,freeTheories:theories.filter(isPublicTheory).length},null,2));

@@ -3,12 +3,13 @@ import assert from 'node:assert/strict';
 import {registerHooks} from 'node:module';
 
 const mocks={
+ '@react-native-async-storage/async-storage': 'export default {getItem:async()=>globalThis.__tagHydration.cache??null,setItem:async(key,value)=>{globalThis.__tagHydration.written=value;}};',
  '@/data/catalog': `export const categoryOrder=['work'];export const theories=[];export const techniqueById={get:id=>globalThis.__tagHydration.existing.get(id)};export const applyManagedCategories=()=>{};export const reconcilePublishedStructure=()=>{};export const hydratePaidCatalog=rows=>{globalThis.__tagHydration.applied=rows;};`,
  '@/access/access-config': 'export const hydrateContentAccessScope=()=>{};',
  '@/data/persona-presentation': 'export const hydratePersonaPresentations=()=>{};',
  '@/data/theory-taxonomy': 'export const applyTheorySubcategories=()=>{};',
  '@/data/theory-display': 'export const isLockedTheoryShell=t=>t.status==="locked";',
- '@/lib/supabase': `const response=table=>({data:globalThis.__tagHydration.tables[table]??[],error:null});export const supabase={from(table){const query={select:()=>query,eq:()=>query,order:()=>query,range:async()=>response(table),then:(resolve,reject)=>Promise.resolve(response(table)).then(resolve,reject)};return query;}};`,
+ '@/lib/supabase': `const response=table=>globalThis.__tagHydration.offline?{data:null,error:new Error('offline')}:{data:globalThis.__tagHydration.tables[table]??[],error:null};export const supabase={from(table){const query={select:()=>query,eq:()=>query,order:()=>query,range:async()=>response(table),then:(resolve,reject)=>Promise.resolve(response(table)).then(resolve,reject)};return query;}};`,
 };
 registerHooks({resolve(specifier,context,next){if(mocks[specifier])return {url:'data:text/javascript,'+encodeURIComponent(mocks[specifier]),shortCircuit:true};return next(specifier,context);}});
 const api=await import('../../src/lib/published-content.ts');
@@ -24,6 +25,16 @@ test('late public hydration retains entitled tags but honors explicit owner arra
  assert.deepEqual(rows.find(t=>t.id==='paid').tags,['保持するタグ']);
  assert.deepEqual(rows.find(t=>t.id==='free').tags,['編集されたタグ']);
  assert.deepEqual(rows.find(t=>t.id==='empty').tags,[]);
+ assert.ok(!globalThis.__tagHydration.written.includes('paid body'));
+});
+
+test('a failed network refresh restores cached free CMS bodies while paid shells stay empty',async()=>{
+ const cache={version:2,techniques:[{id:'cms-free',title:'追加された無料カード',access_tier:'free',explanation:'保存済みの公開本文',category:'work'}],theories:[]};
+ globalThis.__tagHydration={existing:new Map(),tables:{},offline:true,cache:JSON.stringify(cache)};
+ const fresh=await import('../../src/lib/published-content.ts?offline-cache');
+ assert.equal(await fresh.hydratePublishedContent(true),false);
+ assert.equal(globalThis.__tagHydration.applied[0].explanation,'保存済みの公開本文');
+ assert.equal(fresh.catalogSyncStore.getSnapshot().status,'offline');
 });
 
 test('an unentitled public shell never recovers a previous user tag',async()=>{

@@ -10,12 +10,12 @@ import { AppText } from './ui';
 import { TechniqueTitle } from './technique-title';
 
 /** Catalogue and saved-folder entries share this presentation; data stays upstream. */
-export function ShoseijutsuCard({ card, readable = true, actions, onPress, testID, role = 'link', openLabel }: {
-  card: TechniqueCard; readable?: boolean; actions?: ReactNode; onPress?: () => void; testID?: string; role?: 'link' | 'button'; openLabel?: string;
+export function ShoseijutsuCard({ card, readable = true, previewTitle = false, actions, onPress, testID, role = 'link', openLabel }: {
+  card: TechniqueCard; readable?: boolean; previewTitle?: boolean; actions?: ReactNode; onPress?: () => void; testID?: string; role?: 'link' | 'button'; openLabel?: string;
 }) {
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
-  const title = readable ? card.title : '完全版の処世術';
+  const title = readable || previewTitle ? card.title : '完全版の処世術';
   const displayId = getTechniqueDisplayId(card);
   // Expo Router's asChild slot requires a flat child style, not a callback/array.
   const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, Boolean(actions) && styles.withActions]);
