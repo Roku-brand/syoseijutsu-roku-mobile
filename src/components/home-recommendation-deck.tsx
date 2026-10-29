@@ -105,7 +105,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     const complete = () => info.deck.move(step);
     finish.current = complete;
     if (info.reduced) { complete(); return; }
-    const duration = Math.max(280, 360 - Math.abs(velocity) * 24);
+    const duration = Math.max(350, 450 - Math.abs(velocity) * 30);
     if (webMotion) { webMotion.cycleCard(step < 0, duration, () => { finish.current = null; complete(); }); return; }
     const edge = deckReturnEdge(info.cardWidth) * (step < 0 ? 1 : -1);
     animation.current = Animated.timing(x, { toValue: edge, duration: Math.max(50, duration * (step < 0 ? .58 : .42) * (1 - Math.min(1, Math.abs(dragDistance.current / edge)))), easing: Easing.out(Easing.cubic), useNativeDriver: true });
@@ -163,7 +163,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     finish.current = exchange;
     if (reduced) { exchange(); reset(); return; }
     if (webMotion) { webMotion.shuffleCards(exchange, reset); return; }
-    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 300, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
+    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 375, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
     animation.current = timing(2.1);
     animation.current.start(({ finished }) => {
       if (!finished) return;
