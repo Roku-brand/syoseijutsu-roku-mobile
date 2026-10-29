@@ -25,7 +25,7 @@ export default function PersonalBackupScreen() {
   else await Share.share({title:'処世術禄の記録バックアップ',message:text});
   setMessage('バックアップを出力しました。');
  };
- const selectFile=()=>{if(Platform.OS!=='web')return;const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files?.[0];if(!f)return;if(f.size>MAX_BACKUP_BYTES){setMessage('ファイルは5MB以内にしてください。');return;}void run(async()=>{setJson(await f.text());setMessage('ファイルを読み込みました。復元方法を確認してください。');});};input.click();};
+ const selectFile=()=>{if(Platform.OS!=='web')return;const expected=activeUser.current;const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const f=input.files?.[0];if(!f)return;if(f.size>MAX_BACKUP_BYTES){setMessage('ファイルは5MB以内にしてください。');return;}void run(async()=>{const text=await f.text();checkUser(expected);setJson(text);setMessage('ファイルを読み込みました。復元方法を確認してください。');});};input.click();};
  const saveCloud=async()=>{if(!user||!supabase)throw new Error('ログイン後に利用できます。');
   const expectedUser=user.id;const data=JSON.parse(exportPersonalData());
   const old=await supabase.from('personal_backups').select('data,updated_at').eq('user_id',expectedUser).maybeSingle();
