@@ -1,0 +1,18 @@
+name: Verify Auth security
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  secure-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Enable and verify leaked password protection
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_URL: ${{ vars.EXPO_PUBLIC_SUPABASE_URL }}
+        run: node scripts/configure-auth-security.mjs --apply

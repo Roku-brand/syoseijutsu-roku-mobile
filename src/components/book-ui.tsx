@@ -142,7 +142,7 @@ export function BookHeader() {
           />
           <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
             <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious]}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={2} style={[styles.brandTagline, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
         </View>
       )}
@@ -151,7 +151,7 @@ export function BookHeader() {
           <AppText
             testID={personaHeader ? 'persona-header-title' : undefined}
             accessibilityRole="header"
-            aria-level={1}
+            aria-level={detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
             numberOfLines={compact && personaHeader ? 2 : 1}
             adjustsFontSizeToFit
             minimumFontScale={0.85}
@@ -679,6 +679,7 @@ const styles = StyleSheet.create({
   headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
   brandCopy: { flexShrink: 1, minWidth: 0, gap: 1 },
   brandTagline: { color: colors.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: -0.2 },
+  brandTaglineCompact: { fontSize: 11, lineHeight: 17, letterSpacing: -0.35 },
   brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',

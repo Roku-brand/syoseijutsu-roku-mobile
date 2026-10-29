@@ -6,7 +6,7 @@ const index = JSON.parse(fs.readFileSync('src/data/generated/learning.index.json
 const theories = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8'));
 const categories = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8')).categories;
 const techniques = categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items.map((item: any) => ({ ...item, categoryKey: category.key, categoryName: category.name, subcategory: persona.name, articleTitle: persona.articleTitle ?? persona.name }))));
-const stateKey = '@shoseijutsu-roku/state/v1';
+const stateKey = '@shoseijutsu-roku/state/v2/user/00000000-0000-4000-8000-000000000021';
 
 async function account(page: Page, status: 'active' | 'expired' = 'active', learningDelay: number | Promise<void> = 0) {
   const user = { id: '00000000-0000-4000-8000-000000000021', aud: 'authenticated', role: 'authenticated', email: 'ui-qa@example.invalid', app_metadata: {}, user_metadata: {}, created_at: '2026-01-01T00:00:00Z' };

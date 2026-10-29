@@ -158,17 +158,18 @@ export function AccessProvider({ children }: PropsWithChildren) {
         void synchronizeSecureContent(user.id);
         return 'paid';
       }
+      const nextState: AccessState = 'free';
       if (previousAccessState.current !== 'free') {
         purgeSecureContent();
         setSecureContentStatus('idle');
         setCatalogRevision((value) => value + 1);
+        setActualAccessState(nextState);
         await checkPublishedContent(true);
       } else {
+        setActualAccessState(nextState);
         const revision = await readContentRevision();
         if (revision !== null && revision !== publicRevision.current) await checkPublishedContent(true, revision);
       }
-      const nextState: AccessState = 'free';
-      setActualAccessState(nextState);
       return nextState;
     } catch {
       // A time-limited entitlement cannot be safely extended from a local
@@ -177,8 +178,8 @@ export function AccessProvider({ children }: PropsWithChildren) {
       purgeSecureContent();
       setSecureContentStatus('idle');
       setCatalogRevision((value) => value + 1);
-      await checkPublishedContent(true);
       setActualAccessState('error');
+      await checkPublishedContent(true);
       return 'error';
     }
   }, [checkPublishedContent, loading, role, synchronizeSecureContent, user]);

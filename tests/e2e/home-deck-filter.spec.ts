@@ -159,6 +159,8 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
 });
 
 test('CMS追加カードは遅れて読み込まれても順序と位置を復元し、一時的な通信失敗で消さない', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => { errors.push(error.message); console.error('CMS restore error:', error.message); });
   test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'CMS connector is not configured in this build');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   let offline = false;
@@ -195,14 +197,16 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   }
   offline = true;
   await page.reload();
-  await expect(page.getByText('知識を読み込めませんでした')).toBeVisible({ timeout: 15000 });
+  await ready(page);
+  await expect(page.getByTestId('data-status-banner')).toContainText('最新の内容を取得できませんでした', { timeout: 15000 });
   expect((await read(page)).order).toEqual(order);
   expect((await read(page)).cursor).toBe(2);
   offline = false;
-  await page.getByRole('button', { name: 'もう一度読み込む →' }).click();
+  await page.getByRole('button', { name: '更新を再試行', exact: true }).click();
   await ready(page);
   expect((await read(page)).order).toEqual(order);
   await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  expect(errors).toEqual([]);
 });
 
 test('完全版の追加データを待つ間も、読める初期デッキはすぐ操作できる', async ({ page }) => {

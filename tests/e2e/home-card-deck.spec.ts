@@ -72,6 +72,7 @@ test('保存・前後移動・詳細往復・再読み込みで順序と位置�
   await page.waitForTimeout(360);
   await page.getByTestId('home-recommendation-card').click();
   await expect(page).toHaveURL(/\/(card|theory)\//);
+  await expect(page.getByTestId(page.url().includes('/theory/') ? 'theory-title' : 'technique-detail-title')).toHaveText(next!.replace(/を読む$/, ''));
   await page.goBack();
   await ready(page);
   expect(await label(page)).toBe(next);

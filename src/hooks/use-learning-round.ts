@@ -6,7 +6,7 @@ import type { LearningCue } from './use-learning-feedback';
 export const LEARNING_SECONDS = 60;
 type Round = { key: string; milliseconds: number; deadline: number | null; ended: boolean; started: boolean; lastSecond: number };
 
-export function useLearningRound(key: string, enabled: boolean, playCue: (cue: LearningCue) => void, stopSounds: () => void) {
+export function useLearningRound(key: string, enabled: boolean, playCue: (cue: LearningCue) => void, stopSounds: () => void, unlimited = false) {
   const round = useRef<Round>({ key: '', milliseconds: 60_000, deadline: null, ended: false, started: false, lastSecond: 60 });
   const cues = useRef({ playCue, stopSounds });
   cues.current = { playCue, stopSounds };
@@ -50,7 +50,7 @@ export function useLearningRound(key: string, enabled: boolean, playCue: (cue: L
       setDisplay({ key, seconds: LEARNING_SECONDS, timedOut: false });
     }
     const current = round.current;
-    if (!key || !enabled || !focused || !foreground || current.ended) return;
+    if (!key || !enabled || !focused || !foreground || current.ended || unlimited) return;
     current.deadline = Date.now() + current.milliseconds;
     if (!current.started) { current.started = true; cues.current.playCue('start'); }
     const update = () => {
@@ -70,7 +70,7 @@ export function useLearningRound(key: string, enabled: boolean, playCue: (cue: L
       if (current.deadline !== null) current.milliseconds = Math.max(0, current.deadline - Date.now());
       current.deadline = null;
     };
-  }, [key, enabled, focused, foreground, expire]);
+  }, [key, enabled, focused, foreground, expire, unlimited]);
 
   // Check the actual deadline inside the press handler, even between timer ticks.
   const finish = useCallback((correct: boolean) => {

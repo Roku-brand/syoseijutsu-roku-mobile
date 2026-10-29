@@ -1,4 +1,3 @@
-import { FREE_TECHNIQUE_IDS } from '@/access/access-config';
 import { categories, categoryMeta, getTheoryDisplayId, techniqueCards, theories } from '@/data/catalog';
 import { getPersonaPresentation } from '@/data/persona-presentation';
 import { getTechniqueTags } from '@/data/technique-tags';
@@ -32,14 +31,14 @@ export function getSearchKeywords(query: string) {
   return prepareSearchQuery(query).map(term => term.text);
 }
 
-export function getSearchResults(query: string, isPaid: boolean) {
+export function getSearchResults(query: string, _isPaid: boolean) {
   const keywords = getSearchKeywords(query);
   const personas = categories.flatMap(category => category.subcategories.map(persona => ({ category, persona })))
     .sort((left, right) => (getPersonaPresentation(left.persona.name)?.number ?? 999) - (getPersonaPresentation(right.persona.name)?.number ?? 999));
   const personaMatches = rankSearchItems(personas, ({ category, persona }) => ({ title: persona.name,
     summary: getPersonaPresentation(persona.name)?.subtitle,
     context: [category.name, categoryMeta[category.key].label] }), query);
-  const techniqueMatches = rankSearchItems(techniqueCards.filter(card => isPaid || FREE_TECHNIQUE_IDS.has(card.id)), card => ({
+  const techniqueMatches = rankSearchItems(techniqueCards.filter(card => card.title && card.title !== '完全版の処世術'), card => ({
     title: card.title, tags: getTechniqueTags(card), summary: [card.essence, card.subtitle].filter(Boolean).join(' '),
     context: [card.categoryName, card.subcategory, card.articleTitle], body: card.explanation,
   }), query);

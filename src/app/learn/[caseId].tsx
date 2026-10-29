@@ -42,7 +42,7 @@ export default function LearningCaseScreen() {
   // Read the live catalogue after AccessProvider hydrates paid cases. A mount-
   // time copy would permanently miss a case opened while its request is pending.
   const caseList = learningCases;
-  const { hydrated, learningRecords, answerLearningCase, resetLearningCase } = useAppState();
+  const { hydrated, learningRecords, answerLearningCase, resetLearningCase, learningUnlimited, reviewCaseIds, toggleReviewCase } = useAppState();
   const [retryPending, setRetryPending] = useState(false);
   const [focusedChoice, setFocusedChoice] = useState<string | null>(null);
   const [hoveredChoice, setHoveredChoice] = useState<string | null>(null);
@@ -56,7 +56,7 @@ export default function LearningCaseScreen() {
 
   const item = activeCaseId ? caseList.find((candidate) => candidate.id === activeCaseId) : undefined;
   const record = item && !retryPending ? learningRecords[item.id] : undefined;
-  const round = useLearningRound(item ? `${item.id}:${retry ?? ''}:${attempt}` : '', hydrated && feedback.soundReady && Boolean(item) && !record, feedback.playCue, feedback.stopSounds);
+  const round = useLearningRound(item ? `${item.id}:${retry ?? ''}:${attempt}` : '', hydrated && feedback.soundReady && Boolean(item) && !record, feedback.playCue, feedback.stopSounds, learningUnlimited);
   const timedOut = !record && round.timedOut;
 
   if (!activeCaseId) return null;
@@ -119,7 +119,7 @@ export default function LearningCaseScreen() {
 
       {!record && !timedOut ? (
         <>
-        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} />
+        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} unlimited={learningUnlimited} />
         <View style={[styles.questionCard, !desktop && styles.questionCardMobile]} testID="learning-question-card">
           <View style={[styles.sceneColumn, !desktop && styles.sceneColumnMobile]}>
             <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
@@ -154,7 +154,7 @@ export default function LearningCaseScreen() {
                 </Pressable>
               );
             })}
-            <AppText style={styles.answerHint}>60秒以内に選ぼう。選ぶと、禄丸と理由を振り返ります。</AppText>
+            <AppText style={styles.answerHint}>{learningUnlimited ? '自分のペースで考えよう。選ぶと、禄丸と理由を振り返ります。' : '60秒以内に選ぼう。選ぶと、禄丸と理由を振り返ります。'}</AppText>
           </View>
 
           <View pointerEvents="none" style={[styles.mascotRegion, !desktop && styles.mascotRegionMobile]}><View style={[styles.questionMascotHalo, !desktop && styles.questionMascotHaloMobile]} accessibilityElementsHidden /><Rokumaru mood="guide" style={[styles.questionMascot, !desktop && styles.questionMascotMobile]} /></View>
@@ -224,6 +224,7 @@ export default function LearningCaseScreen() {
             </View>
 
             <View style={[styles.resultActions, !desktop && styles.resultActionsMobile]}>
+            <Pressable accessibilityRole="button" accessibilityLabel={reviewCaseIds.includes(item.id) ? '復習リストから外す' : 'あとで復習する'} onPress={() => toggleReviewCase(item.id)} style={styles.retryButton}><AppText style={styles.retryText}>{reviewCaseIds.includes(item.id) ? '復習リストに追加済み' : 'あとで復習する'}</AppText></Pressable>
             <Pressable accessibilityRole="button" onPress={retryCase} style={({ pressed }) => [styles.retryButton, pressed && styles.pressed]}>
                 <AppText style={styles.retryText}>もう一度挑戦</AppText>
             </Pressable>

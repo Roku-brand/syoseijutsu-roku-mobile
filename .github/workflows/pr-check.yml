@@ -31,6 +31,7 @@ jobs:
       - run: pnpm content:audit-theory-links
       - run: pnpm content:audit-learning
       - run: pnpm lint
+      - run: pnpm test:unit
       - run: pnpm test:practical-wisdom
       - name: Verify 945-theory release, CMS, permissions and rollback
         run: pnpm test:theory-release-945

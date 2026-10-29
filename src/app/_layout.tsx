@@ -17,6 +17,7 @@ import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
+import { DataStatusBanner } from '@/components/data-status-banner';
 import { GuideProvider } from '@/onboarding/guide-provider';
 
 function AppFrame() {
@@ -38,6 +39,7 @@ function AppFrame() {
     <View style={styles.contentColumn}>
       {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
+      {!isWelcome && !pathname.startsWith('/owner') ? <DataStatusBanner /> : null}
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <Stack screenOptions={({ route }) => ({
           headerShown: false,

@@ -1,4 +1,5 @@
 import { OwnerQuotationReviews } from './owner-quotation-reviews';
+import { OwnerPublicationStatus } from './owner-publication-status';
 import { TheorySubcategoryFields, TheorySubcategoryManager } from './owner-theory-taxonomy';
 import { theorySubcategories } from '@/data/theory-taxonomy';
 import { fetchTheorySubcategories, reorderSubcategoryTheories } from '@/data/owner-theory-taxonomy';
@@ -396,6 +397,7 @@ export default function OwnerCmsScreen() {
     ? categories.some((category) => category.kind === 'theory')
     : !techniquePersonaList && personas.some((persona) => persona.name === scope && persona.status === 'published');
   return <Screen contentContainerStyle={styles.screen}>
+    <OwnerPublicationStatus />
     <View style={styles.pageHeader}><AppText style={styles.title}>コンテンツ管理</AppText><AppText style={styles.muted}>カテゴリ、並び順、公開内容を一元管理</AppText></View>
     <View style={styles.modeSwitch}>
       <ModeCard title="処世術" description="人物像ごとの具体的な行動・振る舞い" active={mode === 'technique'} onPress={() => navigateTree('technique','')} />

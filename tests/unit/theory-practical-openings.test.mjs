@@ -30,7 +30,7 @@ test('945 explanations match review; identity, access, links, provenance and app
     const theory = byId.get(row.id);
     const current = currentReviews.get(row.id);
     const approved=catalogReviews.get(row.id);
-    if(approved)assert.deepEqual(theory,approved.after);
+    if(approved)assert.deepEqual(theory,{...approved.after,summary:summaryReviews.get(row.id)?.summary??approved.after.summary});
     assert.equal(theory.summary, summaryReviews.get(row.id)?.summary??current.summary, row.id);
     assert.notEqual(row.beforeSummary, row.summary, row.id);
     assert.equal(theory.title, latestTitleReviews.get(row.id)?.title ?? row.title, row.id);
