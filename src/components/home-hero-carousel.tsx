@@ -1,6 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, AppState, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
+import { AccessibilityInfo, AppState, Image, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions, type GestureResponderEvent, type NativeScrollEvent, type NativeSyntheticEvent, type TextStyle, type ViewStyle } from 'react-native';
 
 import { FREE_LEARNING_CASE_ID_SET, COMPLETE_LEARNING_CASE_COUNT, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
 import { categories, techniqueById, theoryById, categoryMeta, techniqueCards, theories } from '@/data/catalog';
@@ -33,6 +33,9 @@ const webTouchRailStyle = Platform.OS === 'web'
   : undefined;
 const webTouchSlideStyle = Platform.OS === 'web'
   ? ({ scrollSnapAlign: 'start', scrollSnapStop: 'always' } as unknown as ViewStyle)
+  : undefined;
+const webBalancedTitleStyle = Platform.OS === 'web'
+  ? ({ textWrap: 'balance' } as unknown as TextStyle)
   : undefined;
 
 function singleLineTitleSize(title: string, desktop: boolean, desktopBase: number, mobileBase: number, desktopCharacters: number, mobileCharacters: number) {
@@ -653,6 +656,10 @@ function EditorialBanner({ desktop, index, eyebrow, title, description, image, l
   desktop: boolean; index: number; eyebrow: string; title: string; description: string;
   image: import('react-native').ImageSourcePropType; label: string; onPress: () => void;
 }) {
+  const { width } = useWindowDimensions();
+  const narrow = width < 360;
+  const tablet = !desktop && width >= 600;
+  const titleSize = desktop ? Math.max(36, Math.min(48, width * 0.033)) : Math.max(23, Math.min(36, width * 0.068));
   const touch = useRef<{ x: number; y: number } | null>(null);
   const moved = useRef(false);
   return <Pressable testID={`home-brand-slide-${index}`} accessibilityRole="link" accessibilityLabel={`${eyebrow}：${title}`} onPress={() => { if (!moved.current) onPress(); }}
@@ -660,11 +667,12 @@ function EditorialBanner({ desktop, index, eyebrow, title, description, image, l
     style={[styles.editorial, desktop && styles.editorialDesktop]}>
     <Image source={image} resizeMode="cover" style={styles.fullImage} />
     <View style={[styles.editorialShade, Platform.OS === 'web' && ({ backgroundImage: 'linear-gradient(90deg, rgba(12,14,12,.86) 0%, rgba(12,14,12,.55) 56%, rgba(12,14,12,.12) 100%)', backgroundColor: 'transparent' } as unknown as ViewStyle)]} />
-    <View style={[styles.editorialCopy, desktop && styles.editorialCopyDesktop]}>
-      <Text style={styles.editorialEyebrow}>{eyebrow}</Text>
-      <Text numberOfLines={2} style={[styles.editorialTitle, desktop && styles.editorialTitleDesktop]}>{title}</Text>
-      <Text numberOfLines={2} style={[styles.editorialDescription, desktop && styles.editorialDescriptionDesktop]}>{description}</Text>
-      <Text style={styles.editorialCta}>{label} →</Text>
+    <View testID={`home-editorial-copy-${index}`} style={[styles.editorialCopy, narrow && styles.editorialCopyNarrow, tablet && styles.editorialCopyTablet, desktop && styles.editorialCopyDesktop]}>
+      <Text style={[styles.editorialEyebrow, desktop && styles.editorialEyebrowDesktop]}>{eyebrow}</Text>
+      <Text testID={`home-editorial-title-${index}`} numberOfLines={2} textBreakStrategy="balanced" lineBreakStrategyIOS="standard"
+        style={[styles.editorialTitle, { fontSize: titleSize, lineHeight: Math.round(titleSize * 1.3) }, webBalancedTitleStyle]}>{title}</Text>
+      <Text numberOfLines={2} style={[styles.editorialDescription, narrow && styles.editorialDescriptionNarrow, tablet && styles.editorialDescriptionTablet, desktop && styles.editorialDescriptionDesktop]}>{description}</Text>
+      <Text testID={`home-editorial-cta-${index}`} style={[styles.editorialCta, tablet && styles.editorialCtaTablet, desktop && styles.editorialCtaDesktop]}>{label} →</Text>
     </View>
   </Pressable>;
 }
@@ -673,14 +681,22 @@ const styles = StyleSheet.create({
   editorial: { aspectRatio: 1.7, minHeight: 205, backgroundColor: '#282A26', overflow: 'hidden' },
   editorialDesktop: { height: 380, minHeight: 380, aspectRatio: undefined },
   editorialShade: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(12,14,12,.64)' },
-  editorialCopy: { paddingHorizontal: 20, paddingTop: 18, width: '100%', paddingRight: 30 },
-  editorialCopyDesktop: { paddingHorizontal: 52, paddingTop: 58, width: '72%' },
-  editorialEyebrow: { fontFamily: fonts.serif, fontSize: 10, lineHeight: 19, color: '#E9CF9A', letterSpacing: 1.4, marginBottom: 7 },
-  editorialTitle: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 31, fontWeight: '600', color: '#FFFDF6', letterSpacing: 0.5 },
-  editorialTitleDesktop: { fontSize: 38, lineHeight: 52 },
-  editorialDescription: { fontSize: 11, lineHeight: 20, color: '#E4E0D6', marginTop: 8 },
-  editorialDescriptionDesktop: { fontSize: 14, lineHeight: 24 },
-  editorialCta: { fontFamily: fonts.serif, color: '#E9CF9A', fontSize: 11, lineHeight: 22, marginTop: 4 },
+  // Reserve the bottom strip for the pager; center the copy in the space above
+  // it instead of leaving a short block pinned to the top of a large image.
+  editorialCopy: { flex: 1, justifyContent: 'center', paddingHorizontal: 20, paddingTop: 10, paddingBottom: 42, width: '100%' },
+  editorialCopyNarrow: { paddingHorizontal: 16 },
+  editorialCopyTablet: { paddingHorizontal: 36, paddingTop: 24, paddingBottom: 56, maxWidth: 720 },
+  editorialCopyDesktop: { paddingHorizontal: 0, marginLeft: 52, paddingTop: 28, paddingBottom: 60, width: '68%', maxWidth: 860 },
+  editorialEyebrow: { fontFamily: fonts.serif, fontSize: 11, lineHeight: 16, color: '#E9CF9A', letterSpacing: 1.1, marginBottom: 5 },
+  editorialEyebrowDesktop: { fontSize: 13, lineHeight: 20, letterSpacing: 1.7, marginBottom: 10 },
+  editorialTitle: { fontFamily: fonts.serif, fontWeight: '600', color: '#FFFDF6', letterSpacing: 0.3 },
+  editorialDescription: { fontSize: 13, lineHeight: 20, color: '#E4E0D6', marginTop: 6 },
+  editorialDescriptionNarrow: { fontSize: 12, lineHeight: 18 },
+  editorialDescriptionTablet: { fontSize: 16, lineHeight: 26, marginTop: 12 },
+  editorialDescriptionDesktop: { fontSize: 17, lineHeight: 27, marginTop: 14, maxWidth: 740 },
+  editorialCta: { fontFamily: fonts.serif, color: '#E9CF9A', fontSize: 13, lineHeight: 20, fontWeight: '600', marginTop: 8 },
+  editorialCtaTablet: { fontSize: 15, lineHeight: 24, marginTop: 16 },
+  editorialCtaDesktop: { fontSize: 15, lineHeight: 24, marginTop: 20 },
   carousel: { width: '100%' },
   carouselRow: { width: '100%', flexDirection: 'row', alignItems: 'center', position: 'relative' },
   carouselRowMobile: { gap: 0, position: 'relative' },
