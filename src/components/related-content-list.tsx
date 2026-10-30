@@ -22,6 +22,7 @@ export function RelatedContentSection({
   testID,
   continuation = false,
   tone,
+  variant,
 }: {
   title: string;
   description?: string;
@@ -29,20 +30,21 @@ export function RelatedContentSection({
   testID?: string;
   continuation?: boolean;
   tone?: 'theory';
+  variant?: 'primary' | 'supplementary' | 'feature' | 'technique';
 }) {
   if (!items.length) return null;
-  const theoretical = tone === 'theory';
+  const theoretical = tone === 'theory' || variant === 'primary' || variant === 'supplementary';
 
   return (
-    <View style={[styles.section, continuation && styles.sectionContinuation]}>
-      <View style={styles.headingArea}>
+    <View style={[styles.section, continuation && styles.sectionContinuation, variant && detailStyles.section]}>
+      <View style={[styles.headingArea, variant && detailStyles.headingArea]}>
         <View style={styles.heading}>
-          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && theoryStyles.ink]}>{title}</AppText>
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
           <View style={[styles.countBadge, theoretical && theoryStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
         </View>
         {description ? <AppText style={[styles.description, theoretical && theoryStyles.text]}>{description}</AppText> : null}
       </View>
-      <View testID={testID} style={[styles.list, theoretical && theoryStyles.list]}>
+      <View testID={testID} style={[styles.list, theoretical && theoryStyles.list, variant === 'primary' && detailStyles.primaryList, variant === 'feature' && detailStyles.featureList]}>
         {items.map((item, index) => (
           <Link key={item.key} href={item.href} asChild>
             <Pressable
@@ -51,12 +53,15 @@ export function RelatedContentSection({
               style={StyleSheet.flatten([
                 styles.row,
                 theoretical && theoryStyles.row,
+                variant === 'primary' && detailStyles.primaryRow,
+                variant === 'supplementary' && detailStyles.compactRow,
+                variant === 'feature' && detailStyles.featureRow,
                 index === items.length - 1 && styles.rowLast,
               ])}
             >
               <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond]} />
               <View style={styles.copy}>
-                <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink]}>{normalizeDisplayText(item.title)}</AppText>
+                <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink, variant === 'primary' && detailStyles.primaryTitle, variant === 'supplementary' && detailStyles.compactTitle]}>{normalizeDisplayText(item.title)}</AppText>
                 {item.locked ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>完全版で読む</AppText> : null}
                 {item.supportingText ? (
                   <AppText numberOfLines={2} style={[styles.supporting, theoretical && theoryStyles.text]}>
@@ -102,3 +107,17 @@ const theoryStyles = StyleSheet.create({
   row: { borderBottomColor: catalogTheme.theory.border },
   diamond: { borderColor: catalogTheme.theory.ink },
 });
+
+const detailStyles = StyleSheet.create({
+  section: { marginTop: 28 },
+  headingArea: { paddingHorizontal: 0 },
+  headingText: { fontSize: 19, lineHeight: 28 },
+  primaryList: { backgroundColor: '#EDF1F0', borderColor: '#B9C9C7' },
+  primaryRow: { minHeight: 118, paddingVertical: 20 },
+  primaryTitle: { fontSize: 21, lineHeight: 31 },
+  compactRow: { minHeight: 76, paddingVertical: 12, paddingLeft: 18, gap: 12 },
+  compactTitle: { fontSize: 16, lineHeight: 24 },
+  featureList: { backgroundColor: '#F7F2EA', borderColor: '#DED4C6' },
+  featureRow: { minHeight: 82, paddingLeft: 20 },
+});
+
