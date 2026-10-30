@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image } from 'expo-image';
-import { StyleSheet, View } from 'react-native';
+import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { colors, fonts, radius } from '@/constants/theme';
@@ -33,6 +33,12 @@ export function generateStaticParams() {
 export default function CardDetailScreen() {
   'use no memo';
   const router = useRouter();
+  const [tab, setTab] = useState<'explanation' | 'practice' | 'related'>('explanation');
+  const scrollRef = useRef<ScrollView>(null);
+  const tabY = useRef(0);
+  const scrollY = useRef(0);
+  const commonRef = useRef<View>(null);
+  const fade = useRef(new Animated.Value(1)).current;
   const { id } = useLocalSearchParams<{ id: string }>();
   const { addHistory } = useAppState();
   const { accessState, catalogRevision } = useAccess();
@@ -45,6 +51,21 @@ export default function CardDetailScreen() {
       void recordContentEvent('technique', card.id, 'view').catch(() => undefined);
     }
   }, [addHistory, card, effectiveAccess]);
+
+  useEffect(() => { setTab('explanation'); scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [id]);
+
+  const selectTab = (next: typeof tab) => {
+    if (next === tab) return;
+    commonRef.current?.measureInWindow((_x, y, _width, height) => {
+      scrollRef.current?.getNativeScrollRef()?.measureInWindow((_sx, viewportY) => {
+        tabY.current = Math.max(0, scrollY.current + y + height + 24 - viewportY);
+      });
+    });
+    fade.setValue(0);
+    setTab(next);
+    setTimeout(() => scrollRef.current?.scrollTo({ y: tabY.current, animated: true }), 100);
+    Animated.timing(fade, { toValue: 1, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start();
+  };
 
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
 
@@ -101,20 +122,27 @@ export default function CardDetailScreen() {
     <Screen
       style={styles.screen}
       contentContainerStyle={styles.screenContent}
+      scrollRef={scrollRef}
+      stickyHeaderIndices={[1]}
+      onScroll={(event) => { scrollY.current = event.nativeEvent.contentOffset.y; }}
+      scrollEventThrottle={16}
     >
       <DetailSwipe
         style={styles.article}
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
-        <SeoBreadcrumbs items={[
+        <View ref={commonRef} collapsable={false}>
+        <SeoBreadcrumbs compact items={[
           { label: '探す', href: '/discover' },
           { label: card.categoryName, href: { pathname: '/personas', params: { category: card.categoryKey } } },
           ...(categories.some(category => category.key === card.categoryKey && category.subcategories.some(persona => persona.name === card.subcategory)) ? [{ label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]' as const, params: { category: card.categoryKey, name: card.subcategory } } }] : []),
           { label: card.title },
         ]} />
-        <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
-        {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+        <View style={styles.numberRow}>
+          <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
+          {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+        </View>
 
         <TechniqueTitle
           testID="technique-detail-title"
@@ -149,8 +177,18 @@ export default function CardDetailScreen() {
             </AppText>
           </View>
         </View>
-
-        {!!explanation.body.length && (
+        </View>
+      </DetailSwipe>
+      <View style={styles.tabs} accessibilityRole="tablist">
+        {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
+          <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
+            <AppText style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
+          </Pressable>
+        ))}
+      </View>
+      <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
+        <Animated.View style={{ opacity: fade }}>
+        {tab === 'explanation' && !!explanation.body.length && (
           <ArticleSection title="原理と解説">
             <View style={styles.explanation}>
               {explanation.body.map((paragraph, index) => (
@@ -162,13 +200,14 @@ export default function CardDetailScreen() {
           </ArticleSection>
         )}
 
-        <ArticleSection title="今日からできる実践" ruled>
+        {tab === 'practice' && <>
+        <ArticleSection title="今日からできる実践">
           <View style={styles.practiceArea}>
             <View style={styles.practiceList}>
-              {guidance.todayActions.map((item) => (
-                <View key={item} style={styles.checkRow}>
+              {guidance.todayActions.map((item, index) => (
+                <View key={`${item}-${index}`} style={[styles.checkRow, index === guidance.todayActions.length - 1 && styles.checkRowLast]}>
                   <View style={styles.checkMark}>
-                    <AppText style={styles.checkText}>✓</AppText>
+                    <AppText style={styles.checkText}>{index + 1}</AppText>
                   </View>
                   <AppText style={styles.practiceText}>{item}</AppText>
                 </View>
@@ -194,20 +233,26 @@ export default function CardDetailScreen() {
           <View style={styles.cautionList}>
             {guidance.cautions.map((item) => (
               <View key={item} style={styles.cautionCard}>
+                <AppText accessibilityElementsHidden style={styles.cautionIcon}>!</AppText>
                 <AppText style={styles.cautionText}>{item}</AppText>
               </View>
             ))}
           </View>
         </ArticleSection>
 
+        </>}
+
+        {tab === 'related' && <>
         <View testID="related-theories">
           <RelatedContentSection
+            variant="primary"
             title="主要理論"
             description="理解の入口となる代表的な理論"
             testID="primary-theories"
             items={primaryTheories.map(toTheoryItem)}
           />
           <RelatedContentSection
+            variant="supplementary"
             title="あわせて読む理論"
             description="実践を補う知識や、別の視点を与える思想・言葉"
             testID="supplementary-theories"
@@ -219,6 +264,7 @@ export default function CardDetailScreen() {
         <RelatedFeatures kind="technique" id={card.id} />
 
         <RelatedContentSection
+          variant="technique"
           title="関連する処世術"
           testID="related-techniques"
           items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, supportingText: relatedCard.essence ?? relatedCard.subtitle, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
@@ -235,6 +281,8 @@ export default function CardDetailScreen() {
             </View>
           </ArticleSection>
         )}
+        </>}
+        </Animated.View>
       </DetailSwipe>
     </Screen>
   );
@@ -309,12 +357,12 @@ const styles = StyleSheet.create({
     paddingBottom: 132,
   },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
+  numberRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
   number: {
     color: colors.goldDeep,
     fontFamily: fonts.serif,
-    fontSize: 15,
-    lineHeight: 21,
-    marginBottom: 7,
+    fontSize: 13,
+    lineHeight: 20,
   },
   title: {
     width: '100%',
@@ -352,7 +400,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 15,
     borderWidth: 1,
-    borderColor: '#D7CFC1',
+    borderColor: '#CBB583',
+    shadowColor: '#685433', shadowOpacity: 0.06, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1,
     borderRadius: radius.md,
     backgroundColor: '#FDFBF7',
   },
@@ -386,6 +435,11 @@ const styles = StyleSheet.create({
   summaryCopy: { width: '100%' },
   summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
   summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
+  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', flexDirection: 'row', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
+  tab: { flex: 1, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabSelected: { borderBottomColor: '#A47B2F' },
+  tabText: { color: '#55534E', fontSize: 14, fontWeight: '600' },
+  tabTextSelected: { color: '#9A7127' },
   section: { marginTop: 24 },
   sectionRuled: {
     paddingTop: 19,
@@ -403,27 +457,28 @@ const styles = StyleSheet.create({
   sectionMark: { color: colors.goldDeep, fontSize: 18, lineHeight: 23 },
   sectionTitle: {
     color: '#24251F',
-    fontSize: 17,
-    lineHeight: 25,
+    fontSize: 19,
+    lineHeight: 27,
     fontWeight: '700',
     letterSpacing: 0.4,
   },
   explanation: { gap: 13, paddingHorizontal: 7 },
   explanationText: {
     color: '#252925',
-    fontSize: 14,
-    lineHeight: 25,
+    fontSize: 16,
+    lineHeight: 29,
     letterSpacing: 0.15,
   },
   explanationStrong: { color: '#111411', fontWeight: '700' },
   practiceArea: { gap: 15 },
-  practiceList: { gap: 8, paddingVertical: 4 },
-  checkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 9 },
+  practiceList: { borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.md, backgroundColor: '#FDFBF7', overflow: 'hidden' },
+  checkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, paddingHorizontal: 16, paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#E9E1D4' },
+  checkRowLast: { borderBottomWidth: 0 },
   checkMark: {
-    width: 18,
-    height: 18,
+    width: 24,
+    height: 24,
     marginTop: 1,
-    borderRadius: 9,
+    borderRadius: 12,
     backgroundColor: colors.gold,
     alignItems: 'center',
     justifyContent: 'center',
@@ -443,6 +498,7 @@ const styles = StyleSheet.create({
   cautionList: { gap: 9 },
   cautionCard: {
     width: '100%',
+    flexDirection: 'row', alignItems: 'flex-start', gap: 10,
     paddingHorizontal: 15,
     paddingVertical: 13,
     borderWidth: 1,
@@ -450,7 +506,8 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     backgroundColor: '#FDFBF7',
   },
-  cautionText: { color: '#272923', fontSize: 14, lineHeight: 25, fontWeight: '600' },
+  cautionIcon: { color: '#9A824F', fontSize: 14, fontWeight: '700', lineHeight: 25 },
+  cautionText: { flex: 1, color: '#272923', fontSize: 14, lineHeight: 25, fontWeight: '600' },
   bottomTags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   bottomTag: {
     minHeight: 26,
@@ -461,3 +518,5 @@ const styles = StyleSheet.create({
   },
   bottomTagText: { color: '#454640', fontSize: 10, lineHeight: 15 },
 });
+
+
