@@ -36,6 +36,7 @@ async function mock(page:Page,paid=false,items=articles){
 for(const width of [320,390,1440])test(`処世術・特集・理論を相互にたどれ、本文の追加取得を伴わない（${width}px）`,async({page})=>{
  await page.setViewportSize({width,height:1000});const metadata=await mock(page);
  await page.goto('/card/master336-004');
+ await page.getByRole('tab',{name:'関連知識'}).click();
  const related=page.getByTestId('related-features');await expect(related.getByRole('link',{name:/押さえておくべき5つ/})).toBeVisible();
  await related.scrollIntoViewIfNeeded();await page.screenshot({path:test.info().outputPath(`technique-to-feature-${width}.png`)});
  await related.getByRole('link',{name:/押さえておくべき5つ/}).click();
@@ -63,3 +64,4 @@ test('未指定の特集を関連として補充せず、完全版の本文も�
  await page.goto('/theory/kb_909');await expect(page.getByTestId('theory-title')).toHaveCount(0);await expect(page.getByTestId('related-features')).toHaveCount(0);
  await expect(page.getByText(theories.find((t:any)=>t.tagId==='kb_909').summary,{exact:true})).toHaveCount(0);
 });
+
