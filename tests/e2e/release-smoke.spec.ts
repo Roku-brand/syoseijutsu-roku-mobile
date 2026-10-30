@@ -517,6 +517,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   await page.goto('/card/master336-001');
   await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
   await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
+  await page.getByRole('tab', { name: '実践' }).click();
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
 });
 
