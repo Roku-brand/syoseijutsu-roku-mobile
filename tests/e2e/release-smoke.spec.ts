@@ -141,6 +141,7 @@ test('mobile technique detail keeps the full essence visible', async ({ page }) 
 
 test('無料版の関連理論は完全版のタイトルも表示し、未収録理論は購入ページへ送る', async ({ page }) => {
   await page.goto('/card/master336-007');
+  await page.getByRole('tab', { name: '関連知識' }).click();
   const relatedTheories = page.getByTestId('related-theories');
   await expect(relatedTheories).toBeVisible();
   const primaryTheories = page.getByTestId('primary-theories');
@@ -208,6 +209,7 @@ test('理論詳細の関連項目は横幅いっぱいの読みやすいボッ�
 test('処世術詳細の関連理論と関連処世術も同じボックスで揃う', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/card/master336-001');
+  await page.getByRole('tab', { name: '関連知識' }).click();
   const theoryRow = page.getByTestId('related-theories').getByRole('link').first();
   const techniqueRow = page.getByTestId('related-techniques').getByRole('link').first();
   await expect(theoryRow).toBeVisible();
@@ -515,6 +517,7 @@ test('公開済みの管理コンテンツは処世術詳細へ反映される',
   await page.goto('/card/master336-001');
   await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
   await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
+  await page.getByRole('tab', { name: '実践' }).click();
   await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
 });
 
