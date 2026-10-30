@@ -4,6 +4,7 @@ import { RelatedContentSection } from './related-content-list';
 
 export function RelatedFeatures({ kind, id }: { kind: 'technique' | 'theory'; id: string }) {
   const articles = relatedFeatureLinks(useFeatureLinks(id), kind, id);
-  return <RelatedContentSection tone={kind === 'theory' ? 'theory' : undefined} title="関連する特集" testID="related-features"
+  return <RelatedContentSection variant={kind === 'technique' ? 'feature' : undefined} tone={kind === 'theory' ? 'theory' : undefined} title="関連する特集" testID="related-features"
     items={articles.map(article => ({ key: article.id, title: article.title, href: featureRoute(article.slug) }))} />;
 }
+
