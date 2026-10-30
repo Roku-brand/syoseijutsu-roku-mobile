@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 17659)
+Total output lines: 1121
+
 import { expect, test, type Page } from '@playwright/test';
 import scope from '../../src/data/content-scope.json';
 import metadata from '../../src/data/generated/metadata.json';
@@ -463,182 +466,7 @@ test('探すの人物像カードは参考レイアウトの寸法を保つ', as
   const box = await firstCard.boundingBox();
   expect(box).not.toBeNull();
   expect(box!.width).toBeGreaterThanOrEqual(236);
-  expect(box!.height).toBeGreaterThanOrEqual(228);
-});
-
-test('公開済みの管理コンテンツは処世術詳細へ反映される', async ({ page }) => {
-  // A failed revision check must not delay the independently readable body.
-  await page.route('**/rest/v1/content_revision*', route => route.fulfill({status:503,json:{message:'Revision unavailable'}}));
-  await page.route('**/rest/v1/public_techniques*', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify([{
-        id: 'master336-001',
-        persona_id: '印象がいい人',
-        category: 'interpersonal',
-        title: '公開反映テスト',
-        essence: '公開した本質が反映される。',
-        explanation: '管理画面で確定した解説です。',
-        memo: '',
-        importance: 3,
-        practices: ['公開後の実践も反映する'],
-        examples: ['公開後の具体例も反映する'],
-        cautions: ['公開後の注意点も反映する'],
-        theory_ids: ['kb_001'],
-        status: 'published',
-        display_order: 1,
-        updated_at: '2026-08-27T00:00:00.000Z',
-      }]),
-    });
-  });
-  // The public hydration now reads the linked theory and persona tables in
-  // the same request cycle. Keep this test's fixture coherent rather than
-  // accidentally treating unmocked endpoints as an authoritative empty set.
-  await page.route('**/rest/v1/public_theories*', async (route) => {
-    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) });
-  });
-  await page.route('**/rest/v1/theory_subcategories*', route => route.fulfill({ json: [] }));
-  await page.route('**/rest/v1/personas*', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify([{ name: '印象がいい人', category: 'interpersonal' }]),
-    });
-  });
-  await page.route('**/rest/v1/content_categories*', async (route) => {
-    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([
-      { kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 1 },
-    ]) });
-  });
-
-  await page.goto('/card/master336-001');
-  await expect(page.getByRole('heading', { name: '公開反映テスト', level: 1 })).toBeVisible();
-  await expect(page.getByText('公開した本質が反映される。')).toBeVisible();
-  await expect(page.getByText('公開後の実践も反映する')).toBeVisible();
-});
-
-test('スマホの購入画面は初期表示から購入ボタンを押せる', async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: 390, height: 667 });
-  await page.goto('/upgrade');
-  const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
-  await expect(purchaseButton).toBeVisible();
-  await expect(page.getByText('処世術禄を、\nもっと広く。もっと深く。')).toBeVisible();
-  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
-  const purchaseBox = await purchaseButton.boundingBox();
-  const legalBox = await page.getByRole('link', { name: '購入条件・返金について' }).boundingBox();
-  expect(purchaseBox).not.toBeNull();
-  expect(legalBox).not.toBeNull();
-  expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(667);
-  expect(legalBox!.y + legalBox!.height).toBeLessThanOrEqual(667);
-    await expect(purchaseButton).toHaveCount(1);
-    await page.screenshot({ path: testInfo.outputPath('purchase-mobile.png') });
-  const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
-  await page.getByTestId('upgrade-lp-scroll').evaluate((element) => { element.scrollTop = element.scrollHeight; });
-  const barAfter = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
-  expect(barAfter).toEqual(barBefore);
-  await page.getByTestId('upgrade-faq-1').click();
-  await expect(page.getByTestId('upgrade-faq-1')).toHaveAttribute('aria-expanded', 'true');
-  await expect(page.getByTestId('upgrade-faq-0')).toHaveAttribute('aria-expanded', 'false');
-  await expect(page.getByText('されません。利用期間が終わった後に、自動で課金されることはありません。')).toBeVisible();
-});
-
-test('購入パネルは狭いスマホでも全操作が収まり、復元は購入用ログインに進まない', async ({ page }, testInfo) => {
-  for (const width of [320, 390, 480]) {
-    await page.setViewportSize({ width, height: 740 });
-    await page.goto('/upgrade');
-    const panel = page.getByTestId('upgrade-fixed-purchase');
-    await expect(panel.getByTestId('upgrade-price')).toHaveText('¥320');
-    await expect(panel).toContainText('30日間利用できます');
-    const panelBox = (await panel.boundingBox())!;
-    const buttonBox = (await page.getByTestId('upgrade-purchase-cta').boundingBox())!;
-    const priceBox = (await page.getByTestId('upgrade-price').boundingBox())!;
-    expect(priceBox.y + priceBox.height).toBeLessThan(buttonBox.y);
-    expect(buttonBox.width).toBeGreaterThan(panelBox.width * 0.8);
-    for (const id of ['upgrade-purchase-cta', 'upgrade-restore', 'upgrade-terms', 'upgrade-commerce']) {
-      const control = page.getByTestId(id);
-      await expect(control).toBeVisible();
-      const box = (await control.boundingBox())!;
-      expect(box.height).toBeGreaterThanOrEqual(44);
-      expect(box.x).toBeGreaterThanOrEqual(0);
-      expect(box.x + box.width).toBeLessThanOrEqual(width);
-      expect(box.y + box.height).toBeLessThanOrEqual(740);
-    }
-    expect(await panel.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
-    await page.screenshot({ path: testInfo.outputPath(`purchase-panel-${width}.png`) });
-  }
-  await page.getByTestId('upgrade-restore').click();
-  await expect(page).toHaveURL(/\/auth\?mode=signin$/);
-  await expect(page).not.toHaveURL(/intent=checkout/);
-  await page.goto('/upgrade');
-  await page.getByTestId('upgrade-commerce').click();
-  await expect(page).toHaveURL(/\/legal\/commerce$/);
-});
-
-test('PCの購入画面は初期表示で購入条件まで確認できる', async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/upgrade');
-  const purchaseButton = page.getByRole('button', { name: /完全版を購入する/ });
-  await expect(purchaseButton).toBeVisible();
-  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('一回払い・自動更新なし');
-  await expect(page.getByRole('link', { name: '購入条件・返金について' })).toBeVisible();
-    const frame = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
-    expect(frame!.width).toBeGreaterThan(900);
-    expect(frame!.width).toBeLessThanOrEqual(1120);
-    expect(frame!.height).toBeLessThan(160);
-    const purchaseBox = await purchaseButton.boundingBox();
-    expect(purchaseBox).not.toBeNull();
-    expect(purchaseBox!.width).toBeGreaterThan(250);
-    expect(purchaseBox!.height).toBeLessThan(80);
-    expect(purchaseBox!.y + purchaseBox!.height).toBeLessThanOrEqual(900);
-    await page.screenshot({ path: testInfo.outputPath('purchase-desktop.png') });
-  });
-
-test('PC専用の購入LPは説明と図を横に並べ、幅を変えても購入バーを固定する', async ({ page }) => {
-  for (const width of [960, 1024, 1440, 1920]) {
-    await page.setViewportSize({ width, height: 900 });
-    await page.goto('/upgrade-preview');
-    await expect(page.getByTestId('upgrade-desktop-layout')).toBeVisible();
-    await expect(page.getByTestId('upgrade-mobile-layout')).toHaveCount(0);
-    const copy = await page.getByTestId('upgrade-comparison-copy').boundingBox();
-    const free = await page.getByTestId('upgrade-free-card').boundingBox();
-    const complete = await page.getByTestId('upgrade-complete-card').boundingBox();
-    expect(free!.x).toBeGreaterThan(copy!.x + copy!.width);
-    expect(complete!.x).toBeGreaterThan(free!.x + free!.width);
-    const knowledge = await page.getByTestId('upgrade-knowledge-copy').boundingBox();
-    const network = await page.getByTestId('knowledge-network').boundingBox();
-    expect(network!.x).toBeGreaterThan(knowledge!.x + knowledge!.width);
-    const barBefore = await page.getByTestId('upgrade-fixed-purchase').boundingBox();
-    await page.getByTestId('upgrade-lp-scroll').evaluate(element => { element.scrollTop = element.scrollHeight; });
-    expect(await page.getByTestId('upgrade-fixed-purchase').boundingBox()).toEqual(barBefore);
-    await expect(page.getByTestId('upgrade-purchase-cta')).toHaveCount(1);
-    expect(await page.getByTestId('upgrade-lp-scroll').evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
-  }
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.getByTestId('upgrade-mobile-layout')).toBeVisible();
-  await expect(page.getByTestId('upgrade-desktop-layout')).toHaveCount(0);
-});
-
-test('利用規約にコンテンツ変更の範囲と利用者保護を明示する', async ({ page }) => {
-  await page.goto('/upgrade');
-  await page.getByRole('link', { name: '購入条件・返金について' }).click();
-  await expect(page.getByText(/バージョン3\.4/).first()).toBeVisible();
-  await expect(page.getByText(/合理的な目的で、項目を追加・修正・統合・削除/)).toBeVisible();
-  await expect(page.getByText(/主要な利用目的を損なう重大な不利益変更は行いません/)).toBeVisible();
-  await expect(page.getByText(/運営者の故意・過失による責任/)).toBeVisible();
-});
-
-test('決済後のトップURLから購入完了画面へ戻れる', async ({ page }) => {
-  await page.goto('/?checkout=success&session_id=cs_test_example');
-  await expect(page).toHaveURL(/\/\?checkout=success&session_id=cs_test_example$/);
-  await expect(page.getByText(/決済に使用したメールアドレスでログインすると、完全版を有効にできます/)).toBeVisible();
-  await expect(page.getByRole('button', { name: '決済に使ったメールアドレスでログインして完全版を有効にする' })).toBeVisible();
-  await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
-  await expect(page.getByTestId('book-header')).toHaveCount(0);
-});
-
-test('購入済みゲストは同じメールアドレスで安全に引き換えられる', async ({ page }) => {
-  await page.goto('/auth?intent=claim&session_id=cs_test_example&mode=signin');
+  expect(box…2659 tokens truncated… await page.goto('/auth?intent=claim&session_id=cs_test_example&mode=signin');
   await expect(page.getByText('完全版を有効にする', { exact: true })).toBeVisible();
   await expect(page.getByText(/決済に使用したメールアドレスでアカウントを作成またはログイン/)).toBeVisible();
   await expect(page.getByText('ログインして完全版を有効にする', { exact: true })).toBeVisible();
@@ -1118,3 +946,4 @@ test('学ぶはスマホで縦積みになり横にはみ出さない', async ({
   const viewport = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
   expect(viewport.scrollWidth).toBeLessThanOrEqual(viewport.width);
 });
+
