@@ -22,3 +22,19 @@ for (const width of [320, 390, 430]) {
   });
 }
 
+
+test('タブ切替時に共通エリアを自動スクロールしない', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.goto('/card/master336-001');
+  const title = page.getByTestId('technique-detail-title');
+  const practice = page.getByRole('tab', { name: '実践' });
+  await expect(title).toBeVisible();
+  const before = await title.boundingBox();
+  expect(before).not.toBeNull();
+  await practice.click();
+  await expect(page.getByText('今日からできる実践')).toBeVisible();
+  await page.waitForTimeout(500);
+  const after = await title.boundingBox();
+  expect(after).not.toBeNull();
+  expect(Math.abs(after!.y - before!.y)).toBeLessThan(2);
+});
