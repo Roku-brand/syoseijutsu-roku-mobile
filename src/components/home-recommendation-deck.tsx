@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SymbolView } from 'expo-symbols';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTheoryCategoryTitle } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
@@ -15,7 +14,7 @@ import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckLayerAngle as layerAngle, deckLayerX as layerX, deckReturnEdge, deckShuffleFrames } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
 import { SaveDiamond } from './save-diamond';
-import { DiscoveryFilterButton } from './discovery-filter-button';
+import { DiscoveryFilterButton, discoveryFilterColor } from './discovery-filter-button';
 import { TechniqueTitle } from './technique-title';
 import type { DiscoveryFilter } from '@/data/discovery-filter';
 
@@ -26,8 +25,8 @@ const deckImages: Record<string, number> = {
   life: require('../../assets/home/deck-life.webp'),
 };
 const webGesture = Platform.OS === 'web' ? { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' } as unknown as ViewStyle : {};
-const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 12px 30px -12px rgba(51,40,22,.32), 0 2px 7px rgba(51,40,22,.12)' } as ViewStyle
-  : { shadowColor: '#332816', shadowOpacity: 0.18, shadowRadius: 16, shadowOffset: { width: 0, height: 7 }, elevation: 7 };
+const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 8px 20px -12px rgba(51,40,22,.24), 0 2px 5px rgba(51,40,22,.08)' } as ViewStyle
+  : { shadowColor: '#332816', shadowOpacity: 0.12, shadowRadius: 12, shadowOffset: { width: 0, height: 7 }, elevation: 3 };
 function imageFor(item: ReadingContent) {
   const fallback = item.type === 'theory' ? theoryImage : deckImages[item.card.categoryKey] ?? theoryImage;
   const uri = contentImageUrl(item.card.imagePath);
@@ -43,7 +42,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   const [phase, setPhase] = useState<'idle' | 'moving' | 'shuffle'>('idle');
   const [direction, setDirection] = useState(-1);
   const [returnRaised, setReturnRaised] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  const spin = useRef(new Animated.Value(0)).current;
   const x = useRef(new Animated.Value(0)).current;
   const mix = useRef(new Animated.Value(0)).current;
   const lift = useRef(new Animated.Value(0)).current;
@@ -158,12 +157,14 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     if (locked.current || dragged.current || deck.loading || deck.error) return;
     locked.current = true;
     setPhase('shuffle');
+    spin.setValue(0);
+    if (!reduced) Animated.timing(spin, { toValue: 1, duration: 400, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
     let exchanged = false;
     const exchange = () => { if (!exchanged) { exchanged = true; latest.current.deck.shuffle(filter); } };
     finish.current = exchange;
     if (reduced) { exchange(); reset(); return; }
     if (webMotion) { webMotion.shuffleCards(exchange, reset); return; }
-    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 375, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
+    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 200, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
     animation.current = timing(2.1);
     animation.current.start(({ finished }) => {
       if (!finished) return;
@@ -200,12 +201,11 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading]}>
-      <View style={[styles.headingCopy, !desktop && styles.mobileHeadingCopy]}><Text testID="home-deck-heading" numberOfLines={1} style={[styles.headingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text>{desktop ? <Text style={styles.subtitle}>思いがけない知識との出会いを。</Text> : null}</View>
-      <View style={[styles.headingActions, !desktop && styles.mobileHeadingActions]}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="入れ替え" onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, !desktop && styles.mobileShuffle, hovered && styles.shuffleHover, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.65 }]}>
-        <SymbolView name={{ ios: 'shuffle', android: 'shuffle', web: 'shuffle' }} size={desktop ? 17 : 14} tintColor="#FFFDF8" fallback={<Text style={styles.shuffleIcon}>⤨</Text>} /><Text style={styles.shuffleText}>入れ替え</Text>
+      <View style={styles.headingCopy}><Text testID="home-deck-heading" numberOfLines={1} style={[styles.headingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
+      <View style={styles.headingActions}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
+      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, { backgroundColor: discoveryFilterColor(deck.filter) }, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
+        <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><Text style={styles.shuffleIcon}>↻</Text></Animated.View><Text style={styles.shuffleText}>シャッフル</Text>
       </Pressable></View>
-      {!desktop ? <Text style={[styles.subtitle, styles.mobileSubtitle]}>思いがけない知識との出会いを。</Text> : null}
     </View>
     <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
       {desktop ? <>{arrow(-1)}{arrow(1)}</> : null}
@@ -235,7 +235,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
       {!desktop ? arrow(-1) : null}
       <View style={styles.position} accessibilityLiveRegion="polite"><View style={styles.marks}>{[0, 1, 2, 3, 4].map(index => <View key={index} style={[styles.mark, index === deck.cursor && styles.markActive]} />)}</View><Text testID="home-deck-position" style={styles.positionText}>{String(deck.cursor + 1).padStart(2, '0')} <Text style={{ color: '#AAA397' }}> / 05</Text></Text></View>
       {!desktop ? arrow(1) : null}
-    </View><Text style={styles.hint}>スワイプするか、入れ替えで次の一枚へ。</Text>
+    </View>
   </View>;
 }
 
@@ -269,13 +269,14 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 
 const styles = StyleSheet.create({
   fillViewport: { flexGrow: 1 },
-  mobileHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 0, marginBottom: 6 }, headingActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0, gap: 8 },
-  mobileHeadingCopy: { flexGrow: 1, minWidth: 0 }, mobileHeadingActions: { gap: 6 }, mobileSubtitle: { width: '100%' }, narrowHeadingTitle: { fontSize: 16, lineHeight: 27 }, mobileShuffle: { minWidth: 80, paddingHorizontal: 8, gap: 4 },
+  mobileHeading: { alignItems: 'flex-start', flexDirection: 'column', gap: 10, marginBottom: 8 },
+  headingActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  narrowHeadingTitle: { fontSize: 19, lineHeight: 28 },
   paper: { backgroundColor: '#F8F5EF' },
-  desktopArrow: { position: 'absolute', top: 192, width: 58, height: 58, borderRadius: 30, zIndex: 10, shadowColor: '#705423', shadowOpacity: 0.08, shadowRadius: 12, shadowOffset: { width: 0, height: 4 } },
-  arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 38, lineHeight: 45 },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 19, color: colors.muted, marginTop: 3 },
-  shuffle: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, borderRadius: 24, backgroundColor: '#987029', borderWidth: 1, borderColor: '#B28A43', shadowColor: '#8A6528', shadowOpacity: 0.14, shadowOffset: { width: 0, height: 3 }, shadowRadius: 6 }, shuffleHover: { transform: [{ translateY: -2 }], backgroundColor: '#886224' }, buttonPressed: { transform: [{ scale: 0.95 }] }, shuffleIcon: { color: colors.white, fontSize: 22 }, shuffleText: { color: '#FFFDF8', fontSize: 11, fontWeight: '600' },
+  desktopArrow: { position: 'absolute', top: 192, zIndex: 10 },
+  arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 29, lineHeight: 34 },
+  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 19, color: colors.muted, marginTop: 3 },
+  shuffle: { height: 44, minWidth: 112, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 16, borderRadius: 22 }, buttonPressed: { opacity: .8 }, shuffleIcon: { color: colors.white, fontSize: 20, lineHeight: 22 }, shuffleText: { color: colors.white, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' },
   stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 13, zIndex: 1 }, slot: { position: 'absolute', top: 13, ...faceShadow, borderRadius: 14, backgroundColor: '#FFFDF9' }, card: { borderRadius: 14, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 11, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: '#77736C', fontFamily: fonts.sans, fontSize: 10, lineHeight: 16, letterSpacing: .15 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 33, fontWeight: '600', letterSpacing: 0.3, minHeight: 66, paddingTop: 11 }, rule: { height: 1, backgroundColor: '#ECE5D9', marginTop: 5, marginBottom: 10 }, summary: { color: '#69655E', fontFamily: fonts.sans, fontSize: 13, lineHeight: 23, height: 46 }, photoWrap: { marginTop: 13, flex: 1, minHeight: 90, borderRadius: 8, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' }, readArrow: { position: 'absolute', right: 10, bottom: 10, width: 36, height: 36, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 29, lineHeight: 32 }, save: { position: 'absolute', right: 5, top: 7 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold, borderWidth: 2 },
   controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 4 }, arrow: { minWidth: 44, minHeight: 44, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 29, lineHeight: 34, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 9, letterSpacing: 1.5, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
