@@ -201,11 +201,12 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading]}>
-      <View style={styles.headingCopy}><Text testID="home-deck-heading" numberOfLines={1} style={[styles.headingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
+      <View style={[styles.headingCopy, !desktop && styles.mobileHeadingCopy]}><Text testID="home-deck-heading" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={[styles.headingTitle, !desktop && styles.mobileHeadingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text>{desktop ? <Text style={styles.subtitle}>思いがけない知識との出会いを。</Text> : null}</View>
       <View style={styles.headingActions}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, { backgroundColor: discoveryFilterColor(deck.filter) }, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
+      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, !desktop && styles.mobileShuffle, { backgroundColor: discoveryFilterColor(deck.filter) }, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
         <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><Text style={styles.shuffleIcon}>↻</Text></Animated.View><Text style={styles.shuffleText}>シャッフル</Text>
       </Pressable></View>
+      {!desktop ? <Text style={[styles.subtitle, styles.mobileSubtitle]}>思いがけない知識との出会いを。</Text> : null}
     </View>
     <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
       {desktop ? <>{arrow(-1)}{arrow(1)}</> : null}
@@ -269,9 +270,10 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 
 const styles = StyleSheet.create({
   fillViewport: { flexGrow: 1 },
-  mobileHeading: { alignItems: 'flex-start', flexDirection: 'column', gap: 10, marginBottom: 8 },
-  headingActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  narrowHeadingTitle: { fontSize: 19, lineHeight: 28 },
+  mobileHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 0, marginBottom: 8 },
+  mobileHeadingCopy: { flex: 1, minWidth: 0 }, mobileHeadingTitle: { fontSize: 18, lineHeight: 28 }, mobileSubtitle: { width: '100%', marginTop: 2 }, mobileShuffle: { minWidth: 90, paddingHorizontal: 9, gap: 4 },
+  headingActions: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: 6 },
+  narrowHeadingTitle: { fontSize: 15, lineHeight: 25 },
   paper: { backgroundColor: '#F8F5EF' },
   desktopArrow: { position: 'absolute', top: 192, zIndex: 10 },
   arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 29, lineHeight: 34 },

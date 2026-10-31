@@ -47,7 +47,7 @@ export function DiscoveryFilterButton({ value, disabled, onChange, compact = fal
 const styles = StyleSheet.create({
   trigger: { minWidth: 96, height: 44, paddingHorizontal: 16, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   triggerText: { color: colors.white, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' },
-  compactTrigger: { minWidth: 88 }, compactTriggerText: { fontSize: 12 },
+  compactTrigger: { minWidth: 62, paddingHorizontal: 9 }, compactTriggerText: { fontSize: 12 },
   overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(37,32,24,.4)', padding: 24 },
   popup: { width: '100%', maxWidth: 352, maxHeight: '100%', backgroundColor: '#FFFDF8', borderRadius: 20, padding: 20, borderWidth: 1, borderColor: '#E4D9C7', shadowColor: '#241C11', shadowOpacity: .18, shadowRadius: 30, shadowOffset: { width: 0, height: 16 }, elevation: 15 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, title: { fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', color: colors.ink },

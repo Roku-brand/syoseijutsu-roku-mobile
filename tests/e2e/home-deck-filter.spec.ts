@@ -239,7 +239,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
   } finally { release(); }
 });
 
-test('おすすめの操作ボタンは色と寸法を共有し、モバイルでは見出しの下に並ぶ', async ({ page }) => {
+test('おすすめの操作ボタンは色と寸法を共有し、モバイルでは見出しの横に並ぶ', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 320, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -256,6 +256,8 @@ test('おすすめの操作ボタンは色と寸法を共有し、モバイル�
     expect(a.height).toBe(44); expect(b.height).toBe(a.height); expect(b.y).toBe(a.y);
   }
   const heading = (await page.getByTestId('home-deck-heading').boundingBox())!;
-  expect((await filter.boundingBox())!.y).toBeGreaterThan(heading.y + heading.height);
+  const controls = (await filter.boundingBox())!;
+  expect(controls.y).toBeLessThan(heading.y + heading.height);
+  expect(controls.x).toBeGreaterThanOrEqual(heading.x + heading.width);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
