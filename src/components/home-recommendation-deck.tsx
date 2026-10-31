@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SymbolView } from 'expo-symbols';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTheoryCategoryTitle } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
@@ -205,7 +204,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
       <View style={styles.headingCopy}><Text testID="home-deck-heading" numberOfLines={1} style={[styles.headingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
       <View style={styles.headingActions}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
       <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, { backgroundColor: discoveryFilterColor(deck.filter) }, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
-        <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><SymbolView name={{ ios: 'arrow.clockwise', android: 'refresh', web: 'refresh' }} size={16} tintColor={colors.white} fallback={<Text style={styles.shuffleIcon}>↻</Text>} /></Animated.View><Text style={styles.shuffleText}>シャッフル</Text>
+        <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><Text style={styles.shuffleIcon}>↻</Text></Animated.View><Text style={styles.shuffleText}>シャッフル</Text>
       </Pressable></View>
     </View>
     <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
