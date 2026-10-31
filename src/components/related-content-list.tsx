@@ -38,8 +38,9 @@ export function RelatedContentSection({
   return (
     <View style={[styles.section, continuation && styles.sectionContinuation, variant && detailStyles.section]}>
       <View style={[styles.headingArea, variant && detailStyles.headingArea]}>
-        <View style={styles.heading}>
-          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
+        <View style={[styles.heading, variant && detailStyles.heading]}>
+          {variant ? <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.goldBar} /> : null}
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && !variant && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
           <View style={[styles.countBadge, theoretical && theoryStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
         </View>
         {description ? <AppText style={[styles.description, theoretical && theoryStyles.text]}>{description}</AppText> : null}
@@ -111,7 +112,9 @@ const theoryStyles = StyleSheet.create({
 const detailStyles = StyleSheet.create({
   section: { marginTop: 28 },
   headingArea: { paddingHorizontal: 0 },
-  headingText: { fontSize: 19, lineHeight: 28 },
+  heading: { gap: 9 },
+  goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
+  headingText: { color: '#24251F', fontSize: 19, lineHeight: 28 },
   primaryList: { backgroundColor: '#EDF1F0', borderColor: '#B9C9C7' },
   primaryRow: { minHeight: 118, paddingVertical: 20 },
   primaryTitle: { fontSize: 21, lineHeight: 31 },
