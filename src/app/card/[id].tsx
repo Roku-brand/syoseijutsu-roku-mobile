@@ -35,9 +35,6 @@ export default function CardDetailScreen() {
   const router = useRouter();
   const [tab, setTab] = useState<'explanation' | 'practice' | 'related'>('explanation');
   const scrollRef = useRef<ScrollView>(null);
-  const tabY = useRef(0);
-  const scrollY = useRef(0);
-  const commonRef = useRef<View>(null);
   const fade = useRef(new Animated.Value(1)).current;
   const { id } = useLocalSearchParams<{ id: string }>();
   const { addHistory } = useAppState();
@@ -56,14 +53,8 @@ export default function CardDetailScreen() {
 
   const selectTab = (next: typeof tab) => {
     if (next === tab) return;
-    commonRef.current?.measureInWindow((_x, y, _width, height) => {
-      scrollRef.current?.getNativeScrollRef()?.measureInWindow((_sx, viewportY) => {
-        tabY.current = Math.max(0, scrollY.current + y + height + 24 - viewportY);
-      });
-    });
     fade.setValue(0);
     setTab(next);
-    setTimeout(() => scrollRef.current?.scrollTo({ y: tabY.current, animated: true }), 100);
     Animated.timing(fade, { toValue: 1, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start();
   };
 
@@ -124,15 +115,13 @@ export default function CardDetailScreen() {
       contentContainerStyle={styles.screenContent}
       scrollRef={scrollRef}
       stickyHeaderIndices={[1]}
-      onScroll={(event) => { scrollY.current = event.nativeEvent.contentOffset.y; }}
-      scrollEventThrottle={16}
     >
       <DetailSwipe
         style={styles.article}
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
-        <View ref={commonRef} collapsable={false}>
+        <View>
         <SeoBreadcrumbs compact items={[
           { label: '探す', href: '/discover' },
           { label: card.categoryName, href: { pathname: '/personas', params: { category: card.categoryKey } } },
