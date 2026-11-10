@@ -41,7 +41,7 @@ export default function HomeScreen() {
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
-          <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[styles.shortcutLabel, !desktop && styles.shortcutLabelMobile, !desktop && { fontSize: Math.max(7.5, Math.min(9, (width - 60) / 35)) }]}>{item.label}</Text>
+          <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}><Text numberOfLines={mobile ? 2 : 1} style={styles.shortcutLabel}>{item.label}</Text></View>
         </Pressable>)}
       </View>
 
@@ -86,15 +86,16 @@ const styles = StyleSheet.create({
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
   shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
-  shortcut: { flex: 1, minWidth: 0, height: 74, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
+  shortcut: { flex: 1, minWidth: 0, minHeight: 88, paddingVertical: 10, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
-  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 10, lineHeight: 14, fontWeight: '600', textAlign: 'center' },
-  shortcutLabelMobile: { fontSize: 9, letterSpacing: -0.3, width: '100%' },
+  shortcutCaption: { width: '100%', alignItems: 'center', justifyContent: 'center' },
+  shortcutCaptionMobile: { minHeight: 36 },
+  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', textAlign: 'center', width: '100%' },
   premiumBanner: { height: 126, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
-  premiumBannerMobile: { height: 112, borderRadius: 11 },
+  premiumBannerMobile: { height: 'auto', minHeight: 150, borderRadius: 11 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '72%', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, gap: 4 },
+  premiumCopyMobile: { width: '72%', height: 'auto', minHeight: 150, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, paddingVertical: 12, gap: 4 },
   premiumEdition: { flexShrink: 0 },
   premiumEditionMobile: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   premiumDetailsMobile: { flexShrink: 0, width: '100%' },
@@ -102,20 +103,20 @@ const styles = StyleSheet.create({
   premiumDivider: { width: 1, height: '58%', backgroundColor: '#B78B43' },
   premiumDetails: { minWidth: 0, justifyContent: 'center' },
   premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, letterSpacing: 1.1, fontWeight: '700' },
-  premiumEyebrowMobile: { fontSize: 10, lineHeight: 15, letterSpacing: 0.3 },
+  premiumEyebrowMobile: { fontSize: 12, lineHeight: 18, letterSpacing: 0.3 },
   premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700', lineHeight: 44, letterSpacing: 1.4 },
   premiumTitleMobile: { fontSize: 20, lineHeight: 26, letterSpacing: 0.4 },
   premiumBody: { color: '#29251F', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
-  premiumBodyMobile: { fontSize: 10, lineHeight: 15 },
+  premiumBodyMobile: { fontSize: 12, lineHeight: 18 },
   premiumLead: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
-  premiumLeadMobile: { fontSize: 11, lineHeight: 16 },
+  premiumLeadMobile: { fontSize: 12, lineHeight: 18 },
   premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
-  premiumPriceMobile: { fontSize: 10, lineHeight: 16 },
-  premiumActionRow: { flexDirection: 'row', alignItems: 'center', columnGap: 6, marginTop: 8 },
+  premiumPriceMobile: { fontSize: 12, lineHeight: 18 },
+  premiumActionRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 5, marginTop: 8 },
   premiumButton: { backgroundColor: '#AA7832', borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
   premiumButtonMobile: { paddingHorizontal: 8, paddingVertical: 3 },
   premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
-  premiumButtonTextMobile: { fontSize: 9, lineHeight: 13 },
+  premiumButtonTextMobile: { fontSize: 12, lineHeight: 18 },
   section: { marginTop: 23 },
   sectionHeading: { marginBottom: 8 },
 });
