@@ -141,12 +141,14 @@ export function useHomeDiscovery() {
     const old = current.current;
     if (!old) return;
     if (!old.order.length) return;
-    const position = Math.max(0, (old.offset ?? 0) + old.cursor + direction);
-    const cursor = position % old.order.length;
-    commit({ ...old, cursor, offset: position - cursor, seen: [...old.seen, old.order[cursor]].slice(-120) });
+    const position = (old.offset ?? 0) + old.cursor + direction;
+    // Wrap in either direction, including a reverse move from a fresh hand.
+    const cursor = ((position % old.order.length) + old.order.length) % old.order.length;
+    commit({ ...old, cursor, offset: Math.max(0, position - cursor), seen: [...old.seen, old.order[cursor]].slice(-120) });
   }, [commit]);
   const items = (state?.order ?? []).map(id => byKey.get(id) ?? null);
   const waitingForSecure = scope === 'paid' && (secureContentStatus === 'idle' || secureContentStatus === 'loading') && !items[state?.cursor ?? 0];
   return { items, filter: state?.filter ?? 'all', cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state || waitingForSecure,
     error: !!state && !items[state.cursor] && !waitingForSecure, shuffle, move, retry: () => setRetry(value => value + 1) };
 }
+
