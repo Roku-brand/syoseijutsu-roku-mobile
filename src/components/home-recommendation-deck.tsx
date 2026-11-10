@@ -66,7 +66,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     const frame = requestAnimationFrame(() => window.dispatchEvent(new Event('roku-home-ready')));
     return () => cancelAnimationFrame(frame);
   }, [deck.loading, !!current]);
-  const returning = direction > 0 && deck.position > 0;
+  const returning = direction > 0;
   const returnPull = x.interpolate({ inputRange: [0, deckReturnEdge(cardWidth)], outputRange: [0, 1], extrapolate: 'clamp' });
   const returnProgress = Animated.add(Animated.multiply(returnPull, .45), Animated.multiply(lift, .55));
   const forwardPull = x.interpolate({ inputRange: [-deckReturnEdge(cardWidth), 0], outputRange: [1, 0], extrapolate: 'clamp' });
@@ -95,7 +95,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   }, [deck.cursor, deck.items[(deck.cursor + 1) % deck.items.length], deck.items[(deck.cursor + 2) % deck.items.length], deck.items[(deck.cursor + 4) % deck.items.length]]);
   const navigate = (step: number, velocity = 0) => {
     const info = latest.current;
-    if (locked.current || info.deck.loading || info.deck.error || (step < 0 && info.deck.position === 0)) return;
+    if (locked.current || info.deck.loading || info.deck.error) return;
     locked.current = true;
     dragged.current = true;
     lastDrag.current = Date.now();
@@ -128,9 +128,9 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
       if (locked.current) return;
       lastMotion.current = Date.now();
       setDirection(gesture.dx < 0 ? -1 : 1);
-      const displacement = gesture.dx > 0 && latest.current.deck.position === 0 ? gesture.dx * 0.18 : gesture.dx;
+      const displacement = gesture.dx;
       dragDistance.current = displacement;
-      if (webMotion) webMotion.drag(displacement, gesture.dx > 0 && latest.current.deck.position > 0); else x.setValue(displacement);
+      if (webMotion) webMotion.drag(displacement, gesture.dx > 0); else x.setValue(displacement);
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
@@ -138,7 +138,8 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
       const velocity = Date.now() - lastMotion.current < 80 ? gesture.vx : 0;
       if (Math.abs(gesture.dx) > latest.current.cardWidth * 0.24 || (Math.abs(velocity) > 0.55 && Math.abs(gesture.dx) > 20)) {
         const step = gesture.dx < 0 ? 1 : -1;
-        if (step > 0 || latest.current.deck.position > 0) { navigation.current(step, velocity); return; }
+        navigation.current(step, velocity);
+        return;
       }
       if (latest.current.reduced) { reset(); return; }
       if (webMotion) { webMotion.animate(0, 260, reset, true); return; }
@@ -192,7 +193,7 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     { scale: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .025, 1 - (depth + 1) * .025] }) },
   ];
   const arrow = (step: number) => {
-    const disabled = busy || deck.loading || deck.error || (step < 0 && deck.position === 0);
+    const disabled = busy || deck.loading || deck.error;
     return <Pressable testID={step < 0 ? 'home-deck-previous' : 'home-deck-next'} accessibilityRole="button" accessibilityLabel={step < 0 ? '前のカード' : '次のカード'} disabled={disabled} onPress={() => navigate(step)}
       style={({ pressed }) => [styles.arrow, desktop && styles.desktopArrow, desktop && (step < 0 ? styles.arrowLeft : styles.arrowRight), disabled && styles.arrowDisabled, pressed && styles.buttonPressed]}>
       <Text style={[styles.arrowText, desktop && styles.desktopArrowText]}>{step < 0 ? '‹' : '›'}</Text>
@@ -284,3 +285,4 @@ const styles = StyleSheet.create({
   controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 4 }, arrow: { minWidth: 44, minHeight: 44, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 29, lineHeight: 34, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 9, letterSpacing: 1.5, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },
 });
+
