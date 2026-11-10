@@ -14,7 +14,7 @@ export function DiscoveryFilterButton({ value, disabled, onChange, compact = fal
   const choices = useRef<(View | null)[]>([]);
   const close = () => { setOpen(false); setTimeout(() => trigger.current?.focus(), 0); };
   return <>
-    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, compact && styles.compactTrigger, { backgroundColor: discoveryFilterColor(value) }, focused === -2 && styles.focused, pressed && styles.pressed]}>
+    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} aria-expanded={open} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, compact && styles.compactTrigger, { backgroundColor: discoveryFilterColor(value) }, focused === -2 && styles.focused, pressed && styles.pressed]}>
       <Text style={[styles.triggerText, compact && styles.compactTriggerText]}>{discoveryFilters.find(option => option.key === value)!.label}</Text>
     </Pressable>
     <Modal transparent visible={open} animationType={reduced ? 'none' : 'fade'} onRequestClose={close} onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
@@ -33,7 +33,7 @@ export function DiscoveryFilterButton({ value, disabled, onChange, compact = fal
           <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>デッキの種類</Text><Pressable accessibilityRole="button" accessibilityLabel="閉じる" onPress={close} style={styles.close}><Text style={styles.closeText}>×</Text></Pressable></View>
           <Text style={styles.subtitle}>今、出会いたい知識を選ぶ。</Text>
           <ScrollView accessibilityRole="radiogroup" accessibilityLabel="デッキの種類" style={styles.optionsScroll} contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
-            {discoveryFilters.map((option, index) => <Pressable key={option.key} ref={node => { choices.current[index] = node; }} testID={`home-deck-filter-${option.key}`} accessibilityRole="radio" accessibilityState={{ checked: value === option.key }} onPress={() => { close(); if (value !== option.key) onChange(option.key); }} onFocus={() => setFocused(index)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.option, value === option.key && styles.selected, focused === index && styles.focused, pressed && styles.pressed]}>
+            {discoveryFilters.map((option, index) => <Pressable key={option.key} ref={node => { choices.current[index] = node; }} testID={`home-deck-filter-${option.key}`} accessibilityRole="radio" aria-checked={value === option.key} accessibilityState={{ checked: value === option.key }} onPress={() => { close(); if (value !== option.key) onChange(option.key); }} onFocus={() => setFocused(index)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.option, value === option.key && styles.selected, focused === index && styles.focused, pressed && styles.pressed]}>
               <View><Text style={styles.optionTitle}>{option.label}</Text><Text style={styles.description}>{option.key === 'all' ? '処世術と理論を織り交ぜて' : `5枚すべて${option.label}に`}</Text></View>
               <View style={[styles.radio, value === option.key && styles.radioSelected]}>{value === option.key ? <View style={styles.dot} /> : null}</View>
             </Pressable>)}
@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
   close: { width: 44, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' }, closeText: { fontSize: 26, color: colors.muted },
   subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.muted, marginBottom: 18 }, optionsScroll: { flexShrink: 1 }, options: { gap: 7 },
   option: { minHeight: 64, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, borderWidth: 1, borderColor: '#EAE4DA', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, selected: { backgroundColor: '#F6F0E3', borderColor: '#BA995C' },
-  optionTitle: { fontFamily: fonts.serif, fontSize: 17, fontWeight: '600', color: colors.ink }, description: { fontFamily: fonts.sans, fontSize: 10, lineHeight: 17, color: colors.muted, marginTop: 3 },
+  optionTitle: { fontFamily: fonts.serif, fontSize: 17, fontWeight: '600', color: colors.ink }, description: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
   radio: { width: 18, height: 18, borderRadius: 9, borderWidth: 1, borderColor: '#C4BAAB', justifyContent: 'center', alignItems: 'center' }, radioSelected: { borderColor: colors.goldDeep }, dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.goldDeep }, focused: { borderColor: '#987029', borderWidth: 2 }, pressed: { opacity: .8 },
 });
