@@ -168,12 +168,14 @@ export default function CardDetailScreen() {
         </View>
         </View>
       </DetailSwipe>
-      <View style={styles.tabs} accessibilityRole="tablist">
+      <View style={styles.tabs}>
+        <View style={styles.tabRow} accessibilityRole="tablist">
         {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
           <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
-            <AppText style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
+            <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
           </Pressable>
         ))}
+        </View>
       </View>
       <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
         <Animated.View style={{ opacity: fade }}>
@@ -424,8 +426,9 @@ const styles = StyleSheet.create({
   summaryCopy: { width: '100%' },
   summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
   summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
-  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', flexDirection: 'row', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
-  tab: { flex: 1, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
+  tabRow: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap' },
+  tab: { flex: 1, minWidth: 0, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
   tabSelected: { borderBottomColor: '#A47B2F' },
   tabText: { color: '#55534E', fontSize: 14, fontWeight: '600' },
   tabTextSelected: { color: '#9A7127' },
