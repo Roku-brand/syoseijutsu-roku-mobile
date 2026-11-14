@@ -7,7 +7,7 @@ export function SeoBreadcrumbs({ items, tone, compact = false }: { items: { labe
   return (
     <View accessibilityRole="list" accessibilityLabel="パンくずリスト" style={[styles.row, compact && styles.compactRow]}>
       {items.map((item, index) => (
-        <View key={`${item.label}-${index}`} role="listitem" style={[styles.item, compact && styles.compactItem]}>
+        <View key={`${item.label}-${index}`} role="listitem" style={[styles.item, compact && (item.href ? styles.compactLinkItem : styles.compactItem)]}>
           {index > 0 ? <AppText accessibilityElementsHidden style={[styles.separator, tone === 'theory' && styles.theoryText]}>›</AppText> : null}
           {item.href ? (
             <Link href={item.href} asChild>
@@ -24,7 +24,8 @@ export function SeoBreadcrumbs({ items, tone, compact = false }: { items: { labe
 
 const styles = StyleSheet.create({
   compactRow: { flexWrap: 'nowrap', gap: 4, marginBottom: 12 },
-  compactItem: { flexShrink: 1, minWidth: 0, gap: 4 },
+  compactLinkItem: { flexShrink: 0, gap: 4 },
+  compactItem: { flex: 1, minWidth: 0, gap: 4 },
   compactCurrent: { flexShrink: 1 },
   theoryLink: { color: catalogTheme.theory.ink },
   theoryText: { color: catalogTheme.theory.text },

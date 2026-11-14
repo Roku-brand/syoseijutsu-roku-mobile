@@ -7,6 +7,16 @@ for (const width of [320, 390, 430]) {
     const explanation = page.getByRole('tab', { name: '解説' });
     const practice = page.getByRole('tab', { name: '実践' });
     const related = page.getByRole('tab', { name: '関連知識' });
+    const boxes = await Promise.all([explanation, practice, related].map(tab => tab.boundingBox()));
+    expect(boxes.every(box => box !== null)).toBe(true);
+    expect(Math.abs(boxes[0]!.y - boxes[1]!.y)).toBeLessThan(2);
+    expect(Math.abs(boxes[1]!.y - boxes[2]!.y)).toBeLessThan(2);
+    expect(boxes[0]!.x + boxes[0]!.width).toBeLessThanOrEqual(boxes[1]!.x + 1);
+    expect(boxes[1]!.x + boxes[1]!.width).toBeLessThanOrEqual(boxes[2]!.x + 1);
+    const discover = page.getByRole('list', { name: 'パンくずリスト' }).getByRole('link', { name: '探すへ移動' });
+    await expect(discover).toBeVisible();
+    const discoverBox = await discover.boundingBox();
+    expect(discoverBox!.width).toBeGreaterThan(discoverBox!.height);
     await expect(explanation).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByText('原理と解説')).toBeVisible();
     await expect(page.getByText('今日からできる実践')).toHaveCount(0);
