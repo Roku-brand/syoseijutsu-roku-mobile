@@ -3,7 +3,7 @@ import scope from '../../src/data/content-scope.json';
 import metadata from '../../src/data/generated/metadata.json';
 
 async function startFreeHome(page: Page) {
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
 }
 
 test('owner operations routes do not expose operational data to signed-out users', async ({ page }) => {
@@ -26,7 +26,7 @@ test('ホームが初期画面になり、旧ウェルカムURLもホームへ�
     await page.setViewportSize({ width, height: 900 });
     for (const route of ['/', '/welcome', '/onboarding']) {
       await page.goto(route);
-      await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+      await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
       await expect(page.getByRole('heading', { name: /流れていく知恵を、.*体系にする。/ })).toHaveCount(0);
       await expect(page.getByTestId('home-welcome-modal')).toHaveCount(0);
     }
@@ -231,17 +231,17 @@ test('persona technique menu leaves saving to each technique detail', async ({ p
 
 test('初回訪問でホームを直接表示し、再読み込み後も維持できる', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(1);
   await expect(page.getByText('ホーム', { exact: true }).first()).toBeVisible();
   await expect(page.getByTestId('home-shortcuts')).toBeVisible();
   await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
-  await expect(page.getByTestId('home-brand-slide-1')).toContainText('編集部の特集');
-  await expect(page.getByRole('tab', { name: /枚目を表示/ })).toHaveCount(4);
-  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
+  await expect(page.getByTestId('home-deck-filter')).toBeVisible();
+  await expect(page.getByTestId('home-discovery-refresh')).toBeVisible();
+  await expect(page.getByTestId('home-editorial-section')).toBeVisible();
   await page.goto('/');
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
 });
 
 test('主要4タブのヘッダーはブランド、検索、メニューを表示する', async ({ page }) => {
@@ -267,24 +267,26 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
   await expect(page).toHaveURL(/\/my-os$/);
 });
 
-test('ホームのブランドリールはキーボードで4枚を横にスライドする', async ({ page }) => {
+test('ホームのカードデッキはキーボードで前後にめくれる', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-
-  const rail = page.getByTestId('home-brand-viewport');
-  await expect(rail).toBeVisible();
-  await expect(page.getByRole('button', { name: '前のスライド' })).toHaveCount(0);
-  await expect(page.getByRole('button', { name: '次のスライド' })).toHaveCount(0);
-  expect(await rail.evaluate((element) => element.scrollLeft)).toBe(0);
-  await page.getByRole('tab',{name:'1枚目を表示'}).focus();
+  const deck = page.getByTestId('home-recommendation-deck');
+  await deck.focus();
+  const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.keyboard.press('ArrowRight');
-  await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
+  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
 });
 
-test('編集カルーセルの4枚は実在する遷移先を持つ',async({page})=>{
- const routes=[/\/features/,/\/(subcategory|personas)/,/\/(card|discover)/,/\/learn/];
- for(let i=1;i<=4;i++){await page.goto('/');await startFreeHome(page);await page.getByRole('tab',{name:i+'枚目を表示'}).click();await page.getByTestId('home-brand-slide-'+i).click({position:{x:25,y:25}});await expect(page).toHaveURL(routes[i-1]);}
+test('ホームの編集部の特集は公開記事一覧へのリンクを持つ', async ({ page }) => {
+  await page.goto('/');
+  await startFreeHome(page);
+  await expect(page.getByTestId('home-editorial-section')).toBeVisible();
+  await page.getByTestId('home-editorial-see-all').click();
+  await expect(page).toHaveURL(/\/features(?:\?|$)/);
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
@@ -660,14 +662,13 @@ test('アカウント復旧と設定のサポート導線を表示できる', as
   await expect(page.getByTestId('persistent-bottom-navigation')).toHaveCount(0);
 });
 
-test('ホームの4つの編集テーマはスマホで横にはみ出さない', async ({ page }) => {
- await page.setViewportSize({width:390,height:844}); await page.goto('/'); await startFreeHome(page);
- await expect(page.getByRole('tab',{name:/枚目を表示/})).toHaveCount(4);
- for(const [i,text] of ['編集部の特集','注目の人物像','知識のつながり','今日の問い'].entries()){
-  await page.getByRole('tab',{name:(i+1)+'枚目を表示'}).click();
-  await expect(page.getByTestId('home-brand-slide-'+(i+1))).toContainText(text);
- }
- expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+test('下段の編集部の特集は狭い画面でも横方向のはみ出しを起こさない', async ({ page }) => {
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  await startFreeHome(page);
+  await expect(page.getByTestId('home-editorial-section')).toBeVisible();
+  await expect(page.getByTestId('home-editorial-see-all')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
 test('理論カテゴリは一つの理論一覧で絞り込む', async ({ page }) => {
@@ -788,22 +789,31 @@ test('理論索引はカテゴリで絞り込める', async ({ page }) => {
   expect(viewportInfo.scrollWidth).toBeLessThanOrEqual(viewportInfo.width);
 });
 
-test('PCホームは編集バナーと幅を抑えたデッキを収める',async({page})=>{
- await page.setViewportSize({width:1440,height:1000}); await page.goto('/'); await startFreeHome(page);
- const reel=(await page.getByTestId('home-brand-carousel').boundingBox())!;
- const header=(await page.getByTestId('book-header').boundingBox())!;expect(Math.abs(reel.width-header.width)).toBeLessThanOrEqual(1);expect(Math.abs(reel.x-header.x)).toBeLessThanOrEqual(1);
- const card=(await page.getByTestId('home-recommendation-card').boundingBox())!;expect(card.width).toBeLessThanOrEqual(356);
+test('PCホームでもおすすめカードの幅は読みやすいサイズに収める', async ({ page }) => {
+  await page.setViewportSize({width:1440,height:1000});
+  await page.goto('/');
+  await startFreeHome(page);
+  const card=(await page.getByTestId('home-recommendation-card').boundingBox())!;
+  expect(card.width).toBeLessThanOrEqual(356);
+  const filter=(await page.getByTestId('home-deck-filter').boundingBox())!;
+  const shuffle=(await page.getByTestId('home-discovery-refresh').boundingBox())!;
+  expect(Math.abs(filter.y-shuffle.y)).toBeLessThan(2);
 });
 
-test('ホームは編集バナー、5導線、デッキの順に並び、五大原則を開ける',async({page})=>{
- await page.goto('/');await startFreeHome(page);
- const hero=(await page.getByTestId('home-brand-carousel').boundingBox())!;
- const shortcuts=(await page.getByTestId('home-shortcuts').boundingBox())!;
- const deck=(await page.getByTestId('home-recommendations-section').boundingBox())!;
- expect(hero.y+hero.height).toBeLessThanOrEqual(shortcuts.y);expect(shortcuts.y+shortcuts.height).toBeLessThan(deck.y);
- await expect(page.getByTestId('home-continue-section')).toHaveCount(0);await expect(page.getByTestId('home-premium-banner')).toBeVisible();
- await page.getByTestId('home-shortcut-principles').click();await expect(page.getByText('処世術の五大原則',{exact:true})).toBeVisible();
- await page.getByRole('button',{name:'原則を閉じる'}).last().click();
+test('ホームはおすすめ・5導線・完全版・編集部の特集の順に並ぶ',async({page})=>{
+  await page.goto('/');
+  await startFreeHome(page);
+  const deck=(await page.getByTestId('home-recommendations-section').boundingBox())!;
+  const shortcuts=(await page.getByTestId('home-shortcuts').boundingBox())!;
+  const premium=(await page.getByTestId('home-premium-banner').boundingBox())!;
+  const editorial=(await page.getByTestId('home-editorial-section').boundingBox())!;
+  expect(deck.y+deck.height).toBeLessThanOrEqual(shortcuts.y);
+  expect(shortcuts.y+shortcuts.height).toBeLessThan(premium.y);
+  expect(premium.y+premium.height).toBeLessThan(editorial.y);
+  await expect(page.getByTestId('home-continue-section')).toHaveCount(0);
+  await page.getByTestId('home-shortcut-principles').click();
+  await expect(page.getByText('処世術の五大原則',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'原則を閉じる'}).last().click();
 });
 
 test('ホームのデッキは一枚を主役にして前後へめくれる',async({page})=>{
@@ -813,9 +823,11 @@ test('ホームのデッキは一枚を主役にして前後へめくれる',asy
  await page.getByTestId('home-deck-previous').click();await expect(card).toHaveAttribute('aria-label',before!);
 });
 
-test('最初のバナーは個別カードではなく特集への入口になる',async({page})=>{
- await page.goto('/');await startFreeHome(page);await page.getByRole('tab',{name:'1枚目を表示'}).click();
- await expect(page.getByTestId('home-brand-slide-1')).toContainText('編集部の特集');await page.getByTestId('home-brand-slide-1').click({position:{x:25,y:25}});await expect(page).toHaveURL(/\/features/);
+test('完全版バナーと特集一覧への入口を維持する',async({page})=>{
+  await page.goto('/');
+  await startFreeHome(page);
+  await expect(page.getByTestId('home-premium-banner')).toContainText('完全版');
+  await expect(page.getByTestId('home-editorial-see-all')).toHaveAttribute('aria-label','特集をすべて見る');
 });
 
 test('理論一覧の検索は右上からポップアップを開く', async ({ page }) => {
@@ -843,111 +855,92 @@ test('ゲストのマイページからログイン導線を直接開ける', as
   await expect(page).toHaveURL(/\/auth\?mode=signin/);
 });
 
-test('ホームのブランドリールは前後操作で同じ一枚へ戻れる', async ({ page }) => {
+test('カードデッキは前後操作で同じ一枚へ戻れる', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await page.getByRole('tab', { name: '1枚目を表示' }).focus();
-  await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  await page.keyboard.press('ArrowLeft');
-  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
+  const before = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
+  await page.getByTestId('home-deck-next').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await page.getByTestId('home-deck-previous').click();
+  await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', before!);
 });
 
-test('ホームのブランドリールは前後どちら向きにも何周も循環する', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
+test('カードデッキの5枚は前後に循環する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 900 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  await page.getByRole('tab', { name: '1枚目を表示' }).focus();
-  for (let index = 0; index < 4; index += 1) await page.keyboard.press('ArrowRight');
-  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  for (let index = 0; index < 4; index += 1) await page.keyboard.press('ArrowLeft');
-  await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  const viewport = page.getByTestId('home-brand-viewport');
-  await expect.poll(async () => {
-    const metrics = await viewport.evaluate((element) => ({ left: element.scrollLeft, width: element.clientWidth }));
-    return Math.abs(metrics.left);
-  }).toBeLessThan(2);
+  for (let i=0; i<5; i++) await page.getByTestId('home-deck-next').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await page.getByTestId('home-deck-previous').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('05');
 });
 
-test('ホームのブランドリールはタッチ移動で米粒表示を更新し両端から繰り返し循環する', async ({ page }) => {
+test('デッキカードは次へ進めても編集部の特集を横に探索できる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  const viewport = page.getByTestId('home-brand-viewport');
-
-  const cdp = await page.context().newCDPSession(page);
-  const dispatchTouchSwipe = async (startOffsetX: number, endOffsetX: number) => {
-    const box = await viewport.boundingBox();
-    expect(box).not.toBeNull();
-    const y = box!.y + box!.height / 2;
-    const startX = box!.x + startOffsetX;
-    const endX = box!.x + endOffsetX;
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: startX, y }] });
-    for (let step = 1; step <= 6; step += 1) {
-      const x = startX + ((endX - startX) * step) / 6;
-      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] });
-      await page.waitForTimeout(18);
-    }
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-    await page.waitForTimeout(450);
-  };
-
-  await dispatchTouchSwipe(300, 60);
-  await expect(page.getByRole('tab', { name: '2枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-
-  await page.getByRole('tab', { name: '1枚目を表示' }).click();
-  for (let cycle = 0; cycle < 3; cycle += 1) {
-    await dispatchTouchSwipe(60, 300);
-    await expect(page.getByRole('tab', { name: '4枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-    await dispatchTouchSwipe(300, 60);
-    await expect(page.getByRole('tab', { name: '1枚目を表示' })).toHaveAttribute('aria-selected', 'true');
-  }
+  await page.getByTestId('home-deck-next').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await expect(page.getByTestId('home-editorial-section')).toBeVisible();
+  await expect(page.getByTestId('home-editorial-fallback')).toBeVisible();
 });
 
-test('編集バナーから詳細へ往復しても選択位置を復元する',async({page})=>{
- await page.goto('/');await startFreeHome(page);await page.getByRole('tab',{name:'3枚目を表示'}).click();
- await page.getByTestId('home-brand-slide-3').click({position:{x:25,y:25}});await expect(page).toHaveURL(/\/card\//);await page.goBack();
- await expect(page.getByRole('tab',{name:'3枚目を表示'})).toHaveAttribute('aria-selected','true');
+test('おすすめカードから詳細へ往復してもデッキの位置を維持する',async({page})=>{
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await startFreeHome(page);
+  await page.getByTestId('home-deck-next').click();
+  const label=await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
+  await page.waitForTimeout(360);
+  await page.getByTestId('home-recommendation-card').click();
+  await expect(page).toHaveURL(/\/(card|theory)\//);
+  await page.goBack();
+  await startFreeHome(page);
+  await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label',label!);
 });
 
-test('ホームのブランドリールはPC・タブレット・スマホでカードが途中で切れない', async ({ page }) => {
+test('おすすめと下段コンテンツはすべての画面幅に収まる', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
   for (const viewportSize of [{ width: 1440, height: 900 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewportSize);
-    const viewport = page.getByTestId('home-brand-viewport');
-    const slide = page.getByTestId('home-brand-slide-1');
-    await expect(viewport).toBeVisible();
-    await expect(slide).toBeVisible();
-    // React Native's onLayout responds asynchronously to viewport changes.
-    // Keep the exact geometry contract, but wait for the resized layout.
-    await expect(async () => {
-      const [viewportBox, slideBox] = await Promise.all([viewport.boundingBox(), slide.boundingBox()]);
-      expect(viewportBox).not.toBeNull();
-      expect(slideBox).not.toBeNull();
-      expect(Math.abs(slideBox!.x - viewportBox!.x)).toBeLessThan(2);
-      expect(Math.abs(slideBox!.width - viewportBox!.width)).toBeLessThan(2);
-      const pageWidth = await page.evaluate(() => ({ inner: innerWidth, scroll: document.documentElement.scrollWidth }));
-      expect(pageWidth.scroll).toBeLessThanOrEqual(pageWidth.inner);
-    }).toPass({ timeout: 5000 });
+    await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+    const {inner, scroll}=await page.evaluate(()=>({inner:innerWidth,scroll:document.documentElement.scrollWidth}));
+    expect(scroll).toBeLessThanOrEqual(inner);
   }
 });
 
-test('スマホの編集バナーは4枚とも横長比率を保つ',async({page})=>{
- await page.setViewportSize({width:390,height:844});await page.goto('/');await startFreeHome(page);
- for(let i=1;i<=4;i++){await page.getByRole('tab',{name:i+'枚目を表示'}).click();const box=(await page.getByTestId('home-brand-slide-'+i).boundingBox())!;expect(box.width/box.height).toBeGreaterThan(1.4);}
+test('スマホの編集部の特集は横長カードで見せる',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('/');
+  await startFreeHome(page);
+  const box=(await page.getByTestId('home-editorial-fallback').boundingBox())!;
+  expect(box.width/box.height).toBeGreaterThan(1.4);
 });
 
-test('編集バナーは320pxとPCで内部にはみ出さない',async({page})=>{
- for(const width of [320,1440]){await page.setViewportSize({width,height:900});await page.goto('/');await startFreeHome(page);
- for(let i=1;i<=4;i++){await page.getByRole('tab',{name:i+'枚目を表示'}).click();const m=await page.getByTestId('home-brand-slide-'+i).evaluate(e=>({w:e.clientWidth,sw:e.scrollWidth,h:e.clientHeight,sh:e.scrollHeight}));expect(m.sw).toBeLessThanOrEqual(m.w+2);expect(m.sh).toBeLessThanOrEqual(m.h+2);}}
+test('編集部の特集は320pxとPCでも画面外にはみ出さない',async({page})=>{
+  for(const width of [320,1440]){
+    await page.setViewportSize({width,height:900});
+    await page.goto('/');
+    await startFreeHome(page);
+    const metrics=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}));
+    expect(metrics.scroll).toBeLessThanOrEqual(metrics.width);
+  }
 });
 
-test('知識のつながりは既存の実践と関連理論を紹介する',async({page})=>{
- await page.goto('/');await startFreeHome(page);await page.getByRole('tab',{name:'3枚目を表示'}).click();
- await expect(page.getByTestId('home-brand-slide-3')).toContainText('知識のつながり');await expect(page.getByTestId('home-brand-slide-3')).toContainText('実践と理論をつなぐ');
+test('選択中のデッキ種類を保持し、シャッフルが利用できる',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('/');
+  await startFreeHome(page);
+  await page.getByTestId('home-deck-filter').click();
+  await page.getByTestId('home-deck-filter-interpersonal').click();
+  await expect(page.getByTestId('home-deck-filter')).toContainText('対人術');
+  await page.getByTestId('home-discovery-refresh').click();
+  await expect(page.getByTestId('home-deck-filter')).toContainText('対人術');
 });
 
 test('320pxでも人物像を2列にし学ぶページの語句と横幅を崩さない', async ({ page }) => {
