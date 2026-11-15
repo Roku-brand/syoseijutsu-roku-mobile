@@ -14,7 +14,7 @@ import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckLayerAngle as layerAngle, deckLayerX as layerX, deckReturnEdge, deckShuffleFrames } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
 import { SaveDiamond } from './save-diamond';
-import { DiscoveryFilterButton, discoveryFilterColor } from './discovery-filter-button';
+import { DiscoveryFilterButton } from './discovery-filter-button';
 import { TechniqueTitle } from './technique-title';
 import type { DiscoveryFilter } from '@/data/discovery-filter';
 
@@ -196,20 +196,29 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
     const disabled = busy || deck.loading || deck.error;
     return <Pressable testID={step < 0 ? 'home-deck-previous' : 'home-deck-next'} accessibilityRole="button" accessibilityLabel={step < 0 ? '前のカード' : '次のカード'} disabled={disabled} onPress={() => navigate(step)}
       style={({ pressed }) => [styles.arrow, desktop && styles.desktopArrow, desktop && (step < 0 ? styles.arrowLeft : styles.arrowRight), disabled && styles.arrowDisabled, pressed && styles.buttonPressed]}>
-      <Text style={[styles.arrowText, desktop && styles.desktopArrowText]}>{step < 0 ? '‹' : '›'}</Text>
+      <View style={styles.arrowVisual}><Text style={[styles.arrowText, desktop && styles.desktopArrowText]}>{step < 0 ? '‹' : '›'}</Text></View>
     </Pressable>;
   };
   return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading]}>
-      <View style={[styles.headingCopy, !desktop && styles.mobileHeadingCopy]}><Text testID="home-deck-heading" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85} style={[styles.headingTitle, !desktop && styles.mobileHeadingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text>{desktop ? <Text style={styles.subtitle}>思いがけない知識との出会いを。</Text> : null}</View>
-      <View style={styles.headingActions}><DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
-      <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} style={({ pressed }) => [styles.shuffle, !desktop && styles.mobileShuffle, { backgroundColor: discoveryFilterColor(deck.filter) }, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
-        <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><Text style={styles.shuffleIcon}>↻</Text></Animated.View><Text style={styles.shuffleText}>シャッフル</Text>
-      </Pressable></View>
-      {!desktop ? <Text style={[styles.subtitle, styles.mobileSubtitle]}>思いがけない知識との出会いを。</Text> : null}
-    </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
+       <View style={[styles.headingCopy, !desktop && styles.mobileHeadingCopy]}>
+         <Text testID="home-deck-heading" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}
+           style={[styles.headingTitle, !desktop && styles.mobileHeadingTitle, narrow && styles.narrowHeadingTitle]}>あなたにおすすめ</Text>
+         <Text style={[styles.subtitle, !desktop && styles.mobileSubtitle]}>思いがけない知識との出会いを。</Text>
+       </View>
+       <View style={styles.headingActions}>
+         <DiscoveryFilterButton compact={!desktop} value={deck.filter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
+         <Pressable testID="home-discovery-refresh" accessibilityRole="button" accessibilityLabel="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()}
+           style={({ pressed }) => [styles.shuffle, !desktop && styles.mobileShuffle, pressed && styles.buttonPressed, phase === 'shuffle' && { opacity: 0.75 }]}>
+           <Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
+             <Text style={styles.shuffleIcon}>↻</Text>
+           </Animated.View>
+           <Text style={styles.shuffleText}>シャッフル</Text>
+         </Pressable>
+       </View>
+     </View>
+     <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 426 : 456 }, fillViewport && styles.fillViewport]}>
       {desktop ? <>{arrow(-1)}{arrow(1)}</> : null}
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
@@ -271,18 +280,18 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 
 const styles = StyleSheet.create({
   fillViewport: { flexGrow: 1 },
-  mobileHeading: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 0, marginBottom: 8 },
-  mobileHeadingCopy: { flex: 1, minWidth: 0 }, mobileHeadingTitle: { fontSize: 18, lineHeight: 28 }, mobileSubtitle: { width: '100%', marginTop: 2 }, mobileShuffle: { minWidth: 90, paddingHorizontal: 9, gap: 4 },
-  headingActions: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: 6 },
+  mobileHeading: { marginBottom: 12 },
+  mobileHeadingCopy: { width: '100%' }, mobileHeadingTitle: { fontSize: 21, lineHeight: 30 }, mobileSubtitle: { marginTop: 3 }, mobileShuffle: { minWidth: 124, paddingHorizontal: 14, gap: 6 },
+  headingActions: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', alignSelf: 'stretch', gap: 10, marginTop: 10 },
   narrowHeadingTitle: { fontSize: 15, lineHeight: 25 },
   paper: { backgroundColor: '#F8F5EF' },
   desktopArrow: { position: 'absolute', top: 192, zIndex: 10 },
   arrowLeft: { left: '12%' }, arrowRight: { right: '12%' }, desktopArrowText: { fontSize: 29, lineHeight: 34 },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
-  shuffle: { height: 44, minWidth: 112, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 16, borderRadius: 22 }, buttonPressed: { opacity: .8 }, shuffleIcon: { color: colors.white, fontSize: 20, lineHeight: 22 }, shuffleText: { color: colors.white, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' },
+  heading: { alignItems: 'stretch', marginBottom: 12 }, headingCopy: { width: '100%' }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
+  shuffle: { height: 44, minWidth: 124, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingHorizontal: 16, borderRadius: 22, backgroundColor: colors.goldDeep }, buttonPressed: { opacity: .8 }, shuffleIcon: { color: colors.white, fontSize: 20, lineHeight: 22 }, shuffleText: { color: colors.white, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' },
   stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 13, zIndex: 1 }, slot: { position: 'absolute', top: 13, ...faceShadow, borderRadius: 14, backgroundColor: '#FFFDF9' }, card: { borderRadius: 14, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: .15 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 33, fontWeight: '600', letterSpacing: 0.3, minHeight: 66, paddingTop: 11 }, rule: { height: 1, backgroundColor: '#ECE5D9', marginTop: 5, marginBottom: 10 }, summary: { color: '#69655E', fontFamily: fonts.sans, fontSize: 13, lineHeight: 23, height: 46 }, photoWrap: { marginTop: 13, flex: 1, minHeight: 90, borderRadius: 8, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' }, readArrow: { position: 'absolute', right: 10, bottom: 10, width: 36, height: 36, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 29, lineHeight: 32 }, save: { position: 'absolute', right: 5, top: 7 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold, borderWidth: 2 },
-  controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 4 }, arrow: { minWidth: 44, minHeight: 44, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 29, lineHeight: 34, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 12, lineHeight: 18, letterSpacing: 1, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
+  controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18, marginTop: 2 }, arrow: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }, arrowVisual: { width: 34, height: 34, borderRadius: 17, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 24, lineHeight: 28, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 12, lineHeight: 18, letterSpacing: 1, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },
 });
 

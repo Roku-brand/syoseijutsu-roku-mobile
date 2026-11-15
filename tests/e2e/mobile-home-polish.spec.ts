@@ -27,15 +27,18 @@ async function mockAccount(page: Page, active: boolean, restored = true) {
   return () => restoreCalls;
 }
 
-test('mobile editorial banners and deck controls fit narrow screens',async({page})=>{
+test('mobile recommendation controls and original shortcuts fit narrow screens',async({page})=>{
  for(const width of [320,390,430]){await page.setViewportSize({width,height:844});await page.goto('/');
- await expect(page.getByTestId('home-recommendation-card')).toBeVisible();await expect(page.getByRole('tab',{name:/枚目を表示/})).toHaveCount(4);
+ await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+ await expect(page.getByTestId('home-deck-filter')).toBeVisible();
+ await expect(page.getByTestId('home-discovery-refresh')).toBeVisible();
+ await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 });
 
 test('create shortcut can close, go back, reopen and save on a small screen', async ({ page }) => {
   const create = page.locator('[data-testid="home-create-technique"]:visible');
-  const carousel = page.locator('[data-testid="home-brand-carousel"]:visible');
+  const recommendation = page.locator('[data-testid="home-recommendation-deck"]:visible');
   await page.setViewportSize({ width: 390, height: 500 });
   await page.goto('/');
   await create.click();
@@ -43,7 +46,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await expect(page).not.toHaveURL(/compose=1/);
   await page.getByRole('button', { name: '作成を閉じる', exact: true }).click();
   await page.getByRole('link', { name: /^ホーム。/ }).click();
-  await expect(carousel).toBeVisible();
+  await expect(recommendation).toBeVisible();
   await create.click();
   await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('一呼吸おいてから返事する');
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
@@ -52,7 +55,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいてから返事するを編集', exact: true })).toBeVisible();
   await page.getByRole('link', { name: /^ホーム。/ }).click();
-  await expect(carousel).toBeVisible();
+  await expect(recommendation).toBeVisible();
 });
 
 test('paid membership displays remaining access beside its badge', async ({ page }) => {
@@ -69,7 +72,7 @@ test('verified checkout return navigates home and clears the checkout query', as
   page.on('pageerror', error => errors.push(error.message));
   const calls = await mockAccount(page, false);
   await page.goto('/?checkout=success&session_id=cs_test_mobile');
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByTestId('persistent-bottom-navigation')).toBeVisible();
   expect(calls()).toBe(1);
@@ -81,6 +84,6 @@ test('unverified checkout stays on the purchase screen for restoration', async (
   await page.goto('/?checkout=success&session_id=cs_test_pending');
   await expect(page.getByText('決済の反映を待っています。しばらくしてから「購入を復元」を押してください。')).toBeVisible();
   await expect(page).toHaveURL(/checkout=success/);
-  await expect(page.getByTestId('home-brand-carousel')).toHaveCount(0);
+  await expect(page.getByTestId('home-recommendation-deck')).toHaveCount(0);
   expect(calls()).toBe(1);
 });

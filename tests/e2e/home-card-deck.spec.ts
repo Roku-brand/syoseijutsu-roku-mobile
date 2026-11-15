@@ -24,12 +24,14 @@ for (const width of [375, 390, 430, 768, 1440]) {
     await expect(page.getByTestId('home-premium-banner')).toBeVisible();
     await expect(page.getByTestId('home-deck-layer')).toHaveCount(4);
     await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
-    await expect(page.getByTestId('home-brand-indicators').getByRole('tab')).toHaveCount(4);
-    const reel = (await page.getByTestId('home-brand-carousel').boundingBox())!;
-    const header = (await page.getByTestId('book-header').boundingBox())!;
-    expect(Math.abs(reel.x - header.x)).toBeLessThanOrEqual(1);
-    expect(Math.abs(reel.width - header.width)).toBeLessThanOrEqual(1);
-    expect(Math.abs(reel.y - header.y - header.height)).toBeLessThanOrEqual(1);
+    const heading = (await page.getByTestId('home-deck-heading').boundingBox())!;
+    const filter = (await page.getByTestId('home-deck-filter').boundingBox())!;
+    const shuffle = (await page.getByTestId('home-discovery-refresh').boundingBox())!;
+    const shortcuts = (await page.getByTestId('home-shortcuts').boundingBox())!;
+    const premium = (await page.getByTestId('home-premium-banner').boundingBox())!;
+    expect(filter.y).toBeGreaterThan(heading.y + heading.height);
+    expect(Math.abs(filter.y - shuffle.y)).toBeLessThan(2);
+    expect(shortcuts.y).toBeLessThan(premium.y);
     const card = await page.getByTestId('home-recommendation-card').boundingBox();
     expect(card!.width).toBeLessThanOrEqual(356);
     expect(card!.width).toBeGreaterThan(290);
@@ -205,16 +207,19 @@ test('日本時間の日替わりと訪問中の状態固定、破損キャッ�
   await ready(page);
 });
 
-test('編集バナーは既存の特集・人物像・関連実践・学習ケースへ遷移する', async ({ page }) => {
+test('編集部の特集の一覧リンクから記事一覧に進める', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  const destinations = [/\/features/, /\/(subcategory\/|personas)/, /\/(card\/|discover)/, /\/learn\//];
-  for (let index = 1; index <= 4; index++) {
-    await page.goto('/');
-    await ready(page);
-    await page.getByRole('tab', { name: `${index}枚目を表示`, exact: true }).click();
-    await page.getByTestId(`home-brand-slide-${index}`).click({ position: { x: 20, y: 25 } });
-    await expect(page).toHaveURL(destinations[index - 1]);
-  }
+  await page.route('**/rest/v1/feature_articles*', route => route.fulfill({ json: [{
+    id: 'home-editorial-fixture', slug: 'home-editorial-fixture', title: '知恵のつながりを見つける', lead: '公開特集の編集内容',
+    body: '公開された特集', status: 'published', is_featured: true, show_in_list: true, display_order: 1,
+    image_path: 'bundled:feature-forest', image_alt: '森', category_id: null, editorial_character_id: null,
+    related_feature_ids: [], source_references: [], related_technique_ids: [], related_theory_ids: [], updated_at: '2026-10-28T00:00:00Z',
+  }] }));
+  await page.goto('/');
+  await ready(page);
+  await expect(page.getByTestId('home-editorial-section')).toContainText('知恵のつながりを見つける');
+  await page.getByTestId('home-editorial-see-all').click();
+  await expect(page).toHaveURL(/\/features(?:\?|$)/);
 });
 
 test('スマホの実タッチは横スワイプと縦スクロールを分離する', async ({ page, browserName }) => {
@@ -276,9 +281,8 @@ test('CMSの公開特集は既存の特集データからバナーへ反映さ�
   }] }));
   await page.goto('/');
   await ready(page);
-  await page.getByRole('tab', { name: '1枚目を表示', exact: true }).click();
-  await expect(page.getByTestId('home-brand-slide-1')).toContainText('知恵のつながりを見つける');
-  await expect(page.getByTestId('home-brand-slide-1')).toContainText('公開特集の編集内容');
+  await expect(page.getByTestId('home-editorial-section')).toContainText('知恵のつながりを見つける');
+  await expect(page.getByTestId('home-editorial-card').first()).toBeVisible();
 });
 
 test('無料版の従来バナーから完全版LPへ進める', async ({ page }) => {

@@ -14,8 +14,8 @@ export function DiscoveryFilterButton({ value, disabled, onChange, compact = fal
   const choices = useRef<(View | null)[]>([]);
   const close = () => { setOpen(false); setTimeout(() => trigger.current?.focus(), 0); };
   return <>
-    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} aria-expanded={open} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, compact && styles.compactTrigger, { backgroundColor: discoveryFilterColor(value) }, focused === -2 && styles.focused, pressed && styles.pressed]}>
-      <Text style={[styles.triggerText, compact && styles.compactTriggerText]}>{discoveryFilters.find(option => option.key === value)!.label}</Text>
+    <Pressable ref={trigger} testID="home-deck-filter" accessibilityRole="button" accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} aria-expanded={open} accessibilityState={{ expanded: open }} disabled={disabled} onPress={() => setOpen(true)} onFocus={() => setFocused(-2)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.trigger, compact && styles.compactTrigger, focused === -2 && styles.focused, pressed && styles.pressed]}>
+      <Text style={[styles.triggerText, compact && styles.compactTriggerText]}>{discoveryFilters.find(option => option.key === value)!.label}</Text><Text aria-hidden style={styles.chevron}>⌄</Text>
     </Pressable>
     <Modal transparent visible={open} animationType={reduced ? 'none' : 'fade'} onRequestClose={close} onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
       <View style={styles.overlay} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
@@ -45,9 +45,9 @@ export function DiscoveryFilterButton({ value, disabled, onChange, compact = fal
 }
 
 const styles = StyleSheet.create({
-  trigger: { minWidth: 96, height: 44, paddingHorizontal: 16, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  triggerText: { color: colors.white, fontFamily: fonts.sans, fontSize: 12, fontWeight: '600' },
-  compactTrigger: { minWidth: 62, paddingHorizontal: 9 }, compactTriggerText: { fontSize: 12 },
+  trigger: { minWidth: 96, height: 44, paddingHorizontal: 16, borderRadius: 22, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1, borderColor: '#CDBB9F', backgroundColor: '#FFFDF8' },
+  triggerText: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 13, fontWeight: '600' }, chevron: { color: colors.goldDeep, fontSize: 18, lineHeight: 20, marginTop: -6 },
+  compactTrigger: { minWidth: 90, paddingHorizontal: 12 }, compactTriggerText: { fontSize: 13 },
   overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(37,32,24,.4)', padding: 24 },
   popup: { width: '100%', maxWidth: 352, maxHeight: '100%', backgroundColor: '#FFFDF8', borderRadius: 20, padding: 20, borderWidth: 1, borderColor: '#E4D9C7', shadowColor: '#241C11', shadowOpacity: .18, shadowRadius: 30, shadowOffset: { width: 0, height: 16 }, elevation: 15 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, title: { fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', color: colors.ink },

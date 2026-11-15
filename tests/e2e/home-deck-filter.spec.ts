@@ -239,7 +239,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
   } finally { release(); }
 });
 
-test('おすすめの操作ボタンは色と寸法を共有し、モバイルでは見出しの横に並ぶ', async ({ page }) => {
+test('モバイルではデッキ選択とシャッフルを見出しの下に横並びで区別する', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 320, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -250,14 +250,17 @@ test('おすすめの操作ボタンは色と寸法を共有し、モバイル�
   await expect(shuffle).toHaveAccessibleName('シャッフル');
   for (const [key, label] of [['all', 'すべて'], ['interpersonal', '対人術'], ['work', '仕事術'], ['life', '人生術'], ['theory', '理論']]) {
     if (key !== 'all') { await filter.click(); await page.getByTestId(`home-deck-filter-${key}`).click(); await ready(page); }
-    await expect(filter).toHaveText(label);
-    expect(await filter.evaluate(el => getComputedStyle(el).backgroundColor)).toBe(await shuffle.evaluate(el => getComputedStyle(el).backgroundColor));
+    await expect(filter).toContainText(label);
+    expect(await filter.evaluate(el => getComputedStyle(el).backgroundColor))
+      .not.toBe(await shuffle.evaluate(el => getComputedStyle(el).backgroundColor));
     const a = (await filter.boundingBox())!, b = (await shuffle.boundingBox())!;
-    expect(a.height).toBe(44); expect(b.height).toBe(a.height); expect(b.y).toBe(a.y);
+    expect(a.height).toBeGreaterThanOrEqual(44);
+    expect(b.height).toBe(a.height);
+    expect(Math.abs(b.y - a.y)).toBeLessThan(2);
+    expect(a.x + a.width).toBeLessThan(b.x);
   }
   const heading = (await page.getByTestId('home-deck-heading').boundingBox())!;
   const controls = (await filter.boundingBox())!;
-  expect(controls.y).toBeLessThan(heading.y + heading.height);
-  expect(controls.x).toBeGreaterThanOrEqual(heading.x + heading.width);
+  expect(controls.y).toBeGreaterThan(heading.y + heading.height);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
