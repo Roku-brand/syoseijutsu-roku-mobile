@@ -8,6 +8,8 @@ import { featureImageSource } from '@/data/feature-images';
 import { colors, fonts } from '@/constants/theme';
 import { APP_ROUTES, featureRoute } from '@/navigation/app-routes';
 
+const fallbackImage = require('../../assets/home/editorial-window-v1.webp');
+
 /** Small, swipeable editorial shelf. Unlike the former full-screen hero, it
  * follows the daily deck and premium link without stealing the first viewport. */
 export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
@@ -18,8 +20,6 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
     const selected = published.filter(article => article.is_featured);
     return (selected.length ? selected : published).slice(0, 8);
   }, [articles]);
-
-  if (!featured.length) return null;
 
   return <View testID="home-editorial-section" style={styles.section}>
     <View style={styles.heading}>
@@ -34,11 +34,21 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
     </View>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rail}
       contentContainerStyle={styles.railContent} accessibilityLabel="編集部の特集を横にスクロール">
-      {featured.map(article => (
+      {!featured.length ? (
+        <Pressable testID="home-editorial-fallback" accessibilityRole="link" accessibilityLabel="特集一覧を開く"
+          onPress={() => router.push(APP_ROUTES.features)} style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, pressed && styles.pressed]}>
+          <Image source={fallbackImage} resizeMode="cover" style={styles.image} />
+          <View style={styles.imageShade} />
+          <View style={styles.copy}>
+            <Text style={styles.eyebrow}>特集</Text>
+            <Text style={styles.cardTitle}>問いを深める、編集部の特集</Text>
+          </View>
+        </Pressable>
+      ) : featured.map(article => (
         <Pressable key={article.id} testID="home-editorial-card" accessibilityRole="link" accessibilityLabel={`特集「${article.title}」を読む`}
           onPress={() => router.push(featureRoute(article.slug))}
           style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, pressed && styles.pressed]}>
-          <Image source={featureCover(article)?.compactSource ?? featureImageSource(article)} resizeMode="cover" style={styles.image} />
+          <Image source={article.image_path ? featureCover(article)?.compactSource ?? featureImageSource(article) : fallbackImage} resizeMode="cover" style={styles.image} />
           <View style={styles.imageShade} />
           <View style={styles.copy}>
             <Text style={styles.eyebrow}>特集</Text>
