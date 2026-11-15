@@ -137,7 +137,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   expect(path.at(-1)!.x).toBeCloseTo(15, 1);
   expect(path.at(-1)!.y).toBe(36);
   await expect(page.locator('#home-deck-slot-0')).toHaveCSS('z-index', '0');
-  await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '1');
+  await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '0.65');
   await expect(page.getByTestId('home-deck-filter')).toBeDisabled();
   await page.screenshot({ path: 'release-evidence/home-filter/tuck-under.png' });
   await page.evaluate(() => { for (const animation of document.getAnimations()) animation.play(); });
@@ -239,7 +239,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
   } finally { release(); }
 });
 
-test('モバイルではデッキ選択とシャッフルを見出しの下に横並びで区別する', async ({ page }) => {
+test('モバイルではデッキ選択とシャッフルを同じ色と寸法で見出しの下に並べる', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 320, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -252,7 +252,7 @@ test('モバイルではデッキ選択とシャッフルを見出しの下に�
     if (key !== 'all') { await filter.click(); await page.getByTestId(`home-deck-filter-${key}`).click(); await ready(page); }
     await expect(filter).toContainText(label);
     expect(await filter.evaluate(el => getComputedStyle(el).backgroundColor))
-      .not.toBe(await shuffle.evaluate(el => getComputedStyle(el).backgroundColor));
+      .toBe(await shuffle.evaluate(el => getComputedStyle(el).backgroundColor));
     const a = (await filter.boundingBox())!, b = (await shuffle.boundingBox())!;
     expect(a.height).toBeGreaterThanOrEqual(44);
     expect(b.height).toBe(a.height);

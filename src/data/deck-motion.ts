@@ -1,5 +1,5 @@
 export const deckLayerX = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (7 + depth * 2);
-export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (1.3 + depth * 0.45);
+export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (1 + depth * 0.35);
 export const deckReturnEdge = (width: number) => width + 28;
 const lerp = (a: number, b: number, amount: number) => a + (b - a) * amount;
 
@@ -24,17 +24,15 @@ export function deckPose(depth: number, x: number, width: number, reverse = fals
     scale: 1 - (depth - progress) * .025, opacity: 1 - (depth - progress) * .1 };
 }
 
-/** Five cards leave alternating sides; the new hand is dealt back-to-front. */
+/** A restrained fade/slide exchanges the hand while every layer stays nearby. */
 export function deckShuffleFrames(depth: number, width: number) {
   const rest = deckPose(depth, 0, width);
-  const side = depth % 2 ? 1 : -1;
-  const outX = side * (width * .9 + depth * 12);
   const stops = [0, .4, 1.5 + depth * .08, 1.9 + depth * .04, 2.12 + (4 - depth) * .04, 3.3 + (4 - depth) * .08, 4];
   return { stops,
-    x: [rest.x, 0, outX * .9, outX, -outX, -outX * .12, rest.x],
-    y: [rest.y, depth * 3, (depth - 2) * 14, (depth - 2) * 18, (depth - 2) * -18, rest.y - 4, rest.y],
-    angle: [rest.angle, 0, side * 7, side * 7, -side * 7, -side, rest.angle],
-    scale: [rest.scale, .96, .94, .94, .94, rest.scale + .01, rest.scale],
-    opacity: [rest.opacity, rest.opacity, rest.opacity, 0, 0, rest.opacity, rest.opacity],
+    x: [rest.x, rest.x - 2, rest.x - 10, rest.x - 12, rest.x + 8, rest.x + 2, rest.x],
+    y: [rest.y, rest.y - 2, rest.y - 6, rest.y - 8, rest.y + 12, rest.y + 3, rest.y],
+    angle: [rest.angle, rest.angle, rest.angle, rest.angle, rest.angle, rest.angle, rest.angle],
+    scale: [rest.scale, rest.scale, rest.scale - .015, rest.scale - .02, rest.scale - .02, rest.scale, rest.scale],
+    opacity: [rest.opacity, rest.opacity * .9, rest.opacity * .2, 0, 0, rest.opacity * .8, rest.opacity],
   };
 }

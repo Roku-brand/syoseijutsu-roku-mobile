@@ -74,7 +74,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }
     await expect(page.getByTestId('guide-dialog')).toHaveCount(0);
     await expect.poll(() => page.evaluate((key) => localStorage.getItem(key), welcomeKey)).toBe('done');
     await page.reload();
-    await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+    await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
     await expect(page.getByTestId('guide-dialog')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
@@ -86,7 +86,7 @@ test('あとで閉じた案内は自動再表示せず設定から読み直せ�
   await page.getByTestId('guide-later').click();
   await expect(page.getByText('この案内は設定からいつでも見られます')).toBeVisible();
   await page.reload();
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
   await expect(page.getByTestId('guide-dialog')).toHaveCount(0);
   await page.goto('/settings');
   await page.getByRole('button', { name: /はじめての方へ/ }).click();
@@ -198,7 +198,7 @@ test('通常の購入済みログインと復元では購入案内を表示し�
   await returningInstallation(page);
   await account(page, true);
   await page.goto('/');
-  await expect(page.getByTestId('home-brand-carousel')).toBeVisible();
+  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
   await expect(page.getByTestId('guide-dialog')).toHaveCount(0);
   await page.goto('/upgrade');
   // Expired/free restoration is tested separately below; active access is quiet.

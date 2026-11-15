@@ -50,15 +50,15 @@ test('reverse retraces the same left-hand path for each physical card', () => {
   }
 });
 
-test('replacement sends all five cards out and deals the new hand from the opposite side', () => {
+test('shuffle stays close to the stack and exchanges every layer while invisible', () => {
   for (const width of [305, 320, 356]) {
-    const sides = new Set();
     for (let depth = 0; depth < 5; depth++) {
       const frames = deckShuffleFrames(depth, width);
       const rest = deckPose(depth, 0, width);
       assert.ok(frames.stops.every((stop, index) => index === 0 || stop > frames.stops[index - 1]));
-      assert.ok(Math.abs(frames.x[3]) >= width * .9);
-      assert.equal(frames.x[4], -frames.x[3]);
+      assert.ok(frames.x.every(x => Math.abs(x - rest.x) <= 12));
+      assert.ok(frames.y.every(y => Math.abs(y - rest.y) <= 12));
+      assert.ok(frames.x[3] < rest.x && frames.x[4] > rest.x);
       assert.equal(frames.opacity[3], 0);
       assert.equal(frames.opacity[4], 0);
       assert.ok(frames.stops[3] < 2.1 && frames.stops[4] > 2.1);
@@ -67,9 +67,7 @@ test('replacement sends all five cards out and deals the new hand from the oppos
         assert.equal(frames[key][0], rest[key]);
         assert.equal(frames[key].at(-1), rest[key]);
       }
-      sides.add(Math.sign(frames.x[3]));
     }
-    assert.deepEqual([...sides].sort(), [-1, 1]);
   }
 });
 
