@@ -10,7 +10,7 @@ async function advanceToRevisionCheck(page: Page) {
   await page.evaluate(() => Promise.resolve());
 }
 
-async function mockCatalog(page: Page, complete = false) {
+async function mockCatalog(page: Page, complete = false, failureStatus = 503) {
   let revision = 1;
   let offline = false;
   let revisionOffline = false;
@@ -24,8 +24,8 @@ async function mockCatalog(page: Page, complete = false) {
     const url=route.request().url();
     if(url.includes('/profiles')) return route.fulfill({json:{role:'user',display_name:'更新確認'}});
     if(url.includes('/public_techniques')) publicAttempts++;
-    if(url.includes('/content_revision') && revisionOffline) return route.fulfill({status:503,json:{message:'revision offline'}});
-    if(offline) return route.fulfill({status:503,json:{message:'offline'}});
+    if(url.includes('/content_revision') && revisionOffline) return route.fulfill({status:failureStatus,json:{message:'revision offline'}});
+    if(offline) return route.fulfill({status:failureStatus,json:{message:'offline'}});
     if(url.includes('/content_revision')) {revisionReads++;return route.fulfill({json:{revision}});}
     if(url.includes('/public_techniques')) {publicReads++;return route.fulfill({json:[complete ? {...technique(),essence:'',explanation:'',practices:[]} : technique()]});}
     if(url.includes('/personas')) return route.fulfill({json:[{name:'印象がいい人',category:'interpersonal',access_tier:complete ? 'complete' : 'free'}]});
@@ -56,7 +56,8 @@ async function mockCatalog(page: Page, complete = false) {
 
 test('通信失敗の帯を表示せず、リビジョン取得に失敗していても裏で自動復旧する', async ({ page }) => {
   await page.clock.install();
-  const db = await mockCatalog(page);
+  // HTTP 500 isolates the app's retry schedule from the SDK's own 503 retries.
+  const db = await mockCatalog(page, false, 500);
   db.setOffline(true);
   db.setRevisionOffline(true);
   await page.goto('/card/master336-001');
@@ -76,7 +77,7 @@ test('通信失敗の帯を表示せず、リビジョン取得に失敗して�
 
 test('失敗時の再試行間隔を延ばし、非表示中は止めて接続復帰で即時再取得する', async ({ page }) => {
   await page.clock.install();
-  const db = await mockCatalog(page);
+  const db = await mockCatalog(page, false, 500);
   db.setOffline(true);
   await page.goto('/card/master336-001');
   await expect.poll(db.publicAttempts).toBeGreaterThan(0);
