@@ -49,34 +49,26 @@ test('all memo creation entry points wait for a tap and have one close action', 
   await expect(input).toBeFocused();
 });
 
-test('reel advances after ten seconds, resets on manual use, wraps and pauses away from home', async ({ page }) => {
+test('おすすめデッキは自動切替されず、ユーザーが操作した時だけ進む', async ({ page }) => {
   await ready(page);
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+  const initial = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.clock.install();
-  await page.clock.pauseAt(new Date());
-  const dot = (index: number) => page.getByRole('tab', { name: `${index}枚目を表示`, exact: true });
-  await dot(1).click();
-  await page.clock.runFor(9_999);
-  await expect(dot(1)).toHaveAttribute('aria-selected', 'true');
-  await page.clock.runFor(1);
-  await expect(dot(2)).toHaveAttribute('aria-selected', 'true');
-  await page.clock.runFor(2_000);
-  await dot(4).click();
-  await page.clock.runFor(15_999);
-  await expect(dot(4)).toHaveAttribute('aria-selected', 'true');
-  await page.clock.runFor(1);
-  await expect(dot(1)).toHaveAttribute('aria-selected', 'true');
-  await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: /^学ぶ/ }).click();
-  await page.clock.runFor(15_000);
-  expect(await page.evaluate(() => JSON.parse(sessionStorage.getItem('shoseijutsu-roku:home-reel:home-editorial-v4')!).index)).toBe(0);
+  await page.clock.runFor(11_000);
+  await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', initial!);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByTestId('home-deck-next').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('02');
 });
 
-test('reduced motion keeps the reel still', async ({ page }) => {
+test('動きの軽減設定でも収納式デッキの選択とシャッフルを操作できる', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await ready(page);
-  await page.clock.install();
-  await page.getByRole('tab', { name: '1枚目を表示', exact: true }).click();
-  await page.clock.runFor(10_000);
-  await expect(page.getByRole('tab', { name: '1枚目を表示', exact: true })).toHaveAttribute('aria-selected', 'true');
+  await page.getByTestId('home-deck-filter').click();
+  await page.getByTestId('home-deck-filter-work').click();
+  await expect(page.getByTestId('home-deck-filter')).toContainText('仕事術');
+  await page.getByTestId('home-discovery-refresh').click();
+  await expect(page.getByTestId('home-deck-position')).toContainText('01');
 });
 
 test('viewport remains stable during touch and pinch, then follows settled keyboard height', async ({ page }) => {
