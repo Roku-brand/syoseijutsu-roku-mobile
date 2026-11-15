@@ -29,7 +29,7 @@ for (const width of [375, 390, 430, 768, 1440]) {
     const shuffle = (await page.getByTestId('home-discovery-refresh').boundingBox())!;
     const shortcuts = (await page.getByTestId('home-shortcuts').boundingBox())!;
     const premium = (await page.getByTestId('home-premium-banner').boundingBox())!;
-    expect(filter.y).toBeGreaterThan(heading.y + heading.height);
+    if (width < 1000) expect(filter.y).toBeGreaterThan(heading.y + heading.height);
     expect(Math.abs(filter.y - shuffle.y)).toBeLessThan(2);
     expect(shortcuts.y).toBeLessThan(premium.y);
     const card = await page.getByTestId('home-recommendation-card').boundingBox();
@@ -38,9 +38,9 @@ for (const width of [375, 390, 430, 768, 1440]) {
     if (width >= 1000) {
       const previous = (await page.getByTestId('home-deck-previous').boundingBox())!;
       const next = (await page.getByTestId('home-deck-next').boundingBox())!;
-      expect(previous.x + previous.width).toBeLessThan(card!.x);
-      expect(next.x).toBeGreaterThan(card!.x + card!.width);
-      expect(Math.abs(previous.y + previous.height / 2 - (card!.y + card!.height / 2))).toBeLessThan(35);
+      expect(previous.y).toBeGreaterThan(card!.y + card!.height);
+      expect(next.y).toBe(previous.y);
+      expect(previous.x + previous.width).toBeLessThan(next.x);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `release-evidence/home-discovery/home-${width}.png`, fullPage: true });
@@ -149,7 +149,8 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
   await page.getByTestId('home-discovery-refresh').dispatchEvent('click');
   await ready(page);
   const frames = await page.evaluate(() => { (window as any).__stop = true; return (window as any).__frames; });
-  expect(frames.some((frame: any) => Math.abs(frame.x) > 10 && Math.abs(frame.angle) > 0.01)).toBe(true);
+  expect(frames.some((frame: any) => Math.abs(frame.x) > 2)).toBe(true);
+  expect(frames.every((frame: any) => Math.abs(frame.x) <= 12.1)).toBe(true);
   expect(frames.some((frame: any) => frame.opacity < 0.4)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(1);
 });
@@ -325,7 +326,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   await expect.poll(() => label(page)).not.toBe(original);
   const opacities = await page.evaluate(() => { (window as any).__recordOpacity = false; return (window as any).__shuffleOpacity as number[]; });
   expect(opacities.length).toBeGreaterThan(3);
-  expect(opacities.every(value => value === 1)).toBe(true);
+  expect(opacities.every(value => value === 1 || value === .65)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
 });
 

@@ -6,7 +6,7 @@ const ready = async (page: Page) => {
   await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
 };
 
-test('入れ替えは5枚が左右へ出て、反対側から新しい5枚が入り、一度だけ交換する', async ({ page }) => {
+test('シャッフルは5枚が小さくフェード・スライドし、一度だけ交換する', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -21,14 +21,14 @@ test('入れ替えは5枚が左右へ出て、反対側から新しい5枚が入
       const keys = (animation.effect as KeyframeEffect).getKeyframes();
       animation.pause();
       animation.currentTime = Number(animation.effect!.getTiming().delay) + 150;
-      return { id: (animation.effect as KeyframeEffect).target!.id, end: new DOMMatrix(keys.at(-1)!.transform as string).m41 };
+      return { id: (animation.effect as KeyframeEffect).target!.id, start: new DOMMatrix(keys[0].transform as string).m41, end: new DOMMatrix(keys.at(-1)!.transform as string).m41, opacity: keys.at(-1)!.opacity };
     });
     (window as any).__outgoing = animations;
     return paths;
   });
   expect(outgoing).toHaveLength(5);
-  expect(outgoing.every(path => Math.abs(path.end) >= width * .9)).toBe(true);
-  expect(outgoing.some(path => path.end < 0) && outgoing.some(path => path.end > 0)).toBe(true);
+  expect(outgoing.every(path => Math.abs(path.end - path.start) <= 12 && Math.abs(path.end) < width * .1)).toBe(true);
+  expect(outgoing.every(path => Number(path.opacity) === 0)).toBe(true);
   await expect(page.getByTestId('home-deck-filter')).toBeDisabled();
   await page.screenshot({ path: 'release-evidence/home-polish/replacement-outgoing.png' });
   await page.evaluate(() => {
@@ -48,7 +48,7 @@ test('入れ替えは5枚が左右へ出て、反対側から新しい5枚が入
   });
   await page.waitForFunction(() => (window as any).__incoming);
   const incoming = await page.evaluate(() => (window as any).__incoming as { id: string; start: number }[]);
-  for (const path of incoming) expect(path.start).toBe(-(outgoing.find(item => item.id === path.id)!.end));
+  for (const path of incoming) expect(path.start).toBe(outgoing.find(item => item.id === path.id)!.start + 8);
   await page.screenshot({ path: 'release-evidence/home-polish/replacement-incoming.png' });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await ready(page);
