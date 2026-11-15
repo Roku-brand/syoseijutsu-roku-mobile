@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   card: { width: 256, height: 137, borderRadius: 13, overflow: 'hidden', backgroundColor: '#28251E', borderWidth: 1, borderColor: '#DFD5C5' },
   cardDesktop: { width: 280, height: 150 },
   image: { width: '100%', height: '100%' },
-  imageShade: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(12,15,14,0.4)' },
+  imageShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(12,15,14,0.4)' },
   copy: { position: 'absolute', left: 15, right: 12, bottom: 12, gap: 5 },
   eyebrow: { color: '#E7C88C', fontFamily: fonts.serif, fontSize: 11, lineHeight: 18, fontWeight: '600' },
   cardTitle: { color: '#FFFDF8', fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '700' },
