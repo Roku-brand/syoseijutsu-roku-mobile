@@ -225,8 +225,7 @@ export function AccessProvider({ children }: PropsWithChildren) {
       if (state === 'active') {
         if (Date.now() - lastForegroundCheck.current < 60_000) return;
         lastForegroundCheck.current = Date.now();
-        if (catalogSyncStore.getSnapshot().status === 'offline') refreshCurrentContent();
-        else if (user) void refreshAccess();
+        if (user) void refreshAccess();
         else refreshCurrentContent();
       }
     });
