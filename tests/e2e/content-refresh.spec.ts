@@ -10,9 +10,11 @@ async function advanceToRevisionCheck(page: Page) {
   await page.evaluate(() => Promise.resolve());
 }
 
-async function mockCatalog(page: Page, complete = false) {
+async function mockCatalog(page: Page, complete = false, failureStatus = 503) {
   let revision = 1;
   let offline = false;
+  let revisionOffline = false;
+  let publicAttempts = 0;
   let secureReads = 0;
   let publicReads = 0;
   let revisionReads = 0;
@@ -21,7 +23,9 @@ async function mockCatalog(page: Page, complete = false) {
   await page.route('**/rest/v1/**',route=>{
     const url=route.request().url();
     if(url.includes('/profiles')) return route.fulfill({json:{role:'user',display_name:'更新確認'}});
-    if(offline) return route.fulfill({status:503,json:{message:'offline'}});
+    if(url.includes('/public_techniques')) publicAttempts++;
+    if(url.includes('/content_revision') && revisionOffline) return route.fulfill({status:failureStatus,json:{message:'revision offline'}});
+    if(offline) return route.fulfill({status:failureStatus,json:{message:'offline'}});
     if(url.includes('/content_revision')) {revisionReads++;return route.fulfill({json:{revision}});}
     if(url.includes('/public_techniques')) {publicReads++;return route.fulfill({json:[complete ? {...technique(),essence:'',explanation:'',practices:[]} : technique()]});}
     if(url.includes('/personas')) return route.fulfill({json:[{name:'印象がいい人',category:'interpersonal',access_tier:complete ? 'complete' : 'free'}]});
@@ -47,8 +51,63 @@ async function mockCatalog(page: Page, complete = false) {
       return route.fulfill({json:{items:[{payload}]}});
     });
   }
-  return {edit:()=>{revision++;},setOffline:(value:boolean)=>{offline=value;},secureReads:()=>secureReads,publicReads:()=>publicReads,revisionReads:()=>revisionReads};
+  return {edit:()=>{revision++;},setOffline:(value:boolean)=>{offline=value;},setRevisionOffline:(value:boolean)=>{revisionOffline=value;},publicAttempts:()=>publicAttempts,secureReads:()=>secureReads,publicReads:()=>publicReads,revisionReads:()=>revisionReads};
 }
+
+test('通信失敗の帯を表示せず、リビジョン取得に失敗していても裏で自動復旧する', async ({ page }) => {
+  await page.clock.install();
+  // HTTP 500 isolates the app's retry schedule from the SDK's own 503 retries.
+  const db = await mockCatalog(page, false, 500);
+  db.setOffline(true);
+  db.setRevisionOffline(true);
+  await page.goto('/card/master336-001');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect.poll(db.publicAttempts).toBeGreaterThan(0);
+  await page.waitForTimeout(100);
+  await expect(page.getByTestId('data-status-banner')).toHaveCount(0);
+  await expect(page.getByText('保存済みの内容を表示しています。', { exact: false })).toHaveCount(0);
+  const failedReads = db.publicAttempts();
+  db.setOffline(false);
+  await page.clock.fastForward(15_000);
+  await expect.poll(db.publicAttempts).toBeGreaterThan(failedReads);
+  await expect(page.getByRole('heading', { name: '更新タイトル1', level: 1 })).toBeVisible();
+  await expect(page.getByText('更新解説1。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('data-status-banner')).toHaveCount(0);
+});
+
+test('失敗時の再試行間隔を延ばし、非表示中は止めて接続復帰で即時再取得する', async ({ page }) => {
+  await page.clock.install();
+  const db = await mockCatalog(page, false, 500);
+  db.setOffline(true);
+  await page.goto('/card/master336-001');
+  await expect.poll(db.publicAttempts).toBeGreaterThan(0);
+  await page.waitForTimeout(100);
+  const initial = db.publicAttempts();
+  await page.clock.fastForward(15_000);
+  await expect.poll(db.publicAttempts).toBeGreaterThan(initial);
+  await page.waitForTimeout(100);
+  const firstRetry = db.publicAttempts();
+  await page.clock.fastForward(20_000);
+  expect(db.publicAttempts()).toBe(firstRetry);
+  await page.clock.fastForward(15_000);
+  await expect.poll(db.publicAttempts).toBeGreaterThan(firstRetry);
+  await page.waitForTimeout(100);
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });
+    document.dispatchEvent(new Event('visibilitychange'));
+  });
+  const hiddenReads = db.publicAttempts();
+  await page.clock.fastForward(300_000);
+  expect(db.publicAttempts()).toBe(hiddenReads);
+  db.setOffline(false);
+  await page.evaluate(() => {
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'visible' });
+    document.dispatchEvent(new Event('visibilitychange'));
+    window.dispatchEvent(new Event('online'));
+  });
+  await expect(page.getByText('更新解説1。', { exact: true })).toBeVisible();
+  await expect(page.getByTestId('data-status-banner')).toHaveCount(0);
+});
 
 test('開いたままの無料本文は変更時だけ更新し、接続復帰でも再取得する',async({page})=>{
   await page.clock.install();

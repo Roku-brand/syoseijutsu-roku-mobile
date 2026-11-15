@@ -164,6 +164,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'CMS connector is not configured in this build');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   let offline = false;
+  let publicReads = 0;
   const rows = Array.from({ length: 12 }, (_, index) => ({
     id: `cms-deck-restore-${index}`, title: `CMSから追加された知識 ${index}`, essence: '公開後に追加されたカードの復元を検証する。', explanation: 'テスト用の公開コンテンツ。',
     category: 'interpersonal', persona_id: null, status: 'published', access_tier: 'free', display_order: index,
@@ -172,6 +173,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
     if (offline) { await route.fulfill({ status: 503, json: {} }); return; }
     const table = new URL(route.request().url()).pathname.split('/').at(-1);
     if (table === 'public_techniques') {
+      publicReads++;
       await new Promise(resolve => { setTimeout(resolve, 700); });
       await route.fulfill({ json: rows });
     } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' } : [] });
@@ -198,11 +200,14 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   offline = true;
   await page.reload();
   await ready(page);
-  await expect(page.getByTestId('data-status-banner')).toContainText('最新の内容を取得できませんでした', { timeout: 15000 });
+  await expect(page.getByTestId('data-status-banner')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '更新を再試行', exact: true })).toHaveCount(0);
   expect((await read(page)).order).toEqual(order);
   expect((await read(page)).cursor).toBe(2);
   offline = false;
-  await page.getByRole('button', { name: '更新を再試行', exact: true }).click();
+  const readsBeforeRecovery = publicReads;
+  await page.evaluate(() => window.dispatchEvent(new Event('online')));
+  await expect.poll(() => publicReads).toBeGreaterThan(readsBeforeRecovery);
   await ready(page);
   expect((await read(page)).order).toEqual(order);
   await expect(page.getByTestId('home-deck-position')).toContainText('03');
