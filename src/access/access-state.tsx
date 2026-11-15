@@ -4,8 +4,9 @@ import { AppState } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { FREE_ACCESS, fetchVerifiedAccess, reconcileCompleteEditionPurchase, type AccessStatus, type VerifiedAccess } from '@/lib/purchase';
 import { hasHydratedSecureContent, hydrateSecureContent, purgeSecureContent, refreshSecureContent, restoreCachedSecureContent } from '@/lib/secure-content';
-import { hydratePublishedContent } from '@/lib/published-content';
+import { catalogSyncStore, hydratePublishedContent } from '@/lib/published-content';
 import { readContentRevision } from '@/lib/content-revision';
+import { useCatalogRetry } from '@/hooks/use-catalog-retry';
 
 export type AccessState = 'checking' | 'guest' | 'free' | 'paid' | 'error';
 export type PreviewMode = 'actual' | 'guest' | 'free' | 'paid' | 'checking' | 'error';
@@ -196,9 +197,14 @@ export function AccessProvider({ children }: PropsWithChildren) {
   }, [accessInfo, refreshAccess]);
 
   const refreshCurrentContent = useCallback(() => {
-    if (loading || automaticRefresh.current) return;
+    if (loading || automaticRefresh.current || (typeof navigator !== 'undefined' && navigator.onLine === false)) return;
     const request = (async () => {
-      const revision = await readContentRevision();
+      const retryPublic = catalogSyncStore.getSnapshot().status === 'offline';
+      const revision = await readContentRevision(retryPublic);
+      // A revision endpoint failure or an unchanged revision must not prevent
+      // recovery of a public read that previously failed. Keep entitlement
+      // checks separate so retrying the public catalogue does not lock a user.
+      if (retryPublic) await checkPublishedContent(true, revision);
       if (revision === null) return;
       const publicChanged = revision !== publicRevision.current;
       const secureChanged = hasHydratedSecureContent(user?.id) && revision !== secureRevision.current;
@@ -207,17 +213,20 @@ export function AccessProvider({ children }: PropsWithChildren) {
       else await checkPublishedContent(true, revision);
     })();
     automaticRefresh.current = request;
-    void request.finally(() => {
+    void request.catch(() => undefined).finally(() => {
       if (automaticRefresh.current === request) automaticRefresh.current = null;
     });
   }, [checkPublishedContent, loading, refreshAccess, user]);
+
+  useCatalogRetry(refreshCurrentContent, loading);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (state) => {
       if (state === 'active') {
         if (Date.now() - lastForegroundCheck.current < 60_000) return;
         lastForegroundCheck.current = Date.now();
-        if (user) void refreshAccess();
+        if (catalogSyncStore.getSnapshot().status === 'offline') refreshCurrentContent();
+        else if (user) void refreshAccess();
         else refreshCurrentContent();
       }
     });
