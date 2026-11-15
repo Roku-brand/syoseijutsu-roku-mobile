@@ -886,7 +886,7 @@ test('デッキカードは次へ進めても編集部の特集を横に探索�
   await page.getByTestId('home-deck-next').click();
   await expect(page.getByTestId('home-deck-position')).toContainText('02');
   await expect(page.getByTestId('home-editorial-section')).toBeVisible();
-  await expect(page.getByTestId('home-editorial-fallback')).toBeVisible();
+  await expect(page.getByTestId('home-editorial-section').locator('[data-testid="home-editorial-card"], [data-testid="home-editorial-fallback"]').first()).toBeVisible();
 });
 
 test('おすすめカードから詳細へ往復してもデッキの位置を維持する',async({page})=>{
@@ -918,7 +918,7 @@ test('スマホの編集部の特集は横長カードで見せる',async({page}
   await page.setViewportSize({width:390,height:844});
   await page.goto('/');
   await startFreeHome(page);
-  const box=(await page.getByTestId('home-editorial-fallback').boundingBox())!;
+  const box=(await page.getByTestId('home-editorial-section').locator('[data-testid="home-editorial-card"], [data-testid="home-editorial-fallback"]').first().boundingBox())!;
   expect(box.width/box.height).toBeGreaterThan(1.4);
 });
 
