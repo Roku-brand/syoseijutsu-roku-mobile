@@ -794,7 +794,8 @@ test('PCホームでもおすすめカードの幅は読みやすいサイズに
   await page.goto('/');
   await startFreeHome(page);
   const card=(await page.getByTestId('home-recommendation-card').boundingBox())!;
-  expect(card.width).toBeLessThanOrEqual(356);
+  expect(card.width).toBeGreaterThanOrEqual(356);
+  expect(card.width).toBeLessThanOrEqual(400);
   const filter=(await page.getByTestId('home-deck-filter').boundingBox())!;
   const shuffle=(await page.getByTestId('home-discovery-refresh').boundingBox())!;
   expect(Math.abs(filter.y-shuffle.y)).toBeLessThan(2);
