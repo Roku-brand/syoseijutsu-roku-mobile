@@ -21,12 +21,12 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
 import { DataStatusBanner } from '@/components/data-status-banner';
 import { GuideProvider } from '@/onboarding/guide-provider';
-import { HomeAppearanceProvider, useHomeAppearance } from '@/state/home-appearance';
+import { HomeAppearanceProvider } from '@/state/home-appearance';
+import { HOME_HEADER_COLOR } from '@/components/home-header-backdrop';
 
 function AppFrame() {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
-  const { theme } = useHomeAppearance();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
@@ -35,10 +35,10 @@ function AppFrame() {
   const home = pathname === '/' && !isCheckoutReturn;
   useEffect(() => {
     if (Platform.OS !== 'web') return;
-    const color = home ? theme.background : colors.surface;
+    const color = home ? HOME_HEADER_COLOR : colors.surface;
     document.documentElement.style.setProperty('--roku-status-background', color);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
-  }, [home, theme.background]);
+  }, [home]);
   // Legacy entry URLs redirect to the home screen without flashing app chrome.
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   const isUpgrade = pathname === '/upgrade' || pathname === '/upgrade-preview';
@@ -48,7 +48,7 @@ function AppFrame() {
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={[styles.headerSafeArea, home && { backgroundColor: theme.background }]}><BookHeader /></SafeAreaView> : null}
+      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={[styles.headerSafeArea, home && { backgroundColor: HOME_HEADER_COLOR }]}><BookHeader /></SafeAreaView> : null}
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
       {!isWelcome && !pathname.startsWith('/owner') ? <DataStatusBanner /> : null}
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>
@@ -66,7 +66,7 @@ function AppFrame() {
   );
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
-  return <View style={styles.container}><StatusBar style={home ? 'light' : 'dark'} /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
 }
 
 function isFocusedScreen(pathname: string) {

@@ -39,7 +39,7 @@ export default function FeaturesScreen() {
   useEffect(() => { if (selected && !featured.some(item => item.id === selected)) setSelected(null); }, [selected, featured]);
   return <BookScreen contentContainerStyle={styles.page} testID="features-page">
     {loading ? <EmptyState title="特集を読み込んでいます" description="少しお待ちください。" /> : error ? <View style={styles.status}><EmptyState title="特集を読み込めませんでした" description={error} /><Pressable accessibilityRole="button" onPress={() => void refreshFeatures()} style={styles.retry}><AppText style={styles.gold}>もう一度読み込む</AppText></Pressable></View> : !articles.length ? <EmptyState title="特集" description="現在公開中の特集はありません。" /> : <>
-      {hero && category === 'all' ? <View style={[styles.hero, compact && styles.heroCompact]} testID="features-hero">
+      {hero ? <View style={[styles.hero, compact && styles.heroCompact]} testID="features-hero">
         <View style={[styles.heroCopy, compact && styles.heroCopyCompact]}>
           <AppText style={styles.heroLabel}>特集</AppText>
           <AppText style={[styles.heroTitle, compact && styles.heroTitleCompact]} numberOfLines={compact ? 3 : undefined} accessibilityRole="header" accessibilityLabel={hero.title} aria-level={1}>{hero.title === '押さえておくべき5つの処世術指針' ? '押さえておくべき\n5つの処世術指針' : hero.title}</AppText>

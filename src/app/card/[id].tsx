@@ -115,9 +115,10 @@ export default function CardDetailScreen() {
       contentContainerStyle={styles.screenContent}
       scrollRef={scrollRef}
       stickyHeaderIndices={[1]}
+      testID="technique-detail-scroll"
     >
       <DetailSwipe
-        style={styles.article}
+        style={[styles.article, styles.intro]}
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
@@ -168,7 +169,7 @@ export default function CardDetailScreen() {
         </View>
         </View>
       </DetailSwipe>
-      <View style={styles.tabs}>
+      <View style={styles.tabs} testID="technique-detail-tabs">
         <View style={styles.tabRow} accessibilityRole="tablist">
         {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
           <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
@@ -348,6 +349,7 @@ const styles = StyleSheet.create({
     paddingBottom: 132,
   },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
+  intro: { marginBottom: 24 },
   numberRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
   number: {
     color: colors.goldDeep,
@@ -426,7 +428,7 @@ const styles = StyleSheet.create({
   summaryCopy: { width: '100%' },
   summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
   summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
-  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
+  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
   tabRow: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap' },
   tab: { flex: 1, minWidth: 0, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
   tabSelected: { borderBottomColor: '#A47B2F' },

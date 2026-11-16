@@ -246,6 +246,7 @@ test('指定順の5タブで全4記事を絞り込み、0件のテーマと切�
   await expect(tabs).toHaveText(['すべて', '人間関係', '自己理解・成長', '生き方・選択', '社会・時代']);
   await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
   const documentStart = await page.evaluate(() => performance.timeOrigin);
+  const heroHeight = (await page.getByTestId('features-hero').boundingBox())!.height;
   for (const [label, ids] of [
     ['人間関係', ['meta-comments']],
     ['自己理解・成長', ['mastering-tilt', 'passion-and-cynicism']],
@@ -255,6 +256,13 @@ test('指定順の5タブで全4記事を絞り込み、0件のテーマと切�
     await page.getByRole('tab', { name: label, exact: true }).click();
     await expect(page.getByRole('tab', { name: label, exact: true })).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByTestId('feature-card')).toHaveCount(ids.length);
+    await expect(page.getByTestId('features-hero')).toHaveCount(1);
+    await expect(page.getByTestId('features-hero').getByRole('heading', { name: initial[0].title, exact: true })).toHaveCount(1);
+    expect((await page.getByTestId('features-hero').boundingBox())!.height).toBe(heroHeight);
+    if (label === '自己理解・成長') {
+      await page.getByTestId('features-page').evaluate(node => { node.scrollTop = 0; });
+      await page.screenshot({ path: test.info().outputPath('category-hero-preserved.png') });
+    }
     for (const slug of ids) await expect(page.getByTestId('features-grid').getByRole('link', { name: `${initial.find((article: any) => article.slug === slug).title}を読む`, exact: true })).toBeVisible();
     if (!ids.length) await expect(page.getByText('このテーマの記事は、まだありません。', { exact: true })).toBeVisible();
     expect(await page.evaluate(() => performance.timeOrigin)).toBe(documentStart);
@@ -264,6 +272,34 @@ test('指定順の5タブで全4記事を絞り込み、0件のテーマと切�
   await expect(page.getByTestId('feature-card')).toHaveCount(3);
   await page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true }).click();
   await expect(page.getByTestId('feature-body')).toContainText('1．選べる側になる');
+});
+
+test('ホームの編集部の特集はおすすめ1件でも3記事を横スワイプして開ける', async ({ page, context }) => {
+  await mockFeatures(page);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const rail = page.getByTestId('home-editorial-rail');
+  const cards = page.getByTestId('home-editorial-card');
+  await expect(cards).toHaveCount(3);
+  await rail.scrollIntoViewIfNeeded();
+  const box = (await rail.boundingBox())!;
+  const first = (await cards.first().boundingBox())!;
+  expect(first.width).toBeLessThan(box.width - 24);
+  expect(await rail.evaluate(node => node.scrollWidth > node.clientWidth)).toBe(true);
+  const session = await context.newCDPSession(page);
+  const x = box.x + box.width * .85, y = box.y + box.height / 2;
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let i = 1; i <= 8; i++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - box.width * .65 * i / 8, y }] });
+    await page.evaluate(() => new Promise<void>(resolve => { requestAnimationFrame(() => resolve()); }));
+  }
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => rail.evaluate(node => node.scrollLeft)).toBeGreaterThan(100);
+  await page.screenshot({ path: test.info().outputPath('home-editorial-swiped.png') });
+  await cards.last().scrollIntoViewIfNeeded();
+  await cards.last().click();
+  await expect(page).toHaveURL(new RegExp(`/features/${initial[2].slug}$`));
+  await expect(page.getByTestId('feature-body')).toBeVisible();
 });
 
 test('カテゴリが未設定・不正でもすべての一覧から記事が消えない', async ({ page }) => {

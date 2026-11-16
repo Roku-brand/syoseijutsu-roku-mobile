@@ -16,12 +16,13 @@ const fallbackImage = require('../../assets/home/editorial-window-v1.webp');
 export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
   const router = useRouter();
   const { width } = useHydratedWindowDimensions();
-  const mobileCard = !desktop ? { width: Math.max(264, Math.min(400, width - 24)), height: Math.max(146, Math.min(208, (width - 24) * .52)) } : undefined;
+  const cardWidth = Math.max(240, Math.min(380, (width - 24) * .86));
+  const mobileCard = !desktop ? { width: cardWidth, height: Math.round(cardWidth * .56) } : undefined;
   const { articles } = useFeatures();
   const featured = useMemo(() => {
     const published = articles.filter(article => article.status === 'published' && article.show_in_list);
     const selected = published.filter(article => article.is_featured);
-    return (selected.length ? selected : published).slice(0, 8);
+    return [...selected, ...published.filter(article => !article.is_featured)].slice(0, 3);
   }, [articles]);
 
   return <View testID="home-editorial-section" style={styles.section}>
@@ -35,7 +36,8 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
         <Text style={styles.seeAllText}>すべて見る →</Text>
       </Pressable>
     </View>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.rail}
+    <ScrollView testID="home-editorial-rail" horizontal showsHorizontalScrollIndicator={false} style={styles.rail}
+      snapToInterval={(mobileCard?.width ?? 280) + 10} decelerationRate="fast" disableIntervalMomentum
       contentContainerStyle={styles.railContent} accessibilityLabel="編集部の特集を横にスクロール">
       {!featured.length ? (
         <Pressable testID="home-editorial-fallback" accessibilityRole="link" accessibilityLabel="特集一覧を開く"
@@ -71,9 +73,9 @@ const styles = StyleSheet.create({
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 28, fontWeight: '700' },
   seeAll: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 4 },
   seeAllText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, fontWeight: '600' },
-  rail: { marginHorizontal: -12 },
+  rail: { marginHorizontal: -12, flexGrow: 0 },
   railContent: { paddingHorizontal: 12, gap: 10, paddingBottom: 10 },
-  card: { width: 256, height: 137, borderRadius: 13, overflow: 'hidden', backgroundColor: '#28251E', borderWidth: 1, borderColor: '#DFD5C5' },
+  card: { flexShrink: 0, width: 256, height: 137, borderRadius: 13, overflow: 'hidden', backgroundColor: '#28251E', borderWidth: 1, borderColor: '#DFD5C5' },
   cardDesktop: { width: 280, height: 150 },
   image: { width: '100%', height: '100%' },
   imageShade: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(12,15,14,0.4)' },

@@ -37,7 +37,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
     expect((await filter.evaluate(shape)).radius).toBe((await shuffle.evaluate(shape)).radius);
     await expect(filter).toHaveCSS('border-color', 'rgb(198, 161, 93)');
     await expect(shuffle).toHaveCSS('background-color', 'rgb(146, 107, 46)');
-    await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(9, 31, 29)');
+    await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-top.png` });
     await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
