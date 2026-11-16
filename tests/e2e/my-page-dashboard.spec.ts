@@ -92,6 +92,7 @@ test('空状態から自作・編集・メニュー削除ができ、再起動�
   await expect(page.getByRole('button', { name: /閉じる/ })).toHaveCount(1);
   await input.fill('一度立ち止まる\n焦ったときほど、確認する。');
   await expect(page.getByRole('button', { name: 'マイ処世術を追加', exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: '新しいフォルダーを作る', exact: true }).click();
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
   await page.reload();

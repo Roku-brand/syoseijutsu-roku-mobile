@@ -76,6 +76,7 @@ test('マイページはプロフィールと巻物に続いてお気に入り�
   await expect(page.getByRole('button', { name: '閲覧履歴を開く', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'オリジナルの処世術を作る', exact: true }).click();
   await page.getByRole('textbox', { name: 'マイ処世術' }).fill('一呼吸おいて、相手の話を聞く。');
+  await page.getByRole('button', { name: '新しいフォルダーを作る', exact: true }).click();
   await page.getByRole('textbox', { name: 'フォルダー名', exact: true }).fill('日々の気づき');
   await page.getByRole('button', { name: 'マイ処世術を追加', exact: true }).click();
   await expect(page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true })).toContainText('1件');

@@ -24,6 +24,7 @@ test('ホームとマイページで同じフォルダーを作成・追記・�
   await expect(page).toHaveURL(/\/my-os/);
   await memoInput(page).fill('要点から伝える');
   await expect(save(page)).toBeDisabled();
+  await page.getByRole('button', { name: '新しいフォルダーを作る', exact: true }).click();
   await folderInput(page).fill('仕事の知恵');
   await page.screenshot({ path: test.info().outputPath('first-memo-folder-name.png') });
   await save(page).click();
@@ -31,6 +32,7 @@ test('ホームとマイページで同じフォルダーを作成・追記・�
 
   await home(page);
   await create(page);
+  await page.getByRole('button', { name: '保存先フォルダーを選択', exact: true }).click();
   await page.getByRole('radio', { name: '仕事の知恵', exact: true }).click();
   await expect(folderInput(page)).toHaveCount(0);
   await memoInput(page).fill('返事の前に確認する');
@@ -52,6 +54,7 @@ test('ホームとマイページで同じフォルダーを作成・追記・�
   await home(page);
   await create(page);
   await expect(memoInput(page)).toHaveValue('');
+  await page.getByRole('button', { name: '新しいフォルダーを作る', exact: true }).click();
   await folderInput(page).fill('人間関係の知恵');
   await memoInput(page).fill('相手の話を最後まで聞く');
   await save(page).click();
@@ -92,7 +95,10 @@ test('既存フォルダーへの作成リンクは保存済みデータの読�
     personalMemos: [{ id: 'm1', text: '一呼吸おく', folderId: 'f1', createdAt: '2026-10-23T00:00:00Z' }],
   });
   await page.goto('/my-techniques?folder=f1&compose=1');
+  await expect(page.getByRole('button', { name: '保存先フォルダーを選択', exact: true })).toContainText('日々の知恵');
+  await page.getByRole('button', { name: '保存先フォルダーを選択', exact: true }).click();
   await expect(page.getByRole('radio', { name: '日々の知恵', exact: true })).toBeChecked();
+  await page.getByRole('button', { name: '保存先フォルダーを選択', exact: true }).click();
   await expect(folderInput(page)).toHaveCount(0);
   await memoInput(page).fill('確認してから返事する');
   await save(page).click();
