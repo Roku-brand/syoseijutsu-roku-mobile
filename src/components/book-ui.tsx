@@ -223,29 +223,18 @@ export function SaveDiamondButton({
   );
 }
 
-function MenuMark({ active, avatarUrl }: { active: boolean; avatarUrl?: string | null }) {
-  return (
-    <View style={[styles.accountMark, active && styles.accountMarkActive]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
-      {active && avatarUrl ? <Image source={{ uri: avatarUrl }} resizeMode="cover" style={styles.accountAvatar} /> : <>
-        <View style={styles.accountHead} />
-        <View style={styles.accountShoulders} />
-      </>}
-    </View>
-  );
-}
-
 function MenuHeaderAction({ active, spacious = false }: { active: boolean; spacious?: boolean }) {
   const router = useRouter();
-  const { profile } = useAuth();
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel="設定を開く"
+      accessibilityHint={active ? 'アカウントと表示設定を開きます' : '表示やバックアップの設定を開きます'}
       testID="settings-header-action"
       onPress={() => router.push('/settings')}
       style={({ pressed }) => [styles.homeMenuAction, spacious && styles.searchSpacious, pressed && styles.headerActionPressed]}
     >
-      <MenuMark active={active} avatarUrl={profile?.avatarUrl} />
+      <SymbolView name={{ ios: 'gearshape', android: 'settings', web: 'settings' }} size={23} tintColor={colors.goldDeep} fallback={<AppText style={{ color: colors.goldDeep, fontSize: 24 }}>⚙</AppText>} />
     </Pressable>
   );
 }
@@ -739,11 +728,6 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   homeMenuAction: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  accountMark: { width: 30, height: 30, borderRadius: 15, backgroundColor: '#ECECE9', overflow: 'hidden', alignItems: 'center' },
-  accountMarkActive: { backgroundColor: colors.paperDeep },
-  accountAvatar: { width: '100%', height: '100%' },
-  accountHead: { position: 'absolute', top: 5, width: 11, height: 11, borderRadius: 6, backgroundColor: '#A8A8A3' },
-  accountShoulders: { position: 'absolute', bottom: -3, width: 26, height: 16, borderTopLeftRadius: 14, borderTopRightRadius: 14, backgroundColor: '#A8A8A3' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',

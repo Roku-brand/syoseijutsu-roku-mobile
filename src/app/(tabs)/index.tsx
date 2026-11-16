@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
   premiumPriceMobile: { fontSize: 12, lineHeight: 18 },
   premiumActionRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 3, marginTop: 3 },
-  premiumButton: { backgroundColor: '#AA7832', borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
+  premiumButton: { backgroundColor: colors.gold, borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
   premiumButtonMobile: { paddingHorizontal: 8, paddingVertical: 3 },
   premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
   premiumButtonTextMobile: { fontSize: 12, lineHeight: 18 },

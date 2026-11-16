@@ -68,9 +68,9 @@ export default function LearnHomeScreen() {
               {cases.map((item) => <View key={item.id} testID={`learning-dot-${item.id}`} style={[styles.caseDot, learningRecords[item.id] && styles.caseDotComplete]} />)}
               <AppText style={styles.caseCount}>{completeCount} / {cases.length}</AppText>
             </View>
-            <View style={[styles.stageBottom, !narrow && styles.stageBottomDesktop]}>
+            <View style={[styles.stageBottom, !narrow && styles.stageBottomDesktop, !desktop && styles.stageBottomMobile]}>
               <View style={styles.caseList}>
-                {visibleCases.map((item, caseIndex) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => openCase(item.id)} style={({ pressed }) => [styles.caseRow, pressed && styles.pressed]}><AppText style={styles.caseNumber}>{String(caseIndex + 1).padStart(2, '0')}</AppText><AppText numberOfLines={1} style={styles.caseTitle}>{item.title}</AppText></Pressable>)}
+                {visibleCases.map((item, caseIndex) => <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`${item.title}を開く`} onPress={() => openCase(item.id)} style={({ pressed }) => [styles.caseRow, pressed && styles.pressed]}><AppText style={styles.caseNumber}>{String(caseIndex + 1).padStart(2, '0')}</AppText><AppText numberOfLines={2} style={styles.caseTitle}>{item.title}</AppText></Pressable>)}
                 {cases.length > 3 ? <Pressable accessibilityRole="button" accessibilityLabel={`ステージ${stage.number}の${expanded ? 'ケースを閉じる' : '残りのケースを見る'}`} accessibilityState={{ expanded }} aria-expanded={expanded} onPress={() => setExpandedStages((current) => expanded ? current.filter((number) => number !== stage.number) : [...current, stage.number])} style={styles.more}><AppText style={styles.moreText}>{expanded ? '閉じる' : `＋${cases.length - 3}件を見る`}　›</AppText></Pressable> : null}
               </View>
               <Pressable testID={`learning-challenge-${stage.number}`} accessibilityRole="button" accessibilityLabel={`ステージ${stage.number}、${stage.title}`} onPress={() => next && openCase(next.id)} style={({ pressed }) => [styles.challenge, pressed && styles.pressed]}><AppText style={styles.challengeText}>挑戦する　→</AppText></Pressable>
@@ -130,10 +130,11 @@ const styles = StyleSheet.create({
   stageBottom: { gap: 10, alignItems: 'flex-end' },
   stageBottomDesktop: { flexDirection: 'row', alignItems: 'flex-end', gap: 24 },
   caseList: { alignSelf: 'stretch', flex: 1, minWidth: 0, paddingHorizontal: 8, paddingVertical: 4, borderRadius: radius.sm, backgroundColor: 'rgba(241,236,225,0.5)' },
-  caseRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 24 },
+  stageBottomMobile: { flexDirection: 'column', alignItems: 'stretch' },
+  caseRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 48, paddingVertical: 7 },
   caseNumber: { color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 12 },
   caseTitle: { flex: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 23 },
-  more: { minHeight: 30, justifyContent: 'center' },
+  more: { minHeight: 44, justifyContent: 'center' },
   moreText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 22 },
   challenge: { width: 112, minHeight: 44, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.goldDeep, alignItems: 'center', justifyContent: 'center' },
   challengeText: { color: colors.white, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },

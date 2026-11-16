@@ -1070,6 +1070,7 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
   await expect(page.getByText('CASE 01 / 21')).toBeVisible();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByTestId('learning-question-card').getByTestId('rokumaru-guide')).toBeVisible();
+  await page.getByTestId('learning-start').click();
   await page.getByRole('button', { name: /^A/ }).click();
   await expect(page.getByText('おしい！')).toBeVisible();
   await expect(page.getByText('ここで違いを覚えましょう。')).toBeVisible();
@@ -1088,6 +1089,7 @@ test('学ぶの改善が必要な選択は理由・関連知識・次ケース�
 
 test('学ぶの良い判断は正解表情と解説を示し、進捗へ保存する', async ({ page }) => {
   await page.goto('/learn/case-01?retry=1');
+  await page.getByTestId('learning-start').click();
   await page.getByRole('button', { name: /^B/ }).click();
   await expect(page.getByText('正解！')).toBeVisible();
   await expect(page.getByText('いい判断です。', { exact: true })).toBeVisible();
@@ -1109,6 +1111,7 @@ test('学ぶはスマホで縦積みになり横にはみ出さない', async ({
   await page.getByTestId('learning-challenge-1').click();
   await expect(page.getByTestId('learning-question-card')).toBeVisible();
   await expect(page.getByRole('button', { name: /^A/ })).toBeVisible();
+  await page.getByTestId('learning-start').click();
   await page.getByRole('button', { name: /^B/ }).click();
   await expect(page.getByTestId('learning-result-card')).toBeVisible();
   await expect(page.getByTestId('rokumaru-happy')).toBeVisible();

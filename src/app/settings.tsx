@@ -66,10 +66,14 @@ export default function SettingsScreen() {
         <SettingLink title="背景テーマ" detail={backgroundTheme.name} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
+      <SettingsSection title="記録の保存" />
+      <SettingsGroup>
+        <SettingLink title="記録のバックアップ・復元" detail="保存状況を確認し、ファイルやアカウントへ保管できます" href={'/settings/data' as Href} last />
+      </SettingsGroup>
+
       <View style={styles.quietSection}>
         <SettingsSection title="規約・データ" subdued />
         <SettingsGroup subdued>
-          <SettingLink title="記録のバックアップ・復元" detail="端末内の記録を保存・引き継ぎできます" href={'/settings/data' as Href} subdued />
           <UsageSharingSetting />
           <SettingLink title="特定商取引法に基づく表記" href={APP_ROUTES.commerce} subdued />
           <SettingLink title="利用規約" href={APP_ROUTES.terms} subdued />

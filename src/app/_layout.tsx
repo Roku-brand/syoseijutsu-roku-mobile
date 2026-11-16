@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import { MainSectionProvider } from '@/navigation/main-section-state';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -78,7 +79,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><HomeAppearanceProvider><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></HomeAppearanceProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><HomeAppearanceProvider><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><MainSectionProvider><AppFrame /></MainSectionProvider></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></HomeAppearanceProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

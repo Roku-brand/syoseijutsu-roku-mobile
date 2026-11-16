@@ -36,7 +36,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
     };
     expect((await filter.evaluate(shape)).radius).toBe((await shuffle.evaluate(shape)).radius);
     await expect(filter).toHaveCSS('border-color', 'rgb(198, 161, 93)');
-    await expect(shuffle).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+    await expect(shuffle).toHaveCSS('background-color', 'rgb(146, 107, 46)');
     await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(9, 31, 29)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-top.png` });
@@ -71,8 +71,8 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
   const filter = page.getByTestId('home-deck-filter');
   const shuffle = page.getByTestId('home-discovery-refresh');
   for (const [category, label, color] of [
-    ['interpersonal', '対人術', 'rgb(196, 85, 93)'], ['work', '仕事術', 'rgb(74, 125, 168)'],
-    ['life', '人生術', 'rgb(88, 134, 106)'], ['theory', '理論', 'rgb(32, 63, 105)'], ['all', 'すべて', 'rgb(165, 123, 53)'],
+    ['interpersonal', '対人術', 'rgb(185, 76, 85)'], ['work', '仕事術', 'rgb(67, 116, 157)'],
+    ['life', '人生術', 'rgb(78, 123, 96)'], ['theory', '理論', 'rgb(32, 63, 105)'], ['all', 'すべて', 'rgb(146, 107, 46)'],
   ]) {
     await filter.click();
     await page.getByTestId(`home-deck-filter-${category}`).click();
@@ -126,7 +126,7 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
     await ready(page);
     await expect(page.getByTestId('home-deck-position')).toContainText(String(cursor + 1).padStart(2, '0'));
     const active = await page.getByTestId('home-deck-position').evaluate(node =>
-      Array.from(node.parentElement!.firstElementChild!.children).map(mark => getComputedStyle(mark).backgroundColor === 'rgb(165, 123, 53)'));
+      Array.from(node.parentElement!.firstElementChild!.children).map(mark => getComputedStyle(mark).backgroundColor === 'rgb(146, 107, 46)'));
     expect(active.filter(Boolean)).toHaveLength(1);
     expect(active[cursor]).toBe(true);
   }
