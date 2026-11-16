@@ -33,6 +33,8 @@ test('favorite and learning links retain MyPage and Learn context',async({page})
 test('a case waits for explicit start and offers unlimited practice within the case',async({page})=>{
  await page.setViewportSize({width:320,height:568});await page.clock.install();await page.goto('/learn/case-01?retry=1');
  await expect(page.getByTestId('learning-start')).toBeEnabled();await page.clock.runFor(65000);
+ await page.getByTestId('learning-countdown').scrollIntoViewIfNeeded();
+ await page.screenshot({path:'release-evidence/selected-improvements/case-before-start-320.png'});
  await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');await expect(page.getByRole('button',{name:/^A /})).toBeDisabled();
  await page.getByRole('switch',{name:'このケースを時間制限なしで練習する'}).check();
  await page.getByTestId('learning-start').click();await page.clock.runFor(65000);
@@ -45,6 +47,7 @@ test('a case waits for explicit start and offers unlimited practice within the c
 test('file import previews counts without changing records; export dates survive reload',async({page})=>{
  await page.addInitScript(key=>{if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify({savedIds:['master336-001']}));},guestKey);
  await page.goto('/settings/data');await expect(page.getByTestId('personal-backup-status')).toContainText('お気に入り 1件');
+ await page.screenshot({path:'release-evidence/selected-improvements/backup-status-mobile.png'});
  const event=page.waitForEvent('download');await page.getByRole('button',{name:'バックアップをダウンロード',exact:true}).click();
  const download=await event;const original=JSON.parse(await readFile((await download.path())!,'utf8'));
  await expect(page.getByTestId('personal-backup-status')).not.toContainText('端末への最終書き出し：まだありません');
@@ -80,10 +83,11 @@ for(const kind of ['technique','theory'])test(`${kind} footer turns pages, retai
 test('small learning rows wrap and settings remains distinct from MyPage',async({page})=>{
  await page.setViewportSize({width:320,height:568});await page.goto('/learn');
  // Inspect every visible case row rather than relying on one editorial title.
- const rows=page.getByRole('button',{name:/を開く$/});
+ const rows=page.getByTestId('learning-stage-1').getByRole('button',{name:/を開く$/});
+ await rows.first().scrollIntoViewIfNeeded();
  for(let i=0;i<Math.min(await rows.count(),9);i++){const box=await rows.nth(i).boundingBox();expect(box!.height).toBeGreaterThanOrEqual(44);}
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
- await page.screenshot({path:'release-evidence/selected-improvements/learn-320.png',fullPage:true});
+ await page.screenshot({path:'release-evidence/selected-improvements/learn-320.png'});
  await nav(page,'ホーム').click();const settings=page.getByTestId('settings-header-action');await expect(settings).toHaveAccessibleName('設定を開く');
  await expect(settings).toContainText('\ue8b8');await settings.click();await expect(page).toHaveURL(/\/settings$/);
  await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
