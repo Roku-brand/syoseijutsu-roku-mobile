@@ -6,7 +6,7 @@ const ready = async (page: Page) => {
   await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
 };
 
-test('シャッフルは5枚が小さくフェード・スライドし、一度だけ交換する', async ({ page }) => {
+test('シャッフルは5枚を裏返し、裏面で一度だけ交換して新しいカードを見せる', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -16,30 +16,36 @@ test('シャッフルは5枚が小さくフェード・スライドし、一度�
   const width = (await page.getByTestId('home-recommendation-card').boundingBox())!.width;
   await page.getByTestId('home-discovery-refresh').click();
   const outgoing = await page.evaluate(() => {
-    const animations = document.getAnimations().filter(animation => (animation.effect as KeyframeEffect)?.target?.id?.startsWith('home-deck-slot-'));
+    const animations = document.getAnimations().filter(animation => /^home-deck-(slot|face|back)-/.test((animation.effect as KeyframeEffect)?.target?.id ?? ''));
     const paths = animations.map(animation => {
       const keys = (animation.effect as KeyframeEffect).getKeyframes();
       animation.pause();
-      animation.currentTime = Number(animation.effect!.getTiming().delay) + 150;
+      animation.currentTime = Number(animation.effect!.getTiming().delay) + Number(animation.effect!.getTiming().duration);
       return { id: (animation.effect as KeyframeEffect).target!.id, start: new DOMMatrix(keys[0].transform as string).m41, end: new DOMMatrix(keys.at(-1)!.transform as string).m41, opacity: keys.at(-1)!.opacity };
     });
     (window as any).__outgoing = animations;
     return paths;
   });
-  expect(outgoing).toHaveLength(5);
-  expect(outgoing.every(path => Math.abs(path.end - path.start) <= 12 && Math.abs(path.end) < width * .1)).toBe(true);
-  expect(outgoing.every(path => Number(path.opacity) === 0)).toBe(true);
+  expect(outgoing).toHaveLength(15);
+  const slots = outgoing.filter(path => path.id.startsWith('home-deck-slot-'));
+  expect(slots.every(path => Math.abs(path.end - path.start) <= 12 && Math.abs(path.end) < width * .1)).toBe(true);
+  expect(slots.every(path => Number(path.opacity) >= .6)).toBe(true);
+  await expect(page.locator('#home-deck-slot-0')).toHaveCSS('opacity', '1');
+  expect(await page.locator('#home-deck-face-0').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m11)).toBeCloseTo(-1);
+  expect(await page.locator('#home-deck-back-0').evaluate(node => new DOMMatrix(getComputedStyle(node).transform).m11)).toBeCloseTo(1);
+  await expect(page.locator('#home-deck-back-0')).toHaveCSS('backface-visibility', 'hidden');
+  expect((await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order, storageKey))).toEqual(original.order);
   await expect(page.getByTestId('home-deck-filter')).toBeDisabled();
   await page.screenshot({ path: 'release-evidence/home-polish/replacement-outgoing.png' });
   await page.evaluate(() => {
     const sample = () => {
       const outgoing = (window as any).__outgoing as Animation[];
-      const incoming = document.getAnimations().filter(animation => !outgoing.includes(animation) && (animation.effect as KeyframeEffect)?.target?.id?.startsWith('home-deck-slot-'));
-      if (incoming.length !== 5) { requestAnimationFrame(sample); return; }
+      const incoming = document.getAnimations().filter(animation => !outgoing.includes(animation) && /^home-deck-(slot|face|back)-/.test((animation.effect as KeyframeEffect)?.target?.id ?? ''));
+      if (incoming.length !== 15) { requestAnimationFrame(sample); return; }
       (window as any).__incoming = incoming.map(animation => {
         const keys = (animation.effect as KeyframeEffect).getKeyframes();
         animation.pause();
-        animation.currentTime = Number(animation.effect!.getTiming().delay) + 100;
+        animation.currentTime = Number(animation.effect!.getTiming().delay) + 150;
         return { id: (animation.effect as KeyframeEffect).target!.id, start: new DOMMatrix(keys[0].transform as string).m41 };
       });
     };
@@ -48,9 +54,9 @@ test('シャッフルは5枚が小さくフェード・スライドし、一度�
   });
   await page.waitForFunction(() => (window as any).__incoming);
   const incoming = await page.evaluate(() => (window as any).__incoming as { id: string; start: number }[]);
-  for (const path of incoming) expect(path.start).toBe(outgoing.find(item => item.id === path.id)!.start + 8);
+  for (const path of incoming.filter(path => path.id.startsWith('home-deck-slot-'))) expect(path.start).toBe(outgoing.find(item => item.id === path.id)!.end);
   await page.screenshot({ path: 'release-evidence/home-polish/replacement-incoming.png' });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.evaluate(() => { for (const animation of document.getAnimations()) animation.finish(); });
   await ready(page);
   await expect(page.getByTestId('home-discovery-refresh')).toBeEnabled();
   await expect.poll(async () => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(original.round + 1);

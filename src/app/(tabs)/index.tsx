@@ -19,11 +19,11 @@ const premiumImage = require('../../../assets/home/premium-banner-v2.webp');
 
 const shortcuts = [
   { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
-  { label: '人気ランキング', icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
-  { label: '処世術を作る', icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myPage, params: { compose: '1' } }, testID: 'home-create-technique' },
+  { label: '人気ランキング', lines: ['人気', 'ランキング'], icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
+  { label: '処世術を作る', lines: ['処世術を', '作る'], icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myPage, params: { compose: '1' } }, testID: 'home-create-technique' },
   { label: '特集', icon: 'newspaper', material: 'article', fallback: '▤', route: APP_ROUTES.features, testID: 'home-shortcut-features' },
   { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', action: 'principles', testID: 'home-shortcut-principles' },
-] as const satisfies ReadonlyArray<{ label: string; icon: string; material: string; fallback: string; route: Href; testID: string } | { label: string; icon: string; material: string; fallback: string; action: 'principles'; testID: string }>;
+] as const satisfies ReadonlyArray<{ label: string; lines?: readonly string[]; icon: string; material: string; fallback: string; route: Href; testID: string } | { label: string; icon: string; material: string; fallback: string; action: 'principles'; testID: string }>;
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -50,9 +50,9 @@ export default function HomeScreen() {
 
       <View style={[styles.body, width < 700 && styles.bodyCompact]}>
       <View testID="home-shortcuts" style={styles.shortcuts}>
-        {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
+        {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, width < 360 && item.testID === 'home-shortcut-popular' && styles.shortcutRankingNarrow, pressed && styles.pressed]}>
           <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={desktop ? 25 : 23} tintColor={colors.gold} weight="light" />
-          <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}><Text numberOfLines={mobile ? 2 : 1} style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{item.label}</Text></View>
+          <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}>{'lines' in item ? item.lines.map(line => <Text key={line} style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{line}</Text>) : <Text style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{item.label}</Text>}</View>
         </Pressable>)}
       </View>
 
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
   shortcut: { flex: 1, minWidth: 0, minHeight: 64, paddingVertical: 4, alignItems: 'center', justifyContent: 'center', gap: 3, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
   shortcutLabelDesktop: { fontSize: 13, lineHeight: 20 },
+  shortcutRankingNarrow: { flex: 1.3 },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
   shortcutCaption: { width: '100%', alignItems: 'center', justifyContent: 'center' },
   shortcutCaptionMobile: { minHeight: 30 },

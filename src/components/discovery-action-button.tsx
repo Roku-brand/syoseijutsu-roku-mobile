@@ -8,17 +8,18 @@ export const DiscoveryActionButton = forwardRef<View, {
   accessibilityLabel?: string;
   expanded?: boolean;
   disabled: boolean;
+  dimWhenDisabled?: boolean;
   color: string;
   testID: string;
   icon?: ReactNode;
   variant?: 'filled' | 'outline';
   onPress: () => void;
-}>(function DiscoveryActionButton({ label, accessibilityLabel = label, expanded, disabled, color, testID, icon, variant = 'filled', onPress }, ref) {
+}>(function DiscoveryActionButton({ label, accessibilityLabel = label, expanded, disabled, dimWhenDisabled = true, color, testID, icon, variant = 'filled', onPress }, ref) {
   const [focused, setFocused] = useState(false);
   return <Pressable ref={ref} testID={testID} accessibilityRole="button" accessibilityLabel={accessibilityLabel}
     aria-expanded={expanded} aria-disabled={disabled} accessibilityState={{ disabled, ...(expanded === undefined ? {} : { expanded }) }} disabled={disabled} onPress={onPress}
     onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-    style={({ pressed }) => [styles.button, { backgroundColor: color }, variant === 'outline' && { backgroundColor: 'rgba(6,25,23,.52)', borderColor: color, borderWidth: 1 }, focused && (variant === 'outline' ? styles.focusedOutline : styles.focused), disabled && styles.disabled, pressed && styles.pressed]}>
+    style={({ pressed }) => [styles.button, { backgroundColor: color }, variant === 'outline' && { backgroundColor: 'rgba(6,25,23,.52)', borderColor: color, borderWidth: 1 }, focused && (variant === 'outline' ? styles.focusedOutline : styles.focused), disabled && dimWhenDisabled && styles.disabled, pressed && styles.pressed]}>
     {icon}<Text style={styles.label}>{label}</Text>
   </Pressable>;
 });

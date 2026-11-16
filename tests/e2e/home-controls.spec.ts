@@ -49,6 +49,17 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
     const nav = (await page.getByTestId('persistent-bottom-navigation').boundingBox())!;
     if (width < 1000) expect(next.y + next.height).toBeLessThanOrEqual(nav.y);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-deck.png` });
+    for (const [testID, lines] of [['home-shortcut-popular', ['人気', 'ランキング']], ['home-create-technique', ['処世術を', '作る']]] as const) {
+      const shortcut = page.getByTestId(testID);
+      const first = shortcut.getByText(lines[0], { exact: true });
+      const second = shortcut.getByText(lines[1], { exact: true });
+      const a = (await first.boundingBox())!, b = (await second.boundingBox())!;
+      expect(a.y + a.height).toBeCloseTo(b.y, 0);
+      for (const line of [first, second]) expect(await line.evaluate(node => {
+        const css = getComputedStyle(node);
+        return node.getBoundingClientRect().height <= parseFloat(css.lineHeight) + 1 && node.scrollWidth <= node.clientWidth;
+      })).toBe(true);
+    }
   });
 }
 

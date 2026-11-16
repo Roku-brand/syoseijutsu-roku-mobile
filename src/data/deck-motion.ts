@@ -24,15 +24,16 @@ export function deckPose(depth: number, x: number, width: number, reverse = fals
     scale: 1 - (depth - progress) * .025, opacity: 1 - (depth - progress) * .1 };
 }
 
-/** A restrained fade/slide exchanges the hand while every layer stays nearby. */
+/** Turn the hand face-down, exchange behind the backs, then reveal new faces. */
 export function deckShuffleFrames(depth: number, width: number) {
   const rest = deckPose(depth, 0, width);
   const stops = [0, .4, 1.5 + depth * .08, 1.9 + depth * .04, 2.12 + (4 - depth) * .04, 3.3 + (4 - depth) * .08, 4];
   return { stops,
-    x: [rest.x, rest.x - 2, rest.x - 10, rest.x - 12, rest.x + 8, rest.x + 2, rest.x],
-    y: [rest.y, rest.y - 2, rest.y - 6, rest.y - 8, rest.y + 12, rest.y + 3, rest.y],
+    x: [rest.x, rest.x - 2, rest.x - 10, rest.x - 12, rest.x - 12, rest.x + 2, rest.x],
+    y: [rest.y, rest.y - 2, rest.y - 6, rest.y - 8, rest.y - 8, rest.y + 3, rest.y],
     angle: [rest.angle, rest.angle, rest.angle, rest.angle, rest.angle, rest.angle, rest.angle],
     scale: [rest.scale, rest.scale, rest.scale - .015, rest.scale - .02, rest.scale - .02, rest.scale, rest.scale],
-    opacity: [rest.opacity, rest.opacity * .9, rest.opacity * .2, 0, 0, rest.opacity * .8, rest.opacity],
+    flip: [0, 18, 155, 180, 180, 342, 360],
+    opacity: stops.map(() => rest.opacity),
   };
 }
