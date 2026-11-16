@@ -1,16 +1,19 @@
 import { expect, test, type Page } from '@playwright/test';
 
-async function openRound(page: Page) {
+async function openRound(page: Page, freeze = false) {
   await page.clock.install();
   await page.goto('/learn/case-01?retry=1');
   await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+  await expect(page.getByTestId('learning-start')).toBeEnabled();
+  // Exact second boundaries must not include real time spent clicking/scrolling.
+  if (freeze) await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await page.getByTestId('learning-start').click();
   // Allow one second to elapse after explicitly starting.
   await page.clock.runFor(1000);
 }
 
 test('60 seconds expires as unanswered, retry and next case get a full minute', async ({ page }) => {
-  await openRound(page);
+  await openRound(page, true);
   await page.clock.runFor(49_000);
   await expect(page.getByTestId('learning-seconds')).toHaveText('10 秒');
   await expect(page.getByTestId('learning-countdown')).toContainText('あと少し');

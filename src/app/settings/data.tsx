@@ -12,7 +12,7 @@ import { useAuth } from '@/auth/auth-state';
 import { supabase } from '@/lib/supabase';
 
 export default function PersonalBackupScreen() {
- const { exportPersonalData, restorePersonalData, hydrated } = useAppState();
+ const { exportPersonalData, restorePersonalData, hydrated, storageError } = useAppState();
  const { user } = useAuth();
  const [lastExport, setLastExport] = useState<string | null>(null);
  const [manual, setManual] = useState(false);
@@ -78,7 +78,7 @@ export default function PersonalBackupScreen() {
  return <BookScreen contentContainerStyle={styles.content}>
   <View testID="personal-backup-status" style={styles.status}>
    <AppText accessibilityRole="header" aria-level={2} style={styles.heading}>記録の保存状況</AppText>
-   <AppText style={styles.copy}>{user ? 'ログイン中のアカウント用の記録を、この端末に自動保存しています。' : '現在の記録は、この端末に自動保存しています。'}</AppText>
+   <AppText style={styles.copy}>{!hydrated ? '記録を読み込んでいます。' : storageError || (user ? 'ログイン中のアカウント用の記録を、この端末に自動保存しています。' : '現在の記録は、この端末に自動保存しています。')}</AppText>
    <AppText style={styles.copy}>端末への最終書き出し：{dateLabel(lastExport)}</AppText>
    <AppText style={styles.copy}>アカウントへの最終保存：{!user ? 'ログインすると利用できます' : cloudReadError ? '日時を確認できませんでした' : dateLabel(cloudDate)}</AppText>
    {currentSummary ? <AppText style={styles.counts}>お気に入り {currentSummary.favorites}件・マイ処世術 {currentSummary.memos}件・学習記録 {currentSummary.learning}件</AppText> : null}

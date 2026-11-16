@@ -21,7 +21,7 @@ test('iOS file selection copies to cache, reads UTF-8 contents and allows cancel
  assert.deepEqual(file.options(),{type:'*/*',multiple:false,copyToCacheDirectory:true});assert.equal(file.reads(),1);
 });
 test('oversize files are rejected before reading, including missing picker sizes',async()=>{
- for(const asset of [{size:6*1024*1024},{}]){
+ for(const asset of [{size:6*1024*1024},{size:20},{}]){
   const file=picker({canceled:false,assets:[{uri:'file:///backup.json',name:'記録.json',...asset}]},{size:6*1024*1024});
   await assert.rejects(file.pick(),/5MB/);assert.equal(file.reads(),0);
  }

@@ -7,7 +7,7 @@ export async function pickPersonalBackupFile(): Promise<{ text: string; name: st
   if (result.canceled) return null;
   const asset = result.assets[0];
   const file = new File(asset.uri);
-  if ((asset.size ?? file.size) > MAX_BACKUP_BYTES) throw new Error('ファイルは5MB以内にしてください。');
+  if (Math.max(asset.size ?? 0, file.size) > MAX_BACKUP_BYTES) throw new Error('ファイルは5MB以内にしてください。');
   try { return { name: asset.name, text: await file.text() }; }
   catch { throw new Error('ファイルを読み込めませんでした。別のバックアップを選んでください。'); }
 }
