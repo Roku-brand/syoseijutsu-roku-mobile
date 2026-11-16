@@ -7,6 +7,7 @@ import { featureCover } from '@/data/feature-covers';
 import { featureImageSource } from '@/data/feature-images';
 import { colors, fonts } from '@/constants/theme';
 import { APP_ROUTES, featureRoute } from '@/navigation/app-routes';
+import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 const fallbackImage = require('../../assets/home/editorial-window-v1.webp');
 
@@ -14,6 +15,8 @@ const fallbackImage = require('../../assets/home/editorial-window-v1.webp');
  * follows the daily deck and premium link without stealing the first viewport. */
 export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
   const router = useRouter();
+  const { width } = useHydratedWindowDimensions();
+  const mobileCard = !desktop ? { width: Math.max(264, Math.min(400, width - 24)), height: Math.max(146, Math.min(208, (width - 24) * .52)) } : undefined;
   const { articles } = useFeatures();
   const featured = useMemo(() => {
     const published = articles.filter(article => article.status === 'published' && article.show_in_list);
@@ -36,7 +39,7 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
       contentContainerStyle={styles.railContent} accessibilityLabel="編集部の特集を横にスクロール">
       {!featured.length ? (
         <Pressable testID="home-editorial-fallback" accessibilityRole="link" accessibilityLabel="特集一覧を開く"
-          onPress={() => router.push(APP_ROUTES.features)} style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, pressed && styles.pressed]}>
+          onPress={() => router.push(APP_ROUTES.features)} style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, mobileCard, pressed && styles.pressed]}>
           <Image source={fallbackImage} resizeMode="cover" style={styles.image} />
           <View style={styles.imageShade} />
           <View style={styles.copy}>
@@ -47,7 +50,7 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
       ) : featured.map(article => (
         <Pressable key={article.id} testID="home-editorial-card" accessibilityRole="link" accessibilityLabel={`特集「${article.title}」を読む`}
           onPress={() => router.push(featureRoute(article.slug))}
-          style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, pressed && styles.pressed]}>
+          style={({ pressed }) => [styles.card, desktop && styles.cardDesktop, mobileCard, pressed && styles.pressed]}>
           <Image source={article.image_path ? featureCover(article)?.compactSource ?? featureImageSource(article) : fallbackImage} resizeMode="cover" style={styles.image} />
           <View style={styles.imageShade} />
           <View style={styles.copy}>
@@ -61,12 +64,12 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
 }
 
 const styles = StyleSheet.create({
-  section: { marginTop: 30, marginBottom: 12 },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, gap: 8 },
+  section: { marginTop: 8, marginBottom: 12 },
+  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4, gap: 8 },
   headingLeft: { flexDirection: 'row', alignItems: 'center', flexShrink: 1, gap: 9 },
   accent: { width: 3, height: 26, backgroundColor: colors.gold, borderRadius: 2 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 28, fontWeight: '700' },
-  seeAll: { minHeight: 44, justifyContent: 'center', paddingHorizontal: 4 },
+  seeAll: { minHeight: 40, justifyContent: 'center', paddingHorizontal: 4 },
   seeAllText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 12, fontWeight: '600' },
   rail: { marginHorizontal: -12 },
   railContent: { paddingHorizontal: 12, gap: 10, paddingBottom: 10 },

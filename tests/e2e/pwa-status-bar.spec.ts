@@ -6,7 +6,7 @@ test('ホーム画面追加用の上部設定は不透明で、色の補助要�
   const strip = page.locator('#roku-status-bar-background');
   await expect(strip).toHaveCSS('height', '11px');
   await expect(strip).toHaveCSS('background-clip', 'text');
-  await expect(strip).toHaveCSS('background-color', 'rgb(255, 253, 248)');
+  await expect(strip).toHaveCSS('background-color', 'rgb(9, 31, 29)');
   await expect(strip).toHaveCSS('pointer-events', 'none');
   await expect(page.locator('#roku-launch')).toBeHidden();
   const intercepts = await page.evaluate(() => document.elementFromPoint(innerWidth / 2, 4)?.id === 'roku-status-bar-background');

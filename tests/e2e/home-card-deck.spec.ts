@@ -33,7 +33,7 @@ for (const width of [375, 390, 430, 768, 1440]) {
     expect(Math.abs(filter.y - shuffle.y)).toBeLessThan(2);
     expect(shortcuts.y).toBeLessThan(premium.y);
     const card = await page.getByTestId('home-recommendation-card').boundingBox();
-    expect(card!.width).toBeLessThanOrEqual(356);
+    expect(card!.width).toBeLessThanOrEqual(width >= 1000 ? 400 : 380);
     expect(card!.width).toBeGreaterThan(290);
     if (width >= 1000) {
       const previous = (await page.getByTestId('home-deck-previous').boundingBox())!;

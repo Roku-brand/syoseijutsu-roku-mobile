@@ -1,3 +1,4 @@
+import { useHomeAppearance } from '@/state/home-appearance';
 import Constants from 'expo-constants';
 import { UsageSharingSetting } from '@/components/usage-sharing-setting';
 import { useRouter, type Href } from 'expo-router';
@@ -12,6 +13,7 @@ import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 import { useGuides } from '@/onboarding/guide-provider';
 
 export default function SettingsScreen() {
+  const { theme: backgroundTheme } = useHomeAppearance();
   const { user, profile, role } = useAuth();
   const { isPaid, accessInfo, accessStatus } = useAccess();
   const { clearPersonalData } = useAppState();
@@ -57,6 +59,11 @@ export default function SettingsScreen() {
         <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
         <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
+      </SettingsGroup>
+
+      <SettingsSection title="表示" />
+      <SettingsGroup>
+        <SettingLink title="背景テーマ" detail={backgroundTheme.name} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
       <View style={styles.quietSection}>

@@ -1,7 +1,9 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeThemeBackdrop } from '@/components/home-theme-backdrop';
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { useAccess } from '@/access/access-state';
 import { BookScreen, PrinciplesModal, bookCardShadow } from '../../components/book-ui';
@@ -25,29 +27,36 @@ const shortcuts = [
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { desktop, width } = useResponsiveLayout();
+  const { desktop, width, height } = useResponsiveLayout();
+  const { fontScale = 1 } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
-  const cardWidth = desktop ? 356 : Math.min(356, width - 70);
+  const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - (width < 360 ? 40 : 60)));
+  const usableHeight = height - insets.top - insets.bottom;
+  const cardHeight = (desktop ? 362 : Math.round(Math.min(352, Math.max(272, 282 + (usableHeight - 844) * .5)))) + Math.max(0, fontScale - 1) * 160;
 
   return (
     <BookScreen testID="home-scroll" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
-      <View style={[styles.body, width < 700 && styles.bodyCompact]}>
-      <View testID="home-recommendations-section" style={styles.section}>
-        <HomeRecommendationDeck cardWidth={cardWidth} />
+      <View testID="home-recommendations-section" style={styles.discovery}>
+        <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />
+        <View style={styles.deckContent}>
+        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} night />
         {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
+        </View>
       </View>
 
+      <View style={[styles.body, width < 700 && styles.bodyCompact]}>
       <View testID="home-shortcuts" style={styles.shortcuts}>
         {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
-          <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={25} tintColor={colors.gold} weight="light" />
-          <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}><Text numberOfLines={mobile ? 2 : 1} style={styles.shortcutLabel}>{item.label}</Text></View>
+          <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={desktop ? 25 : 23} tintColor={colors.gold} weight="light" />
+          <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}><Text numberOfLines={mobile ? 2 : 1} style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{item.label}</Text></View>
         </Pressable>)}
       </View>
 
-      {accessState !== 'paid' ? <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, pressed && styles.pressed]}>
+      {accessState !== 'paid' ? <Pressable testID="home-premium-banner" accessibilityRole="link" accessibilityLabel="処世術禄 完全版を詳しく見る" onPress={() => router.push(upgradeRoute('home_banner'))} style={({ pressed }) => [styles.premiumBanner, !desktop && styles.premiumBannerMobile, width < 360 && styles.premiumBannerNarrow, pressed && styles.pressed]}>
         <Image source={premiumImage} resizeMode="cover" accessibilityLabel="黒と金の装丁の書籍" style={styles.premiumImage} />
         <View style={[styles.premiumCopy, !desktop && styles.premiumCopyMobile]}>
           <View style={[styles.premiumEdition, !desktop && styles.premiumEditionMobile]}>
@@ -78,22 +87,26 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   dataStatus: { minHeight: 44, justifyContent: 'center' },
   dataStatusText: { color: colors.muted, fontSize: 12, lineHeight: 21, marginTop: 8 },
-  page: { maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: layout.bottomContentInset + 24 }, pageDesktop: { paddingBottom: 48 },
+  discovery: { width: '100%', position: 'relative' },
+  deckContent: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 10, paddingBottom: 0 },
+  page: { backgroundColor: '#FAF7EF', maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: layout.bottomContentInset + 24 }, pageDesktop: { paddingBottom: 48 },
   pageMobile: { paddingBottom: layout.bottomContentInset + 20 },
   body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
-  shortcuts: { flexDirection: 'row', gap: 7, marginTop: 20 },
-  shortcut: { flex: 1, minWidth: 0, minHeight: 78, paddingVertical: 7, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
+  shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
+  shortcut: { flex: 1, minWidth: 0, minHeight: 64, paddingVertical: 4, alignItems: 'center', justifyContent: 'center', gap: 3, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
+  shortcutLabelDesktop: { fontSize: 13, lineHeight: 20 },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
   shortcutCaption: { width: '100%', alignItems: 'center', justifyContent: 'center' },
-  shortcutCaptionMobile: { minHeight: 36 },
-  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 18, fontWeight: '600', textAlign: 'center', width: '100%' },
-  premiumBanner: { height: 126, marginTop: 28, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
-  premiumBannerMobile: { height: 'auto', minHeight: 150, borderRadius: 11 },
+  shortcutCaptionMobile: { minHeight: 30 },
+  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 15, fontWeight: '600', textAlign: 'center', width: '100%' },
+  premiumBanner: { height: 114, marginTop: 10, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
+  premiumBannerMobile: { height: 102, minHeight: 102, borderRadius: 11 },
+  premiumBannerNarrow: { height: 122, minHeight: 122 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '72%', height: 'auto', minHeight: 150, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, paddingVertical: 12, gap: 4 },
+  premiumCopyMobile: { width: '75%', height: '100%', minHeight: 102, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, paddingVertical: 4, gap: 0 },
   premiumEdition: { flexShrink: 0 },
   premiumEditionMobile: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   premiumDetailsMobile: { flexShrink: 0, width: '100%' },
@@ -110,7 +123,7 @@ const styles = StyleSheet.create({
   premiumLeadMobile: { fontSize: 12, lineHeight: 18 },
   premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
   premiumPriceMobile: { fontSize: 12, lineHeight: 18 },
-  premiumActionRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 5, marginTop: 8 },
+  premiumActionRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 3, marginTop: 3 },
   premiumButton: { backgroundColor: '#AA7832', borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
   premiumButtonMobile: { paddingHorizontal: 8, paddingVertical: 3 },
   premiumButtonText: { color: '#FFFDF7', fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },

@@ -34,8 +34,10 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
       const css = getComputedStyle(node);
       return { radius: css.borderRadius, background: css.backgroundColor };
     };
-    expect(await filter.evaluate(shape)).toEqual(await shuffle.evaluate(shape));
-    await expect(filter).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+    expect((await filter.evaluate(shape)).radius).toBe((await shuffle.evaluate(shape)).radius);
+    await expect(filter).toHaveCSS('border-color', 'rgb(198, 161, 93)');
+    await expect(shuffle).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+    await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(9, 31, 29)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-top.png` });
     await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
@@ -64,7 +66,8 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
     await filter.click();
     await page.getByTestId(`home-deck-filter-${category}`).click();
     await expect(filter).toHaveText(label);
-    await expect(filter).toHaveCSS('background-color', color);
+    await filter.evaluate((node: HTMLElement) => node.blur());
+    await expect(filter).toHaveCSS('border-color', category === 'all' ? 'rgb(198, 161, 93)' : color);
     await expect(shuffle).toHaveCSS('background-color', color);
     await ready(page);
     const old = await state(page);
