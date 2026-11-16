@@ -7,7 +7,7 @@ import { DiscoveryActionButton } from './discovery-action-button';
 
 export const discoveryFilterColor = (value: DiscoveryFilter) => value === 'all' ? colors.gold : value === 'theory' ? catalogTheme.theory.ink : catalogTheme.categoryBars[value];
 
-export function DiscoveryFilterButton({ value, disabled, onChange, outlined = false }: { value: DiscoveryFilter; disabled: boolean; onChange: (value: DiscoveryFilter) => void; outlined?: boolean }) {
+export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true, onChange, outlined = false }: { value: DiscoveryFilter; disabled: boolean; dimWhenDisabled?: boolean; onChange: (value: DiscoveryFilter) => void; outlined?: boolean }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(-1);
   const reduced = useReducedMotion();
@@ -15,7 +15,7 @@ export function DiscoveryFilterButton({ value, disabled, onChange, outlined = fa
   const choices = useRef<(View | null)[]>([]);
   const close = () => { setOpen(false); setTimeout(() => trigger.current?.focus(), 0); };
   return <>
-    <DiscoveryActionButton ref={trigger} testID="home-deck-filter" label={discoveryFilters.find(option => option.key === value)!.label} accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} expanded={open} disabled={disabled} variant={outlined ? 'outline' : 'filled'} color={outlined && value === 'all' ? '#C6A15D' : discoveryFilterColor(value)} onPress={() => setOpen(true)} />
+    <DiscoveryActionButton ref={trigger} testID="home-deck-filter" label={discoveryFilters.find(option => option.key === value)!.label} accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} expanded={open} disabled={disabled} dimWhenDisabled={dimWhenDisabled} variant={outlined ? 'outline' : 'filled'} color={outlined && value === 'all' ? '#C6A15D' : discoveryFilterColor(value)} onPress={() => setOpen(true)} />
     <Modal transparent visible={open} animationType={reduced ? 'none' : 'fade'} onRequestClose={close} onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
       <View style={styles.overlay} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
         event.stopPropagation();

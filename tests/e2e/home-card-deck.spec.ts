@@ -151,7 +151,7 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
   const frames = await page.evaluate(() => { (window as any).__stop = true; return (window as any).__frames; });
   expect(frames.some((frame: any) => Math.abs(frame.x) > 2)).toBe(true);
   expect(frames.every((frame: any) => Math.abs(frame.x) <= 12.1)).toBe(true);
-  expect(frames.some((frame: any) => frame.opacity < 0.4)).toBe(true);
+  expect(frames.every((frame: any) => frame.opacity === 1)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(1);
 });
 
@@ -307,7 +307,9 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
     (window as any).__shuffleOpacity = [];
     (window as any).__recordOpacity = true;
     const sample = () => {
-      (window as any).__shuffleOpacity.push(Number(getComputedStyle(document.querySelector('[data-testid="home-discovery-refresh"]')!).opacity));
+      for (const testID of ['home-discovery-refresh', 'home-deck-filter']) {
+        (window as any).__shuffleOpacity.push(Number(getComputedStyle(document.querySelector(`[data-testid="${testID}"]`)!).opacity));
+      }
       if ((window as any).__recordOpacity) requestAnimationFrame(sample);
     };
     requestAnimationFrame(sample);
@@ -326,7 +328,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   await expect.poll(() => label(page)).not.toBe(original);
   const opacities = await page.evaluate(() => { (window as any).__recordOpacity = false; return (window as any).__shuffleOpacity as number[]; });
   expect(opacities.length).toBeGreaterThan(3);
-  expect(opacities.every(value => value === 1 || value === .65)).toBe(true);
+  expect(opacities.every(value => value === 1)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(0);
 });
 

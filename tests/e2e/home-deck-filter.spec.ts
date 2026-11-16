@@ -137,7 +137,8 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   expect(path.at(-1)!.x).toBeCloseTo(15, 1);
   expect(path.at(-1)!.y).toBe(36);
   await expect(page.locator('#home-deck-slot-0')).toHaveCSS('z-index', '0');
-  await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '0.65');
+  await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '1');
+  await expect(page.getByTestId('home-deck-filter')).toHaveCSS('opacity', '1');
   await expect(page.getByTestId('home-deck-filter')).toBeDisabled();
   await page.screenshot({ path: 'release-evidence/home-filter/tuck-under.png' });
   await page.evaluate(() => { for (const animation of document.getAnimations()) animation.play(); });

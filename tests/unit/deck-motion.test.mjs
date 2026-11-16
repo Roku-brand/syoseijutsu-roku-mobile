@@ -50,7 +50,7 @@ test('reverse retraces the same left-hand path for each physical card', () => {
   }
 });
 
-test('shuffle stays close to the stack and exchanges every layer while invisible', () => {
+test('shuffle keeps the hand nearby and exchanges behind fully turned opaque backs', () => {
   for (const width of [305, 320, 356]) {
     for (let depth = 0; depth < 5; depth++) {
       const frames = deckShuffleFrames(depth, width);
@@ -58,9 +58,11 @@ test('shuffle stays close to the stack and exchanges every layer while invisible
       assert.ok(frames.stops.every((stop, index) => index === 0 || stop > frames.stops[index - 1]));
       assert.ok(frames.x.every(x => Math.abs(x - rest.x) <= 12));
       assert.ok(frames.y.every(y => Math.abs(y - rest.y) <= 12));
-      assert.ok(frames.x[3] < rest.x && frames.x[4] > rest.x);
-      assert.equal(frames.opacity[3], 0);
-      assert.equal(frames.opacity[4], 0);
+      assert.ok(frames.x[3] < rest.x);
+      for (const key of ['x', 'y', 'angle', 'scale', 'opacity', 'flip']) assert.equal(frames[key][3], frames[key][4], `${key} must not jump during the exchange`);
+      assert.ok(frames.opacity.every(opacity => opacity === rest.opacity));
+      assert.deepEqual([frames.flip[0], frames.flip[3], frames.flip[4], frames.flip.at(-1)], [0, 180, 180, 360]);
+      assert.ok(frames.flip.every((angle, index) => index === 0 || angle >= frames.flip[index - 1]));
       assert.ok(frames.stops[3] < 2.1 && frames.stops[4] > 2.1);
       assert.ok(frames.angle.every(angle => Math.abs(angle) <= 7));
       for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) {
