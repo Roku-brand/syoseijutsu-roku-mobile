@@ -20,7 +20,7 @@ export default function PersonalBackupScreen() {
  const [cloudReadError, setCloudReadError] = useState(false);
  const currentSummary = hydrated ? summarizePersonalBackup(exportPersonalData()) : null;
  const dateLabel = (date: string | null) => date ? new Date(date).toLocaleString('ja-JP') : 'まだありません';
- const previewImport = (text: string) => { parsePersonalBackup(text, JSON.parse(exportPersonalData()).data); setPreview(summarizePersonalBackup(text)); setJson(text); };
+ const previewImport = (text: string) => { setPreview(null); setJson(text); parsePersonalBackup(text, JSON.parse(exportPersonalData()).data); setPreview(summarizePersonalBackup(text)); };
  const rememberExport = async (expected: string | undefined) => {
   const stamp = new Date().toISOString();
   try { await AsyncStorage.setItem(personalStorageKey(expected) + '/last-backup-export', stamp); }
@@ -44,8 +44,8 @@ export default function PersonalBackupScreen() {
   setMessage(remembered?'バックアップを出力しました。':'バックアップを出力しました。書き出し日時を端末に記録できませんでした。');
  };
  const selectFile=async()=>{const expected=activeUser.current;
-  if(Platform.OS!=='web'){const picked=await pickPersonalBackupFile();if(!picked)return;checkUser(expected);previewImport(picked.text);setMessage('ファイルを読み込みました。内容と復元方法を確認してください。');return;}
-  const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const file=input.files?.[0];if(!file)return;if(file.size>MAX_BACKUP_BYTES){setMessage('ファイルは5MB以内にしてください。');return;}void run(async()=>{const text=await file.text();checkUser(expected);previewImport(text);setMessage('ファイルを読み込みました。内容と復元方法を確認してください。');});};input.click();
+  if(Platform.OS!=='web'){const picked=await pickPersonalBackupFile().catch(error=>{checkUser(expected);setPreview(null);setJson('');throw error;});if(!picked)return;checkUser(expected);previewImport(picked.text);setMessage('ファイルを読み込みました。内容と復元方法を確認してください。');return;}
+  const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=()=>{const file=input.files?.[0];if(!file||activeUser.current!==expected)return;setPreview(null);setJson('');if(file.size>MAX_BACKUP_BYTES){setMessage('ファイルは5MB以内にしてください。');return;}void run(async()=>{const text=await file.text();checkUser(expected);previewImport(text);setMessage('ファイルを読み込みました。内容と復元方法を確認してください。');});};input.click();
  };
  const saveCloud=async()=>{if(!user||!supabase)throw new Error('ログイン後に利用できます。');
   const expectedUser=user.id;const data=JSON.parse(exportPersonalData());

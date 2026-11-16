@@ -62,9 +62,13 @@ test('file import previews counts without changing records; export dates survive
  await page.getByRole('button',{name:'記録を復元する',exact:true}).click();
  await expect(page.getByTestId('personal-backup-status')).toContainText('お気に入り 3件');
  await page.screenshot({path:'release-evidence/selected-improvements/backup-mobile.png',fullPage:true});
+ await page.getByRole('switch',{name:'現在の記録を置き換える'}).check();
  const invalid=page.waitForEvent('filechooser');await page.getByRole('button',{name:'バックアップファイルを選ぶ',exact:true}).click();
  await (await invalid).setFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from('{}')});
- await expect(page.getByTestId('personal-backup-message')).not.toContainText('ファイルを読み込みました');
+ await expect(page.getByTestId('personal-backup-message')).toContainText('処世術禄の対応するバックアップを選んでください');
+ await expect(page.getByTestId('personal-backup-preview')).toHaveCount(0);
+ await page.getByRole('button',{name:'記録を復元する',exact:true}).click();
+ await expect(page.getByTestId('personal-backup-message')).toContainText('処世術禄の対応するバックアップを選んでください');
  await expect(page.getByTestId('personal-backup-status')).toContainText('お気に入り 3件');
 });
 
