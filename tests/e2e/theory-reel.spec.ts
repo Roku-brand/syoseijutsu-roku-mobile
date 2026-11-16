@@ -104,6 +104,9 @@ for (const width of [320, 393]) test(`タッチで指に追従し最寄りへス
       await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - distance * i / 8, y }] });
       await page.evaluate(() => new Promise<void>(resolve => { requestAnimationFrame(() => resolve()); }));
     }
+    // Test nearest-slot snapping with a stationary finger. Lifting during a
+    // flick adds browser-timed inertia and can skip the slot under CI load.
+    await page.waitForTimeout(150);
     const during = await scrollPosition(page);
     await session.send('Input.dispatchTouchEvent', { type: cancel ? 'touchCancel' : 'touchEnd', touchPoints: [] });
     return during;
