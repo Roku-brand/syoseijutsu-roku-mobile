@@ -76,7 +76,7 @@ export function GuideDialog(props: Props) {
     <View style={[styles.backdrop, { paddingTop: insets.top + (compact ? 8 : 20), paddingBottom: insets.bottom + (compact ? 8 : 20) }]}>
       <View testID="guide-dialog" accessibilityViewIsModal accessibilityLabel={props.kind === 'welcome' ? '処世術禄のはじめてのご案内' : '完全版のご案内'} style={[styles.card, { height: Math.min(desktop ? 600 : 740, availableHeight) }, desktop && styles.cardDesktop]}>
         <View style={[styles.header, compact && styles.headerCompact]}>
-          <View style={styles.brand}><AppText style={styles.brandSeal}>禄</AppText><AppText style={styles.brandName}>処世術禄</AppText></View>
+          <View style={styles.brand}><Image source={require('../../assets/brand/icon.png')} style={styles.brandSeal} contentFit="contain" /><AppText style={styles.brandName}>処世術禄</AppText></View>
           <AppText testID="guide-counter" accessibilityLabel={`全4ページ中${page + 1}ページ目`} style={styles.counter}>{page + 1} / 4</AppText>
           <Pressable testID="guide-later" accessibilityRole="button" onPress={props.onLater} style={({ pressed }) => [styles.quietButton, pressed && styles.pressed]}><AppText style={styles.quietText}>あとで</AppText></Pressable>
         </View>
@@ -120,7 +120,7 @@ function GuideArtwork({ type, complete: isComplete, compact, desktop }: { type: 
     <Image source={type === 'welcome' ? require('../../assets/home/machiya-night-hero.webp') : require('../../assets/upgrade/dark-library.webp')} contentFit="cover" style={StyleSheet.absoluteFill} />
     <View style={[StyleSheet.absoluteFill, styles.coverWash]} />
     <View style={[styles.coverBrand, type === 'welcome' && !desktop && styles.welcomeCoverBrandMobile]}>
-      <View style={[styles.coverSeal, type === 'welcome' && compact && styles.welcomeSealCompact]}><AppText style={[styles.coverSealText, type === 'welcome' && compact && styles.welcomeSealTextCompact]}>禄</AppText></View>
+      <Image source={require('../../assets/brand/icon.png')} contentFit="contain" style={[styles.coverSeal, type === 'welcome' && compact && styles.welcomeSealCompact]} />
       <AppText style={[styles.coverTitle, type === 'welcome' && compact && styles.welcomeCoverTitleCompact]}>処世術禄</AppText><AppText style={[styles.coverCaption, type === 'welcome' && styles.welcomeCoverCaption, type === 'welcome' && !desktop && styles.welcomeCoverCaptionMobile]}>{type === 'complete' ? '完全版' : '人生をうまく生きる方法を、すべての人へ。'}</AppText>
     </View>
     {type === 'welcome' ? <Image source={require('../../assets/learn/rokumaru-roadmap.webp')} contentFit="contain" style={[styles.mascot, !desktop && styles.welcomeMascotMobile, compact && styles.welcomeMascotCompact]} /> : <View style={styles.completeRule} />}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   header: { height: 64, flexShrink: 0, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24, gap: 12, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
   headerCompact: { height: 54, paddingHorizontal: 18 },
   brand: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  brandSeal: { width: 24, height: 24, lineHeight: 23, textAlign: 'center', color: colors.goldDeep, borderWidth: 1, borderColor: colors.goldSoft, borderRadius: 5, fontFamily: fonts.serif, fontSize: 17 },
+  brandSeal: { width: 24, height: 24, borderRadius: 5 },
   brandName: { color: colors.ink, fontFamily: fonts.serif, fontSize: 14, letterSpacing: 1.5 },
   counter: { color: '#625D53', fontSize: 12, fontWeight: '600', letterSpacing: 1 },
   quietButton: { minWidth: 54, minHeight: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 8 },
@@ -233,15 +233,13 @@ const styles = StyleSheet.create({
   cover: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   coverWash: { backgroundColor: 'rgba(20,17,12,0.42)' },
   coverBrand: { alignItems: 'center', marginBottom: 14 },
-  coverSeal: { width: 54, height: 54, borderRadius: 13, borderWidth: 1, borderColor: '#D5B779', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(20,17,12,0.25)' },
-  coverSealText: { fontFamily: fonts.serif, color: '#E9D5AD', fontSize: 34, lineHeight: 43 },
+  coverSeal: { width: 54, height: 54, borderRadius: 13 },
   coverTitle: { marginTop: 15, fontFamily: fonts.serif, fontSize: 24, lineHeight: 34, letterSpacing: 6, color: '#FFF7E9' },
   coverCaption: { marginTop: 8, color: '#E4D2AF', fontSize: 10, lineHeight: 18, letterSpacing: 2 },
   welcomeCoverCaption: { maxWidth: '100%', paddingHorizontal: 16, letterSpacing: 0.2, textAlign: 'center' },
   welcomeCoverCaptionMobile: { paddingHorizontal: 0 },
   welcomeCoverBrandMobile: { width: '100%', paddingHorizontal: 8, marginBottom: 38 },
   welcomeSealCompact: { width: 40, height: 40, borderRadius: 10 },
-  welcomeSealTextCompact: { fontSize: 26, lineHeight: 34 },
   welcomeCoverTitleCompact: { marginTop: 8, fontSize: 20, lineHeight: 28 },
   welcomeMascotMobile: { width: 90, height: 62, bottom: -3, right: -4 },
   welcomeMascotCompact: { width: 60, height: 41 },

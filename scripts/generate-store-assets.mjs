@@ -73,8 +73,8 @@ const featureGraphic = `
     <circle cx="872" cy="98" r="214" fill="none" stroke="#C2A365" stroke-opacity=".22" stroke-width="1"/>
     <circle cx="872" cy="98" r="132" fill="none" stroke="#C2A365" stroke-opacity=".13" stroke-width="1"/>
     <path d="M744 0L623 500" stroke="#C2A365" stroke-opacity=".15"/>
-    <rect x="72" y="76" width="76" height="76" rx="19" fill="#0D0F0C" stroke="#B8954F" stroke-opacity=".55"/>
-    <text x="110" y="128" fill="#D9BC7A" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="42" text-anchor="middle">禄</text>
+    <defs><clipPath id="brand-clip"><rect x="72" y="76" width="76" height="76" rx="17"/></clipPath></defs>
+    <image x="72" y="76" width="76" height="76" clip-path="url(#brand-clip)" href="data:image/png;base64,${(await fs.readFile(path.join(projectRoot, 'assets/brand/icon.png'))).toString('base64')}"/>
     <text x="72" y="225" fill="#F6F0E3" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="58" font-weight="600">人生の判断と</text>
     <text x="72" y="302" fill="#F6F0E3" font-family="'Yu Mincho','Hiragino Mincho ProN',serif" font-size="58" font-weight="600">立ち回りにOSを。</text>
     <line x1="74" y1="354" x2="218" y2="354" stroke="#B8954F" stroke-width="2"/>

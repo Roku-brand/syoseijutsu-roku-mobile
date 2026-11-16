@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import { usePathname } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText } from '@/components/ui';
@@ -21,7 +22,7 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
   if (accessState === 'checking') {
     return (
       <View style={styles.screen}>
-        <AppText style={styles.mark}>禄</AppText>
+        <Image source={require('../../assets/brand/icon.png')} contentFit="contain" style={styles.mark} accessibilityLabel="処世術禄" />
         <AppText style={styles.title}>処世術禄</AppText>
         <AppText style={styles.body}>利用状態を確認しています</AppText>
         <View style={styles.progress}><View style={styles.progressFill} /></View>
@@ -61,7 +62,7 @@ export function AccessBoundary({ children }: { children: React.ReactNode }) {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.paper, alignItems: 'center', justifyContent: 'center', padding: spacing.xl },
-  mark: { color: colors.gold, fontFamily: fonts.serif, fontSize: 48, lineHeight: 58 },
+  mark: { width: 72, height: 72, borderRadius: 16 },
   title: { marginTop: 10, textAlign: 'center', color: colors.ink, fontFamily: fonts.serif, fontSize: 25, lineHeight: 36, fontWeight: '700' },
   body: { maxWidth: 420, marginTop: 14, textAlign: 'center', color: colors.muted, fontSize: 14, lineHeight: 24 },
   progress: { width: 160, height: 2, marginTop: 24, backgroundColor: colors.line, overflow: 'hidden' },
