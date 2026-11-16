@@ -47,7 +47,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await compactPages(page.getByTestId('technique-index-pagination'), 'rgb(125, 89, 35)');
   const technique = page.getByTestId('shoseijutsu-card').first();
   const bar = technique.getByTestId('technique-category-bar');
-  await expect(bar).toHaveCSS('background-color', 'rgb(196, 85, 93)');
+  await expect(bar).toHaveCSS('background-color', 'rgb(185, 76, 85)');
   const [cardBox, barBox] = await Promise.all([technique.boundingBox(), bar.boundingBox()]);
   expect(barBox!.width).toBe(7); expect(Math.abs(cardBox!.height - barBox!.height)).toBeLessThanOrEqual(2);
   const numberBox = (await technique.getByTestId('technique-index-id').boundingBox())!;
@@ -95,7 +95,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
 });
 
 test('大分類から縦バーの色を選び、IDと全文タイトルを維持する', async ({ page }) => {
-  for (const [category, color] of [['interpersonal', 'rgb(196, 85, 93)'], ['work', 'rgb(74, 125, 168)'], ['life', 'rgb(88, 134, 106)']]) {
+  for (const [category, color] of [['interpersonal', 'rgb(185, 76, 85)'], ['work', 'rgb(67, 116, 157)'], ['life', 'rgb(78, 123, 96)']]) {
     await page.goto(`/techniques?category=${category}`);
     await expect(page.getByTestId('technique-category-bar').first()).toHaveCSS('background-color', color);
   }

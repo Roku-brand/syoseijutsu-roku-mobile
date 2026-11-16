@@ -1,6 +1,7 @@
+import { CatalogPageFooter } from '@/components/catalog-page-footer';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { getTheoryFilterOptions, TheoryFilterBar, type TheoryFilterKey } from '@/components/theory-catalog';
@@ -23,6 +24,8 @@ export default function TheoryIndexScreen() {
   // Published catalogue changes are invalidated by catalogRevision.
   const params = useLocalSearchParams<{ category?: string; subcategory?: string; page?: string }>();
   const router = useRouter();
+  const scrollRef = useRef<ScrollView>(null);
+  const toTop = () => scrollRef.current?.scrollTo({ y: 0, animated: false });
 
   const { accessState, catalogRevision } = useAccess();
   const requestedCategory = params.category;
@@ -65,8 +68,10 @@ export default function TheoryIndexScreen() {
     router.setParams({ category, subcategory: id, page: undefined });
   };
 
+  const selectPage = (value: number) => { setPage(value); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(value) }); requestAnimationFrame(toTop); };
+
   return (
-    <BookScreen testID="theory-index-screen" contentContainerStyle={styles.content}>
+    <BookScreen scrollRef={scrollRef} testID="theory-index-screen" contentContainerStyle={styles.content}>
       <View style={styles.filters}>
         <TheoryFilterBar selected={category} onSelect={selectCategory} />
         {category !== 'all' ? <View testID="theory-subcategory-filters" style={styles.subcategoryFilters}>
@@ -76,7 +81,7 @@ export default function TheoryIndexScreen() {
 
       <View style={[styles.resultHeading, category !== 'all' && styles.resultHeadingWithReel]}>
         <AppText testID="theory-index-count" style={styles.resultTitle}>{selectedTheories.length}件</AppText>
-      <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={item => { setPage(item); router.setParams({ category: category === 'all' ? undefined : category, subcategory, page: String(item) }); }} />
+      <Pagination page={safePage} totalPages={totalPages} tone="theory" label="理論一覧のページ選択" testID="theory-index-pagination" onSelect={selectPage} />
       </View>
 
       {accessState === 'checking' ? <TheoryListSkeleton /> : pageTheories.length ? (
@@ -92,6 +97,7 @@ export default function TheoryIndexScreen() {
       ) : (
         <View style={styles.empty}><AppText style={styles.emptyTitle}>この分類の理論はまだありません。</AppText></View>
       )}
+      <CatalogPageFooter page={safePage} totalPages={totalPages} onSelect={selectPage} onTop={toTop} label="理論一覧のページ選択" testID="theory-index-footer" theory />
     </BookScreen>
   );
 }

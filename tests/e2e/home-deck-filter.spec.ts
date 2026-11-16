@@ -254,7 +254,7 @@ test('モバイルではアウトラインのデッキ選択と塗りのシャ�
   const filter = page.getByTestId('home-deck-filter');
   const shuffle = page.getByTestId('home-discovery-refresh');
   await expect(shuffle).toHaveAccessibleName('シャッフル');
-  for (const [key, label, color] of [['all', 'すべて', 'rgb(165, 123, 53)'], ['interpersonal', '対人術', 'rgb(196, 85, 93)'], ['work', '仕事術', 'rgb(74, 125, 168)'], ['life', '人生術', 'rgb(88, 134, 106)'], ['theory', '理論', 'rgb(32, 63, 105)']]) {
+  for (const [key, label, color] of [['all', 'すべて', 'rgb(146, 107, 46)'], ['interpersonal', '対人術', 'rgb(185, 76, 85)'], ['work', '仕事術', 'rgb(67, 116, 157)'], ['life', '人生術', 'rgb(78, 123, 96)'], ['theory', '理論', 'rgb(32, 63, 105)']]) {
     if (key !== 'all') { await filter.click(); await page.getByTestId(`home-deck-filter-${key}`).click(); await ready(page); }
     await expect(filter).toContainText(label);
     await filter.evaluate((node: HTMLElement) => node.blur());

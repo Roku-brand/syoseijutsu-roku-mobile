@@ -7,7 +7,7 @@ export const colors = {
   paperDeep: '#F1ECE1',
   surface: '#FFFDF8',
   surfaceDark: '#181817',
-  gold: '#A57B35',
+  gold: '#926B2E',
   goldLight: '#D2A64A',
   goldDeep: '#7D5923',
   goldSoft: '#E7D9C3',
@@ -27,7 +27,7 @@ export const catalogTheme = {
   maxWidth: 1040,
   technique: { border: '#E0D0B8', surface: '#FFFEFB' },
   theory: { ink: '#203F69', text: '#414B5B', muted: '#617D9C', border: '#A8BBD0', surface: '#F8FAFC', inactive: '#ECEFF2' },
-  categoryBars: { interpersonal: '#C4555D', work: '#4A7DA8', life: '#58866A' } as Record<string, string>,
+  categoryBars: { interpersonal: '#B94C55', work: '#43749D', life: '#4E7B60' } as Record<string, string>,
 } as const;
 
 const builtInCategoryPalette = {

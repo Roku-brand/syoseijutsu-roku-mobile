@@ -171,7 +171,7 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     await expect(page.getByTestId('feature-body')).toBeVisible();
     await expect(page.getByRole('heading', { name: '1．選べる側になる', exact: true })).toBeVisible();
     const headingLine = await page.getByTestId('feature-section-heading').first().evaluate(element => ({ width: parseFloat(getComputedStyle(element).borderLeftWidth), color: getComputedStyle(element).borderLeftColor }));
-    expect(headingLine).toEqual({ width: 1, color: 'rgb(165, 123, 53)' });
+    expect(headingLine).toEqual({ width: 1, color: 'rgb(146, 107, 46)' });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBeTruthy();
     await page.screenshot({ path: test.info().outputPath(`article-${width}.png`), fullPage: true });
   }

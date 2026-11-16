@@ -43,6 +43,7 @@ const DISCOVER_PREFIXES = [
   '/work',
   '/life',
   '/subcategory/',
+  '/card/',
   '/topic/',
   '/theory/',
   '/theories',
@@ -54,6 +55,7 @@ const MY_PAGE_PREFIXES = [
   '/library',
   '/history',
   '/my-techniques',
+  '/settings',
 ] as const;
 
 export function getMainSection(pathname: string): MainSection {

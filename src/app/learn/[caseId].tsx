@@ -1,8 +1,8 @@
 'use no memo';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Platform, Pressable, StyleSheet, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 
 import { BookScreen, bookCardShadow } from '@/components/book-ui';
 import { Rokumaru } from '@/components/rokumaru';
@@ -37,12 +37,16 @@ export default function LearningCaseScreen() {
   const { caseId, retry } = useLocalSearchParams<{ caseId: string; retry?: string }>();
   const router = useRouter();
   const { desktop } = useResponsiveLayout();
+  const scrollRef = useRef<ScrollView>(null);
+  const questionY = useRef(0);
+  const answerY = useRef(0);
+  const [startedRound, setStartedRound] = useState<string | null>(null);
   const { isPaid, secureContentStatus, refreshAccess } = useAccess();
   const [activeCaseId, setActiveCaseId] = useState<string | null>(null);
   // Read the live catalogue after AccessProvider hydrates paid cases. A mount-
   // time copy would permanently miss a case opened while its request is pending.
   const caseList = learningCases;
-  const { hydrated, learningRecords, answerLearningCase, resetLearningCase, learningUnlimited, reviewCaseIds, toggleReviewCase } = useAppState();
+  const { hydrated, learningRecords, answerLearningCase, resetLearningCase, learningUnlimited, setLearningUnlimited, reviewCaseIds, toggleReviewCase } = useAppState();
   const [retryPending, setRetryPending] = useState(false);
   const [focusedChoice, setFocusedChoice] = useState<string | null>(null);
   const [hoveredChoice, setHoveredChoice] = useState<string | null>(null);
@@ -56,7 +60,15 @@ export default function LearningCaseScreen() {
 
   const item = activeCaseId ? caseList.find((candidate) => candidate.id === activeCaseId) : undefined;
   const record = item && !retryPending ? learningRecords[item.id] : undefined;
-  const round = useLearningRound(item ? `${item.id}:${retry ?? ''}:${attempt}` : '', hydrated && feedback.soundReady && Boolean(item) && !record, feedback.playCue, feedback.stopSounds, learningUnlimited);
+  const roundKey = item ? `${item.id}:${retry ?? ''}:${attempt}` : '';
+  const started = startedRound === roundKey;
+  const round = useLearningRound(roundKey, hydrated && feedback.soundReady && Boolean(item) && !record && started, feedback.playCue, feedback.stopSounds, learningUnlimited);
+  const startRound = () => {
+    setStartedRound(roundKey);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({ y: Math.max(0, questionY.current + (desktop ? 0 : answerY.current) - 12), animated: false });
+    }));
+  };
   const timedOut = !record && round.timedOut;
 
   if (!activeCaseId) return null;
@@ -107,7 +119,7 @@ export default function LearningCaseScreen() {
   };
 
   return (
-    <BookScreen contentContainerStyle={[styles.content, !desktop && styles.contentMobile]}>
+    <BookScreen scrollRef={scrollRef} contentContainerStyle={[styles.content, !desktop && styles.contentMobile]}>
       <CaseProgress
         item={item}
         stageTitle={stage?.title ?? ''}
@@ -119,15 +131,15 @@ export default function LearningCaseScreen() {
 
       {!record && !timedOut ? (
         <>
-        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} unlimited={learningUnlimited} />
-        <View style={[styles.questionCard, !desktop && styles.questionCardMobile]} testID="learning-question-card">
+        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} unlimited={learningUnlimited} started={started} onStart={startRound} startDisabled={!hydrated || !feedback.soundReady} onUnlimitedChange={setLearningUnlimited} />
+        <View style={[styles.questionCard, !desktop && styles.questionCardMobile]} testID="learning-question-card" onLayout={event => { questionY.current = event.nativeEvent.layout.y; }}>
           <View style={[styles.sceneColumn, !desktop && styles.sceneColumnMobile]}>
             <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
             <AppText style={[styles.title, !desktop && styles.titleMobile]}>{item.title}</AppText>
             <AppText style={styles.situation}>{item.situation}</AppText>
           </View>
 
-          <View style={[styles.answerColumn, desktop && styles.answerColumnDesktop]}>
+          <View onLayout={event => { answerY.current = event.nativeEvent.layout.y; }} style={[styles.answerColumn, desktop && styles.answerColumnDesktop]}>
             <AppText style={styles.question}>{item.question}</AppText>
             {item.choices.map((choice) => {
               const active = focusedChoice === choice.id || hoveredChoice === choice.id;
@@ -136,6 +148,7 @@ export default function LearningCaseScreen() {
                   key={choice.id}
                   accessibilityRole="button"
                   accessibilityLabel={`${choice.id.toUpperCase()} ${choice.label}`}
+                  disabled={!started} accessibilityState={{ disabled: !started }}
                   onFocus={() => setFocusedChoice(choice.id)}
                   onBlur={() => setFocusedChoice(null)}
                   onHoverIn={() => setHoveredChoice(choice.id)}

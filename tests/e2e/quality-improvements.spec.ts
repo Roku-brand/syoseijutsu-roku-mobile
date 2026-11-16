@@ -11,6 +11,7 @@ test('JSON backup, merge, replacement and undo preserve actual personal records'
  await page.goto('/settings/data');
  const original=await backup(page);expect(original.data.personalPrinciple).toBe('大切な言葉');
  const incoming={...original,data:{...original.data,savedIds:['future-content-id'],notes:{'master336-001':'追加する記録'},personalPrinciple:'復元した言葉'}};
+ await page.getByRole('button',{name:'テキストから復元する',exact:true}).click();
  await page.getByTestId('personal-backup-input').fill(JSON.stringify(incoming));
  await page.getByRole('button',{name:'記録を復元する',exact:true}).click();
  await expect(page.getByTestId('personal-backup-message')).toContainText('復元しました');
@@ -101,6 +102,7 @@ test('unlimited practice survives one minute and incorrect answers enter the rev
  await page.goto('/learn');await page.getByRole('switch',{name:'時間制限なしで練習する'}).check();
  await page.clock.install();await page.goto('/learn/case-01?retry=1');
  await expect(page.getByTestId('learning-countdown')).toContainText('時間制限なし');
+ await page.getByTestId('learning-start').click();
  await page.clock.runFor(65000);await expect(page.getByText('時間切れ',{exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:/^A /}).click();await expect(page.getByText('おしい！',{exact:true})).toBeVisible();
  await page.getByTestId('book-header-back').click();await expect(page.getByTestId('learning-review-list')).toContainText('あとで復習');

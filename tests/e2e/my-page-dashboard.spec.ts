@@ -128,14 +128,14 @@ test('処世術と理論の検索一覧も共通の菱形で保存・解除で�
   await page.getByRole('button', { name: '保存', exact: true }).first().click();
   const saved = page.getByRole('button', { name: '保存を解除', exact: true });
   await expect(saved).toHaveAttribute('aria-pressed', 'true');
-  await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+  await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
   await saved.click();
   await expect(saved).toHaveCount(0);
   await page.goto(`/search?mode=theories&q=${encodeURIComponent(theory.title)}`);
   await page.getByRole('button', { name: 'お気に入りに保存', exact: true }).first().click();
   const theorySaved = page.getByRole('button', { name: 'お気に入りから外す', exact: true });
   await expect(theorySaved).toHaveAttribute('aria-pressed', 'true');
-  await expect(theorySaved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+  await expect(theorySaved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
   await theorySaved.click();
   await expect(theorySaved).toHaveCount(0);
 });
@@ -192,7 +192,7 @@ test('処世術・理論・特集の菱形保存は即時反映し再起動後�
     await save.click();
     const saved = header.getByRole('button', { name: 'お気に入りから外す', exact: true });
     await expect(saved).toHaveAttribute('aria-pressed', 'true');
-    await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(165, 123, 53)');
+    await expect(saved.getByTestId('save-diamond')).toHaveCSS('background-color', 'rgb(146, 107, 46)');
     await page.reload();
     await expect(saved).toHaveAttribute('aria-pressed', 'true');
     await saved.click();
