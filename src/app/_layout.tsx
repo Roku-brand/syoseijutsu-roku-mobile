@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { BookHeader } from '@/components/book-ui';
@@ -19,15 +20,24 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { motion } from '@/constants/motion';
 import { DataStatusBanner } from '@/components/data-status-banner';
 import { GuideProvider } from '@/onboarding/guide-provider';
+import { HomeAppearanceProvider, useHomeAppearance } from '@/state/home-appearance';
 
 function AppFrame() {
   const reducedMotion = useReducedMotion();
   const pathname = usePathname();
+  const { theme } = useHomeAppearance();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const { width } = useHydratedWindowDimensions();
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
+  const home = pathname === '/' && !isCheckoutReturn;
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    const color = home ? theme.background : colors.surface;
+    document.documentElement.style.setProperty('--roku-status-background', color);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
+  }, [home, theme.background]);
   // Legacy entry URLs redirect to the home screen without flashing app chrome.
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   const isUpgrade = pathname === '/upgrade' || pathname === '/upgrade-preview';
@@ -37,7 +47,7 @@ function AppFrame() {
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea}><BookHeader /></SafeAreaView> : null}
+      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={[styles.headerSafeArea, home && { backgroundColor: theme.background }]}><BookHeader /></SafeAreaView> : null}
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
       {!isWelcome && !pathname.startsWith('/owner') ? <DataStatusBanner /> : null}
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>
@@ -55,7 +65,7 @@ function AppFrame() {
   );
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
-  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+  return <View style={styles.container}><StatusBar style={home ? 'light' : 'dark'} /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
 }
 
 function isFocusedScreen(pathname: string) {
@@ -68,7 +78,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><HomeAppearanceProvider><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><AppFrame /></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></HomeAppearanceProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

@@ -1,3 +1,4 @@
+import { useHomeAppearance } from '@/state/home-appearance';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useRef } from 'react';
 import {
@@ -88,6 +89,7 @@ export function BookScreen({
 }
 
 export function BookHeader() {
+  const { theme: homeTheme } = useHomeAppearance();
   const headerRef = useRef<View>(null);
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
@@ -114,6 +116,7 @@ export function BookHeader() {
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
+  const homeHeader = pathname === '/' && !isCheckoutReturn;
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
@@ -127,7 +130,7 @@ export function BookHeader() {
   };
 
   return (
-    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious]}>
+    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious, homeHeader && styles.homeHeader, homeHeader && { backgroundColor: homeTheme.background }]}>
       {showBack ? (
         <View style={styles.brandGroup}>
           <HeaderBackButton testID="book-header-back" onPress={handleBack} />
@@ -141,8 +144,8 @@ export function BookHeader() {
             style={[styles.headerAppIcon, compact && styles.headerAppIconCompact, spaciousHeader && styles.headerAppIconSpacious]}
           />
           <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
-            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious]}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
+            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious, homeHeader && styles.homeBrandName]}>処世術禄</AppText>
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious, homeHeader && styles.homeBrandTagline]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
         </View>
       )}
@@ -163,7 +166,7 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} size={compact ? 25 : 27} /></View>
+          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={homeHeader ? '#FFFDF5' : colors.ink} size={compact ? 25 : 27} /></View>
           <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
@@ -337,6 +340,7 @@ function DetailHeaderActions({ detail }: { detail: DetailTarget }) {
   );
 }
 function getCurrentTitle(pathname: string) {
+  if (pathname === '/settings/background') return '背景テーマ';
   const segments = pathname.split('/').filter(Boolean).map(decodeURIComponent);
   if (segments[0] === 'category') {
     if (segments[1] === 'all') return 'すべての処世術';
@@ -661,6 +665,8 @@ const styles = StyleSheet.create({
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
+  homeHeader: { minHeight: 56, borderBottomColor: 'rgba(197,164,98,.24)', paddingVertical: 5 },
+  homeBrandName: { color: '#FFFDF5' }, homeBrandTagline: { color: '#E2E2D6' },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,

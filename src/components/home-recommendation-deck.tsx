@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
+import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTheoryCategoryTitle } from '@/data/catalog';
@@ -35,7 +35,7 @@ function imageFor(item: ReadingContent) {
   return { fallback, source: uri ? { uri } : fallback };
 }
 
-export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpenCard }: { cardWidth: number; fillViewport?: boolean; onOpenCard?: () => void }) {
+export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
   const deck = useHomeDiscovery();
   const { desktop } = useResponsiveLayout();
   const root = useRef<View>(null);
@@ -206,14 +206,14 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   };
   return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
-    <View style={[styles.heading, !desktop && styles.mobileHeading]}>
-      <View style={styles.headingCopy}><Text testID="home-deck-heading" accessibilityRole="header" style={styles.headingTitle}>あなたにおすすめ</Text><Text style={styles.subtitle}>思いがけない知識との出会いを。</Text></View>
-      <View style={styles.headingActions}><DiscoveryFilterButton value={selectedFilter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
+    <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
+      <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text><Text style={[styles.subtitle, night && styles.nightSubtitle]}>思いがけない知識との出会いを。</Text></View>
+      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading || deck.error} onChange={shuffle} />
       <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={busy || deck.loading || deck.error} onPress={() => shuffle()} color={discoveryFilterColor(selectedFilter)}
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardWidth < 300 ? 414 : 444 }]}>
+    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 31 }]}>
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
@@ -231,8 +231,8 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
               { scale: lift.interpolate({ inputRange: [0, 1], outputRange: [1, .9] }) },
             ] } : {}), opacity: front ? lift.interpolate({ inputRange: [0, 1], outputRange: [1, .6] }) : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth - 1) * .1] }) }, returning && !webMotion && phase !== 'shuffle' && { transform: nativeReturnTransform(depth), opacity: depth === 4 ? returnPull.interpolate({ inputRange: [0, 1], outputRange: [.6, 1] }) : returnProgress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth + 1) * .1] }) }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, phase === 'shuffle' && { opacity: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].opacity }) }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
             <View>
-              {(returning ? depth !== 0 && depth !== 4 : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
-                : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardWidth < 300 ? 378 : 408 }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
+              {(returning ? depth !== 0 && depth !== 4 : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardHeight }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} height={cardHeight} compact={night && !desktop} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
+                : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardHeight }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
             </View></Animated.View>;
         })}
     </View>
@@ -244,7 +244,8 @@ export function HomeRecommendationDeck({ cardWidth, fillViewport = false, onOpen
   </View>;
 }
 
-function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, onTouch }: { item: ReadingContent; width: number; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
+function DiscoveryFace({ item, width, height, compact, active, disabled, onPress, panHandlers, onTouch }: { item: ReadingContent; width: number; height: number; compact: boolean; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
+  const { fontScale = 1 } = useWindowDimensions();
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const reduced = useReducedMotion();
   const pulse = useRef(new Animated.Value(1)).current;
@@ -260,12 +261,12 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
   const image = imageFor(item);
   useEffect(() => setFailed(false), [id]);
   useEffect(() => () => pulse.stopAnimation(), [pulse]);
-  return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, theoretical && styles.theoryCard, { width, height: width < 300 ? 378 : 408 }, focused && styles.focused]}>
-    <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, pressed && { opacity: 0.88 }]}>
+  return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, theoretical && styles.theoryCard, { width, height }, focused && styles.focused]}>
+    <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
       <View style={styles.cardTop}><Text style={[styles.badge, { backgroundColor: accent }]}>{label}</Text><Text testID={active ? 'home-deck-context' : undefined} numberOfLines={1} accessibilityLabel={`${theoretical ? '理論分類' : '人物像'}：${context}`} style={styles.cardKind}>{context}</Text></View>
-      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={16} maxLines={3} style={[styles.title, theoretical && { color: '#263B53' }]} />
-      <View style={[styles.rule, theoretical && { backgroundColor: '#D9E0E6' }]} /><Text numberOfLines={2} style={styles.summary}>{summary}</Text>
-      <View style={styles.photoWrap}><Image source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
+      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={16} maxLines={3} style={[styles.title, compact && styles.compactTitle, theoretical && { color: '#263B53' }]} />
+      <View style={[styles.rule, theoretical && { backgroundColor: '#D9E0E6' }]} /><Text numberOfLines={2} style={[styles.summary, compact && styles.compactSummary, compact && { maxHeight: 40 * fontScale }]}>{summary}</Text>
+      <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
     </Pressable>
     {active ? <Animated.View style={[styles.save, { transform: [{ scale: pulse }] }]}><Pressable testID="home-deck-save" accessibilityRole="button" accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'} aria-pressed={saved} accessibilityState={{ selected: saved }} disabled={disabled}
       onPress={() => { if (theoretical) toggleSavedTheory(id); else toggleSaved(id); if (!reduced) Animated.sequence([Animated.timing(pulse, { toValue: 1.18, duration: 100, useNativeDriver: Platform.OS !== 'web' }), Animated.spring(pulse, { toValue: 1, damping: 18, stiffness: 300, useNativeDriver: Platform.OS !== 'web' })]).start(); }} style={styles.saveTouch}><SaveDiamond saved={saved} /></Pressable></Animated.View> : null}
@@ -273,13 +274,15 @@ function DiscoveryFace({ item, width, active, disabled, onPress, panHandlers, on
 }
 
 const styles = StyleSheet.create({
+  nightHeading: { marginBottom: 6, gap: 6 }, nightHeadingCopy: { borderLeftWidth: 3, borderLeftColor: '#BC9650', paddingLeft: 11 }, nightTitle: { color: '#FFFDF5', fontSize: 25, lineHeight: 31, letterSpacing: .5 }, nightSubtitle: { color: '#E5E4D8', fontSize: 12, lineHeight: 18, marginTop: 0 }, nightActions: { marginLeft: 13, gap: 12 },
+  compactCardLink: { padding: 14, paddingTop: 10, paddingBottom: 12 }, compactTitle: { fontSize: 23, lineHeight: 30, fontWeight: '700', minHeight: 42, paddingTop: 7 }, compactSummary: { fontSize: 12, lineHeight: 20, height: 'auto', minHeight: 20 }, compactPhoto: { marginTop: 9, minHeight: 84 },
   fillViewport: { flexGrow: 1 },
   mobileHeading: { flexDirection: 'column', alignItems: 'flex-start', gap: 12 },
   headingActions: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: 8 },
-  paper: { backgroundColor: '#F8F5EF' },
+  paper: { backgroundColor: '#F7F2E7' },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
   buttonPressed: { opacity: .8 },
-  stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 13, zIndex: 1 }, slot: { position: 'absolute', top: 13, ...faceShadow, borderRadius: 14, backgroundColor: '#FFFDF9' }, card: { borderRadius: 14, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: .15 },
+  stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10, zIndex: 1 }, slot: { position: 'absolute', top: 10, ...faceShadow, borderRadius: 14, backgroundColor: '#FFFDF7' }, card: { borderRadius: 14, backgroundColor: '#FFFDF7', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: .15 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 33, fontWeight: '600', letterSpacing: 0.3, minHeight: 66, paddingTop: 11 }, rule: { height: 1, backgroundColor: '#ECE5D9', marginTop: 5, marginBottom: 10 }, summary: { color: '#69655E', fontFamily: fonts.sans, fontSize: 13, lineHeight: 23, height: 46 }, photoWrap: { marginTop: 13, flex: 1, minHeight: 90, borderRadius: 8, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' }, readArrow: { position: 'absolute', right: 10, bottom: 10, width: 36, height: 36, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 29, lineHeight: 32 }, save: { position: 'absolute', right: 5, top: 7 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold, borderWidth: 2 },
   controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 4 }, arrow: { minWidth: 44, minHeight: 44, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 29, lineHeight: 34, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 12, lineHeight: 18, letterSpacing: 1, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },

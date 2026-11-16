@@ -67,7 +67,7 @@ export default function Root({ children }: PropsWithChildren) {
           #roku-status-bar-background {
             position: fixed; top: 0; left: 0; width: 100%;
             height: 11px;
-            background-color: #FFFDF8; z-index: 2147483647;
+            background-color: var(--roku-status-background, #FFFDF8); z-index: 2147483647;
             -webkit-background-clip: text; background-clip: text;
             pointer-events: none;
           }
