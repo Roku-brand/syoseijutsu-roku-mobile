@@ -244,7 +244,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
   } finally { release(); }
 });
 
-test('モバイルではデッキ選択とシャッフルを同じ色と寸法で見出しの下に並べる', async ({ page }) => {
+test('モバイルではアウトラインのデッキ選択と塗りのシャッフルを同じ寸法で見出しの下に並べる', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 320, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -253,11 +253,13 @@ test('モバイルではデッキ選択とシャッフルを同じ色と寸法�
   const filter = page.getByTestId('home-deck-filter');
   const shuffle = page.getByTestId('home-discovery-refresh');
   await expect(shuffle).toHaveAccessibleName('シャッフル');
-  for (const [key, label] of [['all', 'すべて'], ['interpersonal', '対人術'], ['work', '仕事術'], ['life', '人生術'], ['theory', '理論']]) {
+  for (const [key, label, color] of [['all', 'すべて', 'rgb(165, 123, 53)'], ['interpersonal', '対人術', 'rgb(196, 85, 93)'], ['work', '仕事術', 'rgb(74, 125, 168)'], ['life', '人生術', 'rgb(88, 134, 106)'], ['theory', '理論', 'rgb(32, 63, 105)']]) {
     if (key !== 'all') { await filter.click(); await page.getByTestId(`home-deck-filter-${key}`).click(); await ready(page); }
     await expect(filter).toContainText(label);
-    expect(await filter.evaluate(el => getComputedStyle(el).backgroundColor))
-      .toBe(await shuffle.evaluate(el => getComputedStyle(el).backgroundColor));
+    await filter.evaluate((node: HTMLElement) => node.blur());
+    await expect(filter).toHaveCSS('background-color', 'rgba(6, 25, 23, 0.52)');
+    await expect(filter).toHaveCSS('border-color', key === 'all' ? 'rgb(198, 161, 93)' : color);
+    await expect(shuffle).toHaveCSS('background-color', color);
     const a = (await filter.boundingBox())!, b = (await shuffle.boundingBox())!;
     expect(a.height).toBeGreaterThanOrEqual(44);
     expect(b.height).toBe(a.height);
