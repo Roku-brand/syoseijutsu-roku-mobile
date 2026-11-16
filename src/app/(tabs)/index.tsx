@@ -38,7 +38,7 @@ export default function HomeScreen() {
   const cardHeight = (desktop ? 362 : Math.round(Math.min(352, Math.max(272, 282 + (usableHeight - 844) * .5)))) + Math.max(0, fontScale - 1) * 160;
 
   return (
-    <BookScreen testID="home-scroll" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
+    <BookScreen testID="home-scroll" bounces={false} alwaysBounceVertical={false} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />

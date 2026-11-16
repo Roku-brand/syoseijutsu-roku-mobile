@@ -30,7 +30,8 @@ test('background changes persist while the current hand, saved state and other s
   await expect(page.getByTestId('background-theme-wisteria')).toHaveAttribute('aria-checked', 'true');
   await page.goto('/');
   await expect(page.getByTestId('home-theme-background')).toHaveAttribute('aria-label', '藤の余韻');
-  await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(37, 30, 49)');
+  await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
+  await expect(page.getByTestId('home-header-landscape')).toHaveCount(1);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', card!);
   await expect(page.getByTestId('home-deck-save')).toHaveAttribute('aria-pressed', saved!);
   const current = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), deckKey);
@@ -40,6 +41,27 @@ test('background changes persist while the current hand, saved state and other s
   await page.goto('/theories');
   await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(255, 253, 248)');
   await expect(page.locator('#roku-status-bar-background')).toHaveCSS('background-color', 'rgb(255, 253, 248)');
+});
+
+test('home header keeps its paper landscape and a downward pull does not expose a gap', async ({ page, context }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
+  const scroll = page.getByTestId('home-scroll');
+  await expect(scroll).toHaveCSS('overscroll-behavior-y', 'none');
+  const header = page.getByTestId('book-header');
+  await expect(header).toHaveCSS('background-color', 'rgb(247, 240, 228)');
+  await expect(header.getByText('処世術禄', { exact: true })).toHaveCSS('color', 'rgb(23, 23, 18)');
+  await expect(page.locator('#roku-status-bar-background')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
+  const session = await context.newCDPSession(page);
+  const y = (await header.boundingBox())!.height + 35;
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 70, y }] });
+  for (let i = 1; i <= 8; i++) await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 70, y: y + i * 15 }] });
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  expect(await scroll.evaluate(node => node.scrollTop)).toBe(0);
+  const top = (await page.getByTestId('home-recommendations-section').boundingBox())!.y;
+  const box = (await header.boundingBox())!;
+  expect(top).toBeCloseTo(box.y + box.height, 0);
 });
 
 test('an invalid saved background falls back to moon and maple', async ({ page }) => {

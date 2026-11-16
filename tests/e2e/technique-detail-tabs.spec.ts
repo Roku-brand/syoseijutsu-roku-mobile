@@ -51,3 +51,19 @@ test('タブ切替時に共通エリアを自動スクロールしない', async
   expect(after).not.toBeNull();
   expect(Math.abs(after!.y - before!.y)).toBeLessThan(2);
 });
+
+for (const width of [390, 1440]) test(`読み進めた詳細タブはヘッダー直下に隙間なく固定される (${width}px)`, async ({ page }) => {
+  // The desktop article is shorter; use a shallow viewport so it scrolls far
+  // enough to pin the tabs instead of reaching the end of the page first.
+  await page.setViewportSize({ width, height: width >= 1000 ? 480 : 700 });
+  await page.goto('/card/master336-001');
+  const tabs = page.getByTestId('technique-detail-tabs');
+  await expect(tabs).toBeVisible();
+  await page.getByTestId('technique-detail-scroll').evaluate(node => { node.scrollTop = 900; });
+  await expect.poll(async () => {
+    const tab = (await tabs.boundingBox())!;
+    const header = (await page.getByTestId('book-header').boundingBox())!;
+    return Math.abs(tab.y - header.y - header.height);
+  }).toBeLessThan(1);
+  await page.screenshot({ path: test.info().outputPath(`detail-sticky-${width}.png`) });
+});

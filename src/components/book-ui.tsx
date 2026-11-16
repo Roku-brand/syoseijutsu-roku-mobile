@@ -1,4 +1,4 @@
-import { useHomeAppearance } from '@/state/home-appearance';
+import { HOME_HEADER_COLOR, HomeHeaderBackdrop } from './home-header-backdrop';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useRef } from 'react';
 import {
@@ -89,7 +89,6 @@ export function BookScreen({
 }
 
 export function BookHeader() {
-  const { theme: homeTheme } = useHomeAppearance();
   const headerRef = useRef<View>(null);
   const router = useRouter();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
@@ -130,7 +129,8 @@ export function BookHeader() {
   };
 
   return (
-    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious, homeHeader && styles.homeHeader, homeHeader && { backgroundColor: homeTheme.background }]}>
+    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious, homeHeader && styles.homeHeader]}>
+      {homeHeader ? <HomeHeaderBackdrop /> : null}
       {showBack ? (
         <View style={styles.brandGroup}>
           <HeaderBackButton testID="book-header-back" onPress={handleBack} />
@@ -166,7 +166,7 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={homeHeader ? '#FFFDF5' : colors.ink} size={compact ? 25 : 27} /></View>
+          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={compact ? 25 : 27} /></View>
           <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
@@ -618,7 +618,7 @@ const styles = StyleSheet.create({
   brandTaglineSpacious: { fontSize: 14, lineHeight: 21 },
   searchSpacious: { width: 60, height: 60, borderWidth: 1, borderColor: colors.line, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
   safe: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
-  scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper, ...Platform.select({ web: { overscrollBehaviorY: 'none' } }) },
   fixed: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   content: {
     width: '100%',
@@ -654,8 +654,8 @@ const styles = StyleSheet.create({
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
-  homeHeader: { minHeight: 56, borderBottomColor: 'rgba(197,164,98,.24)', paddingVertical: 5 },
-  homeBrandName: { color: '#FFFDF5' }, homeBrandTagline: { color: '#E2E2D6' },
+  homeHeader: { minHeight: 56, borderBottomColor: '#E6DDCF', paddingVertical: 5, backgroundColor: HOME_HEADER_COLOR },
+  homeBrandName: { color: colors.ink }, homeBrandTagline: { color: '#5E5B53' },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,
