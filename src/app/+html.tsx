@@ -78,10 +78,8 @@ export default function Root({ children }: PropsWithChildren) {
           }
           #roku-launch.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
           #roku-launch-mark {
-            width: 112px; height: 112px; border: 1px solid #C9A85B;
-            display: grid; place-items: center; color: #E6CF8A;
-            font-family: serif; font-size: 58px; font-weight: 700;
-            box-shadow: 0 18px 48px rgba(0,0,0,.28);
+            display: block; width: 112px; height: 112px; margin: 0 auto;
+            border-radius: 24px; object-fit: contain;
           }
           #roku-launch-name { margin-top: 18px; color: #F4F0E7; text-align: center; letter-spacing: .28em; font-family: serif; font-size: 20px; }
         `}</style>
@@ -90,7 +88,7 @@ export default function Root({ children }: PropsWithChildren) {
         <div id="roku-status-bar-background" aria-hidden="true" />
         <div id="roku-launch" aria-label="処世術禄を起動中">
           <div>
-            <div id="roku-launch-mark">禄</div>
+            <img id="roku-launch-mark" src={`${basePath}/pwa-icon-192.png`} width="112" height="112" alt="" />
             <div id="roku-launch-name">処世術禄</div>
           </div>
         </div>

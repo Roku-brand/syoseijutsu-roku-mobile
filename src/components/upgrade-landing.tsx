@@ -15,7 +15,7 @@ const photos = {
   recommend: require('../../assets/upgrade/morning-study.webp'),
   network: require('../../assets/upgrade/dark-library.webp'),
 };
-const mark = require('../../assets/upgrade/complete-mark.png');
+const mark = require('../../assets/brand/icon.png');
 const gold = colors.gold;
 const ink = colors.ink;
 const freeItems = ['4つの人物像', `${FREE_REEL_TECHNIQUE_IDS.length}個の処世術`, `${FREE_THEORY_IDS.length}件の理論`, `${FREE_LEARNING_CASE_IDS.length}ケースの学習コンテンツ`];
@@ -58,7 +58,7 @@ function Check({ small = false }: { small?: boolean }) {
 }
 function EditionCard({ complete, desktop = false }: { complete?: boolean; desktop?: boolean }) {
   return <View testID={complete ? 'upgrade-complete-card' : 'upgrade-free-card'} style={[styles.editionCard, desktop && desktopStyles.editionCard, complete && styles.editionCardComplete]}>
-    <View style={[styles.editionSeal, complete && styles.editionSealComplete]}><AppText variant="serif" style={styles.editionSealText}>禄</AppText></View>
+    <Image source={mark} contentFit="contain" style={styles.editionSeal} />
     <AppText variant="serif" style={[styles.editionTitle, desktop && desktopStyles.editionTitle, complete && styles.editionTitleComplete]}>{complete ? '完全版' : '無料版'}</AppText>
     <AppText style={[styles.editionSubtitle, desktop && desktopStyles.editionSubtitle, complete && styles.editionSubtitleComplete]}>{complete ? '処世術禄を、まるごと使える' : 'まずは処世術禄を体験'}</AppText>
     <View style={[styles.editionItems, desktop && desktopStyles.editionItems]}>{(complete ? completeItems : freeItems).map((item, index) => <View key={item} style={[styles.editionItem, desktop && desktopStyles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small={!desktop} /><AppText style={[styles.editionItemText, desktop && desktopStyles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   hero: { overflow: 'hidden', backgroundColor: '#DDC7A7' },
   heroWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: '48%', backgroundColor: 'rgba(255,253,248,0.62)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(180deg,rgba(255,253,248,.85),rgba(255,253,248,.64) 70%,rgba(255,253,248,.15))' } }) },
   heroCopy: { paddingHorizontal: 24, paddingTop: 28 },
-  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 }, brandMark: { width: 33, height: 33, borderRadius: 17 }, brandName: { fontSize: 15, lineHeight: 22, color: '#111914', letterSpacing: 0.6 },
+  brandRow: { flexDirection: 'row', alignItems: 'center', gap: 9 }, brandMark: { width: 33, height: 33, borderRadius: 8 }, brandName: { fontSize: 15, lineHeight: 22, color: '#111914', letterSpacing: 0.6 },
   heroTitle: { marginTop: 14, fontSize: 27, lineHeight: 40, letterSpacing: 0.1, color: '#101510', fontWeight: '800' },
   heroLead: { fontFamily: fonts.serif, marginTop: 10, fontSize: 12, lineHeight: 21, letterSpacing: 0.5, color: '#263028' },
   heroBottomShade: { position: 'absolute', left: 0, right: 0, bottom: 0, height: '28%', backgroundColor: 'rgba(7,20,18,.25)', ...Platform.select({ web: { backgroundImage: 'linear-gradient(0deg,rgba(7,20,18,.5),transparent)', backgroundColor: 'transparent' } }) },
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   comparisonLead: { fontFamily: fonts.serif, marginTop: 10, fontSize: 12, lineHeight: 21, color: '#323A35' }, editions: { flexDirection: 'row', gap: 9, marginTop: 22 },
   editionCard: { flex: 1, minWidth: 0, paddingHorizontal: 11, paddingTop: 15, paddingBottom: 16, borderRadius: 5, borderWidth: 1, borderColor: '#E6E0D5', backgroundColor: 'rgba(255,253,249,.97)',  },
   editionCardComplete: { backgroundColor: '#112422', borderColor: '#B49C68' },
-  editionSeal: { width: 20, height: 20, borderWidth: 0.7, borderColor: '#D9BF91', borderRadius: 11, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }, editionSealComplete: { borderColor: '#C9AE77' }, editionSealText: { color: '#C3A369', fontSize: 13, lineHeight: 18 },
+  editionSeal: { width: 20, height: 20, borderRadius: 4, alignSelf: 'center' },
   editionTitle: { textAlign: 'center', marginTop: 5, fontSize: 22, lineHeight: 31, color: '#192321' }, editionTitleComplete: { color: '#D9BC7E' }, editionSubtitle: { textAlign: 'center', marginTop: 2, fontSize: 9, lineHeight: 15, color: '#28312B' }, editionSubtitleComplete: { color: '#E0C38E' },
   editionItems: { marginTop: 13 }, editionItem: { flexDirection: 'row', gap: 8, alignItems: 'center', minHeight: 37, paddingVertical: 8 }, editionDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#EBE6DD' }, editionDividerComplete: { borderTopColor: 'rgba(196,163,107,.16)' },
   editionItemText: { flex: 1, color: '#28312B', fontSize: 11, lineHeight: 18 }, editionItemTextComplete: { color: '#F4F0E7' },

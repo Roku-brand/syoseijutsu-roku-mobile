@@ -109,7 +109,7 @@
       "versionCode": 1,
       "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
-        "backgroundColor": "#151714",
+        "backgroundColor": "#FFF2D5",
         "foregroundImage": "./assets/brand/adaptive-foreground.png",
         "monochromeImage": "./assets/brand/monochrome.png"
       }
