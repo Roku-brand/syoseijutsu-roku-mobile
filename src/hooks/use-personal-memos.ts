@@ -79,7 +79,7 @@ export function usePersonalMemos({ preview = false, initialFolder = null, compos
   const canSaveMemo = Boolean(draft?.text.trim() && (!needsFolderName || draft.folderName.trim()));
   const destinations: { label: string; destination: MemoDestination }[] = [];
   if (!draft?.id) destinations.push({ label: '新しいフォルダー＋', destination: { kind: 'new' } });
-  if (draft?.id || collection.unfiled.length) destinations.push({ label: '未整理', destination: { kind: 'unfiled' } });
+  destinations.push({ label: '未整理', destination: { kind: 'unfiled' } });
   for (const item of personalMemoFolders) destinations.push({ label: item.name, destination: { kind: 'folder', id: item.id } });
 
   const updateDraft = (patch: Partial<MemoDraft>) => {
