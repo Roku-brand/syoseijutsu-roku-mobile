@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 import scope from '../../src/data/content-scope.json';
 import metadata from '../../src/data/generated/metadata.json';
@@ -277,7 +278,7 @@ test('ホームのカードデッキはキーボードで前後にめくれる',
   await deck.focus();
   const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.keyboard.press('ArrowRight');
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await expectDeckCursor(page, 1);
   await page.keyboard.press('ArrowLeft');
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
 });
@@ -821,8 +822,8 @@ test('ホームはおすすめ・5導線・完全版・編集部の特集の順�
 test('ホームのデッキは一枚を主役にして前後へめくれる',async({page})=>{
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await startFreeHome(page);
  const card=page.getByTestId('home-recommendation-card');await expect(card).toHaveCount(1);await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
- const before=await card.getAttribute('aria-label');await page.getByTestId('home-deck-next').click();await expect(card).not.toHaveAttribute('aria-label',before!);
- await page.getByTestId('home-deck-previous').click();await expect(card).toHaveAttribute('aria-label',before!);
+ const before=await card.getAttribute('aria-label');await turnDeck(page);await expect(card).not.toHaveAttribute('aria-label',before!);
+ await turnDeck(page, -1);await expect(card).toHaveAttribute('aria-label',before!);
 });
 
 test('完全版バナーと特集一覧への入口を維持する',async({page})=>{
@@ -863,9 +864,9 @@ test('カードデッキは前後操作で同じ一枚へ戻れる', async ({ pa
   await page.goto('/');
   await startFreeHome(page);
   const before = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
-  await page.getByTestId('home-deck-next').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
-  await page.getByTestId('home-deck-previous').click();
+  await turnDeck(page);
+  await expectDeckCursor(page, 1);
+  await turnDeck(page, -1);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', before!);
 });
 
@@ -874,10 +875,10 @@ test('カードデッキの7枚は前後に循環する', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  for (let i=0; i<7; i++) await page.getByTestId('home-deck-next').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
-  await page.getByTestId('home-deck-previous').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('07');
+  for (let i=0; i<7; i++) await turnDeck(page);
+  await expectDeckCursor(page, 0);
+  await turnDeck(page, -1);
+  await expectDeckCursor(page, 6);
 });
 
 test('デッキカードは次へ進めても編集部の特集を横に探索できる', async ({ page }) => {
@@ -885,8 +886,8 @@ test('デッキカードは次へ進めても編集部の特集を横に探索�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  await page.getByTestId('home-deck-next').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await turnDeck(page);
+  await expectDeckCursor(page, 1);
   await expect(page.getByTestId('home-editorial-section')).toBeVisible();
   await expect(page.getByTestId('home-editorial-section').locator('[data-testid="home-editorial-card"], [data-testid="home-editorial-fallback"]').first()).toBeVisible();
 });
@@ -895,7 +896,7 @@ test('おすすめカードから詳細へ往復してもデッキの位置を�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   const label=await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.waitForTimeout(360);
   await page.getByTestId('home-recommendation-card').click();

@@ -3,11 +3,11 @@ export const HOME_DECK_LAST = HOME_DECK_SIZE - 1;
 
 // Seven real cards, with only three quiet paper edges visible behind the front.
 const visibleDepth = (depth: number) => Math.min(3, Math.max(0, depth));
-export const deckLayerX = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (1.2 + visibleDepth(depth) * .2);
-export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (.15 + visibleDepth(depth) * .1);
+export const deckLayerX = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (5 + visibleDepth(depth) * 2);
+export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (.65 + visibleDepth(depth) * .15);
 const layerY = (depth: number) => visibleDepth(depth) * 7;
-const layerScale = (depth: number) => 1 - visibleDepth(depth) * .02;
-const layerOpacity = (depth: number) => 1 - visibleDepth(depth) * .05;
+const layerScale = (depth: number) => 1 - visibleDepth(depth) * .012;
+const layerOpacity = (depth: number) => 1 - visibleDepth(depth) * .025;
 export const deckReturnEdge = (width: number) => width + 28;
 const lerp = (a: number, b: number, amount: number) => a + (b - a) * amount;
 

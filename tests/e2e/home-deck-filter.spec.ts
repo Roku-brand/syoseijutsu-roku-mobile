@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 test.describe.configure({ timeout: 60_000 });
@@ -46,7 +47,7 @@ for (const width of [375, 1440]) {
         expect(contextLabel).toMatch(/^(人物像|理論分類)：.+/);
         await expect(context).not.toHaveText(/PRACTICE|THEORY/);
         kinds.add(contextLabel!.startsWith('理論分類：') ? 'theory' : 'technique');
-        await page.getByTestId('home-deck-next').click();
+        await turnDeck(page);
         await ready(page);
       }
       if (key === 'all') expect(kinds.size).toBe(2);
@@ -85,7 +86,7 @@ test('選択は詳細往復と日本時間の日替わりで維持し、ポッ�
   await expect(page.getByTestId('home-deck-filter-popup')).toHaveCount(0);
   await expect(trigger).toBeFocused();
   expect((await read(page)).round).toBe(original.round);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   const title = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.waitForTimeout(360);
@@ -134,7 +135,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.waitForFunction(() => (window as any).__tuckPaused);
   const path = await page.evaluate(() => (window as any).__tuckPath as { x: number; y: number }[]);
   expect(path[0].x).toBeLessThan(-box.width);
-  expect(path.at(-1)!.x).toBeCloseTo(-1.8, 1);
+  expect(path.at(-1)!.x).toBeCloseTo(-11, 1);
   expect(path.at(-1)!.y).toBe(21);
   await expect(page.locator('#home-deck-slot-0')).toHaveCSS('z-index', '0');
   await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '1');
@@ -145,7 +146,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await ready(page);
   await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (let i = 0; i < 6; i++) { await page.getByTestId('home-deck-next').click(); await ready(page); }
+  for (let i = 0; i < 6; i++) { await turnDeck(page); await ready(page); }
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -155,7 +156,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await ready(page);
   await expect(page.getByTestId('home-deck-filter')).toContainText('仕事術');
   await expect(page.getByTestId('home-recommendation-card').getByText('仕事術', { exact: true })).toBeVisible();
-  await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
+  await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
   await page.screenshot({ path: 'release-evidence/home-filter/selected-work-390.png' });
 });
 
@@ -191,7 +192,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   const state = await read(page);
   expect(state.order).toEqual(order);
   expect(state.round).toBe(7);
-  await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  await expectDeckCursor(page, 2);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', `${rows[2].title}を読む`);
   for (let i = 0; i < 2; i++) {
     await page.reload(); await ready(page);
@@ -211,7 +212,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
   await expect.poll(() => publicReads).toBeGreaterThan(readsBeforeRecovery);
   await ready(page);
   expect((await read(page)).order).toEqual(order);
-  await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  await expectDeckCursor(page, 2);
   expect(errors).toEqual([]);
 });
 
@@ -239,7 +240,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
     await expect(page.getByTestId('home-deck-filter')).toBeEnabled();
     const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.getByTestId('home-deck-next').click();
+    await turnDeck(page);
     await ready(page);
     await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
   } finally { release(); }

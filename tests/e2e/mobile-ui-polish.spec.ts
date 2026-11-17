@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 
@@ -58,8 +59,8 @@ test('おすすめデッキは自動切替されず、ユーザーが操作し�
   await page.clock.runFor(11_000);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', initial!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.getByTestId('home-deck-next').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await turnDeck(page);
+  await expectDeckCursor(page, 1);
 });
 
 test('動きの軽減設定でも収納式デッキの選択とシャッフルを操作できる', async ({ page }) => {
@@ -69,7 +70,7 @@ test('動きの軽減設定でも収納式デッキの選択とシャッフル�
   await page.getByTestId('home-deck-filter-work').click();
   await expect(page.getByTestId('home-deck-filter')).toContainText('仕事術');
   await page.getByTestId('home-discovery-refresh').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await expectDeckCursor(page, 0);
 });
 
 test('viewport remains stable during touch and pinch, then follows settled keyboard height', async ({ page }) => {

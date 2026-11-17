@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
-import { categoryMeta, getTheoryCategoryTitle } from '@/data/catalog';
+import { categoryMeta, getTechniqueDisplayId, getTheoryDisplayId, getTheoryCategoryTitle } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
 import type { ReadingContent } from '@/data/reading-recommendations';
 import { contentImageUrl } from '@/lib/content-media';
@@ -13,7 +13,6 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
-import { HomeDeckPagination } from './home-deck-pagination';
 import { SaveDiamond } from './save-diamond';
 import { DiscoveryFilterButton, discoveryFilterColor } from './discovery-filter-button';
 import { DiscoveryActionButton } from './discovery-action-button';
@@ -28,8 +27,11 @@ const deckImages: Record<string, number> = {
   life: require('../../assets/home/deck-life.webp'),
 };
 const webGesture = Platform.OS === 'web' ? { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' } as unknown as ViewStyle : {};
-const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 6px 16px -9px rgba(51,40,22,.18), 0 1px 3px rgba(51,40,22,.05)' } as ViewStyle
+const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 9px 18px -8px rgba(51,40,22,.23), 0 2px 5px rgba(51,40,22,.08)' } as ViewStyle
   : { shadowColor: '#332816', shadowOpacity: 0.08, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 2 };
+function cardAccent(item: ReadingContent) {
+  return item.type === 'theory' ? '#627593' : catalogTheme.categoryBars[item.card.categoryKey] ?? colors.moss;
+}
 function imageFor(item: ReadingContent) {
   const fallback = item.type === 'theory' ? theoryImage : deckImages[item.card.categoryKey] ?? theoryImage;
   const uri = contentImageUrl(item.card.imagePath);
@@ -124,7 +126,6 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
   };
   const navigation = useRef(navigate);
   navigation.current = navigate;
-  const requestMove = useCallback((step: number) => navigation.current(step), []);
   const responder = useRef(PanResponder.create({
     // x0 is populated on grant, after the responder decision. Record touch-down
     // separately so excluding the browser edge never disables ordinary drags.
@@ -198,7 +199,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
     const value = (key: keyof typeof start) => Animated.add(start[key], Animated.add(Animated.multiply(pull, extracted[key] - start[key]), Animated.multiply(lift, settled[key] - extracted[key])));
     return { opacity: value('opacity'), transform: [{ translateX: value('x') }, { translateY: value('y') }, { rotate: value('angle').interpolate({ inputRange: [-15, 15], outputRange: ['-15deg', '15deg'] }) }, { scale: value('scale') }] };
   };
-  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右の矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
+  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右にスワイプ、または矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
       <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text><Text style={[styles.subtitle, night && styles.nightSubtitle]}>思いがけない知識との出会いを。</Text></View>
@@ -207,7 +208,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 38 }]}>
+    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 30 }]}>
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
@@ -221,17 +222,17 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
           return <Animated.View key={depth} nativeID={`home-deck-slot-${depth}`} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
             style={[styles.slot, { width: cardWidth, zIndex: returnRaised && (returning ? depth === HOME_DECK_LAST : front) ? (returning ? HOME_DECK_SIZE + 1 : 0) : HOME_DECK_SIZE - depth }, pose, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
             <View style={styles.flipFace}>
-              {phase !== 'shuffle' && (returning ? depth !== 0 && depth !== HOME_DECK_LAST : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardHeight }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} height={cardHeight} compact={night && !desktop} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
+              {phase !== 'shuffle' && (returning ? depth !== 0 && depth !== HOME_DECK_LAST : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, { width: cardWidth, height: cardHeight, borderColor: cardAccent(item) }]}>
+                <View style={[styles.paperEdge, { backgroundColor: cardAccent(item) }]} /><View style={[styles.paperEdge, styles.paperEdgeRight, { backgroundColor: cardAccent(item) }]} />
+              </View> : item ? <DiscoveryFace item={item} width={cardWidth} height={cardHeight} compact={night && !desktop} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
                 : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardHeight }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
             </View></Animated.View>;
         })}
     </View>
-    <HomeDeckPagination cursor={deck.cursor} unavailable={deck.loading || deck.error} onMove={requestMove} />
   </View>;
 }
 
 function DiscoveryFace({ item, width, height, compact, active, disabled, onPress, panHandlers, onTouch }: { item: ReadingContent; width: number; height: number; compact: boolean; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
-  const { fontScale = 1 } = useWindowDimensions();
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const reduced = useReducedMotion();
   const pulse = useRef(new Animated.Value(1)).current;
@@ -240,18 +241,24 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
   const theoretical = item.type === 'theory';
   const id = theoretical ? item.card.tagId : item.card.id;
   const saved = (theoretical ? savedTheoryIds : savedIds).includes(id);
-  const accent = theoretical ? '#627593' : catalogTheme.categoryBars[item.card.categoryKey] ?? colors.moss;
+  const accent = cardAccent(item);
   const label = theoretical ? '理論' : categoryMeta[item.card.categoryKey]?.label ?? item.card.categoryName;
   const context = item.type === 'theory' ? getTheoryCategoryLabel(item.card) || getTheoryCategoryTitle(item.card.categoryId) : item.card.subcategory.trim() || '人物像未設定';
   const summary = theoretical ? getTheoryCoverSummary(item.card.summary) : item.card.essence || item.card.subtitle || '';
   const image = imageFor(item);
   useEffect(() => setFailed(false), [id]);
   useEffect(() => () => pulse.stopAnimation(), [pulse]);
-  return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, theoretical && styles.theoryCard, { width, height }, focused && styles.focused]}>
+  return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, { width, height }, focused && styles.focused]}>
+    <View pointerEvents="none" accessible={false} style={styles.innerFrame} />
     <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
       <View style={styles.cardTop}><Text style={[styles.badge, { backgroundColor: accent }]}>{label}</Text><Text testID={active ? 'home-deck-context' : undefined} numberOfLines={1} accessibilityLabel={`${theoretical ? '理論分類' : '人物像'}：${context}`} style={styles.cardKind}>{context}</Text></View>
-      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={16} maxLines={3} style={[styles.title, compact && styles.compactTitle, theoretical && { color: '#263B53' }]} />
-      <View style={[styles.rule, theoretical && { backgroundColor: '#D9E0E6' }]} /><Text numberOfLines={2} style={[styles.summary, compact && styles.compactSummary, compact && { maxHeight: 40 * fontScale }]}>{summary}</Text>
+      <Text testID={active ? 'home-deck-number' : undefined} style={styles.cardNumber}>{theoretical ? getTheoryDisplayId(item.card) : getTechniqueDisplayId(item.card)}</Text>
+      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={17} maxLines={2} style={[styles.title, compact && styles.compactTitle]} />
+      <View style={styles.titleRule}><View style={styles.ruleAccent} /><View style={styles.ruleRest} /></View>
+      <View style={styles.quotation}>
+        <Text accessible={false} style={styles.quoteMark}>“</Text>
+        <Text testID={active ? 'home-deck-essence' : undefined} numberOfLines={3} style={styles.summary}>{summary}</Text>
+      </View>
       <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
     </Pressable>
     {active ? <Animated.View style={[styles.save, { transform: [{ scale: pulse }] }]}><Pressable testID="home-deck-save" accessibilityRole="button" accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'} aria-pressed={saved} accessibilityState={{ selected: saved }} disabled={disabled}
@@ -260,17 +267,29 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
 }
 
 const styles = StyleSheet.create({
-  nightHeading: { marginBottom: 10, gap: 14, flexDirection: 'column', alignItems: 'flex-start' }, nightHeadingCopy: { borderLeftWidth: 3, borderLeftColor: '#BC9650', paddingLeft: 11 }, nightTitle: { color: '#FFFDF5', fontSize: 27, lineHeight: 36, letterSpacing: .5 }, nightSubtitle: { color: '#E5E4D8', fontSize: 12, lineHeight: 18, marginTop: 0 }, nightActions: { marginLeft: 14, gap: 10 },
-  compactCardLink: { padding: 14, paddingTop: 10, paddingBottom: 12 }, compactTitle: { fontSize: 25, lineHeight: 33, fontWeight: '700', minHeight: 42, paddingTop: 7 }, compactSummary: { fontSize: 12, lineHeight: 20, height: 'auto', minHeight: 20 }, compactPhoto: { marginTop: 9, minHeight: 84 },
+  nightHeading: { marginBottom: 0, gap: 8, flexDirection: 'column', alignItems: 'flex-start' }, nightHeadingCopy: { borderLeftWidth: 3, borderLeftColor: '#BC9650', paddingLeft: 11 }, nightTitle: { color: '#FFFDF5', fontSize: 26, lineHeight: 34, letterSpacing: .5 }, nightSubtitle: { color: '#E5E4D8', fontSize: 12, lineHeight: 17, marginTop: 0 }, nightActions: { marginLeft: 14, gap: 10 },
+  compactCardLink: { padding: 14, paddingTop: 13, paddingBottom: 13 }, compactTitle: { fontSize: 24, lineHeight: 33, fontWeight: '700', paddingTop: 5 }, compactPhoto: { marginTop: 17, minHeight: 100 },
   fillViewport: { flexGrow: 1 },
   mobileHeading: { flexDirection: 'column', alignItems: 'flex-start', gap: 12 },
   headingActions: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: 8 },
-  paper: { backgroundColor: '#F7F2E7' },
+  paper: { backgroundColor: '#F8F1E5' },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
-  buttonPressed: { opacity: .8 },
-  flipFace: { backfaceVisibility: 'hidden', borderRadius: 14, ...faceShadow },
-  stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10, zIndex: 1 }, slot: { position: 'absolute', top: 10, borderRadius: 14 }, card: { borderRadius: 14, backgroundColor: '#FFFDF7', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: .15 },
-  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 33, fontWeight: '600', letterSpacing: 0.3, minHeight: 66, paddingTop: 11 }, rule: { height: 1, backgroundColor: '#ECE5D9', marginTop: 5, marginBottom: 10 }, summary: { color: '#69655E', fontFamily: fonts.sans, fontSize: 13, lineHeight: 23, height: 46 }, photoWrap: { marginTop: 13, flex: 1, minHeight: 90, borderRadius: 8, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' }, readArrow: { position: 'absolute', right: 10, bottom: 10, width: 36, height: 36, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 29, lineHeight: 32 }, save: { position: 'absolute', right: 5, top: 7 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold, borderWidth: 2 },
+  flipFace: { backfaceVisibility: 'hidden', borderRadius: 20, ...faceShadow },
+  stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 8, zIndex: 1 }, slot: { position: 'absolute', top: 8, borderRadius: 20 },
+  card: { borderRadius: 20, backgroundColor: '#FFF9F0', borderWidth: 1, borderColor: '#CDB98F', overflow: 'hidden' },
+  innerFrame: { position: 'absolute', top: 4, left: 4, right: 4, bottom: 4, borderWidth: 1, borderColor: '#D8C7A4', borderRadius: 16 },
+  cardLink: { flex: 1, padding: 17, paddingTop: 15 },
+  cardTop: { flexDirection: 'row', alignItems: 'center', minHeight: 24, paddingRight: 30 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 12, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' },
+  cardKind: { flex: 1, minWidth: 0, marginLeft: 8, paddingLeft: 8, borderLeftWidth: 1, borderLeftColor: '#D8C8B0', color: '#42413E', fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
+  cardNumber: { color: '#96702E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '600', marginTop: 3, letterSpacing: .2 },
+  title: { color: '#24313A', fontFamily: fonts.serif, fontSize: 25, lineHeight: 34, fontWeight: '700', letterSpacing: .15, paddingTop: 5 },
+  titleRule: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 11, marginBottom: 12 }, ruleAccent: { width: 72, height: 3, borderRadius: 2, backgroundColor: '#A67929' }, ruleRest: { flex: 1, height: 1, backgroundColor: '#E2D7C7' },
+  quotation: { flexDirection: 'row', alignItems: 'flex-start', minHeight: 48 }, quoteMark: { color: '#B19152', fontFamily: fonts.serif, fontSize: 34, lineHeight: 36, width: 29 },
+  summary: { flex: 1, color: '#42413E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '400', borderLeftWidth: 1, borderLeftColor: '#D8C7A4', paddingLeft: 10 },
+  photoWrap: { marginTop: 17, flex: 1, minHeight: 110, borderRadius: 13, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' },
+  readArrow: { position: 'absolute', right: 9, bottom: 9, width: 32, height: 32, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 27, lineHeight: 29 },
+  save: { position: 'absolute', right: 6, top: 8 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold },
+  paperEdge: { position: 'absolute', left: 0, top: 12, bottom: 12, width: 7, opacity: .35, borderRadius: 3 }, paperEdgeRight: { left: undefined, right: 0 },
   empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },
 });

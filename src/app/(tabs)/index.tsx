@@ -31,10 +31,10 @@ export default function HomeScreen() {
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
-  const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 48));
+  const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 68));
   // The content determines its breathing room; short viewports scroll rather
   // than shrinking the central reading experience to fit the editorial shelf.
-  const cardHeight = (desktop ? 362 : Math.round(Math.max(306, Math.min(344, cardWidth * .94)))) + Math.max(0, fontScale - 1) * 180;
+  const cardHeight = (desktop ? 422 : Math.round(Math.max(324, cardWidth * 1.06))) + Math.max(0, fontScale - 1) * 180;
 
 
   return (
@@ -89,25 +89,25 @@ const styles = StyleSheet.create({
   dataStatus: { minHeight: 44, justifyContent: 'center' },
   dataStatusText: { color: colors.muted, fontSize: 12, lineHeight: 21, marginTop: 8 },
   discovery: { width: '100%', position: 'relative' },
-  deckContent: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 17, paddingBottom: 2 },
+  deckContent: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 10, paddingBottom: 0 },
   page: { backgroundColor: '#FAF7EF', maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: 16 }, pageDesktop: { paddingBottom: 20 },
   pageMobile: { paddingBottom: 12 },
   body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
   shortcuts: { flexDirection: 'row', gap: 8, marginTop: 10 },
-  shortcut: { flex: 1, minWidth: 0, minHeight: 96, paddingTop: 12, paddingBottom: 14, alignItems: 'center', justifyContent: 'center', gap: 8, overflow: 'hidden', backgroundColor: '#FFFBF3', borderWidth: 1, borderColor: '#E8DDCB', borderRadius: 15, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
+  shortcut: { flex: 1, minWidth: 0, minHeight: 84, paddingTop: 9, paddingBottom: 9, alignItems: 'center', justifyContent: 'center', gap: 5, overflow: 'hidden', backgroundColor: '#FFFBF3', borderWidth: 1, borderColor: '#E8DDCB', borderRadius: 15, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
   shortcutLabelDesktop: { fontSize: 13, lineHeight: 20 },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
   shortcutCaption: { width: '100%', alignItems: 'center', justifyContent: 'center' },
   shortcutCaptionMobile: { minHeight: 30 },
   shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center', width: '100%' },
-  premiumBanner: { minHeight: 134, marginTop: 18, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
-  premiumBannerMobile: { minHeight: 132, borderRadius: 13 },
+  premiumBanner: { minHeight: 134, marginTop: 12, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
+  premiumBannerMobile: { minHeight: 116, borderRadius: 13 },
   premiumBannerNarrow: { minHeight: 150 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
   premiumCopy: { width: '72%', minHeight: 134, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '74%', minHeight: 132, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 12, gap: 0 },
+  premiumCopyMobile: { width: '74%', minHeight: 116, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 8, gap: 0 },
   premiumEdition: { flexShrink: 0 },
   premiumEditionMobile: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   premiumDetailsMobile: { flexShrink: 0, width: '100%' },

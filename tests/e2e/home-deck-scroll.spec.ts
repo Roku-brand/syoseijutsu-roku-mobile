@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 test.describe.configure({ timeout: 60_000 });
@@ -26,8 +27,8 @@ for (const width of [375, 390, 430]) {
     expect(await position(page)).toBeLessThan(160);
     await page.getByTestId('home-premium-banner').scrollIntoViewIfNeeded();
     await expect(page.getByTestId('home-premium-banner')).toBeInViewport();
-    await page.getByTestId('home-deck-previous').scrollIntoViewIfNeeded();
-    await expect(page.getByTestId('home-deck-previous')).toBeInViewport();
+    await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
+    await expect(page.getByTestId('home-recommendation-card')).toBeInViewport();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
 }
@@ -40,7 +41,7 @@ test('戻った後もおすすめの同じカードとデッキ選択を維持�
   await page.getByTestId('home-deck-filter').click();
   await page.getByTestId('home-deck-filter-interpersonal').click();
   await ready(page);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   const title = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   await page.waitForTimeout(360);
@@ -50,18 +51,18 @@ test('戻った後もおすすめの同じカードとデッキ選択を維持�
   await ready(page);
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', title!);
   await expect(page.getByTestId('home-deck-filter')).toContainText('対人術');
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await expectDeckCursor(page, 1);
 });
 
 test('短い画面でもページ送り・シャッフル・下部コンテンツへ到達できる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 667 });
   await page.goto('/');
   await ready(page);
-  for (const id of ['home-deck-next', 'home-discovery-refresh', 'home-shortcut-personas', 'home-premium-banner']) {
+  for (const id of ['home-recommendation-card', 'home-discovery-refresh', 'home-shortcut-personas', 'home-premium-banner']) {
     await page.getByTestId(id).scrollIntoViewIfNeeded();
     await expect(page.getByTestId(id)).toBeInViewport();
   }
   await page.setViewportSize({ width: 390, height: 932 });
-  await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
-  await expect(page.getByTestId('home-deck-next')).toBeInViewport();
+  await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('home-recommendation-card')).toBeInViewport();
 });
