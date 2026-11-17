@@ -26,24 +26,24 @@ test('favorite and learning links retain MyPage and Learn context',async({page})
  await page.goto('/my-os');await page.getByRole('button',{name:'対人術のお気に入り 1件',exact:true}).click();
  await page.getByTestId('personal-content-technique').first().click();
  await expect(page).toHaveURL(/\/card\//);await expect(nav(page,'マイページ')).toHaveAttribute('aria-current','page');
- await nav(page,'学ぶ').click();await page.getByTestId('learning-challenge-1').click();await page.getByTestId('learning-start').click();
+ await nav(page,'学ぶ').click();await page.getByTestId('learning-challenge-1').click();
  await page.getByRole('button',{name:/^B /}).click();
  await page.getByRole('link',{name:/関連する基礎知識、/}).first().click();
  await expect(page).toHaveURL(/\/card\//);await expect(nav(page,'学ぶ')).toHaveAttribute('aria-current','page');
 });
 
-test('a case waits for explicit start and offers unlimited practice within the case',async({page})=>{
+test('a case automatically starts a fixed minute even with an old unlimited preference',async({page})=>{
+ await page.addInitScript(key=>localStorage.setItem(key,JSON.stringify({learningUnlimited:true})),guestKey);
  await page.setViewportSize({width:320,height:568});await page.clock.install();await page.goto('/learn/case-01?retry=1');
- await expect(page.getByTestId('learning-start')).toBeEnabled();await page.clock.runFor(65000);
- await page.getByTestId('learning-countdown').scrollIntoViewIfNeeded();
- await page.screenshot({path:'release-evidence/selected-improvements/case-before-start-320.png'});
- await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');await expect(page.getByRole('button',{name:/^A /})).toBeDisabled();
- await page.getByRole('switch',{name:'このケースを時間制限なしで練習する'}).check();
- await page.getByTestId('learning-start').click();await page.clock.runFor(65000);
- await expect(page.getByText('時間切れ',{exact:true})).toHaveCount(0);await expect(page.getByRole('button',{name:/^A /})).toBeEnabled();
+ await expect(page.getByRole('button',{name:/^A /})).toBeEnabled();
+ await expect(page.getByTestId('learning-start')).toHaveCount(0);
+ await expect(page.getByRole('switch',{name:/時間制限/})).toHaveCount(0);
+ await page.clock.runFor(65000);
+ await expect(page.getByText('時間切れ',{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'もう一度挑戦'}).click();
+ await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+ await expect(page.getByRole('button',{name:/^B /})).toBeEnabled();
  await page.getByRole('button',{name:/^B /}).click();await expect(page.getByText('正解！',{exact:true})).toBeVisible();
- await page.reload();
- await expect(page.getByTestId('learning-start')).toHaveAccessibleName('練習をはじめる');
 });
 
 test('file import previews counts without changing records; export dates survive reload',async({page})=>{

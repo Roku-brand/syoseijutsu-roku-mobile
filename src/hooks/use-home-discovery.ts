@@ -11,7 +11,7 @@ import { onDiscoveryReset, readDiscoveryState, writeDiscoveryState } from '@/lib
 import { hydratePublishedCache } from '@/lib/published-content';
 
 type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number; filter: DiscoveryFilter };
-export const HOME_DECK_SIZE = 5;
+import { HOME_DECK_SIZE } from '@/data/deck-motion';
 export const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
 
 function accessibleCatalog(scope: string) {
@@ -131,8 +131,8 @@ export function useHomeDiscovery() {
     const old = current.current;
     if (!old) return;
     const round = old.round + 1;
-    // A hard exclusion, including the four cards not yet seen, makes this a
-    // complete new hand rather than advancing or reordering the same five.
+    // A hard exclusion, including cards not yet seen, makes this a
+    // complete new hand rather than advancing or reordering the same cards.
     const selected = filter ?? old.filter;
     const order = generate(old.day, round, old.seen, old.order, selected).map(discoveryKey);
     commit({ ...old, filter: selected, round, order, cursor: 0, offset: 0, seen: [...old.seen, ...order.slice(0, 1)].slice(-120) });

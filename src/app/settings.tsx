@@ -37,8 +37,8 @@ export default function SettingsScreen() {
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
-          last
         />
+        <SettingLink title="背景テーマ" detail={backgroundTheme.name} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
       {role === 'owner' ? <>
@@ -59,11 +59,6 @@ export default function SettingsScreen() {
         <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
         <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
-      </SettingsGroup>
-
-      <SettingsSection title="表示" />
-      <SettingsGroup>
-        <SettingLink title="背景テーマ" detail={backgroundTheme.name} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
       <SettingsSection title="記録の保存" />

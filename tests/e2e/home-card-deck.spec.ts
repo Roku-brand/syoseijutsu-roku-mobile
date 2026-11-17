@@ -22,7 +22,7 @@ for (const width of [375, 390, 430, 768, 1440]) {
     await ready(page);
     await expect(page.getByTestId('home-continue-section')).toHaveCount(0);
     await expect(page.getByTestId('home-premium-banner')).toBeVisible();
-    await expect(page.getByTestId('home-deck-layer')).toHaveCount(4);
+    await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
     await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
     const heading = (await page.getByTestId('home-deck-heading').boundingBox())!;
     const filter = (await page.getByTestId('home-deck-filter').boundingBox())!;
@@ -150,12 +150,13 @@ test('ドラッグ追従・閾値未満のスプリング・前後スワイプ�
   await ready(page);
   const frames = await page.evaluate(() => { (window as any).__stop = true; return (window as any).__frames; });
   expect(frames.some((frame: any) => Math.abs(frame.x) > 2)).toBe(true);
-  expect(frames.every((frame: any) => Math.abs(frame.x) <= 12.1)).toBe(true);
-  expect(frames.every((frame: any) => frame.opacity === 1)).toBe(true);
+  expect(frames.some((frame: any) => frame.x < -390)).toBe(true);
+  expect(frames.some((frame: any) => frame.x > 390)).toBe(true);
+  expect(frames.some((frame: any) => frame.opacity === 0)).toBe(true);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(1);
 });
 
-test('キーボード・動きの設定変更・高速操作・5枚の循環', async ({ page }) => {
+test('キーボード・動きの設定変更・高速操作・7枚の循環', async ({ page }) => {
   test.setTimeout(60_000);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
@@ -172,7 +173,7 @@ test('キーボード・動きの設定変更・高速操作・5枚の循環', a
   await expect(page.getByTestId('home-deck-position')).toContainText('01');
   const seen = new Set<string | null>();
   const first = await label(page);
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < 7; index++) {
     const current = await label(page);
     expect(seen.has(current)).toBe(false);
     seen.add(current);
@@ -184,10 +185,10 @@ test('キーボード・動きの設定変更・高速操作・5枚の循環', a
   expect(await label(page)).toBe(first);
   await page.keyboard.press('ArrowLeft');
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('05');
+  await expect(page.getByTestId('home-deck-position')).toContainText('07');
   await page.reload();
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('05');
+  await expect(page.getByTestId('home-deck-position')).toContainText('07');
 });
 
 test('日本時間の日替わりと訪問中の状態固定、破損キャッシュ復旧', async ({ page }) => {
@@ -301,7 +302,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await ready(page);
-  await expect(page.getByTestId('home-deck-paper')).toHaveCount(3);
+  await expect(page.getByTestId('home-deck-paper')).toHaveCount(5);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
   await page.evaluate(() => {
     (window as any).__shuffleOpacity = [];
@@ -341,27 +342,27 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   await page.getByTestId('home-deck-next').click();
   await ready(page);
   const second = await label(page);
-  const bottom = page.locator('#home-deck-slot-4');
+  const bottom = page.locator('#home-deck-slot-6');
   const matrix = (selector: string) => page.locator(selector).evaluate(node => { const m = new DOMMatrix(getComputedStyle(node).transform); return { x: m.m41, z: Number(getComputedStyle(node).zIndex) }; });
   const box = (await page.getByTestId('home-recommendation-card').boundingBox())!;
   await page.mouse.move(box.x + 30, box.y + 100);
   await page.mouse.down();
   await page.mouse.move(box.x + 68, box.y + 102, { steps: 10 });
   await expect(bottom).toContainText(first!.replace(/を読む$/, ''));
-  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeLessThan(-10);
+  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeLessThan(0);
   expect(Math.abs((await matrix('#home-deck-slot-0')).x)).toBeLessThan(3);
-  expect((await matrix('#home-deck-slot-4')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
+  expect((await matrix('#home-deck-slot-6')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
   await page.waitForTimeout(100);
   await page.mouse.up();
-  await expect.poll(async () => (await matrix('#home-deck-slot-4')).x).toBeCloseTo(15, 0);
+  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeCloseTo(19, 0);
   expect(await label(page)).toBe(second);
   await page.evaluate(() => {
     (window as any).__reverseFrames = [];
     (window as any).__reverseRecording = true;
     (window as any).__liftedAt = null;
-    const bottom = document.getElementById('home-deck-slot-4')!;
+    const bottom = document.getElementById('home-deck-slot-6')!;
     const observer = new MutationObserver(() => {
-      if (Number(getComputedStyle(bottom).zIndex) === 6 && (window as any).__liftedAt === null) {
+      if (Number(getComputedStyle(bottom).zIndex) === 8 && (window as any).__liftedAt === null) {
         (window as any).__liftedAt = new DOMMatrix(getComputedStyle(bottom).transform).m41;
         const animation = document.getAnimations().find(item => (item.effect as KeyframeEffect)?.target === bottom);
         const keys = (animation?.effect as KeyframeEffect)?.getKeyframes();
@@ -372,7 +373,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
     (window as any).__reverseObserver = observer;
     const sample = () => {
       const front = document.getElementById('home-deck-slot-0')!;
-      const bottom = document.getElementById('home-deck-slot-4')!;
+      const bottom = document.getElementById('home-deck-slot-6')!;
       const m = new DOMMatrix(getComputedStyle(bottom).transform);
       (window as any).__reverseFrames.push({ bottomX: m.m41, frontX: new DOMMatrix(getComputedStyle(front).transform).m41, z: Number(getComputedStyle(bottom).zIndex) });
       if ((window as any).__reverseRecording) requestAnimationFrame(sample);
@@ -395,7 +396,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect(liftedAt).toBeLessThan(-box.width);
   expect(returnPath.start).toBeLessThan(-box.width);
   expect(returnPath.end).toBeCloseTo(0, 2);
-  const lifted = frames.filter(frame => frame.z === 6);
+  const lifted = frames.filter(frame => frame.z === 8);
   expect(lifted.length).toBeGreaterThan(0);
   expect(lifted.some(frame => frame.bottomX > liftedAt + 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
@@ -405,7 +406,27 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect(await label(page)).toBe(second);
 });
 
-test('旧キューを5枚へ移行し、シャッフルで5枚すべてを交換する', async ({ page }) => {
+test('five-card caches migrate to seven without losing the current card', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await ready(page);
+  const currentId = await page.evaluate(key => {
+    const state = JSON.parse(localStorage.getItem(key)!);
+    state.order = state.order.slice(0, 5);
+    state.cursor = 3;
+    localStorage.setItem(key, JSON.stringify(state));
+    return state.order[3];
+  }, storageKey);
+  await page.reload();
+  await ready(page);
+  const restored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), storageKey);
+  expect(restored.order).toHaveLength(7);
+  expect(new Set(restored.order).size).toBe(7);
+  expect(restored.order[0]).toBe(currentId);
+  expect(restored.cursor).toBe(0);
+});
+
+test('旧キューを7枚へ移行し、シャッフルで7枚すべてを交換する', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await ready(page);
@@ -420,14 +441,14 @@ test('旧キューを5枚へ移行し、シャッフルで5枚すべてを交換
   await expect(page.getByTestId('home-deck-position')).toContainText('01');
   const readOrder = () => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order as string[], storageKey);
   let old = await readOrder();
-  expect(old).toHaveLength(5);
-  expect(new Set(old).size).toBe(5);
+  expect(old).toHaveLength(7);
+  expect(new Set(old).size).toBe(7);
   for (let round = 1; round <= 6; round++) {
     await page.getByTestId('home-discovery-refresh').click();
     await ready(page);
     const next = await readOrder();
-    expect(next).toHaveLength(5);
-    expect(new Set(next).size).toBe(5);
+    expect(next).toHaveLength(7);
+    expect(new Set(next).size).toBe(7);
     expect(next.filter(id => old.includes(id))).toEqual([]);
     old = next;
   }

@@ -98,12 +98,12 @@ test('retrying a failed write preserves a removed favorite across reload',async(
  await expect(page.getByTestId('technique-detail-title')).toBeVisible();
  await expect(page.getByRole('button',{name:'お気に入りから外す',exact:true})).toHaveCount(0);
 });
-test('unlimited practice survives one minute and incorrect answers enter the review list',async({page})=>{
- await page.goto('/learn');await page.getByRole('switch',{name:'時間制限なしで練習する'}).check();
+test('fixed 60-second practice starts immediately and incorrect answers enter the review list',async({page})=>{
+ await page.goto('/learn');await expect(page.getByRole('switch',{name:/時間制限/})).toHaveCount(0);
  await page.clock.install();await page.goto('/learn/case-01?retry=1');
- await expect(page.getByTestId('learning-countdown')).toContainText('時間制限なし');
- await page.getByTestId('learning-start').click();
- await page.clock.runFor(65000);await expect(page.getByText('時間切れ',{exact:true})).toHaveCount(0);
+ await expect(page.getByTestId('learning-countdown')).toContainText('60秒');
+ await expect(page.getByRole('button',{name:/^A /})).toBeEnabled();
+ await page.clock.runFor(1000);await expect(page.getByTestId('learning-seconds')).toHaveText('59 秒');
  await page.getByRole('button',{name:/^A /}).click();await expect(page.getByText('おしい！',{exact:true})).toBeVisible();
  await page.getByTestId('book-header-back').click();await expect(page.getByTestId('learning-review-list')).toContainText('あとで復習');
  await page.screenshot({path:test.info().outputPath('learning-practice-mobile.png'),fullPage:true});

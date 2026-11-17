@@ -22,7 +22,7 @@ import { motion } from '@/constants/motion';
 import { DataStatusBanner } from '@/components/data-status-banner';
 import { GuideProvider } from '@/onboarding/guide-provider';
 import { HomeAppearanceProvider } from '@/state/home-appearance';
-import { HOME_HEADER_COLOR } from '@/components/home-header-backdrop';
+import { HOME_HEADER_COLOR, HomeHeaderBackdrop } from '@/components/home-header-backdrop';
 
 function AppFrame() {
   const reducedMotion = useReducedMotion();
@@ -32,13 +32,13 @@ function AppFrame() {
   const desktop = width >= 1000;
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
-  const home = pathname === '/' && !isCheckoutReturn;
+  const primaryHeader = ['/', '/discover', '/learn', '/my-os', '/features'].includes(pathname) && !isCheckoutReturn;
   useEffect(() => {
     if (Platform.OS !== 'web') return;
-    const color = home ? HOME_HEADER_COLOR : colors.surface;
+    const color = primaryHeader ? HOME_HEADER_COLOR : colors.surface;
     document.documentElement.style.setProperty('--roku-status-background', color);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
-  }, [home]);
+  }, [primaryHeader]);
   // Legacy entry URLs redirect to the home screen without flashing app chrome.
   const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
   const isUpgrade = pathname === '/upgrade' || pathname === '/upgrade-preview';
@@ -48,7 +48,7 @@ function AppFrame() {
   const showPersistentNavigation = !isWelcome && !isCheckoutReturn && !isFocusedScreen(pathname);
   const appContent = (
     <View style={styles.contentColumn}>
-      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={[styles.headerSafeArea, home && { backgroundColor: HOME_HEADER_COLOR }]}><BookHeader /></SafeAreaView> : null}
+      {!isWelcome && !isCheckoutReturn && !isUpgrade ? <SafeAreaView testID="book-header-safe-area" edges={['top', 'left', 'right']} style={[styles.headerSafeArea, primaryHeader && { backgroundColor: HOME_HEADER_COLOR }]}>{primaryHeader ? <HomeHeaderBackdrop /> : null}<BookHeader /></SafeAreaView> : null}
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
       {!isWelcome && !pathname.startsWith('/owner') ? <DataStatusBanner /> : null}
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>

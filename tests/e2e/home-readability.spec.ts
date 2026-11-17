@@ -71,7 +71,7 @@ for (const [width, height] of [[320, 568], [390, 844], [768, 1000], [1440, 1000]
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `release-evidence/home-readability/deck-${width}.png` });
     await page.getByTestId('home-deck-filter').click();
-    await readable(page.getByTestId('home-deck-filter-work').getByText('5枚すべて仕事術に', { exact: true }));
+    await readable(page.getByTestId('home-deck-filter-work').getByText('7枚すべて仕事術に', { exact: true }));
     await page.screenshot({ path: `release-evidence/home-readability/filter-${width}.png` });
   });
 }

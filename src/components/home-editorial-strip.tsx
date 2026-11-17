@@ -36,7 +36,7 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
         <Text style={styles.seeAllText}>すべて見る →</Text>
       </Pressable>
     </View>
-    <ScrollView testID="home-editorial-rail" horizontal showsHorizontalScrollIndicator={false} style={styles.rail}
+    <ScrollView testID="home-editorial-rail" horizontal showsHorizontalScrollIndicator={false} style={[styles.rail, { height: (mobileCard?.height ?? 150) + 10 }]}
       snapToInterval={(mobileCard?.width ?? 280) + 10} decelerationRate="fast" disableIntervalMomentum
       contentContainerStyle={styles.railContent} accessibilityLabel="編集部の特集を横にスクロール">
       {!featured.length ? (
@@ -66,7 +66,7 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
 }
 
 const styles = StyleSheet.create({
-  section: { marginTop: 8, marginBottom: 12 },
+  section: { marginTop: 8, marginBottom: 0 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4, gap: 8 },
   headingLeft: { flexDirection: 'row', alignItems: 'center', flexShrink: 1, gap: 9 },
   accent: { width: 3, height: 26, backgroundColor: colors.gold, borderRadius: 2 },
