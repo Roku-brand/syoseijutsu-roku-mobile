@@ -11,7 +11,7 @@ import { useHomeDiscovery } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
-import { deckLayerAngle as layerAngle, deckLayerX as layerX, deckReturnEdge, deckShuffleFrames } from '@/data/deck-motion';
+import { deckLayerAngle as layerAngle, deckLayerX as layerX, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
 import { SaveDiamond } from './save-diamond';
 import { DiscoveryFilterButton, discoveryFilterColor } from './discovery-filter-button';
@@ -37,7 +37,7 @@ function imageFor(item: ReadingContent) {
 
 export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
   const deck = useHomeDiscovery();
-  const { desktop } = useResponsiveLayout();
+  const { desktop, width: viewportWidth } = useResponsiveLayout();
   const root = useRef<View>(null);
   const router = useRouter();
   const reduced = useReducedMotion();
@@ -51,7 +51,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
   const mix = useRef(new Animated.Value(0)).current;
   const lift = useRef(new Animated.Value(0)).current;
   const dragDistance = useRef(0);
-  const webMotion = useWebDeckMotion(cardWidth);
+  const webMotion = useWebDeckMotion(cardWidth, viewportWidth);
   const locked = useRef(false);
   const dragged = useRef(false);
   const lastDrag = useRef(0);
@@ -64,7 +64,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
   const driver = Platform.OS !== 'web';
   const busy = phase !== 'idle';
   const current = deck.items[deck.cursor];
-  const shuffleFrames = useMemo(() => Array.from({ length: 5 }, (_, depth) => deckShuffleFrames(depth, cardWidth)), [cardWidth]);
+  const shuffleFrames = useMemo(() => Array.from({ length: HOME_DECK_SIZE }, (_, depth) => deckShuffleFrames(depth, cardWidth, viewportWidth)), [cardWidth, viewportWidth]);
   useEffect(() => {
     if (Platform.OS !== 'web' || deck.loading || !current) return;
     const frame = requestAnimationFrame(() => window.dispatchEvent(new Event('roku-home-ready')));
@@ -89,14 +89,14 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
     }
   }, [reduced]);
   useEffect(() => {
-    for (const ahead of [1, 2, 4]) {
+    for (const ahead of [1, 2, HOME_DECK_LAST]) {
       const item = deck.items[(deck.cursor + ahead) % deck.items.length];
       if (!item) continue;
       const source = imageFor(item).source;
       const uri = typeof source === 'number' ? Image.resolveAssetSource(source)?.uri : source.uri;
       if (uri) void Image.prefetch(uri).catch(() => undefined);
     }
-  }, [deck.cursor, deck.items[(deck.cursor + 1) % deck.items.length], deck.items[(deck.cursor + 2) % deck.items.length], deck.items[(deck.cursor + 4) % deck.items.length]]);
+  }, [deck.cursor, deck.items[(deck.cursor + 1) % deck.items.length], deck.items[(deck.cursor + 2) % deck.items.length], deck.items[(deck.cursor + HOME_DECK_LAST) % deck.items.length]]);
   const navigate = (step: number, velocity = 0) => {
     const info = latest.current;
     if (locked.current || info.deck.loading || info.deck.error) return;
@@ -164,13 +164,13 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
     if (filter) setPendingFilter(filter);
     setPhase('shuffle');
     spin.setValue(0);
-    if (!reduced) Animated.timing(spin, { toValue: 1, duration: 820, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
+    if (!reduced) Animated.timing(spin, { toValue: 1, duration: 1160, easing: Easing.inOut(Easing.cubic), useNativeDriver: driver }).start();
     let exchanged = false;
     const exchange = () => { if (!exchanged) { exchanged = true; latest.current.deck.shuffle(filter); } };
     finish.current = exchange;
     if (reduced) { exchange(); reset(); return; }
     if (webMotion) { webMotion.shuffleCards(exchange, reset); return; }
-    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 400, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
+    const timing = (toValue: number) => Animated.timing(mix, { toValue, duration: 540, easing: Easing.inOut(Easing.cubic), useNativeDriver: true });
     animation.current = timing(2.1);
     animation.current.start(({ finished }) => {
       if (!finished) return;
@@ -185,12 +185,12 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
     router.push(current.type === 'technique' ? techniqueRoute(current.card.id) : theoryRoute(current.card.tagId));
   };
   // Keep actual stack order stable even when a gesture changes direction.
-  const layers = [4, 3, 2, 1, 0].map(depth => ({ depth, item: deck.items[(deck.cursor + depth) % deck.items.length] }));
-  const nativeReturnTransform = (depth: number) => depth === 4 ? [
-    { translateX: Animated.add(Animated.multiply(returnPull, Animated.multiply(lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }), -deckReturnEdge(cardWidth))), returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerX(4), 0] })) },
-    { translateY: returnPull.interpolate({ inputRange: [0, 1], outputRange: [36, 0] }) },
-    { rotate: Animated.add(Animated.multiply(returnPull, lift.interpolate({ inputRange: [0, 1], outputRange: [-deckReturnEdge(cardWidth), 0] }).interpolate({ inputRange: [-cardWidth, 0], outputRange: [-7, 0], extrapolate: 'clamp' })), returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerAngle(4), 0] })).interpolate({ inputRange: [-7, 7], outputRange: ['-7deg', '7deg'] }) },
-    { scale: returnPull.interpolate({ inputRange: [0, 1], outputRange: [.9, 1] }) },
+  const layers = Array.from({ length: HOME_DECK_SIZE }, (_, index) => HOME_DECK_LAST - index).map(depth => ({ depth, item: deck.items[(deck.cursor + depth) % deck.items.length] }));
+  const nativeReturnTransform = (depth: number) => depth === HOME_DECK_LAST ? [
+    { translateX: Animated.add(Animated.multiply(returnPull, Animated.multiply(lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }), -deckReturnEdge(cardWidth))), returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerX(HOME_DECK_LAST), 0] })) },
+    { translateY: returnPull.interpolate({ inputRange: [0, 1], outputRange: [HOME_DECK_LAST * 9, 0] }) },
+    { rotate: Animated.add(Animated.multiply(returnPull, lift.interpolate({ inputRange: [0, 1], outputRange: [-deckReturnEdge(cardWidth), 0] }).interpolate({ inputRange: [-cardWidth, 0], outputRange: [-7, 0], extrapolate: 'clamp' })), returnPull.interpolate({ inputRange: [0, 1], outputRange: [layerAngle(HOME_DECK_LAST), 0] })).interpolate({ inputRange: [-7, 7], outputRange: ['-7deg', '7deg'] }) },
+    { scale: returnPull.interpolate({ inputRange: [0, 1], outputRange: [1 - HOME_DECK_LAST * .025, 1] }) },
   ] : [
     { translateX: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [layerX(depth), layerX(depth + 1)] }) },
     { translateY: returnProgress.interpolate({ inputRange: [0, 1], outputRange: [depth * 9, (depth + 1) * 9] }) },
@@ -213,35 +213,32 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>
-    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 31 }]}>
+    <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 35 }]}>
       {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
           const offset = depth * 9;
           return <Animated.View key={depth} nativeID={`home-deck-slot-${depth}`} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
-            style={[styles.slot, { width: cardWidth, zIndex: returnRaised && (returning ? depth === 4 : front) ? (returning ? 6 : 0) : 5 - depth, opacity: front ? 1 : 1 - depth * 0.1, transform: [
+            style={[styles.slot, { width: cardWidth, zIndex: returnRaised && (returning ? depth === HOME_DECK_LAST : front) ? (returning ? HOME_DECK_SIZE + 1 : 0) : HOME_DECK_SIZE - depth, opacity: front ? 1 : 1 - depth * 0.1, transform: [
               { translateX: phase === 'shuffle' ? mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].x }) : front ? x : progress.interpolate({ inputRange: [0, 1], outputRange: [layerX(depth), layerX(Math.max(0, depth - 1))] }) },
               { translateY: phase === 'shuffle' ? mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].y }) : front ? 0 : progress.interpolate({ inputRange: [0, 1], outputRange: [offset, Math.max(0, depth - 1) * 9] }) },
               { rotate: phase === 'shuffle' ? mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].angle.map(value => `${value}deg`) }) : front ? x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: ['-7deg', '0deg', '7deg'], extrapolate: 'clamp' }) : progress.interpolate({ inputRange: [0, 1], outputRange: [`${layerAngle(depth)}deg`, `${layerAngle(Math.max(0, depth - 1))}deg`] }) },
               { scale: phase === 'shuffle' ? mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].scale }) : front ? 1 : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * 0.025, 1 - Math.max(0, depth - 1) * 0.025] }) },
             ] }, !returning && !webMotion && phase !== 'shuffle' && { ...(front ? { transform: [
-              { translateX: Animated.add(Animated.multiply(x, lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })), Animated.multiply(lift, layerX(4))) },
-              { translateY: Animated.multiply(lift, 36) },
-              { rotate: Animated.add(Animated.multiply(x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: [-7, 0, 7], extrapolate: 'clamp' }), lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })), Animated.multiply(lift, layerAngle(4))).interpolate({ inputRange: [-7, 7], outputRange: ['-7deg', '7deg'] }) },
-              { scale: lift.interpolate({ inputRange: [0, 1], outputRange: [1, .9] }) },
-            ] } : {}), opacity: front ? lift.interpolate({ inputRange: [0, 1], outputRange: [1, .6] }) : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth - 1) * .1] }) }, returning && !webMotion && phase !== 'shuffle' && { transform: nativeReturnTransform(depth), opacity: depth === 4 ? returnPull.interpolate({ inputRange: [0, 1], outputRange: [.6, 1] }) : returnProgress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth + 1) * .1] }) }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, phase === 'shuffle' && { opacity: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].opacity }) }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
-            <Animated.View nativeID={`home-deck-face-${depth}`} ref={node => webMotion?.face(depth, node)} style={[styles.flipFace, { transform: [{ perspective: 1000 }, { rotateY: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].flip.map(value => `${value}deg`) }) }] }]}>
-              {(returning ? depth !== 0 && depth !== 4 : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardHeight }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} height={cardHeight} compact={night && !desktop} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
+              { translateX: Animated.add(Animated.multiply(x, lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })), Animated.multiply(lift, layerX(HOME_DECK_LAST))) },
+              { translateY: Animated.multiply(lift, HOME_DECK_LAST * 9) },
+              { rotate: Animated.add(Animated.multiply(x.interpolate({ inputRange: [-cardWidth, 0, cardWidth], outputRange: [-7, 0, 7], extrapolate: 'clamp' }), lift.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })), Animated.multiply(lift, layerAngle(HOME_DECK_LAST))).interpolate({ inputRange: [-7, 7], outputRange: ['-7deg', '7deg'] }) },
+              { scale: lift.interpolate({ inputRange: [0, 1], outputRange: [1, 1 - HOME_DECK_LAST * .025] }) },
+            ] } : {}), opacity: front ? lift.interpolate({ inputRange: [0, 1], outputRange: [1, 1 - HOME_DECK_LAST * .1] }) : progress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth - 1) * .1] }) }, returning && !webMotion && phase !== 'shuffle' && { transform: nativeReturnTransform(depth), opacity: depth === HOME_DECK_LAST ? returnPull.interpolate({ inputRange: [0, 1], outputRange: [1 - HOME_DECK_LAST * .1, 1] }) : returnProgress.interpolate({ inputRange: [0, 1], outputRange: [1 - depth * .1, 1 - (depth + 1) * .1] }) }, webMotion && phase !== 'shuffle' && { transform: [{ translateX: layerX(depth) }, { translateY: offset }, { rotate: `${layerAngle(depth)}deg` }, { scale: 1 - depth * .025 }] }, phase === 'shuffle' && { opacity: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].opacity }) }, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
+            <View style={styles.flipFace}>
+              {phase !== 'shuffle' && (returning ? depth !== 0 && depth !== HOME_DECK_LAST : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, item.type === 'theory' && styles.theoryCard, { width: cardWidth, height: cardHeight }]} /> : item ? <DiscoveryFace item={item} width={cardWidth} height={cardHeight} compact={night && !desktop} active={front} disabled={busy} onPress={open} panHandlers={front ? responder.panHandlers : {}} onTouch={() => { if (!locked.current) dragged.current = false; }} />
                 : <View testID="home-deck-skeleton" style={[styles.card, { width: cardWidth, height: cardHeight }]}><View style={styles.skeletonLabel} /><View style={styles.skeletonTitle} /><View style={styles.skeletonText} /><View style={styles.skeletonImage} /></View>}
-            </Animated.View>
-            <Animated.View nativeID={`home-deck-back-${depth}`} ref={node => webMotion?.back(depth, node)} testID="home-deck-back" pointerEvents="none" aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[styles.flipFace, styles.cardBack, { width: cardWidth, height: cardHeight, transform: [{ perspective: 1000 }, { rotateY: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].flip.map(value => `${value + 180}deg`) }) }] }]}>
-              <View style={styles.backFrame}><Text style={styles.backDiamond}>◇</Text><Text style={styles.backTitle}>処世術禄</Text><View style={styles.backRule} /></View>
-            </Animated.View></Animated.View>;
+            </View></Animated.View>;
         })}
     </View>
     <View style={styles.controls}>
       {arrow(-1)}
-      <View style={styles.position} accessibilityLiveRegion="polite"><View style={styles.marks}>{[0, 1, 2, 3, 4].map(index => <View key={index} style={[styles.mark, index === deck.cursor && styles.markActive]} />)}</View><Text testID="home-deck-position" style={styles.positionText}>{String(deck.cursor + 1).padStart(2, '0')} <Text style={{ color: colors.inkSoft }}> / 05</Text></Text></View>
+      <View style={styles.position} accessibilityLiveRegion="polite"><View style={styles.marks}>{Array.from({ length: HOME_DECK_SIZE }, (_, index) => <View key={index} style={[styles.mark, index === deck.cursor && styles.markActive]} />)}</View><Text testID="home-deck-position" style={styles.positionText}>{String(deck.cursor + 1).padStart(2, '0')} <Text style={{ color: colors.inkSoft }}> / {String(HOME_DECK_SIZE).padStart(2, '0')}</Text></Text></View>
       {arrow(1)}
     </View>
   </View>;
@@ -286,9 +283,6 @@ const styles = StyleSheet.create({
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
   buttonPressed: { opacity: .8 },
   flipFace: { backfaceVisibility: 'hidden', borderRadius: 14, ...faceShadow },
-  cardBack: { position: 'absolute', top: 0, left: 0, backgroundColor: '#123B35', borderWidth: 1, borderColor: '#BC9650', padding: 13 },
-  backFrame: { flex: 1, borderWidth: 1, borderColor: '#927B4B', borderRadius: 8, alignItems: 'center', justifyContent: 'center', gap: 15 },
-  backDiamond: { color: '#DBBD7E', fontSize: 52, lineHeight: 60 }, backTitle: { color: '#F6E8C7', fontFamily: fonts.serif, fontSize: 24, letterSpacing: 5 }, backRule: { width: 42, height: 1, backgroundColor: '#BC9650' },
   stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10, zIndex: 1 }, slot: { position: 'absolute', top: 10, borderRadius: 14 }, card: { borderRadius: 14, backgroundColor: '#FFFDF7', borderWidth: 1, borderColor: '#E4DDD2', overflow: 'hidden' }, theoryCard: { backgroundColor: '#F9FBFC', borderColor: '#D6DFE6' }, cardLink: { flex: 1, padding: 18, paddingTop: 17 }, cardTop: { flexDirection: 'row', alignItems: 'center', height: 27, paddingRight: 32 }, badge: { color: '#FFFFFF', fontFamily: fonts.serif, fontSize: 12, lineHeight: 20, paddingHorizontal: 11, paddingVertical: 1, borderRadius: 12, overflow: 'hidden' }, cardKind: { flex: 1, minWidth: 0, marginLeft: 10, color: colors.inkSoft, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: .15 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 24, lineHeight: 33, fontWeight: '600', letterSpacing: 0.3, minHeight: 66, paddingTop: 11 }, rule: { height: 1, backgroundColor: '#ECE5D9', marginTop: 5, marginBottom: 10 }, summary: { color: '#69655E', fontFamily: fonts.sans, fontSize: 13, lineHeight: 23, height: 46 }, photoWrap: { marginTop: 13, flex: 1, minHeight: 90, borderRadius: 8, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' }, readArrow: { position: 'absolute', right: 10, bottom: 10, width: 36, height: 36, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 29, lineHeight: 32 }, save: { position: 'absolute', right: 5, top: 7 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold, borderWidth: 2 },
   controls: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 4 }, arrow: { minWidth: 44, minHeight: 44, borderRadius: 24, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#E4D9C7', backgroundColor: '#FFFDF8' }, arrowText: { fontSize: 29, lineHeight: 34, color: colors.goldDeep }, arrowDisabled: { opacity: 0.3 }, position: { alignItems: 'center', gap: 7 }, marks: { flexDirection: 'row', gap: 5 }, mark: { height: 3, width: 12, borderRadius: 3, backgroundColor: '#E8E2D8' }, markActive: { width: 22, backgroundColor: colors.gold }, positionText: { fontSize: 12, lineHeight: 18, letterSpacing: 1, color: colors.goldDeep }, hint: { color: '#79736A', fontSize: 10, lineHeight: 19, textAlign: 'center', marginTop: 9, marginBottom: 10 }, empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },

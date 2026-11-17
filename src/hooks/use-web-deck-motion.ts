@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Platform } from 'react-native';
-import { deckPose, deckReturnEdge, deckShuffleFrames } from '@/data/deck-motion';
+import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_LAST, HOME_DECK_SIZE } from '@/data/deck-motion';
 
 
 /** Only transforms change during a drag. Browser animations run on the compositor
  * after release, rather than feeding Animated's JS interpolation graph each frame. */
-export function useWebDeckMotion(width: number) {
+export function useWebDeckMotion(width: number, viewportWidth: number) {
   const slots = useRef<(HTMLElement | null)[]>([]);
-  const faces = useRef<(HTMLElement | null)[]>([]);
-  const backs = useRef<(HTMLElement | null)[]>([]);
   const currentWidth = useRef(width);
   currentWidth.current = width;
+  const currentViewportWidth = useRef(viewportWidth);
+  currentViewportWidth.current = viewportWidth;
   const position = useRef(0);
   const reverse = useRef(false);
   const lift = useRef(0);
@@ -29,7 +29,7 @@ export function useWebDeckMotion(width: number) {
         const style = pose(depth, position.current);
         node.style.transform = style.transform;
         node.style.opacity = String(style.opacity);
-        node.style.zIndex = String(raised.current && (reverse.current ? depth === 4 : depth === 0) ? (reverse.current ? 6 : 0) : 5 - depth);
+        node.style.zIndex = String(raised.current && (reverse.current ? depth === HOME_DECK_LAST : depth === 0) ? (reverse.current ? HOME_DECK_SIZE + 1 : 0) : HOME_DECK_SIZE - depth);
       });
     };
     const stop = () => {
@@ -40,8 +40,6 @@ export function useWebDeckMotion(width: number) {
     };
     return {
       slot: (depth: number, node: unknown) => { slots.current[depth] = node as HTMLElement | null; },
-      face: (depth: number, node: unknown) => { faces.current[depth] = node as HTMLElement | null; },
-      back: (depth: number, node: unknown) => { backs.current[depth] = node as HTMLElement | null; },
       drag: (x: number, returning = false) => {
         position.current = x;
         reverse.current = returning;
@@ -85,37 +83,28 @@ export function useWebDeckMotion(width: number) {
         stop();
         position.current = 0; reverse.current = false; lift.current = 0; raised.current = false;
         const key = (depth: number, index: number) => {
-          const data = deckShuffleFrames(depth, currentWidth.current);
+          const data = deckShuffleFrames(depth, currentWidth.current, currentViewportWidth.current);
           return { transform: `translate3d(${data.x[index]}px,${data.y[index]}px,0) rotate(${data.angle[index]}deg) scale(${data.scale[index]})`, opacity: data.opacity[index] };
-        };
-        const turn = (depth: number, indices: number[], options: KeyframeAnimationOptions) => {
-          const data = deckShuffleFrames(depth, currentWidth.current);
-          for (const [node, offset] of [[faces.current[depth], 0], [backs.current[depth], 180]] as const) {
-            if (!node) continue;
-            animations.current.push(node.animate(indices.map(index => ({ transform: `perspective(1000px) rotateY(${data.flip[index] + offset}deg)` })), options));
-          }
         };
         const outgoing: Animation[] = [];
         slots.current.forEach((node, depth) => {
           if (!node) return;
-          const options: KeyframeAnimationOptions = { duration: 300, delay: depth * 25, easing: 'cubic-bezier(.4,0,.3,1)', fill: 'both' };
+          const options: KeyframeAnimationOptions = { duration: 360, delay: depth * 26, easing: 'cubic-bezier(.4,0,.3,1)', fill: 'both' };
           const animation = node.animate([key(depth, 0), { ...key(depth, 1), offset: .2 }, { ...key(depth, 2), offset: .8 }, key(depth, 3)], options);
-          turn(depth, [0, 3], options);
           outgoing.push(animation); animations.current.push(animation);
         });
         const lastOut = outgoing.at(-1);
         if (!lastOut) { exchange(); complete(); return; }
         lastOut.onfinish = () => {
           exchange();
-          // The opaque backs conceal the exchange until React commits the hand.
+          // Every old card is offscreen. Let React commit before the new hand enters.
           frame.current = requestAnimationFrame(() => { frame.current = requestAnimationFrame(() => {
             frame.current = null;
             const incoming: Animation[] = [];
             slots.current.forEach((node, depth) => {
               if (!node) return;
-              const options: KeyframeAnimationOptions = { duration: 300, delay: (4 - depth) * 25, easing: 'cubic-bezier(.2,.65,.3,1)', fill: 'both' };
+              const options: KeyframeAnimationOptions = { duration: 380, delay: (HOME_DECK_LAST - depth) * 26, easing: 'cubic-bezier(.2,.65,.3,1)', fill: 'both' };
               const animation = node.animate([key(depth, 4), { ...key(depth, 5), offset: .8 }, key(depth, 6)], options);
-              turn(depth, [4, 6], options);
               incoming.push(animation); animations.current.push(animation);
             });
             outgoing.forEach(animation => { animation.onfinish = null; animation.cancel(); });

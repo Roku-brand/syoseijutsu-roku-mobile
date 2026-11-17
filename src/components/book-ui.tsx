@@ -1,8 +1,7 @@
-import { HOME_HEADER_COLOR, HomeHeaderBackdrop } from './home-header-backdrop';
+import { BookPopup } from './book-popup';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo, useRef } from 'react';
 import {
-  Modal,
   Image,
   Platform,
   Pressable,
@@ -115,7 +114,6 @@ export function BookHeader() {
   // segment is not `(tabs)` even though it represents the main tab.
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
-  const homeHeader = pathname === '/' && !isCheckoutReturn;
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
@@ -129,8 +127,7 @@ export function BookHeader() {
   };
 
   return (
-    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, spaciousHeader && styles.headerSpacious, homeHeader && styles.homeHeader]}>
-      {homeHeader ? <HomeHeaderBackdrop /> : null}
+    <View ref={headerRef} testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, primaryTabHeader && styles.homeHeader, spaciousHeader && styles.headerSpacious]}>
       {showBack ? (
         <View style={styles.brandGroup}>
           <HeaderBackButton testID="book-header-back" onPress={handleBack} />
@@ -144,8 +141,8 @@ export function BookHeader() {
             style={[styles.headerAppIcon, compact && styles.headerAppIconCompact, spaciousHeader && styles.headerAppIconSpacious]}
           />
           <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
-            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious, homeHeader && styles.homeBrandName]}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious, homeHeader && styles.homeBrandTagline]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
+            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious, primaryTabHeader && styles.homeBrandName]}>処世術禄</AppText>
+            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious, primaryTabHeader && styles.homeBrandTagline]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
           </View>
         </View>
       )}
@@ -446,45 +443,7 @@ export function PrinciplesModal({
   onClose: () => void;
 }) {
   return (
-    <Modal
-      visible={visible}
-      transparent
-      animationType="slide"
-      onRequestClose={onClose}
-    >
-      <View style={[styles.modalRoot, compact && styles.modalRootCompact]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="原則を閉じる"
-          onPress={onClose}
-          style={StyleSheet.absoluteFill}
-        />
-        <View
-          accessibilityViewIsModal
-          style={[styles.principlesCard, compact && styles.principlesCardCompact]}
-        >
-          <View style={styles.modalHeader}>
-            <View style={styles.modalTitleGroup}>
-              <PrincipleMark />
-              <View>
-                <AppText style={styles.modalEyebrow}>処世術禄</AppText>
-                <AppText style={styles.modalTitle}>処世術の五大原則</AppText>
-              </View>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="原則を閉じる"
-              onPress={onClose}
-              hitSlop={10}
-              style={({ pressed }) => [
-                styles.modalClose,
-                pressed && styles.headerActionPressed,
-              ]}
-            >
-              <AppText style={styles.modalCloseText}>×</AppText>
-            </Pressable>
-          </View>
-
+    <BookPopup visible={visible} compact={compact} title="処世術の五大原則" closeLabel="原則を閉じる" onClose={onClose} mark={<PrincipleMark />}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.principlesContent}
@@ -524,9 +483,7 @@ export function PrinciplesModal({
               </AppText>
             </View>
           </ScrollView>
-        </View>
-      </View>
-    </Modal>
+    </BookPopup>
   );
 }
 
@@ -654,7 +611,7 @@ const styles = StyleSheet.create({
   },
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
-  homeHeader: { minHeight: 56, borderBottomColor: '#E6DDCF', paddingVertical: 5, backgroundColor: HOME_HEADER_COLOR },
+  homeHeader: { minHeight: 56, borderBottomColor: '#E6DDCF', paddingVertical: 5, backgroundColor: 'transparent' },
   homeBrandName: { color: colors.ink }, homeBrandTagline: { color: '#5E5B53' },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
@@ -761,83 +718,6 @@ const styles = StyleSheet.create({
     height: 5,
     borderRadius: 3,
     backgroundColor: colors.gold,
-  },
-  modalRoot: {
-    flex: 1,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xl,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(16,17,16,0.72)',
-  },
-  modalRootCompact: {
-    paddingHorizontal: 0,
-    paddingTop: 72,
-    paddingBottom: 0,
-    justifyContent: 'flex-end',
-  },
-  principlesCard: {
-    width: '100%',
-    maxWidth: 680,
-    maxHeight: '92%',
-    borderRadius: radius.lg,
-    borderWidth: 1.5,
-    borderColor: colors.gold,
-    backgroundColor: colors.paper,
-    overflow: 'hidden',
-    ...shadow.card,
-  },
-  principlesCardCompact: {
-    maxHeight: '88%',
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  modalHeader: {
-    minHeight: 82,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: colors.charcoal,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gold,
-  },
-  modalTitleGroup: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  modalEyebrow: {
-    color: colors.goldLight,
-    fontFamily: fonts.serif,
-    fontSize: 10,
-    lineHeight: 14,
-    letterSpacing: 2,
-  },
-  modalTitle: {
-    color: colors.surface,
-    fontFamily: fonts.serif,
-    fontSize: 20,
-    lineHeight: 28,
-    fontWeight: '600',
-    letterSpacing: 2,
-  },
-  modalClose: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(210,182,111,0.45)',
-  },
-  modalCloseText: {
-    color: colors.goldLight,
-    fontSize: 29,
-    lineHeight: 32,
-    fontWeight: '300',
   },
   principlesContent: {
     paddingHorizontal: spacing.lg,

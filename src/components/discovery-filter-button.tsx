@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
-import { Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
+import { BookPopup } from './book-popup';
+import { HOME_DECK_SIZE } from '@/data/deck-motion';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { discoveryFilters, type DiscoveryFilter } from '@/data/discovery-filter';
 import { DiscoveryActionButton } from './discovery-action-button';
@@ -10,14 +12,14 @@ export const discoveryFilterColor = (value: DiscoveryFilter) => value === 'all' 
 export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true, onChange, outlined = false }: { value: DiscoveryFilter; disabled: boolean; dimWhenDisabled?: boolean; onChange: (value: DiscoveryFilter) => void; outlined?: boolean }) {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(-1);
-  const reduced = useReducedMotion();
+  const { desktop } = useResponsiveLayout();
   const trigger = useRef<View>(null);
   const choices = useRef<(View | null)[]>([]);
   const close = () => { setOpen(false); setTimeout(() => trigger.current?.focus(), 0); };
   return <>
     <DiscoveryActionButton ref={trigger} testID="home-deck-filter" label={discoveryFilters.find(option => option.key === value)!.label} accessibilityLabel={`デッキの種類：${discoveryFilters.find(option => option.key === value)!.label}`} expanded={open} disabled={disabled} dimWhenDisabled={dimWhenDisabled} variant={outlined ? 'outline' : 'filled'} color={outlined && value === 'all' ? '#C6A15D' : discoveryFilterColor(value)} onPress={() => setOpen(true)} />
-    <Modal transparent visible={open} animationType={reduced ? 'none' : 'fade'} onRequestClose={close} onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
-      <View style={styles.overlay} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
+    <BookPopup visible={open} compact={!desktop} title="デッキの種類" closeLabel="種類の選択を閉じる" onClose={close} testID="home-deck-filter-popup" onShow={() => choices.current[discoveryFilters.findIndex(option => option.key === value)]?.focus()}>
+      <View style={styles.body} {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => {
         event.stopPropagation();
         if (event.key === 'Escape') { event.preventDefault(); close(); }
         const index = choices.current.findIndex(node => node === event.target);
@@ -27,27 +29,20 @@ export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true,
           choices.current[next]?.focus();
         }
       } } : {})}>
-        <Pressable accessibilityLabel="種類の選択を閉じる" accessibilityRole="button" onPress={close} style={StyleSheet.absoluteFill} />
-        <View testID="home-deck-filter-popup" accessibilityViewIsModal style={styles.popup}>
-          <View style={styles.heading}><Text accessibilityRole="header" style={styles.title}>デッキの種類</Text><Pressable accessibilityRole="button" accessibilityLabel="閉じる" onPress={close} style={styles.close}><Text style={styles.closeText}>×</Text></Pressable></View>
           <Text style={styles.subtitle}>今、出会いたい知識を選ぶ。</Text>
           <ScrollView accessibilityRole="radiogroup" accessibilityLabel="デッキの種類" style={styles.optionsScroll} contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
             {discoveryFilters.map((option, index) => <Pressable key={option.key} ref={node => { choices.current[index] = node; }} testID={`home-deck-filter-${option.key}`} accessibilityRole="radio" aria-checked={value === option.key} accessibilityState={{ checked: value === option.key }} onPress={() => { close(); if (value !== option.key) onChange(option.key); }} onFocus={() => setFocused(index)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.option, value === option.key && styles.selected, focused === index && styles.focused, pressed && styles.pressed]}>
-              <View><Text style={styles.optionTitle}>{option.label}</Text><Text style={styles.description}>{option.key === 'all' ? '処世術と理論を織り交ぜて' : `5枚すべて${option.label}に`}</Text></View>
+              <View><Text style={styles.optionTitle}>{option.label}</Text><Text style={styles.description}>{option.key === 'all' ? '処世術と理論を織り交ぜて' : `${HOME_DECK_SIZE}枚すべて${option.label}に`}</Text></View>
               <View style={[styles.radio, value === option.key && styles.radioSelected]}>{value === option.key ? <View style={styles.dot} /> : null}</View>
             </Pressable>)}
           </ScrollView>
-        </View>
       </View>
-    </Modal>
+    </BookPopup>
   </>;
 }
 
 const styles = StyleSheet.create({
-  overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(37,32,24,.4)', padding: 24 },
-  popup: { width: '100%', maxWidth: 352, maxHeight: '100%', backgroundColor: '#FFFDF8', borderRadius: 20, padding: 20, borderWidth: 1, borderColor: '#E4D9C7', shadowColor: '#241C11', shadowOpacity: .18, shadowRadius: 30, shadowOffset: { width: 0, height: 16 }, elevation: 15 },
-  heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, title: { fontFamily: fonts.serif, fontSize: 22, fontWeight: '600', color: colors.ink },
-  close: { width: 44, height: 44, marginRight: -10, alignItems: 'center', justifyContent: 'center' }, closeText: { fontSize: 26, color: colors.muted },
+  body: { flexShrink: 1, padding: 24 },
   subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.muted, marginBottom: 18 }, optionsScroll: { flexShrink: 1 }, options: { gap: 7 },
   option: { minHeight: 64, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 10, borderWidth: 1, borderColor: '#EAE4DA', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, selected: { backgroundColor: '#F6F0E3', borderColor: '#BA995C' },
   optionTitle: { fontFamily: fonts.serif, fontSize: 17, fontWeight: '600', color: colors.ink }, description: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },

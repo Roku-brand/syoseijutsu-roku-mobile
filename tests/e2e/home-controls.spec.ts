@@ -37,7 +37,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
     expect((await filter.evaluate(shape)).radius).toBe((await shuffle.evaluate(shape)).radius);
     await expect(filter).toHaveCSS('border-color', 'rgb(198, 161, 93)');
     await expect(shuffle).toHaveCSS('background-color', 'rgb(146, 107, 46)');
-    await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
+    await expect(page.getByTestId('book-header-safe-area')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-top.png` });
     await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
@@ -91,7 +91,7 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
     expect(updated.filter).toBe(category);
     expect(updated.cursor).toBe(0);
     expect(updated.order.filter((id: string) => old.order.includes(id))).toEqual([]);
-    await expect(page.getByTestId('home-deck-position')).toHaveText('01  / 05');
+    await expect(page.getByTestId('home-deck-position')).toHaveText('01  / 07');
     if (category !== 'all') await expect(page.getByTestId('home-recommendation-card').getByText(label, { exact: true })).toBeVisible();
     await filter.scrollIntoViewIfNeeded();
     await page.screenshot({ path: `release-evidence/home-controls-20261115/theme-${category}.png` });
@@ -121,7 +121,7 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
   await page.goBack();
   await ready(page);
   await expect(page.getByTestId('home-deck-position')).toContainText('01');
-  for (const cursor of [1, 2, 3, 4, 0]) {
+  for (const cursor of [1, 2, 3, 4, 5, 6, 0]) {
     await page.getByTestId('home-deck-next').click();
     await ready(page);
     await expect(page.getByTestId('home-deck-position')).toContainText(String(cursor + 1).padStart(2, '0'));

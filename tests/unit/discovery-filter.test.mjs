@@ -22,15 +22,15 @@ for (const accessState of ['free', 'paid']) {
 
 for (const accessState of ['free', 'paid']) {
   for (const { key: filter } of discoveryFilters) {
-    test(`${accessState}/${filter}: five distinct eligible cards, stable order and complete replacement`, () => {
-      const options = { accessState, filter, historyIds: [], interests: ['interpersonal', 'work', 'life'], savedIds: [], savedTheoryIds: [], seed: '20261028:0', count: 5 };
+    test(`${accessState}/${filter}: seven distinct eligible cards, stable order and complete replacement`, () => {
+      const options = { accessState, filter, historyIds: [], interests: ['interpersonal', 'work', 'life'], savedIds: [], savedTheoryIds: [], seed: '20261028:0', count: 7 };
       let previous = [];
       for (let round = 0; round < 6; round++) {
         const input = { ...options, seed: `20261028:${round}`, excludeIds: previous };
         const cards = buildReadingRecommendations(input);
         const ids = cards.map(item => `${item.type}:${readingContentId(item)}`);
-        assert.equal(cards.length, 5);
-        assert.equal(new Set(ids).size, 5);
+        assert.equal(cards.length, 7);
+        assert.equal(new Set(ids).size, 7);
         assert.ok(cards.every(item => matchesDiscoveryFilter(item, filter)));
         assert.deepEqual(buildReadingRecommendations(input), cards);
         assert.deepEqual(ids.filter(id => previous.includes(id)), []);
@@ -46,10 +46,10 @@ test('a small remaining pool reuses only enough old cards and stays in the chose
   const { techniqueCards } = await import('../../src/data/catalog.ts');
   const eligible = techniqueCards.filter(card => FREE_TECHNIQUE_IDS.has(card.id) && card.categoryKey === 'work');
   const fresh = eligible.slice(-2).map(card => `technique:${card.id}`);
-  const cards = buildReadingRecommendations({ accessState: 'free', filter: 'work', historyIds: [], interests: [], savedIds: [], savedTheoryIds: [], seed: 'small-pool', count: 5, excludeIds: eligible.slice(0, -2).map(card => `technique:${card.id}`) });
+  const cards = buildReadingRecommendations({ accessState: 'free', filter: 'work', historyIds: [], interests: [], savedIds: [], savedTheoryIds: [], seed: 'small-pool', count: 7, excludeIds: eligible.slice(0, -2).map(card => `technique:${card.id}`) });
   const ids = cards.map(item => `${item.type}:${readingContentId(item)}`);
-  assert.equal(cards.length, 5);
-  assert.equal(new Set(ids).size, 5);
+  assert.equal(cards.length, 7);
+  assert.equal(new Set(ids).size, 7);
   assert.ok(fresh.every(id => ids.includes(id)));
   assert.ok(cards.every(item => matchesDiscoveryFilter(item, 'work')));
 });

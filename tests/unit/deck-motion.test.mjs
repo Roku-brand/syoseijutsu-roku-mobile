@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { deckPose, deckReturnEdge, deckShuffleFrames } from '../../src/data/deck-motion.ts';
+import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '../../src/data/deck-motion.ts';
 
 const closePose = (actual, expected) => {
   for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) {
@@ -9,7 +9,7 @@ const closePose = (actual, expected) => {
 };
 
 test('reverse extracts the bottom card while the current front stays in the stack', () => {
-  const bottom = deckPose(4, 100, 320, true);
+  const bottom = deckPose(HOME_DECK_LAST, 100, 320, true);
   const front = deckPose(0, 100, 320, true);
   assert.ok(bottom.x < -70);
   assert.ok(Math.abs(front.x) < 2);
@@ -19,10 +19,10 @@ test('reverse extracts the bottom card while the current front stays in the stac
 test('reverse endpoints match the new stack with no change of content order', () => {
   for (const width of [305, 320, 356]) {
     const edge = deckReturnEdge(width);
-    const returned = deckPose(4, edge, width, true, 1);
+    const returned = deckPose(HOME_DECK_LAST, edge, width, true, 1);
     const newFront = deckPose(0, 0, width);
     for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) assert.ok(Math.abs(returned[key] - newFront[key]) < 1e-9);
-    for (let depth = 0; depth < 4; depth++) {
+    for (let depth = 0; depth < HOME_DECK_LAST; depth++) {
       const movedBack = deckPose(depth, edge, width, true, 1);
       const newSlot = deckPose(depth + 1, 0, width);
       for (const key of ['x', 'y', 'angle', 'scale']) assert.ok(Math.abs(movedBack[key] - newSlot[key]) < 1e-9);
@@ -31,40 +31,37 @@ test('reverse endpoints match the new stack with no change of content order', ()
 });
 
 test('cancelled reverse returns every card to its original position', () => {
-  for (let depth = 0; depth < 5; depth++) closePose(deckPose(depth, 0, 320, true), deckPose(depth, 0, 320));
+  for (let depth = 0; depth < HOME_DECK_SIZE; depth++) closePose(deckPose(depth, 0, 320, true), deckPose(depth, 0, 320));
 });
 
 test('reverse retraces the same left-hand path for each physical card', () => {
   for (const width of [305, 320, 356]) {
     const edge = deckReturnEdge(width);
-    for (let depth = 0; depth < 5; depth++) {
-      const forwardDepth = depth === 4 ? 0 : depth + 1;
+    for (let depth = 0; depth < HOME_DECK_SIZE; depth++) {
+      const forwardDepth = depth === HOME_DECK_LAST ? 0 : depth + 1;
       for (const progress of [0, .2, .5, .8, 1]) {
         closePose(deckPose(depth, edge * progress, width, true), deckPose(forwardDepth, -edge, width, false, 1 - progress));
         closePose(deckPose(depth, edge, width, true, progress), deckPose(forwardDepth, -edge * (1 - progress), width));
       }
     }
-    const extracted = deckPose(4, edge, width, true);
+    const extracted = deckPose(HOME_DECK_LAST, edge, width, true);
     assert.ok(extracted.x < -width);
     assert.equal(extracted.opacity, 1);
   }
 });
 
-test('shuffle keeps the hand nearby and exchanges behind fully turned opaque backs', () => {
-  for (const width of [305, 320, 356]) {
-    for (let depth = 0; depth < 5; depth++) {
-      const frames = deckShuffleFrames(depth, width);
+test('shuffle exchanges only after all seven cards leave the viewport, then enters from the right', () => {
+  for (const viewport of [320, 390, 768, 1440]) {
+    const width = Math.min(380, viewport - 60);
+    for (let depth = 0; depth < HOME_DECK_SIZE; depth++) {
+      const frames = deckShuffleFrames(depth, width, viewport);
       const rest = deckPose(depth, 0, width);
       assert.ok(frames.stops.every((stop, index) => index === 0 || stop > frames.stops[index - 1]));
-      assert.ok(frames.x.every(x => Math.abs(x - rest.x) <= 12));
-      assert.ok(frames.y.every(y => Math.abs(y - rest.y) <= 12));
-      assert.ok(frames.x[3] < rest.x);
-      for (const key of ['x', 'y', 'angle', 'scale', 'opacity', 'flip']) assert.equal(frames[key][3], frames[key][4], `${key} must not jump during the exchange`);
-      assert.ok(frames.opacity.every(opacity => opacity === rest.opacity));
-      assert.deepEqual([frames.flip[0], frames.flip[3], frames.flip[4], frames.flip.at(-1)], [0, 180, 180, 360]);
-      assert.ok(frames.flip.every((angle, index) => index === 0 || angle >= frames.flip[index - 1]));
       assert.ok(frames.stops[3] < 2.1 && frames.stops[4] > 2.1);
-      assert.ok(frames.angle.every(angle => Math.abs(angle) <= 7));
+      assert.ok(frames.x[3] + width < -viewport);
+      assert.ok(frames.x[4] - width > viewport);
+      assert.equal(frames.opacity[3], 0);
+      assert.equal(frames.opacity[4], 0);
       for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) {
         assert.equal(frames[key][0], rest[key]);
         assert.equal(frames[key].at(-1), rest[key]);
@@ -73,20 +70,20 @@ test('shuffle keeps the hand nearby and exchanges behind fully turned opaque bac
   }
 });
 
-test('forward tucks the same front card into depth four and promotes the remaining four', () => {
+test('forward tucks the same front card into depth six and promotes the remaining six', () => {
   for (const width of [305, 320, 356]) {
     const edge = -deckReturnEdge(width);
     const extracted = deckPose(0, edge, width);
     assert.ok(extracted.x < -width);
     assert.equal(extracted.opacity, 1);
     const tucked = deckPose(0, edge, width, false, 1);
-    const bottom = deckPose(4, 0, width);
+    const bottom = deckPose(HOME_DECK_LAST, 0, width);
     for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) assert.ok(Math.abs(tucked[key] - bottom[key]) < 1e-9);
-    for (let depth = 1; depth < 5; depth++) {
+    for (let depth = 1; depth < HOME_DECK_SIZE; depth++) {
       const promoted = deckPose(depth, edge, width, false, 1);
       const next = deckPose(depth - 1, 0, width);
       for (const key of ['x', 'y', 'angle', 'scale', 'opacity']) assert.ok(Math.abs(promoted[key] - next[key]) < 1e-9);
     }
-    for (let depth = 0; depth < 5; depth++) assert.deepEqual(deckPose(depth, 0, width, false, 0), deckPose(depth, 0, width));
+    for (let depth = 0; depth < HOME_DECK_SIZE; depth++) assert.deepEqual(deckPose(depth, 0, width, false, 0), deckPose(depth, 0, width));
   }
 });

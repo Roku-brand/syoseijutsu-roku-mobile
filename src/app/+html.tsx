@@ -19,7 +19,7 @@ export default function Root({ children }: PropsWithChildren) {
         <title>{siteTitle}</title>
         <meta name="description" content={siteDescription} />
         <meta name="robots" content="index,follow,max-image-preview:large" />
-        <meta name="theme-color" content="#FFFDF8" />
+        <meta name="theme-color" content="#F7F0E4" />
         <meta name="application-name" content="処世術禄" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -48,18 +48,18 @@ export default function Root({ children }: PropsWithChildren) {
            */
           html {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
-            background: #FFFDF8;
+            background: var(--roku-status-background, #F7F0E4);
           }
           body {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
             margin: 0; overflow: hidden; overscroll-behavior: none;
-            background: #FFFDF8;
+            background: var(--roku-status-background, #F7F0E4);
           }
           #root, #root > div {
             position: fixed; inset: 0;
             width: 100%; height: var(--roku-app-height, 100dvh) !important;
             min-height: var(--roku-app-height, 100dvh) !important;
-            background: #FFFDF8;
+            background: var(--roku-status-background, #F7F0E4);
           }
           /* WebKit reads background-color from fixed boxes more than 10px deep.
            * Clip an empty strip to text so it supplies the status-bar colour
@@ -67,7 +67,7 @@ export default function Root({ children }: PropsWithChildren) {
           #roku-status-bar-background {
             position: fixed; top: 0; left: 0; width: 100%;
             height: 11px;
-            background-color: var(--roku-status-background, #FFFDF8); z-index: 2147483647;
+            background-color: var(--roku-status-background, #F7F0E4); z-index: 2147483647;
             -webkit-background-clip: text; background-clip: text;
             pointer-events: none;
           }

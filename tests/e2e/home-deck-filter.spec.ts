@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const width of [375, 1440]) {
-  test(`種類選択で5枚の構成を変更し、同じ種類で全交換する (${width}px)`, async ({ page }) => {
+  test(`種類選択で7枚の構成を変更し、同じ種類で全交換する (${width}px)`, async ({ page }) => {
     // Five types, 25 card moves and five reloads can exceed a minute on
     // Windows/WebKit; individual UI assertions retain their five-second limit.
     test.setTimeout(120_000);
@@ -35,10 +35,10 @@ for (const width of [375, 1440]) {
       await expect(trigger).toHaveText(new RegExp(name));
       await expect.poll(async () => (await read(page)).filter).toBe(key);
       const original = (await read(page)).order as string[];
-      expect(original).toHaveLength(5);
-      expect(new Set(original).size).toBe(5);
+      expect(original).toHaveLength(7);
+      expect(new Set(original).size).toBe(7);
       const kinds = new Set<string>();
-      for (let card = 0; card < 5; card++) {
+      for (let card = 0; card < 7; card++) {
         const active = page.getByTestId('home-recommendation-card');
         if (key !== 'all') await expect(active.getByText(name, { exact: true })).toBeVisible();
         const context = active.getByTestId('home-deck-context');
@@ -134,8 +134,8 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.waitForFunction(() => (window as any).__tuckPaused);
   const path = await page.evaluate(() => (window as any).__tuckPath as { x: number; y: number }[]);
   expect(path[0].x).toBeLessThan(-box.width);
-  expect(path.at(-1)!.x).toBeCloseTo(15, 1);
-  expect(path.at(-1)!.y).toBe(36);
+  expect(path.at(-1)!.x).toBeCloseTo(19, 1);
+  expect(path.at(-1)!.y).toBe(54);
   await expect(page.locator('#home-deck-slot-0')).toHaveCSS('z-index', '0');
   await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '1');
   await expect(page.getByTestId('home-deck-filter')).toHaveCSS('opacity', '1');
@@ -145,7 +145,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await ready(page);
   await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (let i = 0; i < 4; i++) { await page.getByTestId('home-deck-next').click(); await ready(page); }
+  for (let i = 0; i < 6; i++) { await page.getByTestId('home-deck-next').click(); await ready(page); }
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -179,7 +179,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
       await route.fulfill({ json: rows });
     } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' } : [] });
   });
-  const order = rows.slice(0, 5).map(row => `technique:${row.id}`);
+  const order = rows.slice(0, 7).map(row => `technique:${row.id}`);
   await page.addInitScript(({ key, order }) => {
     if (localStorage.getItem(key)) return;
     const day = Math.floor((Date.now() + 9 * 60 * 60 * 1000) / 86400000);

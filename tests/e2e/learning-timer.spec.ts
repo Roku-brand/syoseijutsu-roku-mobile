@@ -1,14 +1,29 @@
 import { expect, test, type Page } from '@playwright/test';
 
+test('one challenge click starts the fixed 60-second round without another setup step', async ({ page }) => {
+  await page.clock.install();
+  await page.goto('/learn');
+  await expect(page.getByRole('switch', { name: /時間制限/ })).toHaveCount(0);
+  await expect(page.getByTestId('learning-hero-lead')).toContainText('1問60秒。');
+  await page.getByTestId('learning-challenge-1').click();
+  await expect(page.getByRole('button', { name: /^A / })).toBeEnabled();
+  await expect(page.getByTestId('learning-start')).toHaveCount(0);
+  await expect(page.getByRole('switch', { name: /時間制限/ })).toHaveCount(0);
+  await page.clock.runFor(1100);
+  await expect(page.getByTestId('learning-seconds')).toHaveText('59 秒');
+});
+
 async function openRound(page: Page, freeze = false) {
   await page.clock.install();
   await page.goto('/learn/case-01?retry=1');
   await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
-  await expect(page.getByTestId('learning-start')).toBeEnabled();
-  // Exact second boundaries must not include real time spent clicking/scrolling.
-  if (freeze) await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
-  await page.getByTestId('learning-start').click();
-  // Allow one second to elapse after explicitly starting.
+  await expect(page.getByRole('button', { name: /^A / })).toBeEnabled();
+  if (freeze) {
+    await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
+    await page.reload();
+    await expect(page.getByRole('button', { name: /^A / })).toBeEnabled();
+  }
+  // Allow one second after the case has automatically started.
   await page.clock.runFor(1000);
 }
 
@@ -24,7 +39,6 @@ test('60 seconds expires as unanswered, retry and next case get a full minute', 
   await expect(page.getByText('未回答です。解説で判断を磨こう。')).toBeVisible();
   await expect(page.getByText('あなたの回答', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'もう一度挑戦' }).click();
-  await page.getByTestId('learning-start').click();
   await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
   await page.getByRole('button', { name: /^B / }).click();
   await expect(page.getByText('正解！', { exact: true })).toBeVisible();
@@ -56,7 +70,6 @@ test('sound toggle persists; blocked playback cannot interrupt the round', async
   await expect(toggle).toContainText('SE OFF');
   await toggle.click();
   await expect(toggle).toContainText('SE ON');
-  await page.getByTestId('learning-start').click();
   await page.getByRole('button', { name: /^A / }).click();
   await expect(page.getByText('おしい！', { exact: true })).toBeVisible();
   expect(errors).toEqual([]);
@@ -100,17 +113,14 @@ test('all five packaged cues play; mute suppresses countdown audio', async ({ pa
   await page.getByRole('button', { name: /^B / }).click();
   await heard('correct');
   await page.getByRole('button', { name: 'もう一度挑戦' }).click();
-  await page.getByTestId('learning-start').click();
   await page.getByRole('button', { name: /^A / }).click();
   await heard('incorrect');
   await page.getByRole('button', { name: 'もう一度挑戦' }).click();
-  await page.getByTestId('learning-start').click();
   await page.clock.runFor(50_000);
   await heard('tick');
   await page.clock.runFor(10_000);
   await heard('timeout');
   await page.getByRole('button', { name: 'もう一度挑戦' }).click();
-  await page.getByTestId('learning-start').click();
   await toggle.click();
   const count = await page.evaluate(() => (window as any).__learningSounds.length);
   await page.clock.runFor(60_000);
