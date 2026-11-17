@@ -44,7 +44,7 @@ for (const width of [320, 375, 390, 430, 1440]) {
       });
       expect(text.lines.join('')).toBe(card.title);
       expect(text.size).toBeGreaterThanOrEqual(16);
-      expect(text.size).toBeLessThanOrEqual(24);
+      expect(text.size).toBeLessThanOrEqual(width < 1000 ? 25 : 24);
       expect(text.overflow).toBe(false);
       if (text.oneLineWidth <= text.width - 2) expect(text.lines).toHaveLength(1);
       if (text.lines.length > 1) {

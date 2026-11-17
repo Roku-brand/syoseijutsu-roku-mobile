@@ -70,13 +70,17 @@ test('an invalid saved background falls back to moon and maple', async ({ page }
   await expect(page.getByTestId('home-theme-background')).toHaveAttribute('aria-label', '月夜と紅葉');
 });
 
-test('standard iPhone viewport reveals the editorial heading and a glimpse of its cards', async ({ page }) => {
+test('standard iPhone keeps the reading card large and scrolls to an unobscured editorial shelf', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
   const editorial = (await page.getByTestId('home-editorial-section').boundingBox())!;
   const navigation = (await page.getByTestId('persistent-bottom-navigation').boundingBox())!;
-  expect(editorial.y).toBeGreaterThan(600);
-  expect(editorial.y + 52).toBeLessThan(navigation.y);
+  expect((await page.getByTestId('home-deck-front').boundingBox())!.height).toBeGreaterThanOrEqual(306);
+  expect(editorial.y).toBeGreaterThan(navigation.y);
+  await page.getByTestId('home-scroll').evaluate(node => { node.scrollTop = node.scrollHeight; });
+  await expect(page.getByRole('heading', { name: '編集部の特集', exact: true })).toBeInViewport();
+  const rail = (await page.getByTestId('home-editorial-rail').boundingBox())!;
+  expect(rail.y + rail.height).toBeLessThanOrEqual(navigation.y + 1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
 });
