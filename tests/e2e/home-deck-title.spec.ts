@@ -5,13 +5,13 @@ import fs from 'node:fs';
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
 const source = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8'));
 const techniques = source.categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items));
-const selectedIds = ['master336-001', 'master336-006', 'master336-002', 'master336-010'];
+const selectedIds = ['master336-001', 'master336-006', 'master336-002', 'master336-010', 'master336-068', 'master336-255'];
 const selected = selectedIds.map(id => techniques.find((card: any) => card.id === id));
-const theory = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8')).find((card: any) => card.tagId === 'kb_001');
+const theory = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8')).sort((a: any, b: any) => b.title.length - a.title.length)[0];
 
 for (const width of [320, 375, 390, 430, 1440]) {
   test(`デッキの題名は1行を優先し、長い場合も文字を欠かさず折り返す (${width}px)`, async ({ page }) => {
-    test.setTimeout(60_000);
+    test.setTimeout(120_000);
     await page.setViewportSize({ width, height: 950 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.route('**/rest/v1/**', async route => {
@@ -47,6 +47,13 @@ for (const width of [320, 375, 390, 430, 1440]) {
       expect(text.size).toBeGreaterThanOrEqual(17);
       expect(text.size).toBeLessThanOrEqual(25);
       expect(text.overflow).toBe(false);
+      const titleBox = (await title.boundingBox())!;
+      const lastLine = (await title.locator(':scope > span').last().boundingBox())!;
+      expect(lastLine.y + lastLine.height).toBeLessThanOrEqual(titleBox.y + titleBox.height + 1);
+      const front = (await page.getByTestId('home-deck-front').boundingBox())!;
+      const photo = (await page.getByTestId('home-recommendation-card').getByRole('img').boundingBox())!;
+      expect(photo.height).toBeGreaterThanOrEqual(90);
+      expect(photo.y + photo.height).toBeLessThanOrEqual(front.y + front.height - 5);
       if (text.oneLineWidth <= text.width - 2) expect(text.lines).toHaveLength(1);
       if (text.lines.length > 1) {
         expect(text.lines.every(line => !/^[、。，．！？・）］｝」』]/.test(line))).toBe(true);

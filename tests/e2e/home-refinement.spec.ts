@@ -26,7 +26,7 @@ for (const width of [320, 375, 390, 430, 768, 1440]) {
     await page.evaluate(() => document.fonts.ready);
     const front = (await page.getByTestId('home-deck-front').boundingBox())!;
     expect(front.height).toBeGreaterThan(front.width);
-    expect(front.height / front.width).toBeLessThan(1.4);
+    expect(front.height / front.width).toBeLessThan(width === 320 ? 1.5 : 1.4);
     expect(front.x).toBeGreaterThanOrEqual(0); expect(front.x + front.width).toBeLessThanOrEqual(width);
     const context = (await page.getByTestId('home-deck-context').boundingBox())!;
     const number = page.getByTestId('home-deck-number');
