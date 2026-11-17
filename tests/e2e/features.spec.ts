@@ -108,7 +108,7 @@ test('CMSは別画面で変更された下書きを削除しない', async ({ pa
 test('ホームから無料の特集に入り、指針と3記事を日付なしで読める', async ({ page }) => {
   await mockFeatures(page);
   await page.goto('/');
-  await page.getByTestId('home-shortcut-features').click();
+  await page.getByTestId('home-editorial-see-all').click();
   await expect(page).toHaveURL(/\/features$/);
   await expect(page.getByTestId('features-hero').getByRole('heading', { name: initial[0].title, exact: true })).toBeVisible();
   await expect(page.getByTestId('feature-card')).toHaveCount(3);
