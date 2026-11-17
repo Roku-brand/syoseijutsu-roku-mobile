@@ -134,8 +134,8 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.waitForFunction(() => (window as any).__tuckPaused);
   const path = await page.evaluate(() => (window as any).__tuckPath as { x: number; y: number }[]);
   expect(path[0].x).toBeLessThan(-box.width);
-  expect(path.at(-1)!.x).toBeCloseTo(19, 1);
-  expect(path.at(-1)!.y).toBe(54);
+  expect(path.at(-1)!.x).toBeCloseTo(-1.8, 1);
+  expect(path.at(-1)!.y).toBe(21);
   await expect(page.locator('#home-deck-slot-0')).toHaveCSS('z-index', '0');
   await expect(page.getByTestId('home-discovery-refresh')).toHaveCSS('opacity', '1');
   await expect(page.getByTestId('home-deck-filter')).toHaveCSS('opacity', '1');

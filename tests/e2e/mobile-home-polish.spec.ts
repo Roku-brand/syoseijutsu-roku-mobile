@@ -32,7 +32,7 @@ test('mobile recommendation controls and original shortcuts fit narrow screens',
  await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
  await expect(page.getByTestId('home-deck-filter')).toBeVisible();
  await expect(page.getByTestId('home-discovery-refresh')).toBeVisible();
- await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
+ await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(3);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
 });
 

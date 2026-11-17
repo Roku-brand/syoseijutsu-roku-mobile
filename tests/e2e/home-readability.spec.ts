@@ -49,7 +49,7 @@ for (const [width, height] of [[320, 568], [390, 844], [768, 1000], [1440, 1000]
     await page.goto('/');
     await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
-    for (const title of ['人物像', '人気ランキング', '処世術を作る', '特集', '五大原則']) {
+    for (const title of ['人物像', '人気ランキング', '処世術を作る', '五大原則']) {
       const shortcut = page.getByTestId('home-shortcuts').getByRole(title === '五大原則' ? 'button' : 'link', { name: title, exact: true });
       const lines = title === '人気ランキング' ? ['人気', 'ランキング'] : title === '処世術を作る' ? ['処世術を', '作る'] : [title];
       for (const line of lines) await readable(shortcut.getByText(line, { exact: true }));

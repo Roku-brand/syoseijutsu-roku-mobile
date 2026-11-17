@@ -1,4 +1,4 @@
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeShortcutDecoration } from '@/components/home-shortcut-decoration';
 import { HomeThemeBackdrop } from '@/components/home-theme-backdrop';
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
@@ -18,24 +18,24 @@ import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../
 const premiumImage = require('../../../assets/home/premium-banner-v2.webp');
 
 const shortcuts = [
-  { label: '人物像', icon: 'square.grid.2x2', material: 'grid_view', fallback: '▦', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
-  { label: '人気ランキング', lines: ['人気', 'ランキング'], icon: 'crown', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
+  { label: '人物像', icon: 'person.2', material: 'group', fallback: '♧', route: APP_ROUTES.personas, testID: 'home-shortcut-personas' },
+  { label: '人気ランキング', lines: ['人気', 'ランキング'], icon: 'trophy', material: 'emoji_events', fallback: '♛', route: APP_ROUTES.popular, testID: 'home-shortcut-popular' },
   { label: '処世術を作る', lines: ['処世術を', '作る'], icon: 'pencil', material: 'edit', fallback: '✎', route: { pathname: APP_ROUTES.myPage, params: { compose: '1' } }, testID: 'home-create-technique' },
-  { label: '特集', icon: 'newspaper', material: 'article', fallback: '▤', route: APP_ROUTES.features, testID: 'home-shortcut-features' },
   { label: '五大原則', icon: 'building.columns', material: 'account_balance', fallback: '▥', action: 'principles', testID: 'home-shortcut-principles' },
 ] as const satisfies ReadonlyArray<{ label: string; lines?: readonly string[]; icon: string; material: string; fallback: string; route: Href; testID: string } | { label: string; icon: string; material: string; fallback: string; action: 'principles'; testID: string }>;
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { desktop, width, height } = useResponsiveLayout();
+  const { desktop, width } = useResponsiveLayout();
   const { fontScale = 1 } = useWindowDimensions();
-  const insets = useSafeAreaInsets();
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
-  const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - (width < 360 ? 40 : 60)));
-  const usableHeight = height - insets.top - insets.bottom;
-  const cardHeight = (desktop ? 362 : Math.round(Math.min(352, Math.max(272, 282 + (usableHeight - 844) * .5)))) + Math.max(0, fontScale - 1) * 160;
+  const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 48));
+  // The content determines its breathing room; short viewports scroll rather
+  // than shrinking the central reading experience to fit the editorial shelf.
+  const cardHeight = (desktop ? 362 : Math.round(Math.max(306, Math.min(344, cardWidth * .94)))) + Math.max(0, fontScale - 1) * 180;
+
 
   return (
     <BookScreen testID="home-scroll" bounces={false} alwaysBounceVertical={false} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
@@ -50,8 +50,9 @@ export default function HomeScreen() {
 
       <View style={[styles.body, width < 700 && styles.bodyCompact]}>
       <View testID="home-shortcuts" style={styles.shortcuts}>
-        {shortcuts.map((item) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, width < 360 && item.testID === 'home-shortcut-popular' && styles.shortcutRankingNarrow, pressed && styles.pressed]}>
-          <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={desktop ? 25 : 23} tintColor={colors.gold} weight="light" />
+        {shortcuts.map((item, index) => <Pressable key={item.label} testID={item.testID} accessibilityRole={'route' in item ? 'link' : 'button'} accessibilityLabel={item.label} onPress={() => 'route' in item ? router.push(item.route) : setPrinciplesVisible(true)} style={({ pressed }) => [styles.shortcut, pressed && styles.pressed]}>
+          <HomeShortcutDecoration variant={index} />
+          <SymbolView name={{ ios: item.icon, android: item.material, web: item.material }} fallback={<Text style={styles.shortcutFallback}>{item.fallback}</Text>} size={desktop ? 27 : 25} tintColor={colors.gold} weight="light" />
           <View style={[styles.shortcutCaption, mobile && styles.shortcutCaptionMobile]}>{'lines' in item ? item.lines.map(line => <Text key={line} style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{line}</Text>) : <Text style={[styles.shortcutLabel, desktop && styles.shortcutLabelDesktop]}>{item.label}</Text>}</View>
         </Pressable>)}
       </View>
@@ -88,26 +89,25 @@ const styles = StyleSheet.create({
   dataStatus: { minHeight: 44, justifyContent: 'center' },
   dataStatusText: { color: colors.muted, fontSize: 12, lineHeight: 21, marginTop: 8 },
   discovery: { width: '100%', position: 'relative' },
-  deckContent: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 10, paddingBottom: 0 },
+  deckContent: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16, paddingTop: 17, paddingBottom: 2 },
   page: { backgroundColor: '#FAF7EF', maxWidth: '100%', paddingHorizontal: 0, paddingTop: 0, paddingBottom: 16 }, pageDesktop: { paddingBottom: 20 },
   pageMobile: { paddingBottom: 12 },
   body: { width: '100%', maxWidth: layout.readingWidth, alignSelf: 'center', paddingHorizontal: 16 },
   bodyCompact: { paddingHorizontal: 12 },
   pressed: { opacity: 0.7 },
-  shortcuts: { flexDirection: 'row', gap: 7, marginTop: 8 },
-  shortcut: { flex: 1, minWidth: 0, minHeight: 64, paddingVertical: 4, alignItems: 'center', justifyContent: 'center', gap: 3, backgroundColor: '#FFFDF9', borderWidth: 1, borderColor: '#EBE4D8', borderRadius: 13, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
+  shortcuts: { flexDirection: 'row', gap: 8, marginTop: 10 },
+  shortcut: { flex: 1, minWidth: 0, minHeight: 96, paddingTop: 12, paddingBottom: 14, alignItems: 'center', justifyContent: 'center', gap: 8, overflow: 'hidden', backgroundColor: '#FFFBF3', borderWidth: 1, borderColor: '#E8DDCB', borderRadius: 15, ...bookCardShadow, shadowOpacity: 0.05, shadowRadius: 6, elevation: 1 },
   shortcutLabelDesktop: { fontSize: 13, lineHeight: 20 },
-  shortcutRankingNarrow: { flex: 1.3 },
   shortcutFallback: { color: colors.gold, fontSize: 25, lineHeight: 27 },
   shortcutCaption: { width: '100%', alignItems: 'center', justifyContent: 'center' },
   shortcutCaptionMobile: { minHeight: 30 },
-  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 15, fontWeight: '600', textAlign: 'center', width: '100%' },
-  premiumBanner: { height: 114, marginTop: 10, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
-  premiumBannerMobile: { height: 102, minHeight: 102, borderRadius: 11 },
-  premiumBannerNarrow: { height: 122, minHeight: 122 },
+  shortcutLabel: { color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 17, fontWeight: '600', textAlign: 'center', width: '100%' },
+  premiumBanner: { minHeight: 134, marginTop: 18, overflow: 'hidden', borderRadius: 15, borderWidth: 1, borderColor: '#E8DCC8', backgroundColor: '#F8F0E2', ...bookCardShadow },
+  premiumBannerMobile: { minHeight: 132, borderRadius: 13 },
+  premiumBannerNarrow: { minHeight: 150 },
   premiumImage: { position: 'absolute', width: '100%', height: '100%', left: 0, top: 0 },
-  premiumCopy: { width: '70%', height: '100%', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
-  premiumCopyMobile: { width: '75%', height: '100%', minHeight: 102, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 9, paddingVertical: 4, gap: 0 },
+  premiumCopy: { width: '72%', minHeight: 134, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, gap: 14 },
+  premiumCopyMobile: { width: '74%', minHeight: 132, flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', paddingHorizontal: 12, paddingVertical: 12, gap: 0 },
   premiumEdition: { flexShrink: 0 },
   premiumEditionMobile: { flexDirection: 'row', alignItems: 'baseline', gap: 6 },
   premiumDetailsMobile: { flexShrink: 0, width: '100%' },
@@ -115,15 +115,15 @@ const styles = StyleSheet.create({
   premiumDivider: { width: 1, height: '58%', backgroundColor: '#B78B43' },
   premiumDetails: { minWidth: 0, justifyContent: 'center' },
   premiumEyebrow: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 25, letterSpacing: 1.1, fontWeight: '700' },
-  premiumEyebrowMobile: { fontSize: 12, lineHeight: 18, letterSpacing: 0.3 },
+  premiumEyebrowMobile: { fontSize: 13, lineHeight: 20, letterSpacing: 0.3 },
   premiumTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 38, fontWeight: '700', lineHeight: 44, letterSpacing: 1.4 },
-  premiumTitleMobile: { fontSize: 20, lineHeight: 26, letterSpacing: 0.4 },
+  premiumTitleMobile: { fontSize: 23, lineHeight: 29, letterSpacing: 0.4 },
   premiumBody: { color: '#29251F', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '600' },
   premiumBodyMobile: { fontSize: 12, lineHeight: 18 },
   premiumLead: { color: colors.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 24, fontWeight: '700' },
   premiumLeadMobile: { fontSize: 12, lineHeight: 18 },
   premiumPrice: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
-  premiumPriceMobile: { fontSize: 12, lineHeight: 18 },
+  premiumPriceMobile: { fontSize: 12, lineHeight: 18, paddingHorizontal: 7, paddingVertical: 2, borderRadius: 14, borderWidth: 1, borderColor: '#AD8847' },
   premiumActionRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', columnGap: 6, rowGap: 3, marginTop: 3 },
   premiumButton: { backgroundColor: colors.gold, borderRadius: 999, paddingHorizontal: 15, paddingVertical: 6 },
   premiumButtonMobile: { paddingHorizontal: 8, paddingVertical: 3 },
