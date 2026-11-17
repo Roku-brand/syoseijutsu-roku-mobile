@@ -1,8 +1,13 @@
 export const HOME_DECK_SIZE = 7;
 export const HOME_DECK_LAST = HOME_DECK_SIZE - 1;
 
-export const deckLayerX = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (7 + depth * 2);
-export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (depth % 2 ? -1 : 1) * (1 + depth * 0.35);
+// Seven real cards, with only three quiet paper edges visible behind the front.
+const visibleDepth = (depth: number) => Math.min(3, Math.max(0, depth));
+export const deckLayerX = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (1.2 + visibleDepth(depth) * .2);
+export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (.15 + visibleDepth(depth) * .1);
+const layerY = (depth: number) => visibleDepth(depth) * 7;
+const layerScale = (depth: number) => 1 - visibleDepth(depth) * .02;
+const layerOpacity = (depth: number) => 1 - visibleDepth(depth) * .05;
 export const deckReturnEdge = (width: number) => width + 28;
 const lerp = (a: number, b: number, amount: number) => a + (b - a) * amount;
 
@@ -17,14 +22,14 @@ export function deckPose(depth: number, x: number, width: number, reverse = fals
   }
   const pull = Math.max(0, Math.min(1, -x / deckReturnEdge(width)));
   if (!depth) return {
-    x: lerp(x, deckLayerX(HOME_DECK_LAST), lift), y: HOME_DECK_LAST * 9 * lift,
+    x: lerp(x, deckLayerX(HOME_DECK_LAST), lift), y: layerY(HOME_DECK_LAST) * lift,
     angle: lerp(Math.max(-7, Math.min(7, x / width * 7)), deckLayerAngle(HOME_DECK_LAST), lift),
-    scale: 1 - lift * HOME_DECK_LAST * .025, opacity: 1 - lift * HOME_DECK_LAST * .1,
+    scale: lerp(1, layerScale(HOME_DECK_LAST), lift), opacity: lerp(1, layerOpacity(HOME_DECK_LAST), lift),
   };
   const progress = pull * .55 + lift * .45;
-  return { x: lerp(deckLayerX(depth), deckLayerX(depth - 1), progress), y: (depth - progress) * 9,
+  return { x: lerp(deckLayerX(depth), deckLayerX(depth - 1), progress), y: lerp(layerY(depth), layerY(depth - 1), progress),
     angle: lerp(deckLayerAngle(depth), deckLayerAngle(depth - 1), progress),
-    scale: 1 - (depth - progress) * .025, opacity: 1 - (depth - progress) * .1 };
+    scale: lerp(layerScale(depth), layerScale(depth - 1), progress), opacity: lerp(layerOpacity(depth), layerOpacity(depth - 1), progress) };
 }
 
 /** Old cards leave the viewport to the left; a new hand arrives from the right.

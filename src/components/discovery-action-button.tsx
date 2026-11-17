@@ -1,6 +1,7 @@
 import { forwardRef, useState, type ReactNode } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors, fonts } from '@/constants/theme';
+import { DiscoveryControlIcon } from './discovery-control-icon';
 
 /** Shared dimensions and states for the home deck's two actions. */
 export const DiscoveryActionButton = forwardRef<View, {
@@ -20,7 +21,7 @@ export const DiscoveryActionButton = forwardRef<View, {
     aria-expanded={expanded} aria-disabled={disabled} accessibilityState={{ disabled, ...(expanded === undefined ? {} : { expanded }) }} disabled={disabled} onPress={onPress}
     onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
     style={({ pressed }) => [styles.button, { backgroundColor: color }, variant === 'outline' && { backgroundColor: 'rgba(6,25,23,.52)', borderColor: color, borderWidth: 1 }, focused && (variant === 'outline' ? styles.focusedOutline : styles.focused), disabled && dimWhenDisabled && styles.disabled, pressed && styles.pressed]}>
-    {icon}<Text style={styles.label}>{label}</Text>
+    {icon}<Text style={styles.label}>{label}</Text>{variant === 'outline' ? <DiscoveryControlIcon name="down" color="#F2E7D2" size={14} /> : null}
   </Pressable>;
 });
 

@@ -91,7 +91,7 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
     expect(updated.filter).toBe(category);
     expect(updated.cursor).toBe(0);
     expect(updated.order.filter((id: string) => old.order.includes(id))).toEqual([]);
-    await expect(page.getByTestId('home-deck-position')).toHaveText('01  / 07');
+    await expect(page.getByTestId('home-deck-position')).toHaveText('01 / 07');
     if (category !== 'all') await expect(page.getByTestId('home-recommendation-card').getByText(label, { exact: true })).toBeVisible();
     await filter.scrollIntoViewIfNeeded();
     await page.screenshot({ path: `release-evidence/home-controls-20261115/theme-${category}.png` });
@@ -125,8 +125,8 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
     await page.getByTestId('home-deck-next').click();
     await ready(page);
     await expect(page.getByTestId('home-deck-position')).toContainText(String(cursor + 1).padStart(2, '0'));
-    const active = await page.getByTestId('home-deck-position').evaluate(node =>
-      Array.from(node.parentElement!.firstElementChild!.children).map(mark => getComputedStyle(mark).backgroundColor === 'rgb(146, 107, 46)'));
+    const active = await page.getByTestId('home-deck-indicators').evaluate(node =>
+      Array.from(node.children).map(mark => getComputedStyle(mark).backgroundColor === 'rgb(146, 107, 46)'));
     expect(active.filter(Boolean)).toHaveLength(1);
     expect(active[cursor]).toBe(true);
   }

@@ -42,7 +42,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await expect.poll(bottomX).toBeLessThan(7);
   await page.waitForTimeout(120);
   await page.mouse.up();
-  await expect.poll(bottomX).toBeCloseTo(19, 0);
+  await expect.poll(bottomX).toBeCloseTo(-1.8, 0);
   expect((await state(page)).cursor).toBe(0);
 
   await swipe(page, true);

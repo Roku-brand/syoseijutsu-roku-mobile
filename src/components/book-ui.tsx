@@ -115,6 +115,7 @@ export function BookHeader() {
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
+  const homeHeader = pathname === '/' && !isCheckoutReturn;
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
   const titleInset = Math.max(84, actionCount * (detail ? DETAIL_ACTION_WIDTH : 44) + Math.max(0, actionCount - 1) * 3 + 20);
@@ -163,7 +164,7 @@ export function BookHeader() {
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={compact ? 25 : 27} /></View>
+          <View style={[homeHeader && styles.homeSearchFrame, spaciousHeader && styles.searchSpacious]}><HeaderSearchAction anchorRef={headerRef} initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={homeHeader ? 23 : compact ? 25 : 27} /></View>
           <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
@@ -685,6 +686,7 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   homeMenuAction: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
+  homeSearchFrame: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',

@@ -4,6 +4,7 @@ const paths = {
   refresh: '<path d="M3 12a9 9 0 0 1 15.36-6.36L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.36 6.36L3 16m5 0H3v5"/>',
   previous: '<path d="m15 18-6-6 6-6"/>',
   next: '<path d="m9 18 6-6-6-6"/>',
+  down: '<path d="m6 9 6 6 6-6"/>',
 };
 
 /** Vector strokes keep the circular refresh and both chevrons consistent. */

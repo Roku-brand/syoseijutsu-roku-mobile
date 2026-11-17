@@ -66,7 +66,7 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
 }
 
 const styles = StyleSheet.create({
-  section: { marginTop: 8, marginBottom: 0 },
+  section: { marginTop: 18, marginBottom: 0 },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4, gap: 8 },
   headingLeft: { flexDirection: 'row', alignItems: 'center', flexShrink: 1, gap: 9 },
   accent: { width: 3, height: 26, backgroundColor: colors.gold, borderRadius: 2 },

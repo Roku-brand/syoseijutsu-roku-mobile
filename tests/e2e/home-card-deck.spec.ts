@@ -23,7 +23,7 @@ for (const width of [375, 390, 430, 768, 1440]) {
     await expect(page.getByTestId('home-continue-section')).toHaveCount(0);
     await expect(page.getByTestId('home-premium-banner')).toBeVisible();
     await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
-    await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(4);
+    await expect(page.getByTestId('home-shortcuts').getByRole('link')).toHaveCount(3);
     const heading = (await page.getByTestId('home-deck-heading').boundingBox())!;
     const filter = (await page.getByTestId('home-deck-filter').boundingBox())!;
     const shuffle = (await page.getByTestId('home-discovery-refresh').boundingBox())!;
@@ -354,7 +354,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect((await matrix('#home-deck-slot-6')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
   await page.waitForTimeout(100);
   await page.mouse.up();
-  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeCloseTo(19, 0);
+  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeCloseTo(-1.8, 0);
   expect(await label(page)).toBe(second);
   await page.evaluate(() => {
     (window as any).__reverseFrames = [];
