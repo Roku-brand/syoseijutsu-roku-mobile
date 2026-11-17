@@ -86,4 +86,3 @@ test('standard iPhone keeps the reading card large and scrolls to an unobscured 
   expect(rail.y + rail.height).toBeLessThanOrEqual(navigation.y + 1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
 });
-
