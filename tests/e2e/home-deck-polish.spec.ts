@@ -1,3 +1,4 @@
+import { expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
@@ -103,7 +104,7 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
   await page.goto('/');
   await ready(page);
   await expect(page.getByTestId('home-deck-context')).toHaveText('話を聞く人');
-  await expect(page.getByTestId('home-deck-position')).toContainText('03');
+  await expectDeckCursor(page, 2);
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order, storageKey)).toEqual(order);
   for (const table of ['public_techniques', 'public_theories', 'personas', 'content_revision']) expect(counts.get(table), table).toBe(1);
   await page.emulateMedia({ reducedMotion: 'reduce' });

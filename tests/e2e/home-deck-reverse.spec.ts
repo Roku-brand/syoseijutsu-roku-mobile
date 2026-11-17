@@ -1,3 +1,4 @@
+import { turnDeck } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
@@ -42,7 +43,7 @@ test('a fresh mobile deck cycles backwards, restores its position and reverses a
   await expect.poll(bottomX).toBeLessThan(7);
   await page.waitForTimeout(120);
   await page.mouse.up();
-  await expect.poll(bottomX).toBeCloseTo(-1.8, 0);
+  await expect.poll(bottomX).toBeCloseTo(-11, 0);
   expect((await state(page)).cursor).toBe(0);
 
   await swipe(page, true);
@@ -90,12 +91,10 @@ test('desktop buttons and keyboard wrap from the first card with reduced motion'
   await page.goto('/');
   await ready(page);
   const first = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
-  const previous = page.getByTestId('home-deck-previous');
-  await expect(previous).toBeEnabled();
-  await previous.click();
+  await turnDeck(page, -1);
   await ready(page);
   await expect.poll(async () => (await state(page)).cursor).toBe(6);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   await expect.poll(async () => (await state(page)).cursor).toBe(0);
   await page.getByTestId('home-recommendation-deck').focus();

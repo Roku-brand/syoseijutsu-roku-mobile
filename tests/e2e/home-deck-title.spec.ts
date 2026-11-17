@@ -1,3 +1,4 @@
+import { turnDeck } from './deck-helpers';
 import { expect, test } from '@playwright/test';
 import fs from 'node:fs';
 
@@ -36,15 +37,15 @@ for (const width of [320, 375, 390, 430, 1440]) {
         const style = getComputedStyle(node);
         const lines = Array.from(node.children).map(child => child.textContent ?? '');
         const context = document.createElement('canvas').getContext('2d')!;
-        context.font = `${style.fontWeight} 16px ${style.fontFamily}`;
+        context.font = `${style.fontWeight} 17px ${style.fontFamily}`;
         const original = node.getAttribute('aria-label')!;
         const oneLineWidth = context.measureText(original).width + Math.max(0, [...original].length - 1) * parseFloat(style.letterSpacing);
         return { lines, size: parseFloat(style.fontSize), oneLineWidth, width: node.clientWidth,
           overflow: Array.from(node.children).some(child => child.scrollWidth > child.clientWidth + 1) };
       });
       expect(text.lines.join('')).toBe(card.title);
-      expect(text.size).toBeGreaterThanOrEqual(16);
-      expect(text.size).toBeLessThanOrEqual(width < 1000 ? 25 : 24);
+      expect(text.size).toBeGreaterThanOrEqual(17);
+      expect(text.size).toBeLessThanOrEqual(25);
       expect(text.overflow).toBe(false);
       if (text.oneLineWidth <= text.width - 2) expect(text.lines).toHaveLength(1);
       if (text.lines.length > 1) {
@@ -52,10 +53,10 @@ for (const width of [320, 375, 390, 430, 1440]) {
         expect(text.lines.at(-1)!.length).toBeGreaterThan(2);
       }
       if (index === 0 || index === 3) {
-        await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
+        await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
         await page.screenshot({ path: `release-evidence/home-title/${width}-${index === 0 ? 'single' : 'long'}.png` });
       }
-      await page.getByTestId('home-deck-next').click();
+      await turnDeck(page);
       await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 // Full-resolution screenshots and round trips can be slow on Windows/WebKit;
@@ -35,16 +36,10 @@ for (const width of [375, 390, 430, 768, 1440]) {
     const card = await page.getByTestId('home-recommendation-card').boundingBox();
     expect(card!.width).toBeLessThanOrEqual(width >= 1000 ? 400 : 380);
     expect(card!.width).toBeGreaterThan(290);
-    if (width >= 1000) {
-      const previous = (await page.getByTestId('home-deck-previous').boundingBox())!;
-      const next = (await page.getByTestId('home-deck-next').boundingBox())!;
-      expect(previous.y).toBeGreaterThan(card!.y + card!.height);
-      expect(next.y).toBe(previous.y);
-      expect(previous.x + previous.width).toBeLessThan(next.x);
-    }
+    expect(card!.height).toBeGreaterThan(card!.width);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `release-evidence/home-discovery/home-${width}.png`, fullPage: true });
-    await page.getByTestId('home-deck-next').click();
+    await turnDeck(page);
     await ready(page);
     await page.screenshot({ path: `release-evidence/home-discovery/theory-${width}.png`, fullPage: true });
     await page.getByTestId('home-discovery-refresh').click();
@@ -61,15 +56,15 @@ test('保存・前後移動・詳細往復・再読み込みで順序と位置�
   await page.getByTestId('home-deck-save').click();
   await expect(page.getByTestId('home-deck-save')).toHaveAttribute('aria-pressed', 'true');
   expect(await label(page)).toBe(initial);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   const next = await label(page);
   expect(next).not.toBe(initial);
-  await page.getByTestId('home-deck-previous').click();
+  await turnDeck(page, -1);
   await ready(page);
   expect(await label(page)).toBe(initial);
   await expect(page.getByTestId('home-deck-save')).toHaveAttribute('aria-pressed', 'true');
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   await page.waitForTimeout(360);
   await page.getByTestId('home-recommendation-card').click();
@@ -78,7 +73,7 @@ test('保存・前後移動・詳細往復・再読み込みで順序と位置�
   await page.goBack();
   await ready(page);
   expect(await label(page)).toBe(next);
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await expectDeckCursor(page, 1);
   await page.reload();
   await ready(page);
   expect(await label(page)).toBe(next);
@@ -164,13 +159,13 @@ test('キーボード・動きの設定変更・高速操作・7枚の循環', a
   await page.getByTestId('home-discovery-refresh').click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await ready(page);
-  await page.getByTestId('home-deck-next').focus();
+  await page.getByTestId('home-recommendation-deck').focus();
   await page.keyboard.press('ArrowRight');
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await expectDeckCursor(page, 1);
   await page.keyboard.press('ArrowLeft');
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await expectDeckCursor(page, 0);
   const seen = new Set<string | null>();
   const first = await label(page);
   for (let index = 0; index < 7; index++) {
@@ -181,14 +176,14 @@ test('キーボード・動きの設定変更・高速操作・7枚の循環', a
     await page.keyboard.press('ArrowRight');
     await ready(page);
   }
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await expectDeckCursor(page, 0);
   expect(await label(page)).toBe(first);
   await page.keyboard.press('ArrowLeft');
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('07');
+  await expectDeckCursor(page, 6);
   await page.reload();
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('07');
+  await expectDeckCursor(page, 6);
 });
 
 test('日本時間の日替わりと訪問中の状態固定、破損キャッシュ復旧', async ({ page }) => {
@@ -248,8 +243,8 @@ test('スマホの実タッチは横スワイプと縦スクロールを分離�
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expect.poll(async () => (await page.getByTestId('home-recommendation-card').boundingBox())!.y).toBeLessThan(box.y - 40);
   expect(await label(page)).toBe(next);
-  await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
-  await expect(page.getByTestId('home-deck-next')).toBeInViewport();
+  await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
+  await expect(page.getByTestId('home-recommendation-card')).toBeInViewport();
   await page.screenshot({ path: 'release-evidence/home-discovery/scrolled-390.png' });
 });
 
@@ -259,7 +254,7 @@ test('既存の端末内データ消去でデッキ履歴も消去する', async
   await ready(page);
   await page.getByTestId('home-discovery-refresh').click();
   await ready(page);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   await page.goto('/settings');
   page.once('dialog', dialog => dialog.accept());
@@ -339,7 +334,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   await page.goto('/');
   await ready(page);
   const first = await label(page);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   const second = await label(page);
   const bottom = page.locator('#home-deck-slot-6');
@@ -354,7 +349,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect((await matrix('#home-deck-slot-6')).z).toBeLessThan((await matrix('#home-deck-slot-0')).z);
   await page.waitForTimeout(100);
   await page.mouse.up();
-  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeCloseTo(-1.8, 0);
+  await expect.poll(async () => (await matrix('#home-deck-slot-6')).x).toBeCloseTo(-11, 0);
   expect(await label(page)).toBe(second);
   await page.evaluate(() => {
     (window as any).__reverseFrames = [];
@@ -401,7 +396,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect(lifted.some(frame => frame.bottomX > liftedAt + 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
   await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
-  await page.getByTestId('home-deck-next').click();
+  await turnDeck(page);
   await ready(page);
   expect(await label(page)).toBe(second);
 });
@@ -438,7 +433,7 @@ test('旧キューを7枚へ移行し、シャッフルで7枚すべてを交換
   }, storageKey);
   await page.reload();
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await expectDeckCursor(page, 0);
   const readOrder = () => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order as string[], storageKey);
   let old = await readOrder();
   expect(old).toHaveLength(7);

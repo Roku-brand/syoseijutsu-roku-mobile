@@ -63,11 +63,10 @@ for (const [width, height] of [[320, 568], [390, 844], [768, 1000], [1440, 1000]
     expect(action.x + action.width).toBeLessThanOrEqual(banner.x + banner.width);
     expect(action.y + action.height).toBeLessThan(banner.y + banner.height);
     await page.screenshot({ path: `release-evidence/home-readability/home-${width}.png` });
-    await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
+    await page.getByTestId('home-recommendation-card').scrollIntoViewIfNeeded();
     await readable(page.getByTestId('home-deck-context'), true);
-    await readable(page.getByTestId('home-deck-position'));
-    await expect(page.getByTestId('home-deck-previous')).toBeInViewport();
-    await expect(page.getByTestId('home-deck-next')).toBeInViewport();
+    await expect(page.getByTestId('home-recommendation-card')).toBeInViewport();
+    await expect(page.getByTestId('home-recommendation-card')).toBeInViewport();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await page.screenshot({ path: `release-evidence/home-readability/deck-${width}.png` });
     await page.getByTestId('home-deck-filter').click();

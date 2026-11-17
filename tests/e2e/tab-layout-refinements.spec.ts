@@ -43,7 +43,7 @@ for (const width of [320, 390, 1440]) {
     await page.screenshot({ path: test.info().outputPath('deck-popup.png') });
     await page.getByTestId('home-deck-filter-work').click();
     await expect(popup).toHaveCount(0);
-    await expect(page.getByTestId('home-deck-position')).toContainText('/ 07');
+    await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
     await page.getByTestId('home-shortcut-principles').click();
     await expect(page.getByRole('heading', { name: '処世術の五大原則' })).toBeVisible();
     await page.getByRole('button', { name: '原則を閉じる' }).last().click();

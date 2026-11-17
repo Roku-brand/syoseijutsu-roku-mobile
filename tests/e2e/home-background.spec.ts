@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test } from '@playwright/test';
 
 const preference = '@shoseijutsu-roku/home-background/v1';
@@ -11,8 +12,8 @@ test('background changes persist while the current hand, saved state and other s
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
-  await page.getByTestId('home-deck-next').click();
-  await expect(page.getByTestId('home-deck-position')).toContainText('02');
+  await turnDeck(page);
+  await expectDeckCursor(page, 1);
   const old = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), deckKey);
   const card = await page.getByTestId('home-recommendation-card').getAttribute('aria-label');
   const saved = await page.getByTestId('home-deck-save').getAttribute('aria-pressed');
@@ -77,7 +78,8 @@ test('standard iPhone keeps the reading card large and scrolls to an unobscured 
   const editorial = (await page.getByTestId('home-editorial-section').boundingBox())!;
   const navigation = (await page.getByTestId('persistent-bottom-navigation').boundingBox())!;
   expect((await page.getByTestId('home-deck-front').boundingBox())!.height).toBeGreaterThanOrEqual(306);
-  expect(editorial.y).toBeGreaterThan(navigation.y);
+  const banner = (await page.getByTestId('home-premium-banner').boundingBox())!;
+  expect(editorial.y).toBeGreaterThan(banner.y + banner.height);
   await page.getByTestId('home-scroll').evaluate(node => { node.scrollTop = node.scrollHeight; });
   await expect(page.getByRole('heading', { name: '編集部の特集', exact: true })).toBeInViewport();
   const rail = (await page.getByTestId('home-editorial-rail').boundingBox())!;

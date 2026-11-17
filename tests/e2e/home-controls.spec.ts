@@ -1,3 +1,4 @@
+import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 
 const key = '@shoseijutsu-roku/discovery-deck/v1/free';
@@ -40,15 +41,8 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
     await expect(page.getByTestId('book-header-safe-area')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-top.png` });
-    await page.getByTestId('home-deck-next').scrollIntoViewIfNeeded();
-    const next = (await page.getByTestId('home-deck-next').boundingBox())!;
-    const previous = (await page.getByTestId('home-deck-previous').boundingBox())!;
-    expect(next.height).toBeGreaterThanOrEqual(44);
-    expect(next.width).toBe(previous.width);
-    expect(next.y).toBe(previous.y);
-    const nav = (await page.getByTestId('persistent-bottom-navigation').boundingBox())!;
-    if (width < 1000) expect(next.y + next.height).toBeLessThanOrEqual(nav.y);
-    await page.screenshot({ path: `release-evidence/home-controls-20261115/after-${width}-deck.png` });
+    await expect(page.getByTestId('home-deck-controls')).toHaveCount(0);
+    await expect(page.getByTestId('home-deck-position')).toHaveCount(0);
     for (const [testID, lines] of [['home-shortcut-popular', ['人気', 'ランキング']], ['home-create-technique', ['処世術を', '作る']]] as const) {
       const shortcut = page.getByTestId(testID);
       const first = shortcut.getByText(lines[0], { exact: true });
@@ -91,7 +85,7 @@ test('theme follows selection immediately; shuffle excludes the old hand and rej
     expect(updated.filter).toBe(category);
     expect(updated.cursor).toBe(0);
     expect(updated.order.filter((id: string) => old.order.includes(id))).toEqual([]);
-    await expect(page.getByTestId('home-deck-position')).toHaveText('01 / 07');
+    await expectDeckCursor(page, 0);
     if (category !== 'all') await expect(page.getByTestId('home-recommendation-card').getByText(label, { exact: true })).toBeVisible();
     await filter.scrollIntoViewIfNeeded();
     await page.screenshot({ path: `release-evidence/home-controls-20261115/theme-${category}.png` });
@@ -120,14 +114,11 @@ test('Reduced Motion interrupts a shuffle once, and saving and detail navigation
   await expect(page).toHaveURL(/\/(card|theory)\//);
   await page.goBack();
   await ready(page);
-  await expect(page.getByTestId('home-deck-position')).toContainText('01');
+  await expectDeckCursor(page, 0);
   for (const cursor of [1, 2, 3, 4, 5, 6, 0]) {
-    await page.getByTestId('home-deck-next').click();
+    await turnDeck(page);
     await ready(page);
-    await expect(page.getByTestId('home-deck-position')).toContainText(String(cursor + 1).padStart(2, '0'));
-    const active = await page.getByTestId('home-deck-indicators').evaluate(node =>
-      Array.from(node.children).map(mark => getComputedStyle(mark).backgroundColor === 'rgb(146, 107, 46)'));
-    expect(active.filter(Boolean)).toHaveLength(1);
-    expect(active[cursor]).toBe(true);
+    await expectDeckCursor(page, cursor);
+    await expect(page.getByTestId('home-deck-indicators')).toHaveCount(0);
   }
 });
