@@ -273,8 +273,9 @@ export default function CardDetailScreen() {
           <RelatedContentSection
             variant="technique-detail"
             title="関連する処世術"
+            description="あわせて身につけたい実践知"
             testID="related-techniques"
-            items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, supportingText: relatedCard.essence ?? relatedCard.subtitle, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
+            items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
           />
         </View>
 

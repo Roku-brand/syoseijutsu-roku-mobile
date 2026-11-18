@@ -47,20 +47,22 @@ for (const width of [320, 390]) {
     const titleOnly = primary.getByRole('link', { name: '質問好意効果を開く' });
     await expect(definition).toContainText('自分のことを適度に話すと、相手も自分のことを話しやすくなること。');
     await expect(definition).not.toContainText('最近困っていること');
-    await expect(titleOnly).toHaveText('質問好意効果›');
+    await expect(titleOnly).toHaveText('02質問好意効果›');
     await expect(supplementary).toContainText('やりすぎは不足と同じように問題になるという教え。');
     await expect(supplementary).not.toContainText(/助言も気遣いも|実践手法｜|思想・言葉による補完｜/);
     await expect(page.getByTestId('related-techniques')).toHaveCount(0);
 
     for (const [name, list] of [['主要理論', primary], ['あわせて読む理論', supplementary]] as const) {
       const heading = page.getByRole('heading', { name, exact: true });
-      await expect(list.getByRole('link')).toHaveCount(2);
-      await expect(heading.locator('..').getByText('2', { exact: true })).toBeVisible();
-      await expect(list).toHaveCSS('background-color', 'rgb(253, 251, 247)');
-      await expect(list.getByRole('link').first()).toHaveCSS('border-bottom-width', '1px');
-      await expect(list.getByRole('link').last()).toHaveCSS('border-bottom-width', '0px');
+      const rows = list.getByRole('link');
+      await expect(rows).toHaveCount(2);
+      await expect(heading.locator('..').getByText('全 2 件', { exact: true })).toBeVisible();
+      await expect(rows.first().getByText('01', { exact: true })).toBeVisible();
+      await expect(rows.last().getByText('02', { exact: true })).toBeVisible();
+      await expect(rows.first()).toHaveCSS('border-bottom-width', '1px');
+      await expect(rows.last()).toHaveCSS('border-bottom-width', '1px');
     }
-    expect((await titleOnly.boundingBox())!.height).toBeGreaterThanOrEqual(64);
+    expect((await titleOnly.boundingBox())!.height).toBeLessThanOrEqual(54);
     expect((await titleOnly.boundingBox())!.height).toBeLessThan((await definition.boundingBox())!.height);
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
@@ -85,8 +87,8 @@ test('関連知識が1件の場合も一覧の件数を表示する', async ({ p
   await page.getByRole('tab', { name: '関連知識' }).click();
   const primary = page.getByTestId('primary-theories');
   await expect(primary.getByRole('link')).toHaveCount(1);
-  await expect(page.getByRole('heading', { name: '主要理論' }).locator('..').getByText('1', { exact: true })).toBeVisible();
-  await expect(primary.getByRole('link').first()).toHaveCSS('border-bottom-width', '0px');
+  await expect(page.getByRole('heading', { name: '主要理論' }).locator('..').getByText('全 1 件', { exact: true })).toBeVisible();
+  await expect(primary.getByRole('link').first().getByText('01', { exact: true })).toBeVisible();
   await expect(page.getByTestId('supplementary-theories')).toHaveCount(0);
 });
 

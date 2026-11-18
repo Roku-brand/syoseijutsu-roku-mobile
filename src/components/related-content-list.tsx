@@ -41,14 +41,19 @@ export function RelatedContentSection({
         <View style={[styles.heading, variant && detailStyles.heading]}>
           {variant ? <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.goldBar} /> : null}
           <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
-          <View style={[styles.countBadge, theoretical && theoryStyles.countBadge, variant && detailStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
+          {variant ? (
+            <AppText variant="serif" style={detailStyles.total}>
+              {'全 '}<AppText variant="serif" style={detailStyles.totalNumber}>{items.length}</AppText>{' 件'}
+            </AppText>
+          ) : (
+            <View style={[styles.countBadge, theoretical && theoryStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
+          )}
         </View>
         {description ? <AppText style={[styles.description, theoretical && theoryStyles.text, variant && detailStyles.description]}>{description}</AppText> : null}
       </View>
       <View testID={testID} style={[styles.list, theoretical && theoryStyles.list, variant && detailStyles.list]}>
         {items.map((item, index) => {
           const supportingText = normalizeDisplayText(item.supportingText).replace(/\n+/g, ' ');
-          const hasSupportingText = Boolean(supportingText || item.detailText || item.locked);
           return (
             <Link key={item.key} href={item.href} asChild>
               <Pressable
@@ -58,11 +63,18 @@ export function RelatedContentSection({
                   styles.row,
                   theoretical && theoryStyles.row,
                   variant && detailStyles.row,
-                  variant && hasSupportingText && detailStyles.rowWithSupportingText,
-                  index === items.length - 1 && styles.rowLast,
+                  !variant && index === items.length - 1 && styles.rowLast,
                 ])}
               >
-                <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond, variant && detailStyles.diamond]} />
+                {variant ? (
+                  <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={detailStyles.numberColumn}>
+                    <View style={detailStyles.numberBadge}>
+                      <AppText variant="serif" style={detailStyles.number}>{String(index + 1).padStart(2, '0')}</AppText>
+                    </View>
+                  </View>
+                ) : (
+                  <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond]} />
+                )}
                 <View style={styles.copy}>
                   <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink, variant && detailStyles.title]}>{normalizeDisplayText(item.title)}</AppText>
                   {item.locked ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>完全版で読む</AppText> : null}
@@ -113,16 +125,18 @@ const theoryStyles = StyleSheet.create({
 
 const detailStyles = StyleSheet.create({
   section: { marginTop: 0 },
-  headingArea: { paddingHorizontal: 0, marginBottom: 10 },
+  headingArea: { paddingHorizontal: 0, marginBottom: 9 },
   heading: { minHeight: 28, gap: 9 },
   goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
   headingText: { flexShrink: 1, color: colors.ink, fontSize: 19, lineHeight: 28, letterSpacing: 0.4 },
-  countBadge: { minWidth: 28, minHeight: 28, height: undefined, paddingHorizontal: 7, backgroundColor: '#F3ECDF' },
-  description: { marginTop: 4 },
-  list: { backgroundColor: '#FDFBF7', borderColor: '#DDD3C2' },
-  row: { minHeight: 64, paddingVertical: 14, paddingLeft: 24, paddingRight: 20, gap: 0, borderBottomColor: colors.line },
-  rowWithSupportingText: { minHeight: 82 },
-  diamond: { marginRight: 17 },
+  total: { marginLeft: 'auto', flexShrink: 0, color: colors.goldDeep, fontSize: 12, lineHeight: 24, fontWeight: '600' },
+  totalNumber: { color: colors.goldDeep, fontSize: 17, fontStyle: 'italic', fontWeight: '700' },
+  description: { marginTop: 3, marginLeft: 13 },
+  list: { backgroundColor: 'transparent', borderWidth: 0, borderRadius: 0, overflow: 'visible' },
+  row: { minHeight: 52, paddingVertical: 10, paddingLeft: 3, paddingRight: 4, gap: 0, borderBottomColor: colors.line },
+  numberColumn: { flexShrink: 0, alignSelf: 'stretch', justifyContent: 'center', marginVertical: 1, paddingRight: 12, marginRight: 13, borderRightWidth: 1, borderRightColor: colors.line },
+  numberBadge: { minWidth: 32, minHeight: 28, paddingHorizontal: 4, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, backgroundColor: '#F3ECDF' },
+  number: { color: colors.goldDeep, fontSize: 14, lineHeight: 18, fontStyle: 'italic', fontWeight: '700', fontVariant: ['tabular-nums'] },
   title: { color: colors.ink, fontSize: 17, lineHeight: 25, letterSpacing: 0.2 },
   supporting: { marginTop: 2, lineHeight: 18 },
   chevron: { fontSize: 23, lineHeight: 26, marginLeft: 8 },
