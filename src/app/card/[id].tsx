@@ -8,7 +8,6 @@ import { colors, fonts, radius } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
-  categories,
   techniqueById,
   techniqueCards,
   theoryById,
@@ -20,7 +19,6 @@ import { useAccess } from '@/access/access-state';
 import { canReadTechnique, canReadTheory } from '@/access/access-config';
 import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
-import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
 import { RelatedFeatures } from '@/components/related-features';
 import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
@@ -133,13 +131,6 @@ export default function CardDetailScreen() {
         onPrevious={() => navigateCard(-1)}
         onNext={() => navigateCard(1)}
       >
-        <View>
-        <SeoBreadcrumbs compact items={[
-          { label: '探す', href: '/discover' },
-          { label: card.categoryName, href: { pathname: '/personas', params: { category: card.categoryKey } } },
-          ...(categories.some(category => category.key === card.categoryKey && category.subcategories.some(persona => persona.name === card.subcategory)) ? [{ label: card.subcategory, href: { pathname: '/subcategory/[category]/[name]' as const, params: { category: card.categoryKey, name: card.subcategory } } }] : []),
-          { label: card.title },
-        ]} />
         <View style={styles.numberRow}>
           <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
           {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
@@ -177,7 +168,6 @@ export default function CardDetailScreen() {
               {cleanText(essence)}
             </AppText>
           </View>
-        </View>
         </View>
       </DetailSwipe>
       <View style={styles.tabs} testID="technique-detail-tabs">
@@ -361,7 +351,7 @@ const styles = StyleSheet.create({
     maxWidth: 1420,
     alignSelf: 'center',
     paddingHorizontal: 22,
-    paddingTop: 20,
+    paddingTop: 12,
     paddingBottom: 132,
   },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },

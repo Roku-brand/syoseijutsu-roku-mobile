@@ -713,14 +713,21 @@ test('理論一覧はPCでも読みやすい一列の索引幅を保つ', async 
   expect(firstRowStyle.borderRadius).toBeGreaterThan(0);
 });
 
-test('詳細ページの階層リンクは探す配下の統合一覧へ戻る', async ({ page }) => {
-  await page.goto('/card/master336-001');
-  await expect(page.getByRole('link', { name: '探すへ移動' })).toHaveAttribute('href', '/discover');
-  await expect(page.getByRole('link', { name: '対人術へ移動' })).toHaveAttribute('href', '/personas?category=interpersonal');
-
-  await page.goto('/theory/kb_001');
-  await expect(page.getByRole('link', { name: '探すへ移動' })).toHaveAttribute('href', '/discover');
-  await expect(page.getByRole('link', { name: '心理学へ移動' })).toHaveAttribute('href', '/theories?category=psychology');
+test('人物像・処世術・理論の各ページはパンくずを省き本文を上に詰める', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const [path, testId, maxTopGap] of [
+    ['/subcategory/interpersonal/印象がいい人', 'persona-page-intro', 16],
+    ['/card/master336-001', 'technique-detail-title', 44],
+    ['/theory/kb_001', 'theory-meta', 16],
+  ] as const) {
+    await page.goto(path);
+    const content = page.getByTestId(testId);
+    await expect(content).toBeVisible();
+    await expect(page.getByRole('list', { name: 'パンくずリスト' })).toHaveCount(0);
+    const header = (await page.getByTestId('book-header').boundingBox())!;
+    const firstContent = (await content.boundingBox())!;
+    expect(firstContent.y - (header.y + header.height)).toBeLessThanOrEqual(maxTopGap);
+  }
 });
 
 test('詳細ヘッダーは保存・共有を維持し、設定や五大原則を表示しない', async ({ page }) => {
@@ -1026,19 +1033,30 @@ test('各領域の無料2人物像は配下の処世術をすべて読める', a
   await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
 });
 
-test('人物像詳細は番号順の一列メニューとして一覧できる', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 720 });
+test('人物像詳細はタイトルだけのコンパクトな一列メニューとして一覧できる', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
-  const cards = page.getByRole('link', { name: /^\d{2} / });
+  const list = page.getByTestId('persona-technique-list');
+  const cards = list.getByRole('link');
   await expect(cards).toHaveCount(14);
-  await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(14);
   await expect(page.getByTestId('technique-column-1')).toHaveCount(0);
   await expect(page.getByTestId('technique-column-2')).toHaveCount(0);
   await expect(page.getByText('STEP 1')).toHaveCount(0);
-  const visibleNumbers = await cards.evaluateAll((elements) => elements.map((element) => element.getAttribute('aria-label')?.slice(0, 2)));
-  expect(visibleNumbers).toEqual(Array.from({ length: 14 }, (_, index) => String(index + 1).padStart(2, '0')));
+  await expect(cards.first()).toHaveAccessibleName('清潔感を意識するを開く');
+  await expect(cards.nth(1)).toHaveAccessibleName('表情・視線・姿勢・声を安定させるを開く');
+  const displayedContent = await cards.evaluateAll((elements) => elements.map((element) =>
+    element.textContent?.replace(/›$/, ''),
+  ));
+  const titles = await list.getByTestId(/^persona-technique-title-/).allTextContents();
+  expect(displayedContent).toEqual(titles);
+  const box = (await cards.first().boundingBox())!;
+  expect(box.height).toBeGreaterThanOrEqual(44);
+  expect(box.height).toBeLessThanOrEqual(56);
   await cards.last().scrollIntoViewIfNeeded();
   await expect(cards.last()).toBeInViewport();
+  await cards.first().click();
+  await expect(page).toHaveURL(/\/card\/master336-001$/);
+  await expect(page.getByTestId('technique-essence')).toBeVisible();
 });
 
 test('学ぶトップは同じ挑戦ボタンと実進捗を表示し、完全版の購入導線を維持する', async ({ page }) => {
@@ -1058,7 +1076,7 @@ test('人物像の処世術はキーボードでフォーカスできるリン�
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
 
-  const link = page.getByRole('link', { name: /^01 / });
+  const link = page.getByTestId('persona-technique-row-1');
   await link.focus();
   await expect(link).toBeFocused();
 });

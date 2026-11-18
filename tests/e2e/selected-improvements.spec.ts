@@ -13,10 +13,9 @@ test('reading retains its originating tab through history; direct links belong t
  await nav(page,'ホーム').click();await page.getByTestId('home-recommendation-card').click();
  await expect(page).toHaveURL(/\/(card|theory)\//);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');
  const readerURL=page.url();
- await page.getByRole('link',{name:'探すへ移動',exact:true}).click();await expect(page).toHaveURL(/\/discover$/);
- await expect(nav(page,'探す')).toHaveAttribute('aria-current','page');
- await page.goBack();await expect(page).toHaveURL(readerURL);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');
- await page.goForward();await expect(page).toHaveURL(/\/discover$/);await expect(nav(page,'探す')).toHaveAttribute('aria-current','page');
+ await page.goBack();await expect(page).toHaveURL(/\/$/);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');
+ await page.goForward();await expect(page).toHaveURL(readerURL);await expect(nav(page,'ホーム')).toHaveAttribute('aria-current','page');
+ await nav(page,'探す').click();await expect(page).toHaveURL(/\/discover$/);await expect(nav(page,'探す')).toHaveAttribute('aria-current','page');
  await page.goto('/techniques');await page.getByTestId('technique-index-row').first().click();
  await expect(nav(page,'探す')).toHaveAttribute('aria-current','page');
 });

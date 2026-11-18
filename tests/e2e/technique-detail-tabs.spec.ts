@@ -13,13 +13,7 @@ for (const width of [320, 390, 430]) {
     expect(Math.abs(boxes[1]!.y - boxes[2]!.y)).toBeLessThan(2);
     expect(boxes[0]!.x + boxes[0]!.width).toBeLessThanOrEqual(boxes[1]!.x + 1);
     expect(boxes[1]!.x + boxes[1]!.width).toBeLessThanOrEqual(boxes[2]!.x + 1);
-    const discover = page.getByRole('list', { name: 'パンくずリスト' }).getByRole('link', { name: '探すへ移動' });
-    await expect(discover).toBeVisible();
-    await expect.poll(async () => {
-      const box = await discover.boundingBox();
-      const lineHeight = await discover.locator('div').last().evaluate(element => parseFloat(getComputedStyle(element).lineHeight));
-      return box!.height <= lineHeight + 1;
-    }).toBe(true);
+    await expect(page.getByRole('list', { name: 'パンくずリスト' })).toHaveCount(0);
     await expect(explanation).toHaveAttribute('aria-selected', 'true');
     await expect(page.getByText('原理と解説')).toBeVisible();
     await expect(page.getByText('今日からできる実践')).toHaveCount(0);
