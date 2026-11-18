@@ -48,6 +48,18 @@ export function getTheoryCoverSummary(summary: string): string {
   return sentenceEnd === -1 ? text : text.slice(0, sentenceEnd + 1);
 }
 
+/** CMSの概要は一文目が定義。格言の文脈注記は定義として扱わない。 */
+export function getRelatedTheoryDefinition(theory: Pick<TheoryCard, 'summary' | 'quotation'>): string {
+  if (theory.quotation) return '';
+  const opening = normalizeDisplayText(theory.summary).split('\n', 1)[0] ?? '';
+  if (/^(例えば|たとえば|例として)[、,\s]/.test(opening)) return '';
+
+  // 引用句や括弧内の句点では文を終えない。長すぎる定義は省く。
+  const sentence = opening.match(/^(?:「[^」]*」|『[^』]*』|（[^）]*）|[^「『（。！？!?])+[。！？!?]+/)?.[0]
+    ?? (/[。！？!?]/.test(opening) ? '' : opening);
+  return sentence.length <= 100 ? sentence : '';
+}
+
 /** 格言の補足は解説ではなく、確認済みの著者・発言者を表示する。 */
 export function getTheoryCardSupplement(theory: Pick<TheoryCard, 'summary' | 'knowledgeType' | 'quotation' | 'quotationAuthor'>): string {
   if (theory.quotation || theory.knowledgeType === 'aphorism') {

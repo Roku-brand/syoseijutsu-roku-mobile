@@ -20,7 +20,7 @@ export function RelatedContentSection({
   description,
   items,
   testID,
-  continuation = false,
+  supportingTextLines = 2,
   tone,
   variant,
 }: {
@@ -28,53 +28,56 @@ export function RelatedContentSection({
   description?: string;
   items: RelatedContentItem[];
   testID?: string;
-  continuation?: boolean;
+  supportingTextLines?: number;
   tone?: 'theory';
-  variant?: 'primary' | 'supplementary' | 'feature' | 'technique';
+  variant?: 'technique-detail';
 }) {
   if (!items.length) return null;
-  const theoretical = tone === 'theory' || variant === 'primary' || variant === 'supplementary';
+  const theoretical = tone === 'theory';
 
   return (
-    <View style={[styles.section, continuation && styles.sectionContinuation, variant && detailStyles.section]}>
+    <View style={[styles.section, variant && detailStyles.section]}>
       <View style={[styles.headingArea, variant && detailStyles.headingArea]}>
         <View style={[styles.heading, variant && detailStyles.heading]}>
           {variant ? <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.goldBar} /> : null}
-          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && !variant && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
-          <View style={[styles.countBadge, theoretical && theoryStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
+          <AppText accessibilityRole="header" aria-level={2} variant="serif" style={[styles.headingText, theoretical && theoryStyles.ink, variant && detailStyles.headingText]}>{title}</AppText>
+          <View style={[styles.countBadge, theoretical && theoryStyles.countBadge, variant && detailStyles.countBadge]}><AppText style={[styles.countText, theoretical && theoryStyles.ink]}>{items.length}</AppText></View>
         </View>
-        {description ? <AppText style={[styles.description, theoretical && theoryStyles.text]}>{description}</AppText> : null}
+        {description ? <AppText style={[styles.description, theoretical && theoryStyles.text, variant && detailStyles.description]}>{description}</AppText> : null}
       </View>
-      <View testID={testID} style={[styles.list, theoretical && theoryStyles.list, variant === 'primary' && detailStyles.primaryList, variant === 'feature' && detailStyles.featureList]}>
-        {items.map((item, index) => (
-          <Link key={item.key} href={item.href} asChild>
-            <Pressable
-              accessibilityRole="link"
-              accessibilityLabel={item.accessibilityLabel ?? `${item.title}を開く`}
-              style={StyleSheet.flatten([
-                styles.row,
-                theoretical && theoryStyles.row,
-                variant === 'primary' && detailStyles.primaryRow,
-                variant === 'supplementary' && detailStyles.compactRow,
-                variant === 'feature' && detailStyles.featureRow,
-                index === items.length - 1 && styles.rowLast,
-              ])}
-            >
-              <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond]} />
-              <View style={styles.copy}>
-                <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink, variant === 'primary' && detailStyles.primaryTitle, variant === 'supplementary' && detailStyles.compactTitle]}>{normalizeDisplayText(item.title)}</AppText>
-                {item.locked ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>完全版で読む</AppText> : null}
-                {item.supportingText ? (
-                  <AppText numberOfLines={2} style={[styles.supporting, theoretical && theoryStyles.text]}>
-                    {normalizeDisplayText(item.supportingText).replace(/\n+/g, ' ')}
-                  </AppText>
-                ) : null}
-                {item.detailText ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>{normalizeDisplayText(item.detailText)}</AppText> : null}
-              </View>
-              <AppText accessibilityElementsHidden style={[styles.chevron, theoretical && theoryStyles.ink]}>›</AppText>
-            </Pressable>
-          </Link>
-        ))}
+      <View testID={testID} style={[styles.list, theoretical && theoryStyles.list, variant && detailStyles.list]}>
+        {items.map((item, index) => {
+          const supportingText = normalizeDisplayText(item.supportingText).replace(/\n+/g, ' ');
+          const hasSupportingText = Boolean(supportingText || item.detailText || item.locked);
+          return (
+            <Link key={item.key} href={item.href} asChild>
+              <Pressable
+                accessibilityRole="link"
+                accessibilityLabel={item.accessibilityLabel ?? `${item.title}を開く`}
+                style={StyleSheet.flatten([
+                  styles.row,
+                  theoretical && theoryStyles.row,
+                  variant && detailStyles.row,
+                  variant && hasSupportingText && detailStyles.rowWithSupportingText,
+                  index === items.length - 1 && styles.rowLast,
+                ])}
+              >
+                <View accessibilityElementsHidden style={[styles.diamond, theoretical && theoryStyles.diamond, variant && detailStyles.diamond]} />
+                <View style={styles.copy}>
+                  <AppText variant="serif" style={[styles.title, theoretical && theoryStyles.ink, variant && detailStyles.title]}>{normalizeDisplayText(item.title)}</AppText>
+                  {item.locked ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>完全版で読む</AppText> : null}
+                  {supportingText ? (
+                    <AppText numberOfLines={supportingTextLines} style={[styles.supporting, theoretical && theoryStyles.text, variant && detailStyles.supporting]}>
+                      {supportingText}
+                    </AppText>
+                  ) : null}
+                  {item.detailText ? <AppText style={[styles.supporting, theoretical && theoryStyles.text]}>{normalizeDisplayText(item.detailText)}</AppText> : null}
+                </View>
+                <AppText accessibilityElementsHidden style={[styles.chevron, theoretical && theoryStyles.ink, variant && detailStyles.chevron]}>›</AppText>
+              </Pressable>
+            </Link>
+          );
+        })}
       </View>
     </View>
   );
@@ -82,7 +85,6 @@ export function RelatedContentSection({
 
 const styles = StyleSheet.create({
   section: { width: '100%', marginTop: 34 },
-  sectionContinuation: { marginTop: 24 },
   headingArea: { marginBottom: 12, paddingHorizontal: 20 },
   heading: { minHeight: 38, flexDirection: 'row', alignItems: 'center', gap: 11 },
   headingText: { color: '#24231E', fontFamily: fonts.serif, fontSize: 22, lineHeight: 32, fontWeight: '700', letterSpacing: 0.7 },
@@ -110,17 +112,19 @@ const theoryStyles = StyleSheet.create({
 });
 
 const detailStyles = StyleSheet.create({
-  section: { marginTop: 28 },
-  headingArea: { paddingHorizontal: 0 },
-  heading: { gap: 9 },
+  section: { marginTop: 0 },
+  headingArea: { paddingHorizontal: 0, marginBottom: 10 },
+  heading: { minHeight: 28, gap: 9 },
   goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
-  headingText: { color: '#24251F', fontSize: 19, lineHeight: 28 },
-  primaryList: { backgroundColor: '#EDF1F0', borderColor: '#B9C9C7' },
-  primaryRow: { minHeight: 118, paddingVertical: 20 },
-  primaryTitle: { fontSize: 21, lineHeight: 31 },
-  compactRow: { minHeight: 76, paddingVertical: 12, paddingLeft: 18, gap: 12 },
-  compactTitle: { fontSize: 16, lineHeight: 24 },
-  featureList: { backgroundColor: '#F7F2EA', borderColor: '#DED4C6' },
-  featureRow: { minHeight: 82, paddingLeft: 20 },
+  headingText: { flexShrink: 1, color: colors.ink, fontSize: 19, lineHeight: 28, letterSpacing: 0.4 },
+  countBadge: { minWidth: 28, minHeight: 28, height: undefined, paddingHorizontal: 7, backgroundColor: '#F3ECDF' },
+  description: { marginTop: 4 },
+  list: { backgroundColor: '#FDFBF7', borderColor: '#DDD3C2' },
+  row: { minHeight: 64, paddingVertical: 14, paddingLeft: 24, paddingRight: 20, gap: 0, borderBottomColor: colors.line },
+  rowWithSupportingText: { minHeight: 82 },
+  diamond: { marginRight: 17 },
+  title: { color: colors.ink, fontSize: 17, lineHeight: 25, letterSpacing: 0.2 },
+  supporting: { marginTop: 2, lineHeight: 18 },
+  chevron: { fontSize: 23, lineHeight: 26, marginLeft: 8 },
 });
 

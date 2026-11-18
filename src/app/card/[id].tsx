@@ -14,6 +14,7 @@ import {
   theoryById,
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
+import { getRelatedTheoryDefinition } from '@/data/theory-display';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { canReadTechnique, canReadTheory } from '@/access/access-config';
@@ -91,12 +92,22 @@ export default function CardDetailScreen() {
   const primaryTheoryIds = new Set(card.primaryTheoryIds ?? card.theoryTagIds ?? []);
   const primaryTheories = relatedTheories.filter((theory) => primaryTheoryIds.has(theory.tagId));
   const supplementaryTheories = relatedTheories.filter((theory) => !primaryTheoryIds.has(theory.tagId));
-  const toTheoryItem = (theory: (typeof relatedTheories)[number]) => ({
-    key: theory.tagId,
-    title: theory.title,
-    supportingText: `${theory.quotation || theory.categoryId === 'classics-thought' ? '思想・言葉による補完｜' : theory.knowledgeType === 'method' ? '実践手法｜' : ''}${theory.quotation?.contextNote ?? theory.summary}`,
-    href: canReadTheory(effectiveAccess, theory.tagId) ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
-  });
+  const toTheoryItem = (theory: (typeof relatedTheories)[number]) => {
+    const readable = canReadTheory(effectiveAccess, theory.tagId);
+    const classification = theory.quotation || theory.categoryId === 'classics-thought'
+      ? '思想・言葉による補完｜'
+      : theory.knowledgeType === 'method' ? '実践手法｜' : '';
+    const supportingText = effectiveAccess === 'paid'
+      ? classification + (theory.quotation?.contextNote ?? theory.summary)
+      : readable ? getRelatedTheoryDefinition(theory) : undefined;
+    return {
+      key: theory.tagId,
+      title: theory.title,
+      supportingText,
+      href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
+    };
+  };
+  const theorySupportingTextLines = effectiveAccess === 'paid' ? 2 : 0;
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
 
@@ -235,32 +246,37 @@ export default function CardDetailScreen() {
         </>}
 
         {tab === 'related' && <>
-        <View testID="related-theories">
+        <View style={styles.relatedContent}>
+          {relatedTheories.length > 0 && (
+            <View testID="related-theories" style={styles.relatedSections}>
+              <RelatedContentSection
+                variant="technique-detail"
+                title="主要理論"
+                description="理解の入口となる代表的な理論"
+                testID="primary-theories"
+                items={primaryTheories.map(toTheoryItem)}
+                supportingTextLines={theorySupportingTextLines}
+              />
+              <RelatedContentSection
+                variant="technique-detail"
+                title="あわせて読む理論"
+                description="実践を補う知識や、別の視点を与える思想・言葉"
+                testID="supplementary-theories"
+                items={supplementaryTheories.map(toTheoryItem)}
+                supportingTextLines={theorySupportingTextLines}
+              />
+            </View>
+          )}
+
+          <RelatedFeatures kind="technique" id={card.id} />
+
           <RelatedContentSection
-            variant="primary"
-            title="主要理論"
-            description="理解の入口となる代表的な理論"
-            testID="primary-theories"
-            items={primaryTheories.map(toTheoryItem)}
-          />
-          <RelatedContentSection
-            variant="supplementary"
-            title="あわせて読む理論"
-            description="実践を補う知識や、別の視点を与える思想・言葉"
-            testID="supplementary-theories"
-            continuation
-            items={supplementaryTheories.map(toTheoryItem)}
+            variant="technique-detail"
+            title="関連する処世術"
+            testID="related-techniques"
+            items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, supportingText: relatedCard.essence ?? relatedCard.subtitle, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
           />
         </View>
-
-        <RelatedFeatures kind="technique" id={card.id} />
-
-        <RelatedContentSection
-          variant="technique"
-          title="関連する処世術"
-          testID="related-techniques"
-          items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, supportingText: relatedCard.essence ?? relatedCard.subtitle, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
-        />
 
         {!!card.tags?.length && (
           <ArticleSection title="タグ">
@@ -434,6 +450,8 @@ const styles = StyleSheet.create({
   tabSelected: { borderBottomColor: '#A47B2F' },
   tabText: { color: '#55534E', fontSize: 14, fontWeight: '600' },
   tabTextSelected: { color: '#9A7127' },
+  relatedContent: { paddingTop: 12, gap: 24 },
+  relatedSections: { gap: 24 },
   section: { marginTop: 24 },
   sectionRuled: {
     paddingTop: 19,
