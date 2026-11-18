@@ -79,9 +79,16 @@ test('完全版の関連知識は分類と概要を表示し、完全版理論�
   await expect(method).toContainText('実践手法｜');
   await expect(method).toContainText(theories.find((theory: { tagId: string }) => theory.tagId === 'kb_412').summary.split('\n')[0]);
   const techniques = page.getByTestId('related-techniques');
-  await expect(techniques.getByRole('link')).toHaveCount(4);
-  await expect(page.getByRole('heading', { name: '関連する処世術' }).locator('..').getByText('4', { exact: true })).toBeVisible();
-  await expect(techniques).toHaveCSS('background-color', 'rgb(253, 251, 247)');
+  const techniqueRows = techniques.getByRole('link');
+  await expect(techniqueRows).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: '関連する処世術' }).locator('..').getByText('全 4 件', { exact: true })).toBeVisible();
+  await expect(page.getByText('あわせて身につけたい実践知')).toBeVisible();
+  for (const [index, row] of (await techniqueRows.all()).entries()) {
+    const label = (await row.getAttribute('aria-label'))!;
+    const title = label.replace(/を開く$/, '');
+    const number = String(index + 1).padStart(2, '0');
+    await expect(row).toHaveText(`${number}${title}›`);
+  }
   await page.getByTestId('technique-detail-scroll').evaluate(node => {
     node.scrollTop += node.querySelector('[data-testid="technique-detail-tabs"]')!.getBoundingClientRect().top - node.getBoundingClientRect().top;
   });
