@@ -13,14 +13,13 @@ import { LockedPreview } from '@/components/locked-preview';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { catalogTheme, colors, fonts, radius } from '@/constants/theme';
 import { getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
-import { getTheoryCategoryLabel, getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
+import { getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
 import { getTheoryPath } from '@/data/theory-taxonomy';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { recordContentEvent } from '@/lib/content-events';
 import { useAppState } from '@/state/app-state';
-import { SeoBreadcrumbs } from '@/components/seo-breadcrumbs';
 import { RelatedContentSection } from '@/components/related-content-list';
 import { RelatedFeatures } from '@/components/related-features';
 import { contentImageUrl } from '@/lib/content-media';
@@ -92,12 +91,6 @@ export default function TheoryDetailScreen() {
   return (
     <Screen style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
       <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
-        <SeoBreadcrumbs tone="theory" items={[
-          { label: '探す', href: '/discover' },
-          { label: '理論', href: '/theories' },
-          { label: getTheoryCategoryLabel(theory), href: { pathname: '/theories', params: { category: theory.categoryId } } },
-          { label: normalizeDisplayText(theory.title) },
-        ]} />
         <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
           <View testID="theory-meta" style={styles.metaRow}>
             <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
@@ -183,10 +176,10 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
 const blue = catalogTheme.theory;
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.paper },
-  screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 24, paddingBottom: 132 },
-  screenContentCompact: { paddingHorizontal: 16, paddingTop: 18 },
+  screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 12, paddingBottom: 132 },
+  screenContentCompact: { paddingHorizontal: 16 },
   article: { width: '100%', maxWidth: 820, alignSelf: 'center' },
-  titleRegion: { paddingHorizontal: 0, paddingTop: 2 },
+  titleRegion: { paddingHorizontal: 0 },
   metaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
   number: { color: blue.text, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, letterSpacing: 1.4 },
   categoryTag: { paddingHorizontal: 13, paddingVertical: 5, borderWidth: 1, borderColor: blue.border, borderRadius: radius.pill, backgroundColor: blue.inactive },
