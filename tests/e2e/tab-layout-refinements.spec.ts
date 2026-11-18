@@ -61,18 +61,26 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test('background theme is the fourth account item', async ({ page }) => {
+test('guest account settings open signup and signin and keep the theme fourth', async ({ page }) => {
   await page.goto('/settings');
   const links = page.getByRole('button');
   const theme = page.getByRole('button', { name: /^背景テーマ/ });
   await expect(theme).toBeVisible();
   const titles = await theme.evaluate(node => Array.from(node.parentElement!.children).map(child => child.textContent));
   expect(titles).toHaveLength(4);
-  expect(titles[0]).toContain('プロフィール');
-  expect(titles[1]).toContain('ログイン情報・パスワード');
+  expect(titles[0]).toContain('アカウントを作成する');
+  expect(titles[1]).toContain('ログインする');
   expect(titles[2]).toContain('完全版');
   expect(titles[3]).toContain('背景テーマ');
   await expect(links.filter({ hasText: '背景テーマ' })).toHaveCount(1);
+  await page.getByRole('button', { name: /^アカウントを作成する/ }).click();
+  await expect(page).toHaveURL(/\/auth\?mode=signup$/);
+  await expect(page.getByRole('checkbox', { name: '利用規約とプライバシーポリシーを確認して同意する' })).toBeVisible();
+  await page.goBack();
+  await page.getByRole('button', { name: /^ログインする/ }).click();
+  await expect(page).toHaveURL(/\/auth\?mode=signin$/);
+  await expect(page.getByRole('button', { name: /新規登録はこちら/ })).toBeVisible();
+  await page.goBack();
   await theme.click();
   await expect(page).toHaveURL(/\/settings\/background$/);
 });

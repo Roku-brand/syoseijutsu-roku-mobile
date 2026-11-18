@@ -41,13 +41,14 @@ test('設定からアプリ設定とホーム画面への追加を削除する',
   await expect(page.getByText('アプリ設定', { exact: true })).toHaveCount(0);
 });
 
-test('my page keeps the guest profile entry compact', async ({ page }) => {
+test('my page shows one account entry for guests', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/my-os');
 
   await expect(page.getByTestId('account-membership-card')).toHaveCount(1);
-  await expect(page.getByTestId('account-membership-card')).toContainText('プロフィールを設定');
-  await expect(page.getByTestId('account-membership-card')).toHaveAttribute('aria-label', 'ログインしてプロフィールを設定');
+  await expect(page.getByRole('button', { name: 'アカウント作成・ログイン', exact: true })).toHaveCount(1);
+  await expect(page.getByTestId('account-membership-card')).toContainText('アカウント作成・ログイン');
+  await expect(page.getByRole('button', { name: 'プロフィールを編集' })).toHaveCount(0);
   await expect(page.getByTestId('account-complete-cta')).toHaveCount(0);
 });
 
@@ -365,7 +366,7 @@ test('探すは検索と人物像・理論への入口から始まる', async ({
   await page.goto('/discover');
   await expect(page.getByRole('button', { name: '処世術・理論・特集を検索' })).toBeVisible();
   await expect(page.getByRole('heading', { name: '処世術を探す', level: 2 })).toBeVisible();
-  await expect(page.getByTestId('discover-techniques-section').getByRole('heading', { name: '人物像から探す', level: 3 })).toBeVisible();
+  await expect(page.getByTestId('discover-technique-grid').getByRole('link')).toHaveCount(3);
   await expect(page.getByRole('heading', { name: '理論を探す', level: 2 })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'よく見られる検索' })).toBeVisible();
   await expect(page.getByRole('button', { name: '第一印象を検索' })).toBeVisible();
@@ -852,10 +853,11 @@ test('理論一覧の検索は右上からポップアップを開く', async ({
 test('ゲストのマイページからログイン導線を直接開ける', async ({ page }) => {
   await page.goto('/my-os');
   const account = page.getByTestId('account-membership-card');
-  await expect(account).toHaveAttribute('aria-label', 'ログインしてプロフィールを設定');
-  await expect(account).toContainText('プロフィールを設定');
+  await expect(account).toHaveAccessibleName('アカウント作成・ログイン');
+  await expect(account).toContainText('アカウント作成・ログイン');
   await account.click();
   await expect(page).toHaveURL(/\/auth\?mode=signin/);
+  await expect(page.getByRole('button', { name: /新規登録はこちら/ })).toBeVisible();
 });
 
 test('カードデッキは前後操作で同じ一枚へ戻れる', async ({ page }) => {

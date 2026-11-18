@@ -17,18 +17,22 @@ import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 import { formatRemainingAccess } from '@/lib/purchase';
 import { usePersonalMemoRoute } from '@/hooks/use-personal-memo-route';
 const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.webp');
+const guestAccountLabel = 'アカウント作成・ログイン';
 
 export default function MyPageContent() {
   const router = useRouter();
   const { composeRequested, onComposeHandled } = usePersonalMemoRoute();
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
+  const narrow = width > 0 && width < 360;
   const { user, profile, loading: authLoading } = useAuth();
   const { accessState, accessInfo, isPaid } = useAccess();
   const { personalPrinciple, updatePersonalPrinciple } = useAppState();
   const [principleEditing, setPrincipleEditing] = useState(false);
   const [principleDraft, setPrincipleDraft] = useState(personalPrinciple);
-  const displayName = authLoading ? 'プロフィールを確認中' : profile?.displayName ?? suggestedName(user?.email);
+  const displayName = authLoading
+    ? 'プロフィールを確認中'
+    : user ? profile?.displayName ?? suggestedName(user.email) : guestAccountLabel;
   const badge = accessState === 'checking' ? '利用状態を確認中'
     : accessState === 'error' ? '利用状態を確認できません'
     : accessInfo.status === 'expired' ? '利用期間終了'
@@ -43,22 +47,23 @@ export default function MyPageContent() {
             <Pressable
               testID="account-membership-card"
               accessibilityRole="button"
-              accessibilityLabel={user ? 'プロフィールを編集' : 'ログインしてプロフィールを設定'}
+              accessibilityLabel={user ? 'プロフィールを編集' : guestAccountLabel}
               onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
               style={({ pressed }) => [styles.identity, mobile && styles.identityMobile, pressed && styles.pressed]}
             >
               <ProfileMark avatarUrl={profile?.avatarUrl} />
               <View style={[styles.identityCopy, mobile && styles.identityCopyMobile]}>
-                <AppText numberOfLines={2} style={[styles.profileName, mobile && styles.profileNameMobile]}>{displayName}</AppText>
+                <AppText numberOfLines={2} style={[styles.profileName, mobile && styles.profileNameMobile, mobile && !user && styles.guestAccountNameMobile, narrow && !user && styles.guestAccountNameNarrow]}>{displayName}</AppText>
                 <View style={[styles.membershipBadge, mobile && styles.membershipBadgeMobile]}>{isPaid ? <AppText accessibilityElementsHidden style={styles.crown}>♛</AppText> : null}<AppText style={[styles.membershipBadgeText, mobile && styles.membershipBadgeTextMobile]}>{badge}</AppText></View>
               </View>
+              {!user ? <AppText accessibilityElementsHidden aria-hidden style={styles.profileEditText}>›</AppText> : null}
             </Pressable>
-            <Pressable
+            {user ? <Pressable
               accessibilityRole="button"
-              accessibilityLabel={user ? 'プロフィールを編集' : 'ログインしてプロフィールを設定'}
-              onPress={() => router.push(user ? APP_ROUTES.profile : signInRoute())}
+              accessibilityLabel="プロフィールを編集"
+              onPress={() => router.push(APP_ROUTES.profile)}
               style={({ pressed }) => [styles.profileEdit, mobile && styles.profileEditMobile, pressed && styles.pressed]}
-            ><AppText style={[styles.profileEditText, mobile && styles.profileEditTextMobile]}>{mobile ? '編集 ›' : '✎　編集　›'}</AppText></Pressable>
+            ><AppText style={[styles.profileEditText, mobile && styles.profileEditTextMobile]}>{mobile ? '編集 ›' : '✎　編集　›'}</AppText></Pressable> : null}
           </View>
           <View style={styles.profileDivider} />
           <View
@@ -145,6 +150,8 @@ const styles = StyleSheet.create({
   profileImage: { width: '100%', height: '100%' },
   profileName: { maxWidth: '100%', color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600', letterSpacing: 3 },
   profileNameMobile: { fontSize: 22, lineHeight: 31 },
+  guestAccountNameMobile: { fontSize: 19, lineHeight: 27, letterSpacing: 0.5 },
+  guestAccountNameNarrow: { fontSize: 17, lineHeight: 25, letterSpacing: 0 },
   membershipBadge: { maxWidth: '100%', paddingHorizontal: 13, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#C9974A', borderRadius: radius.pill, backgroundColor: '#FFFDF9' },
   membershipBadgeText: { flexShrink: 1, color: colors.goldDeep, fontSize: 13, lineHeight: 21, fontWeight: '600' },
   profileEdit: { minHeight: 54, paddingHorizontal: 24, borderWidth: 1, borderColor: colors.line, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
