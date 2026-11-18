@@ -6,6 +6,12 @@ const articles=read('tests/fixtures/content-network-features.json').map((f:any)=
 const theories=read('src/data/generated/theories.json');
 const categories=read('src/data/generated/techniques.json').categories;
 const techniques=categories.flatMap((c:any)=>c.subcategories.flatMap((p:any)=>p.items.map((t:any)=>({...t,categoryKey:c.key,categoryName:c.name,subcategory:p.name,articleTitle:p.name}))));
+const lockedTechniqueIds = new Set<string>(read('src/data/generated/techniques.public.json').categories.flatMap(
+  (category: { subcategories: { items: { id: string; status?: string }[] }[] }) =>
+    category.subcategories.flatMap(group => group.items.filter(item => item.status === 'locked').map(item => item.id)),
+));
+const freeLearningIds = new Set<string>(read('src/data/generated/learning.public.json').map((item: { id: string }) => item.id));
+const paidLearning = read('src/data/generated/learning.full.json').filter((item: { id: string }) => !freeLearningIds.has(item.id));
 async function mock(page:Page,paid=false,items=articles){
  const metadata:string[]=[];
  if(paid){
@@ -18,8 +24,12 @@ async function mock(page:Page,paid=false,items=articles){
  await page.route('**/functions/v1/**',r=>{
   const u=new URL(r.request().url());
   if(u.pathname.endsWith('/access'))return r.fulfill({json:{access:'active',accessType:'thirty_day',accessExpiresAt:'2099-01-01T00:00:00Z'}});
-  const theory=u.searchParams.get('type')==='theory';
-  return r.fulfill({json:{items:(theory?theories:techniques).filter((t:any)=>t.accessTier==='complete').map((t:any)=>({content_type:theory?'theory':'technique',content_id:t.tagId??t.id,payload:t}))}});
+  if (!paid) return r.fulfill({ status: 403, json: { message: 'Complete edition required' } });
+  const type = u.searchParams.get('type');
+  const rows = type === 'theory' ? theories.filter((item: { accessTier?: string }) => item.accessTier === 'complete')
+    : type === 'technique' ? techniques.filter((item: { id: string }) => lockedTechniqueIds.has(item.id))
+    : type === 'learning' ? paidLearning : [];
+  return r.fulfill({ json: { items: rows.map((item: { id?: string; tagId?: string }) => ({ content_type: type, content_id: item.tagId ?? item.id, payload: item })) } });
  });
  await page.route('**/rest/v1/**',r=>{
   const u=new URL(r.request().url());
@@ -55,6 +65,29 @@ test('年齢の特集と社会的時計の接続は完全版でも往復でき�
  await page.getByRole('link',{name:/社会的時計/}).click();
  await expect(page.getByTestId('theory-title').filter({visible:true})).toHaveCount(1);
  await expect(page.getByTestId('theory-title').filter({visible:true})).toHaveText('社会的時計');
+});
+
+test('完全版の関連知識は分類と概要を表示し、完全版理論へ遷移できる', async ({ page }) => {
+  await mock(page, true);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/card/master336-009');
+  await page.getByRole('tab', { name: '関連知識' }).click();
+  const primary = page.getByTestId('primary-theories');
+  await expect(primary).toContainText('最近困っていることを少し話すと');
+  const method = page.getByTestId('supplementary-theories').getByRole('link', { name: 'アクティブリスニングを開く' });
+  await expect(method).toHaveAttribute('href', '/theory/kb_412');
+  await expect(method).toContainText('実践手法｜');
+  await expect(method).toContainText(theories.find((theory: { tagId: string }) => theory.tagId === 'kb_412').summary.split('\n')[0]);
+  const techniques = page.getByTestId('related-techniques');
+  await expect(techniques.getByRole('link')).toHaveCount(4);
+  await expect(page.getByRole('heading', { name: '関連する処世術' }).locator('..').getByText('4', { exact: true })).toBeVisible();
+  await expect(techniques).toHaveCSS('background-color', 'rgb(253, 251, 247)');
+  await page.getByTestId('technique-detail-scroll').evaluate(node => {
+    node.scrollTop += node.querySelector('[data-testid="technique-detail-tabs"]')!.getBoundingClientRect().top - node.getBoundingClientRect().top;
+  });
+  await page.screenshot({ path: test.info().outputPath('related-knowledge-complete-390.png') });
+  await method.click();
+  await expect(page.getByTestId('theory-title').filter({ visible: true })).toHaveText('アクティブリスニング', { timeout: 15_000 });
 });
 
 test('未指定の特集を関連として補充せず、完全版の本文も無料ページへ出さない',async({page})=>{

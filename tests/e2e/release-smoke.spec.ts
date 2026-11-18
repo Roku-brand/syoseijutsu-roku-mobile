@@ -221,7 +221,8 @@ test('処世術詳細の関連理論と関連処世術も同じボックスで�
   expect(theoryBox).not.toBeNull();
   expect(techniqueBox).not.toBeNull();
   expect(theoryBox!.width).toBeGreaterThan(1000);
-  expect(theoryBox!.height).toBeGreaterThanOrEqual(94);
+  expect(theoryBox!.height).toBeGreaterThanOrEqual(82);
+  expect(theoryBox!.height).toBeLessThanOrEqual(110);
   expect(Math.abs(theoryBox!.width - techniqueBox!.width)).toBeLessThan(2);
 });
 
