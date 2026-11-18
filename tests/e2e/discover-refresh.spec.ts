@@ -13,7 +13,7 @@ for (const width of [320, 390, 768, 1440]) test(`探すの二本柱・画像・�
   await page.setViewportSize({ width, height: 960 });
   await page.goto('/discover');
   await expect(page.getByRole('heading', { level: 2 })).toHaveText(['処世術を探す', '理論を探す']);
-  await expect(page.getByTestId('discover-techniques-section').getByRole('heading', { level: 3 })).toHaveText('人物像から探す');
+  await expect(page.getByTestId('discover-techniques-section').getByText('人物像から探す', { exact: true })).toHaveCount(0);
   await expect(page.getByTestId('discover-destinations')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'カテゴリから探す' })).toHaveCount(0);
   const search = page.getByTestId('discover-search');

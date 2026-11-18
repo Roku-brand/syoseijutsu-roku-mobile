@@ -19,20 +19,18 @@ export default function SettingsScreen() {
   const { clearPersonalData } = useAppState();
   const { openGuide } = useGuides();
   const version = Constants.expoConfig?.version ?? '1.0.0';
-  const profileDetail = user
-    ? profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'
-    : 'ログイン後に、表示名とプロフィールを設定できます';
 
   return (
     <Screen contentContainerStyle={styles.content}>
       <SettingsSection title="アカウント" />
       <SettingsGroup>
-        <SettingLink title="プロフィール" detail={profileDetail} href={user ? APP_ROUTES.profile : signInRoute()} />
-        <SettingLink
-          title="ログイン情報・パスワード"
-          detail={user ? user.email ?? 'ログイン情報を確認・変更します' : 'ログインまたはアカウントを作成します'}
-          href={user ? APP_ROUTES.auth : signInRoute()}
-        />
+        {user ? <>
+          <SettingLink title="プロフィール" detail={profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'} href={APP_ROUTES.profile} />
+          <SettingLink title="ログイン情報・パスワード" detail={user.email ?? 'ログイン情報を確認・変更します'} href={APP_ROUTES.auth} />
+        </> : <>
+          <SettingLink title="アカウントを作成する" href={{ pathname: APP_ROUTES.auth, params: { mode: 'signup' } }} />
+          <SettingLink title="ログインする" href={signInRoute()} />
+        </>}
         <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}

@@ -74,6 +74,11 @@ test('利用期間終了の表示は既存の期限判定を使う', async ({ pa
   await expect(page.getByTestId('upgrade-purchase-cta')).toContainText('もう一度');
   await page.goto('/my-os');
   await expect(page.getByTestId('account-membership-card')).toContainText('利用期間終了');
+  await expect(page.getByTestId('account-membership-card')).toHaveAccessibleName('プロフィールを編集');
+  await page.goto('/settings');
+  await expect(page.getByRole('button', { name: /^プロフィール/ })).toContainText('学びの記録');
+  await expect(page.getByRole('button', { name: /^ログイン情報・パスワード/ })).toBeVisible();
+  await expect(page.getByRole('button', { name: /^アカウントを作成する/ })).toHaveCount(0);
 });
 
 for (const width of [320, 390, 430, 1440]) {

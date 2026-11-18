@@ -52,8 +52,7 @@ export default function DiscoverScreen() {
       <View testID="discover-techniques-section" style={styles.techniqueSection}>
         <BrandSectionHeading title="処世術を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての処世術を見る" onAction={() => router.push(APP_ROUTES.techniques)} />
         <AppText style={styles.sectionDescription}>どのように行動するか</AppText>
-        <AppText accessibilityRole="header" aria-level={3} style={styles.subheading}>人物像から探す</AppText>
-        <View testID="discover-technique-grid" style={[styles.grid, compact && styles.techniqueGridCompact]}>
+        <View testID="discover-technique-grid" style={[styles.grid, styles.techniqueGrid, compact && styles.techniqueGridCompact]}>
           {techniqueCards}
         </View>
       </View>
@@ -90,8 +89,8 @@ const styles = StyleSheet.create({
   searchSubmitText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 14, fontWeight: '700' },
   techniqueSection: { marginTop: 28 },
   sectionDescription: { marginTop: 5, color: colors.muted, fontSize: 13, lineHeight: 20 },
-  subheading: { marginTop: 18, marginBottom: 12, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 17, lineHeight: 25, fontWeight: '600' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
+  techniqueGrid: { marginTop: 18 },
   gridCard: { width: '30%', flexGrow: 1, flexShrink: 1 },
   techniqueGridCompact: { gap: 8, flexWrap: 'nowrap' },
   theorySection: { marginTop: 36 }, theoryGrid: { marginTop: 18 },
