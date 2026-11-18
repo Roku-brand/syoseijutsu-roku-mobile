@@ -1,11 +1,12 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
+import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
 import { useRouter } from 'expo-router';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTechniqueDisplayId, getTheoryDisplayId, getTheoryCategoryTitle } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
 import type { ReadingContent } from '@/data/reading-recommendations';
 import { contentImageUrl } from '@/lib/content-media';
+import { layoutTechniqueTitle } from '@/lib/technique-title-layout';
 import { techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHomeDiscovery } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
@@ -38,9 +39,40 @@ function imageFor(item: ReadingContent) {
   return { fallback, source: uri ? { uri } : fallback };
 }
 
-export function HomeRecommendationDeck({ cardWidth, cardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
+export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
   const deck = useHomeDiscovery();
   const { desktop, width: viewportWidth } = useResponsiveLayout();
+  const { fontScale } = useWindowDimensions();
+  const [fontRevision, setFontRevision] = useState(0);
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    let disposed = false;
+    const update = () => { if (!disposed) setFontRevision(value => value + 1); };
+    void document.fonts?.ready.then(update);
+    document.fonts?.addEventListener('loadingdone', update);
+    return () => { disposed = true; document.fonts?.removeEventListener('loadingdone', update); };
+  }, []);
+  // Keep all seven slots the same height. Rare long titles can use additional
+  // lines without clipping or moving the shortcut shelf on every swipe.
+  const cardHeight = useMemo(() => {
+    const compact = night && !desktop;
+    const baseSize = compact ? 24 : 25;
+    const ratio = compact ? 33 / 24 : 34 / 25;
+    const width = cardWidth - 2 - (compact ? 28 : 34);
+    const context = Platform.OS === 'web' && typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
+    const tallest = deck.items.reduce((height, item) => {
+      if (!item) return height;
+      const layout = layoutTechniqueTitle(item.card.title, width, baseSize, 17, (text, size) => {
+        if (context) { context.font = `700 ${size}px ${fonts.serif}`; return context.measureText(text).width + Math.max(0, [...text].length - 1) * .15; }
+        return [...text].reduce((sum, char) => sum + (/^[\x20-\x7e]$/.test(char) ? .6 : 1), 0) * size * fontScale + Math.max(0, [...text].length - 1) * .15;
+      });
+      return Math.max(height, layout.lines.length * Math.ceil(layout.fontSize * ratio));
+    }, 0);
+    // Borders, padding, metadata, rule, up to three quote lines and the photo's
+    // minimum height must all fit, including when a title needs extra lines.
+    const otherContent = 2 + (compact ? 26 : 32) + 24 + 24 + 5 + 26 + 69 + 17 + (compact ? 100 : 110);
+    return Math.max(baseCardHeight, otherContent + Math.ceil(tallest * fontScale) + Math.ceil(Math.max(0, fontScale - 1) * 117));
+  }, [baseCardHeight, cardWidth, deck.items, desktop, fontScale, fontRevision, night]);
   const root = useRef<View>(null);
   const router = useRouter();
   const reduced = useReducedMotion();
@@ -253,7 +285,7 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
     <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
       <View style={styles.cardTop}><Text style={[styles.badge, { backgroundColor: accent }]}>{label}</Text><Text testID={active ? 'home-deck-context' : undefined} numberOfLines={1} accessibilityLabel={`${theoretical ? '理論分類' : '人物像'}：${context}`} style={styles.cardKind}>{context}</Text></View>
       <Text testID={active ? 'home-deck-number' : undefined} style={styles.cardNumber}>{theoretical ? getTheoryDisplayId(item.card) : getTechniqueDisplayId(item.card)}</Text>
-      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={17} maxLines={2} style={[styles.title, compact && styles.compactTitle]} />
+      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={17} style={[styles.title, compact && styles.compactTitle]} />
       <View style={styles.titleRule}><View style={styles.ruleAccent} /><View style={styles.ruleRest} /></View>
       <View style={styles.quotation}>
         <Text accessible={false} style={styles.quoteMark}>“</Text>

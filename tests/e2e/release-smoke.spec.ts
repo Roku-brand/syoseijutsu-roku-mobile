@@ -921,8 +921,9 @@ test('スマホの編集部の特集は横長カードで見せる',async({page}
   await page.setViewportSize({width:390,height:844});
   await page.goto('/');
   await startFreeHome(page);
-  const box=(await page.getByTestId('home-editorial-section').locator('[data-testid="home-editorial-card"], [data-testid="home-editorial-fallback"]').first().boundingBox())!;
-  expect(box.width/box.height).toBeGreaterThan(1.4);
+  const card=page.getByTestId('home-editorial-section').locator('[data-testid="home-editorial-card"], [data-testid="home-editorial-fallback"]').first();
+  // The recommendation deck can be ready before the independent CMS shelf.
+  await expect.poll(async()=>{const box=await card.boundingBox();return box ? box.width/box.height : 0;}).toBeGreaterThan(1.4);
 });
 
 test('編集部の特集は320pxとPCでも画面外にはみ出さない',async({page})=>{
