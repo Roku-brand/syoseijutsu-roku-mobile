@@ -11,7 +11,6 @@ import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
 import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 import { useGuides } from '@/onboarding/guide-provider';
-import { SUPPORT_EMAIL } from '@/data/legal-documents';
 
 export default function SettingsScreen() {
   const { theme: backgroundTheme } = useHomeAppearance();
@@ -57,7 +56,7 @@ export default function SettingsScreen() {
         {isPaid ? <SettingLink title="完全版の使い方" detail="解放された人物像・処世術・理論・学習のご案内" onPress={() => openGuide('complete')} /> : null}
         <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />
-        <SettingLink title="お問い合わせ" detail={SUPPORT_EMAIL} onPress={() => void Linking.openURL(`mailto:${SUPPORT_EMAIL}`)} last />
+        <SettingLink title="お問い合わせ" detail="shosezyutsu6@gmail.com" onPress={() => void Linking.openURL('mailto:shosezyutsu6@gmail.com')} last />
       </SettingsGroup>
 
       <SettingsSection title="記録の保存" />
