@@ -4,7 +4,7 @@ import iosTermsHistory from './generated/terms-history-ios.json';
 export const TERMS_VERSION = '3.4';
 export const PRIVACY_VERSION = '2.1';
 export const LEGAL_REVISED_DATE = '2026年10月29日';
-export const SUPPORT_EMAIL = 'shosezyutsu6@gmail.com';
+export const SUPPORT_EMAIL = 'shoseizyutsuroku@gmail.com';
 export const WEB_PURCHASE_NOTICE = '完全版1件・320円（税込）。一回払い・自動更新なし。決済成功から30日間（30×24時間）、購入したアカウントで利用できます。通信費はお客様負担です。提供開始後の購入者都合の取消し・返品・返金は原則受け付けません。重複決済・未提供・契約不適合・法令上の権利は除きます。';
 export type LegalSection = { title: string; paragraphs: string[]; links?: { title: string; url: string }[] };
 export type LegalDocument = { title: string; lead: string; sections: LegalSection[] };
