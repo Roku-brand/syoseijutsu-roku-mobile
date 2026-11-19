@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 import scope from '../src/data/content-scope.json' with { type: 'json' };
-import { mapTheoryDisplayIds } from './public-content-portfolio.mjs';
+import { isProductTechnique, mapTheoryDisplayIds } from './public-content-portfolio.mjs';
 import { selectPublicContent } from './public-content-selection.mjs';
 
 const generated = path.resolve('src/data/generated');
@@ -26,14 +26,23 @@ const actualFreePersonas = new Set([...freeTechniqueIds].map((id) => techniqueLo
 if (actualFreePersonas.size !== expectedFreePersonas.size || [...actualFreePersonas].some((name) => !expectedFreePersonas.has(name))) {
   throw new Error(`Unexpected free personas: ${[...actualFreePersonas].join(', ')}`);
 }
-for (const category of techniques.categories) for (const persona of category.subcategories) {
-  const activeIds = persona.items.filter((item) => techniqueLocation.has(item.id)).map((item) => item.id);
-  const selectedCount = activeIds.filter((id) => freeTechniqueIds.has(id)).length;
-  if (expectedFreePersonas.has(persona.name) && selectedCount !== activeIds.length) {
-    throw new Error(`Free persona is only partially readable: ${persona.name} (${selectedCount}/${activeIds.length})`);
+for (const category of techniques.categories) {
+  const activePersonas = category.subcategories.filter((persona) => persona.items.some(isProductTechnique));
+  const expectedCount = Math.ceil(activePersonas.length / 2);
+  const freeCount = activePersonas.filter((persona) => expectedFreePersonas.has(persona.name)).length;
+  if (freeCount !== expectedCount) {
+    throw new Error(`Expected ${expectedCount} free personas in ${category.key}; found ${freeCount}.`);
   }
-  if (!expectedFreePersonas.has(persona.name) && selectedCount) {
-    throw new Error(`Locked persona exposes free techniques: ${persona.name}`);
+
+  for (const persona of activePersonas) {
+    const activeIds = persona.items.filter(isProductTechnique).map((item) => item.id);
+    const selectedCount = activeIds.filter((id) => freeTechniqueIds.has(id)).length;
+    if (expectedFreePersonas.has(persona.name) && selectedCount !== activeIds.length) {
+      throw new Error(`Free persona is only partially readable: ${persona.name} (${selectedCount}/${activeIds.length})`);
+    }
+    if (!expectedFreePersonas.has(persona.name) && selectedCount) {
+      throw new Error(`Locked persona exposes free techniques: ${persona.name}`);
+    }
   }
 }
 

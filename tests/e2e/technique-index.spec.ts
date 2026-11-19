@@ -1,8 +1,30 @@
 import { expect, test } from '@playwright/test';
+import scope from '../../src/data/content-scope.json';
+
+const techniqueCount = scope.complete.techniques;
+const excludedDisplayIds = new Set(scope.excludedTechniqueIds.map((id) => id.replace('master336-', 'No.')));
+const firstPageDisplayIds = Array.from({ length: 100 + excludedDisplayIds.size }, (_, i) => `No.${String(i + 1).padStart(3, '0')}`)
+  .filter((id) => !excludedDisplayIds.has(id))
+  .slice(0, 100);
 
 test.beforeEach(async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.route('**/functions/v1/**', route => route.fulfill({ status: 503, json: {} }));
+});
+
+test('各術で追加された無料処世術を解説まで読め、対象外は完全版のまま', async ({ page }) => {
+  for (const [id, title] of [
+    ['master336-015', '会話は内容よりテンポ'],
+    ['master336-201', '様々なことに興味を持つ'],
+    ['master336-279', '面倒くささより好奇心を優先する'],
+  ]) {
+    await page.goto(`/card/${id}`);
+    await expect(page.getByTestId('technique-detail-title')).toHaveText(title);
+    await expect(page.getByText('原理と解説', { exact: true })).toBeVisible();
+  }
+  await page.goto('/card/master336-211');
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
+  await expect(page.getByText('原理と解説', { exact: true })).toHaveCount(0);
 });
 
 test('処世術一覧は見出しのすべて見るからスマホとPCで開ける', async ({ page }) => {
@@ -19,9 +41,9 @@ test('処世術一覧は見出しのすべて見るからスマホとPCで開け
     await link.click();
     await expect(page).toHaveURL(/\/techniques$/);
     await expect(page.getByTestId('book-header')).toContainText('処世術一覧');
-    await expect(page.getByTestId('technique-index-count')).toHaveText('356件');
+    await expect(page.getByTestId('technique-index-count')).toHaveText(`${techniqueCount}件`);
     await expect(page.getByTestId('technique-index-row')).toHaveCount(100);
-    expect(await page.getByTestId('technique-index-id').allTextContents()).toEqual(Array.from({ length: 100 }, (_, i) => `No.${String(i + 1).padStart(3, '0')}`));
+    expect(await page.getByTestId('technique-index-id').allTextContents()).toEqual(firstPageDisplayIds);
     const [firstRow, firstId] = await Promise.all([page.getByTestId('technique-index-row').first().boundingBox(), page.getByTestId('technique-index-id').first().boundingBox()]);
     expect(firstRow!.height).toBeLessThanOrEqual(140);
     expect(Math.abs(firstId!.y + firstId!.height / 2 - firstRow!.y - firstRow!.height / 2)).toBeLessThan(2);
@@ -32,8 +54,8 @@ test('処世術一覧は見出しのすべて見るからスマホとPCで開け
 
 test('通しID検索とページ送りは固定番号を保ち、詳細と完全版の制限に接続する', async ({ page }) => {
   await page.goto('/techniques?page=4');
-  await expect(page.getByTestId('technique-index-row')).toHaveCount(56);
-  await expect(page.getByTestId('technique-index-id').first()).toHaveText('No.301');
+  await expect(page.getByTestId('technique-index-row')).toHaveCount(techniqueCount - 300);
+  await expect(page.getByTestId('technique-index-id').first()).toHaveText('No.307');
   await expect(page.getByTestId('technique-index-id').last()).toHaveText('No.356');
   await page.getByRole('button', { name: '対人術で処世術を絞り込む' }).click();
   await expect(page).not.toHaveURL(/page=4/);
@@ -63,6 +85,6 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await expect(page.getByText('該当する処世術はありません。')).toBeVisible();
   await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
   await input.fill(''); await input.press('Enter');
-  await expect(page.getByTestId('technique-index-count')).toHaveText('356件');
+  await expect(page.getByTestId('technique-index-count')).toHaveText(`${techniqueCount}件`);
   await expect(page).not.toHaveURL(/q=/);
 });

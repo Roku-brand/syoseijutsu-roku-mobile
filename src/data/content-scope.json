@@ -1,22 +1,37 @@
 {
   "schemaVersion": 2,
   "complete": {
-    "techniques": 356,
+    "techniques": 350,
     "theories": 947
   },
   "free": {
-    "techniques": 95,
+    "techniques": 179,
     "theories": 141,
     "personas": [
       "印象がいい人",
       "人たらしの人",
+      "会話がうまい人",
+      "聞き上手な人",
+      "信頼される人",
+      "面白い人",
+      "人を見極められる人",
       "仕事ができる人",
       "タスク処理がうまい人",
+      "頭がいい人",
       "充実した人生を過ごせる人",
-      "自分らしく生きられる人"
+      "自分らしく生きられる人",
+      "人生を楽しめる人",
+      "不安に強い人"
     ]
   },
-  "excludedTechniqueIds": [],
+  "excludedTechniqueIds": [
+    "master336-073",
+    "master336-078",
+    "master336-080",
+    "master336-081",
+    "master336-082",
+    "master336-084"
+  ],
   "freeTheoryDisplayIds": [
     "P-002",
     "P-003",

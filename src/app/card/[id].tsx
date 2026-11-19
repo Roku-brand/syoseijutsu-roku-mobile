@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
-import { colors, fonts, radius } from '@/constants/theme';
+import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
   getTechniqueDisplayId,
@@ -33,6 +33,7 @@ export default function CardDetailScreen() {
   'use no memo';
   const router = useRouter();
   const [tab, setTab] = useState<'explanation' | 'practice' | 'related'>('explanation');
+  const introScrollRef = useRef<ScrollView>(null);
   const scrollRef = useRef<ScrollView>(null);
   const fade = useRef(new Animated.Value(1)).current;
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -48,10 +49,15 @@ export default function CardDetailScreen() {
     }
   }, [addHistory, card, effectiveAccess]);
 
-  useEffect(() => { setTab('explanation'); scrollRef.current?.scrollTo({ y: 0, animated: false }); }, [id]);
+  useEffect(() => {
+    setTab('explanation');
+    introScrollRef.current?.scrollTo({ y: 0, animated: false });
+    scrollRef.current?.scrollTo({ y: 0, animated: false });
+  }, [id]);
 
   const selectTab = (next: typeof tab) => {
     if (next === tab) return;
+    scrollRef.current?.scrollTo({ y: 0, animated: false });
     fade.setValue(0);
     setTab(next);
     Animated.timing(fade, { toValue: 1, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start();
@@ -119,170 +125,184 @@ export default function CardDetailScreen() {
   };
 
   return (
-    <Screen
-      style={styles.screen}
-      contentContainerStyle={styles.screenContent}
-      scrollRef={scrollRef}
-      stickyHeaderIndices={[1]}
-      testID="technique-detail-scroll"
-    >
-      <DetailSwipe
-        style={[styles.article, styles.intro]}
-        onPrevious={() => navigateCard(-1)}
-        onNext={() => navigateCard(1)}
+    <Screen scroll={false} style={styles.screen}>
+      <ScrollView
+        ref={introScrollRef}
+        style={styles.fixedIntro}
+        contentContainerStyle={[styles.readingInset, styles.introContent]}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        overScrollMode="never"
       >
-        <View style={styles.numberRow}>
-          <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
-          {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
-        </View>
+        <DetailSwipe
+          style={[styles.article, styles.intro]}
+          onPrevious={() => navigateCard(-1)}
+          onNext={() => navigateCard(1)}
+        >
+          <View style={styles.numberRow}>
+            <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
+            {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+          </View>
 
-        <TechniqueTitle
-          testID="technique-detail-title"
-          title={card.title}
-          minimumFontSize={20}
-          accessibilityRole="header"
-          aria-level={1}
-          style={styles.title}
-        />
+          <TechniqueTitle
+            testID="technique-detail-title"
+            title={card.title}
+            minimumFontSize={20}
+            accessibilityRole="header"
+            aria-level={1}
+            style={styles.title}
+          />
 
-        {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
+          {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
 
-        <View style={styles.rule} />
+          <View style={styles.rule} />
 
-        <View style={styles.summaryCard}>
-          <View style={styles.bulbMark} testID="technique-essence-marker">
-            <View style={styles.bulbGlyph}>
-              <View style={styles.bulbGlass} />
-              <View style={styles.bulbStem} />
+          <View style={styles.summaryCard}>
+            <View style={styles.bulbMark} testID="technique-essence-marker">
+              <View style={styles.bulbGlyph}>
+                <View style={styles.bulbGlass} />
+                <View style={styles.bulbStem} />
+              </View>
+            </View>
+            <View style={styles.summaryCopy}>
+              <AppText variant="serif" style={styles.summaryLabel}>
+                本質
+              </AppText>
+              <AppText
+                testID="technique-essence"
+                variant="serif"
+                style={styles.summaryText}
+              >
+                {cleanText(essence)}
+              </AppText>
             </View>
           </View>
-          <View style={styles.summaryCopy}>
-            <AppText variant="serif" style={styles.summaryLabel}>
-            本質
-            </AppText>
-            <AppText
-              testID="technique-essence"
-              variant="serif"
-              style={styles.summaryText}
-            >
-              {cleanText(essence)}
-            </AppText>
+        </DetailSwipe>
+      </ScrollView>
+      <View style={styles.readingInset}>
+        <View style={styles.tabs} testID="technique-detail-tabs">
+          <View style={styles.tabRow} accessibilityRole="tablist">
+          {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
+            <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
+              <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
+            </Pressable>
+          ))}
           </View>
-        </View>
-      </DetailSwipe>
-      <View style={styles.tabs} testID="technique-detail-tabs">
-        <View style={styles.tabRow} accessibilityRole="tablist">
-        {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
-          <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
-            <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
-          </Pressable>
-        ))}
         </View>
       </View>
-      <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
-        <Animated.View style={{ opacity: fade }}>
-        {tab === 'explanation' && !!explanation.body.length && (
-          <ArticleSection title="原理と解説">
-            <View style={styles.explanation}>
-              {explanation.body.map((paragraph, index) => (
-                <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>
-                  {paragraph}
-                </RichParagraph>
-              ))}
-            </View>
-          </ArticleSection>
-        )}
-
-        {tab === 'practice' && <>
-        <ArticleSection title="今日からできる実践">
-          <View style={styles.practiceArea}>
-            <View style={styles.practiceList}>
-              {guidance.todayActions.map((item, index) => (
-                <View key={`${item}-${index}`} style={[styles.checkRow, index === guidance.todayActions.length - 1 && styles.checkRowLast]}>
-                  <View style={styles.checkMark}>
-                    <AppText style={styles.checkText}>{index + 1}</AppText>
-                  </View>
-                  <AppText style={styles.practiceText}>{item}</AppText>
-                </View>
-              ))}
-            </View>
-
-          </View>
-        </ArticleSection>
-
-        {guidance.examples.length > 0 && (
-          <ArticleSection title="具体例">
-            <View style={styles.exampleList}>
-              {guidance.examples.map((item) => (
-                <View key={item} style={styles.exampleCard}>
-                  <AppText style={styles.exampleText}>{item}</AppText>
-                </View>
-              ))}
-            </View>
-          </ArticleSection>
-        )}
-
-        <ArticleSection title="注意点">
-          <View style={styles.cautionList}>
-            {guidance.cautions.map((item) => (
-              <View key={item} style={styles.cautionCard}>
-                <AppText accessibilityElementsHidden style={styles.cautionIcon}>!</AppText>
-                <AppText style={styles.cautionText}>{item}</AppText>
+      <ScrollView
+        ref={scrollRef}
+        style={styles.scrollingBody}
+        contentContainerStyle={[styles.readingInset, styles.bodyContent]}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        testID="technique-detail-scroll"
+      >
+        <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
+          <Animated.View style={{ opacity: fade }}>
+          {tab === 'explanation' && !!explanation.body.length && (
+            <ArticleSection title="原理と解説">
+              <View style={styles.explanation}>
+                {explanation.body.map((paragraph, index) => (
+                  <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>
+                    {paragraph}
+                  </RichParagraph>
+                ))}
               </View>
-            ))}
-          </View>
-        </ArticleSection>
-
-        </>}
-
-        {tab === 'related' && <>
-        <View style={styles.relatedContent}>
-          {relatedTheories.length > 0 && (
-            <View testID="related-theories" style={styles.relatedSections}>
-              <RelatedContentSection
-                variant="technique-detail"
-                title="主要理論"
-                description="理解の入口となる代表的な理論"
-                testID="primary-theories"
-                items={primaryTheories.map(toTheoryItem)}
-                supportingTextLines={theorySupportingTextLines}
-              />
-              <RelatedContentSection
-                variant="technique-detail"
-                title="あわせて読む理論"
-                description="実践を補う知識や、別の視点を与える思想・言葉"
-                testID="supplementary-theories"
-                items={supplementaryTheories.map(toTheoryItem)}
-                supportingTextLines={theorySupportingTextLines}
-              />
-            </View>
+            </ArticleSection>
           )}
 
-          <RelatedFeatures kind="technique" id={card.id} />
+          {tab === 'practice' && <>
+          <ArticleSection title="今日からできる実践">
+            <View style={styles.practiceArea}>
+              <View style={styles.practiceList}>
+                {guidance.todayActions.map((item, index) => (
+                  <View key={`${item}-${index}`} style={[styles.checkRow, index === guidance.todayActions.length - 1 && styles.checkRowLast]}>
+                    <View style={styles.checkMark}>
+                      <AppText style={styles.checkText}>{index + 1}</AppText>
+                    </View>
+                    <AppText style={styles.practiceText}>{item}</AppText>
+                  </View>
+                ))}
+              </View>
 
-          <RelatedContentSection
-            variant="technique-detail"
-            title="関連する処世術"
-            description="あわせて身につけたい実践知"
-            testID="related-techniques"
-            items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
-          />
-        </View>
+            </View>
+          </ArticleSection>
 
-        {!!card.tags?.length && (
-          <ArticleSection title="タグ">
-            <View style={styles.bottomTags}>
-              {card.tags.map((tag) => (
-                <View key={tag} style={styles.bottomTag}>
-                  <AppText style={styles.bottomTagText}>{tag}</AppText>
+          {guidance.examples.length > 0 && (
+            <ArticleSection title="具体例">
+              <View style={styles.exampleList}>
+                {guidance.examples.map((item) => (
+                  <View key={item} style={styles.exampleCard}>
+                    <AppText style={styles.exampleText}>{item}</AppText>
+                  </View>
+                ))}
+              </View>
+            </ArticleSection>
+          )}
+
+          <ArticleSection title="注意点">
+            <View style={styles.cautionList}>
+              {guidance.cautions.map((item) => (
+                <View key={item} style={styles.cautionCard}>
+                  <AppText accessibilityElementsHidden style={styles.cautionIcon}>!</AppText>
+                  <AppText style={styles.cautionText}>{item}</AppText>
                 </View>
               ))}
             </View>
           </ArticleSection>
-        )}
-        </>}
-        </Animated.View>
-      </DetailSwipe>
+
+          </>}
+
+          {tab === 'related' && <>
+          <View style={styles.relatedContent}>
+            {relatedTheories.length > 0 && (
+              <View testID="related-theories" style={styles.relatedSections}>
+                <RelatedContentSection
+                  variant="technique-detail"
+                  title="主要理論"
+                  description="理解の入口となる代表的な理論"
+                  testID="primary-theories"
+                  items={primaryTheories.map(toTheoryItem)}
+                  supportingTextLines={theorySupportingTextLines}
+                />
+                <RelatedContentSection
+                  variant="technique-detail"
+                  title="あわせて読む理論"
+                  description="実践を補う知識や、別の視点を与える思想・言葉"
+                  testID="supplementary-theories"
+                  items={supplementaryTheories.map(toTheoryItem)}
+                  supportingTextLines={theorySupportingTextLines}
+                />
+              </View>
+            )}
+
+            <RelatedFeatures kind="technique" id={card.id} />
+
+            <RelatedContentSection
+              variant="technique-detail"
+              title="関連する処世術"
+              description="あわせて身につけたい実践知"
+              testID="related-techniques"
+              items={related.map((relatedCard) => ({ key: relatedCard.id, title: relatedCard.title, href: { pathname: '/card/[id]', params: { id: relatedCard.id } } }))}
+            />
+          </View>
+
+          {!!card.tags?.length && (
+            <ArticleSection title="タグ">
+              <View style={styles.bottomTags}>
+                {card.tags.map((tag) => (
+                  <View key={tag} style={styles.bottomTag}>
+                    <AppText style={styles.bottomTagText}>{tag}</AppText>
+                  </View>
+                ))}
+              </View>
+            </ArticleSection>
+          )}
+          </>}
+          </Animated.View>
+        </DetailSwipe>
+      </ScrollView>
     </Screen>
   );
 }
@@ -346,15 +366,19 @@ function ArticleSection({
 }
 
 const styles = StyleSheet.create({
-  screen: { backgroundColor: '#FBF8F2' },
-  screenContent: {
+  screen: { minHeight: 0, backgroundColor: '#FBF8F2' },
+  readingInset: {
     width: '100%',
     maxWidth: 1420,
     alignSelf: 'center',
     paddingHorizontal: 22,
-    paddingTop: 12,
-    paddingBottom: 132,
   },
+  screenContent: { paddingTop: 12, paddingBottom: 132 },
+  // A tall image or large text can scroll inside the intro without covering the tabs or body.
+  fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '68%' },
+  introContent: { paddingTop: 12 },
+  scrollingBody: { flex: 1, minHeight: 0 },
+  bodyContent: { paddingBottom: spacing.xl },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
   intro: { marginBottom: 24 },
   numberRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },

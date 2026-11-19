@@ -35,12 +35,13 @@ const canonicalBefore=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/
 const current=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/theories.json'),'utf8'));
 const networkReview=JSON.parse(fs.readFileSync(path.join(root,'docs/content/content-network-review-20261016.json'),'utf8'));
 const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/generated/techniques.json'),'utf8'));
-const techniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
+const sourceTechniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
+const techniqueRows=sourceTechniqueRows.filter(item=>!scope.excludedTechniqueIds.includes(item.id));
 
 test('technique public IDs are contiguous and survive reordering, category moves, hydration and removal',()=>{
  const ids=JSON.parse(fs.readFileSync(path.join(root,'src/data/technique-display-ids.json'),'utf8'));
- assert.equal(Object.keys(ids).length,techniqueRows.length);
- assert.deepEqual(Object.values(ids).sort((a,b)=>a-b),Array.from({length:techniqueRows.length},(_,i)=>i+1));
+ assert.equal(Object.keys(ids).length,sourceTechniqueRows.length);
+ assert.deepEqual(Object.values(ids).sort((a,b)=>a-b),Array.from({length:sourceTechniqueRows.length},(_,i)=>i+1));
  const before=new Map(catalog.techniqueCards.map(card=>[card.id,catalog.getTechniqueDisplayId(card)]));
  assert.equal(before.get('master336-337'),'No.337');
  try {
@@ -51,7 +52,7 @@ test('technique public IDs are contiguous and survive reordering, category moves
   for(const card of catalog.techniqueCards) assert.equal(catalog.getTechniqueDisplayId(card),before.get(card.id),card.id);
   assert.equal(getTechniqueIndex('life','No.015')[0].id,'master336-015');
   assert.equal(getTechniqueIndex('all','３３７')[0].id,'master336-337');
-  assert.deepEqual(getTechniqueIndex().map(card=>catalog.getTechniqueNumber(card)),Object.values(ids).filter(n=>n!==1).sort((a,b)=>a-b));
+  assert.deepEqual(getTechniqueIndex().map(card=>catalog.getTechniqueNumber(card)),techniqueRows.map(({id})=>ids[id]).filter(n=>n!==1).sort((a,b)=>a-b));
  } finally { catalog.resetCatalog(); }
  assert.equal(catalog.getTechniqueDisplayId('master336-001'),'No.001');
 });

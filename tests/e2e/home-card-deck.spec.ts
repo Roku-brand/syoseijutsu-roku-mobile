@@ -49,12 +49,29 @@ for (const width of [375, 390, 430, 768, 1440]) {
 }
 
 test('保存・前後移動・詳細往復・再読み込みで順序と位置を保持する', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await ready(page);
   const initial = await label(page);
-  await page.getByTestId('home-deck-save').click();
-  await expect(page.getByTestId('home-deck-save')).toHaveAttribute('aria-pressed', 'true');
+  const save = page.getByTestId('home-deck-save');
+  const diamond = save.getByTestId('save-diamond');
+  await save.scrollIntoViewIfNeeded();
+  const before = await diamond.boundingBox();
+  const frames = await save.evaluate(async (node) => {
+    const icon = node.querySelector('[data-testid="save-diamond"]')!;
+    node.click();
+    const samples = [];
+    for (let frame = 0; frame < 16; frame += 1) {
+      await new Promise(requestAnimationFrame);
+      const { x, y, width, height } = icon.getBoundingClientRect();
+      samples.push({ x, y, width, height });
+    }
+    return samples;
+  });
+  await expect(save).toHaveAttribute('aria-pressed', 'true');
+  expect(frames.every((box) => before && Math.abs(box.x - before.x) < 0.5 && Math.abs(box.y - before.y) < 0.5
+    && Math.abs(box.width - before.width) < 0.5 && Math.abs(box.height - before.height) < 0.5)).toBe(true);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   expect(await label(page)).toBe(initial);
   await turnDeck(page);
   await ready(page);

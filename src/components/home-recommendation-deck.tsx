@@ -266,8 +266,6 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
 
 function DiscoveryFace({ item, width, height, compact, active, disabled, onPress, panHandlers, onTouch }: { item: ReadingContent; width: number; height: number; compact: boolean; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
-  const reduced = useReducedMotion();
-  const pulse = useRef(new Animated.Value(1)).current;
   const [failed, setFailed] = useState(false);
   const [focused, setFocused] = useState(false);
   const theoretical = item.type === 'theory';
@@ -279,7 +277,6 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
   const summary = theoretical ? getTheoryCoverSummary(item.card.summary) : item.card.essence || item.card.subtitle || '';
   const image = imageFor(item);
   useEffect(() => setFailed(false), [id]);
-  useEffect(() => () => pulse.stopAnimation(), [pulse]);
   return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, { width, height }, focused && styles.focused]}>
     <View pointerEvents="none" accessible={false} style={styles.innerFrame} />
     <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
@@ -293,8 +290,18 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
       </View>
       <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
     </Pressable>
-    {active ? <Animated.View style={[styles.save, { transform: [{ scale: pulse }] }]}><Pressable testID="home-deck-save" accessibilityRole="button" accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'} aria-pressed={saved} accessibilityState={{ selected: saved }} disabled={disabled}
-      onPress={() => { if (theoretical) toggleSavedTheory(id); else toggleSaved(id); if (!reduced) Animated.sequence([Animated.timing(pulse, { toValue: 1.18, duration: 100, useNativeDriver: Platform.OS !== 'web' }), Animated.spring(pulse, { toValue: 1, damping: 18, stiffness: 300, useNativeDriver: Platform.OS !== 'web' })]).start(); }} style={styles.saveTouch}><SaveDiamond saved={saved} /></Pressable></Animated.View> : null}
+    {active ? <Pressable
+      testID="home-deck-save"
+      accessibilityRole="button"
+      accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'}
+      aria-pressed={saved}
+      accessibilityState={{ selected: saved }}
+      disabled={disabled}
+      onPress={() => theoretical ? toggleSavedTheory(id) : toggleSaved(id)}
+      style={styles.save}
+    >
+      <SaveDiamond saved={saved} />
+    </Pressable> : null}
   </View>;
 }
 
@@ -320,7 +327,7 @@ const styles = StyleSheet.create({
   summary: { flex: 1, color: '#42413E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '400', borderLeftWidth: 1, borderLeftColor: '#D8C7A4', paddingLeft: 10 },
   photoWrap: { marginTop: 17, flex: 1, minHeight: 110, borderRadius: 13, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' },
   readArrow: { position: 'absolute', right: 9, bottom: 9, width: 32, height: 32, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 27, lineHeight: 29 },
-  save: { position: 'absolute', right: 6, top: 8 }, saveTouch: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold },
+  save: { position: 'absolute', right: 6, top: 8, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold },
   paperEdge: { position: 'absolute', left: 0, top: 12, bottom: 12, width: 7, opacity: .35, borderRadius: 3 }, paperEdgeRight: { left: undefined, right: 0 },
   empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },
