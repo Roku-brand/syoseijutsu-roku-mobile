@@ -19,7 +19,8 @@ const cardById = new Map(cards.map((card) => [card.id, card]));
 const theoryById = new Map(theories.map((theory) => [theory.tagId, theory]));
 const wisdomSupportByTechniqueId = new Map(cards.map((card) => [card.id, []]));
 
-if (cards.length !== 356) throw new Error(`Expected 356 techniques; found ${cards.length}.`);
+const expectedTechniqueCount = scope.complete.techniques + scope.excludedTechniqueIds.length;
+if (cards.length !== expectedTechniqueCount) throw new Error(`Expected ${expectedTechniqueCount} techniques; found ${cards.length}.`);
 if (theories.length !== scope.complete.theories) throw new Error(`Expected ${scope.complete.theories} theories; found ${theories.length}.`);
 if (Object.keys(comprehensive).length !== cards.length) throw new Error('Comprehensive map must contain every technique exactly once.');
 if (Object.keys(primary).length !== cards.length) throw new Error('Primary map must contain every technique exactly once.');

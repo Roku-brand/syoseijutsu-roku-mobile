@@ -10,6 +10,7 @@ import { getTheoryProvenance } from './theory-sources';
 import { isLockedTheoryShell } from './theory-display';
 import { THEORY_CATEGORIES } from './theory-categories';
 import { applyTheoryRedirects, compareTheoryTaxonomy, resolveTheoryId } from './theory-taxonomy';
+import { resolveTechniqueId } from './technique-identity';
 
 const bundledCategories = techniquesSource.categories as CatalogCategory[];
 const publicStandaloneTechniques: PaidTechniquePayload[] = bundledCategories.flatMap(category =>
@@ -95,10 +96,14 @@ function rebuildIndexes() {
   techniqueCards.splice(0, techniqueCards.length, ...indexed.values());
 
   techniqueById.clear();
-  let nextTechniqueNumber = Math.max(0, ...techniqueNumberById.values()) + 1;
+  const assignedTechniqueNumbers = new Set(techniqueNumberById.values());
+  let nextTechniqueNumber = 1;
   techniqueCards.forEach((card) => {
     techniqueById.set(card.id, card);
-    if (!techniqueNumberById.has(card.id)) techniqueNumberById.set(card.id, nextTechniqueNumber++);
+    if (!techniqueNumberById.has(card.id)) {
+      while (assignedTechniqueNumbers.has(nextTechniqueNumber)) nextTechniqueNumber++;
+      techniqueNumberById.set(card.id, nextTechniqueNumber++);
+    }
   });
 
   techniqueCardsByTheoryId.clear();
@@ -231,6 +236,7 @@ export function removeManagedTechnique(techniqueId: string) {
 }
 
 function placeManagedTechnique(item: PaidTechniquePayload) {
+  if (resolveTechniqueId(item.id) !== item.id) return;
   // Managed content is authoritative for an existing technique. Remove the
   // bundled copy first so edits replace it instead of being ignored. This
   // also moves the card cleanly when its category or persona changes.

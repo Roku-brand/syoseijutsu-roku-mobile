@@ -7,16 +7,17 @@ const read = name => JSON.parse(fs.readFileSync(name, 'utf8'));
 const before = read('docs/content/theory-depth-before-20261023.json');
 const after = read('src/data/generated/theories.json');
 const review = read('docs/content/theory-depth-review-20261023.json');
+const reviewedIds = new Set(before.map(theory => theory.tagId));
 const changes = new Map(review.changes.map(row => [row.id, row]));
 const body = theory => theory.quotation?.contextNote ?? theory.summary;
 const count = value => (value.match(/[。！？]/g) ?? []).length;
 
 test('every short explanation gains context while definitions, quotations and identities remain intact', () => {
-  assert.equal(after.length, before.length);
   assert.equal(changes.size, 739);
   assert.equal(new Set(review.changes.map(row => row.addition)).size, changes.size);
   for (const old of before) {
-    const current = after.find(row => row.tagId === old.tagId);
+    const live = after.find(row => row.tagId === old.tagId);
+    const current = live && { ...live, relatedTheoryIds: live.relatedTheoryIds.filter(id => reviewedIds.has(id)) };
     const edit = changes.get(old.tagId);
     assert.ok(current && count(body(current)) >= 2, old.tagId);
     if (!edit) { assert.deepEqual(current, old); continue; }
@@ -31,7 +32,7 @@ test('every short explanation gains context while definitions, quotations and id
 
 test('expanded paid bodies never enter the public catalogue and free bodies match the full catalogue', () => {
   const publicRows = read('src/data/generated/theories.public.json');
-  assert.equal(publicRows.length, 947);
+  assert.equal(publicRows.length, after.length);
   for (const row of after) {
     const exposed = publicRows.find(item => item.tagId === row.tagId);
     if (row.accessTier === 'free') {

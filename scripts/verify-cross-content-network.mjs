@@ -4,7 +4,7 @@ import { PGlite } from '@electric-sql/pglite';
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const review=read('docs/content/content-network-review-20261016.json');
 const features=read('tests/fixtures/content-network-features.json');
-const source=read('src/data/generated/techniques.json');
+const source=read('docs/content/theory-release-20261018-snapshot.json')['src/data/generated/techniques.json'];
 const theories=read('docs/content/theory-release-20261018-snapshot.json')['src/data/generated/theories.json'];
 // Replay the dated migration against its historical graph, before the 2026-10-18 additions.
 const relations=read('docs/content/theory-release-20261018-snapshot.json')['src/data/generated/theory-relations.json'];

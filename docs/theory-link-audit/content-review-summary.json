@@ -1,37 +1,37 @@
 {
   "reviewPolicy": "本文の本質に直接対応する知識を主要とし、異なる説明・実践・思想のみ補完する。網羅数・分類一致・用語一致だけで接続を増やさない。",
-  "techniques": 356,
-  "theories": 945,
-  "links": 734,
-  "primaryLinks": 422,
-  "supplementaryLinks": 312,
-  "linkedTheories": 371,
-  "unlinkedTheories": 574,
+  "techniques": 357,
+  "theories": 950,
+  "links": 737,
+  "primaryLinks": 423,
+  "supplementaryLinks": 314,
+  "linkedTheories": 373,
+  "unlinkedTheories": 577,
   "minimumLinksPerTechnique": 1,
   "maximumLinksPerTechnique": 4,
   "distribution": {
     "1": 81,
     "2": 182,
-    "3": 83,
+    "3": 84,
     "4": 10
   },
   "primaryDistribution": {
     "0": 1,
-    "1": 288,
+    "1": 289,
     "2": 67
   },
   "supplementaryDistribution": {
     "0": 108,
     "1": 186,
-    "2": 60,
+    "2": 61,
     "3": 2
   },
   "wisdomSupportLinks": 99,
   "categoryCoverage": {
     "psychology": {
-      "theories": 405,
-      "linkedTheories": 150,
-      "links": 332
+      "theories": 408,
+      "linkedTheories": 151,
+      "links": 338
     },
     "behavioral-science": {
       "theories": 146,
@@ -39,22 +39,22 @@
       "links": 46
     },
     "organization-management": {
-      "theories": 131,
-      "linkedTheories": 57,
-      "links": 130
+      "theories": 130,
+      "linkedTheories": 56,
+      "links": 125
     },
     "strategy": {
-      "theories": 94,
-      "linkedTheories": 41,
-      "links": 61
+      "theories": 97,
+      "linkedTheories": 43,
+      "links": 63
     },
     "practical-wisdom": {
-      "theories": 79,
+      "theories": 80,
       "linkedTheories": 41,
       "links": 85
     },
     "classics-thought": {
-      "theories": 90,
+      "theories": 89,
       "linkedTheories": 49,
       "links": 80
     }

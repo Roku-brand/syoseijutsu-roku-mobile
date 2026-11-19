@@ -1,5 +1,6 @@
 import type { PersistedState, PersonalMemo, PersonalMemoFolder } from './app-state';
 import { resolveTheoryIds } from '@/data/theory-taxonomy';
+import { resolveTechniqueId } from '@/data/technique-identity';
 import { restoreLibraryFolders } from './library-folders';
 
 export const LEGACY_PERSONAL_KEY = '@shoseijutsu-roku/state/v1';
@@ -9,7 +10,7 @@ const strings = (value: unknown, limit = 20000): string[] => Array.isArray(value
 const object = (value: unknown): Record<string, unknown> => value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
 const dictionary = <T>(value: unknown, valid: (v: unknown) => v is T): Record<string, T> => Object.fromEntries(Object.entries(object(value)).filter(([key, v]) => !['__proto__','constructor','prototype'].includes(key) && valid(v)).slice(0,20000)) as Record<string,T>;
 export function normalizePersonalData(raw: unknown, defaults: PersistedState): PersistedState {
- const p = object(raw), savedIds = strings(p.savedIds), savedTheoryIds = resolveTheoryIds(strings(p.savedTheoryIds)), savedFeatureIds = strings(p.savedFeatureIds);
+ const p = object(raw), savedIds = [...new Set(strings(p.savedIds).map(resolveTechniqueId))], savedTheoryIds = resolveTheoryIds(strings(p.savedTheoryIds)), savedFeatureIds = strings(p.savedFeatureIds);
  const memos = (Array.isArray(p.personalMemos) ? p.personalMemos : []).slice(0,5000).map((entry,index): PersonalMemo | null => {
   const v = typeof entry === 'string' ? {text:entry} : object(entry);
   if(typeof v.text!=='string'||!v.text.trim()||v.text.length>100000)return null;
@@ -24,7 +25,7 @@ export function normalizePersonalData(raw: unknown, defaults: PersistedState): P
  const interests=strings(p.interests).filter(k=>['interpersonal','work','life'].includes(k));
  return {
   ...defaults, savedIds,savedTheoryIds,savedFeatureIds,interests:interests.length?interests:defaults.interests,
-  historyIds:resolveTheoryIds(strings(p.historyIds)).slice(0,100),featureHistoryIds:strings(p.featureHistoryIds).slice(0,100),
+  historyIds:[...new Set(resolveTheoryIds(strings(p.historyIds)).map(resolveTechniqueId))].slice(0,100),featureHistoryIds:strings(p.featureHistoryIds).slice(0,100),
   notes:dictionary(p.notes,(v):v is string=>typeof v==='string'&&v.length<=100000),
   practiceRecords:dictionary(p.practiceRecords,(v):v is PersistedState['practiceRecords'][string]=>{const x=object(v);return typeof x.cardId==='string'&&['planned','tried'].includes(String(x.status))&&typeof x.plannedAt==='string';}),
   personalPrinciple:typeof p.personalPrinciple==='string'?p.personalPrinciple.slice(0,2000):defaults.personalPrinciple,

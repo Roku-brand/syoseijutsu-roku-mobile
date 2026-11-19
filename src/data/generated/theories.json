@@ -9881,7 +9881,9 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_789",
-      "kb_411"
+      "kb_411",
+      "kb_1151",
+      "kb_1152"
     ],
     "displayId": 263,
     "displayOrder": 263,
@@ -28959,7 +28961,8 @@
       "kb_937",
       "kb_952",
       "kb_983",
-      "kb_930"
+      "kb_930",
+      "kb_1153"
     ],
     "displayId": 85,
     "displayOrder": 85,
@@ -29086,7 +29089,8 @@
       "kb_950",
       "kb_952",
       "kb_931",
-      "kb_1057"
+      "kb_1057",
+      "kb_1153"
     ],
     "displayId": 88,
     "displayOrder": 88,
@@ -29173,7 +29177,9 @@
       "kb_929",
       "kb_933",
       "kb_1059",
-      "kb_1061"
+      "kb_1061",
+      "kb_1151",
+      "kb_1153"
     ],
     "displayId": 90,
     "displayOrder": 90,
@@ -29354,6 +29360,128 @@
     },
     "accessTier": "complete",
     "knowledgeType": "phenomenon"
+  },
+  {
+    "tagId": "kb_1151",
+    "title": "イエス・バット話法",
+    "summary": "同意できる点を具体的に示してから、異なる見解や懸念を理由とともに述べる話法。\n「作業を減らす目的には賛成です。締切までに全件切り替えるのは難しいので、一部署から始めませんか」と返す。意見が一致する範囲を明らかにすると、残る論点を検討しやすい。賛成できる点が見つからない場合は、相手が重視している条件を尋ねる。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 11,
+    "canonicalId": "kb_1151",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [
+      "イエスバット話法",
+      "Yes, but",
+      "部分同意"
+    ],
+    "relatedTheoryIds": [
+      "kb_1152",
+      "kb_934",
+      "kb_412"
+    ],
+    "displayId": 99,
+    "displayOrder": 99,
+    "provenance": {
+      "note": "共通点の明示と相手の視点の承認に関する研究を背景資料として参照。本文の例は編集部による。",
+      "works": [
+        "Conversational receptiveness: Improving engagement with opposing views (2020)"
+      ],
+      "status": "書誌確認済み",
+      "sources": [
+        {
+          "url": "https://doi.org/10.1016/j.obhdp.2020.03.011",
+          "title": "Conversational receptiveness: Improving engagement with opposing views (2020)"
+        }
+      ],
+      "attribution": "Michael Yeomansほか（関連研究）"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "method"
+  },
+  {
+    "tagId": "kb_1152",
+    "title": "イエス・アンド話法",
+    "summary": "相手が出した案の使える部分を受け取り、具体的な提案を加えて発展させる方法。\n「説明会を短くしよう」に「いいね。冒頭で要点を示して、質問は最後にまとめよう」と返す。即興演劇で使われる考え方で、企画初期の案出しにも応用できる。実行を決める段階では、費用や時間などの条件をあらためて確かめる。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 12,
+    "canonicalId": "kb_1152",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [
+      "イエスアンド話法",
+      "Yes, and",
+      "イエス・アンド"
+    ],
+    "relatedTheoryIds": [
+      "kb_1151",
+      "kb_412"
+    ],
+    "displayId": 100,
+    "displayOrder": 100,
+    "provenance": {
+      "note": "即興演劇の原則を発想の場へ応用する実践例を参照。",
+      "works": [
+        "Lead Change"
+      ],
+      "status": "書誌確認済み",
+      "sources": [
+        {
+          "url": "https://www.secondcity.com/lead-change",
+          "title": "Lead Change"
+        }
+      ],
+      "attribution": "The Second City（実践団体）"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "method"
+  },
+  {
+    "tagId": "kb_1153",
+    "title": "トゥールミン・モデル",
+    "summary": "主張を、根拠、その根拠が主張を支える理由、主張の強さや例外などに分けて検討する論証のモデル。\n「昼は受付を二人に増やす」という主張なら、待ち時間の記録が根拠、対応が追いつかない時間帯には人員追加で待ち時間が短くなるという見立てが、根拠と主張を結ぶ理由になる。機器の故障など、人員を増やしても改善しない場合も確かめる。",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 13,
+    "canonicalId": "kb_1153",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "aliases": [
+      "トゥールミンモデル",
+      "Toulmin model",
+      "トゥールミンの論証モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_932",
+      "kb_934"
+    ],
+    "displayId": 101,
+    "displayOrder": 101,
+    "provenance": {
+      "note": "論証を構成する要素を扱った原著を参照。受付の例は編集部による。",
+      "works": [
+        "The Uses of Argument, III. The Layout of Arguments"
+      ],
+      "status": "書誌確認済み",
+      "sources": [
+        {
+          "url": "https://doi.org/10.1017/CBO9780511840005.007",
+          "title": "The Uses of Argument, III. The Layout of Arguments"
+        }
+      ],
+      "attribution": "Stephen E. Toulmin（原著）"
+    },
+    "accessTier": "complete",
+    "knowledgeType": "model"
   },
   {
     "tagId": "kb_416",

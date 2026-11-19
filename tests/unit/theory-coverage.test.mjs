@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { coverageRows, coverageSections, developmentMoves } from '../../scripts/theory-coverage-data.mjs';
-import { summaryReviews, titleReviews, catalogReviews, removedTheoryIds, latestCatalogReview } from '../helpers/theory-editorial-history.mjs';
+import { summaryReviews, titleReviews, catalogReviews, removedTheoryIds } from '../helpers/theory-editorial-history.mjs';
 const read = name => JSON.parse(fs.readFileSync(new URL(`../../${name}`, import.meta.url), 'utf8'));
 const cards = read('src/data/generated/theories.json');
 const shells = read('src/data/generated/theories.public.json');
@@ -14,7 +14,7 @@ const workChanges=read('docs/content/work-theory-link-review-20261015.json');
 const byId = new Map(cards.map(t => [t.tagId, t]));
 
 test('coverage expands named gaps with distinct concepts and full sources', () => {
-  assert.equal(cards.length, latestCatalogReview.publishedCount);
+  assert.equal(cards.length, read('src/data/content-scope.json').complete.theories);
   assert.equal(coverageRows.length, 48);
   for (const name of ['ダモクレスの剣', '社会的時計', '脳の可塑性', 'ロミオとジュリエット効果']) assert.ok(cards.some(t => t.title === name));
   const names = new Map();

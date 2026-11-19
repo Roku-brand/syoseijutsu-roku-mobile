@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "complete": {
-    "techniques": 350,
-    "theories": 947
+    "techniques": 348,
+    "theories": 950
   },
   "free": {
     "techniques": 179,
@@ -30,7 +30,10 @@
     "master336-080",
     "master336-081",
     "master336-082",
-    "master336-084"
+    "master336-084",
+    "master336-346",
+    "master336-349",
+    "master336-354"
   ],
   "freeTheoryDisplayIds": [
     "P-002",

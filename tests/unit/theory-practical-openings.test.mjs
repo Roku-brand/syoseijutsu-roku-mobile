@@ -3,13 +3,14 @@ import fs from 'node:fs';
 import test from 'node:test';
 import { PGlite } from '@electric-sql/pglite';
 import { unchangedFieldsHash } from '../../scripts/apply-practical-theory-openings.mjs';
-import { catalogReviews, removedTheoryIds, summaryReviews, titleReviews as latestTitleReviews, latestCatalogReview } from '../helpers/theory-editorial-history.mjs';
+import { catalogReviews, removedTheoryIds, summaryReviews, titleReviews as latestTitleReviews } from '../helpers/theory-editorial-history.mjs';
 
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const review = readJson('docs/content/theory-practical-review-20261021.json');
 const currentReviews = new Map(readJson('docs/content/theory-plain-review-20261021.json').changes.map(row => [row.id, row]));
 const before = readJson('docs/content/theory-practical-before-20261021.json');
 const catalogue = readJson('src/data/generated/theories.json');
+const depthReviewIds = new Set(readJson('docs/content/theory-depth-before-20261023.json').map(row => row.tagId));
 const titleReview = readJson('docs/content/theory-saying-titles-review-20261021.json');
 const titleReviews = new Map(titleReview.changes.map(row => [row.id, row]));
 const titleUpdate = fs.readFileSync('docs/content/theory-saying-titles-update-20261021.sql', 'utf8');
@@ -23,8 +24,7 @@ const json = value => "'" + JSON.stringify(value).replaceAll("'", "''") + "'::js
 test('945 explanations match review; identity, access, links, provenance and approved quotation text are preserved', () => {
   assert.equal(review.changes.length, 945);
   assert.equal(new Set(review.changes.map(row => row.id)).size, 945);
-  assert.equal(catalogue.length, latestCatalogReview.publishedCount);
-  const byId = new Map(catalogue.map(theory => [theory.tagId, theory]));
+  const byId = new Map(catalogue.map(theory => [theory.tagId, { ...theory, relatedTheoryIds: theory.relatedTheoryIds.filter(id => depthReviewIds.has(id)) }]));
   for (const row of review.changes) {
     if(removedTheoryIds.has(row.id)){assert.equal(catalogReviews.get(row.id).redirectTo,'kb_629');continue;}
     const theory = byId.get(row.id);
