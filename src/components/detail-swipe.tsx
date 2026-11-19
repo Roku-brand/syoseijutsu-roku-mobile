@@ -72,6 +72,9 @@ export function DetailSwipe({
       latest.current.turn?.preview(dx, latest.current.width);
     };
     const end = (event: PointerEvent) => {
+      // Touch starts with implicit capture on the child. Transferring it to
+      // this region must not end the swipe when the child's event bubbles.
+      if (event.type === 'lostpointercapture' && event.target !== node) return;
       if (!gesture || event.pointerId !== gesture.id) return;
       const swipe = gesture;
       gesture = null;
@@ -86,12 +89,16 @@ export function DetailSwipe({
       event.preventDefault();
       event.stopPropagation();
     };
+    const dragStart = (event: DragEvent) => {
+      if (gesture?.turning) event.preventDefault();
+    };
     node.addEventListener('pointerdown', down, true);
     node.addEventListener('pointermove', move);
     node.addEventListener('pointerup', end);
     node.addEventListener('pointercancel', end);
     node.addEventListener('lostpointercapture', end);
     node.addEventListener('click', click, true);
+    node.addEventListener('dragstart', dragStart, true);
     return () => {
       node.removeEventListener('pointerdown', down, true);
       node.removeEventListener('pointermove', move);
@@ -99,6 +106,7 @@ export function DetailSwipe({
       node.removeEventListener('pointercancel', end);
       node.removeEventListener('lostpointercapture', end);
       node.removeEventListener('click', click, true);
+      node.removeEventListener('dragstart', dragStart, true);
     };
   }, []);
 
