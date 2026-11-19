@@ -30,8 +30,8 @@ for (const category of techniques.categories) {
   const activePersonas = category.subcategories.filter((persona) => persona.items.some(isProductTechnique));
   const expectedCount = Math.ceil(activePersonas.length / 2);
   const freeCount = activePersonas.filter((persona) => expectedFreePersonas.has(persona.name)).length;
-  if (freeCount !== expectedCount) {
-    throw new Error(`Expected ${expectedCount} free personas in ${category.key}; found ${freeCount}.`);
+  if (freeCount < expectedCount) {
+    throw new Error(`Expected at least ${expectedCount} free personas in ${category.key}; found ${freeCount}.`);
   }
 
   for (const persona of activePersonas) {

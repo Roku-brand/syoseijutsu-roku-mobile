@@ -991,7 +991,7 @@ test('人物像カードは一覧の最終行まで同じ寸法で表示する',
   await page.goto('/personas');
   const cards = page.getByTestId('personas-grid').getByRole('button');
   await expect(cards).toHaveCount(metadata.productPersonaCount);
-  await expect(page.getByRole('button', { name: '一緒にいて疲れない人は完全版で利用できます', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '一緒にいて疲れない人、18処世術を開く', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: '人たらしの人、23処世術を開く' })).toBeVisible();
   const sizes = await cards.evaluateAll((elements) => elements.map((element) => {
     const rect = element.getBoundingClientRect();

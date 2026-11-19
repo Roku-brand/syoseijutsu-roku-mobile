@@ -91,7 +91,7 @@ test('independent techniques retain distinct IDs, stable numbers, relations and 
  assert.equal(catalog.techniqueCards.length,techniqueRows.length);
 });
 
-test('fatigue-free persona lists the 18 active techniques and keeps the merged IDs resolvable',()=>{
+test('the 18 published fatigue-free techniques are readable offline and merged IDs resolve',()=>{
  const persona=catalog.categories.find(c=>c.key==='interpersonal').subcategories.find(p=>p.name==='一緒にいて疲れない人');
  assert.equal(persona.items.length,18);
  assert.deepEqual(persona.items.map(t=>t.id),techniqueRows.filter(t=>t.subcategory===persona.name).map(t=>t.id));
@@ -100,8 +100,8 @@ test('fatigue-free persona lists the 18 active techniques and keeps the merged I
   assert.ok(!catalog.techniqueById.has(`master336-${former}`));
  }
  for(const item of persona.items){
-  assert.equal(item.status,'locked');
-  assert.equal(item.explanation,undefined);
+  assert.equal(item.status,'published');
+  assert.ok(item.explanation?.trim());
   assert.ok(!scope.excludedTechniqueIds.includes(item.id));
  }
  assert.equal(catalog.techniqueCards.length,scope.complete.techniques);
