@@ -57,7 +57,6 @@ export default function CardDetailScreen() {
 
   const selectTab = (next: typeof tab) => {
     if (next === tab) return;
-    scrollRef.current?.scrollTo({ y: 0, animated: false });
     fade.setValue(0);
     setTab(next);
     Animated.timing(fade, { toValue: 1, duration: 200, useNativeDriver: Platform.OS !== 'web' }).start();
@@ -114,6 +113,7 @@ export default function CardDetailScreen() {
   const theorySupportingTextLines = effectiveAccess === 'paid' ? 2 : 0;
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
+  const personaName = card.subcategory.trim();
 
   const navigateCard = (offset: -1 | 1) => {
     const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
@@ -135,13 +135,14 @@ export default function CardDetailScreen() {
         overScrollMode="never"
       >
         <DetailSwipe
-          style={[styles.article, styles.intro]}
+          style={styles.article}
           onPrevious={() => navigateCard(-1)}
           onNext={() => navigateCard(1)}
         >
-          <View style={styles.numberRow}>
+          <View testID="technique-detail-number" style={styles.numberRow}>
             <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
-            {card.importance ? <AppText style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+            {card.importance ? <AppText testID="technique-detail-importance" style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+            {personaName ? <AppText testID="technique-detail-persona" style={styles.personaName}>{personaName}</AppText> : null}
           </View>
 
           <TechniqueTitle
@@ -153,9 +154,19 @@ export default function CardDetailScreen() {
             style={styles.title}
           />
 
-          {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
-
           <View style={styles.rule} />
+        </DetailSwipe>
+      </ScrollView>
+      <ScrollView
+        ref={scrollRef}
+        style={styles.scrollingBody}
+        contentContainerStyle={[styles.readingInset, styles.bodyContent]}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        testID="technique-detail-scroll"
+      >
+        <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
+          {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
 
           <View style={styles.summaryCard}>
             <View style={styles.bulbMark} testID="technique-essence-marker">
@@ -177,28 +188,16 @@ export default function CardDetailScreen() {
               </AppText>
             </View>
           </View>
-        </DetailSwipe>
-      </ScrollView>
-      <View style={styles.readingInset}>
-        <View style={styles.tabs} testID="technique-detail-tabs">
-          <View style={styles.tabRow} accessibilityRole="tablist">
-          {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
-            <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
-              <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
-            </Pressable>
-          ))}
+
+          <View style={styles.tabs} testID="technique-detail-tabs">
+            <View style={styles.tabRow} accessibilityRole="tablist">
+              {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
+                <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
+                  <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
+                </Pressable>
+              ))}
+            </View>
           </View>
-        </View>
-      </View>
-      <ScrollView
-        ref={scrollRef}
-        style={styles.scrollingBody}
-        contentContainerStyle={[styles.readingInset, styles.bodyContent]}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        testID="technique-detail-scroll"
-      >
-        <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
           <Animated.View style={{ opacity: fade }}>
           {tab === 'explanation' && !!explanation.body.length && (
             <ArticleSection title="原理と解説">
@@ -374,20 +373,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
   },
   screenContent: { paddingTop: 12, paddingBottom: 132 },
-  // A tall image or large text can scroll inside the intro without covering the tabs or body.
-  fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '68%' },
+  // A long title at large text sizes must leave space to scroll the article.
+  fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '45%' },
   introContent: { paddingTop: 12 },
   scrollingBody: { flex: 1, minHeight: 0 },
   bodyContent: { paddingBottom: spacing.xl },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
-  intro: { marginBottom: 24 },
   numberRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
   number: {
     color: colors.goldDeep,
     fontFamily: fonts.serif,
     fontSize: 13,
     lineHeight: 20,
+    flexShrink: 0,
   },
+  personaName: { flexShrink: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
   title: {
     width: '100%',
     color: '#111311',
@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
   summaryCopy: { width: '100%' },
   summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
   summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
-  tabs: { width: '100%', maxWidth: 1226, alignSelf: 'center', backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7', zIndex: 2 },
+  tabs: { width: '100%', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7' },
   tabRow: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap' },
   tab: { flex: 1, minWidth: 0, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
   tabSelected: { borderBottomColor: '#A47B2F' },

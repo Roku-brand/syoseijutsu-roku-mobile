@@ -1030,7 +1030,7 @@ for (const category of publicTechniques.categories) {
   });
 }
 
-test('人物像詳細は紹介を固定し、連番とタイトルの一覧だけをスクロールできる', async ({ page }) => {
+test('人物像詳細は写真を右に置いたコンパクトな紹介を固定し、連番の一覧だけをスクロールできる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
   const list = page.getByTestId('persona-technique-list');
@@ -1049,6 +1049,13 @@ test('人物像詳細は紹介を固定し、連番とタイトルの一覧だ�
   expect(box.height).toBeLessThanOrEqual(56);
   const fixed = page.getByTestId('persona-page-intro');
   const before = (await fixed.boundingBox())!;
+  const title = (await page.getByTestId('persona-page-title').boundingBox())!;
+  const photo = (await page.getByTestId('persona-page-intro-photo').boundingBox())!;
+  expect(photo.x).toBeGreaterThanOrEqual(title.x + title.width);
+  expect(photo.width).toBeLessThan(before.width / 3);
+  expect(before.height).toBeLessThan(132);
+  await page.screenshot({ path: test.info().outputPath('persona-compact-390.png') });
+
   const scroll = page.getByTestId('persona-technique-scroll');
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
   await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(0);

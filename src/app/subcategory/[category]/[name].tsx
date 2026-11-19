@@ -50,20 +50,21 @@ export default function PersonaScreen() {
         overScrollMode="never"
       >
         <View testID="persona-page-intro" style={[styles.intro, compact && styles.introCompact]}>
-          {presentation ? (
-            <Image
-              source={presentation.image}
-              accessibilityLabel={`${persona.name}を象徴する写真`}
-              contentFit="cover"
-              cachePolicy="memory-disk"
-              style={[styles.introImage, compact && styles.introImageCompact]}
-            />
-          ) : null}
           <View style={styles.introCopy}>
             <AppText testID="persona-page-title" accessibilityRole="header" aria-level={1} style={[styles.title, compact && styles.titleCompact]}>{persona.name}</AppText>
             <AppText style={styles.subtitle}>{presentation?.subtitle ?? persona.articleTitle ?? persona.name}</AppText>
             <AppText style={styles.count}>{techniqueCount}の処世術</AppText>
           </View>
+          {presentation ? (
+            <Image
+              testID="persona-page-intro-photo"
+              source={presentation.image}
+              accessibilityLabel={`${persona.name}を象徴する写真`}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              style={styles.introImage}
+            />
+          ) : null}
         </View>
       </ScrollView>
 
@@ -96,16 +97,15 @@ export default function PersonaScreen() {
 const styles = StyleSheet.create({
   content: { width: '100%', maxWidth: 920, alignSelf: 'center', paddingTop: spacing.sm, paddingBottom: 0 },
   fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '74%' },
-  intro: { width: '100%', padding: spacing.md, flexDirection: 'row', alignItems: 'stretch', gap: spacing.xl, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
-  introCompact: { padding: spacing.sm, flexDirection: 'column', gap: spacing.md },
-  introImage: { width: 290, aspectRatio: 1.65, flexShrink: 0, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
-  introImageCompact: { width: '100%', aspectRatio: 2.2 },
-  introCopy: { flex: 1, minWidth: 0, justifyContent: 'center', paddingRight: spacing.md },
-  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 28, lineHeight: 39, fontWeight: '700', letterSpacing: 0.5 },
-  titleCompact: { fontSize: 23, lineHeight: 33 },
-  subtitle: { maxWidth: 460, marginTop: spacing.sm, color: colors.inkSoft, fontSize: 14, lineHeight: 23 },
-  count: { marginTop: spacing.md, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  list: { flex: 1, minHeight: 0, width: '100%', marginTop: spacing.xl, borderTopWidth: 1, borderTopColor: colors.line },
+  intro: { width: '100%', padding: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderWidth: 1, borderColor: colors.line, borderRadius: radius.sm, backgroundColor: colors.surface },
+  introCompact: { padding: spacing.sm },
+  introImage: { width: '29%', maxWidth: 132, aspectRatio: 1.5, flexShrink: 0, borderRadius: radius.sm, backgroundColor: colors.paperDeep },
+  introCopy: { flex: 1, minWidth: 0 },
+  title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 26, lineHeight: 35, fontWeight: '700', letterSpacing: 0.5 },
+  titleCompact: { fontSize: 22, lineHeight: 29 },
+  subtitle: { maxWidth: 460, marginTop: 3, color: colors.inkSoft, fontSize: 13, lineHeight: 19 },
+  count: { marginTop: 4, color: colors.gold, fontFamily: fonts.serif, fontSize: 13, lineHeight: 18, fontWeight: '600' },
+  list: { flex: 1, minHeight: 0, width: '100%', marginTop: spacing.md, borderTopWidth: 1, borderTopColor: colors.line },
   listContent: { paddingBottom: spacing.xl },
   row: { minHeight: 48, paddingVertical: spacing.sm, paddingHorizontal: spacing.sm, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, borderBottomWidth: 1, borderBottomColor: colors.line },
   numberBadge: { minWidth: 32, minHeight: 26, paddingHorizontal: 4, flexShrink: 0, alignItems: 'center', justifyContent: 'center', borderRadius: radius.pill, backgroundColor: colors.paperDeep },

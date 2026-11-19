@@ -123,5 +123,6 @@ test('公開データの人物像未所属と同名別IDの処世術を一覧・
   await independent.first().click();
   await expect(page).toHaveURL(/\/card\/independent-0$/);
   await expect(page.getByTestId('technique-essence')).toContainText('独立した処世術の公開内容');
+  await expect(page.getByTestId('technique-detail-persona')).toHaveCount(0);
   await expect(page.getByRole('link', { name: '人物像', exact: true })).toHaveCount(0);
 });

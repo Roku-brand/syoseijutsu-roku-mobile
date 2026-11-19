@@ -89,11 +89,14 @@ test('関連知識が1件の場合も一覧の件数を表示する', async ({ p
 });
 
 test('タブ切替時に共通エリアを自動スクロールしない', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 1000 });
+  await page.setViewportSize({ width: 390, height: 620 });
   await page.goto('/card/master336-001');
   const title = page.getByTestId('technique-detail-title');
   const practice = page.getByRole('tab', { name: '実践' });
   await expect(title).toBeVisible();
+  const body = page.getByTestId('technique-detail-scroll');
+  await body.evaluate(node => { node.scrollTop = 40; });
+  await expect.poll(() => body.evaluate(node => node.scrollTop)).toBe(40);
   const before = await title.boundingBox();
   expect(before).not.toBeNull();
   await practice.click();
@@ -102,30 +105,41 @@ test('タブ切替時に共通エリアを自動スクロールしない', async
   const after = await title.boundingBox();
   expect(after).not.toBeNull();
   expect(Math.abs(after!.y - before!.y)).toBeLessThan(2);
+  expect(await body.evaluate(node => node.scrollTop)).toBe(40);
 });
 
 for (const [width, height] of [[320, 568], [390, 844], [1440, 480]]) {
-  test(`処世術のタイトル・本質・タブを固定して本文だけスクロールする (${width}x${height})`, async ({ page }) => {
+  test(`処世術のタイトルと番号を固定し、本質とタブは本文とスクロールする (${width}x${height})`, async ({ page }) => {
     await page.setViewportSize({ width, height });
     await page.goto('/card/master336-001');
-    const fixed = ['book-header', 'technique-detail-title', 'technique-essence', 'technique-detail-tabs']
+    const persona = page.getByTestId('technique-detail-persona');
+    await expect(persona).toHaveText('印象がいい人');
+    const personaBox = (await persona.boundingBox())!;
+    const starsBox = (await page.getByTestId('technique-detail-importance').boundingBox())!;
+    expect(personaBox.x).toBeGreaterThanOrEqual(starsBox.x + starsBox.width);
+    expect(Math.abs(personaBox.y - starsBox.y)).toBeLessThan(2);
+    const fixed = ['book-header', 'technique-detail-number', 'technique-detail-title', 'technique-detail-persona']
       .map(id => page.getByTestId(id));
     const body = page.getByTestId('technique-detail-scroll');
+    const movable = ['technique-essence', 'technique-detail-tabs'].map(id => page.getByTestId(id));
     const initial = await Promise.all(fixed.map(part => part.boundingBox()));
+    const before = await Promise.all(movable.map(part => part.boundingBox()));
     expect(initial.every(Boolean)).toBeTruthy();
-    const tabs = initial[3]!;
+    expect(before.every(Boolean)).toBeTruthy();
     const scrollBox = (await body.boundingBox())!;
-    expect(Math.abs(scrollBox.y - (tabs.y + tabs.height))).toBeLessThan(2);
-    expect(scrollBox.height).toBeGreaterThan(44);
+    expect(scrollBox.y).toBeGreaterThanOrEqual(initial[2]!.y + initial[2]!.height - 1);
+    expect(scrollBox.y).toBeLessThan(before[0]!.y);
+    expect(scrollBox.height).toBeGreaterThan(150);
 
-    await body.evaluate(node => { node.scrollTop = 250; });
+    await body.evaluate(node => { node.scrollTop = 300; });
     await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+    const distance = await body.evaluate(node => node.scrollTop);
     for (const [index, part] of fixed.entries()) {
       expect(Math.abs((await part.boundingBox())!.y - initial[index]!.y)).toBeLessThan(2);
     }
-    await page.getByRole('tab', { name: '実践' }).click();
-    await expect(page.getByText('今日からできる実践')).toBeInViewport();
-    await expect.poll(() => body.evaluate(node => node.scrollTop)).toBe(0);
+    for (const [index, part] of movable.entries()) {
+      expect(Math.abs((await part.boundingBox())!.y - before[index]!.y + distance)).toBeLessThan(2);
+    }
     await page.screenshot({ path: test.info().outputPath(`detail-fixed-${width}.png`) });
   });
 }
