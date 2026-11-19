@@ -267,9 +267,10 @@ test('スマホの実タッチは横スワイプと縦スクロールを分離�
 });
 
 test('縦スクロールが止まっても、手前のカードの保存マークを描画する', async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 });
+  await page.setViewportSize({ width: 390, height: 740 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible({ timeout: 15_000 });
   await ready(page);
   await turnDeck(page);
   await ready(page);
@@ -285,7 +286,13 @@ test('縦スクロールが止まっても、手前のカードの保存マー�
   await expect(page.getByTestId('home-deck-front')).toHaveCSS('will-change', 'auto');
 
   for (const top of [86, 0, 64]) {
-    await scroll.evaluate((node, y) => node.scrollTo({ top: y, behavior: 'smooth' }), top);
+    await scroll.evaluate(async (node, y) => {
+      const start = node.scrollTop;
+      for (let frame = 1; frame <= 6; frame += 1) {
+        await new Promise(requestAnimationFrame);
+        node.scrollTop = start + (y - start) * frame / 6;
+      }
+    }, top);
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(top);
     const rendered = await diamond.screenshot({ scale: 'css' });
     const { data, info: { channels } } = await sharp(rendered).removeAlpha().raw().toBuffer({ resolveWithObject: true });
