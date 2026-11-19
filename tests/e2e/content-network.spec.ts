@@ -89,9 +89,6 @@ test('完全版の関連知識は分類と概要を表示し、完全版理論�
     const number = String(index + 1).padStart(2, '0');
     await expect(row).toHaveText(`${number}${title}›`);
   }
-  await page.getByTestId('technique-detail-scroll').evaluate(node => {
-    node.scrollTop += node.querySelector('[data-testid="technique-detail-tabs"]')!.getBoundingClientRect().top - node.getBoundingClientRect().top;
-  });
   await page.screenshot({ path: test.info().outputPath('related-knowledge-complete-390.png') });
   await method.click();
   await expect(page.getByTestId('theory-title').filter({ visible: true })).toHaveText('アクティブリスニング', { timeout: 15_000 });

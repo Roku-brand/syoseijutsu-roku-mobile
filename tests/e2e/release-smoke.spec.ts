@@ -2,6 +2,7 @@ import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
 import scope from '../../src/data/content-scope.json';
 import metadata from '../../src/data/generated/metadata.json';
+import publicTechniques from '../../src/data/generated/techniques.public.json';
 
 async function startFreeHome(page: Page) {
   await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
@@ -1012,28 +1013,24 @@ test('権威付けの装飾と人物像メニューの保存操作を表示し�
   await expect(page.getByRole('button', { name: 'お気に入りに保存' })).toHaveCount(0);
 });
 
-test('各領域の無料2人物像は配下の処世術をすべて読める', async ({ page }) => {
-  for (const [category, name, count] of [
-    ['interpersonal', '印象がいい人', 14],
-    ['interpersonal', '人たらしの人', 23],
-    ['work', '仕事ができる人', 15],
-    ['work', 'タスク処理がうまい人', 14],
-    ['life', '充実した人生を過ごせる人', 16],
-    ['life', '自分らしく生きられる人', 13],
-  ] as const) {
-    await page.goto(`/subcategory/${category}/${name}`);
-    await expect(page.getByTestId('persona-page-title')).toContainText(name);
-    await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(count);
-  }
+for (const category of publicTechniques.categories) {
+  test(`${category.name}では無料人物像の配下をすべて読める`, async ({ page }) => {
+    await page.route('**/rest/v1/**', (route) => route.fulfill({ status: 503, json: {} }));
+    const free = category.subcategories.filter((persona) => scope.free.personas.includes(persona.name));
+    expect(free).toHaveLength(Math.ceil(category.subcategories.length / 2));
+    for (const persona of free) {
+      await page.goto(`/subcategory/${category.key}/${persona.name}`);
+      await expect(page.getByTestId('persona-page-title')).toContainText(persona.name);
+      await expect(page.getByTestId('persona-technique-list').getByRole('link')).toHaveCount(persona.items.length);
+    }
 
-  await page.goto('/subcategory/interpersonal/会話がうまい人');
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
+    const locked = category.subcategories.find((persona) => !scope.free.personas.includes(persona.name))!;
+    await page.goto(`/subcategory/${category.key}/${locked.name}`);
+    await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
+  });
+}
 
-  await page.goto('/subcategory/work/頭がいい人');
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique/);
-});
-
-test('人物像詳細はタイトルだけのコンパクトな一列メニューとして一覧できる', async ({ page }) => {
+test('人物像詳細は紹介を固定し、連番とタイトルの一覧だけをスクロールできる', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/subcategory/interpersonal/印象がいい人');
   const list = page.getByTestId('persona-technique-list');
@@ -1044,16 +1041,19 @@ test('人物像詳細はタイトルだけのコンパクトな一列メニュ�
   await expect(page.getByText('STEP 1')).toHaveCount(0);
   await expect(cards.first()).toHaveAccessibleName('清潔感を意識するを開く');
   await expect(cards.nth(1)).toHaveAccessibleName('表情・視線・姿勢・声を安定させるを開く');
-  const displayedContent = await cards.evaluateAll((elements) => elements.map((element) =>
-    element.textContent?.replace(/›$/, ''),
-  ));
   const titles = await list.getByTestId(/^persona-technique-title-/).allTextContents();
-  expect(displayedContent).toEqual(titles);
+  const displayedContent = await cards.evaluateAll((elements) => elements.map(element => element.textContent));
+  expect(displayedContent).toEqual(titles.map((title, index) => `${String(index + 1).padStart(2, '0')}${title}›`));
   const box = (await cards.first().boundingBox())!;
   expect(box.height).toBeGreaterThanOrEqual(44);
   expect(box.height).toBeLessThanOrEqual(56);
-  await cards.last().scrollIntoViewIfNeeded();
+  const fixed = page.getByTestId('persona-page-intro');
+  const before = (await fixed.boundingBox())!;
+  const scroll = page.getByTestId('persona-technique-scroll');
+  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
+  await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
   await expect(cards.last()).toBeInViewport();
+  expect(Math.abs((await fixed.boundingBox())!.y - before.y)).toBeLessThan(2);
   await cards.first().click();
   await expect(page).toHaveURL(/\/card\/master336-001$/);
   await expect(page.getByTestId('technique-essence')).toBeVisible();

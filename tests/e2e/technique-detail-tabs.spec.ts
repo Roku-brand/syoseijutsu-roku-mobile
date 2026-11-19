@@ -44,7 +44,10 @@ for (const width of [320, 390]) {
     await expect(titleOnly).toHaveText('02質問好意効果›');
     await expect(supplementary).toContainText('やりすぎは不足と同じように問題になるという教え。');
     await expect(supplementary).not.toContainText(/助言も気遣いも|実践手法｜|思想・言葉による補完｜/);
-    await expect(page.getByTestId('related-techniques')).toHaveCount(0);
+    const relatedTechniques = page.getByTestId('related-techniques').getByRole('link');
+    await expect(relatedTechniques).toHaveCount(4);
+    await expect(relatedTechniques.first()).toHaveText('01質問と自己開示のバランスがいい›');
+    await expect(relatedTechniques.first()).toHaveAttribute('href', '/card/master336-021');
 
     for (const [name, list] of [['主要理論', primary], ['あわせて読む理論', supplementary]] as const) {
       const heading = page.getByRole('heading', { name, exact: true });
@@ -61,7 +64,6 @@ for (const width of [320, 390]) {
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 
     const scroll = page.getByTestId('technique-detail-scroll');
-    await scroll.evaluate(node => { node.scrollTop += node.querySelector('[data-testid="technique-detail-tabs"]')!.getBoundingClientRect().top - node.getBoundingClientRect().top; });
     await expect(page.getByTestId('technique-detail-tabs')).toHaveCSS('background-color', 'rgb(251, 248, 242)');
     if (width === 390) await page.screenshot({ path: test.info().outputPath('related-knowledge-free-390.png') });
 
@@ -102,18 +104,28 @@ test('タブ切替時に共通エリアを自動スクロールしない', async
   expect(Math.abs(after!.y - before!.y)).toBeLessThan(2);
 });
 
-for (const width of [390, 1440]) test(`読み進めた詳細タブはヘッダー直下に隙間なく固定される (${width}px)`, async ({ page }) => {
-  // The desktop article is shorter; use a shallow viewport so it scrolls far
-  // enough to pin the tabs instead of reaching the end of the page first.
-  await page.setViewportSize({ width, height: width >= 1000 ? 480 : 700 });
-  await page.goto('/card/master336-001');
-  const tabs = page.getByTestId('technique-detail-tabs');
-  await expect(tabs).toBeVisible();
-  await page.getByTestId('technique-detail-scroll').evaluate(node => { node.scrollTop = 900; });
-  await expect.poll(async () => {
-    const tab = (await tabs.boundingBox())!;
-    const header = (await page.getByTestId('book-header').boundingBox())!;
-    return Math.abs(tab.y - header.y - header.height);
-  }).toBeLessThan(1);
-  await page.screenshot({ path: test.info().outputPath(`detail-sticky-${width}.png`) });
-});
+for (const [width, height] of [[320, 568], [390, 844], [1440, 480]]) {
+  test(`処世術のタイトル・本質・タブを固定して本文だけスクロールする (${width}x${height})`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.goto('/card/master336-001');
+    const fixed = ['book-header', 'technique-detail-title', 'technique-essence', 'technique-detail-tabs']
+      .map(id => page.getByTestId(id));
+    const body = page.getByTestId('technique-detail-scroll');
+    const initial = await Promise.all(fixed.map(part => part.boundingBox()));
+    expect(initial.every(Boolean)).toBeTruthy();
+    const tabs = initial[3]!;
+    const scrollBox = (await body.boundingBox())!;
+    expect(Math.abs(scrollBox.y - (tabs.y + tabs.height))).toBeLessThan(2);
+    expect(scrollBox.height).toBeGreaterThan(44);
+
+    await body.evaluate(node => { node.scrollTop = 250; });
+    await expect.poll(() => body.evaluate(node => node.scrollTop)).toBeGreaterThan(0);
+    for (const [index, part] of fixed.entries()) {
+      expect(Math.abs((await part.boundingBox())!.y - initial[index]!.y)).toBeLessThan(2);
+    }
+    await page.getByRole('tab', { name: '実践' }).click();
+    await expect(page.getByText('今日からできる実践')).toBeInViewport();
+    await expect.poll(() => body.evaluate(node => node.scrollTop)).toBe(0);
+    await page.screenshot({ path: test.info().outputPath(`detail-fixed-${width}.png`) });
+  });
+}
