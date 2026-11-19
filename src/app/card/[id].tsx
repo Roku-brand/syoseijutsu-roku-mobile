@@ -24,6 +24,10 @@ import { RelatedFeatures } from '@/components/related-features';
 import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { contentImageUrl } from '@/lib/content-media';
 import { TechniqueTitle } from '@/components/technique-title';
+import type { TechniqueCard } from '@/data/types';
+
+const detailTabs = [{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const;
+type DetailTab = (typeof detailTabs)[number]['key'];
 
 export function generateStaticParams() {
   return Array.from(techniqueById.keys()).map((id) => ({ id }));
@@ -32,7 +36,7 @@ export function generateStaticParams() {
 export default function CardDetailScreen() {
   'use no memo';
   const router = useRouter();
-  const [tab, setTab] = useState<'explanation' | 'practice' | 'related'>('explanation');
+  const [tab, setTab] = useState<DetailTab>('explanation');
   const introScrollRef = useRef<ScrollView>(null);
   const scrollRef = useRef<ScrollView>(null);
   const fade = useRef(new Animated.Value(1)).current;
@@ -113,16 +117,18 @@ export default function CardDetailScreen() {
   const theorySupportingTextLines = effectiveAccess === 'paid' ? 2 : 0;
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
-  const personaName = card.subcategory.trim();
-
-  const navigateCard = (offset: -1 | 1) => {
-    const currentIndex = techniqueCards.findIndex((item) => item.id === card.id);
-    const next =
-      techniqueCards[
-        (currentIndex + offset + techniqueCards.length) % techniqueCards.length
-      ];
-    router.replace({ pathname: '/card/[id]', params: { id: next.id } });
+  const currentIndex = techniqueCards.findIndex(item => item.id === card.id);
+  const adjacentCard = (offset: -1 | 1) => {
+    const next = techniqueCards[(currentIndex + offset + techniqueCards.length) % techniqueCards.length];
+    if (currentIndex < 0 || !next || next.id === card.id) return;
+    return {
+      path: `/card/${next.id}`,
+      open: () => router.replace({ pathname: '/card/[id]', params: { id: next.id } }),
+      preview: canReadTechnique(effectiveAccess, next.id) ? <TechniquePagePreview card={next} /> : null,
+    };
   };
+  const previous = adjacentCard(-1);
+  const next = adjacentCard(1);
 
   return (
     <Screen scroll={false} style={styles.screen}>
@@ -134,27 +140,8 @@ export default function CardDetailScreen() {
         bounces={false}
         overScrollMode="never"
       >
-        <DetailSwipe
-          style={styles.article}
-          onPrevious={() => navigateCard(-1)}
-          onNext={() => navigateCard(1)}
-        >
-          <View testID="technique-detail-number" style={styles.numberRow}>
-            <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
-            {card.importance ? <AppText testID="technique-detail-importance" style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
-            {personaName ? <AppText testID="technique-detail-persona" style={styles.personaName}>{personaName}</AppText> : null}
-          </View>
-
-          <TechniqueTitle
-            testID="technique-detail-title"
-            title={card.title}
-            minimumFontSize={20}
-            accessibilityRole="header"
-            aria-level={1}
-            style={styles.title}
-          />
-
-          <View style={styles.rule} />
+        <DetailSwipe style={styles.article} previous={previous} next={next}>
+          <TechniqueHeading card={card} />
         </DetailSwipe>
       </ScrollView>
       <ScrollView
@@ -165,51 +152,11 @@ export default function CardDetailScreen() {
         showsVerticalScrollIndicator={false}
         testID="technique-detail-scroll"
       >
-        <DetailSwipe style={styles.article} onPrevious={() => navigateCard(-1)} onNext={() => navigateCard(1)}>
-          {card.imagePath && contentImageUrl(card.imagePath) ? <Image source={{ uri: contentImageUrl(card.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
-
-          <View style={styles.summaryCard}>
-            <View style={styles.bulbMark} testID="technique-essence-marker">
-              <View style={styles.bulbGlyph}>
-                <View style={styles.bulbGlass} />
-                <View style={styles.bulbStem} />
-              </View>
-            </View>
-            <View style={styles.summaryCopy}>
-              <AppText variant="serif" style={styles.summaryLabel}>
-                本質
-              </AppText>
-              <AppText
-                testID="technique-essence"
-                variant="serif"
-                style={styles.summaryText}
-              >
-                {cleanText(essence)}
-              </AppText>
-            </View>
-          </View>
-
-          <View style={styles.tabs} testID="technique-detail-tabs">
-            <View style={styles.tabRow} accessibilityRole="tablist">
-              {([{ key: 'explanation', label: '解説' }, { key: 'practice', label: '実践' }, { key: 'related', label: '関連知識' }] as const).map((item) => (
-                <Pressable key={item.key} accessibilityRole="tab" aria-selected={tab === item.key} accessibilityState={{ selected: tab === item.key }} onPress={() => selectTab(item.key)} style={[styles.tab, tab === item.key && styles.tabSelected]}>
-                  <AppText numberOfLines={1} style={[styles.tabText, tab === item.key && styles.tabTextSelected]}>{item.label}</AppText>
-                </Pressable>
-              ))}
-            </View>
-          </View>
+        <DetailSwipe style={styles.article} previous={previous} next={next}>
+          <TechniqueEssence card={card} essence={essence} />
+          <TechniqueTabs tab={tab} onSelect={selectTab} />
           <Animated.View style={{ opacity: fade }}>
-          {tab === 'explanation' && !!explanation.body.length && (
-            <ArticleSection title="原理と解説">
-              <View style={styles.explanation}>
-                {explanation.body.map((paragraph, index) => (
-                  <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>
-                    {paragraph}
-                  </RichParagraph>
-                ))}
-              </View>
-            </ArticleSection>
-          )}
+          {tab === 'explanation' && <TechniqueExplanation paragraphs={explanation.body} />}
 
           {tab === 'practice' && <>
           <ArticleSection title="今日からできる実践">
@@ -306,6 +253,80 @@ export default function CardDetailScreen() {
   );
 }
 
+function TechniquePagePreview({ card }: { card: TechniqueCard }) {
+  const explanation = splitExplanation(card.explanation, card.subtitle);
+  return (
+    <Screen scroll={false} style={[styles.screen, styles.preview]}>
+      <View style={[styles.readingInset, styles.introContent]}>
+        <View style={styles.article}><TechniqueHeading card={card} preview /></View>
+      </View>
+      <View style={[styles.readingInset, styles.bodyContent]}>
+        <View style={styles.article}>
+          <TechniqueEssence card={card} essence={card.essence ?? explanation.lead} preview />
+          <TechniqueTabs tab="explanation" />
+          <TechniqueExplanation paragraphs={explanation.body} />
+        </View>
+      </View>
+    </Screen>
+  );
+}
+
+function TechniqueHeading({ card, preview = false }: { card: TechniqueCard; preview?: boolean }) {
+  const personaName = card.subcategory.trim();
+  return <>
+    <View testID={preview ? undefined : 'technique-detail-number'} style={styles.numberRow}>
+      <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
+      {card.importance ? <AppText testID={preview ? undefined : 'technique-detail-importance'} style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+      {personaName ? <AppText testID={preview ? undefined : 'technique-detail-persona'} style={styles.personaName}>{personaName}</AppText> : null}
+    </View>
+    <TechniqueTitle testID={preview ? undefined : 'technique-detail-title'} title={card.title} minimumFontSize={20} accessibilityRole="header" aria-level={1} style={styles.title} />
+    <View style={styles.rule} />
+  </>;
+}
+
+function TechniqueEssence({ card, essence, preview = false }: { card: TechniqueCard; essence: string; preview?: boolean }) {
+  const image = card.imagePath ? contentImageUrl(card.imagePath) : null;
+  return <>
+    {image ? <Image source={{ uri: image }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
+    <View style={styles.summaryCard}>
+      <View style={styles.bulbMark} testID={preview ? undefined : 'technique-essence-marker'}>
+        <View style={styles.bulbGlyph}><View style={styles.bulbGlass} /><View style={styles.bulbStem} /></View>
+      </View>
+      <View style={styles.summaryCopy}>
+        <AppText variant="serif" style={styles.summaryLabel}>本質</AppText>
+        <AppText testID={preview ? undefined : 'technique-essence'} variant="serif" style={styles.summaryText}>{cleanText(essence)}</AppText>
+      </View>
+    </View>
+  </>;
+}
+
+function TechniqueTabs({ tab, onSelect }: { tab: DetailTab; onSelect?: (tab: DetailTab) => void }) {
+  return (
+    <View style={styles.tabs} testID={onSelect ? 'technique-detail-tabs' : undefined}>
+      <View style={styles.tabRow} accessibilityRole="tablist">
+        {detailTabs.map(item => {
+          const active = tab === item.key;
+          const style = [styles.tab, active && styles.tabSelected];
+          const label = <AppText numberOfLines={1} style={[styles.tabText, active && styles.tabTextSelected]}>{item.label}</AppText>;
+          return onSelect
+            ? <Pressable key={item.key} accessibilityRole="tab" aria-selected={active} accessibilityState={{ selected: active }} onPress={() => onSelect(item.key)} style={style}>{label}</Pressable>
+            : <View key={item.key} style={style}>{label}</View>;
+        })}
+      </View>
+    </View>
+  );
+}
+
+function TechniqueExplanation({ paragraphs }: { paragraphs: string[] }) {
+  return paragraphs.length ? (
+    <ArticleSection title="原理と解説">
+      <View style={styles.explanation}>
+        {paragraphs.map((paragraph, index) => <RichParagraph key={`${paragraph.slice(0, 20)}-${index}`}>{paragraph}</RichParagraph>)}
+      </View>
+    </ArticleSection>
+  ) : null;
+}
+
 function splitExplanation(value?: string, subtitle?: string) {
   const paragraphs = (value ?? '')
     .split(/\n\s*\n/)
@@ -365,6 +386,7 @@ function ArticleSection({
 }
 
 const styles = StyleSheet.create({
+  preview: { overflow: 'hidden' },
   screen: { minHeight: 0, backgroundColor: '#FBF8F2' },
   readingInset: {
     width: '100%',

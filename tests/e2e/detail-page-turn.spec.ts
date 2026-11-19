@@ -20,46 +20,85 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const { from, to, title } of details) {
-  test(`${title} は横ドラッグに追従し、ページをめくって前後に移動する`, async ({ page }) => {
+  test(`${title} は紙の下に移動先を表示し、短いドラッグでは元に戻る`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto(from);
     await expect(page.locator('#roku-launch')).toBeHidden();
     const sheet = page.getByTestId('detail-page-sheet');
-    const rotation = () => sheet.evaluate(node => {
+    const underlay = page.getByTestId('detail-page-underlay');
+    const offset = () => sheet.evaluate(node => {
       const transform = getComputedStyle(node).transform;
-      return transform === 'none' ? 0 : new DOMMatrix(transform).m13;
+      return transform === 'none' ? 0 : new DOMMatrix(transform).m41;
     });
-    await expect(page.getByTestId(title)).toBeVisible();
+    const heading = page.getByTestId(title);
+    await expect(heading).toBeVisible();
+    const originalHeading = await heading.innerText();
+    const originalX = (await heading.boundingBox())!.x;
 
     await drag(page, title, -42);
-    await expect.poll(rotation).toBeGreaterThan(0.05);
+    await expect.poll(offset).toBeLessThan(-28);
+    await expect(page.getByTestId('detail-page-curl')).toBeVisible();
     await page.mouse.up();
-    await expect.poll(rotation).toBe(0);
+    await expect(underlay).toHaveCount(0);
     await expect(page).toHaveURL(from);
 
     await drag(page, title, -158);
-    await expect.poll(rotation).toBeGreaterThan(0.15);
+    await expect.poll(offset).toBeLessThan(-110);
+    await expect.poll(async () => (await heading.boundingBox())!.x).toBeCloseTo(originalX, 0);
+    const nextHeading = await underlay.getByRole('heading', { level: 1, includeHidden: true }).innerText();
+    expect(nextHeading).not.toBe(originalHeading);
+    await expect(page).toHaveURL(from);
     await page.mouse.up();
     await expect(page).toHaveURL(to);
-    await expect.poll(rotation).toBe(0);
+    await expect(heading).toHaveText(nextHeading);
+    await expect(underlay).toHaveCount(0);
 
     await drag(page, title, 158);
-    await expect.poll(rotation).toBeLessThan(-0.15);
+    await expect.poll(offset).toBeGreaterThan(110);
+    await expect(underlay.getByRole('heading', { level: 1, includeHidden: true })).toHaveText(originalHeading);
     await page.mouse.up();
     await expect(page).toHaveURL(from);
-    await expect.poll(rotation).toBe(0);
+    await expect(underlay).toHaveCount(0);
   });
 }
 
-test('動きを減らす設定ではページを回転せず、横スワイプで移動できる', async ({ page }) => {
+test('動きを減らす設定でも横スワイプで移動できる', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/card/master336-001');
   await expect(page.locator('#roku-launch')).toBeHidden();
   await expect(page.getByTestId('technique-detail-title')).toBeVisible();
   await drag(page, 'technique-detail-title', -148);
+  await expect(page.getByTestId('detail-page-curl')).toHaveCount(0);
   await expect(page.getByTestId('detail-page-sheet')).toHaveCSS('transform', 'none');
   await page.mouse.up();
   await expect(page).toHaveURL('/card/master336-002');
+});
+
+test('詳細画面の左端からのスワイプでは戻らない', async ({ page, browserName }) => {
+  await page.goto('/');
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  await page.goto('/card/master336-001');
+  await expect(page.locator('#roku-launch')).toBeHidden();
+  if (await page.evaluate(() => CSS.supports('overscroll-behavior-x', 'none'))) {
+    await expect(page.locator('html')).toHaveCSS('overscroll-behavior-x', 'none');
+  }
+  const cdp = browserName === 'chromium' ? await page.context().newCDPSession(page) : null;
+  if (cdp) {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 4, y: 160 }] });
+    for (let step = 1; step <= 8; step += 1) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 4 + step * 24, y: 160 }] });
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  } else {
+    await page.mouse.move(4, 160);
+    await page.mouse.down();
+    await page.mouse.move(196, 160, { steps: 8 });
+    await page.mouse.up();
+  }
+  await expect(page.getByTestId('detail-page-underlay')).toHaveCount(0);
+  await expect(page).toHaveURL('/card/master336-001');
+  await page.getByTestId('book-header-back').click();
+  await expect(page).not.toHaveURL('/card/master336-001');
 });
 
 test('スマホのタッチで縦に読め、横へスワイプすると次のページへ移る', async ({ page, browserName }) => {

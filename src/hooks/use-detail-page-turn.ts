@@ -1,33 +1,31 @@
-import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Platform } from 'react-native';
 
 type Direction = -1 | 1;
-type Turn = { from: string; direction: Direction; navigate: () => void; stage: 'leaving' | 'awaiting' | 'entering' };
+export type DetailPageDestination = { path: string; open: () => void; preview: ReactNode };
+type Page = { direction: Direction; destination: DetailPageDestination };
 type PageTurn = {
   active: boolean;
   busy: () => boolean;
-  preview: (distance: number, width: number) => void;
-  finish: (direction: Direction, navigate: () => void) => void;
+  preview: (direction: Direction, distance: number, destination: DetailPageDestination) => void;
+  finish: (direction: Direction, destination: DetailPageDestination) => void;
   cancel: () => void;
 };
 
 export const DetailPageTurnContext = createContext<PageTurn | null>(null);
 export const useDetailPageTurn = () => useContext(DetailPageTurnContext);
 
-const detailKind = (path: string) => /^\/(card|theory)\/[^/]+\/?$/.exec(path)?.[1];
-const driver = Platform.OS !== 'web';
-
-export function useDetailPageTurnMotion(path: string, reduced: boolean) {
+export function useDetailPageTurnMotion(path: string, reduced: boolean, width: number) {
   const progress = useRef(new Animated.Value(0)).current;
-  const [active, setActive] = useState(false);
-  const [direction, setDirection] = useState<Direction>(1);
+  const [page, setPage] = useState<Page | null>(null);
+  const visiblePage = useRef<Page | null>(null);
+  const completion = useRef<{ destination: DetailPageDestination; opened: boolean } | null>(null);
   const animation = useRef<Animated.CompositeAnimation | null>(null);
   const watchdog = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const turn = useRef<Turn | null>(null);
   const lastPath = useRef(path);
   const arrivalPath = useRef<string | null>(null);
-  const options = useRef({ path, reduced });
-  options.current = { path, reduced };
+  const options = useRef({ reduced, width });
+  options.current = { reduced, width };
 
   const clearWatchdog = useCallback(() => {
     if (watchdog.current !== null) clearTimeout(watchdog.current);
@@ -35,87 +33,79 @@ export function useDetailPageTurnMotion(path: string, reduced: boolean) {
   }, []);
 
   const reset = useCallback(() => {
-    turn.current = null;
+    completion.current = null;
+    visiblePage.current = null;
     clearWatchdog();
     animation.current?.stop();
     progress.setValue(0);
-    setActive(false);
+    setPage(null);
   }, [clearWatchdog, progress]);
 
-  const animateTo = useCallback((value: number, duration: number, complete: () => void) => {
+  const showPage = useCallback((direction: Direction, destination: DetailPageDestination) => {
+    if (visiblePage.current?.direction === direction && visiblePage.current.destination.path === destination.path) return;
+    const next = { direction, destination };
+    visiblePage.current = next;
+    setPage(next);
+  }, []);
+
+  const animate = useCallback((value: number, duration: number, finish: () => void) => {
     animation.current?.stop();
     animation.current = Animated.timing(progress, {
-      toValue: value, duration, easing: Easing.out(Easing.cubic), useNativeDriver: driver,
+      toValue: value,
+      duration,
+      easing: Easing.inOut(Easing.cubic),
+      useNativeDriver: Platform.OS !== 'web',
     });
-    animation.current.start(({ finished }) => { if (finished) complete(); });
+    animation.current.start(({ finished }) => { if (finished) finish(); });
   }, [progress]);
 
   useLayoutEffect(() => {
-    const from = lastPath.current;
+    if (lastPath.current === path) return;
     lastPath.current = path;
-    if (path === from) return;
-    const current = turn.current;
-    arrivalPath.current = null;
-    if (current?.stage === 'awaiting' && current.from === from && detailKind(path) === detailKind(from)) {
-      clearWatchdog();
-      arrivalPath.current = path;
-      current.stage = 'entering';
-      setDirection(current.direction === 1 ? -1 : 1);
-      progress.setValue(0.72);
-      animateTo(0, 225, reset);
-    } else {
-      reset();
-    }
-  }, [path, animateTo, clearWatchdog, progress, reset]);
+    arrivalPath.current = completion.current?.destination.path === path ? path : null;
+    reset();
+  }, [path, reset]);
 
   useEffect(() => {
     if (!reduced) return;
-    const interrupted = turn.current;
+    const pending = completion.current;
     reset();
-    if (interrupted?.stage === 'leaving') interrupted.navigate();
+    if (pending && !pending.opened) pending.destination.open();
   }, [reduced, reset]);
 
   useEffect(() => () => {
-    turn.current = null;
+    completion.current = null;
     clearWatchdog();
     animation.current?.stop();
   }, [clearWatchdog]);
 
   const actions = useMemo(() => ({
-    busy: () => turn.current !== null,
-    preview: (distance: number, width: number) => {
-      if (options.current.reduced || turn.current) return;
+    busy: () => completion.current !== null,
+    preview: (direction: Direction, distance: number, destination: DetailPageDestination) => {
+      if (options.current.reduced || !options.current.width || completion.current) return;
       animation.current?.stop();
-      setDirection(distance <= 0 ? 1 : -1);
-      setActive(true);
-      progress.setValue(Math.min(0.65, Math.abs(distance) / Math.max(width, 1)));
+      showPage(direction, destination);
+      progress.setValue(Math.min(0.73, 0.85 * distance / options.current.width));
     },
-    finish: (nextDirection: Direction, navigate: () => void) => {
-      if (turn.current) return;
-      if (options.current.reduced) { navigate(); return; }
-      const current: Turn = { from: options.current.path, direction: nextDirection, navigate, stage: 'leaving' };
-      turn.current = current;
-      setDirection(nextDirection);
-      setActive(true);
-      animateTo(1, 170, () => {
-        if (turn.current !== current) return;
-        current.stage = 'awaiting';
-        watchdog.current = setTimeout(reset, 1_000);
-        navigate();
+    finish: (direction: Direction, destination: DetailPageDestination) => {
+      if (completion.current) return;
+      if (options.current.reduced || !options.current.width) { destination.open(); return; }
+      const pending = { destination, opened: false };
+      completion.current = pending;
+      showPage(direction, destination);
+      animate(1, 325, () => {
+        if (completion.current !== pending) return;
+        pending.opened = true;
+        watchdog.current = setTimeout(reset, 1200);
+        destination.open();
       });
     },
     cancel: () => {
-      if (!options.current.reduced && !turn.current) animateTo(0, 150, reset);
+      if (visiblePage.current && !completion.current) animate(0, 180, reset);
     },
-  }), [animateTo, progress, reset]);
+  }), [animate, progress, reset, showPage]);
 
+  const active = page !== null;
   const controls = useMemo(() => ({ ...actions, active }), [actions, active]);
-  const sheetStyle = active ? {
-    transformOrigin: direction === 1 ? 'left center' : 'right center',
-    transform: [{ perspective: 1000 }, { rotateY: progress.interpolate({
-      inputRange: [0, 1], outputRange: ['0deg', direction === 1 ? '-78deg' : '78deg'],
-    }) }],
-  } : undefined;
-  const shade = progress.interpolate({ inputRange: [0, 1], outputRange: [0, 0.22] });
-  return { controls, sheetStyle, shade, arrivalPath };
+  return { controls, page, progress, arrivalPath };
 }
