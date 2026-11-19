@@ -89,8 +89,8 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
   test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'CMS connector is not configured in this build');
   const counts = new Map<string, number>();
   const rows = Array.from({ length: 7 }, (_, index) => ({ id: `cms-polish-${index}`, title: `起動時のカード ${index}`, essence: '保存したカードの位置を保つ。', explanation: '公開カタログの確認。', category: 'interpersonal', persona_id: '話を聞く人', status: 'published', access_tier: 'free', display_order: index }));
-  const theoryRows = selectedTheoryIds.slice(0, 7).map((id, index) => ({ id, title: `理論のカード ${index}`, summary: '理論の分類表示を検証する。', category_id: 'cognitive', category_title: '認知心理学', status: 'published', access_tier: 'free', display_order: index }));
-  const categories = [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 0 }, { kind: 'theory', id: 'cognitive', title: '認知心理学', display_order: 0 }];
+  const theoryRows = selectedTheoryIds.slice(0, 7).map((id, index) => ({ id, title: `理論のカード ${index}`, summary: '理論の分類表示を検証する。', category_id: 'psychology', category_title: '心理学', status: 'published', access_tier: 'free', display_order: index }));
+  const categories = [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 0 }, { kind: 'theory', id: 'psychology', title: '心理学', display_order: 0 }];
   await page.route('**/rest/v1/**', async route => {
     const table = new URL(route.request().url()).pathname.split('/').at(-1)!;
     counts.set(table, (counts.get(table) ?? 0) + 1);
@@ -112,8 +112,8 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
   await page.getByTestId('home-deck-filter').click();
   await page.getByTestId('home-deck-filter-theory').click();
   await ready(page);
-  await expect(page.getByTestId('home-deck-context')).toHaveText('認知心理学');
-  await expect(page.getByTestId('home-deck-context')).toHaveAttribute('aria-label', '理論分類：認知心理学');
+  await expect(page.getByTestId('home-deck-context')).toHaveText('心理学');
+  await expect(page.getByTestId('home-deck-context')).toHaveAttribute('aria-label', '理論分類：心理学');
 });
 test('選外の理論を保存済みのおすすめから入れ替え、閲覧中の採用カードを維持する', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));

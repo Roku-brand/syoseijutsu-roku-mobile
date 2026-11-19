@@ -23,6 +23,7 @@ for (const { from, to, title } of details) {
   test(`${title} は横ドラッグに追従し、ページをめくって前後に移動する`, async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.goto(from);
+    await expect(page.locator('#roku-launch')).toBeHidden();
     const sheet = page.getByTestId('detail-page-sheet');
     const rotation = () => sheet.evaluate(node => {
       const transform = getComputedStyle(node).transform;
@@ -53,6 +54,7 @@ for (const { from, to, title } of details) {
 test('動きを減らす設定ではページを回転せず、横スワイプで移動できる', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/card/master336-001');
+  await expect(page.locator('#roku-launch')).toBeHidden();
   await expect(page.getByTestId('technique-detail-title')).toBeVisible();
   await drag(page, 'technique-detail-title', -148);
   await expect(page.getByTestId('detail-page-sheet')).toHaveCSS('transform', 'none');
@@ -63,6 +65,7 @@ test('動きを減らす設定ではページを回転せず、横スワイプ�
 test('スマホのタッチで縦に読め、横へスワイプすると次のページへ移る', async ({ page, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.goto('/card/master336-001');
+  await expect(page.locator('#roku-launch')).toBeHidden();
   const scroll = page.getByTestId('technique-detail-scroll');
   await expect(scroll).toBeVisible();
   const cdp = await page.context().newCDPSession(page);
