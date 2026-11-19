@@ -73,7 +73,7 @@ function AppStack({ reducedMotion }: { reducedMotion: boolean }) {
       contentStyle: { backgroundColor: colors.paper },
       animation: noAnimation ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
       animationDuration: motion.detailDuration,
-      gestureEnabled: true,
+      gestureEnabled: !detail,
       fullScreenGestureEnabled: !detail,
     };
   }} />;

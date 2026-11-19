@@ -50,6 +50,9 @@ export default function Root({ children }: PropsWithChildren) {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
             background: var(--roku-status-background, #F7F0E4);
           }
+          html:has([data-testid="detail-reader"]) {
+            overscroll-behavior-x: none;
+          }
           body {
             width: 100%; height: var(--roku-app-height, 100%); min-height: -webkit-fill-available;
             margin: 0; overflow: hidden; overscroll-behavior: none;

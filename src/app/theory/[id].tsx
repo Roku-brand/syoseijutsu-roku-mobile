@@ -80,41 +80,27 @@ export default function TheoryDetailScreen() {
   }
 
   const related = getTechniquesForTheory(theory);
-  const titleLength = [...(theory.quotation?.translationText ?? theory.title).replace(/\s/g, '')].length;
-  const titleFontSize = compact
-    ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
-    : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
-  const summary = formatTheorySummary(theory.quotation?.contextNote ?? theory.summary);
-  const seoCopy = getTheorySeoCopy(theory);
-  const navigateTheory = (offset: -1 | 1) => {
-    const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
+  const currentIndex = theories.findIndex((item) => item.tagId === theory.tagId);
+  const adjacentTheory = (offset: -1 | 1) => {
     const next = theories[(currentIndex + offset + theories.length) % theories.length];
-    router.replace({ pathname: '/theory/[id]', params: { id: next.tagId } });
+    if (currentIndex < 0 || !next || next.tagId === theory.tagId) return;
+    return {
+      path: `/theory/${next.tagId}`,
+      open: () => router.replace({ pathname: '/theory/[id]', params: { id: next.tagId } }),
+      preview: canReadTheory(effectiveAccess, next.tagId) && !isLockedTheoryShell(next) && !isRetiredTheoryId(next.tagId) ? (
+        <Screen scroll={false} style={[styles.screen, styles.preview]}>
+          <View style={[styles.screenContent, compact && styles.screenContentCompact]}>
+            <View style={styles.article}><TheoryOverview theory={next} compact={compact} preview /></View>
+          </View>
+        </Screen>
+      ) : null,
+    };
   };
 
   return (
     <Screen scrollRef={scrollRef} style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
-      <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
-        <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
-          <View testID="theory-meta" style={styles.metaRow}>
-            <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
-            <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
-          </View>
-          <AppText accessibilityRole="header" aria-level={1} testID="theory-title" variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
-            {theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title)}
-          </AppText>
-          {theory.quotation ? <View testID="quotation-attribution" style={{ gap: 6, marginTop: 18 }}>
-            <AppText style={{ color: blue.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 28 }}>— {theory.quotation.author}</AppText>
-            <AppText style={{ color: blue.text, fontSize: 12, lineHeight: 20 }}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
-          </View> : null}
-        </View>
-
-        {theory.imagePath && contentImageUrl(theory.imagePath) ? <Image source={{ uri: contentImageUrl(theory.imagePath)! }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
-
-        <View testID="theory-summary" style={[styles.summaryBlock, compact && styles.summaryBlockCompact, !compact && styles.readingWidth]}>
-          <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{theory.quotation ? '言葉の背景' : seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
-          <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
-        </View>
+      <DetailSwipe style={styles.article} previous={adjacentTheory(-1)} next={adjacentTheory(1)}>
+        <TheoryOverview theory={theory} compact={compact} />
 
         <RelatedContentSection tone="theory"
           title="この考え方を実生活でどう使う？"
@@ -133,6 +119,36 @@ export default function TheoryDetailScreen() {
       </DetailSwipe>
     </Screen>
   );
+}
+
+function TheoryOverview({ theory, compact, preview = false }: { theory: TheoryCard; compact: boolean; preview?: boolean }) {
+  const titleLength = [...(theory.quotation?.translationText ?? theory.title).replace(/\s/g, '')].length;
+  const titleFontSize = compact
+    ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
+    : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
+  const summary = formatTheorySummary(theory.quotation?.contextNote ?? theory.summary);
+  const seoCopy = getTheorySeoCopy(theory);
+  const image = theory.imagePath ? contentImageUrl(theory.imagePath) : null;
+  return <>
+    <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
+      <View testID={preview ? undefined : 'theory-meta'} style={styles.metaRow}>
+        <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
+        <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
+      </View>
+      <AppText accessibilityRole="header" aria-level={1} testID={preview ? undefined : 'theory-title'} variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
+        {theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title)}
+      </AppText>
+      {theory.quotation ? <View testID={preview ? undefined : 'quotation-attribution'} style={{ gap: 6, marginTop: 18 }}>
+        <AppText style={{ color: blue.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 28 }}>— {theory.quotation.author}</AppText>
+        <AppText style={{ color: blue.text, fontSize: 12, lineHeight: 20 }}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
+      </View> : null}
+    </View>
+    {image ? <Image source={{ uri: image }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
+    <View testID={preview ? undefined : 'theory-summary'} style={[styles.summaryBlock, compact && styles.summaryBlockCompact, !compact && styles.readingWidth]}>
+      <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{theory.quotation ? '言葉の背景' : seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
+      <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
+    </View>
+  </>;
 }
 
 function formatTheorySummary(value: string) {
@@ -179,6 +195,7 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
 
 const blue = catalogTheme.theory;
 const styles = StyleSheet.create({
+  preview: { overflow: 'hidden' },
   screen: { backgroundColor: colors.paper },
   screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 12, paddingBottom: 132 },
   screenContentCompact: { paddingHorizontal: 16 },
