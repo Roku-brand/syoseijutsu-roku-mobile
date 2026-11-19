@@ -4,6 +4,7 @@ import { Image } from 'expo-image';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
+import { detailColors, detailStyles } from '@/constants/detail-theme';
 import { colors, fonts, radius, spacing } from '@/constants/theme';
 import {
   getRelatedCards,
@@ -131,7 +132,7 @@ export default function CardDetailScreen() {
   const next = adjacentCard(1);
 
   return (
-    <Screen scroll={false} style={styles.screen}>
+    <Screen scroll={false} style={detailStyles.screen}>
       <ScrollView
         ref={introScrollRef}
         style={styles.fixedIntro}
@@ -205,7 +206,6 @@ export default function CardDetailScreen() {
             {relatedTheories.length > 0 && (
               <View testID="related-theories" style={styles.relatedSections}>
                 <RelatedContentSection
-                  variant="technique-detail"
                   title="主要理論"
                   description="理解の入口となる代表的な理論"
                   testID="primary-theories"
@@ -213,7 +213,6 @@ export default function CardDetailScreen() {
                   supportingTextLines={theorySupportingTextLines}
                 />
                 <RelatedContentSection
-                  variant="technique-detail"
                   title="あわせて読む理論"
                   description="実践を補う知識や、別の視点を与える思想・言葉"
                   testID="supplementary-theories"
@@ -226,7 +225,6 @@ export default function CardDetailScreen() {
             <RelatedFeatures kind="technique" id={card.id} />
 
             <RelatedContentSection
-              variant="technique-detail"
               title="関連する処世術"
               description="あわせて身につけたい実践知"
               testID="related-techniques"
@@ -256,7 +254,7 @@ export default function CardDetailScreen() {
 function TechniquePagePreview({ card }: { card: TechniqueCard }) {
   const explanation = splitExplanation(card.explanation, card.subtitle);
   return (
-    <Screen scroll={false} style={[styles.screen, styles.preview]}>
+    <Screen scroll={false} style={[detailStyles.screen, styles.preview]}>
       <View style={[styles.readingInset, styles.introContent]}>
         <View style={styles.article}><TechniqueHeading card={card} preview /></View>
       </View>
@@ -274,13 +272,13 @@ function TechniquePagePreview({ card }: { card: TechniqueCard }) {
 function TechniqueHeading({ card, preview = false }: { card: TechniqueCard; preview?: boolean }) {
   const personaName = card.subcategory.trim();
   return <>
-    <View testID={preview ? undefined : 'technique-detail-number'} style={styles.numberRow}>
-      <AppText style={styles.number}>{getTechniqueDisplayId(card)}</AppText>
-      {card.importance ? <AppText testID={preview ? undefined : 'technique-detail-importance'} style={styles.number}>{'★'.repeat(card.importance)}</AppText> : null}
-      {personaName ? <AppText testID={preview ? undefined : 'technique-detail-persona'} style={styles.personaName}>{personaName}</AppText> : null}
+    <View testID={preview ? undefined : 'technique-detail-number'} style={detailStyles.numberRow}>
+      <AppText style={detailStyles.number}>{getTechniqueDisplayId(card)}</AppText>
+      {card.importance ? <AppText testID={preview ? undefined : 'technique-detail-importance'} style={detailStyles.number}>{'★'.repeat(card.importance)}</AppText> : null}
+      {personaName ? <AppText testID={preview ? undefined : 'technique-detail-persona'} style={detailStyles.metadata}>{personaName}</AppText> : null}
     </View>
-    <TechniqueTitle testID={preview ? undefined : 'technique-detail-title'} title={card.title} minimumFontSize={20} accessibilityRole="header" aria-level={1} style={styles.title} />
-    <View style={styles.rule} />
+    <TechniqueTitle testID={preview ? undefined : 'technique-detail-title'} title={card.title} minimumFontSize={20} accessibilityRole="header" aria-level={1} style={detailStyles.title} />
+    <View style={detailStyles.rule} />
   </>;
 }
 
@@ -288,13 +286,13 @@ function TechniqueEssence({ card, essence, preview = false }: { card: TechniqueC
   const image = card.imagePath ? contentImageUrl(card.imagePath) : null;
   return <>
     {image ? <Image source={{ uri: image }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${card.title}の画像`} /> : null}
-    <View style={styles.summaryCard}>
+    <View style={[detailStyles.summaryCard, styles.summaryLayout]}>
       <View style={styles.bulbMark} testID={preview ? undefined : 'technique-essence-marker'}>
         <View style={styles.bulbGlyph}><View style={styles.bulbGlass} /><View style={styles.bulbStem} /></View>
       </View>
       <View style={styles.summaryCopy}>
-        <AppText variant="serif" style={styles.summaryLabel}>本質</AppText>
-        <AppText testID={preview ? undefined : 'technique-essence'} variant="serif" style={styles.summaryText}>{cleanText(essence)}</AppText>
+        <AppText variant="serif" style={[detailStyles.summaryLabel, styles.summaryLabelInset]}>本質</AppText>
+        <AppText testID={preview ? undefined : 'technique-essence'} variant="serif" style={detailStyles.summaryText}>{cleanText(essence)}</AppText>
       </View>
     </View>
   </>;
@@ -375,7 +373,7 @@ function ArticleSection({
   return (
     <View style={[styles.section, ruled && styles.sectionRuled]}>
       <View style={styles.sectionHeading}>
-        {mark ? <AppText style={styles.sectionMark}>{mark}</AppText> : <View style={styles.goldBar} />}
+        {mark ? <AppText style={styles.sectionMark}>{mark}</AppText> : <View style={detailStyles.sectionMark} />}
         <AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.sectionTitle}>
           {title}
         </AppText>
@@ -387,7 +385,6 @@ function ArticleSection({
 
 const styles = StyleSheet.create({
   preview: { overflow: 'hidden' },
-  screen: { minHeight: 0, backgroundColor: '#FBF8F2' },
   readingInset: {
     width: '100%',
     maxWidth: 1420,
@@ -401,24 +398,6 @@ const styles = StyleSheet.create({
   scrollingBody: { flex: 1, minHeight: 0 },
   bodyContent: { paddingBottom: spacing.xl },
   article: { width: '100%', maxWidth: 1226, alignSelf: 'center' },
-  numberRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 8 },
-  number: {
-    color: colors.goldDeep,
-    fontFamily: fonts.serif,
-    fontSize: 13,
-    lineHeight: 20,
-    flexShrink: 0,
-  },
-  personaName: { flexShrink: 1, minWidth: 0, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20 },
-  title: {
-    width: '100%',
-    color: '#111311',
-    fontFamily: fonts.serif,
-    fontSize: 34,
-    lineHeight: 50,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
   metaRow: {
     marginTop: 14,
     flexDirection: 'row',
@@ -438,19 +417,7 @@ const styles = StyleSheet.create({
   topTagText: { color: '#3B3B37', fontSize: 11, lineHeight: 16 },
   topTagTextPrimary: { color: '#FFFDF8' },
   pressed: { opacity: 0.55 },
-  rule: { height: 1, marginTop: 18, backgroundColor: '#DFD7CA' },
-  summaryCard: {
-    marginTop: 18,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingHorizontal: 16,
-    paddingVertical: 15,
-    borderWidth: 1,
-    borderColor: '#CBB583',
-    shadowColor: '#685433', shadowOpacity: 0.06, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 1,
-    borderRadius: radius.md,
-    backgroundColor: '#FDFBF7',
-  },
+  summaryLayout: { flexDirection: 'row', alignItems: 'flex-start' },
   bulbMark: {
     position: 'absolute',
     top: 14,
@@ -479,9 +446,8 @@ const styles = StyleSheet.create({
     borderColor: '#D6B962',
   },
   summaryCopy: { width: '100%' },
-  summaryLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, marginBottom: 11, paddingRight: 38 },
-  summaryText: { color: '#141714', fontSize: 17, lineHeight: 32, fontWeight: '600' },
-  tabs: { width: '100%', marginTop: 24, backgroundColor: '#FBF8F2', borderBottomWidth: 1, borderBottomColor: '#DED5C7' },
+  summaryLabelInset: { paddingRight: 38 },
+  tabs: { width: '100%', marginTop: 24, backgroundColor: detailColors.background, borderBottomWidth: 1, borderBottomColor: '#DED5C7' },
   tabRow: { width: '100%', flexDirection: 'row', flexWrap: 'nowrap' },
   tab: { flex: 1, minWidth: 0, height: 48, alignItems: 'center', justifyContent: 'center', borderBottomWidth: 2, borderBottomColor: 'transparent' },
   tabSelected: { borderBottomColor: '#A47B2F' },
@@ -493,7 +459,7 @@ const styles = StyleSheet.create({
   sectionRuled: {
     paddingTop: 19,
     borderTopWidth: 1,
-    borderTopColor: '#DFD7CA',
+    borderTopColor: detailColors.rule,
   },
   sectionHeading: {
     minHeight: 25,
@@ -502,7 +468,6 @@ const styles = StyleSheet.create({
     gap: 9,
     marginBottom: 13,
   },
-  goldBar: { width: 4, height: 23, backgroundColor: '#B28B3A' },
   sectionMark: { color: colors.goldDeep, fontSize: 18, lineHeight: 23 },
   sectionTitle: {
     color: '#24251F',
@@ -520,7 +485,7 @@ const styles = StyleSheet.create({
   },
   explanationStrong: { color: '#111411', fontWeight: '700' },
   practiceArea: { gap: 15 },
-  practiceList: { borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.md, backgroundColor: '#FDFBF7', overflow: 'hidden' },
+  practiceList: { borderWidth: 1, borderColor: '#DED0BB', borderRadius: radius.md, backgroundColor: detailColors.surface, overflow: 'hidden' },
   checkRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, paddingHorizontal: 16, paddingVertical: 15, borderBottomWidth: 1, borderBottomColor: '#E9E1D4' },
   checkRowLast: { borderBottomWidth: 0 },
   checkMark: {
@@ -539,7 +504,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 13,
     borderLeftWidth: 3,
-    borderLeftColor: '#B28B3A',
+    borderLeftColor: detailColors.accent,
     borderRadius: radius.sm,
     backgroundColor: '#F3EFE6',
   },
@@ -553,7 +518,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#D0C4B1',
     borderRadius: radius.md,
-    backgroundColor: '#FDFBF7',
+    backgroundColor: detailColors.surface,
   },
   cautionIcon: { color: '#9A824F', fontSize: 14, fontWeight: '700', lineHeight: 25 },
   cautionText: { flex: 1, color: '#272923', fontSize: 14, lineHeight: 25, fontWeight: '600' },

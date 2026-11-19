@@ -10,8 +10,10 @@ import { canReadTheory, FREE_TECHNIQUE_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { LockedPreview } from '@/components/locked-preview';
+import { TechniqueTitle } from '@/components/technique-title';
 import { AppText, EmptyState, Screen } from '@/components/ui';
-import { catalogTheme, colors, fonts, radius } from '@/constants/theme';
+import { detailColors, detailStyles } from '@/constants/detail-theme';
+import { colors, fonts, radius } from '@/constants/theme';
 import { getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
 import { getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
@@ -54,9 +56,9 @@ export default function TheoryDetailScreen() {
     }
   }, [addHistory, effectiveAccess, theory]);
 
-  if (isRetiredTheoryId(id)) return <Screen contentContainerStyle={styles.screenContent}><EmptyState tone="theory" title={RETIRED_THEORY_TITLE} description="この知識は編集方針の見直しにより公開を終了しました。保存・閲覧履歴の記録は保持されています。" /></Screen>;
+  if (isRetiredTheoryId(id)) return <Screen style={detailStyles.screen} contentContainerStyle={styles.screenContent}><EmptyState title={RETIRED_THEORY_TITLE} description="この知識は編集方針の見直しにより公開を終了しました。保存・閲覧履歴の記録は保持されています。" /></Screen>;
   if (!theory) {
-    return <Screen contentContainerStyle={styles.screenContent}><EmptyState tone="theory" title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
+    return <Screen style={detailStyles.screen} contentContainerStyle={styles.screenContent}><EmptyState title="理論が見つかりません" description="前の画面へ戻り、別の理論を選んでください。" /></Screen>;
   }
 
   if (!canReadTheory(effectiveAccess, theory.tagId)) return <LockedPreview source="discover_theory" />;
@@ -64,8 +66,8 @@ export default function TheoryDetailScreen() {
   if (isLockedTheoryShell(theory)) {
     const failed = secureContentStatus === 'error';
     return (
-      <Screen contentContainerStyle={styles.screenContent}>
-        <EmptyState tone="theory"
+      <Screen style={detailStyles.screen} contentContainerStyle={styles.screenContent}>
+        <EmptyState
           mark="理"
           title={failed ? '理論を読み込めませんでした' : '理論を読み込んでいます'}
           description={failed ? '完全版データを確認できませんでした。通信を確認して、もう一度お試しください。' : '完全版の理論を確認しています。しばらくお待ちください。'}
@@ -88,8 +90,8 @@ export default function TheoryDetailScreen() {
       path: `/theory/${next.tagId}`,
       open: () => router.replace({ pathname: '/theory/[id]', params: { id: next.tagId } }),
       preview: canReadTheory(effectiveAccess, next.tagId) && !isLockedTheoryShell(next) && !isRetiredTheoryId(next.tagId) ? (
-        <Screen scroll={false} style={[styles.screen, styles.preview]}>
-          <View style={[styles.screenContent, compact && styles.screenContentCompact]}>
+        <Screen scroll={false} style={[detailStyles.screen, styles.preview]}>
+          <View style={styles.screenContent}>
             <View style={styles.article}><TheoryOverview theory={next} compact={compact} preview /></View>
           </View>
         </Screen>
@@ -98,23 +100,29 @@ export default function TheoryDetailScreen() {
   };
 
   return (
-    <Screen scrollRef={scrollRef} style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
+    <Screen scrollRef={scrollRef} style={detailStyles.screen} contentContainerStyle={styles.screenContent}>
       <DetailSwipe style={styles.article} previous={adjacentTheory(-1)} next={adjacentTheory(1)}>
         <TheoryOverview theory={theory} compact={compact} />
 
-        <RelatedContentSection tone="theory"
-          title="この考え方を実生活でどう使う？"
-          testID="theory-related-techniques"
-          items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
-        />
+        <View style={styles.sections}>
+          <RelatedContentSection
+            title="関連する処世術"
+            testID="theory-related-techniques"
+            items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+          />
 
-        <TheoryNetwork theory={theory} />
+          <TheoryNetwork theory={theory} />
 
-        <RelatedFeatures kind="theory" id={theory.tagId} />
+          <RelatedFeatures kind="theory" id={theory.tagId} />
 
-        <View testID="theory-information" style={[styles.informationSection, !compact && styles.readingWidth]}>
-          <Pressable accessibilityRole="button" aria-expanded={informationOpen} accessibilityLabel="出典・理論情報" onPress={() => setInformationOpen(value => !value)} style={styles.informationToggle}><AppText variant="serif" style={styles.informationTitle}>出典・理論情報</AppText><AppText style={styles.informationIndicator}>{informationOpen ? '−' : '＋'}</AppText></Pressable>
-          {informationOpen ? <TheoryInformation theory={theory} compact={compact} /> : null}
+          <View testID="theory-information">
+            <Pressable accessibilityRole="button" aria-expanded={informationOpen} accessibilityLabel="出典・理論情報" onPress={() => setInformationOpen(value => !value)} style={styles.informationToggle}>
+              <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.sectionMark} />
+              <AppText variant="serif" style={styles.informationTitle}>出典・理論情報</AppText>
+              <AppText accessibilityElementsHidden style={styles.informationIndicator}>{informationOpen ? '−' : '＋'}</AppText>
+            </Pressable>
+            {informationOpen ? <TheoryInformation theory={theory} compact={compact} /> : null}
+          </View>
         </View>
       </DetailSwipe>
     </Screen>
@@ -122,7 +130,8 @@ export default function TheoryDetailScreen() {
 }
 
 function TheoryOverview({ theory, compact, preview = false }: { theory: TheoryCard; compact: boolean; preview?: boolean }) {
-  const titleLength = [...(theory.quotation?.translationText ?? theory.title).replace(/\s/g, '')].length;
+  const title = theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title);
+  const titleLength = [...title.replace(/\s/g, '')].length;
   const titleFontSize = compact
     ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
     : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
@@ -130,33 +139,42 @@ function TheoryOverview({ theory, compact, preview = false }: { theory: TheoryCa
   const seoCopy = getTheorySeoCopy(theory);
   const image = theory.imagePath ? contentImageUrl(theory.imagePath) : null;
   return <>
-    <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
-      <View testID={preview ? undefined : 'theory-meta'} style={styles.metaRow}>
-        <AppText style={styles.number}>{getTheoryDisplayId(theory)}</AppText>
-        <View style={styles.categoryTag}><AppText style={styles.categoryTagText}>{getTheoryPath(theory)}</AppText></View>
+    <View>
+      <View testID={preview ? undefined : 'theory-meta'} style={detailStyles.numberRow}>
+        <AppText style={detailStyles.number}>{getTheoryDisplayId(theory)}</AppText>
+        <AppText style={detailStyles.metadata}>{getTheoryPath(theory)}</AppText>
       </View>
-      <AppText accessibilityRole="header" aria-level={1} testID={preview ? undefined : 'theory-title'} variant="serif" style={[styles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}>
-        {theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title)}
-      </AppText>
-      {theory.quotation ? <View testID={preview ? undefined : 'quotation-attribution'} style={{ gap: 6, marginTop: 18 }}>
-        <AppText style={{ color: blue.ink, fontFamily: fonts.serif, fontSize: 17, lineHeight: 28 }}>— {theory.quotation.author}</AppText>
-        <AppText style={{ color: blue.text, fontSize: 12, lineHeight: 20 }}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
+      <TechniqueTitle
+        testID={preview ? undefined : 'theory-title'}
+        title={title}
+        minimumFontSize={20}
+        accessibilityRole="header"
+        aria-level={1}
+        style={[detailStyles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}
+      />
+      {theory.quotation ? <View testID={preview ? undefined : 'quotation-attribution'} style={styles.attribution}>
+        <AppText variant="serif" style={styles.author}>— {theory.quotation.author}</AppText>
+        <AppText style={styles.work}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
       </View> : null}
+      <View style={detailStyles.rule} />
     </View>
     {image ? <Image source={{ uri: image }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
-    <View testID={preview ? undefined : 'theory-summary'} style={[styles.summaryBlock, compact && styles.summaryBlockCompact, !compact && styles.readingWidth]}>
-      <View style={styles.summaryHeadingRow}><AppText accessibilityRole="header" aria-level={2} variant="serif" style={styles.summaryTitle}>{theory.quotation ? '言葉の背景' : seoCopy.summaryHeading}</AppText><View style={styles.summaryRule} /></View>
-      <AppText style={[styles.summaryText, compact && styles.summaryTextCompact]}>{summary}</AppText>
+    <View testID={preview ? undefined : 'theory-summary'} style={detailStyles.summaryCard}>
+      <AppText accessibilityRole="header" aria-level={2} variant="serif" style={detailStyles.summaryLabel}>
+        {theory.quotation ? '言葉の背景' : seoCopy.summaryHeading}
+      </AppText>
+      <AppText variant="serif" style={detailStyles.summaryText}>{summary}</AppText>
     </View>
   </>;
 }
 
 function formatTheorySummary(value: string) {
   const normalized = normalizeDisplayText(value);
-  if (!normalized || normalized.includes('\n')) return normalized;
-  const sentenceEnd = normalized.search(/[。！？!?]/);
-  if (sentenceEnd === -1 || sentenceEnd >= normalized.length - 1) return normalized;
-  return `${normalized.slice(0, sentenceEnd + 1)}\n${normalized.slice(sentenceEnd + 1).trimStart()}`;
+  const firstSentence = normalized.match(/^(?:「[^」]*」|『[^』]*』|（[^）]*）|[^「『（。！？!?])+[。！？!?]+/)?.[0];
+  const splitAt = firstSentence?.length ?? normalized.indexOf('\n');
+  if (splitAt === -1) return normalized;
+  const remaining = normalized.slice(splitAt).trimStart();
+  return remaining ? `${normalized.slice(0, splitAt)}\n\n${remaining}` : normalized;
 }
 
 function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: boolean }) {
@@ -193,42 +211,27 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
   );
 }
 
-const blue = catalogTheme.theory;
 const styles = StyleSheet.create({
   preview: { overflow: 'hidden' },
-  screen: { backgroundColor: colors.paper },
-  screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 34, paddingTop: 12, paddingBottom: 132 },
-  screenContentCompact: { paddingHorizontal: 16 },
+  screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 22, paddingTop: 12, paddingBottom: 132 },
   article: { width: '100%', maxWidth: 820, alignSelf: 'center' },
-  titleRegion: { paddingHorizontal: 0 },
-  metaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
-  number: { color: blue.text, fontFamily: fonts.serif, fontSize: 14, lineHeight: 20, letterSpacing: 1.4 },
-  categoryTag: { paddingHorizontal: 13, paddingVertical: 5, borderWidth: 1, borderColor: blue.border, borderRadius: radius.pill, backgroundColor: blue.inactive },
-  categoryTagText: { color: blue.ink, fontFamily: fonts.serif, fontSize: 12, lineHeight: 17, fontWeight: '600' },
-  title: { marginTop: 10, color: blue.ink, fontFamily: fonts.serif, fontWeight: '700', letterSpacing: 1.2 },
-  summaryBlock: { marginTop: 18, paddingHorizontal: 30, paddingVertical: 22, borderWidth: 1, borderColor: blue.border, borderRadius: radius.sm, backgroundColor: blue.surface },
-  summaryBlockCompact: { paddingHorizontal: 18, paddingVertical: 18 },
-  readingWidth: { width: '100%', maxWidth: 820, alignSelf: 'center' },
-  summaryHeadingRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  summaryTitle: { color: blue.ink, fontSize: 17, lineHeight: 24, fontWeight: '700', letterSpacing: 1.2 },
-  summaryRule: { width: 48, height: 1, backgroundColor: blue.border },
-  summaryText: { marginTop: 12, color: blue.text, fontFamily: fonts.serif, fontSize: 17, lineHeight: 31, letterSpacing: 0.25 },
-  summaryTextCompact: { fontSize: 17, lineHeight: 32 },
-  informationToggle: { minHeight: 56, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTopWidth: 1, borderTopColor: blue.border },
-  informationIndicator: { color: blue.ink, fontSize: 20 },
-  informationSection: { marginTop: 34 },
-  informationTitle: { paddingVertical: 12, color: blue.ink, fontSize: 20, lineHeight: 29, fontWeight: '700', letterSpacing: 0.7 },
-  informationBody: { borderWidth: 1, borderColor: blue.border, borderRadius: radius.sm, backgroundColor: blue.surface, overflow: 'hidden' },
-  informationRow: { minHeight: 58, flexDirection: 'row', alignItems: 'stretch', borderBottomWidth: 1, borderBottomColor: blue.border },
+  attribution: { gap: 6, marginTop: 18 },
+  author: { color: colors.ink, fontSize: 17, lineHeight: 28 },
+  work: { color: colors.inkSoft, fontSize: 12, lineHeight: 20 },
+  sections: { marginTop: 24, gap: 24 },
+  informationToggle: { minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 9, borderTopWidth: 1, borderTopColor: detailColors.rule },
+  informationIndicator: { color: colors.goldDeep, fontSize: 20 },
+  informationTitle: { flex: 1, paddingVertical: 12, color: colors.ink, fontSize: 19, lineHeight: 28, fontWeight: '700', letterSpacing: 0.4 },
+  informationBody: { borderWidth: 1, borderColor: detailColors.rule, borderRadius: radius.md, backgroundColor: detailColors.surface, overflow: 'hidden' },
+  informationRow: { minHeight: 58, flexDirection: 'row', alignItems: 'stretch', borderBottomWidth: 1, borderBottomColor: detailColors.rule },
   informationRowCompact: { flexDirection: 'column' },
-  informationRowLast: { borderBottomWidth: 0 },
-  informationLabel: { width: 170, paddingHorizontal: 22, paddingVertical: 17, borderRightWidth: 1, borderRightColor: blue.border, color: blue.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 21, fontWeight: '700' },
-  informationLabelCompact: { width: '100%', paddingHorizontal: 16, paddingVertical: 10, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: blue.border, color: blue.ink },
-  informationValue: { flex: 1, paddingHorizontal: 20, paddingVertical: 17, color: blue.text, fontSize: 13, lineHeight: 22 },
+  informationLabel: { width: 170, paddingHorizontal: 22, paddingVertical: 17, borderRightWidth: 1, borderRightColor: detailColors.rule, color: colors.ink, fontFamily: fonts.serif, fontSize: 13, lineHeight: 21, fontWeight: '700' },
+  informationLabelCompact: { width: '100%', paddingHorizontal: 16, paddingVertical: 10, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: detailColors.rule },
+  informationValue: { flex: 1, paddingHorizontal: 20, paddingVertical: 17, color: colors.inkSoft, fontSize: 13, lineHeight: 22 },
   sourceLinks: { flex: 1, minWidth: 0, paddingHorizontal: 20, paddingVertical: 17, gap: 12 },
-  sourceLink: { color: blue.ink, fontSize: 13, lineHeight: 22, textDecorationLine: 'underline', flexShrink: 1 },
-  sourceExplanation: { paddingHorizontal: 20, paddingVertical: 14, color: blue.text, fontSize: 12, lineHeight: 20 },
+  sourceLink: { color: colors.goldDeep, fontSize: 13, lineHeight: 22, textDecorationLine: 'underline', flexShrink: 1 },
+  sourceExplanation: { paddingHorizontal: 20, paddingVertical: 14, color: colors.inkSoft, fontSize: 12, lineHeight: 20 },
   pressed: { opacity: 0.58 },
-  retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: blue.border, borderRadius: radius.pill },
-  retryButtonText: { color: blue.ink, fontSize: 13, lineHeight: 19, fontWeight: '700' },
+  retryButton: { alignSelf: 'center', minHeight: 46, marginTop: 18, paddingHorizontal: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: detailColors.rule, borderRadius: radius.pill },
+  retryButtonText: { color: colors.goldDeep, fontSize: 13, lineHeight: 19, fontWeight: '700' },
 });
