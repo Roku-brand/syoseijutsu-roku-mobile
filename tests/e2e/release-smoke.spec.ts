@@ -173,6 +173,7 @@ test('theory metadata sits beside its identifier and content is never ellipsized
   await expect(meta).toBeVisible();
   await expect(title).toBeVisible();
   await expect(meta).toContainText('P-003');
+  await expect(meta.getByText('P-003', { exact: true })).toHaveCSS('color', 'rgb(125, 89, 35)');
   await expect(title).not.toContainText('…');
 });
 
@@ -181,11 +182,11 @@ test('理論詳細は短い定義・処世術・理論・情報の順で表示�
   await page.goto('/theory/kb_008');
   const summary = page.getByTestId('theory-summary');
   await expect(summary).toBeVisible();
-  expect(await summary.innerText()).toContain('自分のことを適度に話すと、相手も自分のことを話しやすくなること。');
+  expect(await summary.innerText()).toContain('自分のことを適度に話すと、相手も自分のことを話しやすくなること。\n\n最近困っていること');
   const article = await page.locator('[data-testid="theory-title"]').locator('xpath=ancestor-or-self::*').first().evaluate(() => document.body.innerText);
   expect(article.indexOf('自己開示の返報性とは')).toBeGreaterThan(0);
-  expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('この考え方を実生活でどう使う？'));
-  expect(article.indexOf('この考え方を実生活でどう使う？')).toBeLessThan(article.indexOf('関連する知識'));
+  expect(article.indexOf('自己開示の返報性とは')).toBeLessThan(article.indexOf('関連する処世術'));
+  expect(article.indexOf('関連する処世術')).toBeLessThan(article.indexOf('関連する知識'));
   expect(article.indexOf('関連する知識')).toBeLessThan(article.indexOf('理論情報'));
   await page.getByRole('button', { name: '出典・理論情報', exact: true }).click();
   await expect(page.getByTestId('theory-information')).toContainText('出典状態');
@@ -194,19 +195,26 @@ test('理論詳細は短い定義・処世術・理論・情報の順で表示�
   await expect(page.getByTestId('theory-information')).toContainText('注記');
 });
 
-test('理論詳細の関連項目は横幅いっぱいの読みやすいボックスになる', async ({ page }) => {
+test('理論詳細の関連項目は処世術詳細と同じ番号付きの一覧になる', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/theory/kb_008');
-  const techniqueRow = page.getByTestId('theory-related-techniques').getByRole('link').first();
-  const theoryRow = page.getByTestId('theory-related-theories').getByRole('link').first();
-  await expect(techniqueRow).toBeVisible();
-  await expect(theoryRow).toBeVisible();
+  const techniques = page.getByTestId('theory-related-techniques').getByRole('link');
+  const theories = page.getByTestId('theory-related-theories').getByRole('link');
+  for (const [name, rows] of [['関連する処世術', techniques], ['関連する知識', theories]] as const) {
+    const heading = page.getByRole('heading', { name, exact: true });
+    await expect(heading).toBeVisible();
+    await expect(heading.locator('..').getByText(`全 ${await rows.count()} 件`, { exact: true })).toBeVisible();
+    await expect(rows.first().getByText('01', { exact: true })).toBeVisible();
+    await expect(rows.first()).toHaveCSS('border-bottom-width', '1px');
+  }
+  const techniqueRow = techniques.first();
+  const theoryRow = theories.first();
   const [techniqueBox, theoryBox] = await Promise.all([techniqueRow.boundingBox(), theoryRow.boundingBox()]);
   expect(techniqueBox).not.toBeNull();
   expect(theoryBox).not.toBeNull();
   expect(techniqueBox!.width).toBeGreaterThan(700);
   expect(techniqueBox!.width).toBeLessThanOrEqual(820);
-  expect(techniqueBox!.height).toBeGreaterThanOrEqual(94);
+  expect(techniqueBox!.height).toBeGreaterThanOrEqual(52);
   expect(Math.abs(techniqueBox!.width - theoryBox!.width)).toBeLessThan(2);
 });
 
