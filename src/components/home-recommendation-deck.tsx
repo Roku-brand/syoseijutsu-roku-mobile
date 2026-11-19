@@ -14,7 +14,6 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
 import { deckPose, deckReturnEdge, deckShuffleFrames, HOME_DECK_SIZE, HOME_DECK_LAST } from '@/data/deck-motion';
 import { useAppState } from '@/state/app-state';
-import { SaveDiamond } from './save-diamond';
 import { DiscoveryFilterButton, discoveryFilterColor } from './discovery-filter-button';
 import { DiscoveryActionButton } from './discovery-action-button';
 import { DiscoveryControlIcon } from './discovery-control-icon';
@@ -22,6 +21,8 @@ import { TechniqueTitle } from './technique-title';
 import type { DiscoveryFilter } from '@/data/discovery-filter';
 
 const theoryImage = require('../../assets/home/deck-theory.webp');
+const saveOutline = require('../../assets/home/deck-save-outline.png');
+const saveFilled = require('../../assets/home/deck-save-filled.png');
 const deckImages: Record<string, number> = {
   interpersonal: require('../../assets/home/deck-interpersonal.webp'),
   work: require('../../assets/home/deck-work.webp'),
@@ -252,7 +253,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
             transform: [{ translateX: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].x }) }, { translateY: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].y }) }, { rotate: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].angle.map(value => `${value}deg`) }) }, { scale: mix.interpolate({ inputRange: shuffleFrames[depth].stops, outputRange: shuffleFrames[depth].scale }) }],
           } : nativePose(depth);
           return <Animated.View key={depth} nativeID={`home-deck-slot-${depth}`} ref={node => webMotion?.slot(depth, node)} testID={front ? 'home-deck-front' : 'home-deck-layer'} pointerEvents={front && !busy ? 'auto' : 'none'} aria-hidden={!front} accessibilityElementsHidden={!front} importantForAccessibility={!front ? 'no-hide-descendants' : 'auto'}
-            style={[styles.slot, { width: cardWidth, zIndex: returnRaised && (returning ? depth === HOME_DECK_LAST : front) ? (returning ? HOME_DECK_SIZE + 1 : 0) : HOME_DECK_SIZE - depth }, pose, Platform.OS === 'web' && { willChange: 'transform', backfaceVisibility: 'hidden' } as ViewStyle]}>
+            style={[styles.slot, { width: cardWidth, zIndex: returnRaised && (returning ? depth === HOME_DECK_LAST : front) ? (returning ? HOME_DECK_SIZE + 1 : 0) : HOME_DECK_SIZE - depth }, pose]}>
             <View style={styles.flipFace}>
               {phase !== 'shuffle' && (returning ? depth !== 0 && depth !== HOME_DECK_LAST : depth > 1) && item ? <View testID="home-deck-paper" style={[styles.card, styles.paper, { width: cardWidth, height: cardHeight, borderColor: cardAccent(item) }]}>
                 <View style={[styles.paperEdge, { backgroundColor: cardAccent(item) }]} /><View style={[styles.paperEdge, styles.paperEdgeRight, { backgroundColor: cardAccent(item) }]} />
@@ -288,20 +289,27 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
         <Text accessible={false} style={styles.quoteMark}>“</Text>
         <Text testID={active ? 'home-deck-essence' : undefined} numberOfLines={3} style={styles.summary}>{summary}</Text>
       </View>
-      <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
+      <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image testID="home-deck-photo" source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
     </Pressable>
-    {active ? <Pressable
-      testID="home-deck-save"
+    <Pressable
+      testID={active ? 'home-deck-save' : undefined}
       accessibilityRole="button"
       accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'}
       aria-pressed={saved}
       accessibilityState={{ selected: saved }}
-      disabled={disabled}
+      disabled={disabled || !active}
       onPress={() => theoretical ? toggleSavedTheory(id) : toggleSaved(id)}
       style={styles.save}
     >
-      <SaveDiamond saved={saved} />
-    </Pressable> : null}
+      <Image
+        testID="save-diamond"
+        source={saved ? saveFilled : saveOutline}
+        defaultSource={saveOutline}
+        fadeDuration={0}
+        accessible={false}
+        style={styles.saveDiamond}
+      />
+    </Pressable>
   </View>;
 }
 
@@ -313,7 +321,7 @@ const styles = StyleSheet.create({
   headingActions: { flexDirection: 'row', alignItems: 'center', flexShrink: 0, gap: 8 },
   paper: { backgroundColor: '#F8F1E5' },
   heading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 12 }, headingCopy: { flexShrink: 1 }, headingTitle: { color: colors.ink, fontFamily: fonts.serif, fontWeight: '700', fontSize: 21, lineHeight: 31, letterSpacing: 0.3 }, subtitle: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 20, color: colors.inkSoft, marginTop: 3 },
-  flipFace: { backfaceVisibility: 'hidden', borderRadius: 20, ...faceShadow },
+  flipFace: { borderRadius: 20, ...faceShadow },
   stage: { alignItems: 'center', justifyContent: 'flex-start', paddingTop: 8, zIndex: 1 }, slot: { position: 'absolute', top: 8, borderRadius: 20 },
   card: { borderRadius: 20, backgroundColor: '#FFF9F0', borderWidth: 1, borderColor: '#CDB98F', overflow: 'hidden' },
   innerFrame: { position: 'absolute', top: 4, left: 4, right: 4, bottom: 4, borderWidth: 1, borderColor: '#D8C7A4', borderRadius: 16 },
@@ -328,6 +336,7 @@ const styles = StyleSheet.create({
   photoWrap: { marginTop: 17, flex: 1, minHeight: 110, borderRadius: 13, overflow: 'hidden', backgroundColor: '#E6E0D5' }, photo: { width: '100%', height: '100%' },
   readArrow: { position: 'absolute', right: 9, bottom: 9, width: 32, height: 32, borderRadius: 20, backgroundColor: '#FFFDF5', alignItems: 'center', justifyContent: 'center' }, readArrowText: { color: colors.goldDeep, fontSize: 27, lineHeight: 29 },
   save: { position: 'absolute', right: 6, top: 8, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }, focused: { borderColor: colors.gold },
+  saveDiamond: { width: 22, height: 22 },
   paperEdge: { position: 'absolute', left: 0, top: 12, bottom: 12, width: 7, opacity: .35, borderRadius: 3 }, paperEdgeRight: { left: undefined, right: 0 },
   empty: { height: 300, justifyContent: 'center', alignItems: 'center' }, emptyTitle: { fontFamily: fonts.serif, color: colors.ink, fontSize: 17 }, retry: { minHeight: 44, justifyContent: 'center' },
   skeletonLabel: { height: 22, width: 58, borderRadius: 12, backgroundColor: '#E9E3D8', margin: 20 }, skeletonTitle: { height: 55, marginHorizontal: 20, backgroundColor: '#EFEAE1', borderRadius: 4 }, skeletonText: { height: 32, margin: 20, backgroundColor: '#F1EDE5', borderRadius: 4 }, skeletonImage: { flex: 1, margin: 18, backgroundColor: '#E9E3D8', borderRadius: 8 },
