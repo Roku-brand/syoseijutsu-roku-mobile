@@ -1,11 +1,13 @@
 import { matchesDiscoveryFilter, type DiscoveryFilter } from './discovery-filter';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { techniqueById, techniqueCards, theories, theoryById } from './catalog';
+import homeRecommendedTheoryIds from './home-recommended-theory-ids.json';
 import { isLockedTheoryShell } from './theory-display';
 import type { CategoryKey, TechniqueCard, TheoryCard } from './types';
 
 export type ReadingContent = { type: 'technique'; card: TechniqueCard } | { type: 'theory'; card: TheoryCard };
 export const readingContentId = (item: ReadingContent) => item.type === 'technique' ? item.card.id : item.card.tagId;
+export const HOME_RECOMMENDED_THEORY_IDS = new Set<string>(homeRecommendedTheoryIds);
 
 function rotation(id: string, seed: string) {
   let value = 2166136261;
@@ -55,7 +57,7 @@ export function buildReadingRecommendations({ accessState, historyIds, interests
   };
   const byRotation = (a: string, b: string) => rank(a) - rank(b) || a.localeCompare(b);
   const techniqueCandidates = techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (accessState === 'paid' || FREE_TECHNIQUE_IDS.has(card.id)));
-  const theoryCandidates = theories.filter(card => !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
+  const theoryCandidates = theories.filter(card => HOME_RECOMMENDED_THEORY_IDS.has(card.tagId) && !isLockedTheoryShell(card) && (accessState === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
   const excluded = new Set(excludeIds);
   const eligible: ReadingContent[] = ([
     ...techniqueCandidates.map(card => ({ type: 'technique' as const, card })),

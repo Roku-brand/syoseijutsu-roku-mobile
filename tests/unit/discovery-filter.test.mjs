@@ -1,9 +1,16 @@
 import './register-data.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-const { buildReadingRecommendations, readingContentId } = await import('../../src/data/reading-recommendations.ts');
+const { buildReadingRecommendations, HOME_RECOMMENDED_THEORY_IDS, readingContentId } = await import('../../src/data/reading-recommendations.ts');
 const { discoveryFilters, matchesDiscoveryFilter } = await import('../../src/data/discovery-filter.ts');
 const { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } = await import('../../src/access/access-config.ts');
+
+test('the theory selection contains 299 existing IDs without changing free access', async () => {
+  const { theoryById } = await import('../../src/data/catalog.ts');
+  assert.equal(HOME_RECOMMENDED_THEORY_IDS.size, 299);
+  assert.ok([...HOME_RECOMMENDED_THEORY_IDS].every(id => theoryById.get(id)?.tagId === id));
+  assert.equal([...HOME_RECOMMENDED_THEORY_IDS].filter(id => FREE_THEORY_ID_SET.has(id)).length, 110);
+});
 
 for (const accessState of ['free', 'paid']) {
   test(`${accessState}: faster selection preserves personalized ranking`, async () => {
@@ -32,6 +39,7 @@ for (const accessState of ['free', 'paid']) {
         assert.equal(cards.length, 7);
         assert.equal(new Set(ids).size, 7);
         assert.ok(cards.every(item => matchesDiscoveryFilter(item, filter)));
+        assert.ok(cards.every(item => item.type !== 'theory' || HOME_RECOMMENDED_THEORY_IDS.has(item.card.tagId)));
         assert.deepEqual(buildReadingRecommendations(input), cards);
         assert.deepEqual(ids.filter(id => previous.includes(id)), []);
         if (accessState === 'free') assert.ok(cards.every(item => item.type === 'theory' ? FREE_THEORY_ID_SET.has(readingContentId(item)) : FREE_TECHNIQUE_IDS.has(readingContentId(item))));

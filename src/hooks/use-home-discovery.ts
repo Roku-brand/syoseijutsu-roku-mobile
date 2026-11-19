@@ -6,18 +6,19 @@ import { techniqueCards, theories } from '@/data/catalog';
 import { isLockedTheoryShell } from '@/data/theory-display';
 import { useAppState } from '@/state/app-state';
 import { getHomeDayKey } from '@/data/home-brand-content';
-import { buildReadingRecommendations, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
+import { buildReadingRecommendations, HOME_RECOMMENDED_THEORY_IDS, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
 import { onDiscoveryReset, readDiscoveryState, writeDiscoveryState } from '@/lib/discovery-storage';
 import { hydratePublishedCache } from '@/lib/published-content';
 
 type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number; filter: DiscoveryFilter };
 import { HOME_DECK_SIZE } from '@/data/deck-motion';
 export const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
+const isRecommendationKey = (key: string) => !key.startsWith('theory:') || HOME_RECOMMENDED_THEORY_IDS.has(key.slice('theory:'.length));
 
 function accessibleCatalog(scope: string) {
   const items: ReadingContent[] = [
     ...techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (scope === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))).map(card => ({ type: 'technique' as const, card })),
-    ...theories.filter(card => !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))).map(card => ({ type: 'theory' as const, card })),
+    ...theories.filter(card => HOME_RECOMMENDED_THEORY_IDS.has(card.tagId) && !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))).map(card => ({ type: 'theory' as const, card })),
   ];
   return new Map(items.map(item => [discoveryKey(item), item]));
 }
@@ -71,17 +72,18 @@ export function useHomeDiscovery() {
           && Array.isArray(value.seen) && value.seen.every((id: unknown) => typeof id === 'string')
           && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < value.order.length) stored = { ...value, filter: isDiscoveryFilter(value.filter) ? value.filter : 'all' };
       } catch { /* A damaged cache is replaced by a usable daily deck. */ }
+      const storedCandidates = stored?.order.filter(isRecommendationKey);
       // CMS-only IDs can be absent from the bundled bootstrap catalog. Resolve
       // those before deciding that a saved card was removed or became locked.
       let resolved = true;
       let available = catalog.current;
-      if (stored?.day === day && stored.order.some(id => !available.has(id))) {
+      if (stored?.day === day && storedCandidates?.some(id => !available.has(id))) {
         await hydratePublishedCache();
         if (!active) return;
         available = accessibleCatalog(scope);
         setRestoredRevision(value => value + 1);
       }
-      if (stored?.day === day && stored.order.some(id => {
+      if (stored?.day === day && storedCandidates?.some(id => {
         const item = available.get(id);
         return !item || !matchesDiscoveryFilter(item, stored!.filter);
       })) {
@@ -101,7 +103,11 @@ export function useHomeDiscovery() {
       }
       const seen = stored?.seen.slice(-120) ?? [];
       const filter = stored?.filter ?? 'all';
-      const eligible = (id: string) => { const item = available.get(id); return item ? matchesDiscoveryFilter(item, filter) : !resolved; };
+      const eligible = (id: string) => {
+        if (!isRecommendationKey(id)) return false;
+        const item = available.get(id);
+        return item ? matchesDiscoveryFilter(item, filter) : !resolved;
+      };
       let order = stored?.day === day ? [...new Set(stored.order.filter(eligible))] : [];
       const cursor = stored ? stored.order.slice(0, stored.cursor).filter(eligible).length : 0;
       // Migrate the former long queue without losing the card being read.
