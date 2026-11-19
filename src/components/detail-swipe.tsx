@@ -1,10 +1,10 @@
 import { PanResponder, Platform, View, useWindowDimensions, type ViewProps, type ViewStyle } from 'react-native';
 import { useEffect, useRef } from 'react';
-import { useDetailPageTurn, type DetailPageDestination } from '@/hooks/use-detail-page-turn';
+import { DETAIL_SWIPE_EDGE_INSET, useDetailPageTurn, type DetailPageDestination } from '@/hooks/use-detail-page-turn';
 
 const verticalTouch = Platform.OS === 'web' ? { touchAction: 'pan-y pinch-zoom' } as ViewStyle : undefined;
 const horizontal = (dx: number, dy: number) => Math.abs(dx) > Math.abs(dy) * 1.35;
-const startsInsidePage = (x: number, width: number) => x > 22 && x < width - 22;
+const startsInsidePage = (x: number, width: number) => x > DETAIL_SWIPE_EDGE_INSET && x < width - DETAIL_SWIPE_EDGE_INSET;
 
 export function DetailSwipe({
   previous,

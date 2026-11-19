@@ -75,10 +75,20 @@ test('動きを減らす設定でも横スワイプで移動できる', async ({
 });
 
 test('詳細画面の左端からのスワイプでは戻らない', async ({ page, browserName }) => {
+  const cancelledTouch = async (x: number) => {
+    await page.evaluate(() => document.addEventListener('touchstart', event => {
+      document.body.dataset.cancelledTouch = String(event.defaultPrevented);
+    }, { once: true, capture: true }));
+    await page.touchscreen.tap(x, 160);
+    return page.locator('body').getAttribute('data-cancelled-touch');
+  };
   await page.goto('/');
   await expect(page.locator('#roku-launch')).toBeHidden();
+  expect(await cancelledTouch(4)).toBe('false');
   await page.goto('/card/master336-001');
   await expect(page.locator('#roku-launch')).toBeHidden();
+  expect(await cancelledTouch(4)).toBe('true');
+  expect(await cancelledTouch(64)).toBe('false');
   if (await page.evaluate(() => CSS.supports('overscroll-behavior-x', 'none'))) {
     await expect(page.locator('html')).toHaveCSS('overscroll-behavior-x', 'none');
   }
@@ -99,6 +109,7 @@ test('詳細画面の左端からのスワイプでは戻らない', async ({ pa
   await expect(page).toHaveURL('/card/master336-001');
   await page.getByTestId('book-header-back').click();
   await expect(page).not.toHaveURL('/card/master336-001');
+  expect(await cancelledTouch(4)).toBe('false');
 });
 
 test('スマホのタッチで縦に読め、横へスワイプすると次のページへ移る', async ({ page, browserName }) => {

@@ -14,6 +14,7 @@ type PageTurn = {
 
 export const DetailPageTurnContext = createContext<PageTurn | null>(null);
 export const useDetailPageTurn = () => useContext(DetailPageTurnContext);
+export const DETAIL_SWIPE_EDGE_INSET = 24;
 
 export function useDetailPageTurnMotion(path: string, reduced: boolean, width: number) {
   const progress = useRef(new Animated.Value(0)).current;

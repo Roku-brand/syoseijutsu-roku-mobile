@@ -4,7 +4,7 @@ import { Animated, Platform, StyleSheet, View, type ViewStyle } from 'react-nati
 import { colors } from '@/constants/theme';
 import { motion } from '@/constants/motion';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
-import { DetailPageTurnContext, useDetailPageTurnMotion } from '@/hooks/use-detail-page-turn';
+import { DETAIL_SWIPE_EDGE_INSET, DetailPageTurnContext, useDetailPageTurnMotion } from '@/hooks/use-detail-page-turn';
 
 const tabPaths = ['/', '/discover', '/learn', '/my-os'] as const;
 type RouteState = { type?: string; index?: number; routes: readonly { state?: RouteState }[] };
@@ -28,6 +28,19 @@ export function RouteTransition({ children, disabled = false }: PropsWithChildre
   const detail = /^\/(card|theory)\/[^/]+\/?$/.test(pathname);
   const viewport = useRef<View>(null);
   const previous = useRef<{ key: string; path: string; depth: number } | null>(null);
+
+  useLayoutEffect(() => {
+    if (Platform.OS !== 'web' || !detail) return;
+    // On iOS WebKit, history can claim a swipe at the screen edge before
+    // pointermove. Cancel the initiating touch there, including in the header.
+    const preventEdgeBack = (event: TouchEvent) => {
+      if (event.cancelable && event.touches.length === 1 && event.touches[0]!.clientX <= DETAIL_SWIPE_EDGE_INSET) {
+        event.preventDefault();
+      }
+    };
+    document.addEventListener('touchstart', preventEdgeBack, { capture: true, passive: false });
+    return () => document.removeEventListener('touchstart', preventEdgeBack, true);
+  }, [detail]);
 
   useLayoutEffect(() => {
     if (Platform.OS !== 'web') return;
