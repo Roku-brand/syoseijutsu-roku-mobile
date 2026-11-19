@@ -18,9 +18,11 @@ export function useWebDeckMotion(width: number, viewportWidth: number) {
   const frame = useRef<number | null>(null);
   const animations = useRef<Animation[]>([]);
   const motion = useMemo(() => {
+    // The deck rotates only in the page plane. Keep its transforms 2D when
+    // repainting after a gesture so a vertical scroll needn't retain a 3D layer.
     const pose = (depth: number, x: number, elevation = lift.current) => {
       const p = deckPose(depth, x, currentWidth.current, reverse.current, elevation);
-      return { transform: `translate3d(${p.x}px,${p.y}px,0) rotate(${p.angle}deg) scale(${p.scale})`, opacity: p.opacity };
+      return { transform: `translate(${p.x}px,${p.y}px) rotate(${p.angle}deg) scale(${p.scale})`, opacity: p.opacity };
     };
     const paint = () => {
       frame.current = null;
@@ -84,7 +86,7 @@ export function useWebDeckMotion(width: number, viewportWidth: number) {
         position.current = 0; reverse.current = false; lift.current = 0; raised.current = false;
         const key = (depth: number, index: number) => {
           const data = deckShuffleFrames(depth, currentWidth.current, currentViewportWidth.current);
-          return { transform: `translate3d(${data.x[index]}px,${data.y[index]}px,0) rotate(${data.angle[index]}deg) scale(${data.scale[index]})`, opacity: data.opacity[index] };
+          return { transform: `translate(${data.x[index]}px,${data.y[index]}px) rotate(${data.angle[index]}deg) scale(${data.scale[index]})`, opacity: data.opacity[index] };
         };
         const outgoing: Animation[] = [];
         slots.current.forEach((node, depth) => {

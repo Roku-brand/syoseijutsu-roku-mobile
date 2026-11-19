@@ -1,5 +1,6 @@
 import { turnDeck, expectDeckCursor } from './deck-helpers';
 import { expect, test, type Page } from '@playwright/test';
+import sharp from 'sharp';
 
 // Full-resolution screenshots and round trips can be slow on Windows/WebKit;
 // individual UI assertions still keep Playwright's normal five-second limit.
@@ -265,6 +266,46 @@ test('スマホの実タッチは横スワイプと縦スクロールを分離�
   await page.screenshot({ path: 'release-evidence/home-discovery/scrolled-390.png' });
 });
 
+test('縦スクロールが止まっても、手前のカードの保存マークを描画する', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 740 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  await expect(page.getByTestId('home-recommendation-card')).toBeVisible({ timeout: 15_000 });
+  await ready(page);
+  await turnDeck(page);
+  await ready(page);
+  const title = await label(page);
+  const scroll = page.getByTestId('home-scroll');
+  const diamond = page.getByTestId('home-deck-save').getByTestId('save-diamond');
+  await expect(page.getByTestId('home-deck-layer').getByTestId('save-diamond')).toHaveCount(1);
+
+  // The mark and its two card layers should not depend on backface culling
+  // when the browser hands the scroll layer back to ordinary painting.
+  await expect(diamond).toHaveCSS('transform', 'none');
+  await expect(page.getByTestId('home-deck-front')).toHaveCSS('backface-visibility', 'visible');
+  await expect(page.getByTestId('home-deck-front')).toHaveCSS('will-change', 'auto');
+
+  for (const top of [86, 0, 64]) {
+    await scroll.evaluate(async (node, y) => {
+      const start = node.scrollTop;
+      for (let frame = 1; frame <= 6; frame += 1) {
+        await new Promise(requestAnimationFrame);
+        node.scrollTop = start + (y - start) * frame / 6;
+      }
+    }, top);
+    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(top);
+    const rendered = await diamond.screenshot({ scale: 'css' });
+    const { data, info: { channels } } = await sharp(rendered).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+    let goldPixels = 0;
+    for (let offset = 0; offset < data.length; offset += channels) {
+      if (Math.abs(data[offset] - 146) < 18 && Math.abs(data[offset + 1] - 107) < 18
+        && Math.abs(data[offset + 2] - 46) < 18) goldPixels += 1;
+    }
+    expect(goldPixels).toBeGreaterThan(16);
+    expect(await label(page)).toBe(title);
+  }
+});
+
 test('既存の端末内データ消去でデッキ履歴も消去する', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
@@ -315,7 +356,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   await page.goto('/');
   await ready(page);
   await expect(page.getByTestId('home-deck-paper')).toHaveCount(5);
-  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await page.evaluate(() => {
     (window as any).__shuffleOpacity = [];
     (window as any).__recordOpacity = true;
@@ -412,7 +453,7 @@ test('戻るスワイプは最下段から左へ引き出し、順送りの逆�
   expect(lifted.length).toBeGreaterThan(0);
   expect(lifted.some(frame => frame.bottomX > liftedAt + 20)).toBe(true);
   expect(frames.every(frame => Math.abs(frame.frontX) < 11)).toBe(true);
-  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await turnDeck(page);
   await ready(page);
   expect(await label(page)).toBe(second);
