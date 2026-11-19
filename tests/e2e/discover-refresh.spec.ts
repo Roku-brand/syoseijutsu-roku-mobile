@@ -113,8 +113,9 @@ test('公開データの人物像未所属と同名別IDの処世術を一覧・
     return route.fulfill({ status: 200, json: data });
   });
   await page.goto('/techniques?page=4');
-  await expect(page.getByTestId('technique-index-count')).toHaveText('358件');
-  await expect(page.getByTestId('technique-index-row')).toHaveCount(58);
+  const total = rows.length + extras.length;
+  await expect(page.getByTestId('technique-index-count')).toHaveText(`${total}件`);
+  await expect(page.getByTestId('technique-index-row')).toHaveCount(total - 300);
   const independent = page.getByTestId('technique-index-row').filter({ hasText: '独立した処世術' });
   await expect(independent).toHaveCount(2);
   await expect(independent.getByTestId('technique-index-id')).toHaveText(['No.357', 'No.358']);
