@@ -148,7 +148,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await page.emulateMedia({ reducedMotion: 'reduce' });
   for (let i = 0; i < 6; i++) { await turnDeck(page); await ready(page); }
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
-  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.getByTestId('home-deck-filter').click();
   await page.getByTestId('home-deck-filter-work').click();
