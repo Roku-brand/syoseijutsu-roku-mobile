@@ -2,9 +2,9 @@ import retiredIds from '@/data/generated/retired-theory-ids.json';
 import { isRetiredTheoryId, RETIRED_THEORY_TITLE } from '@/data/theory-knowledge';
 import { TheoryNetwork } from '@/components/theory-network';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image } from 'expo-image';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { canReadTheory, FREE_TECHNIQUE_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
@@ -40,7 +40,11 @@ export default function TheoryDetailScreen() {
   const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
   const [informationOpen, setInformationOpen] = useState(false);
-  useEffect(() => { setInformationOpen(false); }, [id]);
+  const scrollRef = useRef<ScrollView>(null);
+  useEffect(() => {
+    setInformationOpen(false);
+    scrollRef.current?.scrollTo({ y: 0, animated: false });
+  }, [id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
@@ -89,7 +93,7 @@ export default function TheoryDetailScreen() {
   };
 
   return (
-    <Screen style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
+    <Screen scrollRef={scrollRef} style={styles.screen} contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact]}>
       <DetailSwipe style={styles.article} onPrevious={() => navigateTheory(-1)} onNext={() => navigateTheory(1)}>
         <View style={[styles.titleRegion, !compact && styles.readingWidth]}>
           <View testID="theory-meta" style={styles.metaRow}>

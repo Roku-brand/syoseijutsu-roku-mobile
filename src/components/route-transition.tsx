@@ -1,9 +1,10 @@
 import { useNavigationContainerRef, usePathname } from 'expo-router';
 import { type PropsWithChildren, useLayoutEffect, useRef } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Animated, Platform, StyleSheet, View } from 'react-native';
 import { colors } from '@/constants/theme';
 import { motion } from '@/constants/motion';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { DetailPageTurnContext, useDetailPageTurnMotion } from '@/hooks/use-detail-page-turn';
 
 const tabPaths = ['/', '/discover', '/learn', '/my-os'] as const;
 type RouteState = { type?: string; index?: number; routes: readonly { state?: RouteState }[] };
@@ -22,6 +23,7 @@ export function RouteTransition({ children, disabled = false }: PropsWithChildre
   // Route groups may change while the public path stays the same.
   const routeKey = pathname;
   const reduced = useReducedMotion();
+  const { controls, sheetStyle, shade, arrivalPath } = useDetailPageTurnMotion(routeKey, reduced);
   const viewport = useRef<View>(null);
   const previous = useRef<{ key: string; path: string; depth: number } | null>(null);
 
@@ -35,7 +37,7 @@ export function RouteTransition({ children, disabled = false }: PropsWithChildre
       const depth = stackDepth(navigation.getRootState());
       const before = previous.current;
       previous.current = { key: routeKey, path: pathname, depth };
-      if (disabled || reduced || !before || before.key === routeKey) return;
+      if (disabled || reduced || !before || before.key === routeKey || arrivalPath.current === routeKey) return;
       const element = viewport.current as unknown as HTMLElement | null;
       if (!element?.animate) return;
 
@@ -60,12 +62,24 @@ export function RouteTransition({ children, disabled = false }: PropsWithChildre
     });
     // Cancel on rapid navigation and when reduced motion is enabled mid-flight.
     return () => { cancelAnimationFrame(frame); animation?.cancel(); };
-  }, [routeKey, pathname, navigation, reduced, disabled]);
+  }, [routeKey, pathname, navigation, reduced, disabled, arrivalPath]);
 
-  return <View style={styles.clip}><View ref={viewport} testID="route-transition-content" style={styles.content}>{children}</View></View>;
+  return (
+    <DetailPageTurnContext.Provider value={controls}>
+      <View style={styles.clip}>
+        <View ref={viewport} testID="route-transition-content" style={styles.content}>
+          <Animated.View testID="detail-page-sheet" style={[styles.content, sheetStyle]}>
+            {children}
+            {controls.active ? <Animated.View pointerEvents="none" style={[styles.shade, { opacity: shade }]} /> : null}
+          </Animated.View>
+        </View>
+      </View>
+    </DetailPageTurnContext.Provider>
+  );
 }
 
 const styles = StyleSheet.create({
   clip: { flex: 1, minHeight: 0, overflow: 'hidden', backgroundColor: colors.paper },
   content: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  shade: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: colors.ink },
 });

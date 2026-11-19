@@ -18,6 +18,7 @@ import { AuthProvider } from '@/auth/auth-state';
 import { SeoMeta } from '@/components/seo-meta';
 import { RouteTransition } from '@/components/route-transition';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
+import { useDetailPageTurn } from '@/hooks/use-detail-page-turn';
 import { motion } from '@/constants/motion';
 import { DataStatusBanner } from '@/components/data-status-banner';
 import { GuideProvider } from '@/onboarding/guide-provider';
@@ -52,14 +53,7 @@ function AppFrame() {
       {isUpgrade ? <SafeAreaView edges={['top', 'left', 'right']} style={styles.headerSafeArea} /> : null}
       {!isWelcome && !pathname.startsWith('/owner') ? <DataStatusBanner /> : null}
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>
-        <Stack screenOptions={({ route }) => ({
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.paper },
-          animation: Platform.OS === 'web' || reducedMotion || route.name === '(tabs)' ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
-          animationDuration: motion.detailDuration,
-          gestureEnabled: true,
-          fullScreenGestureEnabled: true,
-        })} />
+        <AppStack reducedMotion={reducedMotion} />
       </RouteTransition>
       {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
     </View>
@@ -67,6 +61,22 @@ function AppFrame() {
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
   return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+}
+
+function AppStack({ reducedMotion }: { reducedMotion: boolean }) {
+  const turningPage = useDetailPageTurn()?.active;
+  return <Stack screenOptions={({ route }) => {
+    const detail = route.name === 'card/[id]' || route.name === 'theory/[id]';
+    const noAnimation = Platform.OS === 'web' || reducedMotion || route.name === '(tabs)' || (turningPage && detail);
+    return {
+      headerShown: false,
+      contentStyle: { backgroundColor: colors.paper },
+      animation: noAnimation ? 'none' : route.name === 'upgrade' ? 'slide_from_bottom' : 'slide_from_right',
+      animationDuration: motion.detailDuration,
+      gestureEnabled: true,
+      fullScreenGestureEnabled: !detail,
+    };
+  }} />;
 }
 
 function isFocusedScreen(pathname: string) {
