@@ -197,6 +197,10 @@ const metadata = await readJson('metadata.json');
 const interpersonal = catalog.categories.find((category) => category.key === 'interpersonal');
 if (!interpersonal) throw new Error('The interpersonal category is missing.');
 const existingPersona = interpersonal.subcategories.find((persona) => persona.name === personaName);
+if (existingPersona?.items.some((item) => item.id === 'master336-452')) {
+  console.log('The revised persona is already present.');
+  process.exit(0);
+}
 if (existingPersona && existingPersona.items.some((item) => !items.some((source) => source.id === item.id))) {
   throw new Error(`${personaName} contains an unexpected technique; refusing to replace it.`);
 }

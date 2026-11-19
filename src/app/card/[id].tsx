@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image } from 'expo-image';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -15,6 +15,7 @@ import {
 } from '@/data/catalog';
 import { practiceGuidance } from '@/data/search';
 import { getRelatedTheoryDefinition } from '@/data/theory-display';
+import { mergedTechniqueIds, resolveTechniqueId } from '@/data/technique-identity';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { canReadTechnique, canReadTheory } from '@/access/access-config';
@@ -22,7 +23,7 @@ import { LockedPreview } from '@/components/locked-preview';
 import { recordContentEvent } from '@/lib/content-events';
 import { RelatedContentSection } from '@/components/related-content-list';
 import { RelatedFeatures } from '@/components/related-features';
-import { theoryRoute, upgradeRoute } from '@/navigation/app-routes';
+import { techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { contentImageUrl } from '@/lib/content-media';
 import { TechniqueTitle } from '@/components/technique-title';
 import type { TechniqueCard } from '@/data/types';
@@ -31,7 +32,7 @@ const detailTabs = [{ key: 'explanation', label: '解説' }, { key: 'practice', 
 type DetailTab = (typeof detailTabs)[number]['key'];
 
 export function generateStaticParams() {
-  return Array.from(techniqueById.keys()).map((id) => ({ id }));
+  return [...techniqueById.keys(), ...mergedTechniqueIds].map((id) => ({ id }));
 }
 
 export default function CardDetailScreen() {
@@ -42,9 +43,10 @@ export default function CardDetailScreen() {
   const scrollRef = useRef<ScrollView>(null);
   const fade = useRef(new Animated.Value(1)).current;
   const { id } = useLocalSearchParams<{ id: string }>();
+  const canonicalId = resolveTechniqueId(id);
   const { addHistory } = useAppState();
   const { accessState, catalogRevision } = useAccess();
-  const card = useMemo(() => techniqueById.get(id), [catalogRevision, id]);
+  const card = useMemo(() => canonicalId === id ? techniqueById.get(id) : undefined, [catalogRevision, canonicalId, id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
 
   useEffect(() => {
@@ -68,6 +70,7 @@ export default function CardDetailScreen() {
   };
 
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
+  if (canonicalId !== id) return <Redirect href={techniqueRoute(canonicalId)} />;
 
   if (card && !canReadTechnique(effectiveAccess, card.id)) {
     return (

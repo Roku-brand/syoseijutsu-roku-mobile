@@ -55,8 +55,8 @@ test('dated generator is reproducible, idempotent and refuses later CMS data edi
 });
 
 test('release has exactly 124 distinct, sourced, editable cards in the six existing categories',()=>{
-  assert.equal(full.length,latestCatalogReview.publishedCount);assert.equal(byId.size,947);assert.equal(additions.length,124);
-  assert.deepEqual(Object.fromEntries(Object.keys(release.categories).map(id=>[id,full.filter(t=>t.categoryId===id).length])),latestCatalogReview.categories);
+  assert.equal(byId.size,latestCatalogReview.publishedCount+3);assert.equal(additions.length,124);
+  assert.deepEqual(Object.fromEntries(Object.keys(release.categories).map(id=>[id,full.filter(t=>t.categoryId===id).length])),{...latestCatalogReview.categories,strategy:latestCatalogReview.categories.strategy+3});
   const sections=read('src/data/generated/theory-subcategories.json');assert.equal(sections.length,36);
   const retired=new Set(read('src/data/generated/retired-theory-ids.json'));
   for(const row of release.additions){
@@ -73,7 +73,7 @@ test('release has exactly 124 distinct, sourced, editable cards in the six exist
     const shell=shells.find(x=>x.tagId===t.tagId);assert.equal(shell.status,'locked');assert.equal(shell.summary,'');assert.equal(shell.provenance,undefined);assert.equal(shell.quotation,undefined);
   }
   for(const t of full)for(const id of t.relatedTheoryIds??[])assert.ok(byId.has(id)&&id!==t.tagId,`${t.tagId}/${id}`);
-  for(const category of Object.keys(release.categories))assert.deepEqual(full.filter(t=>t.categoryId===category).map(t=>t.displayId).sort((a,b)=>a-b),reviewedDisplayIds(category));
+  for(const category of Object.keys(release.categories))assert.deepEqual(full.filter(t=>t.categoryId===category).map(t=>t.displayId).sort((a,b)=>a-b),[...reviewedDisplayIds(category),...(category==='strategy'?[99,100,101]:[])]);
   for(const section of sections)assert.deepEqual(full.filter(t=>t.subcategoryId===section.id).map(t=>t.sortOrder),Array.from({length:full.filter(t=>t.subcategoryId===section.id).length},(_,i)=>i+1));
 });
 

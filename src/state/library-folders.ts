@@ -1,10 +1,12 @@
 import { resolveTheoryId } from '@/data/theory-taxonomy';
+import { resolveTechniqueId } from '@/data/technique-identity';
 
 export type LibraryFolder = { id: string; name: string; createdAt: string };
 export type LibraryItemKind = 'technique' | 'theory' | 'feature';
 
 export function libraryItemKey(kind: LibraryItemKind, id: string) {
-  return `${kind}:${kind === 'theory' ? resolveTheoryId(id) : id}`;
+  const canonicalId = kind === 'technique' ? resolveTechniqueId(id) : kind === 'theory' ? resolveTheoryId(id) : id;
+  return `${kind}:${canonicalId}`;
 }
 
 /** Preserve saved knowledge while accepting only valid, canonical folder links. */

@@ -2568,6 +2568,62 @@
     "priority": 80
   },
   {
+    "sourceId": "kb_1151",
+    "targetId": "kb_1152",
+    "type": "contrasts",
+    "reviewStatus": "confirmed",
+    "rationale": "共通点を出発点に、懸念を検討する話法と、案を発展させる話法を使い分ける。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1151",
+    "targetId": "kb_412",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "相手の発言を短く言い換えると、何に同意し、どこを確認したいかを伝えやすくなる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1151",
+    "targetId": "kb_934",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "同意できる条件と懸念が残る条件を、結論に必要な条件と照らして確認できる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1152",
+    "targetId": "kb_412",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "相手が何を提案したかを確かめると、使える部分を拾い、具体案を加えられる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1153",
+    "targetId": "kb_929",
+    "type": "contrasts",
+    "reviewStatus": "confirmed",
+    "rationale": "前提から結論が必然的に導かれる形と、例外のある実践の論証を比較できる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1153",
+    "targetId": "kb_932",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "例外を明示し、どの観察が主張の見直しにつながるかを考えられる。",
+    "priority": 100
+  },
+  {
+    "sourceId": "kb_1153",
+    "targetId": "kb_934",
+    "type": "complements",
+    "reviewStatus": "confirmed",
+    "rationale": "根拠が結論を支えるために、どの条件が必要かを確かめられる。",
+    "priority": 100
+  },
+  {
     "sourceId": "kb_109",
     "targetId": "kb_107",
     "type": "applies",

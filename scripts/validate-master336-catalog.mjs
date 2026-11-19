@@ -9,7 +9,7 @@ const expectedCounts = {
     '印象がいい人': 14, '会話がうまい人': 13, '聞き上手な人': 10, '信頼される人': 12,
     '人たらしの人': 23, '面白い人': 15, '人を見極められる人': 10, '人に振り回されない人': 12,
     '軽く扱われない人': 12, '人間関係が安定する人': 14, '集団に馴染める人': 14,
-    'リーダーシップがある人': 9, 'カリスマ性のある人': 13, '一緒にいて疲れない人': 20,
+    'リーダーシップがある人': 9, 'カリスマ性のある人': 13, '一緒にいて疲れない人': 21,
   },
   work: {
     '仕事ができる人': 15, 'タスク処理がうまい人': 14, '頭がいい人': 10,
@@ -42,6 +42,7 @@ const mismatchedGroups = catalog.categories.flatMap((category) => category.subca
   const expected = expectedCounts[category.key]?.[persona.name];
   return expected === persona.items.length ? [] : [`${category.name}/${persona.name}: ${persona.items.length} (expected ${expected ?? 'none'})`];
 }));
+const expectedTechniqueCount = Object.values(expectedCounts).flatMap(Object.values).reduce((sum, count) => sum + count, 0);
 const checks = {
   categories: catalog.categories.length,
   personas: catalog.categories.reduce((count, category) => count + category.subcategories.length, 0),
@@ -83,12 +84,12 @@ const checks = {
 };
 console.log(JSON.stringify(checks, null, 2));
 if (
-  checks.categories !== 3 || checks.personas !== 27 || checks.techniques !== 356 ||
+  checks.categories !== 3 || checks.personas !== 27 || checks.techniques !== expectedTechniqueCount ||
   checks.duplicateKeys || checks.duplicateIds || checks.missingEssence || checks.invalidEssenceLengths ||
   checks.invalidEssenceSentences || checks.duplicateEssences || checks.missingExplanations ||
   checks.invalidExplanationLengths || checks.invalidExplanationParagraphs || checks.duplicateExplanations ||
   checks.duplicateExplanationParagraphs || checks.bannedExplanationHits ||
-  checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== 356 ||
-  checks.metadataPersonaCount !== 27 || checks.practicalActionCount !== 356 || checks.invalidPracticalActions || !checks.metadataCategoryCountsMatch ||
-  metadata.catalogVersion !== 'master356' || checks.mismatchedGroups.length
-) throw new Error('356-item master catalog validation failed.');
+  checks.invalidTheoryLinks || checks.missingTheoryLinks || checks.metadataTechniqueCount !== expectedTechniqueCount ||
+  checks.metadataPersonaCount !== 27 || checks.practicalActionCount !== expectedTechniqueCount || checks.invalidPracticalActions || !checks.metadataCategoryCountsMatch ||
+  metadata.catalogVersion !== `master${expectedTechniqueCount}` || checks.mismatchedGroups.length
+) throw new Error('Master catalog validation failed.');

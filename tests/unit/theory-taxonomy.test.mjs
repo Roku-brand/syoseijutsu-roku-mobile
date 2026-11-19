@@ -23,7 +23,9 @@ registerHooks({resolve(specifier,context,next){
 const taxonomy=await import('../../src/data/theory-taxonomy.ts');
 const catalog=await import('../../src/data/catalog.ts');
 const {getTechniqueIndex}=await import('../../src/data/technique-index.ts');
+const {resolveTechniqueId}=await import('../../src/data/technique-identity.ts');
 const {restoreLibraryFolders}=await import('../../src/state/library-folders.ts');
+const {normalizePersonalData}=await import('../../src/state/personal-data.ts');
 const {getHomeBrandContent}=await import('../../src/data/home-brand-content.ts');
 const {getSearchResults}=await import('../../src/data/search-catalog.ts');
 const before=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-taxonomy-before.json'),'utf8'));
@@ -38,10 +40,11 @@ const techniqueSource=JSON.parse(fs.readFileSync(path.join(root,'src/data/genera
 const sourceTechniqueRows=techniqueSource.categories.flatMap(category=>category.subcategories.flatMap(persona=>persona.items.map(item=>({...item,categoryKey:category.key,categoryName:category.name,subcategory:persona.name}))));
 const techniqueRows=sourceTechniqueRows.filter(item=>!scope.excludedTechniqueIds.includes(item.id));
 
-test('technique public IDs are contiguous and survive reordering, category moves, hydration and removal',()=>{
+test('technique public IDs match their stable numbers and survive reordering, category moves, hydration and removal',()=>{
  const ids=JSON.parse(fs.readFileSync(path.join(root,'src/data/technique-display-ids.json'),'utf8'));
  assert.equal(Object.keys(ids).length,sourceTechniqueRows.length);
- assert.deepEqual(Object.values(ids).sort((a,b)=>a-b),Array.from({length:sourceTechniqueRows.length},(_,i)=>i+1));
+ assert.equal(new Set(Object.values(ids)).size,sourceTechniqueRows.length);
+ for(const {id} of sourceTechniqueRows) assert.equal(ids[id],Number(id.replace('master336-','')),id);
  const before=new Map(catalog.techniqueCards.map(card=>[card.id,catalog.getTechniqueDisplayId(card)]));
  assert.equal(before.get('master336-337'),'No.337');
  try {
@@ -63,6 +66,7 @@ test('independent techniques retain distinct IDs, stable numbers, relations and 
  try {
   catalog.hydratePaidCatalog([...techniqueRows,...rows],[]);
   const numbers=rows.map(row=>catalog.getTechniqueNumber(row.id));
+  assert.deepEqual(numbers,[357,358]);
   assert.equal(catalog.techniqueCards.length,techniqueRows.length+2);
   assert.equal(catalog.techniqueCards.filter(card=>card.title===first.title).length,techniqueRows.filter(card=>card.title===first.title).length+2);
   assert.ok(catalog.categories.every(category=>category.subcategories.every(persona=>persona.name.trim())));
@@ -87,10 +91,14 @@ test('independent techniques retain distinct IDs, stable numbers, relations and 
  assert.equal(catalog.techniqueCards.length,techniqueRows.length);
 });
 
-test('fatigue-free persona has all twenty complete-edition shells in the offline product',()=>{
+test('fatigue-free persona lists the 18 active techniques and keeps the merged IDs resolvable',()=>{
  const persona=catalog.categories.find(c=>c.key==='interpersonal').subcategories.find(p=>p.name==='一緒にいて疲れない人');
- assert.equal(persona.items.length,20);
- assert.deepEqual(persona.items.map(t=>t.id),Array.from({length:20},(_,i)=>`master336-${337+i}`));
+ assert.equal(persona.items.length,18);
+ assert.deepEqual(persona.items.map(t=>t.id),techniqueRows.filter(t=>t.subcategory===persona.name).map(t=>t.id));
+ for(const [former, canonical] of [[346,345],[349,348],[354,353]]) {
+  assert.equal(resolveTechniqueId(`master336-${former}`),`master336-${canonical}`);
+  assert.ok(!catalog.techniqueById.has(`master336-${former}`));
+ }
  for(const item of persona.items){
   assert.equal(item.status,'locked');
   assert.equal(item.explanation,undefined);
@@ -129,7 +137,11 @@ test('published refresh and complete overlay keep fatigue-free rows and correcte
    assert.equal(catalog.techniqueById.get(item.id).explanation,item.explanation);
    assert.equal(catalog.techniqueById.get(item.id).subcategory,item.subcategory);
   }
-  assert.equal(catalog.techniqueCards.filter(t=>t.subcategory==='一緒にいて疲れない人').length,20);
+  assert.equal(catalog.techniqueCards.filter(t=>t.subcategory==='一緒にいて疲れない人').length,18);
+  const newCard=catalog.techniqueById.get('master336-452');
+  assert.equal(newCard.title,'否定から入らない');
+  assert.deepEqual(newCard.primaryTheoryIds,['kb_1151']);
+  catalog.overlayPaidCatalog(sourceTechniqueRows.filter(t=>resolveTechniqueId(t.id)!==t.id),[]);
   assert.equal(catalog.techniqueCards.length,scope.complete.techniques);
  } finally { catalog.resetCatalog(); }
 });
@@ -176,6 +188,17 @@ test('all 759 historical IDs still resolve and both directions of links agree af
 test('saved IDs migrate once, deduplicate aliases, preserve unknown IDs and ignore malformed values',()=>{
  assert.deepEqual(taxonomy.resolveTheoryIds(['kb_418','kb_024','kb_001','kb_002','future',null,2]),['kb_024','kb_001','kb_002','future']);
  assert.deepEqual(taxonomy.resolveTheoryIds(taxonomy.resolveTheoryIds(['kb_418','kb_024'])),['kb_024']);
+});
+test('saved and viewed merged techniques retain their canonical bookmark and folder',()=>{
+ const restored=normalizePersonalData({
+  savedIds:['master336-349','master336-348'],
+  historyIds:['master336-346','master336-345'],
+  libraryFolders:[{id:'work',name:'仕事'}],
+  libraryFolderByItem:{'technique:master336-349':'work'},
+ },{learningCurriculumVersion:2,interests:[]});
+ assert.deepEqual(restored.savedIds,['master336-348']);
+ assert.deepEqual(restored.historyIds,['master336-345']);
+ assert.deepEqual(restored.libraryFolderByItem,{'technique:master336-348':'work'});
 });
 test('search covers all majors and aliases, with independent contrast and parent/child concepts',()=>{
  for(const id of ['kb_001','kb_002','kb_133','kb_134'])assert.ok(catalog.theoryById.get(id));
@@ -237,7 +260,8 @@ test('display IDs follow the current taxonomy order within every major while all
  for(const category of catalog.theoryCategoryOrder) {
   const rows=catalog.theories.filter(t=>t.categoryId===category);
   assert.equal(new Set(rows.map(t=>t.displayId)).size,rows.length);
-  assert.deepEqual(rows.map(row=>row.displayId).sort((a,b)=>a-b),reviewedDisplayIds(category));
+  const addedIds=category==='strategy'?[99,100,101]:[];
+  assert.deepEqual(rows.map(row=>row.displayId).sort((a,b)=>a-b),[...reviewedDisplayIds(category),...addedIds]);
   for(const row of rows)assert.ok(catalog.getTheoryDisplayId(row).endsWith('-'+String(row.displayId).padStart(3,'0')));
  }
  const snapshot=JSON.parse(fs.readFileSync(path.join(root,'docs/content/theory-display-id-order-20261008-before.json'),'utf8'));

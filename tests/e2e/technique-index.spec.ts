@@ -27,6 +27,18 @@ test('各術で追加された無料処世術を解説まで読め、対象外�
   await expect(page.getByText('原理と解説', { exact: true })).toHaveCount(0);
 });
 
+test('統合元リンクは完全版に接続し、追加した話法は論理の一覧に並ぶ', async ({ page }) => {
+  const response = await page.goto('/card/master336-349');
+  expect(response?.status()).toBe(200);
+  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
+
+  await page.goto('/theories?category=strategy&subcategory=strategy-l');
+  const list = page.getByTestId('theory-index-list');
+  for (const title of ['イエス・バット話法', 'イエス・アンド話法', 'トゥールミン・モデル']) {
+    await expect(list.getByText(title, { exact: true })).toBeVisible();
+  }
+});
+
 test('処世術一覧は見出しのすべて見るからスマホとPCで開ける', async ({ page }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
@@ -56,7 +68,7 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await page.goto('/techniques?page=4');
   await expect(page.getByTestId('technique-index-row')).toHaveCount(techniqueCount - 300);
   await expect(page.getByTestId('technique-index-id').first()).toHaveText('No.307');
-  await expect(page.getByTestId('technique-index-id').last()).toHaveText('No.356');
+  await expect(page.getByTestId('technique-index-id').last()).toHaveText('No.452');
   await page.getByRole('button', { name: '対人術で処世術を絞り込む' }).click();
   await expect(page).not.toHaveURL(/page=4/);
   await expect(page.getByRole('textbox')).toHaveCount(0);

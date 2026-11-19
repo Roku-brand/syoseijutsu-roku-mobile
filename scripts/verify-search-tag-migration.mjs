@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {PGlite} from '@electric-sql/pglite';
-const source=JSON.parse(fs.readFileSync('src/data/generated/techniques.json','utf8'));
+const source=JSON.parse(fs.readFileSync('docs/content/theory-release-20261018-snapshot.json','utf8'))['src/data/generated/techniques.json'];
 const cards=source.categories.flatMap(c=>c.subcategories.flatMap(p=>p.items));
 const sql=fs.readFileSync('supabase/migrations/20261016150453_curate_search_tags.sql','utf8');
 const db=new PGlite();

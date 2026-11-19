@@ -3094,12 +3094,6 @@
               "status": "locked"
             },
             {
-              "id": "master336-346",
-              "title": "完全版の処世術",
-              "displayOrder": 10,
-              "status": "locked"
-            },
-            {
               "id": "master336-347",
               "title": "完全版の処世術",
               "displayOrder": 11,
@@ -3109,12 +3103,6 @@
               "id": "master336-348",
               "title": "完全版の処世術",
               "displayOrder": 12,
-              "status": "locked"
-            },
-            {
-              "id": "master336-349",
-              "title": "完全版の処世術",
-              "displayOrder": 13,
               "status": "locked"
             },
             {
@@ -3142,12 +3130,6 @@
               "status": "locked"
             },
             {
-              "id": "master336-354",
-              "title": "完全版の処世術",
-              "displayOrder": 18,
-              "status": "locked"
-            },
-            {
               "id": "master336-355",
               "title": "完全版の処世術",
               "displayOrder": 19,
@@ -3157,6 +3139,12 @@
               "id": "master336-356",
               "title": "完全版の処世術",
               "displayOrder": 20,
+              "status": "locked"
+            },
+            {
+              "id": "master336-452",
+              "title": "完全版の処世術",
+              "displayOrder": 21,
               "status": "locked"
             }
           ]

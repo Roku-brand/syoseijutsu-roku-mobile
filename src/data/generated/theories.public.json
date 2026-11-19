@@ -6729,7 +6729,9 @@
     "aliases": [],
     "relatedTheoryIds": [
       "kb_789",
-      "kb_411"
+      "kb_411",
+      "kb_1151",
+      "kb_1152"
     ],
     "displayId": 263,
     "knowledgeType": "method",
@@ -19647,7 +19649,8 @@
       "kb_937",
       "kb_952",
       "kb_983",
-      "kb_930"
+      "kb_930",
+      "kb_1153"
     ],
     "displayId": 85,
     "knowledgeType": "unspecified",
@@ -19732,7 +19735,8 @@
       "kb_950",
       "kb_952",
       "kb_931",
-      "kb_1057"
+      "kb_1057",
+      "kb_1153"
     ],
     "displayId": 88,
     "knowledgeType": "principle",
@@ -19791,7 +19795,9 @@
       "kb_929",
       "kb_933",
       "kb_1059",
-      "kb_1061"
+      "kb_1061",
+      "kb_1151",
+      "kb_1153"
     ],
     "displayId": 90,
     "knowledgeType": "principle",
@@ -19900,6 +19906,86 @@
     ],
     "displayId": 94,
     "knowledgeType": "phenomenon",
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_1151",
+    "title": "イエス・バット話法",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 11,
+    "canonicalId": "kb_1151",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "イエスバット話法",
+      "Yes, but",
+      "部分同意"
+    ],
+    "relatedTheoryIds": [
+      "kb_1152",
+      "kb_934",
+      "kb_412"
+    ],
+    "displayId": 99,
+    "knowledgeType": "method",
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_1152",
+    "title": "イエス・アンド話法",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 12,
+    "canonicalId": "kb_1152",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "イエスアンド話法",
+      "Yes, and",
+      "イエス・アンド"
+    ],
+    "relatedTheoryIds": [
+      "kb_1151",
+      "kb_412"
+    ],
+    "displayId": 100,
+    "knowledgeType": "method",
+    "status": "locked"
+  },
+  {
+    "tagId": "kb_1153",
+    "title": "トゥールミン・モデル",
+    "summary": "",
+    "categoryId": "strategy",
+    "categoryTitle": "戦略論",
+    "subcategoryId": "strategy-l",
+    "subcategoryTitle": "論理・因果推論",
+    "sortOrder": 13,
+    "canonicalId": "kb_1153",
+    "legacyIds": [],
+    "mergedFromIds": [],
+    "accessTier": "complete",
+    "aliases": [
+      "トゥールミンモデル",
+      "Toulmin model",
+      "トゥールミンの論証モデル"
+    ],
+    "relatedTheoryIds": [
+      "kb_929",
+      "kb_932",
+      "kb_934"
+    ],
+    "displayId": 101,
+    "knowledgeType": "model",
     "status": "locked"
   },
   {
@@ -23608,6 +23694,7 @@
     "relatedTheoryIds": [],
     "displayId": 72,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "魯迅",
     "status": "locked"
   },
   {
@@ -23627,6 +23714,7 @@
     "relatedTheoryIds": [],
     "displayId": 73,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "芥川龍之介",
     "status": "locked"
   },
   {
@@ -23648,6 +23736,7 @@
     ],
     "displayId": 74,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "オスカー・ワイルド",
     "status": "locked"
   },
   {
@@ -23669,6 +23758,7 @@
     ],
     "displayId": 75,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ドストエフスキー",
     "status": "locked"
   },
   {
@@ -23690,6 +23780,7 @@
     ],
     "displayId": 76,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "芥川龍之介",
     "status": "locked"
   },
   {
@@ -23711,6 +23802,7 @@
     ],
     "displayId": 77,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ゲーテ",
     "status": "locked"
   },
   {
@@ -23730,6 +23822,7 @@
     "relatedTheoryIds": [],
     "displayId": 78,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ゲーテ",
     "status": "locked"
   },
   {
@@ -23752,6 +23845,7 @@
     ],
     "displayId": 79,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ブルワー＝リットン",
     "status": "locked"
   },
   {
@@ -23771,6 +23865,7 @@
     "relatedTheoryIds": [],
     "displayId": 80,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "芥川龍之介",
     "status": "locked"
   },
   {
@@ -23792,6 +23887,7 @@
     ],
     "displayId": 81,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "アルフレッド・ド・ミュッセ",
     "status": "locked"
   },
   {
@@ -23813,6 +23909,7 @@
     ],
     "displayId": 82,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "R・L・スティーヴンソン",
     "status": "locked"
   },
   {
@@ -23834,6 +23931,7 @@
     ],
     "displayId": 83,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ドストエフスキー",
     "status": "locked"
   },
   {
@@ -23855,6 +23953,7 @@
     ],
     "displayId": 84,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "シェイクスピア",
     "status": "locked"
   },
   {
@@ -23877,6 +23976,7 @@
     ],
     "displayId": 85,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "パスツール",
     "status": "locked"
   },
   {
@@ -23898,6 +23998,7 @@
     ],
     "displayId": 86,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ラ・ブリュイエール",
     "status": "locked"
   },
   {
@@ -23919,6 +24020,7 @@
     ],
     "displayId": 87,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ジョゼフ・ジュベール",
     "status": "locked"
   },
   {
@@ -23940,6 +24042,7 @@
     ],
     "displayId": 88,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "モンテーニュ",
     "status": "locked"
   },
   {
@@ -23961,6 +24064,7 @@
     ],
     "displayId": 89,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ラ・ロシュフコー",
     "status": "locked"
   },
   {
@@ -23982,6 +24086,7 @@
     ],
     "displayId": 90,
     "knowledgeType": "aphorism",
+    "quotationAuthor": "ラ・ロシュフコー",
     "status": "locked"
   }
 ]
