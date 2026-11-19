@@ -55,7 +55,7 @@ test('seven old cards leave the screen before new cards arrive from the opposite
   const next = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order as string[], storageKey);
   expect(next).toHaveLength(7);
   expect(next.filter(id => original.order.includes(id))).toEqual([]);
-  await expect(page.getByTestId('home-deck-stage').locator('img')).toHaveCount(2);
+  await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
 });
 
 test('ホームの準備ができたら、無関係な画像の完了を待たず起動画面を閉じる', async ({ page }) => {
