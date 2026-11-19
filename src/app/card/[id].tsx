@@ -1,5 +1,5 @@
 import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Image } from 'expo-image';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { AppText, EmptyState, Screen } from '@/components/ui';
@@ -25,6 +25,8 @@ import { RelatedContentSection } from '@/components/related-content-list';
 import { RelatedFeatures } from '@/components/related-features';
 import { techniqueRoute, theoryRoute, upgradeRoute } from '@/navigation/app-routes';
 import { contentImageUrl } from '@/lib/content-media';
+import { catalogSyncStore } from '@/lib/published-content';
+import { supabaseConfigured } from '@/lib/supabase';
 import { TechniqueTitle } from '@/components/technique-title';
 import type { TechniqueCard } from '@/data/types';
 
@@ -46,8 +48,11 @@ export default function CardDetailScreen() {
   const canonicalId = resolveTechniqueId(id);
   const { addHistory } = useAppState();
   const { accessState, catalogRevision } = useAccess();
-  const card = useMemo(() => canonicalId === id ? techniqueById.get(id) : undefined, [catalogRevision, canonicalId, id]);
+  const catalogSync = useSyncExternalStore(catalogSyncStore.subscribe, catalogSyncStore.getSnapshot, catalogSyncStore.getServerSnapshot);
+  const card = canonicalId === id ? techniqueById.get(id) : undefined;
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
+  const waitingForCatalog = supabaseConfigured && !catalogSync.updatedAt && (catalogSync.status === 'idle' || catalogSync.status === 'loading');
+  const readable = card && canReadTechnique(effectiveAccess, card.id);
 
   useEffect(() => {
     if (card && canReadTechnique(effectiveAccess, card.id)) {
@@ -72,7 +77,15 @@ export default function CardDetailScreen() {
   const related = useMemo(() => (card ? getRelatedCards(card, 4) : []), [card, catalogRevision]);
   if (canonicalId !== id) return <Redirect href={techniqueRoute(canonicalId)} />;
 
-  if (card && !canReadTechnique(effectiveAccess, card.id)) {
+  if (!readable && waitingForCatalog) {
+    return (
+      <Screen contentContainerStyle={styles.screenContent}>
+        <AppText accessibilityRole="progressbar">処世術を読み込んでいます。</AppText>
+      </Screen>
+    );
+  }
+
+  if (card && !readable) {
     return (
       <Screen contentContainerStyle={styles.screenContent}>
         <LockedPreview title={card.subcategory} description="この分類の処世術は完全版で読むことができます。無料版では実タイトルと本文を配信していません。" count={1} source="discover_technique" />

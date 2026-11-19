@@ -39,6 +39,27 @@ test('統合元リンクは完全版に接続し、追加した話法は論理�
   }
 });
 
+test('初回の直リンクで公開カタログの無料指定を待ってから本文を開く', async ({ page }) => {
+  let releaseCatalog!: () => void;
+  const catalogPending = new Promise<void>(resolve => { releaseCatalog = resolve; });
+  await page.route('**/rest/v1/**', async route => {
+    if (new URL(route.request().url()).pathname.endsWith('/public_techniques')) {
+      await catalogPending;
+      return route.fulfill({ json: [{
+        id: 'master336-452', category: 'interpersonal', persona_id: '一緒にいて疲れない人',
+        title: '否定から入らない', essence: '相手の話を先に聞く。', explanation: '相手の話を聞いてから、事情を確かめる。',
+        status: 'published', access_tier: 'free', display_order: 21,
+      }] });
+    }
+    return route.fulfill({ json: [] });
+  });
+  await page.goto('/card/master336-452');
+  await expect(page.getByText('処世術を読み込んでいます。', { exact: true })).toBeVisible();
+  releaseCatalog();
+  await expect(page.getByTestId('technique-detail-title')).toHaveText('否定から入らない');
+  await expect(page).toHaveURL(/\/card\/master336-452$/);
+});
+
 test('処世術一覧は見出しのすべて見るからスマホとPCで開ける', async ({ page }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
