@@ -7,7 +7,12 @@ const source = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 
 const techniques = source.categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items));
 const selectedIds = ['master336-001', 'master336-006', 'master336-002', 'master336-010', 'master336-068', 'master336-255'];
 const selected = selectedIds.map(id => techniques.find((card: any) => card.id === id));
-const theory = JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8')).sort((a: any, b: any) => b.title.length - a.title.length)[0];
+const recommendedTheoryIds = new Set<string>(JSON.parse(fs.readFileSync('src/data/home-recommended-theory-ids.json', 'utf8')));
+const theories: { tagId: string; title: string; summary: string; categoryId: string; categoryTitle: string; accessTier: string }[] =
+  JSON.parse(fs.readFileSync('src/data/generated/theories.json', 'utf8'));
+const theory = theories
+  .filter(item => item.accessTier === 'free' && recommendedTheoryIds.has(item.tagId))
+  .sort((a, b) => b.title.length - a.title.length)[0]!;
 
 for (const width of [320, 375, 390, 430, 1440]) {
   test(`デッキの題名は1行を優先し、長い場合も文字を欠かさず折り返す (${width}px)`, async ({ page }) => {
