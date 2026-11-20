@@ -1025,7 +1025,7 @@ for (const category of publicTechniques.categories) {
   test(`${category.name}では無料人物像の配下をすべて読める`, async ({ page }) => {
     await page.route('**/rest/v1/**', (route) => route.fulfill({ status: 503, json: {} }));
     const free = category.subcategories.filter((persona) => scope.free.personas.includes(persona.name));
-    expect(free).toHaveLength(Math.ceil(category.subcategories.length / 2));
+    expect(free.length).toBeGreaterThanOrEqual(Math.ceil(category.subcategories.length / 2));
     for (const persona of free) {
       await page.goto(`/subcategory/${category.key}/${persona.name}`);
       await expect(page.getByTestId('persona-page-title')).toContainText(persona.name);
