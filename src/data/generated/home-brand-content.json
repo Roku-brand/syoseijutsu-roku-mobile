@@ -92,7 +92,25 @@
         "master336-094",
         "master336-095",
         "master336-096",
-        "master336-097"
+        "master336-097",
+        "master336-337",
+        "master336-338",
+        "master336-339",
+        "master336-340",
+        "master336-341",
+        "master336-342",
+        "master336-343",
+        "master336-344",
+        "master336-345",
+        "master336-347",
+        "master336-348",
+        "master336-350",
+        "master336-351",
+        "master336-352",
+        "master336-353",
+        "master336-355",
+        "master336-356",
+        "master336-452"
       ],
       "personaNames": [
         "印象がいい人",
@@ -101,7 +119,8 @@
         "聞き上手な人",
         "信頼される人",
         "面白い人",
-        "人を見極められる人"
+        "人を見極められる人",
+        "一緒にいて疲れない人"
       ],
       "theoryIds": [
         "kb_003",
@@ -122,7 +141,11 @@
         "kb_300",
         "kb_624",
         "kb_298",
-        "kb_304"
+        "kb_304",
+        "kb_266",
+        "kb_050",
+        "kb_233",
+        "kb_053"
       ]
     },
     "work": {
@@ -1078,6 +1101,162 @@
       "knowledgeType": "thought"
     },
     {
+      "tagId": "kb_266",
+      "title": "社会的比較理論",
+      "summary": "自分の能力や状況を知るために、他の人と比べるという理論。\n他人から刺激を受けることも、自分の不足ばかりが気になることもある。比べる相手や場面で受け取り方は変わる。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-s",
+      "subcategoryTitle": "自己理解・成長",
+      "sortOrder": 26,
+      "canonicalId": "kb_266",
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "aliases": [
+        "social comparison theory"
+      ],
+      "relatedTheoryIds": [
+        "kb_909",
+        "kb_1003",
+        "kb_1005",
+        "kb_1030"
+      ],
+      "displayId": 166,
+      "displayOrder": 166,
+      "provenance": {
+        "note": "社会的比較の理論を示した原典。",
+        "works": [
+          "A Theory of Social Comparison Processes (1954). Human Relations, 7(2), 117-140"
+        ],
+        "period": "1954年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1177/001872675400700202",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Leon Festinger（参照文献の著者）"
+      },
+      "accessTier": "free",
+      "knowledgeType": "theory"
+    },
+    {
+      "tagId": "kb_050",
+      "title": "心理的リアクタンス",
+      "summary": "自由を奪われたと感じると、反発して取り戻そうとする心理。\n「絶対にこうして」と言われるほど、反対したくなる場面など。依頼では理由を伝え、選べる範囲を残すと、相手が自分で判断しやすい。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "人間関係・コミュニケーション",
+      "sortOrder": 44,
+      "canonicalId": "kb_050",
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "aliases": [
+        "psychological reactance"
+      ],
+      "relatedTheoryIds": [
+        "kb_787",
+        "kb_898",
+        "kb_923",
+        "kb_1049"
+      ],
+      "displayId": 231,
+      "displayOrder": 231,
+      "provenance": {
+        "note": "心理的リアクタンスの理論・研究を整理した論文。Brehmによる1966年の提唱と、この2015年の参照論文を区別します。",
+        "works": [
+          "Understanding Psychological Reactance (2015). Zeitschrift für Psychologie, 223(4), 205-214"
+        ],
+        "period": "2015年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1027/2151-2604/a000222",
+            "title": "出版社登録の原著書誌・DOI"
+          }
+        ],
+        "attribution": "Christina Steindl / Eva Jonas / Sandra Sittenthaler / Eva Traut-Mattausch / Jeff Greenberg（参照文献の著者）"
+      },
+      "accessTier": "free",
+      "knowledgeType": "unspecified"
+    },
+    {
+      "tagId": "kb_233",
+      "title": "透明性の錯覚",
+      "summary": "自分の気持ちや意図は、言わなくても相手に伝わっていると思うこと。\n緊張や不満が、説明しなくても相手に伝わっていると思う場合など。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-c",
+      "subcategoryTitle": "認知・判断",
+      "sortOrder": 43,
+      "canonicalId": "kb_233",
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "aliases": [
+        "illusion of transparency"
+      ],
+      "relatedTheoryIds": [
+        "kb_928"
+      ],
+      "displayId": 43,
+      "displayOrder": 43,
+      "provenance": {
+        "note": "自分の内的状態の伝わり方に関する偏りを扱う研究。",
+        "works": [
+          "The illusion of transparency: Biased assessments of others' ability to read one's emotional states. (1998). Journal of Personality and Social Psychology, 75(2), 332-346"
+        ],
+        "period": "1998年（参照文献）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://doi.org/10.1037/0022-3514.75.2.332",
+            "title": "文献情報・原文（DOI）"
+          }
+        ],
+        "attribution": "Thomas Gilovich / Kenneth Savitsky / Victoria Husted Medvec（参照文献の著者）"
+      },
+      "accessTier": "free",
+      "knowledgeType": "phenomenon"
+    },
+    {
+      "tagId": "kb_053",
+      "title": "非暴力コミュニケーション",
+      "summary": "相手を責めず、事実、気持ち、必要なこと、依頼を分けて伝える方法。\n「連絡がなかったので心配した。予定を把握したいから、遅れるときは一言ほしい」のように、観察と依頼を分ける。",
+      "categoryId": "psychology",
+      "categoryTitle": "心理学",
+      "subcategoryId": "psychology-i",
+      "subcategoryTitle": "人間関係・コミュニケーション",
+      "sortOrder": 80,
+      "canonicalId": "kb_053",
+      "legacyIds": [],
+      "mergedFromIds": [],
+      "aliases": [],
+      "relatedTheoryIds": [
+        "kb_1047"
+      ],
+      "displayId": 267,
+      "displayOrder": 267,
+      "provenance": {
+        "note": "観察・感情・ニーズ・要求を扱う著者の代表著作。出版社の第三版案内を参照。",
+        "works": [
+          "Nonviolent Communication: A Language of Life, 3rd ed. (2015)"
+        ],
+        "period": "2015年（参照版）",
+        "status": "書誌確認済み",
+        "sources": [
+          {
+            "url": "https://nonviolentcommunication.com/product/nvc/",
+            "title": "著者・出版社による原著・書誌情報"
+          }
+        ],
+        "attribution": "Marshall B. Rosenberg（参照文献の著者）"
+      },
+      "accessTier": "free",
+      "knowledgeType": "method"
+    },
+    {
       "tagId": "kb_190",
       "title": "計画錯誤",
       "summary": "作業に必要な時間や費用を、実際より少なく見積もること。\n作業そのものの時間だけを数え、確認ややり直しの時間を見込まない場合など。",
@@ -1512,47 +1691,6 @@
       "displayOrder": 59,
       "accessTier": "free",
       "knowledgeType": "thought"
-    },
-    {
-      "tagId": "kb_266",
-      "title": "社会的比較理論",
-      "summary": "自分の能力や状況を知るために、他の人と比べるという理論。\n他人から刺激を受けることも、自分の不足ばかりが気になることもある。比べる相手や場面で受け取り方は変わる。",
-      "categoryId": "psychology",
-      "categoryTitle": "心理学",
-      "subcategoryId": "psychology-s",
-      "subcategoryTitle": "自己理解・成長",
-      "sortOrder": 26,
-      "canonicalId": "kb_266",
-      "legacyIds": [],
-      "mergedFromIds": [],
-      "aliases": [
-        "social comparison theory"
-      ],
-      "relatedTheoryIds": [
-        "kb_909",
-        "kb_1003",
-        "kb_1005",
-        "kb_1030"
-      ],
-      "displayId": 166,
-      "displayOrder": 166,
-      "provenance": {
-        "note": "社会的比較の理論を示した原典。",
-        "works": [
-          "A Theory of Social Comparison Processes (1954). Human Relations, 7(2), 117-140"
-        ],
-        "period": "1954年（参照文献）",
-        "status": "書誌確認済み",
-        "sources": [
-          {
-            "url": "https://doi.org/10.1177/001872675400700202",
-            "title": "文献情報・原文（DOI）"
-          }
-        ],
-        "attribution": "Leon Festinger（参照文献の著者）"
-      },
-      "accessTier": "free",
-      "knowledgeType": "theory"
     },
     {
       "tagId": "kb_617",

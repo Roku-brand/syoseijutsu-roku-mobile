@@ -27,10 +27,18 @@ test('各術で追加された無料処世術を解説まで読め、対象外�
   await expect(page.getByText('原理と解説', { exact: true })).toHaveCount(0);
 });
 
-test('統合元リンクは完全版に接続し、追加した話法は論理の一覧に並ぶ', async ({ page }) => {
-  const response = await page.goto('/card/master336-349');
-  expect(response?.status()).toBe(200);
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
+test('無料の新規処世術と統合元リンクを直接開け、追加した話法は論理の一覧に並ぶ', async ({ page }) => {
+  for (const [from, to, title] of [
+    [452, 452, '否定から入らない'],
+    [346, 345, '愚痴を話す前に余裕を聞き、聞き役を固定しない'],
+    [349, 348, '相談では聞くか提案するかを確かめる'],
+    [354, 353, '弱みや失敗を人前で笑いの材料にしない'],
+  ] as const) {
+    const response = await page.goto(`/card/master336-${from}`);
+    expect(response?.status()).toBe(200);
+    await expect(page).toHaveURL(new RegExp(`/card/master336-${to}$`));
+    await expect(page.getByTestId('technique-detail-title')).toHaveText(title);
+  }
 
   await page.goto('/theories?category=strategy&subcategory=strategy-l');
   const list = page.getByTestId('theory-index-list');
@@ -78,15 +86,15 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await input.press('Enter');
   await expect(page.getByTestId('technique-index-row')).toHaveCount(1);
   await expect(page.getByTestId('technique-index-row')).toContainText('一緒にいて疲れない人');
-  await expect(page.getByTestId('technique-index-row')).toContainText('完全版の処世術');
+  await expect(page.getByTestId('technique-index-row')).toContainText('相手の話を自分の話で上書きしない');
   await page.reload();
   await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
   await expect(input).toHaveValue('No.337');
   await page.getByRole('button', { name: '検索を閉じる', exact: true }).click();
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.337');
   await page.getByTestId('technique-index-row').click();
-  await expect(page).toHaveURL(/\/upgrade\?source=discover_technique$/);
-  await expect(page.getByTestId('technique-essence')).toHaveCount(0);
+  await expect(page).toHaveURL(/\/card\/master336-337$/);
+  await expect(page.getByTestId('technique-detail-title')).toHaveText('相手の話を自分の話で上書きしない');
   await page.goto('/techniques?q=050');
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.050');
   await page.getByTestId('technique-index-row').click();

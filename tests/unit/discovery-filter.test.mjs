@@ -22,7 +22,7 @@ for (const accessState of ['free', 'paid']) {
       interests: ['interpersonal'], seed: 'startup-ranking-parity', count: 5,
     });
     assert.deepEqual(cards.map(item => `${item.type}:${readingContentId(item)}`), [
-      'technique:master336-093', 'theory:kb_025', 'technique:master336-092', 'technique:master336-282', 'theory:kb_007',
+      'technique:master336-339', 'theory:kb_025', 'technique:master336-355', 'technique:master336-282', 'theory:kb_007',
     ]);
   });
 }
