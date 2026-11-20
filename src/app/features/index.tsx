@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { BookScreen } from '@/components/book-ui';
@@ -11,12 +11,11 @@ import { useFeatures, refreshFeatures } from '@/data/features';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { featureRoute } from '@/navigation/app-routes';
 import { FEATURE_CATEGORIES, type FeatureCategoryFilter } from '@/data/feature-categories';
+import { FEATURE_SERIES, GENERATIONAL_CONCERNS, LIFE_STAGES } from '@/data/feature-series';
 
 import { FeatureVisual } from '@/components/feature-visual';
 import { FeatureCard } from '@/components/feature-card';
 import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER } from '@/data/editorial-policy';
-
-const ARTICLE_SECTION = 'ふかぼり処世術記事';
 
 export default function FeaturesScreen() {
   const router = useRouter();
@@ -27,10 +26,12 @@ export default function FeaturesScreen() {
   const compact = width < 700;
   const sidebar = width >= 1000;
   const columns = width >= 1280 ? 3 : width >= 700 ? 2 : 1;
-  const featured = articles.filter(article => article.is_featured);
+  const editorials = articles.filter(article => article.series_id === 'editorial');
+  const featured = editorials.filter(article => article.is_featured);
   const hero = featured.find(article => article.id === selected) ?? featured[0];
-  const listed = articles.filter(article => article.show_in_list);
+  const listed = editorials.filter(article => article.show_in_list);
   const filtered = category === 'all' ? listed.filter(article => article.id !== hero?.id) : listed.filter(article => article.category_id === category);
+  const concerns = articles.filter(article => article.series_id === GENERATIONAL_CONCERNS && article.show_in_series);
   const categoryTabs = (<ScrollView horizontal={!sidebar} showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="記事の主題" aria-orientation={sidebar ? 'vertical' : 'horizontal'} style={[styles.tabs, sidebar && styles.tabsVertical]} contentContainerStyle={sidebar ? styles.tabContentVertical : styles.tabContent}>
             {[{ id: 'all' as const, label: 'すべて' }, ...FEATURE_CATEGORIES].map(item => <Pressable key={item.id} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: category === item.id }} aria-selected={category === item.id} onPress={() => setCategory(item.id)} style={[styles.tab, sidebar && styles.tabVertical, category === item.id && (sidebar ? styles.tabSelectedVertical : styles.tabSelected)]}>
               <AppText style={[styles.tabText, category === item.id && styles.tabTextSelected]}>{item.label}</AppText>
@@ -52,11 +53,33 @@ export default function FeaturesScreen() {
       {listed.length ? <View style={[styles.collection, compact && styles.collectionCompact]}>
         {sidebar ? <View style={styles.sidebar} testID="features-section-sidebar">{categoryTabs}</View> : null}
         <View style={styles.articleSection}>
-          <AppText style={[styles.sectionTitle, compact && styles.sectionTitleCompact]} accessibilityRole="header" aria-level={2}>{ARTICLE_SECTION}</AppText>
+          <AppText style={[styles.sectionTitle, compact && styles.sectionTitleCompact]} accessibilityRole="header" aria-level={2}>{FEATURE_SERIES[0].label}</AppText>
           <View style={styles.introduction}><AppText style={styles.introductionText}>{EDITORIAL_INTRODUCTION}</AppText><Pressable accessibilityRole="link" accessibilityLabel="処世術禄の編集方針" onPress={() => router.push('/features/editorial-policy')} style={styles.policyLink}><AppText style={styles.policyText}>{EDITORIAL_PRODUCER} · 編集方針 →</AppText></Pressable></View>
           {!sidebar ? categoryTabs : null}
           <View style={[styles.grid, compact && styles.gridCompact]} testID="features-grid">{filtered.map(article => <FeatureCard key={article.id} article={article} compact={compact} style={{ width: `${100 / columns - (columns > 1 ? 1.8 : 0)}%` }} />)}</View>
           {!filtered.length ? <View style={styles.emptyCategory} accessibilityLiveRegion="polite"><AppText style={styles.emptyText}>このテーマの記事は、まだありません。</AppText></View> : null}
+        </View>
+      </View> : null}
+      {concerns.length ? <View style={[styles.concerns, compact && styles.concernsCompact]} testID="generational-concerns">
+        <AppText style={[styles.sectionTitle, compact && styles.sectionTitleCompact]} accessibilityRole="header" aria-level={2}>{FEATURE_SERIES[1].label}</AppText>
+        <AppText style={styles.introductionText}>学生時代から老後まで。人生の節目で、多くの人が直面する悩みを読み解きます。</AppText>
+        <View style={styles.stageGrid}>
+          {LIFE_STAGES.map(stage => {
+            const stageArticles = concerns.filter(article => article.life_stage === stage.id);
+            if (!stageArticles.length) return null;
+            return <View key={stage.id} testID={`feature-stage-${stage.id}`} style={[styles.stage, { width: columns === 1 ? '100%' : columns === 2 ? '48%' : '31.8%' }]}>
+              <AppText style={styles.stageTitle} accessibilityRole="header" aria-level={3}>{stage.label}</AppText>
+              {stageArticles.map(article => <Link key={article.id} href={featureRoute(article.slug)} asChild>
+                <Pressable accessibilityRole="link" style={({ pressed }) => [styles.shortArticle, pressed && styles.shortArticlePressed]}>
+                  <View style={styles.shortArticleCopy}>
+                    <AppText style={styles.shortArticleTitle}>{article.title}</AppText>
+                    {article.lead ? <AppText style={styles.shortArticleSubtitle}>{article.lead}</AppText> : null}
+                  </View>
+                  <AppText aria-hidden style={styles.gold}>→</AppText>
+                </Pressable>
+              </Link>)}
+            </View>;
+          })}
         </View>
       </View> : null}
     </>}
@@ -101,6 +124,16 @@ const styles = StyleSheet.create({
   emptyText: { fontFamily: fonts.serif, color: colors.muted, fontSize: 15, lineHeight: 27 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 20, alignItems: 'stretch' },
   gridCompact: { alignItems: 'center', justifyContent: 'center' },
+  concerns: { marginHorizontal: 32, marginTop: 36, paddingTop: 24, borderTopWidth: 1, borderTopColor: colors.line },
+  concernsCompact: { marginHorizontal: 18, marginTop: 28 },
+  stageGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', rowGap: 22, marginTop: 16 },
+  stage: { minWidth: 0 },
+  stageTitle: { fontFamily: fonts.serif, fontSize: 17, lineHeight: 26, fontWeight: '700', color: colors.goldDeep, borderBottomWidth: 1, borderBottomColor: colors.gold, paddingVertical: 8 },
+  shortArticle: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 10, minHeight: 48, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
+  shortArticlePressed: { opacity: 0.7 },
+  shortArticleCopy: { flex: 1, minWidth: 0 },
+  shortArticleTitle: { fontFamily: fonts.serif, fontWeight: '700', fontSize: 16, lineHeight: 25, color: colors.ink },
+  shortArticleSubtitle: { fontFamily: fonts.serif, fontSize: 13, lineHeight: 22, color: colors.inkSoft },
   pageTitle: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 46, paddingHorizontal: 32, paddingTop: 24 },
   status: { padding: 20 },
   retry: { alignSelf: 'center', padding: 14, minHeight: 44 },

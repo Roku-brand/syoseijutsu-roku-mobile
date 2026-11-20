@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { featureCategoryId, type FeatureCategoryId } from './feature-categories';
 import { featureReferences, type FeatureReference } from './feature-editorial';
 import { setFeatureLinks } from './feature-links';
+import { GENERATIONAL_CONCERNS, LIFE_STAGES, type FeatureSeriesId, type LifeStageId } from './feature-series';
 
 export type FeatureArticle = {
   id: string;
@@ -11,6 +12,9 @@ export type FeatureArticle = {
   lead: string;
   body: string;
   category_id: FeatureCategoryId | null;
+  series_id: FeatureSeriesId;
+  life_stage: LifeStageId | null;
+  show_in_series: boolean;
   editorial_character_id: string | null;
   related_feature_ids: string[];
   source_references: FeatureReference[];
@@ -65,22 +69,35 @@ export async function fetchFeatureEditor() {
   if (articles.error) throw articles.error;
   if (drafts.error) throw drafts.error;
   const rows = ((articles.data ?? []) as FeatureArticle[]).map(normalizeFeature);
-  const changes = ((drafts.data ?? []) as FeatureDraft[]).map(draft => ({ ...draft, payload: {
-    ...draft.payload,
-    category_id: Object.prototype.hasOwnProperty.call(draft.payload, 'category_id') ? featureCategoryId(draft.payload.category_id) : rows.find(article => article.id === draft.article_id)?.category_id ?? null,
-    editorial_character_id: Object.prototype.hasOwnProperty.call(draft.payload, 'editorial_character_id') ? draft.payload.editorial_character_id : rows.find(article => article.id === draft.article_id)?.editorial_character_id ?? null,
-    related_feature_ids: Array.isArray(draft.payload.related_feature_ids) ? draft.payload.related_feature_ids : rows.find(article => article.id === draft.article_id)?.related_feature_ids ?? [],
-    source_references: featureReferences(draft.payload.source_references ?? rows.find(article => article.id === draft.article_id)?.source_references),
-  } }));
+  const articlesById = new Map(rows.map(article => [article.id, article]));
+  const changes = ((drafts.data ?? []) as FeatureDraft[]).map(draft => {
+    const article = articlesById.get(draft.article_id);
+    return {
+      ...draft,
+      payload: {
+        ...draft.payload,
+        ...featureSeriesFields({ ...article, ...draft.payload }),
+        category_id: Object.prototype.hasOwnProperty.call(draft.payload, 'category_id') ? featureCategoryId(draft.payload.category_id) : article?.category_id ?? null,
+        editorial_character_id: Object.prototype.hasOwnProperty.call(draft.payload, 'editorial_character_id') ? draft.payload.editorial_character_id : article?.editorial_character_id ?? null,
+        related_feature_ids: Array.isArray(draft.payload.related_feature_ids) ? draft.payload.related_feature_ids : article?.related_feature_ids ?? [],
+        source_references: featureReferences(draft.payload.source_references ?? article?.source_references),
+      },
+    };
+  });
   return { articles: rows, drafts: changes };
 }
-function normalizeFeature(article: FeatureArticle): FeatureArticle { return { ...article, category_id: featureCategoryId(article.category_id), editorial_character_id: typeof article.editorial_character_id === 'string' ? article.editorial_character_id : null, related_feature_ids: Array.isArray(article.related_feature_ids) ? article.related_feature_ids : [], source_references: featureReferences(article.source_references) }; }
+function featureSeriesFields(article?: Partial<FeaturePayload>): Pick<FeaturePayload, 'series_id' | 'life_stage' | 'show_in_series'> {
+  const series_id = article?.series_id === GENERATIONAL_CONCERNS ? GENERATIONAL_CONCERNS : 'editorial';
+  const life_stage = series_id === GENERATIONAL_CONCERNS ? LIFE_STAGES.find(stage => stage.id === article?.life_stage)?.id ?? null : null;
+  return { series_id, life_stage, show_in_series: article?.show_in_series ?? true };
+}
+function normalizeFeature(article: FeatureArticle): FeatureArticle { return { ...article, ...featureSeriesFields(article), category_id: featureCategoryId(article.category_id), editorial_character_id: typeof article.editorial_character_id === 'string' ? article.editorial_character_id : null, related_feature_ids: Array.isArray(article.related_feature_ids) ? article.related_feature_ids : [], source_references: featureReferences(article.source_references) }; }
 export function featurePayload(article: FeatureArticle): FeaturePayload {
   const { slug, title, lead, body, category_id, image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids } = article;
-  return { slug, title, lead, body, category_id: featureCategoryId(category_id), editorial_character_id: article.editorial_character_id ?? null, related_feature_ids: article.related_feature_ids ?? [], source_references: featureReferences(article.source_references), image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
+  return { slug, title, lead, body, ...featureSeriesFields(article), category_id: featureCategoryId(category_id), editorial_character_id: article.editorial_character_id ?? null, related_feature_ids: article.related_feature_ids ?? [], source_references: featureReferences(article.source_references), image_path, image_alt, is_featured, show_in_list, display_order, related_technique_ids, related_theory_ids };
 }
 export function blankFeature(): FeaturePayload {
-  return { slug: '', title: '', lead: '', body: '', category_id: null, editorial_character_id: null, related_feature_ids: [], source_references: [], image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
+  return { slug: '', title: '', lead: '', body: '', ...featureSeriesFields(), category_id: null, editorial_character_id: null, related_feature_ids: [], source_references: [], image_path: 'bundled:feature-coast', image_alt: '', is_featured: false, show_in_list: true, display_order: 100, related_technique_ids: [], related_theory_ids: [] };
 }
 export async function saveFeatureDraft(id: string | null, payload: FeaturePayload, baseUpdatedAt: string | null, expectedRevision: number | null) {
   if (!supabase) throw new Error('Supabaseが未設定です。');
