@@ -10,6 +10,7 @@ import { techniqueById, theoryById } from '@/data/catalog';
 import { pickContentImage, uploadContentImage, type ContentImageAsset } from '@/lib/content-media';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { FEATURE_CATEGORIES, featureCategoryLabel } from '@/data/feature-categories';
+import { FEATURE_SERIES, GENERATIONAL_CONCERNS, LIFE_STAGES, lifeStageLabel, type FeatureSeriesId } from '@/data/feature-series';
 import { FeatureThumbnail } from '@/components/feature-thumbnail';
 import { cmsErrorMessage } from '@/data/cms-errors';
 import { featureCover } from '@/data/feature-covers';
@@ -49,6 +50,7 @@ function FeatureEditor() {
   const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const selected = articles.find(article => article.id === id);
+  const shortArticle = payload.series_id === GENERATIONAL_CONCERNS;
   const choose = (nextId: string | null, rows = articles, changes = drafts) => {
     const article = rows.find(item => item.id === nextId);
     const draft = changes.find(item => item.article_id === nextId);
@@ -70,6 +72,12 @@ function FeatureEditor() {
     window.addEventListener('beforeunload', warn); return () => window.removeEventListener('beforeunload', warn);
   }, [dirty]);
   const patch = (changes: Partial<FeaturePayload>) => { setPayload(current => ({ ...current, ...changes })); setDirty(true); setNotice(''); setError(''); setConfirm(null); };
+  const changeSeries = (series_id: FeatureSeriesId) => {
+    if (series_id === payload.series_id) return;
+    patch(series_id === GENERATIONAL_CONCERNS
+      ? { series_id, show_in_series: payload.show_in_list, show_in_list: false, is_featured: false }
+      : { series_id, life_stage: null, show_in_list: payload.show_in_series, image_path: payload.image_path ?? 'bundled:feature-coast' });
+  };
   const navigate = (nextId: string | null) => { if (dirty) setPending(nextId); else choose(nextId); };
   const save = async () => {
     const next = { ...payload };
@@ -96,6 +104,9 @@ function FeatureEditor() {
     if (!payload.title.trim() || !payload.body.trim()) {
       setError('公開するにはタイトルと本文を入力してください。'); setPreview(false); setSection('article'); return;
     }
+    if (shortArticle && !payload.life_stage) {
+      setError('公開するには人生段階を選択してください。'); setPreview(false); setSection('article'); return;
+    }
     if (payload.slug.trim() && !/^[a-z0-9][a-z0-9-]{0,79}$/.test(payload.slug.trim())) {
       setError('URL名は80文字以内の半角英数字とハイフンで入力してください。'); setPreview(false); setSection('article'); return;
     }
@@ -113,9 +124,10 @@ function FeatureEditor() {
         <ScrollView contentContainerStyle={styles.listContent} keyboardShouldPersistTaps="handled">
         {articles.filter(article => (drafts.find(d => d.article_id === article.id)?.payload.title || article.title).includes(query.trim())).map(article => {
           const draft = drafts.find(item => item.article_id === article.id);
+          const listing = draft?.payload ?? article;
           return <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`${article.title || '無題の記事'}を編集`} accessibilityState={{ selected: article.id === id }} disabled={busy} onPress={() => navigate(article.id)} style={[styles.listItem, article.id === id && styles.listSelected]}>
-            <View style={styles.listThumbnail}><FeatureThumbnail article={draft ? { ...article, ...draft.payload } : article} caption={false} /></View><View style={styles.listCopy}><AppText style={styles.listTitle}>{draft?.payload.title || article.title || '無題の記事'}</AppText>
-            <AppText style={styles.muted}>{featureCategoryLabel(draft ? draft.payload.category_id : article.category_id)}</AppText>
+            {listing.series_id !== GENERATIONAL_CONCERNS ? <View style={styles.listThumbnail}><FeatureThumbnail article={{ ...article, ...listing }} caption={false} /></View> : null}<View style={styles.listCopy}><AppText style={styles.listTitle}>{draft?.payload.title || article.title || '無題の記事'}</AppText>
+            <AppText style={styles.muted}>{listing.series_id === GENERATIONAL_CONCERNS ? [FEATURE_SERIES[1].label, lifeStageLabel(listing.life_stage)].filter(Boolean).join(' · ') : featureCategoryLabel(listing.category_id)}</AppText>
             <AppText style={styles.muted}>{article.status === 'published' ? '公開中' : article.status === 'archived' ? '非公開' : '下書き'}{draft ? ' · 下書きあり' : ''}{article.is_featured ? ' · ヒーロー' : ''}</AppText>
             </View></Pressable>;
         })}
@@ -128,7 +140,8 @@ function FeatureEditor() {
         {preview ? <FeatureArticleContent article={previewArticle} characters={characters} others={articles.filter(item => item.id !== id && item.status === 'published')} preview /> : <>
           {section === 'article' ? <>
           <Field label="タイトル" value={payload.title} onChange={title => patch({ title })} disabled={busy} />
-          <View style={styles.field}>
+          <ArticleChoice label="記事シリーズ" choices={FEATURE_SERIES} value={payload.series_id} onChange={changeSeries} disabled={busy} />
+          {shortArticle ? <ArticleChoice label="人生段階" choices={LIFE_STAGES} value={payload.life_stage} onChange={life_stage => patch({ life_stage })} disabled={busy} /> : <View style={styles.field}>
             <AppText style={styles.fieldLabel}>主カテゴリ</AppText>
             <AppText style={styles.muted}>記事の中心となる問いに合うものを一つ選びます。</AppText>
             <View accessibilityRole="radiogroup" accessibilityLabel="主カテゴリ" style={styles.actions}>
@@ -137,19 +150,21 @@ function FeatureEditor() {
               </Pressable>)}
             </View>
             {payload.category_id ? <AppText style={styles.muted}>{FEATURE_CATEGORIES.find(category => category.id === payload.category_id)?.description}</AppText> : <AppText style={styles.muted}>カテゴリが未設定の記事も「すべて」に表示されます。</AppText>}
-          </View>
+          </View>}
           <View style={styles.field}><AppText style={styles.fieldLabel}>編集案内人（任意）</AppText><AppText style={styles.muted}>制作主体は処世術禄編集部です。記事を案内する人物を選びます。</AppText>{charactersError ? <AppText style={styles.error}>{charactersError}</AppText> : null}<View accessibilityRole="radiogroup" accessibilityLabel="編集案内人" style={styles.actions}>{[{ id: null, name: '設定なし' }, ...characters].map(character => <Pressable key={character.id ?? 'none'} accessibilityRole="radio" accessibilityLabel={character.name} aria-checked={payload.editorial_character_id === character.id} accessibilityState={{ checked: payload.editorial_character_id === character.id }} disabled={busy} onPress={() => patch({ editorial_character_id: character.id })} style={[styles.button, payload.editorial_character_id === character.id && styles.primary]}><AppText style={[styles.buttonText, payload.editorial_character_id === character.id && styles.primaryText]}>{character.name}{'status' in character && character.status !== 'published' ? '（非公開）' : ''}</AppText></Pressable>)}</View></View>
           <Field label="記事のURL名" hint="省略すると保存時に発行されます。指定する場合は半角英数字とハイフン。公開後は固定です。" value={payload.slug} onChange={slug => patch({ slug })} disabled={busy || Boolean(selected && selected.status !== 'draft')} />
-          <Field label="導入文" value={payload.lead} onChange={lead => patch({ lead })} multiline disabled={busy} />
+          <Field label={shortArticle ? '副題' : '導入文'} value={payload.lead} onChange={lead => patch({ lead })} multiline disabled={busy} />
           <Field label="本文" hint="見出しは「## 見出し」、段落は空行で区切れます。太字は **言葉**、箇条書きは「- 項目」です。" value={payload.body} onChange={body => patch({ body })} multiline large disabled={busy} />
           <AppText style={styles.muted}>本文 {featureCharacterCount(payload.body).toLocaleString()}字 · 約2,000字は目安です。長さの制限や定期更新の必要はありません。</AppText>
           </> : null}
           {section === 'media' ? <>
+          {!shortArticle ? <>
           <View testID="feature-image-editor" style={styles.field}><AppText style={styles.fieldLabel}>サムネイル</AppText><AppText style={styles.muted}>一覧・記事・プレビューで同じ画像を使います。</AppText><View style={styles.image}><FeatureThumbnail article={previewArticle} /></View><View style={styles.actions}><Button disabled={busy} onPress={() => { void pickContentImage().then(picked => { if (picked) { setAsset(picked); setDirty(true); setError(''); } }).catch(cause => setError(causeMessage(cause))); }}>画像をアップロード</Button>{Object.keys(FEATURE_IMAGES).map((key, index) => <Button key={key} disabled={busy} primary={!asset && payload.image_path === key} onPress={() => { setAsset(null); patch({ image_path: key }); }}>{featureCover({ ...previewArticle, image_path: key }) ? '専用画像' : ['海', '森', '山'][index]}</Button>)}</View></View>
           <Field label="写真の説明" hint="画像を見られない方にも伝わる短い説明です。" value={payload.image_alt} onChange={image_alt => patch({ image_alt })} disabled={busy} />
           <View style={styles.switchRow}><AppText style={styles.fieldLabel}>ヒーローに掲載</AppText><Switch accessibilityLabel="ヒーローに掲載" disabled={busy} value={payload.is_featured} onValueChange={is_featured => patch({ is_featured })} /></View>
-          <View style={styles.switchRow}><AppText style={styles.fieldLabel}>一覧に掲載</AppText><Switch accessibilityLabel="一覧に掲載" disabled={busy} value={payload.show_in_list} onValueChange={show_in_list => patch({ show_in_list })} /></View>
-          <Field label="掲載順" hint="小さい番号から並びます。ヒーローの順序にも使います。" value={String(payload.display_order)} onChange={value => patch({ display_order: Math.max(0, Math.min(100000, Number.parseInt(value, 10) || 0)) })} disabled={busy} />
+          </> : null}
+          <View style={styles.switchRow}><AppText style={styles.fieldLabel}>一覧に掲載</AppText><Switch accessibilityLabel="一覧に掲載" disabled={busy} value={shortArticle ? payload.show_in_series : payload.show_in_list} onValueChange={value => patch(shortArticle ? { show_in_series: value } : { show_in_list: value })} /></View>
+          <Field label="掲載順" hint={shortArticle ? '同じ人生段階の中で、小さい番号から並びます。' : '小さい番号から並びます。ヒーローの順序にも使います。'} value={String(payload.display_order)} onChange={value => patch({ display_order: Math.max(0, Math.min(100000, Number.parseInt(value, 10) || 0)) })} disabled={busy} />
           </> : null}
           {section === 'links' ? <>
           <Button disabled={busy || dirty} onPress={() => router.push('/owner/editorial-characters')}>編集案内人を管理</Button>
@@ -175,6 +190,16 @@ function FeatureEditor() {
       </View></View>
     </Modal>
   </View></Screen>;
+}
+function ArticleChoice<Id extends string>({ label, choices, value, onChange, disabled }: { label: string; choices: readonly { id: Id; label: string }[]; value: Id | null; onChange: (value: Id) => void; disabled: boolean }) {
+  return <View style={styles.field}>
+    <AppText style={styles.fieldLabel}>{label}</AppText>
+    <View accessibilityRole="radiogroup" accessibilityLabel={label} style={styles.actions}>
+      {choices.map(choice => <Pressable key={choice.id} accessibilityRole="radio" accessibilityState={{ checked: value === choice.id }} aria-checked={value === choice.id} disabled={disabled} onPress={() => onChange(choice.id)} style={[styles.button, value === choice.id && styles.primary, disabled && styles.disabled]}>
+        <AppText style={[styles.buttonText, value === choice.id && styles.primaryText]}>{choice.label}</AppText>
+      </Pressable>)}
+    </View>
+  </View>;
 }
 function Field({ label, hint, value, onChange, multiline, large, disabled }: { label: string; hint?: string; value: string; onChange: (value: string) => void; multiline?: boolean; large?: boolean; disabled?: boolean }) {
   return <View style={styles.field}><AppText style={styles.fieldLabel}>{label}</AppText>{hint ? <AppText style={styles.muted}>{hint}</AppText> : null}<TextInput accessibilityLabel={label} value={value} onChangeText={onChange} editable={!disabled} multiline={multiline} textAlignVertical={multiline ? 'top' : 'center'} style={[styles.input, multiline && styles.multiline, large && styles.bodyInput]} /></View>;

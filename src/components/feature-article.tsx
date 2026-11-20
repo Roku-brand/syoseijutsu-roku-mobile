@@ -5,6 +5,7 @@ import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import { EditorialByline } from '@/components/editorial-guide';
 import { useEditorialCharacters, type EditorialCharacter } from '@/data/editorial-characters';
 import { featureCategoryLabel } from '@/data/feature-categories';
+import { GENERATIONAL_CONCERNS, lifeStageLabel } from '@/data/feature-series';
 import { AppText } from '@/components/ui';
 import { colors, fonts } from '@/constants/theme';
 import { type FeatureArticle } from '@/data/features';
@@ -39,12 +40,14 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   const relatedFeatures = article.related_feature_ids.map(id => others.find(item => item.id === id && item.id !== article.id && item.status === 'published')).filter((item): item is FeatureArticle => Boolean(item));
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
+  const shortArticle = article.series_id === GENERATIONAL_CONCERNS;
+  const classification = shortArticle ? lifeStageLabel(article.life_stage) : article.category_id ? featureCategoryLabel(article.category_id) : null;
   const techniques = article.related_technique_ids.map(id => techniqueById.get(id)).filter(item => item && item.title !== '完全版の処世術');
   const theories = article.related_theory_ids.map(id => theoryById.get(id)).filter(item => item && item.title !== '完全版の理論');
   return <View style={styles.article} testID="feature-article">
-    <View style={styles.articleHeader}>{article.category_id ? <AppText style={styles.category}>{featureCategoryLabel(article.category_id)}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}</View>
-    <FeatureVisual article={article} compact={compact} style={[styles.articleImage, compact && styles.articleImageCompact]} />
-    <View style={styles.readingColumn}><EditorialByline character={character} preview={preview} /><FeatureBody body={article.body} title={article.title} onNavigateSection={onNavigateSection} />
+    <View style={styles.articleHeader}>{classification ? <AppText style={styles.category}>{classification}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}</View>
+    {!shortArticle ? <FeatureVisual article={article} compact={compact} style={[styles.articleImage, compact && styles.articleImageCompact]} /> : null}
+    <View style={[styles.readingColumn, shortArticle && styles.shortReadingColumn]}><EditorialByline character={character} preview={preview} /><FeatureBody body={article.body} title={article.title} onNavigateSection={onNavigateSection} />
       {article.source_references.length ? <View style={styles.related} testID="feature-references"><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>参考文献・出典</AppText>{article.source_references.map((reference, index) => <View key={index} style={styles.reference}><Pressable accessibilityRole={reference.url ? 'link' : undefined} accessibilityLabel={reference.title} disabled={!reference.url || preview} onPress={() => reference.url && void Linking.openURL(reference.url)}><AppText style={[styles.relatedTitle, reference.url && styles.category]}>{reference.title}{reference.url ? ' ↗' : ''}</AppText></Pressable>{reference.note ? <AppText style={styles.referenceNote}>{reference.note}</AppText> : null}</View>)}</View> : null}
       {techniques.length || theories.length ? <AppText accessibilityRole="header" aria-level={2} style={styles.knowledgeHeading}>この記事に関連する知識</AppText> : null}
       {techniques.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>関連する処世術</AppText>{techniques.map(item => item ? <Pressable key={item.id} accessibilityRole="link" onPress={() => !preview && router.push(techniqueRoute(item.id))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable> : null)}</View> : null}
@@ -55,6 +58,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   </View>;
 }
 const styles = StyleSheet.create({
+  shortReadingColumn: { marginTop: 0 },
   divider: { width: 64, height: 1, alignSelf: 'center', backgroundColor: colors.goldSoft, marginVertical: 12 },
   contents: { borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface, padding: 18, marginBottom: 12 },
   contentsTitle: { fontFamily: fonts.serif, fontSize: 20, lineHeight: 30, marginBottom: 8 },

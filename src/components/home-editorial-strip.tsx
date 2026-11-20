@@ -20,9 +20,9 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
   const mobileCard = !desktop ? { width: cardWidth, height: Math.round(cardWidth * .56) } : undefined;
   const { articles } = useFeatures();
   const featured = useMemo(() => {
-    const published = articles.filter(article => article.status === 'published' && article.show_in_list);
+    const published = articles.filter(article => article.status === 'published' && article.series_id === 'editorial' && article.show_in_list);
     const selected = published.filter(article => article.is_featured);
-    return [...selected, ...published.filter(article => !article.is_featured)].slice(0, 3);
+    return [...selected, ...published.filter(article => !article.is_featured)].slice(0, 5);
   }, [articles]);
 
   return <View testID="home-editorial-section" style={styles.section}>

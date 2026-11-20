@@ -7,6 +7,12 @@ const initial = JSON.parse(fs.readFileSync('content/features/manifest.json', 'ut
   return { ...row, lead: source.slice(0, split), body: source.slice(split + 2), related_technique_ids: [], related_theory_ids: [], editorial_character_id: 'sumino-haruka', related_feature_ids: [], source_references: [], status: 'published', updated_at: '2026-10-13T00:00:00Z' };
 });
 const initialGuide = { id: 'sumino-haruka', name: '澄野 遥', role: '処世術禄 編集案内人', bio: '人はなぜ、そう考え、そう行動するのか。身近な疑問を出発点に、心理学や社会科学の知見から、人間と人生の仕組みを探ります。', interests: ['人間関係', '心理学', '自己理解'], image_path: 'bundled:sumino-haruka', image_alt: '架空の案内人のイラスト', status: 'published', display_order: 10, updated_at: '2026-10-14T00:00:00Z' };
+const concernsMigration = fs.readdirSync('supabase/migrations').find(name => name.endsWith('_add_generational_concerns.sql'))!;
+const concerns = JSON.parse(fs.readFileSync(`supabase/migrations/${concernsMigration}`, 'utf8').split('$articles$')[1]) as Array<{ slug: string; title: string; lead: string; body: string; life_stage: string; display_order: number }>;
+
+function concernRows() {
+  return concerns.map(article => ({ ...initial[0], ...article, id: article.slug, series_id: 'generational-concerns', category_id: null, editorial_character_id: null, image_path: null, is_featured: false, show_in_list: false, show_in_series: true }));
+}
 async function mockFeatures(page: Page, owner = false) {
   let articles = structuredClone(initial);
   let characters = [structuredClone(initialGuide), { ...structuredClone(initialGuide), id: 'sakaki-naoto', name: '榊 直人', image_path: 'bundled:sakaki-naoto', display_order: 20 }, { ...structuredClone(initialGuide), id: 'onose-tsumugi', name: '小野瀬 紬', image_path: 'bundled:onose-tsumugi', display_order: 30 }];
@@ -274,13 +280,13 @@ test('指定順の5タブで全4記事を絞り込み、0件のテーマと切�
   await expect(page.getByTestId('feature-body')).toContainText('1．選べる側になる');
 });
 
-test('ホームの編集部の特集はおすすめ1件でも3記事を横スワイプして開ける', async ({ page, context }) => {
+test('ホームの編集部の特集は5件未満でも横スワイプして開ける', async ({ page, context }) => {
   await mockFeatures(page);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   const rail = page.getByTestId('home-editorial-rail');
   const cards = page.getByTestId('home-editorial-card');
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(4);
   await rail.scrollIntoViewIfNeeded();
   const box = (await rail.boundingBox())!;
   const first = (await cards.first().boundingBox())!;
@@ -298,8 +304,68 @@ test('ホームの編集部の特集はおすすめ1件でも3記事を横スワ
   await page.screenshot({ path: test.info().outputPath('home-editorial-swiped.png') });
   await cards.last().scrollIntoViewIfNeeded();
   await cards.last().click();
-  await expect(page).toHaveURL(new RegExp(`/features/${initial[2].slug}$`));
+  await expect(page).toHaveURL(new RegExp(`/features/${initial[3].slug}$`));
   await expect(page.getByTestId('feature-body')).toBeVisible();
+});
+
+test('ホームの特集はおすすめを優先して長編を最大5件表示する', async ({ page }) => {
+  const server = await mockFeatures(page);
+  server.articles().unshift(...concernRows());
+  for (const slug of ['extra-editorial-a', 'extra-editorial-b']) {
+    server.articles().push({ ...initial[1], id: slug, slug, title: slug });
+  }
+  await page.goto('/');
+  const cards = page.getByTestId('home-editorial-card');
+  await expect(cards).toHaveCount(5);
+  await expect(cards.first()).toContainText(initial[0].title);
+  await expect(cards.last()).toContainText('extra-editorial-a');
+  await expect(page.getByTestId('home-editorial-rail')).not.toContainText(concerns[0].title);
+});
+
+for (const width of [390, 1440]) {
+  test(`${width}pxで各世代の悩み21本を一覧と記事URLで読める`, async ({ page }) => {
+    const server = await mockFeatures(page);
+    server.articles().push(...concernRows());
+    await page.setViewportSize({ width, height: 844 });
+    await page.goto('/features');
+    await expect(page.getByTestId('feature-card')).toHaveCount(3);
+    const series = page.getByTestId('generational-concerns');
+    await expect(series.getByRole('heading', { name: '各世代の悩み', exact: true })).toBeVisible();
+    await expect(series.getByRole('link')).toHaveCount(21);
+    for (const [stage, count] of Object.entries({ student: 4, 'young-adult': 3, 'early-career': 4, crossroads: 4, 'family-formation': 3, 'midlife-and-later': 3 })) {
+      await expect(series.getByTestId(`feature-stage-${stage}`).getByRole('link')).toHaveCount(count);
+    }
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    await page.getByRole('tab', { name: '社会・時代', exact: true }).click();
+    await expect(series.getByRole('link')).toHaveCount(21);
+    const article = concerns[0];
+    await series.getByRole('link', { name: new RegExp(article.title) }).click();
+    await expect(page).toHaveURL(`/features/${article.slug}`);
+    await page.reload();
+    await expect(page.getByTestId('feature-article').getByRole('heading', { name: article.title, exact: true })).toHaveCount(1);
+    await expect(page.getByTestId('feature-article').getByText(article.lead, { exact: true })).toHaveCount(1);
+    await expect(page.getByTestId('feature-article')).toContainText('学生時代');
+    await expect(page.getByTestId('feature-body').getByRole('heading')).toHaveCount(2);
+    await expect(page.getByTestId('feature-body').getByText(article.body.match(/\*\*(.+?)\*\*/)![1], { exact: true })).toHaveCSS('font-weight', '700');
+    await page.getByRole('link', { name: '← 特集一覧へ' }).click();
+    await expect(page).toHaveURL('/features');
+  });
+}
+
+test('特集CMSで新シリーズと人生段階を設定して公開できる', async ({ page }) => {
+  const server = await mockFeatures(page, true);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/owner/features');
+  await page.getByRole('button', { name: '＋ 記事を作成' }).click();
+  await page.getByRole('radio', { name: '各世代の悩み', exact: true }).click();
+  await page.getByRole('radio', { name: '青年期', exact: true }).click();
+  await page.getByRole('textbox', { name: 'タイトル', exact: true }).fill('追加する短編');
+  await page.getByRole('textbox', { name: '副題', exact: true }).fill('短編の副題');
+  await page.getByRole('textbox', { name: '本文', exact: true }).fill('## 短編の見出し\n\n**短編の本文**');
+  await page.getByRole('button', { name: '公開する', exact: true }).click();
+  await page.getByRole('button', { name: 'この内容で公開', exact: true }).click();
+  await expect(page.getByText('特集を公開しました。', { exact: true })).toBeVisible();
+  expect(server.articles().at(-1)).toMatchObject({ series_id: 'generational-concerns', life_stage: 'young-adult', status: 'published', show_in_list: false, show_in_series: true });
 });
 
 test('カテゴリが未設定・不正でもすべての一覧から記事が消えない', async ({ page }) => {
