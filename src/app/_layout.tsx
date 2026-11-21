@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import { MainSectionProvider } from '@/navigation/main-section-state';
 import { DiscoverSearchEntryProvider } from '@/navigation/discover-search-entry';
+import { TabRootScrollProvider } from '@/navigation/tab-root-scroll';
 import '@/lib/pwa-install';
 import { Stack, useGlobalSearchParams, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -56,12 +57,12 @@ function AppFrame() {
       <RouteTransition disabled={isWelcome || isCheckoutReturn}>
         <AppStack reducedMotion={reducedMotion} />
       </RouteTransition>
-      {showPersistentNavigation && !desktop ? <PersistentBottomNav /> : null}
+      {showPersistentNavigation && !desktop ? <PersistentBottomNav reducedMotion={reducedMotion} /> : null}
     </View>
   );
   // Keep the route tree mounted when the window crosses the sidebar breakpoint.
   // Otherwise resizing a CMS form discards its selected article and edits.
-  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav /> : null}{appContent}</View></View>;
+  return <View style={styles.container}><StatusBar style="dark" /><View style={[styles.desktopFrame, !desktop && styles.mobileFrame]}>{showPersistentNavigation && desktop ? <PersistentBottomNav reducedMotion={reducedMotion} /> : null}{appContent}</View></View>;
 }
 
 function AppStack({ reducedMotion }: { reducedMotion: boolean }) {
@@ -90,7 +91,7 @@ function isFocusedScreen(pathname: string) {
 }
 
 export default function RootLayout() {
-  return <SafeAreaProvider><SeoMeta /><HomeAppearanceProvider><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><MainSectionProvider><DiscoverSearchEntryProvider><AppFrame /></DiscoverSearchEntryProvider></MainSectionProvider></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></HomeAppearanceProvider></SafeAreaProvider>;
+  return <SafeAreaProvider><SeoMeta /><HomeAppearanceProvider><AuthProvider><AppStateProvider><AccessProvider><AppToastProvider><GuideProvider><AccessBoundary><MainSectionProvider><DiscoverSearchEntryProvider><TabRootScrollProvider><AppFrame /></TabRootScrollProvider></DiscoverSearchEntryProvider></MainSectionProvider></AccessBoundary></GuideProvider></AppToastProvider></AccessProvider></AppStateProvider></AuthProvider></HomeAppearanceProvider></SafeAreaProvider>;
 }
 const styles = StyleSheet.create({
   container: { flex: 1, minHeight: 0, backgroundColor: colors.paper },

@@ -58,7 +58,6 @@ export function Screen({
       style={[styles.flex, props.style]}
       contentContainerStyle={[styles.screenContent, compact && styles.screenContentCompact, contentContainerStyle]}
       keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
       role="main"
     >
       {children}

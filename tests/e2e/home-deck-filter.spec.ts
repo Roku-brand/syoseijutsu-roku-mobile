@@ -307,7 +307,7 @@ test('完全版の追加データを待つ間も、読める初期デッキは�
   try {
     await page.goto('/my-os');
     await expect(page.getByTestId('account-membership-card')).toContainText('完全版を利用中');
-    await page.getByRole('link', { name: /^ホーム。/ }).click();
+    await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'ホーム', exact: true }).click();
     await ready(page);
     await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
     await expect(page.getByTestId('home-deck-filter')).toBeEnabled();
