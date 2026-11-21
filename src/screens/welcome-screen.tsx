@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import { Image, ImageBackground, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Image, ImageBackground, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { PageScroll } from '@/components/page-scroll';
 import { AppText } from '@/components/ui';
 import { normalizeDisplayText } from '@/data/theory-display';
 import { categories, techniqueCards, theories } from '@/data/catalog';
@@ -61,7 +62,7 @@ export default function Welcome() {
         style={styles.page}
         imageStyle={styles.backgroundImage}
       >
-        <ScrollView contentContainerStyle={[styles.scrollContent, !hydrated && styles.preHydrationContent]} showsVerticalScrollIndicator={false}>
+        <PageScroll contentContainerStyle={[styles.scrollContent, !hydrated && styles.preHydrationContent]}>
           <WelcomeHeader desktop={desktop} compact={compact} onStartFree={startFree} onOpenComplete={() => router.push('/upgrade')} />
           <View style={[styles.hero, { minHeight: heroHeight }, desktop && styles.heroDesktop]}>
             {(desktop ? desktopNotes : mobileNotes).map((note, index) => (
@@ -110,7 +111,7 @@ export default function Welcome() {
               {desktop ? <WelcomeSteps desktop /> : null}
             </View>
           </View>
-        </ScrollView>
+        </PageScroll>
       </ImageBackground>
     </SafeAreaView>
   );

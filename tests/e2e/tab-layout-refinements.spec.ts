@@ -9,7 +9,7 @@ test('four tabs share one continuous header and status-area background', async (
   await page.goto('/');
   let headerHeight = 0;
   for (const label of ['ホーム', '探す', '学ぶ', 'マイページ']) {
-    await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: new RegExp(`^${label}。`) }).click();
+    await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: label, exact: true }).click();
     const safe = page.getByTestId('book-header-safe-area');
     await expect(safe).toHaveCSS('background-color', 'rgb(247, 240, 228)');
     await expect(page.getByTestId('book-header')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)');

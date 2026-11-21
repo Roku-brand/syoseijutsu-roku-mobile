@@ -55,7 +55,6 @@ export function BookScreen({
         <PageScroll
           ref={scrollRef}
           {...props}
-          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           style={styles.scroll}
           contentContainerStyle={[

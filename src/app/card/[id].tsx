@@ -147,7 +147,6 @@ export default function CardDetailScreen() {
         style={styles.scrollingBody}
         contentContainerStyle={[styles.readingInset, styles.bodyContent]}
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
         testID="technique-detail-scroll"
       >
         <DetailSwipe style={styles.article} previous={previous} next={next}>

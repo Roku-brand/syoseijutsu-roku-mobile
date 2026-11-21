@@ -16,11 +16,13 @@ import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensi
 import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
 import { formatRemainingAccess } from '@/lib/purchase';
 import { usePersonalMemoRoute } from '@/hooks/use-personal-memo-route';
+import { useTabRootScroll } from '@/navigation/tab-root-scroll';
 const principleScrollArtwork = require('../../assets/my-page/personal-principle-scroll-refined.webp');
 const guestAccountLabel = 'アカウント作成・ログイン';
 
 export default function MyPageContent() {
   const router = useRouter();
+  const scroll = useTabRootScroll('my-os');
   const { composeRequested, onComposeHandled } = usePersonalMemoRoute();
   const { width } = useHydratedWindowDimensions();
   const mobile = width < 768;
@@ -40,7 +42,7 @@ export default function MyPageContent() {
 
 
   const openPrincipleEditor = () => { void Haptics.selectionAsync().catch(() => undefined); setPrincipleDraft(personalPrinciple); setPrincipleEditing(true); };
-  return <BookScreen testID="my-page-scroll" contentContainerStyle={[styles.content, mobile && styles.contentMobile]}>
+  return <BookScreen scrollRef={scroll} testID="my-page-scroll" contentContainerStyle={[styles.content, mobile && styles.contentMobile]}>
     <View testID="my-page-dashboard" style={styles.dashboard}>
         <View testID="profile-principle-card" style={styles.profileCard}>
           <View style={[styles.profileRow, mobile && styles.profileRowMobile]}>
