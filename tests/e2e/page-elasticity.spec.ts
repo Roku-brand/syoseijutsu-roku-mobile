@@ -57,6 +57,75 @@ test('末尾の手前から指を動かし続けると、そのまま下端が�
   await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
 });
 
+test('下端で速く指を離すと、勢いが残って少し伸びてから戻る', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/learn');
+  await expect(page.getByTestId('learning-challenge-1')).toBeVisible();
+  const scroll = page.getByTestId('learn-scroll');
+  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
+  await scroll.evaluate(node => {
+    const content = node.firstElementChild!;
+    const original = content.animate;
+    content.animate = function (frames, options) {
+      if (Array.isArray(frames)) {
+        this.setAttribute('data-elastic-release', JSON.stringify(frames.map(frame => frame.translate)));
+      }
+      return original.call(this, frames, options);
+    };
+  });
+  const viewport = (await scroll.boundingBox())!;
+  const x = viewport.x + 24;
+  const y = viewport.y + viewport.height - 40;
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let step = 1; step <= 4; step++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 25 }] });
+  }
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  const content = scroll.locator(':scope > div').first();
+  await expect(content).toHaveAttribute('data-elastic-release', /translate|px/);
+  const frames = JSON.parse((await content.getAttribute('data-elastic-release'))!) as string[];
+  const offsets = frames.map(frame => Number.parseFloat(frame.split(' ')[1]));
+  expect(offsets[0]).toBeLessThan(-25);
+  expect(Math.min(...offsets)).toBeLessThan(offsets[0] - 3);
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
+});
+
+test('下端の手前で指を離しても、慣性で末尾まで進んでから弾む', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/learn');
+  await expect(page.getByTestId('learning-challenge-1')).toBeVisible();
+  const scroll = page.getByTestId('learn-scroll');
+  await scroll.evaluate(node => {
+    node.scrollTop = node.scrollHeight - node.clientHeight - 210;
+    node.addEventListener('touchend', () => {
+      node.setAttribute('data-distance-at-release', String(node.scrollHeight - node.clientHeight - node.scrollTop));
+    }, { once: true });
+    const content = node.firstElementChild!;
+    const original = content.animate;
+    content.animate = function (frames, options) {
+      if (Array.isArray(frames)) {
+        this.setAttribute('data-fling-peak', String(Math.min(...frames.map(frame => Number.parseFloat(frame.translate.split(' ')[1])))));
+      }
+      return original.call(this, frames, options);
+    };
+  });
+  const viewport = (await scroll.boundingBox())!;
+  const x = viewport.x + 24;
+  const y = viewport.y + viewport.height - 40;
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let step = 1; step <= 5; step++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 33 }] });
+  }
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  expect(Number(await scroll.getAttribute('data-distance-at-release'))).toBeGreaterThan(20);
+  await expect.poll(() => scroll.evaluate(node => node.scrollHeight - node.clientHeight - node.scrollTop)).toBeLessThan(2);
+  await expect.poll(async () => Number(await scroll.locator(':scope > div').first().getAttribute('data-fling-peak'))).toBeLessThan(-10);
+});
+
 test('ホームのカード上から指を上へ動かすとページをスクロールできる', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.goto('/');
