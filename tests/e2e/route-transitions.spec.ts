@@ -144,30 +144,54 @@ test('the vertical scroll indicator follows the body and fades without shifting 
   expect(first.x + first.width).toBeGreaterThan(viewport!.x + viewport!.width - 10);
 });
 
-test('the thin scroll thumb can be dragged to both ends on a touch screen', async ({ page, context, browserName }) => {
+test('a touch holds the scrollbar in place, then expands it and lets the finger drag', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.setViewportSize({ width: 390, height: 620 });
+  await page.addInitScript(() => {
+    navigator.vibrate = (duration) => {
+      const root = document.documentElement;
+      root.dataset.scrollbarVibrations = [root.dataset.scrollbarVibrations, duration].filter(Boolean).join(',');
+      return true;
+    };
+  });
   await page.goto('/learn');
   await expect(page.getByTestId('learning-challenge-1')).toBeVisible();
   const scroll = page.getByTestId('learn-scroll');
   const thumb = scroll.locator('..').getByTestId('vertical-scroll-indicator');
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight / 3; });
   await expect(thumb).toHaveCSS('opacity', '1');
-  await expect(thumb.locator(':scope > div')).toHaveCSS('width', '3px');
+  const paint = thumb.locator(':scope > div');
+  await expect(paint).toHaveCSS('width', '3px');
   const [scrollBox, thumbBox] = await Promise.all([scroll.boundingBox(), thumb.boundingBox()]);
   const x = thumbBox!.x + thumbBox!.width - 6;
   const y = thumbBox!.y + thumbBox!.height / 2;
   const session = await context.newCDPSession(page);
+  const initialTop = await scroll.evaluate(node => node.scrollTop);
+  const root = page.locator('html');
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 4 }] });
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  expect(await scroll.evaluate(node => node.scrollTop)).toBe(initialTop);
+  await expect(paint).toHaveCSS('width', '3px');
+  await expect(root).not.toHaveAttribute('data-scrollbar-vibrations');
+
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
   try {
+    await expect(paint).toHaveCSS('width', '7px');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '15');
+    expect(await scroll.evaluate(node => node.scrollTop)).toBe(initialTop);
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 14 }] });
+    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(initialTop);
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox!.y + scrollBox!.height - 2 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollHeight - node.clientHeight - node.scrollTop)).toBeLessThan(2);
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox!.y + 2 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
     await expect(thumb).toHaveCSS('opacity', '1');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '15');
   } finally {
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   }
+  await expect(paint).toHaveCSS('width', '3px');
   await expect(thumb).toHaveCSS('opacity', '0');
   await expect(thumb).toHaveCSS('pointer-events', 'none');
 });
