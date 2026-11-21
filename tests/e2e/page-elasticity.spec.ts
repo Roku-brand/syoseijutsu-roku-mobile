@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type CDPSession } from '@playwright/test';
 
 const pages = [
   ['/', 'home-scroll'],
@@ -7,6 +7,16 @@ const pages = [
   ['/theory/kb_001', 'theory-detail-scroll'],
   ['/upgrade', 'upgrade-lp-scroll'],
 ] as const;
+
+async function flickUp(session: CDPSession, x: number, y: number, stepLength: number, steps: number) {
+  // Supply gesture timestamps so a slow browser worker does not turn a flick into a slow drag.
+  const start = Date.now() / 1000 - 0.2;
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', timestamp: start, touchPoints: [{ x, y }] });
+  for (let step = 1; step <= steps; step++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', timestamp: start + step * 0.016, touchPoints: [{ x, y: y - step * stepLength }] });
+  }
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', timestamp: start + (steps + 1) * 0.016, touchPoints: [] });
+}
 
 for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸びて戻る ${path}`, async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
@@ -78,11 +88,7 @@ test('下端で速く指を離すと、勢いが残って少し伸びてから�
   const x = viewport.x + 24;
   const y = viewport.y + viewport.height - 40;
   const session = await context.newCDPSession(page);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let step = 1; step <= 4; step++) {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 25 }] });
-  }
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await flickUp(session, x, y, 25, 4);
   const content = scroll.locator(':scope > div').first();
   await expect(content).toHaveAttribute('data-elastic-release', /translate|px/);
   const frames = JSON.parse((await content.getAttribute('data-elastic-release'))!) as string[];
@@ -116,11 +122,7 @@ test('下端の手前で指を離しても、慣性で末尾まで進んでか�
   const x = viewport.x + 24;
   const y = viewport.y + viewport.height - 40;
   const session = await context.newCDPSession(page);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let step = 1; step <= 5; step++) {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 33 }] });
-  }
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await flickUp(session, x, y, 33, 5);
   expect(Number(await scroll.getAttribute('data-distance-at-release'))).toBeGreaterThan(20);
   await expect.poll(() => scroll.evaluate(node => node.scrollHeight - node.clientHeight - node.scrollTop)).toBeLessThan(2);
   await expect.poll(async () => Number(await scroll.locator(':scope > div').first().getAttribute('data-fling-peak'))).toBeLessThan(-10);
