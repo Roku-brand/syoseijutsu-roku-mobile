@@ -75,7 +75,6 @@ export default function PersonaScreen() {
         style={styles.list}
         contentContainerStyle={styles.listContent}
         keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
       >
         <View key={`${clientReady ? 'live' : 'prerender'}-${catalogRevision}`} testID="persona-technique-list">
           {clientReady ? persona.items.map((item, index) => (

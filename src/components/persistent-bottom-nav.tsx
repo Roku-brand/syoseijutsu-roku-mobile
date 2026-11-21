@@ -1,12 +1,12 @@
 import { SymbolView } from 'expo-symbols';
 import { useGlobalSearchParams, usePathname, useRouter, type Href } from 'expo-router';
-import { useRef } from 'react';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/constants/theme';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { APP_ROUTES, type MainSection } from '@/navigation/app-routes';
 import { useMainSection } from '@/navigation/main-section-state';
+import { useTabRootScrollState } from '@/navigation/tab-root-scroll';
 import { AppText } from './ui';
 import { SearchMark } from './search-mark';
 
@@ -22,24 +22,28 @@ const items = [
   href: Href;
 }>;
 
-export function PersistentBottomNav() {
+export function PersistentBottomNav({ reducedMotion }: { reducedMotion: boolean }) {
   const { desktop, bottomNavHeight, height } = useResponsiveLayout();
   const pathname = usePathname();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
   const router = useRouter();
   const selected = useMainSection();
-  const lastTap = useRef<Record<string, number>>({});
+  const tabScroll = useTabRootScrollState();
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
 
   if (pathname === '/welcome' || pathname === '/onboarding' || (pathname === '/' && (checkout === 'success' || checkout === 'cancelled'))) return null;
 
+  const currentRoot = items.find(item => pathname === (item.key === 'main' ? '/' : item.href));
   const navigate = (item: (typeof items)[number]) => {
-    const now = Date.now();
-    const isCurrent = selected === item.key && (item.key === 'main' ? pathname === '/' : pathname === item.href);
-    const isDoubleTap = isCurrent && now - (lastTap.current[item.key] ?? 0) < 320;
-    lastTap.current[item.key] = now;
-    if (isDoubleTap) return router.replace(item.href);
-    if (!isCurrent) router.replace(item.href);
+    if (tabScroll) {
+      tabScroll.resetOnFocus = currentRoot === item ? undefined : item.key;
+      if (currentRoot === item) {
+        tabScroll.scrolls[item.key]?.current?.scrollTo({ y: 0, animated: !reducedMotion });
+        return;
+      }
+    }
+    if (currentRoot) router.replace(item.href);
+    else router.dismissTo(item.href);
   };
 
   return (
@@ -55,7 +59,7 @@ export function PersistentBottomNav() {
             <Pressable
                 key={item.key}
                 accessibilityRole="link"
-                accessibilityLabel={`${item.label}。もう一度すばやく押すと最初の画面へ戻ります`}
+                accessibilityLabel={item.label}
                 accessibilityState={{ selected: active }}
                 aria-current={active ? 'page' : undefined}
                 onPress={() => navigate(item)}
