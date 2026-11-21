@@ -31,8 +31,8 @@ test('販売ページは同期した公開数と購入条件を表示する', as
   await page.goto('/upgrade');
   const free = page.getByTestId('upgrade-free-card');
   const complete = page.getByTestId('upgrade-complete-card');
-  for (const label of ['2つの人物像', '1件の処世術', '1件の理論', '7ケース']) await expect(free).toContainText(label);
-  for (const label of ['3つの人物像', '3件の処世術', '2件の理論', '21ケース']) await expect(complete).toContainText(label);
+  for (const label of ['2種の人物像', '1件の処世術', '1件の理論', '7ケース']) await expect(free).toContainText(label);
+  for (const label of ['3種の人物像', '3件の処世術', '2件の理論', '21ケース']) await expect(complete).toContainText(label);
   await expect(page.getByTestId('upgrade-comparison-copy')).toContainText('お気に入り・マイ処世術・座右の銘は両方の版で使えます。');
   await expect(page.getByTestId('upgrade-price')).toHaveText('¥320');
   await page.getByTestId('upgrade-purchase-cta').click();

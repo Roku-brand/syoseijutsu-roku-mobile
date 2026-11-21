@@ -60,7 +60,7 @@ function Check({ small = false }: { small?: boolean }) {
 }
 function EditionCard({ counts, complete, desktop = false }: { counts: ReturnType<typeof getEditionCounts>['free']; complete?: boolean; desktop?: boolean }) {
   const items = [
-    `${counts.personas}つの人物像`,
+    `${counts.personas}種の人物像`,
     `${counts.techniques}件の処世術`,
     `${counts.theories}件の理論`,
     `${counts.learning}ケースの学習コンテンツ`,
