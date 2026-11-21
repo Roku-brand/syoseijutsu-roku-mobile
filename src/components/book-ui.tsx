@@ -207,6 +207,7 @@ export function SaveDiamondButton({
       style={({ pressed }) => [
         styles.saveDiamondButton,
         compact && styles.saveDiamondButtonCompact,
+        label === '' && styles.saveDiamondButtonIconOnly,
         pressed && styles.saveDiamondButtonPressed,
       ]}
     >
@@ -900,6 +901,7 @@ const styles = StyleSheet.create({
   headerDetailIcon: { width: 24, height: 24, alignItems: 'center', justifyContent: 'center' },
   headerDetailLabel: { fontFamily: fonts.sans, color: colors.goldDeep, fontSize: 12, lineHeight: 18, textAlign: 'center' },
   saveDiamondButtonCompact: { minWidth: 76, paddingHorizontal: 4 },
+  saveDiamondButtonIconOnly: { minWidth: 44 },
   saveDiamondButtonPressed: { opacity: 0.78, transform: [{ scale: 0.94 }] },
   saveDiamondLabel: { color: colors.goldDeep, fontSize: 13, lineHeight: 20, fontWeight: '600' },
   saveDiamondLabelSaved: { color: colors.goldDeep },

@@ -67,17 +67,17 @@ test('年齢の特集と社会的時計の接続は完全版でも往復でき�
  await expect(page.getByTestId('theory-title').filter({visible:true})).toHaveText('社会的時計');
 });
 
-test('完全版の関連知識は分類と概要を表示し、完全版理論へ遷移できる', async ({ page }) => {
+test('完全版の関連知識は定義の一文を表示し、完全版理論へ遷移できる', async ({ page }) => {
   await mock(page, true);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/card/master336-009');
   await page.getByRole('tab', { name: '関連知識' }).click();
   const primary = page.getByTestId('primary-theories');
-  await expect(primary).toContainText('最近困っていることを少し話すと');
+  await expect(primary).toContainText('自分のことを適度に話すと、相手も自分のことを話しやすくなること。');
+  await expect(primary).not.toContainText('最近困っていることを少し話すと');
   const method = page.getByTestId('supplementary-theories').getByRole('link', { name: 'アクティブリスニングを開く' });
   await expect(method).toHaveAttribute('href', '/theory/kb_412');
-  await expect(method).toContainText('実践手法｜');
-  await expect(method).toContainText(theories.find((theory: { tagId: string }) => theory.tagId === 'kb_412').summary.split('\n')[0]);
+  await expect(method).toHaveText('01アクティブリスニング相づちや要約、質問を使い、相手の話を確かめながら聴く方法。›');
   const techniques = page.getByTestId('related-techniques');
   const techniqueRows = techniques.getByRole('link');
   await expect(techniqueRows).toHaveCount(4);
@@ -92,6 +92,25 @@ test('完全版の関連知識は分類と概要を表示し、完全版理論�
   await page.screenshot({ path: test.info().outputPath('related-knowledge-complete-390.png') });
   await method.click();
   await expect(page.getByTestId('theory-title').filter({ visible: true })).toHaveText('アクティブリスニング', { timeout: 15_000 });
+});
+
+test('理論詳細の関連知識には相手の定義を表示し、関係の読み方を表示しない', async ({ page }) => {
+  await mock(page, true);
+  const rationale = '注意の捕捉とカクテルパーティー効果は説明対象・手法を区別しながら読める。';
+  await page.route('**/rest/v1/theory_relations?**', route => route.fulfill({ json: [{
+    source_id: 'kb_968', target_id: 'kb_017', relation_type: 'related', review_status: 'confirmed', rationale, priority: 0,
+  }] }));
+  await page.goto('/theory/kb_968');
+  await expect(page.getByTestId('theory-title').filter({ visible: true })).toHaveText('注意の捕捉');
+  const definition = '騒がしい中でも、自分の名前など関心のある情報に気づけること。';
+  const row = page.getByTestId('theory-related-theories').getByRole('link', { name: 'カクテルパーティー効果を開く' });
+  await expect(row).toHaveAttribute('href', '/theory/kb_017');
+  await expect(row).toHaveText(`01カクテルパーティー効果${definition}›`);
+  await page.getByRole('button', { name: '知識のつながりを見る' }).click();
+  await page.getByRole('button', { name: '関連知識を選択：カクテルパーティー効果' }).click();
+  const selection = page.getByTestId('knowledge-graph-selection');
+  await expect(selection).toContainText(definition);
+  await expect(selection).not.toContainText(/区別しながら読める|複数の会話がある場/);
 });
 
 test('未指定の特集を関連として補充せず、完全版の本文も無料ページへ出さない',async({page})=>{

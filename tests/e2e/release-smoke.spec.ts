@@ -297,9 +297,13 @@ test('ホームのカードデッキはキーボードで前後にめくれる',
 test('ホームの編集部の特集は公開記事一覧へのリンクを持つ', async ({ page }) => {
   await page.goto('/');
   await startFreeHome(page);
-  await expect(page.getByTestId('home-editorial-section')).toBeVisible();
-  await page.getByTestId('home-editorial-see-all').click();
-  await expect(page).toHaveURL(/\/features(?:\?|$)/);
+  const editorial = page.getByTestId('home-editorial-section');
+  const titleLink = editorial.getByRole('link', { name: '編集部の特集', exact: true });
+  await expect(titleLink).toHaveAttribute('href', '/features');
+  await expect(editorial.getByTestId('home-editorial-see-all')).toHaveAttribute('href', '/features');
+  await titleLink.press('Enter');
+  await expect(page).toHaveURL(/\/features$/);
+  await expect(page.getByTestId('features-page')).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {

@@ -10,13 +10,13 @@ test('one challenge click starts the fixed 60-second round without another setup
   await expect(page.getByTestId('learning-start')).toHaveCount(0);
   await expect(page.getByRole('switch', { name: /時間制限/ })).toHaveCount(0);
   await page.clock.runFor(1100);
-  await expect(page.getByTestId('learning-seconds')).toHaveText('59 秒');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('0:59');
 });
 
 async function openRound(page: Page, freeze = false) {
   await page.clock.install();
   await page.goto('/learn/case-01?retry=1');
-  await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('1:00');
   await expect(page.getByRole('button', { name: /^A / })).toBeEnabled();
   if (freeze) {
     await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
@@ -30,22 +30,22 @@ async function openRound(page: Page, freeze = false) {
 test('60 seconds expires as unanswered, retry and next case get a full minute', async ({ page }) => {
   await openRound(page, true);
   await page.clock.runFor(49_000);
-  await expect(page.getByTestId('learning-seconds')).toHaveText('10 秒');
-  await expect(page.getByTestId('learning-countdown')).toContainText('あと少し');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('0:10');
+  await expect(page.getByTestId('learning-countdown')).toContainText('残り10秒です。');
   await page.clock.runFor(9000);
-  await expect(page.getByTestId('learning-seconds')).toHaveText('01 秒');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('0:01');
   await page.clock.runFor(1000);
   await expect(page.getByText('時間切れ', { exact: true })).toBeVisible();
   await expect(page.getByText('未回答です。解説で判断を磨こう。')).toBeVisible();
   await expect(page.getByText('あなたの回答', { exact: true })).toHaveCount(0);
   await page.getByRole('button', { name: 'もう一度挑戦' }).click();
-  await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('1:00');
   await page.getByRole('button', { name: /^B / }).click();
   await expect(page.getByText('正解！', { exact: true })).toBeVisible();
   await page.clock.runFor(65_000);
   await expect(page.getByText('正解！', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: /次の問題へ/ }).click();
-  await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+  await expect(page.getByTestId('learning-seconds')).toHaveText('1:00');
 });
 
 test('timeout leaves progress unchanged', async ({ page }) => {
@@ -127,11 +127,20 @@ test('all five packaged cues play; mute suppresses countdown audio', async ({ pa
   expect(await page.evaluate(() => (window as any).__learningSounds.length)).toBe(count);
 });
 
-test('countdown fits compact and desktop screens', async ({ page }) => {
+test('countdown sits in the top right of the question card on compact and desktop screens', async ({ page }) => {
   for (const width of [320, 390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/learn/case-01?retry=1');
-    await expect(page.getByTestId('learning-countdown')).toBeVisible();
+    const card = page.getByTestId('learning-question-card');
+    const countdown = card.getByTestId('learning-countdown');
+    await expect(countdown).toBeVisible();
+    await expect(countdown.getByRole('switch', { name: '効果音' })).toBeVisible();
+    await expect(countdown.getByText('一時停止中', { exact: true })).toHaveCount(0);
+    const [cardBox, clockBox] = await Promise.all([card.boundingBox(), countdown.boundingBox()]);
+    expect(clockBox!.y - cardBox!.y).toBeLessThanOrEqual(16);
+    expect(cardBox!.x + cardBox!.width - clockBox!.x - clockBox!.width).toBeLessThanOrEqual(22);
+    expect(clockBox!.height).toBeLessThanOrEqual(38);
+    await expect(page.getByText('60秒の判断チャレンジ')).toHaveCount(0);
     await expect(page.locator('#roku-launch')).toBeHidden();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     if (width === 390) await page.screenshot({ path: 'release-evidence/learning-60-seconds-mobile.png', fullPage: true });

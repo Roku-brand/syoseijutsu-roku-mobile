@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { useFeatures } from '@/data/features';
@@ -27,14 +27,17 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
 
   return <View testID="home-editorial-section" style={styles.section}>
     <View style={styles.heading}>
-      <View style={styles.headingLeft}>
-        <View style={styles.accent} />
-        <Text accessibilityRole="header" aria-level={2} style={styles.title}>編集部の特集</Text>
-      </View>
-      <Pressable testID="home-editorial-see-all" accessibilityRole="link" accessibilityLabel="特集をすべて見る" onPress={() => router.push(APP_ROUTES.features)}
-        style={({ pressed }) => [styles.seeAll, pressed && styles.pressed]}>
-        <Text style={styles.seeAllText}>すべて見る →</Text>
-      </Pressable>
+      <Link href={APP_ROUTES.features} push asChild>
+        <Pressable accessibilityRole="link" style={styles.headingLeft}>
+          <View style={styles.accent} />
+          <Text accessibilityRole="header" aria-level={2} style={styles.title}>編集部の特集</Text>
+        </Pressable>
+      </Link>
+      <Link href={APP_ROUTES.features} push asChild>
+        <Pressable testID="home-editorial-see-all" accessibilityRole="link" accessibilityLabel="特集をすべて見る" style={styles.seeAll}>
+          <Text style={styles.seeAllText}>すべて見る →</Text>
+        </Pressable>
+      </Link>
     </View>
     <ScrollView testID="home-editorial-rail" horizontal showsHorizontalScrollIndicator={false} style={[styles.rail, { height: (mobileCard?.height ?? 150) + 10 }]}
       snapToInterval={(mobileCard?.width ?? 280) + 10} decelerationRate="fast" disableIntervalMomentum

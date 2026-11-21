@@ -89,10 +89,18 @@ for (const {id, label} of THEORY_CATEGORIES) test(`理論分類 ${label} の遷�
 });
 
 test('各一覧入口と検索の対象・クエリを保つ', async ({ page }) => {
-  for (const [name, path] of [['すべての処世術を見る', '/techniques'], ['すべての理論を見る', '/theories']]) {
+  for (const [title, titlePath, seeAll, seeAllPath] of [
+    ['処世術を探す', '/personas', 'すべての処世術を見る', '/techniques'],
+    ['理論を探す', '/theories', 'すべての理論を見る', '/theories'],
+  ]) {
     await page.goto('/discover');
-    await page.getByRole('link', { name, exact: true }).click();
-    expect(new URL(page.url()).pathname).toBe(path);
+    const titleLink = page.getByRole('link', { name: title, exact: true });
+    await expect(titleLink).toHaveAttribute('href', titlePath);
+    await titleLink.tap();
+    await expect(page).toHaveURL(new RegExp(`${titlePath}$`));
+    await page.goBack();
+    await page.getByRole('link', { name: seeAll, exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`${seeAllPath}$`));
   }
   await page.goto('/discover');
   await page.getByTestId('discover-search-input').fill('聞き上手');
