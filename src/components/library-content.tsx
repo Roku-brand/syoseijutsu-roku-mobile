@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { categoryMeta } from '@/data/catalog';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { useAccess } from '@/access/access-state';
-import { colors, fonts, spacing } from '@/constants/theme';
+import { categoryPalette, colors, fonts, radius, shadow, spacing } from '@/constants/theme';
 import { refreshFeatures, useFeatures } from '@/data/features';
 import { featureRoute } from '@/navigation/app-routes';
 import { useAppState } from '@/state/app-state';
@@ -36,6 +36,7 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
   const visible = items.filter(item => item.kind === selectedKind && (selectedKind !== 'technique' || !scope || item.category === scope));
   const scoped = selectedKind === 'technique' && Boolean(scope);
   const scopeLabel = scope ? categoryMeta[scope]?.label ?? scope : '';
+  const scopePalette = scope ? categoryPalette[scope] : undefined;
   const clearScope = () => { setScope(undefined); setLimit(20); router.setParams({ category: undefined }); };
   const selectKind = (next: SavedKind) => { setSelectedKind(next); setLimit(20); };
   const label = selectedKind === 'technique' ? '処世術' : selectedKind === 'theory' ? '理論' : '特集';
@@ -47,8 +48,18 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
       <AppText style={styles.lead}>あとで読み返したい知恵を、種類ごとに見つける</AppText>
     </View>
     <SavedKindTabs selected={selectedKind} onSelect={selectKind} counts={counts} />
-    {scoped ? <View style={styles.scope}><AppText style={styles.scopeLabel}>{scopeLabel}</AppText><Pressable accessibilityRole="button" accessibilityLabel="絞り込みを解除" onPress={clearScope} style={styles.action}><AppText style={styles.actionText}>解除 ×</AppText></Pressable></View> : null}
-    <AppText accessibilityRole="header" aria-level={3} style={styles.kindHeading}>{label} · {visible.length}件</AppText>
+    {scoped && scopePalette ? (
+      <Pressable accessibilityRole="button" accessibilityLabel={`${scopeLabel}の絞り込みを解除`} onPress={clearScope}
+        style={({ pressed }) => [styles.scope, { borderColor: scopePalette.soft, backgroundColor: pressed ? scopePalette.tint : colors.surface }]}>
+        <AppText style={styles.scopeLabel}>{scopeLabel}</AppText>
+        <AppText aria-hidden accessibilityElementsHidden style={[styles.scopeClose, { color: scopePalette.accent }]}>×</AppText>
+      </Pressable>
+    ) : null}
+    <View style={styles.kindSection}>
+      <View aria-hidden accessibilityElementsHidden style={styles.kindMark} />
+      <AppText accessibilityRole="header" aria-level={3} style={styles.kindHeading}>{label}</AppText>
+      <AppText style={styles.kindCount}>{`・ ${visible.length}件`}</AppText>
+    </View>
     {visible.length && !featurePending ? visible.slice(0, limit).map(row => <SavedKnowledgeCard key={libraryItemKey(row.kind, row.id)} row={row}
       onPress={() => router.push(row.kind === 'feature' ? featureRoute(row.article?.slug ?? row.id) : row.kind === 'theory' ? { pathname: '/theory/[id]', params: { id: row.id } } : { pathname: '/card/[id]', params: { id: row.id } })} />)
       : <View testID="library-empty" style={styles.empty}>
@@ -61,15 +72,19 @@ export function LibraryContent({ category, kind }: { category?: string; kind?: s
 }
 
 const styles = StyleSheet.create({
-  scope: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 14, borderWidth: 1, borderColor: colors.line, borderRadius: 8, backgroundColor: colors.surface },
-  scopeLabel: { fontSize: 13, lineHeight: 22, color: colors.ink },
+  scope: { alignSelf: 'flex-start', minHeight: 36, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 4, borderWidth: 1, borderRadius: radius.pill, ...shadow.card },
+  scopeLabel: { fontSize: 13, lineHeight: 22, color: colors.inkSoft, fontWeight: '600' },
+  scopeClose: { fontFamily: fonts.sans, fontSize: 16, lineHeight: 22, fontWeight: '600' },
   action: { minHeight: 44, paddingHorizontal: 12, justifyContent: 'center', alignSelf: 'flex-start' },
   actionText: { color: colors.goldDeep, fontSize: 13, lineHeight: 22, fontWeight: '600' },
   content: { width: '100%', gap: 14 },
   heading: { gap: 4, marginBottom: 2 },
   title: { color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 42, fontWeight: '600' },
   lead: { color: colors.inkSoft, fontSize: 13, lineHeight: 22 },
-  kindHeading: { marginTop: 3, marginBottom: 0, color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 30, fontWeight: '600' },
+  kindSection: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 4 },
+  kindMark: { width: 3, height: 22, backgroundColor: colors.gold },
+  kindHeading: { color: colors.ink, fontFamily: fonts.serif, fontSize: 20, lineHeight: 30, fontWeight: '700' },
+  kindCount: { color: colors.muted, fontFamily: fonts.serif, fontSize: 14, lineHeight: 22 },
   empty: { minHeight: 140, justifyContent: 'center', padding: spacing.lg, borderWidth: 1, borderColor: colors.line, borderRadius: 14, backgroundColor: colors.surface },
   emptyTitle: { color: colors.ink, fontFamily: fonts.serif, fontSize: 19, lineHeight: 28 },
 });

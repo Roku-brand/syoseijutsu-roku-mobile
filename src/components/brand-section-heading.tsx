@@ -15,12 +15,12 @@ export function BrandSectionHeading({ title, href, actionHref = href, actionAcce
   return (
     <View style={styles.row}>
       <Link href={href} push asChild>
-        <Pressable accessibilityRole="link" style={({ pressed }) => [styles.titleLink, pressed && styles.pressed]}>
+        <Pressable accessibilityRole="link" style={styles.titleLink}>
           <Text accessibilityRole="header" aria-level={2} style={[styles.title, compact && styles.titleCompact]}>{title}</Text>
         </Pressable>
       </Link>
       <Link href={actionHref} push asChild>
-        <Pressable accessibilityRole="link" accessibilityLabel={actionAccessibilityLabel} style={({ pressed }) => [styles.action, pressed && styles.pressed]}>
+        <Pressable accessibilityRole="link" accessibilityLabel={actionAccessibilityLabel} style={styles.action}>
           <Text style={styles.actionText}>すべて見る →</Text>
         </Pressable>
       </Link>
@@ -35,5 +35,4 @@ const styles = StyleSheet.create({
   titleCompact: { fontSize: 23, lineHeight: 33 },
   action: { minHeight: 32, paddingLeft: 10, alignItems: 'center', justifyContent: 'center' },
   actionText: { color: colors.goldDeep, fontFamily: fonts.serif, fontSize: 13, lineHeight: 20, fontWeight: '600' },
-  pressed: { opacity: 0.65 },
 });

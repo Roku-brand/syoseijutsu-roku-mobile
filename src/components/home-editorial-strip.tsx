@@ -28,14 +28,13 @@ export function HomeEditorialStrip({ desktop }: { desktop: boolean }) {
   return <View testID="home-editorial-section" style={styles.section}>
     <View style={styles.heading}>
       <Link href={APP_ROUTES.features} push asChild>
-        <Pressable accessibilityRole="link" style={({ pressed }) => [styles.headingLeft, pressed && styles.pressed]}>
+        <Pressable accessibilityRole="link" style={styles.headingLeft}>
           <View style={styles.accent} />
           <Text accessibilityRole="header" aria-level={2} style={styles.title}>編集部の特集</Text>
         </Pressable>
       </Link>
       <Link href={APP_ROUTES.features} push asChild>
-        <Pressable testID="home-editorial-see-all" accessibilityRole="link" accessibilityLabel="特集をすべて見る"
-          style={({ pressed }) => [styles.seeAll, pressed && styles.pressed]}>
+        <Pressable testID="home-editorial-see-all" accessibilityRole="link" accessibilityLabel="特集をすべて見る" style={styles.seeAll}>
           <Text style={styles.seeAllText}>すべて見る →</Text>
         </Pressable>
       </Link>
