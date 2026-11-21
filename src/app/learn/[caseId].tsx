@@ -115,6 +115,8 @@ export default function LearningCaseScreen() {
     setHoveredChoice(null);
   };
 
+  const countdown = <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} />;
+
   return (
     <BookScreen scrollRef={scrollRef} contentContainerStyle={[styles.content, !desktop && styles.contentMobile]}>
       <CaseProgress
@@ -127,11 +129,13 @@ export default function LearningCaseScreen() {
       />
 
       {!record && !timedOut ? (
-        <>
-        <LearningCountdown seconds={round.seconds} paused={round.paused} soundEnabled={feedback.soundEnabled} toggleSound={feedback.toggleSound} />
         <View style={[styles.questionCard, !desktop && styles.questionCardMobile]} testID="learning-question-card">
+          {desktop ? <View style={styles.desktopCountdown}>{countdown}</View> : null}
           <View style={[styles.sceneColumn, !desktop && styles.sceneColumnMobile]}>
-            <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
+            <View style={styles.sceneHeading}>
+              <AppText style={styles.eyebrow}>{item.eyebrow}</AppText>
+              {!desktop ? countdown : null}
+            </View>
             <AppText style={[styles.title, !desktop && styles.titleMobile]}>{item.title}</AppText>
             <AppText style={styles.situation}>{item.situation}</AppText>
           </View>
@@ -169,7 +173,6 @@ export default function LearningCaseScreen() {
 
           <View pointerEvents="none" style={[styles.mascotRegion, !desktop && styles.mascotRegionMobile]}><View style={[styles.questionMascotHalo, !desktop && styles.questionMascotHaloMobile]} accessibilityElementsHidden /><Rokumaru mood="guide" style={[styles.questionMascot, !desktop && styles.questionMascotMobile]} /></View>
         </View>
-        </>
       ) : (
         <View style={[styles.resultCard, !desktop && styles.resultCardMobile]} testID="learning-result-card">
           <View style={[
@@ -444,9 +447,11 @@ const styles = StyleSheet.create({
   stagePositionMobile: { width: '100%', fontSize: 12, lineHeight: 20, letterSpacing: 0 },
   questionCard: { position: 'relative', minHeight: 475, flexDirection: 'row', overflow: 'hidden', borderWidth: 1, borderColor: '#DDCBA9', borderRadius: radius.md, backgroundColor: colors.surface, ...bookCardShadow },
   questionCardMobile: { minHeight: 0, flexDirection: 'column', overflow: 'hidden' },
+  desktopCountdown: { position: 'absolute', top: 12, right: 12, zIndex: 1 },
   sceneColumn: { width: '42%', paddingHorizontal: 34, paddingVertical: 46, borderRightWidth: 1, borderRightColor: '#E9DDC9' },
-  sceneColumnMobile: { width: '100%', paddingHorizontal: 20, paddingTop: 24, paddingBottom: 24, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: '#E9DDC9' },
-  eyebrow: { color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: 0.9, fontWeight: '800' },
+  sceneColumnMobile: { width: '100%', paddingHorizontal: 20, paddingTop: 13, paddingBottom: 24, borderRightWidth: 0, borderBottomWidth: 1, borderBottomColor: '#E9DDC9' },
+  sceneHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  eyebrow: { flexShrink: 1, color: colors.goldDeep, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: 0.9, fontWeight: '800' },
   title: { marginTop: 17, color: colors.ink, fontFamily: fonts.serif, fontSize: 30, lineHeight: 43, fontWeight: '700', letterSpacing: 1.4 },
   titleMobile: { marginTop: 10, fontSize: 24, lineHeight: 35, letterSpacing: 0.8 },
   situation: { marginTop: 20, color: colors.inkSoft, fontFamily: fonts.serif, fontSize: 14, lineHeight: 27, letterSpacing: 0.45 },

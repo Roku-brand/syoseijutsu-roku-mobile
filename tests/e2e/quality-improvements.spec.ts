@@ -101,9 +101,9 @@ test('retrying a failed write preserves a removed favorite across reload',async(
 test('fixed 60-second practice starts immediately and incorrect answers enter the review list',async({page})=>{
  await page.goto('/learn');await expect(page.getByRole('switch',{name:/時間制限/})).toHaveCount(0);
  await page.clock.install();await page.goto('/learn/case-01?retry=1');
- await expect(page.getByTestId('learning-countdown')).toContainText('60秒');
+ await expect(page.getByTestId('learning-question-card').getByTestId('learning-seconds')).toHaveText('1:00');
  await expect(page.getByRole('button',{name:/^A /})).toBeEnabled();
- await page.clock.runFor(1000);await expect(page.getByTestId('learning-seconds')).toHaveText('59 秒');
+ await page.clock.runFor(1000);await expect(page.getByTestId('learning-seconds')).toHaveText('0:59');
  await page.getByRole('button',{name:/^A /}).click();await expect(page.getByText('おしい！',{exact:true})).toBeVisible();
  await page.getByTestId('book-header-back').click();await expect(page.getByTestId('learning-review-list')).toContainText('あとで復習');
  await page.screenshot({path:test.info().outputPath('learning-practice-mobile.png'),fullPage:true});

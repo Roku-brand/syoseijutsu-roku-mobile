@@ -45,7 +45,7 @@ test('a case automatically starts a fixed minute even with an old unlimited pref
  await page.clock.runFor(65000);
  await expect(page.getByText('時間切れ',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'もう一度挑戦'}).click();
- await expect(page.getByTestId('learning-seconds')).toHaveText('60 秒');
+ await expect(page.getByTestId('learning-seconds')).toHaveText('1:00');
  await expect(page.getByRole('button',{name:/^B /})).toBeEnabled();
  await page.getByRole('button',{name:/^B /}).click();await expect(page.getByText('正解！',{exact:true})).toBeVisible();
 });
