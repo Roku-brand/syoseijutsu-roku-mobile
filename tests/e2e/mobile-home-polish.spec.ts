@@ -73,6 +73,9 @@ test('verified checkout return navigates home and clears the checkout query', as
   page.on('pageerror', error => errors.push(error.message));
   const calls = await mockAccount(page, false);
   await page.goto('/?checkout=success&session_id=cs_test_mobile');
+  await expect(page).toHaveURL(/\/installation-guide$/);
+  await expect(page.getByTestId('installation-guide')).toBeVisible();
+  await page.getByTestId('guide-primary').click();
   await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByTestId('persistent-bottom-navigation')).toBeVisible();
