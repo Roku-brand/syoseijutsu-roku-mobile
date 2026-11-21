@@ -4,6 +4,15 @@ import { Platform, type ScrollView, type View } from 'react-native';
 const REFRESH_THRESHOLD = 102;
 const REFRESH_OFFSET = 51;
 
+function springBack(from: number) {
+  const steps = 20;
+  return Array.from({ length: steps + 1 }, (_, step) => {
+    const elapsed = 8 * step / steps;
+    const offset = step === steps ? 0 : from * (1 + elapsed) * Math.exp(-elapsed);
+    return { translate: `0 ${offset}px` };
+  });
+}
+
 export function useWebPageElasticity(
   ref: RefObject<ScrollView | null>,
   indicatorRef: RefObject<View | null>,
@@ -32,12 +41,10 @@ export function useWebPageElasticity(
       const previous = offset;
       spring?.cancel();
       if (!reduced && previous && typeof content.animate === 'function') {
-        const rebound = -Math.sign(previous) * Math.min(4, Math.abs(previous) / 12);
-        spring = content.animate([
-          { translate: `0 ${previous}px` },
-          { translate: `0 ${rebound}px`, offset: 0.76 },
-          { translate: '0 0' },
-        ], { duration: 310, easing: 'cubic-bezier(.16,.84,.34,1)' });
+        spring = content.animate(springBack(previous), {
+          duration: 400 + Math.min(100, Math.abs(previous)),
+          easing: 'linear',
+        });
       }
       movePage(0);
     };
@@ -65,13 +72,12 @@ export function useWebPageElasticity(
       const dx = finger.clientX - touch.x;
       if (!touch.edge) {
         if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { touch = null; return; }
-        if (Math.abs(dy) < 6 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
+        if (Math.abs(dy) < 4 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
         const max = Math.max(0, scroll.scrollHeight - scroll.clientHeight);
         const pull = finger.clientY - touch.origin;
         if (pull > 0 && scroll.scrollTop <= 1) touch.edge = 1;
         else if (pull < 0 && scroll.scrollTop >= max - 1) touch.edge = -1;
         else { touch.origin = finger.clientY; return; }
-        if (!event.cancelable) { touch.edge = 0; return; }
         spring?.cancel();
       }
       const pull = (finger.clientY - touch.origin) * touch.edge;
@@ -82,9 +88,13 @@ export function useWebPageElasticity(
         movePage(0);
         return;
       }
-      event.preventDefault();
+      // Native scrolling may already own the touch by the time it reaches the
+      // end. The viewport clamps there while the content follows the finger.
+      if (event.cancelable) event.preventDefault();
       distance = pull;
-      movePage(touch.edge * 154 * pull / (128 + pull));
+      const limit = Math.min(210, Math.max(150, scroll.clientHeight * 0.37));
+      const drag = pull * 1.22;
+      movePage(touch.edge * limit * drag / (limit + drag));
     };
     const end = (event: TouchEvent) => {
       if (touch && Array.from(event.touches).some(finger => finger.identifier === touch?.id)) return;

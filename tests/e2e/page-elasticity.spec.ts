@@ -8,7 +8,7 @@ const pages = [
   ['/upgrade', 'upgrade-lp-scroll'],
 ] as const;
 
-for (const [path, id] of pages) test(`画面下の余白と引っ張ったときの戻りを保つ ${path}`, async ({ page, context, browserName }) => {
+for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸びて戻る ${path}`, async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 390, height: 844 });
@@ -17,7 +17,6 @@ for (const [path, id] of pages) test(`画面下の余白と引っ張ったとき
 
   const scroll = id ? page.getByTestId(id).filter({ visible: true }).first() : page.getByRole('main');
   await expect(scroll).toBeVisible();
-  await expect.poll(() => scroll.evaluate(node => parseFloat(getComputedStyle(node.firstElementChild!).paddingBottom))).toBeGreaterThanOrEqual(160);
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
   const viewport = (await scroll.boundingBox())!;
   const end = await scroll.evaluate(node => ({
@@ -32,11 +31,30 @@ for (const [path, id] of pages) test(`画面下の余白と引っ張ったとき
   for (let step = 1; step <= 8; step++) {
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 18 }] });
   }
-  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom)).toBeLessThan(end.contentBottom - 50);
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom)).toBeLessThan(end.contentBottom - 85);
   expect(await scroll.boundingBox()).toEqual(viewport);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom)).toBeCloseTo(end.contentBottom, 0);
   expect(await scroll.evaluate(node => node.scrollTop)).toBeCloseTo(end.position, 0);
+});
+
+test('末尾の手前から指を動かし続けると、そのまま下端が伸びる', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.goto('/');
+  await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+  const scroll = page.getByTestId('home-scroll');
+  const viewport = (await scroll.boundingBox())!;
+  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight - node.clientHeight - 65; });
+  const x = viewport.x + 24;
+  const y = viewport.y + viewport.height - 35;
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  for (let step = 1; step <= 12; step++) {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 18 }] });
+  }
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeLessThan(-40);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
 });
 
 test('ホームのカード上から指を上へ動かすとページをスクロールできる', async ({ page, context, browserName }) => {

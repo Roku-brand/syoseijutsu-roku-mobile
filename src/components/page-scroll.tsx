@@ -2,7 +2,6 @@ import * as Haptics from 'expo-haptics';
 import { useCallback, useImperativeHandle, useRef, useState, type Ref } from 'react';
 import { ActivityIndicator, Platform, RefreshControl, ScrollView, StyleSheet, Text, View, type ScrollViewProps, type ViewStyle } from 'react-native';
 import { colors } from '@/constants/theme';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useWebPageElasticity } from '@/hooks/use-web-page-elasticity';
 
@@ -16,7 +15,6 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
   const busy = useRef(false);
   const latestRefresh = useRef(onPullRefresh);
   latestRefresh.current = onPullRefresh;
-  const { width, height } = useHydratedWindowDimensions();
   const reduced = useReducedMotion();
   useImperativeHandle(ref, () => scroll.current!, []);
 
@@ -36,10 +34,6 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
     }
   }, []);
   useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
-  const inset = Math.round(Math.min(172, Math.max(72, height * (width < 700 ? 0.2 : 0.12))));
-  const padding = StyleSheet.flatten(contentContainerStyle);
-  const bottom = padding?.paddingBottom ?? padding?.paddingVertical ?? padding?.padding ?? 0;
-
   return (
     <ScrollView
       bounces={!reduced || Boolean(onPullRefresh)}
@@ -49,7 +43,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
       {...props}
       ref={scroll}
       style={[styles.webScroll, style]}
-      contentContainerStyle={[contentContainerStyle, { paddingBottom: inset + (typeof bottom === 'number' ? bottom : 0) }]}
+      contentContainerStyle={contentContainerStyle}
       refreshControl={onPullRefresh && Platform.OS !== 'web'
         ? <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.goldDeep} colors={[colors.goldDeep]} />
         : props.refreshControl}

@@ -25,7 +25,7 @@ test('four tabs share one continuous header and status-area background', async (
 });
 
 for (const width of [320, 390, 1440]) {
-  test(`deck selection uses the principles popup and editorial leaves room at the page end (${width}px)`, async ({ page }) => {
+  test(`deck selection uses the principles popup and the editorial section ends without extra space (${width}px)`, async ({ page }) => {
     await page.setViewportSize({ width, height: 700 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto('/');
@@ -55,8 +55,7 @@ for (const width of [320, 390, 1440]) {
     const scroll = page.getByTestId('home-scroll');
     const contentBottom = await scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom);
     const gap = contentBottom - (card.y + card.height);
-    expect(gap).toBeGreaterThanOrEqual(72);
-    expect(gap).toBeLessThanOrEqual(204);
+    expect(gap).toBeLessThanOrEqual(32);
     await page.screenshot({ path: test.info().outputPath('editorial-bottom.png') });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   });
