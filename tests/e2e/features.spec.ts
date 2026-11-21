@@ -156,11 +156,14 @@ test('320pxからデスクトップまで記事とヒーローが収まり、写
     if (width >= 1280) expect(cardBounds[1]!.y).toBe(cardBounds[2]!.y);
     const tabList = page.getByTestId('feature-category-tabs');
     await expect(tabList).toHaveAttribute('aria-orientation', 'horizontal');
-    const firstTab = (await tabList.getByRole('tab', { name: 'すべて', exact: true }).boundingBox())!;
-    const seriesTab = (await tabList.getByRole('tab', { name: '各世代の悩み', exact: true }).boundingBox())!;
-    expect(seriesTab.y).toBe(firstTab.y);
-    expect(seriesTab.x).toBeGreaterThan(firstTab.x);
-    expect(seriesTab.x + seriesTab.width).toBeLessThanOrEqual(width);
+    const seriesTab = tabList.getByRole('tab').last();
+    await expect(seriesTab).toHaveText('各世代の悩み');
+    await seriesTab.scrollIntoViewIfNeeded();
+    const societyTab = (await tabList.getByRole('tab', { name: '社会・時代', exact: true }).boundingBox())!;
+    const seriesBounds = (await seriesTab.boundingBox())!;
+    expect(seriesBounds.y).toBe(societyTab.y);
+    expect(seriesBounds.x).toBeGreaterThanOrEqual(societyTab.x + societyTab.width);
+    await expect(seriesTab).toBeInViewport({ ratio: 0.95 });
     const read = page.getByTestId('features-hero').getByRole('link', { name: `${initial[0].title}を読む`, exact: true });
     await expect(read).toBeVisible();
     if (width < 700) {
@@ -245,7 +248,7 @@ test('特集タブで主題を絞り込み、0件のテーマへの切り替え�
   await page.goto('/features');
   await expect(page.getByTestId('feature-card')).toHaveCount(3);
   const tabs = page.getByTestId('feature-category-tabs').getByRole('tab');
-  await expect(tabs).toHaveText(['すべて', '各世代の悩み', '人間関係', '自己理解・成長', '生き方・選択', '社会・時代']);
+  await expect(tabs).toHaveText(['すべて', '人間関係', '自己理解・成長', '生き方・選択', '社会・時代', '各世代の悩み']);
   await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
   const documentStart = await page.evaluate(() => performance.timeOrigin);
   const heroHeight = (await page.getByTestId('features-hero').boundingBox())!.height;
@@ -353,6 +356,7 @@ for (const width of [390, 1440]) {
     await page.getByRole('link', { name: '← 特集一覧へ' }).click();
     await expect(page).toHaveURL('/features?series=generational-concerns');
     await expect(tab).toHaveAttribute('aria-selected', 'true');
+    await expect(tab).toBeInViewport({ ratio: 0.95 });
     await expect(series.getByRole('link')).toHaveCount(21);
   });
 }

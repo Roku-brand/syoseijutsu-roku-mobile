@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocalSearchParams, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
@@ -17,7 +17,7 @@ import { FeatureVisual } from '@/components/feature-visual';
 import { FeatureCard } from '@/components/feature-card';
 import { EDITORIAL_INTRODUCTION, EDITORIAL_PRODUCER } from '@/data/editorial-policy';
 
-const FEATURE_TABS = [{ id: 'all', label: 'すべて' }, FEATURE_SERIES[1], ...FEATURE_CATEGORIES] as const;
+const FEATURE_TABS = [{ id: 'all', label: 'すべて' }, ...FEATURE_CATEGORIES, FEATURE_SERIES[1]] as const;
 type FeatureTab = FeatureCategoryFilter | typeof GENERATIONAL_CONCERNS;
 
 export default function FeaturesScreen() {
@@ -27,6 +27,7 @@ export default function FeaturesScreen() {
   const { articles, loading, error } = useFeatures();
   const [selected, setSelected] = useState<string | null>(null);
   const [tab, setTab] = useState<FeatureTab>(series === GENERATIONAL_CONCERNS ? GENERATIONAL_CONCERNS : 'all');
+  const tabListRef = useRef<ScrollView>(null);
   const showConcerns = tab === GENERATIONAL_CONCERNS;
   const compact = width < 700;
   const columns = width >= 1280 ? 3 : width >= 700 ? 2 : 1;
@@ -50,7 +51,8 @@ export default function FeaturesScreen() {
         {featured.length > 1 ? <View style={styles.previews}>{featured.map(article => <Pressable key={article.id} accessibilityRole="button" accessibilityLabel={`ヒーローに${article.title}を表示`} accessibilityState={{ selected: article.id === hero.id }} onPress={() => setSelected(article.id)} style={[styles.preview, article.id === hero.id && styles.previewActive]}><Image source={featureCover(article)?.source ?? featureImage(article.image_path)} accessibilityLabel={article.title} contentFit="cover" style={styles.previewImage} /></Pressable>)}</View> : null}
       </View> : <AppText accessibilityRole="header" aria-level={1} style={styles.pageTitle}>特集</AppText>}
       <View style={[styles.collection, compact && styles.collectionCompact]}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="特集の分類" aria-orientation="horizontal" style={styles.tabs} contentContainerStyle={styles.tabContent}>
+        <ScrollView ref={tabListRef} horizontal showsHorizontalScrollIndicator={false} testID="feature-category-tabs" accessibilityRole="tablist" accessibilityLabel="特集の分類" aria-orientation="horizontal" style={styles.tabs} contentContainerStyle={styles.tabContent}
+          onContentSizeChange={showConcerns && series === GENERATIONAL_CONCERNS ? () => tabListRef.current?.scrollToEnd({ animated: false }) : undefined}>
           {FEATURE_TABS.map(item => <Pressable key={item.id} accessibilityRole="tab" accessibilityLabel={item.label} accessibilityState={{ selected: tab === item.id }} aria-selected={tab === item.id} onPress={() => setTab(item.id)} style={[styles.tab, tab === item.id && styles.tabSelected]}>
             <AppText style={[styles.tabText, tab === item.id && styles.tabTextSelected]}>{item.label}</AppText>
           </Pressable>)}
