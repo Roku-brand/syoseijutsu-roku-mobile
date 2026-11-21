@@ -49,9 +49,12 @@ for (const width of [375, 390, 430, 768, 1440]) {
   });
 }
 
-test('保存・前後移動・詳細往復・再読み込みで順序と位置を保持する', async ({ page }) => {
+for (const filter of ['interpersonal', 'theory']) test(`保存・前後移動・詳細往復・再読み込みで順序と位置を保持する (${filter})`, async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
+  await ready(page);
+  await page.getByTestId('home-deck-filter').click();
+  await page.getByTestId(`home-deck-filter-${filter}`).click();
   await ready(page);
   await turnDeck(page);
   await ready(page);
@@ -88,8 +91,8 @@ test('保存・前後移動・詳細往復・再読み込みで順序と位置�
   await ready(page);
   await page.waitForTimeout(360);
   await page.getByTestId('home-recommendation-card').click();
-  await expect(page).toHaveURL(/\/(card|theory)\//);
-  const isTheory = page.url().includes('/theory/');
+  const isTheory = filter === 'theory';
+  await expect(page).toHaveURL(isTheory ? /\/theory\// : /\/card\//);
   await expect(page.getByTestId(isTheory ? 'theory-title' : 'technique-detail-title')).toHaveText(next!.replace(/を読む$/, ''));
   await page.goBack();
   await ready(page);
@@ -102,7 +105,7 @@ test('保存・前後移動・詳細往復・再読み込みで順序と位置�
   if (isTheory) await page.getByRole('tab', { name: '理論', exact: true }).click();
   await expect(page.getByText(next!.replace(/を読む$/, ''), { exact: true }).first()).toBeVisible();
   await page.goto('/library');
-  if (isTheory) await page.getByRole('tab', { name: '理論', exact: true }).click();
+  if (isTheory) await page.getByRole('tab', { name: '理論のお気に入り 1件', exact: true }).click();
   await expect(page.getByText(initial!.replace(/を読む$/, ''), { exact: true }).first()).toBeVisible();
   await page.goto('/');
   await ready(page);
