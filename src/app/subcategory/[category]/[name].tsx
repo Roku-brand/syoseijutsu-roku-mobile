@@ -14,6 +14,7 @@ import { getTechniqueCount } from '@/data/technique-counts';
 import type { CategoryKey } from '@/data/types';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { TechniqueTitle } from '@/components/technique-title';
+import { PageScroll } from '@/components/page-scroll';
 
 export function generateStaticParams() {
   return categories.flatMap((category) => category.subcategories.map((persona) => ({ category: category.key, name: persona.name })));
@@ -68,7 +69,7 @@ export default function PersonaScreen() {
         </View>
       </ScrollView>
 
-      <ScrollView
+      <PageScroll
         key={`${category.key}-${persona.name}`}
         testID="persona-technique-scroll"
         style={styles.list}
@@ -89,7 +90,7 @@ export default function PersonaScreen() {
             </Link>
           )) : null}
         </View>
-      </ScrollView>
+      </PageScroll>
     </BookScreen>
   );
 }

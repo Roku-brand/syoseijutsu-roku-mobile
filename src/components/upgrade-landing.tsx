@@ -1,6 +1,7 @@
 import { Image } from 'expo-image';
 import { useState, type ReactNode } from 'react';
 import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { PageScroll } from './page-scroll';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
 import { FREE_LEARNING_CASE_IDS, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
@@ -110,7 +111,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
         <View style={styles.headerSide}><HeaderBackButton testID="upgrade-header-back" onPress={onBack} /></View>
         <AppText style={styles.headerTitle}>{isPaid ? '完全版の利用情報' : '完全版を購入'}</AppText><View style={styles.headerBalance} />
       </View>
-      <ScrollView testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }} showsVerticalScrollIndicator={false}>
+      <PageScroll testID="upgrade-lp-scroll" style={styles.scroll} contentContainerStyle={{ paddingBottom: barHeight + 20 }}>
         <View style={[styles.hero, { height: desktop ? 680 : Math.max(510, width * 1.48) }]}>
           <Image loading="eager" source={desktop ? photos.heroDesktop : photos.hero} style={StyleSheet.absoluteFill} contentFit="cover" contentPosition={desktop ? { left: '50%', top: '45%' } : 'center'} accessibilityLabel="金色の夕日が差す山並みと湖、山頂から景色を眺める若い人物の後ろ姿" />
           <Image source={heroOverlay(desktop)} style={StyleSheet.absoluteFill} contentFit="fill" accessibilityElementsHidden />
@@ -160,7 +161,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
             </View>;
           })}</View>
         </View>
-      </ScrollView>
+      </PageScroll>
 
       {/* Sibling of the scroll view: pinned to the viewport, never part of the LP. */}
       <View testID="upgrade-fixed-purchase" onLayout={(event) => setBarHeight(event.nativeEvent.layout.height)} style={[styles.purchaseBar, desktop && desktopStyles.purchaseBar, desktop && { left: gutter, right: gutter }, { paddingBottom: Math.max(insets.bottom, desktop ? 12 : 8) }]}>

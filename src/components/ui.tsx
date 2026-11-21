@@ -1,7 +1,6 @@
 import { Link, type Href } from 'expo-router';
 import {
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -14,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { catalogTheme, colors, fonts, layout, radius, spacing, typography } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { PageScroll } from './page-scroll';
 
 export function AppText({
   style,
@@ -52,7 +52,7 @@ export function Screen({
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
   const content = scroll ? (
-    <ScrollView
+    <PageScroll
       ref={scrollRef}
       {...props}
       style={[styles.flex, props.style]}
@@ -62,7 +62,7 @@ export function Screen({
       role="main"
     >
       {children}
-    </ScrollView>
+    </PageScroll>
   ) : (
     <View {...props} role="main" style={[styles.flex, props.style]}>
       {children}

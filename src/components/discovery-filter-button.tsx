@@ -35,7 +35,7 @@ export function DiscoveryFilterButton({ value, disabled, dimWhenDisabled = true,
           choices.current[next]?.focus();
         }
       } } : {})}>
-          <Text style={styles.subtitle}>ひとつの人物像やテーマから、毎回5枚を選びます。カードを上にスワイプすると、新しいデッキを引けます。</Text>
+          <Text style={styles.subtitle}>ひとつの人物像やテーマから、毎回5枚を選びます。ホームの先頭で画面を下に引いて離すと、新しいデッキを引けます。</Text>
           <ScrollView accessibilityRole="radiogroup" accessibilityLabel="デッキの種類" style={styles.optionsScroll} contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
             {discoveryFilters.map((option, index) => <Pressable key={option.key} ref={node => { choices.current[index] = node; }} testID={`home-deck-filter-${option.key}`} accessibilityRole="radio" aria-checked={value === option.key} accessibilityState={{ checked: value === option.key }} onPress={() => { close(); if (value !== option.key) onChange(option.key); }} onFocus={() => setFocused(index)} onBlur={() => setFocused(-1)} style={({ pressed }) => [styles.option, value === option.key && styles.selected, focused === index && styles.focused, pressed && styles.pressed]}>
               <View style={styles.optionCopy}><Text style={styles.optionTitle}>{option.label}</Text><Text style={styles.description}>{descriptions[option.key]}</Text></View>

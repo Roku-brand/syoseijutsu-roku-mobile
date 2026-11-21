@@ -44,7 +44,7 @@ test('background changes persist while the current hand, saved state and other s
   await expect(page.locator('#roku-status-bar-background')).toHaveCSS('background-color', 'rgb(255, 253, 248)');
 });
 
-test('home header keeps its paper landscape and a downward pull does not expose a gap', async ({ page, context }) => {
+test('home header keeps its paper landscape while the page stretches and returns', async ({ page, context }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await expect(page.getByTestId('home-recommendation-card')).toBeVisible();
@@ -55,14 +55,16 @@ test('home header keeps its paper landscape and a downward pull does not expose 
   await expect(header.getByText('処世術禄', { exact: true })).toHaveCSS('color', 'rgb(23, 23, 18)');
   await expect(page.locator('#roku-status-bar-background')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
   const session = await context.newCDPSession(page);
-  const y = (await header.boundingBox())!.height + 35;
+  const origin = (await header.boundingBox())!;
+  const y = origin.y + origin.height + 35;
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: 70, y }] });
   for (let i = 1; i <= 8; i++) await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: 70, y: y + i * 15 }] });
+  expect(await header.boundingBox()).toEqual(origin);
+  const recommendation = page.getByTestId('home-recommendations-section');
+  expect((await recommendation.boundingBox())!.y).toBeGreaterThan(origin.y + origin.height + 45);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   expect(await scroll.evaluate(node => node.scrollTop)).toBe(0);
-  const top = (await page.getByTestId('home-recommendations-section').boundingBox())!.y;
-  const box = (await header.boundingBox())!;
-  expect(top).toBeCloseTo(box.y + box.height, 0);
+  await expect.poll(async () => (await recommendation.boundingBox())!.y).toBeCloseTo(origin.y + origin.height, 0);
 });
 
 test('an invalid saved background falls back to moon and maple', async ({ page }) => {

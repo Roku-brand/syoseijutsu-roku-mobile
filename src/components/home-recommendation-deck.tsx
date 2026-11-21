@@ -1,6 +1,5 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState, type Ref } from 'react';
 import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
-import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTechniqueDisplayId, getTheoryDisplayId, getTheoryCategoryTitle } from '@/data/catalog';
@@ -30,8 +29,7 @@ const deckImages: Record<string, number> = {
   life: require('../../assets/home/deck-life.webp'),
 };
 const webGesture = Platform.OS === 'web' ? {
-  // pan-up scrolls the viewport upward when the finger moves downward.
-  touchAction: typeof CSS !== 'undefined' && CSS.supports('touch-action', 'pan-up pinch-zoom') ? 'pan-up pinch-zoom' : 'none',
+  touchAction: 'pan-y pinch-zoom',
   userSelect: 'none', WebkitUserSelect: 'none',
 } as unknown as ViewStyle : {};
 const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 9px 18px -8px rgba(51,40,22,.23), 0 2px 5px rgba(51,40,22,.08)' } as ViewStyle
@@ -55,7 +53,7 @@ function coverSummary({ group }: HomeDeckCover) {
   return getPersonaPresentation(group.name)?.subtitle || 'この人物像につながる、5つの処世術。';
 }
 
-export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
+export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard, refreshRef }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void; refreshRef?: Ref<() => Promise<void>> }) {
   const deck = useHomeDiscovery();
   const { desktop, width: viewportWidth } = useResponsiveLayout();
   const { fontScale } = useWindowDimensions();
@@ -110,8 +108,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   const lastDrag = useRef(0);
   const lastMotion = useRef(0);
   const gestureStartX = useRef(0);
-  const gestureAxis = useRef<'horizontal' | 'upward' | null>(null);
-  const shuffleGesture = useRef<() => void>(() => undefined);
+  const shuffleCompletion = useRef<(() => void) | undefined>(undefined);
   const animation = useRef<Animated.CompositeAnimation | null>(null);
   const finish = useRef<(() => void) | null>(null);
   const latest = useRef({ deck, reduced, cardWidth });
@@ -127,10 +124,12 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   }, [deck.loading, !!current]);
   const returning = direction > 0;
   const reset = () => { webMotion?.reset(); spin.stopAnimation(); spin.setValue(0); x.setValue(0); lift.setValue(0); mix.setValue(0); dragDistance.current = 0; locked.current = false; dragged.current = false; finish.current = null; setPendingFilter(null); setReturnRaised(false); setDirection(-1); setPhase('idle');
+    shuffleCompletion.current?.();
+    shuffleCompletion.current = undefined;
     if (queuedMoves.current.length) queuedFrame.current = requestAnimationFrame(() => { queuedFrame.current = null; const step = queuedMoves.current.shift(); if (step) navigation.current(step); });
   };
   useLayoutEffect(() => { if (phase === 'moving') reset(); }, [deck.position]);
-  useEffect(() => () => { finish.current = null; animation.current?.stop(); spin.stopAnimation(); if (queuedFrame.current !== null) cancelAnimationFrame(queuedFrame.current); queuedMoves.current = []; }, []);
+  useEffect(() => () => { finish.current = null; animation.current?.stop(); spin.stopAnimation(); shuffleCompletion.current?.(); if (queuedFrame.current !== null) cancelAnimationFrame(queuedFrame.current); queuedMoves.current = []; }, []);
   useEffect(() => {
     if (reduced && finish.current) {
       const complete = finish.current;
@@ -181,19 +180,15 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     // separately so excluding the browser edge never disables ordinary drags.
     onStartShouldSetPanResponderCapture: event => {
       gestureStartX.current = event.nativeEvent.pageX;
-      gestureAxis.current = null;
       return false;
     },
     onMoveShouldSetPanResponder: (_, gesture) => {
       if (locked.current || latest.current.deck.loading || latest.current.deck.error || gesture.numberActiveTouches > 1 || gestureStartX.current <= 22) return false;
-      const horizontal = Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35;
-      const upward = gesture.dy < -12 && -gesture.dy > Math.abs(gesture.dx) * 1.35;
-      gestureAxis.current = horizontal ? 'horizontal' : upward ? 'upward' : null;
-      return gestureAxis.current !== null;
+      return Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35;
     },
     onPanResponderGrant: () => { dragged.current = true; webMotion?.stop(); x.stopAnimation(); },
     onPanResponderMove: (_, gesture) => {
-      if (locked.current || gestureAxis.current !== 'horizontal') return;
+      if (locked.current) return;
       lastMotion.current = Date.now();
       setDirection(gesture.dx < 0 ? -1 : 1);
       const displacement = gesture.dx;
@@ -202,12 +197,6 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
-      if (gestureAxis.current === 'upward') {
-        gestureAxis.current = null;
-        dragged.current = false;
-        if (gesture.dy < -70 && -gesture.dy > Math.abs(gesture.dx) * 1.35) shuffleGesture.current();
-        return;
-      }
       // PanResponder retains the last sampled velocity while the finger rests.
       const velocity = Date.now() - lastMotion.current < 80 ? gesture.vx : 0;
       if (Math.abs(gesture.dx) > latest.current.cardWidth * 0.24 || (Math.abs(velocity) > 0.55 && Math.abs(gesture.dx) > 20)) {
@@ -228,9 +217,10 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     },
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
-  const shuffle = (filter?: DiscoveryFilter) => {
-    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) return;
+  const shuffle = (filter?: DiscoveryFilter, onComplete?: () => void) => {
+    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) { onComplete?.(); return; }
     locked.current = true;
+    shuffleCompletion.current = onComplete;
     if (filter) setPendingFilter(filter);
     setPhase('shuffle');
     spin.setValue(0);
@@ -249,14 +239,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
       animation.current.start(({ finished: done }) => { if (done) reset(); });
     });
   };
-  shuffleGesture.current = () => {
-    if (Platform.OS === 'web') {
-      if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(22);
-    } else {
-      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-    }
-    shuffle();
-  };
+  useImperativeHandle(refreshRef, () => () => new Promise<void>(resolve => { shuffle(undefined, resolve); }));
   const open = () => {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
     onOpenCard?.();
@@ -279,7 +262,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     const value = (key: keyof typeof start) => Animated.add(start[key], Animated.add(Animated.multiply(pull, extracted[key] - start[key]), Animated.multiply(lift, settled[key] - extracted[key])));
     return { opacity: value('opacity'), transform: [{ translateX: value('x') }, { translateY: value('y') }, { rotate: value('angle').interpolate({ inputRange: [-15, 15], outputRange: ['-15deg', '15deg'] }) }, { scale: value('scale') }] };
   };
-  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右にスワイプ、または矢印キーでカードをめくる。カードを上にスワイプしてシャッフル" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
+  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右にスワイプ、または矢印キーでカードをめくる。ホームの先頭で下に引いてシャッフル" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
       <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text></View>
