@@ -8,9 +8,14 @@ async function startFreeHome(page: Page) {
   await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
 }
 
+test('the former owner operations dashboard opens settings', async ({ page }) => {
+  await page.goto('/owner/operations');
+  await expect(page).toHaveURL(/\/settings$/);
+  await expect(page.getByTestId('owner-operations-page')).toHaveCount(0);
+});
+
 test('owner operations routes do not expose operational data to signed-out users', async ({ page }) => {
   for (const route of [
-    '/owner/operations',
     '/owner/operations/inquiries',
     '/owner/operations/social',
     '/owner/operations/tasks',
