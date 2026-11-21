@@ -45,7 +45,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await expect(page.getByRole('textbox', { name: 'マイ処世術', exact: true })).toBeVisible();
   await expect(page).not.toHaveURL(/compose=1/);
   await page.getByRole('button', { name: '作成を閉じる', exact: true }).click();
-  await page.getByRole('link', { name: /^ホーム。/ }).click();
+  await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'ホーム', exact: true }).click();
   await expect(recommendation).toBeVisible();
   await create.click();
   await page.getByRole('textbox', { name: 'マイ処世術', exact: true }).fill('一呼吸おいてから返事する');
@@ -55,7 +55,7 @@ test('create shortcut can close, go back, reopen and save on a small screen', as
   await expect(page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true })).toContainText('1件');
   await page.getByRole('button', { name: 'マイ処世術：日々の気づき', exact: true }).click();
   await expect(page.getByRole('button', { name: '一呼吸おいてから返事するを編集', exact: true })).toBeVisible();
-  await page.getByRole('link', { name: /^ホーム。/ }).click();
+  await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'ホーム', exact: true }).click();
   await expect(recommendation).toBeVisible();
 });
 

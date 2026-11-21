@@ -1,8 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 
 const key = '@shoseijutsu-roku/state/v1';
-const home = (page: Page) => page.getByRole('link', { name: /^ホーム。/ }).click();
-const myPage = (page: Page) => page.getByRole('link', { name: /^マイページ。/ }).click();
+const home = (page: Page) => page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'ホーム', exact: true }).click();
+const myPage = (page: Page) => page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: 'マイページ', exact: true }).click();
 const create = (page: Page) => page.locator('[data-testid="home-create-technique"]:visible').click();
 const memoInput = (page: Page) => page.getByRole('textbox', { name: 'マイ処世術', exact: true });
 const folderInput = (page: Page) => page.getByRole('textbox', { name: 'フォルダー名', exact: true });
