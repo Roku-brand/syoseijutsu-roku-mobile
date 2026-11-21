@@ -1,160 +1,179 @@
-import { isDiscoveryFilter, matchesDiscoveryFilter, type DiscoveryFilter } from '@/data/discovery-filter';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useAccess } from '@/access/access-state';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
+import { useAccess } from '@/access/access-state';
 import { techniqueCards, theories } from '@/data/catalog';
-import { isLockedTheoryShell } from '@/data/theory-display';
-import { useAppState } from '@/state/app-state';
+import { HOME_DECK_SELECTION_SIZE, HOME_DECK_SIZE } from '@/data/deck-motion';
+import { isDiscoveryFilter, matchesDiscoveryFilter, type DiscoveryFilter } from '@/data/discovery-filter';
 import { getHomeDayKey } from '@/data/home-brand-content';
-import { buildReadingRecommendations, HOME_RECOMMENDED_THEORY_IDS, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
+import { drawHomeDeck } from '@/data/home-deck-selection';
+import { HOME_RECOMMENDED_THEORY_IDS, readingContentId, type ReadingContent } from '@/data/reading-recommendations';
+import { isLockedTheoryShell } from '@/data/theory-display';
+import { groupTheorySections } from '@/data/theory-taxonomy';
 import { onDiscoveryReset, readDiscoveryState, writeDiscoveryState } from '@/lib/discovery-storage';
 import { hydratePublishedCache } from '@/lib/published-content';
 
-type DeckState = { day: number; round: number; order: string[]; cursor: number; seen: string[]; offset?: number; filter: DiscoveryFilter };
-import { HOME_DECK_SIZE } from '@/data/deck-motion';
-export const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
-const isRecommendationKey = (key: string) => !key.startsWith('theory:') || HOME_RECOMMENDED_THEORY_IDS.has(key.slice('theory:'.length));
+type Group = { id: string; order: string[]; categoryId: string; name: string } & (
+  { type: 'persona' } | { type: 'theory'; subcategoryId: string; categoryTitle: string }
+);
+export type HomeDeckCover = { type: 'cover'; group: Group; preview: ReadingContent; title: string };
+export type HomeDeckCard = ReadingContent | HomeDeckCover;
+type DeckState = { day: number; round: number; groupId: string; order: string[]; cursor: number; offset: number; filter: DiscoveryFilter };
+
+const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(item)}`;
 
 function accessibleCatalog(scope: string) {
-  const items: ReadingContent[] = [
-    ...techniqueCards.filter(card => card.status !== 'locked' && card.title !== '完全版の処世術' && (scope === 'paid' || FREE_TECHNIQUE_IDS.has(card.id))).map(card => ({ type: 'technique' as const, card })),
-    ...theories.filter(card => HOME_RECOMMENDED_THEORY_IDS.has(card.tagId) && !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId))).map(card => ({ type: 'theory' as const, card })),
-  ];
-  return new Map(items.map(item => [discoveryKey(item), item]));
+  const items = new Map<string, ReadingContent>();
+  const groups = new Map<string, Group>();
+  for (const card of techniqueCards) {
+    const name = card.subcategory.trim();
+    if (!name || card.status === 'locked' || card.title === '完全版の処世術' || (scope !== 'paid' && !FREE_TECHNIQUE_IDS.has(card.id))) continue;
+    const item = { type: 'technique', card } as const;
+    const key = discoveryKey(item);
+    const id = JSON.stringify(['persona', card.categoryKey, name]);
+    const group = groups.get(id) ?? { type: 'persona', id, name, categoryId: card.categoryKey, order: [] };
+    group.order.push(key);
+    groups.set(id, group);
+    items.set(key, item);
+  }
+
+  const readableTheories = theories.filter(card => HOME_RECOMMENDED_THEORY_IDS.has(card.tagId) && !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
+  for (const section of groupTheorySections(readableTheories)) {
+    if (section.subcategoryId === 'unassigned') continue;
+    const { categoryId, categoryTitle, subcategoryId, title: name } = section;
+    const id = JSON.stringify(['theory', categoryId, subcategoryId]);
+    const order = section.items.map(card => {
+      const item = { type: 'theory', card } as const;
+      const key = discoveryKey(item);
+      items.set(key, item);
+      return key;
+    });
+    groups.set(id, { type: 'theory', id, categoryId, categoryTitle, subcategoryId, name, order });
+  }
+  return { items, groups };
 }
 
-/** Persist IDs, never paid content. Freeze a day's deck for the mounted visit. */
+type Catalog = ReturnType<typeof accessibleCatalog>;
+
+function draw(catalog: Catalog, filter: DiscoveryFilter, day: number, round = 0, previousGroup?: string): DeckState {
+  const groups = [...catalog.groups.values()].filter(group => matchesDiscoveryFilter(catalog.items.get(group.order[0])!, filter));
+  const picked = drawHomeDeck(groups, HOME_DECK_SELECTION_SIZE, previousGroup);
+  return { day, round, filter, groupId: picked?.groupId ?? '', order: picked?.order ?? [], cursor: 0, offset: 0 };
+}
+
+function getGroup(catalog: Catalog, state: DeckState) {
+  const group = catalog.groups.get(state.groupId);
+  const first = catalog.items.get(state.order[0]);
+  if (!group || !first || !matchesDiscoveryFilter(first, state.filter) || !state.order.every(id => group.order.includes(id))) return null;
+  return group;
+}
+
+function readSavedDeck(raw: string | null, day: number) {
+  try {
+    const value = raw ? JSON.parse(raw) : null;
+    const filter = isDiscoveryFilter(value?.filter) ? value.filter : 'all';
+    if (value?.day === day && typeof value.groupId === 'string' && Number.isSafeInteger(value.round) && value.round >= 0
+      && Array.isArray(value.order) && value.order.length === HOME_DECK_SELECTION_SIZE && new Set(value.order).size === HOME_DECK_SELECTION_SIZE
+      && value.order.every((id: unknown) => typeof id === 'string')
+      && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < HOME_DECK_SIZE) {
+      const offset = Number.isSafeInteger(value.offset) && value.offset >= 0 ? value.offset : 0;
+      const saved: DeckState = { day, filter, groupId: value.groupId, round: value.round, order: value.order, cursor: value.cursor, offset };
+      return { filter, saved };
+    }
+    return { filter };
+  } catch {
+    return { filter: 'all' as const };
+  }
+}
+
+/** Keep the current draw while navigating. Storage contains IDs, never paid content. */
 export function useHomeDiscovery() {
   const { accessState, catalogRevision, secureContentStatus, refreshPublishedContent } = useAccess();
-  const signals = useAppState();
   const scope = accessState === 'paid' ? 'paid' : 'free';
   const [state, setState] = useState<DeckState | null>(null);
   const [retry, setRetry] = useState(0);
   const [restoredRevision, setRestoredRevision] = useState(0);
-  const current = useRef(state);
+  const current = useRef<DeckState | null>(null);
   const readyScope = useRef<string | null>(null);
-  const storageRequest = useRef<{ scope: string; retry: number; value: Promise<string | null> } | null>(null);
-  useEffect(() => {
-    // Read deck IDs alongside personal signals, rather than putting two
-    // storage deadlines back-to-back on a slow device.
-    storageRequest.current = { scope, retry, value: readDiscoveryState(scope).catch(() => null) };
-  }, [scope, retry]);
-  useEffect(() => onDiscoveryReset(() => {
+  const catalog = useMemo(() => accessibleCatalog(scope), [scope, catalogRevision, restoredRevision]);
+  const latest = useRef({ catalog, refreshPublishedContent });
+  latest.current = { catalog, refreshPublishedContent };
+
+  const commit = useCallback((next: DeckState) => {
+    current.current = next;
+    setState(next);
+  }, []);
+  const reload = useCallback(() => {
     readyScope.current = null;
     current.current = null;
+    setState(null);
     setRetry(value => value + 1);
-  }), []);
-  current.current = state;
-  const latest = useRef({ signals, scope, refreshPublishedContent, secureContentStatus });
-  latest.current = { signals, scope, refreshPublishedContent, secureContentStatus };
-  const generate = useCallback((day: number, round: number, seen: string[], excludeIds: string[] = [], filter: DiscoveryFilter = 'all') => buildReadingRecommendations({
-    accessState: latest.current.scope, ...latest.current.signals, seed: `${day}:${round}${filter === 'all' ? '' : `:${filter}`}`, filter, seenIds: seen, excludeIds, count: HOME_DECK_SIZE,
-  }), []);
-  const byKey = useMemo(() => accessibleCatalog(scope), [scope, catalogRevision, restoredRevision]);
-  const catalog = useRef(byKey);
-  catalog.current = byKey;
+  }, []);
+  useEffect(() => onDiscoveryReset(reload), [reload]);
   useEffect(() => {
-    if (!signals.hydrated) return;
     let active = true;
     readyScope.current = null;
+    current.current = null;
     setState(null);
     const day = getHomeDayKey();
-    // Reads follow writes so an immediate remount cannot restore stale state.
-    const stored = storageRequest.current;
-    const rawRequest = stored?.scope === scope && stored.retry === retry ? stored.value : readDiscoveryState(scope).catch(() => null);
-    void rawRequest.then(async raw => {
+    void (async () => {
+      const { filter, saved } = readSavedDeck(await readDiscoveryState(scope).catch(() => null), day);
       if (!active) return;
-      let stored: DeckState | undefined;
-      try {
-        const value = raw ? JSON.parse(raw) : null;
-        if (value && Number.isInteger(value.day) && Number.isInteger(value.round) && value.round >= 0
-          && Array.isArray(value.order) && value.order.length <= 500 && value.order.every((id: unknown) => typeof id === 'string')
-          && Array.isArray(value.seen) && value.seen.every((id: unknown) => typeof id === 'string')
-          && Number.isInteger(value.cursor) && value.cursor >= 0 && value.cursor < value.order.length) stored = { ...value, filter: isDiscoveryFilter(value.filter) ? value.filter : 'all' };
-      } catch { /* A damaged cache is replaced by a usable daily deck. */ }
-      const storedCandidates = stored?.order.filter(isRecommendationKey);
-      // CMS-only IDs can be absent from the bundled bootstrap catalog. Resolve
-      // those before deciding that a saved card was removed or became locked.
-      let resolved = true;
-      let available = catalog.current;
-      if (stored?.day === day && storedCandidates?.some(id => !available.has(id))) {
-        await hydratePublishedCache();
+      let available = latest.current.catalog;
+      if (saved && !getGroup(available, saved)) {
+        // A restored draw can refer to records supplied by the CMS or paid catalogue.
+        await hydratePublishedCache().catch(() => undefined);
         if (!active) return;
         available = accessibleCatalog(scope);
+        if (!getGroup(available, saved)) {
+          let timeout: ReturnType<typeof setTimeout> | undefined;
+          await Promise.race([
+            latest.current.refreshPublishedContent({ reuseInFlight: true }).catch(() => false),
+            new Promise<boolean>(resolve => { timeout = setTimeout(() => resolve(false), 6000); }),
+          ]);
+          clearTimeout(timeout);
+          if (!active) return;
+          available = accessibleCatalog(scope);
+        }
         setRestoredRevision(value => value + 1);
       }
-      if (stored?.day === day && storedCandidates?.some(id => {
-        const item = available.get(id);
-        return !item || !matchesDiscoveryFilter(item, stored!.filter);
-      })) {
-        let timeout: ReturnType<typeof setTimeout> | undefined;
-        resolved = await Promise.race([
-          latest.current.refreshPublishedContent({ reuseInFlight: true }).catch(() => false),
-          new Promise<boolean>(resolve => { timeout = setTimeout(() => resolve(false), 6000); }),
-        ]);
-        clearTimeout(timeout);
-        // A readable bootstrap hand stays immediate. Only unresolved paid IDs
-        // wait for secure hydration, without being mistaken for removed cards.
-        resolved = resolved && (scope !== 'paid' || latest.current.secureContentStatus === 'ready');
-        if (!active) return;
-        available = accessibleCatalog(scope);
-        // Keep render-time lookups in sync even if the context update is batched.
-        setRestoredRevision(value => value + 1);
-      }
-      const seen = stored?.seen.slice(-120) ?? [];
-      const filter = stored?.filter ?? 'all';
-      const eligible = (id: string) => {
-        if (!isRecommendationKey(id)) return false;
-        const item = available.get(id);
-        return item ? matchesDiscoveryFilter(item, filter) : !resolved;
-      };
-      let order = stored?.day === day ? [...new Set(stored.order.filter(eligible))] : [];
-      const cursor = stored ? stored.order.slice(0, stored.cursor).filter(eligible).length : 0;
-      // Migrate the former long queue without losing the card being read.
-      const migrating = stored?.order.length !== HOME_DECK_SIZE || order.length !== HOME_DECK_SIZE;
-      if (migrating && order.length) {
-        const currentId = stored!.order[stored!.cursor];
-        const start = Math.max(0, order.indexOf(currentId));
-        order = [...order.slice(start), ...order.slice(0, start)].slice(0, HOME_DECK_SIZE);
-        if (order.length < HOME_DECK_SIZE) order.push(...generate(day, stored!.round, seen, order, filter).map(discoveryKey).slice(0, HOME_DECK_SIZE - order.length));
-      }
-      const offset = stored && Number.isSafeInteger(stored.offset) && stored.offset! >= 0 ? stored.offset! : 0;
-      const next = order.length ? { ...stored!, order, cursor: migrating ? 0 : Math.min(cursor, order.length - 1), offset: migrating ? 0 : offset, seen }
-        : { day, round: 0, cursor: 0, order: generate(day, 0, seen, [], filter).map(discoveryKey), seen, filter };
-      if (next.order[next.cursor] && !next.seen.includes(next.order[next.cursor])) next.seen = [...seen, next.order[next.cursor]].slice(-120);
-      current.current = next;
       readyScope.current = scope;
-      setState(next);
-    });
+      commit(saved && getGroup(available, saved) ? saved : draw(available, filter, day));
+    })();
     return () => { active = false; };
-  }, [signals.hydrated, scope, retry, generate]);
+  }, [commit, retry, scope]);
+
   useEffect(() => {
     if (!state || readyScope.current !== scope) return;
+    if (!getGroup(catalog, state)) {
+      const replacement = draw(catalog, state.filter, state.day, state.round);
+      if (replacement.order.length) commit(replacement);
+      return;
+    }
     writeDiscoveryState(scope, state);
-  }, [state, scope]);
-  const commit = useCallback((next: DeckState) => { current.current = next; setState(next); }, []);
+  }, [catalog, commit, scope, state]);
+
   const shuffle = useCallback((filter?: DiscoveryFilter) => {
     const old = current.current;
     if (!old) return;
-    const round = old.round + 1;
-    // A hard exclusion, including cards not yet seen, makes this a
-    // complete new hand rather than advancing or reordering the same cards.
-    const selected = filter ?? old.filter;
-    const order = generate(old.day, round, old.seen, old.order, selected).map(discoveryKey);
-    commit({ ...old, filter: selected, round, order, cursor: 0, offset: 0, seen: [...old.seen, ...order.slice(0, 1)].slice(-120) });
-  }, [commit, generate]);
+    commit(draw(latest.current.catalog, filter ?? old.filter, getHomeDayKey(), old.round + 1, old.groupId));
+  }, [commit]);
   const move = useCallback((direction: number) => {
     const old = current.current;
-    if (!old) return;
-    if (!old.order.length) return;
-    const position = (old.offset ?? 0) + old.cursor + direction;
-    // Wrap in either direction, including a reverse move from a fresh hand.
-    const cursor = ((position % old.order.length) + old.order.length) % old.order.length;
-    commit({ ...old, cursor, offset: Math.max(0, position - cursor), seen: [...old.seen, old.order[cursor]].slice(-120) });
+    if (!old?.order.length) return;
+    const position = old.offset + old.cursor + direction;
+    const cursor = (position + HOME_DECK_SIZE) % HOME_DECK_SIZE;
+    commit({ ...old, cursor, offset: Math.max(0, position - cursor) });
   }, [commit]);
-  const items = (state?.order ?? []).map(id => byKey.get(id) ?? null);
-  const waitingForSecure = scope === 'paid' && (secureContentStatus === 'idle' || secureContentStatus === 'loading') && !items[state?.cursor ?? 0];
-  return { items, filter: state?.filter ?? 'all', cursor: state?.cursor ?? 0, position: (state?.offset ?? 0) + (state?.cursor ?? 0), day: state?.day, loading: !state || waitingForSecure,
-    error: !!state && !items[state.cursor] && !waitingForSecure, shuffle, move, retry: () => setRetry(value => value + 1) };
-}
 
+  const ready = state && readyScope.current === scope ? state : null;
+  const group = ready && getGroup(catalog, ready);
+  const preview = group && ready && catalog.items.get(ready.order[0]);
+  const cover: HomeDeckCover | null = group && preview ? {
+    type: 'cover', group, preview,
+    title: `${group.type === 'persona' ? group.name : `${group.categoryTitle}（${group.name}）`} ${HOME_DECK_SELECTION_SIZE}選`,
+  } : null;
+  const items: (HomeDeckCard | null)[] = cover ? [cover, ...ready!.order.map(id => catalog.items.get(id) ?? null)] : [];
+  const waitingForSecure = scope === 'paid' && (secureContentStatus === 'idle' || secureContentStatus === 'loading') && !cover;
+  return { items, filter: ready?.filter ?? 'all', cursor: ready?.cursor ?? 0, position: (ready?.offset ?? 0) + (ready?.cursor ?? 0),
+    loading: !ready || waitingForSecure, error: !!ready && !cover && !waitingForSecure, shuffle, move, retry: reload };
+}

@@ -1,14 +1,15 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Easing, Image, PanResponder, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { catalogTheme, colors, fonts } from '@/constants/theme';
 import { categoryMeta, getTechniqueDisplayId, getTheoryDisplayId, getTheoryCategoryTitle } from '@/data/catalog';
 import { getTheoryCategoryLabel, getTheoryCoverSummary } from '@/data/theory-display';
-import type { ReadingContent } from '@/data/reading-recommendations';
+import { getPersonaPresentation } from '@/data/persona-presentation';
 import { contentImageUrl } from '@/lib/content-media';
 import { layoutTechniqueTitle } from '@/lib/technique-title-layout';
-import { techniqueRoute, theoryRoute } from '@/navigation/app-routes';
-import { useHomeDiscovery } from '@/hooks/use-home-discovery';
+import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
+import { useHomeDiscovery, type HomeDeckCard, type HomeDeckCover } from '@/hooks/use-home-discovery';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useWebDeckMotion } from '@/hooks/use-web-deck-motion';
@@ -28,16 +29,30 @@ const deckImages: Record<string, number> = {
   work: require('../../assets/home/deck-work.webp'),
   life: require('../../assets/home/deck-life.webp'),
 };
-const webGesture = Platform.OS === 'web' ? { touchAction: 'pan-y', userSelect: 'none', WebkitUserSelect: 'none' } as unknown as ViewStyle : {};
+const webGesture = Platform.OS === 'web' ? {
+  // pan-up scrolls the viewport upward when the finger moves downward.
+  touchAction: typeof CSS !== 'undefined' && CSS.supports('touch-action', 'pan-up pinch-zoom') ? 'pan-up pinch-zoom' : 'none',
+  userSelect: 'none', WebkitUserSelect: 'none',
+} as unknown as ViewStyle : {};
 const faceShadow = Platform.OS === 'web' ? { boxShadow: '0 9px 18px -8px rgba(51,40,22,.23), 0 2px 5px rgba(51,40,22,.08)' } as ViewStyle
   : { shadowColor: '#332816', shadowOpacity: 0.08, shadowRadius: 10, shadowOffset: { width: 0, height: 5 }, elevation: 2 };
-function cardAccent(item: ReadingContent) {
-  return item.type === 'theory' ? '#627593' : catalogTheme.categoryBars[item.card.categoryKey] ?? colors.moss;
+function cardAccent(item: HomeDeckCard) {
+  const content = item.type === 'cover' ? item.preview : item;
+  return content.type === 'theory' ? '#627593' : catalogTheme.categoryBars[content.card.categoryKey] ?? colors.moss;
 }
-function imageFor(item: ReadingContent) {
-  const fallback = item.type === 'theory' ? theoryImage : deckImages[item.card.categoryKey] ?? theoryImage;
-  const uri = contentImageUrl(item.card.imagePath);
+function imageFor(item: HomeDeckCard) {
+  const content = item.type === 'cover' ? item.preview : item;
+  const fallback = content.type === 'theory' ? theoryImage : deckImages[content.card.categoryKey] ?? theoryImage;
+  const portrait = item.type === 'cover' && item.group.type === 'persona' ? getPersonaPresentation(item.group.name)?.image : undefined;
+  if (typeof portrait === 'number') return { fallback, source: portrait };
+  const uri = portrait?.uri || contentImageUrl(content.card.imagePath);
   return { fallback, source: uri ? { uri } : fallback };
+}
+
+function coverSummary({ group }: HomeDeckCover) {
+  if (group.type === 'theory') return `${group.name}をひもとく、5つの理論。`;
+  if (group.name === '言い争いに負けない人') return '相手の勢いに流されず、自分の意見を落ち着いて伝える。';
+  return getPersonaPresentation(group.name)?.subtitle || 'この人物像につながる、5つの処世術。';
 }
 
 export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight = cardWidth < 300 ? 378 : 408, night = false, fillViewport = false, onOpenCard }: { cardWidth: number; cardHeight?: number; night?: boolean; fillViewport?: boolean; onOpenCard?: () => void }) {
@@ -53,7 +68,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     document.fonts?.addEventListener('loadingdone', update);
     return () => { disposed = true; document.fonts?.removeEventListener('loadingdone', update); };
   }, []);
-  // Keep all seven slots the same height. Rare long titles can use additional
+  // Keep the cover and all reading cards the same height. Long titles can use additional
   // lines without clipping or moving the shortcut shelf on every swipe.
   const cardHeight = useMemo(() => {
     const compact = night && !desktop;
@@ -63,7 +78,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     const context = Platform.OS === 'web' && typeof document !== 'undefined' ? document.createElement('canvas').getContext('2d') : null;
     const tallest = deck.items.reduce((height, item) => {
       if (!item) return height;
-      const layout = layoutTechniqueTitle(item.card.title, width, baseSize, 17, (text, size) => {
+      const layout = layoutTechniqueTitle(item.type === 'cover' ? item.title : item.card.title, width, baseSize, 17, (text, size) => {
         if (context) { context.font = `700 ${size}px ${fonts.serif}`; return context.measureText(text).width + Math.max(0, [...text].length - 1) * .15; }
         return [...text].reduce((sum, char) => sum + (/^[\x20-\x7e]$/.test(char) ? .6 : 1), 0) * size * fontScale + Math.max(0, [...text].length - 1) * .15;
       });
@@ -95,6 +110,8 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   const lastDrag = useRef(0);
   const lastMotion = useRef(0);
   const gestureStartX = useRef(0);
+  const gestureAxis = useRef<'horizontal' | 'upward' | null>(null);
+  const shuffleGesture = useRef<() => void>(() => undefined);
   const animation = useRef<Animated.CompositeAnimation | null>(null);
   const finish = useRef<(() => void) | null>(null);
   const latest = useRef({ deck, reduced, cardWidth });
@@ -162,11 +179,21 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   const responder = useRef(PanResponder.create({
     // x0 is populated on grant, after the responder decision. Record touch-down
     // separately so excluding the browser edge never disables ordinary drags.
-    onStartShouldSetPanResponderCapture: event => { gestureStartX.current = event.nativeEvent.pageX; return false; },
-    onMoveShouldSetPanResponder: (_, gesture) => !locked.current && !latest.current.deck.loading && !latest.current.deck.error && gestureStartX.current > 22 && Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35,
+    onStartShouldSetPanResponderCapture: event => {
+      gestureStartX.current = event.nativeEvent.pageX;
+      gestureAxis.current = null;
+      return false;
+    },
+    onMoveShouldSetPanResponder: (_, gesture) => {
+      if (locked.current || latest.current.deck.loading || latest.current.deck.error || gesture.numberActiveTouches > 1 || gestureStartX.current <= 22) return false;
+      const horizontal = Math.abs(gesture.dx) > 9 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.35;
+      const upward = gesture.dy < -12 && -gesture.dy > Math.abs(gesture.dx) * 1.35;
+      gestureAxis.current = horizontal ? 'horizontal' : upward ? 'upward' : null;
+      return gestureAxis.current !== null;
+    },
     onPanResponderGrant: () => { dragged.current = true; webMotion?.stop(); x.stopAnimation(); },
     onPanResponderMove: (_, gesture) => {
-      if (locked.current) return;
+      if (locked.current || gestureAxis.current !== 'horizontal') return;
       lastMotion.current = Date.now();
       setDirection(gesture.dx < 0 ? -1 : 1);
       const displacement = gesture.dx;
@@ -175,6 +202,12 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     },
     onPanResponderRelease: (_, gesture) => {
       lastDrag.current = Date.now();
+      if (gestureAxis.current === 'upward') {
+        gestureAxis.current = null;
+        dragged.current = false;
+        if (gesture.dy < -70 && -gesture.dy > Math.abs(gesture.dx) * 1.35) shuffleGesture.current();
+        return;
+      }
       // PanResponder retains the last sampled velocity while the finger rests.
       const velocity = Date.now() - lastMotion.current < 80 ? gesture.vx : 0;
       if (Math.abs(gesture.dx) > latest.current.cardWidth * 0.24 || (Math.abs(velocity) > 0.55 && Math.abs(gesture.dx) > 20)) {
@@ -196,7 +229,7 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     onPanResponderTerminationRequest: () => !locked.current,
   })).current;
   const shuffle = (filter?: DiscoveryFilter) => {
-    if (locked.current || dragged.current || deck.loading || deck.error) return;
+    if (locked.current || dragged.current || deck.loading || (deck.error && !filter)) return;
     locked.current = true;
     if (filter) setPendingFilter(filter);
     setPhase('shuffle');
@@ -216,9 +249,23 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
       animation.current.start(({ finished: done }) => { if (done) reset(); });
     });
   };
+  shuffleGesture.current = () => {
+    if (Platform.OS === 'web') {
+      if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(22);
+    } else {
+      void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+    }
+    shuffle();
+  };
   const open = () => {
     if (!current || locked.current || dragged.current || Date.now() - lastDrag.current < 350) return;
     onOpenCard?.();
+    if (current.type === 'cover') {
+      const { group } = current;
+      router.push(group.type === 'persona' ? personaRoute(group.categoryId, group.name) :
+        { pathname: '/theories', params: { category: group.categoryId, subcategory: group.subcategoryId } });
+      return;
+    }
     router.push(current.type === 'technique' ? techniqueRoute(current.card.id) : theoryRoute(current.card.tagId));
   };
   // Keep actual stack order stable even when a gesture changes direction.
@@ -232,17 +279,17 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
     const value = (key: keyof typeof start) => Animated.add(start[key], Animated.add(Animated.multiply(pull, extracted[key] - start[key]), Animated.multiply(lift, settled[key] - extracted[key])));
     return { opacity: value('opacity'), transform: [{ translateX: value('x') }, { translateY: value('y') }, { rotate: value('angle').interpolate({ inputRange: [-15, 15], outputRange: ['-15deg', '15deg'] }) }, { scale: value('scale') }] };
   };
-  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右にスワイプ、または矢印キーでカードをめくる" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
+  return <View ref={root} style={fillViewport && styles.fillViewport} testID="home-recommendation-deck" tabIndex={0} aria-label="おすすめのカードデッキ。左右にスワイプ、または矢印キーでカードをめくる。カードを上にスワイプしてシャッフル" aria-busy={busy || deck.loading} accessibilityState={{ busy: busy || deck.loading }}
     {...(Platform.OS === 'web' ? { onKeyDown: (event: any) => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); root.current?.focus(); navigate(event.key === 'ArrowLeft' ? -1 : 1); } } } : {})}>
     <View style={[styles.heading, !desktop && styles.mobileHeading, night && styles.nightHeading]}>
-      <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text><Text style={[styles.subtitle, night && styles.nightSubtitle]}>思いがけない知識との出会いを。</Text></View>
-      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onChange={shuffle} />
+      <View style={[styles.headingCopy, night && styles.nightHeadingCopy]}><Text testID="home-deck-heading" accessibilityRole="header" style={[styles.headingTitle, night && styles.nightTitle]}>あなたにおすすめ</Text></View>
+      <View style={[styles.headingActions, night && styles.nightActions]}><DiscoveryFilterButton outlined={night} value={selectedFilter} disabled={busy || deck.loading} dimWhenDisabled={deck.loading} onChange={shuffle} />
       <DiscoveryActionButton testID="home-discovery-refresh" label="シャッフル" disabled={busy || deck.loading || deck.error} dimWhenDisabled={deck.loading || deck.error} onPress={() => shuffle()} color={discoveryFilterColor(selectedFilter)}
         icon={<Animated.View style={{ transform: [{ rotate: spin.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}><DiscoveryControlIcon name="refresh" color={colors.white} /></Animated.View>} />
       </View>
     </View>
     <View testID="home-deck-stage" style={[styles.stage, { height: cardHeight + 30 }]}>
-      {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>知識を読み込めませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
+      {deck.error ? <View style={styles.empty}><Text style={styles.emptyTitle}>この種類のデッキを用意できませんでした</Text><Pressable accessibilityRole="button" onPress={deck.retry} style={styles.retry}><Text style={styles.subtitle}>もう一度読み込む →</Text></Pressable></View>
         : layers.map(({ depth, item }) => {
           const front = depth === 0;
           const rest = deckPose(depth, 0, cardWidth);
@@ -265,33 +312,38 @@ export function HomeRecommendationDeck({ cardWidth, cardHeight: baseCardHeight =
   </View>;
 }
 
-function DiscoveryFace({ item, width, height, compact, active, disabled, onPress, panHandlers, onTouch }: { item: ReadingContent; width: number; height: number; compact: boolean; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
+function DiscoveryFace({ item, width, height, compact, active, disabled, onPress, panHandlers, onTouch }: { item: HomeDeckCard; width: number; height: number; compact: boolean; active: boolean; disabled: boolean; onPress: () => void; panHandlers: object; onTouch: () => void }) {
   const { savedIds, savedTheoryIds, toggleSaved, toggleSavedTheory } = useAppState();
   const [failed, setFailed] = useState(false);
   const [focused, setFocused] = useState(false);
-  const theoretical = item.type === 'theory';
-  const id = theoretical ? item.card.tagId : item.card.id;
+  const cover = item.type === 'cover' ? item : undefined;
+  const content = item.type === 'cover' ? item.preview : item;
+  const theoretical = content.type === 'theory';
+  const id = theoretical ? content.card.tagId : content.card.id;
   const saved = (theoretical ? savedTheoryIds : savedIds).includes(id);
   const accent = cardAccent(item);
-  const label = theoretical ? '理論' : categoryMeta[item.card.categoryKey]?.label ?? item.card.categoryName;
-  const context = item.type === 'theory' ? getTheoryCategoryLabel(item.card) || getTheoryCategoryTitle(item.card.categoryId) : item.card.subcategory.trim() || '人物像未設定';
-  const summary = theoretical ? getTheoryCoverSummary(item.card.summary) : item.card.essence || item.card.subtitle || '';
+  const label = theoretical ? '理論' : categoryMeta[content.card.categoryKey]?.label ?? content.card.categoryName;
+  const context = cover ? (cover.group.type === 'theory' ? 'テーマ' : '人物像')
+    : theoretical ? getTheoryCategoryLabel(content.card) || getTheoryCategoryTitle(content.card.categoryId) : content.card.subcategory.trim();
+  const title = cover?.title ?? content.card.title;
+  const summary = cover ? coverSummary(cover) : theoretical ? getTheoryCoverSummary(content.card.summary) : content.card.essence || content.card.subtitle || '';
+  const linkLabel = cover ? `${cover.group.name}の${cover.group.type === 'theory' ? '理論一覧' : '人物像ページ'}を開く` : `${title}を読む`;
   const image = imageFor(item);
-  useEffect(() => setFailed(false), [id]);
-  return <View {...panHandlers} onTouchStart={onTouch} style={[styles.card, webGesture, { width, height }, focused && styles.focused]}>
+  useEffect(() => setFailed(false), [id, cover?.group.id]);
+  return <View {...panHandlers} testID={cover && active ? 'home-deck-cover' : undefined} onTouchStart={onTouch} style={[styles.card, webGesture, { width, height }, focused && styles.focused]}>
     <View pointerEvents="none" accessible={false} style={styles.innerFrame} />
-    <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={`${item.card.title}を読む`} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
+    <Pressable testID={active ? 'home-recommendation-card' : undefined} accessibilityRole="link" accessibilityLabel={linkLabel} disabled={disabled || !active} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} onPress={onPress} style={({ pressed }) => [styles.cardLink, compact && styles.compactCardLink, pressed && { opacity: 0.88 }]}>
       <View style={styles.cardTop}><Text style={[styles.badge, { backgroundColor: accent }]}>{label}</Text><Text testID={active ? 'home-deck-context' : undefined} numberOfLines={1} accessibilityLabel={`${theoretical ? '理論分類' : '人物像'}：${context}`} style={styles.cardKind}>{context}</Text></View>
-      <Text testID={active ? 'home-deck-number' : undefined} style={styles.cardNumber}>{theoretical ? getTheoryDisplayId(item.card) : getTechniqueDisplayId(item.card)}</Text>
-      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={item.card.title} minimumFontSize={17} style={[styles.title, compact && styles.compactTitle]} />
+      {cover ? null : <Text testID={active ? 'home-deck-number' : undefined} style={styles.cardNumber}>{theoretical ? getTheoryDisplayId(content.card) : getTechniqueDisplayId(content.card)}</Text>}
+      <TechniqueTitle testID={active ? 'home-deck-title' : undefined} title={title} minimumFontSize={17} style={[styles.title, compact && styles.compactTitle, cover && styles.coverTitle]} />
       <View style={styles.titleRule}><View style={styles.ruleAccent} /><View style={styles.ruleRest} /></View>
       <View style={styles.quotation}>
         <Text accessible={false} style={styles.quoteMark}>“</Text>
         <Text testID={active ? 'home-deck-essence' : undefined} numberOfLines={3} style={styles.summary}>{summary}</Text>
       </View>
-      <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image testID="home-deck-photo" source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
+      <View style={[styles.photoWrap, compact && styles.compactPhoto]}><Image testID="home-deck-photo" source={failed ? image.fallback : image.source} defaultSource={image.fallback} onError={() => setFailed(true)} resizeMode="cover" style={styles.photo} accessibilityLabel={`${label}のイメージ写真`} /><View testID={active ? 'home-deck-read-arrow' : undefined} style={styles.readArrow}><Text style={styles.readArrowText}>›</Text></View></View>
     </Pressable>
-    <Pressable
+    {cover ? null : <Pressable
       testID={active ? 'home-deck-save' : undefined}
       accessibilityRole="button"
       accessibilityLabel={saved ? 'お気に入りから外す' : 'お気に入りに保存'}
@@ -309,12 +361,12 @@ function DiscoveryFace({ item, width, height, compact, active, disabled, onPress
         accessible={false}
         style={styles.saveDiamond}
       />
-    </Pressable>
+    </Pressable>}
   </View>;
 }
 
 const styles = StyleSheet.create({
-  nightHeading: { marginBottom: 0, gap: 8, flexDirection: 'column', alignItems: 'flex-start' }, nightHeadingCopy: { borderLeftWidth: 3, borderLeftColor: '#BC9650', paddingLeft: 11 }, nightTitle: { color: '#FFFDF5', fontSize: 26, lineHeight: 34, letterSpacing: .5 }, nightSubtitle: { color: '#E5E4D8', fontSize: 12, lineHeight: 17, marginTop: 0 }, nightActions: { marginLeft: 14, gap: 10 },
+  nightHeading: { marginBottom: 0, gap: 8, flexDirection: 'column', alignItems: 'flex-start' }, nightHeadingCopy: { borderLeftWidth: 3, borderLeftColor: '#BC9650', paddingLeft: 11 }, nightTitle: { color: '#FFFDF5', fontSize: 26, lineHeight: 34, letterSpacing: .5 }, nightActions: { marginLeft: 14, gap: 10 },
   compactCardLink: { padding: 14, paddingTop: 13, paddingBottom: 13 }, compactTitle: { fontSize: 24, lineHeight: 33, fontWeight: '700', paddingTop: 5 }, compactPhoto: { marginTop: 17, minHeight: 100 },
   fillViewport: { flexGrow: 1 },
   mobileHeading: { flexDirection: 'column', alignItems: 'flex-start', gap: 12 },
@@ -330,6 +382,7 @@ const styles = StyleSheet.create({
   cardKind: { flex: 1, minWidth: 0, marginLeft: 8, paddingLeft: 8, borderLeftWidth: 1, borderLeftColor: '#D8C8B0', color: '#42413E', fontFamily: fonts.serif, fontSize: 13, lineHeight: 19, fontWeight: '600' },
   cardNumber: { color: '#96702E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 21, fontWeight: '600', marginTop: 3, letterSpacing: .2 },
   title: { color: '#24313A', fontFamily: fonts.serif, fontSize: 25, lineHeight: 34, fontWeight: '700', letterSpacing: .15, paddingTop: 5 },
+  coverTitle: { marginTop: 13, marginBottom: 7 },
   titleRule: { flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 11, marginBottom: 12 }, ruleAccent: { width: 72, height: 3, borderRadius: 2, backgroundColor: '#A67929' }, ruleRest: { flex: 1, height: 1, backgroundColor: '#E2D7C7' },
   quotation: { flexDirection: 'row', alignItems: 'flex-start', minHeight: 48 }, quoteMark: { color: '#B19152', fontFamily: fonts.serif, fontSize: 34, lineHeight: 36, width: 29 },
   summary: { flex: 1, color: '#42413E', fontFamily: fonts.serif, fontSize: 15, lineHeight: 23, fontWeight: '400', borderLeftWidth: 1, borderLeftColor: '#D8C7A4', paddingLeft: 10 },

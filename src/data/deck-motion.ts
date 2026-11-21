@@ -1,7 +1,8 @@
-export const HOME_DECK_SIZE = 7;
+export const HOME_DECK_SELECTION_SIZE = 5;
+export const HOME_DECK_SIZE = HOME_DECK_SELECTION_SIZE + 1;
 export const HOME_DECK_LAST = HOME_DECK_SIZE - 1;
 
-// Seven real cards, with only three quiet paper edges visible behind the front.
+// Only three quiet paper edges are visible behind the front.
 const visibleDepth = (depth: number) => Math.min(3, Math.max(0, depth));
 export const deckLayerX = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (5 + visibleDepth(depth) * 2);
 export const deckLayerAngle = (depth: number) => depth === 0 ? 0 : (visibleDepth(depth) % 2 ? -1 : 1) * (.65 + visibleDepth(depth) * .15);

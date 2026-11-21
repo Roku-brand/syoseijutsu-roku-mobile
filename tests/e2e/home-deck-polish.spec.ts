@@ -8,7 +8,7 @@ const ready = async (page: Page) => {
   await expect(page.getByTestId('home-recommendation-deck')).toHaveAttribute('aria-busy', 'false');
 };
 
-test('seven old cards leave the screen before new cards arrive from the opposite edge', async ({ page }) => {
+test('six old cards leave the screen before new cards arrive from the opposite edge', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 390, height: 1000 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -27,7 +27,7 @@ test('seven old cards leave the screen before new cards arrive from the opposite
       return { id: target.id, right: target.getBoundingClientRect().right, end: new DOMMatrix(keys.at(-1)!.transform as string).m41, opacity: keys.at(-1)!.opacity };
     });
   });
-  expect(outgoing).toHaveLength(7);
+  expect(outgoing).toHaveLength(6);
   expect(outgoing.every(path => path.right < 0 && Number(path.opacity) === 0)).toBe(true);
   expect((await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order, storageKey))).toEqual(original.order);
   await expect(page.getByTestId('home-deck-filter')).toBeDisabled();
@@ -35,7 +35,7 @@ test('seven old cards leave the screen before new cards arrive from the opposite
     const sample = () => {
       const outgoing = (window as any).__outgoing as Animation[];
       const incoming = document.getAnimations().filter(animation => !outgoing.includes(animation) && /^home-deck-slot-/.test((animation.effect as KeyframeEffect)?.target?.id ?? ''));
-      if (incoming.length !== 7) { requestAnimationFrame(sample); return; }
+      if (incoming.length !== 6) { requestAnimationFrame(sample); return; }
       (window as any).__incoming = incoming.map(animation => {
         const keys = (animation.effect as KeyframeEffect).getKeyframes();
         animation.pause(); animation.currentTime = 0;
@@ -54,7 +54,7 @@ test('seven old cards leave the screen before new cards arrive from the opposite
   await expect(page.getByTestId('home-discovery-refresh')).toBeEnabled();
   await expect.poll(async () => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).round, storageKey)).toBe(original.round + 1);
   const next = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order as string[], storageKey);
-  expect(next).toHaveLength(7);
+  expect(next).toHaveLength(5);
   expect(next.filter(id => original.order.includes(id))).toEqual([]);
   await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
 });
@@ -89,7 +89,7 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
   test.skip(!process.env.EXPO_PUBLIC_SUPABASE_URL, 'CMS connector is not configured in this build');
   const counts = new Map<string, number>();
   const rows = Array.from({ length: 7 }, (_, index) => ({ id: `cms-polish-${index}`, title: `起動時のカード ${index}`, essence: '保存したカードの位置を保つ。', explanation: '公開カタログの確認。', category: 'interpersonal', persona_id: '話を聞く人', status: 'published', access_tier: 'free', display_order: index }));
-  const theoryRows = selectedTheoryIds.slice(0, 7).map((id, index) => ({ id, title: `理論のカード ${index}`, summary: '理論の分類表示を検証する。', category_id: 'psychology', category_title: '心理学', status: 'published', access_tier: 'free', display_order: index }));
+  const theoryRows = selectedTheoryIds.slice(0, 7).map((id, index) => ({ id, title: `理論のカード ${index}`, summary: '理論の分類表示を検証する。', category_id: 'psychology', category_title: '心理学', subcategory_id: 'psychology-c', status: 'published', access_tier: 'free', display_order: index }));
   const categories = [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 0 }, { kind: 'theory', id: 'psychology', title: '心理学', display_order: 0 }];
   await page.route('**/rest/v1/**', async route => {
     const table = new URL(route.request().url()).pathname.split('/').at(-1)!;
@@ -97,10 +97,10 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
     await new Promise(resolve => { setTimeout(resolve, 700); });
     await route.fulfill({ json: table === 'public_techniques' ? rows : table === 'public_theories' ? theoryRows : table === 'content_categories' ? categories : table === 'personas' ? [{ name: '話を聞く人', category: 'interpersonal', status: 'published', access_tier: 'free' }] : table === 'content_revision' ? { revision: 'polish-v1' } : [] });
   });
-  const order = rows.map(row => `technique:${row.id}`);
+  const order = rows.slice(0, 5).map(row => `technique:${row.id}`);
   await page.addInitScript(({ key, order }) => {
     const day = Math.floor((Date.now() + 9 * 60 * 60 * 1000) / 86400000);
-    localStorage.setItem(key, JSON.stringify({ day, round: 4, order, cursor: 2, offset: 5, seen: order, filter: 'interpersonal' }));
+    localStorage.setItem(key, JSON.stringify({ day, round: 4, order, groupId: JSON.stringify(['persona', 'interpersonal', '話を聞く人']), cursor: 2, offset: 6, filter: 'interpersonal' }));
   }, { key: storageKey, order });
   await page.goto('/');
   await ready(page);
@@ -112,10 +112,9 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
   await page.getByTestId('home-deck-filter').click();
   await page.getByTestId('home-deck-filter-theory').click();
   await ready(page);
-  await expect(page.getByTestId('home-deck-context')).toHaveText('心理学');
-  await expect(page.getByTestId('home-deck-context')).toHaveAttribute('aria-label', '理論分類：心理学');
+  await expect(page.getByTestId('home-deck-title')).toHaveAttribute('aria-label', '心理学（認知・判断） 5選');
 });
-test('選外の理論を保存済みのおすすめから入れ替え、閲覧中の採用カードを維持する', async ({ page }) => {
+test('旧デッキの理論フィルタを維持し、採用理論の同じテーマから5枚を引く', async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   const order = ['kb_203', 'kb_003', 'kb_001', 'kb_002', 'kb_045', 'kb_265', 'kb_269'].map(id => `theory:${id}`);
   await page.addInitScript(({ key, order }) => {
@@ -124,8 +123,9 @@ test('選外の理論を保存済みのおすすめから入れ替え、閲覧�
   }, { key: storageKey, order });
   await page.goto('/');
   await ready(page);
-  await expect(page.getByTestId('home-deck-title')).toHaveText('初頭効果');
+  await expect(page.getByTestId('home-deck-cover')).toBeVisible();
+  await expectDeckCursor(page, 0);
   const restored = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).order as string[], storageKey);
-  expect(restored).toHaveLength(7);
+  expect(restored).toHaveLength(5);
   expect(restored.every(key => selectedTheoryIds.includes(key.slice('theory:'.length)))).toBe(true);
 });

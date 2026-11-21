@@ -33,7 +33,7 @@ for (const width of [320, 390, 1440]) {
     await page.getByTestId('home-deck-filter').click();
     const popup = page.getByTestId('home-deck-filter-popup');
     await expect(popup).toBeVisible();
-    await expect(popup.getByRole('heading', { name: 'デッキの種類' })).toBeVisible();
+    await expect(popup.getByRole('heading', { name: 'デッキを選ぶ' })).toBeVisible();
     const box = (await popup.boundingBox())!;
     expect(box.x).toBeGreaterThanOrEqual(0);
     expect(box.x + box.width).toBeLessThanOrEqual(width);
@@ -43,7 +43,7 @@ for (const width of [320, 390, 1440]) {
     await page.screenshot({ path: test.info().outputPath('deck-popup.png') });
     await page.getByTestId('home-deck-filter-work').click();
     await expect(popup).toHaveCount(0);
-    await expect(page.getByTestId('home-deck-layer')).toHaveCount(6);
+    await expect(page.getByTestId('home-deck-layer')).toHaveCount(5);
     await page.getByTestId('home-shortcut-principles').click();
     await expect(page.getByRole('heading', { name: '処世術の五大原則' })).toBeVisible();
     await page.getByRole('button', { name: '原則を閉じる' }).last().click();

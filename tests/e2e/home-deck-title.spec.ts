@@ -5,7 +5,9 @@ import fs from 'node:fs';
 const storageKey = '@shoseijutsu-roku/discovery-deck/v1/free';
 const source = JSON.parse(fs.readFileSync('src/data/generated/techniques.json', 'utf8'));
 const techniques = source.categories.flatMap((category: any) => category.subcategories.flatMap((persona: any) => persona.items));
-const selectedIds = ['master336-001', 'master336-006', 'master336-002', 'master336-010', 'master336-068', 'master336-255'];
+const selectedIds = ['master336-001', 'master336-006', 'master336-002', 'master336-010', 'master336-255'];
+const persona = '言い争いに負けない人';
+const groupId = JSON.stringify(['persona', 'interpersonal', persona]);
 const selected = selectedIds.map(id => techniques.find((card: any) => card.id === id));
 const recommendedTheoryIds = new Set<string>(JSON.parse(fs.readFileSync('src/data/home-recommended-theory-ids.json', 'utf8')));
 const theories: { tagId: string; title: string; summary: string; categoryId: string; categoryTitle: string; accessTier: string }[] =
@@ -21,19 +23,20 @@ for (const width of [320, 375, 390, 430, 1440]) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.route('**/rest/v1/**', async route => {
       const table = new URL(route.request().url()).pathname.split('/').at(-1);
-      const rows = table === 'public_techniques' ? selected.map((card: any, index: number) => ({ id: card.id, title: card.title, essence: card.essence, explanation: card.explanation, category: 'interpersonal', persona_id: null, status: 'published', access_tier: 'free', display_order: index }))
+      const rows = table === 'public_techniques' ? selected.map((card: any, index: number) => ({ id: card.id, title: card.title, essence: card.essence, explanation: card.explanation, category: 'interpersonal', persona_id: persona, status: 'published', access_tier: 'free', display_order: index }))
+        : table === 'personas' ? [{ name: persona, category: 'interpersonal', status: 'published', access_tier: 'free' }]
         : table === 'public_theories' ? [{ id: theory.tagId, title: theory.title, summary: theory.summary, category_id: theory.categoryId, category_title: theory.categoryTitle, status: 'published', access_tier: 'free' }]
           : table === 'content_revision' ? { revision: 'deck-title-layout' } : [];
       await route.fulfill({ json: rows });
     });
-    const order = [...selectedIds.map(id => `technique:${id}`), `theory:${theory.tagId}`];
-    await page.addInitScript(({ key, order }) => {
+    const order = selectedIds.map(id => `technique:${id}`);
+    await page.addInitScript(({ key, order, groupId }) => {
       const day = Math.floor((Date.now() + 9 * 3600000) / 86400000);
-      localStorage.setItem(key, JSON.stringify({ day, round: 0, order, cursor: 0, seen: [], filter: 'all' }));
-    }, { key: storageKey, order });
+      localStorage.setItem(key, JSON.stringify({ day, round: 0, groupId, order, cursor: 1, filter: 'all' }));
+    }, { key: storageKey, order, groupId });
     await page.goto('/');
     await page.evaluate(() => document.fonts.ready);
-    for (const [index, card] of [...selected, theory].entries()) {
+    for (const [index, card] of selected.entries()) {
       const title = page.getByTestId('home-deck-title');
       await expect(title).toHaveAttribute('aria-label', card.title);
       // Font measurement runs after layout and after the actual font is ready.
