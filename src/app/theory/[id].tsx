@@ -9,6 +9,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { canReadTheory, FREE_TECHNIQUE_IDS } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
 import { DetailSwipe } from '@/components/detail-swipe';
+import { PageScroll } from '@/components/page-scroll';
 import { LockedPreview } from '@/components/locked-preview';
 import { TechniqueTitle } from '@/components/technique-title';
 import { AppText, EmptyState, Screen } from '@/components/ui';
@@ -42,9 +43,11 @@ export default function TheoryDetailScreen() {
   const theory = useMemo(() => theoryById.get(id), [catalogRevision, id]);
   const { addHistory } = useAppState();
   const [informationOpen, setInformationOpen] = useState(false);
+  const introScrollRef = useRef<ScrollView>(null);
   const scrollRef = useRef<ScrollView>(null);
   useEffect(() => {
     setInformationOpen(false);
+    introScrollRef.current?.scrollTo({ y: 0, animated: false });
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [id]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
@@ -91,73 +94,88 @@ export default function TheoryDetailScreen() {
       open: () => router.replace({ pathname: '/theory/[id]', params: { id: next.tagId } }),
       preview: canReadTheory(effectiveAccess, next.tagId) && !isLockedTheoryShell(next) && !isRetiredTheoryId(next.tagId) ? (
         <Screen scroll={false} style={[detailStyles.screen, styles.preview]}>
-          <View style={styles.screenContent}>
-            <View style={styles.article}><TheoryOverview theory={next} compact={compact} preview /></View>
+          <View style={[styles.readingInset, styles.introContent, styles.fixedIntro, styles.preview]}>
+            <View style={styles.article}><TheoryHeading theory={next} compact={compact} preview /></View>
           </View>
+          <View style={styles.readingInset}><View style={styles.article}><TheorySummary theory={next} preview /></View></View>
         </Screen>
       ) : null,
     };
   };
+  const previous = adjacentTheory(-1);
+  const next = adjacentTheory(1);
 
   return (
-    <Screen scrollRef={scrollRef} style={detailStyles.screen} contentContainerStyle={styles.screenContent}>
-      <DetailSwipe style={styles.article} previous={adjacentTheory(-1)} next={adjacentTheory(1)}>
-        <TheoryOverview theory={theory} compact={compact} />
+    <Screen scroll={false} style={detailStyles.screen}>
+      <ScrollView ref={introScrollRef} testID="theory-fixed-intro" style={styles.fixedIntro}
+        contentContainerStyle={[styles.readingInset, styles.introContent]} showsVerticalScrollIndicator={false} bounces={false} overScrollMode="never">
+        <DetailSwipe style={styles.article} previous={previous} next={next}>
+          <TheoryHeading theory={theory} compact={compact} />
+        </DetailSwipe>
+      </ScrollView>
+      <PageScroll ref={scrollRef} testID="theory-detail-scroll" style={styles.scrollingBody}
+        contentContainerStyle={[styles.readingInset, styles.bodyContent]} keyboardShouldPersistTaps="handled">
+        <DetailSwipe style={styles.article} previous={previous} next={next}>
+          <TheorySummary theory={theory} />
 
-        <View style={styles.sections}>
-          <RelatedContentSection
-            title="関連する処世術"
-            testID="theory-related-techniques"
-            items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
-          />
+          <View style={styles.sections}>
+            <RelatedContentSection
+              title="関連する処世術"
+              testID="theory-related-techniques"
+              items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+            />
 
-          <TheoryNetwork theory={theory} />
+            <TheoryNetwork theory={theory} />
 
-          <RelatedFeatures kind="theory" id={theory.tagId} />
+            <RelatedFeatures kind="theory" id={theory.tagId} />
 
-          <View testID="theory-information">
-            <Pressable accessibilityRole="button" aria-expanded={informationOpen} accessibilityLabel="出典・理論情報" onPress={() => setInformationOpen(value => !value)} style={styles.informationToggle}>
-              <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.sectionMark} />
-              <AppText variant="serif" style={styles.informationTitle}>出典・理論情報</AppText>
-              <AppText accessibilityElementsHidden style={styles.informationIndicator}>{informationOpen ? '−' : '＋'}</AppText>
-            </Pressable>
-            {informationOpen ? <TheoryInformation theory={theory} compact={compact} /> : null}
+            <View testID="theory-information">
+              <Pressable accessibilityRole="button" aria-expanded={informationOpen} accessibilityLabel="出典・理論情報" onPress={() => setInformationOpen(value => !value)} style={styles.informationToggle}>
+                <View accessibilityElementsHidden importantForAccessibility="no" style={detailStyles.sectionMark} />
+                <AppText variant="serif" style={styles.informationTitle}>出典・理論情報</AppText>
+                <AppText accessibilityElementsHidden style={styles.informationIndicator}>{informationOpen ? '−' : '＋'}</AppText>
+              </Pressable>
+              {informationOpen ? <TheoryInformation theory={theory} compact={compact} /> : null}
+            </View>
           </View>
-        </View>
-      </DetailSwipe>
+        </DetailSwipe>
+      </PageScroll>
     </Screen>
   );
 }
 
-function TheoryOverview({ theory, compact, preview = false }: { theory: TheoryCard; compact: boolean; preview?: boolean }) {
+function TheoryHeading({ theory, compact, preview = false }: { theory: TheoryCard; compact: boolean; preview?: boolean }) {
   const title = theory.quotation ? `「${theory.quotation.translationText}」` : normalizeDisplayText(theory.title);
   const titleLength = [...title.replace(/\s/g, '')].length;
   const titleFontSize = compact
     ? titleLength <= 12 ? 31 : titleLength <= 18 ? 27 : 23
     : titleLength <= 12 ? 42 : titleLength <= 18 ? 36 : 31;
+  return <View>
+    <View testID={preview ? undefined : 'theory-meta'} style={detailStyles.numberRow}>
+      <AppText style={detailStyles.number}>{getTheoryDisplayId(theory)}</AppText>
+      <AppText style={detailStyles.metadata}>{getTheoryPath(theory)}</AppText>
+    </View>
+    <TechniqueTitle
+      testID={preview ? undefined : 'theory-title'}
+      title={title}
+      minimumFontSize={20}
+      accessibilityRole="header"
+      aria-level={1}
+      style={[detailStyles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}
+    />
+    {theory.quotation ? <View testID={preview ? undefined : 'quotation-attribution'} style={styles.attribution}>
+      <AppText variant="serif" style={styles.author}>— {theory.quotation.author}</AppText>
+      <AppText style={styles.work}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
+    </View> : null}
+    <View style={detailStyles.rule} />
+  </View>;
+}
+
+function TheorySummary({ theory, preview = false }: { theory: TheoryCard; preview?: boolean }) {
   const summary = formatTheorySummary(theory.quotation?.contextNote ?? theory.summary);
   const seoCopy = getTheorySeoCopy(theory);
   const image = theory.imagePath ? contentImageUrl(theory.imagePath) : null;
   return <>
-    <View>
-      <View testID={preview ? undefined : 'theory-meta'} style={detailStyles.numberRow}>
-        <AppText style={detailStyles.number}>{getTheoryDisplayId(theory)}</AppText>
-        <AppText style={detailStyles.metadata}>{getTheoryPath(theory)}</AppText>
-      </View>
-      <TechniqueTitle
-        testID={preview ? undefined : 'theory-title'}
-        title={title}
-        minimumFontSize={20}
-        accessibilityRole="header"
-        aria-level={1}
-        style={[detailStyles.title, { fontSize: titleFontSize, lineHeight: Math.round(titleFontSize * 1.4) }]}
-      />
-      {theory.quotation ? <View testID={preview ? undefined : 'quotation-attribution'} style={styles.attribution}>
-        <AppText variant="serif" style={styles.author}>— {theory.quotation.author}</AppText>
-        <AppText style={styles.work}>{theory.quotation.work}　{theory.quotation.locator}</AppText>
-      </View> : null}
-      <View style={detailStyles.rule} />
-    </View>
     {image ? <Image source={{ uri: image }} contentFit="cover" style={{ width: '100%', aspectRatio: 1.8, borderRadius: 10, marginTop: 18 }} accessibilityLabel={`${theory.title}の画像`} /> : null}
     <View testID={preview ? undefined : 'theory-summary'} style={detailStyles.summaryCard}>
       <AppText accessibilityRole="header" aria-level={2} variant="serif" style={detailStyles.summaryLabel}>
@@ -214,6 +232,11 @@ function TheoryInformation({ theory, compact }: { theory: TheoryCard; compact: b
 const styles = StyleSheet.create({
   preview: { overflow: 'hidden' },
   screenContent: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 22, paddingTop: 12, paddingBottom: 132 },
+  readingInset: { width: '100%', maxWidth: 1480, alignSelf: 'center', paddingHorizontal: 22 },
+  introContent: { paddingTop: 12 },
+  fixedIntro: { flexGrow: 0, flexShrink: 1, maxHeight: '45%' },
+  scrollingBody: { flex: 1, minHeight: 0 },
+  bodyContent: { paddingBottom: 132 },
   article: { width: '100%', maxWidth: 820, alignSelf: 'center' },
   attribution: { gap: 6, marginTop: 18 },
   author: { color: colors.ink, fontSize: 17, lineHeight: 28 },

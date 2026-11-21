@@ -81,7 +81,8 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await expect(page).not.toHaveURL(/page=4/);
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
-  const input = page.getByRole('textbox', { name: 'キーワードを検索', exact: true });
+  const input = page.getByTestId('discover-search-input');
+  await expect(input).toBeFocused();
   await input.fill('No.337');
   await input.press('Enter');
   await expect(page.getByTestId('technique-index-row')).toHaveCount(1);
@@ -90,7 +91,7 @@ test('通しID検索とページ送りは固定番号を保ち、詳細と完全
   await page.reload();
   await page.getByTestId('book-header').getByRole('button', { name: '処世術一覧を検索', exact: true }).click();
   await expect(input).toHaveValue('No.337');
-  await page.getByRole('button', { name: '検索を閉じる', exact: true }).click();
+  await page.goBack();
   await expect(page.getByTestId('technique-index-id')).toHaveText('No.337');
   await page.getByTestId('technique-index-row').click();
   await expect(page).toHaveURL(/\/card\/master336-337$/);

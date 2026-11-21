@@ -4,7 +4,7 @@ const pages = [
   ['/', 'home-scroll'],
   ['/my-os', 'my-page-scroll'],
   ['/card/master336-001', 'technique-detail-scroll'],
-  ['/theory/kb_001', null],
+  ['/theory/kb_001', 'theory-detail-scroll'],
   ['/upgrade', 'upgrade-lp-scroll'],
 ] as const;
 
@@ -15,7 +15,7 @@ for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto(path);
 
-  const scroll = id ? page.getByTestId(id).filter({ visible: true }).first() : page.getByRole('main');
+  const scroll = page.getByTestId(id).filter({ visible: true }).first();
   await expect(scroll).toBeVisible();
   await scroll.evaluate(node => { node.scrollTop = node.scrollHeight; });
   const viewport = (await scroll.boundingBox())!;

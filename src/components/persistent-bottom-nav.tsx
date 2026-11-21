@@ -8,16 +8,17 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { APP_ROUTES, type MainSection } from '@/navigation/app-routes';
 import { useMainSection } from '@/navigation/main-section-state';
 import { AppText } from './ui';
+import { SearchMark } from './search-mark';
 
 const items = [
   { key: 'main', label: 'ホーム', icon: 'home', href: APP_ROUTES.home },
-  { key: 'discover', label: '探す', icon: 'compass', href: APP_ROUTES.discover },
+  { key: 'discover', label: '探す', icon: 'search', href: APP_ROUTES.discover },
   { key: 'learn', label: '学ぶ', icon: 'book', href: APP_ROUTES.learn },
   { key: 'my-os', label: 'マイページ', icon: 'person', href: APP_ROUTES.myPage },
 ] as const satisfies ReadonlyArray<{
   key: MainSection;
   label: string;
-  icon: 'home' | 'compass' | 'book' | 'person';
+  icon: 'home' | 'search' | 'book' | 'person';
   href: Href;
 }>;
 
@@ -76,9 +77,7 @@ function NavIcon({ type, active }: { type: (typeof items)[number]['icon']; activ
   if (type === 'home') return Platform.OS === 'ios'
     ? <SymbolView name="house.fill" size={25} tintColor={color} weight="regular" />
     : <View style={styles.homeMark}><View style={[styles.homeRoof, { backgroundColor: color }]} /><View style={[styles.homeBody, { backgroundColor: color }]} /><View style={styles.homeDoor} /></View>;
-  if (type === 'compass') return Platform.OS === 'ios'
-    ? <SymbolView name="safari" size={25} tintColor={color} weight="regular" />
-    : <View style={[styles.compassMark, { borderColor: color }]}><View style={[styles.compassNeedleNorth, { borderBottomColor: color }]} /><View style={[styles.compassNeedleSouth, { borderTopColor: color }]} /></View>;
+  if (type === 'search') return <SearchMark size={24} color={color} />;
   if (type === 'book') return <View style={styles.bookMark}><View style={[styles.bookPage, styles.bookPageLeft, { backgroundColor: color }]} /><View style={[styles.bookPage, styles.bookPageRight, { backgroundColor: color }]} /></View>;
   return <View style={styles.personMark}><View style={[styles.personHead, { backgroundColor: color }]} /><View style={[styles.personShoulders, { backgroundColor: color }]} /></View>;
 }
@@ -158,9 +157,6 @@ const styles = StyleSheet.create({
   homeRoof: { position: 'absolute', top: 4, left: 5, width: 15, height: 15, borderTopLeftRadius: 2, transform: [{ rotate: '45deg' }] },
   homeBody: { position: 'absolute', bottom: 2, left: 4, width: 17, height: 13, borderBottomLeftRadius: 2, borderBottomRightRadius: 2 },
   homeDoor: { position: 'absolute', bottom: 2, left: 10, width: 5, height: 8, borderTopLeftRadius: 2, borderTopRightRadius: 2, backgroundColor: colors.surface },
-  compassMark: { width: 24, height: 24, borderWidth: 1.7, borderRadius: 12, alignItems: 'center', justifyContent: 'center', position: 'relative' },
-  compassNeedleNorth: { position: 'absolute', top: 3, left: 8, width: 0, height: 0, borderLeftWidth: 3, borderRightWidth: 3, borderBottomWidth: 9, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '42deg' }] },
-  compassNeedleSouth: { position: 'absolute', bottom: 3, right: 8, width: 0, height: 0, borderLeftWidth: 3, borderRightWidth: 3, borderTopWidth: 9, borderLeftColor: 'transparent', borderRightColor: 'transparent', transform: [{ rotate: '42deg' }] },
   // 虫眼鏡の柄は、画面倍率に関係なく円と接続して描画する。
   searchMark: { width: 24, height: 24, position: 'relative' },
   searchCircle: { position: 'absolute', top: 2, left: 2, width: 14, height: 14, borderWidth: 1.8, borderRadius: 9 },
