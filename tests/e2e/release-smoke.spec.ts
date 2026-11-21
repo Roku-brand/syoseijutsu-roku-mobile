@@ -894,12 +894,17 @@ test('カードデッキは前後操作で同じ一枚へ戻れる', async ({ pa
 });
 
 test('表紙と5枚のカードは前後に循環する', async ({ page }) => {
+  // Verify the six positions of one deck while the live catalog cannot replace its draw.
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.setViewportSize({ width: 390, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await startFreeHome(page);
-  for (let i=0; i<6; i++) await turnDeck(page);
   await expectDeckCursor(page, 0);
+  for (const cursor of [1, 2, 3, 4, 5, 0]) {
+    await turnDeck(page);
+    await expectDeckCursor(page, cursor);
+  }
   await turnDeck(page, -1);
   await expectDeckCursor(page, 5);
 });
