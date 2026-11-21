@@ -58,8 +58,8 @@ for (const [width, height] of widths) {
       const art = page.getByTestId('guide-artwork');
       await expect(art).toBeVisible();
       if (index === 0) {
-        await expect(art).toContainText('単純接触効果');
-        await expect(art).toContainText('名残惜しいくらいで去る');
+        await expect(art.getByLabel('単純接触効果', { exact: true })).toBeVisible();
+        await expect(art.getByLabel('名残惜しいくらいで去る', { exact: true })).toBeVisible();
         await expect(art).toContainText('印象がいい人');
       } else if (index === 1) {
         await expect(art).toContainText('短い接点を繰り返す');

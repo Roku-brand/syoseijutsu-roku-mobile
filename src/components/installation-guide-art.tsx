@@ -32,14 +32,14 @@ export const guideWaves = svg(`<defs><pattern id="waves" width="76" height="36" 
 const cardColors = ['#6B8197', '#B66648', '#7C815B'];
 const cardFaces = ['#FCF2E4', '#FCF0DF', '#F6F0DD'];
 
-type Cover = { caption?: string; title: string; note?: string; icon?: Icon | 'save' };
+type Cover = { caption?: string; title: string; displayTitle?: string; note?: string; icon?: Icon | 'save' };
 function knowledgeCovers(): Cover[] {
   const theory = theoryById.get('kb_004');
   const technique = techniqueById.get('master336-071');
   const persona = categories.flatMap(category => category.subcategories).find(entry => entry.name === '印象がいい人');
   return [
-    { caption: theory ? `理論　${getTheoryDisplayId(theory)}` : '理論', title: theory?.title ?? '', note: theory?.summary ? getTheoryCoverSummary(theory.summary) : undefined },
-    { caption: technique ? `${technique.categoryName}　${getTechniqueDisplayId(technique)}` : '処世術', title: technique?.title ?? '', note: technique?.essence },
+    { caption: theory ? `理論　${getTheoryDisplayId(theory)}` : '理論', title: theory?.title ?? '', displayTitle: theory?.title.replace(/^単純接触効果$/, '単純接触\n効果'), note: theory?.summary ? getTheoryCoverSummary(theory.summary) : undefined },
+    { caption: technique ? `${technique.categoryName}　${getTechniqueDisplayId(technique)}` : '処世術', title: technique?.title ?? '', displayTitle: technique?.title.replace(/^名残惜しいくらいで去る$/, '名残惜しい\nくらいで去る'), note: technique?.essence },
     { caption: '人物像', title: persona?.name ?? '' },
   ];
 }
@@ -64,12 +64,15 @@ export function GuideCovers({ width, variant }: { width: number; variant: 'knowl
           {complete ? <View aria-hidden style={styles.coverFrame} /> : null}
           {complete ? [16, 49, 81].map(top => <View key={top} aria-hidden style={[styles.binding, { top: `${top}%` }]} />) : null}
           <View style={[styles.coverContent, variant !== 'knowledge' && styles.coverContentCentered, !complete && index === 0 && styles.leftCoverContent, !complete && index === 2 && styles.rightCoverContent]}>
-            {cover.caption ? <AppText maxFontSizeMultiplier={1.15} style={[styles.caption, { color: spineColor }]}>{cover.caption}</AppText> : null}
+            {cover.caption ? <>
+              <AppText maxFontSizeMultiplier={1.15} style={[styles.caption, { color: spineColor }]}>{cover.caption}</AppText>
+              <View aria-hidden style={styles.goldRule} />
+            </> : null}
             {cover.icon === 'save' ? <SaveDiamond saved /> : cover.icon ? <ArtIcon name={cover.icon} size={24} /> : null}
-            <AppText maxFontSizeMultiplier={1.15} style={[styles.coverTitle, {
+            <AppText accessibilityLabel={cover.title} maxFontSizeMultiplier={1.15} style={[styles.coverTitle, {
               fontSize: complete ? width * .066 : width * (center ? .041 : .032),
             }, complete && { textAlign: 'center', lineHeight: width * .085 }]}>
-              {complete ? [...cover.title].join('\n') : cover.title}
+              {complete ? [...cover.title].join('\n') : cover.displayTitle ?? cover.title}
             </AppText>
             {cover.note ? <AppText maxFontSizeMultiplier={1.15} style={styles.coverNote}>{cover.note}</AppText> : null}
             {variant === 'personal' ? <View aria-hidden style={styles.goldRule} /> : null}
