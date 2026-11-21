@@ -97,8 +97,9 @@ export function useWebPageElasticity(
       movePage(touch.edge * limit * drag / (limit + drag));
     };
     const end = (event: TouchEvent) => {
-      if (touch && Array.from(event.touches).some(finger => finger.identifier === touch?.id)) return;
-      const shouldRefresh = event.type === 'touchend' && touch?.edge === 1 && distance >= REFRESH_THRESHOLD && refresh;
+      const finished = touch;
+      if (!finished || Array.from(event.touches).some(finger => finger.identifier === finished.id)) return;
+      const shouldRefresh = event.type === 'touchend' && finished.edge === 1 && distance >= REFRESH_THRESHOLD && refresh;
       touch = null;
       if (refreshing) return;
       if (!shouldRefresh) { settle(); return; }
@@ -112,16 +113,17 @@ export function useWebPageElasticity(
     };
     scroll.addEventListener('touchstart', start, { passive: true });
     scroll.addEventListener('touchmove', move, { passive: false });
-    scroll.addEventListener('touchend', end);
-    scroll.addEventListener('touchcancel', end);
+    // Native panning and nested controls can end a gesture before it bubbles to the scroll view.
+    window.addEventListener('touchend', end, true);
+    window.addEventListener('touchcancel', end, true);
     return () => {
       active = false;
       spring?.cancel();
       movePage(0);
       scroll.removeEventListener('touchstart', start);
       scroll.removeEventListener('touchmove', move);
-      scroll.removeEventListener('touchend', end);
-      scroll.removeEventListener('touchcancel', end);
+      window.removeEventListener('touchend', end, true);
+      window.removeEventListener('touchcancel', end, true);
     };
   }, [ref, indicatorRef, reduced, refresh]);
 }

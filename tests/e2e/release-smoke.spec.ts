@@ -1136,7 +1136,7 @@ test('学ぶの良い判断は正解表情と解説を示し、進捗へ保存�
   await expect(page.getByText('安心できる小さな往復から始める。')).toBeVisible();
   await expect(page.getByTestId('rokumaru-happy')).toBeVisible();
 
-  await page.getByRole('link', { name: /学ぶ。/ }).click();
+  await page.getByTestId('persistent-bottom-navigation').getByRole('link', { name: '学ぶ', exact: true }).click();
   await expect(page).toHaveURL(/\/learn$/);
   await expect(page.getByTestId('learning-stage-1')).toContainText('1 / 7');
 });
