@@ -94,6 +94,19 @@ test('スキップを保存し設定から読み直せる', async ({ page }) => 
   await expect(page.getByTestId('guide-counter')).toHaveText('1 / 3');
 });
 
+test('横向きでも図までスクロールでき開始ボタンに届く', async ({ page }) => {
+  await page.setViewportSize({ width: 844, height: 390 });
+  await page.goto('/');
+  await next(page);
+  const art = page.getByTestId('guide-artwork');
+  await art.getByText('ピーク・エンドの法則', { exact: true }).scrollIntoViewIfNeeded();
+  await expect(art.getByText('ピーク・エンドの法則', { exact: true })).toBeInViewport();
+  await expect(page.getByTestId('guide-primary')).toBeInViewport();
+  await next(page);
+  await next(page);
+  await expect(page.getByTestId('home-scroll')).toBeVisible();
+});
+
 test('法務・認証・記事の直接リンクと、案内の直リンクを扱える', async ({ page }) => {
   for (const path of ['/legal/privacy', '/auth?mode=signin', '/card/master336-001']) {
     await page.goto(path);

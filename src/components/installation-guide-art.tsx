@@ -29,7 +29,6 @@ function ArtIcon({ name, size }: { name: Icon; size: number }) {
 const wavePaths = '<path d="M-12 36a33 33 0 0 1 66 0m-60 0a27 27 0 0 1 54 0m-48 0a21 21 0 0 1 42 0m-36 0a15 15 0 0 1 30 0M26 36a33 33 0 0 1 66 0m-60 0a27 27 0 0 1 54 0m-48 0a21 21 0 0 1 42 0m-36 0a15 15 0 0 1 30 0"/>';
 export const guideWaves = svg(`<defs><pattern id="waves" width="76" height="36" patternUnits="userSpaceOnUse"><g fill="none" stroke="#BB975B" stroke-width="1.4">${wavePaths}</g></pattern><linearGradient id="t" x1="1" x2="0" y1="1" y2="0"><stop stop-color="white"/><stop offset=".72" stop-color="black"/></linearGradient><mask id="fade"><rect width="100%" height="100%" fill="url(#t)"/></mask></defs><rect width="100%" height="100%" fill="url(#waves)" mask="url(#fade)"/>`, '0 0 150 210');
 
-const decorativeCard = svg(`<defs><linearGradient id="paper" x2="1" y2="1"><stop stop-color="#FFFDF5" stop-opacity=".94"/><stop offset="1" stop-color="#C9A16A" stop-opacity=".10"/></linearGradient></defs><rect width="150" height="210" fill="url(#paper)"/>`, '0 0 150 210');
 const cardColors = ['#6B8197', '#B66648', '#7C815B'];
 const cardFaces = ['#FCF2E4', '#FCF0DF', '#F6F0DD'];
 
@@ -60,7 +59,6 @@ export function GuideCovers({ width, variant }: { width: number; variant: 'knowl
         backgroundColor: cardFaces[index], zIndex: center ? 2 : 1, transform: [{ rotate: ['-13deg', complete ? '0deg' : '4deg', '13deg'][index] }],
       }]}>
         <View style={[styles.paper, complete && styles.bookPaper]}>
-          <Image accessibilityElementsHidden aria-hidden source={decorativeCard} contentFit="fill" style={StyleSheet.absoluteFill} />
           <Image accessibilityElementsHidden aria-hidden source={guideWaves} contentFit="fill" style={[styles.coverOrnament, { opacity: index === 1 ? .38 : .27 }]} />
           <View style={[styles.spine, complete && styles.bookSpine, { backgroundColor: spineColor }]} />
           {complete ? <View aria-hidden style={styles.coverFrame} /> : null}
@@ -68,7 +66,9 @@ export function GuideCovers({ width, variant }: { width: number; variant: 'knowl
           <View style={[styles.coverContent, variant !== 'knowledge' && styles.coverContentCentered, !complete && index === 0 && styles.leftCoverContent, !complete && index === 2 && styles.rightCoverContent]}>
             {cover.caption ? <AppText maxFontSizeMultiplier={1.15} style={[styles.caption, { color: spineColor }]}>{cover.caption}</AppText> : null}
             {cover.icon === 'save' ? <SaveDiamond saved /> : cover.icon ? <ArtIcon name={cover.icon} size={24} /> : null}
-            <AppText maxFontSizeMultiplier={1.15} style={[styles.coverTitle, { fontSize: complete ? width * .066 : width * (center ? .044 : .037) }, complete && styles.verticalTitle]}>
+            <AppText maxFontSizeMultiplier={1.15} style={[styles.coverTitle, {
+              fontSize: complete ? width * .066 : width * (center ? .041 : .032),
+            }, complete && { textAlign: 'center', lineHeight: width * .085 }]}>
               {complete ? [...cover.title].join('\n') : cover.title}
             </AppText>
             {cover.note ? <AppText maxFontSizeMultiplier={1.15} style={styles.coverNote}>{cover.note}</AppText> : null}
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
   coverContentCentered: { alignItems: 'center', justifyContent: 'center', gap: 10 },
   caption: { fontFamily: serif, fontSize: 10, lineHeight: 15, fontWeight: '700' },
   coverTitle: { fontFamily: serif, color: '#1D1913', fontWeight: '700' },
-  verticalTitle: { textAlign: 'center', lineHeight: 32 },
   coverNote: { fontFamily: serif, color: '#655C4E', fontSize: 8, lineHeight: 12 },
   goldRule: { width: 23, height: 1, backgroundColor: '#C4A066' },
   node: { position: 'absolute', zIndex: 1, borderRadius: 999, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFF9ED', paddingHorizontal: 6, shadowColor: '#826437', shadowOffset: { width: 0, height: 4 }, shadowRadius: 8, shadowOpacity: .16 },

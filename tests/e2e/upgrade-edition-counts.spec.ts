@@ -2,6 +2,12 @@ import { expect, test } from '@playwright/test';
 
 test('販売ページは同期した公開数と購入条件を表示する', async ({ page }) => {
   const rows: Record<string, unknown[]> = {
+    content_categories: [
+      { kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 0 },
+      { kind: 'technique', id: 'work', title: '仕事術', display_order: 1 },
+      { kind: 'technique', id: 'life', title: '人生術', display_order: 2 },
+      { kind: 'theory', id: 'psychology', title: '心理学', display_order: 0 },
+    ],
     public_techniques: [
       { id: 'master336-001', category: 'interpersonal', persona_id: '印象がいい人', title: '清潔感を意識する', explanation: '検証用', access_tier: 'free' },
       { id: 'master336-172', category: 'work', persona_id: '仕事ができる人', title: '締切より早く期限を持つ', access_tier: 'complete' },
