@@ -312,7 +312,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await expect(page.getByText('処世術禄　完全版')).toBeVisible();
   await expect(page.getByText('まずは処世術禄を体験', { exact: true })).toBeVisible();
   await expect(page.getByText(/完全版/).first()).toBeVisible();
-  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('30日間利用できます');
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('決済成功から30日間');
   await expect(page.getByText('一回払い・自動更新なし').first()).toBeVisible();
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
@@ -571,7 +571,7 @@ test('購入パネルは狭いスマホでも全操作が収まり、復元は�
     await page.goto('/upgrade');
     const panel = page.getByTestId('upgrade-fixed-purchase');
     await expect(panel.getByTestId('upgrade-price')).toHaveText('¥320');
-    await expect(panel).toContainText('30日間利用できます');
+    await expect(panel).toContainText('決済成功から30日間');
     const panelBox = (await panel.boundingBox())!;
     const buttonBox = (await page.getByTestId('upgrade-purchase-cta').boundingBox())!;
     const priceBox = (await page.getByTestId('upgrade-price').boundingBox())!;

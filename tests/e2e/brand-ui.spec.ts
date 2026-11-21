@@ -69,7 +69,7 @@ test('購入済みでは再購入を表示せずホームを開き、期限切�
 test('利用期間終了の表示は既存の期限判定を使う', async ({ page }) => {
   await account(page, 'expired');
   await page.goto('/upgrade');
-  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('30日間利用できます');
+  await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('決済成功から30日間');
   await expect(page.getByTestId('upgrade-fixed-purchase')).toContainText('¥320');
   await expect(page.getByTestId('upgrade-purchase-cta')).toContainText('もう一度');
   await page.goto('/my-os');
