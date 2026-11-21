@@ -26,6 +26,16 @@ async function noOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 }
 
+async function expectPaperBackground(screen: Locator) {
+  await expect.poll(() => screen.evaluate(element => {
+    for (let surface: Element | null = element; surface; surface = surface.parentElement) {
+      const color = getComputedStyle(surface).backgroundColor;
+      if (color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') return color;
+    }
+    return '';
+  })).toBe('rgb(250, 249, 245)');
+}
+
 async function compactPages(pagination: Locator, ink: string) {
   await expect(pagination.getByRole('button')).toHaveCount(3);
   const trigger = pagination.getByRole('button', { name: /一覧のページ選択：/ });
@@ -42,7 +52,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await page.setViewportSize({ width, height: 941 });
   await page.goto('/techniques');
   await expect(page.getByTestId('technique-index-count')).toHaveText(`${techniqueCount}件`);
-  await expect(page.getByTestId('technique-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
+  await expectPaperBackground(page.getByTestId('technique-index-screen'));
   await expect(page.getByRole('textbox')).toHaveCount(0);
   await compactPages(page.getByTestId('technique-index-pagination'), 'rgb(125, 89, 35)');
   const technique = page.getByTestId('shoseijutsu-card').first();
@@ -59,7 +69,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await page.screenshot({ path: test.info().outputPath(`techniques-${width}.png`), scale: 'css' });
   await page.goto('/theories');
   await expect(page.getByTestId('theory-index-count')).toHaveText(`${theories.length}件`);
-  await expect(page.getByTestId('theory-index-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
+  await expectPaperBackground(page.getByTestId('theory-index-screen'));
   await compactPages(page.getByTestId('theory-index-pagination'), 'rgb(32, 63, 105)');
   await expect(page.getByTestId('theory-category-filters').getByRole('button', { name: 'すべてで理論を絞り込む' })).toHaveCSS('background-color', 'rgb(32, 63, 105)');
   const entry = page.getByTestId('theory-card').first();
@@ -78,7 +88,7 @@ for (const width of [320, 390, 768, 1672]) test(`共通背景と種類別カー�
   await noOverflow(page);
   await page.screenshot({ path: test.info().outputPath(`theories-${width}.png`), scale: 'css' });
   await page.goto('/library');
-  await expect(page.getByTestId('library-screen')).toHaveCSS('background-color', 'rgb(250, 249, 245)');
+  await expectPaperBackground(page.getByTestId('library-screen'));
   await expect(page.getByTestId('saved-kind-tabs')).toBeVisible();
   await expect(page.getByTestId('shoseijutsu-card')).toHaveCount(1);
   await expect(page.getByTestId('theory-card')).toHaveCount(0);

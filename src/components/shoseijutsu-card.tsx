@@ -19,7 +19,7 @@ export function ShoseijutsuCard({ card, readable = true, previewTitle = false, a
   const title = readable || previewTitle ? card.title : '完全版の処世術';
   const displayId = getTechniqueDisplayId(card);
   // Expo Router's asChild slot requires a flat child style, not a callback/array.
-  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, Boolean(actions) && styles.withActions, favoriteLayout && styles.openFavorite]);
+  const areaStyle = StyleSheet.flatten([styles.open, compact && styles.openCompact, favoriteLayout ? styles.openFavorite : Boolean(actions) && styles.withActions]);
   const code = <AppText testID="technique-index-id" style={[styles.code, compact && styles.codeCompact, favoriteLayout && styles.codeFavorite]}>{displayId}</AppText>;
   const metadata = <AppText style={[styles.meta, compact && styles.metaCompact, favoriteLayout && styles.metaFavorite]}>{card.categoryName}・{card.subcategory || '独立した処世術'}</AppText>;
   const content = <Pressable testID={testID} accessibilityRole={role} accessibilityLabel={openLabel ?? `${displayId} ${title}を開く`} onPress={onPress} style={onPress ? ({ pressed }) => [areaStyle, pressed && styles.pressed] : areaStyle}>

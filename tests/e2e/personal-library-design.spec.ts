@@ -107,7 +107,8 @@ test('お気に入りカードは人物像の右に番号を並べ、分類ボ�
   const persona = card.getByText('仕事術・仕事ができる人', { exact: true });
   const number = card.getByTestId('technique-index-id');
   await expect(number).toHaveText('No.176');
-  const [personaBox, numberBox, titleBox] = await Promise.all([persona.boundingBox(), number.boundingBox(), card.getByTestId('technique-index-title').boundingBox()]);
+  const [cardBox, personaBox, numberBox, titleBox] = await Promise.all([card.boundingBox(), persona.boundingBox(), number.boundingBox(), card.getByTestId('technique-index-title').boundingBox()]);
+  expect(personaBox!.y - cardBox!.y).toBeLessThanOrEqual(28);
   expect(numberBox!.x).toBeGreaterThan(personaBox!.x + personaBox!.width);
   expect(Math.abs(numberBox!.y - personaBox!.y)).toBeLessThan(3);
   expect(numberBox!.y + numberBox!.height).toBeLessThanOrEqual(titleBox!.y);

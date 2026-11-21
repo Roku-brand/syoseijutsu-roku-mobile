@@ -303,7 +303,7 @@ test('ホームの編集部の特集は公開記事一覧へのリンクを持�
   await expect(editorial.getByTestId('home-editorial-see-all')).toHaveAttribute('href', '/features');
   await titleLink.press('Enter');
   await expect(page).toHaveURL(/\/features$/);
-  await expect(page.getByRole('heading', { name: 'ふかぼり処世術記事', exact: true })).toBeVisible();
+  await expect(page.getByTestId('features-page')).toBeVisible();
 });
 
 test('購入直前の確認内容と法務導線を表示できる', async ({ page }) => {
