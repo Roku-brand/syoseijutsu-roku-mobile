@@ -10,9 +10,7 @@ export type RelatedContentItem = {
   key: string;
   title: string;
   supportingText?: string;
-  detailText?: string;
   href: Href;
-  accessibilityLabel?: string;
   locked?: boolean;
 };
 
@@ -21,13 +19,11 @@ export function RelatedContentSection({
   description,
   items,
   testID,
-  supportingTextLines = 2,
 }: {
   title: string;
   description?: string;
   items: RelatedContentItem[];
   testID?: string;
-  supportingTextLines?: number;
 }) {
   if (!items.length) return null;
 
@@ -50,7 +46,7 @@ export function RelatedContentSection({
             <Link key={item.key} href={item.href} asChild>
               <Pressable
                 accessibilityRole="link"
-                accessibilityLabel={item.accessibilityLabel ?? `${item.title}を開く`}
+                accessibilityLabel={`${item.title}を開く`}
                 style={styles.row}
               >
                 <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={styles.numberColumn}>
@@ -62,11 +58,10 @@ export function RelatedContentSection({
                   <AppText variant="serif" style={styles.title}>{normalizeDisplayText(item.title)}</AppText>
                   {item.locked ? <AppText style={styles.supporting}>完全版で読む</AppText> : null}
                   {supportingText ? (
-                    <AppText numberOfLines={supportingTextLines} style={[styles.supporting, styles.supportingPreview]}>
+                    <AppText style={[styles.supporting, styles.supportingPreview]}>
                       {supportingText}
                     </AppText>
                   ) : null}
-                  {item.detailText ? <AppText style={styles.supporting}>{normalizeDisplayText(item.detailText)}</AppText> : null}
                 </View>
                 <AppText accessibilityElementsHidden style={styles.chevron}>›</AppText>
               </Pressable>

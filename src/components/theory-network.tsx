@@ -7,6 +7,7 @@ import { detailColors } from '@/constants/detail-theme';
 import { colors, fonts } from '@/constants/theme';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { getRelatedTheories, theoryById } from '@/data/catalog';
+import { getRelatedTheoryDefinition } from '@/data/theory-display';
 import { relationLabel } from '@/data/theory-knowledge';
 import { theoryNetworkPoints } from '@/data/theory-network-layout';
 import type { TheoryCard, TheoryRelation } from '@/data/types';
@@ -37,7 +38,7 @@ export function TheoryNetwork({ theory }: { theory: TheoryCard }) {
   }, [theory.tagId, accessState, catalogRevision]);
   const effectiveAccess = accessState === 'paid' ? 'paid' : accessState === 'free' ? 'free' : 'guest';
   // Recheck during render as well as fetching: an entitlement change must not
-  // leave a protected rationale visible until the next effect runs.
+  // leave a protected relation visible until the next effect runs.
   const explicit = relations.filter(r => canReadTheory(effectiveAccess, r.sourceId) && canReadTheory(effectiveAccess, r.targetId))
     .map(relation => ({ relation, id: relation.sourceId === theory.tagId ? relation.targetId : relation.sourceId }));
   const entries = [...explicit, ...getRelatedTheories(theory).filter(t => !explicit.some(r => r.id === t.tagId)).map(t => ({ id: t.tagId, relation: { sourceId: theory.tagId, targetId: t.tagId, type: 'related', reviewStatus: 'legacy', rationale: '', priority: 1000 } as TheoryRelation }))]
@@ -51,24 +52,24 @@ export function TheoryNetwork({ theory }: { theory: TheoryCard }) {
   const points = visible.map((entry,index) => ({ ...entry,...positions[index] }));
   const picked = entries.find(entry => entry.id === selected);
   const pickedTheory = picked ? theoryById.get(picked.id) : undefined;
+  const pickedDefinition = pickedTheory && canReadTheory(effectiveAccess, pickedTheory.tagId) ? getRelatedTheoryDefinition(pickedTheory) : '';
   const close = () => setOpen(false);
   const selectKnowledge = (id: string) => { setSelected(id); if (compact) graphScrollRef.current?.scrollTo({ y: 0, animated: true }); };
   const selection = picked && pickedTheory ? <View testID="knowledge-graph-selection" style={styles.selection}>
             <AppText style={styles.label}>{relationLabel(picked.relation, theory.tagId)}</AppText><AppText style={styles.rowTitle}>{pickedTheory.title}</AppText>
-            {picked.relation.reviewStatus === 'confirmed' && picked.relation.rationale ? <AppText style={styles.explanation}>{picked.relation.rationale}</AppText> : <AppText style={styles.note}>あわせて読む知識です。関係の種別は未確認です。</AppText>}
+            {pickedDefinition ? <AppText style={styles.explanation}>{pickedDefinition}</AppText> : null}
             <SecondaryButton onPress={() => { close(); router.push({ pathname: '/theory/[id]', params: { id: picked.id } }); }}>{canReadTheory(effectiveAccess, picked.id) ? 'この知識を読む' : '完全版の案内を見る'}</SecondaryButton>
           </View> : null;
   return <View style={styles.section}>
-    <RelatedContentSection title="関連する知識" testID="theory-related-theories" items={entries.map(entry => ({
-      key: entry.id, title: theoryById.get(entry.id)!.title,
-      supportingText: relationLabel(entry.relation, theory.tagId),
-      detailText: entry.relation.reviewStatus === 'confirmed' ? entry.relation.rationale : undefined,
-      accessibilityLabel: [
-        `${relationLabel(entry.relation, theory.tagId)}：${theoryById.get(entry.id)!.title}`,
-        entry.relation.reviewStatus === 'confirmed' ? entry.relation.rationale : '',
-      ].filter(Boolean).join('。'),
-      href: { pathname: '/theory/[id]', params: { id: entry.id } },
-    }))} />
+    <RelatedContentSection title="関連する知識" testID="theory-related-theories" items={entries.map(entry => {
+      const relatedTheory = theoryById.get(entry.id)!;
+      return {
+        key: entry.id,
+        title: relatedTheory.title,
+        supportingText: canReadTheory(effectiveAccess, entry.id) ? getRelatedTheoryDefinition(relatedTheory) : undefined,
+        href: { pathname: '/theory/[id]', params: { id: entry.id } },
+      };
+    })} />
     <SecondaryButton onPress={() => { setSelected(visible[0]?.id ?? null); setOpen(true); }}>知識のつながりを見る</SecondaryButton>
     {offline ? <AppText style={styles.note}>オフラインでは端末にある関連知識を表示します。</AppText> : null}
     <Modal visible={open} transparent animationType="fade" onRequestClose={close}>

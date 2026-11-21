@@ -106,20 +106,13 @@ export default function CardDetailScreen() {
   const supplementaryTheories = relatedTheories.filter((theory) => !primaryTheoryIds.has(theory.tagId));
   const toTheoryItem = (theory: (typeof relatedTheories)[number]) => {
     const readable = canReadTheory(effectiveAccess, theory.tagId);
-    const classification = theory.quotation || theory.categoryId === 'classics-thought'
-      ? '思想・言葉による補完｜'
-      : theory.knowledgeType === 'method' ? '実践手法｜' : '';
-    const supportingText = effectiveAccess === 'paid'
-      ? classification + (theory.quotation?.contextNote ?? theory.summary)
-      : readable ? getRelatedTheoryDefinition(theory) : undefined;
     return {
       key: theory.tagId,
       title: theory.title,
-      supportingText,
+      supportingText: readable ? getRelatedTheoryDefinition(theory) : undefined,
       href: readable ? theoryRoute(theory.tagId) : upgradeRoute('discover_theory'),
     };
   };
-  const theorySupportingTextLines = effectiveAccess === 'paid' ? 2 : 0;
   const explanation = splitExplanation(card.explanation, card.subtitle);
   const essence = card.essence ?? explanation.lead;
   const currentIndex = techniqueCards.findIndex(item => item.id === card.id);
@@ -214,14 +207,12 @@ export default function CardDetailScreen() {
                   description="理解の入口となる代表的な理論"
                   testID="primary-theories"
                   items={primaryTheories.map(toTheoryItem)}
-                  supportingTextLines={theorySupportingTextLines}
                 />
                 <RelatedContentSection
                   title="あわせて読む理論"
                   description="実践を補う知識や、別の視点を与える思想・言葉"
                   testID="supplementary-theories"
                   items={supplementaryTheories.map(toTheoryItem)}
-                  supportingTextLines={theorySupportingTextLines}
                 />
               </View>
             )}

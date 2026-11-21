@@ -76,7 +76,7 @@ export default function DiscoverScreen() {
 
     <View testID="discover-categories">
       <View testID="discover-techniques-section" style={styles.techniqueSection}>
-        <BrandSectionHeading title="処世術を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての処世術を見る" onAction={() => router.push(APP_ROUTES.techniques)} />
+        <BrandSectionHeading title="処世術を探す" compact={compact} href={APP_ROUTES.personas} actionHref={APP_ROUTES.techniques} actionAccessibilityLabel="すべての処世術を見る" />
         <AppText style={styles.sectionDescription}>どのように行動するか</AppText>
         <View testID="discover-technique-grid" style={[styles.grid, styles.techniqueGrid, compact && styles.techniqueGridCompact]}>
           {techniqueCards}
@@ -84,7 +84,7 @@ export default function DiscoverScreen() {
       </View>
 
       <View testID="discover-theories-section" style={styles.theorySection}>
-        <BrandSectionHeading title="理論を探す" compact={compact} actionLabel="すべて見る →" actionAccessibilityLabel="すべての理論を見る" onAction={() => router.push('/theories')} />
+        <BrandSectionHeading title="理論を探す" compact={compact} href="/theories" actionAccessibilityLabel="すべての理論を見る" />
         <AppText style={styles.sectionDescription}>なぜそうなるのか</AppText>
         <View testID="discover-theory-grid" style={[styles.grid, styles.theoryGrid]}>
           {theoryCategories.map(option => <DiscoveryCategoryCard key={option.key} category={option.key} title={option.label} compact={compact} theory style={compact ? styles.theoryCardCompact : styles.gridCard}

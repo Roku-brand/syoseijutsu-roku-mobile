@@ -16,7 +16,7 @@ import { AppText, EmptyState, Screen } from '@/components/ui';
 import { detailColors, detailStyles } from '@/constants/detail-theme';
 import { colors, fonts, radius } from '@/constants/theme';
 import { getTechniquesForTheory, getTheoryDisplayId, theories, theoryById } from '@/data/catalog';
-import { getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
+import { getRelatedDefinition, getTheorySeoCopy, isLockedTheoryShell, normalizeDisplayText } from '@/data/theory-display';
 import { getTheoryProvenance } from '@/data/theory-sources';
 import type { TheoryCard } from '@/data/types';
 import { getTheoryPath } from '@/data/theory-taxonomy';
@@ -122,7 +122,16 @@ export default function TheoryDetailScreen() {
             <RelatedContentSection
               title="関連する処世術"
               testID="theory-related-techniques"
-              items={related.map((card) => ({ key: card.id, title: card.title, locked: !isPaid && !FREE_TECHNIQUE_IDS.has(card.id), supportingText: [card.subcategory, card.essence || card.subtitle].filter(Boolean).join('｜'), href: { pathname: '/card/[id]', params: { id: card.id } } }))}
+              items={related.map((card) => {
+                const locked = !isPaid && !FREE_TECHNIQUE_IDS.has(card.id);
+                return {
+                  key: card.id,
+                  title: card.title,
+                  locked,
+                  supportingText: locked ? undefined : getRelatedDefinition(card.essence || card.subtitle),
+                  href: { pathname: '/card/[id]', params: { id: card.id } },
+                };
+              })}
             />
 
             <TheoryNetwork theory={theory} />
