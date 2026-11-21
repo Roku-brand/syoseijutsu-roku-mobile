@@ -68,12 +68,16 @@ test('paid membership displays remaining access beside its badge', async ({ page
   await expect(page.getByTestId('home-premium-banner')).toHaveCount(0);
 });
 
-test('verified checkout return navigates home and clears the checkout query', async ({ page }) => {
+test('verified checkout opens the complete guide before returning home with a clean URL', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
   const calls = await mockAccount(page, false);
   await page.goto('/?checkout=success&session_id=cs_test_mobile');
-  await expect(page.getByTestId('home-recommendation-deck')).toBeVisible();
+  await expect(page).toHaveURL(/\/installation-guide$/);
+  const guide = page.getByTestId('installation-guide');
+  await expect(guide).toContainText('処世術禄完全版へようこそ');
+  await guide.getByRole('button', { name: 'はじめる' }).click();
+  await expect(page.getByTestId('home-scroll')).toBeVisible();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByTestId('persistent-bottom-navigation')).toBeVisible();
   expect(calls()).toBe(1);
