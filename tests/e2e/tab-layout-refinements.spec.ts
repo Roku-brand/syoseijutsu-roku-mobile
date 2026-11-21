@@ -61,26 +61,25 @@ for (const width of [320, 390, 1440]) {
   });
 }
 
-test('guest account settings open signup and signin and keep the theme fourth', async ({ page }) => {
+test('guest settings show one account link and a preview of the active theme', async ({ page }) => {
   await page.goto('/settings');
-  const links = page.getByRole('button');
   const theme = page.getByRole('button', { name: /^背景テーマ/ });
   await expect(theme).toBeVisible();
   const titles = await theme.evaluate(node => Array.from(node.parentElement!.children).map(child => child.textContent));
-  expect(titles).toHaveLength(4);
-  expect(titles[0]).toContain('アカウントを作成する');
-  expect(titles[1]).toContain('ログインする');
-  expect(titles[2]).toContain('完全版');
-  expect(titles[3]).toContain('背景テーマ');
-  await expect(links.filter({ hasText: '背景テーマ' })).toHaveCount(1);
-  await page.getByRole('button', { name: /^アカウントを作成する/ }).click();
-  await expect(page).toHaveURL(/\/auth\?mode=signup$/);
+  expect(titles).toHaveLength(3);
+  expect(titles[0]).toContain('アカウント作成・ログイン');
+  expect(titles[1]).toContain('完全版');
+  expect(titles[2]).toContain('背景テーマ');
+  const before = await theme.locator('img').getAttribute('src');
+  expect(before).toBeTruthy();
+  await page.getByRole('button', { name: 'アカウント作成・ログイン', exact: false }).click();
+  await expect(page).toHaveURL(/\/auth$/);
+  await page.getByRole('button', { name: /新規登録はこちら/ }).click();
   await expect(page.getByRole('checkbox', { name: '利用規約とプライバシーポリシーを確認して同意する' })).toBeVisible();
-  await page.goBack();
-  await page.getByRole('button', { name: /^ログインする/ }).click();
-  await expect(page).toHaveURL(/\/auth\?mode=signin$/);
-  await expect(page.getByRole('button', { name: /新規登録はこちら/ })).toBeVisible();
   await page.goBack();
   await theme.click();
   await expect(page).toHaveURL(/\/settings\/background$/);
+  await page.getByRole('radio', { name: '春の梅', exact: true }).click();
+  await page.getByTestId('book-header-back').click();
+  await expect(theme.locator('img')).not.toHaveAttribute('src', before!);
 });

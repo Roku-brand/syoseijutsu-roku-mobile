@@ -3,7 +3,7 @@ import { OwnerPublicationStatus } from './owner-publication-status';
 import { TheorySubcategoryFields, TheorySubcategoryManager } from './owner-theory-taxonomy';
 import { theorySubcategories } from '@/data/theory-taxonomy';
 import { fetchTheorySubcategories, reorderSubcategoryTheories } from '@/data/owner-theory-taxonomy';
-import { Redirect, router, useLocalSearchParams, type Href } from 'expo-router';
+import { Redirect, router, useLocalSearchParams, useRootNavigationState, type Href } from 'expo-router';
 import { Image } from 'expo-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Platform, Pressable, ScrollView, TextInput, View } from 'react-native';
@@ -21,8 +21,7 @@ import { contentImageUrl, countImageReferences, pickContentImage, removeContentI
 import { getPersonaPresentation } from '@/data/persona-presentation';
 import { getTheoryDisplayId } from '@/data/catalog';
 import { getTechniqueTags } from '@/data/technique-tags';
-import { personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { APP_ROUTES, personaRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { cmsErrorMessage } from '@/data/cms-errors';
 
 type OwnerTheory = Awaited<ReturnType<typeof fetchOwnerTheories>>[number];
@@ -32,16 +31,45 @@ type CmsMode = 'technique' | 'theory';
 type EditorTab = 'basic' | 'body' | 'memo' | 'publish';
 const statusLabel = (status: string) => status === 'published' ? '公開中' : status === 'draft' ? '下書き' : 'アーカイブ';
 
+const catalogRoute = (kind: CmsMode): Href => ({ pathname: APP_ROUTES.ownerContent, params: { kind } });
+
 export default function OwnerCmsScreen() {
-  const params = useLocalSearchParams<{ kind?: string }>();
+  const { kind } = useLocalSearchParams<{ kind?: string }>();
+  const navigation = useRootNavigationState();
+  const previous = navigation?.routes[(navigation.index ?? 0) - 1];
+  const closeCatalog = () => {
+    if (previous?.name === 'owner/content' && !(previous.params && 'kind' in previous.params)) router.back();
+    else router.replace(APP_ROUTES.ownerContent);
+  };
   const { loading, user, role } = useAuth();
+  if (loading) return <Screen><EmptyState title="権限を確認しています" description="ログイン状態を確認しています。" /></Screen>;
+  if (!user) return <Redirect href="/auth?mode=signin" />;
+  if (role !== 'owner') return <Screen><EmptyState title="オーナー権限が必要です" description="この画面はオーナー専用です。" /></Screen>;
+  if (kind === 'technique' || kind === 'theory') return <OwnerCatalogEditor key={kind} mode={kind} closeCatalog={closeCatalog} />;
+
+  return <Screen contentContainerStyle={styles.screen}>
+    <View style={styles.modeSwitch}>
+      {([
+        ['処世術', catalogRoute('technique')],
+        ['理論', catalogRoute('theory')],
+        ['人気ランキング', '/owner/rankings'],
+        ['特集', APP_ROUTES.ownerFeatures],
+      ] satisfies [string, Href][]).map(([title, href]) =>
+        <Pressable key={title} accessibilityRole="button" onPress={() => router.push(href)} style={styles.modeCard}>
+          <AppText style={styles.modeCardTitle}>{title}</AppText>
+        </Pressable>,
+      )}
+    </View>
+    <OwnerPublicationStatus />
+  </Screen>;
+}
+
+function OwnerCatalogEditor({ mode, closeCatalog }: { mode: CmsMode; closeCatalog: () => void }) {
   const { refreshPublishedContent } = useAccess();
-  const { width, height } = useHydratedWindowDimensions();
-  const [mobileEditing, setMobileEditing] = useState(true);
-  const [mode, setMode] = useState<CmsMode>(params.kind === 'theory' ? 'theory' : 'technique');
+  const [editing, setEditing] = useState(true);
+  const [showTheoryList, setShowTheoryList] = useState(false);
   const [editorTab, setEditorTab] = useState<EditorTab>('basic');
   const [listSort, setListSort] = useState<'display' | 'title' | 'status'>('display');
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({});
   const [treeMenu, setTreeMenu] = useState<string | null>(null);
   const [rowMenu, setRowMenu] = useState<string | null>(null);
   const [creationMenu, setCreationMenu] = useState(false);
@@ -52,14 +80,14 @@ export default function OwnerCmsScreen() {
   const [theories, setTheories] = useState<OwnerTheory[]>([]);
   const [categories, setCategories] = useState<ContentCategory[]>([]);
   const [selection, setSelection] = useState<Selection | null>(null);
-  useEffect(() => { setMobileEditing(true); }, [selection?.id]);
+  useEffect(() => { setEditing(true); }, [selection?.id]);
   const [draft, setDraft] = useState<Item | null>(null);
   const [relatedIds, setRelatedIds] = useState<string[]>([]);
   const [imageAsset, setImageAsset] = useState<ContentImageAsset | null>(null);
   const [dirty, setDirty] = useState(false);
   const [pending, setPending] = useState<Selection | null>(null);
   const [pendingDelete, setPendingDelete] = useState(false);
-  const [pendingLocation, setPendingLocation] = useState<{ kind: ContentKind; scope: string } | null>(null);
+  const [pendingLocation, setPendingLocation] = useState<{ scope: string; allTheories?: boolean } | null>(null);
   const [pendingCreate, setPendingCreate] = useState(false);
   const [pendingPreview, setPendingPreview] = useState<Href | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -68,7 +96,6 @@ export default function OwnerCmsScreen() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const draggedId = useRef<string | null>(null);
-  const draggedPersona = useRef<string | null>(null);
   const draggedCategory = useRef<{ section: 'technique' | 'theory'; id: string } | null>(null);
 
   const reload = useCallback(async () => {
@@ -80,7 +107,7 @@ export default function OwnerCmsScreen() {
     } catch (cause) { setError(cmsErrorMessage(cause)); return false; }
     finally { setFetching(false); }
   }, []);
-  useEffect(() => { if (role === 'owner') void reload(); }, [role, reload]);
+  useEffect(() => { void reload(); }, [reload]);
   useEffect(() => {
     if (Platform.OS !== 'web' || !dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
@@ -94,7 +121,7 @@ export default function OwnerCmsScreen() {
         : categories.find((item) => `${item.kind}:${item.id}` === target.id) ?? null;
   const chooseNow = (target: Selection) => {
     const item = findItem(target);
-    if (target.kind !== 'category') setMode(target.kind === 'theory' ? 'theory' : 'technique');
+    setEditing(true);
     setEditorTab('basic');
     setSelection(target); setDraft(item ? structuredClone(item) : null);
     setRelatedIds(target.kind === 'persona' && item ? (item as OwnerPersona).status === 'draft' ? (item as OwnerPersona).draft_technique_ids ?? [] : techniques.filter((t) => t.persona_id === (item as OwnerPersona).name && t.status !== 'archived').map((t) => t.id)
@@ -102,9 +129,16 @@ export default function OwnerCmsScreen() {
     setImageAsset(null); setDirty(false); setPending(null); setPendingDelete(false); setPendingCreate(false); setDeleting(false); setRowMenu(null); setTreeMenu(null); setError(''); setNotice('');
   };
   const choose = (target: Selection) => { if (busy) return; if (dirty) { setPendingDelete(false); setPending(target); } else chooseNow(target); };
-  const navigateTree = (nextKind: ContentKind, nextScope: string) => {
-    if (dirty) { setPendingLocation({ kind: nextKind, scope: nextScope }); return; }
-    setMode(nextKind === 'theory' ? 'theory' : 'technique'); setScope(nextScope); setQuery(''); setSelection(null); setDraft(null); setRowMenu(null); setTreeMenu(null);
+  const openScope = ({ scope: nextScope, allTheories = false }: { scope: string; allTheories?: boolean }) => {
+    setScope(nextScope); setShowTheoryList(allTheories); setQuery(''); setSelection(null); setDraft(null);
+    setDirty(false); setRowMenu(null); setTreeMenu(null); setCreationMenu(false); setPendingLocation(null);
+    setError(''); setNotice('');
+  };
+  const navigateTree = (nextScope: string, allTheories?: boolean) => {
+    if (busy) return;
+    const location = { scope: nextScope, allTheories };
+    if (dirty) setPendingLocation(location);
+    else openScope(location);
   };
   const patch = (changes: Record<string, unknown>) => { setDraft((item) => item ? { ...item, ...changes } as Item : item); setDirty(true); setNotice(''); };
   const selectImage = (asset: ContentImageAsset | null) => { setImageAsset(asset); if (asset) { setDirty(true); setNotice(''); } };
@@ -117,7 +151,7 @@ export default function OwnerCmsScreen() {
   const words = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
   const techniquePersonaList = mode === 'technique' && (!scope || scope.startsWith('category:') || !personas.some((persona) => persona.name === scope));
   const visibleRows = allRows.filter((row) => words.length
-    ? words.every((word) => [row.id, row.title, row.category, row.subtitle, row.searchBody, row.detail].join(' ').toLocaleLowerCase().includes(word))
+    ? (mode === 'theory' ? row.kind === 'theory' : row.kind !== 'theory') && words.every((word) => [row.id, row.title, row.category, row.subtitle, row.searchBody, row.detail].join(' ').toLocaleLowerCase().includes(word))
     : techniquePersonaList
       ? row.kind === 'persona' && (!scope || (scope.startsWith('category:') ? row.detail === scope.slice(9) : true))
       : row.kind === mode && (!scope || (mode === 'technique' ? row.category === scope : scope.startsWith('sub:') ? theories.find(t=>t.tagId===row.id)?.subcategoryId===scope.slice(4) : row.detail === scope)));
@@ -252,7 +286,7 @@ export default function OwnerCmsScreen() {
   };
 
   const move = async (rowId: string, targetId: string) => {
-    if (rowId === targetId || query || listSort !== 'display' || (mode === 'theory' && !scope)) return;
+    if (busy || rowId === targetId || query || listSort !== 'display' || (mode === 'theory' && !scope)) return;
     let orderKind: ContentKind = mode;
     let orderScope = scope;
     if (techniquePersonaList && !scope.startsWith('category:')) return;
@@ -272,32 +306,21 @@ export default function OwnerCmsScreen() {
     catch (cause) { setError(cmsErrorMessage(cause)); }
     finally { setBusy(false); }
   };
-  const movePersona = async (personaId: string, targetId: string) => {
-    const persona = personas.find((item) => item.id === personaId);
-    const target = personas.find((item) => item.id === targetId);
-    if (!persona || !target || persona.category !== target.category) return;
-    const ids = personas.filter((item) => item.category === persona.category && item.status !== 'archived')
-      .sort((a,b) => (a.display_order ?? Number.MAX_SAFE_INTEGER) - (b.display_order ?? Number.MAX_SAFE_INTEGER)).map((item) => item.id);
-    const from = ids.indexOf(personaId); const to = ids.indexOf(targetId);
-    if (from < 0 || to < 0) return;
-    ids.splice(from,1); ids.splice(ids.indexOf(targetId),0,personaId);
-    setBusy(true);
-    try { await reorderContent('persona',persona.category,ids); await reload(); await refreshPublishedContent(); setNotice('人物像の並び順を保存しました。'); }
-    catch (cause) { setError(cmsErrorMessage(cause)); }
-    finally { setBusy(false); }
-  };
+
   const addCategory = () => {
-    const categoryKind = mode === 'theory' ? 'theory' : 'technique';
+    if (dirty || busy) return;
+    const categoryKind = 'technique';
     const id = `custom-${Date.now()}`;
     const item: ContentCategory = { kind: categoryKind, id, title: '', display_order: categories.filter((category) => category.kind === categoryKind).length + 1, updated_at: '' };
     setDraft(item); setSelection({ kind: 'category', id: `${categoryKind}:${id}` }); setDirty(true); setDeleting(false); setCreationMenu(false); setTreeMenu(null); setEditorTab('basic');
   };
-  const addPersona = (categoryId?: string) => {
-    const category = categoryId ?? categories.find((item) => item.kind === 'technique')?.id;
+  const addPersona = () => {
+    if (dirty || busy) return;
+    const category = categories.find((item) => item.kind === 'technique')?.id;
     if (!category) { setError('先に処世術カテゴリを作成してください。'); return; }
     const id = `persona-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
     const item: OwnerPersona = { id, name: '', subtitle: '', category, image_path: null, access_tier: 'complete', draft_technique_ids: [], display_order: null, updated_at: '', status: 'draft' };
-    setMode('technique'); setScope(`category:${category}`); setDraft(item); setSelection({ kind: 'persona', id }); setRelatedIds([]); setImageAsset(null); setDirty(true); setDeleting(false); setCreationMenu(false); setTreeMenu(null); setEditorTab('basic');
+    setScope(`category:${category}`); setDraft(item); setSelection({ kind: 'persona', id }); setRelatedIds([]); setImageAsset(null); setDirty(true); setDeleting(false); setCreationMenu(false); setTreeMenu(null); setEditorTab('basic');
   };
   const duplicate = async (row: typeof allRows[number]) => {
     if (busy || dirty) { if (dirty) setError('複製する前に、編集中の変更を保存してください。'); return; }
@@ -311,7 +334,7 @@ export default function OwnerCmsScreen() {
         await saveTechniqueDraft(created.id, snapshot, created.updated_at || null);
         await reload();
         const clone = await fetchOwnerTechniques().then((items) => items.find((item) => item.id === created.id));
-        if (clone) { setMode('technique'); setScope(clone.persona_id); setSelection({ kind: 'technique', id: clone.id }); setDraft(clone); setRelatedIds([]); setDirty(false); }
+        if (clone) { setScope(clone.persona_id); setSelection({ kind: 'technique', id: clone.id }); setDraft(clone); setRelatedIds([]); setDirty(false); }
       } else if (row.kind === 'theory') {
         const source = theories.find((item) => item.tagId === row.id);
         const category = categories.find((item) => item.kind === 'theory' && item.id === source?.categoryId);
@@ -321,7 +344,7 @@ export default function OwnerCmsScreen() {
         await saveTheoryDraft(clone);
         await reload();
         const saved = await fetchOwnerTheories().then((items) => items.find((item) => item.tagId === created.tagId));
-        if (saved) { setMode('theory'); setScope(saved.categoryId); setSelection({ kind: 'theory', id: saved.tagId }); setDraft(saved); setRelatedIds([]); setDirty(false); }
+        if (saved) { setScope(saved.subcategoryId ? 'sub:' + saved.subcategoryId : saved.categoryId); setShowTheoryList(!saved.subcategoryId); setSelection({ kind: 'theory', id: saved.tagId }); setDraft(saved); setRelatedIds([]); setDirty(false); }
       } else {
         throw new Error('人物像は一覧メニューから複製できません。');
       }
@@ -390,100 +413,94 @@ export default function OwnerCmsScreen() {
     finally { setBusy(false); }
   };
 
-  if (loading) return <Screen><EmptyState title="権限を確認しています" description="ログイン状態を確認しています。" /></Screen>;
-  if (!user) return <Redirect href="/auth?mode=signin" />;
-  if (role !== 'owner') return <Screen><EmptyState title="オーナー権限が必要です" description="この画面はオーナー専用です。" /></Screen>;
-  const compact = width < 1050;
+  const inEditor = Boolean(selection && editing);
+  const inTheoryCategory = mode === 'theory' && Boolean(scope) && !scope.startsWith('sub:');
+  const inTree = !inEditor && !query && (!scope || (inTheoryCategory && !showTheoryList));
+  const scopedPersona = mode === 'technique' ? personas.find((persona) => persona.name === scope) : undefined;
+  const parentScope = scopedPersona ? `category:${scopedPersona.category}`
+    : scope.startsWith('sub:') ? theorySubcategories.find(item => item.id === scope.slice(4))?.categoryId ?? '' : '';
+  const back = () => {
+    if (inEditor) setEditing(false);
+    else if (query) setQuery('');
+    else if (inTheoryCategory && showTheoryList) navigateTree(scope);
+    else if (scope) navigateTree(parentScope);
+    else if (dirty) setPendingPreview(APP_ROUTES.ownerContent);
+    else closeCatalog();
+  };
   const canAddContent = mode === 'theory'
     ? categories.some((category) => category.kind === 'theory')
-    : !techniquePersonaList && personas.some((persona) => persona.name === scope && persona.status === 'published');
-  return <Screen contentContainerStyle={styles.screen}>
-    <OwnerPublicationStatus />
-    <View style={styles.pageHeader}><AppText style={styles.title}>コンテンツ管理</AppText><AppText style={styles.muted}>カテゴリ、並び順、公開内容を一元管理</AppText></View>
-    <View style={styles.modeSwitch}>
-      <ModeCard title="処世術" description="人物像ごとの具体的な行動・振る舞い" active={mode === 'technique'} onPress={() => navigateTree('technique','')} />
-      <ModeCard title="理論" description="心理学・行動科学・思想などの理論" active={mode === 'theory'} onPress={() => navigateTree('theory','')} />
+    : techniquePersonaList || scopedPersona?.status === 'published';
+  return <Screen scroll={false}><View style={styles.screen}>
+    <View style={styles.navigation}>
+      <CmsButton disabled={busy} onPress={back}>{inEditor ? '‹ 一覧へ戻る' : '‹ 戻る'}</CmsButton>
+      <AppText style={styles.breadcrumb} numberOfLines={1}>{inEditor ? selectedTitle || '新規コンテンツ' : scopeLabel || (mode === 'theory' ? '理論' : '処世術')}</AppText>
+      {selection && !inEditor ? <CmsButton onPress={() => setEditing(true)}>編集に戻る</CmsButton> : null}
     </View>
-    {error && !selection ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
-    <View style={styles.actions}><CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/rankings'); else router.push('/owner/rankings'); }}>人気ランキングを編集</CmsButton>
-    <CmsButton onPress={() => { if (dirty) setPendingPreview('/owner/features'); else router.push('/owner/features'); }}>特集を編集</CmsButton></View>
-    {compact && selection && !mobileEditing ? <CmsButton onPress={() => setMobileEditing(true)}>編集中の項目へ戻る</CmsButton> : null}
-    {notice && !selection ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
+    {error && !inEditor ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
+    {notice && !inEditor ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
     {pending ? <View style={styles.confirm}><AppText>未保存の変更があります。{pendingDelete ? '破棄して削除しますか？' : '破棄して移動しますか？'}</AppText><View style={styles.actions}><CmsButton onPress={() => { setPending(null); setPendingDelete(false); }}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { chooseNow(pending); if (pendingDelete) setDeleting(true); setPendingDelete(false); }}>{pendingDelete ? '破棄して削除' : '破棄して移動'}</CmsButton></View></View> : null}
-    {pendingLocation ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して階層を移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingLocation(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { setDirty(false); setMode(pendingLocation.kind === 'theory' ? 'theory' : 'technique'); setScope(pendingLocation.scope); setSelection(null); setDraft(null); setQuery(''); setPendingLocation(null); }}>破棄して移動</CmsButton></View></View> : null}
+    {pendingLocation ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して階層を移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingLocation(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => openScope(pendingLocation)}>破棄して移動</CmsButton></View></View> : null}
     {pendingCreate ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して新規作成しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingCreate(false)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => void create(true)}>破棄して追加</CmsButton></View></View> : null}
-    {pendingPreview ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄してアプリ画面へ移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingPreview(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { const path = pendingPreview; setPendingPreview(null); setDirty(false); router.push(path); }}>破棄して確認</CmsButton></View></View> : null}
-    <View style={[styles.layout, compact && styles.stacked]}>
-      <PageScroll style={[styles.tree, compact && styles.compactTree, compact && selection && mobileEditing && styles.hidden]} contentContainerStyle={styles.treeBody}>
+    {pendingPreview ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingPreview(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { const path = pendingPreview; setPendingPreview(null); setDirty(false); if (path === APP_ROUTES.ownerContent) closeCatalog(); else router.push(path); }}>破棄して確認</CmsButton></View></View> : null}
+    {!inEditor ? <View style={styles.listControls}>
+      <TextInput accessibilityLabel="タイトル・本文で検索" value={query} onChangeText={setQuery} placeholder="タイトル・本文で検索" style={[styles.search, { flex: 1 }]} />
+      {scopedPersona ? <CmsButton disabled={busy} onPress={() => choose({ kind: 'persona', id: scopedPersona.id })}>人物像を編集</CmsButton> : null}
+    </View> : null}
+    {inTree ? <PageScroll key={scope || mode} style={styles.tree} contentContainerStyle={styles.treeBody} keyboardShouldPersistTaps="handled">
         <View style={styles.paneTitleRow}>
-          <AppText style={styles.paneTitle}>{mode === 'theory' ? 'カテゴリ・理論' : 'カテゴリ・人物像'}</AppText>
-          <View>
-            <CmsButton compact onPress={() => setCreationMenu((value) => !value)}>＋ 追加</CmsButton>
+          <AppText style={styles.paneTitle}>{inTheoryCategory ? '内部分類' : 'カテゴリ'}</AppText>
+          {mode === 'technique' ? <View>
+            <CmsButton compact disabled={dirty || busy} onPress={() => setCreationMenu((value) => !value)}>＋ 追加</CmsButton>
             {creationMenu ? <ActionMenu actions={[
-              ...(mode === 'technique' ? [{ label: 'カテゴリを追加', onPress: addCategory }] : []),
-              ...(mode === 'technique' ? [{ label: '人物像を追加', onPress: () => addPersona(scope.startsWith('category:') ? scope.slice(9) : undefined) }] : []),
+              { label: 'カテゴリを追加', onPress: addCategory },
+              { label: '人物像を追加', onPress: addPersona },
             ]} /> : null}
-          </View>
+          </View> : !inTheoryCategory ? <CmsButton disabled={busy || !canAddContent} onPress={() => void create()}>＋ 理論を追加</CmsButton> : null}
         </View>
-        {mode === 'technique' ? categories.filter((category) => category.kind === 'technique').sort((a,b) => a.display_order-b.display_order).map((category,index) => {
-          const expanded = openCategories[category.id] ?? index === 0;
+        {fetching ? <AppText style={styles.muted}>読み込み中…</AppText> : null}
+        {mode === 'technique' ? categories.filter((category) => category.kind === 'technique').sort((a,b) => a.display_order-b.display_order).map((category) => {
           const categoryScope = `category:${category.id}`;
           const childPersonas = personas.filter((persona) => persona.category === category.id && persona.status !== 'archived').sort((a,b) => (a.display_order ?? Number.MAX_SAFE_INTEGER) - (b.display_order ?? Number.MAX_SAFE_INTEGER));
           const categoryMenuKey = `category:${category.id}`;
           return <View key={category.id}>
-            <TreeRow label={category.title} count={String(childPersonas.length)} active={scope === categoryScope && !query} expanded={expanded} onExpand={() => setOpenCategories((value) => ({ ...value, [category.id]: !expanded }))} onPress={() => navigateTree('technique',categoryScope)} onMenu={() => setTreeMenu(treeMenu === categoryMenuKey ? null : categoryMenuKey)} onDragStart={() => { draggedCategory.current = { section: 'technique', id: category.id }; }} onDrop={() => void dropCategory('technique',category.id)} />
+            <TreeRow label={category.title} count={String(childPersonas.length)} onPress={() => navigateTree(categoryScope)} onMenu={() => setTreeMenu(treeMenu === categoryMenuKey ? null : categoryMenuKey)} onDragStart={() => { draggedCategory.current = { section: 'technique', id: category.id }; }} onDrop={() => void dropCategory('technique',category.id)} />
             {treeMenu === categoryMenuKey ? <ActionMenu actions={[
               { label: '編集', onPress: () => { choose({ kind: 'category', id: `technique:${category.id}` }); setTreeMenu(null); } },
               { label: '上へ並び替え', onPress: () => { void moveCategory('technique',category.id,-1); setTreeMenu(null); } },
               { label: '下へ並び替え', onPress: () => { void moveCategory('technique',category.id,1); setTreeMenu(null); } },
               { label: '削除', danger: true, onPress: () => requestCategoryDelete(category) },
             ]} /> : null}
-            {expanded ? childPersonas.map((persona,index) => {
-              const personaMenuKey = `persona:${persona.id}`;
-              const count = techniques.filter((item) => item.persona_id === persona.name && item.status !== 'archived').length;
-              const onPersonaDrop = () => {
-                const sourceId = draggedPersona.current;
-                draggedPersona.current = null;
-                if (sourceId && sourceId !== persona.id) void movePersona(sourceId,persona.id);
-              };
-              return <View key={persona.id}>
-                <TreeRow nested label={persona.name || '名称未設定'} count={String(count)} active={scope === persona.name && !query} onPress={() => navigateTree('technique',persona.name)} onMenu={() => setTreeMenu(treeMenu === personaMenuKey ? null : personaMenuKey)} onDragStart={() => { draggedPersona.current=persona.id; }} onDrop={onPersonaDrop} />
-                {treeMenu === personaMenuKey ? <ActionMenu actions={[
-                  { label: '編集', onPress: () => { choose({ kind: 'persona', id: persona.id }); setTreeMenu(null); } },
-                  { label: '上へ並び替え', onPress: () => { const previous=childPersonas[index-1]; if (previous) void movePersona(persona.id,previous.id); setTreeMenu(null); } },
-                  { label: '下へ並び替え', onPress: () => { const next=childPersonas[index+1]; if (next) void movePersona(persona.id,next.id); setTreeMenu(null); } },
-                  { label: '削除', danger: true, onPress: () => requestDelete({ kind: 'persona', id: persona.id, title: persona.name, category: category.title, status: persona.status, order: persona.display_order, displayLabel: undefined, updated: persona.updated_at, subtitle: persona.subtitle, searchBody: '', image: persona.image_path, reference: count, detail: persona.category }) },
-                ]} /> : null}
-              </View>;
-            }) : null}
           </View>;
-        }) : categories.filter((category) => category.kind === 'theory').sort((a,b) => a.display_order-b.display_order).map((category,index) => {
+        }) : inTheoryCategory ? <>
+          <TreeRow label="カテゴリ内のすべての理論" count={String(theories.filter(item => item.categoryId === scope).length)} onPress={() => navigateTree(scope, true)} />
+          {theorySubcategories.filter(item => item.categoryId === scope).map(item =>
+            <TreeRow key={item.id} label={item.title} count={String(theories.filter(theory => theory.subcategoryId === item.id && theory.status !== 'archived').length)} onPress={() => navigateTree('sub:' + item.id)} />
+          )}
+          <TheorySubcategoryManager categoryId={scope} onSaved={async () => { await reload(); await refreshPublishedContent(); }} />
+        </> : categories.filter((category) => category.kind === 'theory').sort((a,b) => a.display_order-b.display_order).map((category) => {
           const categoryMenuKey = `category:${category.id}`;
           const count = theories.filter((item) => item.categoryId === category.id && item.status !== 'archived').length;
           return <View key={category.id}>
-            <TreeRow label={category.title} count={String(count)} active={scope === category.id && !query} onPress={() => navigateTree('theory',category.id)} onMenu={() => setTreeMenu(treeMenu === categoryMenuKey ? null : categoryMenuKey)} onDragStart={() => { draggedCategory.current = { section: 'theory', id: category.id }; }} onDrop={() => void dropCategory('theory',category.id)} />
+            <TreeRow label={category.title} count={String(count)} onPress={() => navigateTree(category.id)} onMenu={() => setTreeMenu(treeMenu === categoryMenuKey ? null : categoryMenuKey)} onDragStart={() => { draggedCategory.current = { section: 'theory', id: category.id }; }} onDrop={() => void dropCategory('theory',category.id)} />
             {treeMenu === categoryMenuKey ? <ActionMenu actions={[
               { label: '編集', onPress: () => { choose({ kind: 'category', id: `theory:${category.id}` }); setTreeMenu(null); } },
               { label: '上へ並び替え', onPress: () => { void moveCategory('theory',category.id,-1); setTreeMenu(null); } },
               { label: '下へ並び替え', onPress: () => { void moveCategory('theory',category.id,1); setTreeMenu(null); } },
             ]} /> : null}
-            {theorySubcategories.filter(s=>s.categoryId===category.id).map(s=><TreeRow key={s.id} label={'　'+s.title} count={String(theories.filter(t=>t.subcategoryId===s.id && t.status!=='archived').length)} active={scope==='sub:'+s.id && !query} onPress={()=>navigateTree('theory','sub:'+s.id)} />)}
-            <TheorySubcategoryManager categoryId={category.id} onSaved={async()=>{await reload();await refreshPublishedContent();}} />
           </View>;
         })}
-      </PageScroll>
-      <View style={[styles.list, compact && styles.compactList, compact && selection && mobileEditing && styles.hidden]}>
+      </PageScroll> : null}
+      {!inEditor && !inTree ? <View style={styles.list}>
         <View style={styles.listTop}>
           <View style={styles.listHeading}><AppText style={styles.breadcrumb}>{query ? '検索結果' : mode === 'theory' ? `理論　›　${scopeLabel || 'すべて'}` : techniquePersonaList ? `処世術　›　${scopeLabel || '人物像'}` : scopeLabel}</AppText><AppText style={styles.count}>{fetching ? '読込中…' : `${rows.length}件`}</AppText></View>
           <View style={styles.listControls}>
-            <TextInput accessibilityLabel="タイトル・本文で検索" value={query} onChangeText={setQuery} placeholder="タイトル・本文で検索" style={[styles.search,{ flex: 1 }]} />
             <View style={styles.sortControl}><AppText style={styles.muted}>並び順</AppText><Choice label="" value={listSort} options={[["display","表示順"],["title","タイトル"],["status","公開状態"]]} onChange={(value) => setListSort(value as typeof listSort)} /></View>
-            <CmsButton variant="primary" disabled={busy || !canAddContent} onPress={() => void create()}>{mode === 'theory' ? '＋ 理論を追加' : '＋ 処世術を追加'}</CmsButton>
+            <CmsButton variant="primary" disabled={busy || !canAddContent} onPress={() => void create()}>{mode === 'theory' ? '＋ 理論を追加' : techniquePersonaList ? '＋ 人物像を追加' : '＋ 処世術を追加'}</CmsButton>
           </View>
           <AppText style={styles.muted}>{query ? '検索時は並び替えを保存できません。' : listSort !== 'display' ? '表示順に戻すとドラッグできます。' : '並べ替えはドラッグ後にDBへ保存されます。'}</AppText>
         </View>
-        <FlatList data={rows} keyExtractor={(row) => `${row.kind}:${row.id}`} style={styles.rowScroller} initialNumToRender={20} windowSize={7} keyboardShouldPersistTaps="handled" renderScrollComponent={props => <PageScroll {...props} />}
-          renderItem={({ item: row }) => {
+        <FlatList key={scope} data={rows} keyExtractor={(row) => `${row.kind}:${row.id}`} style={styles.rowScroller} initialNumToRender={20} windowSize={7} keyboardShouldPersistTaps="handled" renderScrollComponent={props => <PageScroll {...props} />}
+          renderItem={({ item: row, index }) => {
             const reorderable = !query && listSort === 'display' && (techniquePersonaList
               ? scope.startsWith('category:') && row.kind === 'persona' && row.status !== 'archived'
               : row.kind === mode && row.status === 'published' && Boolean(scope) && (mode !== 'theory' || scope.startsWith('sub:')));
@@ -494,7 +511,7 @@ export default function OwnerCmsScreen() {
                 <AppText style={[styles.handle, !reorderable && styles.handleDisabled]}>⠿</AppText>
                 <AppText style={styles.number}>{row.displayLabel ?? (row.order == null ? '—' : String(row.order).padStart(2,'0'))}</AppText>
                 {row.image ? <Image source={row.kind === 'persona' ? getPersonaPresentation(row.title)?.image : { uri: contentImageUrl(row.image) ?? '' }} style={styles.thumb} /> : null}
-                <Pressable accessibilityRole="button" accessibilityLabel={row.title} accessibilityState={{ selected: active }} onPress={() => choose({ kind: row.kind, id: row.id })} style={styles.rowCopy}>
+                <Pressable accessibilityRole="button" accessibilityLabel={row.title} accessibilityState={{ selected: active }} onPress={() => row.kind === 'persona' && row.title && !query ? navigateTree(row.title) : choose({ kind: row.kind, id: row.id })} style={styles.rowCopy}>
                   <AppText numberOfLines={1} style={styles.rowTitle}>{row.title}</AppText>
                   {row.subtitle ? <AppText numberOfLines={1} style={styles.rowSummary}>{row.subtitle}</AppText> : null}
                   <AppText numberOfLines={1} style={styles.muted}>{row.kind === 'technique' ? `${categoryTitle('technique',row.detail,categories)}　›　${row.category}` : row.category}{row.kind === 'technique' ? `　·　重要度 ${'★'.repeat(Number(row.reference))}` : `　·　関連 ${row.reference}件`}</AppText>
@@ -504,6 +521,10 @@ export default function OwnerCmsScreen() {
               </View>
               {rowMenu === menuKey ? <ActionMenu actions={[
                 { label: '編集', onPress: () => { choose({ kind: row.kind, id: row.id }); setRowMenu(null); } },
+                ...(reorderable && row.kind === 'persona' ? [
+                  ...(rows[index - 1]?.status !== 'archived' && rows[index - 1] ? [{ label: '上へ並び替え', onPress: () => { setRowMenu(null); void move(row.id, rows[index - 1].id); } }] : []),
+                  ...(rows[index + 1]?.status !== 'archived' && rows[index + 1] ? [{ label: '下へ並び替え', onPress: () => { setRowMenu(null); void move(rows[index + 1].id, row.id); } }] : []),
+                ] : []),
                 ...(row.kind === 'technique' || row.kind === 'theory' ? [{ label: '複製して下書き作成', onPress: () => { setRowMenu(null); void duplicate(row); } }] : []),
                 { label: row.status === 'published' ? '下書きに戻す' : '公開する', onPress: () => { setRowMenu(null); void togglePublication(row); } },
                 { label: '削除', danger: true, onPress: () => requestDelete(row) },
@@ -512,10 +533,9 @@ export default function OwnerCmsScreen() {
           }}
           ListEmptyComponent={!fetching ? <AppText style={styles.muted}>一致するコンテンツはありません。</AppText> : null}
         />
-      </View>
-      <View style={[styles.editor, compact && styles.compactEditor, compact && { height: Math.max(380, height-360) }, compact && (!selection || !mobileEditing) && styles.hidden]}>
-        {compact ? <View style={styles.mobileBack}><CmsButton onPress={() => setMobileEditing(false)}>← 一覧へ戻る</CmsButton></View> : null}
-        <PageScroll style={styles.editorScroller} contentContainerStyle={styles.editorBody} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+      </View> : null}
+      {inEditor ? <View style={styles.editor}>
+        <PageScroll key={selection?.id} style={styles.editorScroller} contentContainerStyle={styles.editorBody} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
         {selection && draft ? <>
           <View style={styles.editorHeader}>
             <View style={styles.editorHeading}><AppText numberOfLines={2} style={styles.editorTitle}>{selectedTitle || '新規コンテンツ'}</AppText>{selection.kind !== 'category' ? <StatusBadge status={(draft as OwnerPersona | TechniqueContent | OwnerTheory).status} /> : null}<Pressable accessibilityRole="button" accessibilityLabel="編集項目の操作" onPress={() => setRowMenu(rowMenu === 'editor' ? null : 'editor')} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable></View>
@@ -528,10 +548,9 @@ export default function OwnerCmsScreen() {
                 { label: '削除', danger: true, onPress: () => requestDelete(selectedRow) },
               ] : []} /> : null}
           </View>
-          <View style={styles.editorTabs}>{([['basic','基本情報'],['body','本文'],['memo','補足メモ'],['publish','公開設定']] as Array<[EditorTab,string]>).map(([tab,label]) => <Pressable key={tab} accessibilityRole="button" accessibilityState={{ selected: editorTab === tab }} onPress={() => setEditorTab(tab)} style={[styles.editorTab,editorTab === tab && styles.editorTabActive]}><AppText style={[styles.editorTabText,editorTab === tab && styles.editorTabTextActive]}>{label}</AppText></Pressable>)}</View>
+          <View style={styles.editorTabs}>{([['basic','基本情報'],['body','本文'],['memo', selection.kind === 'persona' ? '所属する処世術' : '補足メモ'],['publish','公開設定']] as Array<[EditorTab,string]>).filter(([tab]) => selection.kind === 'category' ? tab === 'basic' : selection.kind !== 'persona' || tab !== 'body').map(([tab,label]) => <Pressable key={tab} accessibilityRole="button" accessibilityState={{ selected: editorTab === tab }} onPress={() => setEditorTab(tab)} style={[styles.editorTab,editorTab === tab && styles.editorTabActive]}><AppText style={[styles.editorTabText,editorTab === tab && styles.editorTabTextActive]}>{label}</AppText></Pressable>)}</View>
           {selection.kind === 'category' && editorTab === 'basic' ? <Section title="カテゴリ"><Field label="カテゴリ名" value={(draft as ContentCategory).title} onChange={(title) => patch({ title })} /><AppText style={styles.muted}>カテゴリ名と順序はCMSとアプリの両方に反映されます。</AppText></Section> : null}
-          {selection.kind === 'persona' && editorTab === 'basic' ? <Section title="基本情報"><Field label="人物像名" value={(draft as OwnerPersona).name} onChange={(name) => patch({ name })} /><Choice label="カテゴリ" value={(draft as OwnerPersona).category} options={categories.filter((c) => c.kind === 'technique').sort((a,b) => a.display_order-b.display_order).map((c) => [c.id,c.title])} onChange={(category) => patch({ category })} /><IntegerField label="並び順" value={(draft as OwnerPersona).display_order} onChange={(display_order) => patch({ display_order })} /></Section> : null}
-          {selection.kind === 'persona' && editorTab === 'body' ? <Section title="概要"><Field label="サブタイトル" value={(draft as OwnerPersona).subtitle} onChange={(subtitle) => patch({ subtitle })} multi /></Section> : null}
+          {selection.kind === 'persona' && editorTab === 'basic' ? <Section title="基本情報"><Field label="人物像名" value={(draft as OwnerPersona).name} onChange={(name) => patch({ name })} /><Field label="副題" value={(draft as OwnerPersona).subtitle} onChange={(subtitle) => patch({ subtitle })} /><Choice label="カテゴリ" value={(draft as OwnerPersona).category} options={categories.filter((c) => c.kind === 'technique').sort((a,b) => a.display_order-b.display_order).map((c) => [c.id,c.title])} onChange={(category) => patch({ category })} /><IntegerField label="並び順" value={(draft as OwnerPersona).display_order} onChange={(display_order) => patch({ display_order })} /></Section> : null}
           {selection.kind === 'persona' && editorTab === 'memo' ? <Section title="所属する処世術"><MultiPicker options={techniques.filter((item) => item.status !== 'archived').map((item) => ({ id: item.id, title: item.title || '無題の処世術' }))} ids={relatedIds} onChange={(ids) => { setRelatedIds(ids); setDirty(true); }} /><AppText style={styles.muted}>所属する処世術は、移動先を指定してからこの人物像から外してください。</AppText></Section> : null}
           {selection.kind === 'persona' && editorTab === 'publish' ? <><MediaEditor source={selectedImage} path={imagePath} asset={imageAsset} onPick={selectImage} onRemove={() => { patch({ image_path: null }); setImageAsset(null); }} /><Section title="公開設定"><Choice label="公開範囲" value={(draft as OwnerPersona).access_tier} options={[["free","無料版"],["complete","完全版"]]} onChange={(access_tier) => patch({ access_tier })} /><CmsButton onPress={() => { const path=personaRoute((draft as OwnerPersona).category,(draft as OwnerPersona).name); if (dirty) setPendingPreview(path); else router.push(path); }}>アプリで確認 ↗</CmsButton></Section></> : null}
           {selection.kind === 'technique' && editorTab === 'basic' ? <Section title="基本情報"><Field label="タイトル" value={(draft as TechniqueContent).title} onChange={(title) => patch({ title })} /><Field label="概要" value={(draft as TechniqueContent).essence} onChange={(essence) => patch({ essence })} multi /><Choice label="カテゴリ・人物像" value={(draft as TechniqueContent).persona_id} options={personas.filter((p) => p.status === 'published').sort((a,b) => (a.display_order ?? 0)-(b.display_order ?? 0)).map((p) => [p.name,p.name])} onChange={(persona_id) => { const persona=personas.find((p) => p.name === persona_id); patch({ persona_id, category: persona?.category ?? (draft as TechniqueContent).category }); }} /><ListField label="タグ" items={(draft as TechniqueContent).tags ?? getTechniqueTags({ id: (draft as TechniqueContent).id, title: (draft as TechniqueContent).title, subtitle: (draft as TechniqueContent).essence, explanation: (draft as TechniqueContent).explanation, categoryName: categoryTitle('technique',(draft as TechniqueContent).category,categories), subcategory: (draft as TechniqueContent).persona_id, articleTitle: (draft as TechniqueContent).persona_id })} onChange={(tags) => patch({ tags })} />{(draft as TechniqueContent).tags === null ? <AppText style={styles.muted}>現在のタグは自動生成です。編集するとタグを明示保存します。</AppText> : null}<IntegerField label="並び順" value={(draft as TechniqueContent).display_order ?? (draft as TechniqueContent).draft_display_order} onChange={(display_order) => patch({ display_order })} /></Section> : null}
@@ -544,26 +563,48 @@ export default function OwnerCmsScreen() {
           {selection.kind === 'theory' && editorTab === 'publish' ? <><MediaEditor path={imagePath} asset={imageAsset} onPick={selectImage} onRemove={() => { patch({ imagePath: null }); setImageAsset(null); }} /><Section title="公開設定"><Choice label="公開範囲" value={(draft as OwnerTheory).accessTier ?? 'complete'} options={[["free","無料版"],["complete","完全版"]]} onChange={(accessTier) => patch({ accessTier })} /><AppText style={styles.muted}>URLと関連付けには内部IDを使い、ここで変更する表示IDとは分離しています。</AppText><AppText variant="label">関連する処世術</AppText><MultiPicker options={techniques.filter((item) => item.status !== 'archived').map((item) => ({ id: item.id, title: item.title || '無題の処世術' }))} ids={relatedIds} onChange={(ids) => { setRelatedIds(ids); setDirty(true); }} /><CmsButton onPress={() => { const path=theoryRoute(selection.id); if (dirty) setPendingPreview(path); else router.push(path); }}>アプリで確認 ↗</CmsButton></Section></> : null}
           {selection.kind === 'category' && editorTab !== 'basic' ? <EmptyState title="カテゴリ設定" description="カテゴリ名と順序は基本情報タブで編集できます。" /> : null}
           {selection.kind !== 'category' ? <View style={styles.saveBar}><View style={styles.danger}><AppText style={styles.dangerTitle}>削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>関連・所属 {relatedLabels.length}件。削除はこの項目をアプリの公開一覧から外します。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」をアーカイブしますか？</AppText>{relatedLabels.slice(0,8).map((label,index) => <AppText key={`${index}:${label}`} style={styles.muted}>・{label}</AppText>)}{relatedLabels.length > 8 ? <AppText style={styles.muted}>ほか {relatedLabels.length-8}件</AppText> : null}{hasBlockingLinks ? <AppText style={styles.error}>参照先を移動・解除してから削除できます。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || (selection.kind === 'persona' && relatedLabels.length > 0)} onPress={() => setDeleting(true)}>削除</CmsButton>}</View></View> : <View style={styles.saveBar}>{(draft as ContentCategory).kind !== 'theory' ? <View style={styles.danger}><AppText style={styles.dangerTitle}>カテゴリの削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>所属するコンテンツ {relatedLabels.length}件。削除前に別カテゴリへ移動してください。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」を削除しますか？</AppText>{hasBlockingLinks ? <AppText style={styles.error}>子項目が残っているため削除できません。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => setDeleting(true)}>削除</CmsButton>}</View>: <AppText style={styles.muted}>既存の6大分類を維持します。</AppText>}</View>}
-        </> : <EmptyState title="コンテンツを選択" description="左の階層を選び、中央の一覧から編集する項目を選択してください。" />}
+        </> : <EmptyState title="コンテンツを選択" description="一覧から編集する項目を選択してください。" />}
         </PageScroll>
         {selection && draft ? <View testID="owner-editor-actions" style={styles.editorFooter}>
           {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
           {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
           <View style={styles.saveActions}>{selection.kind !== 'category' ? <CmsButton disabled={busy} onPress={() => void save(false)}>下書き保存</CmsButton> : null}<CmsButton variant="primary" disabled={busy} onPress={() => void save(true)}>{busy ? '保存中…' : selection.kind === 'category' ? '保存' : '公開する'}</CmsButton></View>
         </View> : null}
-      </View>
+      </View> : null}
     </View>
   </Screen>;
 }
 
 function categoryTitle(kind: ContentCategory['kind'], id: string, categories: ContentCategory[]) { return categories.find((c) => c.kind === kind && c.id === id)?.title ?? id; }
-function ModeCard({ title, description, active, onPress }: { title: string; description: string; active: boolean; onPress: () => void }) { return <Pressable accessibilityRole="button" accessibilityState={{ selected: active }} onPress={onPress} style={[styles.modeCard,active && styles.modeCardActive]}><AppText style={[styles.modeCardTitle,active && styles.modeCardTitleActive]}>{title}</AppText><AppText style={[styles.modeCardDescription,active && styles.modeCardDescriptionActive]}>{description}</AppText></Pressable>; }
 function CmsButton({ children, onPress, disabled, variant = 'secondary', compact }: { children: React.ReactNode; onPress: () => void; disabled?: boolean; variant?: 'primary' | 'secondary' | 'danger'; compact?: boolean }) { return <Pressable accessibilityRole="button" disabled={disabled} onPress={onPress} style={[styles.button,compact && styles.buttonCompact,variant === 'primary' && styles.buttonPrimary,variant === 'danger' && styles.buttonDanger,disabled && styles.buttonDisabled]}><AppText style={[styles.buttonText,variant === 'primary' && styles.buttonTextPrimary,variant === 'danger' && styles.buttonTextDanger]}>{children}</AppText></Pressable>; }
 function StatusBadge({ status }: { status: string }) { return <AppText style={[styles.badge,status === 'draft' && styles.badgeDraft,status === 'archived' && styles.badgeArchived]}>{statusLabel(status)}</AppText>; }
 type MenuAction = { label: string; onPress: () => void; danger?: boolean };
 function ActionMenu({ actions }: { actions: MenuAction[] }) { return <View style={styles.menu}>{actions.map((action) => <Pressable key={action.label} accessibilityRole="button" onPress={action.onPress} style={[styles.menuItem,action.danger && styles.menuItemDanger]}><AppText style={action.danger ? styles.menuTextDanger : styles.menuText}>{action.label}</AppText></Pressable>)}</View>; }
 function Section({ title, children }: { title: string; children: React.ReactNode }) { return <View style={styles.section}><AppText style={styles.sectionTitle}>{title}</AppText>{children}</View>; }
-function TreeRow({ label, count, active, expanded, nested, onPress, onMenu, onExpand, onDragStart, onDrop }: { label: string; count: string; active: boolean; expanded?: boolean; nested?: boolean; onPress: () => void; onMenu?: () => void; onExpand?: () => void; onDragStart?: () => void; onDrop?: () => void }) { return <View style={[styles.treeRow,active && styles.treeActive,nested && { paddingLeft: 23 }]} {...(Platform.OS === 'web' && onDragStart ? { draggable: true, onDragStart, onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(), onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); onDrop?.(); } } as any : {})}>{onExpand ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}を${expanded ? '閉じる' : '開く'}`} onPress={onExpand} style={styles.treeDisclosure}><AppText style={styles.treeDisclosure}>{expanded ? '⌄' : '›'}</AppText></Pressable> : <AppText style={styles.handle}>⠿</AppText>}<Pressable accessibilityRole="button" onPress={onPress} style={{ flex: 1, minWidth: 0 }}><AppText numberOfLines={1} style={styles.treeText}>{label}</AppText></Pressable><AppText style={styles.treeCount}>{count}</AppText>{onMenu ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}の操作`} onPress={onMenu} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable> : null}</View>; }
+function TreeRow({ label, count, onPress, onMenu, onDragStart, onDrop }: {
+  label: string;
+  count: string;
+  onPress: () => void;
+  onMenu?: () => void;
+  onDragStart?: () => void;
+  onDrop?: () => void;
+}) {
+  const drag = Platform.OS === 'web' && onDragStart ? {
+    draggable: true,
+    onDragStart,
+    onDragOver: (event: { preventDefault: () => void }) => event.preventDefault(),
+    onDrop: (event: { preventDefault: () => void }) => { event.preventDefault(); onDrop?.(); },
+  } : {};
+  return <View style={styles.treeRow} {...drag}>
+    {onDragStart ? <AppText style={styles.handle}>⠿</AppText> : null}
+    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={styles.treeLink}>
+      <AppText numberOfLines={1} style={styles.treeText}>{label}</AppText>
+      <AppText style={styles.treeCount}>{count}</AppText>
+      <AppText aria-hidden style={styles.treeChevron}>›</AppText>
+    </Pressable>
+    {onMenu ? <Pressable accessibilityRole="button" accessibilityLabel={`${label}の操作`} onPress={onMenu} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable> : null}
+  </View>;
+}
 function Field({ label, value, onChange, multi, editable = true }: { label: string; value: string; onChange: (value: string) => void; multi?: boolean; editable?: boolean }) { return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} value={value} onChangeText={onChange} multiline={multi} editable={editable} style={[styles.input, multi && styles.multi]} /></View>; }
 function IntegerField({ label, value, onChange }: { label: string; value: number | null | undefined; onChange: (value: number) => void }) { const [text,setText] = useState(value == null ? '' : String(value)); useEffect(() => { setText(value == null ? '' : String(value)); }, [value]); return <View style={styles.field}><AppText variant="label">{label}</AppText><TextInput accessibilityLabel={label} keyboardType="number-pad" value={text} onChangeText={setText} onBlur={() => { const parsed=Number.parseInt(text,10); const next=Number.isFinite(parsed) && parsed > 0 ? parsed : Math.max(1,value ?? 1); setText(String(next)); onChange(next); }} style={[styles.input,{ maxWidth: 130 }]} /><AppText style={styles.muted}>{label === '表示ID' ? '選択中カテゴリ内の表示番号です。移動時は同じカテゴリ内で自動採番します。' : '同じ人物像内の表示順です。保存時に周囲を自動調整します。'}</AppText></View>; }
 function Choice({ label, value, options, onChange }: { label: string; value: string; options: string[][]; onChange: (value: string) => void }) { return <View style={styles.field}>{label ? <AppText variant="label">{label}</AppText> : null}<View style={styles.actions}>{options.map(([id,title]) => <Pressable key={id} accessibilityRole="button" accessibilityState={{ selected: value === id }} onPress={() => onChange(id)} style={[styles.choice,value === id && styles.choiceActive]}><AppText style={styles.buttonText}>{title}</AppText></Pressable>)}</View></View>; }

@@ -5,10 +5,13 @@ import { colors } from '@/constants/theme';
 import { useReducedMotion } from '@/hooks/use-reduced-motion';
 import { useWebPageElasticity } from '@/hooks/use-web-page-elasticity';
 import { useWebScrollIndicator } from '@/hooks/use-web-scroll-indicator';
+import { useNativeScrollIndicator } from '@/hooks/use-native-scroll-indicator';
+import { useTabPageScroll } from '@/hooks/use-tab-page-scroll';
 
-export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, showsVerticalScrollIndicator = true, ...props }: ScrollViewProps & {
+export function PageScroll({ ref, children, contentContainerStyle, style, onPullRefresh, showsVerticalScrollIndicator = true, rememberOnTabSwitch = false, onScroll, onScrollBeginDrag, onLayout, onContentSizeChange, ...props }: ScrollViewProps & {
   ref?: Ref<ScrollView>;
   onPullRefresh?: () => Promise<void>;
+  rememberOnTabSwitch?: boolean;
 }) {
   const scroll = useRef<ScrollView>(null);
   const indicator = useRef<View>(null);
@@ -36,18 +39,30 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
     }
   }, []);
   useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
-  const showWebIndicator = Platform.OS === 'web' && showsVerticalScrollIndicator && !props.horizontal;
-  useWebScrollIndicator(scroll, thumb, showWebIndicator);
-  const { backgroundColor, ...containerStyle } = showWebIndicator ? StyleSheet.flatten(style) ?? {} : {};
+  const showIndicator = showsVerticalScrollIndicator && !props.horizontal;
+  const web = Platform.OS === 'web';
+  const nativeIndicator = useNativeScrollIndicator(scroll, showIndicator && !web);
+  const routeScroll = useTabPageScroll(scroll, rememberOnTabSwitch);
+  useWebScrollIndicator(scroll, thumb, showIndicator && web);
+  const { backgroundColor, ...containerStyle } = showIndicator ? StyleSheet.flatten(style) ?? {} : {};
   const viewport = (
     <ScrollView
       bounces={!reduced || Boolean(onPullRefresh)}
       alwaysBounceVertical={!reduced || Boolean(onPullRefresh)}
       overScrollMode={reduced ? 'never' : 'always'}
-      showsVerticalScrollIndicator={Platform.OS !== 'web' && showsVerticalScrollIndicator}
+      showsVerticalScrollIndicator={false}
       {...props}
       ref={scroll}
-      style={[styles.webScroll, showWebIndicator ? { backgroundColor } : style]}
+      scrollEventThrottle={props.scrollEventThrottle ?? 16}
+      onScroll={event => {
+        routeScroll.onScroll(event.nativeEvent.contentOffset.y);
+        nativeIndicator.onScroll(event.nativeEvent);
+        onScroll?.(event);
+      }}
+      onScrollBeginDrag={event => { routeScroll.cancelRestore(); onScrollBeginDrag?.(event); }}
+      onLayout={event => { routeScroll.onLayout(event.nativeEvent.layout.height); onLayout?.(event); }}
+      onContentSizeChange={(width, height) => { routeScroll.onContentSizeChange(height); onContentSizeChange?.(width, height); }}
+      style={[styles.webScroll, showIndicator ? { backgroundColor } : style]}
       contentContainerStyle={contentContainerStyle}
       refreshControl={onPullRefresh && Platform.OS !== 'web'
         ? <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.goldDeep} colors={[colors.goldDeep]} />
@@ -61,14 +76,20 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
       {children}
     </ScrollView>
   );
-  if (!showWebIndicator) return viewport;
+  if (!showIndicator) return viewport;
   return (
     <View style={[styles.viewport, containerStyle]}>
       {viewport}
-      <View ref={thumb} aria-hidden testID="vertical-scroll-indicator"
+      {web ? <View ref={thumb} aria-hidden testID="vertical-scroll-indicator"
         style={[styles.thumbTarget, !reduced && styles.thumbFade]}>
         <View pointerEvents="none" style={[styles.thumb, !reduced && styles.thumbExpand]} />
-      </View>
+      </View> : nativeIndicator.thumb ? (
+        <View accessibilityElementsHidden importantForAccessibility="no-hide-descendants"
+          style={[styles.nativeThumbTarget, { top: nativeIndicator.thumb.top, height: nativeIndicator.thumb.height }]}
+          {...nativeIndicator.handlers}>
+          <View pointerEvents="none" style={[styles.thumb, nativeIndicator.held && styles.heldThumb]} />
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -77,6 +98,8 @@ const styles = StyleSheet.create({
   webScroll: Platform.OS === 'web' ? { overscrollBehaviorY: 'none', overflowAnchor: 'none' } as ViewStyle : {},
   viewport: { flexGrow: 1, flexShrink: 1, minHeight: 0 },
   thumbTarget: { position: 'absolute', top: 0, right: 0, width: 26, opacity: 0, zIndex: 1, touchAction: 'none', cursor: 'grab', userSelect: 'none', WebkitTouchCallout: 'none' } as unknown as ViewStyle,
+  nativeThumbTarget: { position: 'absolute', right: 0, width: 26, zIndex: 1 },
+  heldThumb: { width: 7, backgroundColor: colors.goldDeep },
   thumb: { position: 'absolute', top: 0, bottom: 0, right: 3, width: 3, borderRadius: 4, backgroundColor: 'rgba(45, 45, 45, 0.44)' },
   thumbExpand: { transitionProperty: 'width', transitionDuration: '140ms', transitionTimingFunction: 'ease-out' } as ViewStyle,
   thumbFade: Platform.OS === 'web' ? { transitionProperty: 'opacity', transitionDuration: '180ms' } as ViewStyle : {},

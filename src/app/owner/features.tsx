@@ -1,4 +1,4 @@
-import { Redirect, useRouter } from 'expo-router';
+import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Keyboard, Modal, Platform, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
@@ -9,7 +9,7 @@ import { fonts } from '@/constants/theme';
 import { archiveFeature, deleteFeature, blankFeature, featureCharacterCount, featurePayload, fetchFeatureEditor, publishFeature, saveFeatureDraft, type FeatureArticle, type FeatureDraft, type FeaturePayload } from '@/data/features';
 import { techniqueById, theoryById } from '@/data/catalog';
 import { pickContentImage, uploadContentImage, type ContentImageAsset } from '@/lib/content-media';
-import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
+import { APP_ROUTES } from '@/navigation/app-routes';
 import { FEATURE_CATEGORIES, featureCategoryLabel } from '@/data/feature-categories';
 import { FEATURE_SERIES, GENERATIONAL_CONCERNS, LIFE_STAGES, lifeStageLabel, type FeatureSeriesId } from '@/data/feature-series';
 import { FeatureThumbnail } from '@/components/feature-thumbnail';
@@ -28,7 +28,6 @@ import { fetchEditorialCharacterEditor, type EditorialCharacter } from '@/data/e
 const causeMessage = cmsErrorMessage;
 function FeatureEditor() {
   const router = useRouter();
-  const { width } = useHydratedWindowDimensions();
   const [characters, setCharacters] = useState<EditorialCharacter[]>([]);
   const [charactersError, setCharactersError] = useState('');
   const [articles, setArticles] = useState<FeatureArticle[]>([]);
@@ -43,7 +42,7 @@ function FeatureEditor() {
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState(false);
   const [section, setSection] = useState<'article' | 'media' | 'links'>('article');
-  const [showList, setShowList] = useState(false);
+  const [showList, setShowList] = useState(true);
   const [query, setQuery] = useState('');
   const actionLock = useRef(false);
   const [confirm, setConfirm] = useState<'publish' | 'archive' | 'delete' | null>(null);
@@ -61,12 +60,21 @@ function FeatureEditor() {
   };
   const reload = useCallback(async (preferredId?: string | null) => {
     setLoading(true);
-    try { const data = await fetchFeatureEditor(); setArticles(data.articles); setDrafts(data.drafts); choose(preferredId === undefined ? data.articles[0]?.id ?? null : preferredId, data.articles, data.drafts); }
+    try { const data = await fetchFeatureEditor(); setArticles(data.articles); setDrafts(data.drafts); if (preferredId !== undefined) choose(preferredId, data.articles, data.drafts); }
     catch (cause) { setError(causeMessage(cause)); }
     finally { setLoading(false); }
     // Reload selects a fresh server snapshot, not an in-progress form.
   }, []);
-  useEffect(() => { void reload(); void fetchEditorialCharacterEditor().then(setCharacters).catch(() => setCharactersError('案内人を読み込めませんでした。設定は保持されます。画面を再読み込みしてください。')); }, [reload]);
+  useEffect(() => { void reload(); }, [reload]);
+  useFocusEffect(useCallback(() => {
+    let active = true;
+    void fetchEditorialCharacterEditor().then(rows => {
+      if (active) { setCharacters(rows); setCharactersError(''); }
+    }).catch(() => {
+      if (active) setCharactersError('案内人を読み込めませんでした。設定は保持されます。');
+    });
+    return () => { active = false; };
+  }, []));
   useEffect(() => {
     if (Platform.OS !== 'web' || !dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
@@ -95,7 +103,7 @@ function FeatureEditor() {
     setBusy(true); setError(''); setNotice(''); setConfirm(null);
     try {
       if (action === 'archive') { if (!selected) return; await archiveFeature(selected); await reload(selected.id); setNotice('記事を非公開にしました。本文と下書きは保持されています。'); }
-      else if (action === 'delete') { if (!selected) return; await deleteFeature(selected, revision); await reload(null); setNotice('特集を削除しました。'); }
+      else if (action === 'delete') { if (!selected) return; await deleteFeature(selected, revision); await reload(null); setShowList(true); setNotice('特集を削除しました。'); }
       else { const saved = await save(); if (action === 'publish') { await publishFeature(saved.id, saved.revision); await reload(saved.id); setNotice('特集を公開しました。'); } else { const data = await fetchFeatureEditor(); setArticles(data.articles); setDrafts(data.drafts); setNotice('下書きを保存しました。公開中の内容は変わりません。'); } }
     } catch (cause) { setError(causeMessage(cause)); }
     finally { setBusy(false); actionLock.current = false; }
@@ -115,12 +123,20 @@ function FeatureEditor() {
   };
   const previewArticle: FeatureArticle = { ...payload, id: id ?? 'preview', status: 'draft', updated_at: '', image_path: asset?.uri ?? payload.image_path };
   return <Screen testID="feature-editor" scroll={false}><View style={styles.page}>
-    <View style={styles.top}><View style={styles.topCopy}><AppText style={styles.pageTitle}>特集管理</AppText>{width >= 700 ? <AppText style={styles.muted}>下書きを編集し、確認してから公開します。</AppText> : null}</View><Button disabled={busy || dirty} onPress={() => router.push('/features')}>公開画面を見る</Button></View>
+    <View style={styles.top}>
+      <Button disabled={busy || (showList && dirty)} onPress={() => showList ? router.dismissTo(APP_ROUTES.ownerContent) : setShowList(true)}>{showList ? '‹ 戻る' : '‹ 記事一覧に戻る'}</Button>
+      <Button disabled={busy || dirty} onPress={() => router.push(APP_ROUTES.features)}>公開画面を見る</Button>
+    </View>
     {pending !== undefined ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して記事を切り替えますか？</AppText><View style={styles.actions}><Button onPress={() => setPending(undefined)}>編集を続ける</Button><Button onPress={() => choose(pending)}>破棄して切り替える</Button></View></View> : null}
-    {loading ? <AppText>特集を読み込んでいます。</AppText> : <View style={[styles.workspace, width < 1000 && styles.workspaceCompact]}>
-      {width >= 1000 || showList ? <View style={[styles.articleList, width < 1000 && styles.articleListCompact]}>
-        {width < 1000 ? <Button onPress={() => setShowList(false)}>編集に戻る</Button> : null}
-        <Button primary disabled={busy} onPress={() => navigate(null)}>＋ 記事を作成</Button>
+    {loading ? <AppText>特集を読み込んでいます。</AppText> : showList ? <View style={styles.articleList}>
+        <AppText style={styles.pageTitle}>記事一覧</AppText>
+        <View style={styles.actions}>
+          <Button primary disabled={busy} onPress={() => navigate(null)}>＋ 記事を作成</Button>
+          <Button disabled={busy || dirty} onPress={() => router.push(APP_ROUTES.ownerEditorialCharacters)}>編集案内人の管理</Button>
+          {dirty ? <Button onPress={() => setShowList(false)}>編集に戻る</Button> : null}
+        </View>
+        {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
+        {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
         <TextInput accessibilityLabel="特集記事を検索" placeholder="タイトルで検索" value={query} onChangeText={setQuery} style={styles.input} />
         <PageScroll contentContainerStyle={styles.listContent} keyboardShouldPersistTaps="handled">
         {articles.filter(article => (drafts.find(d => d.article_id === article.id)?.payload.title || article.title).includes(query.trim())).map(article => {
@@ -133,9 +149,8 @@ function FeatureEditor() {
             </View></Pressable>;
         })}
         </PageScroll>
-      </View> : null}
-      <View style={[styles.editor, width < 1000 && showList && styles.hidden]}>
-        <View style={styles.editorHeader}><AppText numberOfLines={1} style={styles.editorTitle}>{payload.title || '新しい特集記事'}</AppText><View style={styles.actions}>{width < 1000 ? <Button disabled={busy} onPress={() => setShowList(true)}>記事一覧</Button> : null}<AppText style={dirty ? styles.unsaved : styles.muted}>{dirty ? '未保存の変更あり' : revision ? '下書き保存済み' : selected?.status === 'published' ? '公開中' : '下書き'}</AppText></View></View>
+      </View> : <View style={styles.editor}>
+        <View style={styles.editorHeader}><AppText numberOfLines={1} style={styles.editorTitle}>{payload.title || '新しい特集記事'}</AppText><View style={styles.actions}><AppText style={dirty ? styles.unsaved : styles.muted}>{dirty ? '未保存の変更あり' : revision ? '下書き保存済み' : selected?.status === 'published' ? '公開中' : '下書き'}</AppText></View></View>
         <View style={styles.tabs}><Button disabled={busy} onPress={() => { setPreview(false); setSection('article'); }} primary={!preview && section === 'article'}>編集</Button><Button disabled={busy} onPress={() => { setPreview(false); setSection('media'); }} primary={!preview && section === 'media'}>画像・掲載</Button><Button disabled={busy} onPress={() => { setPreview(false); setSection('links'); }} primary={!preview && section === 'links'}>関連・出典</Button><Button disabled={busy} onPress={() => setPreview(true)} primary={preview}>プレビュー</Button></View>
         <PageScroll style={styles.form} contentContainerStyle={styles.formContent} keyboardShouldPersistTaps="handled">
         {preview ? <FeatureArticleContent article={previewArticle} characters={characters} others={articles.filter(item => item.id !== id && item.status === 'published')} preview /> : <>
@@ -181,8 +196,7 @@ function FeatureEditor() {
           {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
           <View style={styles.actions}><Button disabled={busy || !payload.title.trim()} onPress={() => void perform('save')}>{busy ? '処理中…' : '下書きを保存'}</Button><Button primary disabled={busy} onPress={requestPublish}>公開する</Button>{selected?.status === 'published' ? <Button disabled={busy || dirty} onPress={() => { Keyboard.dismiss(); setConfirm('archive'); }}>非公開にする</Button> : null}{selected ? <Button disabled={busy || dirty} onPress={() => { Keyboard.dismiss(); setConfirm('delete'); }}>削除する</Button> : null}</View>
         </View>
-      </View>
-    </View>}
+      </View>}
     <Modal visible={Boolean(confirm)} transparent animationType="fade" onRequestClose={() => setConfirm(null)}>
       <View style={styles.backdrop}><View testID="feature-action-confirm" accessibilityViewIsModal style={styles.dialog}>
         <AppText accessibilityRole="header" style={styles.dialogTitle}>{confirm === 'publish' ? '特集を公開' : confirm === 'archive' ? '特集を非公開' : '特集を削除'}</AppText>
@@ -214,15 +228,14 @@ function RelatedPicker({ label, ids, choices, disabled, onChange }: { label: str
 const styles = StyleSheet.create({
   page: { flex: 1, width: '100%', maxWidth: 1480, alignSelf: 'center', padding: 12, gap: 10, backgroundColor: '#F6F7F8' },
   top: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  topCopy: { flex: 1, minWidth: 0 }, pageTitle: { fontSize: 23, lineHeight: 30, fontWeight: '700', color: '#202327' },
+  pageTitle: { fontSize: 23, lineHeight: 30, fontWeight: '700', color: '#202327' },
   muted: { color: '#6C737A', fontSize: 12, lineHeight: 18 },
-  workspace: { flex: 1, minHeight: 0, flexDirection: 'row', gap: 12, alignItems: 'stretch' }, workspaceCompact: { flexDirection: 'column' },
-  articleList: { width: 288, gap: 8, padding: 10, borderWidth: 1, borderColor: '#D9DEE2', borderRadius: 8, backgroundColor: '#FFFFFF' },
-  articleListCompact: { width: '100%', flex: 1 }, listContent: { gap: 6, paddingBottom: 8 },
+  articleList: { flex: 1, minHeight: 0, gap: 8, padding: 10, borderWidth: 1, borderColor: '#D9DEE2', borderRadius: 8, backgroundColor: '#FFFFFF' },
+  listContent: { gap: 6, paddingBottom: 8 },
   listItem: { padding: 8, borderWidth: 1, borderColor: '#E5E8EA', backgroundColor: '#FFFFFF', borderRadius: 6, gap: 8, flexDirection: 'row', alignItems: 'center' },
   listSelected: { borderColor: '#626A70', backgroundColor: '#F0F2F3' }, listThumbnail: { width: 76, borderRadius: 4, overflow: 'hidden' },
   listCopy: { flex: 1, minWidth: 0, gap: 3 }, listTitle: { fontSize: 13, lineHeight: 19, fontWeight: '700' },
-  editor: { flex: 1, minWidth: 0, minHeight: 0, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#D9DEE2', borderRadius: 8, overflow: 'hidden' }, hidden: { display: 'none' },
+  editor: { flex: 1, minWidth: 0, minHeight: 0, backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#D9DEE2', borderRadius: 8, overflow: 'hidden' },
   editorHeader: { padding: 12, gap: 4 }, editorTitle: { fontSize: 17, lineHeight: 24, fontWeight: '700' },
   tabs: { flexDirection: 'row', flexWrap: 'wrap', gap: 5, paddingHorizontal: 10, paddingBottom: 10, borderBottomWidth: 1, borderColor: '#D9DEE2' },
   form: { flex: 1, minHeight: 0 }, formContent: { padding: 14, gap: 16 },

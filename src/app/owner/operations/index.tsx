@@ -1,5 +1,5 @@
-import { OwnerOperationsScreen } from '@/components/owner-operations';
+import { Redirect } from 'expo-router';
 
-export default function OperationsDashboardRoute() {
-  return <OwnerOperationsScreen section="dashboard" />;
+export default function FormerOperationsDashboardRoute() {
+  return <Redirect href="/settings" />;
 }

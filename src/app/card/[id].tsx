@@ -143,6 +143,7 @@ export default function CardDetailScreen() {
         </DetailSwipe>
       </ScrollView>
       <PageScroll
+        rememberOnTabSwitch
         ref={scrollRef}
         style={styles.scrollingBody}
         contentContainerStyle={[styles.readingInset, styles.bodyContent]}

@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router';
 import { useRef } from 'react';
 import { FeatureVisual } from './feature-visual';
-import { Linking, Pressable, StyleSheet, View } from 'react-native';
+import { Linking, Platform, Pressable, StyleSheet, View, type TextStyle } from 'react-native';
 import { EditorialByline } from '@/components/editorial-guide';
 import { useEditorialCharacters, type EditorialCharacter } from '@/data/editorial-characters';
+import { guidelineTitle, mobileFeatureHeading } from '@/data/feature-heading';
 import { featureCategoryLabel } from '@/data/feature-categories';
 import { GENERATIONAL_CONCERNS, lifeStageLabel } from '@/data/feature-series';
 import { AppText } from '@/components/ui';
@@ -40,12 +41,25 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   const relatedFeatures = article.related_feature_ids.map(id => others.find(item => item.id === id && item.id !== article.id && item.status === 'published')).filter((item): item is FeatureArticle => Boolean(item));
   const { width } = useHydratedWindowDimensions();
   const compact = width < 700;
+  const mobile = width < 480;
+  const title = mobile ? mobileFeatureHeading(article.title) : article.title;
+  const lead = mobile ? mobileFeatureHeading(article.lead) : article.lead;
+  const compactGuidelineTitle = mobile && title.startsWith(guidelineTitle);
+  const subtitleStart = compactGuidelineTitle ? title.indexOf('\n') : -1;
+  const subtitleStyle = width < 365 ? styles.guidelineSubtitleNarrow : styles.guidelineSubtitle;
   const shortArticle = article.series_id === GENERATIONAL_CONCERNS;
   const classification = shortArticle ? lifeStageLabel(article.life_stage) : article.category_id ? featureCategoryLabel(article.category_id) : null;
   const techniques = article.related_technique_ids.map(id => techniqueById.get(id)).filter(item => item && item.title !== '完全版の処世術');
   const theories = article.related_theory_ids.map(id => theoryById.get(id)).filter(item => item && item.title !== '完全版の理論');
   return <View style={styles.article} testID="feature-article">
-    <View style={styles.articleHeader}>{classification ? <AppText style={styles.category}>{classification}</AppText> : null}<AppText style={[styles.articleTitle, compact && styles.articleTitleCompact]} accessibilityRole="header" aria-level={1}>{article.title}</AppText>{article.lead ? <AppText style={styles.lead}>{article.lead}</AppText> : null}</View>
+    <View style={styles.articleHeader}>
+      {classification ? <AppText style={styles.category}>{classification}</AppText> : null}
+      <AppText
+        style={[styles.articleTitle, compact && styles.articleTitleCompact, compactGuidelineTitle && { fontSize: width < 365 ? 18 : 21, lineHeight: width < 365 ? 30 : 34 }]}
+        accessibilityRole="header" aria-level={1} lineBreakStrategyIOS="standard" textBreakStrategy="highQuality"
+      >{subtitleStart < 0 ? title : <>{title.slice(0, subtitleStart + 1)}<AppText style={[styles.guidelineSubtitleText, subtitleStyle]}>{title.slice(subtitleStart + 1)}</AppText></>}</AppText>
+      {lead ? <AppText style={[styles.lead, mobile && lead.includes('可変性の自覚・\n偶然の設計') && subtitleStyle]} lineBreakStrategyIOS="standard" textBreakStrategy="highQuality">{lead}</AppText> : null}
+    </View>
     {!shortArticle ? <FeatureVisual article={article} compact={compact} style={[styles.articleImage, compact && styles.articleImageCompact]} /> : null}
     <View style={[styles.readingColumn, shortArticle && styles.shortReadingColumn]}><EditorialByline character={character} preview={preview} /><FeatureBody body={article.body} title={article.title} onNavigateSection={onNavigateSection} />
       {article.source_references.length ? <View style={styles.related} testID="feature-references"><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>参考文献・出典</AppText>{article.source_references.map((reference, index) => <View key={index} style={styles.reference}><Pressable accessibilityRole={reference.url ? 'link' : undefined} accessibilityLabel={reference.title} disabled={!reference.url || preview} onPress={() => reference.url && void Linking.openURL(reference.url)}><AppText style={[styles.relatedTitle, reference.url && styles.category]}>{reference.title}{reference.url ? ' ↗' : ''}</AppText></Pressable>{reference.note ? <AppText style={styles.referenceNote}>{reference.note}</AppText> : null}</View>)}</View> : null}
@@ -58,6 +72,9 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
   </View>;
 }
 const styles = StyleSheet.create({
+  guidelineSubtitleText: { color: colors.ink, fontFamily: fonts.serif },
+  guidelineSubtitle: { fontSize: 17, lineHeight: 26 },
+  guidelineSubtitleNarrow: { fontSize: 14, lineHeight: 22 },
   shortReadingColumn: { marginTop: 0 },
   divider: { width: 64, height: 1, alignSelf: 'center', backgroundColor: colors.goldSoft, marginVertical: 12 },
   contents: { borderWidth: 1, borderColor: colors.line, borderRadius: 12, backgroundColor: colors.surface, padding: 18, marginBottom: 12 },
@@ -65,5 +82,5 @@ const styles = StyleSheet.create({
   chapter: { minHeight: 44, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.line },
   chapterText: { flex: 1, color: colors.inkSoft, fontSize: 14, lineHeight: 24 },
   category: { color: colors.goldDeep, fontSize: 13, lineHeight: 23 }, knowledgeHeading: { marginTop: 46, fontFamily: fonts.serif, fontSize: 25, lineHeight: 38 }, reference: { marginBottom: 16, gap: 6 }, referenceNote: { color: colors.muted, fontSize: 13, lineHeight: 24 },
-  article: { width: '100%', maxWidth: 1120, alignSelf: 'center', paddingBottom: 36 }, articleHeader: { alignItems: 'center', paddingTop: 30, paddingBottom: 28, gap: 20 }, articleTitle: { maxWidth: 890, fontFamily: fonts.serif, color: colors.ink, fontSize: 42, lineHeight: 64, textAlign: 'center' }, articleTitleCompact: { fontSize: 28, lineHeight: 44 }, lead: { maxWidth: 780, fontFamily: fonts.serif, fontSize: 16, lineHeight: 30, color: colors.inkSoft, textAlign: 'center' }, articleImage: { width: '100%', aspectRatio: 2.2, borderRadius: 16, backgroundColor: colors.line }, articleImageCompact: { aspectRatio: 1.5, borderRadius: 10 }, readingColumn: { width: '100%', maxWidth: 740, alignSelf: 'center', marginTop: 36 }, body: { gap: 22 }, paragraph: { fontFamily: fonts.serif, fontSize: 17, lineHeight: 34, color: colors.ink, letterSpacing: 0.25 }, bold: { fontWeight: '700' }, headingBlock: { borderLeftWidth: 1, borderLeftColor: colors.gold, paddingLeft: 18, paddingVertical: 4, marginTop: 22 }, heading: { fontFamily: fonts.serif, fontSize: 24, lineHeight: 40, color: colors.ink }, subheading: { fontSize: 20, lineHeight: 34 }, list: { gap: 8 }, listRow: { flexDirection: 'row', gap: 12 }, bullet: { color: colors.gold, fontSize: 20, lineHeight: 34 }, listText: { flex: 1 }, quote: { borderLeftWidth: 2, borderLeftColor: colors.gold, paddingLeft: 18 }, related: { marginTop: 46, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 24 }, relatedHeading: { fontFamily: fonts.serif, fontSize: 23, lineHeight: 34, marginBottom: 16 }, relatedRow: { minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line }, relatedTitle: { flex: 1, fontFamily: fonts.serif, fontSize: 16, lineHeight: 27 }, arrow: { color: colors.gold, fontSize: 15 }, back: { marginTop: 30, paddingVertical: 12, minHeight: 44 }, bookmark: { minHeight: 44, flexDirection: 'row', gap: 6, alignItems: 'center', paddingHorizontal: 6 }, bookmarkText: { color: colors.gold, fontSize: 23 }, bookmarkLabel: { color: colors.gold, fontSize: 12 }, saved: { fontWeight: '700' },
+  article: { width: '100%', maxWidth: 1120, alignSelf: 'center', paddingBottom: 36 }, articleHeader: { alignItems: 'center', paddingTop: 30, paddingBottom: 28, gap: 20 }, articleTitle: { maxWidth: 890, fontFamily: fonts.serif, color: colors.ink, fontSize: 42, lineHeight: 64, textAlign: 'center', ...(Platform.OS === 'web' ? { textWrap: 'balance', lineBreak: 'strict' } as TextStyle : {}) }, articleTitleCompact: { fontSize: 28, lineHeight: 44 }, lead: { maxWidth: 780, fontFamily: fonts.serif, fontSize: 16, lineHeight: 30, color: colors.inkSoft, textAlign: 'center' }, articleImage: { width: '100%', aspectRatio: 2.2, borderRadius: 16, backgroundColor: colors.line }, articleImageCompact: { aspectRatio: 1.5, borderRadius: 10 }, readingColumn: { width: '100%', maxWidth: 740, alignSelf: 'center', marginTop: 36 }, body: { gap: 22 }, paragraph: { fontFamily: fonts.serif, fontSize: 17, lineHeight: 34, color: colors.ink, letterSpacing: 0.25 }, bold: { fontWeight: '700' }, headingBlock: { borderLeftWidth: 1, borderLeftColor: colors.gold, paddingLeft: 18, paddingVertical: 4, marginTop: 22 }, heading: { fontFamily: fonts.serif, fontSize: 24, lineHeight: 40, color: colors.ink }, subheading: { fontSize: 20, lineHeight: 34 }, list: { gap: 8 }, listRow: { flexDirection: 'row', gap: 12 }, bullet: { color: colors.gold, fontSize: 20, lineHeight: 34 }, listText: { flex: 1 }, quote: { borderLeftWidth: 2, borderLeftColor: colors.gold, paddingLeft: 18 }, related: { marginTop: 46, borderTopWidth: 1, borderTopColor: colors.line, paddingTop: 24 }, relatedHeading: { fontFamily: fonts.serif, fontSize: 23, lineHeight: 34, marginBottom: 16 }, relatedRow: { minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: colors.line }, relatedTitle: { flex: 1, fontFamily: fonts.serif, fontSize: 16, lineHeight: 27 }, arrow: { color: colors.gold, fontSize: 15 }, back: { marginTop: 30, paddingVertical: 12, minHeight: 44 }, bookmark: { minHeight: 44, flexDirection: 'row', gap: 6, alignItems: 'center', paddingHorizontal: 6 }, bookmarkText: { color: colors.gold, fontSize: 23 }, bookmarkLabel: { color: colors.gold, fontSize: 12 }, saved: { fontWeight: '700' },
 });

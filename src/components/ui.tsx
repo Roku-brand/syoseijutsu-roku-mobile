@@ -53,6 +53,7 @@ export function Screen({
   const compact = width < 700;
   const content = scroll ? (
     <PageScroll
+      rememberOnTabSwitch
       ref={scrollRef}
       {...props}
       style={[styles.flex, props.style]}

@@ -106,14 +106,16 @@ test('保存した旧IDを復元し、同義語の重複保存を解消する',a
 test('CMSが内部分類で絞り込み、選択・順番・分類管理を編集できる',async({page})=>{
  await page.setViewportSize({width:1440,height:1000});await mockOwner(page);
  await page.goto('/owner/content?kind=theory');
- await expect(page.getByText(`${rows.length}件`,{exact:true})).toBeVisible();
+ await page.getByRole('button',{name:categories.find((item:any)=>item.id==='behavioral-science')!.title,exact:true}).click();
  await page.getByRole('button',{name:'意思決定・選択',exact:true}).first().click();
  await expect(page.getByText(`${rows.filter((t:any)=>t.subcategoryId==='behavioral-science-d').length}件`,{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
  await expect(page.getByRole('textbox',{name:'理論名',exact:true})).toHaveValue('プロスペクト理論');
  await expect(page.getByRole('textbox',{name:'内部分類内の並び順',exact:true})).toHaveValue(String(rows.find((t:any)=>t.title==='プロスペクト理論').sortOrder));
  await expect(page.getByRole('button',{name:'内部分類：意思決定・選択',exact:true})).toHaveAttribute('aria-pressed','true');
- await page.getByRole('button',{name:'内部分類を管理',exact:true}).nth(1).click();
+ await page.getByRole('button',{name:/一覧へ戻る/}).click();
+ await page.getByRole('button',{name:'‹ 戻る',exact:true}).click();
+ await page.getByRole('button',{name:'内部分類を管理',exact:true}).click();
  await expect(page.getByRole('button',{name:'＋ 内部分類',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'意思決定・選択',exact:true}).last().click();
  await expect(page.getByRole('textbox',{name:'内部分類名',exact:true})).toBeVisible();
@@ -141,7 +143,8 @@ test('追加した完全版理論を別名から検索して、本文・出典�
 test('共通CMSは幅を変えても操作バーと編集中の内容を保持する',async({page})=>{
  await page.setViewportSize({width:1440,height:1000});await mockOwner(page);await page.goto('/owner/content?kind=theory');
  await expect(page.getByTestId('book-header')).toContainText('コンテンツ管理');
- await page.getByRole('button',{name:'意思決定・選択',exact:true}).first().click();await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
+ await page.getByRole('button',{name:categories.find((item:any)=>item.id==='behavioral-science')!.title,exact:true}).click();
+ await page.getByRole('button',{name:'意思決定・選択',exact:true}).click();await page.getByRole('button',{name:'プロスペクト理論',exact:true}).first().click();
  const name=page.getByRole('textbox',{name:'理論名',exact:true});await name.fill('編集中の理論名を保持');
  for(const width of [1440,1100,390]){
   await page.setViewportSize({width,height:1000});await expect(name).toHaveValue('編集中の理論名を保持');const footer=page.getByTestId('owner-editor-actions');await expect(footer.getByRole('button',{name:'公開する',exact:true})).toBeVisible();
@@ -152,5 +155,36 @@ test('共通CMSは幅を変えても操作バーと編集中の内容を保持�
   }).toPass({timeout:5000});
   await page.screenshot({path:test.info().outputPath(`cms-common-${width}.png`)});
  }
- await page.getByRole('button',{name:'← 一覧へ戻る',exact:true}).click();await page.getByRole('button',{name:'編集中の項目へ戻る',exact:true}).click();await expect(name).toHaveValue('編集中の理論名を保持');
+ await page.getByRole('button',{name:/一覧へ戻る/}).click();await page.getByRole('button',{name:'編集に戻る',exact:true}).click();await expect(name).toHaveValue('編集中の理論名を保持');
+});
+
+test('人物像の副題を基本情報から編集して公開できる', async ({ page }) => {
+  await mockOwner(page);
+  const category = { kind: 'technique', id: 'interpersonal', title: '人間関係', display_order: 1 };
+  let persona = { id: 'persona-test', name: '印象がいい人', subtitle: '既存の副題', image_path: null, category: category.id, status: 'published', access_tier: 'free', display_order: 1, draft_technique_ids: [], updated_at: '2026-10-04T00:00:00Z' };
+  await page.route('**/rest/v1/content_categories?*', route => route.fulfill({ json: [category, ...categories] }));
+  await page.route('**/rest/v1/personas?*', route => route.fulfill({ json: [persona] }));
+  await page.route('**/rpc/save_persona', route => {
+    const request = route.request().postDataJSON();
+    expect(request.target_id).toBe(persona.id);
+    persona = { ...persona, ...request.payload };
+    return route.fulfill({ json: persona });
+  });
+  await page.goto('/owner/content');
+  await page.getByRole('button', { name: '処世術', exact: true }).click();
+  await page.getByRole('button', { name: '人間関係', exact: true }).click();
+  await page.getByRole('button', { name: persona.name, exact: true }).click();
+  await page.getByRole('button', { name: '人物像を編集', exact: true }).click();
+  const subtitle = page.getByRole('textbox', { name: '副題', exact: true });
+  await expect(subtitle).toHaveValue('既存の副題');
+  await subtitle.fill('編集した副題');
+  await page.getByRole('button', { name: '公開する', exact: true }).click();
+  await expect.poll(() => persona.subtitle).toBe('編集した副題');
+  await expect(subtitle).toHaveValue('編集した副題');
+  await page.getByRole('button', { name: /一覧へ戻る/ }).click();
+  await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
+  await expect(page.getByText('編集した副題', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
+  await page.getByRole('button', { name: '‹ 戻る', exact: true }).click();
+  await expect(page.getByRole('button', { name: '人気ランキング', exact: true })).toBeVisible();
 });

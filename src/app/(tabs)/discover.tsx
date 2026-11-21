@@ -1,6 +1,6 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useRef, useState } from 'react';
-import { Keyboard, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useAccess } from '@/access/access-state';
 import { BookScreen } from '@/components/book-ui';
 import { BrandSectionHeading } from '@/components/brand-section-heading';
@@ -14,7 +14,6 @@ import { POPULAR_SEARCHES, getSearchResults, type BrowseMode } from '@/data/sear
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 import { APP_ROUTES } from '@/navigation/app-routes';
 import { useDiscoverSearchEntry, type DiscoverSearchEntry } from '@/navigation/discover-search-entry';
-import { useTabRootScroll } from '@/navigation/tab-root-scroll';
 
 const defaultSearchEntry: DiscoverSearchEntry = { mode: 'techniques' };
 
@@ -29,7 +28,7 @@ export default function DiscoverScreen() {
   const [entry, setEntry] = useState(defaultSearchEntry);
   const { register } = useDiscoverSearchEntry();
   const searchInput = useRef<TextInput>(null);
-  const scroll = useTabRootScroll('discover');
+  const scroll = useRef<ScrollView>(null);
   useFocusEffect(useCallback(() => {
     const unregister = register(next => {
       setEntry(next);

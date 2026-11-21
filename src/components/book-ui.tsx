@@ -2,7 +2,6 @@ import { BookPopup } from './book-popup';
 import { useLocalSearchParams, usePathname, useRouter, useSegments } from 'expo-router';
 import { useMemo } from 'react';
 import {
-  Image,
   Platform,
   Pressable,
   Share,
@@ -34,8 +33,8 @@ import { HeaderBackButton } from './header-back-button';
 import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
 import { PageScroll } from './page-scroll';
+import { useMainSectionNavigation } from '@/navigation/main-section-state';
 
-const appIcon = require('../../assets/brand/icon.png');
 const DETAIL_ACTION_WIDTH = 52;
 
 export function BookScreen({
@@ -53,6 +52,7 @@ export function BookScreen({
     <SafeAreaView edges={['left', 'right']} style={styles.safe}>
       {scroll ? (
         <PageScroll
+          rememberOnTabSwitch
           ref={scrollRef}
           {...props}
           keyboardShouldPersistTaps="handled"
@@ -89,6 +89,7 @@ export function BookScreen({
 
 export function BookHeader() {
   const router = useRouter();
+  const { backWithinSection } = useMainSectionNavigation();
   const params = useLocalSearchParams<{ checkout?: string | string[] }>();
   const pathname = usePathname();
   const featureDetailHeader = /^\/features\/[^/]+$/.test(pathname) && pathname !== '/features/editorial-policy';
@@ -114,56 +115,43 @@ export function BookHeader() {
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
   const isCheckoutReturn = pathname === '/' && (checkout === 'success' || checkout === 'cancelled');
   const primaryTabHeader = segments[0] === '(tabs)' || pathname === '/features' || (pathname === '/' && !isCheckoutReturn);
-  const homeHeader = pathname === '/' && !isCheckoutReturn;
   const spaciousHeader = primaryTabHeader && width >= 1000;
   const actionCount = detailHeader ? (detail ? 2 : 0) : catalogueSearchMode ? 2 : browsingHeader ? 1 : 0;
-  const titleInset = Math.max(84, actionCount * (detail ? DETAIL_ACTION_WIDTH : 44) + Math.max(0, actionCount - 1) * 3 + 20);
+  const titleInset = primaryTabHeader ? (spaciousHeader ? 148 : 103)
+    : Math.max(84, actionCount * (detail ? DETAIL_ACTION_WIDTH : 44) + Math.max(0, actionCount - 1) * 3 + 20);
   const handleBack = () => {
+    if (backWithinSection()) return;
     if (router.canGoBack()) {
       router.back();
       return;
     }
+    if (pathname === '/owner/editorial-characters') return router.replace('/owner/features');
+    if (pathname === '/owner/features' || pathname === '/owner/rankings') return router.replace('/owner/content');
+    if (pathname === '/owner/content') return router.replace('/settings');
     router.replace(['/library', '/history', '/my-techniques'].includes(pathname) ? '/my-os' : learningCaseHeader ? '/learn' : featureDetailHeader ? '/features' : detailHeader && pathname.startsWith('/theory/') ? '/theories' : '/');
   };
 
   return (
     <View testID="book-header" style={[styles.header, headerSubtitle && styles.headerWithSubtitle, compact && styles.headerCompact, compact && personaHeader && styles.personaHeaderCompact, lightHeader && styles.headerLight, !primaryTabHeader && styles.secondaryHeader, primaryTabHeader && styles.homeHeader, spaciousHeader && styles.headerSpacious]}>
-      {showBack ? (
-        <View style={styles.brandGroup}>
-          <HeaderBackButton testID="book-header-back" onPress={handleBack} />
-        </View>
-      ) : (
-        <View style={[styles.brandGroup, spaciousHeader && styles.brandGroupSpacious]}>
-          <Image
-            testID="book-header-app-icon"
-            accessibilityLabel="処世術禄のアプリアイコン"
-            source={appIcon}
-            style={[styles.headerAppIcon, compact && styles.headerAppIconCompact, spaciousHeader && styles.headerAppIconSpacious]}
-          />
-          <View style={[styles.brandCopy, compact && !primaryTabHeader && styles.brandCopyHidden]}>
-            <AppText style={[styles.brandName, spaciousHeader && styles.brandNameSpacious, primaryTabHeader && styles.homeBrandName]}>処世術禄</AppText>
-            {primaryTabHeader ? <AppText testID="book-header-tagline" numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.88} style={[styles.brandTagline, compact && styles.brandTaglineCompact, spaciousHeader && styles.brandTaglineSpacious, primaryTabHeader && styles.homeBrandTagline]}>人生をうまく生きる方法を、すべての人へ</AppText> : null}
-          </View>
-        </View>
-      )}
-      {primaryTabHeader ? null : (
-        <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, { left: titleInset, right: titleInset }]}>
-          <AppText
-            testID={personaHeader ? 'persona-header-title' : undefined}
-            accessibilityRole="header"
-            aria-level={detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
-            numberOfLines={compact && personaHeader ? 2 : 1}
-            adjustsFontSizeToFit
-            minimumFontScale={0.85}
-            style={[styles.screenTitle, lightHeader && styles.screenTitleLight, compact && detailHeader && styles.detailScreenTitleCompact, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
-          >{currentTitle}</AppText>
-          {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
-        </View>
-      )}
+      <View style={styles.brandGroup}>
+        {showBack ? <HeaderBackButton testID="book-header-back" onPress={handleBack} /> : null}
+      </View>
+      <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, { left: titleInset, right: titleInset }]}>
+        <AppText
+          testID={primaryTabHeader ? 'book-header-brand' : personaHeader ? 'persona-header-title' : undefined}
+          accessibilityRole={primaryTabHeader ? undefined : 'header'}
+          aria-level={primaryTabHeader ? undefined : detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
+          numberOfLines={compact && personaHeader ? 2 : 1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.85}
+          style={[styles.screenTitle, lightHeader && styles.screenTitleLight, primaryTabHeader && styles.brandName, compact && primaryTabHeader && styles.brandNameCompact, spaciousHeader && styles.brandNameSpacious, compact && detailHeader && styles.detailScreenTitleCompact, compact && personaHeader && styles.personaScreenTitleCompact, pathname === '/upgrade' && styles.upgradeScreenTitleText]}
+        >{primaryTabHeader ? '処世術録' : currentTitle}</AppText>
+        {headerSubtitle ? <AppText testID="persona-header-subtitle" numberOfLines={1} style={[styles.screenSubtitle, compact && personaHeader && styles.personaScreenSubtitleCompact]}>{headerSubtitle}</AppText> : null}
+      </View>
 
       {primaryTabHeader ? (
         <View testID="book-header-actions" style={styles.headerActions}>
-          <View style={[homeHeader && styles.homeSearchFrame, spaciousHeader && styles.searchSpacious]}><HeaderSearchAction initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={homeHeader ? 23 : compact ? 25 : 27} /></View>
+          <View style={spaciousHeader && styles.searchSpacious}><HeaderSearchAction initialMode={pathname === '/features' ? 'features' : 'techniques'} color={colors.ink} size={compact ? 25 : 27} /></View>
           <MenuHeaderAction active={Boolean(user)} spacious={spaciousHeader} />
         </View>
       ) : detailHeader ? (
@@ -570,10 +558,7 @@ export const bookCardShadow = shadow.card;
 
 const styles = StyleSheet.create({
   headerSpacious: { minHeight: 90, paddingHorizontal: 20, paddingVertical: 12 },
-  brandGroupSpacious: { gap: 14 },
-  headerAppIconSpacious: { width: 58, height: 58, borderRadius: 12 },
   brandNameSpacious: { fontSize: 30, lineHeight: 40, letterSpacing: 4 },
-  brandTaglineSpacious: { fontSize: 14, lineHeight: 21 },
   searchSpacious: { width: 60, height: 60, borderWidth: 1, borderColor: colors.line, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
   safe: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
@@ -613,7 +598,6 @@ const styles = StyleSheet.create({
   headerWithSubtitle: { minHeight: 72, paddingVertical: 8 },
   personaHeaderCompact: { minHeight: 58, paddingVertical: 6 },
   homeHeader: { minHeight: 56, borderBottomColor: '#E6DDCF', paddingVertical: 5, backgroundColor: 'transparent' },
-  homeBrandName: { color: colors.ink }, homeBrandTagline: { color: '#5E5B53' },
   headerLight: { backgroundColor: colors.surface, borderBottomColor: colors.line },
   brandGroup: {
     minWidth: 0,
@@ -623,17 +607,6 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   secondaryHeader: { minHeight: 64, paddingVertical: 10 },
-  headerAppIcon: {
-    width: 34,
-    height: 34,
-    borderRadius: 7,
-    resizeMode: 'cover',
-  },
-  headerAppIconCompact: { width: 30, height: 30, borderRadius: 7 },
-  brandCopy: { flexShrink: 1, minWidth: 0, gap: 1 },
-  brandTagline: { color: colors.muted, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, letterSpacing: -0.2 },
-  brandTaglineCompact: { fontSize: 11, lineHeight: 17, letterSpacing: -0.35 },
-  brandCopyHidden: { display: 'none' },
   screenTitleGroup: {
     position: 'absolute',
     left: 88,
@@ -666,6 +639,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 3,
   },
+  brandNameCompact: { fontSize: 19, lineHeight: 27, letterSpacing: 2 },
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -686,7 +660,6 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   homeMenuAction: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  homeSearchFrame: { width: 44, height: 44, borderWidth: 1, borderColor: '#DEDEDA', backgroundColor: colors.surface, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   headerActionLight: { backgroundColor: 'transparent' },
   headerActionPressed: {
     backgroundColor: 'rgba(210,182,111,0.14)',

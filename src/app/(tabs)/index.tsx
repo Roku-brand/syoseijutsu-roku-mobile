@@ -12,7 +12,6 @@ import { HomeRecommendationDeck } from '../../components/home-recommendation-dec
 import { useResponsiveLayout } from '../../hooks/use-responsive-layout';
 import { colors, fonts, layout } from '../../constants/theme';
 import { APP_ROUTES, upgradeRoute } from '../../navigation/app-routes';
-import { useTabRootScroll } from '@/navigation/tab-root-scroll';
 import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '../../lib/purchase';
 
 
@@ -27,7 +26,6 @@ const shortcuts = [
 
 export default function HomeScreen() {
   const router = useRouter();
-  const scroll = useTabRootScroll('main');
   const { desktop, width } = useResponsiveLayout();
   const { fontScale = 1 } = useWindowDimensions();
   const mobile = width > 0 && width < 700;
@@ -41,7 +39,7 @@ export default function HomeScreen() {
 
 
   return (
-    <BookScreen scrollRef={scroll} testID="home-scroll" onPullRefresh={async () => { await refreshDeck.current?.(); }} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
+    <BookScreen testID="home-scroll" onPullRefresh={async () => { await refreshDeck.current?.(); }} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />

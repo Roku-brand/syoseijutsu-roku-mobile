@@ -1,4 +1,5 @@
 import { useHomeAppearance } from '@/state/home-appearance';
+import { Image } from 'expo-image';
 import Constants from 'expo-constants';
 import { UsageSharingSetting } from '@/components/usage-sharing-setting';
 import { useRouter, type Href } from 'expo-router';
@@ -9,7 +10,7 @@ import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { useAppState } from '@/state/app-state';
 import { formatRemainingAccess } from '@/lib/purchase';
-import { APP_ROUTES, signInRoute } from '@/navigation/app-routes';
+import { APP_ROUTES } from '@/navigation/app-routes';
 import { useGuides } from '@/onboarding/guide-provider';
 
 export default function SettingsScreen() {
@@ -27,25 +28,19 @@ export default function SettingsScreen() {
         {user ? <>
           <SettingLink title="プロフィール" detail={profile?.displayName ?? user.email?.split('@')[0] ?? 'ユーザー'} href={APP_ROUTES.profile} />
           <SettingLink title="ログイン情報・パスワード" detail={user.email ?? 'ログイン情報を確認・変更します'} href={APP_ROUTES.auth} />
-        </> : <>
-          <SettingLink title="アカウントを作成する" href={{ pathname: APP_ROUTES.auth, params: { mode: 'signup' } }} />
-          <SettingLink title="ログインする" href={signInRoute()} />
-        </>}
+        </> : <SettingLink title="アカウント作成・ログイン" href={APP_ROUTES.auth} />}
         <SettingLink
           title={isPaid ? '完全版の利用情報' : accessStatus === 'expired' ? '完全版の利用期間終了' : '完全版を利用'}
           detail={isPaid ? accessInfo.accessType === 'thirty_day' ? `利用中・${formatRemainingAccess(accessInfo.accessExpiresAt)}` : '旧買い切りをご利用中' : accessStatus === 'expired' ? 'もう一度30日間利用する' : '30日間 ¥320・自動更新なし'}
           href={APP_ROUTES.upgrade}
         />
-        <SettingLink title="背景テーマ" detail={backgroundTheme.name} href={'/settings/background' as Href} last />
+        <SettingLink title="背景テーマ" detail={backgroundTheme.name} preview={<Image source={backgroundTheme.image} contentFit="cover" contentPosition="top" style={styles.themePreview} accessibilityElementsHidden aria-hidden />} href={'/settings/background' as Href} last />
       </SettingsGroup>
 
       {role === 'owner' ? <>
         <SettingsSection title="オーナー機能" />
         <SettingsGroup>
-          <SettingLink title="運用ダッシュボード" detail="問い合わせ・SNS・AIタスクを一元確認します" href={APP_ROUTES.ownerOperations} />
-          <SettingLink title="コンテンツ管理" detail="処世術と主要・補助理論を編集・公開します" href={APP_ROUTES.ownerContent} />
-          <SettingLink title="編集案内人の管理" detail="編集案内人・プロフィール・公開状態を管理します" href={APP_ROUTES.ownerEditorialCharacters} />
-          <SettingLink title="特集管理" detail="特集の記事・画像・ヒーローを編集・公開します" href={APP_ROUTES.ownerFeatures} />
+          <SettingLink title="コンテンツ管理" href={APP_ROUTES.ownerContent} />
           <SettingLink title="オーナープレビュー" detail="無料版・完全版・未ログインの表示を確認" href={APP_ROUTES.ownerPreview} last />
         </SettingsGroup>
       </> : null}
@@ -105,7 +100,7 @@ function SettingsGroup({ children, subdued = false }: { children: React.ReactNod
   return <View style={[styles.group, subdued && styles.groupSubdued]}>{children}</View>;
 }
 
-function SettingLink({ title, detail, href, onPress, last = false, subdued = false, danger = false }: { title: string; detail?: string; href?: Href; onPress?: () => void; last?: boolean; subdued?: boolean; danger?: boolean }) {
+function SettingLink({ title, detail, href, onPress, preview, last = false, subdued = false, danger = false }: { title: string; detail?: string; href?: Href; preview?: React.ReactNode; onPress?: () => void; last?: boolean; subdued?: boolean; danger?: boolean }) {
   const router = useRouter();
   return (
     <Pressable
@@ -117,6 +112,7 @@ function SettingLink({ title, detail, href, onPress, last = false, subdued = fal
         <AppText style={[styles.title, subdued && styles.titleSubdued, danger && styles.titleDanger]}>{title}</AppText>
         {detail ? <AppText style={[styles.detail, danger && styles.detailDanger]}>{detail}</AppText> : null}
       </View>
+      {preview}
       <AppText style={[styles.chevron, subdued && styles.chevronSubdued, danger && styles.chevronDanger]}>›</AppText>
     </Pressable>
   );
@@ -139,6 +135,7 @@ const styles = StyleSheet.create({
   titleDanger: { color: colors.danger },
   detail: { marginTop: 4, color: colors.muted, fontSize: 12, lineHeight: 19 },
   detailDanger: { color: '#80665C' },
+  themePreview: { width: 43, height: 32, borderRadius: 5, marginRight: 7, backgroundColor: colors.line },
   chevron: { width: 20, color: '#A8A8A3', fontFamily: fonts.sans, fontSize: 30, lineHeight: 34, fontWeight: '300', textAlign: 'right' },
   chevronSubdued: { color: '#A8A8A3' },
   chevronDanger: { color: '#A8A8A3' },

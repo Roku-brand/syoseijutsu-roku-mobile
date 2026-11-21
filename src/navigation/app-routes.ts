@@ -23,7 +23,6 @@ export const APP_ROUTES = {
   ownerContent: '/owner/content',
   ownerTheories: '/owner/theories' as Href,
   ownerPreview: '/owner/preview',
-  ownerOperations: '/owner/operations' as Href,
   faq: '/legal/faq',
   commerce: '/legal/commerce',
   terms: '/legal/terms',

@@ -28,10 +28,9 @@ import {
 } from '@/data/operations';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
-export type OperationsSection = 'dashboard' | 'inquiries' | 'social' | 'tasks' | 'faq' | 'logs';
+export type OperationsSection = 'inquiries' | 'social' | 'tasks' | 'faq' | 'logs';
 
 const NAV_ITEMS: { key: OperationsSection; label: string; href: string }[] = [
-  { key: 'dashboard', label: 'ダッシュボード', href: '/owner/operations' },
   { key: 'inquiries', label: '問い合わせ', href: '/owner/operations/inquiries' },
   { key: 'social', label: 'SNS', href: '/owner/operations/social' },
   { key: 'tasks', label: 'AIタスク', href: '/owner/operations/tasks' },
@@ -91,7 +90,6 @@ export function OwnerOperationsScreen({ section }: { section: OperationsSection 
         <View style={styles.workspace}>
           <WorkspaceHeading section={section} data={data} loading={loading} lastLoadedAt={lastLoadedAt} onReload={() => void reload()} />
           {data.warning ? <View style={styles.warning}><AppText style={styles.warningText}>{data.warning}</AppText></View> : null}
-          {section === 'dashboard' ? <Dashboard data={data} /> : null}
           {section === 'inquiries' ? <Inquiries data={data} onChange={replaceInquiry} /> : null}
           {section === 'social' ? <SocialPosts data={data} onChange={replaceSocial} /> : null}
           {section === 'tasks' ? <AiTasks tasks={data.aiTasks} /> : null}
@@ -148,93 +146,6 @@ function WorkspaceHeading({ section, data, loading, lastLoadedAt, onReload }: { 
       <Pressable accessibilityRole="button" disabled={loading} onPress={onReload} style={({ pressed }) => [styles.reloadButton, loading && styles.disabled, pressed && !loading && styles.pressed]}>
         <AppText style={styles.reloadButtonText}>{loading ? '更新中' : '再読込'}</AppText>
       </Pressable>
-    </View>
-  );
-}
-
-function Dashboard({ data }: { data: OperationsData }) {
-  const router = useRouter();
-  const { width } = useHydratedWindowDimensions();
-  const compact = width < 700;
-  const now = new Date();
-  const weekStart = new Date(now);
-  weekStart.setHours(0, 0, 0, 0);
-  weekStart.setDate(now.getDate() - ((now.getDay() + 6) % 7));
-  const weekEnd = new Date(weekStart);
-  weekEnd.setDate(weekStart.getDate() + 7);
-  const needsReply = data.inquiries.filter((item) => item.status === '要返信');
-  const needsReview = data.inquiries.filter((item) => ['未確認', '要確認'].includes(item.status));
-  const aiDrafts = data.inquiries.filter((item) => item.aiReplyDraft && !['対応済み', '対応不要'].includes(item.status));
-  const awaitingApproval = data.socialPosts.filter((item) => item.status === '承認待ち');
-  const scheduled = data.socialPosts.filter((item) => item.scheduledAt && new Date(item.scheduledAt) >= weekStart && new Date(item.scheduledAt) < weekEnd);
-  const faqCandidates = data.faqCandidates.filter((item) => item.status === '候補');
-  const failedTasks = data.aiTasks.filter((item) => item.status === 'failure');
-  const handledThisWeek = data.inquiries.filter((item) => item.status === '対応済み' && new Date(item.updatedAt) >= weekStart).length;
-  const completedTasks = data.aiTasks.filter((item) => new Date(item.lastRunAt) >= weekStart);
-  const successRate = completedTasks.length ? Math.round(completedTasks.filter((item) => item.status === 'success').length / completedTasks.length * 100) : null;
-  const priorities = [
-    ...needsReply.map((item) => ({ key: item.id, level: item.urgency === 'high' ? 'high' : 'medium', text: `${item.category}「${item.subject}」に返信が必要`, href: '/owner/operations/inquiries' })),
-    ...(awaitingApproval.length ? [{ key: 'social', level: 'medium', text: `X投稿 ${awaitingApproval.length}件が未承認`, href: '/owner/operations/social' }] : []),
-    ...(faqCandidates.length ? [{ key: 'faq', level: 'low', text: `FAQ候補 ${faqCandidates.length}件を確認`, href: '/owner/operations/faq' }] : []),
-    ...failedTasks.map((task) => ({ key: task.id, level: 'high', text: `${task.name}が失敗。入力元の確認が必要`, href: '/owner/operations/tasks' })),
-  ];
-  const metrics = [
-    { label: '要対応問い合わせ', value: needsReply.length + needsReview.length, emphasis: needsReply.length > 0 },
-    { label: 'AI返信案あり', value: aiDrafts.length },
-    { label: 'SNS承認待ち', value: awaitingApproval.length, emphasis: awaitingApproval.length > 0 },
-    { label: '今週の予約投稿', value: scheduled.length },
-    { label: 'FAQ候補', value: faqCandidates.length },
-    { label: 'AIタスク異常', value: failedTasks.length, danger: failedTasks.length > 0 },
-  ];
-
-  return (
-    <View testID="operations-dashboard">
-      <SectionHeading title="今日の運用状況" description="件数の多さではなく、判断の優先度順に並べています。" />
-      <View style={[styles.todayPanel, compact && styles.todayPanelCompact]}>
-        <View style={[styles.primaryMetric, compact && styles.primaryMetricCompact]}>
-          <AppText variant="label" style={styles.primaryMetricLabel}>最優先</AppText>
-          <AppText variant="serif" style={styles.primaryMetricValue}>{needsReply.length + failedTasks.length}</AppText>
-          <AppText style={styles.primaryMetricTitle}>すぐに確認する項目</AppText>
-          <AppText style={styles.primaryMetricDetail}>{needsReply.length ? '返信判断が必要な問い合わせがあります。' : failedTasks.length ? '停止したAIタスクがあります。' : '急ぎの対応はありません。'}</AppText>
-        </View>
-        <View style={[styles.metricList, compact && styles.metricListCompact]}>
-          {metrics.map((metric) => (
-            <View key={metric.label} style={[styles.metricRow, metric.emphasis && styles.metricRowEmphasis, metric.danger && styles.metricRowDanger]}>
-              <AppText style={styles.metricLabel}>{metric.label}</AppText>
-              <AppText style={[styles.metricValue, metric.danger && styles.dangerText]}>{metric.value}<AppText style={styles.metricUnit}> 件</AppText></AppText>
-            </View>
-          ))}
-        </View>
-      </View>
-
-      <SectionHeading title="今日確認すること" />
-      <View style={styles.actionList}>
-        {priorities.length ? priorities.map((item, index) => (
-          <Pressable key={item.key} onPress={() => router.push(item.href as never)} style={({ pressed }) => [styles.actionRow, item.level === 'high' && styles.actionRowHigh, pressed && styles.pressed]}>
-            <AppText variant="label" style={[styles.actionIndex, item.level === 'high' && styles.actionIndexHigh]}>{String(index + 1).padStart(2, '0')}</AppText>
-            <AppText style={styles.actionText}>{item.text}</AppText>
-            <AppText style={styles.actionArrow}>›</AppText>
-          </Pressable>
-        )) : (
-          <View style={styles.quietEmpty}><AppText variant="serif" style={styles.quietEmptyTitle}>現在、確認が必要な項目はありません</AppText><AppText style={styles.quietEmptyText}>新しい運用データが反映されると、ここに判断項目が表示されます。</AppText></View>
-        )}
-      </View>
-
-      <SectionHeading title="最近の運用" />
-      <View style={styles.recentGrid}>
-        <RecentBlock title="最新問い合わせ" value={data.inquiries[0]?.subject ?? '新着なし'} meta={data.inquiries[0] ? `${formatDate(data.inquiries[0].receivedAt)} · ${data.inquiries[0].status}` : ''} />
-        <RecentBlock title="最新SNS投稿候補" value={excerpt(data.socialPosts[0]?.body ?? '候補なし', 52)} meta={data.socialPosts[0] ? `${data.socialPosts[0].format} · ${data.socialPosts[0].status}` : ''} />
-        <RecentBlock title="最近完了したAIタスク" value={data.aiTasks.find((task) => task.status === 'success')?.name ?? '完了記録なし'} meta={data.aiTasks.find((task) => task.status === 'success')?.summary ?? ''} />
-        <RecentBlock title="最近発生したエラー" value={failedTasks[0]?.name ?? 'エラーはありません'} meta={failedTasks[0]?.error ?? (data.aiTasks.length ? '直近の実行記録に失敗はありません。' : 'AIタスクの実行記録はまだありません。')} danger={Boolean(failedTasks[0])} />
-      </View>
-
-      <SectionHeading title="今週" />
-      <View style={styles.weekStrip}>
-        <WeekMetric label="投稿予定数" value={`${scheduled.length}件`} />
-        <WeekMetric label="対応済み問い合わせ" value={`${handledThisWeek}件`} />
-        <WeekMetric label="未対応問い合わせ" value={`${needsReply.length + needsReview.length}件`} />
-        <WeekMetric label="AIタスク成功率" value={successRate === null ? '—' : `${successRate}%`} />
-      </View>
     </View>
   );
 }
@@ -466,10 +377,6 @@ function SectionHeading({ eyebrow, title, description }: { eyebrow?: string; tit
   return <View style={styles.sectionHeading}>{eyebrow ? <AppText variant="label" style={styles.sectionEyebrow}>{eyebrow}</AppText> : null}<AppText variant="serif" style={styles.sectionTitle}>{title}</AppText>{description ? <AppText style={styles.sectionDescription}>{description}</AppText> : null}</View>;
 }
 
-function RecentBlock({ title, value, meta, danger = false }: { title: string; value: string; meta: string; danger?: boolean }) {
-  return <View style={[styles.recentBlock, danger && styles.recentBlockDanger]}><AppText variant="label" style={styles.recentLabel}>{title}</AppText><AppText style={styles.recentValue}>{value}</AppText><AppText numberOfLines={2} style={styles.recentMeta}>{meta}</AppText></View>;
-}
-
 function WeekMetric({ label, value }: { label: string; value: string }) {
   return <View style={styles.weekMetric}><AppText style={styles.weekLabel}>{label}</AppText><AppText variant="serif" style={styles.weekValue}>{value}</AppText></View>;
 }
@@ -517,11 +424,6 @@ function CompactEmpty({ text }: { text: string }) {
 async function logOwnerAction(action: string, target: string, detail: string) {
   const timestamp = new Date().toISOString();
   await appendActivityLog({ id: `owner-${Date.now()}`, occurredAt: timestamp, actor: 'owner', action, target, status: 'success', detail, updatedAt: timestamp });
-}
-
-function excerpt(value: string, limit: number) {
-  const normalized = value.replace(/\s+/g, ' ').trim();
-  return normalized.length > limit ? `${normalized.slice(0, limit)}…` : normalized;
 }
 
 function formatDate(value: string | null) {
@@ -577,40 +479,6 @@ const styles = StyleSheet.create({
   sectionEyebrow: { color: colors.gold, fontSize: 9, letterSpacing: 2 },
   sectionTitle: { marginTop: 2, color: colors.ink, fontSize: 21, lineHeight: 30, fontWeight: '700' },
   sectionDescription: { marginTop: 4, maxWidth: 720, color: colors.muted, fontSize: 13, lineHeight: 20 },
-  todayPanel: { flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
-  todayPanelCompact: { flexDirection: 'column' },
-  primaryMetric: { width: '31%', minWidth: 220, paddingVertical: spacing.lg, paddingHorizontal: spacing.xl, justifyContent: 'center', borderLeftWidth: 3, borderLeftColor: colors.gold, borderRightWidth: 1, borderRightColor: colors.line },
-  primaryMetricCompact: { width: '100%', minWidth: 0 },
-  primaryMetricLabel: { color: colors.gold, fontSize: 9, letterSpacing: 1.8 },
-  primaryMetricValue: { marginTop: 3, color: colors.ink, fontSize: 42, lineHeight: 48, fontWeight: '600' },
-  primaryMetricTitle: { marginTop: 0, color: colors.ink, fontSize: 14, fontWeight: '700' },
-  primaryMetricDetail: { marginTop: 6, color: colors.muted, fontSize: 11, lineHeight: 17 },
-  metricList: { flex: 1, minWidth: 0 },
-  metricListCompact: { width: '100%' },
-  metricRow: { minHeight: 44, paddingHorizontal: spacing.lg, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#ECE4D7' },
-  metricRowEmphasis: { borderLeftWidth: 3, borderLeftColor: colors.gold },
-  metricRowDanger: { borderLeftWidth: 3, borderLeftColor: colors.danger },
-  metricLabel: { color: colors.inkSoft, fontSize: 12 },
-  metricValue: { color: colors.ink, fontFamily: fonts.serif, fontSize: 18, lineHeight: 24, fontWeight: '700' },
-  metricUnit: { color: colors.muted, fontFamily: fonts.sans, fontSize: 10 },
-  dangerText: { color: colors.danger },
-  actionList: { borderTopWidth: 1, borderTopColor: colors.line },
-  actionRow: { minHeight: 58, paddingVertical: 12, paddingHorizontal: spacing.md, flexDirection: 'row', alignItems: 'center', gap: spacing.md, borderBottomWidth: 1, borderBottomColor: colors.line, borderLeftWidth: 3, borderLeftColor: '#B6AA97' },
-  actionRowHigh: { borderLeftColor: colors.danger, backgroundColor: '#F8EFEB' },
-  actionIndex: { width: 26, color: colors.gold, fontSize: 10 },
-  actionIndexHigh: { color: colors.danger },
-  actionText: { flex: 1, color: colors.ink, fontSize: 14, lineHeight: 21, fontWeight: '600' },
-  actionArrow: { color: colors.gold, fontSize: 24, lineHeight: 28 },
-  quietEmpty: { paddingVertical: spacing.xxl, paddingHorizontal: spacing.xl, alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.line },
-  quietEmptyTitle: { color: colors.inkSoft, fontSize: 17 },
-  quietEmptyText: { marginTop: 5, color: colors.muted, fontSize: 12 },
-  recentGrid: { borderTopWidth: 1, borderColor: colors.line },
-  recentBlock: { minHeight: 74, paddingVertical: spacing.md, paddingHorizontal: spacing.lg, borderBottomWidth: 1, borderColor: colors.line },
-  recentBlockDanger: { borderLeftWidth: 3, borderLeftColor: colors.danger },
-  recentLabel: { color: colors.gold, fontSize: 9, letterSpacing: 1.2 },
-  recentValue: { marginTop: 4, color: colors.ink, fontSize: 14, lineHeight: 21, fontWeight: '700' },
-  recentMeta: { marginTop: 2, color: colors.muted, fontSize: 10, lineHeight: 16 },
-  weekStrip: { flexDirection: 'row', flexWrap: 'wrap', borderTopWidth: 1, borderBottomWidth: 1, borderColor: colors.line },
   weekMetric: { flex: 1, minWidth: 145, paddingVertical: spacing.md, paddingHorizontal: spacing.md, borderRightWidth: 1, borderRightColor: colors.line },
   weekLabel: { color: colors.muted, fontSize: 11, lineHeight: 16 },
   weekValue: { marginTop: 3, color: colors.ink, fontSize: 20, lineHeight: 28 },

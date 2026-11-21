@@ -113,7 +113,7 @@ export default function TheoryDetailScreen() {
           <TheoryHeading theory={theory} compact={compact} />
         </DetailSwipe>
       </ScrollView>
-      <PageScroll ref={scrollRef} testID="theory-detail-scroll" style={styles.scrollingBody}
+      <PageScroll rememberOnTabSwitch ref={scrollRef} testID="theory-detail-scroll" style={styles.scrollingBody}
         contentContainerStyle={[styles.readingInset, styles.bodyContent]} keyboardShouldPersistTaps="handled">
         <DetailSwipe style={styles.article} previous={previous} next={next}>
           <TheorySummary theory={theory} />
