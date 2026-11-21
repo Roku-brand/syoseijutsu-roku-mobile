@@ -10,7 +10,7 @@ import { AppText } from '@/components/ui';
 import { colors, fonts } from '@/constants/theme';
 import { type FeatureArticle } from '@/data/features';
 import { techniqueById, theoryById } from '@/data/catalog';
-import { featureRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
+import { APP_ROUTES, featureRoute, techniqueRoute, theoryRoute } from '@/navigation/app-routes';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
 
 export { FEATURE_IMAGES, featureImage } from '@/data/feature-images';
@@ -53,7 +53,7 @@ export function FeatureArticleContent({ article, preview = false, others = [], c
       {techniques.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>関連する処世術</AppText>{techniques.map(item => item ? <Pressable key={item.id} accessibilityRole="link" onPress={() => !preview && router.push(techniqueRoute(item.id))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable> : null)}</View> : null}
       {theories.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>関連する理論</AppText>{theories.map(item => item ? <Pressable key={item.tagId} accessibilityRole="link" onPress={() => !preview && router.push(theoryRoute(item.tagId))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable> : null)}</View> : null}
       {!preview && relatedFeatures.length ? <View style={styles.related}><AppText style={styles.relatedHeading} accessibilityRole="header" aria-level={2}>あわせて読みたい</AppText>{relatedFeatures.map(item => <Pressable key={item.id} accessibilityRole="link" onPress={() => router.push(featureRoute(item.slug))} style={styles.relatedRow}><AppText style={styles.relatedTitle}>{item.title}</AppText><AppText style={styles.arrow}>→</AppText></Pressable>)}</View> : null}
-      {!preview ? <Pressable accessibilityRole="link" onPress={() => router.push('/features')} style={styles.back}><AppText style={styles.arrow}>← 特集一覧へ</AppText></Pressable> : null}
+      {!preview ? <Pressable accessibilityRole="link" onPress={() => router.push(shortArticle ? { pathname: APP_ROUTES.features, params: { series: GENERATIONAL_CONCERNS } } : APP_ROUTES.features)} style={styles.back}><AppText style={styles.arrow}>← 特集一覧へ</AppText></Pressable> : null}
     </View>
   </View>;
 }
