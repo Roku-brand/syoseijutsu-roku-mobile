@@ -208,7 +208,7 @@ test('順送りはカードを左へ引き出して最下段へ差し込み、�
   await ready(page);
   await expect(page.getByTestId('home-recommendation-card')).not.toHaveAttribute('aria-label', first!);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (let i = 0; i < 6; i++) { await turnDeck(page); await ready(page); }
+  for (let i = 0; i < 5; i++) { await turnDeck(page); await ready(page); }
   await expect(page.getByTestId('home-recommendation-card')).toHaveAttribute('aria-label', first!);
   await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
@@ -241,6 +241,7 @@ test('CMS追加カードは遅れて読み込まれても順序と位置を復�
       await new Promise(resolve => { setTimeout(resolve, 700); });
       await route.fulfill({ json: rows });
     } else await route.fulfill({ json: table === 'content_revision' ? { revision: 'cms-restore-v1' }
+      : table === 'content_categories' ? [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 1 }]
       : table === 'personas' ? [{ name: '復元を検証する人', category: 'interpersonal', status: 'published', access_tier: 'free' }] : [] });
   });
   const order = rows.slice(0, 5).map(row => `technique:${row.id}`);

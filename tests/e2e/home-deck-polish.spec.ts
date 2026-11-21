@@ -95,7 +95,11 @@ test('CMSの保存デッキ復元は起動時の公開カタログ取得を共�
     const table = new URL(route.request().url()).pathname.split('/').at(-1)!;
     counts.set(table, (counts.get(table) ?? 0) + 1);
     await new Promise(resolve => { setTimeout(resolve, 700); });
-    await route.fulfill({ json: table === 'public_techniques' ? rows : table === 'public_theories' ? theoryRows : table === 'content_categories' ? categories : table === 'personas' ? [{ name: '話を聞く人', category: 'interpersonal', status: 'published', access_tier: 'free' }] : table === 'content_revision' ? { revision: 'polish-v1' } : [] });
+    await route.fulfill({ json: table === 'public_techniques' ? rows : table === 'public_theories' ? theoryRows
+      : table === 'content_categories' ? categories
+      : table === 'theory_subcategories' ? [{ id: 'psychology-c', category_id: 'psychology', title: '認知・判断', display_order: 1 }]
+      : table === 'personas' ? [{ name: '話を聞く人', category: 'interpersonal', status: 'published', access_tier: 'free' }]
+      : table === 'content_revision' ? { revision: 'polish-v1' } : [] });
   });
   const order = rows.slice(0, 5).map(row => `technique:${row.id}`);
   await page.addInitScript(({ key, order }) => {

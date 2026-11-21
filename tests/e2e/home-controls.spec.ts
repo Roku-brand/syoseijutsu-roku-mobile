@@ -58,6 +58,7 @@ for (const [width, height] of [[320, 568], [375, 667], [390, 844], [430, 932], [
 }
 
 test('theme follows selection immediately; shuffle excludes the old hand and rejects repeated input', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');

@@ -39,7 +39,7 @@ for (const width of [320, 390, 1440]) {
     expect(box.x + box.width).toBeLessThanOrEqual(width);
     if (width < 1000) expect(box.y + box.height).toBeCloseTo(700, 0);
     await page.getByTestId('home-deck-filter-work').scrollIntoViewIfNeeded();
-    await expect(page.getByTestId('home-deck-filter-work')).toContainText('7枚すべて仕事術に');
+    await expect(page.getByTestId('home-deck-filter-work')).toContainText('仕事の進め方を、ひとつの人物像から');
     await page.screenshot({ path: test.info().outputPath('deck-popup.png') });
     await page.getByTestId('home-deck-filter-work').click();
     await expect(popup).toHaveCount(0);

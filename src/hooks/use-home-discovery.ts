@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FREE_TECHNIQUE_IDS, FREE_THEORY_ID_SET } from '@/access/access-config';
 import { useAccess } from '@/access/access-state';
-import { techniqueCards, theories } from '@/data/catalog';
+import { categories, techniqueCards, theories } from '@/data/catalog';
 import { HOME_DECK_SELECTION_SIZE, HOME_DECK_SIZE } from '@/data/deck-motion';
 import { isDiscoveryFilter, matchesDiscoveryFilter, type DiscoveryFilter } from '@/data/discovery-filter';
 import { getHomeDayKey } from '@/data/home-brand-content';
@@ -24,12 +24,14 @@ const discoveryKey = (item: ReadingContent) => `${item.type}:${readingContentId(
 function accessibleCatalog(scope: string) {
   const items = new Map<string, ReadingContent>();
   const groups = new Map<string, Group>();
+  const personaIds = new Set(categories.flatMap(category => category.subcategories.map(persona => JSON.stringify(['persona', category.key, persona.name]))));
   for (const card of techniqueCards) {
     const name = card.subcategory.trim();
     if (!name || card.status === 'locked' || card.title === '完全版の処世術' || (scope !== 'paid' && !FREE_TECHNIQUE_IDS.has(card.id))) continue;
+    const id = JSON.stringify(['persona', card.categoryKey, name]);
+    if (!personaIds.has(id)) continue;
     const item = { type: 'technique', card } as const;
     const key = discoveryKey(item);
-    const id = JSON.stringify(['persona', card.categoryKey, name]);
     const group = groups.get(id) ?? { type: 'persona', id, name, categoryId: card.categoryKey, order: [] };
     group.order.push(key);
     groups.set(id, group);
@@ -38,7 +40,7 @@ function accessibleCatalog(scope: string) {
 
   const readableTheories = theories.filter(card => HOME_RECOMMENDED_THEORY_IDS.has(card.tagId) && !isLockedTheoryShell(card) && (scope === 'paid' || FREE_THEORY_ID_SET.has(card.tagId)));
   for (const section of groupTheorySections(readableTheories)) {
-    if (section.subcategoryId === 'unassigned') continue;
+    if (section.subcategoryId === 'unassigned' || section.title === '分類確認中') continue;
     const { categoryId, categoryTitle, subcategoryId, title: name } = section;
     const id = JSON.stringify(['theory', categoryId, subcategoryId]);
     const order = section.items.map(card => {
@@ -160,9 +162,9 @@ export function useHomeDiscovery() {
   const move = useCallback((direction: number) => {
     const old = current.current;
     if (!old?.order.length) return;
-    const position = old.offset + old.cursor + direction;
-    const cursor = (position + HOME_DECK_SIZE) % HOME_DECK_SIZE;
-    commit({ ...old, cursor, offset: Math.max(0, position - cursor) });
+    const next = old.cursor + direction;
+    const cursor = (next + HOME_DECK_SIZE) % HOME_DECK_SIZE;
+    commit({ ...old, cursor, offset: Math.max(0, old.offset + next - cursor) });
   }, [commit]);
 
   const ready = state && readyScope.current === scope ? state : null;
@@ -172,7 +174,7 @@ export function useHomeDiscovery() {
     type: 'cover', group, preview,
     title: `${group.type === 'persona' ? group.name : `${group.categoryTitle}（${group.name}）`} ${HOME_DECK_SELECTION_SIZE}選`,
   } : null;
-  const items: (HomeDeckCard | null)[] = cover ? [cover, ...ready!.order.map(id => catalog.items.get(id) ?? null)] : [];
+  const items: (HomeDeckCard | null)[] = cover && ready ? [cover, ...ready.order.map(id => catalog.items.get(id) ?? null)] : [];
   const waitingForSecure = scope === 'paid' && (secureContentStatus === 'idle' || secureContentStatus === 'loading') && !cover;
   return { items, filter: ready?.filter ?? 'all', cursor: ready?.cursor ?? 0, position: (ready?.offset ?? 0) + (ready?.cursor ?? 0),
     loading: !ready || waitingForSecure, error: !!ready && !cover && !waitingForSecure, shuffle, move, retry: reload };

@@ -24,6 +24,7 @@ for (const width of [320, 375, 390, 430, 1440]) {
     await page.route('**/rest/v1/**', async route => {
       const table = new URL(route.request().url()).pathname.split('/').at(-1);
       const rows = table === 'public_techniques' ? selected.map((card: any, index: number) => ({ id: card.id, title: card.title, essence: card.essence, explanation: card.explanation, category: 'interpersonal', persona_id: persona, status: 'published', access_tier: 'free', display_order: index }))
+        : table === 'content_categories' ? [{ kind: 'technique', id: 'interpersonal', title: '対人術', display_order: 1 }]
         : table === 'personas' ? [{ name: persona, category: 'interpersonal', status: 'published', access_tier: 'free' }]
         : table === 'public_theories' ? [{ id: theory.tagId, title: theory.title, summary: theory.summary, category_id: theory.categoryId, category_title: theory.categoryTitle, status: 'published', access_tier: 'free' }]
           : table === 'content_revision' ? { revision: 'deck-title-layout' } : [];

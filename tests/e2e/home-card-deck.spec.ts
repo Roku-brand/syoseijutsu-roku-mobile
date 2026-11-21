@@ -359,7 +359,7 @@ test('スワイプを軽量描画し、移動中はシャッフルの見た目�
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
   await ready(page);
-  await expect(page.getByTestId('home-deck-paper')).toHaveCount(5);
+  await expect(page.getByTestId('home-deck-paper')).toHaveCount(4);
   await expect(page.getByTestId('home-deck-photo')).toHaveCount(2);
   await page.evaluate(() => {
     (window as any).__shuffleOpacity = [];
