@@ -25,7 +25,7 @@ async function main() {
   const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   for (let y = 0; y < info.height; y++) for (let x = 0; x < info.width; x++) {
     const i = (y * info.width + x) * 4;
-    const glyph = x > 155 && x < 858 && y > 300 && y < 553 && data[i] < 150 && data[i + 1] < 115 && data[i + 2] < 90;
+    const glyph = x > 128 && x < 884 && y > 280 && y < 548 && data[i] < 150 && data[i + 1] < 115 && data[i + 2] < 90;
     data[i] = data[i + 1] = data[i + 2] = 255; data[i + 3] = glyph ? 255 : 0;
   }
   const mono = await sharp(data, { raw: info }).resize(704, 704).extend({ top: 160, bottom: 160, left: 160, right: 160, background: '#00000000' }).png().toBuffer();
