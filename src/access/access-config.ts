@@ -1,6 +1,7 @@
 import { categories, techniqueCards, theories } from '@/data/catalog';
 import contentScope from '@/data/content-scope.json';
 import { resolveTheoryId } from '@/data/theory-taxonomy';
+import learningIndex from '@/data/generated/learning.index.json';
 
 export const COMPLETE_TECHNIQUE_COUNT = contentScope.complete.techniques;
 export const COMPLETE_THEORY_COUNT = contentScope.complete.theories;
@@ -28,11 +29,31 @@ export const FREE_LEARNING_CASE_IDS = Array.from(
   { length: 7 },
   (_, index) => `case-${String(index + 1).padStart(2, '0')}`,
 );
-export const COMPLETE_LEARNING_CASE_COUNT = 21;
+export const COMPLETE_LEARNING_CASE_COUNT = learningIndex.length;
 
 export const FREE_TECHNIQUE_IDS = new Set<string>(FREE_REEL_TECHNIQUE_IDS);
 export const FREE_THEORY_ID_SET = new Set<string>(FREE_THEORY_IDS);
 export const FREE_LEARNING_CASE_ID_SET = new Set<string>(FREE_LEARNING_CASE_IDS);
+
+/** Uses the same reconciled catalogue and access sets as the lists and details. */
+export function getEditionCounts() {
+  const personas = categories.flatMap(category => category.subcategories);
+  const canonicalTheories = theories.filter(theory => resolveTheoryId(theory.tagId) === theory.tagId);
+  return {
+    free: {
+      personas: personas.filter(persona => FREE_PERSONA_NAME_SET.has(persona.name)).length,
+      techniques: techniqueCards.filter(card => FREE_TECHNIQUE_IDS.has(card.id)).length,
+      theories: canonicalTheories.filter(theory => FREE_THEORY_ID_SET.has(theory.tagId)).length,
+      learning: learningIndex.filter(item => FREE_LEARNING_CASE_ID_SET.has(item.id)).length,
+    },
+    complete: {
+      personas: personas.length,
+      techniques: techniqueCards.length,
+      theories: canonicalTheories.length,
+      learning: COMPLETE_LEARNING_CASE_COUNT,
+    },
+  };
+}
 
 /** The bundled values are the offline fallback. A successful canonical DB
  * read replaces these sets so edition changes made in the CMS take effect. */

@@ -8,8 +8,7 @@ import { useAccess } from './access-state';
 export function AccessBoundary({ children }: { children: React.ReactNode }) {
   const { accessState, refreshAccess, continueAsGuest, restorePurchase, isOwner, previewMode, setPreviewMode } = useAccess();
   const pathname = usePathname();
-  // Let legacy entry URLs finish their immediate redirect before checking access.
-  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || pathname === '/installation-guide';
   const simulated = isOwner && previewMode !== 'actual';
 
   if (isWelcome || pathname === '/upgrade-preview' || pathname === '/features' || pathname.startsWith('/features/')) return <>{children}</>;

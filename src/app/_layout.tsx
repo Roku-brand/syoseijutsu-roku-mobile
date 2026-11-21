@@ -42,8 +42,7 @@ function AppFrame() {
     document.documentElement.style.setProperty('--roku-status-background', color);
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color);
   }, [primaryHeader]);
-  // Legacy entry URLs redirect to the home screen without flashing app chrome.
-  const isWelcome = pathname === '/welcome' || pathname === '/onboarding';
+  const isWelcome = pathname === '/welcome' || pathname === '/onboarding' || pathname === '/installation-guide';
   const isUpgrade = pathname === '/upgrade' || pathname === '/upgrade-preview';
   // Purchase and settings-detail screens are focused tasks.  Keeping the
   // global navigation there wastes the limited mobile viewport and can cover

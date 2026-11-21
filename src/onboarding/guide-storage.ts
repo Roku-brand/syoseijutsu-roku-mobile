@@ -5,6 +5,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const WELCOME_GUIDE_KEY = '@shoseijutsu-roku/installation-welcome/v1';
 export const COMPLETE_GUIDE_KEY = '@shoseijutsu-roku/purchase-guide/v1';
 
+export function readPurchaseGuideKeys(marker: string | null): Set<string> {
+  if (!marker) return new Set();
+  if (!marker.startsWith('[')) return new Set([marker]);
+  try {
+    const keys: unknown = JSON.parse(marker);
+    return new Set(Array.isArray(keys) ? keys.filter((key): key is string => typeof key === 'string') : []);
+  } catch {
+    return new Set();
+  }
+}
+
 export async function readGuideMarker(key: string): Promise<string | null> {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {

@@ -4,7 +4,9 @@ import { Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native'
 import { PageScroll } from './page-scroll';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, fonts } from '@/constants/theme';
-import { FREE_LEARNING_CASE_IDS, FREE_REEL_TECHNIQUE_IDS, FREE_THEORY_IDS } from '@/access/access-config';
+import { getEditionCounts } from '@/access/access-config';
+import { useAccess } from '@/access/access-state';
+import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY } from '@/lib/purchase';
 import { AppText } from '@/components/ui';
 import { HeaderBackButton } from '@/components/header-back-button';
 import { useHydratedWindowDimensions } from '@/hooks/use-hydrated-window-dimensions';
@@ -19,20 +21,19 @@ const photos = {
 const mark = require('../../assets/brand/icon.png');
 const gold = colors.gold;
 const ink = colors.ink;
-const freeItems = ['4つの人物像', `${FREE_REEL_TECHNIQUE_IDS.length}個の処世術`, `${FREE_THEORY_IDS.length}件の理論`, `${FREE_LEARNING_CASE_IDS.length}ケースの学習コンテンツ`];
-const completeItems = ['すべての人物像', 'すべての処世術', 'すべての理論', 'すべての学習コンテンツ', '保存・関連知識もすべて'];
+const accessPeriod = `${COMPLETE_EDITION_ACCESS_DAYS}日間`;
 const recommendations = [
   'もっと多くの網羅的な処世術を探したい方',
   '処世術と理論を横断し、\n知識同士のつながりまで深めたい方',
   '人間関係・仕事・人生の知識を、\nより幅広く手元に置いておきたい方',
-  '気になった処世術を蓄積し、\n自分専用の知識帳として育てたい方',
+  '人物像を手がかりに、\n自分の課題に合う知識を深めたい方',
 ];
 const questions = [
-  ['月額課金ですか？', 'いいえ。一回払いで、30日間ご利用いただけます。'],
+  ['月額課金ですか？', `いいえ。一回払いで、${accessPeriod}ご利用いただけます。`],
   ['自動更新されますか？', 'されません。利用期間が終わった後に、自動で課金されることはありません。'],
   ['購入後すぐに使えますか？', '決済の確認後、完全版のコンテンツをご利用いただけます。購入の反映を確認する場合は、購入履歴を復元してください。'],
-  ['利用期間はいつから始まりますか？', '購入手続きが完了してから30日間ご利用いただけます。'],
-  ['30日間が終わるとどうなりますか？', '利用期間の終了後は、無料版の範囲に戻ります。自動更新や追加課金はありません。'],
+  ['利用期間はいつから始まりますか？', `決済成功から${accessPeriod}（${COMPLETE_EDITION_ACCESS_DAYS}×24時間）です。復元で期間は延長されません。`],
+  [`${accessPeriod}が終わるとどうなりますか？`, '利用期間の終了後は、無料版の範囲に戻ります。自動更新や追加課金はありません。'],
   ['保存した内容はどうなりますか？', '保存した内容はアカウントに残ります。無料版で閲覧できる範囲は、無料版の利用条件に従います。'],
   ['返金・キャンセルはできますか？', '購入方法によって条件が異なります。詳しくは「購入条件・返金について」をご確認ください。'],
 ] as const;
@@ -57,12 +58,18 @@ function LineIcon({ name, color = ink, size = 22 }: { name: IconName; color?: st
 function Check({ small = false }: { small?: boolean }) {
   return <View style={[styles.check, small && styles.checkSmall]} accessibilityElementsHidden><AppText style={[styles.checkText, small && styles.checkTextSmall]}>✓</AppText></View>;
 }
-function EditionCard({ complete, desktop = false }: { complete?: boolean; desktop?: boolean }) {
+function EditionCard({ counts, complete, desktop = false }: { counts: ReturnType<typeof getEditionCounts>['free']; complete?: boolean; desktop?: boolean }) {
+  const items = [
+    `${counts.personas}種の人物像`,
+    `${counts.techniques}件の処世術`,
+    `${counts.theories}件の理論`,
+    `${counts.learning}ケースの学習コンテンツ`,
+  ];
   return <View testID={complete ? 'upgrade-complete-card' : 'upgrade-free-card'} style={[styles.editionCard, desktop && desktopStyles.editionCard, complete && styles.editionCardComplete]}>
     <Image source={mark} contentFit="contain" style={styles.editionSeal} />
     <AppText variant="serif" style={[styles.editionTitle, desktop && desktopStyles.editionTitle, complete && styles.editionTitleComplete]}>{complete ? '完全版' : '無料版'}</AppText>
     <AppText style={[styles.editionSubtitle, desktop && desktopStyles.editionSubtitle, complete && styles.editionSubtitleComplete]}>{complete ? '処世術禄を、まるごと使える' : 'まずは処世術禄を体験'}</AppText>
-    <View style={[styles.editionItems, desktop && desktopStyles.editionItems]}>{(complete ? completeItems : freeItems).map((item, index) => <View key={item} style={[styles.editionItem, desktop && desktopStyles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small={!desktop} /><AppText style={[styles.editionItemText, desktop && desktopStyles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
+    <View style={[styles.editionItems, desktop && desktopStyles.editionItems]}>{items.map((item, index) => <View key={item} style={[styles.editionItem, desktop && desktopStyles.editionItem, index > 0 && styles.editionDivider, complete && styles.editionDividerComplete]}><Check small={!desktop} /><AppText style={[styles.editionItemText, desktop && desktopStyles.editionItemText, complete && styles.editionItemTextComplete]}>{item}</AppText></View>)}</View>
   </View>;
 }
 
@@ -94,7 +101,11 @@ export type UpgradeLandingProps = {
   statusActions?: ReactNode;
 };
 
-export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
+export function UpgradeLanding({ price = `¥${COMPLETE_EDITION_PRICE_JPY}`, isPaid = false, onBack, onPurchase, onTerms, onCommerce, onRestore, purchaseLabel = '完全版を購入する', disabled = false, message, statusActions }: UpgradeLandingProps) {
+  'use no memo';
+  // Re-render when the access provider reconciles the public catalogue in place.
+  useAccess();
+  const counts = getEditionCounts();
   const { width: viewportWidth } = useHydratedWindowDimensions();
   const insets = useSafeAreaInsets();
   const width = Math.min(viewportWidth || 390, 480);
@@ -118,7 +129,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
           <View style={[styles.heroCopy, desktop && desktopStyles.heroCopy, desktop && sectionSpace]}>
             <View style={styles.brandRow}><Image loading="eager" source={mark} style={styles.brandMark} contentFit="contain" /><AppText variant="serif" style={styles.brandName}>処世術禄　完全版</AppText></View>
             <AppText variant="serif" accessibilityRole="header" style={[styles.heroTitle, narrow && { fontSize: 22, lineHeight: 34 }, desktop && desktopStyles.heroTitle, desktop && desktopWidth < 1200 && { fontSize: 42, lineHeight: 66 }]}>処世術禄を、{'\n'}もっと広く。もっと深く。</AppText>
-            <AppText style={[styles.heroLead, desktop && desktopStyles.heroLead]}>無料版では届かなかった処世術、{'\n'}その背景、その先の学びまで。</AppText>
+            <AppText style={[styles.heroLead, desktop && desktopStyles.heroLead]}>論理性 × 網羅性 × 体系性{'\n'}人物像から実践へ。根拠となる理論まで、つながりをたどれます。</AppText>
           </View>
           <View style={styles.heroBottomShade} />
         </View>
@@ -128,9 +139,9 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
           <View style={styles.comparisonWash} />
           <View testID="upgrade-comparison-copy" style={desktop && desktopStyles.comparisonCopy}>
             <AppText variant="serif" accessibilityRole="header" style={[styles.heading, narrow && { fontSize: 22 }, desktop && desktopStyles.heading]}>気になった、{desktop ? '\n' : ''}その先まで。</AppText>
-            <AppText style={[styles.comparisonLead, desktop && desktopStyles.body]}>無料版では、処世術禄の基本的な体験を試せます。{desktop ? '' : '\n'}完全版では、知識のつながりをより広く辿り、{desktop ? '' : '\n'}気になったテーマのその先まで学ぶことができます。</AppText>
+            <AppText style={[styles.comparisonLead, desktop && desktopStyles.body]}>お気に入り・マイ処世術・座右の銘は両方の版で使えます。{'\n'}完全版では、掲載中の人物像・処世術・理論・学習ケースをすべて利用できます。</AppText>
           </View>
-          <View style={[styles.editions, desktop && desktopStyles.editions]}><EditionCard desktop={desktop} /><EditionCard desktop={desktop} complete /></View>
+          <View style={[styles.editions, desktop && desktopStyles.editions]}><EditionCard counts={counts.free} desktop={desktop} /><EditionCard counts={counts.complete} desktop={desktop} complete /></View>
         </View>
 
         <View style={[styles.recommendation, desktop && desktopStyles.recommendation, sectionSpace]}>
@@ -174,7 +185,7 @@ export function UpgradeLanding({ price = '¥320', isPaid = false, onBack, onPurc
               <AppText style={styles.purchaseLabel}>完全版</AppText>
               {!isPaid ? <AppText testID="upgrade-price" style={styles.purchaseAmount}>{price}</AppText> : null}
             </View>
-            {!isPaid ? <AppText style={styles.purchaseDuration}>30日間利用できます</AppText> : null}
+            {!isPaid ? <AppText style={styles.purchaseDuration}>決済成功から{accessPeriod}・税込</AppText> : null}
             <AppText style={styles.purchaseNote}>{isPaid ? '知識の、その先へ。' : '一回払い・自動更新なし'}</AppText>
           </View>
           {desktop ? <AppText style={desktopStyles.purchasePromise}>知識のつながりを、もっと広く。{'\n'}すべての人物像・処世術・理論・学習コンテンツへ。</AppText> : null}
