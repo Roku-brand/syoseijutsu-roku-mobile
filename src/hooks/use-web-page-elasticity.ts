@@ -10,6 +10,7 @@ const FLING_DECAY = 250;
 
 type TouchDrag = {
   id: number;
+  target: EventTarget | null;
   x: number;
   y: number;
   origin: number;
@@ -59,6 +60,12 @@ export function useWebPageElasticity(
     let refreshing = false;
     let active = true;
 
+    const releaseAtTarget = (event: Event) => end(event as TouchEvent);
+    const clearTouch = () => {
+      touch?.target?.removeEventListener('touchend', releaseAtTarget);
+      touch?.target?.removeEventListener('touchcancel', releaseAtTarget);
+      touch = null;
+    };
     const movePage = (next: number) => {
       offset = next;
       content.style.translate = next ? `0 ${next}px` : '';
@@ -114,15 +121,19 @@ export function useWebPageElasticity(
     };
     const start = (event: TouchEvent) => {
       stopSpring();
+      clearTouch();
       const first = event.touches[0];
       const target = event.target;
       if (event.touches.length !== 1 || refreshing || (target instanceof Element && target.closest('input, textarea, select, [contenteditable="true"]'))) {
-        touch = null;
         if (!refreshing) settle();
         return;
       }
+      for (let node = target instanceof HTMLElement ? target : null; node && node !== scroll; node = node.parentElement) {
+        if (node.scrollHeight > node.clientHeight + 1 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY)) return;
+      }
       touch = {
         id: first.identifier,
+        target,
         x: first.clientX,
         y: first.clientY,
         origin: first.clientY,
@@ -132,12 +143,9 @@ export function useWebPageElasticity(
         lastMove: event.timeStamp,
         velocity: 0,
       };
-      for (let node = target instanceof HTMLElement ? target : null; node && node !== scroll; node = node.parentElement) {
-        if (node.scrollHeight > node.clientHeight + 1 && /^(auto|scroll)$/.test(getComputedStyle(node).overflowY)) {
-          touch = null;
-          return;
-        }
-      }
+      // The original target can leave the DOM during a touch, so its release might not reach window.
+      target?.addEventListener('touchend', releaseAtTarget);
+      target?.addEventListener('touchcancel', releaseAtTarget);
       distance = 0;
     };
     const move = (event: TouchEvent) => {
@@ -146,7 +154,7 @@ export function useWebPageElasticity(
       const dy = finger.clientY - touch.y;
       const dx = finger.clientX - touch.x;
       if (!touch.edge) {
-        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { touch = null; return; }
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { clearTouch(); return; }
         if (Math.abs(dy) < 4 || Math.abs(dy) < Math.abs(dx) * 1.2) return;
       }
       const elapsed = event.timeStamp - touch.lastMove;
@@ -181,7 +189,7 @@ export function useWebPageElasticity(
       const finished = touch;
       if (!finished || Array.from(event.touches).some(finger => finger.identifier === finished.id)) return;
       const shouldRefresh = event.type === 'touchend' && finished.edge === 1 && distance >= REFRESH_THRESHOLD && refresh;
-      touch = null;
+      clearTouch();
       if (refreshing) return;
       if (!shouldRefresh) {
         const velocity = event.type === 'touchend' && event.timeStamp - finished.lastMove < FLING_RELEASE_WINDOW
@@ -221,6 +229,7 @@ export function useWebPageElasticity(
     window.addEventListener('touchcancel', end, true);
     return () => {
       active = false;
+      clearTouch();
       stopSpring();
       movePage(0);
       scroll.removeEventListener('touchstart', start);

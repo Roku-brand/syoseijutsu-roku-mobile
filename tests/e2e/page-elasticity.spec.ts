@@ -48,23 +48,42 @@ for (const [path, id] of pages) test(`画面下は引っ張ったときだけ伸
   expect(await scroll.evaluate(node => node.scrollTop)).toBeCloseTo(end.position, 0);
 });
 
-test('末尾の手前から指を動かし続けると、そのまま下端が伸びる', async ({ page, context, browserName }) => {
-  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+test('末尾の手前から下端が伸び、指を置いた要素が外れても戻る', async ({ page }) => {
+  await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
   await page.goto('/');
   await expect(page.getByTestId('home-deck-cover')).toBeVisible();
   const scroll = page.getByTestId('home-scroll');
-  const viewport = (await scroll.boundingBox())!;
-  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight - node.clientHeight - 65; });
-  const x = viewport.x + 24;
-  const y = viewport.y + viewport.height - 35;
-  const session = await context.newCDPSession(page);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let step = 1; step <= 12; step++) {
-    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 18 }] });
-  }
-  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeLessThan(-40);
-  await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom - node.getBoundingClientRect().bottom)).toBeCloseTo(0, 0);
+  await expect(scroll.locator('..').getByTestId('vertical-scroll-indicator')).toHaveCSS('pointer-events', 'none');
+  const { resting, stretched } = await scroll.evaluate(node => {
+    const content = node.firstElementChild!;
+    const origin = content.appendChild(document.createElement('span'));
+    const max = node.scrollHeight - node.clientHeight;
+    const bottom = () => content.getBoundingClientRect().bottom;
+    const emit = (type: string, clientY: number) => {
+      const finger = { identifier: 1, target: origin, clientX: 40, clientY };
+      const event = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperties(event, {
+        touches: { value: type === 'touchend' ? [] : [finger] },
+        changedTouches: { value: [finger] },
+      });
+      origin.dispatchEvent(event);
+    };
+
+    node.scrollTop = max;
+    const resting = bottom();
+    node.scrollTop = max - 65;
+    emit('touchstart', 500);
+    emit('touchmove', 435);
+    // Model the browser's native scroll reaching the end with the same finger still down.
+    node.scrollTop = max;
+    emit('touchmove', 315);
+    const stretched = bottom();
+    origin.remove();
+    emit('touchend', 315);
+    return { resting, stretched };
+  });
+  expect(stretched).toBeLessThan(resting - 40);
+  await expect.poll(() => scroll.evaluate(node => node.firstElementChild!.getBoundingClientRect().bottom)).toBeCloseTo(resting, 0);
 });
 
 test('下端で速く指を離すと、勢いが残って少し伸びてから戻る', async ({ page, context, browserName }) => {
