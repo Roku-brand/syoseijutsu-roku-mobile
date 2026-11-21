@@ -1,39 +1,40 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
-import { useGlobalSearchParams, usePathname, useRouter, type Href } from 'expo-router';
+import { useGlobalSearchParams, usePathname, useRouter } from 'expo-router';
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
-import { useAppToast } from '@/components/app-toast';
-import { GuideDialog, type GuideKind } from '@/components/guide-dialog';
-import { APP_ROUTES, signInRoute, upgradeRoute } from '@/navigation/app-routes';
-import { COMPLETE_GUIDE_KEY, WELCOME_GUIDE_KEY, readGuideMarker, writeGuideMarker } from './guide-storage';
+import { COMPLETE_GUIDE_KEY, WELCOME_GUIDE_KEY, readGuideMarker, readPurchaseGuideKeys, writeGuideMarker } from './guide-storage';
 
+export type GuideKind = 'welcome' | 'complete';
 type GuideContextValue = {
+  kind: GuideKind | null;
   openGuide: (kind: GuideKind) => void;
-  requestPurchaseGuide: () => void;
+  finishGuide: () => void;
+  requestPurchaseGuide: (checkoutSessionId?: string) => void;
 };
 const GuideContext = createContext<GuideContextValue | null>(null);
+const guidePath = '/installation-guide';
 
 export function GuideProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
+  const { checkout } = useGlobalSearchParams<{ checkout?: string }>();
   const { user, loading } = useAuth();
-  const { actualAccessState, accessInfo, isPaid } = useAccess();
-  const toast = useAppToast();
+  const { actualAccessState, accessInfo } = useAccess();
   const [ready, setReady] = useState(false);
   const [kind, setKind] = useState<GuideKind | null>(null);
-  const [purchaseRequested, setPurchaseRequested] = useState(false);
+  const [purchaseRequestedFor, setPurchaseRequestedFor] = useState<string | null>(null);
   const welcomeDone = useRef(false);
-  const seenPurchase = useRef<string | null>(null);
-  const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
+  const seenPurchases = useRef(new Set<string>());
+  const entered = useRef(false);
+  const canShowComplete = Boolean(user && actualAccessState === 'paid' && accessInfo.status === 'active');
 
   useEffect(() => {
     let active = true;
-    void Promise.all([readGuideMarker(WELCOME_GUIDE_KEY), readGuideMarker(COMPLETE_GUIDE_KEY)]).then(([welcome, purchase]) => {
+    void Promise.all([readGuideMarker(WELCOME_GUIDE_KEY), readGuideMarker(COMPLETE_GUIDE_KEY)]).then(([welcome, purchases]) => {
       if (!active) return;
       welcomeDone.current = welcome === 'done';
-      seenPurchase.current = purchase;
+      seenPurchases.current = readPurchaseGuideKeys(purchases);
       setReady(true);
     });
     return () => { active = false; };
@@ -44,58 +45,55 @@ export function GuideProvider({ children }: { children: ReactNode }) {
     writeGuideMarker(WELCOME_GUIDE_KEY, 'done');
   }, []);
 
-  useEffect(() => {
-    if (!ready || loading || kind || welcomeDone.current || checkout) return;
-    if (actualAccessState === 'checking' || actualAccessState === 'error') return;
-    // Web deep links (especially legal, auth and checkout) stay uninterrupted.
-    // A native install also receives its introduction when opened by a content link.
-    const entry = pathname === '/' || pathname === '/app';
-    const nativeContent = Platform.OS !== 'web' && !/^\/(auth|upgrade|legal|owner|settings)(\/|$)/.test(pathname);
-    if (entry || nativeContent) setKind('welcome');
-  }, [actualAccessState, checkout, kind, loading, pathname, ready]);
-
-  useEffect(() => {
-    // Only explicit successful purchase flows request this. Normal sign-in,
-    // entitlement polling, owner previews and restoration do not replay it.
-    if (!ready || !purchaseRequested || actualAccessState !== 'paid' || accessInfo.status !== 'active' || !user) return;
-    const stamp = accessInfo.purchasedAt ?? accessInfo.accessStartedAt ?? accessInfo.accessExpiresAt ?? 'legacy';
-    const purchaseKey = `${user.id}:${stamp}`;
-    setPurchaseRequested(false);
-    if (seenPurchase.current === purchaseKey) return;
-    seenPurchase.current = purchaseKey;
-    writeGuideMarker(COMPLETE_GUIDE_KEY, purchaseKey);
-    finishWelcome();
-    setKind('complete');
-  }, [accessInfo, actualAccessState, finishWelcome, purchaseRequested, ready, user]);
-
   const openGuide = useCallback((next: GuideKind) => {
-    if (next === 'complete' && !isPaid) return;
+    if (next === 'complete' && !canShowComplete) return;
     setKind(next);
-  }, [isPaid]);
-  const requestPurchaseGuide = useCallback(() => setPurchaseRequested(true), []);
-  const value = useMemo(() => ({ openGuide, requestPurchaseGuide }), [openGuide, requestPurchaseGuide]);
+    router.push(guidePath);
+  }, [canShowComplete, router]);
 
-  const close = (destination?: Href, later = false) => {
+  useEffect(() => {
+    if (pathname === guidePath) {
+      entered.current = true;
+    } else if (entered.current) {
+      entered.current = false;
+      if (kind === 'welcome') finishWelcome();
+      setKind(null);
+    }
+  }, [finishWelcome, kind, pathname]);
+
+  useEffect(() => {
+    if (!ready || loading || checkout || pathname !== '/' || !purchaseRequestedFor) return;
+    setPurchaseRequestedFor(null);
+    if (!canShowComplete || user?.id !== purchaseRequestedFor) return;
+    const stamp = accessInfo.purchasedAt ?? accessInfo.accessStartedAt ?? accessInfo.accessExpiresAt;
+    if (!stamp) return;
+    const key = `${user.id}:${stamp}`;
+    if (seenPurchases.current.has(key)) return;
+    seenPurchases.current.add(key);
+    writeGuideMarker(COMPLETE_GUIDE_KEY, JSON.stringify([...seenPurchases.current]));
+    finishWelcome();
+    openGuide('complete');
+  }, [accessInfo, canShowComplete, checkout, finishWelcome, loading, openGuide, pathname, purchaseRequestedFor, ready, user?.id]);
+
+  useEffect(() => {
+    if (!ready || loading || kind || welcomeDone.current || checkout || purchaseRequestedFor) return;
+    if (actualAccessState === 'checking' || actualAccessState === 'error') return;
+    const entry = pathname === '/' || pathname === '/app';
+    const nativeContent = Platform.OS !== 'web' && !/^\/(auth|upgrade|legal|owner|settings|welcome|onboarding|installation-guide)(\/|$)/.test(pathname);
+    if (entry || nativeContent) openGuide('welcome');
+  }, [actualAccessState, checkout, kind, loading, openGuide, pathname, purchaseRequestedFor, ready]);
+
+  const requestPurchaseGuide = useCallback((checkoutSessionId?: string) => {
+    if (checkoutSessionId && user?.id) setPurchaseRequestedFor(user.id);
+  }, [user?.id]);
+
+  const finishGuide = useCallback(() => {
     if (kind === 'welcome') finishWelcome();
-    setKind(null);
-    if (destination) router.push(destination);
-    if (later) toast('この案内は設定からいつでも見られます');
-  };
+    router.dismissTo('/');
+  }, [finishWelcome, kind, router]);
 
-  return <GuideContext.Provider value={value}>
-    {children}
-    {kind ? <GuideDialog
-      kind={kind}
-      signedIn={Boolean(user)}
-      isPaid={isPaid}
-      accessInfo={accessInfo}
-      onLater={() => close(undefined, true)}
-      onStart={() => close(kind === 'complete' ? APP_ROUTES.personas : APP_ROUTES.home)}
-      onPersonas={() => close(APP_ROUTES.personas)}
-      onLogin={() => close(signInRoute())}
-      onUpgrade={() => close(upgradeRoute('welcome_guide'))}
-    /> : null}
-  </GuideContext.Provider>;
+  const value = useMemo(() => ({ kind: kind === 'complete' && !canShowComplete ? null : kind, openGuide, finishGuide, requestPurchaseGuide }), [canShowComplete, finishGuide, kind, openGuide, requestPurchaseGuide]);
+  return <GuideContext.Provider value={value}>{children}</GuideContext.Provider>;
 }
 
 export function useGuides() {

@@ -52,7 +52,7 @@ export default function SettingsScreen() {
 
       <SettingsSection title="ヘルプ・サポート" />
       <SettingsGroup>
-        <SettingLink title="はじめての方へ" detail="処世術禄の使い方を、4ページでご案内" onPress={() => openGuide('welcome')} />
+        <SettingLink title="はじめての方へ" detail="処世術禄の使い方を、3ページでご案内" onPress={() => openGuide('welcome')} />
         {isPaid ? <SettingLink title="完全版の使い方" detail="解放された人物像・処世術・理論・学習のご案内" onPress={() => openGuide('complete')} /> : null}
         <SettingLink title="処世術禄について" detail="アプリの考え方と収録内容" href={APP_ROUTES.about} />
         <SettingLink title="購入・完全版 FAQ" detail="購入、利用期間、復元について" href={APP_ROUTES.faq} />

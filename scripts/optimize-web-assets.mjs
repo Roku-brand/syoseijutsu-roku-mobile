@@ -1,8 +1,6 @@
 import sharp from 'sharp';
 
 const assets = [
-  ['assets/welcome/welcome-background-desktop.png', 'assets/welcome/welcome-background-desktop.webp', 82],
-  ['assets/welcome/welcome-background-mobile.png', 'assets/welcome/welcome-background-mobile.webp', 82],
   ['assets/home/machiya-night-hero.png', 'assets/home/machiya-night-hero.webp', 84],
 ];
 

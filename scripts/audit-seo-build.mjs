@@ -110,8 +110,7 @@ try {
 } catch { failures.push('home JSON-LD site-name variant is invalid'); }
 
 const assetBudgets = [
-  ['assets/welcome/welcome-background-desktop.webp', 100_000],
-  ['assets/welcome/welcome-background-mobile.webp', 100_000],
+  ['assets/welcome/guide-ink-plum.webp', 150_000],
   ['assets/home/machiya-night-hero.webp', 250_000],
 ];
 for (const [file, budget] of assetBudgets) {

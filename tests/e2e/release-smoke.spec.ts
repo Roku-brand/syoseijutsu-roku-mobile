@@ -317,7 +317,7 @@ test('購入直前の確認内容と法務導線を表示できる', async ({ pa
   await page.getByRole('button', { name: /完全版を購入する/ }).click();
   await expect(page.getByText('購入内容の確認', { exact: true })).toBeVisible();
   await expect(page.getByText('¥320（税込）', { exact: true }).last()).toBeVisible();
-  await expect(page.getByText('決済完了から30日間', { exact: true })).toBeVisible();
+  await expect(page.getByText('決済成功から30日間', { exact: true })).toBeVisible();
   await expect(page.getByText('自動更新', { exact: true })).toBeVisible();
   await expect(page.getByText(/決済前にアカウントを作成またはログインします/)).toBeVisible();
   await expect(page.getByText(/クレジットカード・PayPayはStripeの決済画面で選べます/)).toBeVisible();

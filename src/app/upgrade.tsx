@@ -5,7 +5,7 @@ import { WEB_PURCHASE_NOTICE } from '@/data/legal-documents';
 import { useAccess } from '@/access/access-state';
 import { useAuth } from '@/auth/auth-state';
 import { AppText } from '@/components/ui';
-import { COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatRemainingAccess } from '@/lib/purchase';
+import { COMPLETE_EDITION_ACCESS_DAYS, COMPLETE_EDITION_PRICE_JPY, createCompleteEditionCheckout, formatRemainingAccess } from '@/lib/purchase';
 import { colors } from '@/constants/theme';
 import { UpgradeLanding } from '@/components/upgrade-landing';
 import { useGuides } from '@/onboarding/guide-provider';
@@ -58,16 +58,17 @@ export default function UpgradeScreen() {
     setSubmitting(true);
     setMessage('Stripeの購入履歴を確認しています…');
     try {
-      const restored = await restorePurchase();
+      const checkoutSession = params.checkout === 'success' ? params.session_id : undefined;
+      const restored = await restorePurchase(checkoutSession);
       if (restored && params.checkout === 'success') {
-        requestPurchaseGuide();
+        requestPurchaseGuide(checkoutSession);
         returnHome();
         return;
       }
       setMessage(restored
         ? '有効な完全版アクセスを復元しました。'
         : accessStatus === 'expired'
-          ? '過去の購入履歴は確認できましたが、30日間の利用期間は終了しています。'
+          ? '過去の購入履歴は確認できましたが、利用期間は終了しています。'
           : 'このアカウントの有効な購入はまだ確認できません。');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '購入履歴を確認できませんでした。');
@@ -88,7 +89,7 @@ export default function UpgradeScreen() {
       setMessage('決済を確認しています。完了までこの画面を閉じずにお待ちください。');
       void restorePurchase(params.session_id).then((restored) => {
         if (restored) {
-          requestPurchaseGuide();
+          requestPurchaseGuide(params.session_id);
           // Return only after server reconciliation grants active access.
           // Clearing the checkout query also restores the normal home chrome.
           returnHome();
@@ -115,7 +116,6 @@ export default function UpgradeScreen() {
     <View testID="upgrade-single-screen" style={styles.safe}>
       <UpgradeLanding
         isPaid={isPaid}
-        price={`¥${COMPLETE_EDITION_PRICE_JPY}`}
         onBack={() => router.canGoBack() ? router.back() : router.replace('/')}
         onPurchase={() => isPaid ? router.replace('/') : setShowCheckoutConfirmation(true)}
         onTerms={() => router.push('/legal/terms')}
@@ -135,15 +135,15 @@ export default function UpgradeScreen() {
             <View style={styles.confirmationRows}>
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>商品</AppText><AppText style={styles.confirmationValue}>処世術禄 完全版</AppText></View>
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>価格</AppText><AppText style={styles.confirmationValue}>¥{COMPLETE_EDITION_PRICE_JPY}（税込）</AppText></View>
-              <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>利用期間</AppText><AppText style={styles.confirmationValue}>決済完了から30日間</AppText></View>
+              <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>利用期間</AppText><AppText style={styles.confirmationValue}>決済成功から{COMPLETE_EDITION_ACCESS_DAYS}日間</AppText></View>
               <View style={styles.confirmationRow}><AppText style={styles.confirmationLabel}>自動更新</AppText><AppText style={styles.confirmationValue}>なし</AppText></View>
             </View>
             <AppText style={styles.confirmationNotice}>一回払いで、期間終了後の自動更新や追加課金はありません。終了後は保存データを残したまま無料版へ戻ります。</AppText>
             <AppText testID="checkout-return-conditions" style={styles.confirmationSupport}>{WEB_PURCHASE_NOTICE}</AppText>
             <AppText style={styles.confirmationSupport}>申込期限なし。決済を確定する前に戻って内容を訂正できます。18歳未満の方は親権者等の同意を得てください。</AppText>
             <AppText style={styles.confirmationSupport}>{user
-              ? 'クレジットカード・PayPay対応です。このアカウントに購入情報と30日間の利用権を紐づけます。利用可能な方法はStripeの決済画面に表示されます。'
-              : '決済前にアカウントを作成またはログインします。購入情報と30日間の利用権は、そのアカウントに安全に紐づきます。クレジットカード・PayPayはStripeの決済画面で選べます。'}
+              ? `クレジットカード・PayPay対応です。このアカウントに購入情報と${COMPLETE_EDITION_ACCESS_DAYS}日間の利用権を紐づけます。利用可能な方法はStripeの決済画面に表示されます。`
+              : `決済前にアカウントを作成またはログインします。購入情報と${COMPLETE_EDITION_ACCESS_DAYS}日間の利用権は、そのアカウントに安全に紐づきます。クレジットカード・PayPayはStripeの決済画面で選べます。`}
             </AppText>
             <View style={styles.confirmationLinks}><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/terms'); }}><AppText style={styles.confirmationLink}>利用規約</AppText></Pressable><Pressable onPress={() => { setShowCheckoutConfirmation(false); router.push('/legal/commerce'); }}><AppText style={styles.confirmationLink}>特商法表記</AppText></Pressable></View>
             <Pressable accessibilityRole="button" disabled={submitting} onPress={() => { setShowCheckoutConfirmation(false); void purchase(); }} style={({ pressed }) => [styles.confirmationButton, pressed && styles.pressed]}><AppText variant="serif" style={styles.confirmationButtonText}>{user ? 'Stripe決済へ進む' : 'アカウント作成・ログインへ'}</AppText></Pressable>
