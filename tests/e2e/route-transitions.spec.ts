@@ -143,3 +143,31 @@ test('the vertical scroll indicator follows the body and fades without shifting 
   expect(await scroll.boundingBox()).toEqual(viewport);
   expect(first.x + first.width).toBeGreaterThan(viewport!.x + viewport!.width - 10);
 });
+
+test('the thin scroll thumb can be dragged to both ends on a touch screen', async ({ page, context, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
+  await page.setViewportSize({ width: 390, height: 620 });
+  await page.goto('/learn');
+  await expect(page.getByTestId('learning-challenge-1')).toBeVisible();
+  const scroll = page.getByTestId('learn-scroll');
+  const thumb = scroll.locator('..').getByTestId('vertical-scroll-indicator');
+  await scroll.evaluate(node => { node.scrollTop = node.scrollHeight / 3; });
+  await expect(thumb).toHaveCSS('opacity', '1');
+  await expect(thumb.locator(':scope > div')).toHaveCSS('width', '3px');
+  const [scrollBox, thumbBox] = await Promise.all([scroll.boundingBox(), thumb.boundingBox()]);
+  const x = thumbBox!.x + thumbBox!.width - 6;
+  const y = thumbBox!.y + thumbBox!.height / 2;
+  const session = await context.newCDPSession(page);
+  await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+  try {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox!.y + scrollBox!.height - 2 }] });
+    await expect.poll(() => scroll.evaluate(node => node.scrollHeight - node.clientHeight - node.scrollTop)).toBeLessThan(2);
+    await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox!.y + 2 }] });
+    await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
+    await expect(thumb).toHaveCSS('opacity', '1');
+  } finally {
+    await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  }
+  await expect(thumb).toHaveCSS('opacity', '0');
+  await expect(thumb).toHaveCSS('pointer-events', 'none');
+});

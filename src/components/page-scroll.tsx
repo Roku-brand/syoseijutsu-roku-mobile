@@ -65,8 +65,10 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
   return (
     <View style={[styles.viewport, containerStyle]}>
       {viewport}
-      <View ref={thumb} pointerEvents="none" aria-hidden testID="vertical-scroll-indicator"
-        style={[styles.thumb, !reduced && styles.thumbFade]} />
+      <View ref={thumb} aria-hidden testID="vertical-scroll-indicator"
+        style={[styles.thumbTarget, !reduced && styles.thumbFade]}>
+        <View pointerEvents="none" style={styles.thumb} />
+      </View>
     </View>
   );
 }
@@ -74,7 +76,8 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
 const styles = StyleSheet.create({
   webScroll: Platform.OS === 'web' ? { overscrollBehaviorY: 'none', overflowAnchor: 'none' } as ViewStyle : {},
   viewport: { flexGrow: 1, flexShrink: 1, minHeight: 0 },
-  thumb: { position: 'absolute', top: 0, right: 3, width: 5, borderRadius: 3, backgroundColor: 'rgba(45, 45, 45, 0.44)', opacity: 0, zIndex: 1 },
+  thumbTarget: { position: 'absolute', top: 0, right: 0, width: 22, opacity: 0, zIndex: 1, touchAction: 'none', cursor: 'grab', userSelect: 'none' } as unknown as ViewStyle,
+  thumb: { position: 'absolute', top: 0, bottom: 0, right: 3, width: 3, borderRadius: 2, backgroundColor: 'rgba(45, 45, 45, 0.44)' },
   thumbFade: Platform.OS === 'web' ? { transitionProperty: 'opacity', transitionDuration: '180ms' } as ViewStyle : {},
   indicator: { position: 'absolute', left: '50%', marginLeft: -17, top: -41, width: 34, height: 34, alignItems: 'center', justifyContent: 'center', opacity: 0 },
   refreshGlyph: { fontSize: 29, lineHeight: 34, color: colors.goldDeep },
