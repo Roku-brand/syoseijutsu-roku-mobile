@@ -38,6 +38,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
   useWebPageElasticity(scroll, indicator, reduced, onPullRefresh ? refresh : undefined);
   const showWebIndicator = Platform.OS === 'web' && showsVerticalScrollIndicator && !props.horizontal;
   useWebScrollIndicator(scroll, thumb, showWebIndicator);
+  const { backgroundColor, ...containerStyle } = showWebIndicator ? StyleSheet.flatten(style) ?? {} : {};
   const viewport = (
     <ScrollView
       bounces={!reduced || Boolean(onPullRefresh)}
@@ -46,7 +47,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
       showsVerticalScrollIndicator={Platform.OS !== 'web' && showsVerticalScrollIndicator}
       {...props}
       ref={scroll}
-      style={[styles.webScroll, !showWebIndicator && style]}
+      style={[styles.webScroll, showWebIndicator ? { backgroundColor } : style]}
       contentContainerStyle={contentContainerStyle}
       refreshControl={onPullRefresh && Platform.OS !== 'web'
         ? <RefreshControl refreshing={refreshing} onRefresh={refresh} tintColor={colors.goldDeep} colors={[colors.goldDeep]} />
@@ -62,7 +63,7 @@ export function PageScroll({ ref, children, contentContainerStyle, style, onPull
   );
   if (!showWebIndicator) return viewport;
   return (
-    <View style={[styles.viewport, style]}>
+    <View style={[styles.viewport, containerStyle]}>
       {viewport}
       <View ref={thumb} pointerEvents="none" aria-hidden testID="vertical-scroll-indicator"
         style={[styles.thumb, !reduced && styles.thumbFade]} />
