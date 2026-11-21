@@ -139,8 +139,8 @@ export function BookHeader() {
       <View pointerEvents="none" style={[styles.screenTitleGroup, headerSubtitle && styles.screenTitleGroupWithSubtitle, compact && personaHeader && styles.personaScreenTitleGroupCompact, { left: titleInset, right: titleInset }]}>
         <AppText
           testID={primaryTabHeader ? 'book-header-brand' : personaHeader ? 'persona-header-title' : undefined}
-          accessibilityRole="header"
-          aria-level={primaryTabHeader || detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
+          accessibilityRole={primaryTabHeader ? undefined : 'header'}
+          aria-level={primaryTabHeader ? undefined : detailHeader || (pathname === '/search' && !compact) ? 2 : 1}
           numberOfLines={compact && personaHeader ? 2 : 1}
           adjustsFontSizeToFit
           minimumFontScale={0.85}

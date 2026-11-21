@@ -52,7 +52,7 @@ test('home header keeps its paper landscape while the page stretches and returns
   await expect(scroll).toHaveCSS('overscroll-behavior-y', 'none');
   const header = page.getByTestId('book-header');
   await expect(page.getByTestId('book-header-safe-area')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
-  await expect(header.getByText('処世術禄', { exact: true })).toHaveCSS('color', 'rgb(23, 23, 18)');
+  await expect(header.getByTestId('book-header-brand')).toHaveCSS('color', 'rgb(23, 23, 18)');
   await expect(page.locator('#roku-status-bar-background')).toHaveCSS('background-color', 'rgb(247, 240, 228)');
   const session = await context.newCDPSession(page);
   const origin = (await header.boundingBox())!;

@@ -274,8 +274,9 @@ test('主要4タブのヘッダーはブランド、検索、メニューを表�
     await page.goto(route);
     const header = page.getByTestId('book-header');
     await expect(header.getByText(title, { exact: true })).toHaveCount(0);
-    await expect(header.getByText('処世術禄', { exact: true })).toBeVisible();
-    await expect(header.getByText('人生をうまく生きる方法を、すべての人へ', { exact: true })).toBeVisible();
+    await expect(header.getByTestId('book-header-brand')).toHaveText('処世術録');
+    await expect(header.getByTestId('book-header-app-icon')).toHaveCount(0);
+    await expect(header.getByTestId('book-header-tagline')).toHaveCount(0);
     await expect(header.getByRole('button', { name: '検索' })).toBeVisible();
     await expect(header.getByRole('button', { name: '設定を開く' })).toBeVisible();
     await expect(header.getByText('完全版を見る →', { exact: true })).toHaveCount(0);
