@@ -87,6 +87,7 @@ for (const status of ['published', 'archived', 'draft'] as const) {
     server.articles()[0].status = status;
     const otherArticles = structuredClone(server.articles().slice(1));
     await page.goto('/owner/features');
+    await page.getByRole('button', { name: `${initial[0].title}を編集`, exact: true }).click();
     await expect(page.getByRole('button', { name: '削除する', exact: true })).toBeVisible();
     await page.getByRole('button', { name: '削除する', exact: true }).click();
     await expect(page.getByTestId('feature-action-confirm')).toContainText(initial[0].title);
@@ -103,6 +104,7 @@ for (const status of ['published', 'archived', 'draft'] as const) {
 test('CMSは別画面で変更された下書きを削除しない', async ({ page }) => {
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
+  await page.getByRole('button', { name: `${initial[0].title}を編集`, exact: true }).click();
   await page.getByRole('button', { name: '削除する', exact: true }).click();
   server.drafts().push({ article_id: initial[0].id, revision: 1, payload: initial[0], base_updated_at: initial[0].updated_at });
   await page.getByRole('button', { name: 'この特集を完全に削除する', exact: true }).click();
@@ -197,7 +199,7 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
   const title = page.getByRole('textbox', { name: 'タイトル', exact: true });
-  await expect(title).toHaveValue(initial[0].title);
+  await expect(title).toHaveCount(0);
   await page.getByRole('button', { name: `${initial[1].title}を編集`, exact: true }).click();
   await expect(page.getByRole('radio', { name: '自己理解・成長', exact: true })).toBeChecked();
   await page.getByRole('radio', { name: '社会・時代', exact: true }).click();
@@ -209,7 +211,10 @@ test('CMSは下書きをプレビューしてから公開し、非公開でも�
   expect(server.articles()[1].category_id).toBe('self-growth');
   expect(server.drafts()[0].payload.title).toBe('ティルトと向き合う');
   expect(server.drafts()[0].payload.category_id).toBe('society-era');
-  await expect(page.getByRole('button', { name: `${initial[1].title}を編集`, exact: true })).toContainText('社会・時代');
+  await page.getByRole('button', { name: /記事一覧に戻る/ }).click();
+  const listing = page.getByRole('button', { name: `${initial[1].title}を編集`, exact: true });
+  await expect(listing).toContainText('社会・時代');
+  await listing.click();
   await page.getByRole('button', { name: 'プレビュー', exact: true }).click();
   await expect(page.getByTestId('feature-article')).toContainText('感情を手がかりにする');
   await page.getByRole('button', { name: '公開する', exact: true }).click();
@@ -393,7 +398,6 @@ test('カテゴリが未設定・不正でもすべての一覧から記事が�
 test('新規特集の主カテゴリを選び、公開後に該当タブで読める', async ({ page }) => {
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
-  if ((page.viewportSize()?.width ?? 0) < 1000) await page.getByRole('button', { name: '記事一覧', exact: true }).click();
   await page.getByRole('button', { name: '＋ 記事を作成', exact: true }).click();
   await page.getByRole('textbox', { name: 'タイトル', exact: true }).fill('選択と向き合う');
   await page.getByRole('textbox', { name: '記事のURL名', exact: true }).fill('choosing-paths');
@@ -451,7 +455,6 @@ test('案内人が未設定・非公開・取得失敗でも記事本文と編�
 test('CMSで案内人・出典・関連特集を編集し、知識への導線と安全な出典を表示する', async ({ page }) => {
   const server = await mockFeatures(page, true);
   await page.goto('/owner/features');
-  if ((page.viewportSize()?.width ?? 0) < 1000) await page.getByRole('button', { name: '記事一覧', exact: true }).click();
   await page.getByRole('button', { name: initial[1].title + 'を編集', exact: true }).click();
   await expect(page.getByRole('radio', { name: '澄野 遥', exact: true })).toBeChecked();
   await page.getByRole('button', { name: '関連・出典', exact: true }).click();
@@ -526,11 +529,13 @@ test('3名のプロフィールと担当記事を表示し、記事上の説明�
   await page.goto('/features/editorial-policy');
   for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('link', { name: name + 'のプロフィール', exact: true })).toBeVisible();
   await page.goto('/owner/features');
+  await page.getByRole('button', { name: `${initial[0].title}を編集`, exact: true }).click();
   for (const name of ['澄野 遥', '榊 直人', '小野瀬 紬']) await expect(page.getByRole('radio', { name, exact: true })).toBeVisible();
 });
 
 for (const width of [320,390,1440]) test(`CMSのサムネと公開確認が画面内で一致する（${width}px）`,async({page})=>{
  await page.setViewportSize({width,height:900});await mockFeatures(page,true);await page.goto('/owner/features');
+ await page.getByRole('button', { name: `${initial[0].title}を編集`, exact: true }).click();
  const actions=page.getByTestId('feature-editor-actions');
  await expect(actions.getByRole('button',{name:'公開する',exact:true})).toBeVisible();
  const bounds=await actions.boundingBox();expect(bounds!.y+bounds!.height).toBeLessThanOrEqual(900);
@@ -548,6 +553,7 @@ for (const width of [320,390,1440]) test(`CMSのサムネと公開確認が画�
 
 test('CMSの公開エラーは操作欄に表示し、編集内容を失わず再試行できる',async({page})=>{
  const server=await mockFeatures(page,true);await page.goto('/owner/features');
+ await page.getByRole('button', { name: `${initial[0].title}を編集`, exact: true }).click();
  const title=page.getByRole('textbox',{name:'タイトル',exact:true});await title.fill('失敗しても保持するタイトル');
  await page.route('**/rpc/publish_feature_article',route=>route.fulfill({status:409,json:{code:'40001',message:'記事が別の画面で変更されています。再読み込みしてください。'}}));
  await page.getByRole('button',{name:'公開する',exact:true}).click();await page.getByRole('button',{name:'この内容で公開',exact:true}).click();
@@ -558,10 +564,55 @@ test('CMSの公開エラーは操作欄に表示し、編集内容を失わず�
 
 test('CMSは必須入力をその場で案内し、新規記事のURL名は省略して公開できる',async({page})=>{
  const server=await mockFeatures(page,true);await page.goto('/owner/features');
- if((page.viewportSize()?.width??0)<1000)await page.getByRole('button',{name:'記事一覧',exact:true}).click();
  await page.getByRole('button',{name:'＋ 記事を作成',exact:true}).click();
  await page.getByRole('button',{name:'公開する',exact:true}).click();await expect(page.getByRole('alert')).toContainText('タイトルと本文');await expect(page.getByTestId('feature-action-confirm')).toBeHidden();
  await page.getByRole('textbox',{name:'タイトル',exact:true}).fill('URLを自動発行する記事');await page.getByRole('textbox',{name:'本文',exact:true}).fill('## 本文\n\n公開できる記事です。');
  await page.getByRole('button',{name:'公開する',exact:true}).click();await page.getByRole('button',{name:'この内容で公開',exact:true}).click();
  await expect(page.getByText('特集を公開しました。',{exact:true})).toBeVisible();expect(server.articles().find((a:any)=>a.title==='URLを自動発行する記事').slug).toBe('new-article');
+});
+
+test('スマホの特集見出しは指定した語句の間で改行する', async ({ page }) => {
+  const server = await mockFeatures(page);
+  const first = '押さえておくべき5つの処世術';
+  const second = 'ー分散戦略・反応の技術・可変性の自覚・';
+  const third = '偶然の設計・本当の勇気ー';
+  server.articles()[0].title = first + second + '/' + third;
+  await page.setViewportSize({ width: 320, height: 760 });
+  await page.goto('/features/five-guidelines');
+  const title = page.getByTestId('feature-article').getByRole('heading', { level: 1 });
+  await expect(title).toBeVisible();
+  expect(await title.textContent()).toBe([first, second, third].join('\n'));
+  const countFirstLineBoxes = await title.evaluate((element, count) => {
+    const range = document.createRange();
+    range.setStart(element.firstChild!, 0);
+    range.setEnd(element.firstChild!, count);
+    return range.getClientRects().length;
+  }, first.length);
+  expect(countFirstLineBoxes).toBe(1);
+});
+
+test('オーナー設定から特集と案内人を同じ階層で開く', async ({ page }) => {
+  await mockFeatures(page, true);
+  await page.route('**/functions/v1/access', route => route.fulfill({ json: { access: 'free' } }));
+  await page.goto('/settings');
+  await expect(page.getByRole('button', { name: /^オーナープレビュー/ })).toBeVisible();
+  await expect(page.getByText('運用ダッシュボード', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('編集案内人の管理', { exact: true })).toHaveCount(0);
+  await page.getByRole('button', { name: 'コンテンツ管理', exact: false }).click();
+  const headings = ['処世術', '理論', '人気ランキング', '特集'];
+  const sizes = [];
+  for (const name of headings) {
+    const button = page.getByRole('button', { name, exact: true });
+    await expect(button).toBeVisible();
+    const box = (await button.boundingBox())!;
+    sizes.push([box.width, box.height]);
+  }
+  expect(sizes.every(([w, h]) => w === sizes[0][0] && h === sizes[0][1])).toBe(true);
+  await page.getByRole('button', { name: '特集', exact: true }).click();
+  await expect(page.getByText('記事一覧', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '編集案内人の管理', exact: true }).click();
+  await expect(page.getByTestId('editorial-character-editor')).toBeVisible();
+  await page.getByRole('button', { name: /記事一覧に戻る/ }).click();
+  await expect(page).toHaveURL(/\/owner\/features$/);
+  await expect(page.getByText('記事一覧', { exact: true })).toBeVisible();
 });

@@ -10,7 +10,6 @@ import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { useAppState } from '@/state/app-state';
 import { useAccess } from '@/access/access-state';
 import { canPlayLearningCase } from '@/access/access-config';
-import { useTabRootScroll } from '@/navigation/tab-root-scroll';
 
 const marks = ['対', '仕', '生'];
 const landscape = require('../../../assets/home/system-atlas-washi.webp');
@@ -19,7 +18,6 @@ const guide = require('../../../assets/learn/rokumaru-roadmap.webp');
 
 export default function LearnHomeScreen() {
   const router = useRouter();
-  const scroll = useTabRootScroll('learn');
   const { learningRecords, reviewCaseIds } = useAppState();
   const { isPaid } = useAccess();
   const { desktop, narrow } = useResponsiveLayout();
@@ -32,7 +30,7 @@ export default function LearnHomeScreen() {
     }
     router.push({ pathname: '/learn/[caseId]', params: { caseId: id, retry: '1' } });
   };
-  return <BookScreen scrollRef={scroll} testID="learn-scroll" contentContainerStyle={[styles.content, desktop && styles.contentDesktop]}>
+  return <BookScreen testID="learn-scroll" contentContainerStyle={[styles.content, desktop && styles.contentDesktop]}>
     <View testID="learning-hero" style={[styles.hero, desktop && styles.heroDesktop]}>
       <Image source={guide} resizeMode="contain" accessibilityLabel="学びを案内する禄丸" testID="rokumaru-guide" style={[styles.guide, desktop && styles.guideDesktop]} />
       <View style={styles.heroCopy}>

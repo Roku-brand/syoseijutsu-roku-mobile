@@ -94,33 +94,46 @@ test('one press on any root tab scrolls to its top without reloading', async ({ 
   }
 });
 
-test('a tab press from nested pages returns to the chosen tab root at the top', async ({ page }) => {
+test('switching tabs resumes the last detail, query, and scroll position', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 620 });
   await page.goto('/learn');
   const nav = page.getByTestId('persistent-bottom-navigation');
   const learn = nav.getByRole('link', { name: '学ぶ', exact: true });
-  const discover = nav.getByRole('link', { name: '探す', exact: true });
   const myPage = nav.getByRole('link', { name: 'マイページ', exact: true });
-  const home = nav.getByRole('link', { name: 'ホーム', exact: true });
   await page.getByTestId('learning-challenge-1').click();
   await expect(page).toHaveURL(/\/learn\/[^/?]+/);
-  await learn.click();
-  await expect(page).toHaveURL(/\/learn$/);
-  await expect.poll(() => page.getByTestId('learn-scroll').evaluate(node => node.scrollTop)).toBe(0);
+  const lesson = page.url();
 
   await myPage.click();
   await page.getByRole('button', { name: '閲覧履歴を開く', exact: true }).click();
   await expect(page).toHaveURL(/\/history$/);
+  await learn.click();
+  await expect(page).toHaveURL(lesson);
+  await myPage.click();
+  await expect(page).toHaveURL(/\/history$/);
+  await page.getByTestId('book-header-back').click();
+  await expect(page).toHaveURL(/\/my-os$/);
+
+  await learn.click();
+  await expect(page).toHaveURL(lesson);
+  await learn.click();
+  await expect(page).toHaveURL(/\/learn$/);
+  const scroll = page.getByTestId('learn-scroll').filter({ visible: true });
+  await scroll.evaluate(node => { node.scrollTop = 120; });
+  const top = await scroll.evaluate(node => node.scrollTop);
+  expect(top).toBeGreaterThan(0);
+  await expect(scroll.locator('..').getByTestId('vertical-scroll-indicator')).toHaveCSS('pointer-events', 'auto');
   await myPage.click();
   await expect(page).toHaveURL(/\/my-os$/);
-  await expect.poll(() => page.getByTestId('my-page-scroll').evaluate(node => node.scrollTop)).toBe(0);
+  await learn.click();
+  await expect(page).toHaveURL(/\/learn$/);
+  await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(top);
 
-  await home.click();
-  await page.getByTestId('home-shortcut-personas').click();
-  await expect(page).toHaveURL(/\/personas$/);
-  await discover.click();
-  await expect(page).toHaveURL(/\/discover$/);
-  await expect.poll(() => page.getByTestId('discover-scroll').evaluate(node => node.scrollTop)).toBe(0);
+  await page.goto('/search?mode=theories&q=初頭効果');
+  const search = page.url();
+  await myPage.click();
+  await nav.getByRole('link', { name: '探す', exact: true }).click();
+  await expect(page).toHaveURL(search);
 });
 
 test('the vertical scroll indicator follows the body and fades without shifting the page', async ({ page }) => {
@@ -187,7 +200,8 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
   try {
     await expect(paint).toHaveCSS('width', '7px');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '15');
+    await expect(paint).toHaveCSS('background-color', 'rgb(136, 102, 43)');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '24');
     expect(await scroll.evaluate(node => node.scrollTop)).toBe(top);
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + 14 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBeGreaterThan(top);
@@ -196,7 +210,7 @@ test('a touch holds the scrollbar in place, then expands it and lets the finger 
     await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: scrollBox.y + 2 }] });
     await expect.poll(() => scroll.evaluate(node => node.scrollTop)).toBe(0);
     await expect(thumb).toHaveCSS('opacity', '1');
-    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '15');
+    await expect(root).toHaveAttribute('data-scrollbar-vibrations', '24');
   } finally {
     await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   }

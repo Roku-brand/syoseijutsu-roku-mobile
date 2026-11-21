@@ -1,12 +1,11 @@
 import { SymbolView } from 'expo-symbols';
-import { useGlobalSearchParams, usePathname, useRouter, type Href } from 'expo-router';
+import { useGlobalSearchParams, usePathname, type Href } from 'expo-router';
 import { Platform, Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/constants/theme';
 import { useResponsiveLayout } from '@/hooks/use-responsive-layout';
 import { APP_ROUTES, type MainSection } from '@/navigation/app-routes';
-import { useMainSection } from '@/navigation/main-section-state';
-import { useTabRootScrollState } from '@/navigation/tab-root-scroll';
+import { useMainSectionNavigation } from '@/navigation/main-section-state';
 import { AppText } from './ui';
 import { SearchMark } from './search-mark';
 
@@ -26,24 +25,19 @@ export function PersistentBottomNav({ reducedMotion }: { reducedMotion: boolean 
   const { desktop, bottomNavHeight, height } = useResponsiveLayout();
   const pathname = usePathname();
   const params = useGlobalSearchParams<{ checkout?: string | string[] }>();
-  const router = useRouter();
-  const selected = useMainSection();
-  const tabScroll = useTabRootScrollState();
+  const { section: selected, switchSection, currentPage } = useMainSectionNavigation();
   const checkout = Array.isArray(params.checkout) ? params.checkout[0] : params.checkout;
 
   if (pathname === '/welcome' || pathname === '/onboarding' || (pathname === '/' && (checkout === 'success' || checkout === 'cancelled'))) return null;
 
   const currentRoot = items.find(item => pathname === (item.key === 'main' ? '/' : item.href));
   const navigate = (item: (typeof items)[number]) => {
-    if (tabScroll) {
-      tabScroll.resetOnFocus = currentRoot === item ? undefined : item.key;
-      if (currentRoot === item) {
-        tabScroll.scrolls[item.key]?.current?.scrollTo({ y: 0, animated: !reducedMotion });
-        return;
-      }
+    const scroll = currentPage.current.scroll;
+    if (currentRoot === item && scroll) {
+      scroll.scrollTo({ y: 0, animated: !reducedMotion });
+      return;
     }
-    if (currentRoot) router.replace(item.href);
-    else router.dismissTo(item.href);
+    switchSection(item.key);
   };
 
   return (

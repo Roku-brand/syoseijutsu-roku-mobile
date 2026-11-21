@@ -70,6 +70,7 @@ export default function PersonaScreen() {
       </ScrollView>
 
       <PageScroll
+        rememberOnTabSwitch
         key={`${category.key}-${persona.name}`}
         testID="persona-technique-scroll"
         style={styles.list}

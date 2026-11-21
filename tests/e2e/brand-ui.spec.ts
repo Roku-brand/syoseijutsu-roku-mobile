@@ -78,7 +78,7 @@ test('利用期間終了の表示は既存の期限判定を使う', async ({ pa
   await page.goto('/settings');
   await expect(page.getByRole('button', { name: /^プロフィール/ })).toContainText('学びの記録');
   await expect(page.getByRole('button', { name: /^ログイン情報・パスワード/ })).toBeVisible();
-  await expect(page.getByRole('button', { name: /^アカウントを作成する/ })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: /^アカウント作成・ログイン/ })).toHaveCount(0);
 });
 
 for (const width of [320, 390, 430, 1440]) {
@@ -86,8 +86,14 @@ for (const width of [320, 390, 430, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/discover', '/learn', '/my-os']) {
       await page.goto(path);
-      await expect(page.getByTestId('book-header-tagline')).toHaveText('人生をうまく生きる方法を、すべての人へ');
-      const bounds = await page.getByTestId('book-header-tagline').boundingBox();
+      const brand = page.getByTestId('book-header-brand');
+      await expect(brand).toHaveText('処世術録');
+      await expect(page.getByTestId('book-header-app-icon')).toHaveCount(0);
+      await expect(page.getByTestId('book-header-tagline')).toHaveCount(0);
+      await expect(page.getByRole('button', { name: '検索', exact: true })).toBeVisible();
+      const bounds = await brand.boundingBox();
+      const header = await page.getByTestId('book-header').boundingBox();
+      expect(Math.abs(bounds!.x + bounds!.width / 2 - header!.x - header!.width / 2)).toBeLessThan(1);
       const actions = await page.getByTestId('book-header-actions').boundingBox();
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(actions!.x);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

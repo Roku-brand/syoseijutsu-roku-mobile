@@ -1,13 +1,9 @@
 import { useEffect, type RefObject } from 'react';
 import type { ScrollView, View } from 'react-native';
 
-const INSET = 6;
-const MIN_THUMB_HEIGHT = 26;
-const HIDE_DELAY = 1600;
-const TOUCH_HOLD_DELAY = 350;
-const TOUCH_HOLD_SLOP = 10;
-
-const clampProgress = (value: number) => Math.max(0, Math.min(1, value));
+import {
+  clampProgress, scrollThumbMetrics, SCROLL_THUMB_HIDE_DELAY, SCROLL_THUMB_HOLD_DELAY, SCROLL_THUMB_HOLD_SLOP,
+} from './scroll-indicator-metrics';
 
 type ThumbPress = {
   input: 'touch' | 'pointer';
@@ -16,6 +12,7 @@ type ThumbPress = {
   startY: number;
   y: number;
   active: boolean;
+  vibrated?: boolean;
 };
 
 export function useWebScrollIndicator(
@@ -45,21 +42,18 @@ export function useWebScrollIndicator(
       thumb.style.opacity = '1';
       thumb.style.pointerEvents = 'auto';
       window.clearTimeout(timer);
-      timer = press ? undefined : window.setTimeout(hide, HIDE_DELAY);
+      timer = press ? undefined : window.setTimeout(hide, SCROLL_THUMB_HIDE_DELAY);
     };
     const position = () => {
       const { clientHeight, scrollHeight, scrollTop } = scroll;
-      const range = scrollHeight - clientHeight;
-      const track = clientHeight - INSET * 2;
-      if (range <= 1 || track <= 0) {
+      const metrics = scrollThumbMetrics(clientHeight, scrollHeight, scrollTop);
+      if (!metrics) {
         hide();
         return;
       }
-      const height = Math.min(track, Math.max(MIN_THUMB_HEIGHT, track * clientHeight / scrollHeight));
-      const travel = track - height;
-      thumb.style.height = `${height}px`;
-      thumb.style.transform = `translateY(${INSET + travel * clampProgress(scrollTop / range)}px)`;
-      return { range, travel };
+      thumb.style.height = `${metrics.height}px`;
+      thumb.style.transform = `translateY(${metrics.top}px)`;
+      return metrics;
     };
     const onScroll = () => {
       if (frame !== undefined) return;
@@ -80,13 +74,14 @@ export function useWebScrollIndicator(
       press.active = true;
       thumb.style.cursor = 'grabbing';
       paint.style.width = '7px';
-      if (press.input === 'touch') navigator.vibrate?.(15);
+      paint.style.backgroundColor = '#88662B';
+      if (press.input === 'touch') press.vibrated = navigator.vibrate?.(24);
     };
     const begin = (input: ThumbPress['input'], id: number, x: number, y: number) => {
       if (press || thumb.style.pointerEvents !== 'auto' || !position()?.travel) return false;
       press = { input, id, startX: x, startY: y, y, active: false };
       show();
-      if (input === 'touch') holdTimer = window.setTimeout(activate, TOUCH_HOLD_DELAY);
+      if (input === 'touch') holdTimer = window.setTimeout(activate, SCROLL_THUMB_HOLD_DELAY);
       else activate();
       return true;
     };
@@ -94,7 +89,7 @@ export function useWebScrollIndicator(
       if (!press) return;
       if (!press.active) {
         press.y = y;
-        if (Math.hypot(x - press.startX, y - press.startY) > TOUCH_HOLD_SLOP) clearHold();
+        if (Math.hypot(x - press.startX, y - press.startY) > SCROLL_THUMB_HOLD_SLOP) clearHold();
         return;
       }
       const delta = y - press.y;
@@ -112,6 +107,7 @@ export function useWebScrollIndicator(
       press = undefined;
       thumb.style.cursor = '';
       paint.style.width = '';
+      paint.style.backgroundColor = '';
       if (position()) show();
     };
     const pointerDown = (event: PointerEvent) => {
@@ -146,6 +142,10 @@ export function useWebScrollIndicator(
     };
     const touchEnd = (event: TouchEvent) => {
       if (!pressingFinger(event)) return;
+      if (event.type === 'touchend' && press?.active && press.vibrated === false) {
+        // A first touch can grant browser activation only when it ends.
+        navigator.vibrate?.(24);
+      }
       if (event.cancelable) event.preventDefault();
       finish();
     };
@@ -173,6 +173,7 @@ export function useWebScrollIndicator(
       if (frame !== undefined) window.cancelAnimationFrame(frame);
       clearHold();
       paint.style.width = '';
+      paint.style.backgroundColor = '';
       thumb.style.cursor = '';
       hide();
       resize?.disconnect();
