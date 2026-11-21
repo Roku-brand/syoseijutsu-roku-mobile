@@ -10,6 +10,7 @@ import { FlatList, Platform, Pressable, ScrollView, TextInput, View } from 'reac
 import { useAuth } from '@/auth/auth-state';
 import { useAccess } from '@/access/access-state';
 import { AppText, EmptyState, Screen } from '@/components/ui';
+import { PageScroll } from './page-scroll';
 import { TheoryDetailsEditor } from '@/components/owner-theory-details';
 import { ownerCmsStyles as styles } from './owner-cms.styles';
 import { archivePersona, fetchOwnerPersonas, savePersona, type OwnerPersona } from '@/data/owner-personas';
@@ -413,7 +414,7 @@ export default function OwnerCmsScreen() {
     {pendingCreate ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄して新規作成しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingCreate(false)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => void create(true)}>破棄して追加</CmsButton></View></View> : null}
     {pendingPreview ? <View style={styles.confirm}><AppText>未保存の変更があります。破棄してアプリ画面へ移動しますか？</AppText><View style={styles.actions}><CmsButton onPress={() => setPendingPreview(null)}>編集を続ける</CmsButton><CmsButton variant="primary" onPress={() => { const path = pendingPreview; setPendingPreview(null); setDirty(false); router.push(path); }}>破棄して確認</CmsButton></View></View> : null}
     <View style={[styles.layout, compact && styles.stacked]}>
-      <ScrollView style={[styles.tree, compact && styles.compactTree, compact && selection && mobileEditing && styles.hidden]} contentContainerStyle={styles.treeBody}>
+      <PageScroll style={[styles.tree, compact && styles.compactTree, compact && selection && mobileEditing && styles.hidden]} contentContainerStyle={styles.treeBody}>
         <View style={styles.paneTitleRow}>
           <AppText style={styles.paneTitle}>{mode === 'theory' ? 'カテゴリ・理論' : 'カテゴリ・人物像'}</AppText>
           <View>
@@ -470,7 +471,7 @@ export default function OwnerCmsScreen() {
             <TheorySubcategoryManager categoryId={category.id} onSaved={async()=>{await reload();await refreshPublishedContent();}} />
           </View>;
         })}
-      </ScrollView>
+      </PageScroll>
       <View style={[styles.list, compact && styles.compactList, compact && selection && mobileEditing && styles.hidden]}>
         <View style={styles.listTop}>
           <View style={styles.listHeading}><AppText style={styles.breadcrumb}>{query ? '検索結果' : mode === 'theory' ? `理論　›　${scopeLabel || 'すべて'}` : techniquePersonaList ? `処世術　›　${scopeLabel || '人物像'}` : scopeLabel}</AppText><AppText style={styles.count}>{fetching ? '読込中…' : `${rows.length}件`}</AppText></View>
@@ -481,7 +482,7 @@ export default function OwnerCmsScreen() {
           </View>
           <AppText style={styles.muted}>{query ? '検索時は並び替えを保存できません。' : listSort !== 'display' ? '表示順に戻すとドラッグできます。' : '並べ替えはドラッグ後にDBへ保存されます。'}</AppText>
         </View>
-        <FlatList data={rows} keyExtractor={(row) => `${row.kind}:${row.id}`} style={styles.rowScroller} initialNumToRender={20} windowSize={7} keyboardShouldPersistTaps="handled"
+        <FlatList data={rows} keyExtractor={(row) => `${row.kind}:${row.id}`} style={styles.rowScroller} initialNumToRender={20} windowSize={7} keyboardShouldPersistTaps="handled" renderScrollComponent={props => <PageScroll {...props} />}
           renderItem={({ item: row }) => {
             const reorderable = !query && listSort === 'display' && (techniquePersonaList
               ? scope.startsWith('category:') && row.kind === 'persona' && row.status !== 'archived'
@@ -514,7 +515,7 @@ export default function OwnerCmsScreen() {
       </View>
       <View style={[styles.editor, compact && styles.compactEditor, compact && { height: Math.max(380, height-360) }, compact && (!selection || !mobileEditing) && styles.hidden]}>
         {compact ? <View style={styles.mobileBack}><CmsButton onPress={() => setMobileEditing(false)}>← 一覧へ戻る</CmsButton></View> : null}
-        <ScrollView style={styles.editorScroller} contentContainerStyle={styles.editorBody} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
+        <PageScroll style={styles.editorScroller} contentContainerStyle={styles.editorBody} keyboardShouldPersistTaps="handled" nestedScrollEnabled>
         {selection && draft ? <>
           <View style={styles.editorHeader}>
             <View style={styles.editorHeading}><AppText numberOfLines={2} style={styles.editorTitle}>{selectedTitle || '新規コンテンツ'}</AppText>{selection.kind !== 'category' ? <StatusBadge status={(draft as OwnerPersona | TechniqueContent | OwnerTheory).status} /> : null}<Pressable accessibilityRole="button" accessibilityLabel="編集項目の操作" onPress={() => setRowMenu(rowMenu === 'editor' ? null : 'editor')} style={styles.menuButton}><AppText style={styles.menuDots}>⋮</AppText></Pressable></View>
@@ -544,7 +545,7 @@ export default function OwnerCmsScreen() {
           {selection.kind === 'category' && editorTab !== 'basic' ? <EmptyState title="カテゴリ設定" description="カテゴリ名と順序は基本情報タブで編集できます。" /> : null}
           {selection.kind !== 'category' ? <View style={styles.saveBar}><View style={styles.danger}><AppText style={styles.dangerTitle}>削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>関連・所属 {relatedLabels.length}件。削除はこの項目をアプリの公開一覧から外します。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」をアーカイブしますか？</AppText>{relatedLabels.slice(0,8).map((label,index) => <AppText key={`${index}:${label}`} style={styles.muted}>・{label}</AppText>)}{relatedLabels.length > 8 ? <AppText style={styles.muted}>ほか {relatedLabels.length-8}件</AppText> : null}{hasBlockingLinks ? <AppText style={styles.error}>参照先を移動・解除してから削除できます。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || (selection.kind === 'persona' && relatedLabels.length > 0)} onPress={() => setDeleting(true)}>削除</CmsButton>}</View></View> : <View style={styles.saveBar}>{(draft as ContentCategory).kind !== 'theory' ? <View style={styles.danger}><AppText style={styles.dangerTitle}>カテゴリの削除</AppText>{relatedLabels.length ? <AppText style={styles.muted}>所属するコンテンツ {relatedLabels.length}件。削除前に別カテゴリへ移動してください。</AppText> : null}{deleting ? <View style={styles.confirm}><AppText>「{selectedTitle}」を削除しますか？</AppText>{hasBlockingLinks ? <AppText style={styles.error}>子項目が残っているため削除できません。</AppText> : null}<View style={styles.actions}><CmsButton onPress={() => setDeleting(false)}>キャンセル</CmsButton><CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => void remove()}>削除を確定</CmsButton></View></View> : <CmsButton variant="danger" disabled={busy || hasBlockingLinks} onPress={() => setDeleting(true)}>削除</CmsButton>}</View>: <AppText style={styles.muted}>既存の6大分類を維持します。</AppText>}</View>}
         </> : <EmptyState title="コンテンツを選択" description="左の階層を選び、中央の一覧から編集する項目を選択してください。" />}
-        </ScrollView>
+        </PageScroll>
         {selection && draft ? <View testID="owner-editor-actions" style={styles.editorFooter}>
           {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
           {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}

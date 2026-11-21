@@ -2,7 +2,7 @@ import { HomeShortcutDecoration } from '@/components/home-shortcut-decoration';
 import { HomeThemeBackdrop } from '@/components/home-theme-backdrop';
 import { useRouter, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 import { useAccess } from '@/access/access-state';
@@ -30,6 +30,7 @@ export default function HomeScreen() {
   const { fontScale = 1 } = useWindowDimensions();
   const mobile = width > 0 && width < 700;
   const [principlesVisible, setPrinciplesVisible] = useState(false);
+  const refreshDeck = useRef<() => Promise<void>>(null);
   const { accessState, secureContentStatus, refreshAccess } = useAccess();
   const cardWidth = desktop ? 400 : Math.max(240, Math.min(380, width - 68));
   // The content determines its breathing room; short viewports scroll rather
@@ -38,12 +39,12 @@ export default function HomeScreen() {
 
 
   return (
-    <BookScreen testID="home-scroll" bounces={false} alwaysBounceVertical={false} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
+    <BookScreen testID="home-scroll" onPullRefresh={async () => { await refreshDeck.current?.(); }} contentInsetAdjustmentBehavior="never" contentContainerStyle={[styles.page, desktop && styles.pageDesktop, mobile && styles.pageMobile]}>
 
       <View testID="home-recommendations-section" style={styles.discovery}>
         <HomeThemeBackdrop width={desktop ? width - 138 : width} desktop={desktop} />
         <View style={styles.deckContent}>
-        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} night />
+        <HomeRecommendationDeck cardWidth={cardWidth} cardHeight={cardHeight} refreshRef={refreshDeck} night />
         {accessState === 'paid' && secureContentStatus === 'error' ? <Pressable accessibilityRole="button" accessibilityLabel="完全版データを再読み込み" onPress={() => void refreshAccess()} style={styles.dataStatus}><Text style={styles.dataStatusText}>一部の知識を読み込めませんでした。もう一度読み込む ›</Text></Pressable> : accessState === 'paid' && secureContentStatus === 'loading' ? <Text accessibilityLiveRegion="polite" style={styles.dataStatusText}>知識を読み込んでいます…</Text> : null}
         </View>
       </View>

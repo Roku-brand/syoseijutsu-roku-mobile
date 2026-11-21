@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await page.route('**/rest/v1/**', route => route.fulfill({ status: 503, json: {} }));
 });
 
-test('上スワイプは振動とともに表紙へ戻り、矢印は選んだ人物像や理論テーマを開く', async ({ page, context, browserName }) => {
+test('ホームの先頭で引いて離すと振動とともに更新し、表紙の矢印から詳細を開ける', async ({ page, context, browserName }) => {
   test.skip(browserName !== 'chromium', 'CDP touch input is Chromium specific');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -31,22 +31,31 @@ test('上スワイプは振動とともに表紙へ戻り、矢印は選んだ�
   await turnDeck(page);
   await expectDeckCursor(page, 1);
   const before = await read(page);
-  const card = page.getByTestId('home-recommendation-card');
-  const box = (await card.boundingBox())!;
-  const x = box.x + box.width / 2;
-  const y = box.y + box.height * 0.75;
+  const scroll = page.getByTestId('home-scroll');
+  const box = (await scroll.boundingBox())!;
+  const x = box.x + 20;
+  const y = box.y + 45;
   const cdp = await context.newCDPSession(page);
-  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
-  for (let step = 1; step <= 8; step++) {
-    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y - step * 18 }] });
-  }
+  const pull = async (distance: number) => {
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+    for (let step = 1; step <= 8; step++) {
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: y + step * distance / 8 }] });
+    }
+  };
+  await pull(54);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  expect((await read(page)).round).toBe(before.round);
+  expect(await page.evaluate(() => sessionStorage.getItem('deck-vibration'))).toBeNull();
+  await pull(148);
+  await expect(page.getByTestId('home-pull-indicator')).toHaveCSS('opacity', '1');
+  expect((await read(page)).round).toBe(before.round);
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expectDeckCursor(page, 0);
   const after = await read(page);
   expect(after.round).toBe(before.round + 1);
   expect(after.groupId).not.toBe(before.groupId);
   expect(await page.evaluate(() => Number(sessionStorage.getItem('deck-vibration')))).toBeGreaterThan(0);
-  expect(await page.getByTestId('home-scroll').evaluate(node => node.scrollTop)).toBe(0);
+  expect(await scroll.evaluate(node => node.scrollTop)).toBe(0);
   await expect(page.getByTestId('home-deck-cover')).toBeVisible();
   await expect(page.getByTestId('home-deck-save')).toHaveCount(0);
   const [, category, persona] = JSON.parse(after.groupId);

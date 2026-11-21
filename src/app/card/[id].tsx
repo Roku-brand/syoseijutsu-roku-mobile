@@ -2,6 +2,7 @@ import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Image } from 'expo-image';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { PageScroll } from '@/components/page-scroll';
 import { AppText, EmptyState, Screen } from '@/components/ui';
 import { DetailSwipe } from '@/components/detail-swipe';
 import { detailColors, detailStyles } from '@/constants/detail-theme';
@@ -148,7 +149,7 @@ export default function CardDetailScreen() {
           <TechniqueHeading card={card} />
         </DetailSwipe>
       </ScrollView>
-      <ScrollView
+      <PageScroll
         ref={scrollRef}
         style={styles.scrollingBody}
         contentContainerStyle={[styles.readingInset, styles.bodyContent]}
@@ -249,7 +250,7 @@ export default function CardDetailScreen() {
           </>}
           </Animated.View>
         </DetailSwipe>
-      </ScrollView>
+      </PageScroll>
     </Screen>
   );
 }

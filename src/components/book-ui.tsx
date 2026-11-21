@@ -33,6 +33,7 @@ import { HeaderSearchAction } from './header-search-action';
 import { HeaderBackButton } from './header-back-button';
 import { SaveDiamond } from './save-diamond';
 import { useFeatures, type FeatureArticle } from '@/data/features';
+import { PageScroll } from './page-scroll';
 
 const appIcon = require('../../assets/brand/icon.png');
 const DETAIL_ACTION_WIDTH = 52;
@@ -43,7 +44,7 @@ export function BookScreen({
   scroll = true,
   scrollRef,
   ...props
-}: ScrollViewProps & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null> }) {
+}: ScrollViewProps & { scroll?: boolean; scrollRef?: React.RefObject<ScrollView | null>; onPullRefresh?: () => Promise<void> }) {
   const { width } = useHydratedWindowDimensions();
   const { density } = useResponsiveLayout();
   const compact = width < 700;
@@ -51,7 +52,7 @@ export function BookScreen({
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.safe}>
       {scroll ? (
-        <ScrollView
+        <PageScroll
           ref={scrollRef}
           {...props}
           showsVerticalScrollIndicator={false}
@@ -67,7 +68,7 @@ export function BookScreen({
           ]}
         >
           {children}
-        </ScrollView>
+        </PageScroll>
       ) : (
         <View
           style={[
@@ -576,7 +577,7 @@ const styles = StyleSheet.create({
   brandTaglineSpacious: { fontSize: 14, lineHeight: 21 },
   searchSpacious: { width: 60, height: 60, borderWidth: 1, borderColor: colors.line, borderRadius: 30, alignItems: 'center', justifyContent: 'center' },
   safe: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
-  scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper, ...Platform.select({ web: { overscrollBehaviorY: 'none' } }) },
+  scroll: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   fixed: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
   content: {
     width: '100%',

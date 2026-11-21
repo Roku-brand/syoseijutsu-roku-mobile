@@ -1,8 +1,9 @@
 import { Redirect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Keyboard, Modal, Platform, Pressable, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { Keyboard, Modal, Platform, Pressable, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { useAuth } from '@/auth/auth-state';
 import { Screen, AppText, EmptyState } from '@/components/ui';
+import { PageScroll } from '@/components/page-scroll';
 import { FeatureArticleContent, FEATURE_IMAGES } from '@/components/feature-article';
 import { fonts } from '@/constants/theme';
 import { archiveFeature, deleteFeature, blankFeature, featureCharacterCount, featurePayload, fetchFeatureEditor, publishFeature, saveFeatureDraft, type FeatureArticle, type FeatureDraft, type FeaturePayload } from '@/data/features';
@@ -121,7 +122,7 @@ function FeatureEditor() {
         {width < 1000 ? <Button onPress={() => setShowList(false)}>編集に戻る</Button> : null}
         <Button primary disabled={busy} onPress={() => navigate(null)}>＋ 記事を作成</Button>
         <TextInput accessibilityLabel="特集記事を検索" placeholder="タイトルで検索" value={query} onChangeText={setQuery} style={styles.input} />
-        <ScrollView contentContainerStyle={styles.listContent} keyboardShouldPersistTaps="handled">
+        <PageScroll contentContainerStyle={styles.listContent} keyboardShouldPersistTaps="handled">
         {articles.filter(article => (drafts.find(d => d.article_id === article.id)?.payload.title || article.title).includes(query.trim())).map(article => {
           const draft = drafts.find(item => item.article_id === article.id);
           const listing = draft?.payload ?? article;
@@ -131,12 +132,12 @@ function FeatureEditor() {
             <AppText style={styles.muted}>{article.status === 'published' ? '公開中' : article.status === 'archived' ? '非公開' : '下書き'}{draft ? ' · 下書きあり' : ''}{article.is_featured ? ' · ヒーロー' : ''}</AppText>
             </View></Pressable>;
         })}
-        </ScrollView>
+        </PageScroll>
       </View> : null}
       <View style={[styles.editor, width < 1000 && showList && styles.hidden]}>
         <View style={styles.editorHeader}><AppText numberOfLines={1} style={styles.editorTitle}>{payload.title || '新しい特集記事'}</AppText><View style={styles.actions}>{width < 1000 ? <Button disabled={busy} onPress={() => setShowList(true)}>記事一覧</Button> : null}<AppText style={dirty ? styles.unsaved : styles.muted}>{dirty ? '未保存の変更あり' : revision ? '下書き保存済み' : selected?.status === 'published' ? '公開中' : '下書き'}</AppText></View></View>
         <View style={styles.tabs}><Button disabled={busy} onPress={() => { setPreview(false); setSection('article'); }} primary={!preview && section === 'article'}>編集</Button><Button disabled={busy} onPress={() => { setPreview(false); setSection('media'); }} primary={!preview && section === 'media'}>画像・掲載</Button><Button disabled={busy} onPress={() => { setPreview(false); setSection('links'); }} primary={!preview && section === 'links'}>関連・出典</Button><Button disabled={busy} onPress={() => setPreview(true)} primary={preview}>プレビュー</Button></View>
-        <ScrollView style={styles.form} contentContainerStyle={styles.formContent} keyboardShouldPersistTaps="handled">
+        <PageScroll style={styles.form} contentContainerStyle={styles.formContent} keyboardShouldPersistTaps="handled">
         {preview ? <FeatureArticleContent article={previewArticle} characters={characters} others={articles.filter(item => item.id !== id && item.status === 'published')} preview /> : <>
           {section === 'article' ? <>
           <Field label="タイトル" value={payload.title} onChange={title => patch({ title })} disabled={busy} />
@@ -174,7 +175,7 @@ function FeatureEditor() {
           <View style={styles.field}><AppText style={styles.fieldLabel}>参考文献・出典（任意）</AppText><AppText style={styles.muted}>確認できた出典のみ設定します。対象年や適用範囲は補足に記載できます。URLは http / https のみです。</AppText>{payload.source_references.map((reference, index) => <View key={index} style={styles.confirm}><Field label={`出典${index + 1}の名称`} value={reference.title} disabled={busy} onChange={title => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, title } : item) })} /><Field label={`出典${index + 1}のURL`} value={reference.url ?? ''} disabled={busy} onChange={url => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, url: url.trim() || null } : item) })} /><Field label={`出典${index + 1}の補足`} value={reference.note} multiline disabled={busy} onChange={note => patch({ source_references: payload.source_references.map((item, n) => n === index ? { ...item, note } : item) })} /><Button disabled={busy} onPress={() => patch({ source_references: payload.source_references.filter((_, n) => n !== index) })}>{`出典${index + 1}を外す`}</Button></View>)}<Button disabled={busy || payload.source_references.length >= 12} onPress={() => patch({ source_references: [...payload.source_references, { title: '', url: null, note: '' }] })}>＋ 出典を追加</Button></View>
           </> : null}
         </>}
-        </ScrollView>
+        </PageScroll>
         <View testID="feature-editor-actions" style={styles.actionBar}>
           {error ? <AppText accessibilityRole="alert" style={styles.error}>{error}</AppText> : null}
           {notice ? <AppText accessibilityLiveRegion="polite" style={styles.notice}>{notice}</AppText> : null}
